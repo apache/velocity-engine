@@ -57,8 +57,9 @@ package org.apache.velocity.runtime.directive;
 import java.io.*;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * A very simple directive that leverages the Node.literal()
@@ -67,7 +68,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.4 2001/03/20 01:11:24 jon Exp $
+ * @version $Id: Literal.java,v 1.5 2001/08/07 21:57:56 geirm Exp $
  */
 public class Literal extends Directive
 {
@@ -93,9 +94,11 @@ public class Literal extends Directive
      * Store the literal rendition of a node using
      * the Node.literal().
      */
-    public void init( InternalContextAdapter context, Node node)
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
     {
+        super.init( rs, context, node );
+
         literalText = node.jjtGetChild(0).literal();
     }    
 

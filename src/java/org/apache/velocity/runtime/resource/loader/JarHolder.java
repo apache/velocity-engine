@@ -65,7 +65,7 @@ import java.util.jar.JarFile;
 import java.util.Hashtable;
 
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -74,7 +74,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * A small wrapper around a Jar
  *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarHolder.java,v 1.6 2001/05/15 13:10:30 geirm Exp $
+ * @version $Id: JarHolder.java,v 1.7 2001/08/07 21:58:18 geirm Exp $
  */
 public class JarHolder
 {
@@ -82,19 +82,23 @@ public class JarHolder
     private JarFile theJar = null;
     private JarURLConnection conn = null;
         
-    public JarHolder( String urlpath )
+    private RuntimeServices rsvc = null;
+
+    public JarHolder( RuntimeServices rs, String urlpath )
     {
+        rsvc = rs;
+
         this.urlpath=urlpath;
         init();
         
-        Runtime.info("  JarHolder : initialized JAR: " + urlpath );
+        rsvc.info("  JarHolder : initialized JAR: " + urlpath );
     }
 
     public void init()
     {
         try
         {
-            Runtime.info("  JarHolder : attempting to connect to "+ urlpath);
+            rsvc.info("  JarHolder : attempting to connect to "+ urlpath);
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
             conn.setAllowUserInteraction(false);
@@ -105,7 +109,7 @@ public class JarHolder
         } 
         catch (Exception e)
         {
-            Runtime.error("  JarHolder : error establishing connection to JAR "+ e);
+            rsvc.error("  JarHolder : error establishing connection to JAR "+ e);
         }
     }
 
@@ -117,12 +121,12 @@ public class JarHolder
         }
         catch ( Exception e )
         {
-            Runtime.error("  JarHolder : error Closing JAR the file " +  e);
+            rsvc.error("  JarHolder : error Closing JAR the file " +  e);
         }
         theJar = null;
         conn = null;
 
-        Runtime.info("  JarHolder : JAR file closed");
+        rsvc.info("  JarHolder : JAR file closed");
     }
     
     public InputStream getResource( String theentry )
@@ -140,7 +144,7 @@ public class JarHolder
         }
         catch( Exception fnfe )
         {
-            Runtime.error("  JarHolder : getResource() error : exception : " + fnfe );
+            rsvc.error("  JarHolder : getResource() error : exception : " + fnfe );
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         

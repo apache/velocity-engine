@@ -58,8 +58,6 @@ import java.io.StringWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.apache.velocity.runtime.Runtime;
-
 /**
  * This class represent a general text resource that
  * may have been retrieved from any number of possible
@@ -67,7 +65,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.4 2001/04/22 18:11:20 geirm Exp $
+ * @version $Id: ContentResource.java,v 1.5 2001/08/07 21:58:18 geirm Exp $
  */
 public class ContentResource extends Resource
 {
@@ -98,7 +96,7 @@ public class ContentResource extends Resource
         }
         catch ( Exception e ) 
         {
-            Runtime.error("Cannot process content resource : " + e.toString() );
+            rsvc.error("Cannot process content resource : " + e.toString() );
             return false;
         }
     }

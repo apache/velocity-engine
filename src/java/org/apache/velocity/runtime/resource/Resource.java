@@ -58,7 +58,9 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
@@ -73,10 +75,12 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.7 2001/07/28 12:05:50 geirm Exp $
+ * @version $Id: Resource.java,v 1.8 2001/08/07 21:58:18 geirm Exp $
  */
 public abstract class Resource
 {
+    protected RuntimeServices rsvc = null;
+
     /**
      * The template loader that initially loaded the input
      * stream for this template, and knows how to check the
@@ -114,12 +118,24 @@ public abstract class Resource
     /**
      *  Character encoding of this resource
      */
-    protected String encoding = Runtime.ENCODING_DEFAULT;
+    protected String encoding = RuntimeConstants.ENCODING_DEFAULT;
 
     /** 
      *  Resource might require ancillary storage of some kind 
      */
     protected Object data = null;
+
+    /** 
+     *  Default constructor 
+     */
+    public Resource()
+    {
+    }
+
+    public void setRuntimeServices( RuntimeServices rs )
+    {
+        rsvc = rs;
+    }
 
     /**
      * Perform any subsequent processing that might need
@@ -164,11 +180,11 @@ public abstract class Resource
          *  see if we need to check now
          */
 
-        return (System.currentTimeMillis() >= nextCheck );
+        return ( System.currentTimeMillis() >= nextCheck );
     }
 
     /**
-     * 'Touch' this template by  resetting
+     * 'Touch' this template and thereby resetting
      * the nextCheck field.
      */
     public void touch()

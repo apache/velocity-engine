@@ -64,7 +64,9 @@ import java.io.InputStream;
 import java.io.IOException;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import org.apache.velocity.runtime.resource.ResourceFactory;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
@@ -81,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.29 2001/05/20 21:40:40 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.30 2001/08/07 21:58:18 geirm Exp $
  */
 public class ResourceManager
 {
@@ -104,13 +106,13 @@ public class ResourceManager
      * Hashtable used to store templates that have been
      * processed. Our simple caching mechanism.
      */
-    private static Hashtable globalCache = new Hashtable();
+    private  Hashtable globalCache = new Hashtable();
     
     /**
      * The List of templateLoaders that the Runtime will
      * use to locate the InputStream source of a template.
      */
-    private static ArrayList resourceLoaders = new ArrayList();
+    private  ArrayList resourceLoaders = new ArrayList();
     
     /**
      * This is a list of the template input stream source
@@ -120,7 +122,7 @@ public class ResourceManager
      *
      * <loader-id>.resource.loader.<property> = <value>
      */
-    private static ArrayList sourceInitializerList = new ArrayList();
+    private  ArrayList sourceInitializerList = new ArrayList();
     
     /**
      * This is a map of public name of the template
@@ -132,7 +134,7 @@ public class ResourceManager
      * change the resource.path property for the
      * file template stream source.
      */
-    private static Hashtable sourceInitializerMap = new Hashtable();
+    private  Hashtable sourceInitializerMap = new Hashtable();
 
     /**
      * Each loader needs a configuration object for
@@ -140,21 +142,31 @@ public class ResourceManager
      * or not the configuration objects have been created
      * for the resource loaders.
      */
-    private static boolean resourceLoaderInitializersActive = false;
+    private  boolean resourceLoaderInitializersActive = false;
 
     /**
      *  switch to turn off log notice when a resource is found for
      *  the first time.
      */
-    private static boolean logWhenFound = true;
-    
+    private  boolean logWhenFound = true;
+
+    private RuntimeServices rsvc = null;
+
+    public ResourceManager( RuntimeServices rs )
+    {
+        this.rsvc = rs;
+    }
+
     /**
      * Initialize the ResourceManager. It is assumed
      * that assembleSourceInitializers() has been
      * called before this is run.
      */
-    public static void initialize() throws Exception
+    public void initialize() 
+        throws Exception
     {
+        rsvc.info("Resource manager initializing.");
+
         ResourceLoader resourceLoader;
         
         assembleResourceLoaderInitializers();
@@ -166,15 +178,15 @@ public class ResourceManager
 
             if ( loaderClass == null)
             {
-                Runtime.error(  "Unable to find '"
+                rsvc.error(  "Unable to find '"
                                 + configuration.getString(RESOURCE_LOADER_IDENTIFIER)
                                 + ".resource.loader.class' specification in configuation."
                                 + " This is a critical value.  Please adjust configuration.");
                 continue;
             }
 
-            resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
-            resourceLoader.commonInit(configuration);
+            resourceLoader = ResourceLoaderFactory.getLoader( rsvc, loaderClass);
+            resourceLoader.commonInit( rsvc, configuration);
             resourceLoader.init(configuration);
             resourceLoaders.add(resourceLoader);
 
@@ -184,7 +196,7 @@ public class ResourceManager
          * now see if this is overridden by configuration
          */
 
-        logWhenFound = Runtime.getBoolean( Runtime.RESOURCE_MANAGER_LOGWHENFOUND, true );
+        logWhenFound = rsvc.getBoolean( RuntimeConstants.RESOURCE_MANAGER_LOGWHENFOUND, true );
     }
 
     /**
@@ -194,7 +206,7 @@ public class ResourceManager
      * will be passed in when initializing the
      * the template loader.
      */
-    private static void assembleResourceLoaderInitializers()
+    private void assembleResourceLoaderInitializers()
     {
         if (resourceLoaderInitializersActive)
         {
@@ -202,7 +214,7 @@ public class ResourceManager
         }            
 
         Vector resourceLoaderNames = 
-            Runtime.getConfiguration().getVector(Runtime.RESOURCE_LOADER);
+            rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
 
         for (int i = 0; i < resourceLoaderNames.size(); i++)
         {
@@ -215,10 +227,10 @@ public class ResourceManager
              * pertaining to a particular loader.
              */
             String loaderID = 
-                resourceLoaderNames.get(i) + "." + Runtime.RESOURCE_LOADER;
+                resourceLoaderNames.get(i) + "." + RuntimeConstants.RESOURCE_LOADER;
 
             ExtendedProperties loaderConfiguration =
-                Runtime.getConfiguration().subset(loaderID);
+                rsvc.getConfiguration().subset(loaderID);
 
             /*
              *  add the loader name token to the initializer if we need it
@@ -253,9 +265,9 @@ public class ResourceManager
      *          to syntax (or other) error.
      * @throws Exception if a problem in parse
      */
-    public static Resource getResource(String resourceName, int resourceType, String encoding )
+    public Resource getResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
-    {        
+    {
         /* 
          * Check to see if the resource was placed in the cache.
          * If it was placed in the cache then we will use
@@ -293,7 +305,7 @@ public class ResourceManager
                     
                     if (!resource.getEncoding().equals( encoding ) )
                     {
-                        Runtime.error("Declared encoding for template '" + resourceName 
+                        rsvc.error("Declared encoding for template '" + resourceName 
                                       + "' is different on reload.  Old = '" + resource.getEncoding()
                                       + "'  New = '" + encoding );
 
@@ -323,21 +335,21 @@ public class ResourceManager
                     }
                     catch( ResourceNotFoundException rnfe )
                     {
-                        Runtime.error(
+                        rsvc.error(
                             "ResourceManager.getResource() exception: " + rnfe);
                         
                         throw rnfe;
                     }
                     catch( ParseErrorException pee )
                     {
-                        Runtime.error(
+                        rsvc.error(
                             "ResourceManager.getResource() exception: " + pee);
                         
                         throw pee;
                     }
                     catch( Exception eee )
                     {
-                        Runtime.error(
+                        rsvc.error(
                             "ResourceManager.getResource() exception: " + eee);
                         
                         throw eee;
@@ -356,6 +368,9 @@ public class ResourceManager
             try
             {
                 resource = ResourceFactory.getResource(resourceName, resourceType);
+                
+                resource.setRuntimeServices( rsvc );
+
                 resource.setName( resourceName );
                 resource.setEncoding( encoding );
                 
@@ -398,8 +413,8 @@ public class ResourceManager
 
                              if ( logWhenFound )
                              {
-                                 Runtime.info("ResourceManager : found " + resourceName + 
-                                              " with loader " + resourceLoader.getClassName());
+                                 rsvc.info("ResourceManager : found " + resourceName + 
+                                              " with loader " + resourceLoader.getClassName() );
                              }
            
                              howOldItWas = resourceLoader.getLastModified( resource );
@@ -443,7 +458,7 @@ public class ResourceManager
             }
             catch( ResourceNotFoundException rnfe2 )
             {
-                Runtime.error(
+                rsvc.error(
                     "ResourceManager : unable to find resource '" + resourceName + 
                         "' in any resource loader.");
                 
@@ -451,16 +466,16 @@ public class ResourceManager
             }
             catch( ParseErrorException pee )
             {
-                Runtime.error(
+                rsvc.error(
                     "ResourceManager.getResource() parse exception: " + pee);
                 
                 throw pee;
             }
             catch( Exception ee )
             {
-                Runtime.error(
-                    "ResourceManager.getResource() exception: " + ee);
-                
+                rsvc.error(
+                    "ResourceManager.getResource() exception new: " + ee);
+
                 throw ee;
             }
         }
@@ -485,10 +500,10 @@ public class ResourceManager
      *  {@link #getResource(String resourceName, int resourceType, 
      *          String encoding )}
      */
-    public static Resource getResource(String resourceName, int resourceType  )
+    public Resource getResource(String resourceName, int resourceType  )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {  
-        return getResource( resourceName, resourceType, Runtime.ENCODING_DEFAULT);
+        return getResource( resourceName, resourceType, RuntimeConstants.ENCODING_DEFAULT);
     }
 
     /**
@@ -500,7 +515,7 @@ public class ResourceManager
      *  @param resourceName Name of template or content resource
      *  @return class name of loader than can provide it
      */
-    public static String getLoaderNameForResource(String resourceName )
+    public String getLoaderNameForResource(String resourceName )
     {
         ResourceLoader resourceLoader = null;
        
@@ -554,3 +569,5 @@ public class ResourceManager
         return null;
     }
 }
+
+

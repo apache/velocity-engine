@@ -65,8 +65,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.EnumerationIterator;
 
@@ -85,7 +87,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.36 2001/04/08 21:14:21 geirm Exp $
+ * @version $Id: Foreach.java,v 1.37 2001/08/07 21:57:56 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -142,14 +144,12 @@ public class Foreach extends Directive
      * the counter value into the context. Right
      * now the default is $velocityCount.
      */
-    private final static String COUNTER_NAME =
-        Runtime.getString(Runtime.COUNTER_NAME);
-    
+    private String counterName;
+
     /**
      * What value to start the loop counter at.
      */
-    private final static int COUNTER_INITIAL_VALUE =
-        Runtime.getInt(Runtime.COUNTER_INITIAL_VALUE);
+    private int counterInitialValue;
 
     /**
      * The reference name used to access each
@@ -163,15 +163,19 @@ public class Foreach extends Directive
      */
     private String elementKey;
 
+   
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
      */
-    public void init( InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
         throws Exception
     {
-        super.init( context, node );
+        super.init( rs, context, node );
 
+        counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
+        counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
+ 
         /*
          *  this is really the only thing we can do here as everything
          *  else is context sensitive
@@ -263,7 +267,7 @@ public class Foreach extends Directive
             return ( (Collection) listObject).iterator();        
 
         case INFO_ITERATOR :        
-            Runtime.warn ("Warning! The reference " 
+            rsvc.warn ("Warning! The reference " 
                           + node.jjtGetChild(2).getFirstToken().image
                           + " is an Iterator in the #foreach() loop at ["
                           + getLine() + "," + getColumn() + "]"
@@ -275,7 +279,7 @@ public class Foreach extends Directive
             return ( (Iterator) listObject);       
 
         case INFO_ENUMERATION : 
-            Runtime.warn ("Warning! The reference " 
+            rsvc.warn ("Warning! The reference " 
                           + node.jjtGetChild(2).getFirstToken().image
                           + " is an Enumeration in the #foreach() loop at ["
                           + getLine() + "," + getColumn() + "]"
@@ -294,7 +298,7 @@ public class Foreach extends Directive
         default:
         
             /*  we have no clue what this is  */
-            Runtime.warn ("Could not determine type of iterator in " 
+            rsvc.warn ("Could not determine type of iterator in " 
                           +  "#foreach loop for " 
                           + node.jjtGetChild(2).getFirstToken().image 
                           + " at [" + getLine() + "," + getColumn() + "]"
@@ -320,7 +324,7 @@ public class Foreach extends Directive
         if ( i == null )
             return false;
         
-        int counter = COUNTER_INITIAL_VALUE;
+        int counter = counterInitialValue;
         
         /*
          *  save the element key if there is one,
@@ -328,11 +332,11 @@ public class Foreach extends Directive
          */
 
         Object o = context.get( elementKey );
-        Object ctr = context.get( COUNTER_NAME );
+        Object ctr = context.get( counterName);
 
         while (i.hasNext())
         {
-            context.put(COUNTER_NAME, new Integer(counter));
+            context.put( counterName , new Integer(counter));
             context.put(elementKey,i.next());
             node.jjtGetChild(3).render(context, writer);
             counter++;
@@ -345,11 +349,11 @@ public class Foreach extends Directive
         
         if( ctr != null)
         {
-            context.put( COUNTER_NAME, ctr );
+            context.put( counterName, ctr );
         }
         else
         {
-            context.remove(COUNTER_NAME);
+            context.remove( counterName );
         }
 
 
