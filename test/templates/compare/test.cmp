@@ -25,6 +25,7 @@ This is the bar way.
     This is $bar.
 
 
+
     This is the if.
 
 
@@ -144,9 +145,13 @@ Foreach with a variable.
 
 
     This is ArrayList element 1.
+
     This is ArrayList element 2.
+
     This is ArrayList element 3.
+
     This is ArrayList element 4.
+
 
 Foreach with an array.
 
@@ -165,16 +170,22 @@ Foreach with an array.
 
 
     This is the vector element 1.
+
     This is the vector element 2.
+
 
 
 Foreach with a method.
 
 
     This is ArrayList element 1.
+
     This is ArrayList element 2.
+
     This is ArrayList element 3.
+
     This is ArrayList element 4.
+
 
 $10.00
 
