@@ -32,3 +32,96 @@ test doesn't fail incorrectly.
 #if (!($foo == true))
     foo is false
 #end
+
+--
+
+#set($t = true)
+#set($f = false)
+
+Logical OR :
+
+#if($t || $f)
+ right
+#else
+ wrong
+#end
+
+#if( !($f || $t) )
+ wrong
+#else
+ right
+#end
+
+#if( $null || $t )
+ right
+#else
+ wrong
+#end
+
+#if( $t || $null )
+ right
+#else
+ wrong
+#end
+
+#if( $f || $null)
+ wrong
+#else
+ right
+#end
+
+#if( $null || $null )
+ wrong
+#else
+ right
+#end
+
+Logical AND : 
+
+#if( $t && $t)
+ right
+#else
+ wrong
+#end
+
+#if( $f && $f )
+ wrong
+#else
+ right
+#end
+
+#if( !($f && $f) )
+ right
+#else
+ wrong
+#end
+
+#if( $t && $f )
+ wrong
+#else
+ right
+#end
+
+#if( $t && $null )
+ wrong
+#else
+ right
+#end
+
+#if( $null && $t )
+ wrong
+#else
+ right
+#end
+
+#if( $f && $null )
+ wrong
+#else
+ right
+#end
+
+#if( !($null && $null) )
+ right
+#else
+ wrong
+#end
