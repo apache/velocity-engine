@@ -39,6 +39,10 @@ Changes to version 1.0
   <li> 
     Documentation : changed license instructions in coding-standards.xml (gmj)
   </li>
+  <li> 
+    Added 'throws Exception' to handleRequest() in VelocityServlet.java 
+    (suggestion from Christoph Reck)  (gmj)
+  </li>
 </ul>
 
 </subsection>
