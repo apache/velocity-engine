@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.100 2001/03/19 08:05:07 jon Exp $
+ * @version $Id: Runtime.java,v 1.101 2001/03/19 08:06:18 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -642,7 +642,7 @@ public class Runtime implements RuntimeConstants
                 out = ERROR_PREFIX;
                 break;
             default :
-                out = "[unknown]";
+                out = UNKNOWN_PREFIX;
                 break;
         }
 
