@@ -118,19 +118,35 @@
 
 <li>
 <a href="developer-guide.html#howvelworks">How Velocity Works</a>
+<ul>
+ <li><a href="developer-guide.html#howvelworks">The Fundamental Pattern</a></li>
+</ul>
 </li>
 
 <li>
 <a href="developer-guide.html#context">The Context</a>
+<ul>
+<li><a href="developer-guide.html#context">The Basics</a></li>
+<li><a href="developer-guide.html#contextforeach">Collections and #foreach()</a></li>
+<li><a href="developer-guide.html#contextchaining">Context Chaining</a></li>
+</ul>
 </li>
 
 <li>
 <a href="developer-guide.html#servlets">Using Velocity in Servlets</a>
+<ul>
+<li><a href="developer-guide.html#servlets">Servlet Programming</a></li>
+<li><a href="developer-guide.html#serveletdeployment">Deployment</a></li>
+</ul>
 </li>
 
 <li>
 <a href="developer-guide.html#general">Using Velocity in General Applications</a>
-</li>
+<ul>
+<li><a href="developer-guide.html#velocityclass">The Velocity Helper Class</a></li>
+<li><a href="developer-guide.html#exceptions">Exceptions</a></li>
+<li><a href="developer-guide.html#generalmisc">Miscellaneous</a></li>
+</ul></li>
 
 <li>
 <a href="developer-guide.html#config">Configuration Keys and Values</a>
@@ -361,7 +377,7 @@ All directory references above are relative to the distribution root directory.
       <tr><td>
         <blockquote>
                                     <a name="howvelworks" />
-                                                <strong>or 'The Fundamental Pattern'</strong>
+                                                <strong>'The Fundamental Pattern'</strong>
                                                 <p>
 When using Velocity in an application program or in a servlet 
 (or anywhere, actually), you will generally do the following :
@@ -514,6 +530,7 @@ That's really all there is to basic context operations. For more information,
 see the API documentation included in the distribution.
 </p>
                                                 <strong>Support for Iterative Objects for #foreach()</strong>
+                                                <a name="contextforeach" />
                                                 <p>
 As a programmer, you have great freedom in the objects that you put into the
 context.  But as with most freedoms, this one comes with a little bit of
@@ -624,6 +641,7 @@ thought.  Rather, the opposite is true, in general.  Just be
 careful when you place an Iterator into the context.
 </p>
                                                 <strong>Context Chaining</strong>
+                                                <a name="contextchaining" />
                                                 <p>
 An innovative feature of Velocity's context design is the concept 
 of <i>context chaining</i>. Also sometimes referred to as 
@@ -851,6 +869,7 @@ For further information, please see the Javadoc
 <a href="apidocs/index.html">API documentation</a>.
 </p>
                                                 <strong>Deployment</strong>
+                                                <a name="servletdeployment" />
                                                 <p>
 When you deploy your Velocity-based servlets, you will certainly want to 
 ensure that your properties file is used to configure the Velocity runtime.  
@@ -925,6 +944,7 @@ The only new responsibility you have as the application programmer is to
 initialize the Velocity runtime engine, but that is easy.
 </p>
                                                 <strong>The Velocity Class</strong>
+                                                <a name="velocityclass" />
                                                 <p>
 Velocity contains an application utility class called Velocity 
 ( <code>org.apache.velocity.app.Velocity</code> ).  The purpose of this class 
@@ -1191,6 +1211,7 @@ the repeated drudge work, or allow you other options for your
 template content other than template files.
 </p>
                                                 <strong>Exceptions</strong>
+                                                <a name="exceptions" />
                                                 <p>
 There are three exceptions that Velocity will throw during the parse / merge cycle.
 This are additional to the exceptions that will come from IO problems, etc.
@@ -1221,6 +1242,7 @@ In each case, a message is put into the runtime log.  For more information,
 see the Javadoc API documentation.
 </p>
                                                 <strong>Miscellaneous Details</strong>
+                                                <a name="generalmisc" />
                                                 <p>
 While the above example used the default properties, setting your own 
 properties is very simple. All you have to do is make a properties file 
