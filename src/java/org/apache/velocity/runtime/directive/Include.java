@@ -99,7 +99,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.19 2001/04/27 15:44:37 geirm Exp $
+ * @version $Id: Include.java,v 1.20 2001/04/28 18:58:40 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -139,7 +139,7 @@ public class Include extends Directive
         outputMsgStart = outputMsgStart + " ";
         
         outputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
-        outputMsgStart = " " + outputMsgStart;   
+        outputMsgEnd = " " + outputMsgEnd;   
     }
 
     /**
