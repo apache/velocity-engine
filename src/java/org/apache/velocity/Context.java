@@ -58,6 +58,7 @@ import java.util.Hashtable;
 import java.io.Serializable;
 
 import org.apache.velocity.util.ArrayIterator;
+import org.apache.velocity.InternalContext;
 
 /**
  * This class provides the storage location for all dynamic
@@ -68,19 +69,14 @@ import org.apache.velocity.util.ArrayIterator;
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.8 2000/12/05 05:09:13 geirm Exp $
+ * @version $Id: Context.java,v 1.9 2000/12/12 23:42:59 geirm Exp $
  */
-public class Context implements Cloneable, Serializable
+public class Context extends InternalContext implements Cloneable, Serializable
 {
     /**
      * Random access storage for context data.
      */
     protected Hashtable context;
-
-    /**
-     *  Current template name.
-     */
-    private String strCurrentTemplate = "<undef>";
 
     /**
      * Constructs the context under which to execute the templating engine.
@@ -157,22 +153,6 @@ public class Context implements Cloneable, Serializable
         }
         
         return clone;
-    }
-
-    /**
-     *  set/get the value of the current template during a render
-     *  Since the Context is effectively a visitor as it is sent
-     *  to all nodes during render(), lets take advantage of this.
-     */
-    public void setCurrentTemplateName( String s )
-    {
-        strCurrentTemplate = s;
-        return;
-    }
-    
-    public String getCurrentTemplateName()
-    {
-        return strCurrentTemplate;
     }
 }
 
