@@ -63,13 +63,11 @@ import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 
-import org.apache.velocity.test.provider.TestProvider;
-
 /**
  * Automated test case for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.4 2000/10/22 22:08:31 dlr Exp $
+ * @version $Id: VelocityTest.java,v 1.5 2000/10/22 22:47:38 dlr Exp $
  */
 public class VelocityTest extends TemplateTestCase
 {
@@ -78,8 +76,8 @@ public class VelocityTest extends TemplateTestCase
      */
     private static final String TEMPLATE_FILE_NAME = "test.vm";
 
-    private TestProvider provider;
-    private ArrayList al;
+    //private TestProvider provider;
+    //private ArrayList al;
     private Hashtable h;
 
     /**
@@ -89,8 +87,8 @@ public class VelocityTest extends TemplateTestCase
     {
         super(name);
 
-        provider = new TestProvider();
-        al = provider.getCustomers();
+        //provider = new TestProvider();
+        //al = provider.getCustomers();
         h = new Hashtable();
     }
 
@@ -120,14 +118,14 @@ public class VelocityTest extends TemplateTestCase
         try
         {
             Context context = new Context();
-            context.put("provider", provider);
+            //context.put("provider", provider);
             context.put("name", "jason");
-            context.put("providers", provider.getCustomers2());
-            context.put("list", al);
+            //context.put("providers", provider.getCustomers2());
+            //context.put("list", al);
             context.put("hashtable", h);
-            context.put("search", provider.getSearch());
-            context.put("relatedSearches", provider.getRelSearches());
-            context.put("searchResults", provider.getRelSearches());
+            //context.put("search", provider.getSearch());
+            //context.put("relatedSearches", provider.getRelSearches());
+            //context.put("searchResults", provider.getRelSearches());
             
             Template template = Runtime.getTemplate(TEMPLATE_FILE_NAME);
             template.merge(context, getWriter(System.out));
