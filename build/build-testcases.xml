@@ -38,8 +38,8 @@
   <!-- =================================================================== -->
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
-  <target name="test-all" depends="introspect">
-    <echo message="Running JUnit template tests for Velocity ..."/>
+  <target name="test-all" depends="test-introspect">
+    <echo message="Running Template tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${template.test}"/>
@@ -50,9 +50,9 @@
       </classpath>
     </java>
    </target>
-    
-  <target name="introspect" depends="test-inlinevmscope"> 
-    <echo message="Running JUnit Introspector tests for Velocity ..."/>
+   
+  <target name="test-introspect" depends="test-inlinevmscope"> 
+    <echo message="Running Introspector tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${introspector.test}"/>
@@ -65,7 +65,7 @@
   </target>
 
   <target name="test-inlinevmscope" depends="test-multi">
-    <echo message="Running JUnit Inline VM Scope tests for Velocity ..."/>
+    <echo message="Running Inline VM Scope tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${inlinevmscope.test}"/>
@@ -78,7 +78,7 @@
   </target>
 
   <target name="test-multi" depends="test-cpload">
-    <echo message="Running JUnit MultipleFileResourcePathTest ..."/>
+    <echo message="Running Multiple File Resource Path tests..."/>
 
       <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${multi.file.resource.path.test}"/>
@@ -91,7 +91,7 @@
   </target>
 
    <target name="test-cpload">
-    <echo message="Running JUnit ClasspatheResourceTest ..."/>
+    <echo message="Running Classpathe Resource tests..."/>
       <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${cpload.resource.test}"/>
       <classpath>
@@ -103,6 +103,6 @@
       </classpath>
     </java>
   </target>
-  
+
 </project>
 
