@@ -2983,7 +2983,7 @@ $laskuri
 ## #include( &quot;a.txt&quot; ) tulostuu &lt;tiedoston a.txt sisältö&gt;
 #include( &quot;a.txt&quot; )
 
-## \#include( &quot;a.txt&quot; ) tulostuu \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) tulostuu #include( &quot;a.txt&quot; )
 \#include( &quot;a.txt&quot; )
 
 ## \\#include ( &quot;a.txt&quot; ) tulostuu \&lt;tiedoston a.txt sisältö&gt;
@@ -3169,7 +3169,31 @@ Vyacheslav Ganelin
   joten merkki kuuluu edelleen <code>#if()</code> lauseen runkoon.
   </p>
                                                 <p>
-  Jos <em>$jazz</em> on epätosi, ei tulostetta tule. Huomaa että
+  Jos <em>$jazz</em> on epätosi, tuloste on:
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  Huomaa että
   ongelmia tulee mikäli skriptielementtejä ei ole suojattu oikein.
   </p>
                                                     <div align="left">

@@ -2983,10 +2983,10 @@ VTL válidas.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## #include( &quot;a.txt&quot; ) se muestra como &lt;contenidos de a.txt&gt;
+## #include( &quot;a.txt&quot; ) se muestra como &lt;contenidos of de a.txt&gt;
 #include( &quot;a.txt&quot; )
 
-## \#include( &quot;a.txt&quot; ) se muestra como \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) se muestra como #include( &quot;a.txt&quot; )
 \#include( &quot;a.txt&quot; )
 
 ## \\#include ( &quot;a.txt&quot; ) se muestra como \&lt;contenidos de a.txt&gt;
@@ -3172,7 +3172,31 @@ un retorno después de 'Ganelin', por lo que el \\ final, que precede el
 <code>#end</code> hace parte del cuerpo del bloque.
   </p>
                                                 <p>
-  Si <em>$jazz</em> es falso, no hay salida. Tenga en cuenta que las
+  Si <em>$jazz</em> es falso, la salida es
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  Tenga en cuenta que las
   cosas dejan de funcionar si los elementos de script no son escapados
   de manera correcta.
   </p>

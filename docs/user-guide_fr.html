@@ -2647,7 +2647,7 @@ $count
 ## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
 #include( &quot;a.txt&quot; )
 
-## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) renders as #include( &quot;a.txt&quot; )
 \#include( &quot;a.txt&quot; )
 
 ## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
@@ -2822,7 +2822,31 @@ Vyacheslav Ganelin
     du corps du bloc.
   </p>
                                                 <p>
-    Si <em>$jazz</em> est faux, il n'y a pas de sortie produite. Notons que les choses vont commencer à mal se passer
+  Si <em>$jazz</em> est faux, la sortie est
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+    Notons que les choses vont commencer à mal se passer
     si des éléments de script ne sont pas échappés correctement.
   </p>
                                                     <div align="left">

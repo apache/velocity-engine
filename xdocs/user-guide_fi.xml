@@ -1718,7 +1718,7 @@ $laskuri
 ## #include( "a.txt" ) tulostuu <tiedoston a.txt sisältö>
 #include( "a.txt" )
 
-## \#include( "a.txt" ) tulostuu \#include( "a.txt" )
+## \#include( "a.txt" ) tulostuu #include( "a.txt" )
 \#include( "a.txt" )
 
 ## \\#include ( "a.txt" ) tulostuu \<tiedoston a.txt sisältö>
@@ -1800,7 +1800,15 @@ Vyacheslav Ganelin
   </p>
 
   <p>
-  Jos <em>$jazz</em> on epätosi, ei tulostetta tule. Huomaa että
+  Jos <em>$jazz</em> on epätosi, tuloste on:
+  </p>
+
+<source><![CDATA[
+\
+]]></source>
+
+  <p>
+  Huomaa että
   ongelmia tulee mikäli skriptielementtejä ei ole suojattu oikein.
   </p>
 
