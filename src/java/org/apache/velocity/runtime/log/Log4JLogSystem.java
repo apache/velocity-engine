@@ -68,7 +68,10 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.5 2001/08/07 22:07:37 geirm Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.6 2002/03/15 03:36:14 geirm Exp $
+ *
+ * @deprecated As of v1.3.  Use
+ *  {@link SimpleLog4jLogSystem}
  */
 public class Log4JLogSystem implements LogSystem
 {
