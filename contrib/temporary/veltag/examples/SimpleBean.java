@@ -16,7 +16,7 @@
  */
 
 
-public class GeirBean
+public class SimpleBean
 {
     private static String[] arr = { "a","b","c","d"};
 
@@ -26,7 +26,7 @@ public class GeirBean
 
     public String getString()
     {
-        return "Hello from GeirBean";
+        return "Hello from SimpleBean";
     }
 
     public String[] getArray()
