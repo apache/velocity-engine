@@ -48,6 +48,9 @@
        the method on the wrapped HttpServletRequest. Thanks to 
        Shahar Solomianik. (gmj)
     </li>
+    <li>
+       Removed build.compiler from the build.xml file. (JSS)
+    </li>
 </ul>
 
 </subsection>
