@@ -62,14 +62,29 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.FastWriter;
 
 /**
- * Base functionality to be extended by all Apache Velocity test cases which 
- * evaluate templates as part of their testing.
+ * Easily add test cases which evaluate templates and check their output.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: TemplateTestCase.java,v 1.2 2000/10/22 22:10:51 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.3 2000/10/23 00:16:42 dlr Exp $
  */
-public abstract class TemplateTestCase extends BaseTestCase
+public class TemplateTestCase extends BaseTestCase
 {
+    /**
+     * VTL file extension.
+     */
+    private static final String TMPL_FILE_EXT = "vm";
+
+    /**
+     * Comparison file extension.
+     */
+    private static final String CMP_FILE_EXT = "cmp";
+
+    /**
+     * The base file name of the template and comparison file (i.e. array for 
+     * array.vm and array.cmp).
+     */
+    protected String baseFileName;
+
     /**
      * The writer used to output evaluated templates.
      */
@@ -77,10 +92,28 @@ public abstract class TemplateTestCase extends BaseTestCase
 
     /**
      * Creates a new instance.
+     *
+     * @param baseFileName The base name of the template and comparison file to 
+     *                     use (i.e. array for array.vm and array.cmp).
      */
-    public TemplateTestCase (String name)
+    public TemplateTestCase (String baseFileName)
     {
-        super(name);
+        super(getTestCaseName(baseFileName));
+        this.baseFileName = baseFileName;
+    }
+
+    /**
+     * Turns a base file name into a test case name.
+     *
+     * @param s The base file name.
+     * @return  The test case name.
+     */
+    private static final String getTestCaseName (String s)
+    {
+        StringBuffer name = new StringBuffer();
+        name.append(Character.toTitleCase(s.charAt(0)));
+        name.append(s.substring(1, s.length()).toLowerCase());
+        return name.toString();
     }
 
     /**
@@ -91,6 +124,38 @@ public abstract class TemplateTestCase extends BaseTestCase
     public static junit.framework.Test suite ()
     {
         return BaseTestCase.suite();
+    }
+
+    /**
+     * Returns whether the processed template matches the content of the 
+     * provided comparison file.
+     *
+     * @return Whether the output matches the contents of the comparison file.
+     *
+     * @exception Exception Test failure condition.
+     */
+    protected boolean isMatch () throws Exception
+    {
+        // TODO: Implement matching.
+        return true;
+    }
+
+    /**
+     * Runs the test.
+     */
+    public void runTest ()
+    {
+        try
+        {
+            if (!isMatch())
+            {
+                fail("Processed template did not match expected output");
+            }
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
     }
 
     /**
