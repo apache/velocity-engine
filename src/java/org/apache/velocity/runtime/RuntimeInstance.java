@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.8 2001/10/31 02:59:28 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.9 2001/11/06 03:18:05 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -232,8 +232,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         vmFactory = new VelocimacroFactory( this );
 
-        resourceManager = new ResourceManager( this );
-        
         /*
          *  make a new introspector and initialize it
          */
@@ -260,32 +258,24 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (initialized == false)
         {
-            try
-            {
-                info("Jakarta Velocity v@version@");
-                info("RuntimeInstance initializing.");
-                initializeProperties();
-                initializeLogger();
-                resourceManager.initialize();
-                initializeDirectives();
-                initializeParserPool();
-                initializeGlobalCache();
-                
-                /*
-                 *  initialize the VM Factory.  It will use the properties 
-                 * accessable from Runtime, so keep this here at the end.
-                 */
-                vmFactory.initVelocimacro();
-                
-                info("Velocity successfully started.");
-                
-                initialized = true;
-            }
-            catch (Exception e)
-            {
-                System.out.println(e);
-                e.printStackTrace();
-            }
+            info("Jakarta Velocity v@version@");
+            info("RuntimeInstance initializing.");
+            initializeProperties();
+            initializeLogger();
+            initializeResourceManager();
+            initializeDirectives();
+            initializeParserPool();
+            initializeGlobalCache();
+            
+            /*
+             *  initialize the VM Factory.  It will use the properties 
+             * accessable from Runtime, so keep this here at the end.
+             */
+            vmFactory.initVelocimacro();
+            
+            info("Velocity successfully started.");
+            
+            initialized = true;
         }
     }
 
@@ -460,6 +450,68 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         init();
     }
 
+    private void initializeResourceManager()
+        throws Exception
+    {
+        /*
+         * Which resource manager?
+         */
+         
+        String rm = getString( RuntimeConstants.RESOURCE_MANAGER_CLASS );
+
+        if ( rm != null && rm.length() > 0 )
+        {
+            /*
+             *  if something was specified, then make one.
+             *  if that isn't a ResourceManager, consider
+             *  this a huge error and throw
+             */
+            
+            Object o = null;
+            
+            try
+            {
+               o = Class.forName( rm ).newInstance();
+            }
+            catch (ClassNotFoundException cnfe )
+            {
+                String err = "The specified class for Resourcemanager ("
+                    + rm    
+                    + ") does not exist (or is not accessible to the current classlaoder.";
+                 error( err );
+                 throw new Exception( err );
+            }
+            
+            if (!(o instanceof ResourceManager) )
+            {
+                String err = "The specified class for ResourceManager ("
+                    + rm 
+                    + ") does not implement org.apache.runtime.resource.ResourceManager."
+                    + " Velocity not initialized correctly.";
+                    
+                error( err);
+                throw new Exception(err);
+            }
+
+            resourceManager = (ResourceManager) o;
+            
+            resourceManager.initialize( this );        
+         }
+         else
+         {
+            /*
+             *  someone screwed up.  Lets not fool around...
+             */
+             
+            String err = "It appears that no class was specified as the"
+            + " ResourceManager.  Please ensure that all configuration"
+            + " information is correct.";
+            
+            error( err);
+            throw new Exception( err );
+        }                            
+    }
+    
     /**
      * Initialize the Velocity logging system.
      *
