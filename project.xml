@@ -23,7 +23,7 @@
     code. 
   </description>
 
-  <shortDescription>Velocity is a Java-based template engin</shortDescription>
+  <shortDescription>Velocity is a Java-based template engine</shortDescription>
 
   <url>http://jakarta.apache.org/velocity/</url>
   <issueTrackingUrl>http://nagoya.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
@@ -146,7 +146,7 @@
 
     <dependency>
       <id>jdom</id>
-      <version>b8</version>
+      <version>b10</version>
     </dependency>
 
     <dependency>
