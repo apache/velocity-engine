@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.2 2001/12/06 23:55:38 geirm Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.3 2002/01/19 00:53:09 dlr Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -372,8 +372,6 @@ public class ResourceManagerImpl implements ResourceManager
                 
                 throw eee;
             }
-            
-            return resource;
         }
         else
         {            
@@ -413,6 +411,7 @@ public class ResourceManagerImpl implements ResourceManager
                 throw ee;
             }
         }
+
         return resource;
     }
     
