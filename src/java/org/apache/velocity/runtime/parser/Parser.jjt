@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.36 2000/12/05 05:00:49 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.37 2000/12/06 05:57:18 geirm Exp $ 
 */
 public class Parser
 {
@@ -129,6 +129,12 @@ public class Parser
      */
     private Hashtable directives = new Hashtable(0);
   
+    /**
+     *  Name of current template we are parsing.  Passed to us in parse()
+     */
+
+    String strCurrentTemplateName = "";
+
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -153,6 +159,8 @@ public class Parser
     public SimpleNode parse(InputStream stream, String strTemplateName ) throws ParseException
     {
         SimpleNode sn = null;
+        
+        strCurrentTemplateName = strTemplateName;
 
         try
         {
@@ -170,6 +178,8 @@ public class Parser
         {
             Runtime.error ("Parser Error: " + strTemplateName + " : " + StringUtils.stackTrace(e));
         }
+
+        strCurrentTemplateName = "";
 
         return sn;
     }        
@@ -1155,7 +1165,7 @@ SimpleNode Directive() :
         if (bDoItNow)  
         {
             Macro m = new Macro();
-            m.processAndRegister( jjtThis );
+            m.processAndRegister( jjtThis, strCurrentTemplateName );
         }
 
         /*
