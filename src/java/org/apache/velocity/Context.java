@@ -69,7 +69,7 @@ import org.apache.velocity.InternalContext;
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.10 2000/12/13 01:52:19 geirm Exp $
+ * @version $Id: Context.java,v 1.11 2000/12/18 03:52:33 jon Exp $
  */
 public class Context extends InternalContext implements Cloneable
 {
@@ -93,7 +93,12 @@ public class Context extends InternalContext implements Cloneable
      * @param value The corresponding value.
      */
     public void put(String key, Object value)
+        throws Exception
     {
+        if (key == null)
+            throw new Exception ("Context key was null! Value was: " + value);
+        else if (value == null)
+            throw new Exception ("Context value was null! Key was: " + key);
         context.put(key, value);
     }
 
@@ -104,7 +109,10 @@ public class Context extends InternalContext implements Cloneable
      * @return    The value corresponding to the provided key.
      */
     public Object get(String key)
+        throws Exception
     {
+        if (key == null)
+            throw new Exception ("Context key was null!");
         return context.get(key);
     }        
 
@@ -115,7 +123,10 @@ public class Context extends InternalContext implements Cloneable
      * @return    Whether the key is in the context.
      */
     public boolean containsKey(Object key)
+        throws Exception
     {
+        if (key == null)
+            throw new Exception ("Context key was null!");
         return context.containsKey(key);
     }        
 
@@ -135,7 +146,10 @@ public class Context extends InternalContext implements Cloneable
      *            if unmapped.
      */
     public Object remove(Object key)
+        throws Exception
     {
+        if (key == null)
+            throw new Exception ("Context key was null!");
         return context.remove(key);
     }        
 
