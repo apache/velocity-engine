@@ -54,8 +54,8 @@
  */
 
 /*
- *  NOTE : please see documentation at bottom of this file. (It was placed there its tiring
- *    to always have to page past it... :)
+ *  NOTE: Please see documentation at bottom of this file (placed
+ *  there because it's tiring to always have to page past it... :)
  */
 
 options
@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.78 2003/12/30 20:10:22 geirm Exp $
+ * @version $Id: Parser.jj,v 1.79 2004/01/04 23:23:48 dlr Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
