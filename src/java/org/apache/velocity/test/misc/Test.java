@@ -95,7 +95,7 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.29 2001/05/20 19:49:31 geirm Exp $
+ * @version $Id: Test.java,v 1.30 2001/05/20 21:14:32 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
@@ -300,11 +300,11 @@ public class Test implements ReferenceInsertionEventHandler,
         return value;
     }
 
-    public boolean nullSetLogMessage( String reference )
+    public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
-        System.out.println("Woo2! nullSetLogMessage : " + reference);
+        System.out.println("Woo2! nullSetLogMessage : " + lhs + " :  RHS = " + rhs);
 
-        if (reference.equals("$woogie"))
+        if (lhs.equals("$woogie"))
             return false;
         
         return true;

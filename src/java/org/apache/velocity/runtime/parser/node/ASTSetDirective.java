@@ -73,7 +73,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.17 2001/05/20 19:50:06 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.18 2001/05/20 21:14:32 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
@@ -154,7 +154,7 @@ public class ASTSetDirective extends SimpleNode
                  */
                 if (ec != null)
                 {
-                    doit = ec.nullSetLogMessage( left.literal() );
+                    doit = ec.shouldLogOnNullSet( left.literal(), right.literal() );
                 }
 
                 if (doit)
