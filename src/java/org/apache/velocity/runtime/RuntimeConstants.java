@@ -110,10 +110,11 @@ public interface RuntimeConstants
     /** Include paths property used by Runtime for #included content */
     public final static String INCLUDE_PATHS = "include.path";
 
-    public static final String FILE_TEMPLATE_PATH = "file.template.path";
-    public static final String FILE_TEMPLATE_CACHE = "file.template.cache";
+    public static final String FILE_TEMPLATE_PATH = "file.resource.path";
+    public static final String FILE_TEMPLATE_CACHE = "file.cache";
 
-    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = "runtime.log.reference.log_invalid";
+    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
+        "runtime.log.reference.log_invalid";
 
     /**
      * Starting tag for error messages triggered by passing
@@ -133,7 +134,6 @@ public interface RuntimeConstants
      * Maximum recursion depth allowed for the #parse directive.
      */
     public static String PARSE_DIRECTIVE_MAXDEPTH = "parse_directive.maxdepth";
-
 
     /**
      *  Switch for the interpolation facility for string literals
