@@ -54,98 +54,58 @@ package org.apache.velocity.util.introspection;
  * <http://www.apache.org/>.
  */
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Hashtable;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
-/**
- * This basic function of this class is to return a Method
- * object for a particular class given the name of a method
- * and the parameters to the method in the form of an Object[]
- *
- * The first time the Introspector sees a 
- * class it creates a class method map for the
- * class in question. Basically the class method map
- * is a Hastable where Method objects are keyed by a
- * concatenation of the method name and the names of
- * classes that make up the parameters.
- *
- * For example, a method with the following signature:
- *
- * public void method(String a, StringBuffer b)
- *
- * would be mapped by the key:
- *
- * "method" + "java.lang.String" + "java.lang.StringBuffer"
- *
- * This mapping is performed for all the methods in a class
- * and stored for 
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Introspector.java,v 1.3 2000/11/01 17:51:11 jvanzyl Exp $
- */
-
-// isAssignable checks for arguments that are subclasses
-// DirectHit map
-// DirectMiss map
-
-public class Introspector
+public class MethodMap
 {
-    private static Hashtable classMethodMaps = new Hashtable();
+    Map methodByNameMap = new Hashtable();
 
-    public static Method getMethod(Class c, String name, Object[] params)
-        throws Exception
+    /**
+     * Add a method to a list of methods by name.
+     * For a particular class we are keeping track
+     * of all the methods with the same name.
+     */
+    public void add(Method method)
     {
-        // If this is the first time seeing this class
-        // then create a method map for this class and
-        // store it in Hashtable of class method maps.
-        if (!classMethodMaps.containsKey(c.getName()))
-            classMethodMaps.put(c.getName(), new ClassMap(c));
+        String methodName = method.getName();
         
-        return findMethod(c, name, params);
+        if (!methodByNameMap.containsKey(methodName))
+            methodByNameMap.put(methodName, new ArrayList());
+
+        ((List) methodByNameMap.get(methodName)).add(method);
     }
 
-    private static Method findMethod(Class c, String name, Object[] params)
+    public Method find(String methodName, Object[] params)
     {
-        ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c.getName());
-        return classMethodMap.findMethod(name, params);
-    }
+        List methodList = (List) methodByNameMap.get(methodName);
 
-    private static class Test
-    {
-        public void method(String a, String b)
+        if (methodList == null)
+            return null;
+
+        for (int i = 0; i < methodList.size(); i++)
         {
-            System.out.println("String, String");
+            Method method = (Method) methodList.get(i);
+            Class[] parameterTypes = method.getParameterTypes();
+            
+            // The methods we are trying to compare must
+            // the same number of arguments.
+            if (parameterTypes.length != params.length)
+                continue;
+            
+            // Make sure the given parameter is a valid
+            // subclass of the method parameter in question.
+            for (int j = 0; j < parameterTypes.length; j++)
+                if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
+                    break;
+        
+            return method;
         }
-        
-        public void method(String a, StringBuffer b)
-        {
-            System.out.println("String, StringBuffer");
-        }
-    }
-    
-    public static void main (String[] arg) throws Exception
-    {
-        // The problem to deal with is when the
-        // params types have a null in them. then
-        // you can't tell. Then we could compare
-        // by number of parameters.
-    
-        Object[] params = 
-        { 
-            new String(),
-            new String()
-        };
-        
-        Object[] args =
-        {
-            "this",
-            "that"
-        };            
-        
-        Test t = new Test();
-        Method m = getMethod(t.getClass(), "method", params);
-        
-        m.invoke(t, args);
+
+        return null;
     }
 }
