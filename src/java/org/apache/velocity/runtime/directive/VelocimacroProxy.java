@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.8 2000/11/28 04:16:22 jvanzyl Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.9 2000/12/01 13:50:33 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -190,8 +190,8 @@ public class VelocimacroProxy extends Directive
         } 
         catch ( Exception e ) 
         {
-            Runtime.error("VelocimacroProxy.render() : exception " + strMacroName_ + 
-            " : "  + StringUtils.stackTrace(e));
+            Runtime.error("VelocimacroProxy.render() : exception VM = #" + strMacroName_ + 
+            "() : "  + StringUtils.stackTrace(e));
         }
 
         return true;
