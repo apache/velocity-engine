@@ -13,3 +13,13 @@ test doesn't fail incorrectly.
 ## element.
 
 $hashtable.Bar
+
+## test the new Map support
+
+#set( $hashtable.Foo = "foovalue")
+$hashtable.get("Foo")
+$hashtable.Foo
+
+#set( $hashmap.Foo = "foovalue")
+$hashmap.Foo
+$hashmap.get("Foo")
