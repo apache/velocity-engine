@@ -1177,7 +1177,7 @@ For further information, please see the Javadoc
 When you deploy your Velocity-based servlets, you will certainly want to 
 ensure that your properties file is used to configure the Velocity runtime.  
 Under Tomcat, one way to accomplish this is by placing your velocity.properties 
-file into the rootdirectory of your web app (webapps/appname ) and then 
+file into the root directory of your web app (webapps/appname ) and then 
 add the following to your WEB-INF/web.xml file :
 </p>
                                                     <div align="left">
@@ -1195,7 +1195,7 @@ add the following to your WEB-INF/web.xml file :
   &lt;servlet-class&gt;com.foo.bar.MyServlet&lt;/servlet-class&gt;
   &lt;init-param&gt;
       &lt;param-name&gt;properties&lt;/param-name&gt;
-      &lt;param-value&gt;velocity.properties&lt;/param-value&gt;
+      &lt;param-value&gt;/velocity.properties&lt;/param-value&gt;
   &lt;/init-param&gt;
 &lt;/servlet&gt;
 </pre></td>
