@@ -72,7 +72,7 @@ import junit.framework.*;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.9 2000/12/04 01:19:09 geirm Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.10 2000/12/19 05:33:47 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -105,6 +105,7 @@ public class VelocityTestSuite extends TestSuite
         catch (Exception e)
         {
             System.err.println("Cannot setup VelocityTestSuite!");
+            e.printStackTrace();
             System.exit(1);
         }            
 
