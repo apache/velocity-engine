@@ -125,7 +125,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.49 2003/05/04 17:46:34 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.50 2003/08/22 23:23:47 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -482,10 +482,17 @@ public abstract class VelocityServlet extends HttpServlet
                      *  don't close to allow us to play
                      *  nicely with others.
                      */
-
                     vw.flush();
+
+                    /*
+                     * Clear the VelocityWriter's reference to its
+                     * internal OutputStreamWriter to allow the latter
+                     * to be GC'd while vw is pooled.
+                     */
+                    vw.recycle(null);
+
                     writerPool.put(vw);
-                }                
+                }
             }
             catch (Exception e)
             {
