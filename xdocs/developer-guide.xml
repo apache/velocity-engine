@@ -1205,7 +1205,7 @@ add the following to your WEB-INF/web.xml file :
   <servlet-name>MyServlet</servlet-name>
   <servlet-class>com.foo.bar.MyServlet</servlet-class>
   <init-param>
-      <param-name>properties</param-name>
+      <param-name>org.apache.velocity.properties</param-name>
       <param-value>/velocity.properties</param-value>
   </init-param>
 </servlet>
