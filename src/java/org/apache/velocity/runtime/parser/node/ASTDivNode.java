@@ -55,7 +55,6 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -68,7 +67,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDivNode.java,v 1.6 2001/06/20 04:24:25 geirm Exp $ 
+ * @version $Id: ASTDivNode.java,v 1.7 2001/08/07 21:56:30 geirm Exp $ 
  */
 public class ASTDivNode extends SimpleNode
 {
@@ -109,7 +108,7 @@ public class ASTDivNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) 
+            rsvc.error( ( left == null ? "Left" : "Right" ) 
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of division operation has null value."
@@ -126,7 +125,7 @@ public class ASTDivNode extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of division operation is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
@@ -141,7 +140,7 @@ public class ASTDivNode extends SimpleNode
 
         if ( ( (Integer) right).intValue() == 0 )
         {
-            Runtime.error( "Right side of division operation is zero. Must be non-zero. "
+            rsvc.error( "Right side of division operation is zero. Must be non-zero. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  

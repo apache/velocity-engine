@@ -57,7 +57,7 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.runtime.Runtime;
+
 
 public class ASTGTNode extends SimpleNode
 {
@@ -93,7 +93,7 @@ public class ASTGTNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) 
+            rsvc.error( ( left == null ? "Left" : "Right" ) 
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '>' operation has null value."
@@ -110,7 +110,7 @@ public class ASTGTNode extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of '>' operation is not a valid type. "
                            + " It is a " + ( !( left instanceof Integer ) ? left.getClass() : right.getClass() ) 
                            + ". Currently only integers (1,2,3...) and Integer type is supported. "

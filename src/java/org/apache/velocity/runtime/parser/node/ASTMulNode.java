@@ -56,7 +56,6 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -69,7 +68,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMulNode.java,v 1.5 2001/06/20 04:24:29 geirm Exp $ 
+ * @version $Id: ASTMulNode.java,v 1.6 2001/08/07 21:56:30 geirm Exp $ 
 */
 public class ASTMulNode extends SimpleNode
 {
@@ -109,7 +108,7 @@ public class ASTMulNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side ("
+            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of multiplication operation has null value."
                            + " Operation not possible. "
@@ -124,7 +123,7 @@ public class ASTMulNode extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of multiplication operation is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 

@@ -58,14 +58,14 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.runtime.Runtime;
+
 /**
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAndNode.java,v 1.6 2001/05/30 04:47:38 geirm Exp $ 
+ * @version $Id: ASTAndNode.java,v 1.7 2001/08/07 21:56:30 geirm Exp $ 
  */
 public class ASTAndNode extends SimpleNode
 {
@@ -114,7 +114,7 @@ public class ASTAndNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of '&&' operation is null."
+            rsvc.error( ( left == null ? "Left" : "Right" ) + " side of '&&' operation is null."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");

@@ -61,7 +61,6 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
@@ -75,7 +74,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.17 2001/04/27 15:44:39 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.18 2001/08/07 21:56:30 geirm Exp $ 
  */
 public class ASTDirective extends SimpleNode
 {
@@ -103,6 +102,8 @@ public class ASTDirective extends SimpleNode
     public Object init( InternalContextAdapter context, Object data) 
         throws Exception
     {
+        super.init( context, data );
+
         /*
          *  only do things that are not context dependant
          */
@@ -114,20 +115,20 @@ public class ASTDirective extends SimpleNode
             directive = (Directive) parser.getDirective( directiveName )
                 .getClass().newInstance();
     
-            directive.init(context,this);
+            directive.init(rsvc, context,this);
 
             directive.setLocation( getLine(), getColumn() );
         }          
-        else if (Runtime.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
+        else if (rsvc.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
         {
             /*
              *  we seem to be a Velocimacro.
              */
 
             isDirective = true;
-            directive = (Directive) Runtime.getVelocimacro( directiveName,  context.getCurrentTemplateName() );
-            directive.init( context, this );
+            directive = (Directive) rsvc.getVelocimacro( directiveName,  context.getCurrentTemplateName() );
 
+            directive.init( rsvc, context, this );
             directive.setLocation( getLine(), getColumn() );
         } 
         else

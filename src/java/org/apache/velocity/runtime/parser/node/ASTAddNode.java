@@ -63,11 +63,10 @@ package org.apache.velocity.runtime.parser.node;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.6 2001/06/20 04:24:24 geirm Exp $ 
+ * @version $Id: ASTAddNode.java,v 1.7 2001/08/07 21:56:30 geirm Exp $ 
 */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -111,7 +110,7 @@ public class ASTAddNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) 
+            rsvc.error( ( left == null ? "Left" : "Right" ) 
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of addition operation has null value."
@@ -127,7 +126,7 @@ public class ASTAddNode extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of addition operation is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 

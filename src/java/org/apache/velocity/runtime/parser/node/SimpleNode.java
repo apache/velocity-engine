@@ -59,7 +59,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
@@ -69,6 +69,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 public class SimpleNode implements Node
 {
+    protected RuntimeServices rsvc = null;
+
     protected Node parent;
     protected Node[] children;
     protected int id;
@@ -175,10 +177,10 @@ public class SimpleNode implements Node
         toString(String), otherwise overriding toString() is probably all
         you need to do. */
 
-    public String toString()
-    {
-        return ParserTreeConstants.jjtNodeName[id];
-    }
+    //    public String toString()
+    // {
+    //    return ParserTreeConstants.jjtNodeName[id];
+    // }
     public String toString(String prefix)
     {
         return prefix + toString();
@@ -221,17 +223,23 @@ public class SimpleNode implements Node
 
     public Object init( InternalContextAdapter context, Object data) throws Exception
     {
+        /*
+         * hold onto the RuntimeServices
+         */
+
+        rsvc = (RuntimeServices) data;
+
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
         {
             try
             {
-                jjtGetChild(i).init(context, data);
+                jjtGetChild(i).init( context, data);
             }
             catch (ReferenceException re)
             {
-                Runtime.error(re);
+                rsvc.error(re);
             }
         }            
     

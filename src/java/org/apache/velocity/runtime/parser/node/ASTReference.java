@@ -62,7 +62,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
@@ -83,7 +83,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.34 2001/06/19 03:34:20 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.35 2001/08/07 21:56:30 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -129,6 +129,9 @@ public class ASTReference extends SimpleNode
          */
 
         super.init( context, data );
+
+        //        System.out.println("Reference init() : " + literal() );
+
 
         /*
          *  the only thing we can do in init() is getRoot()
@@ -212,7 +215,7 @@ public class ASTReference extends SimpleNode
              *  someone tossed their cookies
              */
 
-            Runtime.error("Method " + mie.getMethodName() + " threw exception for reference $" 
+            rsvc.error("Method " + mie.getMethodName() + " threw exception for reference $" 
                           + rootString 
                           + " in template " + context.getCurrentTemplateName()
                           + " at " +  " [" + this.getLine() + "," + this.getColumn() + "]");
@@ -239,6 +242,8 @@ public class ASTReference extends SimpleNode
          *  1) if this is a reference in the context, then we want to print $foo
          *  2) if not, then \$foo  (its considered shmoo, not VTL)
          */
+
+        //        System.out.println("Render : Escaped? " + escaped + " : " + ((Object) this) );
 
         if ( escaped )
         {
@@ -285,10 +290,10 @@ public class ASTReference extends SimpleNode
             writer.write( nullString );
             
             if (referenceType != QUIET_REFERENCE 
-                && Runtime.getBoolean( 
+                && rsvc.getBoolean( 
                                       RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
             {
-                Runtime.warn(new ReferenceException("reference : template = " 
+               rsvc.warn(new ReferenceException("reference : template = " 
                                                     + context.getCurrentTemplateName(), this));
             }
 
@@ -362,7 +367,7 @@ public class ASTReference extends SimpleNode
         
         if (result == null)
         {
-            Runtime.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
+            rsvc.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
             return false;
         }                          
         
@@ -376,7 +381,7 @@ public class ASTReference extends SimpleNode
             
             if (result == null)
             {
-                Runtime.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
+                rsvc.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
                 return false;
             }                          
         }            
@@ -439,7 +444,7 @@ public class ASTReference extends SimpleNode
                 }
                 catch (Exception ex)
                 {
-                    Runtime.error("ASTReference Map.put : exception : " + ex 
+                    rsvc.error("ASTReference Map.put : exception : " + ex 
                                   + " template = " + context.getCurrentTemplateName() 
                                   + " [" + this.getLine() + "," + this.getColumn() + "]");
                     return false;
@@ -447,7 +452,7 @@ public class ASTReference extends SimpleNode
             }
             else
             {
-                Runtime.error("ASTReference : cannot find " + identifier + " as settable property or key to Map in"
+                rsvc.error("ASTReference : cannot find " + identifier + " as settable property or key to Map in"
                               + " template = " + context.getCurrentTemplateName() 
                               + " [" + this.getLine() + "," + this.getColumn() + "]");
                 return false;
@@ -472,7 +477,7 @@ public class ASTReference extends SimpleNode
             /*
              *  maybe a security exception?
              */
-            Runtime.error("ASTReference setValue() : exception : " + e 
+            rsvc.error("ASTReference setValue() : exception : " + e 
                                   + " template = " + context.getCurrentTemplateName() 
                                   + " [" + this.getLine() + "," + this.getColumn() + "]");
             return false;
@@ -484,7 +489,9 @@ public class ASTReference extends SimpleNode
     private String getRoot()
     {
         Token t = getFirstToken();
-         
+
+        //        System.out.println("First token for " + ((Object) this ) + " : " + t );
+
         /*
          *  we have a special case where something like 
          *  $(\\)*!, where the user want's to see something
@@ -518,7 +525,7 @@ public class ASTReference extends SimpleNode
             if (i == -1)
             {
                 /* yikes! */
-                Runtime.error("ASTReference.getRoot() : internal error : no $ found for slashbang.");
+                rsvc.error("ASTReference.getRoot() : internal error : no $ found for slashbang.");
                 computableReference = false;
                 nullString = t.image;
                 return nullString;
@@ -574,8 +581,11 @@ public class ASTReference extends SimpleNode
             while( i < len && t.image.charAt(i) == '\\' )
                 i++;
 
+ 
             if ( (i % 2) != 0 )                
                 escaped = true;
+
+            //           System.out.println("Escaped?  : " + i + " : " + escaped + " : " + ( (Object) this) );
 
             if (i > 0)
                 prefix = t.image.substring(0, i / 2 );
