@@ -65,7 +65,7 @@
  * SLOW PROGRESS :)
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Velocity.java,v 1.1 2001/02/01 18:50:15 geirm Exp $
+ * @version $Id: Velocity.java,v 1.2 2001/02/02 11:57:56 geirm Exp $
  */
 
 package org.apache.velocity.util;
@@ -163,31 +163,33 @@ public class Velocity
      *
      */
 
-    public static  boolean evaluate( Context c,  Writer out, String s)
+    public static  boolean evaluate( Context context,  Writer out, String logTag, String instring )
     {
-        ByteArrayInputStream inStream = new ByteArrayInputStream( s.getBytes() );
-        return evaluate( c, out, inStream );
+        ByteArrayInputStream inStream = new ByteArrayInputStream( instring.getBytes() );
+        return evaluate( context, out, logTag, inStream );
     }
 
-    public static boolean evaluate( Context context, Writer writer, InputStream instream )
+    public static boolean evaluate( Context context, Writer writer, String logTag, InputStream instream )
     {
         SimpleNode nodeTree = null;
 
         try
         {
-            nodeTree = Runtime.parse( instream, "<app eval>" );        
+            nodeTree = Runtime.parse( instream, logTag );        
  
             if (nodeTree != null)
             {
                 InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
-                ica.setCurrentTemplateName( "<app eval>" );
+                ica.setCurrentTemplateName( logTag );
                 nodeTree.init( ica, null );
                 nodeTree.render( ica, writer );
                 return true;
             }
         }
         catch( Exception e )
-            {}
+        {
+            Runtime.error("Velocity.evaluate() : tag = " + logTag + " : " + e );
+        }
 
         return false;
     }
