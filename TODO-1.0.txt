@@ -100,7 +100,8 @@ o Test for Texen
         to the  new Commons project?  Good tools, good to
         be shared, and we will certainly get more
         people interested in Velocity...  
-
+  [JVZ] Done.
+  
 o Control Caching Resource Usage
 
   Change resource caching to limit cache size and expire
