@@ -56,6 +56,34 @@ package org.apache.velocity.runtime;
 
 public interface RuntimeConstants
 {
+    /** Prefix for warning messages */
+    final static String WARN  = "  [warn] ";
+    
+    /** Prefix for info messages */
+    final static String INFO  = "  [info] ";
+    
+    /**  Prefix for debug messages */
+    final static String DEBUG = " [debug] ";
+    
+    /** Prefix for error messages */
+    final static String ERROR = " [error] ";
+
+    /** Turn Runtime debugging on with this field */
+    final static boolean DEBUG_ON = true;
+
+    /** Default Runtime properties */
+    final static String DEFAULT_RUNTIME_PROPERTIES = 
+        "org/apache/velocity/runtime/defaults/velocity.properties";
+
+    /** Default Runtime properties */
+    final static String DEFAULT_RUNTIME_DIRECTIVES = 
+        "org/apache/velocity/runtime/defaults/directive.properties";
+
+    /**
+      * Number of parsers to create
+      */
+    final static int NUMBER_OF_PARSERS = 20;
+
     /** Location of the log file */
     public static final String RUNTIME_LOG = "runtime.log";
     
@@ -79,8 +107,11 @@ public interface RuntimeConstants
     /** External service initialization of the Velocity Runtime */
     public static final String EXTERNAL_INIT = "external.init";
 
-    public static final String FILE_TEMPLATE_PATH = "File.template.path";
-    public static final String FILE_TEMPLATE_CACHE = "File.template.cache";
+    /** Include paths property used by Runtime for #included content */
+    public final static String INCLUDE_PATHS = "include.path";
+
+    public static final String FILE_TEMPLATE_PATH = "file.template.path";
+    public static final String FILE_TEMPLATE_CACHE = "file.template.cache";
 
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = "runtime.log.reference.log_invalid";
 
