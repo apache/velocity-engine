@@ -1237,11 +1237,11 @@ $blargh
 <source><![CDATA[
 # Default name of the loop counter
 # variable reference.
-counter.name = velocityCount
+directive.foreach.counter.name = velocityCount
 
 # Default starting value of the loop
 # counter variable reference.
-counter.initial.value = 1
+directive.foreach.counter.initial.value = 1
 ]]></source>
 
  </section>
