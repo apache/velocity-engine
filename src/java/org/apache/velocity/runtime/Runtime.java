@@ -134,6 +134,15 @@ public class Runtime
             // Create the template loader.
             templateLoader = TemplateFactory
                 .getLoader(getString(TEMPLATE_LOADER));
+            
+            // Initialize the template loader if there
+            // is a real path set for the template.path
+            // property. Otherwise defer initialization
+            // of the template loader because it is going
+            // to be set by some external mechanism. Turbine
+            // for example.
+            if (! getString(TEMPLATE_PATH).equals("system"))
+                templateLoader.init();
 
             // put this in a method and make a pool of
             // parsers.
@@ -162,6 +171,11 @@ public class Runtime
         throws Exception
     {
         return parser.parse(inputStream);
+    }
+
+    public void initTemplateLoader()
+    {
+        templateLoader.init();
     }
 
     public static Template getTemplate(String template)
