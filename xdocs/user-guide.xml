@@ -2,114 +2,110 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Velocity User Guide</title>
-  <subtitle>Velocity User Guide</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-   <person name="John Castura" email="jcastura@kw.igs.net"/>
-  </authors>
- </header>
+  <author email="jvanzyl@locus.apache.org">Velocity Documentation Team</author>
+  <author email="jcastura@kw.igs.net">John Castura</author>
+ </properties>
 
 <body>
 
-<s1 title="About this Guide">
+<section name="About this Guide">
 
  <p>
-    The Velocity User Guide is intended to help page designers and content 
-    providers get acquainted with Velocity and the syntax of its simple yet 
-    powerful scripting language, the Velocity Template Language (VTL). 
-    Many of the examples in this guide deal with using Velocity to embed 
-    dynamic content in web sites, but all VTL examples are equally applicable 
+    The Velocity User Guide is intended to help page designers and content
+    providers get acquainted with Velocity and the syntax of its simple yet
+    powerful scripting language, the Velocity Template Language (VTL).
+    Many of the examples in this guide deal with using Velocity to embed
+    dynamic content in web sites, but all VTL examples are equally applicable
     to other pages and templates.
  </p>
 
  <p>
-    This is an early draft of the user guide. Although every effort has 
-    been made to keep up-to-date with the development of Velocity, 
-    there remain some inconsistencies between the documented and the actual 
+    This is an early draft of the user guide. Although every effort has
+    been made to keep up-to-date with the development of Velocity,
+    there remain some inconsistencies between the documented and the actual
     behaviour of Velocity. To report a mistake or offer a suggestion,
-    please send email to 
-    <link href="mailto:jcastura@apache.org">jcastura@apache.org</link>.
+    please send email to
+    <a href="mailto:jcastura@apache.org">jcastura@apache.org</a>.
  </p>
 
  <p>
     Thanks for choosing Velocity!
  </p>
 
-</s1>
+</section>
 
-<s1 title="What is Velocity?">
- 
+<section name="What is Velocity?">
+
  <p>
     Velocity is a Java-based template engine. It permits web page designers
-    to reference methods defined in Java code. Web designers can work in parallel 
+    to reference methods defined in Java code. Web designers can work in parallel
     with Java programmers to develop web sites according to the Model-View-Controller
     (MVC) model, meaning that web page designers can focus solely on creating
     a well-designed site, and programmers can focus solely on writing
     top-notch code. Velocity separates Java code from the web pages,
     making the web site more maintainable over the long run and providing
     a viable alternative to
-    <link href="http://java.sun.com/products/jsp/">Java Server Pages</link>
-    (JSPs) or <link href="http://www.php.net/">PHP</link>.
+    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a>
+    (JSPs) or <a href="http://www.php.net/">PHP</a>.
  </p>
- 
+
  <p>
-    Velocity can be used to generate web pages, SQL, PostScript and other 
+    Velocity can be used to generate web pages, SQL, PostScript and other
     output from templates.
     It can be used either as a standalone utility for generating
     source code and reports, or as an integrated component of other systems.
     When complete, Velocity will provide template services for the
-    <link href="http://java.apache.org/turbine/">Turbine</link>
+    <a href="http://java.apache.org/turbine/">Turbine</a>
     web application framework. Velocity-Turbine will provide
     a template service that will allow web applications to be developed
     according to a true MVC model.
  </p>
- 
-</s1>
 
-<s1 title="What can Velocity do for me?">
+</section>
 
- <s1 title="The Mud Store Example">
+<section name="What can Velocity do for me?">
+
+ <subsection name="The Mud Store Example">
 
    <p>
-    Suppose you are a page designer for an online store that specializes in selling mud. 
-    Let's call it "The Online Mud Store". Business is thriving. Customers 
+    Suppose you are a page designer for an online store that specializes in selling mud.
+    Let's call it "The Online Mud Store". Business is thriving. Customers
     place orders for various types and quantities of mud. They
-    login to your site using their username and password, which allows them to 
+    login to your site using their username and password, which allows them to
     view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
-    is very popular. A minority of your customers regularly buys Bright Red 
-    Mud, which is also on sale, though not as popular and usually relegated 
+    is very popular. A minority of your customers regularly buys Bright Red
+    Mud, which is also on sale, though not as popular and usually relegated
     to the margin of your web page. Information about each customer is tracked
     in your database, so one day the question arises, Why not use Velocity to target
-    special deals on mud to the customers who are most interested in those types of 
+    special deals on mud to the customers who are most interested in those types of
     mud?
    </p>
- 
+
    <p>
-    Velocity makes it easy to customize web pages to your online visitors. As a web site 
-    designer at The Mud Room, you want to make the web page that the customer will 
+    Velocity makes it easy to customize web pages to your online visitors. As a web site
+    designer at The Mud Room, you want to make the web page that the customer will
     see after logging into your site.
    </p>
- 
+
    <p>
     You meet with software engineers at your company, and everyone
-    has agreed that <variable>$customer</variable> will hold information
+    has agreed that <em>$customer</em> will hold information
     pertaining to the customer currently logged in,
-    that <variable>$mudsOnSpecial</variable> will be all the types mud on sale at present.
-    The <variable>$flogger</variable> object contains methods that help with promotion.
-    For the task at hand, let's concern ourselves only with these three 
-    references. Remember, you don't need to worry about how the software 
+    that <em>$mudsOnSpecial</em> will be all the types mud on sale at present.
+    The <em>$flogger</em> object contains methods that help with promotion.
+    For the task at hand, let's concern ourselves only with these three
+    references. Remember, you don't need to worry about how the software
     engineers extract the necessary information from the database, you just need
     to know that it works. This lets you get on with your job, and lets the
     software engineers get on with theirs.
    </p>
- 
+
    <p>
     You could embed the following VTL statement in the web page:
    </p>
- 
-   <p>
+
     <source><![CDATA[
     <HTML>
     <BODY>
@@ -126,169 +122,157 @@
     #end
     </table>
     ]]></source>
-   </p>
- 
+
    <p>
-    The exact details of the <vtldirective>foreach</vtldirective> statement will be described
-    in greater depth shortly; what's important is the impact this short 
-    script can have on your web site. When a customer with a 
+    The exact details of the <em>foreach</em> statement will be described
+    in greater depth shortly; what's important is the impact this short
+    script can have on your web site. When a customer with a
     penchant for Bright Red Mud logs in, and Bright Red Mud
-    is on sale, that is what this customer will see, prominently displayed. 
+    is on sale, that is what this customer will see, prominently displayed.
     If another customer with a long history of Terracotta Mud purchases logs in,
-    the notice of a Terracotta Mud sale will be front and center. 
+    the notice of a Terracotta Mud sale will be front and center.
     The flexibility of Velocity is enormous and limited only by your creativity.
    </p>
- 
+
    <p>
-    Documented in the VTL Reference are the many other Velocity elements, which 
+    Documented in the VTL Reference are the many other Velocity elements, which
     collectively give you the power and flexibility you need to make your web site a web
-    <em>presence</em>. As you get more familiar with these elements, you will begin to 
+    <em>presence</em>. As you get more familiar with these elements, you will begin to
     unleash the power of Velocity.
    </p>
 
- </s1>
+ </subsection>
 
-</s1>
+</section>
 
-<s1 title="Velocity Template Language (VTL): An Introduction">
+<section name="Velocity Template Language (VTL): An Introduction">
 
  <p>
-    The Velocity Template 
-    Language (VTL) is meant to provide the easiest, simplest, and cleanest way 
-    to incorporate dynamic content in a web page. Even a web page developer with little 
-    or no programming experience should soon be capable of using VTL to incorporate 
+    The Velocity Template
+    Language (VTL) is meant to provide the easiest, simplest, and cleanest way
+    to incorporate dynamic content in a web page. Even a web page developer with little
+    or no programming experience should soon be capable of using VTL to incorporate
     dynamic content in a web site.
  </p>
 
  <p>
-    VTL uses <em>references</em> to embed dynamic content in a web site, and a variable 
-    is one type of reference. Variables are one type of reference that can refer to 
-    something defined in the Java code, or it can get its value from a VTL 
-    <em>statement</em> in the web page itself. Here is an example of a VTL statement 
+    VTL uses <em>references</em> to embed dynamic content in a web site, and a variable
+    is one type of reference. Variables are one type of reference that can refer to
+    something defined in the Java code, or it can get its value from a VTL
+    <em>statement</em> in the web page itself. Here is an example of a VTL statement
     that could be embedded in an HTML document:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     #set( $a = "Velocity" )
-    ]]>
-    </source>
+  ]]></source>
+
+ <p>
+    This VTL statement, like all VTL statements, begins with the <em>#</em>
+    character and contains a directive: <em>set</em>. When an online visitor requests
+    your web page, the Velocity Templating Engine will search through your web page to
+    find all <em>#</em> characters, then determine which mark the beginning of VTL
+    statements, and which of the <em>#</em> characters that have nothing to do with VTL.
  </p>
 
  <p>
-    This VTL statement, like all VTL statements, begins with the <vtldirective>#</vtldirective> 
-    character and contains a directive: <vtldirective>set</vtldirective>. When an online visitor requests 
-    your web page, the Velocity Templating Engine will search through your web page to 
-    find all <vtl>#</vtl> characters, then determine which mark the beginning of VTL 
-    statements, and which of the <vtl>#</vtl> characters that have nothing to do with VTL.
+    The <em>#</em> character is followed by a directive,
+    <em>set</em>. The <em>set</em> directive uses an expression
+    (enclosed in brackets) -- an equation that assigns a <em>value</em> to a <em>variable</em>.
+    The variable is listed on the left hand side and its value on the right hand side;
+    the two are separated by an <em>=</em> character.
  </p>
 
  <p>
-    The <vtl>#</vtl> character is followed by a directive, 
-    <vtldirective>set</vtldirective>. The <vtldirective>set</vtldirective> directive uses an expression 
-    (enclosed in brackets) -- an equation that assigns a <em>value</em> to a <em>variable</em>. 
-    The variable is listed on the left hand side and its value on the right hand side; 
-    the two are separated by an <vtl>=</vtl> character.
- </p>
- 
- <p>
-    In the example above, the variable is <variable>$a</variable> and the value is
-    <variable>Velocity</variable>. This variable, like all references, begins with the
-    <variable>$</variable> character. Values are always enclosed in quotes; with Velocity 
-    there is no confusion about data types, as only strings (text-based information) may 
+    In the example above, the variable is <em>$a</em> and the value is
+    <em>Velocity</em>. This variable, like all references, begins with the
+    <em>$</em> character. Values are always enclosed in quotes; with Velocity
+    there is no confusion about data types, as only strings (text-based information) may
     be passed to variables.
  </p>
 
  <p>
-    The following rule of thumb may be useful to better understand how Velocity works: 
-    <strong>References begin with <vtl>$</vtl> and are used to get something. Directives begin 
-    with <vtl>#</vtl> and are used to do something.</strong> 
+    The following rule of thumb may be useful to better understand how Velocity works:
+    <strong>References begin with <em>$</em> and are used to get something. Directives begin
+    with <em>#</em> and are used to do something.</strong>
  </p>
 
  <p>
-     In the example above, <vtldirective>#set</vtldirective> is used to assign a value to 
-     a variable. The variable, <variable>$a</variable>, can then be used in the template
+     In the example above, <em>#set</em> is used to assign a value to
+     a variable. The variable, <em>$a</em>, can then be used in the template
      to output "Velocity".
  </p>
 
-</s1>
+</section>
 
-<s1 title="Hello Velocity World!">
+<section name="Hello Velocity World!">
 
  <p>
-    Once a value has been assigned to a variable, you can reference the 
-    variable anywhere in your HTML document. In the following example, 
-    a value is assigned to <variable>$foo</variable> and later referenced.
+    Once a value has been assigned to a variable, you can reference the
+    variable anywhere in your HTML document. In the following example,
+    a value is assigned to <em>$foo</em> and later referenced.
  </p>
 
- <p>
-    <source><![CDATA[
+  <source><![CDATA[
     <HTML>
     <BODY>
     #set( $foo = "Velocity" )
     Hello $foo World!
     </BODY>
     <HTML>
-    ]]>
-    </source>
- </p>
+  ]]></source>
 
  <p>
     The result is a web page that prints "Hello Velocity World!".
  </p>
 
- <p>   
-    To make statements containing VTL directives more readable, we encourage you to 
-    start each VTL statement on a new line, although you are not required to 
-    do so. The <vtldirective>set</vtldirective> directive will be revisited in greater detail 
+ <p>
+    To make statements containing VTL directives more readable, we encourage you to
+    start each VTL statement on a new line, although you are not required to
+    do so. The <em>set</em> directive will be revisited in greater detail
     later on.
  </p>
 
-</s1>
+</section>
 
-<s1 title="Comments">
- 
+<section name="Comments">
+
  <p>
     Comments allows descriptive text to be included that is not placed into the
-    output of the template engine. Comments are a useful way of reminding 
-    yourself and explaining to others what your VTL statements are doing, or 
+    output of the template engine. Comments are a useful way of reminding
+    yourself and explaining to others what your VTL statements are doing, or
     any other purpose you find useful. Below is an example of a comment in VTL.
- </p> 
+ </p>
 
- <p>
  <source><![CDATA[
     ## This is a single line comment.
  ]]></source>
- </p>
- 
+
  <p>
-    A single line comment begins with <vtl>##</vtl> and finishes at the end of the line.
+    A single line comment begins with <em>##</em> and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multi-line comments, which begin with <vtl>#*</vtl>
-    and end with <vtl>*#</vtl>, are available to handle this scenario.
+    single line comments. Multi-line comments, which begin with <em>#*</em>
+    and end with <em>*#</em>, are available to handle this scenario.
  </p>
- 
- <p>
+
  <source><![CDATA[
 
     This is text that is outside the multi-line comment. Online visitors can see it.
 
     #*
-    Thus begins a multi-line comment. Online visitors won't see this text because 
+    Thus begins a multi-line comment. Online visitors won't see this text because
     the Velocity Templating Engine will ignore it.
     *#
-    
-    Here is text outside the multi-line comment; it is visible. 
+
+    Here is text outside the multi-line comment; it is visible.
 
  ]]></source>
- </p>
 
  <p>
-    Here's a few examples to clarify how single line and multi-line comments 
+    Here are a few examples to clarify how single line and multi-line comments
     work:
  </p>
 
- <p>
  <source><![CDATA[
     This text is visible. ## This text is not.
     This text is visible.
@@ -298,31 +282,26 @@
     it is visible.
     ## This text is not visible.
  ]]></source>
- </p>
 
  <p>
     There is a third type of comment, the VTL comment block, which may be used to
     store such information as the document author and versioning information:
  </p>
- 
- <p>
+
  <source><![CDATA[
-    #** 
+    #**
     This is a VTL comment block and
-    may be used to store such information 
+    may be used to store such information
     as the document author and versioning
-    information:    
-    @author 
+    information:
+    @author
     @version 5
     *#
  ]]></source>
- </p>
- 
-</s1>
 
+</section>
 
-
-<s1 title="References, revisited">
+<section name="References, revisited">
 
  <p>
     There are three types of references in the VTL: variables, properties
@@ -332,9 +311,9 @@
  </p>
 
  <p>
-    Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents <variable>$foo</variable> (such as an Integer object), 
-    then Velocity will call its <code>.toString()</code> method to resolve the 
+    Everything coming to and from a reference is treated as a String object.
+    If there is an object that represents <em>$foo</em> (such as an Integer object),
+    then Velocity will call its <code>.toString()</code> method to resolve the
     object into a String.
  </p>
 
@@ -342,70 +321,64 @@
  <strong>Variables</strong>
  <br/>
     The shorthand notation of a variable consists of a leading "$" character
-    followed by a VTL <em>Identifier</em>. A VTL Identifier must 
+    followed by a VTL <em>Identifier</em>. A VTL Identifier must
     start with an alphabetic character (a .. z or A .. Z); the rest of the
     characters are limited to the following types of characters: alphabetic,
-    numeric (0 .. 9), hyphen ("-"), and underscore ("_"). 
-    Here are some examples of valid variable references in the VTL: 
+    numeric (0 .. 9), hyphen ("-"), and underscore ("_").
+    Here are some examples of valid variable references in the VTL:
  </p>
 
- <p>
-    <source><![CDATA[
+  <source><![CDATA[
     $foo
     $mudSlinger
     $mud-slinger
     $mud_slinger
     $mudSlinger1
-    ]]></source>
- </p>
+  ]]></source>
 
  <p>
-    When VTL references a variable, such as <variable>$foo</variable>, the variable can 
-    get its value from either a <vtldirective>set</vtldirective> directive in the template, or from the
-    Java code. For example, if the Java variable <variable>$foo</variable>
-    has the value <variable>bar</variable> at the time the template is requested,
-    <variable>bar</variable> replaces all instances of <variable>$foo</variable> on the web 
+    When VTL references a variable, such as <em>$foo</em>, the variable can
+    get its value from either a <em>set</em> directive in the template, or from the
+    Java code. For example, if the Java variable <em>$foo</em>
+    has the value <em>bar</em> at the time the template is requested,
+    <em>bar</em> replaces all instances of <em>$foo</em> on the web
     page. Alternatively, if I include the statement
  </p>
-    
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     #set( $foo = "bar" )
-    ]]></source>
- </p>
-    
+  ]]></source>
+
  <p>
-    the output will be the same for all instances of <variable>$foo</variable>
+    the output will be the same for all instances of <em>$foo</em>
     that follow this directive.
  </p>
-  
+
  <p>
  <strong>Properties</strong>
  <br/>
     The second flavor of VTL references are properties, and properties have
-    a distinctive format. The shorthand notation consists of a leading <vtl>$</vtl>
+    a distinctive format. The shorthand notation consists of a leading <em>$</em>
     character followed a VTL Identifier, followed by
     a dot character (".") and another VTL Identifier.
     These are examples of valid property references in the VTL:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     $customer.Address
     $purchase.Total
-    ]]></source>
- </p>   
+  ]]></source>
 
  <p>
-    Take the first example, <variable>$customer.Address</variable>. It can 
+    Take the first example, <em>$customer.Address</em>. It can
     have two meanings. It can mean,
-    Look in the hashtable identified as <variable>customer</variable> and return the
-    value associated with the key <variable>Address</variable>. But
-    <variable>$customer.Address</variable> can also be referring to a method (references 
+    Look in the hashtable identified as <em>customer</em> and return the
+    value associated with the key <em>Address</em>. But
+    <em>$customer.Address</em> can also be referring to a method (references
     that refer to methods will be discussed
-    in the next section); <variable>$customer.Address</variable> could be an 
-    abbreviated way of writing <variable>$customer.getAddress()</variable>. 
-    When your page is requested, Velocity will determine which of these 
+    in the next section); <em>$customer.Address</em> could be an
+    abbreviated way of writing <em>$customer.getAddress()</em>.
+    When your page is requested, Velocity will determine which of these
     two possibilities makes sense, and then return the appropriate value.
  </p>
 
@@ -423,29 +396,27 @@
     These are examples of valid method references in the
     VTL:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     $customer.getAddress()
     $purchase.getTotal()
     $page.setTitle( "My Home Page" )
     $person.setAttributes( ["Strange", "Weird", "Excited"] )
-    ]]></source>
- </p>  
+  ]]></source>
 
  <p>
-    The first two examples -- 
-    <variable>$customer.getAddress()</variable> and <variable>$purchase.getTotal()</variable> 
+    The first two examples --
+    <em>$customer.getAddress()</em> and <em>$purchase.getTotal()</em>
     -- may look similiar to those used in the Properties section above,
-    <variable>$customer.Address</variable>
-    and <variable>$purchase.Total</variable>. If you guessed that these examples must
-    be related some in some fashion, you are correct! 
+    <em>$customer.Address</em>
+    and <em>$purchase.Total</em>. If you guessed that these examples must
+    be related some in some fashion, you are correct!
  </p>
- 
+
  <p>
     VTL Properties can be used as a shorthand notation for VTL Methods. The
-    Property <variable>$customer.Address</variable> has the exact same effect as
-    using the Method <variable>$customer.getAddress()</variable>. It is generally preferable
+    Property <em>$customer.Address</em> has the exact same effect as
+    using the Method <em>$customer.getAddress()</em>. It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
  </p>
@@ -454,87 +425,77 @@
     The shorthand notation can be used for the following Methods
  </p>
 
- <p>
-    <source><![CDATA[
+  <source><![CDATA[
     $sun.getPlanets()
     $annelid.getDirt()
     $album.getPhoto()
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
-    We might expect these methods to return the names of planets belonging to 
-    the sun, feed our earthworm, or get a photograph from an album. Only the 
+    We might expect these methods to return the names of planets belonging to
+    the sun, feed our earthworm, or get a photograph from an album. Only the
     long notation works for the following Methods.
  </p>
- 
- <p>
-    <source><![CDATA[
-    $sun.getPlanet( ["Earth", "Mars", "Neptune"] ) 
+
+  <source><![CDATA[
+    $sun.getPlanet( ["Earth", "Mars", "Neptune"] )
     ## Can't pass a parameter list with $sun.Planets
 
     $sisyphus.pushRock()
-    ## Velocity assumes I mean $sisyphus.getRock() 
-    
+    ## Velocity assumes I mean $sisyphus.getRock()
+
     $book.setTitle( "Homage to Catalonia" )
     ## Can't pass a parameter list
-    ]]></source>
- </p>
+  ]]></source>
 
  <p>
     <strong>Formal Reference Notation</strong>
     <br/>
     Shorthand notation for
-    references was used for the examples listed above, but there is 
+    references was used for the examples listed above, but there is
     also a formal notation for references, which is demonstrated below:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     ${mudSlinger}
     ${customer.Address}
     ${purchase.getTotal()}
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
     In almost all cases you will use the shorthand notation
     for references, but in some cases the formal
-    notation is required for correct processing. 
+    notation is required for correct processing.
  </p>
-    
+
  <p>
     Suppose you were
-    constructing a sentence on the fly where <variable>$vice</variable> was to be
-    used as the base word in the noun of a sentence. The goal is to allow someone 
-    to choose the base word and produce one of the two following results: "Jack is 
+    constructing a sentence on the fly where <em>$vice</em> was to be
+    used as the base word in the noun of a sentence. The goal is to allow someone
+    to choose the base word and produce one of the two following results: "Jack is
     a pyromaniac." or "Jack is a kleptomaniac.". Using the shorthand notation
-    would be inadequate for this task. Consider the following example: 
+    would be inadequate for this task. Consider the following example:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     Jack is a $vicemaniac.
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
-    There is ambiguity here, and Velocity assumes that <variable>$vicemaniac</variable>,
-    not <variable>$vice</variable>, is the Identifier that you mean to use. Finding no
-    value for <variable>$vicemaniac</variable>, it will return <variable>$vicemaniac</variable>.
+    There is ambiguity here, and Velocity assumes that <em>$vicemaniac</em>,
+    not <em>$vice</em>, is the Identifier that you mean to use. Finding no
+    value for <em>$vicemaniac</em>, it will return <em>$vicemaniac</em>.
     Using formal notation can resolve this problem.
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     Jack is a ${vice}maniac.
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
-    Now Velocity knows that <variable>$vice</variable>, not <variable>$vicemaniac</variable>, is 
-    the reference. Formal notation is often useful when references are directly adjacent to text 
-    in a template.
+    Now Velocity knows that <em>$vice</em>, not <em>$vicemaniac</em>, is
+    the reference. Formal notation is often useful when references are directly
+    adjacent to text in a template.
  </p>
 
 
@@ -546,32 +507,28 @@
     of the reference. For example, suppose the following
     reference appears as part of a VTL template.
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     <input type="text" name="email" value="$email"/>
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
     When the form initially loads, the variable
-    reference <variable>$email</variable> has no value, but you prefer
+    reference <em>$email</em> has no value, but you prefer
     a blank text field to one with a value of "$email".
     Using the quiet reference notation circumvents Velocity's
-    normal behavior; instead of using <variable>$email</variable> in the
-    VTL you would use <variable>$!email</variable>. So the above example
+    normal behavior; instead of using <em>$email</em> in the
+    VTL you would use <em>$!email</em>. So the above example
     would look like the following:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     <input type="text" name="email" value="$!email"/>
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
     Now when the form is initially loaded and
-    <variable>$email</variable> still has no value, an empty string will
+    <em>$email</em> still has no value, an empty string will
     be output instead of "$email".
  </p>
 
@@ -579,32 +536,30 @@
     Formal and quiet reference notation can be used together,
     as demonstrated below.
  </p>
- 
- <p>
-    <source><![CDATA[
-    <input type="text" name="email" value="$!{email}"/>
-    ]]></source>
- </p>
- 
-</s1>
 
-<s1 title="Getting literal">
+  <source><![CDATA[
+    <input type="text" name="email" value="$!{email}"/>
+  ]]></source>
+
+</section>
+
+<section name="Getting literal">
 
   <p>
-    VTL uses special characters, such as <vtl>$</vtl> and <vtl>#</vtl>, to do its work, so some
-    added care should be taken where using these characters in your templates. This section deals
-    with escaping the <vtl>$</vtl> character.
+    VTL uses special characters, such as <em>$</em> and <em>#</em>, to do its
+    work, so some added care should be taken where using these characters in
+    your templates. This section deals with escaping the <em>$</em> character.
   </p>
- 
+
   <p>
     <strong>Currency</strong>
     <br/>
-    There is no problem writing "I bought a 4 lb. sack of 
+    There is no problem writing "I bought a 4 lb. sack of
     potatoes at the farmer's market for only $2.50!" As mentioned, a VTL
     identifier always begins with an upper- or lowercase letter, so
     $2.50 would not be mistaken for a reference.
   </p>
-  
+
   <p>
     <strong>Escaping Valid VTL References</strong>
     <br/>
@@ -614,28 +569,25 @@
     done using the backslash ("\") character.
   </p>
 
-  <p>
-    <source><![CDATA[
+  <source><![CDATA[
     #set( $email = "foo" )
     $email
-    ]]></source>
+  ]]></source>
+
+  <p>
+    If Velocity encounters  a reference in your VTL template to
+    <em>$email</em>, it will search the Context for a corresponding
+    value. Here the output will be "foo", because <em>$email</em> is defined.
+    If <em>$email</em> is not defined, the output will be "$email".
   </p>
 
   <p>
-    If Velocity encounters  a reference in your VTL template to 
-    <variable>$email</variable>, it will search the Context for a corresponding 
-    value. Here the output will be "foo", because <variable>$email</variable> is defined.
-    If <variable>$email</variable> is not defined, the output will be "$email".
+    Suppose that <em>$email</em> is defined (for example, if it has the value
+    "foo"), and that you want to output "$email". There are a few ways of doing
+    this, but the simplest is to use the escape character.
   </p>
 
-  <p>
-    Suppose that <variable>$email</variable> is defined (for example, if it has the value
-    "foo"), and that you want to output "$email". There are a few ways of doing this,
-    but the simplest is to use the escape character.
-  </p>
-
-  <p>
-    <source><![CDATA[
+  <source><![CDATA[
     ## The following line defines $email in this template:
     #set( $email = "foo" )
 
@@ -645,21 +597,19 @@
     ## The output of the following line will be a literal: $email
     \$email
 
-    ## The escape character binds from the left. The output of the following line will 
+    ## The escape character binds from the left. The output of the following line will
     ## reflect this in its output: \$email
     \\$email
 
     ## The bind-from-left rule causes \\\$email to render as \\$email
     \\\$email
-    ]]></source>
-  </p>
+  ]]></source>
 
   <p>
-     Compare these examples to those in which <variable>$email</variable> is not defined.
+     Compare these examples to those in which <em>$email</em> is not defined.
   </p>
 
-  <p>
-    <source><![CDATA[
+  <source><![CDATA[
     ## $email is undefined
 
     ## $email renders as $email
@@ -667,22 +617,20 @@
 
     ## \$email renders as \$email
     \$email
-    
+
     ## \\$email renders as \\$email
     \\$email
 
     ## \\\$email renders as \\\$email
     \\\$email
-    ]]></source>
-  </p>
+  ]]></source>
 
   <p>
      Notice Velocity handles references that are defined differently from those
      that have not been defined.
   </p>
 
-  <p>
-     <source><![CDATA[
+   <source><![CDATA[
      ## Here is a set directive that gives $foo the value "gibbous"
      #set( $foo = "gibbous" )
 
@@ -693,89 +641,83 @@
      $moon is output as a literal because it is undefined.
      The value of $foo is output because it is defined.
      *#
-     ]]></source>
-  </p>
- 
+   ]]></source>
+
   <p>
      It is also possible to escape VTL directives; this is described in more detail in
      the Directives section.
   </p>
- 
-</s1>
 
-<s1 title="Summary: References">
-    
+</section>
+
+<section name="Summary: References">
+
     <p>
     Now that you are familiar with references, you can begin to
     apply them effectively in your templates.
-    Velocity references take advantage of some Java principles that 
+    Velocity references take advantage of some Java principles that
     template designers will find easy to use. For example:
     </p>
 
-    <p>
-    <source><![CDATA[
+  <source><![CDATA[
     $foo
-    
-    $foo.getBar() 
-    ## is the same as 
+
+    $foo.getBar()
+    ## is the same as
     $foo.Bar
-    
+
     $data.getUser("jon")
-    ## is the same as 
+    ## is the same as
     $data.User("jon")
-    
-    
+
+
     $data.getRequest().getServerName()
-    ## is the same as 
+    ## is the same as
     $data.Request.ServerName
-    ## is the same as 
+    ## is the same as
     ${data.Request.ServerName}
-    ]]></source>
-    </p>
+  ]]></source>
 
     <p>
-    These examples illustrate alternative uses for the same references. 
-    Velocity takes advantage of Java's introspection and 
-    bean features to resolve the reference names to both objects in the Context 
-    as well as the objects methods. It is possible to embed and evaluate 
+    These examples illustrate alternative uses for the same references.
+    Velocity takes advantage of Java's introspection and
+    bean features to resolve the reference names to both objects in the Context
+    as well as the objects methods. It is possible to embed and evaluate
     references almost anywhere in your template.
     </p>
-    
-</s1>
+
+</section>
 
 
-<s1 title="Directives">  
- 
+<section name="Directives">
+
  <p>
     References allow template designers to generate dynamic content for
-    web sites, while <em>directives</em> -- easy to use 
-    script elements that can be used to creatively manipulate the output of 
-    Java code -- permit web designers to truly take charge 
+    web sites, while <em>directives</em> -- easy to use
+    script elements that can be used to creatively manipulate the output of
+    Java code -- permit web designers to truly take charge
     of the appearance and content of the web site.
  </p>
 
+ <strong>#set</strong>
  <p>
-    <strong>#set</strong>
-    <br/>
-    The <vtldirective>#set</vtldirective> directive is used for setting the value of
+    The <em>#set</em> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference, and this occurs in brackets, as demonstrated:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     #set( $primate = "monkey" )
     #set( $customer.Behavior = $primate )
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
     The left hand side (LHS) of the assignment must be
     a variable reference or a property reference. The
     right hand side (RHS) can be one of the following
     types:
  </p>
- 
+
  <p>
     <ul>
         <li>Variable reference</li>
@@ -786,54 +728,47 @@
         <li>Object array</li>
     </ul>
  </p>
- 
+
  <p>
-    These examples demonstrate each of the aforementioned 
+    These examples demonstrate each of the aforementioned
     types:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     #set( $monkey = $bill ) ##variable reference
     #set( $monkey.Friend = "monica" ) ##string literal
     #set( $monkey.Blame = $whitehouse.Leak ) ##property reference
     #set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
     #set( $monkey.Number = 123 ) ##number literal
     #set( $monkey.Say = ["Not", $my, "fault"] ) ##object array
-    ]]></source>
- </p>
- 
+  ]]></source>
+
  <p>
     The RHS can also be a simple arithmetic expression:
  </p>
- 
- <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     #set( $value = $foo + 1 )
     #set( $value = $bar - 1 )
     #set( $value = $foo * $bar )
     #set( $value = $foo / $bar )
-    ]]></source>
- </p>
+  ]]></source>
 
  <p>
-    Unlike some of the other Velocity directives, the <vtldirective>#set</vtldirective> directive 
-    does not have an <vtldirective>#end</vtldirective> statement. Instead, the left bracket marks
+    Unlike some of the other Velocity directives, the <em>#set</em> directive
+    does not have an <em>#end</em> statement. Instead, the left bracket marks
     the beginning and the right bracket marks the end of an assignment.
  </p>
 
- <p>
-    <strong>String Literals</strong>
- </p>
+ <strong>String Literals</strong>
 
  <p>
-    When using the <vtldirective>#set</vtldirective> directive, string literals that are enclosed
+    When using the <em>#set</em> directive, string literals that are enclosed
     in double quote characters will be parsed and rendered, as shown:
  </p>
 
- <p>  
     <source><![CDATA[
-      #set( $directoryRoot = "www" )  
+      #set( $directoryRoot = "www" )
       #set( $templateName = "index.vm" )
       #set( $template = "$directoryRoot/$templateName" )
       $template
@@ -841,15 +776,14 @@
       #*
       The output will be:   www/index.vm
       *#
-    ]]></source>    
- </p>
+    ]]></source>
 
  <p>
-    However, when the string literal is enclosed in single quote characters, it will not be parsed: 
+    However, when the string literal is enclosed in single quote characters, it
+    will not be parsed:
  </p>
 
- <p>  
-    <source><![CDATA[
+  <source><![CDATA[
     #set( $foo = "bar" )
     $foo
     #set( $blargh = '$foo' )
@@ -860,53 +794,51 @@
     bar
     $foo
     *#
-    ]]></source>    
- </p>
+  ]]></source>
 
  <p>
-    By default, this feature of using single quotes to render unparsed text is available in Velocity.
-    This default can be changed by editing <filename>velocity.properties</filename> such that
+    By default, this feature of using single quotes to render unparsed text is
+    available in Velocity. This default can be changed by editing <filename>
+    velocity.properties</filename> such that
     <code>stringliterals.interpolate=false</code>.
  </p>
+</section>
 
 
-<s1 title="Conditionals">
+<section name="Conditionals">
 
     <strong>If / ElseIf / Else</strong>
     <p>
-       The <vtldirective>#if</vtldirective> directive in Velocity allows for text to be 
-       included when the web page is generated, on the conditional 
+       The <em>#if</em> directive in Velocity allows for text to be
+       included when the web page is generated, on the conditional
        that the if statement is true. For example:
     </p>
 
-    <p>
-      <source><![CDATA[
+    <source><![CDATA[
       #if( $foo )
          <strong>Velocity!</strong>
       #end
-      ]]></source>
-    </p>
+    ]]></source>
 
     <p>
-      The variable <variable>$foo</variable> is evaluated to determine whether it is true, which will happen 
-      under one of two circumstances: (i) <variable>$foo</variable> is a boolean (true/false) which 
-      has a true value, or (ii) the value is not null. The content between the 
-      <vtldirective>#if</vtldirective> and the <vtldirective>#end</vtldirective> statements become the output if 
-      the evaluation is true. In this case, if <variable>$foo</variable> is true, the
-      output will be: "Velocity!". Conversely, if <variable>$foo</variable> has a null 
+      The variable <em>$foo</em> is evaluated to determine whether it is true, which will happen
+      under one of two circumstances: (i) <em>$foo</em> is a boolean (true/false) which
+      has a true value, or (ii) the value is not null. The content between the
+      <em>#if</em> and the <em>#end</em> statements become the output if
+      the evaluation is true. In this case, if <em>$foo</em> is true, the
+      output will be: "Velocity!". Conversely, if <em>$foo</em> has a null
       value, or if it is a boolean false, the statement evaluates as false, and
       there is no output.
     </p>
-    
-    <p>
-      An <vtldirective>#elseif</vtldirective> or <vtldirective>#else</vtldirective> element can be used with an <vtldirective>#if</vtldirective> element. Note that 
-      the Velocity Templating Engine will stop at the first expression that is
-      found to be true. In the following example, suppose that <variable>$foo</variable> has a 
-      value of 15 and <variable>$bar</variable> has a value of 6.
-    </p>
 
     <p>
-    <source><![CDATA[
+      An <em>#elseif</em> or <em>#else</em> element can be used with an <em>#if</em> element. Note that
+      the Velocity Templating Engine will stop at the first expression that is
+      found to be true. In the following example, suppose that <em>$foo</em> has a
+      value of 15 and <em>$bar</em> has a value of 6.
+    </p>
+
+  <source><![CDATA[
     #if( $foo < 10 )
         <strong>Go North</strong>
     #elseif( $foo > 10 )
@@ -916,16 +848,15 @@
     #else
         <strong>Go West</strong>
     #end
-    ]]></source>
-    </p>
-    
+  ]]></source>
+
     <p>
-    In this example, <variable>$foo</variable> is greater than or equal to 10, so the Velocity
-    Templating Engine makes the output of the if 
-    statement <strong>Go East</strong>. If <variable>$foo</variable> had a value of 10 and <variable>$bar</variable>
-    had a value of 6.1, then <variable>$foo</variable> is neither greater than 10 nor equal to 
-    10, and <variable>$bar</variable> is not equal to 6. All if and elseif statements are false,
-    so the output is <strong>Go West</strong>. 
+    In this example, <em>$foo</em> is greater than or equal to 10, so the Velocity
+    Templating Engine makes the output of the if
+    statement <strong>Go East</strong>. If <em>$foo</em> had a value of 10 and <em>$bar</em>
+    had a value of 6.1, then <em>$foo</em> is neither greater than 10 nor equal to
+    10, and <em>$bar</em> is not equal to 6. All if and elseif statements are false,
+    so the output is <strong>Go West</strong>.
     </p>
 
     <p>
@@ -934,12 +865,11 @@
 
 
     <p>
-    Velocity uses the equivalent operator to determine the relationships between variables. 
+    Velocity uses the equivalent operator to determine the relationships between variables.
     Here is a simple example to illustrate how the equivalent operator is used.
-    </p> 
-    
-    <p>
-     <source><![CDATA[
+    </p>
+
+   <source><![CDATA[
      #set ($foo = "deoxyribonucleic acid")
      #set ($bar = "ribonucleic acid")
 
@@ -948,176 +878,158 @@
      #else
         They are not equivalent and this will be the output.
      #end
-     ]]></source>
-    </p>
+   ]]></source>
 
     <p>
       Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.
       Below is an example of an if statement using logical AND.
     </p>
 
-    <p>
-      <source><![CDATA[
+    <source><![CDATA[
       #if( $foo && $bar )
          <strong>Velocity Rocks!</strong>
       #end
-      ]]></source>
-    </p>
-    
+    ]]></source>
+
     <p>
-      The if statement will only evaluate to true if both <variable>$foo</variable> and 
-      <variable>$bar</variable> are true. If <variable>$foo</variable> is false, the expression will evaluate
-      to false; <variable>$bar</variable> will not be evaluated. If <variable>$foo</variable> is true, the
-      Velocity Templating Engine will then check the value of <variable>$bar</variable>;
-      if <variable>$bar</variable> is true, then the entire expression is
+      The if statement will only evaluate to true if both <em>$foo</em> and
+      <em>$bar</em> are true. If <em>$foo</em> is false, the expression will evaluate
+      to false; <em>$bar</em> will not be evaluated. If <em>$foo</em> is true, the
+      Velocity Templating Engine will then check the value of <em>$bar</em>;
+      if <em>$bar</em> is true, then the entire expression is
       true and <strong>Velocity Rocks!</strong> becomes the output.
-      If <variable>$bar</variable> is false, then there will be no output; the entire
+      If <em>$bar</em> is false, then there will be no output; the entire
       expression is false.
     </p>
-    
+
     <p>
       Logical OR operators work the same way, except only one of
       the references need evaluate to true in order for the entire
       expression to be considered true. Consider the following
       example.
     </p>
-    
-    <p>
-      <source><![CDATA[
+
+    <source><![CDATA[
       #if( $foo || $bar )
          <strong>Velocity Rocks Again!</strong>
       #end
-      ]]></source>
-    </p>
-      
+    ]]></source>
+
     <p>
-      If <variable>$foo</variable> is true, the Velocity Templating Engine has no 
-      need to look at <variable>$bar</variable>; whether <variable>$bar</variable> is true or false, the
-      expression will be true, and <strong>Velocity Rocks 
-      Again!</strong> will be output. If <variable>$foo</variable> is false, however,
-      <variable>$bar</variable> must be checked. In this case, if <variable>$bar</variable> is also false, 
+      If <em>$foo</em> is true, the Velocity Templating Engine has no
+      need to look at <em>$bar</em>; whether <em>$bar</em> is true or false, the
+      expression will be true, and <strong>Velocity Rocks
+      Again!</strong> will be output. If <em>$foo</em> is false, however,
+      <em>$bar</em> must be checked. In this case, if <em>$bar</em> is also false,
       the expression evaluates to false and there is no output.
-      On the other hand, if <variable>$bar</variable> is true, then the entire 
-      expression is true, and the output is <strong>Velocity Rocks 
+      On the other hand, if <em>$bar</em> is true, then the entire
+      expression is true, and the output is <strong>Velocity Rocks
       Again!</strong>
     </p>
-    
- </s1>
 
- <s1 title="Loops">
+ </section>
+
+ <section name="Loops">
     <strong>Foreach Loop</strong>
     <p>
-    The <vtldirective>#foreach</vtldirective> element allows for looping. For example:
+    The <em>#foreach</em> element allows for looping. For example:
     </p>
 
-    <p>
-    <source><![CDATA[
+  <source><![CDATA[
     <ul>
     #foreach( $product in $allProducts )
         <li>$product</li>
     #end
     </ul>
-    ]]></source>
+  ]]></source>
+
+    <p>
+    This <em>#foreach</em> loop causes the <em>$allProducts</em> list (the object) to be
+    looped over for all of the products (targets) in the list. Each time
+    through the loop, the value from <em>$allProducts</em> is placed into the
+    <em>$product</em> variable.
     </p>
 
     <p>
-    This <vtldirective>#foreach</vtldirective> loop causes the <variable>$allProducts</variable> list (the object) to be 
-    looped over for all of the products (targets) in the list. Each time 
-    through the loop, the value from <variable>$allProducts</variable> is placed into the 
-    <variable>$product</variable> variable.
-    </p>
-    
-    <p>
-    The contents of the <variable>$allProducts</variable> variable is a Vector, a Hashtable 
-    or an Array. The value assigned to the <variable>$product</variable> variable is a Java
-    Object and can be referenced from a variable as such. For example, if 
-    <variable>$product</variable> was really a Product class in Java, its name could be retrieved
-    by referencing the <variable>$product.Name</variable> method (ie: <variable>$Product.getName()</variable>).
+    The contents of the <em>$allProducts</em> variable is a Vector, a Hashtable
+    or an Array. The value assigned to the <em>$product</em> variable is a Java
+    Object and can be referenced from a variable as such. For example, if
+    <em>$product</em> was really a Product class in Java, its name could be retrieved
+    by referencing the <em>$product.Name</em> method (ie: <em>$Product.getName()</em>).
     </p>
 
 
- </s1>    
+ </section>
 
- <s1 title="Include">
+ <section name="Include">
     <p>
-    The <vtldirective>#include</vtldirective> script element allows the template designer to import a 
-    local file, which is then inserted into the location where the <vtldirective>#include</vtldirective> 
-    directive is defined. The contents of the file are not rendered through 
+    The <em>#include</em> script element allows the template designer to import a
+    local file, which is then inserted into the location where the <em>#include</em>
+    directive is defined. The contents of the file are not rendered through
     the template engine.
     For security reasons, the file to be included may only be under TEMPLATE_ROOT.
     </p>
-    
-    <p>
+
     <source><![CDATA[
     #include( "one.txt" )
     ]]></source>
-    </p>
 
     <p>
-    The file to which the <vtldirective>#include</vtldirective> directive refers is enclosed in quotes. If more than one file will be included, they should be separated by commas.
+    The file to which the <em>#include</em> directive refers is enclosed in quotes. If more than one file will be included, they should be separated by commas.
     </p>
 
-    <p>
     <source><![CDATA[
     #include( "one.gif","two.txt","three.htm" )
     ]]></source>
-    </p>
 
     <p>
     The file being included need not be referenced by name; in fact, it is often preferable to use a variable instead of a filename. This could be useful for targetting output according to criteria determined when the page request is submitted. Here is an example showing both a filename and a variable.
     </p>
 
-    <p>
     <source><![CDATA[
     #include( "greetings.txt", $seasonalstock )
     ]]></source>
-    </p>
 
- </s1>
+ </section>
 
- <s1 title="Parse">
+ <section name="Parse">
     <p>
-    The <vtldirective>#parse</vtldirective> script element allows the template designer to import a 
+    The <em>#parse</em> script element allows the template designer to import a
     local file that contains VTL. Velocity will parse the VTL and render the template specified.
     </p>
 
-    <p>
     <source><![CDATA[
     #parse( "me.vm" )
     ]]></source>
+
+    <p>
+    Like the <em>#include</em> directive, <em>#parse</em>
+    can take a variable rather than a template. Any templates to which <em>#parse</em>
+    refers must be included under TEMPLATE_ROOT. Unlike the <em>#include</em> directive,
+    <em>#parse</em> will only take a single argument.
     </p>
 
     <p>
-    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
-    can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
-    refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
-    <vtldirective>#parse</vtldirective> will only take a single argument. 
-    </p>
-
-    <p>
-    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn 
-    have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> 
-    line of the <filename>velocity.properties</filename> allows users to customize maximum number of 
-    <vtldirective>#parse</vtldirective> referrals that can occur from a single 
-    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
-    <filename>velocity.properties</filename> file, Velocity will set this default to 10.)  
+    VTL templates can have <em>#parse</em> statements referring to templates that in turn
+    have <em>#parse</em> statements. By default set to 10, the <em>parse_directive.maxdepth</em>
+    line of the <filename>velocity.properties</filename> allows users to customize maximum number of
+    <em>#parse</em> referrals that can occur from a single
+    template. (Note: If the <em>parse_directive.maxdepth</em> property is absent from the
+    <filename>velocity.properties</filename> file, Velocity will set this default to 10.)
     Recursion is permitted, for example, if the template <filename>dofoo.vm</filename> contains the following lines:
     </p>
 
-    <p>
     <source><![CDATA[
     Count down.
     #set( $count = 8 )
     #parse( "parsefoo.vm" )
     All done with dofoo.vm!
     ]]></source>
-    </p>    
-    
+
     <p>
     It would reference the template <filename>parsefoo.vm</filename>, which might contain the following VTL:
     </p>
 
-    <p>    
     <source><![CDATA[
     $count
     #set( $count = $count - 1 )
@@ -1127,128 +1039,114 @@
       All done with parsefoo.vm!
     #end
     ]]></source>
-    </p>    
 
     <p>
-    After "Count down." is displayed, Velocity passes through <filename>parsefoo.vm</filename>, counting down from 8. 
-    When the count reaches 0, it will display the "All done with parsefoo.vm!" message. At this point, Velocity will return to 
+    After "Count down." is displayed, Velocity passes through <filename>parsefoo.vm</filename>, counting down from 8.
+    When the count reaches 0, it will display the "All done with parsefoo.vm!" message. At this point, Velocity will return to
     <filename>dofoo.vm</filename> and output the "All done with dofoo.vm!" message.
     </p>
 
+ </section>
 
- </s1>
 
-
- <s1 title="Stop">
+ <section name="Stop">
     <p>
-    The <vtldirective>#stop</vtldirective> script element allows the template designer to stop the execution
+    The <em>#stop</em> script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
     </p>
-    
-    <p>
+
     <source><![CDATA[
     #stop
     ]]></source>
-    </p>    
- </s1>
+ </section>
 
- <s1 title="Velocimacros">
+ <section name="Velocimacros">
     <p>
-    The <vtldirective>#macro</vtldirective> script element allows template designers to define a 
+    The <em>#macro</em> script element allows template designers to define a
     repeated segment of a VTL template. Velocimacros are very useful in a wide
-    range of scenarios both simple and complex. This Velocimacro, created for the sole purpose of saving 
+    range of scenarios both simple and complex. This Velocimacro, created for the sole purpose of saving
     keystrokes and minimizing typographic errors, provides an introduction to the concept of Velocimacros.
     </p>
 
-    <p>
     <source><![CDATA[
     #macro( d )
     <tr><td></td></tr>
     #end
     ]]></source>
-    </p>
 
     <p>
-    The Velocimacro being defined in this example is <vtl>d</vtl>, and it can be called in a manner
+    The Velocimacro being defined in this example is <em>d</em>, and it can be called in a manner
     analogous to any other VTL directive:
     </p>
 
-    <p>
     <source><![CDATA[
     #d
     ]]></source>
-    </p>
 
     <p>
-    When this template is called, Velocity would replace <vtl>#d</vtl> with a row containing a single, 
-    empty data cell. 
+    When this template is called, Velocity would replace <em>#d</em> with a row containing a single,
+    empty data cell.
     </p>
 
     <p>
     A Velocimacro could take any number number of arguments -- even zero arguments, as demonstrated in
-    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of 
+    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of
     arguments with which it was defined.
-    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments, 
+    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments,
     a color and an array.
     </p>
 
-    <p>
-    <source><![CDATA[    
+    <source><![CDATA[
     #macro( tablerows $color $somelist )
     #foreach( $something in $somelist )
     <tr><td bgcolor=$color>$something</td></tr>
     #end
     #end
     ]]></source>
+
+    <p>
+    The Velocimacro being defined in this example, <em>tablerows</em>, takes two arguments.
+    The first argument takes the place of <em>$color</em>, and the second
+    argument takes the place of <em>$somelist</em>.
     </p>
 
     <p>
-    The Velocimacro being defined in this example, <vtl>tablerows</vtl>, takes two arguments. 
-    The first argument takes the place of <variable>$color</variable>, and the second 
-    argument takes the place of <variable>$somelist</variable>. 
+    Anything that can be put into a VTL template can go into the body of a Velocimacro. The <em>tablerows</em>
+    Velocimacro is a <em>foreach</em> statement. There are two <em>#end</em> statements in the definition of
+    the <em>#tablerows</em> Velocimacro; the first belongs to the
+    <em>#foreach</em>, the second ends the Velocimacro definition.
     </p>
 
-    <p>
-    Anything that can be put into a VTL template can go into the body of a Velocimacro. The <vtl>tablerows</vtl> 
-    Velocimacro is a <vtl>foreach</vtl> statement. There are two <vtl>#end</vtl> statements in the definition of 
-    the <vtl>#tablerows</vtl> Velocimacro; the first belongs to the 
-    <vtldirective>#foreach</vtldirective>, the second ends the Velocimacro definition. 
-    </p>
-
-    <p>
-    <source><![CDATA[    
+    <source><![CDATA[
     #set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
     #set( $color = "blue" )
     <table>
     #tablerows( $color $greatlakes )
     </table>
     ]]></source>
-    </p>
 
     <p>
-    Notice that <variable>$greatlakes</variable> takes the place of <variable>$somelist</variable>. 
-    When the <vtl>#tablerows</vtl> Velocimacro is called in this situation, the following output is generated: 
+    Notice that <em>$greatlakes</em> takes the place of <em>$somelist</em>.
+    When the <em>#tablerows</em> Velocimacro is called in this situation, the following output is generated:
     </p>
 
-    <p>
     <source><![CDATA[
-    <table>             
+    <table>
         <tr><td bgcolor=blue>Superior</td></tr>
         <tr><td bgcolor=blue>Michigan</td></tr>
         <tr><td bgcolor=blue>Huron</td></tr>
         <tr><td bgcolor=blue>Erie</td></tr>
         <tr><td bgcolor=blue>Ontario</td></tr>
-    </table>  
+    </table>
     ]]></source>
-    </p>
 
     <p>
-    Velocimacros can be defined <em>inline</em> in a Velocity template, meaning that it is 
+    Velocimacros can be defined <em>inline</em> in a Velocity template, meaning that it is
     unavailable to other Velocity templates on the same web site. Defining a Velocimacro
-    such that it can be shared by all templates has obvious advantages: it reduces the 
-    need to redefine the Velocimacro on numerous templates, saving work and reducing the 
-    chance of error, and ensures that a single change to a macro  
-    available to more than one template. 
+    such that it can be shared by all templates has obvious advantages: it reduces the
+    need to redefine the Velocimacro on numerous templates, saving work and reducing the
+    chance of error, and ensures that a single change to a macro
+    available to more than one template.
     </p>
 
     <p>
@@ -1262,11 +1160,11 @@
     This file, which must be found in the template path, contains useful macros that are
     shipped with the Velocity distribution.
     </p>
-    
+
     <p>
-    <code>velocimacro.library.local</code> - Adding this line to the <filename>velocity.properties</filename> 
+    <code>velocimacro.library.local</code> - Adding this line to the <filename>velocity.properties</filename>
     file allows the template designer to define a local Velocimacros
-    template library. Velocity users can use the local template library to define their 
+    template library. Velocity users can use the local template library to define their
     own Velocimacros and keep these in a file other than the global defaults.
     </p>
 
@@ -1288,49 +1186,44 @@
     </p>
 
     <p>
-    Were the <vtl>#tablerows</vtl> Velocimacro defined in the local Velocimacros template
+    Were the <em>#tablerows</em> Velocimacro defined in the local Velocimacros template
     library, this macro could be used on any of the regular templates. It could be used
     many times and for many different purposes. In the template <filename>mushroom.vm</filename>
-    devoted to all things fungi, the <vtl>#tablerows</vtl> Velocimacro could be invoked 
+    devoted to all things fungi, the <em>#tablerows</em> Velocimacro could be invoked
     to list the parts of a typical mushroom:
     </p>
 
-    <p>
-    <source><![CDATA[ 
+    <source><![CDATA[
     #set( $parts = ["volva","stipe","annulus","gills","pileus"] )
     #set( $cellbgcol = "#CC00FF" )
     <table>
-    #tablerows( $cellbgcol $parts ) 
+    #tablerows( $cellbgcol $parts )
     ]]></source>
-    </p>
-    
+
     <p>
     When fulfilling a request for <filename>mushroom.vm</filename>, Velocity would find the
-    <vtl>#tablerows</vtl> Velocimacro in the local template library (defined in the 
+    <em>#tablerows</em> Velocimacro in the local template library (defined in the
     <filename>velocity.properties</filename> file) and generate the following output:
     </p>
-    
-    <p>
+
     <source><![CDATA[
-    <table>             
+    <table>
         <tr><td bgcolor=#CC00FF>volva</td></tr>
         <tr><td bgcolor=#CC00FF>stipe</td></tr>
         <tr><td bgcolor=#CC00FF>annulus</td></tr>
         <tr><td bgcolor=#CC00FF>gills</td></tr>
         <tr><td bgcolor=#CC00FF>pileus</td></tr>
-    </table>  
+    </table>
     ]]></source>
-    </p>
- </s1>
+ </section>
 
- <s1 title="Escaping VTL Directives">
-   
+ <section name="Escaping VTL Directives">
+
   <p>
-    VTL directives can be escaped with the backslash character ("\") in a manner similar 
+    VTL directives can be escaped with the backslash character ("\") in a manner similar
     to valid VTL references.
   </p>
 
-  <p>
   <source><![CDATA[
   ## #include( "a.txt" ) renders as <contents of a.txt>
   #include( "a.txt" )
@@ -1341,90 +1234,79 @@
   ## \\#include ( "a.txt" ) renders as \<contents of a.txt>
   \\#include ( "a.txt" )
   ]]></source>
-  </p>
 
   <p>
-  Extra care should be taken when escaping VTL directives that contain multiple script 
-  elements in a single directive (such as in an if-else-end statements). 
-  Here is a typical VTL if-statement:  
+  Extra care should be taken when escaping VTL directives that contain multiple script
+  elements in a single directive (such as in an if-else-end statements).
+  Here is a typical VTL if-statement:
   </p>
 
-  <p>
   <source><![CDATA[
   #if( $jazz )
   Vyacheslav Ganelin
   #end
   ]]></source>
-  </p>
 
   <p>
-  If <variable>$jazz</variable> is true, the output is "Vyacheslav 
-  Ganelin"; if <variable>$jazz</variable> is false, there is no 
-  output. Escaping script elements alters the output. Consider the 
+  If <em>$jazz</em> is true, the output is "Vyacheslav
+  Ganelin"; if <em>$jazz</em> is false, there is no
+  output. Escaping script elements alters the output. Consider the
   following case:
   </p>
 
-  <p>
   <source><![CDATA[
-  \#if( $jazz ) 
+  \#if( $jazz )
   Vyacheslav Ganelin
   \#end
   ]]></source>
-  </p>
 
-  <p>  
-  Whether <variable>$jazz</variable> is true or false, the output will be 
+  <p>
+  Whether <em>$jazz</em> is true or false, the output will be
   "#if( $jazz ) Vyacheslav Ganelin #end"; in fact, because
-  all script elements are escaped the truth of 
-  <variable>$jazz</variable> is never checked. Suppose backslashes precede 
+  all script elements are escaped the truth of
+  <em>$jazz</em> is never checked. Suppose backslashes precede
   script elements that are legitimately escaped:
   </p>
 
-  <p>
   <source><![CDATA[
-  \\#if( $jazz ) 
+  \\#if( $jazz )
   Vyacheslav Ganelin
   \\#end
   ]]></source>
-  </p>
 
   <p>
-  In this case, if <variable>$jazz</variable> is true, the output is 
-  "\ Vyacheslav Ganelin \". If <variable>$jazz</variable> is false, 
-  there is no output. Note that things start to break if script elements 
+  In this case, if <em>$jazz</em> is true, the output is
+  "\ Vyacheslav Ganelin \". If <em>$jazz</em> is false,
+  there is no output. Note that things start to break if script elements
   are not properly escaped.
   </p>
 
-  <p>
   <source><![CDATA[
   \\\#if( $jazz )
   Vyacheslave Ganelin
   \\#end
   ]]></source>
-  </p>
 
   <p>
-  Here the <vtl>#if</vtl> is escaped, but there is an <vtl>#end</vtl>
+  Here the <em>#if</em> is escaped, but there is an <em>#end</em>
   remaining; having too many endings will cause a parsing error.
   </p>
 
- </s1>
+ </section>
 
- <s1 title="VTL: Formatting Issues">
+ <section name="VTL: Formatting Issues">
 
     <p>
     Although VTL in this user guide is often displayed with
     newlines and whitespaces, the VTL shown below
     </p>
 
-    <p>
     <source><![CDATA[
     #set( $imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"] )
     #foreach( $shogun in $imperial )
     $shogun
     #end
     ]]></source>
-    </p>
 
     <p>
     is equally valid as the following snippet that Geir Magnusson Jr.
@@ -1432,18 +1314,15 @@
     unrelated point:
     </p>
 
-    <p>
     <source><![CDATA[
     Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
     ]]></source>
-    </p>
 
     <p>
-    Velocity's behaviour is to gobble up excess whitespace. The preceding 
+    Velocity's behaviour is to gobble up excess whitespace. The preceding
     directive can be written as
     </p>
 
-    <p>
     <source><![CDATA[
     Send me
     #set( $foo = ["$10 and ","a cake"] )
@@ -1452,62 +1331,53 @@
     #end
     please.
     ]]></source>
-    </p>
 
     <p>
     or as
     </p>
 
-    <p>
     <source><![CDATA[
     Send me
     #set($foo       = ["$10 and ","a cake"])
                      #foreach           ($a in $foo )$a
             #end please.
     ]]></source>
-    </p>
 
     <p>
     In each case the output will be the same.
     </p>
 
- </s1>
+</section>
 
-</s1>
+<section name="Other Features">
 
-<s1 title="Other Features">
+  <subsection name="Math">
 
-  <s1 title="Math">
-  
   <p>
     Velocity has a handful of built-in mathematical functions that can be used
-    in templates with the <vtldirective>set</vtldirective> directive. The following
-    equations are examples of addition, subtraction, multiplication and division, 
+    in templates with the <em>set</em> directive. The following
+    equations are examples of addition, subtraction, multiplication and division,
     respectively:
   </p>
 
-  <p>    
     <source><![CDATA[
       #set( $foo = $bar + 3 )
       #set( $foo = $bar - 4 )
       #set( $foo = $bar * 6 )
       #set( $foo = $bar / 2 )
     ]]></source>
-  </p>
 
   <p>
     When a division operation is performed, the result will be an integer. Any remainder
-    can be obtained by using the remainder (<vtl>%</vtl>) operand.
+    can be obtained by using the remainder (<em>%</em>) operand.
   </p>
 
-  <p>
     <source><![CDATA[
       #set( $foo = $bar % 5 )
     ]]></source>
-  </p>
 
   <p>
-    Only integers (...-2, -1, 0, 1, 2...) are permissible when performing 
+    Only integers (...-2, -1, 0, 1, 2...) are permissible when performing
     mathematical equations in Velocity; when a non-integer is used, it is
     logged and a null will be returned as the output.
   </p>
@@ -1516,56 +1386,49 @@
     Velocity has a built-in way of dealing with division by zero. In the following example
   </p>
 
-  <p>
     <source><![CDATA[
     #set( $foo = 5 )
     #set( $bar = $foo - 5 )
     #set( $uhoh = $foo / $bar )
     $uhoh
     ]]></source>
-  </p>  
 
   <p>
-    The reference <variable>$uhoh</variable> is assigned the value of five divided by zero.
+    The reference <em>$uhoh</em> is assigned the value of five divided by zero.
     When Velocity renders this template, the output will be:
   </p>
 
-  <p>
     <source><![CDATA[
     $uhoh
     ]]></source>
-  </p>  
-  
 
-  </s1>
 
-  <s1 title="Range Operator">
+  </subsection>
+
+  <subsection name="Range Operator">
 
   <p>
-    The range operator can be used in conjunction with <vtldirective>#set</vtldirective>
-    and <vtldirective>#foreach</vtldirective> statements. Useful for its ability to 
-    produce an object array containing integers, the range operator has the following 
-    construction: 
+    The range operator can be used in conjunction with <em>#set</em>
+    and <em>#foreach</em> statements. Useful for its ability to
+    produce an object array containing integers, the range operator has the following
+    construction:
   </p>
 
-  <p>
     <source><![CDATA[
     [n..m]
     ]]></source>
-  </p>
 
   <p>
-    Both <vtl>n</vtl> and <vtl>m</vtl> must either be or produce integers. Whether 
-    <vtl>m</vtl> is greater than or less than <vtl>n</vtl> will not matter; in this
+    Both <em>n</em> and <em>m</em> must either be or produce integers. Whether
+    <em>m</em> is greater than or less than <em>n</em> will not matter; in this
     case the range will simply count down. Examples showing the use of the range
     operator as provided below:
   </p>
 
-  <p>
-    <source><![CDATA[
+  <source><![CDATA[
     First example:
-    #foreach( $foo in [1..5] ) 
-    $foo 
+    #foreach( $foo in [1..5] )
+    $foo
     #end
 
     Second example:
@@ -1581,15 +1444,13 @@
 
     Fourth example:
     [1..3]
-    ]]></source>    
-  </p>
+  ]]></source>
 
   <p>
     Produces the following output:
   </p>
-  
-  <p>
-    <source><![CDATA[
+
+  <source><![CDATA[
     First example:
     1 2 3 4 5
 
@@ -1597,17 +1458,16 @@
     2 1 0 -1 -2
 
     Third example:
-    0 1    
+    0 1
 
     Fourth example:
     [1..3]
-    ]]></source>    
-  </p>
+  ]]></source>
 
   <p>
     Note that the range operator only produces the array when used in
-    conjunction with <vtldirective>#set</vtldirective>
-    and <vtldirective>#foreach</vtldirective> directives, as demonstrated
+    conjunction with <em>#set</em>
+    and <em>#foreach</em> directives, as demonstrated
     in the fourth example.
   </p>
 
@@ -1617,19 +1477,18 @@
     operator particularly useful.
   </p>
 
-  </s1>
+  </subsection>
 
-  <s1 title="Advanced Isseus: Escaping and !">
+  <subsection name="Advanced Isseus: Escaping and !">
 
   <p>
-    When a reference is silenced with the <vtl>!</vtl> character and
-    the <vtl>!</vtl> character preceded by an escape characters ("\"),
-    the reference is handled in a special way. Note the differences 
+    When a reference is silenced with the <em>!</em> character and
+    the <em>!</em> character preceded by an escape characters ("\"),
+    the reference is handled in a special way. Note the differences
     between regular escaping (where the escape character precedes the
-    <vtl>$</vtl> character, and this case, where is follows it:
+    <em>$</em> character, and this case, where is follows it:
   </p>
 
-  <p>
   <source><![CDATA[
     #set( $foo = "bar" )
 
@@ -1639,17 +1498,16 @@
     $\\!foo # This renders as: $\!foo
     $\\\!foo # This renders as: $\\!foo
 
-    # Contrast this with regular escaping, where "\" precedes "$":    
+    # Contrast this with regular escaping, where "\" precedes "$":
     \$foo # This renders as: \#$foo
     \$!foo # This renders as: \$!foo
     \$!{foo} # This renders as: \$!{foo}
-    \\$!{foo} # This renders as: \bar 
+    \\$!{foo} # This renders as: \bar
   ]]></source>
-  </p>
 
-  </s1>
+  </subsection>
 
-</s1>
+</section>
 
 </body>
 </document>

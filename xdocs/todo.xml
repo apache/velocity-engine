@@ -2,30 +2,27 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Velocity Todo</title>
-  <subtitle>Velocity Todo</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-  </authors>
- </header>
+  <author email="jvanzyl@locus.apache.org">Velocity Documentation Team</author>
+ </properties>
 
 <body>
 
-<s1 title="Todo">
+<section name="Todo">
 
 <p>
 This is an informal document describing what needs to
-be done in the Velocity code base and the 
-Velocity documentation. If you need more detailed help, or have specific 
-questions, please send mail to the mailing list 
-(<link href="mailto:velocity-dev@jakarta.apache.org">velocity-dev@jakarta.apache.org</link>). 
+be done in the Velocity code base and the
+Velocity documentation. If you need more detailed help, or have specific
+questions, please send mail to the mailing list
+(<a href="mailto:velocity-dev@jakarta.apache.org">velocity-dev@jakarta.apache.org</a>).
 The Todo list that follows is roughly in order of importance.
 </p>
 
-</s1>
+</section>
 
-<s1 title="The List">
+<section name="The List">
 
     <p>
     <strong>Runtime API</strong>
@@ -66,29 +63,29 @@ The Todo list that follows is roughly in order of importance.
         be using the Velocity Template Language (VTL) to
         create templates. The users guide would give
         example usage and a definitive description
-        of the VTL syntax. <link href="mailto:jvanzyl@periapt.com">Jason van Zyl</link>
+        of the VTL syntax. <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
         has started work on this with John Castura, but any and all
         suggestions are welcome.
     </p>
-    
+
     <p>
     <strong>Developer Guide</strong>
     <br/>
         This would be a guide for developers who would use
         Velocity as a standalone servlet tool, or in conjuction
         with a servlet controller framework like Turbine.
-        <link href="mailto:jvanzyl@periapt.com">Jason van Zyl</link> is
+        <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a> is
         currently working on this guide, but any and all suggestions
         are welcome.
     </p>
-    
+
     <p>
     <strong>Caching</strong>
     <br/>
         It would be good to have a discussion about how objects
         in the context should be cached, how the caching
         should be specified, and who should control the
-        caching: the designer, by specifying something in the template; 
+        caching: the designer, by specifying something in the template;
         the developer,
         by placing expiry times on objects placed in the context;
         or a third party, such as a content manager. For example,
@@ -99,7 +96,7 @@ The Todo list that follows is roughly in order of importance.
         for a week. Do they tell the designer, who in turn changes
         the template, or could we provide a mechanism that would
         allow a content manager to change the default expiry time
-        for that particular context object with the aid of a webapp 
+        for that particular context object with the aid of a webapp
         of some sort? The groundwork has be laid for a flexible
         caching system in Velocity, but this discussion would be
         one of usage and policy.
@@ -109,7 +106,7 @@ The Todo list that follows is roughly in order of importance.
     <strong>UML Overview</strong>
     <br/>
         It would great to include a set of comprehensive
-        UML diagrams that describe Velocity. This would 
+        UML diagrams that describe Velocity. This would
         allow new developers to get up to speed quickly.
     </p>
 
@@ -132,7 +129,7 @@ The Todo list that follows is roughly in order of importance.
         What would this entail? And how could we implement an
         efficient encoding caching mechanism.
     </p>
-    
+
     <p>
     <strong>Plugins</strong>
     <br/>
@@ -145,7 +142,7 @@ The Todo list that follows is roughly in order of importance.
         in a JAR file so that there are no dependencies in the
         Velocity build for a specific utility.
     </p>
-    
+
     <p>
     <strong>Context Tools</strong>
     <br/>
@@ -153,7 +150,7 @@ The Todo list that follows is roughly in order of importance.
         are several utilties that have been created in Turbine that
         might be good to move over to the Velocity code base.
     </p>
-    
+
     <p>
     <strong>Syntax Dumper</strong>
     <br/>
@@ -165,7 +162,7 @@ The Todo list that follows is roughly in order of importance.
         for particular AST node types so that the structure produced
         is a little clearer.
     </p>
-    
+
     <p>
     <strong>Syntax Checker</strong>
     <br/>
@@ -174,7 +171,7 @@ The Todo list that follows is roughly in order of importance.
         designer in some intelligible format. This tool could be
         hooked into various designer tools like DreamWeaver.
     </p>
-    
+
     <p>
     <strong>Compiler</strong>
     <br/>
@@ -196,17 +193,17 @@ The Todo list that follows is roughly in order of importance.
     <br/>
         This is something that has been discussed on the Turbine
         list. Allowing Context building classes to be written
-        in JPython, Rhino or other scripting languages would 
-        dramatically improve development time and might allow technically 
-        proficient web designers who are familiar JavaScript to create 
+        in JPython, Rhino or other scripting languages would
+        dramatically improve development time and might allow technically
+        proficient web designers who are familiar JavaScript to create
         an entire servlet solution with Velocity. As most of these
         scripting solutions provide a compiler, performance would still
         remain at an acceptable level.
     </p>
 
-    
 
-</s1>
+
+</section>
 
 </body>
 </document>

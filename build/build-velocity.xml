@@ -20,21 +20,18 @@
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
-  <property name="year" value="2000"/>
+  <property name="year" value="2001"/>
   <property name="ant.home" value="."/>
   <property name="debug" value="on"/>
   <property name="optimize" value="on"/>
   <property name="deprecation" value="on"/>
+
+  <property name="docs.dest" value="../docs"/>
+  <property name="docs.src" value="../xdocs"/>
+    
   <property name="log.jar" value="lib/log.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="servlet.jar" value="lib/servlet.jar"/>
-    
-  <property name="velocity.docs" value="../docs"/>
-  <property name="velocity.xdocs" value="../xdocs"/>
-  <property name="velocity.skin" value="../xdocs/skin"/>
-  <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
-    
-  <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
   <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
   <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
   <property name="junit.jar" value="lib/junit-3.2.jar"/>
@@ -43,7 +40,7 @@
   <property name="demo.base" value="../examples/forumdemo"/>
   <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
   <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
-            
+
   <!-- PDF generation using FOP -->
   <property name="xdocs.dir" value="../xdocs"/>
   <property name="allfiles.xml" value="velocity-doc.xml"/>
@@ -129,6 +126,9 @@
        <classpath refid = "classpath"/> 
      </available>
 
+     <available classname="org.apache.velocity.anakia.AnakiaTask" 
+       property="AnakiaTask.present">
+     </available>
   </target>
 
   <target name="J2EE-error" depends="prepare"  unless="J2EE.present">
@@ -187,7 +187,6 @@
   <!-- copies post-compile target files to the right place.  (This target     -->
   <!-- created to prevent compile and compile-j2ee from repeating code...     -->
   <!-- ====================================================================== -->
-
   <target name="compile-copy">
 
     <copy todir="${build.dest}/org/apache/velocity">
@@ -452,15 +451,46 @@
   <!-- =================================================================== -->
   <!-- Make HTML version of Velocity documentation                         -->
   <!-- =================================================================== -->
-  <target name="docs" depends="prepare">
+  <target name="docs-prepare-error" depends="prepare" unless="AnakiaTask.present">
+      <echo>
+          The Jakarta-Site2 module is not present! Please check
+          to make sure that you have checked it out from CVS.
+          &lt;http://jakarta.apache.org/site/jakarta-site2.html&gt;
+      </echo>
+  </target>
 
-    <java fork="yes" classname="${doc.generator}">
-      <arg value="targetDirectory=${velocity.docs}"/>
-      <arg value="${velocity.xdocs}/site-book.xml"/>
-      <arg value="${velocity.skin}"/>
-      <classpath refid="classpath"/>
-    </java>
+  <target name="docs"
+          depends="docs-prepare-error"
+          description="--> generates the HTML documentation"
+          if="AnakiaTask.present">
 
+      <taskdef name="anakia"
+          classname="org.apache.velocity.anakia.AnakiaTask">
+      </taskdef>
+
+      <anakia basedir="${docs.src}" destdir="${docs.dest}/"
+           extension=".html" style="./site.vsl"
+           projectFile="stylesheets/project.xml"
+           excludes="**/stylesheets/** empty.xml"
+           includes="**/*.xml"
+           lastModifiedCheck="true"
+           velocityPropertiesFile="${docs.src}/velocity.properties">
+      </anakia>
+
+      <copy todir="${docs.dest}/images" filtering="no">
+          <fileset dir="${docs.src}/images">
+              <include name="**/*.gif"/>
+              <include name="**/*.jpeg"/>
+              <include name="**/*.jpg"/>
+          </fileset>
+      </copy>
+      <!-- In case we have CSS someday
+      <copy todir="${docs.dest}" filtering="no">
+          <fileset dir="${docs.src}">
+              <include name="**/*.css"/>
+          </fileset>
+      </copy>
+      -->
   </target>
 
   <!-- =================================================================== -->

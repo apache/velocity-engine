@@ -2,18 +2,15 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Differences: Velocity vs. WebMacro</title>
-  <subtitle>Differences: Velocity vs. WebMacro</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="geirm@optonline.net"/>
-   <person name="Velocity Documentation Team" email="jon@latchkey.com"/>
-  </authors>
- </header>
+  <author email="jon@latchkey.com">Velocity Documentation Team</author>
+  <author email="geirm@optonline.net">Velocity Documentation Team</author>
+ </properties>
 
  <body>
 
- <s1 title="Differences: Velocity vs. WebMacro">
+ <section name="Differences: Velocity vs. WebMacro">
 
  <p>
 On the mailing lists, we often get asked to explain the differences
@@ -39,7 +36,7 @@ wheel.
  <p>
 2) Since so many people were using the syntax, why invent another one?
 Also, it makes the WebMacro to Velocity conversion much easier :) We
-even have a <link href="migration.html">tool</link> to help with that.
+even have a <a href="migration.html">tool</a> to help with that.
  </p>
 
  <p>
@@ -66,14 +63,16 @@ use () around all #directives on the right hand side. Examples:
 
 #if ($bar.length() > 0)
 stuff here
-#end]]></source>
+#end
+
+]]></source>
 
  <p>
 Architecturally, the biggest difference until recently was the parser.
 The Velocity parser is written using a tool called javacc, a very
 popular Java-based parser generator.  It was originally developed for
 Sun by Metamata and is now maintained and managed by Metamata as well :
-<link href="http://www.metamata.com/">www.metamata.com</link>.
+<a href="http://www.metamata.com/">www.metamata.com</a>.
  </p>
 
  <p>
@@ -89,14 +88,14 @@ nothing more than a template engine. The idea is to do one thing only
 and do it well.  Much in the spirit of the Unix philosophy - have a good
 set of simple tools, and create bigger things using them. This has
 enabled Velocity to be used as the basis for several different tools,
-such as <link href="anakia.html">Anakia</link> and <link
-href="texen.html">Texen</link>.
+such as <a href="anakia.html">Anakia</a> and <a
+href="texen.html">Texen</a>.
 </p>
 
  <p>
 Velocity is recognized that it isn't going to try to be a 'development
-framework' - there are plenty around, such as <link
-href="http://jakarta.apache.org/turbine/">Turbine</link>.
+framework' - there are plenty around, such as <a
+href="http://jakarta.apache.org/turbine/">Turbine</a>.
  </p>
 
  <p>
@@ -126,8 +125,8 @@ easily.
 </p>
 
  <p>
-The biggest feature difference between the two are the '<link
-href="user-guide.html">Velocimacros</link>'. Velocimacros can be thought of
+The biggest feature difference between the two are the '<a
+href="user-guide.html">Velocimacros</a>'. Velocimacros can be thought of
 as snippets of re-usable data that can contain anything. They are parsed
 just like the data in a #parse() statement would be and you can pass in
 variables that can optionally have scope only within the Velocimacro.
@@ -143,9 +142,9 @@ downloads for that "extra" funtionality that can be shared.
  <p>
 We hope this helps.  The best way to understand Velocity is to use it,
 and of course nothing beats looking at the source code.
- </p> 
+ </p>
 
- </s1>
+ </section>
 
  </body>
  </document>
