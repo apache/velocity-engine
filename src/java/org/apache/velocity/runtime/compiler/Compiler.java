@@ -54,14 +54,14 @@ package org.apache.velocity.runtime.compiler;
  * <http://www.apache.org/>.
  */
 
-import de.fub.bytecode.generic.*;
-import de.fub.bytecode.Constants;
+import org.apache.bcel.generic.*;
+import org.apache.bcel.Constants;
 
 /**
  * The start of a velocity template compiler. Incomplete.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Compiler.java,v 1.5 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: Compiler.java,v 1.6 2002/02/03 20:07:08 jon Exp $
  */
 public class Compiler implements InstructionConstants
 {
