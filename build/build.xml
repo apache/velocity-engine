@@ -424,8 +424,8 @@
     </copy>
 
     <copy 
-      file="../LICENSE" 
-      tofile="${dist.dir}/LICENSE"
+      file="../LICENSE.txt" 
+      tofile="${dist.dir}/LICENSE.txt"
     />
 
     <copy 
