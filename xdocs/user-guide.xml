@@ -1998,9 +1998,9 @@ $\\!foo
   </p>
 
 <source><![CDATA[
-\$foo
-\$!foo
-\$!{foo}
+$foo
+$!foo
+$!{foo}
 \bar
 ]]></source>
 
