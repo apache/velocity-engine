@@ -59,6 +59,7 @@
                                    test-cpload,
                                    test-contextsafety,
                                    test-configuration,
+                                   test-commonsextprop,
                                    test-externallogger,
                                    test-methodinvocationexception,   
                                    test-multiloader,
@@ -197,6 +198,15 @@
   <target name="test-configuration">
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.ConfigurationTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+ <target name="test-commonsextprop">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+      <arg value="org.apache.velocity.test.CommonsExtPropTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
