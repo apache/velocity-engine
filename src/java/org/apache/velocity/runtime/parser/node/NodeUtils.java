@@ -57,7 +57,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.3 2000/11/05 03:18:24 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.4 2000/11/07 21:31:05 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -86,4 +86,6 @@ public class NodeUtils
 
         return specialText;
     }
+
 }
+

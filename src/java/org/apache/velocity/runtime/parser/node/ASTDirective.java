@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.5 2000/11/05 23:19:51 jvanzyl Exp $ 
+ * @version $Id: ASTDirective.java,v 1.6 2000/11/07 21:30:52 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -82,6 +82,7 @@ public class ASTDirective extends SimpleNode
     private String directiveName;
     private boolean isDirective;
     private boolean bIsEscaped_ = false;
+    private String strPrefix_ = "";
 
     public ASTDirective(int id)
     {
@@ -107,18 +108,37 @@ public class ASTDirective extends SimpleNode
          */
 
         bIsEscaped_ = false;
+        isDirective = false;
+
+        directiveName = getFirstToken().image.substring(1);
 
         if ( getFirstToken().image.startsWith("\\") )
         {
-            bIsEscaped_ = true;
-            return data;
-        }
+            /* 
+             *  count the escapes : even # -> not escaped, odd -> escaped
+             */
+
+            int i = 0;
+            int iLen = getFirstToken().image.length();
+
+            while( i < iLen && getFirstToken().image.charAt(i) == '\\' )
+                i++;
+
+            if ( (i % 2) != 0 )                
+                bIsEscaped_ = true;
+
+            if (i > 0)
+                strPrefix_ = getFirstToken().image.substring(0, i / 2 );
+
+            directiveName = getFirstToken().image.substring(i+1);
+ 
+           if (bIsEscaped_)
+                return data;
+         }
 
         /*
-         *  otherwise, normal processing 
+         *   normal processing 
          */
-
-        directiveName = getFirstToken().image.substring(1);
         
         if (parser.isDirective(directiveName))
         {
@@ -152,10 +172,16 @@ public class ASTDirective extends SimpleNode
              *  write it is \#foo
              */
 
-            if ( parser.isDirective( getFirstToken().image.substring(2) ) )
-                writer.write( getFirstToken().image.substring(1));
+            if ( parser.isDirective( directiveName ) )
+                writer.write( strPrefix_ + "#" + directiveName );
             else
-                writer.write( getFirstToken().image );       
+            { 
+                /*
+                 *  do two strPrefix_, because if this is not a directive, it's schmoo, and therefore
+                 *  the \ have no magic binding properties
+                 */
+                writer.write( strPrefix_ + strPrefix_ + "\\#" + directiveName );       
+            }
 
             return true;
         }
@@ -165,10 +191,19 @@ public class ASTDirective extends SimpleNode
          */
 
         if (isDirective)
+        {
+            if (strPrefix_.length() > 0)
+                writer.write( strPrefix_ );
             directive.render(context, writer, this);
+
+        }
         else
         {
-            writer.write( "#" + directiveName);
+            /*
+             *  do two strPrefix_, because if this is not a directive, it's schmoo, and therefore
+             *  the \ have no magic binding properties
+             */
+            writer.write( strPrefix_ + strPrefix_ +  "#" + directiveName);
         }
 
         return true;

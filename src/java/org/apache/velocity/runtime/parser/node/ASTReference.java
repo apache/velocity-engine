@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.8 2000/11/03 03:27:05 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.9 2000/11/07 21:31:01 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -92,7 +92,8 @@ public class ASTReference extends SimpleNode
     private Object value;
     private String rootString;
     private boolean bIsEscaped_ = false;
-    
+    private String  strPrefix_ = "";
+
     public ASTReference(int id)
     {
         super(id);
@@ -156,15 +157,14 @@ public class ASTReference extends SimpleNode
          *  1) if this is a reference in the context, then we want to print $foo
          *  2) if not, then \$foo  (its considered shmoo, not VTL)
          *
-         *  I am not wild about this specialText() stuff...
          */
 
         if (bIsEscaped_)
         {
             if ( value == null )
-                writer.write( NodeUtils.specialText(getFirstToken()) + "\\" + nullString );
+                writer.write( NodeUtils.specialText(getFirstToken()) + strPrefix_ + "\\" +  nullString );
             else
-                writer.write( NodeUtils.specialText(getFirstToken()) + nullString );
+                writer.write( NodeUtils.specialText(getFirstToken()) + strPrefix_ + nullString );
         
             return true;
         }
@@ -175,18 +175,18 @@ public class ASTReference extends SimpleNode
 
         if (value == null)
         {
-            writer.write(NodeUtils
-                .specialText(getFirstToken()) + 
-                    nullString);
+            /* 
+             *  write prefix twice, because it's shmoo, so the \ don't escape each other...
+             */
+
+            writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + strPrefix_ + nullString);
             
             if (referenceType != QUIET_REFERENCE)
                 Runtime.error(new ReferenceException("reference", this));
         }                    
         else
         {
-            writer.write(NodeUtils
-                .specialText(getFirstToken()) +
-                    value.toString());
+            writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + value.toString());
         }                    
     
         return true;
@@ -279,7 +279,7 @@ public class ASTReference extends SimpleNode
          
         /*
          *  we need to see if this reference is escaped.  if so
-         *  we will clean off the leading \ and let the 
+         *  we will clean off the leading \'s and let the 
          *  regular behavior determine if we should output this
          *  as \$foo or $foo later on in render(). Lazyness..
          */
@@ -288,9 +288,25 @@ public class ASTReference extends SimpleNode
 
         if ( t.image.startsWith("\\"))
         {
-            bIsEscaped_ = true;
+            /* 
+             *  count the escapes : even # -> not escaped, odd -> escaped
+             */
 
-            t.image = t.image.substring(1);
+            int i = 0;
+            int iLen = t.image.length();
+
+            while( i < iLen && t.image.charAt(i) == '\\' )
+                i++;
+
+            if ( (i % 2) != 0 )                
+                bIsEscaped_ = true;
+
+            if (i > 0)
+                strPrefix_ = t.image.substring(0, i / 2 );
+
+            //System.out.println( t.image + " " + i + " " + strPrefix_ );
+
+            t.image = t.image.substring(i);
         }
  
         /*
