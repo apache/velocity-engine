@@ -153,28 +153,10 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.43 2000/11/16 02:15:29 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.44 2000/11/16 16:26:35 jvanzyl Exp $
  */
-public class Runtime
+public class Runtime implements RuntimeConstants
 {
-    /** Location of the log file */
-    public static final String RUNTIME_LOG = "runtime.log";
-    
-    /** The encoding to use for the template */
-    public static final String TEMPLATE_ENCODING = "template.encoding";
-    
-    /** Initial counter value in #foreach directives */
-    public static final String COUNTER_NAME = "counter.name";
-
-    /** Initial counter value in #foreach directives */
-    public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
-
-    /** Content type */
-    public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
-
-    /** External service initialization of the Velocity Runtime */
-    public static final String EXTERNAL_INIT = "external.init";
-
     /** Prefix for warning messages */
     private final static String WARN  = "  [warn] ";
     
@@ -187,9 +169,6 @@ public class Runtime
     /** Prefix for error messages */
     private final static String ERROR = " [error] ";
 
-    /** TemplateLoader used by the Runtime */
-    private static TemplateLoader templateLoader;
-    
     /** Turn Runtime debugging on with this field */
     private final static boolean DEBUG_ON = true;
 
@@ -199,6 +178,11 @@ public class Runtime
 
     /** Include paths property used by Runtime for #included content */
     private final static String INCLUDE_PATHS = "include.path";
+
+    /**
+      * Number of parsers to create
+      */
+    private static final int NUMBER_OF_PARSERS = 20;
     
     /** A list of paths that we can pull static content from. */
     private static String[] includePaths;
@@ -206,6 +190,9 @@ public class Runtime
     /** The Runtime logger */
     private static Logger logger;
 
+    /** TemplateLoader used by the Runtime */
+    private static TemplateLoader templateLoader;
+    
     /** The caching system used by the Velocity Runtime */
     //private static GlobalCache globalCache;
     private static Hashtable globalCache;
@@ -221,11 +208,6 @@ public class Runtime
       * a pool of parsers!
       */
     private static SimplePool parserPool;
-    
-    /**
-      * Number of parsers to create
-      */
-    private static final int NUMBER_OF_PARSERS = 20;
     
     /** Indicate whether the Runtime has been fully initialized */
     private static boolean initialized;
