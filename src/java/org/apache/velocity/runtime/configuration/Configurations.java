@@ -82,7 +82,7 @@ import java.io.*;
  * configuration syntax.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @version $Id: Configurations.java,v 1.2 2001/03/03 20:33:21 jvanzyl Exp $
+ * @version $Id: Configurations.java,v 1.3 2001/03/04 00:39:24 jvanzyl Exp $
  */
 public class Configurations
 {
@@ -145,7 +145,8 @@ public class Configurations
      *
      * @return A Hashtable.
      */
-    public Hashtable getRepository()
+    //public Hashtable getRepository()
+    public ConfigurationsRepository getRepository()
     {
         return this.repository;
     }
@@ -183,7 +184,14 @@ public class Configurations
         }
         return matchingKeys.elements();
     }
-
+    
+    /**
+     * Create a Configurations object that is a subset
+     * of this one. Take into account duplicate keys
+     * by using the setProperty() in ConfigurationsRepository.
+     *
+     * @param String prefix
+     */
     public Configurations subset(String prefix)
     {
         Configurations c = new Configurations(new ExtendedProperties());
@@ -203,7 +211,7 @@ public class Configurations
                 }
                 
                 String newKey = ((String)key).substring(prefix.length() + 1);
-                c.getRepository().put(newKey, repository.get(key));
+                c.getRepository().setProperty(newKey, (String)repository.get(key));
             }
         }
         

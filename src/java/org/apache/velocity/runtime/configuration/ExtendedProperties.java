@@ -136,7 +136,7 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: ExtendedProperties.java,v 1.2 2001/01/06 20:57:03 geirm Exp $
+ * @version $Id: ExtendedProperties.java,v 1.3 2001/03/04 00:39:25 jvanzyl Exp $
  */
 public class ExtendedProperties
     extends ConfigurationsRepository
@@ -347,6 +347,8 @@ public class ExtendedProperties
                     while (tokenizer.hasMoreTokens())
                     {
                         String token = tokenizer.nextToken();
+                        setProperty(key,token);
+                        /*
                         Object o = this.get(key);
                         if (o instanceof String)
                         {
@@ -363,6 +365,7 @@ public class ExtendedProperties
                         {
                             this.put(key, token);
                         }
+                        */
                     }
                 }
             }

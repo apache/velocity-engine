@@ -64,7 +64,7 @@ import java.util.*;
  * Based upon TurbineResources
  * 
  * @author Dave Bryson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class Configuration
 {
@@ -167,7 +167,7 @@ public class Configuration
      */
     public void setProperty( String name, String value )
     {
-        conf.getRepository().put( name, value );
+        conf.getRepository().setProperty( name, value );
     }
 
     /**
