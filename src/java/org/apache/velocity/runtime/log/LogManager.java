@@ -54,34 +54,57 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 
-
 /**
- * LogManager.java
+ * <p>
  * This class is responsible for instantiating the correct LoggingSystem
- * Right now, it is hard coded with a single Logging System. Eventually
- * we will have more LoggingSystems.
+ * </p>
+ *
+ * <p>
+ * The approach is :
+ * </p>
+ * <ul>
+ * <li> 
+ *      First try to see if the user is passing in a living object
+ *      that is a LogSystem, allowing the app to give is living
+ *      custom loggers.
+ *  </li>
+ *  <li> 
+ *       Next, run through the (possible) list of classes specified
+ *       specified as loggers, taking the first one that appears to 
+ *       work.  This is how we support finding either log4j or
+ *       logkit, whichever is in the classpath, as both are 
+ *       listed as defaults.
+ *  </li>
+ *  <li>
+ *      Finally, we turn to 'faith-based' logging, and hope that
+ *      logkit is in the classpath, and try for an AvalonLogSystem
+ *      as a final gasp.  After that, there is nothing we can do.
+ *  </li>
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.8 2001/10/22 03:53:24 jon Exp $
+ * @version $Id: LogManager.java,v 1.9 2001/11/17 12:32:34 geirm Exp $
  */
 public class LogManager
 {
     /**
-     *  Creates a new logging system.  Uses the property
-     *  RUNTIME_LOG_LOGSYSTEM_CLASS as the class to create.
-     *  Note that the class created has to do its own
-     *  initialization - there is no init() method called/
+     *  Creates a new logging system or returns an existing one
+     *  specified by the application.
      */
     public static LogSystem createLogSystem( RuntimeServices rsvc )
         throws Exception
     {
         /*
-         *  if a logSystem was set as a configuation value, use that
+         *  if a logSystem was set as a configuation value, use that. 
+         *  This is any class the user specifies.
          */
 
         Object o = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM );
@@ -94,36 +117,107 @@ public class LogManager
         }
   
         /*
-         *  otherwise, see if a class was specified
+         *  otherwise, see if a class was specified.  You
+         *  can put multiple classes, and we use the first one we find.
+         *
+         *  Note that the default value of this property contains both the
+         *  AvalonLogSystem and the SimpleLog4JLogSystem for convenience - 
+         *  so we use whichever we find.
          */
-        String claz = (String) rsvc.getProperty( 
-            RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
         
-        if (claz != null && claz.length() > 0 )
+        List classes = null;
+        Object obj = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
+
+        /*
+         *  we might have a list, or not - so check
+         */
+
+        if ( obj instanceof List)
         {
-            o = Class.forName( claz ).newInstance();
+            classes = (List) obj;
+        }
+        else if ( obj instanceof String)
+        { 
+            classes = new ArrayList();
+            classes.add( obj );
+        }
 
-            if (o instanceof LogSystem)
-            {
-                ((LogSystem) o).init( rsvc );
+        /*
+         *  now run through the list, trying each.  It's ok to 
+         *  fail with a class not found, as we do this to also
+         *  search out a default simple file logger
+         */
 
-                return (LogSystem) o;
-            }
-            else
+        for( Iterator ii = classes.iterator(); ii.hasNext(); )
+        {
+            String claz = (String) ii.next();
+
+            if (claz != null && claz.length() > 0 )
             {
-                rsvc.error("The specifid logger class " + claz + 
-                    " isn't a valid LogSystem\n");
+                rsvc.info("Trying to use logger class " + claz );
+          
+                try
+                {
+                    o = Class.forName( claz ).newInstance();
+
+                    if ( o instanceof LogSystem )
+                    {
+                        ((LogSystem) o).init( rsvc );
+
+                        rsvc.info("Using logger class " + claz );
+
+                        return (LogSystem) o;
+                    }
+                    else
+                    {
+                        rsvc.error("The specifid logger class " + claz + 
+                                   " isn't a valid LogSystem");
+                    }
+                }
+                catch( NoClassDefFoundError ncdfe )
+                {
+                    rsvc.info("Couldn't find class " + claz 
+                              +" or necessary supporting classes in classpath. Exception : " 
+                              + ncdfe );
+                }
             }
         }
       
         /*
-         *  if the above failed, then 
-         *  make an Avalon log system
+         *  if the above failed, then we are in deep doo-doo, as the 
+         *  above means that either the user specified a logging class
+         *  that we can't find, there weren't the necessary
+         *  dependencies in the classpath for it, or there were no
+         *  dependencies for the default loggers, log4j and logkit.
+         *  Since we really don't know, 
+         *  then take a wack at the AvalonLogSystem as a last resort.
          */
-        AvalonLogSystem als = new AvalonLogSystem();
 
-        als.init( rsvc );
+        LogSystem als = null;
 
+        try
+        {
+            als = new AvalonLogSystem();
+
+            als.init( rsvc );
+        }
+        catch( NoClassDefFoundError ncdfe )
+        {
+            String errstr = "PANIC : Velocity cannot find any of the"
+                + " specified or default logging systems in the classpath,"
+                + " or the classpath doesn't contain the necessary classes"
+                + " to support them."
+                + " Please consult the documentation regarding logging."
+                + " Exception : " + ncdfe;
+
+            System.out.println( errstr );
+            System.err.println( errstr );
+
+            throw ncdfe;
+        }
+
+        rsvc.info("Using AvalonLogSystem as logger of final resort.");
+        
         return als;
     }
 }
