@@ -98,6 +98,14 @@
 
 </p>
 
+<p>
+    We would also like to make special mention, and give credit for the
+    original idea Velocity is based on, as Velocity is
+    a new implementation of the model/view/controller architecture, 
+    concept, and syntax of the WebMacro Servlet Framework (www.webmacro.org) 
+    originally envisioned and implemented by Justin Wells at Semiotek Inc.
+</p>
+
 </s1>
 
 </body>
