@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.log;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -68,17 +68,54 @@ import org.apache.log.output.FileOutputLogTarget;
 
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.runtime.Runtime;
+
 /**
  * Implementation of a Avalon logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AvalonLogSystem.java,v 1.1 2001/03/12 07:19:51 jon Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: AvalonLogSystem.java,v 1.2 2001/03/19 05:16:47 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
     private Logger logger = null;
-    private boolean stackTrace = false;
+    private String logPath = "";
     
+    /**
+     *  default CTOR.  Initializes itself using the property RUNTIME_LOG
+     *  from the Velocity properties
+     */
+    public AvalonLogSystem()
+    {
+        /*
+         *  since this is a Velocity-provided logger, we will
+         *  use the Runtime configuration
+         */
+
+        String logfile = (String) Runtime.getProperty( Runtime.RUNTIME_LOG );
+
+        /*
+         *  now init.  If we can't, panic!
+         */
+        try
+        {
+            init( logfile );
+
+            logVelocityMessage( 0, "AvalonLogSystem initialized using logfile " + logPath );
+        }
+        catch( Exception e )
+        {
+            System.out.println("PANIC : error configuring AvalonLogSystem : " + e );
+        }
+                
+    }
+
+    /**
+     *  initializes the log system using the logfile argument
+     *
+     *  @param logFile   file for log messages
+     */
     public void init(String logFile)
         throws Exception
     {
@@ -95,7 +132,9 @@ public class AvalonLogSystem implements LogSystem
         FileOutputLogTarget target = new FileOutputLogTarget();
         File logFileLocation = new File (logFile);
         
-        target.setFilename(logFileLocation.getAbsolutePath());
+        logPath = logFileLocation.getAbsolutePath();
+
+        target.setFilename( logPath );
         target.setFormatter(new VelocityFormatter());
         target.setFormat("%{time} %{message}\\n%{throwable}" );
         
@@ -109,120 +148,32 @@ public class AvalonLogSystem implements LogSystem
         logger = LogKit.createLogger( category, logTargets );
     }
     
-    public void log (int type, Object message)
+    /**
+     *  logs error messages
+     *
+     *  @param level severity level
+     *  @param message complete error message
+     */
+    public void logVelocityMessage(int level, String message)
     {
-		switch (type)
-		{
-			case LogSystem.WARN_ID:
-						 warn(message);
-						 break;
-			case LogSystem.INFO_ID:
-						 info(message);
-						 break;
-			case LogSystem.DEBUG_ID:
-						 debug(message);
-						 break;
-			case LogSystem.ERROR_ID:
-						 error(message);
-						 break;
-			default:
-				info(message);
-				break;
+		switch (level) 
+        {
+        case LogSystem.WARN_ID:
+            logger.warn( message );
+            break;
+        case LogSystem.INFO_ID:
+            logger.info(message);
+            break;
+        case LogSystem.DEBUG_ID:
+            logger.debug(message);
+            break;
+        case LogSystem.ERROR_ID:
+            logger.error(message);
+            break;
+        default:
+            logger.info(message);
+            break;
 		}
     }
-    /**
-     * Handle logging.
-     *
-     * @param Object message to log
-     */
-    public void warn(Object message)
-    {
-        String out = null;
-        
-        if ( getStackTrace() &&
-            (message instanceof Throwable || message instanceof Exception) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        logger.warn(WARN + out);
-    }
 
-    /**
-     * Handle logging.
-     *
-     * @param Object message to log
-     */
-    public void info(Object message)
-    {
-        String out = null;
-        
-        if ( getStackTrace() &&
-            (message instanceof Throwable || message instanceof Exception) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        logger.info(INFO + out);
-    }
-
-    /**
-     * Handle logging.
-     *
-     * @param Object message to log
-     */
-    public void error(Object message)
-    {
-        String out = null;
-        
-        if ( getStackTrace() &&
-            ( message instanceof Throwable || message instanceof Exception ) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        logger.error(ERROR + out);
-    }
-
-    /**
-     * Handle logging.
-     *
-     * @param Object message to log
-     */
-    public void debug(Object message)
-    {
-        if (!DEBUG_ON) return;
-        
-        String out = null;
-        
-        if ( getStackTrace() &&
-            ( message instanceof Throwable || message instanceof Exception ) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        logger.debug(DEBUG + out);
-    }
-    
-    public boolean getStackTrace()
-    {
-        return stackTrace;
-    }
-    
-    public void setStackTrace(boolean value)
-    {
-        stackTrace = value;
-    }
 }
