@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+
+<!-- Testcases for Velocity -->
+<project name="main" default="test">
+
+  <property name="build.dest" value="${build.dir}/classes"/>
+  <property name="ant.home" value="."/>
+  <property name="junit.jar" value="lib/junit-3.2.jar"/>
+
+  <!-- JUnit Testbed properties -->
+  <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
+
+  <property 
+    name="template.test" 
+    value="org.apache.velocity.test.TemplateTestCase"
+  />
+
+  <property 
+    name="introspector.test"
+    value="org.apache.velocity.test.IntrospectorTestCase"
+  />
+
+  <property 
+    name="inlinevmscope.test"
+    value="org.apache.velocity.test.InlineScopeVMTestCase"
+  />
+
+  <property 
+    name="multi.file.resource.path.test"
+    value="org.apache.velocity.test.MultipleFileResourcePathTest"
+  />
+
+   <property 
+    name="cpload.resource.test"
+    value="org.apache.velocity.test.ClasspathResourceTest"
+  />
+   
+  <!-- =================================================================== -->
+  <!-- JUnit Test Cases                                                    -->
+  <!-- =================================================================== -->
+  <target name="test" depends="introspect">
+    <echo message="Running JUnit template tests for Velocity ..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="${template.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+   </target>
+    
+  <target name="introspect" depends="test-inlinevmscope"> 
+    <echo message="Running JUnit Introspector tests for Velocity ..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="${introspector.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="test-inlinevmscope" depends="test-multi">
+    <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="${inlinevmscope.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="test-multi" depends="test-cpload">
+    <echo message="Running JUnit MultipleFileResourcePathTest ..."/>
+
+      <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="${multi.file.resource.path.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+  </target>
+
+   <target name="test-cpload">
+    <echo message="Running JUnit ClasspatheResourceTest ..."/>
+      <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="${cpload.resource.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+        <pathelement location="../test/cpload/test1.jar"/>
+        <pathelement location="../test/cpload/test2.jar"/>
+      </classpath>
+    </java>
+  </target>
+  
+</project>
+
