@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.73 2003/10/23 16:15:52 geirm Exp $
+ * @version $Id: Parser.jj,v 1.74 2003/10/29 11:19:15 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -774,7 +774,7 @@ TOKEN :
 }
 
 <IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
-MORE :
+SKIP :
 {
   < ~[] >
 }
