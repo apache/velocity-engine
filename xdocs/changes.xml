@@ -15,8 +15,23 @@
 This document tracks the changes in Velocity between releases.
 </p>
 
-<subsection name="1.0b2">
+<subsection name="1.0b3">
 <ul>
+   <li>
+      Second beta period begun.
+   </li>
+</ul>
+
+</subsection>
+
+<subsection name="1.0b2">
+
+<p>
+   Released as version 1.0 beta 2 on March 26, 2001
+</p>
+
+<ul>
+    
     <li>
         Make the distribution have CRLF for all of the text files (JSS).
     </li>
