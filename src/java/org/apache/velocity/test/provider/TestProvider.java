@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.3 2000/11/01 19:35:22 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.4 2000/11/06 01:22:52 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -245,6 +245,18 @@ public class TestProvider
     {
         return person.getName();
     }        
+
+    /**
+     * Chop i characters off the end of a string.
+     *
+     * @param string String to chop.
+     * @param i Number of characters to chop.
+     * @return String with processed answer.
+     */
+    public static String chop(String string, int i)
+    {
+        return(string.substring(0, string.length() - i));
+    }
 
     /*
      * This can't have the signature
