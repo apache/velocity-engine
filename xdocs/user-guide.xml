@@ -811,7 +811,7 @@ ${data.Request.ServerName}
         <li>Property reference</li>
         <li>Method reference</li>
         <li>Number literal</li>
-        <li>Object array</li>
+        <li>ArrayList</li>
     </ul>
  </p>
 
@@ -820,13 +820,21 @@ ${data.Request.ServerName}
  </p>
 
 <source><![CDATA[
-#set( $monkey = $bill ) ##variable reference
-#set( $monkey.Friend = "monica" ) ##string literal
-#set( $monkey.Blame = $whitehouse.Leak ) ##property reference
-#set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+#set( $monkey = $bill ) ## variable reference
+#set( $monkey.Friend = "monica" ) ## string literal
+#set( $monkey.Blame = $whitehouse.Leak ) ## property reference
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## method reference
 #set( $monkey.Number = 123 ) ##number literal
-#set( $monkey.Say = ["Not", $my, "fault"] ) ##object array
+#set( $monkey.Say = ["Not", $my, "fault"] ) ## ArrayList
 ]]></source>
+
+ <p>
+   NOTE: In the last example the elements defined with the
+   [..] operator are accessible using the methods defined
+   in the ArrayList class. So, for example, you could access
+   the first element above using $monkey.Say.get(0).
+ </p>
+
 
  <p>
     The RHS can also be a simple arithmetic expression:
