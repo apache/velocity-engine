@@ -84,9 +84,12 @@ public class Foreach extends Directive
 
     private final static int ARRAY = 1;
     private final static int ITERATOR = 2;
-    private final static String COUNTER_IDENTIFIER = "velocityCount";
-    private final static int INITIAL_COUNTER_VALUE = 
-        new Integer(Runtime.getString(Runtime.INITIAL_COUNTER_VALUE)).intValue();
+    
+    private final static String COUNTER_IDENTIFIER =
+        Runtime.getString(Runtime.COUNTER_NAME);
+    
+    private final static int COUNTER_INITIAL_VALUE =
+        new Integer(Runtime.getString(Runtime.COUNTER_INITIAL_VALUE)).intValue();
 
     private String elementKey;
     private Object listObject;
@@ -147,7 +150,7 @@ public class Foreach extends Directive
                 for (int i = 0; i < length; i++)
                 {
                     context.put(COUNTER_IDENTIFIER, 
-                        new Integer(i + INITIAL_COUNTER_VALUE));
+                        new Integer(i + COUNTER_INITIAL_VALUE));
                     context.put(elementKey,((Object[])listObject)[i]);
                     node.jjtGetChild(3).render(context, writer);
                 }
@@ -161,7 +164,7 @@ public class Foreach extends Directive
                 // be faster then using an Iterator.
                 Iterator i = ((Collection) listObject).iterator();
                 
-                iterator = INITIAL_COUNTER_VALUE;
+                iterator = COUNTER_INITIAL_VALUE;
                 while (i.hasNext())
                 {
                     context.put(COUNTER_IDENTIFIER, new Integer(iterator));
