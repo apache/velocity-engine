@@ -53,7 +53,7 @@
  */
 
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
@@ -69,7 +69,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.2 2001/02/26 04:09:19 geirm Exp $
+ * @version $Id: Example.java,v 1.3 2001/03/19 23:19:16 geirm Exp $
  */
 
 public class Example
@@ -82,7 +82,7 @@ public class Example
              * setup
              */
 
-            Runtime.init("velocity.properties");
+            Velocity.init("velocity.properties");
             
             /*
              *  Make a context object and populate with the data.  This 
@@ -106,7 +106,7 @@ public class Example
 
             try 
             {
-                template = Runtime.getTemplate(templateFile);
+                template = Velocity.getTemplate(templateFile);
             }
             catch( ResourceNotFoundException rnfe )
             {
@@ -139,7 +139,6 @@ public class Example
         catch( Exception e )
         {
             System.out.println(e);
-            e.printStackTrace();
         }
     }
 
