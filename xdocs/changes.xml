@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Changes</title>
+  <author email="jon@latchkey.com">Jon S. stevens</author>
+ </properties>
+
+<body>
+
+<section name="Velocity Changes">
+
+<p>
+This document tracks the changes in Velocity between releases.
+</p>
+
+<subsection name="1.0b2">
+<ul>
+    <li>Fixed release packaging to create things in the right directory
+        structure (JSS).</li>
+</ul>
+</subsection>
+
+<subsection name="1.0b1">
+<ul>
+    <li>Initial release.</li>
+</ul>
+</subsection>
+
+</section>
+
+</body>
+</document>
