@@ -72,7 +72,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.16 2001/11/26 16:01:14 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.17 2001/11/26 23:25:05 geirm Exp $
  */
 public class ClassMap
 {
@@ -352,9 +352,8 @@ public class ClassMap
                     if(!methodInfo.upcast)
                     {
                         methodInfo.tryUpcasting(clazz);
+                        upcastCount++;
                     }
-
-                    upcastCount++;
                 }
                 catch(NoSuchMethodException e)
                 {
