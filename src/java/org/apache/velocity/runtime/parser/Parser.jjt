@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.74 2002/03/27 15:59:04 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.75 2002/04/27 19:32:39 geirm Exp $
 */
 public class Parser
 {
@@ -590,7 +590,7 @@ TOKEN:
  */
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")*  "#set" >
+  <SET_DIRECTIVE: (" "|"\t")*  "#set" (" ")* "(">
     {
         if (! inComment)
         {
@@ -602,6 +602,23 @@ TOKEN:
             stateStackPush();
             inSet = true;
             SwitchTo(DIRECTIVE);
+        }
+
+        /*
+         *  need the LPAREN action
+         */
+
+        if (!inComment)
+        {
+            lparen++;
+
+            /*
+             * If in REFERENCE and we have seen the dot, then move
+             * to REFMOD2 -> Modifier()
+             */
+
+            if (curLexState == REFMODIFIER )
+                SwitchTo( REFMOD2 );
         }
    }
 }
@@ -1501,9 +1518,7 @@ void ElseIfStatement() : {}
  */
 void SetDirective() : {}
 {
-    <SET_DIRECTIVE>
-    [ LOOKAHEAD(2) <WHITESPACE> ]
-    ( <LPAREN>  [<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
+    <SET_DIRECTIVE>([<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
     {
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
