@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.22 2000/11/05 19:20:19 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.23 2000/11/06 01:20:02 jvanzyl Exp $ 
 */
 public class Parser
 {
@@ -818,7 +818,7 @@ TOKEN :
     }
 }
 
-<PRE_DIRECTIVE,DIRECTIVE>
+<PRE_DIRECTIVE,DIRECTIVE,REFMOD2>
 TOKEN:
 {
    <#DIGIT: [ "0"-"9" ] >
@@ -831,11 +831,15 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet )
+        if ( lparen == 0 && !inSet && curLexState != REFMOD2)
             stateStackPop();
     }
+}
 
-|   <#LETTER: [ "a"-"z", "A" - "Z" ] >
+<PRE_DIRECTIVE,DIRECTIVE>
+TOKEN:
+{
+    <#LETTER: [ "a"-"z", "A" - "Z" ] >
 |   <WORD: (<LETTER>)+ >
 }
 
@@ -1087,7 +1091,8 @@ void Parameter() #void: {}
 |   ObjectArray()
 |   True()
 |   False()
-|   Reference() 
+|   Reference()
+|   NumberLiteral()
 }
 
 /**
