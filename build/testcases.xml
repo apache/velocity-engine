@@ -69,13 +69,13 @@
                                    test-encoding,
                                    test-eventhandling,
                                    test-velocimacro,
-                                   test-anakia,
                                    test-texen,
                                    test-texen-classpath,
                                    test-misc,
                                    test-servlet,
                                    test-parser,
-                                   test-resourceinstance
+                                   test-resourceinstance,
+                                   test-anakia 
                                    "/>
 
   <target name="test-template">
@@ -215,7 +215,19 @@
             velocityPropertiesFile="../test/anakia/velocity.properties"
             lastModifiedCheck="false">
     </anakia>
-
+  
+    <anakia basedir="../test/anakia/xdocs" 
+            destdir="../test/anakia/results"
+        extension=".context.html" style="./site_contexts.vsl"
+        projectFile="./stylesheets/project.xml"
+        excludes="**/stylesheets/**"
+        includes="**/*.xml"
+        templatePath="../test/anakia/xdocs/stylesheets"
+        lastModifiedCheck="false">
+        
+        <context name="customContext" file="./stylesheets/customContext.xml"/>
+    </anakia>    
+ 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
       <classpath>
@@ -339,7 +351,7 @@
   <target name="test-texen-classpath">
 
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-	reverseloader="true">
+       reverseloader="true">
       <classpath>
         <pathelement location="../test/texen-classpath/test.jar"/>
         <path refid="classpath"/>
