@@ -62,12 +62,12 @@ import java.util.List;
 
 /**
  * A JDOM {@link Element} that is tailored for Anakia needs. It has
- * {@link #selectNodes(String}} method as well as a {@link #toString()} that
+ * {@link #selectNodes(String)} method as well as a {@link #toString()} that
  * outputs the XML serialized form of the element. This way it acts in much the
  * same way as a single-element {@link NodeList} would.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaElement.java,v 1.1 2001/08/08 04:30:47 jon Exp $
+ * @version $Id: AnakiaElement.java,v 1.2 2001/08/13 02:52:10 geirm Exp $
  */
 public class AnakiaElement extends Element
 {
