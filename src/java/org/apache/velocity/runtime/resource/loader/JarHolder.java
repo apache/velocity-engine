@@ -74,7 +74,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * A small wrapper around a Jar
  *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarHolder.java,v 1.5 2001/05/11 03:59:41 geirm Exp $
+ * @version $Id: JarHolder.java,v 1.6 2001/05/15 13:10:30 geirm Exp $
  */
 public class JarHolder
 {
@@ -87,14 +87,14 @@ public class JarHolder
         this.urlpath=urlpath;
         init();
         
-        Runtime.info("Initialized JAR: " + urlpath );
+        Runtime.info("  JarHolder : initialized JAR: " + urlpath );
     }
 
     public void init()
     {
         try
         {
-            Runtime.info("Attemting to connect to "+ urlpath);
+            Runtime.info("  JarHolder : attempting to connect to "+ urlpath);
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
             conn.setAllowUserInteraction(false);
@@ -105,7 +105,7 @@ public class JarHolder
         } 
         catch (Exception e)
         {
-            Runtime.error("Error establishing connection to JAR "+ e);
+            Runtime.error("  JarHolder : error establishing connection to JAR "+ e);
         }
     }
 
@@ -117,12 +117,12 @@ public class JarHolder
         }
         catch ( Exception e )
         {
-            Runtime.error("Error Closing JAR the file " +  e);
+            Runtime.error("  JarHolder : error Closing JAR the file " +  e);
         }
         theJar = null;
         conn = null;
 
-        Runtime.info("JAR file closed");
+        Runtime.info("  JarHolder : JAR file closed");
     }
     
     public InputStream getResource( String theentry )
@@ -133,18 +133,14 @@ public class JarHolder
         {
             JarEntry entry = theJar.getJarEntry( theentry );
             
-            if (entry == null)
-            {
-                Runtime.error( "JAR Entry NOT FOUND: " + entry );
-            }
-            else
+            if ( entry != null )
             {                
                 data =  theJar.getInputStream( entry );
             }
         }
         catch( Exception fnfe )
         {
-            Runtime.error("FileResourceLoader Error : exception : " + fnfe );
+            Runtime.error("  JarHolder : getResource() error : exception : " + fnfe );
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         
