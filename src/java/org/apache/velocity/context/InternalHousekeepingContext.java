@@ -56,6 +56,8 @@ package org.apache.velocity.context;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
+import org.apache.velocity.context.EventCartridge;
+
 /**
  *  interface to encapsulate the 'stuff' for internal operation of velocity.  
  *  We use the context as a thread-safe storage : we take advantage of the
@@ -67,7 +69,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.3 2001/03/05 11:21:44 jvanzyl Exp $
+ *  @version $Id: InternalHousekeepingContext.java,v 1.4 2001/04/20 04:31:30 geirm Exp $
  */
 interface InternalHousekeepingContext
 {
@@ -114,4 +116,7 @@ interface InternalHousekeepingContext
      *  @param o  IntrospectionCacheData object to place in cache
      */
     void icachePut( Object key, IntrospectionCacheData o );
+
+    EventCartridge attachEventCartridge( EventCartridge ec);
+    EventCartridge getEventCartridge();
 }

@@ -72,7 +72,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.4 2001/03/05 11:21:45 jvanzyl Exp $ 
+ *  @version $Id: VMContext.java,v 1.5 2001/04/20 04:31:30 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -299,6 +299,16 @@ public class VMContext implements InternalContextAdapter
     public void icachePut( Object key, IntrospectionCacheData o )
     {
         innerContext.icachePut( key, o );
+    }
+
+    public EventCartridge attachEventCartridge( EventCartridge ec )
+    {
+        return innerContext.attachEventCartridge( ec );
+    }
+
+    public EventCartridge getEventCartridge()
+    {
+        return innerContext.getEventCartridge();
     }
 }
 
