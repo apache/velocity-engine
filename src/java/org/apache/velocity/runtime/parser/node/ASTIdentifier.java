@@ -71,16 +71,18 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.5 2001/01/03 05:25:50 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.6 2001/01/06 22:08:33 jvanzyl Exp $ 
  */
 package org.apache.velocity.runtime.parser.node;
 
 import java.util.Map;
+
 import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.util.introspection.Introspector;
 
 public class ASTIdentifier extends SimpleNode
 {
@@ -130,23 +132,21 @@ public class ASTIdentifier extends SimpleNode
         throws Exception
     {
         /*
-         *  Now there might just be an error here.  If there is a typo in the property
-         *  then a MapExecutor is created and this needs to be prevented.
+         * We are now going to allow a get(key) method
+         * to be used on objects that don't implement
+         * the Map interface. That was a silly restriction,
+         * I just ran into it so it's silly ;-)
+         *
          */
+        
+        AbstractExecutor executor;
 
-        try
-        {
-            AbstractExecutor executor = new PropertyExecutor();
-            Method m = data.getMethod(method,null);
-            executor.setData(m);
-            return executor;
-        }
-        catch (NoSuchMethodException nsme)
-        {
-            AbstractExecutor executor = new MapExecutor();
-            executor.setData(identifier);
-            return executor;
-        }
+        executor = new PropertyExecutor(data, identifier);
+
+        if (executor.isAlive() == false)
+            executor = new GetExecutor(data, identifier);
+        
+        return executor;
     }
 
     /**
@@ -197,6 +197,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch( Exception e)
         {
+            e.printStackTrace();
             System.out.println("ASTIdentifier.execute() : identifier = " + identifier + " : " + e );
         }
 

@@ -54,17 +54,22 @@
 
 package org.apache.velocity.runtime.parser.node;
 
-import java.util.Map;
+import java.lang.reflect.Method;
+
 import org.apache.velocity.context.InternalContextAdapter;
 
 public abstract class AbstractExecutor
 {
-    protected Object data;
-
+    protected Method method = null;
+    
     public abstract Object execute(Object o, InternalContextAdapter context);
 
-    public void setData(Object data)
+    public boolean isAlive()
     {
-        this.data = data;
-    }        
+        if (method != null)
+            return true;
+        else
+            return false;
+    }            
+
 }
