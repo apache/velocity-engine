@@ -29,6 +29,17 @@
 <section name="Velocity News">
 
 <p>
+<strong>Cotsec Forms Uses Velocity</strong>
+<blockquote>
+<a href="http://www.cotsec.com/">Cotsec</a> has released a
+cross-language/cross-platform rapid development
+environment called Cotsec Forms that uses Velocity as it's underlying
+template engine.
+(<i>2003-08-23</i>)
+</blockquote>
+</p>
+
+<p>
 <strong>Velocity Tools 1.0</strong>
 <blockquote>
 The first release of the <a href="tools/index.html">Velocity Tools</a> subproject is 
