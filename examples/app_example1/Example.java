@@ -1,7 +1,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,9 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -66,7 +69,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.1 2001/02/12 03:08:22 geirm Exp $
+ * @version $Id: Example.java,v 1.2 2001/02/26 04:09:19 geirm Exp $
  */
 
 public class Example
@@ -92,11 +95,28 @@ public class Example
             
             /*
              *  get the Template object.  This is the parsed version of your 
-             *  template input file.
+             *  template input file.  Note that getTemplate() can throw
+             *   ResourceNotFoundException : if it doesn't find the template
+             *   ParseErrorException : if there is something wrong with the VTL
+             *   Exception : if something else goes wrong (this is generally
+             *        indicative of as serious problem...)
              */
 
-            Template template = Runtime.getTemplate(templateFile);
-             
+            Template template =  null;
+
+            try 
+            {
+                template = Runtime.getTemplate(templateFile);
+            }
+            catch( ResourceNotFoundException rnfe )
+            {
+                System.out.println("Example : error : cannot find template " + templateFile );
+            }
+            catch( ParseErrorException pee )
+            {
+                System.out.println("Example : Syntax error in template " + templateFile + ":" + pee );
+            }
+
             /*
              *  Now have the template engine process your template using the
              *  data placed into the context.  Think of it as a  'merge' 
@@ -105,7 +125,9 @@ public class Example
 
             BufferedWriter writer = writer = new BufferedWriter(
                 new OutputStreamWriter(System.out));
-            template.merge(context, writer);
+
+            if ( template != null)
+                template.merge(context, writer);
 
             /*
              *  flush and cleanup
