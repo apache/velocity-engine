@@ -77,11 +77,17 @@ import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
-//import org.apache.velocity.runtime.log.SimpleLogSystem;
+import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.context.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.MethodExceptionEventHandler;
+import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.context.NullReferenceEventHandler;
+import org.apache.velocity.context.Context;
 
 /**
  * This class the testbed for Velocity. It is used to
@@ -89,9 +95,11 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.25 2001/04/14 02:57:21 geirm Exp $
+ * @version $Id: Test.java,v 1.26 2001/04/20 04:31:58 geirm Exp $
  */
-public class Test
+public class Test implements ReferenceInsertionEventHandler, 
+                             NullSetEventHandler,NullReferenceEventHandler,
+                             MethodExceptionEventHandler
 {
     /**
      * Cache of writers
@@ -254,7 +262,15 @@ public class Test
             //Velocity.invokeVelocimacro( "floog", "test", new String[2],  context,  w );
             //System.out.println("Invoke = " + w );
 
- 
+
+            /*
+             *  event cartridge stuff
+             */
+
+            EventCartridge ec = new EventCartridge();
+            ec.addEventHandler(this);
+            ec.attachToContext( context );
+
             /*
              *  make a writer, and merge the template 'against' the context
              */
@@ -268,11 +284,49 @@ public class Test
             }
  
         }
+        catch( MethodInvocationException mie )
+        {
+            System.out.println("MIE : " + mie );
+        }
         catch( Exception e )
         {
             Runtime.error(e);
         }
     }
+
+    public Object nullReferenceRender( String reference )
+    {
+        if( reference.equals("$gloppy"))
+            return "";
+
+        return reference;
+    }
+       
+    public Object referenceInsert( String reference, Object value  )
+    {
+        System.out.println("Woo! referenceInsert : " + reference + " = " + value.toString() );
+        return value;
+    }
+
+    public boolean nullSetLogMessage( String reference )
+    {
+        System.out.println("Woo2! nullSetLogMessage : " + reference);
+
+        if (reference.equals("$woogie"))
+            return false;
+        
+        return true;
+    }
+
+   public Object methodException( Class claz, String method, Exception e )
+         throws Exception
+    {
+        if (method.equals("getThrow"))
+            return "I should have thrown";
+
+        throw e;
+    }
+
 
     public static void main(String[] args)
     {
