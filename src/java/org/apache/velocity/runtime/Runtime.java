@@ -141,75 +141,11 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.111 2001/06/12 03:20:35 geirm Exp $
+ * @version $Id: Runtime.java,v 1.112 2001/08/07 21:59:19 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
-{    
-    /**
-     *  VelocimacroFactory object to manage VMs
-     */
-    private static VelocimacroFactory vmFactory = new VelocimacroFactory();
-
-    /** 
-     * The Runtime logger.
-     */
-    private static LogSystem logSystem = null;
-
-    /** 
-     * The caching system used by the Velocity Runtime 
-     */
-    private static Hashtable globalCache;
-    
-    /** 
-     * The Runtime parser pool 
-     */
-    private static SimplePool parserPool;
-    
-    /** 
-     * Indicate whether the Runtime has been fully initialized.
-     */
-    private static boolean initialized;
-
-    /**
-     * These are the properties that are laid down over top
-     * of the default properties when requested.
-     */
-    private static ExtendedProperties overridingProperties = null;
-
-    /**
-     * The logging systems initialization may be defered if
-     * it is to be initialized by an external system. There
-     * may be messages that need to be stored until the
-     * logger is instantiated. They will be stored here
-     * until the logger is alive.
-     */
-    private static Vector pendingMessages = new Vector();
-
-    /**
-     * This is a hashtable of initialized directives.
-     * The directives that populate this hashtable are
-     * taken from the RUNTIME_DEFAULT_DIRECTIVES
-     * property file. This hashtable is passed
-     * to each parser that is created.
-     */
-    private static Hashtable runtimeDirectives;
-
-    /**
-     * Object that houses the configuration options for
-     * the velocity runtime. The ExtendedProperties object allows
-     * the convenient retrieval of a subset of properties.
-     * For example all the properties for a resource loader
-     * can be retrieved from the main ExtendedProperties object
-     * using something like the following:
-     *
-     * ExtendedProperties loaderConfiguration = 
-     *         configuration.subset(loaderID);
-     *
-     * And a configuration is a lot more convenient to deal
-     * with then conventional properties objects, or Maps.
-     */
-    private static ExtendedProperties configuration = new ExtendedProperties();
-
+{
+   
     /*
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
@@ -227,57 +163,7 @@ public class Runtime implements RuntimeConstants
     public synchronized static void init()
         throws Exception
     {
-        if (initialized == false)
-        {
-            try
-            {
-                initializeProperties();
-                initializeLogger();
-                ResourceManager.initialize();
-                initializeDirectives();
-                initializeParserPool();
-                initializeGlobalCache();
-                
-                /*
-                 *  initialize the VM Factory.  It will use the properties 
-                 * accessable from Runtime, so keep this here at the end.
-                 */
-                vmFactory.initVelocimacro();
-                
-                info("Velocity successfully started.");
-                
-                initialized = true;
-            }
-            catch (Exception e)
-            {
-                System.out.println(e);
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Initializes the Velocity Runtime with properties file.
-     * The properties file may be in the file system proper,
-     * or the properties file may be in the classpath.
-     */
-    private static void setDefaultProperties()
-    {
-        ClassLoader classLoader = Runtime.class.getClassLoader();
-        try
-        {
-            InputStream inputStream = classLoader
-                .getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
-            
-            configuration.load( inputStream );
-            
-            info ("Default Properties File: " + 
-                new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
-        }
-        catch (IOException ioe)
-        {
-            System.err.println("Cannot get Velocity Runtime default properties!");
-        }
+        RuntimeSingleton.init();
     }
 
     /**
@@ -289,12 +175,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void setProperty(String key, Object value)
     {
-        if (overridingProperties == null)
-        {
-            overridingProperties = new ExtendedProperties();
-        }            
-            
-        overridingProperties.setProperty( key, value );
+        RuntimeSingleton.setProperty( key, value );
     }        
 
     /**
@@ -309,14 +190,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void setConfiguration( ExtendedProperties configuration)
     {
-        if (overridingProperties == null)
-        {
-            overridingProperties = configuration;
-        }
-        else
-        {
-            overridingProperties.combine(configuration);
-        }
+        RuntimeSingleton.setConfiguration( configuration );
     }
 
     /**
@@ -340,12 +214,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void addProperty(String key, Object value)
     {
-        if (overridingProperties == null)
-        {
-            overridingProperties = new ExtendedProperties();
-        }            
-            
-        overridingProperties.addProperty( key, value );
+        RuntimeSingleton.addProperty( key, value );
     }
     
     /**
@@ -356,10 +225,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void clearProperty(String key)
     {
-        if (overridingProperties != null)
-        {
-            overridingProperties.clearProperty(key);
-        }            
+        RuntimeSingleton.clearProperty( key );
     }
     
     /**
@@ -371,34 +237,9 @@ public class Runtime implements RuntimeConstants
      */
     public static Object getProperty( String key )
     {
-        return configuration.getProperty( key );
+        return RuntimeSingleton.getProperty( key );
     }
 
-    /**
-     * Initialize Velocity properties, if the default
-     * properties have not been laid down first then
-     * do so. Then proceed to process any overriding
-     * properties. Laying down the default properties
-     * gives a much greater chance of having a
-     * working system.
-     */
-    private static void initializeProperties()
-    {
-        /* 
-         * Always lay down the default properties first as
-         * to provide a solid base.
-         */
-        if (configuration.isInitialized() == false)
-        {
-            setDefaultProperties();
-        }            
-    
-        if( overridingProperties != null)
-        {        
-            configuration.combine(overridingProperties);
-        }
-    }
-    
     /**
      * Initialize the Velocity Runtime with a Properties
      * object.
@@ -407,8 +248,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void init(Properties p) throws Exception
     {
-        overridingProperties = ExtendedProperties.convertProperties(p);
-        init();
+        RuntimeSingleton.init(p);
     }
     
     /**
@@ -420,153 +260,10 @@ public class Runtime implements RuntimeConstants
     public static void init(String configurationFile)
         throws Exception
     {
-        overridingProperties = new ExtendedProperties(configurationFile);
-        init();
+        RuntimeSingleton.init( configurationFile );
     }
 
-    /**
-     * Initialize the Velocity logging system.
-     *
-     * @throws Exception
-     */
-    private static void initializeLogger() throws Exception
-    { 
-        /*
-         * Initialize the logger. We will eventually move all
-         * logging into the logging manager.
-         */
-        if (logSystem == null)
-        {
-            logSystem = LogManager.createLogSystem();
-        }
-
-        /*
-         * Dump the pending messages
-         */
-        dumpPendingMessages();
-    }
-
-    /*
-     * Dump the pending messages
-     */
-    private static void dumpPendingMessages()
-    {
-        if ( !pendingMessages.isEmpty())
-        {
-            /*
-             *  iterate and log each individual message...
-             */
-            for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
-            {
-                Object[] data = (Object[]) e.nextElement();
-                log(((Integer) data[0]).intValue(), data[1]);
-            }
-            pendingMessages = new Vector();
-        }
-    }
-    
-    /**
-     * This methods initializes all the directives
-     * that are used by the Velocity Runtime. The
-     * directives to be initialized are listed in
-     * the RUNTIME_DEFAULT_DIRECTIVES properties
-     * file.
-     *
-     * @throws Exception
-     */
-    private static void initializeDirectives() throws Exception
-    {
-        /*
-         * Initialize the runtime directive table.
-         * This will be used for creating parsers.
-         */
-        runtimeDirectives = new Hashtable();
-        
-        Properties directiveProperties = new Properties();
-        
-        /*
-         * Grab the properties file with the list of directives
-         * that we should initialize.
-         */
-        ClassLoader classLoader = Runtime.class.getClassLoader();
-        InputStream inputStream = classLoader
-            .getResourceAsStream(DEFAULT_RUNTIME_DIRECTIVES);
-    
-        if (inputStream == null)
-            throw new Exception("Error loading directive.properties! " +
-                                "Something is very wrong if these properties " +
-                                "aren't being located. Either your Velocity " +
-                                "distribution is incomplete or your Velocity " +
-                                "jar file is corrupted!");
-        
-        directiveProperties.load(inputStream);
-        
-        /*
-         * Grab all the values of the properties. These
-         * are all class names for example:
-         *
-         * org.apache.velocity.runtime.directive.Foreach
-         */
-        Enumeration directiveClasses = directiveProperties.elements();
-        
-        while (directiveClasses.hasMoreElements())
-        {
-            String directiveClass = (String) directiveClasses.nextElement();
-        
-            try
-            {
-                /*
-                 * Attempt to instantiate the directive class. This
-                 * should usually happen without error because the
-                 * properties file that lists the directives is
-                 * not visible. It's in a package that isn't 
-                 * readily accessible.
-                 */
-                Class clazz = Class.forName(directiveClass);
-                Directive directive = (Directive) clazz.newInstance();
-                runtimeDirectives.put(directive.getName(), directive);
-                
-                Runtime.info("Loaded Pluggable Directive: " 
-                    + directiveClass);
-            }
-            catch (Exception e)
-            {
-                Runtime.error("Error Loading Pluggable Directive: " 
-                    + directiveClass);    
-            }
-        }
-    }
-
-    /**
-     * Initializes the Velocity parser pool.
-     * This still needs to be implemented.
-     */
-    private static void initializeParserPool()
-    {
-        int numParsers = getInt( PARSER_POOL_SIZE, NUMBER_OF_PARSERS);
-
-        parserPool = new SimplePool( numParsers);
-
-        for (int i=0; i < numParsers ;i++ )
-        {
-            parserPool.put (createNewParser());
-        }
-
-        Runtime.info ("Created: " + numParsers + " parsers.");
-    }
-
-    /**
-     * Returns a JavaCC generated Parser.
-     *
-     * @return Parser javacc generated parser
-     */
-    public static Parser createNewParser()
-    {
-        Parser parser = new Parser();
-        parser.setDirectives(runtimeDirectives);
-        return parser;
-    }
-
+ 
     /**
      * Parse the input and return the root of
      * AST node structure.
@@ -585,10 +282,7 @@ public class Runtime implements RuntimeConstants
     public static SimpleNode parse( Reader reader, String templateName )
         throws ParseException
     {
-        /*
-         *  do it and dump the VM namespace for this template
-         */
-        return parse( reader, templateName, true );
+        return RuntimeSingleton.parse( reader, templateName );
     }
 
     /**
@@ -601,81 +295,10 @@ public class Runtime implements RuntimeConstants
     public static SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
         throws ParseException
     {
-
-        SimpleNode ast = null;
-        Parser parser = (Parser) parserPool.get();
-        boolean madeNew = false;
-
-        if (parser == null)
-        {
-            /*
-             *  if we couldn't get a parser from the pool
-             *  make one and log it.
-             */
-            
-            error("Runtime : ran out of parsers. Creating new.  "
-                  + " Please increment the parser.pool.size property."
-                  + " The current value is too small.");
-
-            parser = createNewParser();
-
-            if( parser != null )
-            {
-                madeNew = true;
-            }
-        }
-
-        /*
-         *  now, if we have a parser
-         */
-
-        if (parser != null)
-        {
-            try
-            {
-                /*
-                 *  dump namespace if we are told to.  Generally, you want to 
-                 *  do this - you don't in special circumstances, such as 
-                 *  when a VM is getting init()-ed & parsed
-                 */
-
-                if ( dumpNamespace )
-                {
-                    Runtime.dumpVMNamespace( templateName );
-                }
-
-                ast = parser.parse( reader, templateName );
-            }
-            finally
-            {
-                /*
-                 *  if this came from the pool, then put back
-                 */
-                if (!madeNew)
-                {
-                    parserPool.put(parser);
-                }
-            }
-        }
-        else
-        {
-            error("Runtime : ran out of parsers and unable to create more.");
-        }
-        return ast;
+        return RuntimeSingleton.parse( reader, templateName, dumpNamespace );
     }
     
-    /**
-     * Initialize the global cache use by the Velocity
-     * runtime. Cached templates will be stored here,
-     * as well as cached content pulled in by the #include
-     * directive. Who knows what else we'll find to
-     * cache.
-     */
-    private static void initializeGlobalCache()
-    {
-        globalCache = new Hashtable();
-    }
-    
+ 
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the 
@@ -693,7 +316,7 @@ public class Runtime implements RuntimeConstants
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return getTemplate( name, Runtime.getString( INPUT_ENCODING, ENCODING_DEFAULT) );
+        return RuntimeSingleton.getTemplate( name );
     }
 
     /**
@@ -711,8 +334,7 @@ public class Runtime implements RuntimeConstants
     public static Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return (Template) ResourceManager
-            .getResource(name,ResourceManager.RESOURCE_TEMPLATE, encoding);
+        return RuntimeSingleton.getTemplate( name, encoding );
     }
 
     /**
@@ -728,12 +350,7 @@ public class Runtime implements RuntimeConstants
     public static ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        /*
-         *  the encoding is irrelvant as we don't do any converstion
-         *  the bytestream should be dumped to the output stream
-         */
-
-        return getContent( name,  Runtime.getString( INPUT_ENCODING, ENCODING_DEFAULT));
+        return RuntimeSingleton.getContent( name );
     }
 
     /**
@@ -749,8 +366,7 @@ public class Runtime implements RuntimeConstants
     public static ContentResource getContent( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return (ContentResource) ResourceManager
-            .getResource(name,ResourceManager.RESOURCE_CONTENT, encoding );
+        return RuntimeSingleton.getContent( name, encoding );
     }
 
 
@@ -765,89 +381,10 @@ public class Runtime implements RuntimeConstants
      */
     public static String getLoaderNameForResource( String resourceName )
     {
-        return ResourceManager.getLoaderNameForResource( resourceName );
+        return RuntimeSingleton.getLoaderNameForResource( resourceName );
     }
 
-    /**
-     * Added this to check and make sure that the configuration
-     * is initialized before trying to get properties from it.
-     * This occurs when there are errors during initialization
-     * and the default properties have yet to be layed down.
-     */
-    private static boolean showStackTrace()
-    {
-        if (configuration.isInitialized())
-        {
-            return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
-        }            
-        else
-        {
-            return false;
-        }            
-    }
-
-    /**
-     * Handle logging.
-     *
-     * @param String message to log
-     */
-    private static void log(int level, Object message)
-    {
-        String out = "";
-     
-        /*
-         * Start with the appropriate prefix
-         */
-        switch( level ) 
-        {
-            case LogSystem.DEBUG_ID :
-                out = DEBUG_PREFIX;
-                break;
-            case LogSystem.INFO_ID :
-                out = INFO_PREFIX;
-                break;
-            case LogSystem.WARN_ID :
-                out = WARN_PREFIX;
-                break;
-            case LogSystem.ERROR_ID : 
-                out = ERROR_PREFIX;
-                break;
-            default :
-                out = UNKNOWN_PREFIX;
-                break;
-        }
-
-        /*
-         *  now,  see if the logging stacktrace is on
-         *  and modify the message to suit
-         */
-        if ( showStackTrace() &&
-            (message instanceof Throwable || message instanceof Exception) )
-        {
-            out += StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out += message.toString();    
-        }            
-
-        /*
-         *  now, if we have a log system, log it
-         *  otherwise, queue it up for later
-         */
-        if (logSystem != null)
-        {
-            logSystem.logVelocityMessage( level, out);
-        }
-        else
-        {
-            Object[] data = new Object[2];
-            data[0] = new Integer(level);
-            data[1] = out;
-            pendingMessages.addElement(data);
-        }
-    }
-
+    
     /**
      * Log a warning message.
      *
@@ -855,7 +392,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void warn(Object message)
     {
-        log(LogSystem.WARN_ID, message);
+        RuntimeSingleton.warn( message );
     }
     
     /** 
@@ -865,7 +402,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        log(LogSystem.INFO_ID, message);
+        RuntimeSingleton.info( message );
     }
     
     /**
@@ -875,7 +412,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        log(LogSystem.ERROR_ID, message);
+        RuntimeSingleton.error( message );
     }
     
     /**
@@ -885,7 +422,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        log(LogSystem.DEBUG_ID, message);
+        RuntimeSingleton.debug( message );
     }
 
     /**
@@ -899,7 +436,7 @@ public class Runtime implements RuntimeConstants
      */
     public static String getString( String key, String defaultValue)
     {
-        return configuration.getString(key, defaultValue);
+        return RuntimeSingleton.getString( key, defaultValue );
     }
 
     /**
@@ -911,7 +448,7 @@ public class Runtime implements RuntimeConstants
      */
     public static Directive getVelocimacro( String vmName, String templateName  )
     {
-        return vmFactory.getVelocimacro( vmName, templateName );
+        return RuntimeSingleton.getVelocimacro( vmName, templateName );
     }
 
    /**
@@ -929,7 +466,7 @@ public class Runtime implements RuntimeConstants
                                           String argArray[], 
                                           String sourceTemplate )
     {    
-        return vmFactory.addVelocimacro(  name, macro,  argArray,  sourceTemplate );
+        return RuntimeSingleton.addVelocimacro( name, macro, argArray, sourceTemplate );
     }
  
     /**
@@ -940,7 +477,7 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean isVelocimacro( String vmName, String templateName )
     {
-        return vmFactory.isVelocimacro( vmName, templateName );
+        return RuntimeSingleton.isVelocimacro( vmName, templateName );
     }
 
     /**
@@ -949,7 +486,7 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean dumpVMNamespace( String namespace )
     {
-        return vmFactory.dumpVMNamespace( namespace );
+        return RuntimeSingleton.dumpVMNamespace( namespace );
     }
 
     /* --------------------------------------------------------------------
@@ -971,7 +508,7 @@ public class Runtime implements RuntimeConstants
      */
     public static String getString(String key)
     {
-        return configuration.getString( key );
+        return RuntimeSingleton.getString( key );
     }
 
     /**
@@ -982,7 +519,7 @@ public class Runtime implements RuntimeConstants
      */
     public static int getInt( String key )
     {
-        return configuration.getInt( key );
+        return RuntimeSingleton.getInt( key );
     }
 
     /**
@@ -994,7 +531,7 @@ public class Runtime implements RuntimeConstants
      */
     public static int getInt( String key, int defaultValue )
     {
-        return configuration.getInt( key, defaultValue );
+        return RuntimeSingleton.getInt( key, defaultValue );
     }
 
     /**
@@ -1006,7 +543,7 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean getBoolean( String key, boolean def )
     {
-        return configuration.getBoolean( key, def );
+        return RuntimeSingleton.getBoolean( key, def );
     }
 
     /**
@@ -1017,6 +554,6 @@ public class Runtime implements RuntimeConstants
      */
     public static ExtendedProperties getConfiguration()
     {
-        return configuration;
+        return RuntimeSingleton.getConfiguration();
     }        
 }
