@@ -70,12 +70,12 @@ import java.util.Enumeration;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import org.apache.log.Logger;
-
 import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.PrimordialLogSystem;
+import org.apache.velocity.runtime.log.NullLogSystem;
 
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.5 2001/09/17 06:50:34 dlr Exp $
+ * @version $Id: RuntimeInstance.java,v 1.6 2001/09/24 17:05:39 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -153,9 +153,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private  VelocimacroFactory vmFactory = null;
 
     /** 
-     * The Runtime logger.
+     *  The Runtime logger.  We start with an instance of
+     *  a 'primordial logger', which just collects log messages
+     *  then, when the log system is initialized, we dump
+     *  all messages out of the primordial one into the real one.
      */
-    private  LogSystem logSystem = null;
+    private  LogSystem logSystem = new PrimordialLogSystem();
 
     /** 
      * The caching system used by the Velocity Runtime 
@@ -177,15 +180,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * of the default properties when requested.
      */
     private  ExtendedProperties overridingProperties = null;
-
-    /**
-     * The logging systems initialization may be defered if
-     * it is to be initialized by an external system. There
-     * may be messages that need to be stored until the
-     * logger is instantiated. They will be stored here
-     * until the logger is alive.
-     */
-    private  Vector pendingMessages = new Vector();
 
     /**
      * This is a hashtable of initialized directives.
@@ -259,7 +253,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             try
             {
-                info("RuntimeInstance v1.2x initializing  : " + this);
+                info("Jakarta Velocity v@version@");
+                info("RuntimeInstance initializing.");
                 initializeProperties();
                 initializeLogger();
                 resourceManager.initialize();
@@ -467,35 +462,27 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * Initialize the logger. We will eventually move all
          * logging into the logging manager.
          */
-        if (logSystem == null)
+        if (logSystem instanceof PrimordialLogSystem )
         {
+            PrimordialLogSystem pls = (PrimordialLogSystem) logSystem;
             logSystem = LogManager.createLogSystem( this );
-        }
-
-        /*
-         * Dump the pending messages
-         */
-        dumpPendingMessages();
-    }
-
-    /*
-     * Dump the pending messages
-     */
-    private void dumpPendingMessages()
-    {
-        if ( !pendingMessages.isEmpty())
-        {
+            
             /*
-             *  iterate and log each individual message...
+             * in the event of failure, lets do something to let it 
+             * limp along.
              */
-            for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
-            {
-                Object[] data = (Object[]) e.nextElement();
-                log(((Integer) data[0]).intValue(), data[1]);
-            }
-            pendingMessages = new Vector();
+             
+             if (logSystem == null)
+             {
+                logSystem = new NullLogSystem();
+             }
+             else
+             {
+                pls.dumpLogMessages( logSystem );
+             }
         }
-    }
+   }
+
     
     /**
      * This methods initializes all the directives
@@ -826,7 +813,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void log(int level, Object message)
     {
-        String out = "";
+        String out;
      
         /*
          *  now,  see if the logging stacktrace is on
@@ -835,29 +822,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if ( showStackTrace() &&
             (message instanceof Throwable || message instanceof Exception) )
         {
-            out += StringUtils.stackTrace((Throwable)message);
+            out = StringUtils.stackTrace((Throwable)message);
         }
         else
         {
-            out += message.toString();    
+            out = message.toString();    
         }            
 
         /*
-         *  now, if we have a log system, log it
-         *  otherwise, queue it up for later
+         *  just log it, as we are guaranteed now to have some
+         *  kind of logger - save the if()
          */
-        if (logSystem != null)
-        {
-            logSystem.logVelocityMessage( level, out);
-        }
-        else
-        {
-            Object[] data = new Object[2];
-            data[0] = new Integer(level);
-            //            data[1] = out;
-            data[1] = message;
-            pendingMessages.addElement(data);
-        }
+        logSystem.logVelocityMessage( level, out);
     }
 
     /**
