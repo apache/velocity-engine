@@ -380,7 +380,7 @@
   <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
-  <target name="dist" depends="javadocs-clean,
+  <target name="package" depends="javadocs-clean,
                                examples-clean-anakia,
                                test-clean,jar,javadocs">
         
@@ -438,16 +438,62 @@
       tofile="${dist.dir}/${final.name}.jar"
     />
     
-    <jar 
-      jarfile="../${final.name}.jar" 
-      basedir="${dist.root}"
-      excludes="**/package.html"
-    />
-    
-    <delete dir="${dist.root}"/>
-
   </target>
-  
+
+  <!-- ================================================================== -->
+  <!-- Packages the distribution with Jar                                 -->
+  <!-- ================================================================== -->
+  <target name="package-jar"
+          depends="package"
+          description="--> generates the Turbine distribution as .zip">
+      <delete file="../${final.name}.jar" quiet="true"/>
+
+      <jar 
+          jarfile="../${final.name}.jar" 
+          basedir="${dist.root}"
+          excludes="**/package.html"
+      />
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Packages the distribution with ZIP                                 -->
+  <!-- ================================================================== -->
+  <target name="package-zip"
+          depends="package"
+          description="--> generates the Turbine distribution as .zip">
+      <delete file="../${final.name}.zip" quiet="true"/>
+      <zip zipfile="../${final.name}.zip" basedir="../" 
+           includes="**/${final.name}/**"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Packages the distribution with TAR-GZIP                            -->
+  <!-- ================================================================== -->
+  <target name="package-tgz"
+          depends="package"
+          description="--> generates the Turbine distribution as .tar.gz">
+      <delete file="../${final.name}.tar" quiet="true"/>
+      <delete file="../${final.name}.tar.gz" quiet="true"/>
+      <tar tarfile="../${final.name}.tar" basedir="../" 
+           includes="**/${final.name}/**" longfile="gnu"/>
+      <gzip zipfile="../${final.name}.tar.gz" src="../${Name}-${version}.tar"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Packages the distribution with ZIP and TAG-GZIP                    -->
+  <!-- ================================================================== -->
+  <target name="package-all"
+          depends="package-zip, package-tgz, package-jar"
+          description="--> generates the .tar.gz and .zip distributions">
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Same as package-all. It is just here for compatibility.            -->
+  <!-- ================================================================== -->
+  <target name="dist" depends="package-all">
+    <delete dir="${dist.root}" quiet="true"/>
+  </target>
+
   <!-- =================================================================== -->
   <!-- Cleans up the build directory                                       -->
   <!-- =================================================================== -->
