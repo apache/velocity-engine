@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.12 2000/10/26 22:06:22 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.13 2000/10/26 22:24:43 dlr Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -201,7 +201,7 @@ public class TemplateTestCase extends RuntimeTestCase
         File resultDir = new File(RESULT_DIR);
         if (!resultDir.exists())
         {
-            Runtime.info("Template results directory did not exist");
+            Runtime.info("Template results directory does not exist");
             if (resultDir.mkdirs())
             {
                 Runtime.info("Created template results directory");
