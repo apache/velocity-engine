@@ -75,7 +75,7 @@ importance.
         Velocity. Any suggestions are welcome.
     <p/>
 
-    <strong>User Guide</strong>
+    <strong>User's Guide</strong>
     <br/>
         This would be a guide for designers who would
         be using the Velocity Template Language (VTL) to
@@ -101,7 +101,7 @@ importance.
         The template loader system is functional but could probably use an
         overhaul. There is currently a double template instantiation
         problem. It is not causing any serious problems, but it
-        should probably be corrected. We could probably utilize some
+        should be corrected. We could utilize some
         object caching/pooling code from Turbine, or JServ, or the
         Avalon Server Framework.
     <p/>
@@ -145,7 +145,7 @@ importance.
         serious optimization has been started. But in conjuction
         with the presence of a JUnit test suite, optimization
         changes could be made with confidence. It would be nice
-        to have a configuration of a setup for a common profiling
+        to have a configuration of a setup for a common profiler
         so that anyone who wanted to do some profiling could do
         so in a consistent manner.
     <p/>
