@@ -48,6 +48,7 @@
     <delete dir="${test.home}/multiloader/results" quiet="true"/>
     <delete dir="${test.home}/templates/results" quiet="true"/>
     <delete dir="${test.home}/texen/results" quiet="true"/>
+    <delete dir="${test.home}/resourceinstance/results" quiet="true"/>
   </target>
 
   <target name="test-all" depends="
@@ -73,7 +74,8 @@
                                    test-texen-classpath,
                                    test-misc,
                                    test-servlet,
-                                   test-parser
+                                   test-parser,
+                                   test-resourceinstance
                                    "/>
 
   <target name="test-template">
@@ -377,6 +379,16 @@
     <echo message="Running Velocimacro tests..."/>
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.VelocimacroTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+ <target name="test-resourceinstance">
+    <echo message="Running Resource Loader instance tests..."/>
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ResourceLoaderInstanceTest"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
