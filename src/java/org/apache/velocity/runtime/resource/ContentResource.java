@@ -65,7 +65,7 @@ import java.io.InputStreamReader;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.7 2002/03/23 18:54:55 geirm Exp $
+ * @version $Id: ContentResource.java,v 1.8 2002/03/25 18:00:49 dlr Exp $
  */
 public class ContentResource extends Resource
 {
@@ -109,8 +109,9 @@ public class ContentResource extends Resource
                 {
                     reader.close();
                 }
-                catch(Exception e)
-                {}
+                catch (Exception ignored)
+                {
+                }
             }
         }
     }
