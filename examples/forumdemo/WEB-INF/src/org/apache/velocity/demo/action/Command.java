@@ -61,14 +61,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // Velocity stuff
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
 
 /**
  * Base class for commands
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Revision: 1.1 $
- * $Id: Command.java,v 1.1 2000/11/03 02:45:53 daveb Exp $
+ * @version $Revision: 1.2 $
+ * $Id: Command.java,v 1.2 2001/01/03 06:08:06 geirm Exp $
  */
 public abstract class Command
 {
