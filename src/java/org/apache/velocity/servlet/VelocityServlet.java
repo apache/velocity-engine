@@ -127,7 +127,8 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.44 2002/02/06 23:42:01 dlr Exp $
+ * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
+ * $Id: VelocityServlet.java,v 1.45 2002/04/03 16:07:33 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -169,9 +170,16 @@ public abstract class VelocityServlet extends HttpServlet
 
     /**
      * This is the string that is looked for when getInitParameter is
-     * called.
+     * called (<code>org.apache.velocity.properties</code>).
      */
-    protected static final String INIT_PROPS_KEY = "properties";
+    protected static final String INIT_PROPS_KEY =
+        "org.apache.velocity.properties";
+
+    /**
+     * Use of this properties key has been deprecated, and will be
+     * removed in Velocity version 1.5.
+     */
+    private static final String OLD_INIT_PROPS_KEY = "properties";
 
     /**
      * Cache of writers
@@ -256,7 +264,7 @@ public abstract class VelocityServlet extends HttpServlet
      *      &lt;servlet-name&gt; YourServlet &lt/servlet-name&gt;
      *      &lt;servlet-class&gt; your.package.YourServlet &lt;/servlet-class&gt;
      *      &lt;init-param&gt;
-     *         &lt;param-name&gt; properties &lt;/param-name&gt;
+     *         &lt;param-name&gt; org.apache.velocity.properties &lt;/param-name&gt;
      *         &lt;param-value&gt; velocity.properties &lt;/param-value&gt;
      *      &lt;/init-param&gt;
      *    &lt;/servlet&gt;
@@ -267,7 +275,7 @@ public abstract class VelocityServlet extends HttpServlet
      *  <br>
      *  <pre>
      *    &lt;context-param&gt;
-     *       &lt;param-name&gt; properties &lt;/param-name&gt;
+     *       &lt;param-name&gt; org.apache.velocity.properties &lt;/param-name&gt;
      *       &lt;param-value&gt; velocity.properties &lt;/param-value&gt;
      *       &lt;description&gt; Path to Velocity configuration &lt;/description&gt;
      *    &lt;/context-param&gt;
@@ -290,11 +298,32 @@ public abstract class VelocityServlet extends HttpServlet
     protected Properties loadConfiguration(ServletConfig config )
         throws IOException, FileNotFoundException
     {
+        // This is a little overly complex because of legacy support
+        // for the initialization properties key "properties".
+        // References to OLD_INIT_PROPS_KEY should be removed at
+        // Velocity version 1.5.
         String propsFile = config.getInitParameter(INIT_PROPS_KEY);
         if (propsFile == null || propsFile.length() == 0)
         {
-            propsFile = config.getServletContext()
-                .getInitParameter(INIT_PROPS_KEY);
+            propsFile = config.getInitParameter(OLD_INIT_PROPS_KEY);
+            if (propsFile == null || propsFile.length() == 0)
+            {
+                propsFile = config.getServletContext()
+                    .getInitParameter(INIT_PROPS_KEY);
+                if (propsFile == null || propsFile.length() == 0)
+                {
+                    propsFile = config.getServletContext()
+                        .getInitParameter(OLD_INIT_PROPS_KEY);
+                }
+                else
+                {
+                    // TODO: Log deprecation warning.
+                }
+            }
+            else
+            {
+                // TODO: Log deprecation warning.
+            }
         }
         
         /*
