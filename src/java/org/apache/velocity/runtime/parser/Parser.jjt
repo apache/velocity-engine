@@ -99,7 +99,6 @@ options
     
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
-
 }    
 
 PARSER_BEGIN(Parser)
@@ -121,7 +120,7 @@ import org.apache.velocity.runtime.directive.Directive;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parser.jjt,v 1.2 2000/09/30 22:58:14 jvanzyl Exp $ 
+ * @version $Id: Parser.jjt,v 1.3 2000/10/03 17:03:15 jvanzyl Exp $ 
 */
 public class Parser
 {
@@ -209,8 +208,9 @@ TOKEN_MGR_DECLS:
     private int rparen = 0;
 
     private boolean inReference;
-    private boolean inDirective;
+    public boolean inDirective;
     private boolean inComment;
+    private boolean inSet;
 
     Stack streams = new Stack();
     Stack states = new Stack();
@@ -300,12 +300,18 @@ TOKEN :
 {
     <LPAREN: "(" > 
     { 
-        lparen++; 
+        lparen++;
     }
 
 |   <RPAREN: ")" > 
     {
         rparen++;
+    
+        if (lparen == rparen)
+        {
+            SwitchTo(DEFAULT);
+            inDirective = false;
+        }            
     }    
 
 |   <LBRACKET: "[">
@@ -319,7 +325,7 @@ TOKEN :
             pushFile(matchedToken.image);
         }
         incMode = false;
-    } 
+    }
 
 |   <COMMA: ",">
 |   <TRUE: "true">
@@ -406,14 +412,22 @@ SKIP:
 {
     " "
 |   "\t"
+//|   "\n"
+//|   "\r"
 }
 
-<DIRECTIVE,REFERENCE>
+<DIRECTIVE>
 SPECIAL_TOKEN :
 {
-    <NEWLINE: ("\r\n" | "\r" | "\n") > 
-    { inDirective = false; }
-    : DEFAULT
+    <NEWLINE: "\n" | "\r" | "\r\n" >
+    {
+        if (inSet)
+        {
+            SwitchTo(DEFAULT);
+            inSet = false;
+            inDirective = false;
+        }
+    }        
 }    
 
 <DIRECTIVE>
@@ -439,8 +453,6 @@ TOKEN :
 <DIRECTIVE> 
 TOKEN :
 {
-//    <TRUE: "true">
-//|   <FALSE: "false">
     <END: "end"> 
     { 
         inDirective = false; 
@@ -457,7 +469,8 @@ TOKEN :
 |   <ELSE_DIRECTIVE: "else"> 
     : DEFAULT
 
-//|   <SET_DIRECTIVE: "set" >
+|   <SET_DIRECTIVE: "set" >
+    { inSet = true; }
 
 |   <STOP_DIRECTIVE: "stop">
     {
@@ -548,6 +561,7 @@ void Statement() #void : {}
 |   StopStatement()
 |   Reference()
 |   Comment()
+|   SetDirective()
 |   Directive()
 }
 
@@ -584,25 +598,23 @@ void Identifier() : {}
     <IDENTIFIER>
 }
 
-JAVACODE
-void DirectiveArgs(int args)
+void Word() : {}
 {
-    for (int i = 0; i < args; i++)
-    {
-        DirectiveArg();
-    } 
-}
+    <WORD>
+}    
 
 void DirectiveArg() #void : {}
 {
-    Expression() 
-|   <WORD>
-}    
+    Reference()
+|   Word()  
+|   StringLiteral()
+|   NumberLiteral()
+|   ObjectArray()
+}
 
 SimpleNode Directive() : 
 {
     Token t;
-    int args;
     Directive d;
 }
 {
@@ -613,26 +625,22 @@ SimpleNode Directive() :
         if (d == null)
         {
             token_source.SwitchTo(DEFAULT);
+            token_source.inDirective = false;
             return jjtThis;
         }            
-        
-        args = d.getArgs();
     }
 
-    DirectiveArgs(args)
+    <LPAREN> (DirectiveArg())+ <RPAREN>
     {
         if (d.getType() == Directive.LINE)
-        {
             return jjtThis;
-        }
-        token_source.SwitchTo(DEFAULT);
     }
     
     ( Statement() )+ #Block 
     <END>
     {
         return jjtThis;
-    }        
+    } 
 }    
 
 void ObjectArray() : {}
@@ -730,6 +738,11 @@ void ElseIfStatement() : {}
     <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block
 }
+
+void SetDirective() : {}
+{
+    <SET_DIRECTIVE> Expression()
+}    
 
 /**
  * This method corresponds to an #include

@@ -10,7 +10,7 @@ public interface ParserVisitor
   public Object visit(ASTNumberLiteral node, Object data);
   public Object visit(ASTStringLiteral node, Object data);
   public Object visit(ASTIdentifier node, Object data);
-  public Object visit(ASTDirectiveArgs node, Object data);
+  public Object visit(ASTWord node, Object data);
   public Object visit(ASTDirective node, Object data);
   public Object visit(ASTBlock node, Object data);
   public Object visit(ASTObjectArray node, Object data);
@@ -22,6 +22,7 @@ public interface ParserVisitor
   public Object visit(ASTIfStatement node, Object data);
   public Object visit(ASTElseStatement node, Object data);
   public Object visit(ASTElseIfStatement node, Object data);
+  public Object visit(ASTSetDirective node, Object data);
   public Object visit(ASTExpression node, Object data);
   public Object visit(ASTAssignment node, Object data);
   public Object visit(ASTOrNode node, Object data);
