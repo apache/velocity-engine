@@ -129,7 +129,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.26 2000/11/08 02:28:38 jon Exp $ 
+ * @version $Id: Parser.jjt,v 1.27 2000/11/08 02:45:00 jon Exp $ 
 */
 public class Parser
 {
@@ -173,7 +173,7 @@ public class Parser
         {
             token_source.clearStateVars();
             ReInit(stream);
-            n = process();
+            sn = process();
         }
         catch (Exception e )
         {
