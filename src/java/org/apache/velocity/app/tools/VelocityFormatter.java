@@ -79,7 +79,8 @@ import org.apache.velocity.context.*;
  * </pre></code>
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
- * @version $Id: VelocityFormatter.java,v 1.5 2001/08/03 19:50:01 dlr Exp $
+ * @author <a href="dlr@collab.net">Daniel Rall</a>
+ * @version $Id: VelocityFormatter.java,v 1.6 2001/08/03 19:50:39 dlr Exp $
  */
 public class VelocityFormatter
 {
