@@ -67,7 +67,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.10 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {
@@ -102,8 +102,18 @@ public class ClasspathResourceLoader extends ResourceLoader
         
         try 
         {
-            ClassLoader classLoader = this.getClass().getClassLoader();
-            result= classLoader.getResourceAsStream( name );
+            ClassLoader classLoader = Thread.currentThread()
+                                        .getContextClassLoader();
+            if (classLoader == null) {
+                classLoader = this.getClass().getClassLoader();
+                result = classLoader.getResourceAsStream( name );
+            } else {
+                result= classLoader.getResourceAsStream( name );
+                if (result == null) {
+                    classLoader = this.getClass().getClassLoader();
+                    result = classLoader.getResourceAsStream( name );
+                }
+            }
         }
         catch( Exception fnfe )
         {
