@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Velocity"
+        href="http://jakarta.apache.org/velocity">
+
+    <title>Velocity</title>
+    <logo href="images/logo.gif">Velocity</logo>
+
+    <body>
+    <menu name="About">
+        <item name="Overview"               href="/index.html"/>
+        <item name="Getting Started"        href="/getting-started.html"/>
+        <item name="Install"                href="/install.html"/>
+        <item name="Design"                 href="/design.html"/>
+        <item name="Contributors"           href="/contributors.html"/>
+        <item name="Coding Standards"       href="/code-standards.html"/>
+        <item name="License"                href="/license.html"/>
+        <item name="TODO"                   href="/todo.html"/>
+    </menu>
+    <menu name="Guides">
+        <item name="User's Guide"           href="/user-guide.html"/>
+        <item name="Developer's Guide"      href="/developer-guide.html"/>
+        <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
+        <item name="VM/WM Differences"      href="/differences.html"/>
+    </menu>
+    <menu name="Tools">
+        <item name="Anakia"                 href="/anakia.html"/>
+        <item name="Texen"                  href="/texen.html"/>
+        <item name="Migration to Velocity"  href="/migration.html"/>
+    </menu>
+    </body>
+</project>

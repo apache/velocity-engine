@@ -2,127 +2,121 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Velocity Contributors</title>
-  <subtitle>Velocity Contributors</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-  </authors>
- </header>
+  <author email="jvanzyl@locus.apache.org">Velocity Documentation Team</author>
+ </properties>
 
 <body>
 
-<s1 title="Contributors">
+<section name="Contributors">
 
 <p>
     The people listed below have made significant contributions to Velocity by
-    working long and hard to make quality software for the rest of the world to 
-    use. 
+    working long and hard to make quality software for the rest of the world to
+    use.
 </p>
 
 <p>
-    If you would like to contribute to Velocity, please see the 
-    <link href="todo.html">to do</link> list to find areas where you can contribute. 
-    If there is nothing in there that suits your interest, but you still have 
+    If you would like to contribute to Velocity, please see the
+    <a href="todo.html">to do</a> list to find areas where you can contribute.
+    If there is nothing in there that suits your interest, but you still have
     ideas, please feel free to suggest them on the mailing list.
 </p>
 
 <p>
-    Velocity follows a certification scheme similar to the one that is outlined 
-    on 
-    <link href="http://www.advogato.org/certs.html">http://www.advogato.org/certs.html</link>. 
+    Velocity follows a certification scheme similar to the one that is outlined
+    on
+    <a href="http://www.advogato.org/certs.html">http://www.advogato.org/certs.html</a>.
     Names on this list are ordered from first contributor at the top to the most recent contributor
     at the bottom.
 </p>
 
-<p>
 <table>
 
 <tr>
     <td>Jason van Zyl</td>
-    <td><link href="mailto:jvanzyl@periapt.com">jvanzyl@periapt.com</link></td>
+    <td><a href="mailto:jvanzyl@periapt.com">jvanzyl@periapt.com</a></td>
     <td>Periapt</td>
     <td>Master</td>
-</tr>    
+</tr>
 
 <tr>
     <td>Jon S. Stevens</td>
-    <td><link href="mailto:jon@latchkey.com">jon@latchkey.com</link></td>
+    <td><a href="mailto:jon@latchkey.com">jon@latchkey.com</a></td>
     <td>CollabNet</td>
     <td>Master</td>
-</tr>    
+</tr>
 
 <tr>
     <td>Daniel L. Rall</td>
-    <td><link href="mailto:dlr@collab.net">dlr@collab.net</link></td>
+    <td><a href="mailto:dlr@collab.net">dlr@collab.net</a></td>
     <td>CollabNet</td>
     <td>Master</td>
-</tr>    
+</tr>
 
 <tr>
     <td>Dave Bryson</td>
-    <td><link href="mailto:dave@miceda-data.com">dave@miceda-data.com</link></td>
+    <td><a href="mailto:dave@miceda-data.com">dave@miceda-data.com</a></td>
     <td>Miceda-Data</td>
     <td>Master</td>
 </tr>
 
 <tr>
     <td>Josh Lucas</td>
-    <td><link href="mailto:josh@stonecottage.com">josh@stonecottage.com</link></td>
+    <td><a href="mailto:josh@stonecottage.com">josh@stonecottage.com</a></td>
     <td>CollabNet</td>
     <td>Master</td>
 </tr>
 
 <tr>
     <td>Bob McWhirter</td>
-    <td><link href="mailto:bob@werken.com">bob@werken.com</link></td>
+    <td><a href="mailto:bob@werken.com">bob@werken.com</a></td>
     <td>Werken &amp; Sons Company</td>
     <td>Master</td>
 </tr>
 
 <tr>
     <td>Terence Parr</td>
-    <td><link href="mailto:parrt@jguru.com">parrt@jguru.com</link></td>
+    <td><a href="mailto:parrt@jguru.com">parrt@jguru.com</a></td>
     <td>JGuru</td>
     <td>Master</td>
 </tr>
 
 <tr>
     <td>Geir Magnusson Jr.</td>
-    <td><link href="mailto:geirm@optonline.net">geirm@optonline.net</link></td>
+    <td><a href="mailto:geirm@optonline.net">geirm@optonline.net</a></td>
     <td>Independent</td>
     <td>Master</td>
 </tr>
 
 <tr>
     <td>John Castura</td>
-    <td><link href="mailto:jcastura@kw.igs.net">jcastura@kw.igs.net</link></td>
+    <td><a href="mailto:jcastura@kw.igs.net">jcastura@kw.igs.net</a></td>
     <td></td>
     <td>Apprentice</td>
 </tr>
 
 <tr>
     <td>Leon Messerschmidt</td>
-    <td><link href="mailto:leon@opticode.co.za">leon@opticode.co.za</link></td>
+    <td><a href="mailto:leon@opticode.co.za">leon@opticode.co.za</a></td>
     <td></td>
     <td>Journeyer</td>
-</tr>    
-
+</tr>
 
 </table>
 
-</p>
 
 <p>
-    Velocity is a new implementation of the Model-View-Controller 
-    architecture, 
-    concept, and syntax of the WebMacro Servlet Framework 
-    (<link href="http://www.webmacro.org">www.webmacro.org</link>), 
-    which was originally envisioned and implemented by Justin Wells at 
+    Velocity is a new implementation of the Model-View-Controller
+    architecture,
+    concept, and syntax of the WebMacro Servlet Framework
+    (<a href="http://www.webmacro.org">www.webmacro.org</a>),
+    which was originally envisioned and implemented by Justin Wells at
     Semiotek, Inc.
 </p>
 
-</s1>
+</section>
 
 </body>
 </document>

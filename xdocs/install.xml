@@ -2,72 +2,70 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Velocity Installation</title>
-  <subtitle>Velocity Installation</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-  </authors>
- </header>
+  <author email="jvanzyl@locus.apache.org">Velocity Documentation Team</author>
+ </properties>
 
 <body>
 
-<s1 title="Installation">
+<section name="Installation">
 
 <p>
-    Velocity runs on a variety of platforms that have installed the Java 2 Virtual Machine.
-    The J2SDK is required for users who want to compile Velocity from its source code.
+Velocity runs on a variety of platforms that have installed the Java 2 Virtual
+Machine. The J2SDK is required for users who want to compile Velocity from its
+source code.
 </p>
 
 <p>
-    Everything required to build Velocity comes with the distribution, which can
-    be obtained from <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> 
-    or from the <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly builds</link>.
+Everything required to build Velocity comes with the distribution, which can be
+obtained from <a href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</a>
+or from the <a href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly builds</a>.
 </p>
 
-</s1>
+</section>
 
-<s1 title="Compiling">
-
-<p>
-    On Unix, <code>cd</code> to the <filename>velocity/build</filename> directory and execute the following 
-    script:
-</p>    
+<section name="Compiling">
 
 <p>
+On Unix, <code>cd</code> to the <filename>velocity/build</filename> directory
+and execute the following script:
+</p>
+
 <source><![CDATA[
-
 ./build-velocity.sh
 ]]></source>
+
+<p>
+On Windows, executing <code>build-velocity.bat</code>, found in the <filename>
+velocity\build</filename> directory, will have the same effect.
 </p>
 
 <p>
-    On Windows, executing <code>build-velocity.bat</code>, found in the <filename>velocity\build</filename> directory,
-    will have the same effect.
+Executing this script will create a <filename>bin</filename> directory within
+the Velocity distribution directory. The <filename>bin</filename> directory will
+contain the compiled class files (inside a <filename>classes</filename>
+directory) as well as a <filename>velocity.jar</filename> file. Be sure to
+update your classpath to include Velocity's <filename>.jar</filename> file.
 </p>
 
 <p>
-    Executing this script will create a <filename>bin</filename> directory within the Velocity
-    distribution directory. The <filename>bin</filename> directory will contain the compiled class 
-    files (inside a <filename>classes</filename> directory) as well as a <filename>velocity.jar</filename> file. 
-    Be sure to update your classpath to include Velocity's <filename>.jar</filename> file.
+If you get a compiler error related to one or more packages that could not
+be found, ensure the <filename>build-velocity</filename> script you are using is
+edited to properly specify the paths to each of the packages that could not be
+found.
 </p>
+
+</section>
+
+<section name="Testing Your Installation">
 
 <p>
-    If you get a compiler error related to one or more packages that could not 
-    be found, ensure the <filename>build-velocity</filename> script you are using is edited to 
-    properly specify the paths to each of the packages that could not be found.
+There are testing scripts in the <filename>velocity/examples</filename>
+directory.
 </p>
 
-</s1>
-
-<s1 title="Testing Your Installation">
-
-<p>
-    There are testing scripts in the <filename>velocity/examples</filename> directory.
-</p>
-
-</s1>
+</section>
 
 </body>
 </document>

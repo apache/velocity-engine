@@ -2,48 +2,46 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Coding Standards</title>
-  <subtitle>Coding Standards</subtitle>
-  <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-  </authors>
- </header>
+  <author email="jvanzyl@locus.apache.org">Velocity Documentation Team</author>
+ </properties>
 
 <body>
 
-<s1 title="Coding Standards">
+<section name="Coding Standards">
 
 <p>
-    Submissions to the Velocity project must follow the coding conventions 
-    outlined in this document. Velocity developers 
-    are asked to follow coding conventions already present in the code. 
-    (For example, if the existing code has the bracket on
-    the same line as the if statement, then all subsequent code
-    should also follow that convention.) Anything not 
-    explicitly mentioned in this document should adhere to the 
-    official
-    <link href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
-    Java Coding Conventions</link>. 
+This document describes a list of coding conventions that are required
+for code submissions to the project. By default, the coding conventions
+for most Open Source Projects should follow the existing coding conventions
+in the code that you are working on. For example, if the bracket is on
+the same line as the if statement, then you should write all your code
+to have that convention.
 </p>
 
 <p>
-    <strong>Developers who commit code that does not follow 
-    the coding conventions outlined in this document will be 
-    responsible for fixing their own code.</strong>
+<strong>If you commit code that does not follow these conventions and you
+are caught, you are responsible for also fixing your own code.</strong>
 </p>
 
 <p>
-1. Brackets should begin and end on new lines. Examples:
+Below is a list of coding conventions that are specific to Turbine,
+everything else not specificially mentioned here should follow the official
+<a href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
+Java Coding Conventions</a>.
 </p>
 
 <p>
-<source><![CDATA[
+1. Brackets should begin and end on a new line. Examples:
+</p>
+
+<source test=""><![CDATA[
 
 if ( foo )
 {
     // code here
-}    
+}
 
 try
 {
@@ -56,60 +54,76 @@ catch (Exception bar)
 finally
 {
     // code here
-}    
+}
 
 while ( true )
 {
     // code here
-}    
+}
+
 ]]></source>
-</p>
 
 <p>
-2. Spaces between parentheses are optional. The preference is to exclude 
-extra spaces. Both of these conventions are acceptable:
+2. It is <strong>OK</strong> to have spaces between the parens or not. The
+preference is to not include the extra spaces. For example, both of these are
+ok:
 </p>
 
-<p>
-<source><![CDATA[
+<source test=""><![CDATA[
 
 if (foo)
 
 or
 
 if ( foo )
+
 ]]></source>
-</p>
 
 <p>
-3. Four spaces. <strong>NO</strong> tabs. Period. The Velocity 
-mailing list receives cvs commit messages that are almost impossible 
-to read if tabs are used.
+3. 4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you
+like to use tabs, but the fact of the matter is that in a distributed
+development enviroment, when the cvs commit messages get sent to a mailing list,
+they are almost impossible to read if you use tabs.
 </p>
 
 <p>
 In Emacs-speak, this translates to the following command:
 
 (setq-default tab-width 4 indent-tabs-mode nil)
+
 </p>
 
 <p>
-4. Use Unix linefeeds for all .java source code files. Only platform-specific
-files (e.g. .bat files for Windows) should contain non-Unix linefeeds.
+4. Unix linefeeds for all .java source code files. Other platform specific
+files should have the platform specific linefeeds.
 </p>
 
 <p>
-5. Javadoc <strong>MUST</strong> exist on all methods. Contributing
-a missing javadoc for any method, class, variable, etc., will be greatly
-appreciated as this will help to improve the Velocity project.
+5. Javadoc <strong>MUST</strong> exist on all your methods. Also, if you are
+working on existing code and there currently isn't a javadoc for that
+method/class/variable or whatever, then you should contribute and add it.
+This will improve the project as a whole.
 </p>
 
 <p>
-6. The Jakarta Apache/Velocity License <strong>MUST</strong> be placed 
-at the top of every file.
+6. The Java Apache/Turbine License <strong>MUST</strong> be placed at the top
+of each and every file.
 </p>
 
-</s1>
+<p>
+7. If you contribute to a file (code or documentation), add yourself to the
+top of the file. For java files the preferred Javadoc format is:
+</p>
+
+<source><![CDATA[
+@author <a href="mailto:user@domain.com">John Doe</a>
+]]></source>
+
+<p>
+Thanks for your cooperation.
+</p>
+
+</section>
 
 </body>
 </document>

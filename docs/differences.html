@@ -1,59 +1,117 @@
-<HTML><HEAD><TITLE>Differences: Velocity vs. WebMacro</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<P>About</P>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="todo.html">TODO</A></LI></FONT>
-<P>Guides</P>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="user-guide.html">User's Guide</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="differences.html">VM/WM Differences</A></LI></FONT>
-<P>Tools</P>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="anakia.html">Anakia</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
-    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
-</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+<!-- Content Stylesheet for Site -->
 
- 
+        
+<!-- start the processing -->
+    <!-- ====================================================================== -->
+    <!-- Main Page Section -->
+    <!-- ====================================================================== -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
- 
+                                                    <meta name="author" value="Velocity Documentation Team">
+            <meta name="email" value="jon@latchkey.com">
+                                        <meta name="author" value="Velocity Documentation Team">
+            <meta name="email" value="geirm@optonline.net">
+            
+            <title>Velocity - Differences: Velocity vs. WebMacro</title>
+        </head>
 
- <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Differences: Velocity vs. WebMacro</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
-
- <P align="justify">
+        <body bgcolor="#ffffff" text="#000000" link="#525D76">        
+            <table border="0" width="100%" cellspacing="0">
+                <!-- TOP IMAGE -->
+                <tr>
+                    <td align="left">
+<a href="http://jakarta.apache.org"><img src="http://jakarta.apache.org/images/jakarta-logo.gif" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jakarta.apache.org/velocity"><img src="images/logo.gif" alt="Velocity" border="0"/></a>
+</td>
+                </tr>
+            </table>
+            <table border="0" width="100%" cellspacing="4">
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                
+                <tr>
+                    <!-- LEFT SIDE NAVIGATION -->
+                    <td valign="top" nowrap="true">
+                                <strong>About</strong>
+        <ul>
+                    <li>    <a href="./index.html">Overview</a>
+</li>
+                    <li>    <a href="./getting-started.html">Getting Started</a>
+</li>
+                    <li>    <a href="./install.html">Install</a>
+</li>
+                    <li>    <a href="./design.html">Design</a>
+</li>
+                    <li>    <a href="./contributors.html">Contributors</a>
+</li>
+                    <li>    <a href="./code-standards.html">Coding Standards</a>
+</li>
+                    <li>    <a href="./license.html">License</a>
+</li>
+                    <li>    <a href="./todo.html">TODO</a>
+</li>
+                </ul>
+            <strong>Guides</strong>
+        <ul>
+                    <li>    <a href="./user-guide.html">User's Guide</a>
+</li>
+                    <li>    <a href="./developer-guide.html">Developer's Guide</a>
+</li>
+                    <li>    <a href="./vtl-reference-guide.html">VTL Reference Guide</a>
+</li>
+                    <li>    <a href="./differences.html">VM/WM Differences</a>
+</li>
+                </ul>
+            <strong>Tools</strong>
+        <ul>
+                    <li>    <a href="./anakia.html">Anakia</a>
+</li>
+                    <li>    <a href="./texen.html">Texen</a>
+</li>
+                    <li>    <a href="./migration.html">Migration to Velocity</a>
+</li>
+                </ul>
+                        </td>
+                    <td align="left" valign="top">
+                                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>Differences: Velocity vs. WebMacro</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
 On the mailing lists, we often get asked to explain the differences
 between Velocity and WebMacro. Instead of answering the same question
 over and over, we have started this document to describe some of the
 differences in our approaches. In reality, both are excellent tools and
 we feel that it is up to the user base to decide which one they would
 like to use.
- </P>
-
- <P align="justify">
+ </p>
+                                                <p>
 The language syntax is very close but not exactly the same. The syntaxes
 were kept close for a few reasons:
- </P>
-
- <P align="justify">
+ </p>
+                                                <p>
 1) The syntactical approach of $&lt;foo&gt; for references and
 #&lt;bar&gt; for directives is a good one! It's easy for designers to
 work with, people understand it, and there was no reason to reinvent the
 wheel.
- </P>
-
- <P align="justify">
+ </p>
+                                                <p>
 2) Since so many people were using the syntax, why invent another one?
 Also, it makes the WebMacro to Velocity conversion much easier :) We
-even have a <A href="migration.html">tool</A> to help with that.
- </P>
-
- <P align="justify">
+even have a <a href="migration.html">tool</a> to help with that.
+ </p>
+                                                <p>
 Velocity was built new from the ground up.  There isn't a snippet of
 shared code. This was originally done because WebMacro was released
 under a license (GPL) that is not compatible with the BSD/ASF license
@@ -62,101 +120,135 @@ license. Since then, WebMacro has been released under a dual GPL/ASF
 license, however, that was too late, this project was already well
 underway and we also felt that we have a better technical solution by
 going with a generated parser instead of a hand coded one.
- </P>
-
-<P align="justify">
+ </p>
+                                                <p>
 By starting new and fresh, we are less encumbered with some of the
 baggage that WebMacro must deal with due to backwards compatibility
 issues. We have fixed a few of the template language inconsistencies
 that we saw creeping into WebMacro such as the fact that we do not
 support using {} for code blocks (because we do not need to) and that we
 use () around all #directives on the right hand side. Examples:
-</P>
-
-<DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>#set ($bar = &quot;foo&quot;)
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>#set ($bar = &quot;foo&quot;)
 
 #if ($bar.length() &gt; 0)
 stuff here
-#end</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+#end
 
- <P align="justify">
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
 Architecturally, the biggest difference until recently was the parser.
 The Velocity parser is written using a tool called javacc, a very
 popular Java-based parser generator.  It was originally developed for
 Sun by Metamata and is now maintained and managed by Metamata as well :
-<A href="http://www.metamata.com/">www.metamata.com</A>.
- </P>
-
- <P align="justify">
+<a href="http://www.metamata.com/">www.metamata.com</a>.
+ </p>
+                                                <p>
 The WebMacro parser was written by hand until recently and was the cause
 of much pain when using WebMacro (due to many bugs in it) - their new
 parser, for their 0.95 release is also written using javacc and promises
 to be better (however, support for a lot of the baggage still exists).
- </P>
-
- <P align="justify">
+ </p>
+                                                <p>
 Velocity is very simple in its architecture, as it is meant to be
 nothing more than a template engine. The idea is to do one thing only
 and do it well.  Much in the spirit of the Unix philosophy - have a good
 set of simple tools, and create bigger things using them. This has
 enabled Velocity to be used as the basis for several different tools,
-such as <A href="anakia.html">Anakia</A> and <A href="texen.html">Texen</A>.
-</P>
-
- <P align="justify">
+such as <a href="anakia.html">Anakia</a> and <a href="texen.html">Texen</a>.
+</p>
+                                                <p>
 Velocity is recognized that it isn't going to try to be a 'development
-framework' - there are plenty around, such as <A href="http://jakarta.apache.org/turbine/">Turbine</A>.
- </P>
-
- <P align="justify">
+framework' - there are plenty around, such as <a href="http://jakarta.apache.org/turbine/">Turbine</a>.
+ </p>
+                                                <p>
 Therefore, all facilities like 'context tool' and 'resource brokers' are
 purposely left out of Velocity, acknowledging that not only will
 frameworks do it, they will do it better anyway.  Further, by leaving out
 of the Velocity core much that should be done at the application / user
 / framework level, the Velocity core remains smaller and therefore, in
 our opinion, more maintainable and extensible.
- </P>
-
- <P align="justify">
+ </p>
+                                                <p>
 Internally, Velocity is pretty straightforward.  There are no threads
 created or managed for you.  Templates are parsed and caches, kept in
 their internal form of an 'Abstract Syntax Tree', a tree structure that
 is then rapidly walked when your template is merged.  Each node
 corresponds to on of the syntactical elements in your template.
- </P>
-
-<P align="justify">
+ </p>
+                                                <p>
 Internally within WebMacro, many of the methods and classes are marked
 as private and/or final in order to achieve better speed. However, this
 has prevented people from easily extending or overriding some of the
 core funtionality and re-using some of the code. We would rather
 sacrifice a few ms in favor of allowing more people to use our software
 easily.
-</P>
-
- <P align="justify">
-The biggest feature difference between the two are the '<A href="user-guide.html">Velocimacros</A>'. Velocimacros can be thought of
+</p>
+                                                <p>
+The biggest feature difference between the two are the '<a href="user-guide.html">Velocimacros</a>'. Velocimacros can be thought of
 as snippets of re-usable data that can contain anything. They are parsed
 just like the data in a #parse() statement would be and you can pass in
 variables that can optionally have scope only within the Velocimacro.
- </P>
-
-<P align="justify">
+ </p>
+                                                <p>
 Velocimacro's are also helping keep the core #directive set small and
 clean. In other words, WebMacro is adding #directives to the core at an
 increasing rate and we are not. We would rather support optional
-downloads for that &quot;extra&quot; funtionality that can be shared.
-</P>
-
- <P align="justify">
+downloads for that "extra" funtionality that can be shared.
+</p>
+                                                <p>
 We hope this helps.  The best way to understand Velocity is to use it,
 and of course nothing beats looking at the source code.
- </P> 
+ </p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                        </td>
+                </tr>
 
- </FONT></TD></TR></TABLE></DIV><BR>
+                <!-- FOOTER -->
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                <tr><td colspan="2">
+                    <div align="center"><font color="#525D76" size="-1"><em>
+                    Copyright &#169; 1999-2001, Apache Software Foundation
+                    </em></font></div>
+                </td></tr>
+            </table>
+        </body>
+    </html>
+<!-- end the processing -->
 
- 
- </TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
-              Copyright &copy; 2000-2001 The Apache Software Foundation.
-              All Rights Reserved.
-            </I></FONT></TD></TR></TABLE></BODY></HTML>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -17,6 +17,8 @@ set CLASSPATH=%CLASSPATH%;.\lib\ant-1.2.jar;.\lib\ant-1.2-optional.jar
 set CLASSPATH=%CLASSPATH%;.\lib\xerces-1.2.1.jar
 set CLASSPATH=%CLASSPATH%;.\lib\Fop.class
 set CLASSPATH=%CLASSPATH%;.\lib\Xslt.class
+set CLASSPATH=%CLASSPATH%;..\..\jakarta-site2\lib\velocity-0.72.jar
+set CLASSPATH=%CLASSPATH%;..\..\jakarta-site2\lib\jdom-b5.jar
 
 %JAVA_HOME%\bin\java.exe org.apache.tools.ant.Main -buildfile %BUILDFILE% %1 %2 %3 %4 %5 %6 %7 %8 %9
 
