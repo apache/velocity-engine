@@ -52,20 +52,29 @@
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.runtime.parser.node;
+
+import org.apache.velocity.Context;
+import org.apache.velocity.runtime.parser.*;
+
 /**
  * Utilities for dealing with the AST node structure.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.4 2000/11/07 21:31:05 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.5 2000/11/28 00:55:41 jvanzyl Exp $
  */
-
-package org.apache.velocity.runtime.parser.node;
-
-import org.apache.velocity.runtime.parser.*;
-
 public class NodeUtils
 {
+    /**
+     * Collect all the <SPECIAL_TOKEN>s that
+     * are carried along with a token. Special
+     * tokens do not participate in parsing but
+     * can still trigger certain lexical actions.
+     * In some cases you may want to retrieve these
+     * special tokens, this is simply a way to
+     * extract them.
+     */
     public static String specialText(Token t)
     {
         String specialText = "";
@@ -86,6 +95,58 @@ public class NodeUtils
 
         return specialText;
     }
+    
+    /**
+     * Utility method to interpolate context variables
+     * into string literals. So that the following will
+     * work:
+     *
+     * #set $name = "candy"
+     * $image.getURI("${name}.jpg")
+     *
+     * And the string literal argument will
+     * be transformed into "candy.jpg" before
+     * the method is executed.
+     */
+    public String interpolate(String argStr, Context vars)
+    {
+        StringBuffer argBuf = new StringBuffer();
 
+        for (int cIdx = 0 ; cIdx < argStr.length();)
+        {
+            char ch = argStr.charAt(cIdx);
+
+            switch (ch)
+            {
+                case '$':
+                    StringBuffer nameBuf = new StringBuffer();
+                    for (++cIdx ; cIdx < argStr.length(); ++cIdx)
+                    {
+                        ch = argStr.charAt(cIdx);
+                        if (ch == '_' || Character.isLetterOrDigit(ch))
+                            nameBuf.append(ch);
+                        else
+                            break;
+                    }
+
+                    if (nameBuf.length() > 0)
+                    {
+                        String value = (String) vars.get(nameBuf.toString());
+
+                        if (value != null)
+                        {
+                            argBuf.append(value);
+                        }
+                    }
+                    break;
+
+                default:
+                    argBuf.append(ch);
+                    ++cIdx;
+                    break;
+            }
+        }
+
+        return argBuf.toString();
+    }
 }
-
