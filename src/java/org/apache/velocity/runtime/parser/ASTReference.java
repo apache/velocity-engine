@@ -80,8 +80,8 @@ public class ASTReference extends SimpleNode
                     nullString);
         else
             writer.write(NodeUtils
-                .specialText(getFirstToken()) + 
-                    value(context).toString());
+                .specialText(getFirstToken()) +
+                    value.toString());
     }
 
     public boolean evaluate(Context context)

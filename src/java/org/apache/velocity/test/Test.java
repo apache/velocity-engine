@@ -72,7 +72,7 @@ import org.apache.velocity.runtime.Runtime;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.1 2000/09/30 17:04:21 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.2 2000/10/20 02:19:54 jvanzyl Exp $
  */
 public class Test
 {
@@ -100,7 +100,8 @@ public class Test
             context.put("search", provider.getSearch());
             context.put("relatedSearches", provider.getRelSearches());
             context.put("searchResults", provider.getRelSearches());
-
+            context.put("menu", provider.getMenu());
+            context.put("stringarray", provider.getArray());
             
             FastWriter fw = new FastWriter(
                 System.out, Runtime.getString(
@@ -116,6 +117,7 @@ public class Test
         catch( Exception e )
         {
             e.printStackTrace();
+            Runtime.error(e);
         }
     }
 

@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.2 2000/10/09 15:09:15 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.3 2000/10/20 02:19:54 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -114,6 +114,24 @@ public class TestProvider
         this.title = title;
     }
 
+    public Object[] getMenu()
+    {
+        //ArrayList al = new ArrayList();
+        Object[] menu = new Object[3];
+        for (int i = 0; i < 3; i++)
+        {
+            Hashtable item = new Hashtable();
+            item.put("id", "item" + Integer.toString(i+1));
+            item.put("name", "name" + Integer.toString(i+1));
+            item.put("label", "label" + Integer.toString(i+1));
+            //al.add(item);
+            menu[i] = item;
+        }            
+            
+        //return al;
+        return menu;
+    }
+
     public ArrayList getCustomers()
     {
         ArrayList list = new ArrayList();
@@ -158,7 +176,7 @@ public class TestProvider
         return list;
     }
 
-    public Object getArray()
+    public String[] getArray()
     {
         String[] strings = new String[2];
         strings[0] = "first element";

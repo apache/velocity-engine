@@ -1,9 +1,13 @@
 Foreach with an array.
 
+##foreach ($element in $provider.Array)
+
+$stringarray
+
 <table>
-#foreach ($element in $provider.Array)
+#foreach ($element in $stringarray)
     <tr>
-        <td>This is $element</td>
+        <td>This is $element and it is the $velocityCount item</td>
     </tr>        
 #end
 </table>
