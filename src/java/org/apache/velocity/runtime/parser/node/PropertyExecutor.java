@@ -57,11 +57,16 @@ import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
+import java.lang.reflect.InvocationTargetException;
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  * Returned the value of object property when executed.
  */
 public class PropertyExecutor extends AbstractExecutor
 {
+    private String methodUsed = null;
+
     public PropertyExecutor(Class c, String property)
     {
         /*
@@ -72,7 +77,9 @@ public class PropertyExecutor extends AbstractExecutor
         
         try
         {
-            method = c.getMethod("get" + property, null);
+            methodUsed = "get" + property;
+
+            method = c.getMethod( methodUsed, null);
         }
         catch (NoSuchMethodException nsme)
         {
@@ -105,30 +112,48 @@ public class PropertyExecutor extends AbstractExecutor
 
             try
             {
-                method = c.getMethod( sb.toString(), null);
+                methodUsed = sb.toString();
+                method = c.getMethod( methodUsed, null);
             }
             catch ( NoSuchMethodException nsme2 )
             {
             }
         }
     }
-
     
+
     /**
-     * Get the value of the specified property.
+     * Execute method against context.
      */
     public Object execute(Object o, InternalContextAdapter context)
+        throws IllegalAccessException,  MethodInvocationException
     {
-        try
+        if (method == null)
+            return null;
+     
+        try 
         {
-            if (method == null)
-                return null;
-            
-            return method.invoke(o, null);
+            return method.invoke(o, null);  
         }
-        catch (Exception e)
+        catch( InvocationTargetException ite )
+        {
+            /*
+             *  the method we invoked threw an exception.
+             *  package and pass it up
+             */
+
+            throw  new MethodInvocationException( 
+                "Invocation of method '" + methodUsed + "'" 
+                + " in  " + o.getClass() 
+                + " threw exception " 
+                + ite.getTargetException().getClass(), 
+                ite.getTargetException(), methodUsed );
+        }
+        catch( IllegalArgumentException iae )
         {
             return null;
         }
     }
 }
+
+
