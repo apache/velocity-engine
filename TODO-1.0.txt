@@ -88,7 +88,7 @@ o Codify the testing harness
         which can be called from a the main build.xml file
   
   STATUS:
-  None
+  [daveb] Working it.
   
 o Speed testing suite
 
