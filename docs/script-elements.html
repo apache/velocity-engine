@@ -18,9 +18,13 @@
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Script Elements</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
     There are several different types of Script Elements within Velocity. The 
-    overall purpose of these elements is described in the <A href="design.html">Design Document</A>. The following elements are currently
-    defined within Velocity and also explained in detail below. All of the elements are
-    prefixed with a #. For example, #if, #foreach, #set.
+    overall purpose of these elements is described in the <A href="design.html">Design Document</A>. 
+    </P>
+    
+    <P align="justify">
+    The following elements are currently defined within Velocity and also 
+    explained in detail below. Velocity script elements are prefixed with a #. 
+    For example, #if, #foreach, #set.
     </P>
     <BLOCKQUOTE><UL>
         <LI><B>Variables</B></LI>
@@ -41,14 +45,15 @@
         <LI><B>Set</B></LI>
         <LI><B>Comment</B></LI>
         <LI><B>Stop</B></LI>
+	<LI><B>Macro</B></LI>
     </UL></BLOCKQUOTE>
  </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    Variables are referenced in a similar fashion to the way that they are in 
-    Perl (ie: they use a $), but they also take advantage of some Java 
-    principles that are easy for template designers to work with. For example:
+    Velocity references its variables in a fashion similar to Perl (i.e. they 
+    use a $), but takes advantage of some Java principles that template 
+    designers will find easy to use. For example:
     </P>
 
     <P align="justify">
@@ -60,17 +65,17 @@
     </P>
 
     <P align="justify">
-    As you can see in a couple of the examples above there are alternative uses 
-    for the same variables. Velocity takes advantage of Java's introspection and 
+    These examples illustrate alternative uses for the same variables. 
+    Velocity takes advantage of Java's introspection and 
     bean features to resolve the variable names to both objects in the Context 
-    as well as the objects methods. It is possible to embed the variables almost
-    anywhere in your template and have them be evaluated.
+    as well as the objects methods. It is possible to embed variables almost
+    anywhere in your template. These variables can be evaluated.
     </P>
     
     <P align="justify">
-    Everything coming to and from the variables is treated as a String object. 
-    If you have an object that is representing $foo such as an Integer object, 
-    then Velocity will call its .toString() method in order to resolve the 
+    Everything coming to and from a variable is treated as a String object. 
+    If there is an object that represents $foo (such as an Integer object), 
+    then Velocity will call its .toString() method to resolve the 
     object into a String.
     </P>
  </FONT></TD></TR></TABLE></DIV><BR>
@@ -79,8 +84,9 @@
 
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>If / Else Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #if statement in Velocity allows you to conditionally include the text 
-    within the brackets. For example:
+    The #if statement in Velocity allows for text in the brackets to be 
+    included in the text, on the conditional that the if statement
+    is true. For example:
     </P>
 
     <P align="justify">
@@ -92,16 +98,14 @@
     </P>
 
     <P align="justify">
-    The variable $foo is evaluated to see if it is a boolean or not null and the 
-    content within the brackets is what is output if the evaluation is true. As 
-    you can see, this has the advantage over other systems because you do not 
-    need to wrap your HTML code within an out.println(), therefore enabling you 
-    to develop a more MVC solution. Of course there are other solutions to 
-    out.println() within JSP, but they are just as ugly as out.println().
+    The variable $foo is evaluated to see if it is a boolean or not null; the 
+    content within the brackets becomes the output if the evaluation is true. 
+    Unlike in JSP, Velocity does not force web developers to wrap HTML code 
+    within an out.println(), or to delve into ugly workarounds to out.println().
     </P>
     
     <P align="justify">
-    Another example is that you can include #else elements with your #if element.
+    An #else element can be used with an #if element.
     </P>
 
     <P align="justify">
@@ -115,10 +119,16 @@
         &lt;strong&gt;Velocity Still Rocks!&lt;/strong&gt;
     }</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
+    
+    <P align="justify">
+    In this example, if $foo is false, then the output will be
+    <B>Velocity Still Rocks!</B> 
+    </P>
 
     <P align="justify">
-    Note: In the current version of Velocity, it is not possible to do something like what
-    is shown below. We will be adding this functionality quickly though.
+    Note that logical operators are not yet available in Velocity. 
+    This functionality is expected to be added soon. An example of
+    a logical operator is shown below.
     </P>
 
     <P align="justify">
@@ -130,11 +140,10 @@
     </P>
 
     <P align="justify">
-    If you would like to emulate the functionality of #elseif, then you can do 
-    so by using nested #if statements. As you would expect, nesting elements 
-    works for all of the elements to an infinite level of nesting. For example, 
-    you can nest a #foreach within a #if. We will be considering in the future 
-    of adding a #elseif to simplify things.
+    Nested #if statements can be used to emulate the functionality of #elseif.
+    Nesting elements work for all elements to an infinite level of nesting; 
+    for example, a #foreach can be nested within an #if. An #elseif element
+    may be added in the future to simplify things.
     </P>    
     </FONT></TD></TR></TABLE></DIV><BR>
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -142,13 +151,15 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Loops</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Foreach Loop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #foreach element allows you to create loops. For example:
+    The #foreach element allows for looping. The #foreach element is followed
+    by a set of brackets that enclose the target and object to be stepped 
+    through. For example:
     </P>
 
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;ul&gt;
-    #foreach $product in $allProducts
+    #foreach ($product in $allProducts)
     {
         &lt;li&gt;$product&lt;/li&gt;
     }
@@ -157,16 +168,17 @@
     </P>
 
     <P align="justify">
-    The #foreach loop causes the $allProducts list to be looped over for all 
-    of the elements in the list. Each time through the loop, the value from
-    $allProducts is placed into the $product variable.
+    This #foreach loop causes the $allProducts list (the object) to be 
+    looped over for all of the products (targets) in the list. Each time 
+    through the loop, the value from $allProducts is placed into the 
+    $product variable.
     </P>
     
     <P align="justify">
-    The contents of the $allProducts variable is either a Vector, Hashtable or 
-    Array. Thus, the value that is assigned to the $product variable is a Java
-    Object and can be referenced from the variable as so. For example, if $product
-    was really a Product class in Java, you could get the name of the Product
+    The contents of the $allProducts variable is either a Vector, a Hashtable 
+    or an Array. The value assigned to the $product variable is a Java
+    Object and can be referenced from a variable as such. For example, if 
+    $product was really a Product class in Java, its name could be retrieved
     by referencing the $product.Name method (ie: Product.getName()).
     </P>
     </FONT></TD></TR></TABLE></DIV><BR>
@@ -174,10 +186,10 @@
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Parse</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #parse script element allows you to import a local file and have it 
-    parsed through the Velocity template engine and inserted into the location 
-    where the #parse directive is defined. The current Context is applied to the 
-    variables that are embedded within the template.
+    The #parse script element allows a local files to be imported and parsed
+    through the Velocity template engine, then inserted into the location 
+    where the #parse directive is defined. The current Context is applied to 
+    the variables that are embedded within the template.
     </P>
     
     <P align="justify">
@@ -189,9 +201,10 @@
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Include</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #include script element allows you to import a local file that is 
-    inserted into the location where the #include directive is defined. The 
-    contents of the file are not rendered through the template engine.
+    The #include script element allows the template designer to import a 
+    local file, which is then inserted into the location where the #include 
+    directive is defined. The contents of the file are not rendered through 
+    the template engine.
     </P>
     
     <P align="justify">
@@ -215,17 +228,16 @@
     </P>
     
     <P align="justify">
-    One difference between Velocity and WebMacro is that the left hand side
-    variable must be prefixed with a $. We felt that this is more appropriate
-    for the script element language because you are effectively setting a 
-    variable and the references to variables should be consistent.
+    The variable on the left side of the #param script element must be 
+    prefixed with a $. This provides a consistent syntax for referencing 
+    variables in Velocity.
     </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Set</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #set script element allows the template designer to set variables within
-    the Context.
+    The #set script element allows the template designer to set variables 
+    within the Context.
     </P>
     
     <P align="justify">
@@ -235,15 +247,13 @@
     </P>
     
     <P align="justify">
-    One difference between Velocity and WebMacro is that the left hand side
-    variable must be prefixed with a $. We felt that this is more appropriate
-    for the script element language because you are effectively setting a 
-    variable and the references to variables should be consistent.
+    When using the #set directive, the variable on the left side must be 
+    prefixed with a $. This provides a 
+    consistent syntax for referencing variables in Velocity.
     </P>
     
     <P align="justify">
-    Currently, the above example is the only thing that is supported. We will
-    eventually be suporting the full range of WebMacro functionality here.
+    The following script elements have not been implemented.
     </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
@@ -261,8 +271,8 @@
     
     <P align="justify">
     A current problem with Velocity is that the space that comments occupy
-    is not removed from the template. The newlines should be removed. This
-    will be fixed shortly.
+    is not removed from the template. The newlines created be these comments
+    will soon be removed.
     </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
@@ -277,6 +287,44 @@
     #stop
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>    
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macro</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    With the #macro script element, the template designer can define a 
+    time-saving macro. 
+    </P>    
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #macro (row $content) &lt;tr&gt;&lt;td&gt;$content&lt;/td&gt;&lt;/tr&gt; #end
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    This establishes a macro called &quot;row&quot;, which uses HTML tags to
+    put content into its own table data cell in an HTML table. Having 
+    defined the #row macro, the template designer can now call the #row 
+    macro by name.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;table&gt;
+    #foreach ($element in $list)
+	#row ($element)
+    #end
+    &lt;/table&gt;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    Here a newly created #row macro is nested inside a #foreach
+    statement. As the #foreach statement loops through each $element
+    target in the $list object, the #row macro will take the value of
+    $element and put it into its table data cell.
+    </P>
+    
 </FONT></TD></TR></TABLE></DIV><BR>
 
  
