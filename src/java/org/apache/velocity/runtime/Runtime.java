@@ -62,6 +62,7 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.Stack;
 
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
@@ -144,7 +145,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.32 2000/11/06 04:14:14 geirm Exp $
+ * @version $Id: Runtime.java,v 1.33 2000/11/06 21:11:06 jon Exp $
  */
 public class Runtime
 {
@@ -205,7 +206,12 @@ public class Runtime
       * The Runtime parser. This has to be changed to
       * a pool of parsers!
       */
-    private static Parser parser;
+    private static Stack parserStack;
+    
+    /**
+      * Number of parsers to create
+      */
+    private static final int NUMBER_OF_PARSERS = 20;
     
     /** Indicate whether the Runtime has been fully initialized */
     private static boolean initialized;
@@ -385,24 +391,55 @@ public class Runtime
      */
     private static void initializeParserPool()
     {
-        // put this in a method and make a pool of
-        // parsers.
-        parser = new Parser();
+        parserStack = new Stack();
+        for (int i=0;i<NUMBER_OF_PARSERS ;i++ )
+        {
+            parserStack.push (createNewParser());
+        }
+        Runtime.info ("Created: " + NUMBER_OF_PARSERS + " parsers.");
+    }
+
+    /**
+     * Returns a parser
+     */
+    public static Parser createNewParser()
+    {
+        Parser parser = new Parser();
         Hashtable directives = new Hashtable();
         directives.put("foreach", new Foreach());
         directives.put("dummy", new Dummy());
         directives.put("include", new Include() );
         parser.setDirectives(directives);
+        return parser;
     }
 
     /**
      * Parse the input stream and return the root of
      * AST node structure.
      */
-    public synchronized static SimpleNode parse(InputStream inputStream)
+    public static SimpleNode parse(InputStream inputStream)
         throws ParseException
     {
-        return parser.parse(inputStream);
+        Parser parser = null;
+        try
+        {
+            parser = (Parser) parserStack.pop();
+        }
+        catch (Exception e)
+        {
+            parser = createNewParser();
+        }
+        SimpleNode sn = null;
+        try
+        {
+            sn = parser.parse(inputStream);            
+        }
+        finally
+        {
+            if (parser != null)
+                parserStack.push(parser);
+        }
+        return sn;
     }
     
     /**
