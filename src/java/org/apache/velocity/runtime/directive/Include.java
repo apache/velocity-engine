@@ -93,7 +93,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.5 2000/11/27 23:57:38 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.6 2000/11/28 00:21:03 jvanzyl Exp $
  */
 public class Include extends Directive
 {
@@ -265,8 +265,8 @@ public class Include extends Directive
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
     {
-        String strOutputMsgStart = VelocityResources.getString( ERRORMSG_START);
-        String strOutputMsgEnd = VelocityResources.getString( ERRORMSG_END );
+        String strOutputMsgStart = Runtime.getString( ERRORMSG_START);
+        String strOutputMsgEnd = Runtime.getString( ERRORMSG_END );
         
         if ( strOutputMsgStart != null  && strOutputMsgEnd != null)
         {
