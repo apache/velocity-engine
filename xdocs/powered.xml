@@ -22,7 +22,7 @@
 
  </section>
  
- <section name="Velocity-powered Products">
+ <section name="Velocity-powered Products and Projects">
  <p>
    Velocity is a utility tool which can be used in conjunction with
    general applications which may or may not be web based.
@@ -75,6 +75,16 @@
     J/Top is an open source application for monitoring multiple servers running
     'top'.   It has an email notifier which uses Velocity for formatting the 
     notification emails.
+    </td>
+   </tr>
+   
+   <tr>
+    <td>
+     <a href="http://eyebrowse.tigris.org/">Eyebrowse</a>
+    </td>
+    <td>
+        Eyebrowse is a Java Servlet browser for
+        Unix mbox format mail archives.
     </td>
    </tr>
 
