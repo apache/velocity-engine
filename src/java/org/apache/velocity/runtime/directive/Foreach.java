@@ -85,31 +85,75 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.23 2000/11/26 10:18:13 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.24 2000/11/27 18:19:12 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
+    /**
+     * Flag to indicate that the list object being used
+     * in an array.
+     */
     private final static int INFO_ARRAY = 1;
+    
+    /**
+     * Flag to indicate that the list object being used
+     * provides an Iterator.
+     */
     private final static int INFO_ITERATOR = 2;
+    
+    /**
+     * Flag to indicate that the list object being used
+     * is a Map.
+     */
     private final static int INFO_MAP = 3;
+    
+    /**
+     * Flag to indicate that the list object is
+     * empty. This is perfectly valid, and nothing
+     * will be rendered. When the list object
+     * contains values, then the flag will be
+     * altered and the rendering will occur.
+     */
     private final static int INFO_EMPTY_LIST_OBJECT = 4;
     
-    private final static String COUNTER_IDENTIFIER =
-        VelocityResources.getString(Runtime.COUNTER_NAME);
+    /**
+     * The name of the variable to use when placing
+     * the counter value into the context. Right
+     * now the default is $velocityCount.
+     */
+    private final static String COUNTER_NAME =
+        Runtime.getString(Runtime.COUNTER_NAME);
     
+    /**
+     * What value to start the loop counter at.
+     */
     private final static int COUNTER_INITIAL_VALUE =
-        new Integer(VelocityResources.getString(Runtime.COUNTER_INITIAL_VALUE)).intValue();
+        Runtime.getInt(Runtime.COUNTER_INITIAL_VALUE);
 
+    /**
+     * The reference name used to access each
+     * of the elements in the list object. It
+     * is the $item in the following:
+     *
+     * #foreach ($item in $list)
+     *
+     * This can be used class wide because
+     * it is immutable.
+     */
     private String elementKey;
-    private Object listObject;
-    private Object tmp;
-    private int iterator;
-
+    
+    /**
+     * Return the name of this directive to
+     * the Runtime.
+     */
     public String getName() 
     { 
         return "foreach"; 
     }
     
+    /**
+     * Return the type of this directive.
+     */
     public int getType() 
     { 
         return BLOCK; 
@@ -118,6 +162,8 @@ public class Foreach extends Directive
     public void init(Context context, Node node) throws Exception
     {
         Object sampleElement = null;
+        Object listObject = null;
+        
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
 
         /*
@@ -217,6 +263,10 @@ public class Foreach extends Directive
     public boolean render(Context context, Writer writer, Node node)
         throws IOException
     {
+        int counter;
+        Iterator i;
+        Object listObject = null;
+        
         /*
          * If the node has been set to invalid then it is because
          * the list object placed in the context is not an array,
@@ -268,8 +318,7 @@ public class Foreach extends Directive
             }
         }
     
-        Iterator i;
-        Object listObject = node.jjtGetChild(2).value(context);
+        listObject = node.jjtGetChild(2).value(context);
 
         if (node.getInfo() == INFO_ARRAY)
             i = new ArrayIterator((Object[]) listObject);
@@ -278,16 +327,16 @@ public class Foreach extends Directive
         else            
             i = ((Collection) listObject).iterator();
         
-        iterator = COUNTER_INITIAL_VALUE;
+        counter = COUNTER_INITIAL_VALUE;
         while (i.hasNext())
         {
-            context.put(COUNTER_IDENTIFIER, new Integer(iterator));
+            context.put(COUNTER_NAME, new Integer(counter));
             context.put(elementKey,i.next());
             node.jjtGetChild(3).render(context, writer);
-            iterator++;
+            counter++;
         }
 
-        context.remove(COUNTER_IDENTIFIER);
+        context.remove(COUNTER_NAME);
         context.remove(elementKey);
     
         return true;
