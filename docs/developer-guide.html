@@ -249,6 +249,11 @@
 
 <li>
 <a href="developer-guide.html#FAQ (Frequently Asked Questions)">FAQ (Frequently Asked Questions)</a>
+<ul>
+    <li><a href="#FAQ1">Why Can't I Access Class Members and Constants from VTL?</a></li>
+    <li><a href="#FAQ2">Where does Velocity look for Templates?</a></li>
+    <li><a href="#FAQ3">How to I tell Velocity to use my custom directive?</a></li>
+</ul>
 </li>
 
 <li>
@@ -3629,7 +3634,7 @@ In no apparent order, here are questions and answers that repeatedly arise
 by developers using Velocity.  As we get more, we will move this out to
 a separate document.
 </p>
-                                                <strong>Why Can't I Access Class Members and Constants from VTL?</strong>
+                                                <a name="FAQ1"><strong>Why Can't I Access Class Members and Constants from VTL?</strong></a>
                                                 <p>
  The short answer is because we don't introspect for fields.  We don't do that
  because we wish to promote the idea that you hide your raw data in your
@@ -3721,7 +3726,7 @@ a separate document.
      if you are so driven), then you would have to exend / modify the
      <code>FieldMethodizer</code> yourself. (And we still recommend you provide accessors....)
   </p>
-                                                <strong>Where does Velocity look for Templates?</strong>
+                                                <a name="FAQ2"><strong>Where does Velocity look for Templates?</strong></a>
                                                 <p>
     By default, without any configuration on your part, Velocity will look
     for templates in files, and look for them in the current directory
@@ -3741,6 +3746,38 @@ a separate document.
       <a href="developer-guide.html#Velocity Configuration Keys and Values">
       configuration keys, values and defaults</a>.
      </p>
+                                                <a name="FAQ3"><strong>How to I tell Velocity to use my custom directive?</strong></a>
+                                                <p>
+        You can extend the functionality of Velocity by writing your own
+        custom directives.  For example, see the <code>LocalDirective</code>
+        in <code>contrib/temporary/LocalDirective</code>.  To get Velocity
+        to load your directive, all you need to do is include the
+        following property in your configuration of the Velocity engine :
+    </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+        
+        userdirective = LocalDirective
+        
+    
+    </pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
                             </blockquote>
         </p>
       </td></tr>
