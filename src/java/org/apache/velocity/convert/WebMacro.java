@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.15 2001/05/12 02:14:41 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.16 2001/05/22 02:40:39 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -127,8 +127,12 @@ public class WebMacro
         "\\${(_[^}]+)}", // within a formal reference
         "${l$1}",
 
+        // Eat semi-colons in (converted) VTL #set directives.
+        "(#set\\s*\\([^;]+);(\\s*\\))",
+        "$1$2",
+
         // Convert explicitly terminated WM statements to VTL syntax.
-        "(^|[^\\\\])\\$([\\w]+);",
+        "(^|[^\\\\])\\$(\\w[^=\n;]*);",
         "$1${$2}",
 
         // Change extensions when seen.
