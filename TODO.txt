@@ -1,5 +1,44 @@
 +------------- Critical For Release -------------+
 
+No blockers.
+
+
++------------- Not Critical For Release -------------+
+
+o Drop use of Log4J Category class
+
+  PLAN: Replace with org.apache.log4j.Logger.
+
+  STATUS:
+  [DLR] I will implement this for 1.5 (has open Bugzilla issue).
+
+
+o Control Caching Resource Usage
+
+  Change resource caching to limit cache size and expire
+  least-recently-used.  This is needed to prevent Vel from
+  sucking up RAM uncontrollably for content-centric or 
+  other sites that may use #include() or #parse() 
+  extensively.
+
+  PLAN:
+  Fix code using org.apache.commons.collections.LRUMap class.
+
+  STATUS:
+  [GMJ] Punt for next release.
+  [DLR] I will implement this for 1.5.
+
+
+o Specification Files
+  PLAN:
+  1. Update the BNF and AST files to reflect latest Velocity code.
+  2. Make sure that the questions in the questions file 
+     are all answered and dealt with.
+
+  STATUS:
+  [NONE]
+
+
 o UML Diagrams
   
   PLAN:
@@ -11,28 +50,3 @@ o UML Diagrams
   I will check them into CVS and we can go from there.
   [JVZ] I've place the XMI file on the apache website
   if anyone wants to take a crack at using ArgoUML.
-
-o Specification Files
-  PLAN:
-  1. Update the bnf and ast files to reflect latest Velocity code.
-  2. Make sure that the questions in the questions file 
-     are all answered and dealt with.
-
-  STATUS:
-  [NONE]
-
-+------------- Not Critical For Release -------------+
-
-o Control Caching Resource Usage
-
-  Change resource caching to limit cache size and expire
-  least-recently-used.  This is needed to prevent Vel from
-  sucking up RAM uncontrollably for content-centric or 
-  other sites that may use #include() or #parse() 
-  extensively.
-
-  PLAN:
-  Fix code.
-
-  STATUS:
-  [GMJ] Punt for next release.
