@@ -63,6 +63,7 @@ import java.net.MalformedURLException;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -74,16 +75,16 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.9 2001/03/05 11:48:39 jvanzyl Exp $
+ *  @version $Id: StringUtils.java,v 1.10 2001/05/01 17:29:45 dlr Exp $
  */
 public class StringUtils
 {
-    /*
+    /**
      * Line separator for the OS we are operating on.
      */
     private static final String EOL = System.getProperty("line.separator");
     
-    /*
+    /**
      * Length of the line separator.
      */
     private static final int EOL_LENGTH = EOL.length();
@@ -117,13 +118,13 @@ public class StringUtils
         return pckge.replace( '.', File.separator.charAt(0) ) + File.separator;
     }
 
-  /**
-   * Remove Underscores from a string and replaces first
-   * Letters with Capitals.  foo_bar becomes FooBar.
-   *
-   * @param String string to remove underscores from.
-   * @return String 
-   */
+    /**
+     * Remove Underscores from a string and replaces first
+     * Letters with Capitals.  foo_bar becomes FooBar.
+     *
+     * @param String string to remove underscores from.
+     * @return String 
+     */
     static public String removeUnderScores (String data)
     {
         String temp = null;
@@ -139,12 +140,12 @@ public class StringUtils
         return out.toString();
     }
 
-  /**
-   * Makes the first letter caps and the rest lowercase.
-   *
-   * @param String
-   * @return String
-   */
+    /**
+     * Makes the first letter caps and the rest lowercase.
+     *
+     * @param String
+     * @return String
+     */
     static public String firstLetterCaps ( String data )
     {
         String firstLetter = data.substring(0,1).toUpperCase();
@@ -196,7 +197,7 @@ public class StringUtils
         return s;
     }
     
-    /*
+    /**
      * Perform a series of substitutions. The substitions
      * are performed by replacing $variable in the target
      * string with the value of provided by the key "variable"
@@ -250,7 +251,7 @@ public class StringUtils
         return argBuf;
     }
     
-    /*
+    /**
      * Read the contents of a file and place them in
      * a string object.
      *
@@ -458,7 +459,7 @@ public class StringUtils
         return (normalized);
     }
 
-    /*
+    /**
      * If state is true then return the trueString, else
      * return the falseString.
      *
