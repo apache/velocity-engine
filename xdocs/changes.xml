@@ -65,6 +65,15 @@ Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
  Parameterized cache and mod time control in TexenTask based on patch from
  Henning. (gmj)
 </li>
+<li>
+    Fix to DatasourceResourceLoader - stop using the old Runtime singleton as
+    would leak a little memory for each instance of VelocityEngine created.
+    Bug #17820, hunted down by Will Glas-Husain. (gmj)
+</li>
+<li>
+SimplePool now removes elements from pool on a get(). Fix for #19042 suggested
+ by Will. (gmj)
+</li>
 </ul>
 
 </subsection>
