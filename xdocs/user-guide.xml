@@ -3,43 +3,234 @@
 <document>
 
  <header>
-  <title>Velocity User's Guide</title>
-  <subtitle>Velocity User's Guide</subtitle>
+  <title>Velocity User Guide</title>
+  <subtitle>Velocity User Guide</subtitle>
   <authors>
    <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+   <person name="John Castura" email="jcastura@compusense.com"/>
   </authors>
  </header>
 
 <body>
 
-<s1 title="User's Guide">
+ <s1 title="About this Guide">
 
-<p>
-    This guide is meant to provide an easy way for designers
-    to get aquainted with Velocity. Velocity may be used as a
-    standalone servlet framework or in conjuction
-    with another servlet framework such as  
-    <link href="http://java.apache.org/turbine/">Turbine</link>.
-    In all cases a page designer will use the Velocity
-    Template Language (VTL) to incorporate dynamic content
-    into a site design.
-</p>
+ <p>
+    The Velocity User Guide is intended to help page designers and content 
+    providers get aquainted with Velocity and the syntax of its simple yet 
+    powerful scripting language, the Velocity Template Language (VTL). 
+    Many of the examples in this guide deal with using Velocity to embed 
+    dynamic content in web sites, but all VTL examples are equally applicable 
+    to other pages and templates.
+ </p> 
 
-<p>
-    The VTL is meant to provide the easiest, simplest, and
-    cleanest way to render dynamic content in a web page.
-</p>
+ </s1>
 
-</s1>
+ <s1 title="What is Velocity?">
+ 
+ <p>
+    Velocity is a Java-based template engine. It permits web page designers
+    to reference methods defined in Java code. Web designers can work in parallel 
+    with Java programmers to develop web sites according to the Model-View-Controller
+    (MVC) model, meaning that web page designers can focus solely on creating
+    a well-designed site, and programmers can focus solely on writing
+    top-notch code. Velocity separates Java code from the web pages,
+    making the web site more maintainable over the long run and providing
+    a viable alternative to
+    <link href="http://java.sun.com/products/jsp/">Java Server Pages</link>
+    (JSPs) or <link href="http://www.php.net/">PHP</link>.
+ </p>
+ 
+ <p>
+    Velocity can be used to generate web pages, SQL, PostScript and other 
+    output from templates.
+    It can be used either as a standalone utility for generating
+    source code and reports, or as an integrated component of other systems.
+    When complete, Velocity will provide template services for the
+    <link href="http://java.apache.org/turbine/">Turbine</link>
+    web application framework. Velocity-Turbine will provide
+    a template service that will allow web applications to be developed
+    according to a true MVC model.
+ </p>
+ 
+ </s1>
 
-<s1 title="VTL Reference">
+ <s1 title="What can Velocity do for me?">
 
-    <s1 title="Variables">
+   <s1 title="The Mud Store Example">
 
+   <p>
+    Suppose you have an online store that specializes in selling mud. Let's call
+    it "The Online Mud Store". Business is thriving. Your customers 
+    place orders for various types and quantities of mud. They
+    login to your site using their username and password, which allows them to 
+    view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
+    is very popular. A minority of your customers regularly buy Bright Red 
+    Mud, which is also on sale, though not as popular and usually relegated 
+    to the margin of your web page. Information about each customer is tracked
+    in your database, so it occurs to you one day, Why not use Velocity to target
+    special deals on mud to the customers who are most interested in those types of 
+    mud?
+   </p>
+ 
+   <p>
+    Velocity makes it easy to customize web pages to your online visitors. As a web site 
+    designer at The Mud Room, you want to make the web page that the customer will 
+    see after logging into your site.
+   </p>
+ 
+   <p>
+    You meet with software engineers at your company, and everyone
+    has agreed that the variable <pre>$name</pre> will hold the full name of the 
+    current customer, <pre>$customermud</pre> will list all
+    the mud types that the logged in customer has ever purchased from your store, 
+    that <pre>$specialmud<pre> will be all the types mud on sale at present.
+    The <pre>getPromo()</pre> method is used to get promotional information about the
+    type of mud that appears in brackets. 
+    For the task at hand, let's concern ourselves only with these three 
+    variables. Remember, you don't need to worry about how the software 
+    engineers extract the necessary information from the database, you just need
+    to know that it works. This lets you get on with your job, and lets the
+    software engineers get on with theirs.
+   </p>
+ 
+   <p>
+    You could embed the following VTL statement in the web page:
+   </p>
+ 
+   <p>
+    <source><![CDATA[
+    <HTML>
+    <BODY>
+    Hello $name!
+    <table>
+    #foreach ($customermud in $specialmud)
+       #if ($customermud)
+          <tr><td>$getPromo($specialmud)</td><td>
+       #else
+          <tr><td>Click <a href="specials.html#daily">here</a> for a list of our
+	  specials!</a></td></tr>
+       #end
+    #end
+    </table>
+    ]]></source>
+   </p>
+ 
+   <p>
+    The extact details of the <pre>foreach</pre> statement will be described
+    in greater depth shortly; what's important is the impact this short 
+    script will have on your web site. When a customer with a 
+    penchant for Bright Red Mud logs in, and Bright Red Mud
+    is on sale, that is what this customer will see, prominently displayed. 
+    If another customer with a long history of Terracotta Mud purchases logs in,
+    the notice of a Terracotta Mud sale will be front and center. If a customer
+    is not interested in any of the muds currently on sale, they will be
+    invited to view a list of sale items. The flexibility of Velocity is
+    enormous and limited only by your creativity.
+   </p>
+ 
+   </s1>
+
+   <p>
+    VTL has many other elements documented in the VTL Reference, which collectively 
+    give you the power and flexibility you need to make your web site a web
+    <em>presence</em>. As you get more familiar with these elements, you will begin to unleash the power
+    of Velocity.
+   </p>
+
+ </s1>
+
+ <s1 title="Velocity Template Language (VTL): An Introduction">
+
+ <p>
+    The Velocity Template 
+    Language (VTL) is meant to provide the easiest, simplest, and cleanest way 
+    to incorporate dynamic content in a web page. Even a web page developer with little 
+    or no programming experience should soon be capable of using VTL to incorporate 
+    dynamic content in a web site.
+ </p>
+
+ <p>
+    VTL uses <em>statements</em> to embed dynamic content in a web site. Statements 
+    are made up of <em>elements</em>. Here is an example of a VTL statement
+    embedded in an HTML document:
+ </p>
+ 
+ <p>
+    <source><![CDATA[
+    #set $a = "Velocity"
+    ]]>
+    </source>
+ </p>
+
+ <p>
+    This VTL statement, like all VTL statements that contain directives, begins 
+    with the <pre>#</pre> character. When an online visitor requests 
+    your web page, the 
+    Velocity Templating Engine will search through your web page to find all
+    <pre>#</pre> characters, then determine which mark the beginning of VTL 
+    statements, and which of the # characters that have nothing to do with VTL.
+ </p>
+
+ <p>
+    The <pre>#</pre> character is followed by a directive,
+    <pre>set</pre>. The <pre>set</pre> directive works in conjunction with other
+    script elements to assign a <em>value</em> to a <em>variable</em>. The variable 
+    is listed on the left and its value on the right; the two are separated by an 
+    <pre>=</pre> character.
+ </p>
+ 
+ <p>
+    In the example above, the variable is <pre>$a</pre> and the value is
+    <pre>Velocity</pre>. Variables <em>always</em> begin with <pre>$</pre> characters. 
+    Values are always enclosed in quotes; with Velocity there is no confusion about
+    data types, as only strings (text-based information) may be passed to variables.
+ </p>
+
+ <p>
+    Once a value has been assigned to a variable, you can reference the 
+    variable anywhere in your HTML document. In the following example, 
+    a value is assigned to <pre>$foo</pre> and later referenced.
+ </p>
+
+ <p>
+    <source><![CDATA[
+    <HTML>
+    <BODY>
+    #set $foo = "Velocity"
+    Hello $foo World!
+    </BODY>
+    <HTML>
+    ]]>
+    </source>
+ </p>
+
+ <p>
+    The result is a web page that prints "Hello Velocity World!".
+ </p>
+
+ <p>   
+    To make your VTL directive statements more readable, we encourage you to 
+    start each VTL statement on a new line, although you are not required to 
+    do so. The <pre>set</em> directive will be revisited in greater detail 
+    later on.
+ </p>
+
+ <p>
+    The <pre>set</pre> example is useful for demonstrating the syntax of a simple VTL 
+    statement, but not very exciting for revealing the capabilities of Velocity.
+ </p>
+
+
+ </s1>
+
+ <s1 title="VTL Reference">
+    
     <p>
-    Velocity references its variables in a fashion similar to Perl (i.e. they 
-    use a $), but takes advantage of some Java principles that template 
-    designers will find easy to use. For example:
+    Velocity references its variables in a fashion similar to 
+    <link href="http://www.perl.com">Perl</link> (i.e. they 
+    use a <pre>$</pre>), but takes advantage of some Java principles that 
+    template designers will find easy to use. For example:
     </p>
 
     <p>
@@ -47,15 +238,16 @@
     $foo
     $foo.getBar() or $foo.Bar
     $data.getUser("jon") or $data.User("jon")
-    $data.getRequest().getServerName() or $data.Request.ServerName]]></source>
+    $data.getRequest().getServerName() or $data.Request.ServerName
+    ]]></source>
     </p>
 
     <p>
     These examples illustrate alternative uses for the same variables. 
     Velocity takes advantage of Java's introspection and 
     bean features to resolve the variable names to both objects in the Context 
-    as well as the objects methods. It is possible to embed variables almost
-    anywhere in your template. These variables can be evaluated.
+    as well as the objects methods. It is possible to embed and evaluate 
+    variables almost anywhere in your template.
     </p>
     
     <p>
@@ -64,7 +256,86 @@
     then Velocity will call its .toString() method to resolve the 
     object into a String.
     </p>
+
+    <s1 title="Variables">
+
+    <p>
+    VTL variables can reference three types of objects: variables, 
+    properties, and methods. 
+    
+    <s1 title="Variables">
+    
+    <p>
+    A VTL variable, such as <pre>$foo</pre>, can get its value from 
+    either a <pre>set</pre> directive in the template, or from the
+    Java code. For example, if the Java variable <pre>$foo</pre>
+    has the value <pre>bar</pre> at the time the template is requested,
+    <pre>bar</pre> replaces all instances of <pre>$foo</pre> on the web 
+    page. Alternatively, if I include the statement
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    #set $foo = "bar"
+    ]]></source>
+    </p>
+    
+    <p>
+    the output will be the same for all instances of <pre>$foo</pre>
+    that follow this directive.
+    </p>
+    
     </s1>
+    
+    <s1 title="Properties">
+    
+    <p>
+    The second flavour of VTL variable references properties, and it has
+    a distinctive format:
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    $whomever.Address
+    ]]></source>
+    </p>
+    
+    <p>
+    Here, <pre>$whomever.Address</pre> can have two meanings. It can mean,
+    Look in the hashtable identified as <pre>whomever</pre> and return the
+    value associated with the key <pre>Address</pre>. This syntax can also 
+    be referring to a method (variables that refer to methods will be discussed
+    in the next section); <pre>$whomever.Address<pre> could be an 
+    abbreviated way of writing <pre>getAddress("whomever")</pre>. 
+    When your page is requested, Velocity will determine which of these 
+    two possibilities makes sense, and then return the appropriate value.
+    </p>
+    
+    </s1>
+    
+    <s1 title="Methods">
+    
+    <p>
+    A method is defined in the Java code and is capable of doing something
+    useful, like running a calculation or arriving at a decision. VTL 
+    variables that refer to Java methods have the following format:
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    $getTotalPrice("purchase")
+    ]]></source>
+    </p>
+    
+    <p>
+    In this example, the $getTotalPrice() method, defined in the Java code, 
+    will presumably return the total price of a purchase that is being tracked.
+    Note that this could also have been written,
+    <pre>$purchase.TotalPrice</pre>.
+    </p>
+    
+    </s1>
+  </s1>
 
     <s1 title="Conditionals">
 
@@ -227,11 +498,12 @@
     <source><![CDATA[
     #** 
     
-    This is a VelociDoc comment block and
-    may be used to store author and versioning
+    This is a VTL comment block and
+    may be used to store such information 
+    as the document author and versioning
     information:
     
-    @author Designer Dude
+    @author 
     @version 5
     
     *#
