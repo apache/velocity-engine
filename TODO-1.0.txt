@@ -8,6 +8,10 @@ o Configuration Cleanup
   STATUS:
   [JVZ] I will make the changes when we agree.
   [JSS] At this point, I don't care.
+  [GMJ] I do and I think we're in agreement. I will
+        do the necessary support in the Velocity class
+        to keep things friendly for app developers once
+        Jason finished the Runtime configuration API.
 
 o Log4j for Logging
   
@@ -19,6 +23,9 @@ o Log4j for Logging
   STATUS:
   [JVZ] I will do this if we can agree on this.
   [JSS] I agree.
+  [GMJ] +1 on log4j - and I think a simple Interface here and now
+        would go a long way. Nothing too fancy - just let people
+        plug in what they want.
   
 o Get a copy of Alexandria for Javadocs
 
@@ -32,6 +39,8 @@ o Get a copy of Alexandria for Javadocs
   but I have heard anything back yet.
   [JSS] For now, lets just use DLR's scripts to generate
   the javadocs through cron.
+  [GMJ]  Is this critical, or can we just push a snapshot
+       to the server, or generate it there?
 
 o UML Diagrams
   
@@ -62,7 +71,34 @@ o Test for Texen
   
   STATUS:
   [JVZ] I will add the test for Texen.
-  
+  [GMJ] Any chance we want to push this and Anakia
+        to the  new Commons project?  Good tools, good to
+        be shared, and we will certainly get more
+        people interested in Velocity...  
+
+o Control Caching Resource Usage
+
+  Change resource caching to limit cache size and expire
+  least-recently-used.  This is needed to prevent Vel from
+  sucking up RAM uncontrollably for content-centric or 
+  other sites that may use #include() or #parse() 
+  extensively.
+
+  PLAN:
+  Fix code.
+
+  STATUS:
+  [GMJ] Will start once the config stuff is set in stone.
+
+o Method Exception Propogation
+
+  Need to propgate errors out from methods called in user objects
+  when rendering.
+
+  STATUS :
+  [GMJ]  working
+
+
 +------------- Not Critical For Release -------------+
 
 o Speed testing suite
