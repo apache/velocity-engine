@@ -16,7 +16,7 @@
 
  <p>
     The Velocity User Guide is intended to help page designers and content 
-    providers get aquainted with Velocity and the syntax of its simple yet 
+    providers get acquainted with Velocity and the syntax of its simple yet 
     powerful scripting language, the Velocity Template Language (VTL). 
     Many of the examples in this guide deal with using Velocity to embed 
     dynamic content in web sites, but all VTL examples are equally applicable 
@@ -64,10 +64,10 @@
     place orders for various types and quantities of mud. They
     login to your site using their username and password, which allows them to 
     view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
-    is very popular. A minority of your customers regularly buy Bright Red 
+    is very popular. A minority of your customers regularly buys Bright Red 
     Mud, which is also on sale, though not as popular and usually relegated 
     to the margin of your web page. Information about each customer is tracked
-    in your database, so it occurs to you one day, Why not use Velocity to target
+    in your database, so one day the question arises, Why not use Velocity to target
     special deals on mud to the customers who are most interested in those types of 
     mud?
    </p>
@@ -115,7 +115,7 @@
    </p>
  
    <p>
-    The extact details of the <pre>foreach</pre> statement will be described
+    The exact details of the <pre>foreach</pre> statement will be described
     in greater depth shortly; what's important is the impact this short 
     script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
@@ -240,7 +240,7 @@
  <p>
     A single line comment begins with <pre>##</pre> and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multiline comments, which begin with <pre>#*</pre>
+    single line comments. Multi-line comments, which begin with <pre>#*</pre>
     and end with <pre>*#</pre>, are available to handle this scenario.
  </p>
  
@@ -268,16 +268,16 @@
  <source><![CDATA[
     This text is visible. ## This text is not.
     This text is visible.
-    This text is visible. #* This text, as part of a comment block, is not.
-    This text is not visible; it is also part of the comment block.
-    This text still not visible. *# This text is outside the comment block, so
+    This text is visible. #* This text, as part of a multi-line comment, is not visible.
+    This text is not visible; it is also part of the multi-line comment.
+    This text still not visible. *# This text is outside the comment, so
     it is visible.
     ## This text is not visible.
  ]]></source>
  </p>
 
  <p>
-    There is a third type of comment, the VTL comment block, which ma y be used to
+    There is a third type of comment, the VTL comment block, which may be used to
     store such information as the document author and versioning information:
  </p>
  
@@ -496,7 +496,7 @@
  
  <p>
     There is ambiguity here, and Velocity assumes that $vicemaniac,
-    not $vice, is the Identifer that you mean to use. Finding no
+    not $vice, is the Identifier that you mean to use. Finding no
     value for $vicemaniac, it will return <pre>$vicemaniac</pre>.
     Using formal notation can resolve this problem.
  </p>
@@ -531,7 +531,7 @@
  
  <p>
     When the form initially loads, the variable
-    reference <pre>$email</pre> has no value, but you prefer the
+    reference <pre>$email</pre> has no value, but you prefer
     a blank text field to one with a value of "$email".
     Using the quiet reference notation circumvents Velocity's
     normal behavior; instead of using $email in the
@@ -689,7 +689,7 @@
  </p>
  
  <p>
-    The left hand side (LHS) of the assigment must be
+    The left hand side (LHS) of the assignment must be
     a variable reference or a property reference. The
     right hand side (RHS) can be one of the following
     types:
@@ -735,6 +735,12 @@
     ]]></source>
  </p>
 
+ <p>
+    Unlike some directive that will be discussed below, the <pre>set</pre> directive 
+    does not have a <pre>#end</pre> statement. The <pre>set</pre> statement <em>must</em> 
+    end with a newline character (obtained by pressing Enter); it cannot be used inline.
+ </p>
+
 <s1 title="Conditionals">
 
     <strong>If / ElseIf / Else</strong>
@@ -753,7 +759,7 @@
     </p>
 
     <p>
-      The variable $foo is evaluated to see if it is true, which will happen 
+      The variable $foo is evaluated to determine whether it is true, which will happen 
       under one of two circumstances: (i) $foo is a boolean (true/false) which 
       has a true value, or (ii) the value is not null. The content between the 
       <pre>#if</pre> and the <pre>#end</pre> statements become the output if 
@@ -786,7 +792,7 @@
     
     <p>
     In this example, $foo is greater than or equal to 10, so the Velocity
-    Templating Engine makes the output of the if-ifelse-ifelse-else-end
+    Templating Engine makes the output of the if-statment
     statement <strong>Go East</strong>. If $foo had a value of 10 and $bar
     had a value of 6.1, then $foo is neither greater than 10 nor equal to 
     10, and $bar is not equal to 6. All if and elseif statements are false,
@@ -798,10 +804,7 @@
     </p>
     
     <p>
-      Logical operators are not yet available in Velocity, but 
-      this functionality is expected to be added soon. There will be
-      two kinds of logical operators: logical AND and 
-      logical OR. Below is an example of an if statement using 
+      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.  Below is an example of an if statement using 
       logical AND.
     </p>
 
@@ -877,7 +880,7 @@
     </p>
     
     <p>
-    The contents of the $allProducts variable is either a Vector, a Hashtable 
+    The contents of the $allProducts variable is a Vector, a Hashtable 
     or an Array. The value assigned to the $product variable is a Java
     Object and can be referenced from a variable as such. For example, if 
     $product was really a Product class in Java, its name could be retrieved
@@ -919,7 +922,7 @@
  <s1 title="Macro">
     <p>
     With the #macro script element, the template designer can define a 
-    time-saving macro. 
+    timesaving macro. 
     </p>    
     
     <p>
