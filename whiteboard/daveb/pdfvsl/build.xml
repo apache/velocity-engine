@@ -3,7 +3,7 @@
     <!-- Initialization properties -->
     <property name="project.name"   value="site"/>
     <property name="docs.src" value="../../../xdocs"/>
-    <property name="docs.dest" value="."/>
+    <property name="docs.dest" value="output"/>
 
     <target name="prepare">
         <available classname="org.apache.velocity.anakia.AnakiaTask" property="AnakiaTask.present"/>
@@ -18,8 +18,11 @@
 
     <target name="docs" depends="prepare-error" if="AnakiaTask.present">
         <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
-        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop"/>
+        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop"/>	
 	
+	<delete dir="${docs.dest}"/>
+	<mkdir dir="${docs.dest}"/>
+
 	<anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".fo" style="pdfsite.vsl"
              includes="**/*.xml"
@@ -28,8 +31,8 @@
 	
 	<!-- Make big XML doc here -->
 	
-	<fop fofile="index.fo" 
-	    pdffile="index.pdf"
+	<fop fofile="${docs.dest}/anakia.fo" 
+	    pdffile="${docs.dest}/anakia.pdf"
 	/>
         
     </target>
