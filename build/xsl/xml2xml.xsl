@@ -5,16 +5,15 @@
 <xsl:template match ="/">
   <documentation>
     <xsl:copy-of select="document('../../xdocs/index.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/code-standards.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/contributors.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/design.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/developer-guide.xml')"/>
     <xsl:copy-of select="document('../../xdocs/getting-started.xml')"/>
     <xsl:copy-of select="document('../../xdocs/install.xml')"/>
+    <xsl:copy-of select="document('../../xdocs/design.xml')"/>
+    <xsl:copy-of select="document('../../xdocs/contributors.xml')"/>
+    <xsl:copy-of select="document('../../xdocs/code-standards.xml')"/>
     <xsl:copy-of select="document('../../xdocs/license.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/script-elements.xml')"/>
-    <xsl:copy-of select="document('../../xdocs/site-book.xml')"/>
+    <xsl:copy-of select="document('../../xdocs/todo.xml')"/>
     <xsl:copy-of select="document('../../xdocs/user-guide.xml')"/>
+    <xsl:copy-of select="document('../../xdocs/developer-guide.xml')"/>
   </documentation>
 </xsl:template>
 

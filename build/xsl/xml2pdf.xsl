@@ -101,30 +101,21 @@ TBD: - The faq doesn't show in the content
                     line-height="16pt"
                     font-family="sans-serif">
                 
-                    <!-- An dieser Stelle muesste noch ein "oder finde faqs" stehen -->
-                    <xsl:for-each select="//s1"> 
+                    <xsl:for-each select="//document">
                         <fo:table-row>
-                            <fo:table-cell>
-                                <fo:block text-align="end" >
-                                    <xsl:number value="position()" format="1"/>) 
-                                </fo:block>
-                            </fo:table-cell>
-                        
+                            <fo:table-cell/>
                             <fo:table-cell>
                                 <fo:block  text-align="start" >
-                                    <fo:simple-link color="blue">
-                                        <xsl:attribute name="internal-destination">
-                                            <xsl:value-of select="translate(.,' ),-.(','____')"/>
-                                        </xsl:attribute>
-                                        <xsl:value-of select="@title"/>
-                                    </fo:simple-link> 
+                                    <xsl:value-of select="header/title"/>
                                 </fo:block>
                             </fo:table-cell>
                         </fo:table-row>
+                        <xsl:call-template name="content">
+                            <xsl:with-param name="doc" select="body"/>
+                        </xsl:call-template>
                     </xsl:for-each>
                 </fo:table-body>
             </fo:table>
-
             <xsl:apply-templates select="documentation"/> 
             </fo:flow>
         </fo:page-sequence>
@@ -233,6 +224,19 @@ TBD: - The faq doesn't show in the content
     <xsl:apply-templates/> 
 </xsl:template>
 
+<xsl:template match ="strong"> 
+    <fo:block font-size="12pt" 
+        font-family="sans-serif" 
+        line-height="14pt"
+        space-after.optimum="3pt"
+        space-before.optimum="3pt"
+        text-align="start"
+        font-weight="bold">
+        
+        <xsl:apply-templates/> 
+   
+   </fo:block>
+</xsl:template>
 
 <!-- faq -->
 <xsl:template match ="faq">
@@ -357,6 +361,55 @@ TBD: - The faq doesn't show in the content
     </fo:list-item>
 </xsl:template>
 
+<xsl:template match="table">
+    <fo:table>
+        <xsl:for-each select="tr[1]/td">
+            <fo:table-column column-width="1.7in"/>
+        </xsl:for-each>
+        <fo:table-body font-size="10pt" 
+                    line-height="14pt"
+                    font-family="sans-serif"
+                    background-color="#a0ddf0">
+                
+            <xsl:for-each select="tr">
+                <fo:table-row>
+                    <xsl:for-each select="td">
+                        <fo:table-cell>
+                            <fo:block  text-align="start" >
+                                <xsl:value-of select="."/>
+                            </fo:block>
+                        </fo:table-cell>
+                     </xsl:for-each>
+                 </fo:table-row>
+             </xsl:for-each>
+         </fo:table-body>
+    </fo:table>
+</xsl:template>
+
+<xsl:template name="content">
+    <xsl:param name="doc"/>
+    <xsl:param name="prefix">...</xsl:param>
+    <xsl:for-each select="$doc/s1"> 
+        <fo:table-row>
+            <fo:table-cell/>
+            <fo:table-cell>
+                <fo:block  text-align="start" font-size="10pt">
+                    <fo:simple-link color="blue">
+                        <xsl:attribute name="internal-destination">
+                            <xsl:value-of select="translate(.,' ),-.(','____')"/>
+                        </xsl:attribute>
+                        <xsl:value-of select="$prefix"/>
+                        <xsl:value-of select="@title"/>
+                    </fo:simple-link> 
+                </fo:block>
+           </fo:table-cell>
+        </fo:table-row>
+        <xsl:call-template name="content">
+            <xsl:with-param name="doc" select="."/>
+            <xsl:with-param name="prefix" select="concat($prefix,'...')"/>
+        </xsl:call-template>
+    </xsl:for-each>
+</xsl:template>
 <!-- end body -->
 
 </xsl:stylesheet>
