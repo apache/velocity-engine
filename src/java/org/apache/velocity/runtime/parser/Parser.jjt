@@ -122,7 +122,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.10 2000/10/31 02:45:00 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.11 2000/10/31 16:02:21 geirm Exp $ 
 */
 public class Parser
 {
@@ -162,7 +162,15 @@ public class Parser
     {
         token_source.clearStateVars();
         ReInit(stream);  
-        return process();
+       // return process();
+    
+        SimpleNode n = null;
+
+        try {
+            n = process();
+        } catch (Exception e) { System.out.println(e);}
+
+        return n;
     }        
 
     public void setDirectives(Hashtable directives)
@@ -363,58 +371,19 @@ TOKEN_MGR_DECLS:
         
         return;
     }
-} 
-
-/* ------------------------------------------------------------------------
- *
- * Tokens
- *
- *  Note : we now have another state, REFMODIFIER.  This is sort of a 
- *  type of REFERENCE state, simply use to use the DIRECTIVE token
- *  set when we are processing a $foo.bar() construct
- *
- * ------------------------------------------------------------------------- */
-
-<DIRECTIVE,REFMODIFIER,REFMOD2>
-TOKEN:
-{ 
-    <LBRACKET: "[">
-|   <RBRACKET: "]">
-}
-
-<DIRECTIVE,REFMOD2>
-TOKEN:
-{
-    <COMMA:",">
-}
 
 
-<DIRECTIVE,REFMODIFIER,REFMOD2>
-TOKEN:
-{
-    <LPAREN: "(">
-    {
-        if (!inComment)
-            lparen++;
-
-        /*
-         *  if we have seen the dot, then move to REFMOD2 -> Modifier()
-         */
-
-        if (curLexState == REFMODIFIER )
-            SwitchTo( REFMOD2 );
-
-    }
-
-|   <RPAREN: ")">
+    /**
+     *  handles the dropdown logic when encountering a RPAREN
+     */
+    private void RPARENHandler()
     {
         /*
          *  Ultimately, we want to drop down to the state below the one that has an open (
          *  if we hit bottom (DEFAULT), that's fine. It's just text schmoo.
          *
          */
-    
-     
+   
         boolean bClosed = false;
 
         if (inComment)
@@ -455,15 +424,54 @@ TOKEN:
                     break;
             } 
         }
-    }    
+    }
+} 
+
+/* ------------------------------------------------------------------------
+ *
+ * Tokens
+ *
+ *  Note : we now have another state, REFMODIFIER.  This is sort of a 
+ *  type of REFERENCE state, simply use to use the DIRECTIVE token
+ *  set when we are processing a $foo.bar() construct
+ *
+ * ------------------------------------------------------------------------- */
+
+<DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN:
+{ 
+    <LBRACKET: "[">
+|   <RBRACKET: "]">
 }
 
-
-TOKEN :
+<DIRECTIVE,REFMOD2>
+TOKEN:
 {
-    <ESCAPE_SEQUENCE: "\\" ~[] >
-|   <TEXT: (~["$", "#", "\\"])+ >
-}    
+    <COMMA:",">
+}
+
+<DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN:
+{
+    <LPAREN: "(">
+    {
+        if (!inComment)
+            lparen++;
+
+        /*
+         *  if we have seen the dot, then move to REFMOD2 -> Modifier()
+         */
+
+        if (curLexState == REFMODIFIER )
+            SwitchTo( REFMOD2 );
+
+    }
+
+|   <RPAREN: ")" (" ")* ("\n")?>
+    {
+       RPARENHandler();
+    }    
+}
 
 <*>
 MORE :
@@ -539,6 +547,13 @@ MORE :
     } 
 }   
 
+TOKEN :
+{
+    <ESCAPE_SEQUENCE: "\\" ~[] >
+|   <TEXT: (~["$", "#", "\\"])+ >
+}    
+
+
 // -----------------------------------------------------------------------
 // 
 // COMMENT Lexical States
@@ -613,8 +628,22 @@ TOKEN :
         }
         incMode = false;
     
-        if (lparen == 0)
-            SwitchTo(DEFAULT);
+       // from jason :
+       // if (lparen == 0)
+       //     SwitchTo(DEFAULT);
+    
+        /*
+         *  - if we are in REFERENCE || REFMODIFIER then " is an ender
+         *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
+         *      don't forget to account for the beloved yet wierd #set
+         *  - finally, if we are in REFMOD2 (remember : $foo.bar( ) then " is ok!
+         */
+
+        if (curLexState == REFERENCE || curLexState == REFMODIFIER)
+            stateStackPop();
+        else if( curLexState == DIRECTIVE && !inSet && lparen == 0)
+            stateStackPop();    
+
     }
 
 |   <TRUE: "true">
@@ -622,19 +651,21 @@ TOKEN :
 }
 
 <DIRECTIVE>
-SPECIAL_TOKEN :
+TOKEN :
 {
     <NEWLINE: "\n" | "\r" | "\r\n" >
     {
+        if ( bDebugPrint_ )
+            System.out.println(" NEWLINE :");
+
+        stateStackPop();      
+        
         if (inSet)
-       {
-           if ( bDebugPrint_ )
-                System.out.print(" NEWLINE :");
-            stateStackPop();        
-           inSet = false;
-           inDirective = false;
-        }
-   }        
+            inSet = false;
+        
+        if (inDirective)
+            inDirective = false;
+    }        
 }    
 
 <DIRECTIVE>
@@ -660,11 +691,10 @@ TOKEN :
 <DIRECTIVE> 
 TOKEN :
 {
-    <END: "end"> 
+    <END: "end" ("\n")?> 
     { 
         inDirective = false; 
         stateStackPop();
-        // was :DEFAULT
     } 
 
 |   <INCLUDE_DIRECTIVE: "include"> 
@@ -675,7 +705,10 @@ TOKEN :
 |   <ELSEIF_DIRECTIVE: "elseif">
 
 |   <ELSE_DIRECTIVE: "else"> 
-    : DEFAULT
+     { 
+        inDirective = false; 
+        stateStackPop();
+    } 
 
 |   <SET_DIRECTIVE: "set" >
     { inSet = true; }
@@ -691,8 +724,8 @@ TOKEN :
     {
         //!!! fixed <bcolor="#333333"/>
         // needs to be more thorough.
-        if (lparen == 0)
-            SwitchTo(DEFAULT);
+       // if (lparen == 0)
+       //     SwitchTo(DEFAULT);
     }            
     
     //!!! fixed #FFFFFF
@@ -750,7 +783,7 @@ SPECIAL_TOKEN :
          *  These can terminate a reference, but are needed in subsequent states
          */
 
-        if (image.toString().equals("="))
+        if (image.toString().equals("=") || image.toString().equals("\n"))
         {
             input_stream.backup(1);
         } 
@@ -770,7 +803,6 @@ SPECIAL_TOKEN :
                                         || image.toString().equals(",") 
                                         || image.toString().equals("[") 
                                         || image.toString().equals("]")
-                                        || image.toString().equals("\n")
                                         ) )
         {
             input_stream.backup(1);
@@ -959,6 +991,7 @@ void Text() :
 }
 {
     <TEXT>
+|   <NEWLINE>  
 |   <DOT>
 |   <RPAREN>
 |   <LPAREN>
@@ -967,7 +1000,8 @@ void Text() :
 |   t = <ESCAPE_SEQUENCE>
     {
         t.image = t.image.substring(1);
-    }        
+    }      
+
 }
 
 // -----------------------------------------------------------------------
@@ -1000,7 +1034,7 @@ void ElseIfStatement() : {}
 
 void SetDirective() : {}
 {
-    <SET_DIRECTIVE> Expression()
+   ( <SET_DIRECTIVE> Expression() [<NEWLINE>] )
 }    
 
 /**
