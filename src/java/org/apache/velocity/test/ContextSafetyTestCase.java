@@ -54,10 +54,12 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.*;
-import java.util.Vector;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
-import junit.framework.*;
+import java.util.Vector;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
@@ -71,9 +73,8 @@ import org.apache.velocity.util.StringUtils;
  * and re-merge the template safely.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.1 2000/12/04 01:18:50 geirm Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.2 2000/12/20 06:50:41 jvanzyl Exp $
  */
-
 public class ContextSafetyTestCase extends RuntimeTestCase
 {
      /**
@@ -136,13 +137,16 @@ public class ContextSafetyTestCase extends RuntimeTestCase
              *  get the template and the output
              */
 
-            Template template = Runtime.getTemplate(getFileName(null, "context_safety", TMPL_FILE_EXT));
+            Template template = Runtime.getTemplate(
+                getFileName(null, "context_safety", TMPL_FILE_EXT));
 
             FileOutputStream fos1 = 
-                new FileOutputStream (getFileName(RESULT_DIR, "context_safety1", RESULT_FILE_EXT));
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "context_safety1", RESULT_FILE_EXT));
 
             FileOutputStream fos2 = 
-                new FileOutputStream (getFileName(RESULT_DIR, "context_safety2", RESULT_FILE_EXT));
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "context_safety2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
