@@ -17,7 +17,7 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.2 2000/11/03 14:44:22 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.3 2000/11/03 15:28:17 jvanzyl Exp $ 
  */
 public class Generator
 {
@@ -26,18 +26,23 @@ public class Generator
     public static final String CONTEXT_STRINGS = "context.objects.strings";
     public static final String CONTEXT_FILES = "context.objects.files";
     
-    Properties props = new Properties();
+    private Properties props = new Properties();
+    private Context controlContext;
+    
+    private static Generator instance = new Generator();
 
-    //Generator instance = new Generator();
+    private Generator()
+    {
+        setDefaultProps();
+    }
 
     /**
      * Create a new generator object with default properties
      */
-    public Generator ()
+    public static Generator getInstance()
     {
-        setDefaultProps();
+        return instance;
     }
-    
     
     /**
      * Create a new generator object with properties loaded from
@@ -181,14 +186,14 @@ public class Generator
             e.printStackTrace();
             return null;
         }
-        
     }
 
     public String parse (String controlTemplate, Context controlContext)
         throws Exception
     {
-        fillContextDefaults(controlContext);
-        fillContextProperties(controlContext);
+        this.controlContext = controlContext;
+        fillContextDefaults(this.controlContext);
+        fillContextProperties(this.controlContext);
         
         Template template = Runtime.getTemplate(controlTemplate);
         StringWriter sw = new StringWriter();
@@ -205,13 +210,15 @@ public class Generator
      */ 
     protected Context getContext (Hashtable objs)
     {
-        Context context = new Context();
+        //Context context = new Context();
         
-        fillContextHash (context,objs);
-        fillContextDefaults (context);
-        fillContextProperties (context);
+        fillContextHash (controlContext,objs);
         
-        return context;
+        //fillContextHash (context,objs);
+        //fillContextDefaults (context);
+        //fillContextProperties (context);
+        
+        return controlContext;
     }
 
     /** 
@@ -233,8 +240,7 @@ public class Generator
      */
     protected void fillContextDefaults (Context context)
     {
-        Generator gen = new Generator (props);
-        context.put ("generator",gen);
+        context.put ("generator", instance);
     }
     
     /**
@@ -271,20 +277,4 @@ public class Generator
         }
         
     }
-    
-    /**
-     * Just 4 Testing
-     */
-    
-    /*
-    public static void main (String[] args) throws Exception
-    {
-        Runtime.init("velocity.properties");
-        //Runtime.init();
-        
-        Generator gen = new Generator();
-        System.out.println (gen.parse (args[0]));
-    }
-    */
-         
 }

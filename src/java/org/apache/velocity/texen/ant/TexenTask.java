@@ -72,7 +72,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.1 2000/11/03 14:42:01 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.2 2000/11/03 15:28:39 jvanzyl Exp $
  */
 
 public abstract class TexenTask extends Task
@@ -153,7 +153,7 @@ public abstract class TexenTask extends Task
             Runtime.init();
         
             // Create the text generator.
-            Generator generator = new Generator();
+            Generator generator = Generator.getInstance();
             generator.setProperty(Generator.PATH_INPUT,templatePath);
             
             System.out.println(generator.parse(controlTemplate, initControlContext()));
