@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: MethodMap.java,v 1.3 2000/11/01 20:45:31 werken Exp $
+ * @version $Id: MethodMap.java,v 1.4 2000/11/03 14:37:50 jvanzyl Exp $
  */
 
 public class MethodMap
@@ -87,6 +87,11 @@ public class MethodMap
         ((List) methodByNameMap.get(methodName)).add(method);
     }
 
+    public List get(String key)
+    {
+        return (List) methodByNameMap.get("key");
+    }
+
     public Method find(String methodName, Object[] params)
     {
         List methodList = (List) methodByNameMap.get(methodName);
@@ -99,10 +104,9 @@ public class MethodMap
         Class[] parameterTypes = null;
         Method  method = null;
 
-        int     i = 0;
-        int     numMethods = methodList.size();
+        int numMethods = methodList.size();
         
-        while ( (method == null) && ( i < numMethods ) )
+        for (int i = 0; i < numMethods; i++)
         {
             method = (Method) methodList.get(i);
             parameterTypes = method.getParameterTypes();
@@ -118,15 +122,13 @@ public class MethodMap
                 for (int j = 0; j < parameterTypes.length; j++)
                 {
                     if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
-                    {
-                        method = null;
                         break;
-                    }
+
+                    return method;
                 }
             }
-            ++i;
         }
 
-        return method;
+        return null;
     }
 }

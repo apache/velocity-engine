@@ -55,6 +55,7 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.util.Map;
+import java.util.List;
 import java.util.Hashtable;
 
 import java.lang.reflect.Method;
@@ -64,14 +65,14 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.3 2000/11/01 20:45:30 werken Exp $
+ * @version $Id: ClassMap.java,v 1.4 2000/11/03 14:37:49 jvanzyl Exp $
  */
 
 public class ClassMap
 {
-    static final private class CacheMiss { }
-    
-    static final private CacheMiss CACHE_MISS = new CacheMiss();
+    private static final class CacheMiss { }
+    private static final CacheMiss CACHE_MISS = new CacheMiss();
+    private static final Object OBJECT = new Object();
 
     /** 
      * Class passed into the constructor used to as
@@ -175,7 +176,7 @@ public class ClassMap
         
         for (int j = 0; j < parameterTypes.length; j++)
             methodKey.append(parameterTypes[j].getName());
-
+        
         return methodKey.toString();
     }
 
@@ -184,8 +185,12 @@ public class ClassMap
         StringBuffer methodKey = new StringBuffer().append(method);
         
         for (int j = 0; j < params.length; j++)
+        {
+            if (params[j] == null)
+                params[j] = OBJECT;
             methodKey.append(params[j].getClass().getName());
-
+        }            
+        
         return methodKey.toString();
     }
 }
