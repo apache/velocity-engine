@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.30 2001/04/12 11:37:59 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.31 2001/04/14 02:52:53 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -152,7 +152,13 @@ public abstract class VelocityServlet extends HttpServlet
      *  The default content type for the response
      */
     public static final String DEFAULT_CONTENT_TYPE = "text/html";
-     
+    
+  
+    /**
+     *  Encoding for the output stream
+     */
+    public static final String DEFAULT_OUTPUT_ENCODING = "ISO-8859-1";
+ 
     /**
      * The encoding to use when generating outputing.
      */
@@ -202,7 +208,7 @@ public abstract class VelocityServlet extends HttpServlet
             
             defaultContentType = Runtime.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             
-            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
+            encoding = Runtime.getString( Runtime.OUTPUT_ENCODING, DEFAULT_OUTPUT_ENCODING);
         }
         catch( Exception e )
         {
