@@ -63,20 +63,64 @@ import org.apache.velocity.runtime.parser.node.Node;
 /**
  * Base class for all directives used in Velocity.
  */
-public abstract class Directive implements Cloneable
+public abstract class Directive implements DirectiveConstants,Cloneable
 {
-    /** Block directive indicator */
-    public static final int BLOCK = 1;
+    /** The name of this directive */
+    public String name;
     
-    /** Line directive indicator */
-    public static final int LINE = 2;
+    /** The type of this directive: LINE or BLOCK */
+    public int type;
     
+    /**
+     * Name of the directive that will be set
+     * via reflection when this directive
+     * is initialized in the Runtime. This
+     * value must be set in each of the
+     * directives.
+     */
+    public String DIRECTIVE_NAME = "Directive";
+
+    /**
+     * Type of the directive that will be set
+     * via reflection when this directive
+     * is initialized in the Runtime. This
+     * value must be set in each of the
+     * directives.
+     */
+    public int DIRECTIVE_TYPE = LINE;
+
     /** Return the name of this directive */
-    public abstract String getName();
+    public String getName()
+    {
+        return name;
+    }        
     
     /** Get the directive type BLOCK/LINE */
-    public abstract int getType();
+    public int getType()
+    {
+        return type;
+    }        
     
+    /**
+     * Set the name of this directive. This
+     * is done in the Velocity Runtime
+     * when the directive is initialized.
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    /**
+     * Set the type of this directive. This
+     * is done in the Velocity Runtime
+     * when the directive is initialized.
+     */
+    public void setType(int type)
+    {
+        this.type = type;
+    }
+
     /**
      * How this directive is to be initialized.
      */

@@ -93,22 +93,28 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.4 2000/11/17 02:25:43 daveb Exp $
+ * @version $Id: Include.java,v 1.5 2000/11/27 23:57:38 jvanzyl Exp $
  */
 public class Include extends Directive
 {
+    /**
+     * Name of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be named
+     * and initialized.
+     */
+    public String DIRECTIVE_NAME = "include";
+    
+    /**
+     * Type of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be typed
+     * and initialized.
+     */
+    public int DIRECTIVE_TYPE = LINE;
+    
     private static String ERRORMSG_START =  "include.output.errormsg.start";
     private static String ERRORMSG_END  = "include.output.errormsg.end";
-    
-    public String getName() 
-    { 
-        return "include"; 
-    }
-    
-    public int getType() 
-    { 
-        return LINE; 
-    }
     
     /**
      *  iterates through the argument list and renders every

@@ -83,24 +83,30 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.3 2000/11/17 02:26:51 daveb Exp $
+ * @version $Id: Parse.java,v 1.4 2000/11/27 23:57:40 jvanzyl Exp $
  */
 public class Parse extends Directive
 {
+    /**
+     * Name of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be named
+     * and initialized.
+     */
+    
+    public String DIRECTIVE_NAME = "parse";
+    /**
+     * Type of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be typed
+     * and initialized.
+     */
+    public int DIRECTIVE_TYPE = LINE;
+    
     SimpleNode nodeTree_ = null;
     int iParseDepth_ = 1;
     boolean bReady_ = false;
 
-    public String getName() 
-    { 
-        return "parse"; 
-    }
-    
-    public int getType() 
-    { 
-        return LINE; 
-    }
-    
     /**
      *   Initializes the trees
      */

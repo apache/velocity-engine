@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.6 2000/11/26 19:38:27 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.7 2000/11/27 23:57:45 jvanzyl Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -80,7 +80,7 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
-public class VelocimacroProxy extends  Directive
+public class VelocimacroProxy extends Directive
 {
     private String strMacroName_ = "";
     private String strMacro_ = "";

@@ -54,29 +54,31 @@ package org.apache.velocity.runtime.directive;
  * <http://www.apache.org/>.
  */
 
-import java.io.Writer;
-import java.io.IOException;
-
-import org.apache.velocity.Context;
-
-import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- * A dummy directive used for testing purposes.
+ * Base class for all directives used in Velocity.
  */
-public class Dummy extends Directive
+public interface DirectiveConstants
 {
-    public String getName() { return "dummy"; }
-    public int getType() { return LINE; }
-
-    public void init(Context context, Node node) throws Exception
-    {
-    }
+    /** Block directive indicator */
+    public static final int BLOCK = 1;
     
-    public boolean render(Context context, Writer writer, Node node)
-        throws IOException
-    {
-        return true;
-    }
+    /** Line directive indicator */
+    public static final int LINE = 2;
 
-}
+    /**
+     * Name of the field that contains the
+     * name for this directive. It will be grabbed
+     * via reflection and set when the directive
+     * is initialized in the Velocity Runtime.
+     */
+    public static final String NAME_FIELD = "DIRECTIVE_NAME";
+    
+    /**
+     * Type of the field that contains the
+     * name for this directive. It will be grabbed
+     * via reflection and set when the directive
+     * is initialized in the Velocity Runtime.
+     */
+    public static final String TYPE_FIELD = "DIRECTIVE_TYPE";
+}        
