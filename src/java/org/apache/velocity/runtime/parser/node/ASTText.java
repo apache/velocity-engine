@@ -63,7 +63,7 @@ import org.apache.velocity.runtime.parser.Token;
 
 public class ASTText extends SimpleNode
 {
-    private String text;
+    private char[] ctext;
 
     public ASTText(int id)
     {
@@ -86,9 +86,9 @@ public class ASTText extends SimpleNode
     {
         Token t = getFirstToken();
 
-        text =  t.image;        
-       
-        text = NodeUtils.specialText( t ) + t.image;
+        String text = NodeUtils.specialText( t ) + t.image;
+        
+        ctext = text.toCharArray();
 
         return data;
     }
@@ -96,7 +96,7 @@ public class ASTText extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        writer.write(text);
+        writer.write(ctext);
         return true;
     }    
 }
