@@ -38,14 +38,14 @@ implementation...)
 
 4) Setup a webapp under tomcat :
 
- - make a new 'webapp' : under tomcat's webapps directory, 
-   make a new directory structure
+ - make a new 'webapp' : in tomcat's webapps directory, 
+   make a new directory structure as follows :
    
-   webapp/
       velexample
       velexample/WEB-INF
       velexample/WEB-INF/lib
       velexample/WEB-INF/classes
+
 
  - put the velocity-1.0.1.jar (or newer) into the velexample/WEB-INF/lib directory
  
