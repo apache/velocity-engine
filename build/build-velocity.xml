@@ -96,9 +96,10 @@
     <!-- Prepares the build directory                                        -->
     <!-- =================================================================== -->
     <target name="prepare" depends="env">
+        <tstamp/>
         <filter token="year" value="${year}"/>
         <filter token="version" value="${version}"/>
-        <filter token="date" value="${TODAY}"/>        
+        <filter token="date" value="${DSTAMP}"/>        
 
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.dest}"/>
