@@ -160,7 +160,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.53 2000/11/27 03:37:50 geirm Exp $
+ * @version $Id: Runtime.java,v 1.54 2000/11/27 04:28:54 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -282,39 +282,42 @@ public class Runtime implements RuntimeConstants
         setDefaultProperties();
                          
         /*
-         * Try loading propertiesFile as a straight file first,
+         * if we were passed propertis, try loading propertiesFile as a straight file first,
          * if that fails, then try and use the classpath
          */
-
-        File file = new File(propertiesFileName);
-
-        try
+        
+        if (propertiesFileName != null && !propertiesFileName.equals(""))
         {
-            if( file.exists() )
-            {
-                FileInputStream is = new FileInputStream( file );
-                 addPropertiesFromStream( is, propertiesFileName );
-            }
-            else
-            {
-                info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
-                
-                /*
-                 *  lets try the classpath
-                 */
+            File file = new File(propertiesFileName);
 
-                ClassLoader classLoader = Runtime.class.getClassLoader();
-                InputStream inputStream = classLoader.getResourceAsStream( propertiesFileName );
-
-                if (inputStream!= null)
-                    addPropertiesFromStream( inputStream, propertiesFileName );
+            try
+            {
+                if( file.exists() )
+                {
+                    FileInputStream is = new FileInputStream( file );
+                    addPropertiesFromStream( is, propertiesFileName );
+                }
                 else
-                    info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+                {
+                    info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
+                    
+                    /*
+                     *  lets try the classpath
+                     */
+                    
+                    ClassLoader classLoader = Runtime.class.getClassLoader();
+                    InputStream inputStream = classLoader.getResourceAsStream( propertiesFileName );
+                    
+                    if (inputStream!= null)
+                        addPropertiesFromStream( inputStream, propertiesFileName );
+                    else
+                        info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            error("Exception finding properties  " + propertiesFileName + " : " + ex);
+            catch (Exception ex)
+            {
+                error("Exception finding properties  " + propertiesFileName + " : " + ex);
+            }
         }
 
         /*
