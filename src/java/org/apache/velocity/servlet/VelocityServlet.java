@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.32 2001/04/22 23:02:03 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.33 2001/05/10 01:12:10 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -414,9 +414,13 @@ public abstract class VelocityServlet extends HttpServlet
             {
                 if (vw != null)
                 {
-                    vw.flush();
+                    /*
+                     * we just put the VelWriter back into the 
+                     * pool.  We don't even have to flush.
+                     * and we certainly shouldn't close it
+                     */
+
                     writerPool.put(vw);
-                    output.close();
                 }                
             }
             catch (Exception e)
