@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: MethodMap.java,v 1.5 2000/11/04 02:42:39 jvanzyl Exp $
+ * @version $Id: MethodMap.java,v 1.6 2000/11/10 03:27:39 jvanzyl Exp $
  */
 
 public class MethodMap
@@ -89,7 +89,7 @@ public class MethodMap
 
     public List get(String key)
     {
-        return (List) methodByNameMap.get("key");
+        return (List) methodByNameMap.get(key);
     }
 
     public Method find(String methodName, Object[] params)
