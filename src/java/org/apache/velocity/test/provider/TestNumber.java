@@ -29,7 +29,8 @@ public class TestNumber implements TemplateNumber
 
    private Number n;
 
-   public TestNumber(double val) {
+   public TestNumber(double val) 
+   {
        n = new Double(val);
    }
 

@@ -25,21 +25,25 @@ import java.math.BigInteger;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
-public class ASTIntegerLiteral extends SimpleNode {
+public class ASTIntegerLiteral extends SimpleNode 
+{
 
     // This may be of type Integer, Long or BigInteger
     private Number value = null;
 
-    public ASTIntegerLiteral(int id) {
+    public ASTIntegerLiteral(int id) 
+    {
         super(id);
     }
 
-    public ASTIntegerLiteral(Parser p, int id) {
+    public ASTIntegerLiteral(Parser p, int id) 
+    {
         super(p, id);
     }
 
     /** Accept the visitor. **/
-    public Object jjtAccept(ParserVisitor visitor, Object data) {
+    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    {
         return visitor.visit(this, data);
     }
 
@@ -60,15 +64,20 @@ public class ASTIntegerLiteral extends SimpleNode {
          * Determine the size of the item and make it an Integer, Long, or BigInteger as appropriate.
          */
          String str = getFirstToken().image;
-         try {
+         try 
+         {
              value = new Integer( str );
-
-         } catch ( NumberFormatException E1 ) {
-            try {
+         } 
+         catch ( NumberFormatException E1 ) 
+         {
+            try 
+            {
 
                 value = new Long( str );
 
-            } catch ( NumberFormatException E2 ) {
+            } 
+            catch ( NumberFormatException E2 ) 
+            {
 
                 // if there's still an Exception it will propogate out
                 value = new BigInteger( str );

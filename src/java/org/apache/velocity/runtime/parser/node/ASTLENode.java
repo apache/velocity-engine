@@ -82,10 +82,12 @@ public class ASTLENode extends SimpleNode
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) {
+        if (left instanceof TemplateNumber) 
+        {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) {
+        if (right instanceof TemplateNumber) 
+        {
            right = ( (TemplateNumber) right).getAsNumber();
         }
 

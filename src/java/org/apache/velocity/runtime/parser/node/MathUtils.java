@@ -44,7 +44,8 @@ import java.util.ArrayList;
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  */
 
-public abstract class MathUtils {
+public abstract class MathUtils
+{
 
     /**
      * A BigDecimal representing the number 0
@@ -65,7 +66,8 @@ public abstract class MathUtils {
      * The <code>Class</code>-object is key, the maximum-value is the value
      */
     protected static Map ints = new HashMap();
-    static {
+    static
+    {
         ints.put (Byte.class, BigDecimal.valueOf (Byte.MAX_VALUE));
         ints.put (Short.class, BigDecimal.valueOf (Short.MAX_VALUE));
         ints.put (Integer.class, BigDecimal.valueOf (Integer.MAX_VALUE));
@@ -77,7 +79,8 @@ public abstract class MathUtils {
      * The "size" of the number-types - ascending.
      */
     protected static List typesBySize = new ArrayList();
-    static {
+    static
+    {
         typesBySize.add (Byte.class);
         typesBySize.add (Short.class);
         typesBySize.add (Integer.class);
@@ -89,13 +92,16 @@ public abstract class MathUtils {
     /**
      * Convert the given Number to a BigDecimal
      */
-    public static BigDecimal toBigDecimal (Number n) {
+    public static BigDecimal toBigDecimal (Number n) 
+    {
 
-        if (n instanceof BigDecimal) {
+        if (n instanceof BigDecimal) 
+        {
             return (BigDecimal)n;
         }
 
-        if (n instanceof BigInteger) {
+        if (n instanceof BigInteger) 
+        {
             return new BigDecimal ( (BigInteger)n );
         }
 
@@ -106,9 +112,11 @@ public abstract class MathUtils {
     /**
      * Convert the given Number to a BigInteger
      */
-    public static BigInteger toBigInteger (Number n) {
+    public static BigInteger toBigInteger (Number n) 
+    {
 
-        if (n instanceof BigInteger) {
+        if (n instanceof BigInteger) 
+        {
             return (BigInteger)n;
         }
 
@@ -119,17 +127,22 @@ public abstract class MathUtils {
     /**
      * Compare the given Number to 0.
      */
-    public static boolean isZero (Number n) {
-        if (isInteger( n ) ) {
-            if (n instanceof BigInteger) {
+    public static boolean isZero (Number n) 
+    {
+        if (isInteger( n ) ) 
+        {
+            if (n instanceof BigInteger) 
+            {
                 return ((BigInteger)n).compareTo (INT_ZERO) == 0;
             }
             return n.doubleValue() == 0;
         }
-        if (n instanceof Float) {
+        if (n instanceof Float) 
+        {
             return n.floatValue() == 0f;
         }
-        if (n instanceof Double) {
+        if (n instanceof Double) 
+        {
             return n.doubleValue() == 0d;
         }
         return toBigDecimal( n ).compareTo( DECIMAL_ZERO) == 0;
@@ -139,7 +152,8 @@ public abstract class MathUtils {
      * Test, whether the given object is an integer value
      * (Byte, Short, Integer, Long, BigInteger)
      */
-    public static boolean isInteger (Number n) {
+    public static boolean isInteger (Number n) 
+    {
         return ints.containsKey (n.getClass());
     }
 
@@ -147,29 +161,43 @@ public abstract class MathUtils {
      * Wrap the given primitive into the given class if the value is in the
      * range of the destination type. If not the next bigger type will be chosen.
      */
-    public static Number wrapPrimitive (long value, Class type) {
-        if (type == Byte.class) {
-            if (value > Byte.MAX_VALUE || value < Byte.MIN_VALUE) {
+    public static Number wrapPrimitive (long value, Class type) 
+    {
+        if (type == Byte.class) 
+        {
+            if (value > Byte.MAX_VALUE || value < Byte.MIN_VALUE) 
+            {
                 type = Short.class;
-            } else {
+            } 
+            else 
+            {
                 return new Byte ((byte)value);
             }
         }
-        if (type == Short.class) {
-            if (value > Short.MAX_VALUE || value < Short.MIN_VALUE) {
+        if (type == Short.class) 
+        {
+            if (value > Short.MAX_VALUE || value < Short.MIN_VALUE) 
+            {
                 type = Integer.class;
-            } else {
+            } 
+            else 
+            {
                 return new Short((short)value);
             }
         }
-        if (type == Integer.class) {
-            if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
+        if (type == Integer.class) 
+        {
+            if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) 
+            {
                 type = Long.class;
-            } else {
+            } 
+            else 
+            {
                 return new Integer ((int)value);
             }
         }
-        if (type == Long.class) {
+        if (type == Long.class) 
+        {
             return new Long (value);
         }
         return BigInteger.valueOf( value);
@@ -178,8 +206,10 @@ public abstract class MathUtils {
     /**
      * Wrap the result in the object of the bigger type.
      */
-    private static Number wrapPrimitive (long value, Number op1, Number op2) {
-        if ( typesBySize.indexOf( op1.getClass()) > typesBySize.indexOf( op2.getClass())) {
+    private static Number wrapPrimitive (long value, Number op1, Number op2) 
+    {
+        if ( typesBySize.indexOf( op1.getClass()) > typesBySize.indexOf( op2.getClass())) 
+        {
             return wrapPrimitive( value, op1.getClass());
         }
         return wrapPrimitive( value, op2.getClass());
@@ -188,24 +218,28 @@ public abstract class MathUtils {
     /**
      * Find the common Number-type to be used in calculations.
      */
-    private static int findCalculationBase (Number op1, Number op2) {
+    private static int findCalculationBase (Number op1, Number op2) 
+    {
 
         boolean op1Int = isInteger(op1);
         boolean op2Int = isInteger(op2);
 
         if ( (op1 instanceof BigDecimal || op2 instanceof BigDecimal) ||
-             ( (!op1Int || !op2Int) && (op1 instanceof BigInteger || op2 instanceof BigInteger)) ) {
+             ( (!op1Int || !op2Int) && (op1 instanceof BigInteger || op2 instanceof BigInteger)) ) 
+        {
             return BASE_BIGDECIMAL;
         }
 
         if (op1Int && op2Int) {
-            if (op1 instanceof BigInteger || op2 instanceof BigInteger) {
+            if (op1 instanceof BigInteger || op2 instanceof BigInteger) 
+            {
                 return BASE_BIGINTEGER;
             }
             return BASE_LONG;
         }
 
-        if ((op1 instanceof Double) || (op2 instanceof Double)) {
+        if ((op1 instanceof Double) || (op2 instanceof Double)) 
+        {
             return BASE_DOUBLE;
         }
         return BASE_FLOAT;
@@ -215,10 +249,12 @@ public abstract class MathUtils {
      * Add two numbers and return the correct value / type.
      * Overflow detection is done for integer values (byte, short, int, long) only!
      */
-    public static Number add (Number op1, Number op2) {
+    public static Number add (Number op1, Number op2) 
+    {
 
         int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        switch (calcBase) 
+        {
             case BASE_BIGINTEGER:
                 return toBigInteger( op1 ).add( toBigInteger( op2 ));
             case BASE_LONG:
@@ -227,7 +263,8 @@ public abstract class MathUtils {
                 long result = l1+l2;
 
                 // Overflow check
-                if ((result ^ l1) < 0 && (result ^ l2) < 0) {
+                if ((result ^ l1) < 0 && (result ^ l2) < 0) 
+                {
                     return toBigInteger( op1).add( toBigInteger( op2));
                 }
                 return wrapPrimitive( result, op1, op2);

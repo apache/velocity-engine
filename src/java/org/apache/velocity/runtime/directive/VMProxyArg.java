@@ -254,7 +254,7 @@ public class VMProxyArg
             if ( type == ParserTreeConstants.JJTREFERENCE ) 
             {                
                 /*
-                 *  two cases :  scalar reference ($foo) or multi-level ($foo.bar....)
+                 *  two     cases :  scalar reference ($foo) or multi-level ($foo.bar....)
                  */
                 
                 if ( numTreeChildren == 0)
@@ -357,14 +357,15 @@ public class VMProxyArg
      */
     private void setup()
     {
-        switch( type ) {
+        switch( type ) 
+        {
 
-        case ParserTreeConstants.JJTINTEGERRANGE :
-        case ParserTreeConstants.JJTREFERENCE :
-        case ParserTreeConstants.JJTOBJECTARRAY :
-        case ParserTreeConstants.JJTMAP :
-        case ParserTreeConstants.JJTSTRINGLITERAL :
-        case ParserTreeConstants.JJTTEXT :
+            case ParserTreeConstants.JJTINTEGERRANGE :
+            case ParserTreeConstants.JJTREFERENCE :
+            case ParserTreeConstants.JJTOBJECTARRAY :
+            case ParserTreeConstants.JJTMAP :
+            case ParserTreeConstants.JJTSTRINGLITERAL :
+            case ParserTreeConstants.JJTTEXT :
             {
                 /*
                  *  dynamic types, just render
@@ -425,49 +426,49 @@ public class VMProxyArg
                 break;
             }
             
-        case ParserTreeConstants.JJTTRUE :
+            case ParserTreeConstants.JJTTRUE :
             {
                 constant = true;
                 staticObject = new  Boolean(true);
                 break;
             }
 
-        case ParserTreeConstants.JJTFALSE :
+            case ParserTreeConstants.JJTFALSE :
             {
                 constant = true;
                 staticObject =  new Boolean(false);
                 break;
             }
 
-        case ParserTreeConstants.JJTINTEGERLITERAL :
+            case ParserTreeConstants.JJTINTEGERLITERAL :
             {
                 constant = true;
                 staticObject = new Integer(callerReference);
                 break;
             }
 
-        case ParserTreeConstants.JJTFLOATINGPOINTLITERAL :
+            case ParserTreeConstants.JJTFLOATINGPOINTLITERAL :
             {
                 constant = true;
                 staticObject = new Double(callerReference);
                 break;
             }
 
-        case ParserTreeConstants.JJTWORD :
-          {
-              /*
-               *  this is technically an error...
-               */
+            case ParserTreeConstants.JJTWORD :
+            {
+                /*
+                 *  this is technically an error...
+                 */
 
-              rsvc.error("Unsupported arg type : " + callerReference
+                rsvc.error("Unsupported arg type : " + callerReference
                             + "  You most likely intended to call a VM with a string literal, so enclose with ' or \" characters. (VMProxyArg.setup())");
-              constant = true;
-              staticObject = new String( callerReference );
+                constant = true;
+                staticObject = new String( callerReference );
 
-              break;
-          }
+                break;
+            }
  
-        default :
+             default :
             {
                  rsvc.error(" VMProxyArg.setup() : unsupported type : " 
                                     + callerReference  );

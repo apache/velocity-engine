@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.parser.node;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIntegerRange.java,v 1.6 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id$ 
 */
 
 import java.util.ArrayList;
@@ -35,7 +35,8 @@ import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
-public class ASTIntegerRange extends SimpleNode {
+public class ASTIntegerRange extends SimpleNode 
+{
   
     public ASTIntegerRange(int id) 
     {

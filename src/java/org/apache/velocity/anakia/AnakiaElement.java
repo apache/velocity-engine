@@ -34,7 +34,8 @@ public class AnakiaElement extends Element
 {
     private static final XMLOutputter DEFAULT_OUTPUTTER = new XMLOutputter();
 
-    static {
+    static 
+    {
         DEFAULT_OUTPUTTER.getFormat().setLineSeparator(System.getProperty("line.separator"));
     }
 
