@@ -132,13 +132,12 @@ import java.util.*;
  * much time to improve it), I wrote it this way.  If you don't like
  * it, go ahead and tune it up!
  *
- * @see org.apache.velocity.runtime.configuration.Configurations
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Configuration.java,v 1.10 2001/03/05 11:45:31 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.11 2001/03/12 04:23:10 geirm Exp $
  */
 public class Configuration extends Hashtable
 {
