@@ -1,5 +1,6 @@
 package org.apache.velocity.context;
 
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -57,111 +58,16 @@ package org.apache.velocity.context;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
- *  This adapter class is the container for all context types for internal
- *  use.  The AST now uses this class rather than the app-level Context
- *  interface to allow flexibility in the future.
+ *  interface to bring all necessary internal and user contexts together.
+ *  this is what the AST expects to deal with.  If anything new comes
+ *  along, add it here.
  *
- *  Currently, we have two context interfaces which must be supported :
- *  <ul>
- *  <li> Context : used for application/template data access
- *  <li> InternalContext : used for internal housekeeping and caching
- *  </ul>
+ *  I will rename soon :)
  *
- *  This class implements the two interfaces to ensure that all methods are 
- *  supported.  When adding to the interfaces, or adding more context 
- *  functionality, the interface is the primary definition, so alter that first
- *  and then all classes as necessary.  As of this writing, this would be 
- *  the only class affected by changes to InternalContext
- *
- *  This class ensures that an InternalContextBase is available for internal
- *  use.  If an application constructs their own Context-implementing
- *  object w/o subclassing AbstractContext, it may be that support for
- *  InternalContext is not available.  Therefore, InternalContextAdapter will
- *  create an InternalContextBase if necessary for this support.  Note that 
- *  if this is necessary, internal information such as node-cache data will be
- *  lost from use to use of the context.  This may or may not be important,
- *  depending upon application.
- * 
- *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapter.java,v 1.1 2001/01/03 05:18:17 geirm Exp $
+ *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ *  @version $Id: InternalContextAdapter.java,v 1.2 2001/01/13 16:31:51 geirm Exp $
  */
 
-public final class InternalContextAdapter implements Context, InternalContext
+public interface InternalContextAdapter extends InternalHousekeepingContext, Context, InternalWrapperContext
 {
-    /**  the Context that we are wrapping */
-    Context context = null;
-    
-    /** the ICB we are wrapping.  We may need to make one */
-    InternalContextBase icb = null;
-
-    /**
-     *  CTOR takes a Context and wraps it, delegating all 'data' calls 
-     *  to it.
-     * 
-     *  For support of internal contexts, it will create an InternalContextBase
-     *  if need be.
-     */
-    public InternalContextAdapter( Context c )
-    {
-        context = c;
-
-        if ( !( c instanceof InternalContextBase ))
-        {
-            icb = new InternalContextBase();
-        }
-        else
-        {
-            icb = (InternalContextBase) context;
-        }
-    }
-
-    /* --- InternalContext interface methods --- */
-
-    public void setCurrentTemplateName( String s )
-    {
-        icb.setCurrentTemplateName( s );
-    }
-  
-    public String getCurrentTemplateName()
-    {
-        return icb.getCurrentTemplateName();
-    }
-
-    public IntrospectionCacheData icacheGet( Object key )
-    {
-        return icb.icacheGet( key );
-    }
-    
-    public void icachePut( Object key, IntrospectionCacheData o )
-    {
-        icb.icachePut( key, o );
-    }
-
-    /* ---  Context interface methods --- */
-
-    public Object put(String key, Object value)
-    {
-        return context.put( key , value );
-    }
-
-    public Object get(String key)
-    {
-        return context.get( key );
-    }
-
-    public boolean containsKey(Object key)
-    {
-        return context.containsKey( key );
-    }
-
-    public Object[] getKeys()
-    {
-        return context.getKeys();
-    }
-
-    public Object remove(Object key)
-    {
-        return context.remove( key );
-    }
 }
