@@ -58,7 +58,7 @@ package org.apache.velocity.util.introspection;
  *  for information error reporting from the uberspector implementations
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Info.java,v 1.1 2002/04/21 18:42:04 geirm Exp $
+ * @version $Id: Info.java,v 1.2 2003/11/15 00:02:07 dlr Exp $
  */
 public class Info
 {
@@ -66,13 +66,21 @@ public class Info
     private int column;
     private String templateName;
 
-    public Info(String tn, int l, int c)
+    /**
+     * @param source Usually a template name.
+     * @param line The line number from <code>source</code>.
+     * @param column The column number from <code>source</code>.
+     */
+    public Info(String source, int line, int column)
     {
-        templateName = tn;
-        line = l;
-        column = c;
+        this.templateName = source;
+        this.line = line;
+        this.column = column;
     }
 
+    /**
+     * Force callers to set the location information.
+     */
     private Info()
     {
     }
@@ -90,5 +98,15 @@ public class Info
     public int getColumn()
     {
         return column;
+    }
+
+    /**
+     * Formats a textual representation of this object as <code>SOURCE
+     * [line X, column Y]</code>.
+     */
+    public String toString()
+    {
+        return getTemplateName() + " [line " + getLine() + ", column " +
+            getColumn() + ']';
     }
 }
