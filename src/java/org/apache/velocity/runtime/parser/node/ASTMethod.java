@@ -41,7 +41,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.28 2004/03/20 03:35:51 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -105,10 +105,27 @@ public class ASTMethod extends SimpleNode
         try
         {
             /*
-             *   check the cache 
+             * sadly, we do need recalc the values of the args, as this can 
+             * change from visit to visit
              */
 
-            IntrospectionCacheData icd =  context.icacheGet( this );
+            Class[] paramClasses = new Class[paramCount];
+            
+            for (int j = 0; j < paramCount; j++) {
+                params[j] = jjtGetChild(j + 1).value(context);
+                
+                if (params[j] != null)
+                {
+                    paramClasses[j] = params[j].getClass();
+                }
+            }
+                
+            /*
+             *   check the cache 
+             */
+            
+            MethodCacheKey mck = new MethodCacheKey(paramClasses);
+            IntrospectionCacheData icd =  context.icacheGet( mck );
             Class c = o.getClass();
 
             /*
@@ -119,16 +136,9 @@ public class ASTMethod extends SimpleNode
 
             if ( icd != null && icd.contextData == c )
             {
-                /*
-                 * sadly, we do need recalc the values of the args, as this can 
-                 * change from visit to visit
-                 */
-
-                for (int j = 0; j < paramCount; j++)
-                    params[j] = jjtGetChild(j + 1).value(context);
 
                 /*
-                 * and get the method from the cache
+                 * get the method from the cache
                  */
 
                 method = (VelMethod) icd.thingy;
@@ -150,7 +160,8 @@ public class ASTMethod extends SimpleNode
                     icd = new IntrospectionCacheData();
                     icd.contextData = c;
                     icd.thingy = method;
-                    context.icachePut( this, icd );
+                    
+                    context.icachePut( mck, icd );
                 }
             }
  
@@ -264,4 +275,31 @@ public class ASTMethod extends SimpleNode
             return null;
         }            
     }
+
+    /**
+     * Internal class used as key for method cache.  Combines
+     * ASTMethod fields with array of parameter classes.
+     */
+    class MethodCacheKey
+    {   
+        Class[] params;
+        
+        MethodCacheKey(Class[] params)
+        {
+            this.params = params;
+        }
+        
+        public boolean equals(Object o) 
+        {
+            return  (o != null) &&
+                    (o instanceof MethodCacheKey) && 
+                    (this.hashCode() == o.hashCode());
+        }
+        
+        public int hashCode()
+        {
+            return params.hashCode() * 37 + ASTMethod.this.hashCode();
+        }
+    }
+
 }
