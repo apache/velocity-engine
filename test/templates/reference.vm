@@ -89,14 +89,14 @@ $foo.bar#if( $foo ) ($bar) #end
 
 Test boolean introspection isFoo()
 
-#if( $provider.boolean == true )
+#if( $boolobj.boolean == true )
   Correct
 #else
   Wrong
 #end
 
 
-#if ( $provider.notboolean == true )
+#if ( $boolobj.notboolean == true )
    Wrong
 #else
    Correct
