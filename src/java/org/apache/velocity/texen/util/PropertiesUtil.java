@@ -65,7 +65,7 @@ import org.apache.velocity.texen.Generator;
  * Usually this class is only used from a Velocity context.
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: PropertiesUtil.java,v 1.7 2001/08/30 13:29:47 jvanzyl Exp $ 
+ * @version $Id: PropertiesUtil.java,v 1.8 2001/08/30 14:14:15 jvanzyl Exp $ 
  */
 public class PropertiesUtil
 {
@@ -76,8 +76,37 @@ public class PropertiesUtil
         
         if (templatePath != null)
         {
+            // We might have something like the following:
+            //
+            // #set ($dbprops = $properties.load("$generator.templatePath/path/props")
+            //
+            // as we have in Torque but we want people to start using
+            //
+            // #set ($dbprops = $properties.load("path/props")
+            //
+            // so that everything works from the filesystem or from
+            // a JAR. So the actual Generator.getTemplatePath()
+            // is not deprecated but it's use in templates
+            // should be.
+            
             try
             {
+                // If the properties file is being pulled from the
+                // file system and someone is using the method whereby
+                // the properties file is assumed to be in the template
+                // path and they are simply using:
+                //
+                // #set ($dbprops = $properties.load("props") (1)
+                // 
+                // than we have to tack on the templatePath in order
+                // for the properties file to be found. We want (1)
+                // to work whether the generation is being run from
+                // the file system or from a JAR file.
+                if (!propertiesFile.startsWith(templatePath))
+                {
+                    propertiesFile = templatePath + "/" + propertiesFile;
+                }
+                
                 properties.load(new FileInputStream(propertiesFile));
             }
             catch (Exception e)
