@@ -27,6 +27,8 @@ fi
 CLASSPATH=${CLASSPATH}:./lib/ant-1.2.jar
 CLASSPATH=${CLASSPATH}:./lib/ant-1.2-optional.jar
 CLASSPATH=${CLASSPATH}:./lib/xerces-1.2.1.jar
+CLASSPATH=${CLASSPATH}:./lib/werken.xpath.jar
+CLASSPATH=${CLASSPATH}:./lib/antlr-runtime.jar
 
 # convert the unix path to windows
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
