@@ -1803,7 +1803,7 @@ the loop count as $velocityCount.
 </p>
 
 <p>
-<code>directive.foreach.initial.value = 1</code><br/>
+<code>directive.foreach.counter.initial.value = 1</code><br/>
 Default starting value for the loop counter reference in a #foreach() loop.
 </p>
 
