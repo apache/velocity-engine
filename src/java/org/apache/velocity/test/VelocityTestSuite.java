@@ -72,19 +72,20 @@ import junit.framework.*;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.10 2000/12/19 05:33:47 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.11 2000/12/19 16:12:43 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
-    /** 
-     * Path to test templates relative to the build directory
-     * where the tests will be started from.
+    /**
+     * Properties file that lists which template tests to run.
      */
-     private final static String TEST_PROPERTIES =
-        "org/apache/velocity/test/defaults/velocity.properties";
-
-     private final static String TEST_CASE_PROPERTIES =
-        "../test/test.properties";
+    private final static String TEST_CASE_PROPERTIES = "../test/test.properties";
+    
+    /**
+     * Path for templates. This property will override the
+     * value in the default velocity properties file.
+     */
+    private final static String FILE_TEMPLATE_PATH = "../test/templates";
 
     private Properties testProperties;
 
@@ -97,7 +98,9 @@ public class VelocityTestSuite extends TestSuite
 
         try
         {
-            Runtime.init(TEST_PROPERTIES);
+            Runtime.setDefaultProperties();
+            Runtime.setSourceProperty(Runtime.FILE_TEMPLATE_PATH, FILE_TEMPLATE_PATH);
+            Runtime.init();
             
             testProperties = new Properties();
             testProperties.load(new FileInputStream(TEST_CASE_PROPERTIES));
