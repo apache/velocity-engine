@@ -74,21 +74,6 @@ between the if and else clauses, causing the obscure compile error:
 ]]></source>
 
 <p>
-Another great Jason quote:
-</p>
-
-<source><![CDATA[
-One thing to watch out for:  On some servers (including Tomcat 3.XXX) if
-you have a bean with a scope of "session" or "application" and you
-change the bean class implementation, you may get a ClassCastException
-on a later request. This exception occurs because the generated servlet
-code has to do a cast on the bean instance as it's retrieved from the
-session or application, and the old bean type stored in the session or
-application doesn't match the new bean type expected.  The simplest
-solution is to restart the server.
-]]></source>
-
-<p>
 It is the belief of the Velocity developers that you should not have to
 specially code your applications to work around issues that are related
 directly to Java.
