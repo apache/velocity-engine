@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.5 2000/12/19 23:57:20 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.6 2001/02/01 03:57:48 geirm Exp $
  */
 public class ResourceManager
 {
@@ -273,6 +273,7 @@ public class ResourceManager
             catch (Exception e)
             {
                 Runtime.error(e);
+                resource = null; // return null
             }
         }
         return resource;
