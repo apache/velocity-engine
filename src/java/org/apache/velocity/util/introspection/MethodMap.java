@@ -72,7 +72,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: MethodMap.java,v 1.14 2002/03/23 13:30:57 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.15 2002/07/25 02:58:08 geirm Exp $
  */
 public class MethodMap
 {
@@ -162,9 +162,13 @@ public class MethodMap
         for(int i = 0; i < l; ++i)
         {
             Object arg = args[i];
-            // A null argument is always treated as being a generic Object.
+
+            /*
+             * if we are careful down below, a null argument goes in there
+             * so we can know that the null was passed to the method
+             */
             classes[i] =
-                arg == null ? java.lang.Object.class : arg.getClass();
+                    arg == null ? null : arg.getClass();
         }
 
         return getMostSpecific(methodList, classes);
@@ -382,10 +386,18 @@ public class MethodMap
                                                          Class actual)
     {
         /*
+         * if it's a null, it means the arg was null
+         */
+        if (actual == null && !formal.isPrimitive())
+        {
+            return true;
+        }
+
+        /*
          *  Check for identity or widening reference conversion
          */
 
-        if(formal.isAssignableFrom(actual))
+        if (actual != null && formal.isAssignableFrom(actual))
         {
             return true;
         }
@@ -395,7 +407,7 @@ public class MethodMap
          * actual parameters are never primitives.
          */
 
-        if(formal.isPrimitive())
+        if (formal.isPrimitive())
         {
             if(formal == Boolean.TYPE && actual == Boolean.class)
                 return true;
@@ -425,6 +437,7 @@ public class MethodMap
                 actual == Short.class || actual == Byte.class))
                 return true;
         }
+
         return false;
     }
 
@@ -446,8 +459,17 @@ public class MethodMap
                                                                Class actual)
     {
         /*
+         * we shouldn't get a null into, but if so
+         */
+        if (actual == null && !formal.isPrimitive())
+        {
+            return true;
+        }
+
+        /*
          *  Check for identity or widening reference conversion
          */
+
         if(formal.isAssignableFrom(actual))
         {
             return true;
