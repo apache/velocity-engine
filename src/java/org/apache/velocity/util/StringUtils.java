@@ -74,7 +74,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.7 2001/02/27 16:27:11 jvanzyl Exp $
+ *  @version $Id: StringUtils.java,v 1.8 2001/03/05 01:26:38 dlr Exp $
  */
 public class StringUtils
 {
@@ -269,7 +269,7 @@ public class StringUtils
             {
                 FileReader fr = new FileReader(f);
                 char[] template = new char[(int) f.length()];
-                fr.read(template, 0, (int) f.length());
+                fr.read(template);
                 contents = new String(template);
             }
             catch (Exception e)
