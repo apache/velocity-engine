@@ -66,12 +66,16 @@ import org.apache.velocity.runtime.resource.ResourceFactory;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
+
 /**
  * Class to manage the text resource for the Velocity
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.8 2001/02/16 14:26:03 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.9 2001/02/26 03:33:19 geirm Exp $
  */
 public class ResourceManager
 {
@@ -188,8 +192,15 @@ public class ResourceManager
      * @param resourceName The name of the resource to retrieve.
      * @param resourceType The type of resource (<code>RESOURCE_TEMPLATE</code>,
      *                     <code>RESOURCE_CONTENT</code>, etc.).
+     * @return Resource with the template parsed and ready.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if a problem in parse
      */
     public static Resource getResource(String resourceName, int resourceType)
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
         Resource resource = null;
         ResourceLoader resourceLoader = null;
@@ -239,9 +250,20 @@ public class ResourceManager
                         resource.setLastModified( 
                             resourceLoader.getLastModified( resource ));               
                     }
-                    catch (Exception e)
+                    catch( ResourceNotFoundException rnfe )
                     {
-                        Runtime.error(e);
+                        Runtime.error("ResourceManager.getResource() exception: " + rnfe);
+                        throw rnfe;
+                    }
+                    catch( ParseErrorException pee )
+                    {
+                        Runtime.error("ResourceManager.getResource() exception: " + pee);
+                        throw pee;
+                    }
+                    catch( Exception eee )
+                    {
+                        Runtime.error("ResourceManager.getResource() exception: " + eee);
+                        throw eee;
                     }
                 }
             }
@@ -285,7 +307,7 @@ public class ResourceManager
                  * Return null if we can't find a resource.
                  */
                 if (resource.getData() == null)
-                    throw new Exception("Can't find " + resourceName + "!");
+                    throw new ResourceNotFoundException("Can't find " + resourceName + "!");
                 
                 resource.setLastModified(resourceLoader.getLastModified(resource));
                 
@@ -302,10 +324,15 @@ public class ResourceManager
                 if (resourceLoader.isCachingOn())
                     globalCache.put(resourceName, resource);
             }
-            catch (Exception e)
+            catch( ParseErrorException pee )
             {
-                Runtime.error(e);
-                resource = null; // return null
+                Runtime.error("ResourceManager.getResource() parse exception: " + pee);
+                throw pee;
+            }
+            catch( Exception ee )
+            {
+                Runtime.error("ResourceManager.getResource() exception: " + ee);
+                throw ee;
             }
         }
         return resource;

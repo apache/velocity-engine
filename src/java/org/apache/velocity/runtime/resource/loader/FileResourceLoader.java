@@ -58,6 +58,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 
 import java.util.Map;
 import java.util.Hashtable;
@@ -66,6 +67,8 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 
 /**
  * This is a simple template file loader.
@@ -73,7 +76,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -94,44 +97,71 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * Get an InputStream so that the Runtime can build a
      * template with it.
+     *
+     * @param name name of template to get
+     * @return InputStream containing the template
+     * @throws ResourceNotFoundException if template not found
+     *         in the file template path.
      */
     public synchronized InputStream getResourceStream( String name )
-        throws Exception
+        throws ResourceNotFoundException
     {
         if (name == null || name.length() == 0)
         {
-            throw new Exception ("Need to specify a file name or file path!");
+            /*
+             * I guess this exception is appropos..
+             */
+
+            throw new ResourceNotFoundException ("Need to specify a file name or file path!");
         }
 
         String normalizedPath = StringUtils.normalizePath(name);
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
-            Runtime.error( "File resource error : argument " + normalizedPath + 
+            String msg = "File resource error : argument " + normalizedPath + 
                 " contains .. and may be trying to access " + 
-                "content outside of template root.  Rejected." );
-            
-            return null;
+                "content outside of template root.  Rejected.";
+
+            Runtime.error( "FileResourceLoader : " + msg );
+      
+            throw new ResourceNotFoundException ( msg );
         }
 
         /*
          *  if a / leads off, then just nip that :)
          */
         if ( normalizedPath.startsWith("/") )
+        {
             normalizedPath = normalizedPath.substring(1);
-
-        File file = new File( path, normalizedPath );           
-        if ( file.canRead() )
-        {
-            return new BufferedInputStream(
-                new FileInputStream(file.getAbsolutePath()));
         }
-        else
+
+        try 
         {
-            Runtime.error("FileResourceLoader Error: cannot find resource " +
-                file.getAbsolutePath());
-        }                
+            File file = new File( path, normalizedPath );   
         
-        return null;
+            if ( file.canRead() )
+            {
+                return new BufferedInputStream(
+                    new FileInputStream(file.getAbsolutePath()));
+            }
+            else
+            {                
+                String msg = "FileResourceLoader Error: cannot find resource " +
+                    file.getAbsolutePath();
+
+                Runtime.error(msg);
+                throw new ResourceNotFoundException( msg );
+            }                
+        }
+        catch( FileNotFoundException fnfe )
+        {
+            /*
+             *  log and convert to a general Velocity ResourceNotFoundException
+             */
+
+            Runtime.error("FileResourceLoader Error : exception : " + fnfe );
+            throw new ResourceNotFoundException( fnfe.getMessage() );
+        }
     }
 
     public boolean isSourceModified(Resource resource)
