@@ -70,7 +70,7 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.3 2000/11/28 04:16:22 jvanzyl Exp $
+ * @version $Id: Macro.java,v 1.4 2000/12/05 05:07:39 geirm Exp $
  */
 
 package org.apache.velocity.runtime.directive;
@@ -303,7 +303,8 @@ public class Macro extends Directive
          */
 
         int iCount = 0;
-        while( t != tLast ) 
+
+        while( t != null && t != tLast ) 
         {
             iCount++;
             t = t.next;
