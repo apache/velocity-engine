@@ -62,10 +62,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
+ * A cache of introspection information for a specific class instance.
+ * Keys {@link java.lang.Method} objects by a concatenation of the
+ * method name and the names of classes that make up the parameters.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.10 2001/05/14 19:44:08 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.11 2001/06/11 18:45:06 dlr Exp $
  */
 
 // TODO: public boolean (String[] list)
