@@ -83,7 +83,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.14 2001/02/11 21:41:23 geirm Exp $
+ * @version $Id: Test.java,v 1.15 2001/02/15 12:30:27 geirm Exp $
  */
 public class Test
 {
@@ -104,6 +104,7 @@ public class Test
          */
         
         h.put("Bar", "this is from a hashtable!");
+        h.put("Foo", "this is from a hashtable too!");
        
         /*
          *  adding simple vector with strings for testing late introspection stuff
@@ -186,6 +187,18 @@ public class Test
             context.put("fmprov", new FieldMethodizer( provider ));
             context.put("Floog", "floogie woogie");
 
+            /*
+             *  we want to make sure we test all types of iterative objects
+             *  in #foreach()
+             */
+
+            Object[] oarr = { "a","b","c","d" } ;
+            
+            context.put( "collection", v );
+            context.put("iterator", v.iterator());
+            context.put("map", h );
+            context.put("obarr", oarr );
+
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
             Velocity.evaluate( context, w, "evaltest",stest );
@@ -204,7 +217,6 @@ public class Test
              *  make a writer, and merge the template 'against' the context
              */
 
- 
             writer = new BufferedWriter(new OutputStreamWriter(System.out));
             template.merge( context , writer);
 
