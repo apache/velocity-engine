@@ -397,10 +397,30 @@
     <i><xsl:apply-templates/></i>
  </xsl:template>
 
+ <xsl:template match="filename">
+    <filename><i><xsl:apply-templates/></i></filename>
+ </xsl:template>
+
  <xsl:template match="code">
     <code><font face="courier, monospaced"><xsl:apply-templates/></font></code>
  </xsl:template>
  
+ <xsl:template match="vtl">
+    <vtl><font face="courier, monospaced"><xsl:apply-templates/></font></vtl>
+ </xsl:template>
+
+ <xsl:template match="vtldirective">
+    <vtldirective><font face="courier, monospaced"><xsl:apply-templates/></font></vtldirective>
+ </xsl:template>
+
+ <xsl:template match="variable">
+    <variable><font face="courier, monospaced"><xsl:apply-templates/></font></variable>
+ </xsl:template>
+
+ <xsl:template match="dummyvariable">
+    <dummyvariable><font face="courier, monospaced"><xsl:apply-templates/></font></dummyvariable>
+ </xsl:template>
+
 <!-- ====================================================================== -->
 <!-- images section -->
 <!-- ====================================================================== -->
