@@ -93,7 +93,7 @@ import org.apache.velocity.runtime.directive.Parse;
 
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.util.cache.GlobalCache;
+
 import org.apache.velocity.runtime.configuration.VelocityResources;
 
 /**
@@ -153,7 +153,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.44 2000/11/16 16:26:35 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.45 2000/11/16 20:42:25 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -319,7 +319,7 @@ public class Runtime implements RuntimeConstants
     public static void initializeLogger() throws
         MalformedURLException
     {
-        if (!getString(EXTERNAL_INIT).equalsIgnoreCase("true"))
+        if (!getString(EXTERNAL_INIT, "false" ).equalsIgnoreCase("true"))
         {
             // Let's look at the log file entry and
             // correct it if it is not a property 
@@ -388,7 +388,7 @@ public class Runtime implements RuntimeConstants
     
     public static void initializeTemplateLoader() throws Exception
     {
-        if (!getString(EXTERNAL_INIT).equalsIgnoreCase("true"))
+        if (!getString(EXTERNAL_INIT, "false" ).equalsIgnoreCase("true"))
         {
             List initializers = getTemplateLoaderInitializers();
             templateLoaders = new ArrayList();
