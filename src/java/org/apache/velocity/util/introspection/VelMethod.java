@@ -61,7 +61,7 @@ package org.apache.velocity.util.introspection;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelMethod.java,v 1.1 2002/04/21 18:40:06 geirm Exp $
+ * @version $Id: VelMethod.java,v 1.2 2002/04/21 20:58:03 geirm Exp $
  */
 public interface VelMethod
 {
@@ -84,4 +84,9 @@ public interface VelMethod
      *  returns the method name used
      */
     public String getMethodName();
+
+    /**
+     *  returns the return type of the method invoked
+     */
+    public Class getReturnType();
 }
