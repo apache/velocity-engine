@@ -30,3 +30,15 @@ Foreach with a variable.
     -- outer foreach --
 #end
 
+#foreach(${item} in ${list})
+$item ${item}
+#end
+
+#foreach(${item} in $list)
+$item ${item}
+#end
+
+#foreach($item in ${list})
+$item ${item}
+#end
+
