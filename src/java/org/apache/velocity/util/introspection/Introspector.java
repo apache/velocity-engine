@@ -87,7 +87,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.12 2001/09/11 17:14:03 dlr Exp $
+ * @version $Id: Introspector.java,v 1.13 2001/09/11 17:31:42 geirm Exp $
  */
 public class Introspector
 {
@@ -102,7 +102,7 @@ public class Introspector
     /**
      * Holds the qualified class name to Class object mapping.
      */
-    private final Map classByName = new HashMap();
+    private Map cachedClassNames = new HashMap();
 
     /**
      *  Recieves our RuntimeServices object
@@ -141,7 +141,7 @@ public class Introspector
              
             if (classMap == null)
             {
-                Class cachedClass = (Class) classByName.get( c.getName() );
+                Class cachedClass = (Class) cachedClassNames.get( c.getName() );
                 
                 if (cachedClass != null)
                 {
@@ -165,7 +165,7 @@ public class Introspector
     {
         ClassMap classMap = new ClassMap(c);        
         classMethodMaps.put(c, classMap);
-        classByName.put(c.getName(), c);
+        cachedClassNames.put(c.getName(), c);
 
         return classMap;
     }
@@ -175,9 +175,19 @@ public class Introspector
      * caches
      */
     private void clearCache()
-    {            
+    {
+        /*
+         *  since we are synchronizing on this
+         *  object, we have to clear it rather than
+         *  just dump it.
+         */            
         classMethodMaps.clear();
-        classByName.clear();    
+        
+        /*
+         * for speed, we can just make a new one
+         * and let the old one be GC'd
+         */
+        cachedClassNames = new HashMap();
     }
         
     /**
