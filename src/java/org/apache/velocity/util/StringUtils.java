@@ -54,10 +54,14 @@ package org.apache.velocity.util;
  * <http://www.apache.org/>.
  */
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 
 import java.net.MalformedURLException;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -70,10 +74,84 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.5 2000/12/17 21:53:42 jon Exp $
+ *  @version $Id: StringUtils.java,v 1.6 2001/02/27 08:01:10 jvanzyl Exp $
  */
 public class StringUtils
 {
+    /*
+     * Line separator for the OS we are operating on.
+     */
+    private static final String EOL = System.getProperty("line.separator");
+    
+    /*
+     * Length of the line separator.
+     */
+    private static final int EOL_LENGTH = EOL.length();
+
+    /**
+     * Concatenates a list of objects as a String.
+     *
+     * @param ArrayList list of object to concatenate.
+     * @return String
+     */
+    public String concat (ArrayList list)
+    {
+        StringBuffer sb = new StringBuffer();
+        int size = list.size();
+        
+        for (int i=0; i < size; i++)
+        {
+            sb.append (list.get(i).toString());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Return a package name as a relative path name
+     *
+     * @param String package name to convert to a directory.
+     * @return String directory path.
+     */
+    static public String getPackageAsPath(String pckge)
+    {
+        return pckge.replace( '.', File.separator.charAt(0) ) + File.separator;
+    }
+
+  /**
+   * Remove Underscores from a string and replaces first
+   * Letters with Capitals.  foo_bar becomes FooBar.
+   *
+   * @param String string to remove underscores from.
+   * @return String 
+   */
+    static public String removeUnderScores (String data)
+    {
+        String temp = null;
+        StringBuffer out = new StringBuffer();
+        temp = data;
+
+        StringTokenizer st = new StringTokenizer(temp, "_");
+        while (st.hasMoreTokens())
+        {
+            String element = (String) st.nextElement();
+            out.append ( firstLetterCaps(element));
+        }//while
+        return out.toString();
+    }
+
+  /**
+   * Makes the first letter caps and the rest lowercase.
+   *
+   * @param String
+   * @return String
+   */
+    static public String firstLetterCaps ( String data )
+    {
+        String firstLetter = data.substring(0,1).toUpperCase();
+        String restLetters = data.substring(1).toLowerCase();
+        return firstLetter + restLetters;
+    }
+
     /**
      * Create a string array from a string separated by delim
      *
@@ -96,32 +174,38 @@ public class StringUtils
     }
 
     /**
-     * This was borrowed form xml-fop. Convert a file
-     * name into a string that represents a well-formed
-     * URL.
+     * Chop i characters off the end of a string.
+     * This method is sensitive to the EOL for a
+     * particular platform. The EOL character will
+     * considered a single character.
      *
-     * d:\path\to\logfile
-     * file://d:/path/to/logfile
-     *
-     * NOTE: this is a total hack-a-roo! This should
-     * be dealt with in the org.apache.log package. Client
-     * packages should not have to mess around making
-     * properly formed URLs when log files are almost
-     * always going to be specified with file paths!
+     * @param string String to chop.
+     * @param i Number of characters to chop.
+     * @return String with processed answer.
      */
-    public static String fileToURL(String filename)
-        throws MalformedURLException
+    public static String chop(String s, int i)
     {
-        File file = new File(filename);
-        String path = file.getAbsolutePath();
-        String fSep = System.getProperty("file.separator");
-        
-        if (fSep != null && fSep.length() == 1)
-            path = "file://" + path.replace(fSep.charAt(0), '/');
-        
-        return path;
+        for (int j = 0; j < i; j++)
+        {
+            if (EOL.indexOf(s.substring(s.length() - 1)) > 0 && EOL_LENGTH == 2)
+                s = s.substring(0, s.length() - 2);
+            else
+                s = s.substring(0, s.length() - 1);
+        }            
+    
+        return s;
     }
-
+    
+    /*
+     * Perform a series of substitutions. The substitions
+     * are performed by replacing $variable in the target
+     * string with the value of provided by the key "variable"
+     * in the provided hashtable.
+     *
+     * @param String target string
+     * @param Hashtable name/value pairs used for substitution
+     * @return String target string with replacements.
+     */
     public static StringBuffer stringSubstitution(String argStr,
             Hashtable vars)
     {
@@ -165,7 +249,14 @@ public class StringUtils
 
         return argBuf;
     }
-
+    
+    /*
+     * Read the contents of a file and place them in
+     * a string object.
+     *
+     * @param String path to file.
+     * @return String contents of the file.
+     */
     public static String fileContentsToString(String file)
     {
         String contents = "";
@@ -193,6 +284,9 @@ public class StringUtils
     
     /**
      * Remove/collapse multiple newline characters.
+     *
+     * @param String string to collapse newlines in.
+     * @return String
      */
     public static String collapseNewlines(String argStr)
     {
@@ -214,6 +308,9 @@ public class StringUtils
 
     /**
      * Remove/collapse multiple spaces.
+     *
+     * @param String string to remove multiple spaces from.
+     * @return String
      */
     public static String collapseSpaces(String argStr)
     {
@@ -234,21 +331,15 @@ public class StringUtils
     }
 
     /**
-       * Chop i characters off the end of a string.
-       *
-       * @param string String to chop
-       * @param i Number of characters to chop
-        */
-    public static String chop(String string, int i)
-    {
-        return(string.substring(0, string.length() - i));
-    }
-
-    /**
       * Replaces all instances of oldString with newString in line.
       * Taken from the Jive forum package.
+      *
+      * @param String original string.
+      * @param String string in line to replace.
+      * @param String replace oldString with this.
+      * @return String string with replacements.
       */
-    public static final String replace(String line, String oldString,
+    public static final String sub(String line, String oldString,
             String newString)
     {
         int i = 0;
@@ -304,6 +395,7 @@ public class StringUtils
      * are present), return <code>null</code> instead.
      *
      * @param path Path to be normalized
+     * @return String normalized path
      */
     public static final String normalizePath(String path)
     {
@@ -365,4 +457,24 @@ public class StringUtils
         // Return the normalized path that we have completed
         return (normalized);
     }
+
+    /*
+     * If state is true then return the trueString, else
+     * return the falseString.
+     *
+     * @param boolean 
+     * @param String trueString
+     * @param String falseString
+     */
+    public String select(boolean state, String trueString, String falseString)
+    {
+        if (state)
+        {
+            return trueString;
+        }            
+        else
+        {
+            return falseString;
+        }            
+    }            
 }
