@@ -70,6 +70,8 @@ import java.util.Vector;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
+import org.apache.velocity.util.FieldMethodizer;
+
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
@@ -79,7 +81,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.11 2001/01/18 04:38:37 geirm Exp $
+ * @version $Id: Test.java,v 1.12 2001/01/21 20:54:00 geirm Exp $
  */
 public class Test
 {
@@ -178,7 +180,8 @@ public class Test
             context.put("vector", v);
             context.put("mystring", new String());
             context.put("hashmap", new HashMap() );
-
+            context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
+            context.put("provider", new FieldMethodizer( provider ));
  
             /*
              *  make a writer, and merge the template 'against' the context
