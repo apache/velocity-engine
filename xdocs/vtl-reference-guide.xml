@@ -24,7 +24,7 @@
     <p>
     Notation:
     </p>
-    
+
     <p>
     <strong>$</strong> [ <strong>!</strong> ][ <strong>{</strong> ][
     <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>,
@@ -94,7 +94,7 @@
       Page" )</li>
     </ul>
   </subsection>
-  
+
   <p>
   VTL Properties can be used as a shorthand notation for VTL Methods
   that take <em>get</em> and <em>set</em>. Either
@@ -116,7 +116,7 @@
     <strong>#set( $</strong>ref <strong>=</strong> [ <strong>"</strong>,
     <strong>'</strong> ]arg[ <strong>"</strong>, <strong>'</strong> ] )
     </p>
-    
+
     <p>
     Usage:
     </p>
@@ -142,13 +142,14 @@
       <li>Method reference: #set( $monkey.Plan = $spindoctor.weave($web)
       )</li>
       <li>Number literal: #set( $monkey.Number = 123 )</li>
+      <li>Range operator: #set( $monkey.Numbers = [1..3] )</li>
       <li>Object array: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
     </ul>
 
     <p>
     The RHS can also be a simple arithmetic expression, such as:
     </p>
-    
+
     <ul>
       <li>Addition: #set( $value = $foo + 1 )</li>
       <li>Subtraction: #set( $value = $bar - 1 )</li>
@@ -170,7 +171,7 @@
     <strong>#else</strong> [output] ]
     <strong>#end</strong>
     </p>
-    
+
     <p>
     Usage:
     </p>
@@ -180,7 +181,7 @@
     true false; if not a boolean, considered true if not null.</li>
     <li><em>output</em> - May contain VTL.</li>
     </ul>
-    
+
     <p>
     Examples:
     </p>
@@ -203,20 +204,37 @@
     </p>
 
     <p>
-    <strong>#foreach(</strong> $ref1 <strong>in</strong> $ref2
-    <strong>)</strong> [ statement... ] <strong>#end</strong>
+    <strong>#foreach(</strong> <em>$ref</em> <strong>in</strong> <em>arg</em>
+    <strong>)</strong> <em>statement</em> <strong>#end</strong>
     </p>
-    
+
     <p>
     Usage:
     </p>
 
     <ul>
-    <li><em>$ref1</em> - The first variable reference is the item.</li>
-    <li><em>$ref2</em> - The second variable reference is the list that
-    holds the items.</li>
-    <li><em>statement</em> - What is output each time Velocity finds a
-    valid item ($ref1) in the list ($ref2).</li>
+    <li><em>$ref</em> - The first variable reference is the item.</li>
+
+    <li><em>arg</em> - May be one of the following: a reference to a
+        list (i.e. object array, collection, or map), an array list, or
+        the range operator.</li>
+
+    <li>
+    <em>statement</em> - What is output each time Velocity finds a
+    valid item in the list denoted above as <i>arg</i>.  This output is
+    any valid VTL and is rendered each iteration of the loop.
+    </li>
+
+    </ul>
+
+    <p>
+    Examples of the #foreach(), omitting the statement block :
+    </p>
+
+    <ul>
+      <li>Reference: #foreach ( $item in $items )</li>
+      <li>Array list: #foreach ( $item in ["Not", $my, "fault"] )</li>
+      <li>Range operator: #foreach ( $item in [1..3] )</li>
     </ul>
 
     <p>
@@ -253,7 +271,7 @@ counter.initial.value = 1
 
   </subsection>
 
-  <subsection name="#include - Renders local file(s) that are not 
+  <subsection name="#include - Renders local file(s) that are not
                     parsed by Velocity">
     <p>
     Format:
@@ -266,27 +284,27 @@ counter.initial.value = 1
     <ul>
     <li><em>arg</em> - Refers to a valid file under TEMPLATE_ROOT.</li>
     </ul>
-    
+
     <p>
     Examples:
     </p>
-    
+
     <ul>
       <li>String: #include( "disclaimer.txt", "opinion.txt" )</li>
       <li>Variable: #include( $foo, $bar )</li>
     </ul>
   </subsection>
 
-  <subsection name="#parse - Renders a local template that is parsed by 
+  <subsection name="#parse - Renders a local template that is parsed by
                     Velocity">
     <p>
     Format:
     </p>
-    
+
     <p>
     <strong>#parse(</strong> arg <strong>)</strong>
     </p>
-    
+
     <ul>
     <li><em>arg</em> - Refers to a template under TEMPLATE_ROOT.</li>
     </ul>
@@ -326,17 +344,17 @@ counter.initial.value = 1
     </p>
   </subsection>
 
-  <subsection name="#macro - Allows users to define a Velocimacro (VM), 
+  <subsection name="#macro - Allows users to define a Velocimacro (VM),
         a repeated segment of a VTL template, as required">
     <p>
     Format:
     </p>
-    
+
     <p>
     <strong>#macro(</strong> vmname $arg1[, $arg2, $arg3, ... $argn ]
     <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
     </p>
-    
+
     <ul>
     <li><em>vmname</em> - Name used to call the VM
     (<em>#vmname</em>)</li>
@@ -346,7 +364,7 @@ counter.initial.value = 1
     <li><em>[ VM VTL code... ]</em> - Any valid VTL code, anything you
     can put into a template, can be put into a VM.</li>
     </ul>
-    
+
     <p>
     Once defined, the VM is used like any other VTL directive in a
     template.
@@ -362,7 +380,7 @@ counter.initial.value = 1
 
     <ol>
     <li><i>Template library:</i> can be either VMs pre-packaged with
-    Velocity or custom-made, user-defined, site-specific VMs;           
+    Velocity or custom-made, user-defined, site-specific VMs;
      available from any template</li>
     <li><i>Inline:</i> found in regular templates, only usable when
     <em>velocimacro.permissions.allowInline=true</em> in
@@ -377,22 +395,22 @@ counter.initial.value = 1
     <p>
     Comments are not rendered at runtime.
     </p>
-    
+
     <subsection name="Single Line">
     <p>
     Example:
     </p>
-    
+
     <p>
     <strong>## This is a comment.</strong>
     </p>
-    
+
     </subsection>
     <subsection name="Multi Line">
     <p>
     Example:
     </p>
-    
+
     <p>
     <strong>
     #*<br/>
@@ -401,7 +419,7 @@ counter.initial.value = 1
     *#
     </strong>
     </p>
-    
+
     </subsection>
 </section>
 
