@@ -7,6 +7,7 @@
   <subtitle>VTL Refernce Guide</subtitle>
   <authors>
    <person name="Jason van Zyl" email="jvanzyl@apache.org"/>
+   <person name="John Castura" email="jcastura@apache.org"/>
   </authors>
  </header>
 
@@ -18,17 +19,17 @@ Some of the user's guide info should be moved into
 this reference guide and links should be made from
 the user's guide to this document
 
-I now envision the user guide to be a long, pedagogical 
-book and the VTL guide to be a distillation of VTL for
+I now envision the user guide to be pedagogical 
+in nature and the VTL guide to be a distillation of VTL for
 expert users and fast learners. I'd like each directive to
-have an identical format.
+have an identical format. -JC
 
 -->
 
 <s1 title="About this Guide">
 
 <p>
-    This guide is meant to be the definitive reference for
+    This guide is the definitive reference for
     the Velocity Template Language (VTL).
 </p> 
 
@@ -46,12 +47,12 @@ have an identical format.
 <p>
     <strong>Variables</strong>
     <br/>
-    The shorthand notation of a variable consists of a leading "$" character
+    The shorthand notation of a variable consists of a leading <vtl>$</vtl> character
     followed by a VTL <em>Identifier</em>. A VTL Identifier must
     start with an alphabetic character (a .. z or A .. Z); the rest of the
     characters are limited to the following types of characters: alphabetic,
     numeric (0 .. 9), hyphen ("-"), and underscore ("_").
-    Here are some examples of valid variable references in the VTL:   
+    Here are examples of valid variable references in the VTL:   
 </p>
 
 <p>
@@ -66,7 +67,7 @@ have an identical format.
 <p>
     <strong>Properties</strong>
     <br/>
-    Properties are references that consist of a leading "$"
+    Properties are references that consist of a leading <vtl>$</vtl>
     character followed a VTL Identifier, followed by
     a dot character (".") and another VTL Identifier. 
     These are examples of valid property references in the VTL:
@@ -82,36 +83,36 @@ have an identical format.
 <p>
     <strong>Methods</strong>
     <br/>
-    Methods are references that consist of a leading "$"
+    Methods are references that consist of a leading <vtl>$</vtl>
     character followed a VTL Identifier, followed
     by a VTL <em>Method Body</em>. A VTL Method Body
     consists of a VTL Identifier followed by an
     left parenthesis character ("("), followed by an optional parameter
     list, followed by right parenthesis character (")").
-    These are examples of valid method references in the
-    VTL:
+    Examples of valid method references in the
+    VTL are shown below:
 </p>
 
 <p>
     <source><![CDATA[
     $customer.getAddress()
     $purchase.getTotal()
-    $page.setTitle("My Home Page")
-    $person.setAttributes("Strange", "Weird", "Excited")
+    $page.setTitle( "My Home Page" )
+    $person.setAttributes( "Strange","Weird","Excited" )
     ]]></source>
 </p>
 
 <p>
-    Now you may have noticed that the first two examples
-    $customer.getAddress() and $purchase.getTotal() look very
-    similiar to the first two example Properties $customer.Address
-    and $purchase.Total. If you guessed that these examples must
-    be related some in some fashion, you are correct! VTL Properties
-    are simply a shorthand for notation for VTL Methods. The
-    Property $customer.Address has the exact same effect as
-    using the Method $customer.getAddress(). It is generally preferable
-    to use a Property when available. The main difference between Properties
-    and Methods is that you can specify a parameter list to a Method.
+    VTL Properties can be used as a shorthand notation 
+    for VTL Methods that take <vtl>get</vtl> and <vtl>set</vtl>.
+    <vtl>$object.getMethod()</vtl> or <vtl>$object.setMethod()</vtl>
+    can be abbreviated as <vtl>$object.Method</vtl>.
+</p>
+
+<p>
+    It is generally preferable to use a Property when available. The 
+    main difference between Properties and Methods is that you can 
+    specify a parameter list to a Method.
 </p>
 
 <p>
@@ -131,29 +132,12 @@ have an identical format.
 </p>
 
 <p>
-    In almost all cases you will use the shorthand notation
-    for references, but in some cases the formal
-    notation is required for correct processing. Suppose you were
-    constructing a sentence on the fly where $vice was to be
-    used as the base word in the noun of a sentence. Say you
-    wanted to allow someone to choose the base word and produce
-    one of the two following results: "Jack is a pyromaniac." or
-    "Jack is a kleptomaniac.". You might attempt to use the following in
-    a VTL template:
-</p>
-
-<p>
-    <source><![CDATA[
-    Jack is a $vicemaniac.
-    ]]></source>
-</p>
-
-<p>
-    Velocity can't tell that $vice is the Identifer
-    that you mean to use; it will assume that $vicemaniac
-    is the Identifier and try to use that to find an appropriate
-    value. You can get around this problem by using the formal
-    notation for this reference:
+    Shorthand notation is usually used for references, but formal
+    reference notation is required for correct processing when 
+    the identifier would otherwise be adjacent to text. In the
+    following example, Velocity would determine the reference
+    to be <vtl>$vicemaniac</vtl> were shorthand reference notation
+    used.
 </p>
 
 <p>
@@ -162,48 +146,19 @@ have an identical format.
     ]]></source>
 </p>
 
-<p>
-    Now Velocity knows that $vice, not $vicemaniac, is your
-    Identifier. The formal notation usually
-    comes in handy when you have references directly adjacent
-    to text in your templates.
-</p>
 
 <p>
     <strong>Quiet Reference Notation</strong>
     <br/>
-    When Velocity encounters a reference that is undefined,
-    its normal behavior is to output the image
-    of the reference. For example, if you have
-    the following VTL as part of an HTML page:
-</p>
-
-<p>
-    <source><![CDATA[
-    <input type="text" name="email" value="$email"/>
-    ]]></source>
-</p>
-
-<p>
-    When the form initially loads the variable
-    reference $email has no value, but you prefer the
-    a blank text field to one with a value of "$email". 
-    Using the quiet reference notation can circumvent Velocity's 
-    normal behavior; instead of using $email in the
-    VTL you would use $!email. So the above example
-    would look like the following:
-</p>    
-
-<p>
-    <source><![CDATA[
-    <input type="text" name="email" value="$!email"/>
-    ]]></source>
-</p>
-
-<p>
-    Now when the form is initially loaded and
-    $email still has no value, an empty string will
-    be output instead of "$email".
+    When Velocity encounters an undefined reference,
+    it outputs the image of the reference. For example, if
+    <vtl>$reference</vtl> is undefined, the output will be
+    <vtl>$reference</vtl>. Quiet reference notation can be 
+    used to suppress this output, and is denoted with a 
+    <vtl>!</vtl> after the <vtl>$</vtl> character; for
+    example, the quiet notation for <vtl>$reference</vtl>
+    is <vtl>$!reference</vtl> if shorthand notation is used,
+    and <vtl>$!{reference}</vtl> if formal notation is used.
 </p>
 
 </s1>
@@ -212,13 +167,13 @@ have an identical format.
 <p>        
     <strong>#set</strong>
     <br/>
-    The <vtldirective>#set</vtldirective> directive is used to
-    set the value of a reference. 
+    The <vtl>#set</vtl> directive is used to set the value of 
+    a reference. 
 </p>
 
 <p>
     <source><![CDATA[
-    #set ($ref = arg)
+    #set( $ref = arg )
     ]]></source>
 </p>
 
@@ -228,7 +183,7 @@ have an identical format.
 </p>
 
 <p>
-    <vtl>$arg</vtl> - The RHS is limited to the following
+    <vtl>arg</vtl> - The RHS is limited to the following
     types:
     <ul>
         <li>Variable reference</li>
@@ -247,12 +202,12 @@ have an identical format.
 
 <p>
     <source><![CDATA[
-    #set ($monkey = $bill)
-    #set ($monkey.Friend = "monica")
-    #set ($monkey.Blame = $whitehouse.Leak)
-    #set ($monkey.Plan = $spindoctor.weave($web))
-    #set ($monkey.Number = 123)
-    #set ($monkey.Say = ["Not", $my, "fault"])
+    #set( $monkey = $bill )
+    #set( $monkey.Friend = "monica" )
+    #set( $monkey.Blame = $whitehouse.Leak )
+    #set( $monkey.Plan = $spindoctor.weave($web) )
+    #set( $monkey.Number = 123 )
+    #set( $monkey.Say = ["Not", $my, "fault"] )
     ]]></source>
 </p>
 
@@ -262,10 +217,10 @@ have an identical format.
 
 <p>
     <source><![CDATA[
-    #set ($value = $foo + 1)
-    #set ($value = $bar - 1)
-    #set ($value = $foo * $bar)
-    #set ($value = $foo / $bar)
+    #set( $value = $foo + 1 )
+    #set( $value = $bar - 1 )
+    #set( $value = $foo * $bar )
+    #set( $value = $foo / $bar )
     ]]></source>
 </p>
 
@@ -273,14 +228,14 @@ have an identical format.
 <p>        
     <strong>#foreach</strong>
     <br/>
-    The <vtldirective>#foreach</vtldirective> directive 
-    provides a simple way of looping through a list of objects.
+    The <vtl>#foreach</vtl> directive provides a simple way 
+    of looping through a list of objects.
 </p>
 
 <p>
     <source><![CDATA[
     <table>
-    #foreach ($customer in $customerList)
+    #foreach( $customer in $customerList )
         <tr>
           <td>
             $customer.Name
@@ -299,7 +254,7 @@ have an identical format.
 <p>    
     <source><![CDATA[
     <table>
-    #foreach ($customer in $customerList)
+    #foreach( $customer in $customerList )
         <tr>
           <td>
             $velocityCounter
@@ -337,13 +292,13 @@ have an identical format.
  <strong>#macro</strong>
 
    <p>
-   A Velocimacro is defined with the <vtldirective>#macro</vtldirective> 
+   A Velocimacro is defined with the <vtl>#macro</vtl> 
    directive.
    </p>
 
    <p>
    <source><![CDATA[
-   #macro (vmname arg1 arg2)
+   #macro( vmname arg1 arg2 )
    <VM VTL code>
    #end
    ]]></source>
@@ -389,4 +344,7 @@ have an identical format.
 
 </body>
 </document>
+
+
+
 

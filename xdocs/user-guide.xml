@@ -115,11 +115,11 @@
     <BODY>
     Hello $customer.Name!
     <table>
-    #foreach ($mud in $mudsOnSpecial)
-       #if ($customer.hasPurchased($mud))
+    #foreach( $mud in $mudsOnSpecial )
+       #if ( $customer.hasPurchased($mud) )
           <tr>
             <td>
-              $flogger.getPromo($mud)
+              $flogger.getPromo( $mud )
             </td>
           </tr>
        #end
@@ -170,7 +170,7 @@
  
  <p>
     <source><![CDATA[
-    #set ($a = "Velocity")
+    #set( $a = "Velocity" )
     ]]>
     </source>
  </p>
@@ -225,7 +225,7 @@
     <source><![CDATA[
     <HTML>
     <BODY>
-    #set $foo = "Velocity"
+    #set( $foo = "Velocity" )
     Hello $foo World!
     </BODY>
     <HTML>
@@ -370,7 +370,7 @@
     
  <p>
     <source><![CDATA[
-    #set $foo = "bar"
+    #set( $foo = "bar" )
     ]]></source>
  </p>
     
@@ -428,8 +428,8 @@
     <source><![CDATA[
     $customer.getAddress()
     $purchase.getTotal()
-    $page.setTitle("My Home Page")
-    $person.setAttributes(["Strange", "Weird", "Excited"])
+    $page.setTitle( "My Home Page" )
+    $person.setAttributes( ["Strange", "Weird", "Excited"] )
     ]]></source>
  </p>  
 
@@ -470,13 +470,13 @@
  
  <p>
     <source><![CDATA[
-    $sun.getPlanet(["Earth", "Mars", "Neptune"]) 
+    $sun.getPlanet( ["Earth", "Mars", "Neptune"] ) 
     ## Can't pass a parameter list with $sun.Planets
 
     $sisyphus.pushRock()
     ## Velocity assumes I mean $sisyphus.getRock() 
     
-    $book.setTitle("Homage to Catalonia")
+    $book.setTitle( "Homage to Catalonia" )
     ## Can't pass a parameter list
     ]]></source>
  </p>
@@ -593,7 +593,7 @@
   <p>
     VTL uses special characters, such as <vtl>$</vtl> and <vtl>#</vtl>, to do its work, so some
     added care should be taken where using these characters in your templates. This section deals
-    with escaping the $ character.
+    with escaping the <vtl>$</vtl> character.
   </p>
  
   <p>
@@ -616,7 +616,7 @@
 
   <p>
     <source><![CDATA[
-    #set $email = "foo"
+    #set( $email = "foo" )
     $email
     ]]></source>
   </p>
@@ -637,7 +637,7 @@
   <p>
     <source><![CDATA[
     ## The following line defines $email in this template
-    #set $email = "foo"
+    #set( $email = "foo" )
 
     ## The output of the following line will be $email's value: foo
     $email
@@ -684,7 +684,7 @@
   <p>
      <source><![CDATA[
      ## Here is a set directive that gives $foo the value "gibbous"
-     #set $foo = "gibbous"
+     #set( $foo = "gibbous" )
 
      ## The escape character is at work in the following line
      $moon = $foo
@@ -764,8 +764,8 @@
  
  <p>
     <source><![CDATA[
-    #set ($primate = "monkey")
-    #set ($customer.Behavior = $primate)
+    #set( $primate = "monkey" )
+    #set( $customer.Behavior = $primate )
     ]]></source>
  </p>
  
@@ -794,12 +794,12 @@
  
  <p>
     <source><![CDATA[
-    #set ($monkey = $bill) ##variable reference
-    #set ($monkey.Friend = "monica") ##string literal
-    #set ($monkey.Blame = $whitehouse.Leak) ##property reference
-    #set ($monkey.Plan = $spindoctor.weave($web)) ##method reference
-    #set ($monkey.Number = 123) ##number literal
-    #set ($monkey.Say = ["Not", $my, "fault"]) ##object array
+    #set( $monkey = $bill ) ##variable reference
+    #set( $monkey.Friend = "monica" ) ##string literal
+    #set( $monkey.Blame = $whitehouse.Leak ) ##property reference
+    #set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+    #set( $monkey.Number = 123 ) ##number literal
+    #set( $monkey.Say = ["Not", $my, "fault"] ) ##object array
     ]]></source>
  </p>
  
@@ -809,10 +809,10 @@
  
  <p>
     <source><![CDATA[
-    #set ($value = $foo + 1)
-    #set ($value = $bar - 1)
-    #set ($value = $foo * $bar)
-    #set ($value = $foo / $bar)
+    #set( $value = $foo + 1 )
+    #set( $value = $bar - 1 )
+    #set( $value = $foo * $bar )
+    #set( $value = $foo / $bar )
     ]]></source>
  </p>
 
@@ -842,7 +842,7 @@
 
     <p>
       <source><![CDATA[
-      #if ($foo)
+      #if( $foo )
          <strong>Velocity!</strong>
       #end
       ]]></source>
@@ -868,11 +868,11 @@
 
     <p>
     <source><![CDATA[
-    #if ($foo < 10)
+    #if( $foo < 10 )
         <strong>Go North</strong>
-    #elseif ($foo > 10)
+    #elseif( $foo > 10 )
         <strong>Go East</strong>
-    #elseif ($bar = 6)
+    #elseif( $bar = 6 )
         <strong>Go South</strong>
     #else
         <strong>Go West</strong>
@@ -900,7 +900,7 @@
 
     <p>
       <source><![CDATA[
-      #if ($foo && $bar)
+      #if( $foo && $bar )
          <strong>Velocity Rocks!</strong>
       #end
       ]]></source>
@@ -926,7 +926,7 @@
     
     <p>
       <source><![CDATA[
-      #if ($foo || $bar)
+      #if( $foo || $bar )
          <strong>Velocity Rocks Again!</strong>
       #end
       ]]></source>
@@ -955,7 +955,7 @@
     <p>
     <source><![CDATA[
     <ul>
-    #foreach ($product in $allProducts)
+    #foreach( $product in $allProducts )
         <li>$product</li>
     #end
     </ul>
@@ -991,7 +991,7 @@
     
     <p>
     <source><![CDATA[
-    #include ("one.txt")
+    #include( "one.txt" )
     ]]></source>
     </p>
 
@@ -1001,7 +1001,7 @@
 
     <p>
     <source><![CDATA[
-    #include ("one.gif","two.txt","three.htm")
+    #include( "one.gif","two.txt","three.htm" )
     ]]></source>
     </p>
 
@@ -1011,7 +1011,7 @@
 
     <p>
     <source><![CDATA[
-    #include ("greetings.txt",$seasonalstock)
+    #include( "greetings.txt",$seasonalstock )
     ]]></source>
     </p>
 
@@ -1025,14 +1025,23 @@
 
     <p>
     <source><![CDATA[
-    #parse ("me.vm")
+    #parse( "me.vm" )
     ]]></source>
     </p>
 
     <p>
-    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> will only take a single argument. 
-    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the statement <vtldirective>#parse (foo.vm)</vtldirective>.
-    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>.properties</filename> allows users to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
+    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
+    can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
+    refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
+    <vtldirective>#parse</vtldirective> will only take a single argument. 
+    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive 
+    <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the 
+    statement <vtldirective>#parse (foo.vm)</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
+    statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
+    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>.properties</filename> allows users 
+    to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
+    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
+    <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
     </p>    
 
  </s1>
@@ -1061,7 +1070,7 @@
 
     <p>
     <source><![CDATA[
-    #macro (d)
+    #macro( d )
     <tr><td></td></tr>
     #end
     ]]></source>
@@ -1093,8 +1102,8 @@
 
     <p>
     <source><![CDATA[    
-    #macro (tablerows $color $somelist)
-    #foreach ($something in $somelist)
+    #macro( tablerows $color $somelist )
+    #foreach( $something in $somelist )
     <tr><td bgcolor=$color>$something</td></tr>
     #end
     #end
@@ -1116,10 +1125,10 @@
 
     <p>
     <source><![CDATA[    
-    #set ($greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"])
-    #set ($color = "blue")
+    #set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
+    #set( $color = "blue" )
     <table>
-    #tablerows ($color $names)
+    #tablerows( $color $names )
     </table>
     ]]></source>
     </p>
@@ -1196,10 +1205,10 @@
 
     <p>
     <source><![CDATA[ 
-    #set ($parts = ["volva","stipe","annulus","gills","pileus"])
-    #set ($cellbgcol = "#CC00FF")
+    #set( $parts = ["volva","stipe","annulus","gills","pileus"] )
+    #set( $cellbgcol = "#CC00FF" )
     <table>
-    #tablerows ($cellbgcol $parts) 
+    #tablerows( $cellbgcol $parts ) 
     ]]></source>
     </p>
     
@@ -1231,14 +1240,14 @@
 
   <p>
   <source><![CDATA[
-  ## #include ("a.txt") renders as <contents of a.txt>
-  #include ("a.txt")
+  ## #include( "a.txt" ) renders as <contents of a.txt>
+  #include( "a.txt" )
 
-  ## \#include ("a.txt") renders as \#include("a.txt")
-  \#include ("a.txt")
+  ## \#include( "a.txt" ) renders as \#include( "a.txt" )
+  \#include( "a.txt" )
 
-  ## \\#include ("a.txt") renders as \<contents of a.txt>
-  \\#include ("a.txt")
+  ## \\#include ( "a.txt" ) renders as \<contents of a.txt>
+  \\#include ( "a.txt" )
   ]]></source>
   </p>
 
@@ -1250,27 +1259,27 @@
   <p>
   <source><![CDATA[
   ## Here is a typical VTL if-statement:  
-  #if ($jazz)
+  #if( $jazz )
   Vyacheslav Ganelin
   #end
   ## If $jazz is true / not null, this renders as: Vyacheslav Ganelin
   ## If $jazz is false / null, there is no output
 
   ## Script elements can be escaped, as shown:
-  \#if ($jazz) 
+  \#if( $jazz ) 
   Vyacheslav Ganelin
   \#end
-  ## This renders as: #if ($x) Vyacheslav Ganelin #end
+  ## This renders as: #if( $jazz ) Vyacheslav Ganelin #end
 
   ## A backslash can precede script elements that are legitimately escaped:
-  \\#if ($jazz) 
+  \\#if( $jazz ) 
   Vyacheslav Ganelin
   \\#end
   ## If $jazz is true / not null, this renders as: / Vyacheslav Ganelin /
   ## If $jazz is false / null, there is no output.
 
   ## Things break if script elements are not properly escaped.
-  \\\#if ($jazz)
+  \\\#if( $jazz )
   Vyacheslave Ganelin
   \\#end
   ## Here the #if is escaped, but there is an #end remaining.
@@ -1289,8 +1298,8 @@
 
     <p>
     <source><![CDATA[
-    #set ($imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"])
-    #foreach ($shogun in $imperial)
+    #set( $imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"] )
+    #foreach( $shogun in $imperial )
     $shogun
     #end
     ]]></source>
@@ -1306,6 +1315,39 @@
     <source><![CDATA[
     Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
     ]]></source>
+    </p>
+
+    <p>
+    Velocity's behaviour is to gobble up excess whitespace. The preceding 
+    directive can be written as
+    </p>
+
+    <p>
+    <source><![CDATA[
+    Send me
+    #set( $foo = [#10 and ","a cake"] )
+    #foreach( $a in $foo )
+    $a
+    #end
+    please.
+    ]]></source>
+    </p>
+
+    <p>
+    or as
+    </p>
+
+    <p>
+    <source><![CDATA[
+    Send me
+    #set($foo       = [#10 and ","a cake"])
+                     #foreach           ($a in $foo )$a
+            #end please.
+    ]]></source>
+    </p>
+
+    <p>
+    In each case the output will be the same.
     </p>
 
  </s1>
