@@ -92,9 +92,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.25 2002/10/10 16:47:54 dlr Exp $
+ * @version $Id: Parse.java,v 1.26 2002/10/10 17:10:30 dlr Exp $
  */
-public class Parse extends Directive
+public class Parse extends InputBase
 {
     private boolean ready = false;
 
@@ -171,26 +171,6 @@ public class Parse extends Directive
             return false;
         }
 
-        Resource current = context.getCurrentResource();
-
-        /*
-         *  get the resource, and assume that we use the encoding of
-         *  the current template the 'current resource' can be null if
-         *  we are processing a stream....
-         */
-
-        String encoding = null;
-
-        if ( current != null)
-        {
-            encoding = current.getEncoding();
-        }
-        else
-        {
-            encoding =
-                (String) rsvc.getProperty(RuntimeConstants.INPUT_ENCODING);
-        }
-
         /*
          *  now use the Runtime resource loader to get the template
          */
@@ -199,7 +179,7 @@ public class Parse extends Directive
 
         try 
         {
-            t = rsvc.getTemplate( arg, encoding );   
+            t = rsvc.getTemplate( arg, getInputEncoding(context) );
         }
         catch ( ResourceNotFoundException rnfe )
         {
