@@ -944,9 +944,9 @@
      #set ($bar = "ribonucleic acid")
 
      #if ($foo == $bar)
-        In this case it's clear they don't equate. So...
+        In this case it's clear they aren't equivalent. So...
      #else
-        They do not equate! And this will be the output.
+        They are not equivalent and this will be the output.
      #end
      ]]></source>
     </p>
@@ -1220,7 +1220,7 @@
     #set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
     #set( $color = "blue" )
     <table>
-    #tablerows( $color $names )
+    #tablerows( $color $greatlakes )
     </table>
     ]]></source>
     </p>
