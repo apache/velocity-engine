@@ -102,7 +102,7 @@ import java.util.Vector;
  *   the comma.
  *  </li>
  *  <li>
- *   If a <i>key<i> is used more than once, the values are appended
+ *   If a <i>key</i> is used more than once, the values are appended
  *   like if they were on the same line separated with commas.
  *  </li>
  *  <li>
@@ -153,7 +153,7 @@ import java.util.Vector;
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Configuration.java,v 1.15 2001/03/17 19:19:53 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.16 2001/03/20 00:49:03 jon Exp $
  */
 public class Configuration extends Hashtable
 {
