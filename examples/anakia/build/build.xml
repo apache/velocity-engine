@@ -22,14 +22,14 @@
         </available>
     </target>
 
-    <target depends="prepare" name="prepare-error" unless="AnakiaTask.present">
+    <target depends="prepare" name="prepare-check" unless="AnakiaTask.present">
         <echo>
-            AnakiaTask is not present! Please check to make sure that 
+            ERROR : AnakiaTask is not present! Please check to make sure that 
             velocity.jar is in your classpath.
         </echo>
     </target>
 
-    <target name="docs" depends="prepare-error" if="AnakiaTask.present">
+    <target name="docs" depends="prepare-check" if="AnakiaTask.present">
         <taskdef name="anakia" 
             classname="org.apache.velocity.anakia.AnakiaTask">
            <classpath refid = "classpath"/> 
