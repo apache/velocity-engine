@@ -56,41 +56,26 @@ package org.apache.velocity.runtime;
 
 public interface RuntimeConstants
 {
-    /** Prefix for warning messages */
-    final static String WARN  = "  [warn] ";
-    
-    /** Prefix for info messages */
-    final static String INFO  = "  [info] ";
-    
-    /**  Prefix for debug messages */
-    final static String DEBUG = " [debug] ";
-    
-    /** Prefix for error messages */
-    final static String ERROR = " [error] ";
-
-    /** Turn Runtime debugging on with this field */
-    final static boolean DEBUG_ON = true;
-
-    /** Default Runtime properties */
-    final static String DEFAULT_RUNTIME_PROPERTIES = 
-        "org/apache/velocity/runtime/defaults/velocity.properties";
-
-    /** Default Runtime properties */
-    final static String DEFAULT_RUNTIME_DIRECTIVES = 
-        "org/apache/velocity/runtime/defaults/directive.properties";
-
-    /**
-      * Number of parsers to create
-      */
-    final static int NUMBER_OF_PARSERS = 20;
+    /*
+     * ----------------------------------------------------------------------
+     * These are public constants that are used as handles for the
+     * properties that can be specified in your typical
+     * velocity.properties file.
+     * ----------------------------------------------------------------------
+     */
 
     /** Location of the log file */
     public static final String RUNTIME_LOG = "runtime.log";
     
-   /**  stack trace output */
-    public static final String RUNTIME_LOG_ERROR_STACKTRACE = "runtime.log.error.stacktrace";
-    public static final String RUNTIME_LOG_WARN_STACKTRACE = "runtime.log.warn.stacktrace";
-    public static final String RUNTIME_LOG_INFO_STACKTRACE = "runtime.log.info.stacktrace";
+    /**  stack trace output */
+    public static final String RUNTIME_LOG_ERROR_STACKTRACE = 
+        "runtime.log.error.stacktrace";
+    
+    public static final String RUNTIME_LOG_WARN_STACKTRACE = 
+        "runtime.log.warn.stacktrace";
+    
+    public static final String RUNTIME_LOG_INFO_STACKTRACE = 
+        "runtime.log.info.stacktrace";
 
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
@@ -124,7 +109,7 @@ public interface RuntimeConstants
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.
      */
-    public static String ERRORMSG_START =  "include.output.errormsg.start";
+    public static String ERRORMSG_START = "include.output.errormsg.start";
     
     /**
      * Ending tag for error messages triggered by passing
@@ -149,15 +134,61 @@ public interface RuntimeConstants
     /** name of local Velocimacro library template */
     public static final String VM_LOCAL_LIBRARY  = "velocimacro.library.local";
 
-    /** boolean (true/false) default true : allow inline (in-template) macro definitions */
-    public static final String VM_PERM_ALLOW_INLINE  = "velocimacro.permissions.allowInline";
+    /** 
+     * boolean (true/false) default true : allow 
+     * inline (in-template) macro definitions 
+     */
+    public static final String VM_PERM_ALLOW_INLINE  = 
+        "velocimacro.permissions.allowInline";
 
-    /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing */
-    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = "velocimacro.permissions.allowInlineToReplaceGlobal";
+    /**
+     * boolean (true/false) default false : allow inline 
+     * (in-template) macro definitions to replace existing 
+     */
+    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = 
+        "velocimacro.permissions.allowInlineToReplaceGlobal";
     
     /** switch for forcing inline macros to be local : default false */
-    public final static String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allowInlineLocalScope";
+    public final static String VM_PERM_INLINE_LOCAL = 
+        "velocimacro.permissions.allowInlineLocalScope";
 
     /** switch for VM blather : default true  */
     public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
+
+    /*
+     * ----------------------------------------------------------------------
+     * These constants are used internally by the Velocity runtime i.e.
+     * the constansts listed below are strictly used in the Runtime
+     * class itself.
+     * ----------------------------------------------------------------------
+     */
+
+    /** Prefix for warning messages */
+    final static String WARN  = "  [warn] ";
+    
+    /** Prefix for info messages */
+    final static String INFO  = "  [info] ";
+    
+    /**  Prefix for debug messages */
+    final static String DEBUG = " [debug] ";
+    
+    /** Prefix for error messages */
+    final static String ERROR = " [error] ";
+
+    /** Turn Runtime debugging on with this field */
+    final static boolean DEBUG_ON = true;
+
+    /** Default Runtime properties */
+    final static String DEFAULT_RUNTIME_PROPERTIES = 
+        "org/apache/velocity/runtime/defaults/velocity.properties";
+
+    /** Default Runtime properties */
+    final static String DEFAULT_RUNTIME_DIRECTIVES = 
+        "org/apache/velocity/runtime/defaults/directive.properties";
+
+    /**
+      * Number of parsers to create
+      */
+    final static int NUMBER_OF_PARSERS = 20;
+
 }
