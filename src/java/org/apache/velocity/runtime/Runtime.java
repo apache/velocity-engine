@@ -154,45 +154,13 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.68 2000/12/11 04:14:52 geirm Exp $
+ * @version $Id: Runtime.java,v 1.69 2000/12/17 21:54:42 jon Exp $
  */
 public class Runtime implements RuntimeConstants
-{
-    /** Prefix for warning messages */
-    private final static String WARN  = "  [warn] ";
-    
-    /** Prefix for info messages */
-    private final static String INFO  = "  [info] ";
-    
-    /**  Prefix for debug messages */
-    private final static String DEBUG = " [debug] ";
-    
-    /** Prefix for error messages */
-    private final static String ERROR = " [error] ";
-
-    /** Turn Runtime debugging on with this field */
-    private final static boolean DEBUG_ON = true;
-
-    /** Default Runtime properties */
-    private final static String DEFAULT_RUNTIME_PROPERTIES = 
-        "org/apache/velocity/runtime/defaults/velocity.properties";
-
-    /** Default Runtime properties */
-    private final static String DEFAULT_RUNTIME_DIRECTIVES = 
-        "org/apache/velocity/runtime/defaults/directive.properties";
-
-    /** Include paths property used by Runtime for #included content */
-    private final static String INCLUDE_PATHS = "include.path";
-
-    /**
-      * Number of parsers to create
-      */
-    private static final int NUMBER_OF_PARSERS = 20;
-    
+{    
     /**
      *  VelocimacroFactory object to manage VMs
      */
-
     private static VelocimacroFactory vmFactory = new VelocimacroFactory();
 
     /** A list of paths that we can pull static content from. */
@@ -552,7 +520,7 @@ public class Runtime implements RuntimeConstants
          * Initialize the logger.
          */
         logger = LogKit.createLogger("velocity", 
-        fileToURL(logFile), "DEBUG");
+        StringUtils.fileToURL(logFile), "DEBUG");
                 
         LogTarget[] t = logger.getLogTargets();            
 
@@ -572,33 +540,6 @@ public class Runtime implements RuntimeConstants
         }
 
         Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
-    }
-
-    /**
-     * This was borrowed form xml-fop. Convert a file
-     * name into a string that represents a well-formed
-     * URL.
-     *
-     * d:\path\to\logfile
-     * file://d:/path/to/logfile
-     *
-     * NOTE: this is a total hack-a-roo! This should
-     * be dealt with in the org.apache.log package. Client
-     * packages should not have to mess around making
-     * properly formed URLs when log files are almost
-     * always going to be specified with file paths!
-     */
-    private static String fileToURL(String filename)
-        throws MalformedURLException
-    {
-        File file = new File(filename);
-        String path = file.getAbsolutePath();
-        String fSep = System.getProperty("file.separator");
-        
-        if (fSep != null && fSep.length() == 1)
-            path = "file://" + path.replace(fSep.charAt(0), '/');
-        
-        return path;
     }
 
     /**
@@ -1024,7 +965,7 @@ public class Runtime implements RuntimeConstants
 
     public static void main(String[] args) throws Exception
     {
-        System.out.println(fileToURL(args[0]));
+        System.out.println(StringUtils.fileToURL(args[0]));
     }
 
     /**
