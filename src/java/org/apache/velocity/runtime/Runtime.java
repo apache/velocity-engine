@@ -83,6 +83,8 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
 
+import org.apache.velocity.util.*;
+
 /**
  * This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
@@ -140,7 +142,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.28 2000/10/26 19:38:08 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.29 2000/10/27 00:56:18 daveb Exp $
  */
 public class Runtime
 {
@@ -217,23 +219,6 @@ public class Runtime
      * until the logger is alive.
      */
     private static StringBuffer pendingMessages = new StringBuffer();
-
-    private static Properties properties;
-    
-    /**
-     * Initializes the Velocity Runtime with a set of
-     * values from a default velocity.properties that
-     * is on the classpath. This default properties file
-     * will be included in the distribution jar file to
-     * make the Velocity Runtime easy to init.
-     */
-    public synchronized static void init() throws Exception
-    {
-        if (properties == null)
-            setDefaultProperties();
-        
-        init(properties);
-    }
     
     /**
      * Get the default properties for the Velocity Runtime.
@@ -243,15 +228,12 @@ public class Runtime
      */
     public static void setDefaultProperties()
     {
-        properties = new Properties();
         ClassLoader classLoader = Runtime.class.getClassLoader();
-        
         try
         {
             InputStream inputStream = classLoader.getResourceAsStream(
                 DEFAULT_RUNTIME_PROPERTIES);
-        
-            properties.load(inputStream);
+            VelocityResources.setPropertiesInputStream( inputStream );
         }
         catch (IOException ioe)
         {
@@ -265,9 +247,6 @@ public class Runtime
     public synchronized static void init(String propertiesFileName)
         throws Exception
     {
-        Properties properties = new Properties();
-        File file = new File( propertiesFileName );
-        
         /*
          * Try loading the properties from the named properties
          * file. If that fails then set the default values.
@@ -278,24 +257,23 @@ public class Runtime
         
         try
         {
-            properties.load( new FileInputStream(file) );
+            VelocityResources.setPropertiesFileName( propertiesFileName );
         }
         catch(Exception ex) 
         {
-            init();
+            // Do Default
+            setDefaultProperties();
         }
-        init( properties );
+        init();
     }
 
-    public synchronized static void init(Properties properties)
+    public synchronized static void init()
         throws Exception
     {
         if (! initialized)
         {
             try
             {
-                Runtime.properties = properties;
-        
                 initializeLogger();
                 initializeTemplateLoader();           
                 initializeParserPool();
@@ -318,7 +296,7 @@ public class Runtime
      */
     public static void setProperty(String key, String value)
     {
-        properties.setProperty(key, value);
+        VelocityResources.setProperty( key, value );
     }        
 
     /**
@@ -448,8 +426,7 @@ public class Runtime
      */
     public static boolean getBoolean(String property)
     {
-        String prop = properties.getProperty( property ); 
-        return (prop != null && Boolean.valueOf( prop ).booleanValue());
+        return VelocityResources.getBoolean( property );
     }
 
     /**
@@ -457,7 +434,7 @@ public class Runtime
      */
     public static String getString(String property)
     {
-        return properties.getProperty( property );
+        return VelocityResources.getString( property );
     }
     /**
      * Get a string property. with a default value
