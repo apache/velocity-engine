@@ -34,4 +34,6 @@ This is an explicitly terminated $statement;.
 
 $foo;.getBar() when $foo is a variable and getBar() is schmoo.
 
+This is an escaped \$reference, and here's \$another;.
+
 #parse "whatever.wm"
