@@ -77,7 +77,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletResponse;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.util.SimplePool;
 
@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.39 2001/05/19 17:19:21 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.40 2001/08/07 22:26:46 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -206,9 +206,9 @@ public abstract class VelocityServlet extends HttpServlet
   
             Velocity.init( props );
             
-            defaultContentType = Runtime.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            defaultContentType = RuntimeSingleton.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             
-            encoding = Runtime.getString( Runtime.OUTPUT_ENCODING, DEFAULT_OUTPUT_ENCODING);
+            encoding = RuntimeSingleton.getString( RuntimeSingleton.OUTPUT_ENCODING, DEFAULT_OUTPUT_ENCODING);
         }
         catch( Exception e )
         {
@@ -498,7 +498,7 @@ public abstract class VelocityServlet extends HttpServlet
     public Template getTemplate( String name )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return Runtime.getTemplate(name);
+        return RuntimeSingleton.getTemplate(name);
     }
     
     /**
@@ -521,7 +521,7 @@ public abstract class VelocityServlet extends HttpServlet
     public Template getTemplate( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return Runtime.getTemplate( name, encoding );
+        return RuntimeSingleton.getTemplate( name, encoding );
     }
 
     /**
