@@ -3,7 +3,7 @@ package org.apache.velocity;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,9 +79,8 @@ import org.apache.velocity.context.Context;
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
- *  @version $Id: VelocityContext.java,v 1.2 2001/03/05 11:44:24 jvanzyl Exp $
+ *  @version $Id: VelocityContext.java,v 1.3 2001/03/19 19:04:42 geirm Exp $
  */
-
 public class VelocityContext extends AbstractContext implements Cloneable
 {
     /** storage for key/value pairs */
