@@ -17,70 +17,194 @@
 <p>
 This is an informal document describing what needs to
 be done in the Velocity code base, and the 
-Velocity documentation.
-</p>
-
-<p>
-If you need more detailed help, please send mail to the mailing list 
-(velocity-dev@jakarta.apache.org) and ask your specific questions there.
+Velocity documentation. If you need more detailed help, please 
+send mail to the mailing list 
+(<link href="mailto:velocity-dev@jakarta.apache.org">velocity-dev@jakarta.apache.org</link>)
+and ask your specific questions there. The list below is vaguely in order of
+importance.
 </p>
 
 </s1>
 
 <s1 title="The List">
 
-- parser pool
-- encoding caching, best methods
-- compiler look at JavaClass, compiler in DynamicJava
-- integrating the extended properties
-- pluggins
-- context tools, how to have long lived tools
-  in the context.
-- interface for directives, right now it's
-  pretty raw
-- tutorial application
-- clean up the syntax dumper
-- syntax checker
-- how to integrate into an IDE
-- rework template loader
-- how the context should work, what it should be Map
-- caching, how it should work content managers
-  in the templates or specified in the context, or
-  external mechanism to specifiy cache parameters
-  say a content manager. top 10 list example.
-- user guide
-- developer guide
-- reference guild
-- API for the runtime so it can be stable until 1.0
-- anticipator: sample requests build up a pool of responses
-- create full JUnit test bed
-- sample applications
-- moving webmacro utilities in turbine into velocity
-  code base
-- action event code for turbine  
-- pluggin system. putting tools in jar files that can
-  be picked up by velocity when it starts up.
+    <strong>Runtime API</strong>
+    <br/>
+        The Velocity Runtime is the single access point for all
+        of Velocity's functionality. A standard API for the
+        Runtime should be defined so that in the span between
+        the 0.5 Milestone release and a 1.0 release, the Runtime
+        API changes as little as possible.
+    <p/>
 
-expand this.
+    <strong>JUnit Test Suite</strong>
+    <br/>
+        A JUnit test suite would allow Velocity developers to
+        aggressively add, refactor, and optimize code. We need
+        a comprehensive test suite so that we can
+        be assured changes in the code base have no adverse
+        effects for users. <link href="mailto:dlr@collab.net">Daniel L. Rall</link>
+        has started us off with some code so you may want to contact
+        him if you are interested in working on a JUnit test suite.
+    <p/>
 
-<ul>
-    <li>Evaluate the pros/cons and feasibility of having a bootstrap process 
-        that encompasses the steps required to download/build dependent 
-        modules.
+    <strong>Directive Interface</strong>
+    <br/>
+        Right now there is a very thin interface for directives, but
+        some knowledge of JavaCC is required. The directive
+        interface is not intended to be used outside core Velocity
+        developers (it is not intended to be a public API), but it
+        probably makes sense to shield directive creators from JavaCC.
+    <p/>
 
-        <ul>PROS:
-            <li>Removes the JAXP installation requirement, because Turbine 
-                already includes Xerces 1.1.3.</li>
-        </ul>
-        <ul>CONS:
-            <li>Our bootstrap build would have to manage any classpath-mangling
-                required by the dependent modules' build scripts.</li>
-        </ul>
+    <strong>Context</strong>
+    <br/>
+        The Velocity Context class is still fairly primitive. It
+        loosely adheres to a Map, but it definitely needs some
+        thinking. It works fine now, but it might be good to
+        think about: how to load standard tools and how to
+        make that process efficient; how to stamp items in
+        the context with expiry durations so that items can
+        be cached and how this might work.
+    <p/>
 
-        <p>Owner: None</p>
-    </li>
-</ul>
+    <strong>Sample Applications</strong>
+    <br/>
+        Any type of sample application would be useful to
+        help kickstart new developers get acquainted with
+        Velocity. Any suggestions are welcome.
+    <p/>
 
+    <strong>User Guide</strong>
+    <br/>
+        This would be a guide for designers who would
+        be using the Velocity Template Language (VTL) to
+        create templates. The users guide would give
+        example usage and a definitive description
+        of the VTL syntax. <link href="mailto:jvanzyl@periapt.com">Jason van Zyl</link>
+        has started work on this with John Castura, but any and all
+        suggestions are welcome.
+    <p/>
+    
+    <strong>Developer Guide</strong>
+    <br/>
+        This would be a guide for developers who would use
+        Velocity as a stand-alone servlet tool, or in conjuction
+        with a servlet controller framework like Turbine.
+        <link href="mailto:jvanzyl@periapt.com">Jason van Zyl</link> is
+        currently working on this guide, but any and all suggestions
+        are welcome.
+    <p/>
+    
+    <strong>Template Loader System</strong>
+    <br/>
+        The template loader system is functional but could probably use an
+        overhaul. There is currently a double template instantiation
+        problem. It is not causing any serious problems, but it
+        should probably be corrected. We could probably utilize some
+        object caching/pooling code from Turbine, or JServ, or the
+        Avalon Server Framework.
+    <p/>
+
+    <strong>Caching</strong>
+    <br/>
+        It would be good to have a discussion about how objects
+        in the context should be cached, how the caching
+        should be specified, and who should control the
+        caching: the designer by specifying something in the template, the developer
+        by place expiry times on objects placed in the context,
+        or a third party like a content manager. For example,
+        say an array consisting of a top 10 list of books is
+        placed in the context. This top 10 list might be valid
+        for a 24 hour period: how should that be specified? Say
+        a content manager decides that this list is now valid
+        for a week. Do they tell the designer, who in turn changes
+        the template, or could we provide a mechanism that would
+        allow a content manager to change the default expiry time
+        for that particular context object with the aid of a webapp 
+        of some sort? The groundwork has be laid for a flexible
+        caching system in Velocity, but this discussion would be
+        one of usage and policy.
+    <p/>
+
+    <strong>Parser Pool</strong>
+    <br/>
+        It would be good to create a pool of parsers that could
+        be utilized by the Runtime. Right now there is only a single
+        parser and the parsing is synchronized. The parsing doesn't
+        happen all that often in production, but a small pool of
+        parsers might alleviate any potential bottlenecks. Again,
+        object caching/pooling code could be borrowed from Turbine,
+        JServ, or the Avalon Server Framework.
+    <p/>
+    
+    <strong>Encoding Caching</strong>
+    <br/>
+        What would this entail? And how could we implement an
+        efficient encoding mechanism.
+    <p/>
+    
+    <strong>Plugins</strong>
+    <br/>
+        It would be good to allow plugins in the form of JAR files
+        to be picked up the Velocity Runtime during startup. This
+        would be a good way for Velocity developers to share tools
+        that could be used in a context. For example there are some
+        utilities in Turbine that allow email to be sent from within
+        a template. It might be good to package this sort of utility
+        in a JAR file so that there are no dependencies in the
+        Velocity build for a specific utility.
+    <p/>
+    
+    <strong>Context Tools</strong>
+    <br/>
+        What kind of tools might be good to add to Velocity. There
+        are several utilties that have been created in Turbine that
+        might be good to move over to the Velocity code base.
+    <p/>
+    
+    <strong>Syntax Dumper</strong>
+    <br/>
+        Right now there is a primitive syntax dumper in the Velocity
+        code base, but it could be improved. This tool is very helpful
+        in debugging, and it is also good for creating directives.
+        It basically has a simple dump method that is used for all
+        the AST node types. It would be good to tailor dump methods
+        for particular AST node types so that the structure produced
+        is a little clearer.
+    <p/>
+    
+    <strong>Syntax Checker</strong>
+    <br/>
+        It would be good to have a standard syntax checker. Something
+        that would find all syntax errors and report them to the
+        designer in some intelligible format. This tool could be
+        hooked into various designer tools like DreamWeaver.
+    <p/>
+    
+    <strong>Extended Properties</strong>
+    <br/>
+        There are classes that are present in JServ, Turbine and Cocoon
+        that allow a more flexible properties mechanism. It allows properties
+        files to be 'included', and allows the concatentation of the values
+        of multiply defined properties. These classes are very good and
+        should be integrated into Velocity.
+    <p/>
+
+    <strong>Compiler</strong>
+    <br/>
+        It would be great to have a template compiler. There is a great
+        utility call JavaClass that provides a very clean and simple way
+        to create class files; there is also some byte code generating
+        code present in the DynamicJava package that could be utilized.
+    <p/>
+
+    <strong>IDE Integration</strong>
+    <br/>
+        How could Velocity be integrated into standard IDEs like
+        JBuilder and VisualAge?
+    <p/>
+    
 </s1>
 
 </body>
