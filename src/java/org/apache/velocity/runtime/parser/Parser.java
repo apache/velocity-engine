@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.60 2001/05/30 05:55:22 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.61 2001/06/12 03:18:22 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -74,15 +74,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         SimpleNode sn = null;
 
         currentTemplateName = templateName;
-
-        /*
-         *  clearing the VM namespace for this template
-         *  the VM factory / manager will determine if this 
-         *  is appropose, but I think this is the place to indicate
-         *  that it should be done.
-         */
-
-        Runtime.dumpVMNamespace( currentTemplateName );
 
         try
         {
