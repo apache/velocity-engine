@@ -68,7 +68,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.6 2001/10/22 03:53:24 jon Exp $
+ * @version $Id: Literal.java,v 1.7 2002/10/10 16:54:32 dlr Exp $
  */
 public class Literal extends Directive
 {
@@ -94,7 +94,8 @@ public class Literal extends Directive
      * Store the literal rendition of a node using
      * the Node.literal().
      */
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
+    public void init(RuntimeServices rs, InternalContextAdapter context,
+                     Node node)
         throws Exception
     {
         super.init( rs, context, node );
