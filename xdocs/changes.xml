@@ -39,6 +39,10 @@
        Added license and javadoc to examples/context_example/DBContext.java
        to clarify why some internalXXX methods are stubbed out.  (gmj)
     </li>
+    <li>
+       Documentation : Clarification of VM properties and added note on
+       VM declaration / usage order in user guide. (gmj)
+    </li>
 </ul>
 
 </subsection>
