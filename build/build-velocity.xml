@@ -574,7 +574,7 @@
            excludes="**/stylesheets/** empty.xml"
            includes="**/*.xml"
            lastModifiedCheck="true"
-           velocityPropertiesFile="${docs.src}/velocity.properties">
+           templatePath="../../jakarta-site2/xdocs/stylesheets">
       </anakia>
 
       <copy todir="${docs.dest}/images" filtering="no">
