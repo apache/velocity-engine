@@ -29,6 +29,8 @@ config.int.value
 config.long.value
 config.float.value
 config.double.value
+escape.comma1
+escape.comma2
 
 --------------------------------------------------
 Testing retrieval of CSV values ...
@@ -101,4 +103,19 @@ Testing getDouble(key) ...
 --------------------------------------------------
 
 3.14159265358793
+
+--------------------------------------------------
+Testing escaped-comma scalar...
+--------------------------------------------------
+
+foo,
+
+--------------------------------------------------
+Testing escaped-comma vector...
+--------------------------------------------------
+
+bar,lala
+woogie,bjork!
+
+
 
