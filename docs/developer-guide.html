@@ -1123,8 +1123,8 @@ Default starting value for the loop counter reference in a #foreach() loop.
 </p>
                                                 <strong> #include() and #parse() Directive </strong>
                                                 <p>
-<code>directive.include.output.errormsg.start =  <!-- include error :  </code><br />
-<code>directive.include.output.errormsg.end   =   see error log --> </code><br />
+<code>directive.include.output.errormsg.start = <![CDATA[ <!-- include error : ]]> </code><br />
+<code>directive.include.output.errormsg.end   =  <![CDATA[ see error log --> ]]></code><br />
 Defines the beginning and ending tags for an in-stream error message in the case of a problem with the #include() directive.
 If both the .start and .end tags are defined, an error message will be output to the stream, of the form '.start msg .end' where .start and .end refer to the property values.
 Output to the render stream will only occur if both the .start and .end (next) tag are defined.

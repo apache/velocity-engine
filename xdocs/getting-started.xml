@@ -29,17 +29,15 @@
 <p>
     If you are working on Unix/Linux and would like to create a full set
     of detailed API documentation for Velocity, go to the
-    <filename>build</filename> directory and run the following script.
+    <code>build</code> directory and run the following script.
 </p>
 
 <source><![CDATA[
-
-    ./build-velocity.sh javadocs
-
+./build.sh javadocs
 ]]></source>
 
 <p>
-    If you are working on Windows, running <code>build-velocity.bat javadocs
+    If you are working on Windows, running <code>build.bat javadocs
     </code> at the DOS prompt will have the same effect.
 </p>
 

@@ -107,21 +107,20 @@
                                     <p>
     Texen is a general purpose text generating utility. It is capable of
     producing almost any sort of text output. Driven by Ant, essentially
-    an <a href="http://jakarta.apache.org/ant/">Ant</a>
-    Task, Texen uses a control template, an optional set of worker templates,
-    and control context to govern the generated output. Although TexenTask
-    can be used directly, it is usually subclassed to initialize your control
+    an <a href="http://jakarta.apache.org/ant/">Ant</a> Task, Texen uses
+    a control template, an optional set of worker templates, and control
+    context to govern the generated output. Although TexenTask can be
+    used directly, it is usually subclassed to initialize your control
     context before generating any output.
 </p>
                                                 <p>
-    Texen was created to deal with the source generating
-    requirements of the Turbine web application framework. The
-    <a href="http://java.apache.org/turbine/torque.html">Torque</a>
-    utility in <a href="http://java.apache.org/turbine/">Turbine</a>,
-    which is a subclass of the TexenTask, is responsible
-    for generating the SQL, and the Object-Relational mapping sources
-    for a Turbine project. This is only one example; you can use
-    Texen to generate almost any sort of text output!
+    Texen was created to deal with the source generating requirements of
+    the Turbine web application framework. The <a href="http://java.apache.org/turbine/torque.html">Torque</a> utility
+    in <a href="http://java.apache.org/turbine/">Turbine</a>, which is a
+    subclass of the TexenTask, is responsible for generating the SQL,
+    and the Object-Relational mapping sources for a Turbine project.
+    This is only one example; you can use Texen to generate almost any
+    sort of text output!
 </p>
                             </blockquote>
       </td></tr>
@@ -135,8 +134,8 @@
       <tr><td>
         <blockquote>
                                     <p>
-    This trivial example, which shows how to use Texen from an Ant build.xml,
-    is intended to illustrate how the Texen mechanism works.
+    This trivial example, which shows how to use Texen from an Ant
+    build.xml, is intended to illustrate how the Texen mechanism works.
 </p>
                                                 <p>
 <em>Ant Build File</em>
@@ -151,7 +150,6 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 &lt;project name=&quot;HtmlGenerator&quot; default=&quot;main&quot; basedir=&quot;.&quot;&gt;
 
   &lt;taskdef name=&quot;texen&quot; classname=&quot;org.apache.velocity.texen.ant.TexenTask&quot;/&gt;
@@ -181,7 +179,6 @@
   &lt;/target&gt;
 
 &lt;/project&gt;
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -222,7 +219,6 @@ page generator!
     $generator.parse(&quot;HtmlTemplate.vm&quot;, $outputFile, &quot;planet&quot;, $planet)
 
 #end
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -246,7 +242,6 @@ page generator!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 #*
 
 file: HtmlTemplate.vm
@@ -271,7 +266,6 @@ not so useful in this case). :-)
 
   &lt;/body&gt;
 &lt;/html&gt;
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -283,16 +277,14 @@ not so useful in this case). :-)
     </table>
     </div>
                                                 <p>
-    Texen produces three html pages: Earth.html,
-    Mars.html, and Venus.html. To do something
-    more useful, you would subclass the TexenTask, place some objects
-    in the control context, and use the information placed in the
-    control context to generate useful output.
+    Texen produces three html pages: Earth.html, Mars.html, and
+    Venus.html. To do something more useful, you would subclass the
+    TexenTask, place some objects in the control context, and use the
+    information placed in the control context to generate useful output.
 </p>
                                                 <p>
-    See the Torque utility in Turbine for a full working example of Texen.
-    A standalone version of Torque is available
-    <a href="http://java.apache.org/turbine/tdk/">here</a>.
+    See the Torque utility in Turbine for a full working example of
+    Texen. A standalone version of Torque is available <a href="http://java.apache.org/turbine/tdk/">here</a>.
 </p>
                             </blockquote>
       </td></tr>
