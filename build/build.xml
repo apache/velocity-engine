@@ -87,30 +87,34 @@
   ** 
   **  Help for Velocity build file
   **
-  **  Target        Depends on          Description
-  **                                    default - see jar
-  **  env                               echos environment variables to screen
-  **  prepare       env                 creates build dir, copies source
-  **  J2EE-error    prepare             message if J2EE missing but required
-  **  compile       prepare             compiles non-J2EE source
-  **  compile-J2EE  prepare, J2EE-error compiles J2EE source
-  **  compile-copy                      move non-J2EE classes out of the way.
-  **  jar           compile             prepares {project}-{version} jar file
-  **  jar-J2EE      compile-J2EE        prepares jar including J2EE
-  **  jar-core      compile             prepares jar with only core classes
-  **  jar-util      compile             prepares jar with only util classes
-  **  jar-servlet   compile             prepares jar with only servlet classes
-  **  jar-src                           prepares jar of source
-  **  examples      jar                 compiles examples and calls forumdemo
+  **  Target         Depends on          Description
+  **                                     default - see jar
+  **  env                                echos environment variables to screen
+  **  prepare        env                 creates build dir, copies source
+  **  J2EE-error     prepare             message if J2EE missing but required
+  **  compile        prepare             compiles non-J2EE source
+  **  compile-J2EE   prepare, J2EE-error compiles J2EE source
+  **  compile-copy                       move non-J2EE classes out of the way.
+  **  jar            compile             prepares {project}-{version} jar file
+  **  jar-nodep      compile             Same as 'jar', but without Oro and Logkit
+  **                                     dependencies.
+  **  jar-J2EE       compile-J2EE        prepares jar including J2EE
+  **  jar-J2EE-nodep compile-J2EE        same as 'jar-J2EE', but withouth Oro and
+  **                                     Logkit dependencies.
+  **  jar-core       compile             prepares jar with only core classes
+  **  jar-util       compile             prepares jar with only util classes
+  **  jar-servlet    compile             prepares jar with only servlet classes
+  **  jar-src                            prepares jar of source
+  **  examples       jar                 compiles examples and calls forumdemo
   **  examples-clean-anakia             cleans anakia example
   **  examples-clean-forumdemo          cleans forum demo
   **  examples-clean-all
-  **                examples-clean-anakia, examples-clean-forumdemo
-  **  javadocs      prepare             build javadocs
-  **  javadocs-clean                    delete javadocs
-  **  test          compile             runs JUnit tests
-  **  test-clean                        deletes test results
-  **  clean                             deletes build dir
+  **                 examples-clean-anakia, examples-clean-forumdemo
+  **  javadocs       prepare             build javadocs
+  **  javadocs-clean                     delete javadocs
+  **  test           compile             runs JUnit tests
+  **  test-clean                         deletes test results
+  **  clean                              deletes build dir
   ***************************************************************************
     </echo>
   
@@ -170,7 +174,7 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Compiles the source directory w/o the j2ee dependent files          -->
+  <!-- Compiles the source directory without the J2EE dependent files      -->
   <!-- =================================================================== -->
   <target name="compile" depends="prepare">
       
@@ -189,9 +193,9 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Compiles the source directory w/o the j2ee dependent files          -->
+  <!-- Compiles the source directory with the J2EE dependent files         -->
   <!-- =================================================================== -->
-  <target name="compile-j2ee" depends="prepare, J2EE-error" if="J2EE.present">
+  <target name="compile-J2EE" depends="prepare, J2EE-error" if="J2EE.present">
       
     <javac srcdir="${build.src}"
       destdir="${build.dest}"
@@ -208,7 +212,7 @@
 
   <!-- ====================================================================== -->
   <!-- copies post-compile target files to the right place.  (This target     -->
-  <!-- created to prevent compile and compile-j2ee from repeating code...     -->
+  <!-- created to prevent compile and compile-J2EE from repeating code...     -->
   <!-- ====================================================================== -->
   <target name="compile-copy">
 
@@ -273,17 +277,48 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Compiles the source directory and creates a .jar file of all        -->
-  <!--  source AND code that requires j2ee (ex. DataSourceResourceLoader)  -->
+  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- that has no built-in dependencies on Oro or Logkit                  -->
   <!-- =================================================================== -->
-  <target name="jar-j2ee" depends="compile-j2ee, collections-support" if="J2EE.present">
+  <target name="jar-nodep" depends="compile, collections-support">
+         
+    <jar jarfile="${build.dir}/${project}-${version}-nodep.jar">
+
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+        <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
+      </fileset>
+     
+    </jar>
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file of all        -->
+  <!--  source AND code that requires J2EE (ex. DataSourceResourceLoader)  -->
+  <!-- =================================================================== -->
+  <target name="jar-J2EE" depends="compile-J2EE, collections-support" if="J2EE.present">
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
 
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
-    <jar jarfile="${build.dir}/${project}-j2ee-${version}.jar"
+    <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar"
+      basedir="${build.dest}"
+      excludes="**/package.html"
+    />
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file of all        -->
+  <!-- source AND code that requires J2EE (ex. DataSourceResourceLoader)  -->
+  <!-- but without built-in dependencies on Oro or Logkit                  -->
+  <!-- =================================================================== -->
+  <target name="jar-J2EE-nodep" depends="compile-J2EE, collections-support" if="J2EE.present">
+        
+    <jar jarfile="${build.dir}/${project}-J2EE-${version}-nodep.jar"
       basedir="${build.dest}"
       excludes="**/package.html"
     />
