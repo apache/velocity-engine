@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.99 2001/03/19 06:15:54 jon Exp $
+ * @version $Id: Runtime.java,v 1.100 2001/03/19 08:05:07 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -633,7 +633,7 @@ public class Runtime implements RuntimeConstants
                 out = DEBUG_PREFIX;
                 break;
             case LogSystem.INFO_ID :
-                out = WARN_PREFIX;
+                out = INFO_PREFIX;
                 break;
             case LogSystem.WARN_ID :
                 out = WARN_PREFIX;
