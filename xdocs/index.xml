@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.2 Release Candidate 3 Released">
+<section name="Velocity v1.2 Released">
 
  <p>
    <table>
@@ -18,11 +18,10 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Release candidate 3 of version 1.2 of the 
+   Version 1.2 of the 
    Velocity Template Engine is now available.
-   This release is the final candidate for release
-   of version 1.2.  It incorporates important
-   bugfixes and enhancements.
+   Thanks to all in the Velocity community that made
+   this release a success.
    </td>
    </tr>
    </table>      
@@ -58,11 +57,10 @@
 </p>
 
 <p>
- <b>Note:</b>  Starting with this release candidate, the pre-built jar
- in the distribution does <i>not</i> include any external dependencies.
- These dependencies and their sources are listed in the developers guide.
- You may still build a complete jar with all dependencies using the 'jar-dep'
- build target.
+ <b>Note:</b> This release now requires
+ <a href="http://jakarta.apache.org/ant/">Ant 1.4</a>
+ to build the source and/or use the testbed. 
+ As before, <i>using Velocity</i> does not require Ant.
 </p>
 
 </section>
@@ -249,17 +247,12 @@ href="./powered.html">Powered By Velocity</a> page.
 <section name="Where do I get releases?">
 
 <p> 
-   The current release version is version 1.1
+   The current release version is version 1.2
 </p>
 
 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
-formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.1/">here</a>.
-</p>
-
-<p>
-  The latest release candidate, verion 1.2-rc3 can be found
-  <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
+formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
 </p>
 
 </section>
