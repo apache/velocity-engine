@@ -22,6 +22,12 @@ This section describes changes to the VEL_1_3_BRANCH after the
 final.
 </p>
 
+<ul>
+<li>
+Fixed javadoc in ClasspathResourceLoader (gmj)
+</li>
+</ul>
+
 </subsection>
 
 <subsection name="1.3-dev">
