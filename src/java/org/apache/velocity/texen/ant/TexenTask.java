@@ -76,7 +76,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.5 2000/11/18 00:57:14 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.6 2000/11/18 02:54:07 jvanzyl Exp $
  */
 
 public abstract class TexenTask extends Task
@@ -176,8 +176,15 @@ public abstract class TexenTask extends Task
             String path = outputDirectory + File.separator + outputFile;
             System.out.println(path);
             FileWriter writer = new FileWriter(path);
-                
-            writer.write(generator.parse(controlTemplate, initControlContext()));
+            
+            // The generator and the output path should
+            // be placed in the init context here and
+            // not in the generator class itself.
+            
+            Context c = initControlContext();
+            //c.put("generator", generator);
+            
+            writer.write(generator.parse(controlTemplate, c));
             writer.flush();
             writer.close();
         }
