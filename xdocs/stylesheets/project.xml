@@ -34,6 +34,8 @@
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
         <item name="Specification"          href="/specification.html"/>
         <item name="Javadoc"                href="/api/index.html"/>
+        <item name="Wiki"                   href="http://wiki.apache.org/jakarta-velocity/"/>
+        <item name="FAQ"                    href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
     <menu name="Tools">
         <item name="Velocity Tools"         href="/tools/index.html"/>
