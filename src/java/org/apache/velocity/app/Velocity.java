@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.21 2001/08/07 22:08:17 geirm Exp $
+ * @version $Id: Velocity.java,v 1.22 2001/08/23 18:44:06 dlr Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -486,7 +486,7 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  Errors 
      *           logged to velocity log.
-     * *  @deprecated Use
+     *  @deprecated Use
      *  {@link #mergeTemplate( String templateName, String encoding,
      *                Context context, Writer writer )}
      */
