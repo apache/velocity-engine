@@ -64,7 +64,7 @@ import java.util.*;
  * Based upon TurbineResources
  * 
  * @author Dave Bryson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class VelocityResources
 {
@@ -73,6 +73,8 @@ public class VelocityResources
 
     /** The Configurations class */
     private static Configurations conf = null;
+
+    private static boolean isInitialized = false;
 
     /**
      * Load Configuration from a properties file. 
@@ -113,7 +115,17 @@ public class VelocityResources
         throws IOException
     {
         conf =  new Configurations( exp );
+        isInitialized = true;
     }
+    
+    /**
+     * Indicate to client code whether property
+     * resources have been initialized or not.
+     */
+    public static boolean isInitialized()
+    {
+        return isInitialized;
+    }        
     
     /**
      * Get the Configurations that was used to define this object.

@@ -85,11 +85,12 @@ import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
-import org.apache.velocity.runtime.loader.TemplateFactory;
-import org.apache.velocity.runtime.loader.TemplateLoader;
-
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.VelocimacroFactory;
+
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.ContentResource;
+import org.apache.velocity.runtime.resource.ResourceManager;
 
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
@@ -151,10 +152,47 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * It is simply a matter of setting the appropriate property
  * an initializing the matching sub system.
  *
+ *
+ * -----------------------------------------------------------------------
+ * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
+ * -----------------------------------------------------------------------
+ * Runtime.init()
+ * 
+ * If Runtime.init() is called by itself without any previous calls
+ * to Runtime.setProperties(props) or Runtime.setDefaultProperties(props)
+ * then the default velocity properties file will be loaded and
+ * the velocity runtime will be initialized.
+ * -----------------------------------------------------------------------
+ * Runtime.init(properties)
+ *
+ * In this case the default velocity properties are layed down
+ * first to provide a solid base, then any properties provided
+ * in the given properties object will override the corresponding
+ * default property.
+ * -----------------------------------------------------------------------
+ * Runtime.setProperties(properties) 
+ * [ Runtime.setProperty() || Runtime.setSourceProperty() ]
+ * Runtime.init()
+ *
+ * In this case the client app has decided to set its own default
+ * properties file. So what happens is that the default velocity
+ * properties are laid down first, then the properties file
+ * specified by the client app is laid down on top of that
+ * overriding any of the defaults, then any calls to setProperty()
+ * or setSourceProperty() will override those.
+ * -----------------------------------------------------------------------
+ * Runtime.setDefaultProperties()
+ * [ Runtime.setProperty || Runtime.setSourceProperty() ]
+ * Runtime.init()
+ *
+ * In this case the client app is going to use the default
+ * velocity properties file and change a few things before
+ * initializing the velocity runtime.
+ * -----------------------------------------------------------------------
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.72 2000/12/18 01:07:27 jon Exp $
+ * @version $Id: Runtime.java,v 1.73 2000/12/19 05:35:00 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -163,40 +201,20 @@ public class Runtime implements RuntimeConstants
      */
     private static VelocimacroFactory vmFactory = new VelocimacroFactory();
 
-    /** A list of paths that we can pull static content from. */
-    private static String[] includePaths;
-
     /** The Runtime logger */
     private static Logger logger;
 
-    /** TemplateLoader used by the Runtime */
-    private static TemplateLoader templateLoader;
-    
     /** The caching system used by the Velocity Runtime */
-    //private static GlobalCache globalCache;
     private static Hashtable globalCache;
     
-    /**
-     * The List of templateLoaders that the Runtime will
-     * use to locate the InputStream source of a template.
-     */
-    private static List templateLoaders;
-
-    /** 
-      * The Runtime parser pool
-      */
+    /** The Runtime parser pool */
     private static SimplePool parserPool;
     
     /** Indicate whether the Runtime has been fully initialized */
     private static boolean initialized;
-    private static boolean initializedPublic = false;
 
-    /**
-     * whether or not the setDefaultProperties() method has been 
-     * called or not
-     */
-    private static boolean defaultPropertiesInit = false;
-    
+    private static Properties overridingProperties = null;
+
     /**
      * The logging systems initialization may be defered if
      * it is to be initialized by an external system. There
@@ -207,30 +225,6 @@ public class Runtime implements RuntimeConstants
     private static Vector pendingMessages = new Vector();
 
     /**
-     * This is a list of the template stream source
-     * initializers, basically properties for a particular
-     * template stream source. The order in this list
-     * reflects numbering of the properties i.e.
-     * template.loader.1.<property> = <value>
-     * template.loader.2.<property> = <value>
-     */
-    private static List sourceInitializerList;
-    
-    /**
-     * This is a map of public name of the template
-     * stream source to it's initializer. This is so
-     * that clients of velocity can set properties of
-     * a template source stream with its public name.
-     * So for example, a client could set the 
-     * File.template.path property and this would
-     * change the template.path property for the
-     * file template stream source.
-     */
-    private static Map sourceInitializerMap;
-
-    private static boolean sourceInitializersAssembled = false;
-    
-    /**
      * This is a hashtable of initialized directives.
      * The directives that populate this hashtable are
      * taken from the RUNTIME_DEFAULT_DIRECTIVES
@@ -239,137 +233,6 @@ public class Runtime implements RuntimeConstants
      */
     private static Hashtable runtimeDirectives;
 
-    /**
-     * Initializes the Velocity Runtime.
-     */
-    public synchronized static void init( Properties p )
-        throws Exception
-    {
-        if (initializedPublic)
-            return;
-        
-        /*
-         *  set the default properties, and don't call assembleSourceInitializers()
-         */
-        setDefaultProperties( false);
-
-        /*
-         *  now add the new ones from the calling app
-         */
-        if (p != null)
-            addPropertiesFromProperties( p );
-        
-        /*
-         *  now call init to do the real work
-         */
-        init();
-
-        initializedPublic = true; 
-    }
-
-    public synchronized static void init(String propertiesFileName)
-        throws Exception
-    {
-        /*
-         *  if we have been initialized fully, don't do it again
-         */
-        if (initializedPublic)
-            return;
-
-        /*
-         *  new way.  Start by loading the default properties to have a hopefully complete
-         *  base of properties to work from.
-         *  then load the local properties to layover the default ones.  This should make
-         *  life easy for users.
-         */
-        setDefaultProperties( false );
-                         
-        /*
-         * if we were passed propertis, try loading propertiesFile as a straight file first,
-         * if that fails, then try and use the classpath
-         */
-        if (propertiesFileName != null && !propertiesFileName.equals(""))
-        {
-            File file = new File(propertiesFileName);
-            try
-            {
-                if( file.exists() )
-                {
-                    FileInputStream is = new FileInputStream( file );
-                    addPropertiesFromStream( is, propertiesFileName );
-                }
-                else
-                {
-                    info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
-                    
-                    /*
-                     *  lets try the classpath
-                     */
-                    ClassLoader classLoader = Runtime.class.getClassLoader();
-                    InputStream inputStream = classLoader.getResourceAsStream( propertiesFileName );
-                    
-                    if (inputStream!= null)
-                    {
-                        addPropertiesFromStream( inputStream, propertiesFileName );
-                    }
-                    else
-                    {
-                        info ("Override Properties : " + propertiesFileName + " not found in classpath.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                error("Exception finding properties  " + propertiesFileName + " : " + ex);
-            }
-        }
-
-        /*
-         *  now call init to do the real work
-         */
-        init();
-        initializedPublic = true; 
-    }
-
-    /**
-     *  adds / replaces properties in VelocityResources from a stream. 
-     */
-    private static boolean addPropertiesFromStream( InputStream is, String sourceName )
-        throws Exception
-    {
-        if( is == null)
-            return false;
-        /*
-         *  lets load the properties, and then iterate them out
-         */
-        Properties p = new Properties();
-        p.load(  is );
-            
-        info ("Override Properties : " + sourceName );
-            
-        return addPropertiesFromProperties( p );
-    }
-
-    /**
-     *  adds / replaces properties in VelocityResources from a properties object. 
-     */
-    private static boolean addPropertiesFromProperties( Properties p )
-        throws Exception
-    {
-        if( p == null)
-            return false;
-        /*
-         *   iterate them out
-         */
-        for (Enumeration e = p.keys(); e.hasMoreElements() ; ) 
-        {
-            String s = (String) e.nextElement();
-            VelocityResources.setProperty( s, p.getProperty(s) );
-            info ("   ** Property Override : " + s + " = " + p.getProperty(s));
-        }
-        return true;
-    }
-    
     /*
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
@@ -377,7 +240,7 @@ public class Runtime implements RuntimeConstants
      * 
      * <ul>
      *   <li>Logging System</li>
-     *   <li>Template Sources</li>
+     *   <li>ResourceManager</li>
      *   <li>Parser Pool</li>
      *   <li>Global Cache</li>
      *   <li>Static Content Include System</li>
@@ -387,16 +250,16 @@ public class Runtime implements RuntimeConstants
     public synchronized static void init()
         throws Exception
     {
-        if (! initialized)
+        if (initialized == false)
         {
             try
             {
+                initializeProperties();
                 initializeLogger();
-                initializeTemplateLoader();
+                ResourceManager.initialize();
                 initializeDirectives();
                 initializeParserPool();
                 initializeGlobalCache();
-                initializeIncludePaths();
 
                 /*
                  *  initialize the VM Factory.  It will use the properties 
@@ -417,6 +280,23 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
+     * Initializes the Velocity Runtime.
+     */
+    public synchronized static void init( Properties props )
+        throws Exception
+    {
+        overridingProperties = props;
+        init();
+    }
+
+    public synchronized static void init( String props )
+        throws Exception
+    {
+        setProperties(props);
+        init();
+    }
+
+    /**
      * Allow an external mechanism to set the properties for
      * Velocity Runtime. This is being use right now by Turbine.
      * There is a standard velocity properties file that is
@@ -433,33 +313,50 @@ public class Runtime implements RuntimeConstants
     public synchronized static void setProperties(String propertiesFileName) 
         throws Exception
     {
+        Properties p = new Properties();        
+        
         /*
-         * Try loading propertiesFile as a straight file first,
-         * if that fails, then try and use the classpath, if
-         * that fails then use the default values.
+         * if we were passed propertis, try loading propertiesFile as a straight file first,
+         * if that fails, then try and use the classpath
          */
-        try
+        if (propertiesFileName != null && !propertiesFileName.equals(""))
         {
-            VelocityResources.setPropertiesFileName( propertiesFileName );
-            assembleSourceInitializers();
-            info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
-        }
-        catch(Exception ex) 
-        {
-            ClassLoader classLoader = Runtime.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream(propertiesFileName);
-            
-            if (inputStream != null)
+            File file = new File(propertiesFileName);
+            try
             {
-                VelocityResources.setPropertiesInputStream( inputStream );
-                assembleSourceInitializers();
-                info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
+                if( file.exists() )
+                {
+                    FileInputStream is = new FileInputStream( file );
+                    p.load(is);
+                }
+                else
+                {
+                    info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
+                    
+                    /*
+                     *  lets try the classpath
+                     */
+                    ClassLoader classLoader = Runtime.class.getClassLoader();
+                    InputStream inputStream = classLoader
+                        .getResourceAsStream( propertiesFileName );
+                    
+                    if (inputStream!= null)
+                    {
+                        p.load(inputStream);
+                    }
+                    else
+                    {
+                        info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("Cannot find " + propertiesFileName + "!");
+                error("Exception finding properties  " + propertiesFileName + " : " + ex);
             }
         }
+    
+        overridingProperties = p;
     }
 
     /**
@@ -469,31 +366,16 @@ public class Runtime implements RuntimeConstants
      */
     public static void setDefaultProperties()
     {
-        setDefaultProperties( true );
-    }
-
-    /**
-     * Initializes the Velocity Runtime with properties file.
-     * The properties file may be in the file system proper,
-     * or the properties file may be in the classpath.
-     */
-    private static void setDefaultProperties( boolean doAssoc )
-    {
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
         {
-            InputStream inputStream = classLoader.getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
-            VelocityResources.setPropertiesInputStream( inputStream );
-
-            if (doAssoc)
-            {
-                assembleSourceInitializers();
-            }
-
-            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+            InputStream inputStream = classLoader
+                .getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
             
-            // we have been executed
-            defaultPropertiesInit = true;
+            VelocityResources.setPropertiesInputStream( inputStream );
+            
+            info ("Default Properties File: " + 
+                new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
         }
         catch (IOException ioe)
         {
@@ -507,8 +389,33 @@ public class Runtime implements RuntimeConstants
      */
     public static void setProperty(String key, String value)
     {
-        VelocityResources.setProperty( key, value );
+        if (overridingProperties == null)
+            overridingProperties = new Properties();
+            
+        overridingProperties.setProperty( key, value );
     }        
+
+    private static void initializeProperties()
+    {
+        /* 
+         * Always lay down the default properties first as
+         * to provide a solid base.
+         */
+        if (VelocityResources.isInitialized() == false)
+            setDefaultProperties();
+    
+        if( overridingProperties != null)
+        {        
+            /* Override each default property specified */
+            for (Enumeration e = overridingProperties.keys(); e.hasMoreElements() ; ) 
+            {
+                String s = (String) e.nextElement();
+                VelocityResources.setProperty( s, overridingProperties.getProperty(s) );
+                info ("   ** Property Override : " + s + " = " + 
+                    overridingProperties.getProperty(s));
+            }
+        }
+    }
 
     /**
      * Initialize the Velocity logging system.
@@ -550,86 +457,6 @@ public class Runtime implements RuntimeConstants
         Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
-    /**
-     * Initialize the template loader if there
-     * is a real path set for the template.path
-     * property. Otherwise defer initialization
-     * of the template loader because it is going
-     * to be set by some external mechanism: Turbine
-     * for example.
-     */
-    private static void initializeTemplateLoader() throws Exception
-    {
-        if(!sourceInitializersAssembled)
-        {
-            assembleSourceInitializers();
-        }
-            
-        templateLoaders = new ArrayList();
-            
-        for (int i = 0; i < sourceInitializerList.size(); i++)
-        {
-            Map initializer = (Map) sourceInitializerList.get(i);
-            String loaderClass = (String) initializer.get("class");
-            templateLoader = TemplateFactory.getLoader(loaderClass);
-            templateLoader.init(initializer);
-            templateLoaders.add(templateLoader);
-        }
-    }
-
-    /**
-     * This will produce a List of Hashtables, each
-     * hashtable contains the intialization info for
-     * a particular template loader. This Hastable
-     * will be passed in when initializing the
-     * the template loader.
-     */
-    private static void assembleSourceInitializers()
-    {
-        if (!defaultPropertiesInit)
-            setDefaultProperties(false);
-
-        sourceInitializerList = new ArrayList();
-        sourceInitializerMap = new Hashtable();
-        
-        for (int i = 0; i < 10; i++)
-        {
-            String loaderID = "template.loader." + new Integer(i).toString();
-            Enumeration e = VelocityResources.getKeys(loaderID);
-            
-            if (!e.hasMoreElements())
-            {
-                continue;
-            }
-            
-            Hashtable sourceInitializer = new Hashtable();
-            
-            while (e.hasMoreElements())
-            {
-                String property = (String) e.nextElement();
-                String value = VelocityResources.getString(property);
-                
-                property = property.substring(loaderID.length() + 1);
-                sourceInitializer.put(property, value);
-                
-                /*
-                 * Make a Map of the public names for the sources
-                 * to the sources property identifier so that external
-                 * clients can set source properties. For example:
-                 * File.template.path would get translated into
-                 * template.loader.1.template.path and the translated
-                 * name would be used to set the property.
-                 */
-                if (property.equalsIgnoreCase("public.name"))
-                {
-                    sourceInitializerMap.put(value.toLowerCase(), sourceInitializer);
-                }
-            }    
-            sourceInitializerList.add(sourceInitializer);
-            sourceInitializersAssembled = true;
-        }
-    }
-    
     /**
      * This methods initializes all the directives
      * that are used by the Velocity Runtime. The
@@ -713,14 +540,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void setSourceProperty(String key, String value)
     {
-        if(!sourceInitializersAssembled)
-        {
-            assembleSourceInitializers();
-        }
-    
-        String publicName = key.substring(0, key.indexOf("."));
-        String property = key.substring(key.indexOf(".") + 1);
-        ((Map)sourceInitializerMap.get(publicName.toLowerCase())).put(property, value);
+        ResourceManager.setSourceProperty(key, value);
     }
 
     /**
@@ -784,22 +604,6 @@ public class Runtime implements RuntimeConstants
     }
     
     /**
-     * These are the paths used by #include
-     */
-    private static void initializeIncludePaths()
-    {
-        includePaths = VelocityResources.getStringArray(INCLUDE_PATHS);
-    }
-
-    /**
-     * These are the paths used by #include
-     */
-    public static String[] getIncludePaths()
-    {
-        return includePaths;
-    }        
-
-    /**
      * Set an object in the global cache for
      * subsequent use.
      */
@@ -834,111 +638,24 @@ public class Runtime implements RuntimeConstants
     }        
 
     /**
-     * Get a template via the TemplateLoader.
+     * Returns a Template from the resource manager
      */
-    public static Template getTemplate(String template)
+    public static Template getTemplate(String name)
         throws Exception
     {
-        InputStream is = null;
-        Template t= null;
-        TemplateLoader tl = null;
-        
-        /* 
-         * Check to see if the template was placed in the cache.
-         * If it was placed in the cache then we will use
-         * the cached version of the template. If not we
-         * will load it.
-         */
-        
-        if (globalCache.containsKey(template))
-        {
-            t = (Template) globalCache.get(template);
-            tl = t.getTemplateLoader();
+        return (Template) ResourceManager
+            .getResource(name,ResourceManager.RESOURCE_TEMPLATE);
+    }
 
-            /* 
-             * The template knows whether it needs to be checked
-             * or not, and the template's loader can check to
-             * see if the source has been modified. If both
-             * these conditions are true then we must reload
-             * the input stream and parse it to make a new
-             * AST for the template.
-             */
-            if (t.requiresChecking() && tl.isSourceModified(t))
-            {
-                try
-                {
-                    is = tl.getTemplateStream(template);
-                    t.setDocument(parse(is, t.getName() ));
-                    t.initDocument();
-
-                    return t;
-                }
-                catch (Exception e)
-                {
-                    error(e);
-                }
-            }
-            return t;
-        }
-        else
-        {
-            try
-            {
-                t = new Template();
-                t.setName(template);
-                
-                /* 
-                 * Now we have to try to find the appropriate
-                 * loader for this template. We have to cycle through
-                 * the list of available template loaders and see
-                 * which one gives us a stream that we can use to
-                 * make a template with.
-                 */
-                for (int i = 0; i < templateLoaders.size(); i++)
-                {
-                    tl = (TemplateLoader) templateLoaders.get(i);
-                    is = tl.getTemplateStream(template);
-                    
-                    /*
-                     * If we get an InputStream then we have found
-                     * our loader.
-                     */
-                    if (is != null)
-                        break;
-                }
-                
-                /*
-                 * Return null if we can't find a template.
-                 */
-                if (is == null)
-                {
-                    throw new Exception("Can't find " + template + "!");
-                }
-                
-                t.setLastModified(tl.getLastModified(t));
-                t.setModificationCheckInterval(tl.getModificationCheckInterval());
-                t.setTemplateLoader(tl);
-                t.setDocument(parse(is, t.getName() ));
-
-                t.initDocument();
-
-                t.touch();
-                
-                /*
-                 * Place the template in the cache if the template
-                 * loader says to.
-                 */
-                if (tl.useCache())
-                {
-                    globalCache.put(template, t);
-                }
-            }
-            catch (Exception e)
-            {
-                error(e);
-            }
-        }
-        return t;
+    /**
+     * Returns a static content resource from the
+     * resource manager.
+     */
+    public static ContentResource getContent(String name)
+        throws Exception
+    {
+        return (ContentResource) ResourceManager
+            .getResource(name,ResourceManager.RESOURCE_CONTENT);
     }
 
     /**
@@ -957,12 +674,26 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
+     * Added this to check and make sure that the VelocityResources
+     * is initialized before trying to get properties from it.
+     * This occurs when there are errors during initialization
+     * and the default properties have yet to be layed down.
+     */
+    private static boolean showStackTrace()
+    {
+        if (VelocityResources.isInitialized())
+            return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
+        else
+            return false;
+    }
+
+    /**
      * Log a warning message
      */
     public static void warn(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false) &&
+        if ( showStackTrace() &&
             (message instanceof Throwable || message instanceof Exception) )
         {
             out = StringUtils.stackTrace((Throwable)message);
@@ -978,7 +709,7 @@ public class Runtime implements RuntimeConstants
     public static void info(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_INFO_STACKTRACE, false) &&
+        if ( showStackTrace() &&
             ( message instanceof Throwable || message instanceof Exception) )
         {
             out = StringUtils.stackTrace((Throwable)message);
@@ -996,7 +727,7 @@ public class Runtime implements RuntimeConstants
     public static void error(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_ERROR_STACKTRACE, false) &&
+        if ( showStackTrace() &&
             ( message instanceof Throwable || message instanceof Exception ) )
         {
             out = StringUtils.stackTrace((Throwable)message);
