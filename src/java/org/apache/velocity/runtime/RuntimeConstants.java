@@ -104,15 +104,6 @@ public interface RuntimeConstants
     /** Content type */
     public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
 
-    /** External service initialization of the Velocity Runtime */
-    public static final String EXTERNAL_INIT = "external.init";
-
-    /** Include paths property used by Runtime for #included content */
-    public final static String INCLUDE_PATHS = "include.path";
-
-    //public static final String FILE_TEMPLATE_PATH = "file.resource.path";
-    //public static final String FILE_TEMPLATE_CACHE = "file.cache";
-
     /**
      * The public handle for setting the base path of the standard
      * FileResourceLoader.
