@@ -83,7 +83,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.7 2000/11/28 04:16:22 jvanzyl Exp $
+ * @version $Id: Parse.java,v 1.8 2000/12/04 02:07:41 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -107,28 +107,25 @@ public class Parse extends Directive
     int iParseDepth_ = 1;
     boolean bReady_ = false;
 
+
     /**
-     *   Initializes the trees
+     *  iterates through the argument list and renders every
+     *  argument that is appropriate.  Any non appropriate
+     *  arguments are logged, but render() continues.
      */
-    public void init(Context context, Node node) 
-        throws Exception
+    public boolean render(Context context, Writer writer, Node node)
+        throws IOException
     {
-        /*
-         *  init my bretheren.  I am not in the tree, so I don't get called twice :)
-         */
-
-        super.init(context, node );
-
         /*
          *  did we get an argument?
          */
-
+        
         if ( node.jjtGetChild(0) == null)
         {
             Runtime.error( new String("#parse() error :  null argument") );
-            return;
+            return false;
         }
-            
+        
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
@@ -138,7 +135,7 @@ public class Parse extends Directive
         if ( value == null)
         {
             Runtime.error( new String("#parse() error :  null argument") );
-            return ;
+            return  false;
         }
 
         /*
@@ -146,21 +143,16 @@ public class Parse extends Directive
          */
         
         String strArg = value.toString();
-            
-        /*
-         *  everything must be under the template root TEMPLATE_PATH
-         */
-        
-        //String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
-        
+             
         /*
          *  for security, we will not accept anything with .. in the path
          */
         
         if ( strArg.indexOf("..") != -1)
         {
-            Runtime.error( new String("#parse() error : argument " + strArg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
-            return;
+            Runtime.error( new String("#parse() error : argument " 
+                                      + strArg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
+            return false;
         }
 
         /*
@@ -174,43 +166,46 @@ public class Parse extends Directive
          *  we will put caching here in the future...
          */
 
-        Template t = Runtime.getTemplate(strArg);
-        
-        if (t != null)
+        Template t = null;
+
+        try 
         {
-            try
-            {
-                nodeTree_ = t.getDocument();
-
-                ParseDirectiveVisitor v = new ParseDirectiveVisitor();
-                v.setDepth( iParseDepth_ );
-                v.setContext( null );
-                v.setWriter( null );
-                nodeTree_.jjtAccept( v, null );
-                nodeTree_.init( context, null );
-            }
-            catch ( ParseDirectiveException pde )
-            {
-                pde.addFile( strArg );
-                throw pde;
-            }
+            t = Runtime.getTemplate(strArg);   
         }
-        else
-            throw new Exception("#parse : cannot find " + strArg + " template!");
+        catch ( Exception e)
+        {
+            Runtime.error("#parse : cannot find " + strArg + " template!");
+        }
+    
+        if ( t == null )
+            return false;
 
-        bReady_ = true;
-    }
+        try
+        {        
+            nodeTree_ = t.getDocument();
+            
+            ParseDirectiveVisitor v = new ParseDirectiveVisitor();
+            v.setDepth( iParseDepth_ );
+            v.setContext( null );
+            v.setWriter( null );
+            nodeTree_.jjtAccept( v, null );
+            nodeTree_.init( context, null );
+            
+            bReady_ = true;
+        }
+        catch ( ParseDirectiveException pde )
+        {
+            pde.addFile( strArg );
+            Runtime.error( "Parse.render() : " + pde );
+        }
+        catch ( Exception e )
+        {        
+            Runtime.error( "Parse.render() : " + e );
+        }
 
-    /**
-     *  iterates through the argument list and renders every
-     *  argument that is appropriate.  Any non appropriate
-     *  arguments are logged, but render() continues.
-     */
-    public boolean render(Context context, Writer writer, Node node)
-        throws IOException
-    {
         if (bReady_)
             nodeTree_.render(context, writer);
+
         return true;
     }
 
