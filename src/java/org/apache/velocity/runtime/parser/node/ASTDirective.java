@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.7 2000/11/11 22:40:04 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.8 2000/11/12 06:41:33 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -74,6 +74,7 @@ import java.io.IOException;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTDirective extends SimpleNode
@@ -81,6 +82,8 @@ public class ASTDirective extends SimpleNode
     private Directive directive;
     private String strDirectiveName_ = "";
     private boolean isDirective;
+
+    int iParseDepth_ = 0;
 
     public ASTDirective(int id)
     {
@@ -108,6 +111,9 @@ public class ASTDirective extends SimpleNode
             directive = (Directive) parser.getDirective( strDirectiveName_ )
                 .getClass().newInstance();
             
+            if (strDirectiveName_.equals("parse"))
+                ( (Parse) directive).setParseDepth( iParseDepth_ );
+
             directive.init(context,this);
         }            
         else
@@ -138,10 +144,30 @@ public class ASTDirective extends SimpleNode
         return true;
     }
 
+    /**
+     *   Sets the directive name.  Used by the parser.  This keeps us from having to 
+     *   dig it out of the token stream and gives the parse the change to override.
+     */
     public void setDirectiveName( String str )
     {
         strDirectiveName_ = str;
         return;
+    }
+
+    /**
+     *  Gets the name of this directive.
+     */
+    public String getDirectiveName()
+    {
+        return strDirectiveName_;
+    }
+
+    /**
+     *  Sets the parse depth for recursion limitataion
+     */
+    public void setParserDepth( int i)
+    {
+        iParseDepth_ = i;
     }
 }
 
