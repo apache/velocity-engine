@@ -91,7 +91,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *    special separator.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Include.java,v 1.1 2000/11/06 04:10:19 geirm Exp $
+ * @version $Id: Include.java,v 1.2 2000/11/12 06:38:47 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -209,7 +209,7 @@ public class Include extends Directive
          *  we will put caching here in the future...
          */
 
-        File file = new File(strTemplatePath, strArg);;
+        File file = new File(strTemplatePath, strArg);
         
         try
         {
