@@ -62,7 +62,6 @@ import java.text.*;
 import java.lang.reflect.Array;
 
 // Veclocity classes
-import org.apache.velocity.*;
 import org.apache.velocity.context.*;
 
 /**
@@ -80,7 +79,7 @@ import org.apache.velocity.context.*;
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
  * @author <a href="dlr@collab.net">Daniel Rall</a>
- * @version $Id: VelocityFormatter.java,v 1.8 2002/03/27 18:51:06 dlr Exp $
+ * @version $Id: VelocityFormatter.java,v 1.9 2003/05/04 17:06:11 geirm Exp $
  */
 public class VelocityFormatter
 {

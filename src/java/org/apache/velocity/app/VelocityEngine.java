@@ -55,9 +55,7 @@ package org.apache.velocity.app;
  */
 
 import java.io.Writer;
-import java.util.Hashtable;
 import java.util.Properties;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.Reader;
@@ -71,9 +69,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -106,7 +102,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityEngine.java,v 1.5 2002/01/03 12:41:19 geirm Exp $
+ * @version $Id: VelocityEngine.java,v 1.6 2003/05/04 17:06:11 geirm Exp $
  */
 public class VelocityEngine implements RuntimeConstants
 {
