@@ -54,10 +54,15 @@ package org.apache.velocity.runtime.exception;
  * <http://www.apache.org/>.
  */
 
+import org.apache.velocity.runtime.parser.node.Node;
+
 public class ReferenceException extends Exception
 {
-    public ReferenceException(String exceptionMessage)
+    public ReferenceException(String exceptionMessage, Node node)
     {
-        super(exceptionMessage);
+        super(exceptionMessage + ": " + node.literal() + 
+            " is not a valid reference." +
+                " [line " + node.getLine() + ",column " +
+                    node.getColumn() + "]");
     }        
 }
