@@ -80,7 +80,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.25 2001/04/18 20:43:15 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.26 2001/04/18 20:54:32 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -95,6 +95,9 @@ public class ASTReference extends SimpleNode
     private boolean escaped = false;
     private boolean computableReference = true;
     private String  prefix = "";
+    private String firstToken = "";
+
+    private int numChildren = 0;
 
     public ASTReference(int id)
     {
@@ -128,6 +131,8 @@ public class ASTReference extends SimpleNode
 
         rootString = getRoot();
 
+        numChildren = jjtGetNumChildren();
+        firstToken = NodeUtils.specialText( getFirstToken() );
         return data;
     }        
     
@@ -163,12 +168,10 @@ public class ASTReference extends SimpleNode
          * when we find a null value and return the null
          * so the error gets logged.
          */
-
-        int children = jjtGetNumChildren();
         
         try 
         {
-            for (int i = 0; i < children; i++)
+            for (int i = 0; i < numChildren; i++)
             {
                 result = jjtGetChild(i).execute(result,context);
             
@@ -218,14 +221,14 @@ public class ASTReference extends SimpleNode
         {
             if ( value == null )
             {
-                writer.write( NodeUtils.specialText(getFirstToken()));
+                writer.write( firstToken );
                 writer.write( prefix );
                 writer.write( "\\" );
                 writer.write( nullString );
             }
             else
             {
-                writer.write( NodeUtils.specialText(getFirstToken()) );
+                writer.write( firstToken );
                 writer.write( prefix );
                 writer.write( nullString );
             }
@@ -243,7 +246,7 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
             
-            writer.write( NodeUtils.specialText(getFirstToken()) );
+            writer.write( firstToken );
             writer.write( prefix );
             writer.write( prefix );
             writer.write( nullString );
@@ -257,7 +260,7 @@ public class ASTReference extends SimpleNode
         }                    
         else
         {
-            writer.write( NodeUtils.specialText(getFirstToken()) );
+            writer.write( firstToken );
             writer.write( prefix );
             writer.write( value.toString() );
         }                    
@@ -278,7 +281,9 @@ public class ASTReference extends SimpleNode
         Object value = execute(null, context);
         
         if (value == null)
+        {
             return false;
+        }
         else if (value instanceof Boolean)
         {
             if (((Boolean) value).booleanValue())
@@ -327,9 +332,7 @@ public class ASTReference extends SimpleNode
          * How many child nodes do we have?
          */
 
-        int children = jjtGetNumChildren();
-
-        for (int i = 0; i < children - 1; i++)
+        for (int i = 0; i < numChildren - 1; i++)
         {
             result = jjtGetChild(i).execute(result, context);
             
@@ -346,7 +349,7 @@ public class ASTReference extends SimpleNode
          *  2) ref,put("foo", value ) to parallel the get() map introspection
          */
 
-        String identifier = jjtGetChild(children - 1).getFirstToken().image;
+        String identifier = jjtGetChild(numChildren - 1).getFirstToken().image;
 
         try
         {
