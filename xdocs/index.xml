@@ -43,6 +43,16 @@
 <section name="Velocity News">
 
     <p>
+        <strong>Velosurf 0.8 Released</strong>
+        <blockquote>
+        <a href="http://velosurf.sourceforge.net">Velosurf</a>,
+        a database access tool for use with the Velocity template engine,
+        has released v0.8
+        (<i>2003-10-21</i>)
+        </blockquote>
+
+    </p>
+    <p>
         <strong>Generate SOAP messages with Ivory</strong>
         <blockquote>
         <a href="http://ivory.codehaus.org/soaplet/index.html">Ivory Soaplet</a>
