@@ -75,7 +75,7 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: ConfigurationsRepository.java,v 1.1 2000/11/02 02:52:34 daveb Exp $
+ * @version $Id: ConfigurationsRepository.java,v 1.2 2001/03/04 00:39:25 jvanzyl Exp $
  */
 public abstract class ConfigurationsRepository
     extends Hashtable
@@ -147,6 +147,33 @@ public abstract class ConfigurationsRepository
         {
             String key = (String) e.nextElement();
             this.put ( key, hash.get(key) );
+        }
+    }
+
+    /**
+     * Set a property taking into consideration
+     * duplicate keys.
+     *
+     * @param String key
+     * @param String token
+     */
+    public void setProperty(String key, String token)
+    {
+        Object o = this.get(key);
+        if (o instanceof String)
+        {
+            Vector v = new Vector(2);
+            v.addElement(o);
+            v.addElement(token);
+            this.put(key, v);
+        }
+        else if (o instanceof Vector)
+        {
+            ((Vector) o).addElement(token);
+        }
+        else
+        {
+            this.put(key, token);
         }
     }
 
