@@ -1,7 +1,8 @@
+package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,7 +24,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -52,8 +53,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.runtime.parser.node;
-
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
@@ -63,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.11 2001/03/19 03:01:47 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.12 2001/03/19 18:53:54 geirm Exp $
  */
 public class NodeUtils
 {
@@ -138,7 +137,8 @@ public class NodeUtils
                     for (++cIdx ; cIdx < argStr.length(); ++cIdx)
                     {
                         ch = argStr.charAt(cIdx);
-                        if (ch == '_' || ch == '-' || Character.isLetterOrDigit(ch))
+                        if (ch == '_' || ch == '-' 
+                            || Character.isLetterOrDigit(ch))
                             nameBuf.append(ch);
                         else if (ch == '{' || ch == '}')
                             continue;  

@@ -1,7 +1,9 @@
+package org.apache.velocity.runtime.parser.node;
+
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,7 +25,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -52,7 +54,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.Method;
 
@@ -64,7 +65,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.4 2001/01/06 22:14:05 jvanzyl Exp $
+ * @version $Id: AbstractExecutor.java,v 1.5 2001/03/19 18:53:53 geirm Exp $
  */
 public abstract class AbstractExecutor
 {
