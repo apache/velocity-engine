@@ -461,7 +461,7 @@
     <fixcrlf srcdir="${dist.dir}"
        cr="add"
        eof="asis"
-       includes="**/*.vm, **/*.wm, **/*.txt, **/*.java, **/*.xml, 
+       includes="**/*.vm, **/*.wm, **/*.txt, **/*.xml, 
                  **/*.java, **/*.properties"
     />    
   </target>
