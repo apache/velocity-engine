@@ -121,7 +121,7 @@
     </p>
   </subsection>
 
-  <subsection name="#if / #ifelse / #else - output conditional on truth of statements">
+  <subsection name="#if / #elseif / #else - output conditional on truth of statements">
     <p>
     Format:
     <br/>
