@@ -4,7 +4,7 @@
   <pomVersion>3</pomVersion>
   <id>velocity</id>
   <name>Velocity</name>
-  <currentVersion>1.4-dev</currentVersion>
+  <currentVersion>1.5-dev</currentVersion>
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://jakarta.apache.org/</url>
@@ -161,7 +161,7 @@
 
     <dependency>
       <id>log4j</id>
-      <version>1.1.3</version>
+      <version>1.2.8</version>
     </dependency>
 
     <dependency>
@@ -172,11 +172,6 @@
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>
-    </dependency>
-
-    <dependency>
-      <id>jdbc</id>
-      <version>2.0</version>
     </dependency>
 
   </dependencies>
@@ -198,9 +193,12 @@
     </unitTest>
 
     <resources>
-      <includes>
-        <include>**/*.properties</include>
-      </includes>
+      <resource>
+        <directory>src/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
     </resources>
   </build>
 </project>

@@ -1,2 +1,2 @@
-<project default="java:jar">
+<project default="jar:jar">
 </project>
