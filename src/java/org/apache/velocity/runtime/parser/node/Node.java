@@ -2,7 +2,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -61,6 +61,8 @@ import java.io.IOException;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
+
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *  All AST nodes must implement this interface.  It provides basic
@@ -117,13 +119,18 @@ public interface Node
 
     public Object init( InternalContextAdapter context, Object data) throws Exception;
 
-    public boolean evaluate( InternalContextAdapter context);
-    public Object value( InternalContextAdapter context);
+    public boolean evaluate( InternalContextAdapter context)
+        throws MethodInvocationException;
+
+    public Object value( InternalContextAdapter context)
+        throws MethodInvocationException;
 
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException;
+        throws IOException,MethodInvocationException;
 
-    public Object execute(Object o, InternalContextAdapter context);
+    public Object execute(Object o, InternalContextAdapter context)
+      throws MethodInvocationException;
+
     public void setInfo(int info);
     public int getInfo();
 
