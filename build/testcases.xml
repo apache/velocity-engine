@@ -32,6 +32,7 @@
     <mkdir dir="${test.home}/configuration/results"/>
     <mkdir dir="${test.home}/cpload/results"/>
     <mkdir dir="${test.home}/multi/results"/>
+    <mkdir dir="${test.home}/multiloader/results"/>
     <mkdir dir="${test.home}/templates/results"/>
     <mkdir dir="${test.home}/texen/results"/>
     <!--
@@ -41,6 +42,7 @@
     <delete dir="${test.home}/configuration/results" quiet="true"/>
     <delete dir="${test.home}/cpload/results" quiet="true"/>
     <delete dir="${test.home}/multi/results" quiet="true"/>
+    <delete dir="${test.home}/multiloader/results" quiet="true"/>
     <delete dir="${test.home}/templates/results" quiet="true"/>
     <delete dir="${test.home}/texen/results" quiet="true"/>
   </target>
