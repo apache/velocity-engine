@@ -189,37 +189,6 @@ between the if and else clauses, causing the obscure compile error:
     </table>
     </div>
                                                 <p>
-Another great Jason quote:
-</p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-One thing to watch out for:  On some servers (including Tomcat 3.XXX) if
-you have a bean with a scope of &quot;session&quot; or &quot;application&quot; and you
-change the bean class implementation, you may get a ClassCastException
-on a later request. This exception occurs because the generated servlet
-code has to do a cast on the bean instance as it's retrieved from the
-session or application, and the old bean type stored in the session or
-application doesn't match the new bean type expected.  The simplest
-solution is to restart the server.
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
 It is the belief of the Velocity developers that you should not have to
 specially code your applications to work around issues that are related
 directly to Java.
