@@ -15,6 +15,15 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.2-rc2">
+<p>
+This section describes changes to the VEL_1_2_BRANCH after the 
+1.2-rc2 release. 1.2-rc2 was released on October 18, 2001
+as an administrative fix for 1.2-rc1 (files were damaged.)
+</p>
+
+</subsection>
+
 <subsection name="1.2-rc1">
 <p>
 This section describes changes to the VEL_1_2_BRANCH after the 
