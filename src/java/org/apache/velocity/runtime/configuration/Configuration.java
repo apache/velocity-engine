@@ -164,7 +164,7 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.28 2001/05/01 07:05:39 dlr Exp $
+ * @version $Id: Configuration.java,v 1.29 2001/05/01 18:55:33 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -276,9 +276,9 @@ public class Configuration extends Hashtable
     class PropertiesTokenizer extends StringTokenizer
     {
         /**
-         * The property delimeter used while parsing (a comma).
+         * The property delimiter used while parsing (a comma).
          */
-        static final String DELIMETER = ",";
+        static final String DELIMITER = ",";
 
         /**
          * Constructor.
@@ -287,7 +287,7 @@ public class Configuration extends Hashtable
          */
         public PropertiesTokenizer(String string)
         {
-            super(string, DELIMETER);
+            super(string, DELIMITER);
         }
 
         /**
@@ -315,7 +315,7 @@ public class Configuration extends Hashtable
                 if (token.endsWith("\\"))
                 {
                     buffer.append(token.substring(0, token.length() - 1));
-                    buffer.append(DELIMETER);
+                    buffer.append(DELIMITER);
                 }
                 else
                 {
@@ -592,7 +592,7 @@ public class Configuration extends Hashtable
              * values.
              */
             if (token instanceof String &&
-                ((String)token).indexOf(PropertiesTokenizer.DELIMETER) > 0)
+                ((String)token).indexOf(PropertiesTokenizer.DELIMITER) > 0)
             {
                 PropertiesTokenizer tokenizer = 
                     new PropertiesTokenizer((String)token);
