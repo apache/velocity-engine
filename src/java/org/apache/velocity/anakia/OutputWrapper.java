@@ -59,13 +59,15 @@ import java.io.StringWriter;
 
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.jdom.CDATA;
 
 /**
  * This class extends XMLOutputter in order to provide
  * a way to walk an Element tree into a String.
  *
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: OutputWrapper.java,v 1.2 2001/03/15 04:02:35 jon Exp $
+ * @author <a href="rubys@us.ibm.com">Sam Ruby</a>
+ * @version $Id: OutputWrapper.java,v 1.3 2001/03/15 11:14:46 geirm Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
@@ -102,4 +104,14 @@ public class OutputWrapper extends XMLOutputter
         }
         return buff.toString();
     }
+
+    /**
+     * Passthru CDATA content uninterpreted
+     */
+    protected void printCDATASection(CDATA cdata, java.io.Writer out,
+                                     int indentLevel) throws IOException
+    {
+        out.write(cdata.getText());
+    }
+
 }
