@@ -70,7 +70,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.7 $
+ * $Revision: 1.8 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -107,6 +107,9 @@ public class FileTemplateLoader extends TemplateLoader
     
     /**
      * Fetch the template
+     * If caching is turned on, then it will get it from cache.
+     * otherwise, it will attempt to load it from the file
+     * @param name the name of the file
      * @return Template
      */
     public synchronized Template getTemplate( String name )
@@ -133,16 +136,14 @@ public class FileTemplateLoader extends TemplateLoader
                     ct.setTemplate( null );
                     cache.remove( name );
                 }
-                    
             }
         }
-
         File file = new File( templatepath, name );           
         if ( file.canRead() )
         {
             Template template = new Template(new BufferedInputStream(
                 new FileInputStream(file.getAbsolutePath())));
-            
+
             if ( useCache )
             {
                 CachedTemplate cacheit = new CachedTemplate( file );
