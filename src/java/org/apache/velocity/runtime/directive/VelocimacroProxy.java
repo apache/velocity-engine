@@ -82,7 +82,7 @@ import org.apache.velocity.util.StringUtils;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.21 2001/04/22 18:14:15 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.22 2001/06/12 03:20:36 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -91,7 +91,8 @@ public class VelocimacroProxy extends Directive
     private String[] argArray = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
-    
+    private String namespace = "";
+
     private boolean init = false;
     private String[] callingArgs;
     private int[]  callingArgTypes;
@@ -161,6 +162,11 @@ public class VelocimacroProxy extends Directive
         macroBody = mb;
     }
 
+    public void setNamespace( String ns )
+    {
+        this.namespace = ns;
+    }
+
     /**
      *   Renders the macro using the context
      */
@@ -227,6 +233,9 @@ public class VelocimacroProxy extends Directive
     public void init( InternalContextAdapter context, Node node) 
        throws Exception
     {
+        // Runtime.info("VMProxy:init() : calling for " + macroName + " with namespace : " + namespace 
+        //             + " curr templ : " +  context.getCurrentTemplateName() );
+
         /*
          *  how many args did we get?
          */
@@ -253,7 +262,7 @@ public class VelocimacroProxy extends Directive
          *  now proxy each arg in the context
          */
 
-         setupMacro( callingArgs, callingArgTypes);
+         setupMacro( callingArgs, callingArgTypes );
          return;
     }
 
@@ -271,12 +280,15 @@ public class VelocimacroProxy extends Directive
      */
     private void parseTree()
     {
-        // System.out.println("VMP.parseTree() : " + macroName );
-
         try 
         {                
             BufferedReader br = new BufferedReader( new StringReader( macroBody ) );
-            nodeTree = Runtime.parse( br, "VM:" + macroName );
+
+            /*
+             *  now parse the macro - and don't dump the namespace
+             */
+
+            nodeTree = Runtime.parse( br, namespace, false );
         } 
         catch ( Exception e ) 
         {

@@ -141,7 +141,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.110 2001/05/11 04:00:58 geirm Exp $
+ * @version $Id: Runtime.java,v 1.111 2001/06/12 03:20:35 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -568,7 +568,7 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Parse the input stream and return the root of
+     * Parse the input and return the root of
      * AST node structure.
      * <br><br>
      *  In the event that it runs out of parsers in the
@@ -585,6 +585,23 @@ public class Runtime implements RuntimeConstants
     public static SimpleNode parse( Reader reader, String templateName )
         throws ParseException
     {
+        /*
+         *  do it and dump the VM namespace for this template
+         */
+        return parse( reader, templateName, true );
+    }
+
+    /**
+     *  Parse the input and return the root of the AST node structure.
+     *
+     * @param InputStream inputstream retrieved by a resource loader
+     * @param String name of the template being parsed
+     * @param dumpNamespace flag to dump the Velocimacro namespace for this template
+     */
+    public static SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
+        throws ParseException
+    {
+
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
         boolean madeNew = false;
@@ -616,6 +633,17 @@ public class Runtime implements RuntimeConstants
         {
             try
             {
+                /*
+                 *  dump namespace if we are told to.  Generally, you want to 
+                 *  do this - you don't in special circumstances, such as 
+                 *  when a VM is getting init()-ed & parsed
+                 */
+
+                if ( dumpNamespace )
+                {
+                    Runtime.dumpVMNamespace( templateName );
+                }
+
                 ast = parser.parse( reader, templateName );
             }
             finally
