@@ -34,10 +34,10 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 /**
- * This is a simple template file loader that loads templates
+ * <P>This is a simple template file loader that loads templates
  * from a DataSource instead of plain files.
  *
- * It can be configured with a datasource name, a table name,
+ * <P>It can be configured with a datasource name, a table name,
  * id column (name), content column (the template body) and a
  * datetime column (for last modification info).
  * <br>
@@ -58,14 +58,26 @@ import java.sql.SQLException;
  * ds.resource.loader.cache = false <br>
  * ds.resource.loader.modificationCheckInterval = 60 <br>
  * <br>
+ * <P>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in 
+ * a manner similar to the following:
+ * <BR>
+ * <BR>
+ * DataSourceResourceLoader ds = new DataSourceResourceLoader();<BR>
+ * ds.setDataSource(DATASOURCE);<BR>
+ * Velocity.setProperty("ds.resource.loader.instance",ds);<BR>
+ * <P> The property <code>ds.resource.loader.class</code> should be left out, otherwise all the other 
+ * properties in velocity.properties would remain the same.
+ * <BR>
+ * <BR>
+ * 
  * Example WEB-INF/web.xml: <br>
  * <br>
- *	<resource-ref> <br>
- *	 <description>Velocity template DataSource</description> <br>
- *	 <res-ref-name>jdbc/Velocity</res-ref-name> <br>
- *	 <res-type>javax.sql.DataSource</res-type> <br>
- *	 <res-auth>Container</res-auth> <br>
- *	</resource-ref> <br>
+ *  <resource-ref> <br>
+ *   <description>Velocity template DataSource</description> <br>
+ *   <res-ref-name>jdbc/Velocity</res-ref-name> <br>
+ *   <res-type>javax.sql.DataSource</res-type> <br>
+ *   <res-auth>Container</res-auth> <br>
+ *  </resource-ref> <br>
  * <br>
  *  <br>
  * and Tomcat 4 server.xml file: <br>
@@ -96,11 +108,13 @@ import java.sql.SQLException;
  * <br>
  *  Example sql script:<br>
  *  CREATE TABLE tb_velocity_template ( <br>
- *	id_template varchar (40) NOT NULL , <br>
- *	template_definition text (16) NOT NULL , <br>
- *	template_timestamp datetime NOT NULL  <br>
- *	) <br>
+ *  id_template varchar (40) NOT NULL , <br>
+ *  template_definition text (16) NOT NULL , <br>
+ *  template_timestamp datetime NOT NULL  <br>
+ *  ) <br>
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
@@ -124,11 +138,32 @@ public class DataSourceResourceLoader extends ResourceLoader
          templateColumn  = configuration.getString("resource.templatecolumn");
          timestampColumn = configuration.getString("resource.timestampcolumn");
 
-         rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
-         rsvc.info("Resource Loader using columns: " + keyColumn + ", "
-                       + templateColumn + " and " + timestampColumn);
-         rsvc.info("Resource Loader Initalized.");
+         if (dataSource != null) {
+             rsvc.info("Resources Loaded using dataSource instance with table: " + tableName);
+             rsvc.info("Resource Loader using columns: " + keyColumn + ", "
+                           + templateColumn + " and " + timestampColumn);
+             rsvc.info("Resource Loader Initalized.");
+
+         } else if (dataSourceName != null) {
+             rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
+             rsvc.info("Resource Loader using columns: " + keyColumn + ", "
+                           + templateColumn + " and " + timestampColumn);
+             rsvc.info("Resource Loader Initalized.");
+         
+         } else {
+            rsvc.info("DataSourceResourceLoader not properly initialized.  ");
+            
+         }
      }
+
+    /**
+     * Set the DataSource used by this resource loader.  Call this as an alternative to 
+     * specifying the data source name via properties.
+     * @param source
+     */
+    public void setDataSource(DataSource source) {
+        dataSource = source;
+    }
 
      public boolean isSourceModified(Resource resource)
      {
@@ -235,7 +270,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                  {
                      if (rs.next())
                      {
-	                     return rs.getTimestamp(timestampColumn).getTime();
+                         return rs.getTimestamp(timestampColumn).getTime();
                      }
                      else
                      {
@@ -333,4 +368,6 @@ public class DataSourceResourceLoader extends ResourceLoader
 
          return stmt.executeQuery(sql);
      }
+
+ 
 }

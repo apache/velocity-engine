@@ -38,6 +38,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * Class to manage the text resource for the Velocity
  * Runtime.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -114,19 +115,31 @@ public class ResourceManagerImpl implements ResourceManager
         
         for (int i = 0; i < sourceInitializerList.size(); i++)
         {
-            ExtendedProperties configuration = (ExtendedProperties) sourceInitializerList.get(i);
+            /**
+             * Resource loader can be loaded either via class name or be passed 
+             * in as an instance.
+             */
+            ExtendedProperties configuration = 
+                (ExtendedProperties) sourceInitializerList.get(i);
             String loaderClass = configuration.getString("class");
+            ResourceLoader loaderInstance = 
+                (ResourceLoader) configuration.get("instance");
 
-            if ( loaderClass == null)
+            if ( (loaderClass == null) && (loaderInstance == null) )
             {
                 rsvc.error(  "Unable to find '"
                                 + configuration.getString(RESOURCE_LOADER_IDENTIFIER)
                                 + ".resource.loader.class' specification in configuation."
                                 + " This is a critical value.  Please adjust configuration.");
                 continue;
+            
+            } else if ( loaderInstance != null ) {
+                resourceLoader = loaderInstance;
+                
+            } else {
+                resourceLoader = ResourceLoaderFactory.getLoader( rsvc, loaderClass);
             }
 
-            resourceLoader = ResourceLoaderFactory.getLoader( rsvc, loaderClass);
             resourceLoader.commonInit( rsvc, configuration);
             resourceLoader.init(configuration);
             resourceLoaders.add(resourceLoader);
