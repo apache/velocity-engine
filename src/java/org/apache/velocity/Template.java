@@ -84,7 +84,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.17 2000/12/06 20:49:23 geirm Exp $
+ * @version $Id: Template.java,v 1.18 2000/12/10 04:56:04 geirm Exp $
  */
 public class Template
 {
@@ -177,12 +177,16 @@ public class Template
 
     /**
      *  initializes the document.  init() is not longer 
-     *  dependant upon context.
+     *  dependant upon context, but we need to let the 
+     *  init() carry the template name down throught for VM
+     *  namespace features
      */
     public void initDocument()
         throws Exception
     {
-        document.init( null, null);
+        Context c = new Context();
+        c.setCurrentTemplateName( name );
+        document.init( c, null);
     }
 
     /**
