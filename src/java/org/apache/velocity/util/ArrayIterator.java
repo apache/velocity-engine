@@ -1,9 +1,9 @@
 package org.apache.velocity.util;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/ArrayIterator.java,v 1.2 2000/10/12 15:00:15 jvanzyl Exp $
- * $Revision: 1.2 $
- * $Date: 2000/10/12 15:00:15 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/ArrayIterator.java,v 1.3 2000/10/15 18:28:15 dlr Exp $
+ * $Revision: 1.3 $
+ * $Date: 2000/10/15 18:28:15 $
  *
  * ====================================================================
  *
@@ -73,38 +73,56 @@ import java.util.NoSuchElementException;
  */
 public class ArrayIterator implements Iterator
 {
-    /** Object[] to place an iterator wrapper around */
-    Object array[];
-    /** Current position in the array */
-    int pos;
+    /**
+     * The objects to iterate.
+     */
+    private Object[] array;
 
-    /** Default constructor */
-    public ArrayIterator(Object array[])
+    /**
+     * The current position in the array.
+     */
+    private int pos;
+
+    /**
+     * Creates a new iterator instance for the specified array.
+     *
+     * @param array The array for which an iterator is desired.
+     */
+    public ArrayIterator(Object[] array)
     {
         this.array = array;
         pos = 0;
     }
 
-    /** Move to next element in the array. */
+    /**
+     * Move to next element in the array.
+     *
+     * @return The next object in the array.
+     */
     public Object next()
     {
         synchronized (array)
         {
             if (pos < array.length)
-                return array[pos ++];
+                return array[pos++];
         }
         throw new NoSuchElementException("No more elements: " + pos +
-                " / " + array.length);
-
+                                         " / " + array.length);
     }
     
-    /** Check to see if there is another element in the array. */
+    /**
+     * Check to see if there is another element in the array.
+     *
+     * @return Whether there is another element.
+     */
     public boolean hasNext()
     {
-        return pos < array.length;
+        return (pos < array.length);
     }
 
-    /** NOT USED: Merely added to satify the Iterator interface. */
+    /**
+     * No op--merely added to satify the <code>Iterator</code> interface.
+     */
     public void remove()
     {
     }
