@@ -53,8 +53,9 @@
 
 <section name="Velocity News">
 <p>
-<strong>Article in JavaWorld on Velocity</strong>
+<strong>3 published articles covering Velocity</strong>
 </p>
+
 <blockquote>
 Many people believe that Velocity can only be used in the context of web
 applications. This excellent <a
@@ -63,11 +64,23 @@ article</a> by Leon Messerschmidt shows that the design of Velocity is
 such that it can be used in a myriad of applications.
 </blockquote>
 
+<blockquote>
+The Java Developer Journal recently <a
+href="http://www.sys-con.com/java/articlea.cfm?id=1080">published</a> an
+edited version of the <a href="./ymtd/ymtd.html">YMTD article</a> by Jon
+Stevens as the cover story for their July edition.
+</blockquote>
+
+<blockquote>
+  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out 
+  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here</a>.  Thanks Sun!
+</blockquote>
+
 <p>
-<strong> 2 Products Now Depend on Velocity </strong>
+<strong> 3 Products Now Depend on Velocity </strong>
 </p>
 <blockquote>
-Both Gentleware and Xadra have built products which depend on Velocity.
+Gentleware, Xadra and Vamp have built products which depend on Velocity.
 We have listed them on our ever expanding <a
 href="./powered.html">Powered By Velocity</a> page.
 </blockquote>
@@ -76,33 +89,13 @@ href="./powered.html">Powered By Velocity</a> page.
 <strong> 4 Web Frameworks Now Support Velocity </strong>
 </p>
 <blockquote>
-Melati, a tool for building Java-programmed websites backed by a database, 
-now supports Velocity with their recent 0.54 release.  For more information
-visit the <a href="http://www.melati.org/">Melati site</a>.
-</blockquote>
-
-<blockquote>
-Also, Maverick, a lightweight MVC framework which allows a wide variety of
-view templating options, has added support for Velocity as of version 0.9.5.
-For more information, visit the <a href="http://mav.sourceforge.net">Maverick site</a>.
-</blockquote>
-
-<blockquote>
-Melati and Maverick join Jakarta's <a href="http://jakarta.apache.org/turbine/">Turbine</a> project,
-as well as the <a href="http://jpublish.sourceforge.net">JPublish</a> web publishing
-framework in supporting Velocity 'out of the box'.  
-</blockquote>
-
-<p>
-<strong> Sun's <i>Dot-Com Builder</i> Profiles Velocity</strong>
-</p>
-
-<blockquote>
-  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out 
-  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here</a>.  Thanks Sun!
+Turbine, JPublish, Melati and Maverick all support Velocity.
+We have listed them on our ever expanding <a
+href="./powered.html">Powered By Velocity</a> page.
 </blockquote>
 
  </section>
+ 
  <section name="What is Velocity?">
 
  <p>

@@ -14,7 +14,7 @@
                                                     <meta name="author" value="Velocity Documentation Team">
             <meta name="email" value="jon@latchkey.com">
             
-            <title>Velocity - Velocity Specification - BNF</title>
+            <title>Velocity - Case Study: JSP vs. Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -109,15 +109,12 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity Specification - BNF"><strong>Velocity Specification - BNF</strong></a>
+          <a name="Case Study: JSP vs. Velocity"><strong>Case Study: JSP vs. Velocity</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-Please note that this is currently out of date and will be updated soon.
-</p>
-                                                    <div align="left">
+                                        <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
       <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -127,153 +124,165 @@ Please note that this is currently out of date and will be updated soon.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-This is a tentative BNF for Velocity, right now this is
-pretty much the WM syntax. This might change, as arithmetic
-might not make it into the syntax, and the future
-velocity syntax will more then likely remove block
-markers and instead use an &quot;#end&quot; token to signify
-the end of a directive.
+I just wanted to share my findings on Velocity. I use velocity as an
+embedded mail templating system in our application server.
 
+When I began this subproject, I was using JSP as the language for
+generating template output for our application server. It was horrible.
+There were many problems, not to mention the difficulty of embedding a
+servlet engine in the app server that I could communicate with through
+direct method calls instead of over a socket. Specific to the Velocity
+argument was the JSP template versus the VTL template. I'd like to show
+you what my JSP template looked like. Package names have been changed to
+protect the innocent. Here is an example:
 
-&lt;statement&gt;         
-    
-    ::=   &lt;text&gt;
-        | &lt;block&gt;
-        | &lt;if-statement&gt;
-        | &lt;else-if-statement&gt;
-        | &lt;foreach-statement&gt;
-        | &lt;include-statement&gt;
-        | &lt;set-statement&gt;
-        | &lt;parse-statement&gt;
-        | &lt;param-statment&gt;
-        | &lt;stop-statement&gt;
-        | &lt;reference&gt;
+----------------8&lt;---------------
 
-&lt;block&gt;
-    
-    ::= &quot;#begin&quot; { &lt;expresion&gt; } &quot;#end&quot;
+&lt;%@ page session=&quot;false&quot;
+        import=&quot;java.util.*,
+        foo.events.*,
+        foo.emeeting.*,
+        foo.validation.*,
+        foo.util.actionevent.ActionEvent,
+        java.util.Date&quot;%&gt;
 
-&lt;if-statement&gt;
-    
-    ::= &quot;#if&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
+&lt;jsp:useBean id=&quot;meeting&quot; scope=&quot;request&quot; type=&quot;foo.IMeeting&quot;
+class=&quot;foo.Meeting&quot;/&gt;
 
+&lt;html&gt;
 
-&lt;else-if-statement&gt; 
+&lt;!-- etc --&gt;
 
-    ::= &quot;#elseif&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
+&lt;table width=&quot;600&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;4&quot; 
+    bgcolor=&quot;white&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;%
+Iterator            events = meeting.getStoredEventsIterator();
+int                 repId = 0;
 
-&lt;foreach-statement&gt; 
+%&gt;
+&lt;i&gt;&lt;b&gt;Topic: &lt;%= meeting.getTopic()%&gt;&lt;/b&gt;&lt;/i&gt;
+&lt;p&gt;
+&lt;%
+while (events.hasNext()) {
+  Object event = events.next();
+  Participation yapper =
+meeting.getParticipation(((MeetingEvent)event).getFromId());
+  if(event instanceof ChatEvent) {
+    if(&quot;R&quot;.equals(yapper.getRole()) ) {
+%&gt;
+&lt;font color=&quot;#000000&quot;&gt;&lt;b&gt;&lt;%=yapper.getName()%&gt;:&lt;/b&gt;&lt;/font&gt;
+&lt;%
+      repId = yapper.getParticipantId();
+    } else {
+%&gt;
+&lt;font color=&quot;#0000f0&quot;&gt;&lt;b&gt;&lt;%=yapper.getName()%&gt;:&lt;/b&gt;&lt;/font&gt;
+&lt;%
+    }
+    ChatEvent ce = (ChatEvent) event;
+%&gt;
+&lt;br&gt;
+&lt;%
+  } else if(event instanceof URLPushedEvent) {
+    if(&quot;R&quot;.equals(yapper.getRole()) ) {
+%&gt;
+&lt;font color=&quot;#000000&quot;&gt;&lt;b&gt;&lt;%=yapper.getName()%&gt;:&lt;/b&gt;&lt;/font&gt;
+&lt;%
+    } else {
+%&gt;
+&lt;font color=&quot;#0000f0&quot;&gt;&lt;b&gt;&lt;%=yapper.getName()%&gt;:&lt;/b&gt;&lt;/font&gt;
+&lt;%
+    }
+    URLPushedEvent pe = (URLPushedEvent) event;
+%&gt;
+&lt;a href=&quot;&lt;%=pe.getStoredData()%&gt;&quot;&gt;&quot;&lt;%=pe.getStoredData()%&gt;&quot;&lt;/a&gt; &lt;br&gt;
+&lt;%
+  }
+}
+%&gt;
+&lt;hr&gt;
+&lt;br&gt;&lt;%=meeting.getMeetingId()%&gt;:&lt;%=repId%&gt;&lt;br&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-    ::= &quot;#foreach&quot; &lt;reference&gt; &quot;in&quot; &lt;reference&gt; &lt;statement&gt;
+----------------8&lt;---------------
 
-&lt;include-statement&gt; 
+Seasick yet? Now here is the Velocity template accomplishing the same
+thing as above:
 
-    ::= &quot;#include&quot; &lt;string-literal&gt;
+----------------8&lt;---------------
 
-&lt;set-statement&gt;     
+&lt;html&gt;
 
-    ::= &quot;#set&quot; &lt;reference&gt; &quot;=&quot; &lt;expression&gt;
+&lt;!-- etc --&gt;
 
-&lt;parse-statement&gt;   
+&lt;table width=&quot;600&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;4&quot; 
+    bgcolor=&quot;white&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;i&gt;&lt;b&gt;Topic: $meeting.getTopic()&lt;/b&gt;&lt;/i&gt;&lt;p&gt;
 
-    ::= &quot;#parse&quot; &lt;string-literal&gt;
+#foreach( $event in $meeting.getStoredEventsIterator() )
+  #set( $yapper = $meeting.getParticipation($event.getFromId()) )
+  #if( $event.getClass().getName().equals($urlEvent) )
+    #if( $repRole.equals($yapper.getRole()) )
+      #set( $repId = $yapper.getParticipantId() )
+      &lt;font color=&quot;$blk&quot;&gt;&lt;b&gt;$yapper.getName()&lt;/b&gt;&lt;/font&gt;
+    #else
+      &lt;font color=&quot;$blu&quot;&gt;&lt;b&gt;$yapper.getName()&lt;/b&gt;&lt;/font&gt;
+    #end
+    &lt;a href=&quot;$event.getStoredData()&quot;&gt;$event.getStoredData()&lt;/a&gt; &lt;br&gt;
+  #elseif( $event.getClass().getName().equals($chatEvent) )
+    #if($repRole.equals($yapper.getRole()) )
+      #set( $repId = $yapper.getParticipantId() )
+      &lt;font color=&quot;$blk&quot;&gt;&lt;b&gt;$yapper.getName()&lt;/b&gt;&lt;/font&gt;
+    #else
+      &lt;font color=&quot;$blu&quot;&gt;&lt;b&gt;$yapper.getName()&lt;/b&gt;&lt;/font&gt;
+    #end
+    $event.getStoredData() &lt;br&gt;
+  #end
+#end
+&lt;hr&gt;
+&lt;br&gt;$meeting.getMeetingId():$repId&lt;br&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-&lt;param-statment&gt;    
+----------------8&lt;---------------
 
-    ::= &quot;#param&quot; &lt;reference&gt; &quot;=&quot; &lt;string-literal&gt;
+I was subsequently able to define that largish foreach loop into a macro
+and shrink it even more, using Velocity's #macro function, so I could do
+this:
 
-&lt;stop-statement&gt;    
+#drawStandardHtmlTranscript ( $meeting )
 
-    ::= &quot;#stop&quot;
+removing 20 lines of code from each template whilst only adding 2 lines
+(one for #parse and the other for the #drawStandardHtmlTranscript.
 
-&lt;reference&gt;         
+The call to the Velocity runtime to finally merge the template consumes
+about 20-50 milleseconds (on a 400 mHz PII Linux system) when I pool the
+contexts (time doubles when I do not). This is great performance, too!
 
-    ::= &quot;$&quot; &lt;identifier&gt; { &quot;.&quot; &lt;method&gt; | &lt;identifier&gt; }
+Last but not least, teaching the web design team to write a template
+took literally 10 minutes from start to finish. They haven't asked me a
+single question since.
 
-&lt;method&gt;            
-
-    ::= &lt;identifier&gt; &quot;(&quot; [ &lt;parameter&gt; { &quot;,&quot; &lt;parameter&gt; } ] &quot;)&quot;
-
-&lt;parameter&gt;         
-
-    ::= &lt;reference&gt; | &lt;string-literal&gt;
-
-&lt;alpha-char&gt;
-
-    ::= &quot;a..z, A..Z&quot;
-
-&lt;identifier-char&gt;   
-
-    ::= &quot;a..z, A..Z ,0..9 ,- ,_&quot;
-
-&lt;identifier&gt;        
-
-    ::= &lt;alpha-char&gt; { &lt;identifier-char&gt; }
-
-&lt;expression&gt;        
-
-    ::=   &lt;true&gt;
-        | &lt;false&gt;
-        | &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
-        | &lt;conditional-or-expression&gt;
-                        
-&lt;assignment&gt;        
-    
-    ::= &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
-
-&lt;conditional-or-expression&gt;
-
-    ::= &lt;conditional-and-expression&gt; { &quot;||&quot; &lt;conditional-and-expression&gt; }
-                            
-&lt;conditional-and-expression&gt;
-
-    ::= &lt;equality-expression&gt; { &quot;&amp;&amp;&quot; &lt;equality-expression&gt; }
-                        
-&lt;equality-expression&gt;
-
-    ::= &lt;relational-expression&gt;
-        {     &quot;==&quot; &lt;relational-expression&gt; 
-            | &quot;!=&quot; &lt;relational-expression&gt; 
-        }
-                        
-&lt;relational-expression&gt;
-
-    ::= &lt;additive-expression&gt;
-        {
-              &quot;&lt;&quot;  &lt;additive-expression&gt;
-            | &quot;&gt;&quot;  &lt;additive-expression&gt;
-            | &quot;&lt;=&quot; &lt;additive-expression&gt;
-            | &quot;&gt;=&quot; &lt;additive-expression&gt;
-        }
-                        
-&lt;additive-expression&gt;
-
-    ::= &lt;multiplicative-expression&gt;
-        {
-              &quot;+&quot; &lt;multiplicative-expression&gt;
-            | &quot;-&quot; &lt;multiplicative-expression&gt;
-        }
-                        
-&lt;multiplicative-expression&gt;
-
-    ::= &lt;unary-expression&gt;
-        {
-              &quot;*&quot; &lt;unary-expression&gt;
-            | &quot;/&quot; &lt;unary-expression&gt;
-            | &quot;%&quot; &lt;unary-expression&gt;
-        }
-                        
-&lt;unary-expression&gt;
-
-    ::= &quot;!&quot; &lt;unary-expression&gt; | &lt;primary-expression&gt;
-                
-&lt;primary-expression&gt;
-
-    ::=   &lt;string-literal&gt;
-        | &lt;number-literal&gt;
-        | &lt;reference&gt;
-        | &quot;(&quot; &lt;expression&gt; &quot;)&quot;
-
+-- 
+Nick Bauman
+Software Engineer
+3600 Dupont
+Minneapolis, MN
+55412
+Mobile Phone: (612) 810-7406
+Home Phone: (612) 522-0165
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>

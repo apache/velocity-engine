@@ -56,6 +56,17 @@
     </td>
    </tr>
 
+   <tr>
+    <td>
+     <a href="http://www.geocities.com/vamp201/index.html">Venus Application Publisher (Vamp)</a>
+    </td>
+    <td>
+      Venus Application Publisher is a user-friendly tool that helps you
+      package, sign and publish Java (TM) Network Launching Protocol
+      (JNLP) software.
+    </td>
+   </tr>
+
  </table>
  
  </section>
@@ -137,7 +148,7 @@
     </td>
    </tr>
 
- <tr>
+   <tr>
     <td>
      <a href="http://www.adeptra.com">www.adeptra.com</a>
     </td>
@@ -147,6 +158,17 @@
     </td>
     <td>
      <a href="http://www.adeptra.com">Adeptra Inc.</a>
+    </td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.discuss.gr">www.discuss.gr</a>
+    </td>
+    <td>
+     Online discussion forumm site built using Turbine and Velocity.
+    </td>
+    <td>
     </td>
    </tr>
 
