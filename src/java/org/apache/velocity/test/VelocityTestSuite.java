@@ -72,7 +72,7 @@ import junit.framework.*;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.12 2000/12/19 23:57:20 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.13 2000/12/20 06:31:06 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -146,9 +146,6 @@ public class VelocityTestSuite extends TestSuite
     {
         String template;
         List testCases = new ArrayList();
-        // TODO: Parse the template test cases from the properties file.
-        // For now I'll place them in here manually.
-        //testCases.add("test");
         
         for (int i = 1 ;; i++)
         {
