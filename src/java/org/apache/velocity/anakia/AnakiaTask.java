@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.28 2001/03/23 01:01:14 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.29 2001/04/14 02:57:39 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -373,7 +373,7 @@ public class AnakiaTask extends MatchingTask
                  *  we know it's a string...
                  */
                 String encoding = (String) Velocity
-                    .getProperty( Runtime.TEMPLATE_ENCODING );
+                    .getProperty( Runtime.OUTPUT_ENCODING );
                 if (encoding == null || encoding.length() == 0 
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
