@@ -116,7 +116,7 @@ public interface ParserConstants {
     "<END>",
     "\"if\"",
     "\"elseif\"",
-    "\"else\"",
+    "<ELSE_DIRECTIVE>",
     "\"stop\"",
     "<DIGIT>",
     "<NUMBER_LITERAL>",

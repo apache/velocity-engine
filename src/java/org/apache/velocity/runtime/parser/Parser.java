@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.38 2000/12/06 05:57:37 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.39 2000/12/06 19:50:04 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
