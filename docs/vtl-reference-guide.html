@@ -121,7 +121,8 @@
       </td></tr>
       <tr><td>
         <blockquote>
-                                        <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                                    <a name="variables" />
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>Variables</strong>
@@ -149,6 +150,7 @@
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="properties" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -178,6 +180,7 @@
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="methods" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -230,7 +233,8 @@
       </td></tr>
       <tr><td>
         <blockquote>
-                                        <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                                    <a name="set" />
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>#set - Establishes the value of a reference</strong>
@@ -281,10 +285,11 @@
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="ifelse" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>#if / #elseif / #else - output conditional on truth                      of statements</strong>
+          <strong>#if / #elseif / #else - output    conditional on truth of statements</strong>
         </font>
       </td></tr>
       <tr><td>
@@ -321,6 +326,7 @@
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="foreach" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -413,6 +419,7 @@ counter.initial.value = 1
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="include" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -440,6 +447,7 @@ counter.initial.value = 1
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="parse" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -472,6 +480,7 @@ counter.initial.value = 1
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="stop" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -496,6 +505,7 @@ counter.initial.value = 1
                             </blockquote>
       </td></tr>
     </table>
+                                                <a name="velocimacro" />
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
@@ -546,13 +556,11 @@ counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    VMs can be defined in one of three places:
+    VMs can be defined in one of two places:
     </p>
                                                 <ol>
-    <li><i>Global library:</i> VMs pre-packaged with Velocity; available
-    from any template</li>
-    <li><i>Local library:</i> customized, user-defined, site-specific
-    VMs; availabe from any template</li>
+    <li><i>Template library:</i> can be either VMs pre-packaged with
+    Velocity or custom-made, user-defined, site-specific VMs;             available from any template</li>
     <li><i>Inline:</i> found in regular templates, only usable when
     <em>velocimacro.permissions.allowInline=true</em> in
     <code>velocity.properties</code>.</li>

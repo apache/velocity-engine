@@ -101,25 +101,79 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>About this Guide</strong>
+          <strong>Table of Contents</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
+<ol>
+<li><a href="#about">About this guide</a></li>
+<li><a href="#what">What is Velocity</a></li>
+<li><a href="#can">What can Velocity do for me?</a></li>
+    <ul>
+        <li><a href="#mudstore">The Mud Store example</a></li>
+    </ul>
+<li><a href="#intro">Velocity Template Language (VTL): An Introduction</a></li>
+<li><a href="#helloworld">Hello Velocity World!</a></li>
+<li><a href="#comments">Comments</a></li>
+<li><a href="#references">References</a></li>
+    <ul>
+        <li><a href="#variables">Variables</a></li>
+        <li><a href="#properties">Properties</a></li>
+        <li><a href="#methods">Methods</a></li>
+    </ul>
+<li><a href="#formal_notation">Formal Reference Notation</a></li>
+<li><a href="#quiet_notation">Quiet Reference Notation</a></li>
+<li><a href="#literal">Getting literal</a></li>
+    <ul>
+        <li><a href="#currency">Currency</a></li>
+        <li><a href="#escaping">Escaping Valid VTL References</a></li>
+    </ul>
+<li><a href="#case">Case Substitution</a></li>
+<li><a href="#directives">Directives</a></li>
+    <ul>
+        <li><a href="#set">Set</a></li>
+        <li><a href="#ifelse">If-Else Statements</a></li>
+        <ul>
+            <li><a href="#relational_ops">Relational and Logical Operators</a></li>
+        </ul>
+        <li><a href="#foreach">Foreach Loops</a></li>
+        <li><a href="#include">Include</a></li>
+        <li><a href="#parse">Parse</a></li>
+        <li><a href="#stop">Stop</a></li>
+        <li><a href="#velocimacros">Velocimacros</a></li>
+    </ul>
+<li><a href="#escaping_vtl">Escaping VTL Directives</a></li>
+<li><a href="#formatting">VTL: Formatting Issues</a></li>
+<li><a href="#other">Other Features</a></li>
+    <ul>
+        <li><a href="#math">Math</a></li>
+        <li><a href="#range">Range Operator</a></li>
+        <li><a href="#escaping_advanced">Advanced Issues: Escaping and !</a></li>
+    </ul>
+<li><a href="#feedback">Feedback</a></li>
+</ol>
+</p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>About this Guide</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="about" />
+                                                <p>
     The Velocity User Guide is intended to help page designers and
     content providers get acquainted with Velocity and the syntax of its
     simple yet powerful scripting language, the Velocity Template
     Language (VTL). Many of the examples in this guide deal with using
     Velocity to embed dynamic content in web sites, but all VTL examples
     are equally applicable to other pages and templates.
- </p>
-                                                <p>
-    This is an early draft of the user guide. Although every effort has
-    been made to keep up-to-date with the development of Velocity, there
-    remain some inconsistencies between the documented and the actual
-    behaviour of Velocity. To report a mistake or offer a suggestion,
-    please send email to <a href="mailto:jcastura@apache.org">jcastura@apache.org</a>.
  </p>
                                                 <p>
     Thanks for choosing Velocity!
@@ -135,7 +189,8 @@
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="what" />
+                                                <p>
     Velocity is a Java-based template engine. It permits web page
     designers to reference methods defined in Java code. Web designers
     can work in parallel with Java programmers to develop web sites
@@ -153,7 +208,7 @@
     utility for generating source code and reports, or as an integrated
     component of other systems. When complete, Velocity will provide
     template services for the <a href="http://java.apache.org/turbine/">Turbine</a> web application
-    framework. Velocity-Turbine will provide a template service that
+    framework. Velocity+Turbine will provide a template service that
     will allow web applications to be developed according to a true MVC
     model.
  </p>
@@ -168,7 +223,8 @@
       </td></tr>
       <tr><td>
         <blockquote>
-                                        <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                                    <a name="can" />
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>The Mud Store Example</strong>
@@ -176,7 +232,8 @@
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="mudstore" />
+                                                <p>
     Suppose you are a page designer for an online store that specializes
     in selling mud. Let's call it "The Online Mud Store". Business is
     thriving. Customers place orders for various types and quantities of
@@ -277,7 +334,8 @@ Hello $customer.Name!
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="intro" />
+                                                <p>
     The Velocity Template Language (VTL) is meant to provide the
     easiest, simplest, and cleanest way to incorporate dynamic content
     in a web page. Even a web page developer with little or no
@@ -358,7 +416,8 @@ Hello $customer.Name!
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="helloworld" />
+                                                <p>
     Once a value has been assigned to a variable, you can reference the
     variable anywhere in your HTML document. In the following example, a
     value is assigned to <em>$foo</em> and later referenced.
@@ -409,7 +468,8 @@ Hello $foo World!
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="comments" />
+                                                <p>
     Comments allows descriptive text to be included that is not placed
     into the output of the template engine. Comments are a useful way of
     reminding yourself and explaining to others what your VTL statements
@@ -544,12 +604,13 @@ information:
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>References, revisited</strong>
+          <strong>References</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="references" />
+                                                <p>
     There are three types of references in the VTL: variables,
     properties and methods. As a designer using the VTL, you and your
     engineers must come to an agreement on the specific names of
@@ -562,13 +623,22 @@ information:
     <code>.toString()</code> method to resolve the object into a String.
  </p>
                                                 <p>
- <strong>Variables</strong>
+<a name="variables" /><strong>Variables</strong>
  <br />
     The shorthand notation of a variable consists of a leading "$"
     character followed by a VTL <em>Identifier</em>. A VTL Identifier
-    must start with an alphabetic character (a .. z or A .. Z); the rest
+    must start with an alphabetic character (a .. z or A .. Z). The rest
     of the characters are limited to the following types of characters:
-    alphabetic, numeric (0 .. 9), hyphen ("-"), and underscore ("_").
+ </p>
+                                                <p> 
+   <ul>
+     <li>alphabetic (a .. z, A .. Z)</li>
+     <li>numeric (0 .. 9)</li>
+     <li>hyphen ("-")</li>
+     <li>underscore ("_")</li>
+   </ul>
+ </p>
+                                                <p>
     Here are some examples of valid variable references in the VTL:
  </p>
                                                     <div align="left">
@@ -630,7 +700,7 @@ $mudSlinger1
     follow this directive.
  </p>
                                                 <p>
- <strong>Properties</strong>
+<a name="properties" /><strong>Properties</strong>
  <br />
     The second flavor of VTL references are properties, and properties
     have a distinctive format. The shorthand notation consists of a
@@ -672,7 +742,7 @@ $purchase.Total
     possibilities makes sense, and then return the appropriate value.
  </p>
                                                 <p>
- <strong>Methods</strong>
+<a name="methods" /><strong>Methods</strong>
  <br />
     A method is defined in the Java code and is capable of doing
     something useful, like running a calculation or arriving at a
@@ -709,7 +779,7 @@ $person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&qu
     </div>
                                                 <p>
     The first two examples -- <em>$customer.getAddress()</em> and
-    <em>$purchase.getTotal()</em> -- may look similiar to those used in
+    <em>$purchase.getTotal()</em> -- may look similar to those used in
     the Properties section above, <em>$customer.Address</em> and
     <em>$purchase.Total</em>. If you guessed that these examples must be
     related some in some fashion, you are correct!
@@ -782,7 +852,7 @@ $book.setTitle( &quot;Homage to Catalonia&quot; )
     </table>
     </div>
                                                 <p>
-    <strong>Formal Reference Notation</strong>
+<a name="formal_notation" /><strong>Formal Reference Notation</strong>
     <br />
     Shorthand notation for references was used for the examples listed
     above, but there is also a formal notation for references, which is
@@ -879,7 +949,7 @@ Jack is a ${vice}maniac.
     directly adjacent to text in a template.
  </p>
                                                 <p>
-    <strong>Quiet Reference Notation</strong>
+<a name="quiet_notation" /><strong>Quiet Reference Notation</strong>
     <br />
     When Velocity encounters an undefined reference, its normal behavior
     is to output the image of the reference. For example, suppose the
@@ -975,14 +1045,15 @@ Jack is a ${vice}maniac.
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="literal" />
+                                                <p>
     VTL uses special characters, such as <em>$</em> and <em>#</em>, to
     do its work, so some added care should be taken where using these
     characters in your templates. This section deals with escaping the
     <em>$</em> character.
   </p>
                                                 <p>
-    <strong>Currency</strong>
+<a name="currency" /><strong>Currency</strong>
     <br />
     There is no problem writing "I bought a 4 lb. sack of potatoes at
     the farmer's market for only $2.50!" As mentioned, a VTL identifier
@@ -990,12 +1061,12 @@ Jack is a ${vice}maniac.
     be mistaken for a reference.
   </p>
                                                 <p>
-    <strong>Escaping Valid VTL References</strong>
+<a name="escaping" /><strong>Escaping Valid VTL References</strong>
     <br />
     Cases may arise where there is the potential for Velocity to get
     confused. <em>Escaping</em> special characters is the best way to
     handle VTL's special characters in your templates, and this can be
-    done using the backslash ("\") character.
+    done using the backslash ( <em>\</em> ) character.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1022,13 +1093,13 @@ $email
                                                 <p>
     If Velocity encounters  a reference in your VTL template to
     <em>$email</em>, it will search the Context for a corresponding
-    value. Here the output will be "foo", because <em>$email</em> is
+    value. Here the output will be <em>foo</em>, because <em>$email</em> is
     defined. If <em>$email</em> is not defined, the output will be
-    "$email".
+    <em>$email</em>.
   </p>
                                                 <p>
     Suppose that <em>$email</em> is defined (for example, if it has the
-    value "foo"), and that you want to output "$email". There are a few
+    value <em>foo</em>), and that you want to output <em>$email</em>. There are a few
     ways of doing this, but the simplest is to use the escape character.
   </p>
                                                     <div align="left">
@@ -1043,18 +1114,9 @@ $email
       <td bgcolor="#ffffff"><pre>
 ## The following line defines $email in this template:
 #set( $email = &quot;foo&quot; )
-
-## The output of the following line will be $email's value: foo
 $email
-
-## The output of the following line will be a literal: $email
 \$email
-
-## The escape character binds from the left. The output of the 
-## following line will reflect this in its output: \$email
 \\$email
-
-## The bind-from-left rule causes \\\$email to render as \\$email
 \\\$email
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1067,8 +1129,7 @@ $email
     </table>
     </div>
                                                 <p>
-     Compare these examples to those in which <em>$email</em> is not
-     defined.
+     renders as
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1080,18 +1141,66 @@ $email
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## $email is undefined
-
-## $email renders as $email
+foo
 $email
-
-## \$email renders as \$email
 \$email
-
-## \\$email renders as \\$email
 \\$email
-
-## \\\$email renders as \\\$email
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     Note that the <em>\</em> character bind to the <em>$</em>
+     from the left. The bind-from-left rule causes <em>\\\$email</em> to
+     render as <em>\\$email</em>. Compare these examples to those in
+     which <em>$email</em> is not defined.
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+$email
+\$email
+\\$email
+\\\$email
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     renders as 
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+$email
+\$email
+\\$email
 \\\$email
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1105,7 +1214,8 @@ $email
     </div>
                                                 <p>
      Notice Velocity handles references that are defined differently
-     from those that have not been defined.
+     from those that have not been defined. Here is a set directive that 
+     gives <em>$foo</em> the value <em>gibbous</em>.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1117,16 +1227,8 @@ $email
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## Here is a set directive that gives $foo the value &quot;gibbous&quot;
 #set( $foo = &quot;gibbous&quot; )
-
-## The escape character is at work in the following line
 $moon = $foo
-#*
-  The output will be: $moon = gibbous
-  $moon is output as a literal because it is undefined.
-  The value of $foo is output because it is defined.
-*#
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1138,6 +1240,11 @@ $moon = $foo
     </table>
     </div>
                                                 <p>
+    The output will be: <em>$moon = gibbous</em> -- where <em>$moon</em>
+    is output as a literal because it is undefined and <em>gibbous</em>
+    is output in place of <em>$foo</em>.
+  </p>
+                                                <p>
      It is also possible to escape VTL directives; this is described in
      more detail in the Directives section.
   </p>
@@ -1147,12 +1254,13 @@ $moon = $foo
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Summary: References</strong>
+          <strong>Case Substitution</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="case" />
+                                                <p>
     Now that you are familiar with references, you can begin to apply
     them effectively in your templates. Velocity references take
     advantage of some Java principles that template designers will find
@@ -1200,6 +1308,16 @@ ${data.Request.ServerName}
     well as the objects methods. It is possible to embed and evaluate
     references almost anywhere in your template.
     </p>
+                                                <p>
+    Velocity, which is modelled on the Bean specifications defined by 
+    Sun Microsystems, is case sensitive; however, its developers have
+    strove to catch and correct user errors wherever possible. 
+    When the method <em>getFoo()</em> is referred to in a template
+    by <em>$bar.foo</em>, Velocity will first try <em>$getfoo</em>.
+    If this fails, it will then try <em>$getFoo</em>.
+    Similarly, when a template refers to <em>$bar.Foo</em>, Velocity
+    will try <em>$getFoo()</em> first and then try <em>getfoo()</em>.
+    </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -1211,13 +1329,15 @@ ${data.Request.ServerName}
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="directives" />
+                                                <p>
     References allow template designers to generate dynamic content for
     web sites, while <em>directives</em> -- easy to use script elements
     that can be used to creatively manipulate the output of Java code --
     permit web designers to truly take charge of the appearance and
     content of the web site.
  </p>
+                                                <a name="set" />
                                                 <strong>#set</strong>
                                                 <p>
     The <em>#set</em> directive is used for setting the value of a
@@ -1323,6 +1443,7 @@ ${data.Request.ServerName}
     left bracket marks the beginning and the right bracket marks the end
     of an assignment.
  </p>
+                                                <a name="string_literals" />
                                                 <strong>String Literals</strong>
                                                 <p>
     When using the <em>#set</em> directive, string literals that are
@@ -1343,10 +1464,30 @@ ${data.Request.ServerName}
 #set( $templateName = &quot;index.vm&quot; )
 #set( $template = &quot;$directoryRoot/$templateName&quot; )
 $template
-
-#*
-  The output will be:   www/index.vm
-*#
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  The output will be
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+www/index.vm
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1375,12 +1516,28 @@ $template
 $foo
 #set( $blargh = '$foo' )
 $blargh
-
-#*
-  This renders as:
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
   bar
   $foo
-*#
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1408,7 +1565,9 @@ $blargh
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>If / ElseIf / Else</strong>
+                                    <a name="conditionals" />
+                                                <a name="ifelse" />
+                                                <strong>If / ElseIf / Else</strong>
                                                 <p>
        The <em>#if</em> directive in Velocity allows for text to be
        included when the web page is generated, on the conditional that
@@ -1494,12 +1653,11 @@ $blargh
     <strong>Go West</strong>.
     </p>
                                                 <p>
-    <strong>Relational and Logical Operators</strong>
+<a name="relational_ops" /><strong>Relational and Logical Operators</strong>
     </p>
                                                 <p>
-    Velocity uses the equivalent operator to determine the relationships
-    between variables. Here is a simple example to illustrate how the
-    equivalent operator is used.
+    Velocity uses the equivalent operator to determine the relationships between variables.
+    Here is a simple example to illustrate how the equivalent operator is used.
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1515,9 +1673,9 @@ $blargh
 #set ($bar = &quot;ribonucleic acid&quot;)
 
 #if ($foo == $bar)
-   In this case it's clear they aren't equivalent. So...
+  In this case it's clear they aren't equivalent. So...
 #else
-   They are not equivalent and this will be the output.
+  They are not equivalent and this will be the output.
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1530,8 +1688,8 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Two kinds of logical operators, logical AND and logical OR, are
-      expected to be added to Velocity soon. Below is an example of an
+      Two kinds of logical operators, logical AND and logical OR, are 
+      expected to be added to Velocity soon. Below is an example of an 
       if statement using logical AND.
     </p>
                                                     <div align="left">
@@ -1618,7 +1776,9 @@ $blargh
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>Foreach Loop</strong>
+                                    <a name="loops" />
+                                                <strong>Foreach Loop</strong>
+                                                <a name="foreach" />
                                                 <p>
       The <em>#foreach</em> element allows for looping. For example:
     </p>
@@ -1672,7 +1832,8 @@ $blargh
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="include" />
+                                                <p>
     The <em>#include</em> script element allows the template designer to
     import a local file, which is then inserted into the location where
     the <em>#include</em> directive is defined. The contents of the file
@@ -1765,7 +1926,8 @@ $blargh
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="parse" />
+                                                <p>
     The <em>#parse</em> script element allows the template designer to
     import a local file that contains VTL. Velocity will parse the VTL
     and render the template specified.
@@ -1882,7 +2044,8 @@ $count
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="stop" />
+                                                <p>
     The <em>#stop</em> script element allows the template designer to
     stop the execution of the template engine and return. This is useful
     for debugging purposes.
@@ -1919,15 +2082,14 @@ $count
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-    <a name="velocimacro">
+                                    <a name="velocimacros" />
+                                                <p>
     The <em>#macro</em> script element allows template designers to
     define a repeated segment of a VTL template. Velocimacros are very
     useful in a wide range of scenarios both simple and complex. This
     Velocimacro, created for the sole purpose of saving keystrokes and
     minimizing typographic errors, provides an introduction to the
     concept of Velocimacros.
-    </a>
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2099,38 +2261,30 @@ $count
     flexible implementation of Velocimacros:
     </p>
                                                 <p>
-    <code>velocimacro.library.global</code> - This is the name of the
-    global Velocimacros template library. By default,
-    <code>velocimacro.library.global=VM_global_template.vm</code>. This
-    file, which must be found in the template path, contains useful
-    macros that are shipped with the Velocity distribution.
-    </p>
-                                                <p>
-    <code>velocimacro.library.local</code> - Adding this line to the
-    <code>velocity.properties</code> file allows the template designer
-    to define a local Velocimacros template library. Velocity users can
-    use the local template library to define their own Velocimacros and
-    keep these in a file other than the global defaults.
+    <code>velocimacro.library</code> - A comma-separated list of all 
+    Velocimacro template libraries. By default, Velocity comes with a 
+    single library: <em>VM_global_lib.vm</em>. All template libraries
+    in the list must be found in the template path.
     </p>
                                                 <p>
     <code>velocimacro.permissions.allowInline</code> - This property,
     which has possible values of true or false, determines whether
     Velocimacros can be defined in regular templates. The default,
     false, limits template designers to defining Velocimacros in the
-    global/local templates.
+    Velocimacro template libraries.
     </p>
                                                 <p>
     <code>velocimacro.permissions.allowInlineToOverride</code> - When
-    Velocimacros can be defined in both global/local template library
+    Velocimacros can be defined in both Velocimacro template libraries
     and in regular templates, it becomes possible for a Velocimacro to
     be defined more than once. With possible values of true or false,
     this property allows the user to specify which Velocimacro will take
     precedence over the other. The default, <code>false</code>, allows
-    Velocimacros defined in the global/local template libraries to take
+    Velocimacros defined in the template libraries to take
     precedence over those defined in regular templates.
     </p>
                                                 <p>
-    Were the <em>#tablerows</em> Velocimacro defined in the local
+    Were the <em>#tablerows</em> Velocimacro defined in a
     Velocimacros template library, this macro could be used on any of
     the regular templates. It could be used many times and for many
     different purposes. In the template <code>mushroom.vm</code> devoted
@@ -2164,7 +2318,7 @@ $count
     </div>
                                                 <p>
     When fulfilling a request for <code>mushroom.vm</code>, Velocity
-    would find the <em>#tablerows</em> Velocimacro in the local template
+    would find the <em>#tablerows</em> Velocimacro in the template
     library (defined in the <code>velocity.properties</code> file) and
     generate the following output:
     </p>
@@ -2206,7 +2360,8 @@ $count
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="escaping_vtl" />
+                                                <p>
     VTL directives can be escaped with the backslash character ("\") in
     a manner similar to valid VTL references.
   </p>
@@ -2267,7 +2422,7 @@ $count
     </table>
     </div>
                                                 <p>
-  If <em>$jazz</em> is true, the output is "Vyacheslav Ganelin"; if
+  If <em>$jazz</em> is true, the output is <em>Vyacheslav Ganelin</em>; if
   <em>$jazz</em> is false, there is no output. Escaping script elements
   alters the output. Consider the following case:
   </p>
@@ -2324,8 +2479,8 @@ $count
     </table>
     </div>
                                                 <p>
-  In this case, if <em>$jazz</em> is true, the output is "\ Vyacheslav
-  Ganelin \". If <em>$jazz</em> is false, there is no output. Note that
+  In this case, if <em>$jazz</em> is true, the output is <em>\ Vyacheslav
+  Ganelin \</em>. If <em>$jazz</em> is false, there is no output. Note that
   things start to break if script elements are not properly escaped.
   </p>
                                                     <div align="left">
@@ -2366,7 +2521,8 @@ $count
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="formatting" />
+                                                <p>
     Although VTL in this user guide is often displayed with newlines and
     whitespaces, the VTL shown below
     </p>
@@ -2491,7 +2647,8 @@ Send me
       </td></tr>
       <tr><td>
         <blockquote>
-                                        <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                                    <a name="other" />
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>Math</strong>
@@ -2499,7 +2656,8 @@ Send me
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="math" />
+                                                <p>
     Velocity has a handful of built-in mathematical functions that can
     be used in templates with the <em>set</em> directive. The following
     equations are examples of addition, subtraction, multiplication and
@@ -2613,6 +2771,37 @@ $uhoh
     </tr>
     </table>
     </div>
+                                                <p>
+    Designers should note that <em>set</em> produces strings, which
+    must be converted to integers to be used by the range operator.
+    This example shows such a conversion:
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set($a = &quot;7&quot;)
+#set($b = $int.valueOf($a) + 10)
+$b
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+    Yields the result <em>17</em>.
+  </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -2624,7 +2813,8 @@ $uhoh
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="range" />
+                                                <p>
     The range operator can be used in conjunction with <em>#set</em> and
     <em>#foreach</em> statements. Useful for its ability to produce an
     object array containing integers, the range operator has the
@@ -2750,12 +2940,13 @@ Fourth example:
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="escaping_advanced" />
+                                                <p>
     When a reference is silenced with the <em>!</em> character and the
-    <em>!</em> character preceded by an escape characters ("\"), the
+    <em>!</em> character preceded by an <em>\</em> escape character, the
     reference is handled in a special way. Note the differences between
-    regular escaping (where the escape character precedes the <em>$</em>
-    character, and this case, where is follows it:
+    regular escaping, and the special case where <em>\</em> precedes
+    <em>!</em> follows it:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2768,18 +2959,91 @@ Fourth example:
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #set( $foo = &quot;bar&quot; )
-
-# The special case, where &quot;\&quot; precedes &quot;!&quot;:
-$\!foo # This renders as: $!foo
-$\!{foo} # This renders as: $!{foo}
-$\\!foo # This renders as: $\!foo
-$\\\!foo # This renders as: $\\!foo
-
-# Contrast this with regular escaping, where &quot;\&quot; precedes &quot;$&quot;:
-\$foo # This renders as: \#$foo
-\$!foo # This renders as: \$!foo
-\$!{foo} # This renders as: \$!{foo}
-\\$!{foo} # This renders as: \bar
+$\!foo
+$\!{foo}
+$\\!foo
+$\\\!foo
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+   This renders as:
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+$!foo
+$!{foo}
+$\!foo
+$\\!foo
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+   Contrast this with regular escaping, where <em>\</em> precedes <em>$</em>:
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\$foo
+\$!foo
+\$!{foo}
+\\$!{foo}
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+    This renders as:
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\$foo
+\$!foo
+\$!{foo}
+\bar
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2793,6 +3057,23 @@ $\\\!foo # This renders as: $\\!foo
                             </blockquote>
       </td></tr>
     </table>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>Feedback</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="feedback" />
+                                                <p>
+    If you encounter any mistakes in this manual or have 
+    other feedback related to the Velocity User Guide, please 
+    email John Castura at jcastura@apache.org. Thanks!
+  </p>
                             </blockquote>
       </td></tr>
     </table>
