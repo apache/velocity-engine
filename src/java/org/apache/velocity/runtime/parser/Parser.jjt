@@ -116,6 +116,7 @@ import java.util.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
+//import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -129,7 +130,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.29 2000/11/11 22:39:17 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.30 2000/11/16 20:24:25 geirm Exp $ 
 */
 public class Parser
 {
@@ -137,7 +138,7 @@ public class Parser
      *  This Hashtable contains a list of all of the dynamic directives.
      */
     private Hashtable directives = new Hashtable(0);
-    
+  
     /** This was added to allow the parser to be associated
      * with a particular syntax. JavaCC doesn't generate
      * a constructor without parameters. The normal constructor
@@ -215,7 +216,8 @@ public class Parser
             return false;
     }            
 
-  /**
+   
+    /**
      *  Produces a processed output for an escaped control or pluggable directive
      */
     private String escapedDirective( String strImage )
@@ -622,9 +624,12 @@ MORE :
 
 |   "##"
    { 
-        inComment = true;
-        stateStackPush();
-        SwitchTo(IN_SINGLE_LINE_COMMENT);
+        if (!inComment)
+        {
+            inComment = true;
+            stateStackPush();
+            SwitchTo(IN_SINGLE_LINE_COMMENT);
+        }
      }
 
 |   <"#**" ~["#"]> 
@@ -1088,6 +1093,7 @@ SimpleNode Directive() :
 {
     Token t = null;
     Directive d;
+    boolean bDoItNow = false;
 }
 {
     /*
@@ -1096,21 +1102,43 @@ SimpleNode Directive() :
   
     t = <WORD> 
     {
-        d = (Directive) directives.get(t.image.substring(1));
+        String strDirectiveName = t.image.substring(1);
+ 
+        d = (Directive) directives.get( strDirectiveName );
+
+      //  /*
+      //   *  Velocimacro support : if the directive is macro directive
+      //   *   then set the flag so after the block parsing, we add the VM
+      //   *   right then. (So available if used w/in the current template )
+      //   */
+
+      //  if ( strDirectiveName.equals("macro"))  
+      //  {
+      //       bDoItNow = true;
+      //  }
 
         /*
          *  set the directive name from here.  No reason for the thing to know about parser tokens
          */
 
-        jjtThis.setDirectiveName( t.image.substring(1) );
+        jjtThis.setDirectiveName( strDirectiveName );
 
-        if (d == null)
+        if ( d == null) 
         {
-            token_source.stateStackPop();
-            token_source.inDirective = false;
-            return jjtThis;
-        }         
-    
+            /*      
+             *  if null, then not a real directive, but maybe a Velocimacro
+	         */
+
+          //  d  =  (Directive) Runtime.getVelocimacro( strDirectiveName );
+
+            if (d == null) 
+            {   
+                token_source.stateStackPop();
+                token_source.inDirective = false;
+                return jjtThis;
+            }         
+        }
+
         /*
          *  now, switch us out of PRE_DIRECTIVE
          */
@@ -1135,6 +1163,24 @@ SimpleNode Directive() :
     ( Statement() )+ #Block 
     <END> 
     {
+        /*
+         *  VM : if we are processing a #macro directive, we need to 
+         *     process the block.  In truth, I can just register the name
+         *     and do the work later when init-ing.  That would work
+         *     as long as things were always defined before use.  This way
+         *     we don't have to worry about forward references and such...
+         */
+      
+        if (bDoItNow)  
+        {
+        //    Macro m = new Macro();
+        //    m.processAndRegister( jjtThis );
+        }
+
+        /*
+         *  VM : end
+         */
+
         return jjtThis;
     } 
 }    
