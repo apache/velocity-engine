@@ -70,7 +70,7 @@ import org.apache.tools.ant.DirectoryScanner;
  * this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: WebMacro.java,v 1.8 2001/03/20 06:39:01 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.9 2001/05/08 00:24:52 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -253,7 +253,7 @@ public class WebMacro
      */
     public void usage()
     {
-        System.err.println("Usage: convert-wm <template>.wm | directory");
+        System.err.println("Usage: convert-wm <template.wm | directory>");
         System.exit(1);
     }
 
