@@ -107,7 +107,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.12 2001/04/22 18:20:17 geirm Exp $
+ * @version $Id: Velocity.java,v 1.13 2001/04/22 23:02:02 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -245,7 +245,9 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see 
      *               Velocity runtime log
-     *  @deprecated
+     *  @deprecated Use
+     *  {@link #evaluate( Context context, Writer writer, 
+     *      String logTag, Reader reader ) }
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, InputStream instream )
