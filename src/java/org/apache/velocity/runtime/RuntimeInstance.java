@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.3 2001/09/09 21:47:35 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.4 2001/09/16 23:57:46 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -231,7 +231,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         resourceManager = new ResourceManager( this );
         
-        introspector = new Introspector();
+        /*
+         *  make an new introspector and initialize it
+         */
+         
+        introspector = new Introspector( this );
     }
 
     /*
