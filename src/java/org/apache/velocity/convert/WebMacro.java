@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.15.2.1 2001/06/21 02:54:54 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.15.2.2 2001/06/21 23:40:13 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -132,7 +132,7 @@ public class WebMacro
         "$1$2",
 
         // Convert explicitly terminated WM statements to VTL syntax.
-        "(^|[^\\\\])\\$(\\w[^=\n;]*);",
+        "(^|[^\\\\])\\$(\\w[^=\n;'\"]*);",
         "$1${$2}",
 
         // Change extensions when seen.

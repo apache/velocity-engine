@@ -1,5 +1,7 @@
 ## This is a template to convert.
 
+<input type="submit" name="Button" value="$prevStep">&nbsp;
+
 #foreach $this in $that
 #begin
     This is the text
