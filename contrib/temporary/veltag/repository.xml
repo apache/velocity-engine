@@ -11,22 +11,23 @@
 
      <package name="veltag" default="0.01-dev" latest="0.01-dev">
 
-        <info>
-           <desc>Velocity JSP taglibrary</desc>
-           <href>http://jakarta.apache.org/velocity/</href>
-        </info>
+        <definition>
+           <info>
+             <desc>Velocity JSP taglibrary</desc>
+             <href>http://jakarta.apache.org/velocity/</href>
+          </info>
 
-        <versionset>
-            <version version="0.01-dev">
-               <note>first version</note>
-               <jar>veltag-0.01-dev.jar</jar>
-               <dependencies>
-                  <dep package="jakarta-servletapi" version="4.0"/>
-                  <dep package="jakarta-velocity" version="1.2-dev"/>
-               </dependencies>
-             </version>
-         </versionset>
-
+          <versionset>
+              <version version="0.01-dev">
+                 <note>first version</note>
+                 <jar>veltag-0.01-dev.jar</jar>
+                 <dependencies>
+                    <dep package="jakarta-servletapi" version="4.0"/>
+                    <dep package="jakarta-velocity" version="1.2-dev"/>
+                 </dependencies>
+               </version>
+           </versionset>
+        </definition>
       </package>
 
   </packagegroup>
