@@ -142,7 +142,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.105 2001/03/26 04:18:52 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.106 2001/03/31 05:28:01 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -544,12 +544,16 @@ public class Runtime implements RuntimeConstants
      */
     private static void initializeParserPool()
     {
-        parserPool = new SimplePool(NUMBER_OF_PARSERS);
-        for (int i=0;i<NUMBER_OF_PARSERS ;i++ )
+        int numParsers = getInt( PARSER_POOL_SIZE, NUMBER_OF_PARSERS);
+
+        parserPool = new SimplePool( numParsers);
+
+        for (int i=0; i < numParsers ;i++ )
         {
             parserPool.put (createNewParser());
         }
-        Runtime.info ("Created: " + NUMBER_OF_PARSERS + " parsers.");
+
+        Runtime.info ("Created: " + numParsers + " parsers.");
     }
 
     /**
@@ -567,6 +571,14 @@ public class Runtime implements RuntimeConstants
     /**
      * Parse the input stream and return the root of
      * AST node structure.
+     * <br><br>
+     *  In the event that it runs out of parsers in the
+     *  pool, it will create and let them be GC'd 
+     *  dynamically, logging that it has to do that.  This
+     *  is considered an exceptional condition.  It is
+     *  expected that the user will set the 
+     *  PARSER_POOL_SIZE property appropriately for their
+     *  application.  We will revisit this.
      *
      * @param InputStream inputstream retrieved by a resource loader
      * @param String name of the template being parsed
@@ -576,7 +588,31 @@ public class Runtime implements RuntimeConstants
     {
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
-        
+        boolean madeNew = false;
+
+        if (parser == null)
+        {
+            /*
+             *  if we couldn't get a parser from the pool
+             *  make one and log it.
+             */
+            
+            error("Runtime : ran out of parsers. Creating new.  "
+                  + " Please increment the parser.ppol.size property."
+                  + " The current value is too small.");
+
+            parser = createNewParser();
+
+            if( parser != null )
+            {
+                madeNew = true;
+            }
+        }
+
+        /*
+         *  now, if we have a parser
+         */
+
         if (parser != null)
         {
             try
@@ -585,12 +621,18 @@ public class Runtime implements RuntimeConstants
             }
             finally
             {
-                parserPool.put(parser);
+                /*
+                 *  if this came from the pool, then put back
+                 */
+                if (!madeNew)
+                {
+                    parserPool.put(parser);
+                }
             }
         }
         else
         {
-            error("Runtime : ran out of parsers!");
+            error("Runtime : ran out of parsers and unable to create more.");
         }
         return ast;
     }
