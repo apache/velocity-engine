@@ -1,28 +1,63 @@
 #document()
 
-#macro ( makeBlock $value )
- <fo:block font-size="14pt"
-        space-after.optimum="15pt" 
-            font-family="sans-serif"
-        background-color="white"
-            color="black"
-            text-align="start"
+<!-- Make a Section header bar --> 
+#macro ( makeSectionHeader $value )
+  #if ( $value.getAttributeValue("name") )
+    #set ( $titleName = $value.getAttributeValue("name") )
+  #else
+    #set ( $titleName = "" )	
+  #end
+  <fo:block font-size="14pt" 
+        font-family="sans-serif" 
+        line-height="24pt"
+        space-after.optimum="15pt"
+        background-color="blue"
+        color="white"
+	text-align="start"
         padding-top="3pt">
+    $titleName 
+  </fo:block>	
+#end
+
+<!-- Make a Paragraph --> 
+#macro ( makeParagraph $value )
+ <fo:block font-size="12pt"
+      space-after.optimum="15pt" 
+      font-family="sans-serif"
+      background-color="white"
+      color="black"
+      text-align="start"
+      padding-top="3pt">
    $xmlout.outputString($value) 
  </fo:block>
 #end
 
-#macro (makeEmphasize $value )
- <fo:block font-size="14pt"
-        space-after.optimum="15pt" 
-            font-family="sans-serif"
-        font-weight="bold"
-            background-color="white"
-            color="black"
-            text-align="start"
-        padding-top="3pt">
-   $xmlout.outputString($value) 
-</fo:block>
+<!-- Make a Source Code block -->
+#macro ( makeSrc $value )
+ <fo:block font-size="12pt"
+      space-after.optimum="15pt" 
+      font-family="sans-serif"
+      background-color="white"
+      color="gray"
+      text-align="start"
+      padding-top="3pt">
+   $escape.getText($value.getText()) 
+ </fo:block>	
+#end
+
+<!-- Make an image link -->
+#macro ( makeLink $value )
+ <fo:block font-size="12pt"
+      space-after.optimum="15pt" 
+      font-family="sans-serif"
+      background-color="white"
+      color="gray"
+      text-align="start"
+      padding-top="3pt">
+   <fo:basic-link external-destination="http://test">
+	TO DO
+   </fo:basic-link>
+ </fo:block>
 #end
 
 #macro (document)
@@ -30,13 +65,14 @@
   <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <!-- defines the layout master -->
     <fo:layout-master-set>
-        <fo:simple-page-master master-name="Velocity" 
-                               page-height="8.5in" 
-                               page-width="11in" 
-                               margin-top="0.25in" 
-                               margin-bottom="0.25in" 
-                               margin-left="0.5in" 
-                               margin-right="0.5in">
+        <fo:simple-page-master
+	    master-name="Velocity" 
+            page-height="8.5in" 
+            page-width="11in" 
+            margin-top="0.25in" 
+            margin-bottom="0.25in" 
+            margin-left="0.5in" 
+            margin-right="0.5in">
           <fo:region-before extent="0.25in"/>   
           <fo:region-body margin-top="0.25in"/>  
         </fo:simple-page-master>
@@ -44,10 +80,16 @@
 
     <!-- starts actual layout -->
     <fo:page-sequence master-name="Velocity">
+
         <!-- header -->
         <fo:static-content flow-name="xsl-region-before">
-          <fo:block text-align="end" font-size="10pt" font-family="serif" color="black" >
-            $root.getChild("properties").getChild("title").getText() pg <fo:page-number/>
+          <fo:block 
+	     text-align="end" 
+	     font-size="10pt" 
+	     font-family="serif" 
+	     color="black"
+	     padding-right="3pt">
+	      $root.getChild("properties").getChild("title").getText()  pg <fo:page-number/>
           </fo:block>
         </fo:static-content>
                 
@@ -57,13 +99,12 @@
 
         <!-- Walk through the sections -->
         #foreach ( $section in $allSections )
+	    #makeSectionHeader($section)
             #foreach ( $item in $section.getChildren() )     
                 #if ( $item.getName().equals("p") )
-                    #makeBlock($item)
-                #elseif ( $item.getName().equals("em") )
-                    #makeEmphasize($item)       
-                #elseif ( $item.getName().equals("source") )
-                    #makeSource($item)
+                    #makeParagraph($item)
+                 #elseif ( $item.getName().equals("source") )
+                    #makeSrc($item)
                 #end
             #end
         #end
