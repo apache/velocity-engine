@@ -106,7 +106,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityEngine.java,v 1.4 2001/11/22 06:29:19 geirm Exp $
+ * @version $Id: VelocityEngine.java,v 1.5 2002/01/03 12:41:19 geirm Exp $
  */
 public class VelocityEngine implements RuntimeConstants
 {
@@ -368,8 +368,8 @@ public class VelocityEngine implements RuntimeConstants
         return false;
     }
 
-
-  /**
+   
+    /**
      *  Invokes a currently registered Velocimacro with the parms provided
      *  and places the rendered stream into the writer.
      *
@@ -386,6 +386,7 @@ public class VelocityEngine implements RuntimeConstants
     public boolean invokeVelocimacro( String vmName, String logTag, 
                                               String params[], Context context, 
                                               Writer writer )
+        throws Exception
     {
         /*
          *  check parms
@@ -436,9 +437,8 @@ public class VelocityEngine implements RuntimeConstants
         catch( Exception  e )
         {
             ri.error( "VelocityEngine.invokeVelocimacro() : error " + e );
+            throw e;
         }
-        
-        return false;
     }
 
     /**
@@ -594,18 +594,29 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  Set the ApplicationContext, which is an Object
-     *  of the applications choice which is accessable from
+     *  <p>
+     *  Set the an ApplicationAttribue, which is an Object
+     *  set by the application which is accessable from
      *  any component of the system that gets a RuntimeServices.
      *  This allows communication between the application
      *  environment and custom pluggable components of the
      *  Velocity engine, such as loaders and loggers.
+     *  </p>
      *
-     *  @param Object object to store as ApplicationContext
+     *  <p>
+     *  Note that there is no enfocement or rules for the key
+     *  used - it is up to the application developer.  However, to
+     *  help make the intermixing of components possible, using
+     *  the target Class name (e.g.  com.foo.bar ) as the key
+     *   might help avoid collision.
+     *  </p>
+     *
+     *  @param key object 'name' under which the object is stored
+     *  @param value object to store under this key
      */
-     public void setApplicationContext( Object o )
+     public void setApplicationAttribute( Object key, Object value )
      {
-        ri.setApplicationContext( o );
+        ri.setApplicationAttribute( key, value );
      }
 } 
 
