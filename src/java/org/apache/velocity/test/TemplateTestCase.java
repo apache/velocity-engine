@@ -62,6 +62,7 @@ import java.io.Writer;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.velocity.VelocityContext;
@@ -76,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.19 2001/01/03 05:28:51 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.20 2001/01/18 04:38:35 geirm Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -164,6 +165,7 @@ public class TemplateTestCase extends RuntimeTestCase
         context2.put("providers", provider.getCustomers2());
         context.put("list", al);
         context1.put("hashtable", h);
+        context2.put("hashmap", new HashMap() );
         context2.put("search", provider.getSearch());
         context.put("relatedSearches", provider.getRelSearches());
         context1.put("searchResults", provider.getRelSearches());
