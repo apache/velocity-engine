@@ -35,14 +35,14 @@
 
 <p>
     Executing the above script will create a "bin" directory within the Velocity
-    distribution directory. In there will be the compiled class files (inside a 
+    distribution directory. The bin directory will contain the compiled class files (inside a 
     "classes" directory) as well as a "velocity.jar" file. You can either use 
     the .jar file directly or copy the org directory into your classpath.
 </p>
 
 <p>
-    If you get compiler error about not being able to find some package, then 
-    it means that you have not edited the scripts to properly specify the paths 
+    If you get a compiler error about not being able to find some package, then 
+    ensure the scripts are edited to properly specify the paths 
     to each of the packages.
 </p>
 
@@ -51,7 +51,7 @@
 <s1 title="Testing Your Installation">
 
 <p>
-    There is testing scripts in the velocity/examples directory.
+    There are testing scripts in the velocity/examples directory.
 </p>
 
 </s1>

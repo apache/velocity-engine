@@ -15,28 +15,30 @@
 <s1 title="Coding Standards">
 
 <p>
-    This document describes a list of coding conventions that are required
-    for code submissions to the project. By default, the coding conventions
-    for most Open Source Projects should follow the existing coding conventions
-    in the code that you are working on. For example, if the bracket is on
-    the same line as the if statement, then you should write all your code
-    to have that convention.<strong></strong>
+    This document describes coding conventions that are required
+    for code submissions to the Velocity project. 
+    
 </p>
 
 <p>
-    <strong>If you commit code that does not follow these conventions and you
-    are caught, you are responsible for also fixing your own code.</strong>
+    <strong>If you commit code that does not follow the existing conventions and you
+    are caught, you will be responsible for fixing your own code.</strong>
 </p>
 
 <p>
-    Below is a list of coding conventions that are specific to Turbine,
-    everything else not specificially mentioned here should follow the official
+    Below is a list of coding conventions that are specific to Velocity.
+    Anything not explicitly mentioned here should follow the official
     <link href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
-    Java Coding Conventions</link>.
+    Java Coding Conventions</link>. 
+    As in most Open Source Projects, developers are asked to follow 
+    coding conventions already in use in the code that you are working 
+    on. For example, if the existing code has the bracket on
+    the same line as the if statement, then your code
+    should also follow that convention.
 </p>
 
 <p>
-1. Brackets should begin and end on a new line. Examples:
+1. Brackets should begin and end on new lines. Examples:
 </p>
 
 <p>
@@ -68,8 +70,8 @@ while ( true )
 </p>
 
 <p>
-2. It is <strong>OK</strong> to have spaces between the parens or not. The preference
-is to not include the extra spaces. For example, both of these are ok:
+2. Spaces between parentheses are optional. The preference
+is to exclude extra spaces. For example, both of these conventions are acceptable:
 </p>
 
 <p>
@@ -84,10 +86,9 @@ if ( foo )
 </p>
 
 <p>
-3. 4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you like
-to use tabs, but the fact of the matter is that in a distributed development
-enviroment, when the cvs commit messages get sent to a mailing list, they
-are almost impossible to read if you use tabs.
+3. 4 spaces. <strong>NO</strong> tabs. Period. Velocity is being developed in a distributed development
+enviroment. The Velocity mailing list receives cvs commit messages 
+that are almost impossible to read if tabs are used.
 </p>
 
 <p>
@@ -97,15 +98,15 @@ In Emacs-speak, this translates to the following command:
 </p>
 
 <p>
-4. Unix linefeeds for all .java source code files. Other platform specific
-files should have the platform specific linefeeds.
+4. Unix linefeeds for all .java source code files. Only platform-specific
+files (e.g. .bat files for Windows) should have the platform-specific linefeeds.
 </p>
 
 <p>
-5. Javadoc <strong>MUST</strong> exist on all your methods. Also, if you are working
+5. Javadoc <strong>MUST</strong> exist on all your methods. If you are working
 on existing code and there currently isn't a javadoc for that method/class/variable
-or whatever, then you should contribute and add it. This will improve the
-project as a whole.
+(or whatever), please contribute and add it. This will help to improve the
+Velocity project.
 </p>
 
 <p>
