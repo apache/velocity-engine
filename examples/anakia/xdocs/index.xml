@@ -15,7 +15,7 @@
 This is an example template that gets processed.
 </p>
 
-<img src="./images/velocity.gif"/>
+<img src="images/velocity.gif"/>
 
 <table border="1">
 <tr>
@@ -35,6 +35,13 @@ This is an example template that gets processed.
     <p> here is another section </p>
     
     </section>
+
+    <section name="section 3">
+    
+    <p><a href="./site/index.html">A link to a sub page</a></p>
+
+    </section>
+
 </body>
 </document>
 
