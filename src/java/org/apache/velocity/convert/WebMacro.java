@@ -70,7 +70,7 @@ import org.apache.tools.ant.DirectoryScanner;
  * this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: WebMacro.java,v 1.7 2001/03/20 01:52:53 jon Exp $ 
+ * @version $Id: WebMacro.java,v 1.8 2001/03/20 06:39:01 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -158,7 +158,8 @@ public class WebMacro
         
         if (!file.exists())
         {
-            System.err.println("The template or directory specified doesn't exist!");
+            System.err.println
+                ("The specified template or directory does not exist");
             System.exit(1);
         }
         
@@ -177,14 +178,17 @@ public class WebMacro
                 writeTemplate(files[i], basedir, newBasedir);
         }
         else
+        {
             writeTemplate(args[0], "", "");
+        }
     }
 
     /**
      * Write out the converted template to the given named file
      * and base directory.
      */
-    private boolean writeTemplate(String file, String basedir, String newBasedir)
+    private boolean writeTemplate(String file, String basedir,
+                                  String newBasedir)
     {
         if (file.indexOf(WM_EXT) < 0)
             return false;
@@ -266,9 +270,13 @@ public class WebMacro
 
         perl = new Perl5Util();
         for (int i = 0; i < res.length; i += 2)
+        {
             while (perl.match("/" + res[i] + "/", orignalTemplate))
+            {
                 orignalTemplate = perl.substitute(
                     "s/" + res[i] + "/" + res[i+1] + "/", orignalTemplate);
+            }
+        }
 
         return orignalTemplate;
     }
