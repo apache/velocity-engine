@@ -56,12 +56,17 @@ the VelocityServlet support baseclass.</LI>
 jar contains utility code, specifically Anakia, Texen, and the WebMacro template conversion utility.</LI>
 <LI> <CODE><FONT face="courier, monospaced">jar-servlet</FONT></CODE> builds a utility Velocity jar in the <CODE><FONT face="courier, monospaced">bin</FONT></CODE> directory, called 'velocity-servlet-X.jar'. This
 jar contains utility code for servlet programmers.</LI>
+<LI> <CODE><FONT face="courier, monospaced">examples</FONT></CODE> builds the example code in the example programs found in the <CODE><FONT face="courier, monospaced">examples</FONT></CODE> directory. 
+This build target will also build the forumdemo example project.</LI>
+<LI> <CODE><FONT face="courier, monospaced">forumdemo</FONT></CODE> builds the example webapplication in the <CODE><FONT face="courier, monospaced">examples/forumdemo</FONT></CODE> directory.</LI>
 <LI> <CODE><FONT face="courier, monospaced">docs</FONT></CODE> builds these docs in the <CODE><FONT face="courier, monospaced">docs</FONT></CODE> directory</LI>
 <LI> <CODE><FONT face="courier, monospaced">javadocs</FONT></CODE> builds the Javadoc class documentation in the <CODE><FONT face="courier, monospaced">docs/apidocs</FONT></CODE> directory</LI>
 <LI> <CODE><FONT face="courier, monospaced">test</FONT></CODE> (after jar) will test Velocity against it's testbed suite of test routines </LI>
 </UL></BLOCKQUOTE></LI>
 <LI> While not required, testing the build is a good idea.  Use the <CODE><FONT face="courier, monospaced">test</FONT></CODE> target mentioned above.</LI>
 <LI> That's it!  Velocity is ready to be used.  Put the jar into your classpath, or into other appropriate places (such as the lib directory of your webapp if using with servlets)</LI>
+<LI> If you want to play with the examples, which is highly recommended when getting started, use build the examples via 
+<CODE><FONT face="courier, monospaced">./build-velocity.sh examples</FONT></CODE> or <CODE><FONT face="courier, monospaced">build-velocity.bat examples</FONT></CODE>.</LI>
 </OL></BLOCKQUOTE>
 </P>
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -72,7 +77,11 @@ There are quite a few resources and examples available to the programmer, and we
 
 <BLOCKQUOTE><UL>
 <LI> source code : <CODE><FONT face="courier, monospaced">src/java/...</FONT></CODE> : all the source code to the Velocity project</LI>
-<LI> general examples : <CODE><FONT face="courier, monospaced">examples</FONT></CODE> : a set of general examples, showing how Velocity is used in both a general application as well as in a servlet. </LI>
+<LI> application example 1 : <CODE><FONT face="courier, monospaced">examples/app_example1</FONT></CODE> : a simple example showing how to use Velocity in an application
+program. </LI>
+<LI> application example 2 : <CODE><FONT face="courier, monospaced">examples/app_example2</FONT></CODE> : a simple example showing how to use Velocity in an application
+program using the Velocity application utility class. </LI>
+<LI> servlet example : <CODE><FONT face="courier, monospaced">examples/servlet_example1</FONT></CODE> : a simple example showing how to use Velocity in a servlet. </LI>
 <LI> Anakia application : <CODE><FONT face="courier, monospaced">examples/anakia</FONT></CODE> :  example application showing how to use Velocity for creating 
 stylesheet renderings of xml data </LI>
 <LI> Forumdemo web app : <CODE><FONT face="courier, monospaced">examples/forumdemo</FONT></CODE> : working example of a simple servlet-based forum application </LI>
@@ -80,6 +89,9 @@ stylesheet renderings of xml data </LI>
 <LI> API documentation : <CODE><FONT face="courier, monospaced">docs/apidocs</FONT></CODE> : the generated Javadoc documentation for the Velocity project</LI>
 <LI> templates : <CODE><FONT face="courier, monospaced">test/templates</FONT></CODE> : a large collection of template examples in our testbed directory, these are a 
 great source of useage examples of VTL, the Velocity Template Language </LI>
+<LI> context example : <CODE><FONT face="courier, monospaced">examples/context_example</FONT></CODE> : two examples showing how the Velocity context can be extended.  For 
+advanced users.</LI>
+
 </UL></BLOCKQUOTE>
 
 All directory references above are relative to the distribution root directory.
@@ -212,7 +224,8 @@ This feature has many uses, the most common so far is providing layered data acc
 <P align="justify">
 As mentioned before, the Velocity context mechanism is also extendable, but beyond the current scope of this guide.
 If you are interested, please see the classes in the package
-org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the examples
+org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the 
+<CODE><FONT face="courier, monospaced">examples/context_example</FONT></CODE>
 directory in the distribution which show alternate implementations, including [a goofy] one 
 that uses a database as the backing storage. 
 </P>
