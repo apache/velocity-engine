@@ -63,6 +63,7 @@ import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import java.util.Properties;
 
@@ -89,6 +90,7 @@ import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
@@ -126,7 +128,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.27 2001/03/16 23:06:18 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.28 2001/03/22 16:08:37 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -143,13 +145,13 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * The HTTP content type context key.
      */
-    public static final String CONTENT_TYPE = "contentType";
+    public static final String CONTENT_TYPE = "default.contentType";
 
     /**
      *  The default content type for the response
      */
     public static final String DEFAULT_CONTENT_TYPE = "text/html";
-    
+     
     /**
      * The encoding to use when generating outputing.
      */
@@ -197,7 +199,7 @@ public abstract class VelocityServlet extends HttpServlet
   
             Velocity.init( props );
             
-            defaultContentType = DEFAULT_CONTENT_TYPE;
+            defaultContentType = Runtime.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             
             encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
         }
@@ -378,7 +380,8 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param response servlet reponse (use this to get the output stream or Writer
      */
     protected void mergeTemplate( Template template, Context context, HttpServletResponse response )
-        throws Exception
+        throws ResourceNotFoundException, ParseErrorException, 
+               MethodInvocationException, IOException, UnsupportedEncodingException, Exception
     {
         ServletOutputStream output = response.getOutputStream();
         VelocityWriter vw = null;
