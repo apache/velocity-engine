@@ -85,7 +85,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.30 2001/01/03 05:28:33 geirm Exp $
+ * @version $Id: Foreach.java,v 1.31 2001/02/14 22:31:50 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -124,6 +124,12 @@ public class Foreach extends Directive
      * is a Map.
      */
     private final static int INFO_MAP = 3;
+
+    /**
+     * Flag to indicate that the list object being used
+     * is a Collection.
+     */
+    private final static int INFO_COLLECTION = 4;
   
     /**
      * The name of the variable to use when placing
@@ -217,10 +223,12 @@ public class Foreach extends Directive
         {
             if (listObject instanceof Object[])
                 type = INFO_ARRAY;
-            else if (Introspector.implementsMethod(listObject, "iterator"))
-                type = INFO_ITERATOR;
-            else if (Introspector.implementsMethod(listObject, "values"))
+            else if ( listObject instanceof Collection)
+                type = INFO_COLLECTION;
+            else if ( listObject instanceof Map )
                 type = INFO_MAP;
+            else if ( listObject instanceof Iterator )
+                type = INFO_ITERATOR;
 
             /*
              *  if we did figure it out, cache it
@@ -241,35 +249,33 @@ public class Foreach extends Directive
 
         switch( type ) {
             
-        case INFO_ITERATOR :
-            
-            if (((Collection) listObject).size() == 0)
-                return null;    
-           
-            return ((Collection) listObject).iterator();        
-            
+        case INFO_COLLECTION :        
+            return ( (Collection) listObject).iterator();        
+
+        case INFO_ITERATOR :        
+            Runtime.warn ("Warning! The reference " 
+                          + node.jjtGetChild(2).getFirstToken().image
+                          + " is an Iterator in the #foreach() loop at ["
+                          + getLine() + "," + getColumn() + "]"
+                          + " in template " + context.getCurrentTemplateName() 
+                          + ". If used in more than once, this may lead to unexpected results.");
+
+            return ( (Iterator) listObject);       
+
         case INFO_ARRAY:
-            
-            Object[] arrayObject = ((Object[]) listObject);
-            
-            if (arrayObject.length == 0)
-                return null; 
-            
-            return new ArrayIterator( arrayObject );
-           
+            return new ArrayIterator( (Object [] )  listObject );
+
         case INFO_MAP:          
+            return ( (Map) listObject).values().iterator();
 
-            if (((Map) listObject).size() == 0)
-                return null;
-
-            return ((Map) listObject).values().iterator();
-        
         default:
         
             /*  we have no clue what this is  */
-            Runtime.warn ("Could not determine type of iterator for " + 
-                "#foreach loop for " +  node.jjtGetChild(2).getFirstToken().image);
-            
+            Runtime.warn ("Could not determine type of iterator in " 
+                          +  "#foreach loop for " +  node.jjtGetChild(2).getFirstToken().image 
+                          + " at [" + getLine() + "," + getColumn() + "]"
+                          + " in template " + context.getCurrentTemplateName() );            
+
             return null;
         }
     }
@@ -286,7 +292,7 @@ public class Foreach extends Directive
 
         Iterator i = getIterator( context, node );
    
-        if ( i == null)
+        if ( i == null )
             return false;
         
         int counter = COUNTER_INITIAL_VALUE;
