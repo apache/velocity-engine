@@ -188,11 +188,16 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * In this case the client app is going to use the default
  * velocity properties file and change a few things before
  * initializing the velocity runtime.
+ *
+ * If you want to see an example of this, look at the Velocity
+ * testbed. The org.apache.velocity.test.VelocityTestSuite class
+ * uses this method: using all the defaults except for the file
+ * template path.
  * -----------------------------------------------------------------------
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.73 2000/12/19 05:35:00 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.74 2000/12/19 16:24:18 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
