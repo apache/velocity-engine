@@ -75,7 +75,7 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: ConfigurationsRepository.java,v 1.3 2001/03/04 20:15:13 jvanzyl Exp $
+ * @version $Id: ConfigurationsRepository.java,v 1.4 2001/03/04 21:09:55 jvanzyl Exp $
  */
 public abstract class ConfigurationsRepository
     extends Hashtable
@@ -160,6 +160,7 @@ public abstract class ConfigurationsRepository
     public void setProperty(String key, Object token)
     {
         Object o = this.get(key);
+        
         if (o instanceof String)
         {
             Vector v = new Vector(2);
@@ -175,6 +176,22 @@ public abstract class ConfigurationsRepository
         {
             this.put(key, token);
         }
+    }
+
+    /**
+     * Set a property making sure that the property
+     * is overriden. We use this in the case where
+     * there is a default property all ready specified
+     * and we don't want a Vector created with the default
+     * and the new value which setProperty(k,v) above
+     * will do. We want to replace the value.
+     *
+     * @param String key
+     * @param String value
+     */
+    public void setOverridingProperty(String key, Object token)
+    {
+        this.put(key, token);
     }
 
     /**

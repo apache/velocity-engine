@@ -64,7 +64,7 @@ import java.util.*;
  * Based upon TurbineResources
  * 
  * @author Dave Bryson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class Configuration
 {
@@ -168,6 +168,17 @@ public class Configuration
     public void setProperty( String name, String value )
     {
         conf.getRepository().setProperty( name, value );
+    }
+
+    /**
+     * Add properties from the external but override.
+     * 
+     * @param the name of the value
+     * @param the value
+     */
+    public void setOverridingProperty( String name, String value )
+    {
+        conf.getRepository().setOverridingProperty( name, value );
     }
 
     /**
