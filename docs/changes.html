@@ -163,6 +163,20 @@ Tiny fix for bug where multiple slashes not getting rendered correctly. (#7380)
 <li>
 Fix for bug where #set($foo = !true) not working. (#7387) (gmj)
 </li>
+<li>
+Fix for bug where $##(nl) foo ate the $ (#7381) (gmj)
+</li>
+<li>
+Disallow any WORD tokens for directives except 1st arg to #macro() or thi 'in'
+in foreach. (#7383,#7384) (gmj)
+</li>
+<li>
+Remove '=' as a valid token for anything but #set() as nothing else can do
+assignment.  (#7385) (gmj)
+</li>
+<li>
+Fix problem where VM in stringlit as arg to VM NPE'd.  Whoops.  (gmj)
+</li>
 </ul>
                             </blockquote>
       </td></tr>
