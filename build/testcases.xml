@@ -210,6 +210,7 @@
             excludes="**/stylesheets/**"
             includes="**/*.xml"
             templatePath="../test/anakia/xdocs/stylesheets"
+            velocityPropertiesFile="../test/anakia/velocity.properties"
             lastModifiedCheck="false">
     </anakia>
 
