@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.86 2001/02/26 03:05:45 geirm Exp $
+ * @version $Id: Runtime.java,v 1.87 2001/02/26 03:28:17 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -637,9 +637,10 @@ public class Runtime implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
      */
     public static Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
         return (Template) ResourceManager
             .getResource(name,ResourceManager.RESOURCE_TEMPLATE);
@@ -655,7 +656,7 @@ public class Runtime implements RuntimeConstants
      *          from any available source.
      */
     public static ContentResource getContent(String name)
-        throws ResourceNotFoundException, ParseErrorException
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
         return (ContentResource) ResourceManager
             .getResource(name,ResourceManager.RESOURCE_CONTENT);
