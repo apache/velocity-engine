@@ -64,13 +64,11 @@ import java.io.BufferedInputStream;
 
 import junit.framework.*;
 
-import org.apache.velocity.runtime.Runtime;
-
 /**
  * Test suite for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTestSuite.java,v 1.4 2000/10/23 16:47:13 dlr Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.5 2000/10/23 16:50:35 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
