@@ -72,7 +72,7 @@
      <a href="http://jtop.sourceforge.net/">J/Top</a>
     </td>
     <td>
-    J/Top isan open source application for monitoring multiple servers running
+    J/Top is an open source application for monitoring multiple servers running
     'top'.   It has an email notifier which uses Velocity for formatting the 
     notification emails.
     </td>
