@@ -36,21 +36,20 @@
 
 <P align="justify">
     There are three types of references in the VTL: variables, properties
-    and methods. As a designer using the VTL, you must come to an agreement
-    with your engineers as to what the specific names of references are so
+    and methods. As a designer using the VTL, you and your engineers must 
+    come to an agreement on the specific names of references so
     you can use them correctly in your templates.
 </P>
 
 <P align="justify">
     <B>Variables</B>
     <BR>
-    Variables are references that consist of a leading &quot;$&quot; character
-    followed by a VTL <I>Identifier</I>. A VTL <I>Identifier</I> must start with
-    an alphabetic character (a .. z or A .. Z), the rest of the
-    characters must be of the following types: an alphabetic character,
-    a numeric character (0 .. 9), a hyphen character (&quot;-&quot;), 
-    or an underscore character (&quot;_&quot;). These are examples of valid
-    variable references in the VTL:
+    The shorthand notation of a variable consists of a leading &quot;$&quot; character
+    followed by a VTL <I>Identifier</I>. A VTL Identifier must
+    start with an alphabetic character (a .. z or A .. Z); the rest of the
+    characters are limited to the following types of characters: alphabetic,
+    numeric (0 .. 9), hyphen (&quot;-&quot;), and underscore (&quot;_&quot;).
+    Here are some examples of valid variable references in the VTL:   
 </P>
 
 <P align="justify">
@@ -66,8 +65,8 @@
     <B>Properties</B>
     <BR>
     Properties are references that consist of a leading &quot;$&quot;
-    character followed a VTL <I>Identifier</I>, followed by
-    of dot character (&quot;.&quot;) then another VTL <I>Identifier</I>. 
+    character followed a VTL Identifier, followed by
+    a dot character (&quot;.&quot;) and another VTL Identifier. 
     These are examples of valid property references in the VTL:
 </P>
 
@@ -82,9 +81,9 @@
     <B>Methods</B>
     <BR>
     Methods are references that consist of a leading &quot;$&quot;
-    character followed a VTL <I>Identifier</I>, followed
-    by a VTL <I>Method Body</I>. A VTL <I>Method Body</I>
-    consists of a VTL <I>Identifier</I> followed by an
+    character followed a VTL Identifier, followed
+    by a VTL <I>Method Body</I>. A VTL Method Body
+    consists of a VTL Identifier followed by an
     left parenthesis character (&quot;(&quot;), followed by an optional parameter
     list, followed by right parenthesis character (&quot;)&quot;).
     These are examples of valid method references in the
@@ -105,9 +104,9 @@
     $customer.getAddress() and $purchase.getTotal() look very
     similiar to the first two example Properties $customer.Address
     and $purchase.Total. If you guessed that these examples must
-    be related some in some fashion you are correct! VTL Properties
-    are simply a shorthand for notation for VTL Methods. Using the
-    Property $customer.Address would have the exact same effect as
+    be related some in some fashion, you are correct! VTL Properties
+    are simply a shorthand for notation for VTL Methods. The
+    Property $customer.Address has the exact same effect as
     using the Method $customer.getAddress(). It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
@@ -131,13 +130,13 @@
 
 <P align="justify">
     In almost all cases you will use the shorthand notation
-    for references. But there are some cases where the formal
-    notation is required for correct processing. Say you were
+    for references, but in some cases the formal
+    notation is required for correct processing. Suppose you were
     constructing a sentence on the fly where $vice was to be
     used as the base word in the noun of a sentence. Say you
     wanted to allow someone to choose the base word and produce
     one of the two following results: &quot;Jack is a pyromaniac.&quot; or
-    &quot;Jack is a kleptomaniac.&quot;. You might have the following in
+    &quot;Jack is a kleptomaniac.&quot;. You might attempt to use the following in
     a VTL template:
 </P>
 
@@ -148,12 +147,11 @@
 </P>
 
 <P align="justify">
-    But as you might have guessed this will confuse Velocity
-    because Velocity can't tell that $vice is the Identifer
-    that you mean to use. It will assume that $vicemaniac
+    Velocity can't tell that $vice is the Identifer
+    that you mean to use; it will assume that $vicemaniac
     is the Identifier and try to use that to find an appropriate
     value. You can get around this problem by using the formal
-    notation for a reference:
+    notation for this reference:
 </P>
 
 <P align="justify">
@@ -163,20 +161,19 @@
 </P>
 
 <P align="justify">
-    Now Velocity knows that you want to use $vice as your
-    Identifier and not $vicemaniac. The formal notation usually
-    comes in handy when you have references directly ajacent
+    Now Velocity knows that $vice, not $vicemaniac, is your
+    Identifier. The formal notation usually
+    comes in handy when you have references directly adjacent
     to text in your templates.
 </P>
 
 <P align="justify">
     <B>Quiet Reference Notation</B>
     <BR>
-    Velocity's normal behavior upon encountering a
-    reference that is undefined is to output the image
-    of the reference. For example, say you have have
-    the following VTL as part of an HTML for you
-    want to produce:
+    When Velocity encounters a reference that is undefined,
+    its normal behavior is to output the image
+    of the reference. For example, if you have
+    the following VTL as part of an HTML page:
 </P>
 
 <P align="justify">
@@ -186,12 +183,11 @@
 </P>
 
 <P align="justify">
-    Now when the form initially loads the variable
-    reference $email has no value, but you don't
-    want the text field to have a value of &quot;$email&quot;
-    it should be blank. To circumvent Velocity's
-    normal behavior you use the quiet reference
-    notation: so instead of using $email in the
+    When the form initially loads the variable
+    reference $email has no value, but you prefer the
+    a blank text field to one with a value of &quot;$email&quot;. 
+    Using the quiet reference notation can circumvent Velocity's 
+    normal behavior; instead of using $email in the
     VTL you would use $!email. So the above example
     would look like the following:
 </P>    
@@ -203,8 +199,8 @@
 </P>
 
 <P align="justify">
-    Now when the form is initially loaded, while
-    $email has no value yet, an empty string will
+    Now when the form is initially loaded and
+    $email still has no value, an empty string will
     be output instead of &quot;$email&quot;.
 </P>
 
@@ -215,8 +211,8 @@
     <B>#set</B>
     <BR>
     The #set directive is used for setting the value of
-    a reference. The reference being assigned a value can
-    either be a variable reference or a property reference:
+    a reference. A value can be assigned to either a variable 
+    reference or a property reference:
 </P>
 
 <P align="justify">
@@ -244,8 +240,8 @@
 </P>
 
 <P align="justify">
-    Here is an example of showing the use of the
-    above mentioned types:
+    Here are examples demonstrating the 
+    aforementioned types:
 </P>    
 
 <P align="justify">
@@ -275,7 +271,7 @@
 <P align="justify">        
     <B>#foreach</B>
     <BR>
-    The #foreach directive provide a simple way of looping
+    The #foreach directive provides a simple way of looping
     through a list of objects:
 </P>
 
@@ -316,11 +312,11 @@
 
 <P align="justify">
     The default name for the loop counter variable
-    reference is $velocityCounter, but you can specify
-    this in the velocity.properties file. You can also
-    specify whether the counter should start at 0 or 1.
-    Here's what the properties look like in the
-    velocity.properties file:
+    reference, which is specified in the velocity.properties
+    file, is $velocityCount. By default the counter starts
+    at 1, but this can be set to either 0 or 1 in the 
+    velocity.properties file. Here's what the loop counter 
+    properties section of the velocity.properties file appears:
 </P>    
 
 <P align="justify">    
@@ -335,14 +331,6 @@
     </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
 </P>
 
-<P align="justify">        
-    <B>#if/#elseif/#else</B>
-    <BR>
-</P>
-
-</FONT></TD></TR></TABLE></DIV><BR>
-
-<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macros</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 </FONT></TD></TR></TABLE></DIV><BR>
 
 

@@ -41,13 +41,12 @@ the user's guide to this document
 <p>
     <strong>Variables</strong>
     <br/>
-    Variables are references that consist of a leading "$" character
-    followed by a VTL <em>Identifier</em>. A VTL <em>Identifier</em> must start with
-    an alphabetic character (a .. z or A .. Z), the rest of the
-    characters must be of the following types: an alphabetic character,
-    a numeric character (0 .. 9), a hyphen character ("-"), 
-    or an underscore character ("_"). Here are some examples of valid
-    variable references in the VTL:
+    The shorthand notation of a variable consists of a leading "$" character
+    followed by a VTL <em>Identifier</em>. A VTL Identifier must
+    start with an alphabetic character (a .. z or A .. Z); the rest of the
+    characters are limited to the following types of characters: alphabetic,
+    numeric (0 .. 9), hyphen ("-"), and underscore ("_").
+    Here are some examples of valid variable references in the VTL:   
 </p>
 
 <p>
@@ -63,8 +62,8 @@ the user's guide to this document
     <strong>Properties</strong>
     <br/>
     Properties are references that consist of a leading "$"
-    character followed a VTL <em>Identifier</em>, followed by
-    of dot character (".") then another VTL <em>Identifier</em>. 
+    character followed a VTL Identifier, followed by
+    a dot character (".") and another VTL Identifier. 
     These are examples of valid property references in the VTL:
 </p>
 
@@ -79,9 +78,9 @@ the user's guide to this document
     <strong>Methods</strong>
     <br/>
     Methods are references that consist of a leading "$"
-    character followed a VTL <em>Identifier</em>, followed
-    by a VTL <em>Method Body</em>. A VTL <em>Method Body</em>
-    consists of a VTL <em>Identifier</em> followed by an
+    character followed a VTL Identifier, followed
+    by a VTL <em>Method Body</em>. A VTL Method Body
+    consists of a VTL Identifier followed by an
     left parenthesis character ("("), followed by an optional parameter
     list, followed by right parenthesis character (")").
     These are examples of valid method references in the
