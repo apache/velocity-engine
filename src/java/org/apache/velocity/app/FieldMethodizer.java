@@ -1,3 +1,4 @@
+package org.apache.velocity.app;
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,8 +53,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.app;
-
 import java.lang.Class;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -92,7 +91,7 @@ import java.util.HashMap;
  *  to handle them by explicitly placing them into the context.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: FieldMethodizer.java,v 1.1 2001/02/11 21:01:29 geirm Exp $ 
+ * @version $Id: FieldMethodizer.java,v 1.2 2001/02/12 01:25:40 geirm Exp $ 
  */
 public class FieldMethodizer
 {
