@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.1 2000/12/19 05:30:05 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.2 2000/12/19 15:37:17 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -245,7 +245,10 @@ public class ResourceManager
                     throw new Exception("Can't find " + resourceName + "!");
                 
                 resource.setLastModified(resourceLoader.getLastModified(resource));
-                resource.setModificationCheckInterval(resourceLoader.getModificationCheckInterval());
+                
+                resource.setModificationCheckInterval(
+                    resourceLoader.getModificationCheckInterval());
+                
                 resource.touch();
                 
                 /*
