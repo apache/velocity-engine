@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.11 2000/12/10 04:49:51 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.12 2000/12/11 04:36:03 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -81,10 +81,10 @@ import org.apache.velocity.runtime.Runtime;
 public class ASTDirective extends SimpleNode
 {
     private Directive directive;
-    private String strDirectiveName_ = "";
+    private String directiveName = "";
     private boolean isDirective;
 
-    int iParseDepth_ = 0;
+    int parseDepth = 0;
 
     public ASTDirective(int id)
     {
@@ -109,29 +109,29 @@ public class ASTDirective extends SimpleNode
          *  only do things that are not context dependant
          */
 
-        if (parser.isDirective( strDirectiveName_ ))
+        if (parser.isDirective( directiveName ))
         {
             isDirective = true;
             
-            directive = (Directive) parser.getDirective( strDirectiveName_ )
+            directive = (Directive) parser.getDirective( directiveName )
                 .getClass().newInstance();
             
             /*
              *  we need to treat #parse differently, alas
              */
-            if (strDirectiveName_.equals("parse"))
-                ( (Parse) directive).setParseDepth( iParseDepth_ );
+            if ( directiveName.equals("parse"))
+                ( (Parse) directive).setParseDepth( parseDepth );
             
             directive.init(context,this);
         }          
-        else if (Runtime.isVelocimacro( strDirectiveName_, context.getCurrentTemplateName()  )) 
+        else if (Runtime.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
         {
             /*
              *  we seem to be a Velocimacro.
              */
 
             isDirective = true;
-            directive = (Directive) Runtime.getVelocimacro( strDirectiveName_, context.getCurrentTemplateName() );
+            directive = (Directive) Runtime.getVelocimacro( directiveName, context.getCurrentTemplateName() );
             directive.init( context, this );
         } 
         else
@@ -155,7 +155,7 @@ public class ASTDirective extends SimpleNode
         }
         else
         {
-            writer.write( "#" +   strDirectiveName_);
+            writer.write( "#" + directiveName );
         }
 
         return true;
@@ -167,7 +167,7 @@ public class ASTDirective extends SimpleNode
      */
     public void setDirectiveName( String str )
     {
-        strDirectiveName_ = str;
+        directiveName = str;
         return;
     }
 
@@ -176,7 +176,7 @@ public class ASTDirective extends SimpleNode
      */
     public String getDirectiveName()
     {
-        return strDirectiveName_;
+        return directiveName;
     }
 
     /**
@@ -184,7 +184,7 @@ public class ASTDirective extends SimpleNode
      */
     public void setParserDepth( int i)
     {
-        iParseDepth_ = i;
+        parseDepth = i;
     }
 }
 
