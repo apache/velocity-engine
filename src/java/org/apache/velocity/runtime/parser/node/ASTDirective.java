@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.10 2000/12/04 02:05:32 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.11 2000/12/10 04:49:51 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -124,14 +124,14 @@ public class ASTDirective extends SimpleNode
             
             directive.init(context,this);
         }          
-        else if (Runtime.isVelocimacro( strDirectiveName_  )) 
+        else if (Runtime.isVelocimacro( strDirectiveName_, context.getCurrentTemplateName()  )) 
         {
             /*
              *  we seem to be a Velocimacro.
              */
 
             isDirective = true;
-            directive = (Directive) Runtime.getVelocimacro( strDirectiveName_ );
+            directive = (Directive) Runtime.getVelocimacro( strDirectiveName_, context.getCurrentTemplateName() );
             directive.init( context, this );
         } 
         else
@@ -145,7 +145,6 @@ public class ASTDirective extends SimpleNode
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-     
         /*
          *  normal processing
          */
