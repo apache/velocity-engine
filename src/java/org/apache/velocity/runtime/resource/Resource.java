@@ -63,13 +63,16 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
 /**
  * This class represent a general text resource that
  * may have been retrieved from any number of possible
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Resource.java,v 1.2 2001/02/16 14:26:02 geirm Exp $
+ * @version $Id: Resource.java,v 1.3 2001/02/26 03:33:19 geirm Exp $
  */
 public abstract class Resource
 {
@@ -125,7 +128,8 @@ public abstract class Resource
      * the actual parsing of the input stream needs to be
      * performed.
      */
-    public abstract boolean process();
+    public abstract boolean process() 
+        throws ResourceNotFoundException, ParseErrorException, Exception;
 
     public boolean isSourceModified()
     {

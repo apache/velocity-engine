@@ -60,12 +60,14 @@ import java.util.Map;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 /**
  * This is abstract class the all text resource loaders should
  * extend.
  * 
  * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.3 2000/12/19 21:52:57 jvanzyl Exp $
+ * $Id: ResourceLoader.java,v 1.4 2001/02/26 03:33:22 geirm Exp $
  */
 public abstract class ResourceLoader
 {
@@ -113,7 +115,7 @@ public abstract class ResourceLoader
      * Get the InputStream that the Runtime will parse
      * to create a template.
      */
-    public abstract InputStream getResourceStream( String source ) throws Exception;
+    public abstract InputStream getResourceStream( String source ) throws ResourceNotFoundException;
 
     /**
      * Given a template, check to see if the source of InputStream
