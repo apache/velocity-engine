@@ -51,6 +51,20 @@
     <li>
        Removed build.compiler from the build.xml file. (JSS)
     </li>
+    <li>
+       Fixed problem found by jon where high concurrency would lead to 
+       a dry parser pool, which would lead to vast unpleasantness masked
+       as resource access errors.  All seems to be better now.  Simple
+       fix, so little risk.  (gmj)
+    </li>
+    <li>
+       Added <code>parser.pool.size</code> as a configuration parameter to
+       help tune Velocity configurations for high concurrency loads. (gmj)
+    </li>
+    <li>
+       Documentation : developers-guide - information/example on making a
+       custom logger, and start of work on documenting resource loaders. (gmj)
+     </li>
 </ul>
 
 </subsection>
