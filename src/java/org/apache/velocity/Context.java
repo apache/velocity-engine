@@ -69,9 +69,9 @@ import org.apache.velocity.InternalContext;
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.9 2000/12/12 23:42:59 geirm Exp $
+ * @version $Id: Context.java,v 1.10 2000/12/13 01:52:19 geirm Exp $
  */
-public class Context extends InternalContext implements Cloneable, Serializable
+public class Context extends InternalContext implements Cloneable
 {
     /**
      * Random access storage for context data.
