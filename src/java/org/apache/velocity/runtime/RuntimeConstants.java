@@ -59,6 +59,11 @@ public interface RuntimeConstants
     /** Location of the log file */
     public static final String RUNTIME_LOG = "runtime.log";
     
+   /**  stack trace output */
+    public static final String RUNTIME_LOG_ERROR_STACKTRACE = "runtime.log.error.stacktrace";
+    public static final String RUNTIME_LOG_WARN_STACKTRACE = "runtime.log.warn.stacktrace";
+    public static final String RUNTIME_LOG_INFO_STACKTRACE = "runtime.log.info.stacktrace";
+
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
     
