@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.50 2001/01/06 20:56:13 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.51 2001/01/24 16:05:50 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -268,7 +268,7 @@ TOKEN_MGR_DECLS:
     private boolean inReference;
     public boolean inDirective;
     private boolean inComment;
-    private boolean inSet;
+    public  boolean inSet;
 
     /**
      *  pushes the current state onto the 'state stack',
@@ -789,7 +789,10 @@ TOKEN:
          */
 
         if ( lparen == 0 && !inSet && curLexState != REFMOD2)
+        {
             stateStackPop();
+        }
+       
     }
 }
 
@@ -1765,6 +1768,19 @@ void SetDirective() : {/*@bgen(jjtree) SetDirective */
     <SET_DIRECTIVE>  
     [ LOOKAHEAD(2) <WHITESPACE> ] 
     ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+
+    { 
+        /*
+         * ensure that inSet is false.  Leads to some amusing bugs...
+         */
+    
+        token_source.inSet = false; 
+    }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
