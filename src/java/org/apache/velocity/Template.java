@@ -87,7 +87,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.25 2001/02/14 21:29:01 dlr Exp $
+ * @version $Id: Template.java,v 1.26 2001/02/14 23:18:01 dlr Exp $
  */
 public class Template extends Resource
 {
@@ -188,7 +188,7 @@ public class Template extends Resource
              *  create an InternalContextAdapter to carry the user Context down
              *  into the rendering engine.  Set the template name and render()
              */
-p
+
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
 
             try
