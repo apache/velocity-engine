@@ -89,7 +89,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.39 2001/10/22 03:53:24 jon Exp $
+ * @version $Id: Foreach.java,v 1.40 2001/10/24 03:06:17 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -235,7 +235,7 @@ public class Foreach extends Directive
 
         if ( type == UNKNOWN )
         {
-            if (listObject instanceof Object[])
+            if ( listObject.getClass().isArray() )
                 type = INFO_ARRAY;
             else if ( listObject instanceof Collection)
                 type = INFO_COLLECTION;
@@ -292,7 +292,7 @@ public class Foreach extends Directive
             return new EnumerationIterator( (Enumeration)  listObject );       
 
         case INFO_ARRAY:
-            return new ArrayIterator( (Object [] )  listObject );
+            return new ArrayIterator( listObject );
 
         case INFO_MAP:          
             return ( (Map) listObject).values().iterator();
@@ -376,7 +376,7 @@ public class Foreach extends Directive
 
         return true;
     }
-
+    
 }
 
 
