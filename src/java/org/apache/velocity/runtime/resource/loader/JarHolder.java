@@ -74,7 +74,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 /**
 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class JarHolder
 {
@@ -94,6 +94,7 @@ public class JarHolder
     {
         try
         {
+            Runtime.info("Attemting to connect to "+ urlpath);
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
             conn.setAllowUserInteraction(false);
