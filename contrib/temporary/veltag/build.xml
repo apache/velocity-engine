@@ -8,18 +8,23 @@
   <property file="../build.properties"/>             <!-- Commons local     -->
   <property file="${user.home}/.build.properties"/>  <!-- User local        -->
 
+  <!-- directory to find JJAR : keep distinct from repository -->
+  <property name="bin"                        value="bin" />
 
+  <!-- jar containing JJAR -->
+  <property name="jjar.jar"                   value="jjar.jar" />
+
+ 
 <!-- ========== External Dependencies ===================================== -->
 
- <!-- the jjar repository -->
-
- <property name="repository"                 value="lib/" />
-
- <!-- The directory containing your servlet jar -->
-  <property name="servlet.home"              value="${repository}"/>
+ <!-- the local JJAR repository -->
+ <property name="local.repository"            value="lib/" />
 
  <!-- The directory containing your servlet jar -->
-  <property name="velocity.home"              value="${repository}"/>
+  <property name="servlet.home"               value="${local.repository}"/>
+
+ <!-- The directory containing your servlet jar -->
+  <property name="velocity.home"              value="${local.repository}"/>
 
 
 <!-- ========== Derived Values ============================================ -->
@@ -76,19 +81,9 @@
     <pathelement location="${velocity.jar}"/>
   </path>
 
-<!-- ========== task defs ================================================ -->
-
- <!-- define the jjar target -->
-
-  <taskdef name="jjar" 
-      classname="org.apache.commons.jjar.JJARTask">
-    <classpath>
-      <pathelement location="bin/jjar.jar"/>
-    </classpath>
-  </taskdef>
-
 
 <!-- ========== Executable Targets ======================================== -->
+
 
   <target name="init"
    description="Initialize and evaluate conditionals">
@@ -102,9 +97,12 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/conf"/>
-    <mkdir dir="${build.home}/javadoc"/>
+    <mkdir dir="${build.home}/javadoc"/> 
   </target>
 
+  <target name="jjarcheck">
+     <available  file="${bin}/${jjar.jar}" property="jjar.present" />
+  </target>
 
   <target name="static" depends="prepare"
    description="Copy static files to build directory">
@@ -128,8 +126,28 @@
     </copy>
   </target>
 
-  <target name="getjars">
-     <jjar package = "veltag" onlydependencies="true" localrepository="${repository}" />
+  <!-- ======  task getjars ===================== -->
+  <!-- fetches the dependency jars from the       -->
+  <!-- central JJAR repository                    -->
+  <!-- ========================================== -->
+  <target name="getjars" depends="getjjar"> 
+
+    <taskdef name="jjar" classname="org.apache.commons.jjar.JJARTask">
+        <classpath>
+          <pathelement location="${bin}/${jjar.jar}"/>
+        </classpath>
+     </taskdef>
+
+     <jjar package = "veltag" onlydependencies="true"  verifyignore="true" localrepository="${local.repository}" />
+  
+  </target>
+
+  <!-- ======  task getjjar ===================== -->
+  <!-- fetches the current jjar.jar from the      -->
+  <!-- central JJAR repository                    -->
+  <!-- ========================================== -->
+  <target name="getjjar" depends="jjarcheck"  unless="jjar.present">
+     <get src="http://207.138.188.222/jjar/jjar.jar" dest="${bin}/${jjar.jar}"/>
   </target>
 
   <target name="clean"
