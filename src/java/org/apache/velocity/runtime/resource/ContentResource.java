@@ -65,7 +65,7 @@ import java.io.InputStreamReader;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.6 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: ContentResource.java,v 1.7 2002/03/23 18:54:55 geirm Exp $
  */
 public class ContentResource extends Resource
 {
@@ -77,11 +77,13 @@ public class ContentResource extends Resource
     /** Pull in static content and store it */
     public boolean process()
     {
+        BufferedReader reader = null;
+
         try
         {
             StringWriter sw = new StringWriter();
             
-            BufferedReader reader = new BufferedReader(
+            reader = new BufferedReader(
                 new InputStreamReader(resourceLoader.getResourceStream(name), encoding));
             
             char buf[] = new char[1024];
@@ -98,6 +100,18 @@ public class ContentResource extends Resource
         {
             rsvc.error("Cannot process content resource : " + e.toString() );
             return false;
+        }
+        finally
+        {
+            if (reader != null)
+            {
+                try
+                {
+                    reader.close();
+                }
+                catch(Exception e)
+                {}
+            }
         }
     }
 }
