@@ -67,6 +67,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.Enumeration;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
@@ -80,13 +81,15 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
+import org.apache.velocity.runtime.log.SimpleLogSystem;
+
 /**
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.20 2001/03/14 22:05:33 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.21 2001/03/19 17:10:02 geirm Exp $
  */
 public class Test
 {
@@ -121,13 +124,57 @@ public class Test
         try
         {
             /*
+             *  this is another way to do properties when initializing Runtime.
+             *  make a Properties 
+             */
+
+            Properties p = new Properties();
+
+            /*
+             *  now, if you want to, load it from a file (or whatever)
+             */
+            
+            try
+            {
+                FileInputStream fis =  new FileInputStream( 
+                    new File("velocity.properties" ));
+            
+                if( fis != null)
+                    p.load( fis );
+            }
+            catch (Exception ex)
+            {
+                /* no worries. no file... */
+            }
+
+            /*
+             *  iterate out the properties
+             */
+
+            for( Enumeration e = p.propertyNames(); e.hasMoreElements(); )
+            {
+                String el = (String) e.nextElement();
+
+                Velocity.setProperty( el, p.getProperty( el ) );
+            }
+
+            /*
              *  add some individual properties if you wish
              */
+
 
             Velocity.setProperty(Velocity.RUNTIME_LOG_ERROR_STACKTRACE, "true");
             Velocity.setProperty(Velocity.RUNTIME_LOG_WARN_STACKTRACE, "true");
             Velocity.setProperty(Velocity.RUNTIME_LOG_INFO_STACKTRACE, "true");
+
+            /*
+             *  use an alternative logger.  Set it up here and pass it in.
+             */
             
+            SimpleLogSystem sls = new SimpleLogSystem("velocity_simple.log");
+            
+            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, sls );
+          
             /*
              *  and now call init
              */
@@ -143,6 +190,7 @@ public class Test
                 templateFile = "examples/example.vm";
             }                
          
+
             Template template = null;
 
             try 
@@ -196,14 +244,14 @@ public class Test
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
             Velocity.evaluate( context, w, "evaltest",stest );
-            //System.out.println("Eval = " + w );
+            System.out.println("Eval = " + w );
 
             w = new StringWriter();
-            Velocity.mergeTemplate( "mergethis.vm",  context, w );
+            //Velocity.mergeTemplate( "mergethis.vm",  context, w );
             //System.out.println("Merge = " + w );
 
             w = new StringWriter();
-            Velocity.invokeVelocimacro( "floog", "test", new String[2],  context,  w );
+            //Velocity.invokeVelocimacro( "floog", "test", new String[2],  context,  w );
             //System.out.println("Invoke = " + w );
 
  
