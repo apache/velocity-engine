@@ -57,7 +57,6 @@ package org.apache.velocity.anakia;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.output.XMLOutputter;
-import com.werken.xpath.XPath;
 import java.util.List;
 
 /**
@@ -67,7 +66,7 @@ import java.util.List;
  * same way as a single-element {@link NodeList} would.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaElement.java,v 1.2 2001/08/13 02:52:10 geirm Exp $
+ * @version $Id: AnakiaElement.java,v 1.3 2003/05/03 23:13:22 geirm Exp $
  */
 public class AnakiaElement extends Element
 {
