@@ -69,6 +69,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.Enumeration;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
@@ -158,7 +159,8 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.52 2000/11/26 08:17:13 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
+ * @version $Id: Runtime.java,v 1.53 2000/11/27 03:37:50 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -222,7 +224,8 @@ public class Runtime implements RuntimeConstants
     
     /** Indicate whether the Runtime has been fully initialized */
     private static boolean initialized;
-    
+    private static boolean initializedPublic = false;
+
     /**
      * The logging systems initialization may be defered if
      * it is to be initialized by an external system. There
@@ -230,7 +233,7 @@ public class Runtime implements RuntimeConstants
      * logger is instantiated. They will be stored here
      * until the logger is alive.
      */
-    private static StringBuffer pendingMessages = new StringBuffer();
+    private static Vector pendingMessages = new Vector();
 
     /**
      * This is a list of the template stream source
@@ -257,41 +260,97 @@ public class Runtime implements RuntimeConstants
     private static boolean sourceInitializersAssembled = false;
 
     /**
-     * Initializes the Velocity Runtime with properties file.
-     * The properties file may be in the file system proper,
-     * or the properties file may be in the classpath.
+     * Initializes the Velocity Runtime.
      */
     public synchronized static void init(String propertiesFileName)
         throws Exception
     {
         /*
-         * Try loading propertiesFile as a straight file first,
-         * if that fails, then try and use the classpath, if
-         * that fails then use the default values.
+         *  if we have been initialized fully, don't do it again
          */
+
+        if (initializedPublic)
+            return;
+
+        /*
+         *  new way.  Start by loading the default properties to have a hopefully complete
+         *  base of properties to work from.
+         *  then load the local properties to layover the default ones.  This should make
+         *  life easy for users.
+         */
+        
+        setDefaultProperties();
+                         
+        /*
+         * Try loading propertiesFile as a straight file first,
+         * if that fails, then try and use the classpath
+         */
+
+        File file = new File(propertiesFileName);
+
         try
         {
-            VelocityResources.setPropertiesFileName( propertiesFileName );
-            info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
-        }
-        catch(Exception ex) 
-        {
-            ClassLoader classLoader = Runtime.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream(propertiesFileName);
-            
-            if (inputStream != null)
+            if( file.exists() )
             {
-                VelocityResources.setPropertiesInputStream( inputStream );
-                info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
+                FileInputStream is = new FileInputStream( file );
+                 addPropertiesFromStream( is, propertiesFileName );
             }
             else
             {
-                // Do Default
-                setDefaultProperties();
-            }                
+                info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
+                
+                /*
+                 *  lets try the classpath
+                 */
+
+                ClassLoader classLoader = Runtime.class.getClassLoader();
+                InputStream inputStream = classLoader.getResourceAsStream( propertiesFileName );
+
+                if (inputStream!= null)
+                    addPropertiesFromStream( inputStream, propertiesFileName );
+                else
+                    info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+            }
+        }
+        catch (Exception ex)
+        {
+            error("Exception finding properties  " + propertiesFileName + " : " + ex);
         }
 
+        /*
+         *  now call init to do the real work
+         */
+
         init();
+
+        initializedPublic = true; 
+    }
+
+    /**
+     *  adds / replaces properties in VelocityResources from a stream. 
+     */
+    private static boolean addPropertiesFromStream( InputStream is, String sourceName )
+        throws Exception
+    {
+        if( is == null)
+            return false;
+        /*
+         *  lets load the properties, and then iterate them out
+         */
+
+        Properties p = new Properties();
+        p.load(  is );
+            
+        info ("Override Properties : " + sourceName );
+            
+        for (Enumeration e = p.keys(); e.hasMoreElements() ; ) 
+        {
+            String s = (String) e.nextElement();
+            VelocityResources.setProperty( s, p.getProperty(s) );
+            info ("   ** Property Override : " + s + " = " + p.getProperty(s));
+        }
+           
+        return true;
     }
     
     /*
@@ -353,7 +412,8 @@ public class Runtime implements RuntimeConstants
      * file, then certain properties can be changed before
      * the Velocity Runtime is initialized.
      */
-    public static void setProperties(String propertiesFileName) throws Exception
+    public static void setProperties(String propertiesFileName) 
+        throws Exception
     {
         /*
          * Try loading propertiesFile as a straight file first,
@@ -383,21 +443,18 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Get the default properties for the Velocity Runtime.
-     * This would allow the retrieval and modification of
-     * the base properties before initializing the Velocity
-     * Runtime.
+     * Initializes the Velocity Runtime with properties file.
+     * The properties file may be in the file system proper,
+     * or the properties file may be in the classpath.
      */
     public static void setDefaultProperties()
     {
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
         {
-            InputStream inputStream = classLoader.getResourceAsStream(
-                DEFAULT_RUNTIME_PROPERTIES);
+            InputStream inputStream = classLoader.getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
             VelocityResources.setPropertiesInputStream( inputStream );
-            assembleSourceInitializers();
-            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getAbsolutePath());
+            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
         }
         catch (IOException ioe)
         {
@@ -437,9 +494,15 @@ public class Runtime implements RuntimeConstants
         ((FileOutputLogTarget)t[0])
             .setFormat("%{time} %{message}\\n%{throwable}" );
 
-        if (pendingMessages.length() > 0)
-            logger.info(pendingMessages.toString());
-            
+        if ( !pendingMessages.isEmpty())
+        {
+            /*
+             *  iterate and log each individual message...
+             */
+            for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
+                logger.info( (String) e.nextElement());
+        }
+
         Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
@@ -763,14 +826,14 @@ public class Runtime implements RuntimeConstants
         if (logger != null)
             logger.info(message);
         else
-            pendingMessages.append(message);
+            pendingMessages.addElement(message);
     }
 
     /** Log a warning message */
     public static void warn(Object message)
     {
         String out = null;
-        if (message instanceof Throwable || message instanceof Exception)
+        if ( getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false) && (message instanceof Throwable || message instanceof Exception) )
             out = StringUtils.stackTrace((Throwable)message);
         else
             out = message.toString();    
@@ -781,7 +844,7 @@ public class Runtime implements RuntimeConstants
     public static void info(Object message)
     {
         String out = null;
-        if (message instanceof Throwable || message instanceof Exception)
+        if ( getBoolean(RUNTIME_LOG_INFO_STACKTRACE, false) && ( message instanceof Throwable || message instanceof Exception) )
             out = StringUtils.stackTrace((Throwable)message);
         else
             out = message.toString();    
@@ -792,7 +855,7 @@ public class Runtime implements RuntimeConstants
     public static void error(Object message)
     {
         String out = null;
-        if (message instanceof Throwable || message instanceof Exception)
+        if ( getBoolean(RUNTIME_LOG_ERROR_STACKTRACE, false) && ( message instanceof Throwable || message instanceof Exception ) )
             out = StringUtils.stackTrace((Throwable)message);
         else
             out = message.toString();    
@@ -830,6 +893,17 @@ public class Runtime implements RuntimeConstants
     public static String getString( String strKey)
     {
         return VelocityResources.getString(strKey);
+    }
+
+    /**
+     *  boolean  property accessor method to hide the VelocityResources implementation
+     * @param strKey  property key
+     * @param default default value if property not found
+     * @return boolean  value of key or default value
+     */
+    public static boolean getBoolean( String strKey, boolean def )
+    {
+        return VelocityResources.getBoolean( strKey, def );
     }
 
     /**
