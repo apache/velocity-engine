@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource.loader;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,10 +56,8 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.BufferedInputStream;
-import java.util.Map;
 import java.util.Hashtable;
 
-import java.sql.*;
 import javax.sql.DataSource;
 import javax.naming.InitialContext;
 
@@ -69,33 +67,83 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.commons.collections.ExtendedProperties;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
 
 /**
  * This is a simple template file loader that loads templates
  * from a DataSource instead of plain files.
- * 
+ *
  * It can be configured with a datasource name, a table name,
  * id column (name), content column (the template body) and a
- * timestamp column (for last modification info).
+ * datetime column (for last modification info).
  * <br>
  * <br>
  * Example configuration snippet for velocity.properties:
  * <br>
  * <br>
- * resource.loader.1.public.name = DataSource <br>
- * resource.loader.1.description = Velocity DataSource Resource Loader <br> 
- * resource.loader.1.class = org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader <br>
- * resource.loader.1.resource.datasource = jdbc/SomeDS <br>
- * resource.loader.1.resource.table = template_table <br>
- * resource.loader.1.resource.keycolumn = template_id <br>
- * resource.loader.1.resource.templatecolumn = template_definition <br>
- * resource.loader.1.resource.timestampcolumn = template_timestamp <br>
- * resource.loader.1.cache = false <br>
- * resource.loader.1.modificationCheckInterval = 60<br>
+ * resource.loader = file, ds <br>
+ * <br>
+ * ds.resource.loader.public.name = DataSource <br>
+ * ds.resource.loader.description = Velocity DataSource Resource Loader <br>
+ * ds.resource.loader.class = org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader <br>
+ * ds.resource.loader.resource.datasource = java:comp/env/jdbc/Velocity <br>
+ * ds.resource.loader.resource.table = tb_velocity_template <br>
+ * ds.resource.loader.resource.keycolumn = id_template <br>
+ * ds.resource.loader.resource.templatecolumn = template_definition <br>
+ * ds.resource.loader.resource.timestampcolumn = template_timestamp <br>
+ * ds.resource.loader.cache = false <br>
+ * ds.resource.loader.modificationCheckInterval = 60 <br>
+ * <br>
+ * Example WEB-INF/web.xml: <br>
+ * <br>
+ *	<resource-ref> <br>
+ *	 <description>Velocity template DataSource</description> <br>
+ *	 <res-ref-name>jdbc/Velocity</res-ref-name> <br>
+ *	 <res-type>javax.sql.DataSource</res-type> <br>
+ *	 <res-auth>Container</res-auth> <br>
+ *	</resource-ref> <br>
+ * <br>
+ *  <br>
+ * and Tomcat 4 server.xml file: <br>
+ *  [...] <br>
+ *  <Context path="/exampleVelocity" docBase="exampleVelocity" debug="0"> <br>
+ *  [...] <br>
+ *   <ResourceParams name="jdbc/Velocity"> <br>
+ *    <parameter> <br>
+ *      <name>driverClassName</name> <br>
+ *      <value>org.hsql.jdbcDriver</value> <br>
+ *    </parameter> <br>
+ *    <parameter> <br>
+ *     <name>driverName</name> <br>
+ *     <value>jdbc:HypersonicSQL:database</value> <br>
+ *    </parameter> <br>
+ *    <parameter> <br>
+ *     <name>user</name> <br>
+ *     <value>database_username</value> <br>
+ *    </parameter> <br>
+ *    <parameter> <br>
+ *     <name>password</name> <br>
+ *     <value>database_password</value> <br>
+ *    </parameter> <br>
+ *   </ResourceParams> <br>
+ *  [...] <br>
+ *  </Context> <br>
+ *  [...] <br>
+ * <br>
+ *  Example sql script:<br>
+ *  CREATE TABLE tb_velocity_template ( <br>
+ *	id_template varchar (40) NOT NULL , <br>
+ *	template_definition text (16) NOT NULL , <br>
+ *	template_timestamp datetime NOT NULL  <br>
+ *	) <br>
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.7 2001/05/11 03:59:41 geirm Exp $
+ * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
+ * @version $Id: DataSourceResourceLoader.java,v 1.8 2002/02/10 18:46:58 geirm Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -114,7 +162,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          keyColumn       = configuration.getString("resource.keycolumn");
          templateColumn  = configuration.getString("resource.templatecolumn");
          timestampColumn = configuration.getString("resource.timestampcolumn");
-         
+
          Runtime.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
          Runtime.info( "Resource Loader using columns: " + keyColumn + ", "
                        + templateColumn + " and " + timestampColumn);
@@ -123,7 +171,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 
      public boolean isSourceModified(Resource resource)
      {
-         return (resource.getLastModified() != 
+         return (resource.getLastModified() !=
                  readLastModified(resource, "checking timestamp"));
      }
 
@@ -148,15 +196,15 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
 
          try
-         {   
+         {
              Connection conn = openDbConnection();
-             
+
              try
-             {   
+             {
                  ResultSet rs = readData(conn, templateColumn, name);
-                 
+
                  try
-                 {   
+                 {
                      if (rs.next())
                      {
                          return new
@@ -164,7 +212,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         String msg = "DataSourceResourceLoader Error: cannot find resource " 
+                         String msg = "DataSourceResourceLoader Error: cannot find resource "
                              + name;
                          Runtime.error(msg );
 
@@ -172,26 +220,26 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                  }
                  finally
-                 {   
+                 {
                      rs.close();
                  }
              }
              finally
-             {   
+             {
                  closeDbConnection(conn);
              }
          }
          catch(Exception e)
-         {   
+         {
              String msg =  "DataSourceResourceLoader Error: database problem trying to load resource "
                  + name + ": " + e.toString();
 
              Runtime.error( msg );
 
              throw new ResourceNotFoundException (msg);
-                         
+
          }
- 
+
      }
 
     /**
@@ -210,38 +258,38 @@ public class DataSourceResourceLoader extends ResourceLoader
 
          String name = resource.getName();
          try
-         {   
+         {
              Connection conn = openDbConnection();
-             
+
              try
-             {   
+             {
                  ResultSet rs = readData(conn, timestampColumn, name);
                  try
-                 {   
+                 {
                      if (rs.next())
                      {
-                         return rs.getLong(timestampColumn);
+	                     return rs.getTimestamp(timestampColumn).getTime();
                      }
                      else
                      {
-                         Runtime.error("DataSourceResourceLoader Error: while " 
-                                       + i_operation 
+                         Runtime.error("DataSourceResourceLoader Error: while "
+                                       + i_operation
                                        + " could not find resource " + name);
                      }
                  }
                  finally
-                 {   
+                 {
                      rs.close();
                  }
              }
              finally
-             {   
+             {
                  closeDbConnection(conn);
              }
          }
          catch(Exception e)
-         {   
-             Runtime.error( "DataSourceResourceLoader Error: error while " 
+         {
+             Runtime.error( "DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
                  + name + ": " + e.toString() );
          }
@@ -261,7 +309,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          {
              ctx = new InitialContext();
          }
-         
+
          if(dataSource == null)
          {
              dataSource = (DataSource)ctx.lookup(dataSourceName);
@@ -271,18 +319,18 @@ public class DataSourceResourceLoader extends ResourceLoader
      }
 
     /**
-     *  Closes connection to the datasource 
+     *  Closes connection to the datasource
      */
      private void closeDbConnection(Connection conn)
-     {  
-         try 
+     {
+         try
          {
              conn.close();
-         } 
-         catch (Exception e) 
+         }
+         catch (Exception e)
          {
              Runtime.info(
-                 "DataSourceResourceLoader Quirk: problem when closing connection: " 
+                 "DataSourceResourceLoader Quirk: problem when closing connection: "
                  + e.toString());
          }
      }
@@ -302,9 +350,9 @@ public class DataSourceResourceLoader extends ResourceLoader
      */
      private ResultSet readData(Connection conn, String columnNames, String templateName)
          throws SQLException
-     {   
+     {
          Statement stmt = conn.createStatement();
-         
+
          String sql = "SELECT " + columnNames
                       + " FROM " + tableName
                       + " WHERE " + keyColumn + " = '" + templateName + "'";
@@ -312,7 +360,3 @@ public class DataSourceResourceLoader extends ResourceLoader
          return stmt.executeQuery(sql);
      }
 }
-
-
-
-
