@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.11 2001/11/17 12:34:26 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.12 2001/11/25 14:00:13 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -160,11 +160,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private  LogSystem logSystem = new PrimordialLogSystem();
 
-    /** 
-     * The caching system used by the Velocity Runtime 
-     */
-    private  Hashtable globalCache;
-    
     /** 
      * The Runtime parser pool 
      */
@@ -266,7 +261,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializeResourceManager();
             initializeDirectives();
             initializeParserPool();
-            initializeGlobalCache();
             
             /*
              *  initialize the VM Factory.  It will use the properties 
@@ -771,18 +765,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             error("Runtime : ran out of parsers and unable to create more.");
         }
         return ast;
-    }
-    
-    /**
-     * Initialize the global cache use by the Velocity
-     * runtime. Cached templates will be stored here,
-     * as well as cached content pulled in by the #include
-     * directive. Who knows what else we'll find to
-     * cache.
-     */
-    private void initializeGlobalCache()
-    {
-        globalCache = new Hashtable();
     }
     
     /**
