@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.48 2000/12/27 14:48:09 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.49 2000/12/27 23:48:41 geirm Exp $ 
 */
 public class Parser
 {
@@ -438,11 +438,17 @@ TOKEN_MGR_DECLS:
  *
  * ------------------------------------------------------------------------- */
 
-<DIRECTIVE,REFMODIFIER,REFMOD2>
+<DIRECTIVE,REFMOD2>
 TOKEN:
 { 
     <LBRACKET: "[">
 |   <RBRACKET: "]">
+}
+
+<DIRECTIVE>
+TOKEN:
+{
+  <DOUBLEDOT : ".." >
 }
 
 <DIRECTIVE,REFMOD2>
