@@ -55,10 +55,10 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.exception.MethodInvocationException;
 
 /**
@@ -67,7 +67,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.6 2001/04/18 12:25:28 geirm Exp $
+ * @version $Id: AbstractExecutor.java,v 1.7 2001/04/20 23:19:47 dlr Exp $
  */
 public abstract class AbstractExecutor
 {
@@ -93,6 +93,4 @@ public abstract class AbstractExecutor
         else
             return false;
     }            
-
 }
-
