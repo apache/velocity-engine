@@ -75,6 +75,17 @@ public interface RuntimeConstants
      */
     public static final String RUNTIME_LOG = "runtime.log";
     
+    /**
+     *  externally provided logger
+     */
+    public static final String RUNTIME_LOG_LOGSYSTEM = "runtime.log.logsystem";
+
+
+    /**
+     *  class of log system to use
+     */
+    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS = "runtime.log.logsystem.class";
+
     /** 
      * Stack trace output for error messages.
      */
@@ -103,6 +114,14 @@ public interface RuntimeConstants
      * The encoding to use for the template.
      */
     public static final String TEMPLATE_ENCODING = "template.encoding";
+
+    /**
+     *  Log message prefixes
+     */
+    public final static String DEBUG_PREFIX = " [debug] ";
+    public final static String INFO_PREFIX  = "  [info] ";
+    public final static String WARN_PREFIX  = "  [warn] ";
+    public final static String ERROR_PREFIX = " [error] ";
 
     /*
      * ----------------------------------------------------------------------
