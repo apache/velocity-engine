@@ -66,21 +66,20 @@ import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 
-// Ant Stuff
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
-// Velocity Stuff
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.texen.Generator;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.13 2001/01/03 05:28:52 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.14 2001/02/27 08:05:20 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -252,55 +251,85 @@ public class TexenTask extends Task
      */
     public void execute () throws BuildException
     {
-        // Make sure the template path is set.
+        /*
+         * Make sure the template path is set.
+         */
         if (templatePath == null)
+        {
             throw new BuildException("The template path needs to be defined!");
-
+        }            
+        
+        /*
+         * Make sure the control template is set.
+         */
         if (controlTemplate == null)
+        {
             throw new BuildException("The control template needs to be defined!");
+        }            
 
+        /*
+         * Make sure the output directory is set.
+         */
         if (outputDirectory == null)
+        {
             throw new BuildException("The output directory needs to be defined!");
-
+        }            
+        
+        /*
+         * Make sure there is an output file.
+         */
         if (outputFile == null)
+        {
             throw new BuildException("The output file needs to be defined!");
+        }            
 
         try
         {
-            // Setup the Velocity Runtime.
+            /* 
+             * Setup the Velocity Runtime.
+             */
             Runtime.setDefaultProperties();
             
-            // This is strictly to allow vel to compile for now.
-            // I need a new way to set what was the template path
-            // now that templates streams can come from anywhere.
             Runtime.setSourceProperty(
                 Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
+            
             Runtime.init();
 
-            // Create the text generator.
+            /* 
+             * Create the text generator.
+             */
             Generator generator = Generator.getInstance();
             generator.setOutputPath(outputDirectory);
             generator.setTemplatePath(templatePath);
             
-            // Make sure the output directory exists, if it doesn't
-            // then create it.
+            /* 
+             * Make sure the output directory exists, if it doesn't
+             * then create it.
+             */
+            
             File file = new File(outputDirectory);
             if (! file.exists())
+            {
                 file.mkdirs();
+            }                
             
             String path = outputDirectory + File.separator + outputFile;
             System.out.println(path);
             FileWriter writer = new FileWriter(path);
             
-            // The generator and the output path should
-            // be placed in the init context here and
-            // not in the generator class itself.
+            /* 
+             * The generator and the output path should
+             * be placed in the init context here and
+             * not in the generator class itself.
+             */
             
             Context c = initControlContext();
             
-            // Feed all the options into the initial
-            // control context so they are available
-            // in the control/worker templates.
+            /* 
+             * Feed all the options into the initial
+             * control context so they are available
+             * in the control/worker templates.
+             */
             
             if (contextProperties != null)
             {
@@ -311,21 +340,44 @@ public class TexenTask extends Task
                     String property = (String) e.nextElement();
                     String value = (String) contextProperties.get(property);
                     
-                    // Now lets quickly check to see if what
-                    // we have is numeric and try to put it
-                    // into the context as an Integer.
+                    /* 
+                     * Now lets quickly check to see if what
+                     * we have is numeric and try to put it
+                     * into the context as an Integer.
+                     */
                     try
                     {
                         c.put(property, new Integer(value)); 
                     }
                     catch (NumberFormatException nfe)
                     {
+                        /*
+                         * We are going to do something special
+                         * for properties that have a "file.contents"
+                         * suffix: for these properties will pull
+                         * in the contents of the file and make
+                         * them available in the context. So for
+                         * a line like the following in a properties file:
+                         *
+                         * license.file.contents = license.txt
+                         *
+                         * We will pull in the contents of license.txt
+                         * and make it available in the context as
+                         * $license. This should make texen a little
+                         * more flexible.
+                         */
+                        if (property.endsWith("file.contents"))
+                        {
+                            value = StringUtils.fileContentsToString(value);
+                            
+                            property = property.substring(
+                                0, property.indexOf("file.contents") - 1);
+                        }
+                        
                         c.put(property, value);
                     }
                 }
             }
-            
-            //c.put("generator", generator);
             
             writer.write(generator.parse(controlTemplate, c));
             writer.flush();
