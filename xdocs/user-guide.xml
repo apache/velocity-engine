@@ -95,7 +95,7 @@
    <p>
     You could embed the following VTL statement in the web page:
    </p>
- 
+
    <p>
     <source><![CDATA[
     <HTML>
@@ -542,7 +542,7 @@
     <source><![CDATA[
     <table>
     #foreach ($element in $list)
-	#row ($element)
+        #row ($element)
     #end
     </table>
     ]]></source>
@@ -556,8 +556,8 @@
     </p>
     
 </s1>
-
+<!--
 </s1>
-
+-->
 </body>
 </document>
