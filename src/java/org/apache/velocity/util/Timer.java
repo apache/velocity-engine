@@ -60,85 +60,85 @@ package org.apache.velocity.util;
 import java.util.*;
 
 /**
-	A stopwatch class. Measures real time in milliseconds.
+    A stopwatch class. Measures real time in milliseconds.
 */
 public class Timer
 {
-	Date		startTime;
-	double	seconds;
-	double	totalSeconds;
+    Date        startTime;
+    double  seconds;
+    double  totalSeconds;
 
-	/**
-		Creates a new timer. The timer does not start running until start is called.
-	*/
-	public Timer()
-	{
-		reset();
-	}
+    /**
+        Creates a new timer. The timer does not start running until start is called.
+    */
+    public Timer()
+    {
+        reset();
+    }
 
-	/**
-		Returns the time between start and stop. If the timer is running, it returns
-		the time since start was called.
-	*/
-	public double getSeconds()
-	{
-		return seconds + calcTime();
-	}
+    /**
+        Returns the time between start and stop. If the timer is running, it returns
+        the time since start was called.
+    */
+    public double getSeconds()
+    {
+        return seconds + calcTime();
+    }
 
-	/**
-		Returns the total time spent running since the timer was created. Useful for
-		aggregating several invocations of start & stop.
-	*/
-	public double getTotalSeconds()
-	{
-		return totalSeconds + calcTime();
-	}
+    /**
+        Returns the total time spent running since the timer was created. Useful for
+        aggregating several invocations of start & stop.
+    */
+    public double getTotalSeconds()
+    {
+        return totalSeconds + calcTime();
+    }
 
-	/**
-		Resets the timer. Both seconds and total seconds are cleared.
-	*/
-	public void reset()
-	{
-		startTime = null;
-		seconds = 0;
-		totalSeconds = 0;
-	}
+    /**
+        Resets the timer. Both seconds and total seconds are cleared.
+    */
+    public void reset()
+    {
+        startTime = null;
+        seconds = 0;
+        totalSeconds = 0;
+    }
 
-	/**
-		Starts the timer.
-	*/
-	public void start()
-	{
-		if (timerRunning())
-			return;
-		startTime = new Date();
-	}
+    /**
+        Starts the timer.
+    */
+    public void start()
+    {
+        if (timerRunning())
+            return;
+        startTime = new Date();
+    }
 
-	/**
-		Stops the timer.
-	*/
-	public void stop()
-	{
-		if (!timerRunning())
-			return;
-		seconds = calcTime();
-		totalSeconds += seconds;
-		startTime = null;
-	}
+    /**
+        Stops the timer.
+    */
+    public void stop()
+    {
+        if (!timerRunning())
+            return;
+        seconds = calcTime();
+        totalSeconds += seconds;
+        startTime = null;
+    }
 
-	/**
-		Returns true if the timer is running.
-	*/
-	public boolean timerRunning()
-	{
-		return (startTime != null);
-	}
+    /**
+        Returns true if the timer is running.
+    */
+    public boolean timerRunning()
+    {
+        return (startTime != null);
+    }
 
-	double calcTime()
-	{
-		if (!timerRunning())
-			return 0.0;
-		Date now = new Date();
-		return (now.getTime() - startTime.getTime()) / 1000.0;
-	}
+    double calcTime()
+    {
+        if (!timerRunning())
+            return 0.0;
+        Date now = new Date();
+        return (now.getTime() - startTime.getTime()) / 1000.0;
+    }
 }
