@@ -63,6 +63,8 @@ import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  *  All AST nodes must implement this interface.  It provides basic
@@ -126,7 +128,7 @@ public interface Node
         throws MethodInvocationException;
 
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException,MethodInvocationException;
+        throws IOException,MethodInvocationException, ParseErrorException, ResourceNotFoundException;
 
     public Object execute(Object o, InternalContextAdapter context)
       throws MethodInvocationException;

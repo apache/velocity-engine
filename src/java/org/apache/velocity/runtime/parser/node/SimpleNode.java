@@ -66,6 +66,10 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 
 public class SimpleNode implements Node
 {
@@ -259,7 +263,7 @@ public class SimpleNode implements Node
     }        
 
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException, MethodInvocationException
+        throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
         int i, k = jjtGetNumChildren();
 

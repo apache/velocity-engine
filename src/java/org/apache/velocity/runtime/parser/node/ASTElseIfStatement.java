@@ -61,7 +61,10 @@ import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
+
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * This class is responsible for handling the ElseIf VTL control statement.
@@ -71,7 +74,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.7 2001/03/19 17:17:46 geirm Exp $ 
+ * @version $Id: ASTElseIfStatement.java,v 1.8 2001/09/07 05:02:15 geirm Exp $ 
 */
 public class ASTElseIfStatement extends SimpleNode
 {
@@ -109,7 +112,8 @@ public class ASTElseIfStatement extends SimpleNode
      *  renders the block
      */
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException,MethodInvocationException
+        throws IOException,MethodInvocationException, 
+        	ResourceNotFoundException, ParseErrorException
     {
         return jjtGetChild(1).render( context, writer );
     }

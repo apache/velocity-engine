@@ -63,6 +63,8 @@ import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * This class is responsible for handling the pluggable
@@ -74,7 +76,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.18 2001/08/07 21:56:30 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.19 2001/09/07 05:02:15 geirm Exp $ 
  */
 public class ASTDirective extends SimpleNode
 {
@@ -140,7 +142,7 @@ public class ASTDirective extends SimpleNode
     }
 
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException,MethodInvocationException
+        throws IOException,MethodInvocationException, ResourceNotFoundException, ParseErrorException
     {
         /*
          *  normal processing
