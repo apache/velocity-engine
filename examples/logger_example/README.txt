@@ -23,4 +23,21 @@ or
 logger_example.bat
 
 
+Log4jCategoryExample
+--------------------
+This class demonstrates how to configure Velocity to use an 
+ existing log4j category for logging.
 
+No batchfiles are provided as this is considered an advanced example
+(and we want to stop maintaining these batch files :)
+
+To test this example, add the jars
+
+   bin/velocity-dep-1.x.jar
+
+and 
+
+  build/lib/log4j-core-X.jar 
+
+to your classpath, and compile and run.  You will see that the log4j
+output will contain the output from velocity's initialization.
