@@ -72,7 +72,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.util.SimplePool;
@@ -99,7 +98,7 @@ import org.apache.velocity.util.SimplePool;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.18 2000/11/17 02:28:42 daveb Exp $
+ * $Id: VelocityServlet.java,v 1.19 2000/12/20 07:06:04 jvanzyl Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -176,9 +175,9 @@ public abstract class VelocityServlet extends HttpServlet
             Runtime.init(propsFile);
             
             defaultContentType = 
-                VelocityResources.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
+                Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
             
-            encoding = VelocityResources.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
+            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
         }
         catch( Exception e )
         {
@@ -247,7 +246,8 @@ public abstract class VelocityServlet extends HttpServlet
             vw = (VelocityWriter) writerPool.get();
           
             if (vw == null)
-                vw = new VelocityWriter(new OutputStreamWriter(output, encoding), 4*1024, true);
+                vw = new VelocityWriter(
+                    new OutputStreamWriter(output, encoding), 4*1024, true);
             else
                 vw.recycle(new OutputStreamWriter(output, encoding));
            
