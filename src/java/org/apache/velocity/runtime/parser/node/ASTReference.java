@@ -58,6 +58,7 @@ import java.io.Writer;
 import java.io.IOException;
 import java.util.Map;
 import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -79,7 +80,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.24 2001/04/18 20:28:11 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.25 2001/04/18 20:43:15 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -413,6 +414,19 @@ public class ASTReference extends SimpleNode
                 return false;
                 
             }
+        }
+        catch( InvocationTargetException ite )
+        {
+            /*
+             *  this is possible 
+             */
+
+            throw  new MethodInvocationException( 
+                "ASTReference : Invocation of method '" 
+                + identifier + "' in  " + result.getClass()
+                + " threw exception " 
+                + ite.getTargetException().getClass(), 
+               ite.getTargetException(), identifier );
         }
         catch( Exception e )
         {
