@@ -111,7 +111,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.5 2001/03/19 17:13:01 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.6 2001/03/21 23:21:26 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -322,7 +322,7 @@ public class VMProxyArg
                         StringWriter writer =  new StringWriter() ;
                         nodeTree.render( context, writer );
                         
-                        retObject = writer;
+                        retObject = writer.toString();
                     }
                     catch (Exception e ) 
                     {
