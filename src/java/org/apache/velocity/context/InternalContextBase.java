@@ -55,6 +55,7 @@ package org.apache.velocity.context;
  */
 
 import java.util.HashMap;
+import java.util.Stack;
 import java.io.Serializable;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -72,28 +73,37 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  is derived from this.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.3 2001/01/13 16:36:19 geirm Exp $
+ * @version $Id: InternalContextBase.java,v 1.4 2001/02/05 04:30:02 geirm Exp $
  */
 class InternalContextBase implements InternalHousekeepingContext,Serializable
 {
     /**
      *  cache for node/context specific introspection information
      */
-    private HashMap introspectionCache = new HashMap();
+    private HashMap introspectionCache = new HashMap(33);
     
     /**
-     *  Current template name.
+     *  Template name stack. The stack top contains the current template name.
      */
-    private String strCurrentTemplate = "<undef>";
+    private Stack templateNameStack = new Stack();
 
     /**
-     *  set the current template name
+     *  set the current template name on top of stack
      *
-     *  @param s current template name to set
+     *  @param s current template name
      */
-    public void setCurrentTemplateName( String s )
+    public void pushCurrentTemplateName( String s )
     {
-        strCurrentTemplate = s;
+        templateNameStack.push(s);
+        return;
+    }
+
+    /**
+     *  remove the current template name from stack
+     */
+    public void popCurrentTemplateName()
+    {
+        templateNameStack.pop();
         return;
     }
      
@@ -104,7 +114,20 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
      */
     public String getCurrentTemplateName()
     {
-        return strCurrentTemplate;
+        if ( templateNameStack.empty() )
+            return "<undef>";
+        else
+            return (String) templateNameStack.peek();
+    }
+
+    /**
+     *  get the current template name stack
+     *
+     *  @return Object[] with the template name stack contents.
+     */
+    public Object[] getTemplateNameStack()
+    {
+        return templateNameStack.toArray();
     }
 
     /**
