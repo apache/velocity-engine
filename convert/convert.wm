@@ -28,4 +28,10 @@
     convert me too!
 }    
 
+$_leadingUnderscore
+
+This is an explicitly terminated $statement;.
+
+$foo;.getBar() when $foo is a variable and getBar() is schmoo.
+
 #parse "whatever.wm"
