@@ -54,6 +54,16 @@ package org.apache.velocity.runtime;
  * <http://www.apache.org/>.
  */
 
+/**
+ * This class defines the keys that are used in the 
+ * velocity.properties file so that they can be referenced as a constant
+ * within Java code.
+ *
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: RuntimeConstants.java,v 1.21 2001/03/19 08:05:07 jon Exp $
+ */
 public interface RuntimeConstants
 {
     /*
@@ -73,18 +83,20 @@ public interface RuntimeConstants
     /** 
      * Location of the velocity log file.
      */
-    public static final String RUNTIME_LOG = "runtime.log";
+    public static final String RUNTIME_LOG = 
+        "runtime.log";
     
     /**
      *  externally provided logger
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM = "runtime.log.logsystem";
-
+    public static final String RUNTIME_LOG_LOGSYSTEM = 
+        "runtime.log.logsystem";
 
     /**
      *  class of log system to use
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS = "runtime.log.logsystem.class";
+    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS = 
+        "runtime.log.logsystem.class";
 
     /** 
      * Stack trace output for error messages.
@@ -110,11 +122,6 @@ public interface RuntimeConstants
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
         "runtime.log.invalid.references";
 
-    /** 
-     * The encoding to use for the template.
-     */
-    public static final String TEMPLATE_ENCODING = "template.encoding";
-
     /**
      *  Log message prefixes
      */
@@ -122,6 +129,79 @@ public interface RuntimeConstants
     public final static String INFO_PREFIX  = "  [info] ";
     public final static String WARN_PREFIX  = "  [warn] ";
     public final static String ERROR_PREFIX = " [error] ";
+    public final static String UNKNOWN_PREFIX = " [unknown] ";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_PATTERN = 
+        "runtime.log.logsystem.log4j.pattern";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_FILE_SIZE = 
+        "runtime.log.logsystem.log4j.file.size";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_FILE_BACKUPS = 
+        "runtime.log.logsystem.log4j.file.backups";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_SYSLOGD_HOST = 
+        "runtime.log.logsystem.log4j.syslogd.host";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_SYSLOGD_FACILITY = 
+        "runtime.log.logsystem.log4j.syslogd.facility";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_REMOTE_HOST = 
+        "runtime.log.logsystem.log4j.remote.host";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_REMOTE_PORT = 
+        "runtime.log.logsystem.log4j.remote.port";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_SERVER = 
+        "runtime.log.logsystem.log4j.email.server";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_FROM = 
+        "runtime.log.logsystem.log4j.email.from";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_TO = 
+        "runtime.log.logsystem.log4j.email.to";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_SUBJECT = 
+        "runtime.log.logsystem.log4j.email.subject";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE = 
+        "runtime.log.logsystem.log4j.email.buffer.size";
 
     /*
      * ----------------------------------------------------------------------
@@ -251,6 +331,10 @@ public interface RuntimeConstants
     public static String INTERPOLATE_STRINGLITERALS = 
         "runtime.interpolate.string.literals";
 
+    /** 
+     * The encoding to use for the template.
+     */
+    public static final String TEMPLATE_ENCODING = "template.encoding";
 
     /*
      * ----------------------------------------------------------------------
