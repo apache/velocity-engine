@@ -59,6 +59,9 @@
 
     <property name="default.properties" 
         value="org/apache/velocity/runtime/defaults/velocity.properties"/>
+    
+    <property name="directive.properties" 
+        value="org/apache/velocity/runtime/defaults/directive.properties"/>
 
     <property name="default.test.properties"
         value="org/apache/velocity/test/defaults/velocity.properties"/>
@@ -126,6 +129,9 @@
             
             <copy file="${src.java.dir}/${default.properties}"
                 tofile="${build.dest}/${default.properties}"/>
+            
+            <copy file="${src.java.dir}/${directive.properties}"
+                tofile="${build.dest}/${directive.properties}"/>
 
             <copy file="${src.java.dir}/${default.test.properties}"
                 tofile="${build.dest}/${default.test.properties}"/>
