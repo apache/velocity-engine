@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.45 2000/12/21 05:56:02 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.46 2000/12/22 12:11:28 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -111,7 +111,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
      */
-
     String currentTemplateName = "";
 
     /** 
@@ -182,7 +181,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
     }
 
     /**
-     *  This method gets the directives Hashtable
+     *  This method gets a Directive from the directives Hashtable
      */
     public Directive getDirective(String directive)
     {
@@ -256,22 +255,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 
 PARSER_END(Parser)
 
-/**
- * This gets inserted into the ParserMacroTokenManager
- * and is being used here strictly for the #parse
- * directive: an #include type behaviour. We have
- * to save the state the stream currently being
- * parsed and we have to save the state of the
- * lexer (TokenManager class) then we create
- * a new stream from the file named in the
- * #parse directive then we ReInit the lexer. 
- * Whatever it parses will get placed 
- * into the AST.
- *
- * I need a simple way to detect circular
- * inclusions so this thing doesn't go wild
- * and drag down the VM.
- */
 TOKEN_MGR_DECLS: 
 {  
     private int fileDepth = 0;
@@ -293,11 +276,10 @@ TOKEN_MGR_DECLS:
      *  public because we need it in PD & VM handling
      *
      *  @return boolean : success.  It can fail if the state machine
-     *     gets messed up.
+     *     gets messed up (do don't mess it up :)
      */
     public boolean stateStackPop()
     {
-      
         Hashtable h;
 
         try
@@ -376,10 +358,9 @@ TOKEN_MGR_DECLS:
     private void RPARENHandler()
     {
         /*
-         * Ultimately, we want to drop down to the state below 
-         * the one that has an open (if we hit bottom (DEFAULT), 
-         * that's fine. It's just text schmoo.
-         *
+         *  Ultimately, we want to drop down to the state below 
+         *  the one that has an open (if we hit bottom (DEFAULT), 
+         *  that's fine. It's just text schmoo.
          */
    
         boolean closed = false;
@@ -424,7 +405,6 @@ TOKEN_MGR_DECLS:
             } 
         }
     }
-
 } 
 
 /* ------------------------------------------------------------------------
@@ -700,25 +680,26 @@ TOKEN:
     <WHITESPACE : ([" ","\t"])+ >
 }
 
-<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
+<DIRECTIVE,REFMOD2>
 TOKEN :
 {
    <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
     {
         /*
-         *  - if we are in REFERENCE || REFMODIFIER then " is an ender
          *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
          *      don't forget to account for the beloved yet wierd #set
          *  - finally, if we are in REFMOD2 (remember : $foo.bar( ) then " is ok!
          */
 
-        if (curLexState == REFERENCE || curLexState == REFMODIFIER)
-            stateStackPop();
-        else if( curLexState == DIRECTIVE && !inSet && lparen == 0)
+         if( curLexState == DIRECTIVE && !inSet && lparen == 0)
             stateStackPop();    
     }
+}
 
-|   <TRUE: "true">
+<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN:
+{
+   <TRUE: "true">
 |   <FALSE: "false">
 }
 
