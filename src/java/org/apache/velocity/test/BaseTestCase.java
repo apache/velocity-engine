@@ -54,86 +54,110 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
+import java.io.*;
+
 import junit.framework.*;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import org.apache.velocity.Context;
-import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.io.FastWriter;
 
 /**
- * Automated test case for Apache Velocity.
+ * Base functionality to be extended by all Apache Velocity test cases.  Test 
+ * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.2 2000/10/15 03:21:41 dlr Exp $
+ * @version $Id: BaseTestCase.java,v 1.1 2000/10/15 03:21:41 dlr Exp $
  */
-public class VelocityTest extends BaseTestCase
+abstract class BaseTestCase extends TestCase
 {
     /**
-     * The name of the test case's template file.
+     * The properties file name of the application.
      */
-    private static final String TEMPLATE_FILE_NAME = "test.vm";
+    private static final String PROPS_FILE_NAME = "velocity.properties";
 
-    private TestProvider provider;
-    private ArrayList al;
-    private Hashtable h;
+    /**
+     * The writer used to output evaluated templates.
+     */
+    private FastWriter writer;
 
     /**
      * Creates a new instance.
      */
-    public VelocityTest (String name)
+    public BaseTestCase (String name)
     {
         super(name);
 
-        provider = new TestProvider();
-        al = provider.getCustomers();
-        h = new Hashtable();
+        try
+        {
+            Runtime.init(PROPS_FILE_NAME);
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
     }
 
     /**
-     * Get the containing <code>TestSuite</code>.
+     * Get the containing <code>TestSuite</code>.  This is always 
+     * <code>VelocityTestSuite</code>.
      *
      * @return The <code>TestSuite</code> to run.
      */
     public static junit.framework.Test suite ()
     {
-        return BaseTestCase.suite();
+        return new VelocityTestSuite();
     }
 
     /**
-     * Sets up the test.
+     * Performs cleanup activities for this test case.
      */
-    protected void setUp ()
-    {
-        h.put("Bar", "this is from a hashtable!");
-    }
-
-    /**
-     * Runs the test.
-     */
-    public void runTest ()
+    protected void tearDown ()
     {
         try
         {
-            Context context = new Context();
-            context.put("provider", provider);
-            context.put("name", "jason");
-            context.put("providers", provider.getCustomers2());
-            context.put("provider2", new TestProvider2());        
-            context.put("list", al);
-            context.put("hashtable", h);
-            context.put("search", provider.getSearch());
-            context.put("relatedSearches", provider.getRelSearches());
-            context.put("searchResults", provider.getRelSearches());
-            
-            Template template = Runtime.getTemplate(TEMPLATE_FILE_NAME);
-            template.merge(context, getWriter(System.out));
+            closeWriter();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a <code>FastWriter</code> instance.
+     *
+     * @param out The output stream for the writer to write to.  If 
+     *            <code>null</code>, defaults to <code>System.out</code>.
+     * @return    The writer.
+     */
+    protected Writer getWriter (OutputStream out)
+        throws UnsupportedEncodingException, IOException
+    {
+        if (writer == null)
+        {
+            if (out == null)
+            {
+                out = System.out;
+            }
+
+            writer = new FastWriter
+                (out, Runtime.getString(Runtime.TEMPLATE_ENCODING));
+            writer.setAsciiHack
+                (Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK));
+        }
+        return writer;
+    }
+
+    /**
+     * Closes the writer (if it has been opened).
+     */
+    protected void closeWriter ()
+        throws IOException
+    {
+        if (writer != null)
+        {
+            writer.flush();
+            writer.close();
         }
     }
 }

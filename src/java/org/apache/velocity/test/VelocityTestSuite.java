@@ -60,7 +60,7 @@ import junit.framework.*;
  * Test suite for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTestSuite.java,v 1.1 2000/10/11 06:46:27 dlr Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.2 2000/10/15 03:21:41 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -70,6 +70,8 @@ public class VelocityTestSuite extends TestSuite
     public VelocityTestSuite ()
     {
         super("Apache Velocity test suite");
+
+        // Add test cases here.
         addTest(new VelocityTest("Apache Velocity"));
     }
 }
