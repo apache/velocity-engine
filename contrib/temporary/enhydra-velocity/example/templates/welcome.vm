@@ -1,0 +1,29 @@
+<html>
+  <head>
+     <title>Welcome to velocity template example</title>
+  </head>
+  <body bgcolor="#FFFFFF">
+    <center>
+      <table summary="Welcome.html">
+        <tr>
+           <td>
+             <a href="http://www.enhydra.org/"><img src="media/Enhydra.gif" width="200" border="0" alt="Enhydra.gif"></a>
+           </td>
+           <td>
+             <h1>Welcome to the Velocity Service example<br> </br></h1>    
+             <h2>A simple presentation using Velocity as the template language</h2>
+           </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <center>
+              My message is: $mymessage <br>
+              The time is - $today 
+            </center>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
+</html>
+
