@@ -82,8 +82,8 @@ if ( foo )
 <p>
 3. 4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you
 like to use tabs, but the fact of the matter is that in a distributed
-development enviroment, when the cvs commit messages get sent to a mailing list,
-they are almost impossible to read if you use tabs.
+development environment, when the svn commit messages get sent to a mailing
+list, they are almost impossible to read if you use tabs.
 </p>
 
 <p>

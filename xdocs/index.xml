@@ -239,7 +239,7 @@ use the current release of Velocity.
 <p>
 If you are willing to risk getting dirty, we invite you to try the
 nightly snapshot to see the current state of affairs (and help out!) <a
-href="http://jakarta.apache.org/site/cvsindex.html">Public CVS
+href="http://www.apache.org/dev/version-control.html">Public Subversion
 access</a> is also available.
 </p>
 
@@ -263,9 +263,9 @@ access</a> is also available.
         href="http://jakarta.apache.org/getinvolved/mail.html">Velocity
         mailing list</a>.</li>
     <li>
-        Access to the CVS <strong>jakarta-velocity</strong> repository is available both
-        <a href="http://cvs.apache.org/viewcvs/jakarta-velocity/">online</a>
-        and with a <a href="http://jakarta.apache.org/getinvolved/cvsindex.html">cvs client</a>.</li>
+        Access to the Subversion <strong>jakarta-velocity</strong> repository is available both
+        <a href="http://svn.apache.org/repos/asf/jakarta/velocity/trunk/">online</a>
+        and with a <a href="http://www.apache.org/dev/version-control.html">Subversion client</a>.</li>
 </ul>
 
 </section>

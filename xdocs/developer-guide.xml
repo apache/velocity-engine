@@ -176,7 +176,7 @@ root of the Velocity distribution tree.
 <ol>
   <li>
     Get the Velocity distribution. This is available as a release, nightly snapshot or
-    directly from the CVS code repository. Any are fine, although for the latest
+    directly from the Subversion code repository. Any are fine, although for the latest
     features, the nightly snapshot is most likely the best way. For more
     information, go <a href="index.html">here</a>.
   </li>
