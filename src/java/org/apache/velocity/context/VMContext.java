@@ -52,6 +52,14 @@
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.context;
+
+import java.util.HashMap;
+
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.directive.VMProxyArg;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
+
 /**
  *  This is a special, internal-use-only context implementation to be
  *  used for the new Velocimacro implementation.
@@ -64,17 +72,8 @@
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.1 2001/01/13 16:21:37 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.2 2001/01/14 14:53:14 geirm Exp $ 
  */
-
-package org.apache.velocity.context;
-
-import java.util.HashMap;
-
-import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.directive.VMProxyArg;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-
 public class VMContext implements InternalContextAdapter
 {
     /** container for our VMProxy Objects */
