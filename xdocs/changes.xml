@@ -15,7 +15,17 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.0.1-dev">
+<p>
+Changes to version 1.0
+</p>
+
+</subsection>
 <subsection name="1.0b3">
+<p>
+   Released as version 1.0 on April 2, 2001
+</p>
+
 <ul>
    <li>
         Documentation: Fix the VTL Reference guide for the #if

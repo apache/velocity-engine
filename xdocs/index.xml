@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.0 Beta 2 Released">
+<section name="Velocity v1.0 Released">
 
  <p>
    <table>
@@ -18,14 +18,22 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   The Velocity team is proud to announce that the second release
-   candidate, <strong>v1.0 beta 2</strong>, is now released, following our
-   successful beta 1.  We plan our v1.0 release on April 2, 2001.
-   Congratulations and thanks to all who are helping make Velocity a reality.
+   The Velocity team is proud to announce that version 1.0 of the 
+   Velocity Template Engine is now released.
+   Congratulations and thanks to all participants in the
+   Velocity community.
    </td>
    </tr>
    </table>      
  </p>
+
+</section>
+
+<section name="Velocity in the News">
+<p>
+  The Sun <i>Dot-Com Builder</i> developer information site just did a "Best Practices" product profile on Velocity.  Check it out 
+  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here.</a>  Thanks Sun!
+</p>
 
  </section>
  <section name="What is Velocity?">
@@ -50,9 +58,9 @@
     href="./anakia.html">Anakia</a> for more information on XML transformations)
     from templates.  It can be used either as a standalone utility for
     generating source code and reports, or as an integrated component of other
-    systems. When complete, Velocity will provide template services for the
-    <a href="http://java.apache.org/turbine/">Turbine</a> web application
-    framework. Velocity+Turbine will provide a template service that will allow
+    systems.  Velocity also provides template services for the
+    <a href="http://jakarta.apache.org/turbine/">Turbine</a> web application
+    framework. Velocity+Turbine  provides a template service that will allow
     web applications to be developed according to a true MVC model.
  </p>
 
@@ -63,22 +71,38 @@
 <section name="Where do I get releases?">
 
 <p> 
-   The current release is our second release candidate, v1.0 beta 2.   It is available 
-<a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0b2/">here.</a>
+   The current release is version 1.0. The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
+formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0/">here.</a>
 </p>
 
 <p>
-    Our previous release candidate, v1.0 beta 1, is available 
-<a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0b1/">here.</a>
+Archival copies of our previous release candidates, v1.0 beta 1 and beta 2, are available 
+<a href="http://jakarta.apache.org/builds/jakarta-velocity/archive/v1.0b1/">here</a> and 
+<a href="http://jakarta.apache.org/builds/jakarta-velocity/archive/v1.0b2/">here.</a>
 </p>
 
 </section>
 
-<section name="Where do I get nightly builds?">
+<section name="Where do I get nightly snapshots?">
 
 <p>
-    Nightly builds of Velocity can be found
+    Nightly snapshots of the Velocity CVS can be found
     <a href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">here</a>.
+</p>
+
+<p>
+  These are meant to provide easy access to the actual project CVS tree. 
+As this is our live development workspace, there are 
+no guarantees as to what you will find there,although we do our best to maintain 
+a buildable source tree. 
+If you are looking for the stable supported release, please use the current 
+release of Velocity.
+</p>
+
+<p>
+If you are willing to risk getting dirty, we invite you to try the nightly snapshot 
+to see the current state of affairs (and help out!) 
+<a href="http://jakarta.apache.org/site/cvsindex.html">Public CVS access</a> is also available.
 </p>
 
 </section>
