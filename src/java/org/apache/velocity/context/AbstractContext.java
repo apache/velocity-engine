@@ -85,7 +85,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.3 2001/03/05 11:21:39 jvanzyl Exp $
+ * @version $Id: AbstractContext.java,v 1.4 2001/03/28 03:01:04 geirm Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 
@@ -96,19 +96,62 @@ public abstract class AbstractContext extends InternalContextBase
      */
     private   Context  innerContext = null;
   
-    /** implement to return a value from the context storage */
+    /** 
+     *  Implement to return a value from the context storage. 
+     *  <br><br>
+     *  The implementation of this method is required for proper
+     *  operation of a Context implementation in general
+     *  Velocity use.
+     *  
+     *  @param key key whose associated value is to be returned
+     *  @return object stored in the context
+     */
     public abstract Object internalGet( String key );
 
-    /** implement to put a value into the context storage */
+    /** 
+     *  Implement to put a value into the context storage.
+     *  <br><br>
+     *  The implementation of this method is required for 
+     *  proper operation of a Context implementation in
+     *  general Velocity use.
+     *
+     *  @param key key with which to associate the value
+     *  @param value value to be associated with the key
+     *  @return previously stored value if exists, or null
+     */
     public abstract Object internalPut( String key, Object value );
 
-    /** implement to determine if a key is in the storage */
+    /** 
+     *  Implement to determine if a key is in the storage.
+     *  <br><br>
+     *  Currently, this method is not used internally by 
+     *  the Velocity core. 
+     *
+     *   @param key key to test for existance 
+     *   @return true if found, false if not
+     */
     public abstract boolean internalContainsKey(Object key);
 
-    /** implement to return an object array of key strings from your storage */
+    /** 
+     *  Implement to return an object array of key 
+     *  strings from your storage.
+     *  <br><br>
+     *  Currently, this method is not used internally by
+     *  the Velocity core.
+     *
+     *  @return array of keys
+     */
     public abstract Object[] internalGetKeys();
 
-    /** implement to remove an item from your storage */
+    /** 
+     *  I mplement to remove an item from your storage.
+     *  <br><br>
+     *  Currently, this method is not used internally by
+     *  the Velocity core.
+     *
+     *  @param key key to remove
+     *  @return object removed if exists, else null
+     */
     public abstract Object internalRemove(Object key);
 
     /**
