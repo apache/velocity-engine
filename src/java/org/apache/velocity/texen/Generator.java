@@ -17,7 +17,7 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.3 2000/11/03 15:28:17 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.4 2000/11/04 02:42:12 jvanzyl Exp $ 
  */
 public class Generator
 {
@@ -135,39 +135,21 @@ public class Generator
      * Parse an input and write the output to an output file.  If the
      * output file parameter is null or an empty string the result is
      * returned as a string object.  Otherwise an empty string is returned.
-     * You can add one object (obj) to the context with the name objName.
+     * You can add objects to the context with the objs Hashtable.
      */ 
     public String parse (String input, String output, String objName, Object obj) 
         throws Exception
     {
-        Hashtable h = new Hashtable();
-        if (objName != null && obj != null)
-        {
-            h.put (objName,obj);
-        }
         
-        return this.parse (input,output,h);
-    }
-    
-    /**
-     * Parse an input and write the output to an output file.  If the
-     * output file parameter is null or an empty string the result is
-     * returned as a string object.  Otherwise an empty string is returned.
-     * You can add objects to the context with the objs Hashtable.
-     */ 
-    public String parse (String input, String output, Hashtable objs) 
-        throws Exception
-    {
-        try
-        {
-        Context context = getContext (objs);
+        if (objName != null && obj != null)
+            controlContext.put(objName, obj);
         
         Template template = Runtime.getTemplate(input);
         
         if (output == null || output.equals(""))
         {
             StringWriter sw = new StringWriter();
-            template.merge (context,sw);
+            template.merge (controlContext,sw);
             return sw.toString();
         }
         else
@@ -175,16 +157,10 @@ public class Generator
             FileWriter fw = new FileWriter (props.getProperty (PATH_OUTPUT)+
                                             File.separator +
                                             output);
-            template.merge (context,fw);
+            template.merge (controlContext,fw);
             fw.close();
             
             return "";
-        }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
         }
     }
 
