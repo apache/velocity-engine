@@ -54,15 +54,19 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.velocity.VelocityContext;
@@ -70,6 +74,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
+
+import junit.framework.TestCase;
 
 /**
  * Easily add test cases which evaluate templates and check their output.
@@ -94,35 +100,11 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.23 2001/03/05 11:47:41 jvanzyl Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: TemplateTestCase.java,v 1.24 2001/03/12 00:31:14 jon Exp $
  */
-public class TemplateTestCase extends BaseTestCase
+public class TemplateTestCase extends TestCase implements TemplateTestBase
 {
-    /**
-     * VTL file extension.
-     */
-    private static final String TMPL_FILE_EXT = "vm";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String CMP_FILE_EXT = "cmp";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String RESULT_FILE_EXT = "res";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String RESULT_DIR = "../test/templates/results";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String COMPARE_DIR = "../test/templates/compare";
-
     /**
      * The base file name of the template and comparison file (i.e. array for 
      * array.vm and array.cmp).
@@ -147,6 +129,11 @@ public class TemplateTestCase extends BaseTestCase
     {
         super(getTestCaseName(baseFileName));
         this.baseFileName = baseFileName;
+    }
+
+    public static junit.framework.Test suite()
+    {
+        return new TemplateTestSuite();
     }
 
     /**
@@ -202,7 +189,6 @@ public class TemplateTestCase extends BaseTestCase
         context2.put("iterator", vec.iterator());
         context1.put("map", h );
         context.put("obarr", oarr );
-
     }
 
     /**
