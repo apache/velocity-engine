@@ -32,12 +32,18 @@ This document tracks the changes in Velocity between releases.
     </li>
     <li>
          Fixed nullpointer problem in cache refresh in ResourceManager 
-	 (reported by Ilkka Priha) (gmj)
+	     (reported by Ilkka Priha) (gmj)
     </li>
     <li>
-         VelocityServlet now respects the 'default.contentType' property again.
-	 That must have fallen out during the 'request process' rework in VelServlet. 
-	 (reported by csterg@aias.gr) (gmj)
+         VelocityServlet now respects the 'default.contentType' 
+         property again.  That must have fallen out during the 'request 
+         process' rework in VelServlet.  (reported by csterg@aias.gr) (gmj)
+    </li>
+    <li>
+        Changed AnakiaTask and TexenTask to use the canonical 
+        template file path rather than the literal string specified.  
+        Motivated for ease of gump-tion.  Also added
+        failonerror to the testcases.xml for the same reason. (gmj)
     </li>
 </ul>
 </subsection>
