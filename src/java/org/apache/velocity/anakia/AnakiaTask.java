@@ -92,7 +92,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.19 2001/03/12 21:35:55 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.20 2001/03/12 21:45:08 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -399,12 +399,12 @@ public class AnakiaTask extends MatchingTask
                 if (rootCause instanceof SAXParseException)
                 {
                     System.out.println("");
-		            System.out.println("Error: " + rootCause.getMessage());
-		            System.out.println(
-		                "       Line: " + 
-		                    ((SAXParseException)rootCause).getLineNumber() + 
-		                " Column: " + 
-		                    ((SAXParseException)rootCause).getColumnNumber());
+                    System.out.println("Error: " + rootCause.getMessage());
+                    System.out.println(
+                        "       Line: " + 
+                            ((SAXParseException)rootCause).getLineNumber() + 
+                        " Column: " + 
+                            ((SAXParseException)rootCause).getColumnNumber());
                     System.out.println("");
                 }
                 else
