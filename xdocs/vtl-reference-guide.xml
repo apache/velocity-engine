@@ -29,8 +29,9 @@ have an identical format. -JC
 <s1 title="About this Guide">
 
 <p>
-    This guide is the definitive reference for
-    the Velocity Template Language (VTL).
+    This guide is the definitive but imcomplete reference for
+    the Velocity Template Language (VTL). For more information,
+    please refer to the Velocity User Guide.
 </p> 
 
 </s1>
@@ -280,13 +281,44 @@ have an identical format. -JC
     <source><![CDATA[
     # Default name of the loop counter
     # variable refernce.
-    counter.name = velocityCount
+y    counter.name = velocityCount
     
     # Default starting value of the loop
     # counter variable reference.
     counter.initial.value = 1
     ]]></source>
 </p>
+
+ <strong>#parse</strong>
+
+    <p>
+    The <vtldirective>#parse</vtldirective> script element allows the template designer to import a 
+    local file that contains VTL. Velocity will parse the VTL and render the template specified.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #parse( "me.vm" )
+    ]]></source>
+    </p>
+
+    <p>
+    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
+    can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
+    refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
+    <vtldirective>#parse</vtldirective> will only take a single argument. 
+    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive 
+    <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the 
+    statement <vtldirective>#parse (foo.vm)</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
+    statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
+    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>velocity.properties</filename> allows users 
+    to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
+    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
+    <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
+    </p> 
+
+ </p>
+
 
 
  <strong>#macro</strong>
