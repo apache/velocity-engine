@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.8 2000/12/04 02:05:14 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.9 2000/12/12 23:46:07 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -82,6 +82,7 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
 
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 public class ASTMethod extends SimpleNode
 {
@@ -142,7 +143,9 @@ public class ASTMethod extends SimpleNode
         for (int j = 0; j < paramCount; j++)
             params[j] = jjtGetChild(j + 1).value(context);
  
-        return  Introspector.getMethod( data, methodName, params);
+        Method m = Introspector.getMethod( data, methodName, params);
+
+        return m;
     }
     
     /**
@@ -154,13 +157,8 @@ public class ASTMethod extends SimpleNode
     {
         /*
          *  new strategy (strategery!) for introspection. Since we want to be thread- as well as 
-         *  context-safe, we *must* do it now, at execution time.  There can be no caching.
-         *
-         *  we ned to call initIntrospection() once and only once to prevent calling value() on paramter nodes
-         *  more than once.  This is critical.
-         *
-         *  Example : when we have a container like an array that returns something generic, like j.u.Object
-         *  we need to have the *actual object* to perform introspection for successful execution.
+         *  context-safe, we *must* do it now, at execution time.  There can be no in-node caching,
+         *  but if we are careful, we can do it in the context.
          */
 
         Method method = null;
@@ -168,12 +166,52 @@ public class ASTMethod extends SimpleNode
         try 
         {
             /*
-             *  get the class of what we are, and introspect it
+             *   check the cache 
              */
 
+            IntrospectionCacheData icd = context.icacheGet( this );
             Class c = o.getClass();
-            method = doIntrospection( context, c );
-            
+
+            /*
+             *  like ASTIdentifier, if we have cache information, and the
+             *  Class of Object o is the same as that in the cache, we are
+             *  safe.
+             */
+
+            if ( icd != null && icd.contextData == c )
+            {
+                /*
+                 * sadly, we do need recalc the values of the args, as this can 
+                 * change from visit to visit
+                 */
+
+                for (int j = 0; j < paramCount; j++)
+                    params[j] = jjtGetChild(j + 1).value(context);
+
+                /*
+                 * and get the method from the cache
+                 */
+
+                method = (Method) icd.thingy;
+            }
+            else
+            {
+                /*
+                 *  otherwise, do the introspection, and then
+                 *  cache it
+                 */
+
+                method = doIntrospection( context, c );
+                
+                if (method != null)
+                {    
+                    icd = new IntrospectionCacheData();
+                    icd.contextData = c;
+                    icd.thingy = method;
+                    context.icachePut( this, icd );
+                }
+            }
+ 
             /*
              *  if we still haven't gotten the method, either we are calling a method that 
              *  doesn't exist (which is fine...)  or I screwed it up.

@@ -71,7 +71,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.3 2000/12/04 02:04:48 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.4 2000/12/12 23:46:07 geirm Exp $ 
  */
 package org.apache.velocity.runtime.parser.node;
 
@@ -80,6 +80,7 @@ import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 public class ASTIdentifier extends SimpleNode
 {
@@ -158,7 +159,41 @@ public class ASTIdentifier extends SimpleNode
         try
         {
             Class c = o.getClass();
-            executor = doIntrospection(  c );
+
+            /*
+             *  first, see if we have this information cached.
+             */
+
+            IntrospectionCacheData icd = context.icacheGet( this );
+
+            /*
+             * if we have the cache data and the class of the object we are 
+             * invoked with is the same as that in the cache, then we must
+             * be allright.  The last 'variable' is the method name, and 
+             * that is fixed in the template :)
+             */
+
+            if ( icd != null && icd.contextData == c )
+            {
+                 executor = ( AbstractExecutor ) icd.thingy;
+            }
+            else
+            {
+                /*
+                 *  otherwise, do the introspection, and cache it
+                 */
+
+                executor = doIntrospection(  c );
+                
+                if (executor != null)
+                {    
+                    icd = new IntrospectionCacheData();
+                    icd.contextData = c;
+                    icd.thingy = executor;
+                    context.icachePut( this, icd );
+                }
+            }
+
         }
         catch( Exception e)
         {
