@@ -54,27 +54,59 @@ package org.apache.velocity.util.introspection;
  * <http://www.apache.org/>.
  */
 
+import java.util.Map;
 import java.util.Hashtable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-public class ClassMethodMap extends Hashtable
+public class ClassMethodMap
 {
+    /** 
+     * Class passed into the constructor used to as
+     * the basis for the Method map.
+     */
     private Class clazz;
-    private Hashtable directHits = new Hashtable();
+    /**
+     * Map of methods that can be accessed directly
+     * with a method key.
+     */
+    private Map directHits = new Hashtable();
+    /**
+     * Map of nulls that represent methodKeys that
+     * will never return a valid method.
+     */
+    private Map directMisses = new Hashtable();
     
+    /**
+     * Standard constructor
+     */
     public ClassMethodMap(Class clazz)
     {
         this.clazz = clazz;
         populateDirectHits();
     }
-
-    public Method findMethod(String key)
+    
+    /**
+     * Find a Method using the methodKey
+     * provided. First try a direct hit, if
+     * that doesn't work then we have to do some
+     * work to find out if we can return a Method
+     * or not. Will implement this ASAP. If we
+     * find a valid Method then we can generate
+     * a methodKey and add it to the
+     * directHits Map.
+     */
+    public Method findMethod(String methodKey)
     {
-        return (Method) directHits.get(key);
+        return (Method) directHits.get(methodKey);
     }
-
+    
+    /**
+     * Populate the Map of direct hits. These
+     * are taken from all the public method
+     * that our class provides.
+     */
     private void populateDirectHits()
     {
         Method[] methods = clazz.getMethods();
@@ -85,6 +117,11 @@ public class ClassMethodMap extends Hashtable
                 directHits.put(makeMethodKey(methods[i]), methods[i]);
     }
 
+    /**
+     * Make a methodKey for the given method using
+     * the concatenation of the name and the
+     * types of the method parameters.
+     */
     private String makeMethodKey(Method method)
     {
         Class[] parameterTypes = method.getParameterTypes();
