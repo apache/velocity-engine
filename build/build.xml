@@ -630,12 +630,12 @@
    <target name="test"
             depends="compile"
             description="--> Run the testcases">
-        <ant antfile="build-testcases.xml" target="test-all"/>
+        <ant antfile="testcases.xml" target="test-all"/>
    </target>
 
    <target name="test-clean"
             description="--> Cleanup after the testcases">
-        <ant antfile="build-testcases.xml" target="test-clean"/>
+        <ant antfile="testcases.xml" target="test-clean"/>
    </target>
 
   <!-- =================================================================== -->
