@@ -87,7 +87,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.3 2000/11/22 19:31:20 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.4 2000/11/22 21:01:30 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -107,13 +107,18 @@ public class AnakiaTask extends MatchingTask
     private String style = null;
     /** the File to the style file */
     private File styleFile = null;
+    /** last modified of the style sheet */
+    private long styleSheetLastModified = 0;
+
     /** the projectFile= attribute */
     private String projectAttribute = null;
     /** the File for the project.xml file */
     private File projectFile = null;
+    /** last modified of the project file if it exists */
+    private long projectFileLastModified = 0;
 
-    /** last modified of the style sheet */
-    private long styleSheetLastModified = 0;
+    /** check the last modified date on files. defaults to true */
+    private boolean lastModifiedCheck = true;
 
     /** the default output extension is .html */
     private String extension = ".html";
@@ -163,6 +168,15 @@ public class AnakiaTask extends MatchingTask
     {
         this.projectAttribute = projectAttribute;
     }
+    /**
+        Turn on/off last modified checking. by default, it is on.
+    */
+    public void setLastModifiedCheck(String lastmod)
+    {
+        if (lastmod.equalsIgnoreCase("false") || lastmod.equalsIgnoreCase("no") 
+                || lastmod.equalsIgnoreCase("off"))
+            this.lastModifiedCheck = false;
+    }
 
     /**
         Main body of the application
@@ -182,10 +196,6 @@ public class AnakiaTask extends MatchingTask
             String msg = "destdir attribute must be set!";
             throw new BuildException(msg);
         }
-        if (projectAttribute == null) 
-        {
-            throw new BuildException("projectFile attribute must be set!");
-        }
         if (style == null) 
         {
             throw new BuildException("style attribute must be set!");
@@ -194,7 +204,18 @@ public class AnakiaTask extends MatchingTask
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
         // projectFile relative to baseDir
-        projectFile = new File(baseDir, projectAttribute);
+        if (projectAttribute != null && projectAttribute.length() > 0)
+        {
+            projectFile = new File(baseDir, projectAttribute);
+            if (projectFile.exists())
+                projectFileLastModified = projectFile.lastModified();
+            else
+            {
+                log ("Project file is defined, but could not be located: " + 
+                    projectFile.getAbsolutePath(), Project.MSG_INFO );
+                projectFile = null;
+            }
+        }
         
         try
         {
@@ -236,8 +257,9 @@ public class AnakiaTask extends MatchingTask
             outFile = new File(destDir,xmlFile.substring(0,xmlFile.lastIndexOf('.'))+extension);
 
             // only process files that have changed
-            if (inFile.lastModified() > outFile.lastModified() ||
-                    styleSheetLastModified > outFile.lastModified())
+            if (lastModifiedCheck && (inFile.lastModified() > outFile.lastModified() ||
+                    styleSheetLastModified > outFile.lastModified() ||
+                    projectFileLastModified > outFile.lastModified()))
             {
                 ensureDirectoryFor( outFile );
 
@@ -245,17 +267,22 @@ public class AnakiaTask extends MatchingTask
                 log("Input:  " + xmlFile, Project.MSG_INFO );
                 log("Output: " + outFile, Project.MSG_INFO );
                 // Build the JDOM Document
-                Document doc = builder.build(inFile);
+                Document root = builder.build(inFile);
                 // Build the Project file document
                 // FIXME: this should happen in the execute method since
                 // it really only needs to be done once
-                Document project = builder.build(projectFile);
+                Document projectDocument = null;
+                if (projectFile != null)
+                    projectDocument = builder.build(projectFile);
     
                 // Shove things into the Context
                 Context context = new Context();
-                context.put ("root", doc.getRootElement());
-                context.put ("project", project);
+                context.put ("root", root.getRootElement());
                 context.put ("xmlout", new XMLOutputter());
+                
+                // only put this into the context if it exists.
+                if (projectDocument != null)
+                    context.put ("project", projectDocument.getRootElement());
 
                 // Process the VSL template with the context and write out
                 // the result as the outFile.
