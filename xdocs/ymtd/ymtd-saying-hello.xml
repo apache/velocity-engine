@@ -63,7 +63,9 @@ This is an example of doing the same thing with Velocity:
 </ul>
 
 <p>
-<font size="-1">[ These two screen shots demonstrate the idea that one
+<font size="-1">[ These are screen shots showing the above
+example when loaded directly into the browser.
+They demonstrate the idea that one
 cannot easily look at what the code is doing in a browser when using
 JSP. ]</font>
 </p>
