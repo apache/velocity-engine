@@ -142,6 +142,10 @@ This section describes changes to the man branch after the
    <li>
      Update servlet1 example to use the 'new' handleRequest() (gmj)
    </li>
+   <li>
+     Added support for ${user.home}/build.properties to Ant build
+     file. (dlr)
+   </li>
 
 
 </ul>
