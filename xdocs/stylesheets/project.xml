@@ -36,7 +36,7 @@
         <item name="Javadoc"                href="/api/index.html"/>
     </menu>
     <menu name="Tools">
-        <item name="Tool Subproject"        href="/toolsubproject.html"/>
+        <item name="Velocity Tools"         href="/tools/index.html"/>
         <item name="Anakia : XML->doc tool" href="/anakia.html"/>
         <item name="Texen : text generation"                  href="/texen.html"/>
         <item name="DVSL : XML xformation"                   href="/dvsl/index.html"/>
