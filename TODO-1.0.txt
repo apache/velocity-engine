@@ -1,3 +1,5 @@
++------------- Critical For Release -------------+
+
 o Configuration Cleanup
   
   PLAN:
@@ -10,9 +12,9 @@ o Configuration Cleanup
 o Log4j for Logging
   
   PLAN:
-  Simply replace the org.apache.log package for now. Just
-  a flat replacement for the features that log4j provides.
-  The logging interface can come later.
+  Simply replace the org.apache.log package for now. Just a flat
+  replacement for the features that log4j provides. The logging
+  interface can come later.
   
   STATUS:
   [JVZ] I will do this if we can agree on this.
@@ -21,9 +23,8 @@ o Log4j for Logging
 o Get a copy of Alexandria for Javadocs
 
   PLAN:
-  It would be ideal to get a copy of Alexandria running
-  on the apache.org box. But we can do it manually if
-  necessary.
+  It would be ideal to get a copy of Alexandria running on the
+  apache.org box. But we can do it manually if necessary.
   
   STATUS:
   [JVZ] I have asked on the Alexandria mailing list to
@@ -44,26 +45,6 @@ o UML Diagrams
   [JVZ] I've place the XMI file on the apache website
   if anyone wants to take a crack at using ArgoUML.
   
-o Getting a mailing list archive working, or at least have
-  
-  PLAN:
-  Can we setup Eyebrowse? Would this be too much of a PITA,
-  or would be too tempted to convert it to Velocity :-)
-  If no one has time for this, can we at least place
-  a message at the bottom of messages that go out
-  on the mailing list?
-
-  COMMENTS:
-  What is wrong with mail-archive.com?
-  http://www.mail-archive.com/index.php3?hunt=velocity
-
-  Michael Salmon <ms@collab.net> will be setting up Eyebrowse for all of
-  apache.org in the next few weeks.  If we want to set it up before
-  that, he says we should feel free to send him questions via email.
-
-  STATUS:
-  [JSS] Done
-
 o Test for Texen
 
   PLAN:
@@ -82,26 +63,15 @@ o Test for Anakia
   STATUS:
   [JSS] I will work on this one
 
-o Codify the testing harness
++------------- Not Critical For Release -------------+
 
-  PLAN:
-  Have a single target that runs the whole set of
-  tests. Right now the main test is the template testing,
-  it would be nice to run all the tests in there.
-
-  COMMENTS:
-  [JSS] Lets just move the testing into its own build.xml file
-        which can be called from a the main build.xml file
-  
-  STATUS: [daveb] DONE
-  
 o Speed testing suite
 
   PLAN:
-  Create a repeatable testing suite for Velocity so that it can be 
+  Create a repeatable testing suite for Velocity so that it can be
   compared against other tools. In other words, other tools should also
-  be plugged into this suite. We can also use this to test the 
-  relevant performance of changes made to Velocity.
+  be plugged into this suite. We can also use this to test the relevant
+  performance of changes made to Velocity.
 
   STATUS:
   None
