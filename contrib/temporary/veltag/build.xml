@@ -1,0 +1,156 @@
+<project name="veltag" default="jar" basedir=".">
+
+
+<!-- ========== Initialize Properties ===================================== -->
+
+
+  <property file="build/build.properties"/>          <!-- Component local   -->
+  <property file="../build.properties"/>             <!-- Commons local     -->
+  <property file="${user.home}/.build.properties"/>  <!-- User local        -->
+
+
+<!-- ========== External Dependencies ===================================== -->
+
+
+ <!-- The directory containing your servlet jar -->
+  <property name="servlet.home"              value="lib/"/>
+
+ <!-- The directory containing your servlet jar -->
+  <property name="velocity.home"              value="lib/"/>
+
+
+<!-- ========== Derived Values ============================================ -->
+
+
+  <!-- The pathname of the "servlet.jar" JAR file -->
+  <property name="servlet.jar"               value="${servlet.home}/servlet.jar"/>
+
+  <!-- The pathname of the "velocity.jar" JAR file -->
+  <property name="velocity.jar"               value="${velocity.home}/velocity.jar"/>
+
+
+<!-- ========== Component Declarations ==================================== -->
+
+
+  <!-- The name of this component -->
+  <property name="project.name"          value="veltag"/>
+
+  <!-- The title of this component -->
+  <property name="project.title"         value="Velocity JSP Tag"/>
+
+  <!-- The current version number of this component -->
+  <property name="project.version"       value="0.01-dev"/>
+
+  <!-- The base directory for compilation targets -->
+  <property name="build.home"              value="target"/>
+
+  <!-- The base directory for component configuration files -->
+  <property name="conf.home"               value="src/conf"/>
+
+  <!-- The base directory for distribution targets -->
+  <property name="dist.home"               value="dist"/>
+
+  <!-- The base directory for component sources -->
+  <property name="source.home"             value="src"/>
+
+
+<!-- ========== Compiler Defaults ========================================= -->
+
+
+  <!-- Should Java compilations set the 'debug' compiler option? -->
+  <property name="compile.debug"           value="true"/>
+
+  <!-- Should Java compilations set the 'deprecation' compiler option? -->
+  <property name="compile.deprecation"     value="true"/>
+
+  <!-- Should Java compilations set the 'optimize' compiler option? -->
+  <property name="compile.optimize"        value="true"/>
+
+  <!-- Construct compile classpath -->
+  <path id="compile.classpath">
+    <pathelement location="${build.home}/classes"/>
+    <pathelement location="${servlet.jar}"/>
+    <pathelement location="${velocity.jar}"/>
+  </path>
+
+
+<!-- ========== Executable Targets ======================================== -->
+
+  <target name="init"
+   description="Initialize and evaluate conditionals">
+    <echo message="-------- ${project.name} ${project.version} --------"/>
+    <filter  token="name"                  value="${project.name}"/>
+    <filter  token="version"               value="${project.version}"/>
+  </target>
+
+  <target name="prepare" depends="init"
+   description="Prepare build directory">
+    <mkdir dir="${build.home}"/>
+    <mkdir dir="${build.home}/classes"/>
+    <mkdir dir="${build.home}/conf"/>
+    <mkdir dir="${build.home}/javadoc"/>
+  </target>
+
+
+  <target name="static" depends="prepare"
+   description="Copy static files to build directory">
+    <tstamp/>
+    <copy  todir="${build.home}/conf" filtering="on">
+      <fileset dir="${conf.home}" includes="*.MF"/>
+    </copy>
+  </target>
+
+
+  <target name="compile" depends="static"
+   description="Compile">
+    <javac  srcdir="${source.home}/java"
+           destdir="${build.home}/classes"
+             debug="${compile.debug}"
+       deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <copy    todir="${build.home}/classes" filtering="on">
+      <fileset dir="${source.home}/java" excludes="**/*.java"/>
+    </copy>
+  </target>
+
+  <target name="clean"
+   description="Clean build and distribution directories">
+    <delete    dir="${build.home}"/>
+    <delete    dir="${dist.home}"/>
+  </target>
+
+  <target name="all" depends="clean,compile"
+   description="Clean and compile all components"/>
+
+  <target name="javadoc" depends="compile"
+   description="Create Javadoc documentation">
+    <javadoc sourcepath="${source.home}/java"
+                destdir="${build.home}/javadoc"
+           packagenames="org.apache.taglibs.velocity.*"
+                 author="true"
+                private="true"
+                version="true"
+               doctitle="&lt;h1&gt;${project.title}&lt;/h1&gt;"
+            windowtitle="${project.title} (Version ${project.version})"
+                 bottom="Copyright (c) 2001 Apache Software Foundation" >
+
+      <classpath refid="compile.classpath"/>
+ 
+     </javadoc>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar    jarfile="${project.name}-${project.version}.jar"
+            basedir="${build.home}/classes"
+            manifest="${conf.home}/MANIFEST.MF"/>
+  </target>
+
+
+</project>
+
+
+
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglib_1_1.dtd">
+
+<taglib>
+
+  <tlibversion>2.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>Velocity JSP Support</shortname>
+
+  <tag>
+    <name>velocity</name>
+    <tagclass>org.apache.taglibs.velocity.VelocityTag</tagclass>
+    <bodycontent>tagdependent</bodycontent>
+    <info>Velocity and JSP, together at last</info>
+    <attribute>
+      <name>strictaccess</name>
+      <required>false</required>
+    </attribute>
+  </tag>
+
+</taglib>
