@@ -2833,7 +2833,7 @@ final void TokenLexicalActions(Token matchedToken)
             lparen++;
 
         /*
-         *  if we have seen the dot, then move to REFMOD2 -> Modifier()
+         *  if in REFERENCE and we have seen the dot, then move to REFMOD2 -> Modifier()
          */
 
         if (curLexState == REFMODIFIER )
@@ -2934,7 +2934,7 @@ final void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
-      incMode = true;
+        incMode = true;
          break;
       case 44 :
         if (image == null)
@@ -2958,6 +2958,21 @@ final void TokenLexicalActions(Token matchedToken)
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
         matchedToken.kind = EOF;
         fileDepth = 0;
+         break;
+      case 48 :
+        if (image == null)
+            image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+         else
+            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+        /*
+         *  in the spirit of Jason's fix :)
+         *  but check to see if we are in set
+         *    ex.  #set $foo = $foo + 3
+         *  because we want to handle the \n after
+         */
+
+        if ( lparen == 0 && !inSet )
+            stateStackPop();
          break;
       case 55 :
         if (image == null)
@@ -2985,7 +3000,6 @@ final void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
-        // was :DEFAULT
         stateStackPop();
          break;
       default : 
