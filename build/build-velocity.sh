@@ -13,6 +13,7 @@ LIB=lib
 ANT=${LIB}/ant.jar
 ANTXML=${LIB}/xml.jar
 XERCES=${LIB}/xerces-1.1.3.jar
+SERVLET=${LIB}/servlet.jar
 
 # Libs needed for runtime.
 LOG=${LIB}/log.jar
@@ -38,7 +39,7 @@ if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}
+CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}
 
 echo "Now building ${TARGET}..."
 
