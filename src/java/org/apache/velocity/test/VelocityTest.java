@@ -56,41 +56,20 @@ package org.apache.velocity.test;
 
 import junit.framework.*;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import org.apache.velocity.Context;
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.test.provider.TestProvider;
-
 /**
  * Automated test case for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.6 2000/10/22 22:57:34 dlr Exp $
+ * @version $Id: VelocityTest.java,v 1.7 2000/10/23 22:29:47 dlr Exp $
  */
-public class VelocityTest extends TemplateTestCase
+public class VelocityTest extends BaseTestCase
 {
-    /**
-     * The name of the test case's template file.
-     */
-    private static final String TEMPLATE_FILE_NAME = "test.vm";
-
-    private TestProvider provider;
-    private ArrayList al;
-    private Hashtable h;
-
     /**
      * Creates a new instance.
      */
     public VelocityTest (String name)
     {
         super(name);
-
-        provider = new TestProvider();
-        al = provider.getCustomers();
-        h = new Hashtable();
     }
 
     /**
@@ -100,40 +79,6 @@ public class VelocityTest extends TemplateTestCase
      */
     public static junit.framework.Test suite ()
     {
-        return TemplateTestCase.suite();
-    }
-
-    /**
-     * Sets up the test.
-     */
-    protected void setUp ()
-    {
-        h.put("Bar", "this is from a hashtable!");
-    }
-
-    /**
-     * Runs the test.
-     */
-    public void runTest ()
-    {
-        try
-        {
-            Context context = new Context();
-            context.put("provider", provider);
-            context.put("name", "jason");
-            context.put("providers", provider.getCustomers2());
-            context.put("list", al);
-            context.put("hashtable", h);
-            context.put("search", provider.getSearch());
-            context.put("relatedSearches", provider.getRelSearches());
-            context.put("searchResults", provider.getRelSearches());
-            
-            Template template = Runtime.getTemplate(TEMPLATE_FILE_NAME);
-            template.merge(context, getWriter(System.out));
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
+        return BaseTestCase.suite();
     }
 }
