@@ -53,8 +53,8 @@ package org.apache.velocity.util;
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- * This class was originally written by 
- * Carl Ludwig <carl@destinymusic.com>. We appreciate his contributions. 
+ * This class was originally written by Carl Ludwig <carl@destinymusic.com>. 
+ * We appreciate his contributions. 
  */
 
 import java.io.*;
@@ -62,11 +62,12 @@ import java.text.*;
 import java.util.*;
 
 /**
- * Java trace facility. Useful for generating stack traces as a program executes.
- * Also times each function that is traced and can print out a summary performance
- * report. All timings are real (wall-clock) time. Below is an instrumented program
- * with some sample output. The try and finally blocks guarantee that the trace is 
- * completed even if the method throws an exception:
+ * A Java trace facility useful for generating stack traces and timing
+ * information as a program executes. Each function that is traced and can
+ * print out a summary performance report. All timings are real time
+ * (i.e. wall clock). Below is an instrumented program with some sample output.
+ * The <code>try</code> and <code>finally</code> blocks guarantee that the
+ * trace is completed even if the method throws an exception:
  * <blockquote>
  * <pre>
  * import org.apache.velocity.util.*;
@@ -128,28 +129,49 @@ import java.util.*;
  * f    2 calls 0.4s total  0.2s avg.
  * </pre>
  * </blockquote>
- * Other properties which can be set are <b>trace.detail</b>, which may be set to
- * false to disable the printing of enter/leave statements, and <b>trace.pattern</b>,
- * which will cause only the methods containing the string specified to be traced. You
- * may also set <b>trace.log</log> to the name of a file to redirect output to a file.
+ * Other properties which can be set are <i>trace.detail</i>, which may be set 
+ * to false to disable the printing of enter/leave statements, and 
+ * <i>trace.pattern</i>, which will cause only the methods containing the 
+ * string specified to be traced. You may also set <i>trace.log</i> to the
+ * name of a file to redirect output to a file.
+ *
+ * @author <a href="mailto:carl@destinymusic.com">Carl Ludwig</a>
+ * @version $Id: Trace.java,v 1.3 2001/01/02 23:43:44 dlr Exp $
  */ 
 public class Trace
 {
     /** Set via the trace property. */
     public static final boolean ON = active();
 
-    private static final PrintWriter    LOG     = getLog();
-    private static final boolean        SHOW_DETAIL = showDetail();
-    private static final String         PATTERN     = getPattern();
+    /** The logging interface. */
+    private static final PrintWriter LOG = getLog();
 
-    private static final String ENTER   = "enter ";
-    private static final String LEAVE   = "leave ";
-    private static final String PAD     = "  ";
+    /** Whether to log in detail. */
+    private static final boolean SHOW_DETAIL = showDetail();
 
-    private static NumberFormat format      = getFormat();
-    private static Hashtable    levels      = new Hashtable(); // entry per thread
-    private static Hashtable    timers      = new Hashtable(); // entry per method+thread
-    private static Hashtable    totals      = new Hashtable(); // entry per method
+    /** String contained by the names of methods to be traced. */
+    private static final String PATTERN = getPattern();
+
+    /** Text which can be printed when entering a method. */
+    private static final String ENTER = "enter ";
+
+    /** Text which can be printed when leaving a method. */
+    private static final String LEAVE = "leave ";
+
+    /** Text to use for padding. */
+    private static final String PAD = "  ";
+
+    /** The numerical format to use when printing floating point numbers. */
+    private static NumberFormat format = getFormat();
+
+    /** Entry per thread. */
+    private static Hashtable levels = new Hashtable();
+
+    /** Entry per method+thread. */
+    private static Hashtable timers = new Hashtable();
+
+    /** Entry per method. */
+    private static Hashtable totals = new Hashtable();
 
     /** Sorts and formats totals in a manner suitable for printing. */  
     public static final synchronized String getFormattedTotals()
