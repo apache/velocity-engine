@@ -193,7 +193,8 @@
        <li>Less Than or Equal To: #if( $foo &lt;= 42 )</li>
        <li>Equals Number: #if( $foo == 42 )</li>
        <li>Equals String: #if( $foo == "bar" )</li>
-    </ul>    
+       <li>Boolean NOT: #if( !$foo )</li>
+    </ul>
   </subsection>
 
   <subsection name="#foreach - Loops through a list of objects">

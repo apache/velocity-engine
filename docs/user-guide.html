@@ -556,11 +556,11 @@ Hello $foo World!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-This is text that is outside the multi-line comment. 
+This is text that is outside the multi-line comment.
 Online visitors can see it.
 
 #*
- Thus begins a multi-line comment. Online visitors won't 
+ Thus begins a multi-line comment. Online visitors won't
  see this text because the Velocity Templating Engine will
  ignore it.
 *#
@@ -592,9 +592,9 @@ Here is text outside the multi-line comment; it is visible.
       <td bgcolor="#ffffff"><pre>
 This text is visible. ## This text is not.
 This text is visible.
-This text is visible. #* This text, as part of a multi-line comment, 
-is not visible. This text is not visible; it is also part of the 
-multi-line comment. This text still not visible. *# This text is outside 
+This text is visible. #* This text, as part of a multi-line comment,
+is not visible. This text is not visible; it is also part of the
+multi-line comment. This text still not visible. *# This text is outside
 the comment, so it is visible.
 ## This text is not visible.
 </pre></td>
@@ -673,7 +673,7 @@ information:
     must start with an alphabetic character (a .. z or A .. Z). The rest
     of the characters are limited to the following types of characters:
  </p>
-                                                <p> 
+                                                <p>
    <ul>
      <li>alphabetic (a .. z, A .. Z)</li>
      <li>numeric (0 .. 9)</li>
@@ -1230,7 +1230,7 @@ $email
     </table>
     </div>
                                                 <p>
-     renders as 
+     renders as
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1258,7 +1258,7 @@ $email
     </div>
                                                 <p>
      Notice Velocity handles references that are defined differently
-     from those that have not been defined. Here is a set directive that 
+     from those that have not been defined. Here is a set directive that
      gives <em>$foo</em> the value <em>gibbous</em>.
   </p>
                                                     <div align="left">
@@ -1354,9 +1354,9 @@ ${data.Request.ServerName}
     references almost anywhere in your template.
     </p>
                                                 <p>
-    Velocity, which is modelled on the Bean specifications defined by 
+    Velocity, which is modelled on the Bean specifications defined by
     Sun Microsystems, is case sensitive; however, its developers have
-    strove to catch and correct user errors wherever possible. 
+    strove to catch and correct user errors wherever possible.
     When the method <em>getFoo()</em> is referred to in a template
     by <code>$bar.foo</code>, Velocity will first try <code>$getfoo</code>.
     If this fails, it will then try <code>$getFoo</code>.
@@ -1855,8 +1855,8 @@ $blargh
     true, so the output is <strong>Go South</strong>.
     </p>
                                                 <p>
-    Please note that currently, Velocity's numeric comparisons are contrained 
-    to Integers - anything else will evaluate to <em>false</em>.  The only exception 
+    Please note that currently, Velocity's numeric comparisons are contrained
+    to Integers - anything else will evaluate to <em>false</em>.  The only exception
     to this is equality '==', where Velocity requires that the objects on each
     side of the '==' is of the <em>same</em> class.
     </p>
@@ -1896,8 +1896,11 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Velocity has logical AND and OR operators as well.  Below is an example of an 
-      if statement using logical AND.
+      Velocity has logical AND, OR and NOT operators as well.
+      For further information, please see the
+      <a href="vtl-reference-guide.html">VTL Reference Guide</a>
+      Below are examples demonstrating the use of the
+      logical AND, OR and NOT operators.
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1909,9 +1912,13 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+
+## logical AND
+
 #if( $foo &amp;&amp; $bar )
-   &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
+   &lt;strong&gt; This AND that&lt;/strong&gt;
 #end
+
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1923,13 +1930,14 @@ $blargh
     </table>
     </div>
                                                 <p>
-      The if statement will only evaluate to true if both <em>$foo</em>
+      The <em>#if()</em> directive will only evaluate to true
+      if both <em>$foo</em>
       and <em>$bar</em> are true. If <em>$foo</em> is false, the
       expression will evaluate to false; <em>$bar</em> will not be
       evaluated. If <em>$foo</em> is true, the Velocity Templating
       Engine will then check the value of <em>$bar</em>; if
       <em>$bar</em> is true, then the entire expression is true and
-      <strong>Velocity Rocks!</strong> becomes the output. If
+      <strong>This AND that</strong> becomes the output. If
       <em>$bar</em> is false, then there will be no output as the entire
       expression is false.
     </p>
@@ -1948,8 +1956,11 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+
+## logical OR
+
 #if( $foo || $bar )
-    &lt;strong&gt;Velocity Rocks Again!&lt;/strong&gt;
+    &lt;strong&gt;This OR That&lt;/strong&gt;
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1964,13 +1975,50 @@ $blargh
                                                 <p>
       If <em>$foo</em> is true, the Velocity Templating Engine has no
       need to look at <em>$bar</em>; whether <em>$bar</em> is true or
-      false, the expression will be true, and <strong>Velocity Rocks
-      Again!</strong> will be output. If <em>$foo</em> is false,
+      false, the expression will be true, and <strong>This OR That</strong>
+      will be output. If <em>$foo</em> is false,
       however, <em>$bar</em> must be checked. In this case, if
       <em>$bar</em> is also false, the expression evaluates to false and
       there is no output. On the other hand, if <em>$bar</em> is true,
       then the entire expression is true, and the output is
-      <strong>Velocity Rocks Again!</strong>
+      <strong>This OR That</strong>
+    </p>
+                                                <p>
+    With logical NOT operators, there is only one argument :
+    </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+##logical NOT
+
+#if( !$foo )
+  &lt;strong&gt;NOT that&lt;/strong&gt;
+#end
+
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+    Here, the if <em>$foo</em> is true, then <em>!$foo</em> evaluates to
+    false, and there is no output.  If <em>$foo</em> is false, then
+    <em>!$foo</em> evaluates to true and <strong>NOT that</strong> will be
+    output.  Be careful not to confuse this with the <em>quiet reference $!foo</em>
+    which is something altogether different.
     </p>
                             </blockquote>
         </p>
@@ -2629,38 +2677,38 @@ $count
     </div>
                                                 <strong>Velocimacro Arguments</strong>
                                                 <p>
-   Velocimacros can take as arguments any of the following 
+   Velocimacros can take as arguments any of the following
    VTL elements :
   </p>
                                                 <ul>
-    <li> 
+    <li>
       Reference : anything that starts with '$'
     </li>
-    <li> 
+    <li>
       String literal : something like "$foo" or 'hello'
     </li>
-    <li> 
+    <li>
       Number literal : 1, 2 etc
     </li>
-    <li> 
+    <li>
       IntegerRange : [ 1..2] or [$foo .. $bar]
     </li>
-    <li> 
+    <li>
       ObjectArray : [ "a", "b", "c"]
     </li>
-    <li> 
+    <li>
        boolean value true
     </li>
-    <li> 
+    <li>
        boolean value false
     </li>
   </ul>
                                                 <p>
-     When passing references as arguments to Velocimacros, 
-     please note that references are passed 'by name'.  
+     When passing references as arguments to Velocimacros,
+     please note that references are passed 'by name'.
      This means that their value is 'generated' at each
      use inside the Velocimacro.  This feature allows you
-     to pass references with method calls and have the 
+     to pass references with method calls and have the
      method called at each use.  For example, when calling
      the following Velocimacro as shown
    </p>
@@ -2694,17 +2742,17 @@ $count
        being called 3 times.
     </p>
                                                 <p>
-       At first glance, this feature appears surprising, but 
+       At first glance, this feature appears surprising, but
        when you take into consideration the original motivation
        behind Velocimacros -- to eliminate cut'n'paste duplication
        of commonly used VTL -- it makes sense.  It allows you to
        do things like pass stateful objects, such as an object
-       that generates colors in a repeating sequence for 
+       that generates colors in a repeating sequence for
        coloring table rows, into the Velocimacro.
     </p>
                                                 <p>
-       If you need to circumvent this feature, you can always 
-       just get the value from the method as a new reference 
+       If you need to circumvent this feature, you can always
+       just get the value from the method as a new reference
        and pass that :
     </p>
                                                     <div align="left">
@@ -2736,7 +2784,7 @@ $count
     documented in the <a href="developer-guide.html">Developer Guide</a>.
     </p>
                                                 <p>
-    <code>velocimacro.library</code> - A comma-separated list of all 
+    <code>velocimacro.library</code> - A comma-separated list of all
     Velocimacro template libraries. By default, Velocity looks for
     a single library: <em>VM_global_library.vm</em>. The configured template path
     is used to find the Velocimacro libraries.
@@ -2752,7 +2800,7 @@ $count
     <code>velocimacro.permissions.allow.inline.to.replace.global</code> -
      With possible values of true or false,
     this property allows the user to specify if a  Velocimacro defined
-    inline in a template can replace a globally defined template, one 
+    inline in a template can replace a globally defined template, one
     that was loaded on startup via the <code>velocimacro.library</code>
     property. The default, <code>false</code>, prevents
     Velocimacros defined inline in a template from replacing those
@@ -2761,7 +2809,7 @@ $count
                                                 <p>
     <code>velocimacro.permissions.allow.inline.local.scope</code> - This
     property, with possible values of true or false, defaulting to false,
-    controls if Velocimacros defined inline are 'visible' only to the 
+    controls if Velocimacros defined inline are 'visible' only to the
     defining template.  In other words, with this property set to true,
     a template can define inline VMs that are usable only by the defining
     template.  You can use this for fancy VM tricks - if a global VM calls
@@ -2782,7 +2830,7 @@ $count
      controls Velocimacro library autoloading. The default value
     is <code>false</code>.  When set to <code>true</code>
     the source Velocimacro library for an invoked Velocimacro will be checked
-    for changes, and reloaded if necessary.  This allows you to change and 
+    for changes, and reloaded if necessary.  This allows you to change and
     test Velocimacro libraries without having to restart your application or
     servlet container, just like you can with regular templates.
     This mode only works when caching is <i>off</i>
@@ -2791,15 +2839,15 @@ $count
     </p>
                                                 <strong>Velocimacro Trivia</strong>
                                                 <p>
-    Currently, Velocimacros must be defined before they are first 
-    used in a template.  This means that your #macro() declarations 
+    Currently, Velocimacros must be defined before they are first
+    used in a template.  This means that your #macro() declarations
     should come before using the Velocimacros.
     </p>
                                                 <p>
-    This is important to remember if you try to #parse() 
+    This is important to remember if you try to #parse()
     a template containing inline #macro() directives.  Because
     the #parse() happens at runtime, and the parser decides if
-    a VM-looking element in the template is a VM at parsetime, 
+    a VM-looking element in the template is a VM at parsetime,
     #parse()-ing a set of VM declarations won't work as expected.
     To get around this, simply use the <code>velocimacro.library</code>
     facility to have Velocity load your VMs at startup.
@@ -2878,7 +2926,7 @@ $count
     </table>
     </div>
                                                 <p>
-  If <em>$jazz</em> is true, the output is 
+  If <em>$jazz</em> is true, the output is
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2929,7 +2977,7 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Whether <em>$jazz</em> is true or false, the output will be 
+  Whether <em>$jazz</em> is true or false, the output will be
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2941,8 +2989,8 @@ Vyacheslav Ganelin
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- #if($ jazz ) 
-     Vyacheslav Ganelin 
+ #if($ jazz )
+     Vyacheslav Ganelin
  #end
  </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2956,7 +3004,7 @@ Vyacheslav Ganelin
     </div>
                                                 <p>
   In fact, because all script elements
-  are escaped, <em>$jazz</em> is never evaluated for it's boolean value. 
+  are escaped, <em>$jazz</em> is never evaluated for it's boolean value.
   Suppose
   backslashes precede script elements that are legitimately escaped:
   </p>
@@ -2984,7 +3032,7 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  In this case, if <em>$jazz</em> is true, the output is 
+  In this case, if <em>$jazz</em> is true, the output is
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2996,7 +3044,7 @@ Vyacheslav Ganelin
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-\ Vyacheslav Ganelin 
+\ Vyacheslav Ganelin
 \
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -3015,11 +3063,11 @@ Vyacheslav Ganelin
   block follows the first '\', rendered
   from the '\\' preceeding the <code>#if()</code>.
    The last \ is on a different
-  line than the text beacsue there is a newline after 'Ganelin', so 
-  the final \\, preceeding the <code>#end</code> is part of the 
+  line than the text beacsue there is a newline after 'Ganelin', so
+  the final \\, preceeding the <code>#end</code> is part of the
   body of the block.
   </p>
-                                                <p> 
+                                                <p>
   If <em>$jazz</em> is false, there is no output. Note that
   things start to break if script elements are not properly escaped.
   </p>
@@ -3622,7 +3670,7 @@ as 'VM'.
 Example : <code>#center( #bold("hello") )</code>
 </p>
                                                 <p>
-No.  A directive isn't a valid argument to a directive, and for most practical 
+No.  A directive isn't a valid argument to a directive, and for most practical
 purposes, a VM is a directive.
 </p>
                                                 <p>
@@ -3677,9 +3725,9 @@ You can save a step...
     </table>
     </div>
                                                 <p>
-Please note that in the latter exmaple the arg 
-is evaluated <i>inside</i> the VM, not at the 
-calling level.  In other words, the argument to 
+Please note that in the latter exmaple the arg
+is evaluated <i>inside</i> the VM, not at the
+calling level.  In other words, the argument to
 the VM is passed in in its entirety and evaluated within the VM
 it was passed into. This allows you to do things like :
 </p>
@@ -3775,7 +3823,7 @@ name' into VMs, so you can hand VMs things like stateful references such as
     </table>
     </div>
                                                 <p>
-And have rowColor() called repeatedly, rather than just once.  To avoid that, 
+And have rowColor() called repeatedly, rather than just once.  To avoid that,
 invoke the method outside of the VM, and pass the value into the VM.
 </p>
                                                     <div align="left">
@@ -3802,22 +3850,22 @@ invoke the method outside of the VM, and pass the value into the VM.
     </div>
                                                 <strong>Can I register Velocimacros via #parse() ? </strong>
                                                 <p>
-    Currently, Velocimacros must be defined before they are first 
-    used in a template.  This means that your #macro() declarations 
+    Currently, Velocimacros must be defined before they are first
+    used in a template.  This means that your #macro() declarations
     should come before using the Velocimacros.
     </p>
                                                 <p>
-    This is important to remember if you try to #parse() 
+    This is important to remember if you try to #parse()
     a template containing inline #macro() directives.  Because
     the #parse() happens at runtime, and the parser decides if
-    a VM-looking element in the template is a VM at parsetime, 
+    a VM-looking element in the template is a VM at parsetime,
     #parse()-ing a set of VM declarations won't work as expected.
     To get around this, simply use the <code>velocimacro.library</code>
     facility to have Velocity load your VMs at startup.
     </p>
                                                 <strong>What is Velocimacro Autoreloading?</strong>
                                                 <p>
-   There is a property, meant to be used in <i>development</i>, 
+   There is a property, meant to be used in <i>development</i>,
    not production :
   </p>
                                                 <p>
@@ -3832,8 +3880,8 @@ invoke the method outside of the VM, and pass the value into the VM.
                                                 <p>
     (where &lt;type&gt; is the name of the resource loader that you
     are using, such as 'file') then the Velocity engine will automatically
-    reload changes to your Velocimacro library files when you make them, 
-    so you do not have to dump the servlet engine (or application) or do 
+    reload changes to your Velocimacro library files when you make them,
+    so you do not have to dump the servlet engine (or application) or do
     other tricks to have your Velocimacros reloaded.
     </p>
                                                 <p>
@@ -3883,12 +3931,12 @@ invoke the method outside of the VM, and pass the value into the VM.
     analogue to the '+' operator in Java?</i>.
    </p>
                                                 <p>
-    To do concatenation of references in VTL, you 
-    just have to 'put them together'.  The context of 
-    where you want to put them together does matter, so 
+    To do concatenation of references in VTL, you
+    just have to 'put them together'.  The context of
+    where you want to put them together does matter, so
     we will illustrate with some examples.
    </p>
-                                                <p> 
+                                                <p>
     In the regular 'schmoo' of a template (when you are mixing
     it in with regular content) :
    </p>
@@ -3949,8 +3997,8 @@ invoke the method outside of the VM, and pass the value into the VM.
     </table>
     </div>
                                                 <p>
-     Which will result in the same output.  As a final example, when 
-     you want to mix in 'static' strings with your references, you may 
+     Which will result in the same output.  As a final example, when
+     you want to mix in 'static' strings with your references, you may
      need to use 'formal references' :
     </p>
                                                     <div align="left">
@@ -4003,10 +4051,10 @@ invoke the method outside of the VM, and pass the value into the VM.
       <tr><td>
         <blockquote>
                                     <p>
-    If you encounter any mistakes in this manual or have 
-    other feedback related to the Velocity User Guide, please 
-    email the 
-    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>. 
+    If you encounter any mistakes in this manual or have
+    other feedback related to the Velocity User Guide, please
+    email the
+    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
     Thanks!
   </p>
                             </blockquote>
