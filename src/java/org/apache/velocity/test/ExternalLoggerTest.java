@@ -55,7 +55,9 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeSingleton;
+
 import org.apache.velocity.runtime.log.LogSystem;
 
 import junit.framework.TestCase;
@@ -64,7 +66,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ExternalLoggerTest.java,v 1.2 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: ExternalLoggerTest.java,v 1.3 2001/08/07 22:20:28 geirm Exp $
  */
 public class ExternalLoggerTest extends TestCase implements LogSystem
 {
@@ -94,6 +96,11 @@ public class ExternalLoggerTest extends TestCase implements LogSystem
         }            
     }
 
+    public void init( RuntimeServices rs )
+    {
+        // do nothing with it
+    }
+
     public static junit.framework.Test suite ()
     {
         return new ExternalLoggerTest();
@@ -112,9 +119,9 @@ public class ExternalLoggerTest extends TestCase implements LogSystem
 
         String testString = "This is a test.";
 
-        Runtime.warn( testString );
+        RuntimeSingleton.warn( testString );
 
-        if (logString == null || !logString.equals( Runtime.WARN_PREFIX +  testString ) )
+        if (logString == null || !logString.equals( RuntimeSingleton.WARN_PREFIX +  testString ) )
         {
             fail("Didn't recieve log message.");
         }

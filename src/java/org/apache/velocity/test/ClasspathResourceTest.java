@@ -66,7 +66,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.6 2001/03/25 22:56:03 jvanzyl Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.7 2001/08/07 22:20:28 geirm Exp $
  */
 public class ClasspathResourceTest extends BaseTestCase
 {
@@ -162,10 +162,10 @@ public class ClasspathResourceTest extends BaseTestCase
              */
             assureResultsDirectoryExists(RESULTS_DIR);
 
-            Template template1 = Runtime.getTemplate(
+            Template template1 = RuntimeSingleton.getTemplate(
                 getFileName(null, "template/test1", TMPL_FILE_EXT));
             
-            Template template2 = Runtime.getTemplate(
+            Template template2 = RuntimeSingleton.getTemplate(
                 getFileName(null, "template/test2", TMPL_FILE_EXT));
            
             FileOutputStream fos1 = 

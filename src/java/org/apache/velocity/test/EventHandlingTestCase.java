@@ -70,11 +70,13 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  *  Tests event handling
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.4 2001/06/02 14:48:25 geirm Exp $
+ * @version $Id: EventHandlingTestCase.java,v 1.5 2001/08/07 22:20:28 geirm Exp $
  */
 public class EventHandlingTestCase extends TestCase implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,
@@ -107,6 +109,11 @@ public class EventHandlingTestCase extends TestCase implements ReferenceInsertio
             System.err.println("Cannot setup event handling test : " + e);
             System.exit(1);
         }            
+    }
+
+    public void init( RuntimeServices rs )
+    {
+        /* don't need it...*/
     }
 
     public static junit.framework.Test suite ()

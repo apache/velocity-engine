@@ -67,7 +67,7 @@ import java.util.Vector;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
@@ -81,7 +81,7 @@ import org.apache.oro.text.perl.Perl5Util;
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.10 2001/03/23 15:59:17 geirm Exp $
+ * @version $Id: BaseTestCase.java,v 1.11 2001/08/07 22:20:28 geirm Exp $
  */
 public class BaseTestCase extends TestCase
 {
@@ -123,15 +123,15 @@ public class BaseTestCase extends TestCase
         File dir = new File(resultsDirectory);
         if (!dir.exists())
         {
-            Runtime.info("Template results directory does not exist");
+            RuntimeSingleton.info("Template results directory does not exist");
             if (dir.mkdirs())
             {
-                Runtime.info("Created template results directory");
+                RuntimeSingleton.info("Created template results directory");
             }
             else
             {
                 String errMsg = "Unable to create template results directory";
-                Runtime.warn(errMsg);
+                RuntimeSingleton.warn(errMsg);
                 fail(errMsg);
             }
         }

@@ -59,7 +59,6 @@ import java.io.File;
 import org.apache.velocity.anakia.AnakiaTask;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 
 import junit.framework.TestCase;
@@ -70,7 +69,7 @@ import junit.framework.TestCase;
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.4 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: AnakiaTestCase.java,v 1.5 2001/08/07 22:20:28 geirm Exp $
  */
 public class AnakiaTestCase extends BaseTestCase
 {

@@ -79,7 +79,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -95,7 +95,7 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.30 2001/05/20 21:14:32 geirm Exp $
+ * @version $Id: Test.java,v 1.31 2001/08/07 22:20:29 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
@@ -126,9 +126,12 @@ public class Test implements ReferenceInsertionEventHandler,
 
         Vector v = new Vector();
 
+        String str = "mystr";
+
         v.addElement( new String("hello") );
         v.addElement( new String("hello2") );
-            
+        v.addElement( str );
+
         try
         {
             /*
@@ -203,7 +206,7 @@ public class Test implements ReferenceInsertionEventHandler,
 
             try 
             {
-                template = Runtime.getTemplate(templateFile, encoding);
+                template = RuntimeSingleton.getTemplate(templateFile, encoding);
             }
             catch( ResourceNotFoundException rnfe )
             {
@@ -233,9 +236,12 @@ public class Test implements ReferenceInsertionEventHandler,
             context.put("vector", v);
             context.put("mystring", new String());
             context.put("hashmap", new HashMap() );
-            context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
+            context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.RuntimeSingleton" ));
             context.put("fmprov", new FieldMethodizer( provider ));
             context.put("Floog", "floogie woogie");
+            context.put("geirstring", str );
+            context.put("mylong", new Long(5) );
+
 
             /*
              *  we want to make sure we test all types of iterative objects
@@ -251,7 +257,7 @@ public class Test implements ReferenceInsertionEventHandler,
 
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
-            Velocity.evaluate( context, w, "evaltest",stest );
+            //            Velocity.evaluate( context, w, "evaltest",stest );
             //            System.out.println("Eval = " + w );
 
             w = new StringWriter();
@@ -275,10 +281,12 @@ public class Test implements ReferenceInsertionEventHandler,
              *  make a writer, and merge the template 'against' the context
              */
 
+            VelocityContext vc = new VelocityContext( context );
+
             if( template != null)
             {
-                writer = new BufferedWriter(new OutputStreamWriter(System.out));
-                template.merge( context , writer);
+                writer = new BufferedWriter(new OutputStreamWriter(System.out, encoding));
+                template.merge( vc , writer);
                 writer.flush();
                 writer.close();
             }
@@ -290,19 +298,22 @@ public class Test implements ReferenceInsertionEventHandler,
         }
         catch( Exception e )
         {
-            Runtime.error(e);
+            RuntimeSingleton.error( "Test- exception : " + e);
+            e.printStackTrace();
+
         }
     }
 
     public Object referenceInsert( String reference, Object value  )
     {
-        System.out.println("Woo! referenceInsert : " + reference + " = " + value.toString() );
+        if (value != null)
+            ; // System.out.println("Woo! referenceInsert : " + reference + " = " + value.toString() );
         return value;
     }
 
     public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
-        System.out.println("Woo2! nullSetLogMessage : " + lhs + " :  RHS = " + rhs);
+        //        System.out.println("Woo2! nullSetLogMessage : " + lhs + " :  RHS = " + rhs);
 
         if (lhs.equals("$woogie"))
             return false;

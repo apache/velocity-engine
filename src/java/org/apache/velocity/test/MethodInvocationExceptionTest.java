@@ -58,7 +58,6 @@ import java.io.StringWriter;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.log.LogSystem;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -69,7 +68,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodInvocationExceptionTest.java,v 1.5 2001/04/18 20:43:36 geirm Exp $
+ * @version $Id: MethodInvocationExceptionTest.java,v 1.6 2001/08/07 22:20:28 geirm Exp $
  */
 public class MethodInvocationExceptionTest extends TestCase 
 {
@@ -119,7 +118,7 @@ public class MethodInvocationExceptionTest extends TestCase
 
         try
         {
-            Velocity. evaluate( vc,  w, "test", template );
+            Velocity.evaluate( vc,  w, "test", template );
             fail("No exception thrown");
         }
         catch( MethodInvocationException mie )
@@ -138,7 +137,8 @@ public class MethodInvocationExceptionTest extends TestCase
         }
         catch( Exception e)
         {
-            fail("Wrong exception thrown, first test.");
+            fail("Wrong exception thrown, first test." + e);
+            e.printStackTrace();
         }
 
         /*

@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.18 2001/07/18 09:16:19 dlr Exp $
+ * @version $Id: TestProvider.java,v 1.19 2001/08/07 22:20:29 geirm Exp $
  */
 public class TestProvider
 {
@@ -383,12 +383,15 @@ public class TestProvider
     public String getFoo()
         throws Exception
     {
+        System.out.println("Hello from getfoo");
+
         throw new Exception("From getFoo()");
     }
 
     public String getThrow()
         throws Exception
     {
-        throw new Exception("From getThrow()");
+        System.out.println("Hello from geThrow");
+       throw new Exception("From getThrow()");
     }
 }
