@@ -66,7 +66,7 @@ import org.apache.velocity.VelocityContext;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example2.java,v 1.1 2001/02/12 03:10:06 geirm Exp $
+ * @version $Id: Example2.java,v 1.2 2001/03/17 06:15:36 geirm Exp $
  */
 
 public class Example2
@@ -75,7 +75,15 @@ public class Example2
     {
         /* first, we init the runtime engine.  Defaults are fine. */
         
-        Velocity.init();
+        try
+        {
+            Velocity.init();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Problem initializing Velocity : " + e );
+            return;
+        }
 
         /* lets make a Context and put data into it */
 
@@ -88,7 +96,15 @@ public class Example2
 
         StringWriter w = new StringWriter();
 
-        Velocity.mergeTemplate("example2.vm", context, w );
+        try
+        {
+            Velocity.mergeTemplate("example2.vm", context, w );
+        }
+        catch (Exception e )
+        {
+            System.out.println("Problem merging template : " + e );
+        }
+
         System.out.println(" template : " + w );
 
         /* 
