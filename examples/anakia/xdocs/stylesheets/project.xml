@@ -4,41 +4,13 @@
 
     <title>Jakarta Site</title>
 
-    <menu name="Essentials">
-        <item name="Front Page"            href="index.html"/>
-        <item name="News &amp; Status"     href="news.html"/>
-        <item name="Mission"               href="mission.html"/>
-        <item name="Guidelines Notes"      href="guidelines.html"/>
-        <item name="FAQs"                  href="faqs.html"/>
-    </menu>
-
-    <menu name="Download">
-        <item name="Binaries"              href="binindex.html"/>
-        <item name="Source Code"           href="sourceindex.html"/>
-    </menu>
-
-    <menu name="Get Involved">
-        <item name="Overview"              href="getinvolved.html"/>
-        <item name="CVS Repositories"      href="cvsindex.html"/>
-        <item name="Mailing Lists"         href="mail.html"/>
-        <item name="Reference Library"     href="reference.html"/>
-        <item name="Bug Database"          href="bugs.html"/>
-    </menu>
-
-    <menu name="SubProjects">
-        <item name="Ant"                   href="/ant/index.html"/>
-        <item name="ORO"                   href="/oro/index.html"/>
-        <item name="Regexp"                href="/regexp/index.html"/>
-        <item name="Slide"                 href="/slide/index.html"/>
-        <item name="Struts"                href="/struts/index.html"/>
-        <item name="Taglibs"               href="/taglibs/index.html"/>
-        <item name="Tomcat"                href="/tomcat/index.html"/>
-        <item name="Velocity"              href="/velocity/index.html"/>
-        <item name="Watchdog"              href="/watchdog/index.html"/>
-    </menu>
-
-    <menu name="Credits">
-        <item name="Who We Are"            href="whoweare.html"/>
-        <item name="Acknowledgements"      href="acknowledgements.txt"/>
-    </menu>
+    <body>
+        <menu name="Home">
+            <item name="Front Page"            href="index.html"/>
+        </menu>
+    
+        <menu name="About">
+            <item name="About"                 href="about/index.html"/>
+        </menu>
+    </body>
 </project>
