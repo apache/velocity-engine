@@ -45,7 +45,7 @@
     </td>
    </tr>
 
-  <tr>
+   <tr>
     <td>
      <a href="http://jakarta.apache.org/velocity/texen.html">Texen</a>
     </td>
@@ -92,7 +92,7 @@
     </td>
    </tr>
 
-  <tr>
+   <tr>
     <td>
      <a href="http://jtop.sourceforge.net/">J/Top</a>
     </td>
@@ -113,7 +113,7 @@
     </td>
    </tr>
 
- <tr>
+   <tr>
     <td>
      <a href="http://www.vamphq.com/hazel.html">
      Hazel - Web Start/JNLP app catalog creator (jnlp2html)</a>
@@ -145,6 +145,17 @@
     Velocidoc is a Velocimacro documentation tool modeled after
     Javadoc that allows you to generate HTML documentation for your
     Velocimacro libraries.
+    </td>
+   </tr>
+
+    <tr>
+    <td>
+  <a href="http://scarab.tigris.org/">Scarab</a>
+    </td>
+    <td>
+    Scarab is an Issue/Artiface tracking system that has been developed
+    on top of Velocity and Turbine and is available under an open source
+    license.
     </td>
    </tr>
   
