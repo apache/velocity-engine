@@ -1957,7 +1957,7 @@ of the default cache size is currently 89.
 </p>
 
 <p>
-<code>resource.loader = &lt;name&gt; (default = File)</code><br/>
+<code>resource.loader = &lt;name&gt; (default = file)</code><br/>
 <i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a
 resource loader to be used.  This public name will then be used
 in the specification of the specific properties for that resource loader.
