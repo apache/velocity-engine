@@ -77,7 +77,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.9 2001/03/20 00:55:04 jon Exp $
+ * @version $Id: FileResourceLoader.java,v 1.10 2001/03/20 17:28:35 geirm Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -95,7 +95,22 @@ public class FileResourceLoader extends ResourceLoader
 
     public void init(Configuration configuration)
     {
+        Runtime.info("FileResourceLoader : initialization starting.");
+        
         paths = configuration.getVector("path");
+        
+        /*
+         *  lets tell people what paths we will be using
+         */
+
+        int sz = paths.size();
+
+        for( int i=0; i < sz; i++)
+        {
+            Runtime.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+        }
+
+        Runtime.info("FileResourceLoader : initialization complete.");
     }
 
     /**
@@ -161,6 +176,7 @@ public class FileResourceLoader extends ResourceLoader
                  * from so that we can check its modification
                  * time.
                  */
+
                 templatePaths.put(templateName, path);
                 return inputStream;
             }                
@@ -171,10 +187,10 @@ public class FileResourceLoader extends ResourceLoader
          * templates and we didn't find anything so
          * throw an exception.
          */
-        String msg = "FileResourceLoader Error: cannot find resource " +
-            template;
+         String msg = "FileResourceLoader Error: cannot find resource " +
+          template;
     
-        Runtime.error(msg);
+        //Runtime.error(msg);
         throw new ResourceNotFoundException( msg );
     }
     
@@ -247,7 +263,7 @@ public class FileResourceLoader extends ResourceLoader
     {
         String path = (String) templatePaths.get(resource.getName());
         File file = new File(path, resource.getName());
-    
+
         if (file.canRead())
         {
             return file.lastModified();

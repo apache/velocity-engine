@@ -77,7 +77,8 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: ResourceManager.java,v 1.18 2001/03/17 19:19:53 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ResourceManager.java,v 1.19 2001/03/20 17:28:26 geirm Exp $
  */
 public class ResourceManager
 {
@@ -148,10 +149,12 @@ public class ResourceManager
         {
             Configuration configuration = (Configuration) sourceInitializerList.get(i);
             String loaderClass = configuration.getString("class");
+
             resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
             resourceLoader.commonInit(configuration);
             resourceLoader.init(configuration);
             resourceLoaders.add(resourceLoader);
+
         }
     }
 
@@ -168,7 +171,7 @@ public class ResourceManager
         {
             return;
         }            
-        
+
         Vector resourceLoaderNames = 
             Runtime.getConfiguration().getVector(Runtime.RESOURCE_LOADER);
 
@@ -310,35 +313,50 @@ public class ResourceManager
                 //! Bug this is being run more then once!
                 
                 long howOldItWas = 0;  // Initialize to avoid warnings
+
                 for (int i = 0; i < resourceLoaders.size(); i++)
                 {
                     resourceLoader = (ResourceLoader) resourceLoaders.get(i);
                     resource.setResourceLoader(resourceLoader);
                     
-                    Runtime.info("Attempting to find " + resourceName + 
-                        " with " + resourceLoader.getClassName());
-                    
- 
-                    if (resource.process())
+                    /*
+                     *  catch the ResourceNotFound exception
+                     *  as that is ok in our new multi-loader environment
+                     */
+
+                    try 
+                    {
+                        if (resource.process())
+                         {
+                             /*
+                              *  FIXME  (gmj)
+                              *  moved in here - technically still 
+                              *  a problem - but the resource needs to be 
+                              *  processed before the loader can figure 
+                              *  it out due to to the new 
+                              *  multi-path support - will revisit and fix
+                              */
+                             Runtime.info("ResourceManager : found " + resourceName + 
+                                          " with loader " + resourceLoader.getClassName());
+           
+                             howOldItWas = resourceLoader.getLastModified( resource );
+                             break;
+                         }
+                    }
+                    catch( ResourceNotFoundException rnfe )
                     {
                         /*
-                         *  FIXME  (gmj)
-                         *  moved in here - technically still a problem - but the resource needs to be 
-                         *  processed before the loader can figure it out due to to the new 
-                         *  multi-path support - will revisit and fix
+                         *  that's ok - it's possible to fail in
+                         *  multi-loader environment
                          */
-
-                        howOldItWas = resourceLoader.getLastModified( resource );
-                        break;
                     }
-
                 }
                 
                 /*
                  * Return null if we can't find a resource.
                  */
                 if (resource.getData() == null)
-                    throw new ResourceNotFoundException("Can't find " + resourceName + "!");
+                    throw new ResourceNotFoundException("Unable to find resource '" + resourceName + "'");
 
                 resource.setLastModified( howOldItWas );
                  
@@ -354,6 +372,11 @@ public class ResourceManager
                 
                 if (resourceLoader.isCachingOn())
                     globalCache.put(resourceName, resource);
+            }
+            catch( ResourceNotFoundException rnfe2 )
+            {
+                Runtime.error("ResourceManager : unable to find resource '" + resourceName + "' in any resource loader.");
+                throw rnfe2;
             }
             catch( ParseErrorException pee )
             {
