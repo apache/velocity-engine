@@ -3,7 +3,7 @@ package org.apache.velocity.io;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import java.io.Writer;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.4 2001/03/20 01:52:54 jon Exp $
+ * @version $Id: VelocityWriter.java,v 1.5 2001/05/08 12:15:33 geirm Exp $
  */
 public final class VelocityWriter extends Writer
 {
@@ -362,7 +362,7 @@ public final class VelocityWriter extends Writer
      * resets this class so that it can be reused
      *
      */
-    public final void recycle(OutputStreamWriter writer)
+    public final void recycle( Writer writer)
     {
         this.writer = writer;
         flushed = false;
