@@ -19,8 +19,18 @@ REM set TARGET=jar
 REM -------------------------------------------------------------------
 REM Define the paths to each of the packages.
 REM -------------------------------------------------------------------
-set ANT=ant.jar
-set ANTXML=xml.jar
+set LIB=lib
+set ANT=%LIB%\ant.jar
+set ANTXML=%LIB%\xml.jar
+set XERCES=%LIB%\xerces-1.1.3.jar
+
+set LOG=%LIB%\log.jar
+set JAVACLASS=%LIB%\JavaClass.jar
+
+set XALAN=%LIB%\xalan_1_1_D01.jar
+set FOP=%LIB%\fop.jar
+set W3C=%LIB%\w3c.jar
+set SB=%LIB%\stylebook-1.0-b2.jar
 
 REM --------------------------------------------
 REM No need to edit anything past here
@@ -48,7 +58,8 @@ if exist %JAVA_HOME%\lib\tools.jar set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\too
 
 echo Now building %TARGET%...
 
-set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%
+set
+CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%
 
 echo Classpath: %CP%
 echo JAVA_HOME: %JAVA_HOME%
