@@ -1073,6 +1073,19 @@ $blargh
     <em>$product.Name</em> method (ie: <em>$Product.getName()</em>).
     </p>
 
+    <p>
+    Lets say that $allProducts is a Hashtable. If you wanted to retrieve
+    the key values for the Hashtable as well as the objects within the 
+    Hashtable, you can use code like this:
+    </p>
+
+<source><![CDATA[
+<ul>
+#foreach( $key in $allProducts.keySet() )
+    <li>Key: $key -> Value: $allProducts.get($key)</li>
+#end
+</ul>
+]]></source>
 
  </section>
 
