@@ -77,13 +77,15 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  *  VelocimacroProxy.java
  *
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.23 2001/06/19 03:33:30 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.24 2001/07/03 19:29:09 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -172,7 +174,7 @@ public class VelocimacroProxy extends Directive
      *   Renders the macro using the context
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException
+        throws IOException, MethodInvocationException
     {
         try 
         {
@@ -219,6 +221,15 @@ public class VelocimacroProxy extends Directive
         } 
         catch ( Exception e ) 
         {
+            /*
+             *  if it's a MIE, it came from the render.... throw it...
+             */
+
+            if ( e instanceof MethodInvocationException)
+            {
+                throw (MethodInvocationException) e;
+            }
+
             Runtime.error("VelocimacroProxy.render() : exception VM = #" + macroName + 
             "() : "  + StringUtils.stackTrace(e));
         }
