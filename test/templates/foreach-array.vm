@@ -38,3 +38,19 @@ Choose among :
 #foreach( $color in $colors )
 	$color
 #end
+
+#set($bar= 'bar')
+#set($foo = [ 'a' ])
+#set($foo2 = [ $bar ])
+#set($foo2 = [$bar ])
+#set($foo2 = [ $bar])
+#set($foo2 = [ $bar] )
+#foreach( $i in $foo )
+ \$foo : $i
+#end
+
+#foreach($i in $foo2)
+ \$foo2 : $i
+#end
+
+
