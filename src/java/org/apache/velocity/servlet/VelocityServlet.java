@@ -126,7 +126,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.52 2003/08/31 21:26:52 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.53 2003/10/23 16:13:28 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -283,6 +283,8 @@ public abstract class VelocityServlet extends HttpServlet
      *          to initialize the Velocity runtime.
      *  @throws FileNotFoundException if a specified file is not found.
      *  @throws IOException I/O problem accessing the specified file, if specified.
+     * @deprecated Use VelocityViewServlet from the Velocity Tools
+     * library instead.
      */
     protected Properties loadConfiguration(ServletConfig config)
         throws IOException, FileNotFoundException
@@ -526,16 +528,16 @@ public abstract class VelocityServlet extends HttpServlet
         {
             // Append the character encoding which we'd like to use.
             String encoding = chooseCharacterEncoding(request);
-            //System.out.println("Chose output encoding of '" +
-            //                   encoding + '\'');
+            //RuntimeSingleton.debug("Chose output encoding of '" +
+            //                       encoding + '\'');
             if (!DEFAULT_OUTPUT_ENCODING.equalsIgnoreCase(encoding))
             {
                 contentType += "; charset=" + encoding;
             }
         }
         response.setContentType(contentType);
-        //System.out.println("Response Content-Type set to '" +
-        //                   contentType + '\'');
+        //RuntimeSingleton.debug("Response Content-Type set to '" +
+        //                       contentType + '\'');
     }
 
     /**
