@@ -89,7 +89,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.15 2001/09/16 23:57:46 geirm Exp $
+ * @version $Id: Introspector.java,v 1.16 2001/09/26 11:19:04 geirm Exp $
  */
 public class Introspector
 {
@@ -202,30 +202,5 @@ public class Introspector
          * and let the old one be GC'd
          */
         cachedClassNames = new HashSet();
-    }
-        
-    /**
-     * Checks whether the provided object implements a given method.
-     *
-     *
-     * @param object     The object to check.
-     * @param methodName The method to check for.
-     * @return           Whether the method is implemented.
-     */
-    public boolean implementsMethod(Object object, String methodName)
-    {
-        int m;
-        
-        Method[] methods = object.getClass().getMethods();
-        
-        for (m = 0 ; m < methods.length ; ++m)
-        {
-            if (methodName.equals(methods[m].getName()))
-            {
-                break;
-            }
-        }            
-        
-        return (m < methods.length);
     }
 }
