@@ -79,11 +79,12 @@ import org.apache.commons.collections.ExtendedProperties;
  *  other than specifying this as the loader to use.  For example
  *  the following is all that the loader needs to be functional :
  *  <br>
- *  <br>
- *  resource.loader.1.class = 
+  *  <br>
+ *  resource.loader = class
+ *  class.resource.loader.class =
  *    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
  *  <br>
- *  <br>
+*  <br>
  *  To use, put your template directories, jars
  *  and zip files into the classpath or other mechanisms that make
  *  resources accessable to the classloader.
@@ -105,7 +106,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.6 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.6.4.1 2002/03/28 15:17:53 geirm Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {
