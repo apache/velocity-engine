@@ -54,12 +54,9 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
@@ -101,7 +98,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.24 2001/03/12 00:31:14 jon Exp $
+ * @version $Id: TemplateTestCase.java,v 1.25 2001/03/12 00:39:47 jon Exp $
  */
 public class TemplateTestCase extends TestCase implements TemplateTestBase
 {

@@ -54,9 +54,7 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.IOException;
 import java.io.FileInputStream;
-import java.io.BufferedInputStream;
 
 import java.util.Properties;
 import java.util.List;
@@ -74,7 +72,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestSuite.java,v 1.1 2001/03/12 00:31:15 jon Exp $
+ * @version $Id: TemplateTestSuite.java,v 1.2 2001/03/12 00:39:47 jon Exp $
  */
 public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {
