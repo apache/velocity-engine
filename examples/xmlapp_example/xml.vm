@@ -1,0 +1,26 @@
+#macro ( recursive $e $indent )     
+#if( $e.getChildren().size() > 0 )
+$indent <$e.getName()> 
+#foreach ($child in $e.getChildren() ) 
+#recursive( $child "$indent  " )
+#end
+$indent </$e.getName()>
+#else
+$indent <$e.getName()>
+$indent    $e.getTextTrim()
+$indent </$e.getName()>
+#end
+#end
+
+#set($i = " ")
+
+First, we print out the document tree with a 
+recursive Velocimacro :
+
+#recursive( $root.getRootElement() $i )
+
+
+Next, we access pieces of data directly :
+
+email : $root.getRootElement().getChild("properties").getChild("author").getChild("email").getText()
+last name :  $root.getRootElement().getChild("properties").getChild("author").getChild("name").getChild("last").getChild("full").getText()
