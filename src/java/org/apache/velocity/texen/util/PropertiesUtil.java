@@ -17,12 +17,12 @@ package org.apache.velocity.texen.util;
  */
 
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
 import org.apache.velocity.texen.Generator;
-import org.apache.velocity.util.ClassUtils;
 
 /**
  * A property utility class for the texen text/code generator
@@ -139,6 +139,7 @@ public class PropertiesUtil
     protected Properties loadFromClassPath(String propertiesFile)
     {
         Properties properties = new Properties();
+        ClassLoader classLoader = this.getClass().getClassLoader();
         
         try
         {
@@ -155,7 +156,7 @@ public class PropertiesUtil
                     "$generator.templatePath/".length());
             }
             
-            InputStream inputStream = ClassUtils.getResourceAsStream( getClass(), propertiesFile );
+            InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
             properties.load(inputStream);
         }
         catch (IOException ioe)
