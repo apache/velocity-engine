@@ -67,7 +67,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.7 2001/04/20 23:19:47 dlr Exp $
+ * @version $Id: AbstractExecutor.java,v 1.8 2001/04/20 23:20:20 dlr Exp $
  */
 public abstract class AbstractExecutor
 {
@@ -88,9 +88,6 @@ public abstract class AbstractExecutor
      */
     public boolean isAlive()
     {
-        if (method != null)
-            return true;
-        else
-            return false;
+        return (method != null);
     }            
 }
