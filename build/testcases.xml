@@ -185,7 +185,8 @@
   <target name="test-anakia">
     <echo message="Running Anakia tests..."/>
     
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"
+	reverseloader="true">
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -289,7 +290,8 @@
   
   <target name="test-texen-classpath">
     
-    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
+    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
+	reverseloader="true">
       <classpath>
         <pathelement location="../test/texen-classpath/test.jar"/>
         <path refid="classpath"/>
