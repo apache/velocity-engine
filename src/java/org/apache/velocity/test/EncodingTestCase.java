@@ -79,7 +79,7 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EncodingTestCase.java,v 1.1 2001/04/14 02:54:04 geirm Exp $
+ * @version $Id: EncodingTestCase.java,v 1.2 2001/05/30 05:50:36 geirm Exp $
  */
 public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -125,8 +125,12 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
              *  get the template and the output
              */
 
-            Template template = Runtime.getTemplate(
-                getFileName(null, "encodingtest", TMPL_FILE_EXT));
+            /*
+             *  Chinese and spanish
+             */
+
+            Template template = Velocity.getTemplate(
+                getFileName(null, "encodingtest", TMPL_FILE_EXT), "UTF-8");
 
             FileOutputStream fos = 
                 new FileOutputStream (
@@ -143,6 +147,53 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
             {
                 fail("Output incorrect.");
             }
+
+            /*
+             *  a 'high-byte' chinese example from Michael Zhou
+             */
+
+            template = Velocity.getTemplate( 
+                  getFileName( null, "encodingtest2", TMPL_FILE_EXT), "UTF-8");
+
+            fos = 
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "encodingtest2", RESULT_FILE_EXT));
+
+            writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+           
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
+            
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest2",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output incorrect.");
+            }
+
+            /*
+             *  a 'high-byte' chinese from Ilkka
+             */
+
+            template = Velocity.getTemplate( 
+                  getFileName( null, "encodingtest3", TMPL_FILE_EXT), "GBK");
+
+            fos = 
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "encodingtest3", RESULT_FILE_EXT));
+
+            writer = new BufferedWriter(new OutputStreamWriter(fos, "GBK"));
+           
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
+            
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest3",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output incorrect.");
+            }
+
         }
         catch (Exception e)
         {
@@ -150,3 +201,6 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
         }
     }
 }
+
+
+
