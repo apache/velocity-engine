@@ -10,4 +10,4 @@ do
     CLASSPATH="${jar}:${CLASSPATH}"
 done
 
-java -classpath "${CLASSPATH}" org.apache.velocity.convert.WebMacro "${1}"
+java -classpath "${CLASSPATH}" org.apache.velocity.convert.WebMacro $*
