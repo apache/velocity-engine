@@ -55,6 +55,7 @@ package org.apache.velocity;
  */
 
 import java.util.Hashtable;
+import java.io.Serializable;
 
 import org.apache.velocity.util.ArrayIterator;
 
@@ -66,9 +67,9 @@ import org.apache.velocity.util.ArrayIterator;
  * an valid object derived from Object. These objects
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.6 2000/11/02 22:32:24 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.7 2000/11/27 22:44:15 jon Exp $
  */
-public class Context implements Cloneable
+public class Context implements Cloneable, Serializable
 {
     /**
      * Random access storage for context data.
