@@ -170,9 +170,6 @@ public class SimpleNode implements Node
         return null;
     }        
 
-    public Object invoke(Object o, Context context) 
-    { return null; }
-
     public void render(Context context, Writer writer)
         throws IOException
     {

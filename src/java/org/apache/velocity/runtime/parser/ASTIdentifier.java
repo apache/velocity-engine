@@ -58,35 +58,4 @@ public class ASTIdentifier extends SimpleNode
     {
         return executor.execute(o, context);
     }
-
-    public Object invoke(Object result, Context context)
-    {
-        String identifier = getFirstToken().image;
-        String method = "get" + identifier;
-        Object newResult;
-        
-        newResult = ClassUtils.invoke(result, method);
-        if (newResult == null)
-        {
-            method = "get";
-            Object[] args = { identifier };
-            Class[] ptypes = null;
-
-            // Have to make sure class types are
-            // correct for a proper signature match.
-
-            if (result instanceof Map)
-            {
-                // This can be created once.
-                ptypes = new Class[1];
-                ptypes[0] = new Object().getClass();
-            }
-
-            result = ClassUtils.invoke(result, method, args, ptypes);
-        }
-        else
-            result = newResult;
-        
-        return result;
-    }
 }
