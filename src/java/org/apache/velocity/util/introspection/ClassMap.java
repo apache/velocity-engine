@@ -70,7 +70,7 @@ import java.lang.reflect.Modifier;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.14 2001/10/22 03:53:27 jon Exp $
+ * @version $Id: ClassMap.java,v 1.15 2001/11/02 05:09:37 dlr Exp $
  */
 public class ClassMap
 {
@@ -209,7 +209,7 @@ public class ClassMap
     {
         Class[] parameterTypes = method.getParameterTypes();
         
-        StringBuffer methodKey = new StringBuffer().append(method.getName());
+        StringBuffer methodKey = new StringBuffer(method.getName());
         
         for (int j = 0; j < parameterTypes.length; j++)
         {
@@ -239,7 +239,9 @@ public class ClassMap
                     methodKey.append("java.lang.Short");
             }                
             else
+            {
                 methodKey.append(parameterTypes[j].getName());
+            }
         }            
         
         return methodKey.toString();
