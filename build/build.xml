@@ -345,7 +345,8 @@
 
   </target>
 
-  <target name="examples-clean-all" depends="examples-clean-anakia">
+  <target name="examples-clean-all" depends="examples-clean-anakia,
+                                             examples-clean-forumdemo">
     <delete quiet="true">
       <fileset dir="${example.dir}" includes="**/*.class"/>
     </delete>
@@ -353,6 +354,10 @@
 
   <target name="examples-clean-anakia">
     <delete dir="${example.dir}/anakia/docs" quiet="true"/>
+  </target>
+
+  <target name="examples-clean-forumdemo">
+    <delete dir="${example.dir}/forumdemo/WEB-INF/classes" quiet="true"/>
   </target>
 
   <!-- =================================================================== -->
