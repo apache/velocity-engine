@@ -1,0 +1,6 @@
+This is the book of the week:
+
+Title: $props.get("title")
+Author: $props.get("author")
+Publisher: $props.get("publisher")
+ISBN: $props.get("isbn")
