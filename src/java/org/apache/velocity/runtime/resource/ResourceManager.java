@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Vector;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
@@ -76,7 +77,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: ResourceManager.java,v 1.15 2001/03/12 04:38:36 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.16 2001/03/14 22:07:46 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -168,44 +169,32 @@ public class ResourceManager
             return;
         }            
         
-        for (int i = 1; i < 10; i++)
+        Vector resourceLoaderNames = 
+            Runtime.getConfiguration().getVector(Runtime.RESOURCE_LOADER);
+
+        for (int i = 0; i < resourceLoaderNames.size(); i++)
         {
-            String loaderID = "resource.loader." + new Integer(i).toString();
-            
             /*
-             * Create a resources class specifically for
-             * the loader if we have a valid subset of
-             * resources. VelocityResources.subset(prefix)
-             * will return null if we do not have a valid
-             * subset of resources.
+             * The loader id might look something like the following:
+             *
+             * file.resource.loader
+             *
+             * The loader id is the prefix used for all properties
+             * pertaining to a particular loader.
              */
-            if (Runtime.getConfiguration().subset(loaderID) == null)
-            {
-                continue;
-            }                
-            
+            String loaderID = 
+                resourceLoaderNames.get(i) + "." + Runtime.RESOURCE_LOADER;
+        
             Configuration loaderConfiguration =
                 Runtime.getConfiguration().subset(loaderID);
-
+                
             /*
              * Add resources to the list of resource loader
              * initializers.
              */
             sourceInitializerList.add(loaderConfiguration);
-
-            /*
-             * Make a Map of the public names for the sources
-             * to the sources property identifier so that external
-             * clients can set source properties. For example:
-             * File.resource.path would get translated into
-             * template.loader.1.resource.path and the translated
-             * name would be used to set the property.
-             */
-            sourceInitializerMap.put(
-                loaderConfiguration.getString("public.name").toLowerCase(), 
-                    loaderConfiguration);
-        }            
-    
+        }
+        
         resourceLoaderInitializersActive = true;
     }
 
@@ -373,34 +362,5 @@ public class ResourceManager
             }
         }
         return resource;
-    }
-
-    /**
-     * Allow clients of Velocity to set a template stream
-     * source property before the template source streams
-     * are initialized. This would for example allow clients
-     * to set the template path that would be used by the
-     * file template stream source. Right now these properties
-     * have to be set before the template stream source is
-     * initialized. Maybe we should allow these properties
-     * to be changed on the fly.
-     *
-     * It is assumed that the initializers have been
-     * assembled.
-     */
-    public static void setSourceProperty(String key, String value)
-    {
-        if (resourceLoaderInitializersActive == false)
-        {
-            assembleResourceLoaderInitializers();
-        }            
-            
-        String publicName = key.substring(0, key.indexOf("."));
-        String property = key.substring(key.indexOf(".") + 1);
-        
-        Configuration loaderConfiguration = (Configuration) 
-            sourceInitializerMap.get(publicName.toLowerCase());
-        
-        loaderConfiguration.setProperty(property, value);
     }
 }
