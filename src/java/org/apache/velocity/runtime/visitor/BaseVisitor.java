@@ -60,7 +60,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.util.ClassUtils;
 
 import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.node.*;

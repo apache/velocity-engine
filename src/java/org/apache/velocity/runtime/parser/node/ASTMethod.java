@@ -5,7 +5,6 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.Introspector;
 import org.apache.velocity.runtime.parser.*;
 

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTIdentifier extends SimpleNode

@@ -57,6 +57,8 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
+import java.lang.reflect.Method;
+
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -64,7 +66,6 @@ import java.util.Vector;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ArrayIterator;
 
 import org.apache.velocity.runtime.parser.Token;
@@ -132,10 +133,17 @@ public class Foreach extends Directive
             node.setInfo(ARRAY);
             sampleElement = ((Object[]) listObject)[0];
         }            
-        else if (ClassUtils.implementsMethod(listObject, "iterator"))
+        else if (implementsMethod(listObject, "iterator"))
         {
             node.setInfo(ITERATOR);
             sampleElement = ((Collection) listObject).iterator().next();
+        }
+        else
+        {
+            // If it's not an array or an object that provides
+            // an iterator then the node is invalid and should
+            // not be rendered.
+            node.setInvalid();
         }            
         
         // This is a little trick so that we can initialize
@@ -176,5 +184,24 @@ public class Foreach extends Directive
         context.remove(elementKey);
     
         return true;
+    }
+
+    /**
+     * Checks whether the provided object implements a given method.
+     *
+     * @param object     The object to check.
+     * @param methodName The method to check for.
+     * @return           Whether the method is implemented.
+     */
+    public static boolean implementsMethod(Object object, String methodName)
+    {
+        int m;
+        
+        Method[] methods = object.getClass().getMethods();
+        for (m = 0 ; m < methods.length ; ++m)
+            if (methodName.equals(methods[m].getName()))
+                break;
+        
+        return (m < methods.length);
     }
 }
