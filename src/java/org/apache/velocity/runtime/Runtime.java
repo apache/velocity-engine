@@ -142,7 +142,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.103 2001/03/20 01:52:54 jon Exp $
+ * @version $Id: Runtime.java,v 1.104 2001/03/25 22:57:55 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -299,6 +299,28 @@ public class Runtime implements RuntimeConstants
     }        
 
     /**
+     * Allow an external system to set a Configuration
+     * object to use. This is useful where the external
+     * system also uses the Configuration class and
+     * the velocity configuration is a subset of
+     * parent application's configuration. This is
+     * the case with Turbine.
+     *
+     * @param Configuration configuration
+     */
+    public static void setConfiguration(Configuration configuration)
+    {
+        if (overridingProperties == null)
+        {
+            overridingProperties = configuration;
+        }
+        else
+        {
+            overridingProperties.combine(configuration);
+        }
+    }
+
+    /**
      * Add a property to the configuration. If it already
      * exists then the value stated here will be added
      * to the configuration entry. For example, if
@@ -319,7 +341,12 @@ public class Runtime implements RuntimeConstants
      */
     public static void addProperty(String key, Object value)
     {
-        configuration.addProperty(key, value);
+        if (overridingProperties == null)
+        {
+            overridingProperties = new Configuration();
+        }            
+            
+        overridingProperties.addProperty( key, value );
     }
     
     /**
