@@ -322,7 +322,17 @@
         to construct the SOAP messages.
       </td>
      </tr>
-     
+
+     <tr>
+      <td>
+       <a href="http://velosurf.sourceforge.net/">Velosurf</a>
+      </td>
+      <td>
+        Velosurf is a database access tool for the Velocity template engine.
+          It is meant for ease-of-use, genericity and efficiency.
+      </td>
+     </tr>
+
  </table>
 
  </section>
