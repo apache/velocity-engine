@@ -31,6 +31,8 @@ config.float.value
 config.double.value
 escape.comma1
 escape.comma2
+include1.property
+include2.property
 
 --------------------------------------------------
 Testing retrieval of CSV values ...
