@@ -21,6 +21,7 @@
   <property name="example.dir" value="../examples"/>
 
   <property name="src.java.dir" value="../src/java"/>
+  <property name="test.java.dir" value="../src/test"/>
   <property name="javadoc.destdir" value="../docs/api"/>
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
@@ -154,6 +155,12 @@
         <include name="**/*.java"/>
       </fileset>
     </copy>
+
+      <copy todir="${build.src}" filtering="yes">
+        <fileset dir="${test.java.dir}">
+          <include name="**/*.java"/>
+        </fileset>
+      </copy>
 
     <!--  chose a class that's from j2ee.jar -->
     <available  classname="javax.sql.DataSource"
@@ -835,10 +842,33 @@
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
    <target name="test"
-            depends="compile"
+            depends="compile, junittest"
             description="--> Run the testcases">
         <ant antfile="testcases.xml" target="test-all"/>
    </target>
+
+    <target name="junittest" depends="compile"
+                 description="Run non-legacy unit test cases">
+
+        <junit dir="./" printSummary="yes" fork="true" haltonerror="true">
+
+          <sysproperty key="basedir" value="../src/test"></sysproperty>
+
+          <classpath>
+            <fileset dir="lib">
+              <include name="*.jar"></include>
+            </fileset>
+            <pathelement path="${build.dest}"></pathelement>
+          </classpath>
+
+          <batchtest>
+            <fileset dir="../src/test">
+                <include name="**/Test*.java"></include>
+            </fileset>
+          </batchtest>
+
+        </junit>
+    </target>
 
    <target name="test-clean"
             description="--> Cleanup after the testcases">
