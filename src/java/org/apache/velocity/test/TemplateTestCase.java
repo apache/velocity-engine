@@ -79,7 +79,7 @@ import junit.framework.TestCase;
  * Easily add test cases which evaluate templates and check their output.
  *
  * NOTE:
- * This class DOES NOT extend RuntimeTestCase because the VelocityTestSuite
+ * This class DOES NOT extend RuntimeTestCase because the TemplateTestSuite
  * already initializes the Velocity runtime and adds the template
  * test cases. Having this class extend RuntimeTestCase causes the
  * Runtime to be initialized twice which is not good. I only discovered
@@ -99,7 +99,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.27 2001/03/13 00:02:56 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.28 2001/03/13 02:23:09 dlr Exp $
  */
 public class TemplateTestCase extends TestCase implements TemplateTestBase
 {
