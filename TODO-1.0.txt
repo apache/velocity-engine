@@ -26,7 +26,11 @@ o Log4j for Logging
   [GMJ] +1 on log4j - and I think a simple Interface here and now
         would go a long way. Nothing too fancy - just let people
         plug in what they want.
-  
+        - another issue is distribution - we have a nice thing now
+         where the user doesn't have to go fetch anything to get vel
+         going.  I assume that we will include a tested version of 
+         log4j with the distro?
+
 o Get a copy of Alexandria for Javadocs
 
   PLAN:
