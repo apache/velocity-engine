@@ -69,6 +69,10 @@ import org.apache.velocity.runtime.parser.*;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
+import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.context.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.NullReferenceEventHandler;
+
 /**
  * This class is responsible for handling the references in
  * VTL ($foo).
@@ -80,7 +84,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.27 2001/04/18 21:00:44 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.28 2001/04/20 04:28:47 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -256,29 +260,56 @@ public class ASTReference extends SimpleNode
          *  the normal processing
          */
 
-        if (value == null)
-        {
-            /* 
-             *  write prefix twice, because it's shmoo, so the \ don't escape each other...
-             */
-            
-            writer.write( firstTokenPrefix );
-            writer.write( prefix );
-            writer.write( nullString );
+        EventCartridge ec = context.getEventCartridge();
 
-            if (referenceType != QUIET_REFERENCE 
-                 && Runtime.getBoolean( 
-                     RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+        if (value == null)
+        { 
+            /*
+             *  if we have an event cartridge, get a new value object
+             */
+            if (ec != null)
             {
-                Runtime.warn(new ReferenceException("reference : template = " + context.getCurrentTemplateName(), this));
+               value = ec.nullReferenceRender( nullString );
+            }
+
+            /*
+             *  if still null, then render output.  If we got a value object
+             *  then fall through to the normal rendering
+             */
+            if (value == null)
+            {
+                /* 
+                 *  write prefix twice, because it's shmoo, so the \ don't escape each other...
+                 */
+                
+                writer.write( firstTokenPrefix );
+                writer.write( prefix );
+                writer.write( nullString );
+                
+                if (referenceType != QUIET_REFERENCE 
+                    && Runtime.getBoolean( 
+                                          RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+                {
+                    Runtime.warn(new ReferenceException("reference : template = " 
+                                                        + context.getCurrentTemplateName(), this));
+                }
+
+                return true;
             }
         }                    
-        else
+       
+        /*
+         *  now see if user want's to override the value for this
+         *  insert
+         */
+        if (ec != null)
         {
-            writer.write( firstTokenPrefix );
-            writer.write( value.toString() );
-        }                    
-    
+            value =  ec.referenceInsert( nullString, value );
+	    }
+
+        writer.write( firstTokenPrefix );
+        writer.write( value.toString() );
+                            
         return true;
     }
        
