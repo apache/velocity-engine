@@ -769,7 +769,7 @@
     <BR>
     The <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
-    reference or a property reference:
+    reference or a property reference, and this occurs in brackets, as demonstrated:
  </P>
  
  <P align="justify">
@@ -827,17 +827,56 @@
  </P>
 
  <P align="justify">
-    Unlike some directive that will be discussed below, the <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive 
-    does not have a <VTLDIRECTIVE><FONT face="courier, monospaced">#end</FONT></VTLDIRECTIVE> statement. The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> statement <I>must</I> 
-    end with a newline character (obtained by pressing Enter); it cannot be used inline.
+    Unlike some of the other Velocity directives, the <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE> directive 
+    does not have an <VTLDIRECTIVE><FONT face="courier, monospaced">#end</FONT></VTLDIRECTIVE> statement. Instead, the left bracket marks
+    the beginning and the right bracket marks the end of an assignment.
  </P>
 
  <P align="justify">
-    The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> does not currently require that brackets 
-    enclose the accompanying expression, but this won't be the case for long. To help users to
-    update their templates to use brackets with the <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive,
-    Velocity will generate warnings in the runtime log when a <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> is
-    used without brackets.
+    <B>String Literals</B>
+ </P>
+
+ <P align="justify">
+    When using the <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE> directive, string literals that are enclosed
+    in double quote characters will be parsed and rendered, as shown:
+ </P>
+
+ <P align="justify">  
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+      #set( $directoryRoot = &quot;www&quot; )  
+      #set( $templateName = &quot;index.vm&quot; )
+      #set( $template = &quot;$directoryRoot/$templateName&quot; )
+      $template
+
+      #*
+      The output will be:   www/index.vm
+      *#
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>    
+ </P>
+
+ <P align="justify">
+    However, when the string literal is enclosed in single quote characters, it will not be parsed: 
+ </P>
+
+ <P align="justify">  
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set( $foo = &quot;bar&quot; )
+    $foo
+    #set( $blargh = '$foo' )
+    $blargh
+
+    #*
+    This renders as:
+    bar
+    $foo
+    *#
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>    
+ </P>
+
+ <P align="justify">
+    By default, this feature of using single quotes to render unparsed text is available in Velocity.
+    This default can be changed by editing <FILENAME><I>velocity.properties</I></FILENAME> such that
+    <CODE><FONT face="courier, monospaced">stringliterals.interpolate=false</FONT></CODE>.
  </P>
 
 
@@ -900,12 +939,31 @@
     </P>
 
     <P align="justify">
-    <B>Logical Operators</B>
+    <B>Relational and Logical Operators</B>
     </P>
+
+
+    <P align="justify">
+    Velocity uses the equivalent operator to determine the relationships between variables. 
+    Here is a simple example to illustrate how the equivalent operator is used.
+    </P> 
     
     <P align="justify">
-      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.  Below is an example of an if statement using 
-      logical AND.
+     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+     #set ($foo = &quot;deoxyribonucleic acid&quot;)
+     #set ($bar = &quot;ribonucleic acid&quot;)
+
+     #if ($foo == $bar)
+        In this case it's clear they don't equate. So...
+     #else
+        They do not equate! And this will be the output.
+     #end
+     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.
+      Below is an example of an if statement using logical AND.
     </P>
 
     <P align="justify">
@@ -1021,7 +1079,7 @@
 
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #include( &quot;greetings.txt&quot;,$seasonalstock )
+    #include( &quot;greetings.txt&quot;, $seasonalstock )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
@@ -1463,6 +1521,31 @@
     mathematical equations in Velocity; when a non-integer is used, it is
     logged and a null will be returned as the output.
   </P>
+
+  <P align="justify">
+    Velocity has a built-in way of dealing with division by zero. In the following example
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set( $foo = 5 )
+    #set( $bar = $foo - 5 )
+    #set( $uhoh = $foo / $bar )
+    $uhoh
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>  
+
+  <P align="justify">
+    The reference <VARIABLE><FONT face="courier, monospaced">$uhoh</FONT></VARIABLE> is assigned the value of five divided by zero.
+    When Velocity renders this template, the output will be:
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    $uhoh
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>  
+  
 
   </FONT></TD></TR></TABLE></DIV><BR>
 
