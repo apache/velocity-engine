@@ -54,11 +54,11 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.lang.reflect.Method;
-
-import org.apache.velocity.context.InternalContextAdapter;
-
 import java.lang.reflect.InvocationTargetException;
+
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.context.InternalContextAdapter;
 
 /**
  * Returned the value of object property when executed.
@@ -137,17 +137,44 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch( InvocationTargetException ite )
         {
+            EventCartridge ec = context.getEventCartridge();
+
             /*
-             *  the method we invoked threw an exception.
-             *  package and pass it up
+             *  if we have an event cartridge, see if it wants to veto
+             *  also, let non-Exception Throwables go...
              */
 
-            throw  new MethodInvocationException( 
+            if ( ec != null && ite.getTargetException() instanceof java.lang.Exception)
+            {
+                try
+                {
+                    return ec.methodException( o.getClass(), methodUsed, (Exception)ite.getTargetException() );
+                }
+                catch( Exception e )
+                {
+                    throw new MethodInvocationException( 
+                      "Invocation of method '" + methodUsed + "'" 
+                      + " in  " + o.getClass() 
+                      + " threw exception " 
+                      + ite.getTargetException().getClass(), 
+                      ite.getTargetException(), methodUsed );
+                }
+            }
+            else
+            {
+                /*
+                 * no event cartridge to override. Just throw
+                 */
+
+                throw  new MethodInvocationException( 
                 "Invocation of method '" + methodUsed + "'" 
                 + " in  " + o.getClass() 
                 + " threw exception " 
                 + ite.getTargetException().getClass(), 
                 ite.getTargetException(), methodUsed );
+
+              
+            }
         }
         catch( IllegalArgumentException iae )
         {
