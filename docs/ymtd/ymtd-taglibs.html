@@ -11,10 +11,10 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-                                                    <meta name="author" value="Velocity Documentation Team">
-            <meta name="email" value="jvanzyl@locus.apache.org">
+                                                    <meta name="author" value="Jon S. Stevens">
+            <meta name="email" value="jon@latchkey.com">
             
-            <title>Velocity - Velocity Installation</title>
+            <title>Velocity - You make the decision - Taglibs</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -25,7 +25,7 @@
 <a href="http://jakarta.apache.org"><img src="http://jakarta.apache.org/images/jakarta-logo.gif" border="0"/></a>
 </td>
 <td align="right">
-<a href="http://jakarta.apache.org/velocity/"><img src="./images/logo.gif" alt="Velocity" border="0"/></a>
+<a href="http://jakarta.apache.org/velocity/"><img src="../images/logo.gif" alt="Velocity" border="0"/></a>
 </td>
                 </tr>
             </table>
@@ -39,46 +39,46 @@
                     <td valign="top" nowrap="true">
                                 <p><strong>About</strong></p>
         <ul>
-                    <li>    <a href="./index.html">Overview</a>
+                    <li>    <a href="../index.html">Overview</a>
 </li>
-                    <li>    <a href="./getting-started.html">Getting Started</a>
+                    <li>    <a href="../getting-started.html">Getting Started</a>
 </li>
-                    <li>    <a href="./install.html">Install</a>
+                    <li>    <a href="../install.html">Install</a>
 </li>
-                    <li>    <a href="./design.html">Design</a>
+                    <li>    <a href="../design.html">Design</a>
 </li>
-                    <li>    <a href="./contributors.html">Contributors</a>
+                    <li>    <a href="../contributors.html">Contributors</a>
 </li>
-                    <li>    <a href="./code-standards.html">Coding Standards</a>
+                    <li>    <a href="../code-standards.html">Coding Standards</a>
 </li>
-                    <li>    <a href="./license.html">License</a>
+                    <li>    <a href="../license.html">License</a>
 </li>
-                    <li>    <a href="./todo.html">TODO</a>
+                    <li>    <a href="../todo.html">TODO</a>
 </li>
                 </ul>
             <p><strong>Guides</strong></p>
         <ul>
-                    <li>    <a href="./user-guide.html">User's Guide</a>
+                    <li>    <a href="../user-guide.html">User's Guide</a>
 </li>
-                    <li>    <a href="./developer-guide.html">Developer's Guide</a>
+                    <li>    <a href="../developer-guide.html">Developer's Guide</a>
 </li>
-                    <li>    <a href="./vtl-reference-guide.html">VTL Reference Guide</a>
+                    <li>    <a href="../vtl-reference-guide.html">VTL Reference Guide</a>
 </li>
                 </ul>
             <p><strong>Comparisons</strong></p>
         <ul>
-                    <li>    <a href="./ymtd.html">YMTD</a>
+                    <li>    <a href="../ymtd.html">YMTD</a>
 </li>
-                    <li>    <a href="./differences.html">VM/WM Differences</a>
+                    <li>    <a href="../differences.html">VM/WM Differences</a>
 </li>
                 </ul>
             <p><strong>Tools</strong></p>
         <ul>
-                    <li>    <a href="./anakia.html">Anakia</a>
+                    <li>    <a href="../anakia.html">Anakia</a>
 </li>
-                    <li>    <a href="./texen.html">Texen</a>
+                    <li>    <a href="../texen.html">Texen</a>
 </li>
-                    <li>    <a href="./migration.html">Migration to Velocity</a>
+                    <li>    <a href="../migration.html">Migration to Velocity</a>
 </li>
                 </ul>
                         </td>
@@ -86,23 +86,30 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Installation</strong>
+          <strong>Taglibs</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-Velocity runs on a variety of platforms that have installed the Java 2 Virtual
-Machine. The J2SDK is required for users who want to compile Velocity from its
-source code.
+Taglibs are intended to be the savior for JSP. They are billed as the
+way to allow one to extend JSP so that there is a nice MVC abstraction
+while still adding functionality to the base "language". This is where
+Struts has concentrated a good portion of its efforts by providing a
+nice taglib library for people to use.
 </p>
                                                 <p>
-Everything required to build Velocity comes with the distribution, which can be
-obtained from <a href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</a>
-or from the <a href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly builds</a>.
+The advantage of using taglibs is that they allow you to extend the
+"language" syntax of JSP to provide the things that are missing from it,
+but are available in Java. In other words, instead of encouraging people
+to embed Java code within their pages, this has been now abstracted to
+encouraging people to embed XML tags in their page. How is this any
+better than what ColdFusion did with their product? JSP is on the
+cutting edge of re-inventing the broken wheel. Yea!
 </p>
                                                 <p>
-The directory tree of the distribution looks like :
+This is an example that shows how logic would be embedded into your JSP
+page. It is borrowed directly from the Struts documentation.
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -114,18 +121,27 @@ The directory tree of the distribution looks like :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+&lt;%@ page language=&quot;java&quot; %&gt;
+&lt;%@ taglib uri=&quot;/WEB-INF/struts-logic.tld&quot; prefix=&quot;logic&quot; %&gt;
 
-jakarta-velocity
-  /build        - contains build scripts
-  /bin          - where the built jars / classes will go
-  /src          - sourcecode for Velocity, Anakia, and Texen
-  /docs         - documentation in HTML form
-  /docs/apidocs - Javadocs for Velocity source
-  /examples     - example/demonstration code
-  /convert      - tools to help convert WebMacro templates
-  /test         - test programs and templates
-  /xdocs        - source for our documentation
 
+&lt;!-- Is the number guess right? --&gt;
+&lt;logic:equal parameter=&quot;number&quot; value=&quot;7&quot;&gt;
+  You guessed right! You win a high speed blender!
+&lt;/logic:equal&gt;
+
+
+&lt;!-- If the number guessed was wrong --&gt;
+&lt;logic:notEqual parameter=&quot;number&quot; value=&quot;7&quot;&gt;
+  &lt;!-- Less Than --&gt;
+  &lt;logic:lessThan parameter=&quot;number&quot; value=&quot;7&quot;&gt;
+         A little higher...
+  &lt;/logic:lessThan&gt;
+  &lt;!-- Greater Than --&gt;
+  &lt;logic:greaterThan parameter=&quot;number&quot; value=&quot;7&quot;&gt;
+         A little lower...
+  &lt;/logic:greaterThan&gt;
+&lt;/logic:notEqual&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -136,32 +152,8 @@ jakarta-velocity
     </tr>
     </table>
     </div>
-                            </blockquote>
-      </td></tr>
-    </table>
-                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
-      <tr><td bgcolor="#525D76">
-        <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Building</strong>
-        </font>
-      </td></tr>
-      <tr><td>
-        <blockquote>
-                                    <p>
-To make building Velocity easy and consistant, we have provided scripts to build 
-Velocity for both Unix and Windows.  We use a Jakarta project called 
-<a href="http://jakarta.apache.org/ant/">Ant</a> to perform
-the build process and provide Ant with the distribution,  so no 
-external build utilities are required.
-</p>
                                                 <p>
-In each case below, it is assumed that you were successful in getting the distribution from CVS 
-or as a nightly build, and with the latter, were successful in unpacking.  Also, it is assumed that
-you are starting in the 'jakarta-velocity' directory, the root of the distribution tree.  All directory
-references will be relative to 'jakarta-velocity'.
-</p>
-                                                <p>
-On Unix, change to the <filename>build</filename> directory (<code>cd build</code>).  Then, build the Velocity jar via the build-velocity.sh script :
+The same example using Velocity would be written like this:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -173,7 +165,21 @@ On Unix, change to the <filename>build</filename> directory (<code>cd build</cod
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-./build-velocity.sh
+&lt;!-- Is the number guess right? --&gt;
+#if ( $number = 7 )
+  You guessed right! You win a high speed blender!
+#end
+
+&lt;!-- If the number guessed was wrong --&gt;
+#if ( $number != 7 )
+    &lt;!-- Less Than --&gt;
+    #if ( $number &lt; 7 )
+         A little higher...
+    &lt;!-- Greater Than --&gt;
+    #elseif ( $number &gt; 7 )
+         A little lower...
+    #end
+#end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -185,7 +191,12 @@ On Unix, change to the <filename>build</filename> directory (<code>cd build</cod
     </table>
     </div>
                                                 <p>
-On Windows,  change to the <filename>build</filename> directory (<code>cd build</code>).  Then, build the Velocity jar via the build-velocity.bat script :
+This really falls into a preferences situation. In other words, which
+syntax would someone prefer to use? It seems as though the amount of
+typing required to implement the taglibs approach would be a major
+deciding factor for many people. One reason is that the more typing that
+needs to be done, the more chances for errors. Lets continue with
+another example taken from the Struts documentation:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -197,7 +208,23 @@ On Windows,  change to the <filename>build</filename> directory (<code>cd build<
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-build-velocity.bat 
+&lt;%@ page language=&quot;java&quot; %&gt;
+&lt;%@ taglib uri=&quot;/WEB-INF/struts-bean.tld&quot; prefix=&quot;bean&quot; %&gt;
+&lt;%@ taglib uri=&quot;/WEB-INF/struts-logic.tld&quot; prefix=&quot;logic&quot; %&gt;
+
+&lt;%
+java.util.ArrayList list = new java.util.ArrayList();
+  list.add(&quot;First&quot;);
+  list.add(&quot;Second&quot;);
+  list.add(&quot;Third&quot;);
+  list.add(&quot;Fourth&quot;);
+  list.add(&quot;Fifth&quot;);
+  pageContext.setAttribute(&quot;list&quot;, list, PageContext.PAGE_SCOPE);
+%&gt;
+
+&lt;logic:iterate id=&quot;myCollectionElement&quot; name=&quot;list&quot;&gt;
+  Element Value: &lt;bean:write name=&quot;myCollectionElement&quot; /&gt;&lt;br /&gt;
+&lt;/logic:iterate&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -209,43 +236,18 @@ build-velocity.bat
     </table>
     </div>
                                                 <p>
-Executing this script will create a <filename>bin</filename> directory within
-the Velocity distribution directory. The <filename>bin</filename> directory will
-contain the compiled class files (inside a <filename>classes</filename>
-directory) as well as a <filename>velocity-XX.jar</filename> file,
-where XX is the current version number. Be sure to
-update your classpath to include Velocity's <filename>.jar</filename> file.
+It is clear from the Struts example above that the whole strict MVC
+model has been broken again because a call to
+<code>java.util.ArrayList</code> and creating an Object is embedding
+Java code within a template. Compound that with the idea that one needs
+to place that <code>ArrayList</code> into the <code>pageContext</code>
+is even more confusing. Not only that but the designer has to remember
+to use a bunch of cryptic code at the top of the file that makes
+references to some taglib document as well as declare a prefix
+attribute. Why do things need to be so overly complicated?
 </p>
                                                 <p>
-Velocity should build 'out of the box', independent of your classpath.
-If you get an error building Velocity, try a different nightly build (as sometimes
-we make a mistake and the CVS at the time of the nightly snapshot isn't complete)
-or refresh from CVS (you might have gotten a CVS snapshot while a developer was
-checking things in.)
-</p>
-                                                <p>
-If the problems persist, do not hesitate to ask the Velocity community via our mail
-lists. They can be found <a href="http://jakarta.apache.org/site/mail.html">here</a>.
-Please read and understand the the guidelines for participating in any Jakarta mail
-list.
-</p>
-                            </blockquote>
-      </td></tr>
-    </table>
-                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
-      <tr><td bgcolor="#525D76">
-        <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Testing Your Installation</strong>
-        </font>
-      </td></tr>
-      <tr><td>
-        <blockquote>
-                                    <p>
-The Velocity developers use an automated test facility, and it is included in the 
-distribution. You can use it to make sure that all is well with your build of Velocity.
-</p>
-                                                <p>
-To run the test suite, simply use the build target <filename>test</filename> when you build :
+The same example using Velocity would be written like this:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -257,9 +259,11 @@ To run the test suite, simply use the build target <filename>test</filename> whe
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Unix : ./build-velocity.sh test
+#set ( $list = [&quot;First&quot;, &quot;Second&quot;, &quot;Third&quot;, &quot;Fourth&quot;, &quot;Fifth&quot;] )
 
-Windows : build-velocity.bat test
+#foreach ( $item in $list )
+  Element Value: $item&lt;br /&gt;
+#end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -271,7 +275,9 @@ Windows : build-velocity.bat test
     </table>
     </div>
                                                 <p>
-If all is well, you should see output like :
+Moving on with examples, we come back to the previous <a href="./ymtd-sampleapp.html">sample application</a> provided in Jason
+Hunter's book that was shown before. This time it has been implemented
+entirely within the Struts framework.
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -283,25 +289,47 @@ If all is well, you should see output like :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-test:
-Running JUnit template tests for Velocity ...
-Adding TemplateTestCase : arithmetic
-Adding TemplateTestCase : array
-Adding TemplateTestCase : block
-   .
-   .
-   .
-Adding TemplateTestCase : math
-Adding TemplateTestCase : range
-Adding TemplateTestCase : get
-Adding TemplateTestCase : velocimacro2
-Adding TemplateTestCase : foreach-type
-Adding ContextSafetyTestCase.
-......................................
-Time: 2.553
+&lt;%-- toolview-tag.jsp --%&gt;
 
-OK (38 tests)
+&lt;%@ taglib uri=&quot;/WEB-INF/struts.tld&quot; prefix=&quot;struts&quot; %&gt;
 
+&lt;%
+  String title = &quot;Tool Listing&quot;;
+  String deck = &quot;A list of content creation tools&quot;;
+  String desc = &quot;Without tools, people are nothing more than animals.&quot;;
+%&gt;
+
+&lt;%@ include file=&quot;/header.jsp&quot; %&gt;
+
+&lt;%@ page session=&quot;false&quot; %&gt;
+&lt;%@ page errorPage=&quot;/errorTaker.jsp&quot; %&gt;
+
+&lt;%-- Fetch the tools array as a request attribute --%&gt;
+&lt;jsp:useBean id=&quot;tools&quot; class=&quot;Tool[]&quot; scope=&quot;request&quot;/&gt;
+
+&lt;struts:iterate id=&quot;tool&quot; collection=&quot;&lt;%= tools %&gt;&quot;&gt;
+  &lt;HR SIZE=2 ALIGN=LEFT&gt;
+
+  &lt;H3&gt;
+  &lt;%-- Automatically HTML-escapes values --%&gt;
+  &lt;struts:property name=&quot;tool&quot; property=&quot;name&quot; /&gt;
+
+  &lt;% if (((Tool)tool).isNewWithin(45)) { %&gt;
+    &lt;FONT COLOR=#FF0000&gt;&lt;B&gt; (New!) &lt;/B&gt;&lt;/FONT&gt;
+  &lt;% } else if (((Tool)tool).isUpdatedWithin(45)) { %&gt;
+    &lt;FONT COLOR=#FF0000&gt;&lt;B&gt; (Updated!) &lt;/B&gt;&lt;/FONT&gt;
+  &lt;% } %&gt;
+
+  &lt;/H3&gt;
+  &lt;A HREF=&quot;&lt;struts:property name=&quot;tool&quot; property=&quot;homeURL&quot;/&gt;&quot;&gt;
+           &lt;struts:property name=&quot;tool&quot; property=&quot;homeURL&quot;/&gt;&lt;/A&gt;&lt;BR&gt;
+
+  &lt;%-- Assume don't want HTML in comments --%&gt;
+  &lt;struts:property name=&quot;tool&quot; property=&quot;comments&quot; /&gt;
+
+&lt;/struts:iterate&gt;
+
+&lt;%@ include file=&quot;/footer.jsp&quot; %&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -313,9 +341,19 @@ OK (38 tests)
     </table>
     </div>
                                                 <p>
-Note that the number of tests may vary from those shown above, but if you see 'OK' 
-after the tests are run, all is well.  Now it's time to use Velocity.
+At this point, we now have a combination of standard JSP tags as well as
+Struts specific tags. The use of Struts has appeared to clean things up
+significantly with regards to embedded scriptlets. Note that quite a 
+few of JSP's warts are still shining through. Is it as easy to grok
+as the Velocity version?
 </p>
+                                                <p>
+You make the decision.
+</p>
+                                                <p>
+<strong>[ <a href="ymtd-sampleapp.html">Sample App</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-embedded.html">Embedded Usage</a> ]
+</strong></p>
                             </blockquote>
       </td></tr>
     </table>
