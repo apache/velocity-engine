@@ -634,7 +634,7 @@ public class ASTReference extends SimpleNode
 
     }
 
-    public Object getVariableValue(Context context, String variable)
+    public Object getVariableValue(Context context, String variable) throws MethodInvocationException
     {
         return context.get(variable);
     }

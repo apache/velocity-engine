@@ -1,5 +1,7 @@
 package org.apache.velocity.context;
 
+import org.apache.velocity.exception.MethodInvocationException;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -30,7 +32,7 @@ package org.apache.velocity.context;
  *
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: Context.java,v 1.7 2004/03/19 17:13:33 dlr Exp $
+ *  @version $Id$
  */
 public interface Context
 {
@@ -47,8 +49,9 @@ public interface Context
      *
      * @param key The name of the desired value.
      * @return    The value corresponding to the provided key.
+     * @throws MethodInvocationException
      */
-    Object get(String key);
+    Object get(String key) throws MethodInvocationException;
  
     /**
      * Indicates whether the specified key is in the context.

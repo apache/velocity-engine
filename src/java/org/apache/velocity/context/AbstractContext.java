@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextBase;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *  This class is the abstract base class for all conventional 
@@ -47,7 +48,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.10 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 
 public abstract class AbstractContext extends InternalContextBase 
@@ -181,7 +182,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  @return    The value corresponding to the provided key or null if
      *             the key param is null.
      */
-    public Object get(String key)
+    public Object get(String key) throws MethodInvocationException
     {
         /*
          *  punt if key is null

@@ -24,6 +24,7 @@ import org.apache.velocity.runtime.directive.VMProxyArg;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *  This is a special, internal-use-only context implementation to be
@@ -89,7 +90,7 @@ public class VMContext implements InternalContextAdapter
      *  state
      *  @param  vmpa VMProxyArg to add 
      */
-    public void addVMProxyArg(  VMProxyArg vmpa )
+    public void addVMProxyArg(  VMProxyArg vmpa ) throws MethodInvocationException
     {
         /*
          *  ask if it's a constant : if so, get the value and put into the
@@ -166,7 +167,7 @@ public class VMContext implements InternalContextAdapter
      *  @param key name of item to get
      *  @return  stored object or null
      */
-    public Object get( String key )
+    public Object get( String key ) throws MethodInvocationException
     {
         /*
          * first, see if it's a VMPA
