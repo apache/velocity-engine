@@ -77,7 +77,12 @@ even if a quiet reference.  Bug 7183 : fixes to win32 .bat files in examples
 <li>
 Fix for bugs 8517, 6955 : anything ...#set... was confusing the parser (gmj)
 </li>
-
+<li>
+Removed deprecated use of DEFAULT_OUTPUTTER.output() in Anaka's NodeList (gmj)
+</li>
+<li>
+Upgraded JDOM to v1.0b9 (gmj)
+</li>
 </ul>
 
 </subsection>
