@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.14 2000/12/11 04:36:03 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.15 2000/12/17 00:06:23 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -396,9 +396,6 @@ public class ASTReference extends SimpleNode
 
     public Object getVariableValue(Context context, String variable)
     {
-        if (context.containsKey(variable))
-            return context.get(variable);
-        else
-            return null;
+        return context.get(variable);
     }
 }
