@@ -25,6 +25,13 @@ Change to the /build directory in the Velocity distribution and then type :
 
 This will invoke ant and tell it to build the examples for you.
 
+Finally, note that more examples of using Velocity can be found in the 
+Velocity-Tools subject.  Of special note is the VelocityViewServlet,
+a quick and easy way to build a web application that uses Velocity.
+
+	http://jakarta.apache.org/velocity/tools
+
+
 Velocity Examples
 =================
 
@@ -44,14 +51,6 @@ class, which provides a few convenient methods for application programmers.  It 
 should be precompiled for you.  To run :
 
   ./example2.sh
-
-servlet_example1
----------------
-This is a simple example of how Velocity can be used with
- your favorite servlet engine. To use this, you should have a basic understanding
-how your servlet engine works, and how you deploy and access servlets to try this.
-While we cannot supply this, we know of a good one :)
-   http://jakarta.apache.org/tomcat
 
 context_example
 --------------
