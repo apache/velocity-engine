@@ -111,7 +111,8 @@ public class ASTMethod extends SimpleNode
 
             Class[] paramClasses = new Class[paramCount];
             
-            for (int j = 0; j < paramCount; j++) {
+            for (int j = 0; j < paramCount; j++) 
+            {
                 params[j] = jjtGetChild(j + 1).value(context);
                 
                 if (params[j] != null)

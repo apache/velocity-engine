@@ -92,10 +92,12 @@ public class ASTEQNode extends SimpleNode
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) {
+        if (left instanceof TemplateNumber) 
+        {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) {
+        if (right instanceof TemplateNumber) 
+        {
            right = ( (TemplateNumber) right).getAsNumber();
         }
 
@@ -103,10 +105,9 @@ public class ASTEQNode extends SimpleNode
         * If comparing Numbers we do not care about the Class.
         */
 
-       if (left instanceof Number && right instanceof Number) {
-
+       if (left instanceof Number && right instanceof Number) 
+       {
            return MathUtils.compare( (Number)left, (Number)right) == 0;
-
        }
 
 

@@ -21,32 +21,26 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.collections.ExtendedProperties;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.MatchingTask;
-
-import org.xml.sax.SAXParseException;
-
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.output.Format;
-import org.jdom.input.SAXBuilder;
-
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
-
-import org.apache.velocity.VelocityContext;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.xml.sax.SAXParseException;
 
 /**
  * The purpose of this Ant Task is to allow you to use 
@@ -500,7 +494,8 @@ public class AnakiaTask extends MatchingTask
      */
     private boolean userContextsModifed(long lastModified) 
     {
-        for (Iterator iter = contexts.iterator(); iter.hasNext();) {
+        for (Iterator iter = contexts.iterator(); iter.hasNext();) 
+        {
             AnakiaTask.Context ctx = (AnakiaTask.Context) iter.next();
             if(ctx.getLastModified() > lastModified) 
             {
@@ -560,11 +555,12 @@ public class AnakiaTask extends MatchingTask
                     name.equals("xpath") || 
                     name.equals("escape") || 
                     name.equals("date") ||
-                    name.equals("project")) {
+                    name.equals("project")) 
+            {
                     
                     throw new IllegalArgumentException("Context name '" + name
                             + "' is reserved by Anakia");
-                }
+            }
             
             this.name = name;
         }
@@ -579,7 +575,9 @@ public class AnakiaTask extends MatchingTask
             try 
             {
                 contextDoc = builder.build(contextFile);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 throw new BuildException(e);
             }
         }

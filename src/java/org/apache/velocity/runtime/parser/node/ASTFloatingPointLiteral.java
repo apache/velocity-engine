@@ -28,22 +28,26 @@ import java.math.BigDecimal;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
-public class ASTFloatingPointLiteral extends SimpleNode {
+public class ASTFloatingPointLiteral extends SimpleNode 
+{
 
     // This may be of type Double or BigDecimal
     private Number value = null;
 
-    public ASTFloatingPointLiteral(int id) {
+    public ASTFloatingPointLiteral(int id) 
+    {
         super(id);
     }
 
-    public ASTFloatingPointLiteral(Parser p, int id) {
+    public ASTFloatingPointLiteral(Parser p, int id) 
+    {
         super(p, id);
     }
 
 
     /** Accept the visitor. **/
-    public Object jjtAccept(ParserVisitor visitor, Object data) {
+    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    {
         return visitor.visit(this, data);
     }
 
@@ -64,10 +68,12 @@ public class ASTFloatingPointLiteral extends SimpleNode {
          * Determine the size of the item and make it a Double or BigDecimal as appropriate.
          */
          String str = getFirstToken().image;
-         try {
+         try 
+         {
              value = new Double( str );
 
-         } catch ( NumberFormatException E1 ) {
+         } catch ( NumberFormatException E1 ) 
+         {
 
             // if there's still an Exception it will propogate out
             value = new BigDecimal( str );

@@ -81,17 +81,20 @@ public class ASTModNode extends SimpleNode
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) {
+        if (left instanceof TemplateNumber) 
+        {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) {
+        if (right instanceof TemplateNumber) 
+        {
            right = ( (TemplateNumber) right).getAsNumber();
         }
 
         /*
          * Both values must be a number.
          */
-        if ( ! (left instanceof Number) || ! (right instanceof Number) ) {
+        if ( ! (left instanceof Number) || ! (right instanceof Number) ) 
+        {
 
             rsvc.error(    ( ! (left instanceof Number) ? "Left" : "Right" ) + " side "
                            + " of modulus operation is not a Number. "
@@ -105,7 +108,8 @@ public class ASTModNode extends SimpleNode
         /*
          *  check for divide / modulo by 0
          */
-        if ( MathUtils.isZero ( (Number) right ) ) {
+        if ( MathUtils.isZero ( (Number) right ) ) 
+        {
 
             rsvc.error( "Right side of modulus operation is zero. Must be non-zero. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
