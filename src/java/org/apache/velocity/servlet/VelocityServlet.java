@@ -72,6 +72,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
+import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.util.SimplePool;
@@ -98,7 +99,7 @@ import org.apache.velocity.util.SimplePool;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.17 2000/11/16 07:07:10 jvanzyl Exp $
+ * $Id: VelocityServlet.java,v 1.18 2000/11/17 02:28:42 daveb Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -175,9 +176,9 @@ public abstract class VelocityServlet extends HttpServlet
             Runtime.init(propsFile);
             
             defaultContentType = 
-                Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
+                VelocityResources.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
             
-            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
+            encoding = VelocityResources.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
         }
         catch( Exception e )
         {
