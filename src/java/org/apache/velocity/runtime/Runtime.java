@@ -146,7 +146,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.40 2000/11/12 17:58:20 geirm Exp $
+ * @version $Id: Runtime.java,v 1.41 2000/11/12 18:51:22 dlr Exp $
  */
 public class Runtime
 {
@@ -210,8 +210,6 @@ public class Runtime
     private static SimplePool parserPool;
     
     //private static Parser parser = null;
-    
-       private static  Object stupidObject = null;
 
     /**
       * Number of parsers to create
@@ -276,8 +274,6 @@ public class Runtime
             // Do Default
             setDefaultProperties();
         }
-
-        stupidObject = new Object();
 
         init();
     }
