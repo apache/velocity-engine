@@ -348,6 +348,74 @@ few of JSP's warts are still shining through. Is it as easy to grok
 as the Velocity version?
 </p>
                                                 <p>
+Velocity comes in with a simpler soluton that is designed around the
+idea of a few core template tags. A scripting language is something like
+PHP which may require months of usage to completely master. A template
+language is something that can be mastered in just a few hours. This is
+what differentiates Velocity from being a scripting language vs. a
+template language.
+</p>
+                                                <p>
+For example, Velocity has the following core template tags (otherwise 
+known as "directives"):
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#if
+#else
+#elseif
+#foreach
+#set
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+It is possible to add more #directives to Velocity either by adding them
+directly to the parser or adding them through an API. It is also
+possible to use a neat feature of Velocity called Velocimacro's which
+are documented <a href="../user-guide.html#velocimacro">here</a>.
+</p>
+                                                <p>
+Some people suggest that the benefit to JSP and Struts is that it simply
+extends HTML, which is something that designers already understand. This
+is a powerful argument. However, the reality is that HTML is not a
+template language. In other words, there is no logic in HTML. For
+example, it is not possible to embed conditional statements (like in the
+very first example above) into HTML.
+</p>
+                                                <p>
+What this means is that Taglibs allow developers to infinitely extend
+HTML to become much much more than it previously was. Almost like
+inventing another scripting language. This is reminiscent the early
+browser wars where each company was implementing their own browser tags.
+Netscape went so far as to invent the &lt;blink&gt; tag. What did we
+learn from that? Is that really a good thing? Sure, standardizing
+taglibs is a great idea. Will it ever become widely adopted? We sure
+hope so.
+</p>
+                                                <p>
+One last point to make about using a HTML syntax is that this really
+pigeon holes JSP and Struts into simply being a tool for creating only
+dynamic HTML code. Velocity on the other hand is designed to take as
+input any type of text (Java, SQL, HTML, etc) and output anything as a
+result of running it through its processing engine.
+</p>
+                                                <p>
 You make the decision.
 </p>
                                                 <p>

@@ -219,10 +219,10 @@ this:
 &lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;
-&lt;% if (request.getParameter(&quot;name&quot;) == null) {  %&gt;
-   Hello World
-&lt;% } else { %&gt;
-  Hello, &lt;% out.println (request.getParameter(&quot;name&quot;)); } %&gt;
+&lt;% if (request.getParameter(&quot;name&quot;) == null) %&gt;
+          Hello World
+&lt;% else %&gt;
+          Hello, &lt;% request.getParameter(&quot;name&quot;) %&gt;
 &lt;/h1&gt;
 &lt;/body&gt;&lt;/html&gt;</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -243,13 +243,11 @@ example when loaded directly into the browser. ]</font>
 </p>
                                                 <hr noshade="true" size="1" />
                                                 <p>
-The point that needs to be made is that in order to make JSP "pure",
-one really needs to jump through hoops. In other words, it is much
-easier to type the out.println() then to embed the necessary <code>&lt;%
-%&gt;</code> tags everywhere. It is also important to remember to add
-that extra "<code>; }</code>" at the end of the last out.println()
-because JSP will not be able to compile the page (we will get into the
-problems with debugging JSP pages in a later chapter).
+The point that needs to be made is that in order to make JSP "pure", one
+really needs to jump through hoops. One still needs to embed the
+necessary <code>&lt;% %&gt;</code> tags everywhere though. There is also 
+a bit of a disconnect as to when the ";" needs to be added and when it 
+does not.
 </p>
                                                 <p>
 As you can see from the example image, there is now a bit more
