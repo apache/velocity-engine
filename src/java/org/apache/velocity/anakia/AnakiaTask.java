@@ -72,7 +72,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
@@ -93,7 +92,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.24 2001/03/15 04:47:08 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.25 2001/03/15 07:08:34 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -256,19 +255,16 @@ public class AnakiaTask extends MatchingTask
             velocityPropertiesFile = new File("velocity.properties");
         }
 
-
         /*
          * If the props file doesn't exist AND a templatePath hasn't 
          * been defined, then throw the exception.
          */
-
         if ( !velocityPropertiesFile.exists() && templatePath == null )
         {
-            throw new BuildException ("No template path and could not locate velocity.properties file: " + 
+            throw new BuildException ("No template path and could not " + 
+                "locate velocity.properties file: " + 
                 velocityPropertiesFile.getAbsolutePath());
         }
-
-       
 
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
@@ -299,10 +295,8 @@ public class AnakiaTask extends MatchingTask
                 
                 Velocity.init();
             }
-            
 
             // get the last modification of the VSL stylesheet
-
             styleSheetLastModified = Runtime.getTemplate( style ).getLastModified();
            
         }
@@ -337,10 +331,13 @@ public class AnakiaTask extends MatchingTask
             // the current input file relative to the baseDir
             inFile = new File(baseDir,xmlFile);
             // the output file relative to basedir
-            outFile = new File(destDir,xmlFile.substring(0,xmlFile.lastIndexOf('.'))+extension);
+            outFile = new File(destDir, 
+                            xmlFile.substring(0,
+                            xmlFile.lastIndexOf('.')) + extension);
 
             // only process files that have changed
-            if (lastModifiedCheck == false || (inFile.lastModified() > outFile.lastModified() ||
+            if (lastModifiedCheck == false || 
+                    (inFile.lastModified() > outFile.lastModified() ||
                     styleSheetLastModified > outFile.lastModified() ||
                     projectFileLastModified > outFile.lastModified()))
             {
@@ -348,7 +345,7 @@ public class AnakiaTask extends MatchingTask
 
                 //-- command line status
                 log("Input:  " + xmlFile, Project.MSG_INFO );
-                log("Output: " + outFile, Project.MSG_INFO );
+
                 // Build the JDOM Document
                 Document root = builder.build(inFile);
                 // Build the Project file document
@@ -359,22 +356,19 @@ public class AnakiaTask extends MatchingTask
                     projectDocument = builder.build(projectFile);
     
                 // Shove things into the Context
-
                 VelocityContext context = new VelocityContext();
 
                 /*
                  *  get the property TEMPLATE_ENCODING
                  *  we know it's a string...
                  */
-
                 String encoding = (String) Velocity.getProperty( Runtime.TEMPLATE_ENCODING );
-
                 if (encoding == null || encoding.length() == 0 
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
                     encoding = "ISO-8859-1";
                 }
-                
+
                 OutputWrapper ow = new OutputWrapper();
                 ow.setEncoding (encoding);
                 
@@ -396,6 +390,8 @@ public class AnakiaTask extends MatchingTask
                 // get the template to process
                 Template template = Runtime.getTemplate(style);
                 template.merge(context, writer);
+
+                log("Output: " + outFile, Project.MSG_INFO );
             }
         }
         catch (JDOMException e)
