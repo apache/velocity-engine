@@ -77,6 +77,8 @@
                                    test-parser,
                                    test-resourceinstance,
                                    test-foreachmethodcall,
+								   test-arithmetic,
+                                   test-number-methods,
                                    test-anakia 
                                    "/>
 
@@ -145,7 +147,7 @@
     </java>
   </target>
 
-	<target name="test-introspect3">
+    <target name="test-introspect3">
     <echo message="Running Introspector3 tests..."/>
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.IntrospectorTestCase3"/>
@@ -321,6 +323,29 @@
       </classpath>
     </java>
    </target>
+
+
+   <target name="test-arithmetic">
+    <echo message="Running special arithmetic tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ArithmeticTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+   <target name="test-number-methods">
+    <echo message="Running number method call tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.TestNumberMethodCalls"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
 
   <!-- ================================================================ -->
   <!-- T E X E N  T E S T                                               -->

@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.parser.node.*;
  * as well.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: NodeViewMode.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class NodeViewMode extends BaseVisitor
 {
@@ -183,8 +183,14 @@ public class NodeViewMode extends BaseVisitor
         return showNode(node,data);
     }
     
-    /** Display an ASTNumberLiteral node  */
-    public Object visit(ASTNumberLiteral node, Object data)
+    /** Display an ASTFloatingPointLiteral node  */
+    public Object visit(ASTFloatingPointLiteral node, Object data)
+    {
+        return showNode(node,data);
+    }
+
+    /** Display an ASTIntegerLiteral node  */
+    public Object visit(ASTIntegerLiteral node, Object data)
     { 
         return showNode(node,data);
     }

@@ -17,19 +17,21 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.TemplateNumber;
 
 /**
- * Handles integer division of nodes
+ * Handles number division of nodes<br><br>
  *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDivNode.java,v 1.10 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ASTDivNode extends SimpleNode
 {
@@ -50,9 +52,8 @@ public class ASTDivNode extends SimpleNode
     }
 
     /**
-     *  computes the result of the division. Currently limited to
-     *  Integers.
-     *  @return Integer(value) or null 
+     *  computes the result of the division.  
+     *  @return result or null
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException
@@ -82,14 +83,22 @@ public class ASTDivNode extends SimpleNode
         }
         
         /*
-         *  if not an Integer, not much we can do either
+         *  convert to Number if applicable
          */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        /*
+         *  if not a Number, not much we can do either
+         */
+        if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
-                           + " side of division operation is not a valid type. "
-                           + "Currently only integers (1,2,3...) and Integer type is supported. "
+            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+                           + " side of division operation is not a number. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
@@ -99,8 +108,7 @@ public class ASTDivNode extends SimpleNode
         /*
          *  check for divide by 0
          */
-
-        if ( ( (Integer) right).intValue() == 0 )
+        if ( MathUtils.isZero ( (Number)right ) )
         {
             rsvc.error( "Right side of division operation is zero. Must be non-zero. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
@@ -109,6 +117,6 @@ public class ASTDivNode extends SimpleNode
             return null;
         }
 
-        return new Integer( ( (Integer) left ).intValue() / (  (Integer) right ).intValue() );
+        return MathUtils.divide( (Number)left, (Number)right );
     }
 }

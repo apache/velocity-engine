@@ -728,11 +728,6 @@ $blargh
     Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premières comparaisons échouent. Ensuite,
     <em>$bar</em> est comparé à 6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
   </p>
-  <p>
-    Notez que pour l'instant, dans Velocity, les comparaisons numériques sont restreintes aux comparaisons d'entiers
-    (Integers) -- tout le reste sera évalué comme faux. La seule exception est l'égalité '==': dans ce cas Velocity teste
-    si les objets de chaque côté de '==' sont de la <em>même classe</em>.
-  </p>
   <p><a name="Opérateurs logiques et relationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
   <p>Velocity utilise l'opérateur d'équivalence pour déterminer les relations entre des variables. Voici un exemple simple pour illustrer la manière d'utiliser l'opérateur d'équivalence.</p>
   <source><![CDATA[
@@ -1290,10 +1285,6 @@ Send me
     <source><![CDATA[
 #set( $foo = $bar % 5 )
 ]]></source>
-    <p>
-      Seuls les entiers  (...-2, -1, 0, 1, 2...) sont admis comme opérandes des équations mathématiques en Velocity;
-      lorsqu'un non-entier est rencontré, cela est signalé et null sera renvoyé dans la sortie produite.
-    </p>
   </subsection>
   
   <subsection name="Opérateur d'intervalle (range)">

@@ -1090,13 +1090,6 @@ $blargh
     </p>
 
     <p>
-    Please note that currently, Velocity's numeric comparisons are constrained
-    to Integers - anything else will evaluate to <em>false</em>.  The only exception
-    to this is equality '==', where Velocity requires that the objects on each
-    side of the '==' is of the <em>same</em> class.
-    </p>
-
-    <p>
     <a name="Relational and Logical Operators"><strong>Relational and Logical Operators</strong></a>
     </p>
 
@@ -1881,7 +1874,7 @@ Send me
 ]]></source>
 
   <p>
-    When a division operation is performed, the result will be an
+    When a division operation is performed between two integers, the result will be an
     integer. Any remainder can be obtained by using the modulus
     (<em>%</em>) operator.
   </p>
@@ -1889,12 +1882,6 @@ Send me
 <source><![CDATA[
 #set( $foo = $bar % 5 )
 ]]></source>
-
-  <p>
-    Only integers (...-2, -1, 0, 1, 2...) are permissible when
-    performing mathematical equations in Velocity; when a non-integer is
-    used, it is logged and a null will be returned as the output.
-  </p>
 
   </subsection>
 

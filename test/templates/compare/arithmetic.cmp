@@ -8,15 +8,27 @@
 
 5
 
-And the whole thing again with inline set statements
+Check the decimal literals
+4500.0
 
-6
+4500.0
 
-5
+0.0045
 
-10
+4.5E55
 
-5
+4.5
+
+5.5
+
+11.0
+
+Check that the system can handle integers greater than Integer.MAX_INT
+100000000000
+
+100000000001
+
+2.5
 
 
 This is a very long string that we are breaking up into multiple lines for testing.

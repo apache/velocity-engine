@@ -900,8 +900,10 @@ things to know:
     accept arrays created in the template should be written with this
     in mind.
     </li>
+    <li>VTL Map references are unsurprisingly stored as <code>java.util.Map</code>.</li>
     <li>
-    Numbers will be Integers in the context, and strings will be, of course, Strings.
+	Decimal numbers will be Doubles or BigDecimals in the context, integer numbers will be 
+	Integer, Long, or BigIntegers, and strings will be, of course, Strings.
     </li>
     <li>
     Velocity will properly 'narrow' args to method calls, so calling

@@ -18,20 +18,22 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.TemplateNumber;
 
 /**
- * Handles integer multiplication
+ * Handles multiplication<br><br>
  *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMulNode.java,v 1.9 2004/03/19 17:13:36 dlr Exp $ 
-*/
+ * @version $Id$ 
+ */
 public class ASTMulNode extends SimpleNode
 {
     public ASTMulNode(int id)
@@ -51,8 +53,8 @@ public class ASTMulNode extends SimpleNode
     }
 
     /**
-     *  computes the product of the two args.  Returns null if either arg is null
-     *  or if either arg is not an integer
+     *  computes the product of the two args.  
+     *  @return result or null
      */
     public Object value( InternalContextAdapter context )
         throws MethodInvocationException
@@ -80,21 +82,30 @@ public class ASTMulNode extends SimpleNode
         }
         
         /*
-         *  if not an Integer, not much we can do either
+         *  convert to Number if applicable
+         */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
+
+        /*
+         *  if not a Number, not much we can do either
          */
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
-                           + " side of multiplication operation is not a valid type. "
-                           + "Currently only integers (1,2,3...) and Integer type is supported. "
+            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+                           + " side of multiplication operation is not a Number. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return null;
         }
 
-        return new Integer( ( (Integer) left ).intValue() * (  (Integer) right ).intValue() );
+        return MathUtils.multiply( (Number)left, (Number)right);
     }
 }
 

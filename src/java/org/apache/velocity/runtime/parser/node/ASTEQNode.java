@@ -17,18 +17,18 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.TemplateNumber;
 
 /**
- *  Handles the equivalence operator
- *
- *    <arg1>  == <arg2>
+ *  Handles <code>arg1  == arg2</code>
  *
  *  This operator requires that the LHS and RHS are both of the
- *  same Class.
+ *  same Class OR both are subclasses of java.lang.Number
  *
+ *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ *  @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  *  @version $Id$
  */
 public class ASTEQNode extends SimpleNode
@@ -88,6 +88,27 @@ public class ASTEQNode extends SimpleNode
                            + ", column " + getColumn() + "]");
             return false;
         }
+
+        /*
+         *  convert to Number if applicable
+         */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
+
+       /*
+        * If comparing Numbers we do not care about the Class.
+        */
+
+       if (left instanceof Number && right instanceof Number) {
+
+           return MathUtils.compare( (Number)left, (Number)right) == 0;
+
+       }
+
 
         /*
          *  check to see if they are the same class.  I don't think this is slower

@@ -20,18 +20,20 @@ package org.apache.velocity.runtime.parser.node;
 
 
 /**
- * Handles integer modulus division
+ * Handles modulus division<br><br>
  *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTModNode.java,v 1.8 2004/03/19 17:13:36 dlr Exp $ 
-*/
+ * @version $Id$ 
+ */
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.TemplateNumber;
 
 public class ASTModNode extends SimpleNode
 {
@@ -77,34 +79,44 @@ public class ASTModNode extends SimpleNode
         }
         
         /*
-         *  if not an Integer, not much we can do either
+         *  convert to Number if applicable
          */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
-        {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
-                           + " side of modulus operation is not a valid type. "
-                           + "Currently only integers (1,2,3...) and Integer type is supported. "
+        /*
+         * Both values must be a number.
+         */
+        if ( ! (left instanceof Number) || ! (right instanceof Number) ) {
+
+            rsvc.error(    ( ! (left instanceof Number) ? "Left" : "Right" ) + " side "
+                           + " of modulus operation is not a Number. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return null;
+
         }
 
         /*
-         *  check for divide by 0
+         *  check for divide / modulo by 0
          */
+        if ( MathUtils.isZero ( (Number) right ) ) {
 
-        if ( ( (Integer) right).intValue() == 0 )
-        {
             rsvc.error( "Right side of modulus operation is zero. Must be non-zero. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return null;
+
         }
 
-        return new Integer( ( (Integer) left ).intValue() % (  (Integer) right ).intValue() );
+        return MathUtils.modulo ((Number)left, (Number)right);
+
     }
 }
 

@@ -51,20 +51,22 @@ public interface ParserConstants {
   int ELSE_DIRECTIVE = 49;
   int STOP_DIRECTIVE = 50;
   int DIGIT = 51;
-  int NUMBER_LITERAL = 52;
-  int LETTER = 53;
-  int DIRECTIVE_CHAR = 54;
-  int WORD = 55;
-  int BRACKETED_WORD = 56;
-  int ALPHA_CHAR = 57;
-  int ALPHANUM_CHAR = 58;
-  int IDENTIFIER_CHAR = 59;
-  int IDENTIFIER = 60;
-  int DOT = 61;
-  int LCURLY = 62;
-  int RCURLY = 63;
-  int REFERENCE_TERMINATOR = 64;
-  int DIRECTIVE_TERMINATOR = 65;
+  int INTEGER_LITERAL = 52;
+  int FLOATING_POINT_LITERAL = 53;
+  int EXPONENT = 54;
+  int LETTER = 55;
+  int DIRECTIVE_CHAR = 56;
+  int WORD = 57;
+  int BRACKETED_WORD = 58;
+  int ALPHA_CHAR = 59;
+  int ALPHANUM_CHAR = 60;
+  int IDENTIFIER_CHAR = 61;
+  int IDENTIFIER = 62;
+  int DOT = 63;
+  int LCURLY = 64;
+  int RCURLY = 65;
+  int REFERENCE_TERMINATOR = 66;
+  int DIRECTIVE_TERMINATOR = 67;
 
   int DIRECTIVE = 0;
   int REFMOD2 = 1;
@@ -129,7 +131,9 @@ public interface ParserConstants {
     "<ELSE_DIRECTIVE>",
     "<STOP_DIRECTIVE>",
     "<DIGIT>",
-    "<NUMBER_LITERAL>",
+    "<INTEGER_LITERAL>",
+    "<FLOATING_POINT_LITERAL>",
+    "<EXPONENT>",
     "<LETTER>",
     "<DIRECTIVE_CHAR>",
     "<WORD>",

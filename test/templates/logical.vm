@@ -35,6 +35,114 @@ test doesn't fail incorrectly.
 
 --
 
+#set ($foo = 49/2)
+#set ($bar = 10)
+#if ($foo > $bar)
+    \$foo is greater than \$bar
+#end
+
+#if ($foo >= $bar)
+    \$foo is greater than or equal to \$bar
+#end
+
+#if ($bar < $foo)
+    \$bar is less than \$foo
+#end
+
+#if ($bar <= $foo)
+    \$bar is less than or equal to \$foo
+#end
+
+--
+
+#set ($foo = 49/2)
+#set ($bar = 10)
+#if ($foo > $bar)
+    \$foo is greater than \$bar
+#end
+
+#if ($foo >= $bar)
+    \$foo is greater than or equal to \$bar
+#end
+
+#if ($bar < $foo)
+    \$bar is less than \$foo
+#end
+
+#if ($bar <= $foo)
+    \$bar is less than or equal to \$foo
+#end
+
+--
+
+#set ($foo = 3)
+#set ($bar = 4)
+#if ($foo == $foo)
+    \$foo is equal to \$foo
+#end
+
+#if ($foo != $bar)
+    \$foo is not equal to \$bar
+#end
+
+--
+
+#set ($foo = 888)
+#set ($bar = 1111)
+#set ($abc = $templatenumber1.AsNumber)
+#if ($templatenumber1 > $foo)
+    \$templatenumber1 is greater than \$foo
+#end
+
+#if ($templatenumber1 >= $foo)
+    \$templatenumber1 is greater than or equal to \$foo
+#end
+
+#if ($foo < $templatenumber1)
+    \$foo is less than \$templatenumber1
+#end
+
+#if ($foo <= $templatenumber1)
+    \$foo is less than or equal to \$templatenumber1
+#end
+
+--
+
+#if ($bar > $templatenumber1)
+    \$bar is greater than \$templatenumber1
+#end
+
+#if ($bar >= $templatenumber1)
+    \$bar is greater than or equal to \$templatenumber1
+#end
+
+#if ($templatenumber1 < $bar)
+    \$templatenumber1 is less than \$bar
+#end
+
+#if ($templatenumber1 <= $bar)
+    \$templatenumber1 is less than or equal to \$bar
+#end
+
+--
+
+#if ($abc == $templatenumber1)
+    \$abc is equal to \$templatenumber1
+#end
+
+#if ($templatenumber1 == $abc)
+    \$templatenumber1 is equal to \$abc
+#end
+
+#if ($bar != $templatenumber1)
+    \$bar is not equal to \$templatenumber1
+#end
+
+#if ($templatenumber1 != $bar)
+    \$templatenumber1 is not equal to \$bar
+#end
+
+--
 #set($t = true)
 #set($f = false)
 
