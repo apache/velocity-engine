@@ -63,9 +63,9 @@ package org.apache.velocity.exception;
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceNotFoundException.java,v 1.1 2001/02/26 02:58:58 geirm Exp $
+ * @version $Id: ResourceNotFoundException.java,v 1.2 2001/03/27 02:06:40 geirm Exp $
  */
-public class ResourceNotFoundException extends Exception
+public class ResourceNotFoundException extends VelocityException
 {
    public ResourceNotFoundException(String exceptionMessage )
     {
