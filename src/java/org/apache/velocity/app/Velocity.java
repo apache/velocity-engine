@@ -102,7 +102,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.10 2001/03/25 22:58:19 jvanzyl Exp $
+ * @version $Id: Velocity.java,v 1.11 2001/03/26 04:18:51 jvanzyl Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -170,6 +170,16 @@ public class Velocity implements RuntimeConstants
     {
         Runtime.addProperty(key,value);
     }
+
+    /**
+     * Clear a Velocity Runtime property.
+     *
+     * @param key of property to clear
+     */
+    public static void clearProperty(String key)
+    {
+        Runtime.clearProperty(key);
+    }        
 
     /**
      * Set an entire configuration at once. This is
