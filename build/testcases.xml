@@ -71,7 +71,8 @@
                                    test-anakia,
                                    test-texen,
                                    test-texen-classpath,
-                                   test-misc
+                                   test-misc,
+                                   test-parser
                                    "/>
 
   <target name="test-template">
@@ -265,6 +266,17 @@
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.MiscTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+   <target name="test-parser">
+    <echo message="Running special parser tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ParserTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
