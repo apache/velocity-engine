@@ -99,7 +99,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.29 2001/03/19 22:38:58 jvanzyl Exp $
+ * @version $Id: TemplateTestCase.java,v 1.30 2001/04/09 02:36:48 geirm Exp $
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -191,6 +191,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context2.put("iterator", vec.iterator());
         context1.put("map", h );
         context.put("obarr", oarr );
+        context.put("enumerator", vec.elements());
     }
 
     /**
