@@ -83,7 +83,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.10 2000/12/11 19:42:13 jon Exp $
+ * @version $Id: Parse.java,v 1.11 2000/12/19 05:32:05 jvanzyl Exp $
  */
 public class Parse extends Directive
 {
@@ -139,27 +139,6 @@ public class Parse extends Directive
          */
         String arg = value.toString();
              
-        /*
-         *  for security, we will not accept anything with .. in the path
-         */
-        arg = StringUtils.normalizePath(arg);
-        if ( arg == null || arg.length() == 0 )
-        {
-            Runtime.error( "#parse() error : argument " + arg + 
-                " contains .. and may be trying to access" + 
-                " content outside of template root.  Rejected." );
-            return false;
-        }
-
-        /*
-         *  if a / leads off, then just nip that :)
-         */
-        if ( arg.startsWith( "/") )
-            arg = arg.substring(1);
-
-        /*
-         *  we will put caching here in the future...
-         */
         Template t = null;
         try 
         {
@@ -175,7 +154,8 @@ public class Parse extends Directive
 
         try
         {        
-            nodeTree = t.getDocument();
+            //nodeTree = t.getDocument();
+            nodeTree = (SimpleNode) t.getData();
             
             ParseDirectiveVisitor v = new ParseDirectiveVisitor();
             v.setDepth( parseDepth );
