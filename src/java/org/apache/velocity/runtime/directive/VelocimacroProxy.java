@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.3 2000/11/22 02:18:40 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.4 2000/11/24 23:35:57 jon Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -77,6 +77,7 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
 
 public class VelocimacroProxy extends  Directive
 {
@@ -150,8 +151,8 @@ public class VelocimacroProxy extends  Directive
         } 
         catch ( Exception e ) 
         {
-            System.out.println("VelocimacroProxy.render() : exception " + e);
-            Runtime.error("VM error : " + strMacroName_ + " : "  + e );
+            Runtime.error("VelocimacroProxy.render() : exception " + strMacroName_ + 
+            " : "  + StringUtils.stackTrace(e));
         }
 
         return true;
@@ -217,8 +218,8 @@ public class VelocimacroProxy extends  Directive
         } 
         catch ( Exception e ) 
         {
-            System.out.println("VelocimacroProxy.render() : exception " + e);
-            Runtime.error("VM error : " + strMacroName_ + " : "  + e );
+            Runtime.error("VelocimacroProxy.init() : exception " + strMacroName_ + 
+            " : "  + StringUtils.stackTrace(e));
         }
 
         /*
