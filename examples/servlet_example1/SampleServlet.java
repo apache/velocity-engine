@@ -52,17 +52,18 @@
  * <http://www.apache.org/>.
  */
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.util.Properties;
+import java.util.Vector;
+
+import javax.servlet.ServletConfig;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
@@ -73,7 +74,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * 
  * @author Dave Bryson
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: SampleServlet.java,v 1.3 2001/05/08 11:17:22 geirm Exp $
+ * @version $Id: SampleServlet.java,v 1.4 2001/05/08 11:35:37 geirm Exp $
  */
 public class SampleServlet extends VelocityServlet
 {
