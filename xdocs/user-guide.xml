@@ -1574,7 +1574,7 @@ $count
 
     <p>
     Several lines in the <code>velocity.properties</code> file allow for
-    flexible implementation of Velocimacros.  Node that these are also
+    flexible implementation of Velocimacros.  Note that these are also
     documented in the <a href="developer-guide.html">Developer Guide</a>.
     </p>
 
