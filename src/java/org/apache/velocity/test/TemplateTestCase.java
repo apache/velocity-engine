@@ -73,9 +73,9 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.9 2000/10/24 02:24:30 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.10 2000/10/25 23:17:14 dlr Exp $
  */
-public class TemplateTestCase extends BaseTestCase
+public class TemplateTestCase extends RuntimeTestCase
 {
     /**
      * VTL file extension.
