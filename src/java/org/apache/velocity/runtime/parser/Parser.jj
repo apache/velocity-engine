@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.43 2000/12/21 03:53:39 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.44 2000/12/21 04:43:58 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -1188,6 +1188,8 @@ void DirectiveArg()       : {}
 |   StringLiteral()
 |   NumberLiteral()
 |   ObjectArray()
+|   True()
+|   False()
 |   <WHITESPACE>
 }
 

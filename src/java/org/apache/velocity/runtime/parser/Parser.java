@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.45 2000/12/21 03:53:38 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.46 2000/12/21 04:43:58 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -501,6 +501,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     case LBRACKET:
       ObjectArray();
       break;
+    case TRUE:
+      True();
+      break;
+    case FALSE:
+      False();
+      break;
     case WHITESPACE:
       jj_consume_token(WHITESPACE);
       break;
@@ -586,6 +592,8 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         case LBRACKET:
         case WHITESPACE:
         case STRING_LITERAL:
+        case TRUE:
+        case FALSE:
         case NUMBER_LITERAL:
         case WORD:
         case IDENTIFIER:
@@ -2095,18 +2103,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return retval;
   }
 
-  final private boolean jj_3R_61() {
-    if (jj_3R_64()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_69()) { jj_scanpos = xsp; break; }
-      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    }
-    return false;
-  }
-
   final private boolean jj_3R_71() {
     if (jj_scan_token(LOGICAL_NOT_EQUALS)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2747,6 +2743,18 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
+  final private boolean jj_3R_61() {
+    if (jj_3R_64()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_69()) { jj_scanpos = xsp; break; }
+      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    }
+    return false;
+  }
+
   public ParserTokenManager token_source;
   ASCII_CharStream jj_input_stream;
   public Token token, jj_nt;
@@ -2757,7 +2765,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   private boolean jj_semLA;
   private int jj_gen;
   final private int[] jj_la1 = new int[45];
-  final private int[] jj_la1_0 = {0x9f81b0,0x9f81b0,0x1c0000,0xc00002,0x400000,0xc00002,0x9f81b0,0x8,0x3c00002,0x400000,0x3800002,0x400000,0x8,0x3c00002,0x0,0x0,0x0,0x0,0x830030,0x400000,0x9f81b0,0x0,0x0,0x0,0x9f81b0,0x400000,0x9f81b0,0x4000000,0x3c00012,0x3c00012,0x0,0x0,0x0,0x0,0x0,0x0,0x18000000,0x18000000,0xe0000000,0xe0000000,0x400000,0x3c00012,0x400000,0x3800012,0x400000,};
+  final private int[] jj_la1_0 = {0x9f81b0,0x9f81b0,0x1c0000,0x3c00002,0x400000,0x3c00002,0x9f81b0,0x8,0x3c00002,0x400000,0x3800002,0x400000,0x8,0x3c00002,0x0,0x0,0x0,0x0,0x830030,0x400000,0x9f81b0,0x0,0x0,0x0,0x9f81b0,0x400000,0x9f81b0,0x4000000,0x3c00012,0x3c00012,0x0,0x0,0x0,0x0,0x0,0x0,0x18000000,0x18000000,0xe0000000,0xe0000000,0x400000,0x3c00012,0x400000,0x3800012,0x400000,};
   final private int[] jj_la1_1 = {0x1c54800,0x1c54800,0x0,0x1450000,0x0,0x1450000,0x1c54800,0x0,0x1410000,0x0,0x1410000,0x0,0x0,0x1410000,0x1000000,0x2000000,0x400000,0x2000000,0x810000,0x0,0x1c54800,0x1000,0x1000,0x2000,0x1c54800,0x0,0x1c54800,0x0,0x1410100,0x1410100,0x2,0x1,0xc0,0xc0,0x3c,0x3c,0x0,0x0,0x0,0x0,0x0,0x1410000,0x0,0x1410000,0x0,};
   final private JJCalls[] jj_2_rtns = new JJCalls[7];
   private boolean jj_rescan = false;
