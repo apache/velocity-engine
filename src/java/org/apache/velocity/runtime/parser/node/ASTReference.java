@@ -79,7 +79,7 @@ import org.apache.velocity.runtime.parser.*;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.20 2001/02/01 18:22:30 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.21 2001/03/15 19:28:40 jvanzyl Exp $ 
 */
 
 public class ASTReference extends SimpleNode
@@ -146,17 +146,34 @@ public class ASTReference extends SimpleNode
         Object result = getVariableValue(context, rootString);
         
         if (result == null)
+        {
             return null;
+        }            
 
         /*
-         *  iteratively work 'down' (it's flat...) the reference
-         *  to get the value
+         * Iteratively work 'down' (it's flat...) the reference
+         * to get the value, but check to make sure that
+         * every result along the path is valid. For example:
+         *
+         * $hashtable.Customer.Name
+         *
+         * The $hashtable may be valid, but there is no key
+         * 'Customer' in the hashtable so we want to stop
+         * when we find a null value and return the null
+         * so the error gets logged.
          */
 
         int children = jjtGetNumChildren();
         
         for (int i = 0; i < children; i++)
+        {
             result = jjtGetChild(i).execute(result,context);
+            
+            if (result == null)
+            {
+                return null;
+            }                
+        }            
     
         return result;
     }
