@@ -136,8 +136,8 @@ public class PathMapAdapter extends LoaderAdapter
              }
              catch (Exception e)
              {
-                 throw new ResourceNotFoundException("Couldn't find resource: " +
-                                                     e.getMessage());
+                 throw new ResourceNotFoundException("Couldn't find resource:"
+                                                     + e.getMessage());
              }
          }
          else
@@ -168,7 +168,8 @@ public class PathMapAdapter extends LoaderAdapter
 
          if ( result == null)
          {
-            throw new ResourceNotFoundException("PathMapAdapter : " + name + " not found");
+            throw new ResourceNotFoundException("PathMapAdapter : " + name +
+                                                " not found");
          }
 
          return result;
