@@ -62,7 +62,7 @@ import org.apache.log.Priority;
 import org.apache.log.Logger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
-import org.apache.log.output.FileOutputLogTarget;
+import org.apache.log.output.io.FileTarget;
 
 import org.apache.velocity.util.StringUtils;
 
@@ -74,7 +74,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.9 2001/08/20 11:44:49 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.10 2001/11/09 00:57:09 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -145,15 +145,15 @@ public class AvalonLogSystem implements LogSystem
     public void init(String logFile)
         throws Exception
     {
-        FileOutputLogTarget target = new FileOutputLogTarget();
-        File logFileLocation = new File (logFile);
-        
-        logPath = logFileLocation.getAbsolutePath();
 
-        target.setFilename( logPath );
-        target.setFormatter(new VelocityFormatter());
-        target.setFormat("%{time} %{message}\\n%{throwable}" );
-                
+	/*
+	 *  make our FileTarget.  Note we are going to keep the 
+	 *  default behavior of not appending...
+	 */
+        FileTarget target = new FileTarget( new File( logFile), 
+					    false, 
+					    new VelocityFormatter("%{time} %{message}\\n%{throwable}" ) );
+       
         /*
          *  use the toString() of RuntimeServices to make a unique logger
          */
