@@ -1191,8 +1191,8 @@ $email
       <td bgcolor="#ffffff"><pre>
 foo
 $email
+\foo
 \$email
-\\$email
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3282,8 +3282,8 @@ Send me
     </div>
                                                 <p>
     When a division operation is performed, the result will be an
-    integer. Any remainder can be obtained by using the remainder
-    (<em>%</em>) operand.
+    integer. Any remainder can be obtained by using the modulus
+    (<em>%</em>) operator.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3310,90 +3310,6 @@ Send me
     Only integers (...-2, -1, 0, 1, 2...) are permissible when
     performing mathematical equations in Velocity; when a non-integer is
     used, it is logged and a null will be returned as the output.
-  </p>
-                                                <p>
-    Velocity has a built-in way of dealing with division by zero. In the
-    following example:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-#set( $foo = 5 )
-#set( $bar = $foo - 5 )
-#set( $uhoh = $foo / $bar )
-$uhoh
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    The reference <em>$uhoh</em> is assigned the value of five divided
-    by zero. When Velocity renders this template, the output will be:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-$uhoh
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    Designers should note that <em>set</em> produces strings, which
-    must be converted to integers to be used by the range operator.
-    This example shows such a conversion:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-#set($a = &quot;7&quot;)
-#set($b = $int.valueOf($a) + 10)
-$b
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    Yields the result <em>17</em>.
   </p>
                             </blockquote>
       </td></tr>
