@@ -1,0 +1,29 @@
+This tests to make sure that we only alter either
+the local arg in a VM, or the global context.
+
+So in foo, we are accessing the global 'b', and 
+the fact that we were called from bar that has it's
+arg of 'b' is irrelevant.
+
+
+#macro( foo $a )
+  foo :  \$b = $b
+  #set ($b = $a * 2)
+  foo after : \$b = $b
+#end
+
+#macro( bar $b)
+  #woobie($b)
+  bar post woobie : $b
+#end
+
+#macro( woobie $b)
+  #foo($b)
+   woobie post foo : $b
+#end
+
+#set($b = 0 )
+#set($arg = 4)
+precall \$b = $b
+#bar( $arg)
+postcall \$b =  $b

@@ -1,0 +1,14 @@
+SetBangStart() : called with val = 4
+SetBangStart() : called with val = 5
+This tests the pass by name some more, seeing if
+we can assign to a complete reference that
+we pass in (bangstartII) or, for the truly insane
+pass in a reference that a property is assumed
+within (BangstartII)
+
+Note that you wont see anything rendered, but
+SetBangStart will output to stdout
+
+
+
+

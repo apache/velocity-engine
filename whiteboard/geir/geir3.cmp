@@ -1,0 +1,17 @@
+This tests to make sure that we only alter either
+the local arg in a VM, or the global context.
+
+So in foo, we are accessing the global 'b', and 
+the fact that we were called from bar that has it's
+arg of 'b' is irrelevant.
+
+
+
+
+
+precall $b = 0
+      foo :  $b = 0
+    foo after : $b = 8
+   woobie post foo : 4
+  bar post woobie : 4
+postcall $b =  8

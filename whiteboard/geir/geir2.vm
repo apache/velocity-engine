@@ -1,0 +1,14 @@
+#macro( recurse $a )
+  
+ #set($a = $a - 1 )
+ 
+ #if( $a > 0 )
+  #recurse($a)
+ #end
+#end
+
+#set($val = 5)
+
+#recurse($val)
+#recurse(5 )
+
