@@ -62,25 +62,50 @@ import java.lang.reflect.Method;
  * invoking methods in objects
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: ClassUtils.java,v 1.2 2000/10/09 15:09:16 jvanzyl Exp $
+ *  @version $Id: ClassUtils.java,v 1.3 2000/10/15 18:29:14 dlr Exp $
  */
 public class ClassUtils
 {
+    /**
+     * Invokes the specified method of the provided object.
+     *
+     * @param object The object whose method to call.
+     * @param method The name of the method to invoke.
+     * @return       The return value of the method call.
+     */
     public static Object invoke(Object object, String method)
     {
         return invoke(object, method, null);
     }
 
+    /**
+     * Invokes the specified method of the provided object.
+     *
+     * @param object The object whose method to call.
+     * @param method The name of the method to invoke.
+     * @param args   The arguments to pass to the method.
+     * @return       The return value of the method call.
+     */
     public static Object invoke(Object object, String method, Object[] args)
     {
         return invoke(object, method, args, null);
     }
 
+    /**
+     * Invokes the specified method of the provided object.
+     *
+     * @param object     The object whose method to call.
+     * @param method     The name of the method to invoke.
+     * @param args       The arguments to pass to the method.
+     * @param paramTypes The class types of the arguments.
+     * @return           The return value of the method call.
+     */
     public static Object invoke(Object object, String method, 
-        Object[] args, Class[] paramTypes)
+                                Object[] args, Class[] paramTypes)
     {
         if (args != null && paramTypes == null)
         {
+            // Discover parameter types for the provided args.
             int size = args.length;
             paramTypes = new Class[size];
             for (int i = 0; i < size; i++)
@@ -91,64 +116,81 @@ public class ClassUtils
             }                
         }            
 
+        // Call the object's method.
         try
         {
             Class c = object.getClass();
             Method m = c.getMethod(method, paramTypes);
             Object o = m.invoke(object, args);
-            return (o);
+            return o;
         }
         catch (Exception e)
         {
-            return(null);
+            return null;
         }
     }
 
-    public static boolean implementsInterface(Object object, String interfaceName)
+    /**
+     * Checks whether the provided object implements a given interface.
+     *
+     * @param object        The object to check.
+     * @param interfaceName The interface to check for.
+     * @return              Whether the interface is implemented.
+     */
+    public static boolean implementsInterface(Object object, 
+                                              String interfaceName)
     {
-        int ii;
-        Class c = object.getClass();
+        int i;
         
-        Class[] interfaces = c.getInterfaces();
-
-        for (ii = 0 ; ii < interfaces.length ; ++ii)
+        Class[] interfaces = object.getClass().getInterfaces();
+        for (i = 0 ; i < interfaces.length ; ++i)
         {
-            if (interfaceName.equals(interfaces[ii].getName()))
+            if (interfaceName.equals(interfaces[i].getName()))
                 break;
         }
 
-        return (ii < interfaces.length);
+        return (i < interfaces.length);
     }
 
+    /**
+     * Checks whether the provided object implements a given method.
+     *
+     * @param object     The object to check.
+     * @param methodName The method to check for.
+     * @return           Whether the method is implemented.
+     */
     public static boolean implementsMethod(Object object, String methodName)
     {
-        int ii;
-        Class c = object.getClass();
+        int m;
         
-        Method[] methods = c.getMethods();
-
-        for (ii = 0 ; ii < methods.length ; ++ii)
+        Method[] methods = object.getClass().getMethods();
+        for (m = 0 ; m < methods.length ; ++m)
         {
-            if (methodName.equals(methods[ii].getName()))
+            if (methodName.equals(methods[m].getName()))
                 break;
         }
 
-        return (ii < methods.length);
+        return (m < methods.length);
     }
 
+    /**
+     * Checks whether the provided object has a given field.
+     *
+     * @param object    The object to check.
+     * @param fieldName The field to check for.
+     * @return          Whether the field is had.
+     */
     public static boolean hasField(Object object, String fieldName)
     {
-        int ii;
-        Class c = object.getClass();
+        int f;
         
-        Field[] fields = c.getFields();
-        
-        for (ii = 0 ; ii < fields.length ; ++ii)
+        Field[] fields = object.getClass().getFields();
+        for (f = 0 ; f < fields.length ; ++f)
         {
-            if (fieldName.equals(fields[ii].getName()))
+            if (fieldName.equals(fields[f].getName()))
                 break;
         }
 
-        return (ii < fields.length);
+        return (f < fields.length);
     }
 }
