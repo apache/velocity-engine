@@ -63,147 +63,136 @@ import java.util.ArrayList;
  *  'Package' of event handlers...
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventCartridge.java,v 1.2 2001/04/09 01:03:27 geirm Exp $
+ * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
+ * @version $Id: EventCartridge.java,v 1.3 2001/04/11 12:59:42 geirm Exp $
  */
-public class EventCartridge
+public class EventCartridge implements ReferenceInsertionEventHandler,
+					NullSetEventHandler,
+					NullReferenceEventHandler
 {
-    private ArrayList riehList = null;
-    private ReferenceInsertionEventHandler[] riehArr = null;
-
-    private ArrayList nsehList = null;
-    private NullSetEventHandler[] nsehArr = null;
-
-    private ArrayList nrehList = null;
-    private NullReferenceEventHandler[] nrehArr = null;
+    private ReferenceInsertionEventHandler rieh = null;
+    private NullSetEventHandler nseh = null;
+    private NullReferenceEventHandler nreh = null;
 
     /**
-     *  called by client to add an event handler.  For multiple
-     *  calls with the same type, they stack and are called
-     *  in sequence when invoked
+     *  Adds an event handler(s) to the Cartridge.  This method
+     *  will find all possible event handler interfaces supported
+     *  by the passed in object.
+     *
+     *  @param ev object impementing a valid EventHandler-derived interface
+     *  @return true if a supported interface, false otherwise or if null
      */
     public boolean addEventHandler( EventHandler ev )
-        throws Exception
     {
         if (ev == null)
         {
             return false;
         }
 
-        boolean found = false;
+	boolean found = false;
 
         if ( ev instanceof ReferenceInsertionEventHandler)
         {
-            /*
-             *  if we don't have one, make one
-             */
-
-            if ( riehList == null)
-            {
-                riehList = new ArrayList();
-            }
-
-            /*
-             *  add to end
-             */
-
-            riehList.add( ev );
- 
-            /*
-             *  gen the static typed array
-             */
-
-            Object[] oarr = riehList.toArray();
-            riehArr = new ReferenceInsertionEventHandler[ oarr.length ];
-            System.arraycopy( oarr, 0, riehArr, 0, oarr.length);
-
-            found = true;
+            rieh = (ReferenceInsertionEventHandler) ev;
+	    found = true;
         }
         
         if ( ev instanceof NullReferenceEventHandler )
         {
-            /*
-             *  if we don't have one, make one
-             */
-
-            if ( nrehList == null)
-            {
-                nrehList = new ArrayList();
-            }
-
-            /*
-             *  add to end
-             */
-
-            nrehList.add( ev );
-
-            /*
-             *  gen the static typed array
-             */
-
-            Object[] oarr = nrehList.toArray();
-            nrehArr = new NullReferenceEventHandler[ oarr.length ];
-            System.arraycopy( oarr, 0, nrehArr, 0, oarr.length);
-
-            found = true;
+            nreh = (NullReferenceEventHandler) ev;
+	    found = true;
         }
-
 
         if ( ev instanceof NullSetEventHandler )
         {
-            /*
-             *  if we don't have one, make one
-             */
-
-            if ( nsehList == null)
-            {
-                nsehList = new ArrayList();
-            }
-
-            /*
-             *  add to end
-             */
-
-            nsehList.add( ev );
-            
-            /*
-             *  gen the static typed array
-             */
-
-            Object[] oarr = nsehList.toArray();
-            nsehArr = new NullSetEventHandler[ oarr.length ];
-            System.arraycopy( oarr, 0, nsehArr, 0, oarr.length);
-
+            nseh = (NullSetEventHandler) ev;
             found = true;
         }
-        
-        if(!found)
-        {
-            /*
-             *  guess we don't support that kind of event handler
-             */
-
-            throw new Exception("Unsupported handler class : " + ev.getClass());
-        }
-
-        return true;
+      
+        return found;
     }
-
-    public ReferenceInsertionEventHandler[] getReferenceInsertionHandlerArray()
+    
+    /**
+     *  Removes an event handler(s) from the Cartridge.  This method
+     *  will find all possible event handler interfaces supported
+     *  by the passed in object and remove them.
+     *
+     *  @param ev object impementing a valid EventHandler-derived interface
+     *  @return true if a supported interface, false otherwise or if null
+     */
+    public boolean removeEventHandler(EventHandler ev)
     {
-        return riehArr;
+	if ( ev == null )
+	{
+	    return false;
+	}
+
+	boolean found = false;
+
+	if (ev == rieh) 
+	{
+	    rieh = null;
+	    found = true;
+	}
+	
+	if (ev == nseh) 
+	{
+	    nseh = null;
+	    found = true;
+	}
+
+	if (ev == nreh) 
+	{
+	    nreh = null;
+	    found = true;
+	}
+
+	return found;
     }
 
-    public NullReferenceEventHandler[] getNullReferenceHandlerArray()
+    /**
+     *  Implementation of ReferenceInsertionEventHandler method
+     *  <code>referenceInsert()</code>.
+     *
+     *  Called during Velocity merge before a reference value will
+     *  be inserted into the output stream.
+     *
+     *  @param reference reference from template about to be inserted
+     *  @param value  value about to be inserted (after toString() )
+     *  @return Object on which toString() should be called for output.
+     */
+    public Object referenceInsert( String reference, Object value  )
     {
-        return nrehArr;
+	if (rieh == null)
+	{
+	    return value;
+	}
+
+	return rieh.referenceInsert( reference, value );
     }
 
 
-    public NullSetEventHandler[] getNullSetEventHandlerArray()
+    public boolean nullSetLogMessage( String reference )
     {
-        return nsehArr;
+	if ( nseh == null)
+	{
+	    return true;
+	}
+
+	return nseh.nullSetLogMessage( reference );
+    }
+    
+    public String nullReferenceRender( String reference )
+    {
+	if (nreh == null)
+	{
+	    return reference;
+	}
+
+	return nreh.nullReferenceRender( reference );
     }
 
+    
     public boolean attachToContext( Context context )
     {
         
