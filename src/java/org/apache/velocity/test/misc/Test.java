@@ -89,8 +89,6 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
 import org.apache.velocity.context.Context;
 
-import java.net.URL;
-
 
 /**
  * This class the testbed for Velocity. It is used to
@@ -98,7 +96,7 @@ import java.net.URL;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.33 2001/10/24 03:03:33 geirm Exp $
+ * @version $Id: Test.java,v 1.34 2001/10/25 09:19:42 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
