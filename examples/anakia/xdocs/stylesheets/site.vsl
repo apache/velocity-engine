@@ -34,14 +34,24 @@
             #set $sections = $root.getChild("body").getChildren("section")
             #foreach ( $sec in $sections )
                 #set $data = $sec.getChildren()
-                #foreach ( $item in $data )
-                    $xmlout.outputString($item)
+                #foreach ( $item in $data )                
+                    #if ($item.getName().equals("img"))
+                        #image ($item)
+                    #else
+                        $xmlout.outputString($item)
+                    #end
                 #end
             #end
         </body>
     </html>
 #end
-    
+
+#macro ( image $value )
+    <img src="$relativePath$value.getAttributeValue("src")">
+#end
+#macro ( projectanchor $value )
+    <a href="$relativePath$value.getAttributeValue("href")">
+#end
 #macro ( metaauthor $author $email )
             <meta name="author" value="$author">
             <meta name="email" value="$email">
