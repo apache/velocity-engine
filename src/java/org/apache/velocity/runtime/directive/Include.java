@@ -93,7 +93,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.8 2000/11/28 04:16:21 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.9 2000/12/04 02:08:19 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -133,16 +133,16 @@ public class Include extends Directive
              *  we only handle StringLiterals and References right now
              */
 
-            String strArgType = node.jjtGetChild(i).toString();
+            Node n = node.jjtGetChild(i);
 
-            if (strArgType.equals("StringLiteral") || strArgType.equals("Reference"))
+            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL || n.getType() ==  ParserTreeConstants.JJTREFERENCE )
             {
-                if (!renderOutput(  node.jjtGetChild(i), context, writer ))
+                if (!renderOutput( n, context, writer ))
                     outputErrorToStream( writer, "error with arg " + i + " please see log.");
             }
             else
             {
-                Runtime.error( new String("#include() error : invalid argument type : " + strArgType) );
+                Runtime.error( new String("#include() error : invalid argument type : " + n.toString() ) );
                 outputErrorToStream( writer, "error with arg " + i + " please see log.");
             }
         }
