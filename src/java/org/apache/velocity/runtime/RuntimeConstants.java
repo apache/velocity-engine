@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.30 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: RuntimeConstants.java,v 1.31 2001/11/06 03:23:05 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -248,6 +248,17 @@ public interface RuntimeConstants
         = "directive.parse.max.depth";
 
 
+    /*
+     * ----------------------------------------------------------------------
+     *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+     
+     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
+     
+     public static String RESOURCE_MANAGER_CACHE_CLASS =
+                "resource.manager.cache.class";
+                
     /*
      * ----------------------------------------------------------------------
      * R E S O U R C E  L O A D E R  C O N F I G U R A T I O N
