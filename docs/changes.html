@@ -194,6 +194,14 @@ Update user guide - remove confusing (wrong) content. (gmj)
 Brought all introspective-ish behavior under one umbrella interface, Uberspect,
 to allow customizable, pluggable introspection. (gmj)
 </li>
+<li>``
+Fixes for bug 7684 : make sure event handler called with real reference literal
+even if a quiet reference.  Bug 7183 : fixes to win32 .bat files in examples
+(gmj)
+</li>
+<li>
+Fix for bugs 8517, 6955 : anything ...#set... was confusing the parser (gmj)
+</li>
 
 </ul>
                             </blockquote>
@@ -222,6 +230,10 @@ Backport from HEAD the #foo("#bar('a')") NPE fix (gmj)
 </li>
 <li>
 Update User's Guide - remove confusing and wrong content. (gmj)
+</li>
+<li>
+Fixed problem discovered by Ivan Bella where concurrent method
+invocations with varying parameters would be incorrect. (gmj)
 </li>
 </ul>
                             </blockquote>
