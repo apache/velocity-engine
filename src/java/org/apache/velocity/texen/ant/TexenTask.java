@@ -84,7 +84,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.23 2001/05/01 12:54:59 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.24 2001/05/08 11:55:29 geirm Exp $
  */
 public class TexenTask extends Task
 {
@@ -269,8 +269,16 @@ public class TexenTask extends Task
     {
         return contextProperties;
     }
-
-    public Context initControlContext()
+    
+    /**
+     * Creates a VelocityContext.
+     *
+     * @return new Context
+     * @throws Exception the execute method will catch 
+     *         and rethrow as a <code>BuildException</code>
+     */
+    public Context initControlContext() 
+        throws Exception
     {
         return new VelocityContext();
     }
@@ -447,6 +455,10 @@ public class TexenTask extends Task
             writer.close();
             generator.shutdown();
         }
+        catch( BuildException e)
+        {
+            throw e;
+        }
         catch( MethodInvocationException e )
         {
             throw new BuildException(
@@ -468,11 +480,20 @@ public class TexenTask extends Task
     }
 
     /**
-     * Place some useful object in the initial context.
-     *
+     * <p>
+     * Place useful objects into the initial context.
+     * </p><p>
+     * TexenTask places <code>Date().toString()</code> into the context as <code>$now</code>.
+     * Subclasses who want to vary the objects in the context should override this method.
+     * </p><p>
+     * <code>$generator</code> is not put into the context in this method.
+     * </p>
      * @param Context initial context
+     *
+     * @throws Exception the execute method will catch and rethrow as a <code>BuildException</code>
      */
-    protected void populateInitialContext(Context context)
+    protected void populateInitialContext(Context context) 
+        throws Exception
     {
         /*
          * Place the current date in the context. Hmm,
