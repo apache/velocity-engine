@@ -54,8 +54,12 @@ package org.apache.velocity.convert;
  * <http://www.apache.org/>.
  */
 
+import java.io.File;
+import java.io.FileWriter;
+
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.util.StringUtils;
+import org.apache.tools.ant.DirectoryScanner;
 
 /**
  * This class will convert a WebMacro template to
@@ -63,58 +67,150 @@ import org.apache.velocity.util.StringUtils;
  */
 public class WebMacro
 {
-    public static void main(String args[])
+    protected String orignalTemplate;
+    protected Perl5Util perl;
+    protected String pathSeparator = File.separator;
+    
+    protected final static String VM_EXT = ".vm";
+    protected final static String WM_EXT = ".wm";
+
+    /*
+     * The regexes to use for substition. The regexes come
+     * in pairs. The first is the string to match, the
+     * second is the substitution to make.
+     */
+    protected String[] res =
     {
-        String orignalTemplate;
-        Perl5Util perl;
-        
-        /*
-         * The regexes to use for substition. The regexes come
-         * in pairs. The first is the string to match, the
-         * second is the substitution to make.
-         */
-        String[] res = 
-        {
-            // Remove all #begin statements.
-            "#begin\\n", 
-            "",
+        // Remove all #begin statements.
+        "#begin\\n", 
+        "",
             
-            // Remove the "{" for the start of block directives,
-            // Velocity doesn't use them.
-            "(#\\w+\\s+.*)\\n\\s*\\{",
-            "$1",
+        // Remove the "{" for the start of block directives,
+        // Velocity doesn't use them.
+        "(#\\w+\\s*.*)\\n?\\s*\\{",
+        "$1",
 
-            // Change the "}" to #end. Have to get more
-            // sophisticated here. Will assume either {}
-            // and no javascript, or #begin/#end with the
-            // possibility of javascript.
-            "}",
-            "#end",
+        // Change the "}" to #end. Have to get more
+        // sophisticated here. Will assume either {}
+        // and no javascript, or #begin/#end with the
+        // possibility of javascript.
+        "}",
+        "#end",
             
-            // Convert WM style if/else to Velocity style.
-            "#end.*\\n\\s*(#else)",
-            "$1",
+        // Convert WM style if/else to Velocity style.
+        "#end.*\\n?\\s*(#else)",
+        "$1",
             
-            // Convert WM style #foreach to Velocity #foreach.
-            "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$\\w+)",
-            "#foreach ($1 in $2)",
+        // Convert WM style #foreach to Velocity #foreach.
+        "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$\\w+)",
+        "#foreach ($1 in $2)",
         
-            // Change parse to include.
-            "#parse",
-            "#include",
+        // Change parse to include.
+        "#parse",
+        "#include",
             
-            // Change extensions when seen.
-            "\\.wm",
-            ".vm"
-        };
-
+        // Change extensions when seen.
+        "\\.wm",
+        ".vm"
+    };
+    
+    public void convert(String args[])
+    {
         if (args.length < 1)
+            usage();
+        
+        File file = new File(args[0]);
+        
+        if (!file.exists())
         {
-            System.err.println("Usage: convert-wm <template>.wm | directory");
+            System.err.println("The template or directory specified doesn't exist!");
             System.exit(1);
         }
+        
+        if (file.isDirectory())
+        {
+            String basedir = args[0];
+            String newBasedir = basedir + VM_EXT;
+            
+            DirectoryScanner ds = new DirectoryScanner();
+            ds.setBasedir(basedir);
+            ds.addDefaultExcludes();
+            ds.scan();
+            String[] files = ds.getIncludedFiles();
+            
+            for (int i = 0; i < files.length; i++)
+                writeTemplate(files[i], basedir, newBasedir);
+        }
+        else
+            writeTemplate(args[0], "", "");
+    }
 
-        orignalTemplate = StringUtils.fileContentsToString(args[0]);
+    private boolean writeTemplate(String file, String basedir, String newBasedir)
+    {
+        if (file.indexOf(WM_EXT) < 0)
+            return false;
+    
+        System.out.println("Converting " + file + "...");
+        
+        String template;
+        String templateDir;
+        String newTemplate;
+        File outputDirectory;
+        
+        if (basedir.length() == 0)
+        {
+            template = file;
+            templateDir = "";
+            newTemplate = convertName(file);
+        }            
+        else
+        {
+            template = basedir + pathSeparator + file;
+            templateDir = newBasedir + pathSeparator + 
+                file.substring(0, file.lastIndexOf(pathSeparator));
+        
+            outputDirectory = new File(templateDir);
+                
+            if (! outputDirectory.exists())
+                outputDirectory.mkdirs();
+                
+            newTemplate = newBasedir + pathSeparator + 
+                convertName(file);
+        }            
+        
+        String convertedTemplate = convertTemplate(template);
+                    
+        try
+        {
+            FileWriter fw = new FileWriter(newTemplate);
+            fw.write(convertedTemplate);
+            fw.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    
+        return true;
+    }
+
+    private String convertName(String name)
+    {
+        if (name.indexOf(WM_EXT) > 0)
+            return name.substring(0, name.indexOf(WM_EXT)) + VM_EXT;
+        else
+            return name;
+    }
+
+    public void usage()
+    {
+        System.err.println("Usage: convert-wm <template>.wm | directory");
+        System.exit(1);
+    }
+
+    public String convertTemplate(String template)
+    {
+        orignalTemplate = StringUtils.fileContentsToString(template);
         perl = new Perl5Util();
 
         for (int i = 0; i < res.length; i += 2)
@@ -122,6 +218,12 @@ public class WebMacro
                 orignalTemplate = perl.substitute(
                     "s/" + res[i] + "/" + res[i+1] + "/", orignalTemplate);
 
-        System.out.println(orignalTemplate);
+        return orignalTemplate;
+    }
+
+    public static void main(String[] args)
+    {
+        WebMacro converter = new WebMacro();
+        converter.convert(args);
     }
 }
