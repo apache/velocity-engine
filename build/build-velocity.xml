@@ -5,7 +5,7 @@
 <project name="Velocity" default="jar" basedir=".">
 
     <property name="Name" value="Velocity"/>
-    <property name="version" value="0.7"/>
+    <property name="version" value="0.71"/>
     <property name="project" value="velocity"/>
     <property name="build.compiler" value="classic"/>
     
