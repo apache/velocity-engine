@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.12 2000/12/05 05:07:39 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.13 2000/12/10 04:54:50 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -183,16 +183,15 @@ public class VelocimacroProxy extends Directive
                  *  to allow recursive VMs, we want to init them at render time, not init time
                  *  or else you wander down the VM calls forever.
                  *
-                 *  need a context clone() here so we don't modify the real context, as we do the
-                 *  actions on stuff for introspection purposes (ex  #set $a = $a - 1...)
-                 *
-                 *  I am not happy about this and performance, but to get jon going again with anakia, 
-                 * this will do for now
+                 *  need a context here to carry the template name down through the init
                  */
 
                 if (!bInit_)
                 {
-                    nodeTree_.init( null,null);
+                    Context c = new Context();
+                    c.setCurrentTemplateName( context.getCurrentTemplateName() );
+                        
+                    nodeTree_.init( c ,null);
                     bInit_ = true;
                 }
 
