@@ -54,6 +54,7 @@ package org.apache.velocity.texen.ant;
  * <http://www.apache.org/>.
  */
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -77,7 +78,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.20 2001/03/23 17:35:36 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.21 2001/03/23 18:10:03 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -333,8 +334,16 @@ public class TexenTask extends Task
              * be placed in the init context here and
              * not in the generator class itself.
              */
-            
             Context c = initControlContext();
+            
+            /*
+             * Everything in the generator class should be
+             * pulled out and placed in here. What the generator
+             * class does can probably be added to the Velocity
+             * class and the generator class can probably
+             * be removed all together.
+             */
+            populateInitialContext(c);
             
             /* 
              * Feed all the options into the initial
@@ -422,5 +431,20 @@ public class TexenTask extends Task
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Place some useful object in the initial context.
+     *
+     * @param Context initial context
+     */
+    protected void populateInitialContext(Context context)
+    {
+        /*
+         * Place the current date in the context. Hmm,
+         * this should probably be standard and moved
+         * into the Texen task proper.
+         */
+        context.put("now", new Date().toString());
     }
 }
