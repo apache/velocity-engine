@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.0b1"/>
+  <property name="version" value="1.0b2-dev"/>
   <property name="project" value="velocity"/>
   <property name="build.compiler" value="classic"/>
     
@@ -457,7 +457,13 @@
       file="${build.dir}/${final.name}.jar" 
       tofile="${dist.dir}/${final.name}.jar"
     />
-    
+
+    <fixcrlf srcdir="${dist.dir}"
+       cr="add"
+       eof="asis"
+       includes="**/*.vm, **/*.wm, **/*.txt, **/*.java, **/*.xml, 
+                 **/*.java, **/*.properties"
+    />    
   </target>
 
   <!-- ================================================================== -->
