@@ -4,7 +4,7 @@
 
 This template is used for Velocity regression testing.
 If you alter this template make sure you change the
-corresponding comparison file so that the regression 
+corresponding comparison file so that the regression
 test doesn't fail incorrectly.
 
 *#
@@ -76,7 +76,7 @@ Logical OR :
  right
 #end
 
-Logical AND : 
+Logical AND :
 
 #if( $t && $t)
  right
@@ -282,3 +282,19 @@ Should equal true : $fofo
 #set($fofo = ( ($t || $f) && $t))
 Should equal true : $fofo
 
+
+#set($x = !true)
+
+#if($x == false)
+right
+#else
+wrong
+#end
+
+#set($y = !$x)
+
+#if($y == true)
+right
+#else
+wrong
+#end
