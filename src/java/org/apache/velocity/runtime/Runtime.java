@@ -121,6 +121,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * Runtime.init();
  * </pre>
  *
+ * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -136,10 +137,12 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * in the given properties object will override the corresponding
  * default property.
  * -----------------------------------------------------------------------
+ * </pre>
+ *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.102 2001/03/20 01:11:13 jon Exp $
+ * @version $Id: Runtime.java,v 1.103 2001/03/20 01:52:54 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    

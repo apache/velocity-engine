@@ -63,7 +63,14 @@ import org.apache.tools.ant.DirectoryScanner;
 
 /**
  * This class will convert a WebMacro template to
- * a Velocity template.
+ * a Velocity template. Uses the ORO Regexp package to do the 
+ * rewrites. Note, it isn't 100% perfect, but will definitely get
+ * you about 99.99% of the way to a converted system. Please
+ * see the website documentation for more information on how to use
+ * this class.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: WebMacro.java,v 1.7 2001/03/20 01:52:53 jon Exp $ 
  */
 public class WebMacro
 {

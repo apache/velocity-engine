@@ -78,7 +78,7 @@ import org.jdom.Element;
  * <p>
  * To use it in Velocity, do this:
  * <p>
- * <code>
+ * <pre>
  * #set $authors = $xpath.applyTo("document/author", $root)
  * #foreach ($author in $authors)
  *   $author.getValue() 
@@ -87,11 +87,11 @@ import org.jdom.Element;
  * #foreach ($title in $chapterTitles)
  *   $title.getValue()
  * #end
- * </code>
+ * </pre>
  *  
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: XPathTool.java,v 1.9 2001/03/20 00:47:44 jon Exp $
+ * @version $Id: XPathTool.java,v 1.10 2001/03/20 01:52:52 jon Exp $
  */
 public class XPathTool
 {
