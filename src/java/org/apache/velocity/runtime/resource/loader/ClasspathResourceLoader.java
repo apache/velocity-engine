@@ -104,7 +104,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.3 2001/03/20 17:15:04 geirm Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.4 2001/03/20 23:01:08 jon Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {
@@ -148,29 +148,25 @@ public class ClasspathResourceLoader extends ResourceLoader
              *  log and convert to a general Velocity ResourceNotFoundException
              */
             
-             throw new ResourceNotFoundException( fnfe.getMessage() );
+            throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         
         return result;
     }
     
+    /**
+     * Defaults to return false.
+     */
     public boolean isSourceModified(Resource resource)
     {
         return false;
     }
 
+    /**
+     * Defaults to return 0
+     */
     public long getLastModified(Resource resource)
     {
         return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
