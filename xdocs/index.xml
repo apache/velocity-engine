@@ -70,6 +70,15 @@
 <section name="Velocity News">
 
 <p>
+<strong>Generate Code with Velocity in Borland's JBuilder </strong>
+<blockquote>
+  <a href="http://community.borland.com/article/0,1410,28086,00.html">Read</a> 
+  about how to use Velocity and Borland's OpenTools API to extend Borland's 
+  JBuilder for template-based Java source code generation. <i>(2001-12-08)</i> 
+</blockquote>
+</p>
+
+<p>
 <strong>Hey, Maybe We're On The Right Track After All...</strong>
 <blockquote>
 Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
