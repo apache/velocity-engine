@@ -1,76 +1,75 @@
 #document()
-#macro (document)
-<?xml version="1.0" encoding="utf-8"?>
- <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
-  <!-- defines the layout master -->
-  <fo:layout-master-set>
-    <fo:simple-page-master master-name="Velocity" 
-                           page-height="8.5in" 
-                           page-width="11in" 
-                           margin-top="0.25in" 
-                           margin-bottom="0.25in" 
-                           margin-left="0.5in" 
-                           margin-right="0.5in">
-      <fo:region-before extent="0.25in"/>	
-      <fo:region-body margin-top="0.25in"/>  
-    </fo:simple-page-master>
-  </fo:layout-master-set>
-
-<!-- starts actual layout -->
-    <fo:page-sequence master-name="Velocity">
-	
-   <!-- header -->
-    <fo:static-content flow-name="xsl-region-before">
-      <fo:block text-align="end" font-size="10pt" font-family="serif" color="black" >
-    	$root.getChild("properties").getChild("title").getText() pg <fo:page-number/>
-      </fo:block>
-    </fo:static-content>
-			
-    <fo:flow flow-name="xsl-region-body">
-	
-    #set ($allSections = $xpath.applyTo("body/section", $root))
-
-    	<!-- Walk through the sections -->
-	 #foreach ( $section in $allSections )
-           #foreach ( $item in $section.getChildren() )     
-    	     #if ( $item.getName().equals("p") )
-		#makeBlock($item)
-	     #elseif ( $item.getName().equals("em") )
-	  	#makeEmphasize($item)		
- 	     #elseif ( $item.getName().equals("source") )
-	  	#makeSource($item)
-	     #end
-	   #end
-	#end
-	
-   </fo:flow>
- </fo:page-sequence>
-</fo:root>			 			
-#end
 
 #macro ( makeBlock $value )
  <fo:block font-size="14pt"
-	    space-after.optimum="15pt" 
+        space-after.optimum="15pt" 
             font-family="sans-serif"
-	    background-color="white"
-            color="blue"
+        background-color="white"
+            color="black"
             text-align="start"
-	    padding-top="3pt">
-   $value.getText()	
+        padding-top="3pt">
+   $xmlout.outputString($value) 
  </fo:block>
 #end
 
 #macro (makeEmphasize $value )
  <fo:block font-size="14pt"
-	    space-after.optimum="15pt" 
+        space-after.optimum="15pt" 
             font-family="sans-serif"
-	    font-weight="bold"
+        font-weight="bold"
             background-color="white"
-            color="blue"
+            color="black"
             text-align="start"
-	    padding-top="3pt">
-   $value.getText()	
+        padding-top="3pt">
+   $xmlout.outputString($value) 
 </fo:block>
+#end
+
+#macro (document)
+<?xml version="1.0" encoding="utf-8"?>
+  <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <!-- defines the layout master -->
+    <fo:layout-master-set>
+        <fo:simple-page-master master-name="Velocity" 
+                               page-height="8.5in" 
+                               page-width="11in" 
+                               margin-top="0.25in" 
+                               margin-bottom="0.25in" 
+                               margin-left="0.5in" 
+                               margin-right="0.5in">
+          <fo:region-before extent="0.25in"/>   
+          <fo:region-body margin-top="0.25in"/>  
+        </fo:simple-page-master>
+    </fo:layout-master-set>
+
+    <!-- starts actual layout -->
+    <fo:page-sequence master-name="Velocity">
+        <!-- header -->
+        <fo:static-content flow-name="xsl-region-before">
+          <fo:block text-align="end" font-size="10pt" font-family="serif" color="black" >
+            $root.getChild("properties").getChild("title").getText() pg <fo:page-number/>
+          </fo:block>
+        </fo:static-content>
+                
+        <fo:flow flow-name="xsl-region-body">
+        
+        #set ($allSections = $xpath.applyTo("body/section", $root))
+
+        <!-- Walk through the sections -->
+        #foreach ( $section in $allSections )
+            #foreach ( $item in $section.getChildren() )     
+                #if ( $item.getName().equals("p") )
+                    #makeBlock($item)
+                #elseif ( $item.getName().equals("em") )
+                    #makeEmphasize($item)       
+                #elseif ( $item.getName().equals("source") )
+                    #makeSource($item)
+                #end
+            #end
+        #end
+       </fo:flow>
+   </fo:page-sequence>
+ </fo:root>                      
 #end
 
 
