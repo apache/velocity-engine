@@ -169,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.84 2001/01/13 16:37:34 geirm Exp $
+ * @version $Id: Runtime.java,v 1.85 2001/02/14 21:31:46 dlr Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -626,7 +626,10 @@ public class Runtime implements RuntimeConstants
     }        
 
     /**
-     * Returns a Template from the resource manager
+     * Returns a <code>Template</code> from the resource manager
+     *
+     * @param name The file name of the desired template.
+     * @return     The template.
      */
     public static Template getTemplate(String name)
         throws Exception
