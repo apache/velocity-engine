@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.48 2000/12/27 23:48:59 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.49 2000/12/28 16:22:28 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -422,6 +422,7 @@ TOKEN:
 { 
     <LBRACKET: "[">
 |   <RBRACKET: "]">
+|   <COMMA:",">
 }
 
 <DIRECTIVE>
@@ -430,11 +431,6 @@ TOKEN:
   <DOUBLEDOT : ".." >
 }
 
-<DIRECTIVE,REFMOD2>
-TOKEN:
-{
-    <COMMA:",">
-}
 
 <DIRECTIVE,REFMODIFIER>
 TOKEN:
@@ -1174,6 +1170,7 @@ void DirectiveArg()       : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
+|   LOOKAHEAD(4) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1369,6 +1366,47 @@ void ObjectArray() : {/*@bgen(jjtree) ObjectArray */
     }
 /*@egen*/
 }
+
+/**
+ *  supports the [n..m] vector generator for use in
+ *  the #foreach() to generate measured ranges w/o 
+ *  needing explicit support from the app/servlet
+ */
+void IntegerRange() : {/*@bgen(jjtree) IntegerRange */
+  ASTIntegerRange jjtn000 = new ASTIntegerRange(this, JJTINTEGERRANGE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) IntegerRange */
+    try {
+/*@egen*/
+    <LBRACKET> [<WHITESPACE>] 
+    ( Reference() | NumberLiteral()) 
+    [<WHITESPACE>] <DOUBLEDOT> [<WHITESPACE>] 
+    (Reference() | NumberLiteral()) 
+    [<WHITESPACE>] <RBRACKET>/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
 
 /**
  * This method has yet to be fully implemented
@@ -2273,6 +2311,7 @@ void PrimaryExpression()       : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
+  | LOOKAHEAD(4) IntegerRange()
   | ObjectArray()
   | True()
   | False()

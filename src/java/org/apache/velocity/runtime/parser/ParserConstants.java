@@ -6,8 +6,8 @@ public interface ParserConstants {
   int EOF = 0;
   int LBRACKET = 1;
   int RBRACKET = 2;
-  int DOUBLEDOT = 3;
-  int COMMA = 4;
+  int COMMA = 3;
+  int DOUBLEDOT = 4;
   int LPAREN = 5;
   int RPAREN = 6;
   int REFMOD2_RPAREN = 7;
@@ -75,8 +75,8 @@ public interface ParserConstants {
     "<EOF>",
     "\"[\"",
     "\"]\"",
-    "\"..\"",
     "\",\"",
+    "\"..\"",
     "\"(\"",
     "<RPAREN>",
     "\")\"",
