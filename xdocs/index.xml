@@ -54,6 +54,17 @@
 
 
     <p>
+        <strong>Another Velocity Article</strong>
+        <blockquote>
+        New
+        <a href="http://www.onjava.com/pub/a/onjava/2004/04/14/velocity.html">
+        article</a> on a JSP to Velocity project.
+
+        (<i>2004-04-26</i>)
+        </blockquote>
+    </p>
+
+    <p>
         <strong>Velocity Dreamweaver Extension</strong>
         <blockquote>
         Jason Gill  (aka Pete the Chop) wrote a
