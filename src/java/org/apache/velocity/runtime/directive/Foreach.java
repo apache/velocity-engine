@@ -78,7 +78,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.42 2003/05/04 17:18:38 geirm Exp $
+ * @version $Id: Foreach.java,v 1.43 2003/10/27 12:42:10 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -179,7 +179,7 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            System.out.println(ee);
+            System.err.println(ee);
         }
 
         if (i == null)
