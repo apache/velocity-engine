@@ -111,9 +111,13 @@ public class Runtime
 
     private static Parser parser;
 
-    public static void init(String properties)
+    private static boolean initialized;
+
+    public synchronized static void init(String properties)
         throws Exception
     {
+        if (! initialized)
+        {
         try
         {
             Configuration.setPropertiesFile(properties);
@@ -155,11 +159,13 @@ public class Runtime
             parser.setDirectives(directives);
 
             info("Velocity successfully started.");
+            initialized = true;
         }
         catch (Exception e)
         {
             System.out.println(e);
             e.printStackTrace();
+        }
         }
     }
 
@@ -180,7 +186,7 @@ public class Runtime
         templateLoader.init();
     }
 
-    public static Template getTemplate(String template)
+    public synchronized static Template getTemplate(String template)
     {
         try
         {
