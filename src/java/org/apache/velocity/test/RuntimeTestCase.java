@@ -54,15 +54,13 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import junit.framework.*;
-
 import org.apache.velocity.runtime.Runtime;
 
 /**
  * Base functionality to be extended by all runtime test cases.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: RuntimeTestCase.java,v 1.2 2000/10/25 23:25:54 dlr Exp $
+ * @version $Id: RuntimeTestCase.java,v 1.3 2000/12/20 06:39:12 jvanzyl Exp $
  */
 public abstract class RuntimeTestCase extends BaseTestCase
 {

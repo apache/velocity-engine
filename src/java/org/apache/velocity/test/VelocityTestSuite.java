@@ -54,17 +54,18 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.util.Properties;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 
+import java.util.Properties;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.velocity.runtime.Runtime;
 
-import junit.framework.*;
+import junit.framework.TestSuite;
 
 /**
  * Test suite for Apache Velocity.
@@ -72,7 +73,7 @@ import junit.framework.*;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.13 2000/12/20 06:31:06 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.14 2000/12/20 06:37:52 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
