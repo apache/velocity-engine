@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.70 2002/03/25 00:37:45 geirm Exp $
+ * @version $Id: Parser.jj,v 1.71 2003/10/23 13:27:52 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -483,6 +483,11 @@ TOKEN:
   <DOUBLEDOT : ".." >
 }
 
+<DIRECTIVE, REFMOD2>
+TOKEN:
+{
+  <COLON : ":" >
+}
 
 <DIRECTIVE,REFMODIFIER>
 TOKEN:
@@ -569,7 +574,7 @@ TOKEN:
  */
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")*  "#set" >
+  <SET_DIRECTIVE: (" "|"\t")*  "#set" (" ")* "(">
     {
         if (! inComment)
         {
@@ -581,6 +586,23 @@ TOKEN:
             stateStackPush();
             inSet = true;
             SwitchTo(DIRECTIVE);
+        }
+
+        /*
+         *  need the LPAREN action
+         */
+
+        if (!inComment)
+        {
+            lparen++;
+
+            /*
+             * If in REFERENCE and we have seen the dot, then move
+             * to REFMOD2 -> Modifier()
+             */
+
+            if (curLexState == REFMODIFIER )
+                SwitchTo( REFMOD2 );
         }
    }
 }
@@ -1286,9 +1308,16 @@ int DirectiveArg()       : {}
         return ParserTreeConstants.JJTSTRINGLITERAL;
     }
 |   NumberLiteral()
+    {
+        return ParserTreeConstants.JJTNUMBERLITERAL;
+    }
 |   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
     {
         return ParserTreeConstants.JJTINTEGERRANGE;
+    }
+|   LOOKAHEAD( <LBRACKET> Parameter() <COLON> ) Map()
+    {
+        return ParserTreeConstants.JJTMAP;
     }
 |   ObjectArray()
     {
@@ -1527,6 +1556,42 @@ SimpleNode Directive() :
 /*@egen*/
 }
 
+/**
+ * for creating a map in a #set
+ *
+ *  #set($foo = [$foo : $bar, $blargh : $thingy])
+ */
+void Map() : {/*@bgen(jjtree) Map */
+  ASTMap jjtn000 = new ASTMap(this, JJTMAP);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Map */
+    try {
+/*@egen*/
+    <LBRACKET> [ Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )* ] <RBRACKET>/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
 void ObjectArray() : {/*@bgen(jjtree) ObjectArray */
   ASTObjectArray jjtn000 = new ASTObjectArray(this, JJTOBJECTARRAY);
   boolean jjtc000 = true;
@@ -1610,6 +1675,7 @@ void Parameter()      : {}
     (
         StringLiteral()
         | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+        | LOOKAHEAD( <LBRACKET>  Parameter() <COLON>) Map()
         | ObjectArray()
         | True()
         | False()
@@ -1965,9 +2031,7 @@ void SetDirective() : {/*@bgen(jjtree) SetDirective */
 {/*@bgen(jjtree) SetDirective */
     try {
 /*@egen*/
-    <SET_DIRECTIVE>
-    [ LOOKAHEAD(2) <WHITESPACE> ]
-    ( <LPAREN>  [<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
+    <SET_DIRECTIVE>([<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
     {
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
@@ -2524,6 +2588,7 @@ void PrimaryExpression()       : {}
     | NumberLiteral()
     | Reference()
     | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+    | LOOKAHEAD( <LBRACKET>  Parameter()  <COLON>) Map()
     | ObjectArray()
     | True()
     | False()
