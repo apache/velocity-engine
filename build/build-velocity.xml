@@ -79,9 +79,20 @@
     </path>
 
     <!-- =================================================================== -->
+    <!-- prints the environement                                        -->
+    <!-- =================================================================== -->
+    <target name="env">
+        <echo message="build.compiler = ${build.compiler}"/>
+        <echo message="java.home = ${java.home}"/>
+        <echo message="user.home = ${user.home}"/>
+        <echo message="java.class.path = ${java.class.path}"/>
+        <echo message=""/>
+    </target>
+
+    <!-- =================================================================== -->
     <!-- Prepares the build directory                                        -->
     <!-- =================================================================== -->
-    <target name="prepare">
+    <target name="prepare" depends="env">
         <filter token="year" value="${year}"/>
         <filter token="version" value="${version}"/>
         <filter token="date" value="${TODAY}"/>        
@@ -205,18 +216,13 @@
     <!-- =================================================================== -->
     <!-- Make HTML version of Velocity documentation                         -->
     <!-- =================================================================== -->
-    <target name="docs">
+    <target name="docs" depends="prepare">
 
         <java fork="yes" classname="${doc.generator}">
             <arg value="targetDirectory=${velocity.docs}"/>
             <arg value="${velocity.xdocs}/site-book.xml"/>
             <arg value="${velocity.skin}"/>
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement location="${stylebook.jar}"/>
-                <pathelement location="${xerces.jar}"/>
-                <pathelement location="${xalan.jar}"/>
-            </classpath>
+            <classpath refid="classpath"/>
         </java>
 
     </target>
