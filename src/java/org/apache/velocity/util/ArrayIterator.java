@@ -1,9 +1,9 @@
 package org.apache.velocity.util;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/ArrayIterator.java,v 1.1 2000/10/12 14:56:21 jvanzyl Exp $
- * $Revision: 1.1 $
- * $Date: 2000/10/12 14:56:21 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/ArrayIterator.java,v 1.2 2000/10/12 15:00:15 jvanzyl Exp $
+ * $Revision: 1.2 $
+ * $Date: 2000/10/12 15:00:15 $
  *
  * ====================================================================
  *
@@ -66,21 +66,26 @@ package org.apache.velocity.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-// Added to avoid the conversion of [] to Vector - reduce garbage + cleaner
-// code is similar to VectorEnumeration in java.util.Vector
-
+/**
+ * An Iterator wrapper for an Object[]. This will
+ * allow us to deal with all array like structures
+ * in a consistent manner.
+ */
 public class ArrayIterator implements Iterator
 {
-
+    /** Object[] to place an iterator wrapper around */
     Object array[];
+    /** Current position in the array */
     int pos;
 
+    /** Default constructor */
     public ArrayIterator(Object array[])
     {
         this.array = array;
         pos = 0;
     }
 
+    /** Move to next element in the array. */
     public Object next()
     {
         synchronized (array)
@@ -92,12 +97,14 @@ public class ArrayIterator implements Iterator
                 " / " + array.length);
 
     }
-
+    
+    /** Check to see if there is another element in the array. */
     public boolean hasNext()
     {
         return pos < array.length;
     }
 
+    /** NOT USED: Merely added to satify the Iterator interface. */
     public void remove()
     {
     }
