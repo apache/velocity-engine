@@ -62,7 +62,7 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTEscape.java,v 1.1 2000/11/11 22:41:45 geirm Exp $ 
+ * @version $Id: ASTEscape.java,v 1.2 2000/12/11 04:36:03 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -75,7 +75,7 @@ import org.apache.velocity.runtime.parser.*;
 
 public class ASTEscape extends SimpleNode {
 
-    private String strText_ = "";
+    private String text = "";
   
     public ASTEscape(int id) {
         super(id);
@@ -90,16 +90,17 @@ public class ASTEscape extends SimpleNode {
         return visitor.visit(this, data);
     }
     
-    public Object init(Context context, Object data) throws Exception
+    public Object init(Context context, Object data) 
+        throws Exception
     {
-        strText_ =  getFirstToken().image;
+        text =  getFirstToken().image;
         return data;
     }
 
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-        writer.write( strText_);
+        writer.write( text );
         return true;
     }    
 

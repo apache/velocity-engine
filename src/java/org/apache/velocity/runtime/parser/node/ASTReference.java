@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.13 2000/12/05 05:01:27 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.14 2000/12/11 04:36:03 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -90,8 +90,8 @@ public class ASTReference extends SimpleNode
     private int referenceType;
     private String nullString;
     private String rootString;
-    private boolean bIsEscaped_ = false;
-    private String  strPrefix_ = "";
+    private boolean escaped = false;
+    private String  prefix = "";
 
     public ASTReference(int id)
     {
@@ -176,12 +176,12 @@ public class ASTReference extends SimpleNode
          *  2) if not, then \$foo  (its considered shmoo, not VTL)
          */
 
-        if (bIsEscaped_)
+        if ( escaped )
         {
             if ( value == null )
-                writer.write( NodeUtils.specialText(getFirstToken()) + strPrefix_ + "\\" +  nullString );
+                writer.write( NodeUtils.specialText(getFirstToken()) + prefix + "\\" +  nullString );
             else
-                writer.write( NodeUtils.specialText(getFirstToken()) + strPrefix_ + nullString );
+                writer.write( NodeUtils.specialText(getFirstToken()) + prefix + nullString );
         
             return true;
         }
@@ -196,14 +196,14 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
 
-            writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + strPrefix_ + nullString);
+            writer.write(NodeUtils.specialText(getFirstToken()) + prefix + prefix + nullString);
             
             if (referenceType != QUIET_REFERENCE && Runtime.getBoolean( RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
                 Runtime.warn(new ReferenceException("reference : template = " + context.getCurrentTemplateName(), this));
         }                    
         else
         {
-            writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + value.toString());
+            writer.write(NodeUtils.specialText(getFirstToken()) + prefix + value.toString());
         }                    
     
         return true;
@@ -258,7 +258,7 @@ public class ASTReference extends SimpleNode
          * How many child nodes do we have?
          */
 
-         int children = jjtGetNumChildren();
+        int children = jjtGetNumChildren();
 
         for (int i = 0; i < children - 1; i++)
         {
@@ -308,7 +308,7 @@ public class ASTReference extends SimpleNode
          *  as \$foo or $foo later on in render(). Lazyness..
          */
 
-        bIsEscaped_ = false;
+        escaped = false;
 
         if ( t.image.startsWith("\\"))
         {
@@ -317,16 +317,16 @@ public class ASTReference extends SimpleNode
              */
 
             int i = 0;
-            int iLen = t.image.length();
+            int len = t.image.length();
 
-            while( i < iLen && t.image.charAt(i) == '\\' )
+            while( i < len && t.image.charAt(i) == '\\' )
                 i++;
 
             if ( (i % 2) != 0 )                
-                bIsEscaped_ = true;
+                escaped = true;
 
             if (i > 0)
-                strPrefix_ = t.image.substring(0, i / 2 );
+                prefix = t.image.substring(0, i / 2 );
 
             t.image = t.image.substring(i);
         }
