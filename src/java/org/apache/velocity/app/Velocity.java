@@ -69,7 +69,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.20 2001/07/03 23:21:16 geirm Exp $
+ * @version $Id: Velocity.java,v 1.21 2001/08/07 22:08:17 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -120,7 +120,7 @@ public class Velocity implements RuntimeConstants
     public static void init() 
         throws Exception
     {
-        Runtime.init();
+        RuntimeSingleton.init();
     }
 
     /**
@@ -133,7 +133,7 @@ public class Velocity implements RuntimeConstants
     public static void init( String propsFilename ) 
         throws Exception
     {
-        Runtime.init(propsFilename);
+        RuntimeSingleton.init(propsFilename);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Velocity implements RuntimeConstants
     public static void init( Properties p )
         throws Exception
     {      
-        Runtime.init( p ); 
+        RuntimeSingleton.init( p ); 
     }
     
     /**
@@ -157,7 +157,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void setProperty(String key, Object value)
     {
-        Runtime.setProperty(key,value);
+        RuntimeSingleton.setProperty(key,value);
     }
 
     /**
@@ -168,7 +168,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void addProperty(String key, Object value)
     {
-        Runtime.addProperty(key,value);
+        RuntimeSingleton.addProperty(key,value);
     }
 
     /**
@@ -178,7 +178,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void clearProperty(String key)
     {
-        Runtime.clearProperty(key);
+        RuntimeSingleton.clearProperty(key);
     }        
 
     /**
@@ -202,7 +202,7 @@ public class Velocity implements RuntimeConstants
 
         ExtendedProperties ep = configuration.getExtendedProperties();
 
-        Runtime.setConfiguration( ep );
+        RuntimeSingleton.setConfiguration( ep );
     }
 
     /**
@@ -216,7 +216,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void setExtendedProperties( ExtendedProperties configuration)
     {
-        Runtime.setConfiguration( configuration );
+        RuntimeSingleton.setConfiguration( configuration );
     }
 
     /**
@@ -228,7 +228,7 @@ public class Velocity implements RuntimeConstants
      */
     public static Object getProperty( String key )
     {
-        return Runtime.getProperty( key );
+        return RuntimeSingleton.getProperty( key );
     }
 
     /**
@@ -282,7 +282,7 @@ public class Velocity implements RuntimeConstants
 
         try
         {
-            encoding = Runtime.getString(INPUT_ENCODING,ENCODING_DEFAULT);
+            encoding = RuntimeSingleton.getString(INPUT_ENCODING,ENCODING_DEFAULT);
             br = new BufferedReader(  new InputStreamReader( instream, encoding));
         }
         catch( UnsupportedEncodingException  uce )
@@ -319,7 +319,7 @@ public class Velocity implements RuntimeConstants
         
         try
         {
-            nodeTree = Runtime.parse( reader, logTag );        
+            nodeTree = RuntimeSingleton.parse( reader, logTag );        
         }
         catch ( ParseException pex )
         {
@@ -341,11 +341,11 @@ public class Velocity implements RuntimeConstants
             {
                 try
                 {
-                    nodeTree.init( ica, null );
+                    nodeTree.init( ica, RuntimeSingleton.getRuntimeServices() );
                 }
                 catch( Exception e )
                 {
-                    Runtime.error("Velocity.evaluate() : init exception for tag = " 
+                    RuntimeSingleton.error("Velocity.evaluate() : init exception for tag = " 
                                   + logTag + " : " + e );
                 }
                 
@@ -390,7 +390,7 @@ public class Velocity implements RuntimeConstants
         if ( vmName == null ||  params == null ||  context == null 
              || writer == null || namespace == null)
         {
-            Runtime.error( "Velocity.invokeVelocimacro() : invalid parameter");
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : invalid parameter");
             return false;
         }
 
@@ -398,9 +398,9 @@ public class Velocity implements RuntimeConstants
          * does the VM exist?
          */
           
-        if (!Runtime.isVelocimacro( vmName, namespace ))
+        if (!RuntimeSingleton.isVelocimacro( vmName, namespace ))
         {
-            Runtime.error( "Velocity.invokeVelocimacro() : VM '"+ vmName 
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '"+ vmName 
                            + "' not registered.");
             return false;
         }
@@ -410,11 +410,11 @@ public class Velocity implements RuntimeConstants
          */
            
         VelocimacroProxy vp = 
-            (VelocimacroProxy) Runtime.getVelocimacro( vmName, namespace );
+            (VelocimacroProxy) RuntimeSingleton.getVelocimacro( vmName, namespace );
         
         if ( vp == null )
         {
-            Runtime.error( "Velocity.invokeVelocimacro() : VM '" 
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '" 
                            + vmName 
                            + "' : severe error.  Unable to get VM from factory.");
             return false;
@@ -426,7 +426,7 @@ public class Velocity implements RuntimeConstants
             
         if ( vp.getNumArgs() > params.length )
         {
-            Runtime.error( "Velocity.invokeVelocimacro() : VM '" 
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '" 
                            + vmName + "' : invalid # of args.  Needed " 
                            + vp.getNumArgs() 
                            + " but called with " + params.length);
@@ -470,7 +470,7 @@ public class Velocity implements RuntimeConstants
         }
         catch (Exception e )
         {
-            Runtime.error("Velocity.invokeVelocimacro() : " + e );
+            RuntimeSingleton.error("Velocity.invokeVelocimacro() : " + e );
             return false;
         }
         
@@ -494,7 +494,7 @@ public class Velocity implements RuntimeConstants
                                          Context context, Writer writer )
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
-        return mergeTemplate( templateName, Runtime.getString(INPUT_ENCODING,ENCODING_DEFAULT),
+        return mergeTemplate( templateName, RuntimeSingleton.getString(INPUT_ENCODING,ENCODING_DEFAULT),
                                context, writer );
     }
 
@@ -515,11 +515,11 @@ public class Velocity implements RuntimeConstants
                                       Context context, Writer writer )
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
-        Template template = Runtime.getTemplate(templateName, encoding);
+        Template template = RuntimeSingleton.getTemplate(templateName, encoding);
         
         if ( template == null )
         {
-            Runtime.error("Velocity.parseTemplate() failed loading template '" 
+            RuntimeSingleton.error("Velocity.parseTemplate() failed loading template '" 
                           + templateName + "'" );
             return false;
         }
@@ -545,7 +545,7 @@ public class Velocity implements RuntimeConstants
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return Runtime.getTemplate( name );
+        return RuntimeSingleton.getTemplate( name );
     }
 
     /**
@@ -566,7 +566,7 @@ public class Velocity implements RuntimeConstants
     public static Template getTemplate(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return Runtime.getTemplate( name, encoding );
+        return RuntimeSingleton.getTemplate( name, encoding );
     }
 
     /**
@@ -586,7 +586,7 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean templateExists( String templateName )
     {
-        return (Runtime.getLoaderNameForResource(templateName) != null);
+        return (RuntimeSingleton.getLoaderNameForResource(templateName) != null);
     }
     
     /**
@@ -596,7 +596,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void warn(Object message)
     {
-        Runtime.warn( message );
+        RuntimeSingleton.warn( message );
     }
     
     /** 
@@ -606,7 +606,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        Runtime.info( message );
+        RuntimeSingleton.info( message );
     }
     
     /**
@@ -616,7 +616,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        Runtime.error( message );
+        RuntimeSingleton.error( message );
     }
     
     /**
@@ -626,7 +626,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        Runtime.debug( message );
+        RuntimeSingleton.debug( message );
     }
 
 } 
