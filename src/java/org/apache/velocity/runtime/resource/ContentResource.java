@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ import org.apache.velocity.runtime.Runtime;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ContentResource.java,v 1.2 2000/12/19 15:33:16 jvanzyl Exp $
+ * @version $Id: ContentResource.java,v 1.3 2001/03/05 11:46:42 jvanzyl Exp $
  */
 public class ContentResource extends Resource
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource.loader;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import org.apache.velocity.util.StringUtils;
  * Factory to grab a template loader.
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoaderFactory.java,v 1.1 2000/12/19 05:30:06 jvanzyl Exp $
+ * $Id: ResourceLoaderFactory.java,v 1.2 2001/03/05 11:47:06 jvanzyl Exp $
  */
 public class ResourceLoaderFactory
 {

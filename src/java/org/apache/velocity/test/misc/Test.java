@@ -3,7 +3,7 @@ package org.apache.velocity.test.misc;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.16 2001/02/26 04:02:32 geirm Exp $
+ * @version $Id: Test.java,v 1.17 2001/03/05 11:47:57 jvanzyl Exp $
  */
 public class Test
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.test;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import org.apache.velocity.runtime.Runtime;
  * Base functionality to be extended by all runtime test cases.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: RuntimeTestCase.java,v 1.3 2000/12/20 06:39:12 jvanzyl Exp $
+ * @version $Id: RuntimeTestCase.java,v 1.4 2001/03/05 11:47:40 jvanzyl Exp $
  */
 public abstract class RuntimeTestCase extends BaseTestCase
 {

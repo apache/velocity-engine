@@ -3,7 +3,7 @@ package org.apache.velocity.anakia;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ package org.apache.velocity.anakia;
  * of the " -> &amp;quot; character.
  *
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Escape.java,v 1.2 2000/12/20 07:20:17 jvanzyl Exp $
+ * @version $Id: Escape.java,v 1.3 2001/03/05 11:44:34 jvanzyl Exp $
  */
 public class Escape
 {

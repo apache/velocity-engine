@@ -3,7 +3,7 @@ package org.apache.velocity.anakia;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,7 +90,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.15 2001/03/04 23:44:35 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.16 2001/03/05 11:44:32 jvanzyl Exp $
  */
 public class AnakiaTask extends MatchingTask
 {

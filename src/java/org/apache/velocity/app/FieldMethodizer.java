@@ -1,4 +1,5 @@
 package org.apache.velocity.app;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -91,7 +92,7 @@ import java.util.HashMap;
  *  to handle them by explicitly placing them into the context.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: FieldMethodizer.java,v 1.2 2001/02/12 01:25:40 geirm Exp $ 
+ * @version $Id: FieldMethodizer.java,v 1.3 2001/03/05 11:44:48 jvanzyl Exp $ 
  */
 public class FieldMethodizer
 {

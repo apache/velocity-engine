@@ -3,7 +3,7 @@ package org.apache.velocity.util;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.8 2001/03/05 01:26:38 dlr Exp $
+ *  @version $Id: StringUtils.java,v 1.9 2001/03/05 11:48:39 jvanzyl Exp $
  */
 public class StringUtils
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource.loader;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * 
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.5 $
+ * $Revision: 1.6 $
  */
 public class JarResourceLoader extends ResourceLoader
 {

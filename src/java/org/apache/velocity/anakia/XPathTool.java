@@ -3,7 +3,7 @@ package org.apache.velocity.anakia;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,7 @@ import org.jdom.Element;
  *  
  * @author <a href="bob@werken.com">bob mcwhirter</a>
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: XPathTool.java,v 1.7 2000/12/20 07:16:18 jvanzyl Exp $
+ * @version $Id: XPathTool.java,v 1.8 2001/03/05 11:44:37 jvanzyl Exp $
  */
 public class XPathTool
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.2 2001/01/03 05:28:33 geirm Exp $
+ * @version $Id: Literal.java,v 1.3 2001/03/05 11:45:44 jvanzyl Exp $
  */
 public class Literal extends Directive
 {

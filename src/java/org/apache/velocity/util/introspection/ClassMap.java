@@ -3,7 +3,7 @@ package org.apache.velocity.util.introspection;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.7 2000/11/10 02:29:48 jvanzyl Exp $
+ * @version $Id: ClassMap.java,v 1.8 2001/03/05 11:48:44 jvanzyl Exp $
  */
 
 // TODO: public boolean (String[] list)

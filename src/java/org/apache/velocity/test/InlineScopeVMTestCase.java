@@ -3,7 +3,7 @@ package org.apache.velocity.test;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ import junit.framework.TestCase;
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.5 2001/01/03 05:28:51 geirm Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.6 2001/03/05 11:47:35 jvanzyl Exp $
  */
 public class InlineScopeVMTestCase extends TestCase
 {
