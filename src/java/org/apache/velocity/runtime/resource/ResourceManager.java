@@ -60,6 +60,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import java.io.InputStream;
+import java.io.IOException;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.configuration.Configuration;
@@ -78,7 +81,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.24 2001/04/22 18:11:21 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.25 2001/04/27 15:23:40 geirm Exp $
  */
 public class ResourceManager
 {
@@ -208,6 +211,7 @@ public class ResourceManager
      * @param resourceName The name of the resource to retrieve.
      * @param resourceType The type of resource (<code>RESOURCE_TEMPLATE</code>,
      *                     <code>RESOURCE_CONTENT</code>, etc.).
+     * @param encoding  The character encoding to use.
      * @return Resource with the template parsed and ready.
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
@@ -425,8 +429,23 @@ public class ResourceManager
         return resource;
     }
 
-    /**
-     * @deprecated
+     /**
+     * Gets the named resource.  Returned class type corresponds to specified type
+     * (i.e. <code>Template</code> to <code>RESOURCE_TEMPLATE</code>).
+     *
+     * @param resourceName The name of the resource to retrieve.
+     * @param resourceType The type of resource (<code>RESOURCE_TEMPLATE</code>,
+     *                     <code>RESOURCE_CONTENT</code>, etc.).
+     * @return Resource with the template parsed and ready.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if a problem in parse
+     *
+     *  @deprecated Use
+     *  {@link #getResource(String resourceName, int resourceType, 
+     *          String encoding )}
      */
     public static Resource getResource(String resourceName, int resourceType  )
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -434,4 +453,62 @@ public class ResourceManager
         return getResource( resourceName, resourceType, Runtime.ENCODING_DEFAULT);
     }
 
+    /**
+     *  Determines is a template exists, and returns name of the loader that 
+     *  provides it.  This is a slightly less hokey way to support
+     *  the Velocity.templateExists() utility method, which was broken
+     *  when per-template encoding was introduced.  We can revisit this.
+     *
+     *  @param resourceName Name of template or content resource
+     *  @return class name of loader than can provide it
+     */
+    public static String getLoaderNameForResource(String resourceName )
+    {
+        ResourceLoader resourceLoader = null;
+       
+        /*
+         *  loop through our loaders...
+         */
+        for (int i = 0; i < resourceLoaders.size(); i++)
+        { 
+            resourceLoader = (ResourceLoader) resourceLoaders.get(i);
+
+            InputStream is = null;
+
+            /*
+             *  if we find one that can provide the resource,
+             *  return the name of the loaders's Class
+             */
+            try
+            {
+                is=resourceLoader.getResourceStream( resourceName );
+                return resourceLoader.getClass().toString();
+            }
+            catch( ResourceNotFoundException e)
+            {
+                /*
+                 * this isn't a problem.  keep going
+                 */
+            }
+            finally
+            {
+                /*
+                 *  if we did find one, clean up because we were 
+                 *  returned an open stream
+                 */
+                if (is != null)
+                {
+                    try
+                    {
+                        is.close();
+                    }
+                    catch( IOException ioe)
+                    {
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 }
