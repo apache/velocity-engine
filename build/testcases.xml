@@ -76,11 +76,10 @@
   <target name="test-template">
     <echo message="Running Template tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes"
+          failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TemplateTestCase"/>
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
+      <classpath refid="classpath"/>
     </java>
    </target>
 
