@@ -81,7 +81,7 @@ import org.apache.velocity.runtime.exception.ReferenceException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.17 2000/11/07 21:41:41 geirm Exp $
+ * @version $Id: Foreach.java,v 1.18 2000/11/11 22:43:25 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -100,8 +100,6 @@ public class Foreach extends Directive
     private Object tmp;
     private int iterator;
 
-    private Node endNode_ = null;
-
     public String getName() 
     { 
         return "foreach"; 
@@ -117,21 +115,6 @@ public class Foreach extends Directive
         Object sampleElement = null;
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
 
-        /*
-         *  I am assuming that since we are BLOCK type directive we have an EndStatement
-         */
-
-        for( int i = 0; i < node.jjtGetNumChildren(); i++)
-        {
-            Node child = node.jjtGetChild(i);
-               
-            if ( child.getType() == ParserTreeConstants.JJTENDSTATEMENT )
-            {    
-                endNode_ = child;
-                break;
-            }
-        }
- 
         // This is a refence node and it needs to
         // be inititialized.
         node.jjtGetChild(2).init(context, null);
@@ -216,14 +199,6 @@ public class Foreach extends Directive
             context.put(elementKey,i.next());
             node.jjtGetChild(3).render(context, writer);
             iterator++;
-
-            /*
-             *  and render the EndStatement()
-             */
-  
-            if (endNode_ != null)
-                endNode_.render( context, writer );
-            
         }
 
         context.remove(COUNTER_IDENTIFIER);
