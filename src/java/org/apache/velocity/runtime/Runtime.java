@@ -1,5 +1,3 @@
-package org.apache.velocity.runtime;
-
 /*
  * The Apache Software License, Version 1.1
  *
@@ -53,6 +51,8 @@ package org.apache.velocity.runtime;
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
+
+package org.apache.velocity.runtime;
 
 import java.io.InputStream;
 import java.io.File;
@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.67 2000/12/10 04:51:25 geirm Exp $
+ * @version $Id: Runtime.java,v 1.68 2000/12/11 04:14:52 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -193,7 +193,7 @@ public class Runtime implements RuntimeConstants
      *  VelocimacroFactory object to manage VMs
      */
 
-    private static VelocimacroFactory vmFactory_ = new VelocimacroFactory();
+    private static VelocimacroFactory vmFactory = new VelocimacroFactory();
 
     /** A list of paths that we can pull static content from. */
     private static String[] includePaths;
@@ -215,8 +215,7 @@ public class Runtime implements RuntimeConstants
     private static List templateLoaders;
 
     /** 
-      * The Runtime parser. This has to be changed to
-      * a pool of parsers!
+      * The Runtime parser pool
       */
     private static SimplePool parserPool;
     
@@ -439,7 +438,7 @@ public class Runtime implements RuntimeConstants
                  *  initialize the VM Factory.  It will use the properties 
                  * accessable from Runtime, so keep this here at the end.
                  */
-                vmFactory_.initVelocimacro();
+                vmFactory.initVelocimacro();
                 
                 info("Velocity successfully started.");
                 
@@ -1048,7 +1047,7 @@ public class Runtime implements RuntimeConstants
      */
     public static Directive getVelocimacro( String strVMName, String strTemplateName  )
     {
-        return vmFactory_.getVelocimacro( strVMName, strTemplateName );
+        return vmFactory.getVelocimacro( strVMName, strTemplateName );
     }
 
    /**
@@ -1064,7 +1063,7 @@ public class Runtime implements RuntimeConstants
     public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], 
                                           String strMacroArray[], TreeMap tmArgIndexMap, String strSourceTemplate )
     {    
-        return vmFactory_.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap, strSourceTemplate);
+        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap, strSourceTemplate);
     }
 
     /**
@@ -1075,7 +1074,7 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean isVelocimacro( String strVMName, String strTemplateName )
     {
-        return vmFactory_.isVelocimacro( strVMName, strTemplateName );
+        return vmFactory.isVelocimacro( strVMName, strTemplateName );
     }
 
     /**
@@ -1084,7 +1083,7 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean dumpVMNamespace( String strNamespace )
     {
-        return vmFactory_.dumpVMNamespace( strNamespace );
+        return vmFactory.dumpVMNamespace( strNamespace );
     }
 
     /* --------------------------------------------------------------------
