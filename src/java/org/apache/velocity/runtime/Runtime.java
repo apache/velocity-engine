@@ -91,6 +91,9 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
 import org.apache.velocity.runtime.configuration.VelocityResources;
 
 /**
@@ -169,7 +172,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.85 2001/02/14 21:31:46 dlr Exp $
+ * @version $Id: Runtime.java,v 1.86 2001/02/26 03:05:45 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -630,9 +633,13 @@ public class Runtime implements RuntimeConstants
      *
      * @param name The file name of the desired template.
      * @return     The template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
      */
     public static Template getTemplate(String name)
-        throws Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return (Template) ResourceManager
             .getResource(name,ResourceManager.RESOURCE_TEMPLATE);
@@ -641,9 +648,14 @@ public class Runtime implements RuntimeConstants
     /**
      * Returns a static content resource from the
      * resource manager.
+     *
+     * @param name Name of content resource to get
+     * @return parsed ContentResource object ready for use
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
      */
     public static ContentResource getContent(String name)
-        throws Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return (ContentResource) ResourceManager
             .getResource(name,ResourceManager.RESOURCE_CONTENT);
