@@ -59,6 +59,11 @@ import org.apache.log.format.PatternFormatter;
 
 public class VelocityFormatter extends PatternFormatter
 {
+    public VelocityFormatter( String format )
+    {
+	super( format );
+    }
+    
     /**
      * Utility method to format time.
      *
