@@ -196,7 +196,7 @@
     </target>
 
     <!-- =================================================================== -->
-    <!-- Make PDF version ofVelocity documentation                           -->
+    <!-- Make PDF version of Velocity documentation                           -->
     <!-- =================================================================== -->
     <target name="pdf" depends="init">
         <xslt infile="../xdocs/site-book.xml" xsltfile="xsl/xml2xml.xsl"
