@@ -57,8 +57,6 @@ package org.apache.velocity.context;
 import java.util.Hashtable;
 import java.io.Serializable;
 
-import org.apache.velocity.util.ArrayIterator;
-
 /**
  *  Interface describing the application data context.  This set of
  *  routines is used by the application to set and remove 'named' data
@@ -73,7 +71,7 @@ import org.apache.velocity.util.ArrayIterator;
  *
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: Context.java,v 1.3 2001/10/22 03:53:23 jon Exp $
+ *  @version $Id: Context.java,v 1.4 2001/10/23 20:48:04 dlr Exp $
  */
 public interface Context
 {
@@ -83,7 +81,7 @@ public interface Context
      * @param key   The name to key the provided value with.
      * @param value The corresponding value.
      */
-    public Object put(String key, Object value);
+    Object put(String key, Object value);
 
     /**
      * Gets the value corresponding to the provided key from the context.
@@ -91,7 +89,7 @@ public interface Context
      * @param key The name of the desired value.
      * @return    The value corresponding to the provided key.
      */
-    public Object get(String key);
+    Object get(String key);
  
     /**
      * Indicates whether the specified key is in the context.
@@ -99,12 +97,12 @@ public interface Context
      * @param key The key to look for.
      * @return    Whether the key is in the context.
      */
-    public boolean containsKey(Object key);
+    boolean containsKey(Object key);
 
     /**
      * Get all the keys for the values in the context
      */
-    public Object[] getKeys();
+    Object[] getKeys();
 
     /**
      * Removes the value associated with the specified key from the context.
@@ -113,6 +111,5 @@ public interface Context
      * @return    The value that the key was mapped to, or <code>null</code> 
      *            if unmapped.
      */
-    public Object remove(Object key);
+    Object remove(Object key);
 }
-
