@@ -60,42 +60,44 @@ import java.util.Stack;
  * Exception for #parse() problems
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseDirectiveException.java,v 1.1 2000/11/12 06:40:49 geirm Exp $
+ * @version $Id: ParseDirectiveException.java,v 1.2 2000/12/11 03:50:38 geirm Exp $
  */
 
 public class ParseDirectiveException extends Exception
 {
-    private Stack sFiles_ = new Stack();
-    private String strMsg_ = "";
-    private int iDepth_ = 0;
+    private Stack filenameStack = new Stack();
+    private String msg = "";
+    private int depthCount = 0;
 
-    ParseDirectiveException( String msg, int i   )
+    ParseDirectiveException( String m, int i   )
     {
-        strMsg_ = msg;
-        iDepth_ = i;
+        msg = m;
+        depthCount = i;
     }
 
     public String getMessage()
     {
-        String strReturn  =  "#parse() exception : depth = " + iDepth_ + " -> " + strMsg_;
+        String returnStr  =  "#parse() exception : depth = " + depthCount + " -> " + msg;
 
-        strReturn += " File stack : ";
+        returnStr += " File stack : ";
 
         try {
-            while( !sFiles_.empty())
+            while( !filenameStack.empty())
             {
-                strReturn += (String) sFiles_.pop();
-                strReturn += " -> ";
+                returnStr += (String) filenameStack.pop();
+                returnStr += " -> ";
             }
         }
-        catch( Exception e){}
+        catch( Exception e)
+        {
+        }
 
-        return strReturn;
+        return returnStr;
     }
 
     public void addFile( String s )
     {
-        sFiles_.push( s );
+        filenameStack.push( s );
     }
 
 }

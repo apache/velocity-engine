@@ -1,5 +1,3 @@
-package org.apache.velocity.runtime.directive;
-
 /*
  * The Apache Software License, Version 1.1
  *
@@ -54,6 +52,8 @@ package org.apache.velocity.runtime.directive;
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.runtime.directive;
+
 import java.io.*;
 
 import org.apache.velocity.runtime.parser.*;
@@ -93,7 +93,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.9 2000/12/04 02:08:19 geirm Exp $
+ * @version $Id: Include.java,v 1.10 2000/12/11 03:58:20 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -125,9 +125,9 @@ public class Include extends Directive
          *  get our arguments and check them
          */
 
-        int iArgCount = node.jjtGetNumChildren();
+        int argCount = node.jjtGetNumChildren();
 
-        for( int i = 0; i < iArgCount; i++)
+        for( int i = 0; i < argCount; i++)
         {
             /*
              *  we only handle StringLiterals and References right now
@@ -158,12 +158,12 @@ public class Include extends Directive
      *  @param writer output Writer
      *  @return boolean success or failure.  failures are logged
      */
-    private boolean renderOutput( Node argNode, Context context, Writer writer )
+    private boolean renderOutput( Node node, Context context, Writer writer )
        throws IOException
     {
-         String strArg = "";
+         String arg = "";
         
-        if (argNode == null)
+        if ( node == null )
         {
             Runtime.error( new String("#include() error :  null argument") );
             return false;
@@ -173,7 +173,7 @@ public class Include extends Directive
          *  does it have a value?  If you have a null reference, then no.
          */
         
-        Object value = argNode.value( context );
+        Object value = node.value( context );
         
         if ( value == null)
         {
@@ -185,22 +185,21 @@ public class Include extends Directive
          *  get the path
          */
         
-        strArg = value.toString();
+        arg = value.toString();
             
         /*
          *  everything must be under the template root TEMPLATE_PATH
          */
         
-        //String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
         String[] includePaths = Runtime.getIncludePaths();
         
         /*
          *  for security, we will not accept anything with .. in the path
          */
         
-        if ( strArg.indexOf("..") != -1)
+        if ( arg.indexOf("..") != -1)
         {
-            Runtime.error( new String("#include() error : argument " + strArg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
+            Runtime.error( new String("#include() error : argument " + arg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
             return false;
         }
 
@@ -208,20 +207,20 @@ public class Include extends Directive
          *  if a / leads off, then just nip that :)
          */
         
-        if ( strArg.startsWith( "/") )
-            strArg = strArg.substring(1);
+        if ( arg.startsWith( "/") )
+            arg = arg.substring(1);
         
         /*
-         *  we will put caching here in the future...
+         * Try to locate the file in all of the possible
+         * locations. If we can't even find a trace of existence
+         * report the problem and leave.
          */
 
-        // Try to locate the file in all of the possible
-        // locations. If we can't even find a trace of existence
-        // report the problem and leave.
         File file = null;
+        
         for (int i = 0; i < includePaths.length; i++)
         {
-            file = new File(includePaths[i], strArg);
+            file = new File(includePaths[i], arg);
             
             if (file.exists())
                 break;
@@ -231,7 +230,7 @@ public class Include extends Directive
     
         if (file == null)
         {
-            Runtime.error("#include() : " + strArg + " doesn't exist!");
+            Runtime.error("#include() : " + arg + " doesn't exist!");
             return false;
         }            
         
@@ -240,10 +239,10 @@ public class Include extends Directive
             BufferedReader reader = new BufferedReader( new FileReader(file.getAbsolutePath()));
             
             char buf[] = new char[1024];
-            int iLen = 0;
+            int len = 0;
             
-            while ( ( iLen = reader.read( buf, 0, 1024 )) != -1)
-                writer.write( buf,0,iLen );
+            while ( ( len = reader.read( buf, 0, 1024 )) != -1)
+                writer.write( buf, 0, len );
         }
         catch ( Exception e ) 
         {
@@ -262,12 +261,12 @@ public class Include extends Directive
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
     {
-        String strOutputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
-        String strOutputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
+        String outputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
+        String outputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
         
-        if ( strOutputMsgStart != null  && strOutputMsgEnd != null)
+        if ( outputMsgStart != null  && outputMsgEnd != null)
         {
-            writer.write( strOutputMsgStart + " " + msg + " " + strOutputMsgEnd );
+            writer.write( outputMsgStart + " " + msg + " " + outputMsgEnd );
         }
 
         return;

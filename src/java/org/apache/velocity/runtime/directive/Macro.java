@@ -70,7 +70,7 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.6 2000/12/10 19:38:33 geirm Exp $
+ * @version $Id: Macro.java,v 1.7 2000/12/11 03:47:09 geirm Exp $
  */
 
 package org.apache.velocity.runtime.directive;
@@ -88,6 +88,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public class Macro extends Directive
 {
+    private static  boolean debugMode = false;
+
     /**
      * Return name of this directive.
      */
@@ -104,8 +106,6 @@ public class Macro extends Directive
         return BLOCK;
     }        
     
-    private static  boolean bDebug_ = false;
-
     /**
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
@@ -120,12 +120,14 @@ public class Macro extends Directive
         return true;
     }
  
-   public void init(Context context, Node node) throws Exception
+    public void init(Context context, Node node) 
+       throws Exception
     {
         /*
          *  again, don't do squat.  We want the AST of the macro block to hang off of this
          *  but we don't want to init it... it's useless...
          */
+     
         return;
     }
 
@@ -137,25 +139,23 @@ public class Macro extends Directive
      *  VelocimacroProxy objects, and if not currently used, adds it
      *  to the macro Factory
      */ 
-    public void processAndRegister( Node node, String strSourceTemplate )
+    public void processAndRegister( Node node, String sourceTemplate )
         throws IOException
     {
-        String strError = "";
-
         /*
          *  There must be at least one arg to  #macro,
          *  the name of the VM.  Note that 0 following 
          *  args is ok for naming blocks of HTML
          */
 
-        int iNumArgs = node.jjtGetNumChildren();
+        int numArgs = node.jjtGetNumChildren();
 
         /*
          *  this number is the # of args + 1.  The + 1
          *  is for the block tree
          */
 
-        if (iNumArgs < 2) 
+        if (numArgs < 2) 
         {
             
             /*
@@ -171,38 +171,36 @@ public class Macro extends Directive
          *  get the arguments to the use of the VM
          */
 
-        String strArgs[] = getArgArray( node );
+        String argArray[] = getArgArray( node );
 	 
         /*
          *   now, try and eat the code block. Pass the root.
          */
         
-        String strMacroArray[] = getASTAsStringArray( node.jjtGetChild(iNumArgs - 1) );
+        String macroArray[] = getASTAsStringArray( node.jjtGetChild( numArgs - 1) );
     
         /*
          *  make a big string out of our macro
          */
   
-        StringBuffer strTemp  = new StringBuffer();
+        StringBuffer temp  = new StringBuffer();
         
-        for( int i=0; i < strMacroArray.length; i++)
-            strTemp.append( strMacroArray[i] );
+        for( int i=0; i < macroArray.length; i++)
+            temp.append( macroArray[i] );
 
-        String strMacro = strTemp.toString();    
+        String macroBody = temp.toString();    
     
         /*
          *  now, using the macro body string and the arg list, index all the tokens in the arglist
          */
 
-        TreeMap tmArgIndexMap = getArgIndexMap( strMacro, strArgs);
+        TreeMap argIndexMap = getArgIndexMap( macroBody, argArray );
 
         /*
          *  now, try to add it.  The Factory controls permissions, so just give it a whack...
          */
 
-        int iMacroArgs = strArgs.length - 1;
-
-        boolean bRet = Runtime.addVelocimacro( strArgs[0], strMacro, strArgs, strMacroArray, tmArgIndexMap, strSourceTemplate );
+        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody, argArray, macroArray, argIndexMap, sourceTemplate );
 
         return;
     }
@@ -211,7 +209,7 @@ public class Macro extends Directive
      *   using the macro body and the arg list, creates a TreeMap of the indices of the args in the body
      *   Makes for fast and efficient patching at runtime
      */
-    private TreeMap getArgIndexMap( String strMacro, String strArgArray[] )
+    private TreeMap getArgIndexMap( String macroBody, String argArray[] )
     {
         TreeMap tm = new TreeMap();
  
@@ -220,18 +218,18 @@ public class Macro extends Directive
          *  all at once to avoid confusing later replacement attempts with the activity of earlier ones
          */
 
-        for (int i=1; i<strArgArray.length; i++)
+        for (int i=1; i<argArray.length; i++)
         {
             /*
              *  keep going until we don't get any matches
              */
 
-            int iIndex = 0;
+            int index = 0;
 
-            while( ( iIndex = strMacro.indexOf( strArgArray[i], iIndex )) != -1 )
+            while( ( index = macroBody.indexOf( argArray[i], index )) != -1 )
             {
-                tm.put(new Integer( iIndex ), new Integer( i ));
-                iIndex++;
+                tm.put(new Integer( index ), new Integer( i ));
+                index++;
             }                    
         }
 
@@ -248,11 +246,11 @@ public class Macro extends Directive
          *  remember : this includes the block tree
          */
         
-        int iNumArgs = node.jjtGetNumChildren();
+        int numArgs = node.jjtGetNumChildren();
 	
-        iNumArgs--;  // avoid the block tree...
+        numArgs--;  // avoid the block tree...
 	
-        String strArgs[] = new String[ iNumArgs ];
+        String argArray[] = new String[ numArgs ];
 	
         int i = 0;
 	
@@ -260,24 +258,24 @@ public class Macro extends Directive
          *  eat the args
          */
 	
-        while( i <  iNumArgs ) 
+        while( i <  numArgs ) 
         {
-            strArgs[i] = node.jjtGetChild(i).getFirstToken().image;
+            argArray[i] = node.jjtGetChild(i).getFirstToken().image;
             i++;
         }
 	
-        if (bDebug_) 
+        if ( debugMode ) 
         {
-            System.out.println("Macro.getArgArray() : #args = " + iNumArgs );
-            System.out.print( strArgs[0] + "(" );
+            System.out.println("Macro.getArgArray() : #args = " + numArgs );
+            System.out.print( argArray[0] + "(" );
 	    
-            for (  i = 1; i < iNumArgs; i++) 
-                System.out.print(" " + strArgs[i] );
+            for (  i = 1; i < numArgs; i++) 
+                System.out.print(" " + argArray[i] );
 	    
             System.out.println(" )");
         }
 	
-        return strArgs;
+        return argArray;
     }
 
    /**
@@ -298,11 +296,11 @@ public class Macro extends Directive
          *  our first and last tokens
          */
 
-        int iCount = 0;
+        int count = 0;
 
         while( t != null && t != tLast ) 
         {
-            iCount++;
+            count++;
             t = t.next;
         }
 
@@ -310,20 +308,20 @@ public class Macro extends Directive
          *  account for the last one
          */
 
-        iCount++;
+        count++;
 
         /*
          *  now, do it for real
          */
 
-        String strArray[] = new String[iCount];
+        String arr[] = new String[count];
 
-        iCount = 0;
+        count = 0;
         t = rootNode.getFirstToken();
 
         while( t != tLast ) 
         {
-            strArray[iCount++] = t.image;
+            arr[count++] = t.image;
             t = t.next;
         }
 
@@ -331,9 +329,9 @@ public class Macro extends Directive
          *  make sure we get the last one...
          */
 
-        strArray[iCount] = t.image;
+        arr[count] = t.image;
 
-        return strArray;
+        return arr;
     }
 }
 
