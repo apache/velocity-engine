@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.42 2001/12/07 04:43:21 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.43 2002/02/23 11:00:40 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -542,7 +542,7 @@ public class ASTReference extends SimpleNode
             int i = 0;
             int len = t.image.length();
 
-            i = t.image.indexOf("$");
+            i = t.image.indexOf('$');
 
             if (i == -1)
             {
