@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: MethodMap.java,v 1.4 2000/11/03 14:37:50 jvanzyl Exp $
+ * @version $Id: MethodMap.java,v 1.5 2000/11/04 02:42:39 jvanzyl Exp $
  */
 
 public class MethodMap
@@ -119,12 +119,13 @@ public class MethodMap
                 // Make sure the given parameter is a valid
                 // subclass of the method parameter in question.
 
-                for (int j = 0; j < parameterTypes.length; j++)
+                for (int j = 0; ; j++)
                 {
+                    if (j >= parameterTypes.length)
+                        return method;
+
                     if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
                         break;
-
-                    return method;
                 }
             }
         }
