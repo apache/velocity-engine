@@ -3373,7 +3373,7 @@ A continuing source of frustration for beginning servlet users is getting
 all the pieces into place and working.  Using a servlet engine like Tomcat or Resin
 is far from obvious for the first time user (and even for more experienced users...).
 The following are the basic instructions, to the best of our knowledge, for getting
-the SampleServlet examplr working. Note that the sample template <code>sample.vm</code>
+the SampleServlet example working. Note that the sample template <code>sample.vm</code>
 and the servlet code itself, <code>SampleServlet.java</code> are
  found in the <code>examples/servlet_example</code> directory.  Although some servlet
 engines (Resin, for example) will compile the servlet for you, it would be best if
@@ -3401,7 +3401,11 @@ this is where we will set things up.
    </blockquote>
 </li>
 <li>
- Put the velocity-1.1.jar (or newer) into the velexample/WEB-INF/lib directory
+ Put the Velocity jar into the velexample/WEB-INF/lib directory.  Note that with v1.2
+ and newer, you either have to either use the jar from the distribution (or that you 
+ build yourself) that contains all the dependencies ( ex. velocity-dep-1.2.jar) or 
+ you must add the dependency jars yourself to the WEB-INF/lib directory. Please see
+ the section "Getting Started" and "Dependencies", above.
 </li>
 <li>
  Put the SampleServlet.class into the velexample/WEB-INF/classes directory
@@ -3449,7 +3453,8 @@ Copy the SampleServlet.class file into the doc/WEB-INF/classes directory.
 Copy the sample.vm template file into the doc/ directory
 </li>
 <li>
-Copy the velocity-1.1.jar into the doc/WEB-INF/lib directory.
+Copy the Velocity jar (and any required dependencies - see note above in
+Tomcat setup section) into the doc/WEB-INF/lib directory.
 </li>
 <li>
 Start resin.
