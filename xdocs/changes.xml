@@ -15,11 +15,20 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.3-rc1">
+<p>
+This section describes changes to the VEL_1_3_BRANCH after the
+1.3-rc1 release. These are updates working towards a rc2 or
+final.
+</p>
+
+</subsection>
 
 <subsection name="1.3-dev">
 <p>
 This section describes changes to the main branch after the
-1.2 release.
+1.2 release. This was then branched as VEL_1_3_BRANCH in CVS
+and released as v1.3-rc on March 17, 2002.
 </p>
 
 <ul>
