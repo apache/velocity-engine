@@ -80,7 +80,7 @@ import org.apache.velocity.context.*;
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
  * @author <a href="dlr@collab.net">Daniel Rall</a>
- * @version $Id: VelocityFormatter.java,v 1.7 2001/10/16 23:14:29 dlr Exp $
+ * @version $Id: VelocityFormatter.java,v 1.8 2002/03/27 18:51:06 dlr Exp $
  */
 public class VelocityFormatter
 {
@@ -98,34 +98,32 @@ public class VelocityFormatter
     }
 
     /**
-     * Formats a date in 'short' style.
+     * Formats a date in <code>DateFormat.SHORT</code> style.
      *
-     * @param date A Date.
-     * @return A String.
+     * @param date The date to format.
+     * @return The formatted date as text.
      */
     public String formatShortDate(Date date)
     {
-        return DateFormat
-            .getDateInstance(DateFormat.SHORT).format(date);
+        return DateFormat.getDateInstance(DateFormat.SHORT).format(date);
     }
 
     /**
-     * Formats a date in 'long' style.
+     * Formats a date in <code>DateFormat.LONG</code> style.
      *
-     * @param date A Date.
-     * @return A String.
+     * @param date The date to format.
+     * @return The formatted date as text.
      */
     public String formatLongDate(Date date)
     {
-        return DateFormat
-            .getDateInstance(DateFormat.LONG).format(date);
+        return DateFormat.getDateInstance(DateFormat.LONG).format(date);
     }
 
     /**
      * Formats a date/time in 'short' style.
      *
-     * @param date A Date.
-     * @return A String.
+     * @param date The date to format.
+     * @return The formatted date as text.
      */
     public String formatShortDateTime(Date date)
     {
@@ -137,8 +135,8 @@ public class VelocityFormatter
     /**
      * Formats a date/time in 'long' style.
      *
-     * @param date A Date.
-     * @return A String.
+     * @param date The date to format.
+     * @return The formatted date as text.
      */
     public String formatLongDateTime(Date date)
     {
@@ -207,49 +205,50 @@ public class VelocityFormatter
     /**
      * Formats a vector into the form "A, B and C".
      *
-     * @param vector A Vector.
+     * @param list The list of elements to format.
      * @return A String.
      */
-    public String formatVector(Vector vector)
+    public String formatVector(List list)
     {
-        return formatVector(vector, ", ", " and ");
+        return formatVector(list, ", ", " and ");
     }
 
     /**
      * Formats a vector into the form "A&lt;delim&gt;B&lt;delim&gt;C".
      *
-     * @param vector A Vector.
+     * @param list The list of elements to format.
      * @param delim A String.
      * @return A String.
      */
-    public String formatVector(Vector vector,
+    public String formatVector(List list,
                                String delim)
     {
-        return formatVector(vector, delim, delim);
+        return formatVector(list, delim, delim);
     }
 
     /**
-     * Formats a vector into the form
+     * Formats a list into the form
      * "Adelim&gt;B&lt;finaldelim&gt;C".
      *
-     * @param vector A Vector.
+     * @param list The list of elements to format.
      * @param delim A String.
      * @param finalDelim A String.
      * @return A String.
      */
-    public String formatVector(Vector vector,
+    public String formatVector(List list,
                                String delim,
                                String finaldelim)
     {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < vector.size(); i++)
+        int size = list.size();
+        for (int i = 0; i < size; i++)
         {
-            sb.append(vector.elementAt(i).toString());
-            if (i < vector.size() - 2)
+            sb.append(list.get(i));
+            if (i < size - 2)
             {
                 sb.append(delim);
             }
-            else if (i < vector.size() - 1)
+            else if (i < size - 1)
             {
                 sb.append(finaldelim);
             }
