@@ -2945,7 +2945,7 @@ $count
 ## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
 #include( &quot;a.txt&quot; )
 
-## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) renders as #include( &quot;a.txt&quot; )
 \#include( &quot;a.txt&quot; )
 
 ## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
@@ -3131,7 +3131,31 @@ Vyacheslav Ganelin
   body of the block.
   </p>
                                                 <p>
-  If <em>$jazz</em> is false, there is no output. Note that
+  If <em>$jazz</em> is false, the output is
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+\
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  Note that
   things start to break if script elements are not properly escaped.
   </p>
                                                     <div align="left">
