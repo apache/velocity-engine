@@ -340,7 +340,19 @@
       <td>
       Xkins is a framework that manages skins for your web application.
       </td>
+      </tr>
+
+      <tr>
+        <td>
+          <a href="http://objectstyle.org/cayenne/">Cayenne O/R</a>
+        </td>
+        <td>
+        Cayenne is an OpenSource Java Object-Relational suite that provides a runtime
+        O/R framework and a Swing GUI mapping/deployment tool. Velocity is used
+        as the engine for template-based class generation from GUI or Ant tasks.
+        </td>
      </tr>
+
  </table>
 
  </section>
