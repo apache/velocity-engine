@@ -123,8 +123,8 @@
 </p>
                                                 <p>
     Texen was created to deal with the source generating requirements of
-    the Turbine web application framework. The <a href="http://java.apache.org/turbine/torque.html">Torque</a> utility
-    in <a href="http://java.apache.org/turbine/">Turbine</a>, which is a
+    the Turbine web application framework. The <a href="http://jakarta.apache.org/turbine/torque.html">Torque</a> utility
+    in <a href="http://jakarta.apache.org/turbine/">Turbine</a>, which is a
     subclass of the TexenTask, is responsible for generating the SQL,
     and the Object-Relational mapping sources for a Turbine project.
     This is only one example; you can use Texen to generate almost any
@@ -225,7 +225,7 @@ page generator!
 
 #foreach ($planet in $Planets)
 
-    $outputFile = strings.concat([$planet, &quot;.html&quot;])
+    #set ($outputFile = strings.concat([$planet, &quot;.html&quot;]))
     $generator.parse(&quot;HtmlTemplate.vm&quot;, $outputFile, &quot;planet&quot;, $planet)
 
 #end
@@ -294,7 +294,7 @@ not so useful in this case). :-)
 </p>
                                                 <p>
     See the Torque utility in Turbine for a full working example of
-    Texen. A standalone version of Torque is available <a href="http://java.apache.org/turbine/tdk/">here</a>.
+    Texen. A standalone version of Torque is available <a href="http://jakarta.apache.org/builds/jakarta-turbine/release/">here</a>.
 </p>
                             </blockquote>
         </p>
