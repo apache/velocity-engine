@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.6 2001/02/01 03:57:48 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.7 2001/02/14 21:34:48 dlr Exp $
  */
 public class ResourceManager
 {
@@ -181,6 +181,14 @@ public class ResourceManager
         }
     }
 
+    /**
+     * Gets the named resource.  Returned class type corresponds to specified type
+     * (i.e. <code>Template</code> to <code>RESOURCE_TEMPLATE</code>).
+     *
+     * @param resourceName The name of the resource to retrieve.
+     * @param resourceType The type of resource (<code>RESOURCE_TEMPLATE</code>,
+     *                     <code>RESOURCE_CONTENT</code>, etc.).
+     */
     public static Resource getResource(String resourceName, int resourceType)
     {
         Resource resource = null;
