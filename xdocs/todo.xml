@@ -83,17 +83,6 @@ The Todo list that follows is roughly in order of importance.
     </p>
     
     <p>
-    <strong>Template Loader System</strong>
-    <br/>
-        The template loader system is functional but could probably use an
-        overhaul. There is currently a double template instantiation
-        problem. It is not causing any serious problems, but it
-        should be corrected. We could utilize some
-        object caching/pooling code from Turbine, or JServ, or the
-        Avalon Server Framework.
-    </p>
-
-    <p>
     <strong>Caching</strong>
     <br/>
         It would be good to have a discussion about how objects
@@ -114,18 +103,6 @@ The Todo list that follows is roughly in order of importance.
         of some sort? The groundwork has be laid for a flexible
         caching system in Velocity, but this discussion would be
         one of usage and policy.
-    </p>
-
-    <p>
-    <strong>Parser Pool</strong>
-    <br/>
-        It would be good to create a pool of parsers that could
-        be utilized by the Runtime. Right now there is only a single
-        parser and the parsing is synchronized. The parsing doesn't
-        happen all that often in production, but a small pool of
-        parsers might alleviate any potential bottlenecks. Again,
-        object caching/pooling code could be borrowed from Turbine,
-        JServ, or the Avalon Server Framework.
     </p>
 
     <p>
