@@ -73,7 +73,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.20 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: ASTSetDirective.java,v 1.21 2002/03/25 00:42:49 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
@@ -101,7 +101,8 @@ public class ASTSetDirective extends SimpleNode
     /**
      *  simple init.  We can get the RHS and LHS as the the tree structure is static
      */
-    public Object init( InternalContextAdapter context, Object data) throws Exception
+    public Object init(InternalContextAdapter context, Object data)
+            throws Exception
     {
         /*
          *  init the tree correctly
@@ -191,7 +192,9 @@ public class ASTSetDirective extends SimpleNode
      */
     private ASTReference getLeftHandSide()
     {
-        return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
+        return (ASTReference) jjtGetChild(0);
+
+     //   return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
     }
 
     /**
@@ -199,6 +202,7 @@ public class ASTSetDirective extends SimpleNode
      */
     private Node getRightHandSide()
     {
-        return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
+        return jjtGetChild(1);
+//        return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
     }
 }
