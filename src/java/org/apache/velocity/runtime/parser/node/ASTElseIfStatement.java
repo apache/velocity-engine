@@ -62,7 +62,7 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.2 2000/11/07 21:30:56 geirm Exp $ 
+ * @version $Id: ASTElseIfStatement.java,v 1.3 2000/11/11 22:40:04 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -75,8 +75,6 @@ import org.apache.velocity.runtime.parser.*;
 
 public class ASTElseIfStatement extends SimpleNode
 {
-   public String strPrefix_ = "";
-
     public ASTElseIfStatement(int id)
     {
         super(id);
@@ -85,50 +83,6 @@ public class ASTElseIfStatement extends SimpleNode
     public ASTElseIfStatement(Parser p, int id)
     {
         super(p, id);
-    }
-
-    public Object init(Context context, Object data) throws Exception
-    {
-        /*
-         * init our tree correctly
-         */
-        
-        super.init( context, data );
-        
-        /*
-         *  see if we have any escape shmoo attached...  
-         */
-        
-        Token t = getFirstToken();
-        
-        strPrefix_ = "";
-        
-        if (t.image.startsWith("\\"))
-        {
-            int i = 0;
-            int iLen = t.image.length();
-            
-            while( i < iLen && t.image.charAt(i) == '\\' )
-                i++;
-            
-            if (i > 0)
-                strPrefix_ = t.image.substring(0, i / 2 );
-        }
-        
-        return data;
-    }
- 
-   public boolean render(Context context, Writer writer)
-        throws IOException
-    {
-        /*
-         *  always write out the prefix. 
-         */
-
-         if ( strPrefix_.length() > 0)
-            writer.write( strPrefix_);
-    
-        return true;
     }
 
     /** Accept the visitor. **/

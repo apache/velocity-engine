@@ -55,15 +55,12 @@
 
 
 /**
- * Handles the VTL EndStatements.  Right now, this is only needed for 
- * proper handling of escape output
- * 
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIfStatement.java,v 1.3 2000/11/07 21:31:00 geirm Exp $ 
+ * @version $Id: ASTIfStatement.java,v 1.4 2000/11/11 22:40:04 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -75,9 +72,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTIfStatement extends SimpleNode
-{
-    public String strPrefix_ = "";
-    
+{    
     public ASTIfStatement(int id)
     {
         super(id);
@@ -94,135 +89,66 @@ public class ASTIfStatement extends SimpleNode
         return visitor.visit(this, data);
     }
     
-    public Object init(Context context, Object data) throws Exception
-    {
-        /*
-         * init our tree correctly
-         */
-        
-        super.init( context, data );
-        
-        /*
-         *  see if we have any escape shmoo attached...  
-         */
-        
-        Token t = getFirstToken();
-        
-        strPrefix_ = "";
-        
-        if (t.image.startsWith("\\"))
-        {
-            int i = 0;
-            int iLen = t.image.length();
-            
-            while( i < iLen && t.image.charAt(i) == '\\' )
-                i++;
-            
-            if (i > 0)
-                strPrefix_ = t.image.substring(0, i / 2 );
-        }
-        
-        return data;
-    }
-
-
+  
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-        /*
-         *  always write out the prefix. 
-         */
-
-        if ( strPrefix_.length() > 0)
-            writer.write( strPrefix_ );
-
-        /*
-         *  and the regular processing
-         */
-
+       
         Object data = null;
         Node expression;
-        
-        // Only process the child nodes if the expression
-        // evaluates to true. But we also need to look for
-        // the presence of an else block and process that
-        // if the expression doesn't evaluate to true.
-        //if (evaluateExpression(expression))
-
+    
         /*
-         *  $$$ gmj
-         *  This is a mess (the logic so we are sure to render each control node...must revisit)
+         *  iterate through the children and eval the first one that we come across
          */
 
-        expression = jjtGetChild(0);
+        boolean bEval = false;
 
-        if (expression.evaluate(context))
+        for( int i = 0; i < jjtGetNumChildren(); i++)
         {
-            /*
-             *  this is the block following the if
-             */
+            Node child = jjtGetChild(i);
 
-            jjtGetChild(1).render(context, writer);
+            switch( child.getType() ) {
 
-            /*
-             *  if there is an #else or #elseif, we need to render that beause of the strange way escaping works
-             */
-            
-            int iChildren = jjtGetNumChildren();
-            
-            for (int i = 2; i < iChildren; i++)
-            {
-                Node child = jjtGetChild(i);
-                
-                if (child.getType() == ParserTreeConstants.JJTELSESTATEMENT 
-                    || child.getType() == ParserTreeConstants.JJTELSEIFSTATEMENT
-                    || child.getType() == ParserTreeConstants.JJTENDSTATEMENT )
-                {    
-                        child.render(context, writer);
-                }
-            }
-            
-        }
-        else
-        {
-            /* The condition for the if statement above evaluated
-             * to false so now we walk through the child nodes
-             * looking for elseif/else children.
-             */
-            
-            int children = jjtGetNumChildren();
-            
-            for (int i = 2; i < children; i++)
-            {
-                Node child = jjtGetChild(i);
-                
-                /*
-                 * so we get the \\#else and \\#elseif and \\#end
-                 */
-                
-                if (child.getType() == ParserTreeConstants.JJTELSESTATEMENT 
-                    || child.getType() == ParserTreeConstants.JJTELSEIFSTATEMENT
-                    || child.getType() == ParserTreeConstants.JJTENDSTATEMENT )
-                {    
-                        child.render(context, writer);
-                }
- 
-                if (child.getType() == ParserTreeConstants.JJTELSEIFSTATEMENT)
+            case ParserTreeConstants.JJTEXPRESSION :
                 {
-                    expression = child.jjtGetChild(0);
-            
-                    if (expression.evaluate(context))
-                    {
-                        child.jjtGetChild(1).render(context, writer);
-                        //        break;
-                    }
+                    /* if the expression evaluates */
+                    if (child.evaluate(context))
+                     {                  
+                         /* render the block following the if */
+                         jjtGetChild(i+1).render(context, writer);
+                         bEval = true;
+                     }
+                    break;
                 }
-                else
-                    if (child.getType() != ParserTreeConstants.JJTENDSTATEMENT )
-                        child.jjtGetChild(0).render(context, writer);
-            }
-        }
-    
+
+            case ParserTreeConstants.JJTELSESTATEMENT :
+                {
+                    /* render the block if the if() was false*/
+
+                    if (!bEval)
+                    {
+                        child.jjtGetChild(0).render( context, writer );
+                        bEval = true;
+                    }
+                    break;
+                }
+            case ParserTreeConstants.JJTELSEIFSTATEMENT :
+                {
+                    /* render the block if the if() was false*/
+                    if (!bEval)
+                    {
+                        if ( child.jjtGetChild(0).evaluate( context ) )
+                        {
+                            child.jjtGetChild(1).render(context, writer);
+                            bEval = true;
+                        }
+                    }
+                    break;
+                }
+
+            }  /* end switch */
+        } /* end for */                
+     
         return true;
     }
 

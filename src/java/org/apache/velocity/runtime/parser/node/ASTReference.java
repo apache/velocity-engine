@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.9 2000/11/07 21:31:01 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.10 2000/11/11 22:40:05 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -303,8 +303,6 @@ public class ASTReference extends SimpleNode
 
             if (i > 0)
                 strPrefix_ = t.image.substring(0, i / 2 );
-
-            //System.out.println( t.image + " " + i + " " + strPrefix_ );
 
             t.image = t.image.substring(i);
         }
