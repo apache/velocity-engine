@@ -1,8 +1,4 @@
 /*
- * $Header: /home/cvs/jakarta-velocity/LICENSE.txt,v 1.1 2001/03/19 03:02:16 jon Exp $
- * $Revision: 1.1 $
- * $Date: 2001/03/19 03:02:16 $
- *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
@@ -29,13 +25,13 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Jakarta Turbine", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written 
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
- *    "Apache Turbine" nor may "Apache" appear in their names without prior 
+ *    "Velocity" nor may "Apache" appear in their names without prior 
  *    written permission of the Apache Group.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -57,4 +53,4 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- */ 
+ */
