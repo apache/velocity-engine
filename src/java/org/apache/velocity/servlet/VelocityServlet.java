@@ -3,7 +3,7 @@ package org.apache.velocity.servlet;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,11 +56,15 @@ package org.apache.velocity.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import java.util.Stack;
+import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,6 +99,20 @@ import org.apache.velocity.exception.ParseErrorException;
  * "res" - The HttpServletResponse object
  * </pre>
  *
+ * There are other methods you can override to access, alter or control
+ * any part of the request processing chain.  Please see the javadocs for
+ * more information on :
+ * <ul>
+ * <li> loadConfiguration() : for setting up the Velocity runtime
+ * <li> createContext() : for creating and loading the Context
+ * <li> setContentType() : for changing the content type on a request
+ *                         by request basis
+ * <li> handleRequest() : you <b>must</b> implement this 
+ * <li> mergeTemplate()  : the template rendering process
+ * <li> requestCleanup() : post rendering resource or other cleanup
+ * <li> error() : error handling
+ * </ul>
+ * <br>
  * If you put a contentType object into the context within either your
  * serlvet or within your template, then that will be used to override
  * the default content type specified in the properties file.
@@ -104,7 +122,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.23 2001/03/05 11:47:25 jvanzyl Exp $
+ * $Id: VelocityServlet.java,v 1.24 2001/03/12 04:03:59 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -157,32 +175,18 @@ public abstract class VelocityServlet extends HttpServlet
         throws ServletException
     {
         super.init( config );
-        
-        String propsFile = config.getInitParameter(INIT_PROPS_KEY);
-        
-        /*
-         * This will attempt to find the location of the properties
-         * file from the relative path to the WAR archive (ie:
-         * docroot). Since JServ returns null for getRealPath()
-         * because it was never implemented correctly, then we know we
-         * will not have an issue with using it this way. I don't know
-         * if this will break other servlet engines, but it probably
-         * shouldn't since WAR files are the future anyways.
-         */
-        
-        if ( propsFile != null )
-        {
-            String realPath = getServletContext().getRealPath(propsFile);
-        
-            if ( realPath != null )
-            {
-                propsFile = realPath;
-            }
-        }
-
+                
         try
         {
-            Runtime.init(propsFile);
+            /*
+             *  call the overridable method to allow the 
+             *  derived classes a shot at altering the configuration
+             *  before initializing Runtime
+             */
+
+            Properties props = loadConfiguration( config );
+  
+            Runtime.init( props );
             
             defaultContentType = 
                 Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
@@ -194,7 +198,76 @@ public abstract class VelocityServlet extends HttpServlet
             throw new ServletException("Error configuring the loader: " + e);
         }
     }
-    
+
+    /**
+     *  Loads the configuration information and returns that 
+     *  information as a Properties, which will be used to 
+     *  initialize the Velocity runtime.
+     *  <br><br>
+     *  Currently, this method gets the initialization parameter
+     *  VelocityServlet.INIT_PROPS_KEY, which should be a file containing
+     *  the configuration information.
+     *  <br><br>
+     *  To configure your Servlet Spec 2.2 compliant servlet runner to pass this
+     *  to you, put the following in your WEB-INF/web.xml file
+     *  <br>
+     *  <pre>
+     *    &lt;servlet &gt;
+     *      &lt;servlet-name&gt; YourServlet &lt/servlet-name&gt;
+     *      &lt;servlet-class&gt; your.package.YourServlet &lt;/servlet-class&gt;
+     *      &lt;init-param&gt;
+     *         &lt;param-name&gt; properties &lt;/param-name&gt;
+     *         &lt;param-value&gt; velocity.properties &lt;/param-value&gt;
+     *      &lt;/init-param&gt;
+     *    &lt;/servlet&gt;
+     *   </pre>
+     * 
+     *  Derived classes may do the same, or take advantage of this code to do the loading for them via :
+     *   <pre>
+     *      Properties p = super.loadConfiguration( config );
+     *   </pre>
+     *  and then add or modify the configuration values from the file.
+     *  <br>
+     *
+     *  @param config ServletConfig passed to the servlets init() function
+     *                Can be used to access the real path via ServletContext (hint)
+     *  @return java.util.Properties loaded with configuration values to be used
+     *          to initialize the Velocity runtime.
+     *  @throws FileNotFoundException if a specified file is not found.
+     *  @throws IOException I/O problem accessing the specified file, if specified.
+     */
+    protected Properties loadConfiguration(ServletConfig config )
+        throws IOException, FileNotFoundException
+    {
+        String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+        
+        /*
+         * This will attempt to find the location of the properties
+         * file from the relative path to the WAR archive (ie:
+         * docroot). Since JServ returns null for getRealPath()
+         * because it was never implemented correctly, then we know we
+         * will not have an issue with using it this way. I don't know
+         * if this will break other servlet engines, but it probably
+         * shouldn't since WAR files are the future anyways.
+         */
+
+        Properties p = new Properties();
+        
+        if ( propsFile != null )
+        {
+            String realPath = getServletContext().getRealPath(propsFile);
+        
+            if ( realPath != null )
+            {
+                propsFile = realPath;
+            }
+
+            p.load( new FileInputStream(propsFile) );
+        }
+
+        return p;
+    }
+          
     /**
      * Handles GET - calls doRequest()
      */
@@ -265,7 +338,12 @@ public abstract class VelocityServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            error ( response, e.getMessage());
+            /*
+             *  call the error handler to let the derived class
+             *  do something useful with this failure.
+             */
+
+            error( request, response, e);
         }
     }
 
@@ -350,8 +428,8 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     *  returns a context suitable to pass to the handleRequest() method
-     *
+     *  Returns a context suitable to pass to the handleRequest() method
+     *  <br><br>
      *  Default implementation will create a VelocityContext object,
      *   put the HttpServletRequest and HttpServletResponse
      *  into the context accessable via the keys VelocityServlet.REQUEST and
@@ -409,16 +487,28 @@ public abstract class VelocityServlet extends HttpServlet
     protected abstract Template handleRequest( Context ctx );
  
     /**
-     * Send an error message to the client.
+     * Invoked when there is an error thrown in any part of doRequest() processing.
+     * <br><br>
+     * Default will send a simple HTML response indicating there was a problem.
+     * 
+     * @param request original HttpServletRequest from servlet container.
+     * @param response HttpServletResponse object from servlet container.
+     * @param cause  Exception that was thrown by some other part of process.
      */
-    private final void error( ServletResponse response, String message )
+    protected  void error( HttpServletRequest request, HttpServletResponse response, Exception cause )
         throws ServletException, IOException
     {
         StringBuffer html = new StringBuffer();
         html.append("<html>");
         html.append("<body bgcolor=\"#ffffff\">");
-        html.append("<h2>Error processing the template</h2>");
-        html.append(message);
+        html.append("<h2>VelocityServlet : Error processing the template</h2>");
+        html.append( cause );
+        html.append("<br>");
+
+        StringWriter sw = new StringWriter();
+        cause.printStackTrace( new PrintWriter( sw ) );
+
+        html.append( sw.toString()  );
         html.append("</body>");
         html.append("</html>");
         response.getOutputStream().print( html.toString() );
