@@ -289,7 +289,13 @@ root of the Velocity distribution tree.
 <strong>Dependencies</strong>
 
 <p>
-Velocity is dependent upon a few packages for general functionality.  They
+Velocity uses elements of the Java 2 API such as collections, and therefore
+building requires the Java 2 Standard Edition SDK (Software Development Kit).   
+To run Velocity, the Java 2 Standard Edition RTE (Run Time Environment)
+is required (or you can use the SDK, of course).  
+</p>
+<p>
+Velocity also is dependent upon a few packages for general functionality.  They
 are included in the <code>build/lib</code> directory for convenience, but
 the default build target (see above) does not include them.  If you use the
 default build target, you must add the dependencies to your classpath.
