@@ -75,6 +75,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.commons.collections.ExtendedProperties;
 
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.Uberspect;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -95,21 +96,21 @@ import org.apache.velocity.util.introspection.Introspector;
  * the code might look something like the following:
  *
  * <pre>
- * Runtime.setProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
- * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
- * Runtime.init();
+ * RuntimeSingleton.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, templatePath);
+ * RuntimeSingleton.setProperty(RuntimeConstants.RUNTIME_LOG, pathToVelocityLog);
+ * RuntimeSingleton.init();
  * </pre>
  *
  * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
- * Runtime.init()
+ * RuntimeSingleton.init()
  * 
  * If Runtime.init() is called by itself the Runtime will
  * initialize with a set of default values.
  * -----------------------------------------------------------------------
- * Runtime.init(String/Properties)
+ * RuntimeSingleton.init(String/Properties)
  *
  * In this case the default velocity properties are layed down
  * first to provide a solid base, then any properties provided
@@ -121,16 +122,17 @@ import org.apache.velocity.util.introspection.Introspector;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  *
  * @see org.apache.velocity.runtime.RuntimeInstance
  *
- * @version $Id: RuntimeSingleton.java,v 1.6 2003/05/04 17:14:36 geirm Exp $
+ * @version $Id: RuntimeSingleton.java,v 1.7 2003/08/31 21:18:00 dlr Exp $
  */
 public class RuntimeSingleton implements RuntimeConstants
 {
     private static RuntimeInstance ri = new RuntimeInstance();
 
-    /*
+    /**
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
@@ -150,9 +152,12 @@ public class RuntimeSingleton implements RuntimeConstants
         ri.init();
     }
 
+    /**
+     * @return The RuntimeInstance used by this wrapper.
+     */
     public static RuntimeServices getRuntimeServices()
     {
-        return (RuntimeServices) ri;
+        return ri;
     }
   
 
@@ -567,12 +572,24 @@ public class RuntimeSingleton implements RuntimeConstants
     }
     
     /**
-    *  returns the RuntimeInstance object for this singleton
-    *  For internal use only :)
-    *
-    *  @return RuntimeInstance the RuntimeInstance used by this Singleton
-    *                           instance
-    */
+     * @see org.apache.velocity.runtime.RuntimeServices#getApplicationAttribute(Object)
+     */
+    public static Object getApplicationAttribute(Object key)
+    {
+        return ri.getApplicationAttribute(key);
+    }
+
+    /**
+     * @see org.apache.velocity.runtime.RuntimeServices#getUberspect()
+     */
+    public static Uberspect getUberspect()
+    {
+        return ri.getUberspect();
+    }
+
+    /**
+     * @deprecated Use getRuntimeServices() instead.
+     */
     public static RuntimeInstance getRuntimeInstance()
     {
         return ri;
