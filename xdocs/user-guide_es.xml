@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document>
 <properties>
-<title>Velocity User Guide</title>
+<title>Guía del Usuario de Velocity</title>
 <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
 <author email="jcastura@kw.igs.net">John Castura</author>
 <author email="ju-moral@uniandes.edu.co">Juan Pablo Morales</author>
 </properties>
 <body>
-<section name="Table of Contents">
+	<section name="Tabla de Contenidos">
 
 <ol>
-<li><a href="#About this Guide">Acerca de esta guía</a></li>
-<li><a href="#What is Velocity?">¿Qué es Velocity?</a></li>
-<li><a href="#What can Velocity do for me?">¿Qué puede hacer Velocity por mi?</a>
+	<li><a href="#Acerca de esta guía">Acerca de esta guía</a></li>
+	<li><a href="#¿Qué es Velocity?">¿Qué es Velocity?</a></li>
+	<li><a href="#¿Qué puede hacer Velocity por mi?">¿Qué puede hacer Velocity por mi?</a>
 	<ol>
-		<li><a href="#The Mud Store Example">El Ejemplo de la tienda de
+		<li><a href="#El Ejemplo de la tienda de Lodo">El Ejemplo de la tienda de
 			Lodo</a></li>
 	</ol>
 </li>
-<li><a href="#Velocity Template Language (VTL): An Introduction">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
-<li><a href="#Hello Velocity World!">Hola Mundo Velocity!</a></li>
-<li><a href="#Comments">Comentarios</a></li>
-<li><a href="#References">Referencias</a>
+<li><a href="#El Lenguaje de Plantillas de Velocity (VTL): Una Introducción">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
+<li><a href="#¡Hola Mundo Velocity!">¡Hola Mundo Velocity!</a></li>
+<li><a href="#Comentarios">Comentarios</a></li>
+<li><a href="#Referencias">Referencias</a>
 	<ol>
 		<li><a href="#Variables">Variables</a></li>
-		<li><a href="#Properties">Propiedades</a></li>
-		<li><a href="#Methods">Métodos</a></li>
+		<li><a href="#Propiedades">Propiedades</a></li>
+		<li><a href="#Métodos">Métodos</a></li>
 	</ol>
 </li>
-<li><a href="#Formal Reference Notation">Notación Formal de Referencias</a></li>
-<li><a href="#Quiet Reference Notation">Notación Sileciosa de Referencias</a></li>
-<li><a href="#Getting literal">Literalmente</a>
+<li><a href="#Notación Formal de Referencias">Notación Formal de Referencias</a></li>
+<li><a href="#Notación Sileciosa de Referencias">Notación Sileciosa de Referencias</a></li>
+<li><a href="#Literalmente">Literalmente</a>
 	<ol>
-		<li><a href="#Currency">Dinero</a></li>
-		<li><a href="#Escaping Valid VTL References">Escapando Referencias VTL Válidas</a></li>
+		<li><a href="#Dinero">Dinero</a></li>
+		<li><a href="#Escapando Referencias VTL Válidas">Escapando Referencias VTL Válidas</a></li>
 	</ol>
 </li>
-<li><a href="#Case Substitution">Sustitución de Mayúsculas y Minúsculas</a></li>
-<li><a href="#Directives">Directivas</a>
+<li><a href="#Sustitución de Mayúsculas y Minúsculas">Sustitución de Mayúsculas y Minúsculas</a></li>
+<li><a href="#Directivas">Directivas</a>
 	<ol>
 		<li><a href="#Set">Set</a></li>
-		<li><a href="#String Literals">Cadenas de Caracteres</a></li>
-		<li><a href="#Conditionals">Sentencias If-Else</a>
+		<li><a href="#Cadenas de Caracteres">Cadenas de Caracteres</a></li>
+		<li><a href="#Sentencias If-Else">Sentencias If-Else</a>
 			<ol>
-				<li><a href="#Relational and Logical Operators">Operadores Lógicos y Relacionales</a></li>
+				<li><a href="#Operadores Lógicos y Relacionales">Operadores Lógicos y Relacionales</a></li>
 			</ol>
 		</li>
-		<li><a href="#Loops">Ciclos Foreach</a></li>
+		<li><a href="#Ciclos Foreach">Ciclos Foreach</a></li>
 		<li><a href="#Include">Include</a></li>
 		<li><a href="#Parse">Parse</a></li>
 		<li><a href="#Stop">Stop</a></li>
 		<li><a href="#Velocimacros">Velocimacros</a></li>
 	</ol>
 </li>
-<li><a href="#Escaping VTL Directives">Escapando Directivas VTL</a></li>
-<li><a href="#VTL: Formatting Issues">VTL: Asuntos de Formato</a></li>
-<li><a href="#Other Features and Miscellany">Otras Características y Miscelánea</a>
+<li><a href="#Escapando Directivas VTL">Escapando Directivas VTL</a></li>
+<li><a href="#VTL: Asuntos de Formato">VTL: Asuntos de Formato</a></li>
+<li><a href="#Otras Características y Miscelánea">Otras Características y Miscelánea</a>
 	<ol>
-		<li><a href="#Math">Matemáticas</a></li>
-		<li><a href="#Range Operator">El Operador de Rango</a></li>
-		<li><a href="#Advanced Issues: Escaping and !">Temas Avanzados: Escapando y !</a></li>
-		<li><a href="#Velocimacro Miscellany">Miscelánea de Velocimacro</a></li>
-		<li><a href="#String Concatenation">Concatenación de Cadenas</a></li>
+		<li><a href="#Matemáticas">Matemáticas</a></li>
+		<li><a href="#El Operador de Rango">El Operador de Rango</a></li>
+		<li><a href="#Temas Avanzados: Escapando y !">Temas Avanzados: Escapando y !</a></li>
+		<li><a href="#Miscelánea de Velocimacro">Miscelánea de Velocimacro</a></li>
+		<li><a href="#Concatenación de Cadenas">Concatenación de Cadenas</a></li>
 	</ol>
 </li>
-<li><a href="#Feedback">Retroalimentación</a></li>
+<li><a href="#Retroalimentación">Retroalimentación</a></li>
 </ol>
 </section>
-<section name="About this Guide">
+<section name="Acerca de esta guía">
 
 <p>
 La Guía del usuario de Velocity busca ayudar a los diseñadores de páginas y a
@@ -81,7 +81,7 @@ plantillas.
 
 <p>Gracias por escoger Velocity!</p>
 </section>
-<section name="What is Velocity?">
+<section name="¿Qué es Velocity?">
 <p>
 Velocity es un motor de plantillas basado en Java. Le permite a los diseñadores
 de páginas hacer referencia a métodos definidos dentro del código Java. Los
@@ -106,8 +106,8 @@ proveerá un servicio de plantillas que facilitará el desarrollo de aplicaciones
 web de acuerdo a un verdadero modelo MVC.
 </p>
 </section>
-<section name="What can Velocity do for me?">
-<subsection name="The Mud Store Example">
+<section name="¿Qué puede hacer Velocity por mi?">
+<subsection name="El Ejemplo de la tienda de Lodo">
 <p>
 Suponga que usted es un diseñador para una tienda en línea que se especializa
 en vender lodo a la que llamaremos "La Tienda de Lodo en línea". Los negocios
@@ -183,7 +183,7 @@ de Velocity.
 </p>
 </subsection>
 </section>
-<section name="Velocity Template Language (VTL): An Introduction">
+<section name="El Lenguaje de Plantillas de Velocity (VTL): Una Introducción">
   <p>
   El Lenguaje de Plantillas de Velocity (VTL) fue creado para prover la
   manera mas fácil, simple y limpia de incorporar contenido dinámico
@@ -248,7 +248,7 @@ de Velocity.
 
 </section>
 
-<section name="Hello Velocity World!">
+<section name="¡Hola Mundo Velocity!">
 
   <p>
 	Una vez un valor ha sido asignado a una variable, usted puede
@@ -261,13 +261,13 @@ de Velocity.
 <html>
 <body>
 #set( $foo = "Velocity" )
-Hola Mundo $foo!
+¡Hola Mundo $foo!
 </body>
 <html>
 ]]></source>
 
  <p>
- El resultado es una página web que imprime "Hola Mundo Velocity!"
+ El resultado es una página web que imprime "¡Hola Mundo Velocity!"
  </p>
 
  <p>
@@ -279,7 +279,7 @@ Hola Mundo $foo!
 
 </section>
 
-<section name="Comments">
+<section name="Comentarios">
 
 <p>
 Los comentarios es posible incluir texto que no aparecerá como parte de
@@ -349,7 +349,7 @@ información de versiones:
 
 </section>
 
-<section name="References">
+<section name="Referencias">
 
 <p>
 	Existen tres tipos de referencias en VTL: variables, propiedades y
@@ -368,7 +368,7 @@ información de versiones:
 
  <p>
  <a name="Variables"><strong>Variables</strong></a>
- <br/>
+ <br />
  	La notación breve de una variable esta compuesta por un signo "$"
 	inicial seguido de un <em>Identificador</em>. Un identificador VTL
 	debe comenzar con un caracter alfabético (a .. z ó A .. Z). El resto
@@ -417,8 +417,8 @@ $lanzaLodo1
  </p>
 
  <p>
- <a name="Properties"><strong>Propiedades</strong></a>
- <br/>
+ <a name="Propiedades"><strong>Propiedades</strong></a>
+ <br />
  	El segundo sabor de referencias VTL son las propiedades; las
 	propiedades tienen un formato particular. La versión corta se
 	compone de un signo <em>$</em> seguido de un identificador VTL,
@@ -445,8 +445,8 @@ $compra.Total
  </p>
 
  <p>
- <a name="Methods"><strong>Methods</strong></a>
- <br/>
+ <a name="Métodos"><strong>Methods</strong></a>
+ <br />
  	Un método esta definido dentro del código de Java y es capaz de
 	hacer algo útil, como desarrollar un cálculo o llegar a una
 	decisión. Los métodos son referencias compuestas de un signo "$"
@@ -515,9 +515,9 @@ $libro.setTitulo( "Homenaje a Colombia" )
 ]]></source>
 
  <p>
- <a name="Formal Reference Notation"><strong>Notación Formal de
+ <a name="Notación Formal de Referencias"><strong>Notación Formal de
 		 Referncias</strong></a>
- <br/>
+ <br />
  La notación abreviada para referencias fue utilizada en los ejemplos
  anteriores, pero también existe una notación formal para referencias,
  que se demuestra a continuación:
@@ -569,9 +569,9 @@ Juan es un ${vicio}mano.
 
 
  <p>
- <a name="Quiet Reference Notation"><strong>Notación de Referenias
+ <a name="Notación Sileciosa de Referencias"><strong>Notación de Referenias
 		 Silenciosas</strong></a>
- <br/>
+ <br />
  	Cuando Velocity encuentra una referencia indefinida, su
 	comportamiento normal es es de escribir el nombre de la referencia.
 	Por ejemplo, suponga que la siguiente referencia aparece como parte
@@ -612,7 +612,7 @@ Juan es un ${vicio}mano.
 
 </section>
 
-<section name="Getting literal">
+<section name="Literalmente">
 
   <p>
   VTL hace uso de caracteres especiales, como <em>$</em> y <em>#</em>,
@@ -622,8 +622,8 @@ Juan es un ${vicio}mano.
   </p>
 
   <p>
-    <a name="Currency"><strong>Dinero</strong></a>
-	<br/>
+    <a name="Dinero"><strong>Dinero</strong></a>
+	<br />
 	No hay ningún problema en escribir "Yo compré un saco de maíz de
 	2 kg. en el mercado de lagranja por sólo $2.50!". Como se mencionó
 	anteriormente, un identificador VTL siempre comienza con una letra
@@ -632,9 +632,9 @@ Juan es un ${vicio}mano.
   </p>
 
   <p>
-  <a name="Escaping Valid VTL References"><strong>Escapando Referencias
+  <a name="Escapando Referencias VTL Válidas"><strong>Escapando Referencias
 		  VTL Válidas</strong></a>
-  <br/>
+  <br />
   Pueden existir casos en donde haya la posibilidad de que Velocity se
   confunda. <em>Escapar</em> caracteres especiales es la mejor manera de
   manejar los caracteres partículares de VTL dentro de sus plantillas, y
@@ -734,7 +734,7 @@ en lugar de <em>$foo</em>
 
 </section>
 
-<section name="Case Substitution">
+<section name="Sustitución de Mayúsculas y Minúsculas">
 
 <p>
 Ahora que usted esta familiarizado con las referencias, puede comenzar a
@@ -794,7 +794,7 @@ referencias casi en cualquier lugar de su plantilla.
 </section>
 
 
-<section name="Directives">
+<section name="Directivas">
 
 <p>
 	Las Referencias le permiten a los diseñadores de plantillas generar
@@ -954,7 +954,7 @@ El resultado de la primera consulta en pedro
 	directiva <em>#set</em> no tiene un enunciado <em>#end</em>.
  </p>
 
- <a name="String Literals"><strong>Cadenas de Caracteres</strong></a>
+ <a name="Cadenas de Caracteres"><strong>Cadenas de Caracteres</strong></a>
 
  <p>
  	Cuando se utiliza la directiva <em>#set</em>, los literales de
@@ -1006,7 +1006,7 @@ $blarg
 </section>
 
 
-<section name="Conditionals">
+<section name="Sentencias If-Else">
 
 <strong>Condicionales</strong>
 <p>
@@ -1078,7 +1078,7 @@ $blarg
     </p>
 
     <p>
-	<a name="Relational and Logical Operators"><strong>Operadores
+	<a name="Operadores Lógicos y Relacionales"><strong>Operadores
 			Lógicos y Relacionales</strong></a>
     </p>
 
@@ -1182,7 +1182,7 @@ $blarg
 
  </section>
 
-<section name="Loops">
+<section name="Ciclos Foreach">
 
    <strong>Ciclo Foreach</strong>
 
@@ -1533,7 +1533,7 @@ siguientes elementos de VTL:
 
   <ul>
     <li>
-	Referencia : cualquier coa que comience con '$'
+	Referencia : cualquier cosa que comience con '$'
     </li>
     <li>
 	Cadena de caracteres : algo como "$foo" u 'hola'
@@ -1696,7 +1696,7 @@ siguientes elementos de VTL:
     </p>
  </section>
 
-<section name="Escaping VTL Directives">
+<section name="Escapando Directivas VTL">
 <p>
 Las directivas de VTL se pueden escapar con el palote invertido o
 backslash ("\") de manera similar a como se escapan las referencias de
@@ -1808,7 +1808,7 @@ un retorno después de 'Ganelin', por lo que el \\ final, que precede el
 
  </section>
 
-<section name="VTL: Formatting Issues">
+<section name="VTL: Asuntos de Formato">
 
 <p>
 A pesar de que el VTL mostrado en esta guía del usuario se muestra en la
@@ -1865,9 +1865,9 @@ En cada caso la salida será la misma
 
 </section>
 
-<section name="Other Features and Miscellany">
+<section name="Otras Características y Miscelánea">
 
-<subsection name="Math">
+<subsection name="Matemáticas">
 
 <p>
 Velocity tiene varias funciones matemáticas incluidas que pueden ser
@@ -1900,7 +1900,7 @@ escribe el dato al log y se retorna null como salida.
 
   </subsection>
 
-<subsection name="Range Operator">
+<subsection name="El Operador de Rango">
 
 <p>
 El operador de rango se puede usar en conjunción con las directivas
@@ -1973,7 +1973,7 @@ llenar la tabla, encontrarán el operador de rango particularmente útil.
 
   </subsection>
 
-<subsection name="Advanced Issues: Escaping and !">
+<subsection name="Temas Avanzados: Escapando y !">
 
 <p>
 Cuando una referencia se hace silenciona con el caracter <em>!</em> y el
@@ -2026,7 +2026,7 @@ $\\!foo
 
  </subsection>
 
-<subsection name="Velocimacro Miscellany">
+<subsection name="Miscelánea de Velocimacro">
 
 <p>
 Esta sección contiene un conjunto de preguntas frecuentes (FAQ)
@@ -2191,7 +2191,7 @@ Velocimacros.
 
 </subsection>
 
-<subsection name="String Concatenation">
+<subsection name="Concatenación de Cadenas">
 
 <p>
 Una pregunta común que los desarrolladores formulan es <i>¿Cómo
@@ -2258,7 +2258,7 @@ Una pregunta común que los desarrolladores formulan es <i>¿Cómo
 
 </section>
 
-<section name="Feedback">
+<section name="Retroalimentación">
 
 <p>
 Si encuentra algún error en este manual o tiene algún otro comentario o
