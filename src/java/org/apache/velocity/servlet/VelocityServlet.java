@@ -68,6 +68,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 
@@ -128,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.45 2002/04/03 16:07:33 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.46 2002/04/03 16:36:00 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -295,7 +296,7 @@ public abstract class VelocityServlet extends HttpServlet
      *  @throws FileNotFoundException if a specified file is not found.
      *  @throws IOException I/O problem accessing the specified file, if specified.
      */
-    protected Properties loadConfiguration(ServletConfig config )
+    protected Properties loadConfiguration(ServletConfig config)
         throws IOException, FileNotFoundException
     {
         // This is a little overly complex because of legacy support
@@ -305,24 +306,27 @@ public abstract class VelocityServlet extends HttpServlet
         String propsFile = config.getInitParameter(INIT_PROPS_KEY);
         if (propsFile == null || propsFile.length() == 0)
         {
+            ServletContext sc = config.getServletContext();
             propsFile = config.getInitParameter(OLD_INIT_PROPS_KEY);
             if (propsFile == null || propsFile.length() == 0)
             {
-                propsFile = config.getServletContext()
-                    .getInitParameter(INIT_PROPS_KEY);
+                propsFile = sc.getInitParameter(INIT_PROPS_KEY);
                 if (propsFile == null || propsFile.length() == 0)
                 {
-                    propsFile = config.getServletContext()
-                        .getInitParameter(OLD_INIT_PROPS_KEY);
-                }
-                else
-                {
-                    // TODO: Log deprecation warning.
+                    propsFile = sc.getInitParameter(OLD_INIT_PROPS_KEY);
+                    if (propsFile != null && propsFile.length() > 0)
+                    {
+                        sc.log("Use of the properties initialization " +
+                               "parameter '" + OLD_INIT_PROPS_KEY + "' has " +
+                               "been deprecated by '" + INIT_PROPS_KEY + '\'');
+                    }
                 }
             }
             else
             {
-                // TODO: Log deprecation warning.
+                sc.log("Use of the properties initialization parameter '" +
+                       OLD_INIT_PROPS_KEY + "' has been deprecated by '" +
+                       INIT_PROPS_KEY + '\'');
             }
         }
         
