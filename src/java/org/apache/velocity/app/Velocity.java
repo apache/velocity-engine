@@ -71,10 +71,10 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
+import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -82,6 +82,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.parser.ParseException;
 
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This class provides  services to the application 
@@ -107,7 +108,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.16 2001/04/27 22:12:40 dlr Exp $
+ * @version $Id: Velocity.java,v 1.17 2001/05/11 03:56:31 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -193,10 +194,35 @@ public class Velocity implements RuntimeConstants
      * is a subset of the parent application's configuration.
      *
      * @param Configuration configuration
+     *
+     * @deprecated Use
+     *  {@link #setExtendedProperties( ExtendedProperties  ) }
      */
     public static void setConfiguration(Configuration configuration)
     {
-        Runtime.setConfiguration(configuration);
+        /*
+         *  Yuk. We added a little helper to Configuration to 
+         *  help with deprecation.  The Configuration class
+         *  contains a 'shadow' ExtendedProperties
+         */
+
+        ExtendedProperties ep = configuration.getExtendedProperties();
+
+        Runtime.setConfiguration( ep );
+    }
+
+    /**
+     * Set an entire configuration at once. This is
+     * useful in cases where the parent application uses
+     * the ExtendedProperties class and the velocity configuration
+     * is a subset of the parent application's configuration.
+     *
+     * @param ExtendedProperties configuration
+     *
+     */
+    public static void setExtendedProperties( ExtendedProperties configuration)
+    {
+        Runtime.setConfiguration( configuration );
     }
 
     /**
