@@ -193,6 +193,18 @@
 <a href="developer-guide.html#Summary">Summary</a>
 </li>
 
+<li>
+<a href="developer-guide.html#Appendix 1 : Deploying the Example Servlet">Appendix 1 : Deploying the Example Servlet</a>
+<ul>
+  <li>
+    <a href="developer-guide.html#TomcatExample">Jakarta Tomcat</a>
+  </li>
+  <li>
+    <a href="developer-guide.html#ResinExample">Caucho Technology's Resin</a>
+  </li>
+ </ul>
+</li>
+
 </ol>
 </p>
                             </blockquote>
@@ -2889,6 +2901,131 @@ the Velocity template engine itself.
                                                 <p>
 Please submit all detailed, thoughtful and constructive feedback through our
 <a href="http://jakarta.apache.org/getinvolved/mail.html">mail lists</a>.
+</p>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Appendix 1 : Deploying the Example Servlet"><strong>Appendix 1 : Deploying the Example Servlet</strong></a>
+        </font>
+      </td></tr>
+      <tr><td><br/></td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+A continuing source of frustration for beginning servlet users is getting
+all the pieces into place and working.  Using a servlet engine like Tomcat or Resin
+is far from obvious for the first time user (and even for more experienced users...).
+The following are the basic instructions, to the best of our knowledge, for getting
+the SampleServlet examplr working. Note that the sample template <code>sample.vm</code>
+and the servlet code itself, <code>SampleServlet.java</code> are
+ found in the <code>examples/servlet_example</code> directory.  Although some servlet
+engines (Resin, for example) will compile the servlet for you, it would be best if
+you compiled the examples first.  To do this, see the section on building Velocity, and 
+use the <code>examples</code> target.
+</p>
+                                                <p>
+<a name="TomcatExample"><strong>Jakarta Tomcat</strong></a>
+</p>
+                                                <p>
+Setting up under <a href="http://jakarta.apache.org/tomcat/">Jakarta Tomcat</a> is fairly
+straightforward.  The 'webapp' directory is where Tomcat automatically 
+looks for it's 'web applications', so 
+this is where we will set things up.
+</p>
+                                                <ol>
+<li> First, make a new 'webapp'  by creating a directory called <i>velexample</i>
+ in Tomcat's webapps directory, and make
+ a new directory structure as follows :
+   <blockquote>
+      velexample<br />
+      velexample/WEB-INF<br />
+      velexample/WEB-INF/lib<br />
+      velexample/WEB-INF/classes<br />
+   </blockquote>
+</li>
+<li>
+ Put the velocity-1.1.jar (or newer) into the velexample/WEB-INF/lib directory
+</li>
+<li>
+ Put the SampleServlet.class into the velexample/WEB-INF/classes directory
+</li>
+<li>
+ Put the sample.vm template into the velexample directory.  The SampleServlet is
+ written to use the root of the webapp as the source of the templates, so
+ no configuration is needed.
+</li>
+<li>
+ At this point, you should be able to start (or restart) Tomcat and access the servlet.  
+</li>
+<li>
+To access the servlet, point your web browser at : 
+
+<blockquote>
+http://localhost:8080/velexample/servlet/SampleServlet
+</blockquote>
+
+or if that doesn't work :
+
+<blockquote>
+    http://&lt;your computer's ip address&gt;:8080/velexample/servlet/SampleServlet
+</blockquote>
+</li>
+<li>
+ You should see the sample output.  
+</li>
+</ol>
+                                                <p>
+<a name="ResinExample"><strong>Caucho Technology's Resin</strong></a>
+</p>
+                                                <p>
+Setting up the example servlet under <a href="http://www.caucho.com">Caucho Technology's Resin</a>
+servlet engine is also very simple.  The following instructions were tested with the version 1.2.5
+release.  The following assume that you have unzip-ed or untar-ed the distribution, know how to start
+the servlet engine (something like bin/httpd.sh under unix...), and know where the doc directory is
+(in the root of the distribution).
+</p>
+                                                <ol>
+<li>
+Copy the SampleServlet.class file into the doc/WEB-INF/classes directory.
+</li>
+<li>
+Copy the sample.vm template file into the doc/ directory
+</li>
+<li>
+Copy the velocity-1.1.jar into the doc/WEB-INF/lib directory.
+</li>
+<li>
+Start resin.
+</li>
+<li>
+To access the servlet, point your web browser at : 
+
+<blockquote>
+http://localhost:8080/servlet/SampleServlet
+</blockquote>
+
+or if that doesn't work :
+
+<blockquote>
+    http://&lt;your computer's ip address&gt;:8080/servlet/SampleServlet
+</blockquote>
+
+and you should see the output.
+</li>
+</ol>
+                                                <p>
+Note that this appeared to be a simpler configuration - with the Tomcat example, 
+you set up a complete, new, separate webapp, whereas the Resin instructions 
+don't, although both should provide a sufficient setup to let you play with 
+Velocity.
+</p>
+                                                <p>Note that while we wish we could, we can't answer questions about the servlet
+engines.  Please use the resources provided by the servlet engine provider.
 </p>
                             </blockquote>
         </p>
