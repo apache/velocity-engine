@@ -1190,6 +1190,36 @@ template engine, but the utility functions do some of
 the repeated drudge work, or allow you other options for your 
 template content other than template files.
 </p>
+                                                <strong>Exceptions</strong>
+                                                <p>
+There are three exceptions that Velocity will throw during the parse / merge cycle.
+This are additional to the exceptions that will come from IO problems, etc.
+They are found in the package <code>org.apache.velocity.exception</code> and are :
+
+<ol>
+<li>
+<code>ResourceNotFoundException</code><br />
+Thrown when the resource managment system cannot find a resource (template) that
+was requested.
+</li>
+
+<li>
+<code>ParseErrorException</code><br />
+Thrown when a VTL syntax error is found when parsing a resource (template).  
+</li>
+
+<li>
+<code>MethodInvocationException</code><br />
+Thrown when a method of object in the context thrown an exception during
+render time.  This exception wraps the thrown exception and propogates it 
+to the application.  This allows you to handle problems in your own objects
+at runtime.
+</li>
+</ol>
+
+In each case, a message is put into the runtime log.  For more information,
+see the Javadoc API documentation.
+</p>
                                                 <strong>Miscellaneous Details</strong>
                                                 <p>
 While the above example used the default properties, setting your own 
