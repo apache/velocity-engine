@@ -110,7 +110,7 @@ public class SimpleNode implements Node
 
     public void setFirstToken(Token t)
     {
-        this.first = first;
+        this.first = t;
     }
 
     public Token getFirstToken()
