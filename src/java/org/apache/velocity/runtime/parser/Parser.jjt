@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.65 2001/08/07 21:57:10 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.66 2001/08/13 13:57:42 geirm Exp $ 
 */
 public class Parser
 {
@@ -1175,6 +1175,7 @@ SimpleNode Directive() :
 {
     Token t = null;
     Directive d;
+    int directiveType;
     boolean doItNow = false;
 }
 {
@@ -1212,14 +1213,24 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
+            //d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
 
-            if (d == null) 
+            if ( !rsvc.isVelocimacro( directiveName, currentTemplateName ) ) 
             {   
                 token_source.stateStackPop();
                 token_source.inDirective = false;
                 return jjtThis;
-            }         
+            }    
+
+            /*
+             *  Currently, all VMs are LINE directives
+             */
+
+            directiveType = Directive.LINE; 
+        }
+        else
+        {
+            directiveType = d.getType();
         }
 
         /*
@@ -1235,7 +1246,7 @@ SimpleNode Directive() :
 
     [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )* <RPAREN>
     {
-        if (d.getType() == Directive.LINE)
+        if ( directiveType  == Directive.LINE)
             return jjtThis;
     }
 
@@ -1256,7 +1267,6 @@ SimpleNode Directive() :
       
         if ( doItNow )  
         {
-            // Macro m = new Macro(  );
             Macro.processAndRegister( rsvc, jjtThis, currentTemplateName );
         }
 
