@@ -58,6 +58,7 @@ import java.io.*;
 
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -92,7 +93,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.3 2000/11/16 01:55:43 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.4 2000/11/17 02:25:43 daveb Exp $
  */
 public class Include extends Directive
 {
@@ -258,8 +259,8 @@ public class Include extends Directive
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
     {
-        String strOutputMsgStart = Runtime.getString( ERRORMSG_START);
-        String strOutputMsgEnd = Runtime.getString( ERRORMSG_END );
+        String strOutputMsgStart = VelocityResources.getString( ERRORMSG_START);
+        String strOutputMsgEnd = VelocityResources.getString( ERRORMSG_END );
         
         if ( strOutputMsgStart != null  && strOutputMsgEnd != null)
         {
