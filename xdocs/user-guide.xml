@@ -1062,10 +1062,12 @@
 
  <section name="Velocimacros">
     <p>
+    <a name="velocimacro">
     The <em>#macro</em> script element allows template designers to define a
     repeated segment of a VTL template. Velocimacros are very useful in a wide
     range of scenarios both simple and complex. This Velocimacro, created for the sole purpose of saving
     keystrokes and minimizing typographic errors, provides an introduction to the concept of Velocimacros.
+    </a>
     </p>
 
     <source><![CDATA[
