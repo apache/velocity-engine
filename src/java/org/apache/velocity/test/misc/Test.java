@@ -86,7 +86,6 @@ import org.apache.velocity.context.EventCartridge;
 import org.apache.velocity.context.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.MethodExceptionEventHandler;
 import org.apache.velocity.context.NullSetEventHandler;
-import org.apache.velocity.context.NullReferenceEventHandler;
 import org.apache.velocity.context.Context;
 
 /**
@@ -95,10 +94,10 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.27 2001/04/22 22:44:19 geirm Exp $
+ * @version $Id: Test.java,v 1.28 2001/05/17 15:59:42 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
-                             NullSetEventHandler,NullReferenceEventHandler,
+                             NullSetEventHandler,
                              MethodExceptionEventHandler
 {
     /**
@@ -294,14 +293,6 @@ public class Test implements ReferenceInsertionEventHandler,
         }
     }
 
-    public Object nullReferenceRender( String reference )
-    {
-        if( reference.equals("$gloppy"))
-            return "";
-
-        return reference;
-    }
-       
     public Object referenceInsert( String reference, Object value  )
     {
         System.out.println("Woo! referenceInsert : " + reference + " = " + value.toString() );
