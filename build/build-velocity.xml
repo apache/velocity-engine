@@ -165,8 +165,6 @@
             </classpath>
         </java>
 
-        <deltree dir="${velocity.docs}/graphics"/>
-
     </target>
 
     <!-- =================================================================== -->
