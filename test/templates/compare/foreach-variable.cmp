@@ -1,0 +1,13 @@
+
+
+Foreach with a variable.
+
+
+    This is ArrayList element 1.
+    $velocityCount
+    This is ArrayList element 2.
+    $velocityCount
+    This is ArrayList element 3.
+    $velocityCount
+    This is ArrayList element 4.
+    $velocityCount
