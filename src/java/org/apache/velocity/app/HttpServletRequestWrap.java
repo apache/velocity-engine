@@ -72,7 +72,7 @@ import java.io.IOException;
  *  <br><br>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: HttpServletRequestWrap.java,v 1.1 2001/03/16 04:50:24 geirm Exp $
+ * @version $Id: HttpServletRequestWrap.java,v 1.2 2001/03/29 21:08:55 geirm Exp $
  */
 
 public class HttpServletRequestWrap implements HttpServletRequest
@@ -259,7 +259,7 @@ public class HttpServletRequestWrap implements HttpServletRequest
     public ServletInputStream getInputStream() 
         throws IOException
     {
-        return getInputStream();
+        return req.getInputStream();
     }
      
     public String getParameter(String name)
