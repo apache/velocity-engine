@@ -19,7 +19,7 @@ $stringy
 #set($haiku =
 "
   New language feature
-allows newlines in strings
+allows newlines in the strings
   might make some happy"
 )
 $haiku
