@@ -127,7 +127,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.42 2001/11/02 12:07:00 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.43 2001/12/07 00:01:55 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -626,6 +626,7 @@ public abstract class VelocityServlet extends HttpServlet
         html.append("<html>");
         html.append("<body bgcolor=\"#ffffff\">");
         html.append("<h2>VelocityServlet : Error processing the template</h2>");
+        html.append("<pre>");
         html.append( cause );
         html.append("<br>");
 
@@ -633,6 +634,7 @@ public abstract class VelocityServlet extends HttpServlet
         cause.printStackTrace( new PrintWriter( sw ) );
 
         html.append( sw.toString()  );
+        html.append("</pre>");
         html.append("</body>");
         html.append("</html>");
         response.getOutputStream().print( html.toString() );
