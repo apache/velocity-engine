@@ -82,8 +82,7 @@ Fix for bugs 8517, 6955 : anything ...#set... was confusing the parser (gmj)
 <subsection name="1.3-rc1">
 <p>
 This section describes changes to the VEL_1_3_BRANCH after the
-1.3-rc1 release. These are updates working towards a rc2 or
-final.
+1.3-rc1 release. This branch was released as v1.3 on July 7, 2002.
 </p>
 
 <ul>
@@ -100,7 +99,10 @@ Update User's Guide - remove confusing and wrong content. (gmj)
 Fixed problem discovered by Ivan Bella where concurrent method
 invocations with varying parameters would be incorrect. (gmj)
 </li>
-</ul>
+<li>
+Brought recent Spanish and French translations of the User's Guide to the
+1.3 branch. (gmj)
+</li></ul>
 
 </subsection>
 
