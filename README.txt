@@ -37,7 +37,7 @@ In order to get started with Velocity, you may want to build it.  If
 you are working with an offical Velocity release package, you will find
 the Velocity jar in the top level directory.
 
-Note that starting with the versio 1.2 release, this Velocity jar 
+Note that starting with the version 1.2 release, this Velocity jar 
 does *NOT* contain any classes from external packages that it 
 depends on.
 
@@ -51,6 +51,8 @@ included, except for the Java 2 SDK and the fabulous Ant build tool
 from the Jakarta project.
 
 http://jakarta.apache.org/ant/
+
+Note that you must use Ant version 1.4 or later.
 
 To build Velocity's jar, change directory into the build/ directory and 
 simply type :
