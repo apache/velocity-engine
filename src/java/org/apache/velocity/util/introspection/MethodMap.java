@@ -61,38 +61,16 @@ import java.util.Hashtable;
 
 import java.lang.reflect.Method;
 
-import org.apache.velocity.runtime.RuntimeServices;
-
 /**
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.12 2001/11/26 16:00:19 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.13 2001/11/27 00:40:46 geirm Exp $
  */
 public class MethodMap
 {
-    protected Class clazz = null;
-    protected RuntimeServices rsvc = null;
-
-    /**
-     *  we need both the class and rsvc for ambiguity
-     *  reporting
-     */
-    public MethodMap( RuntimeServices rsvc, Class c )
-    {
-        this.clazz = c;
-        this.rsvc = rsvc;
-    }
-
-    /**
-     *  hide this...
-     */
-    private MethodMap()
-    {
-    }
-
     /**
      * Keep track of all methods with the same name.
      */
@@ -150,6 +128,7 @@ public class MethodMap
      *  @return Method
      */
     public Method find(String methodName, Object[] params)
+        throws AmbiguousException
     {
         List methodList = (List) methodByNameMap.get(methodName);
         
@@ -238,31 +217,24 @@ public class MethodMap
             }
         }
 
+        /*
+         *  if ambiguous is true, it means we couldn't decide
+         *  so inform the caller...
+         */
+
         if ( ambiguous )
         {    
-            String msg = "MethodMap : Ambiguous method invocation "
-                + methodName + "( ";
-
-            for (int i = 0; i < params.length; i++)
-            {
-                if ( i > 0)
-                    msg = msg + ", ";
-                
-                msg = msg + params[i].getClass().getName();
-            }
-
-            msg = msg + ") for class " + clazz;
-
-            rsvc.error( msg );
-
-            System.out.println( msg );
-
-            return null;
+            throw new AmbiguousException();
         }
            
         return bestMethod;
     }
-    
+
+    /**
+     *  Calculates the distance, expressed as a vector of inheritance
+     *  steps, between the calling args and the method args.
+     *  There still is an issue re interfaces...
+     */
     private Twonk calcDistance( Object[] set, Class[] base )
     {
         if ( set.length != base.length)
@@ -322,8 +294,21 @@ public class MethodMap
                 
         return twonk;
     }
-    
-    class Twonk
+
+    /**
+     *  simple distinguishable exception, used when 
+     *  we run across ambiguous overloading
+     */
+    public class AmbiguousException extends Exception
+    {
+    }
+
+    /**
+     *  little class to hold 'distance' information
+     *  for calling params, as well as determine
+     *  specificity
+     */
+    private class Twonk
     {
         public int distance;
         public int[] vec;

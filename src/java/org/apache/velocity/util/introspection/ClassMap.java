@@ -72,10 +72,12 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.17 2001/11/26 23:25:05 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.18 2001/11/27 00:40:46 geirm Exp $
  */
 public class ClassMap
 {
+    private RuntimeServices rsvc = null;
+
     private static final class CacheMiss { }
     private static final CacheMiss CACHE_MISS = new CacheMiss();
     private static final Object OBJECT = new Object();
@@ -93,7 +95,7 @@ public class ClassMap
      */
     private Map methodCache = new Hashtable();
 
-    private MethodMap methodMap = null;
+    private MethodMap methodMap = new MethodMap();
 
     /**
      * Standard constructor
@@ -101,7 +103,7 @@ public class ClassMap
     public ClassMap( RuntimeServices rsvc, Class clazz)
     {
         this.clazz = clazz;
-        methodMap = new MethodMap( rsvc, clazz );
+        this.rsvc = rsvc;
         populateMethodCache();
     }
 
@@ -141,9 +143,32 @@ public class ClassMap
 
         if (cacheEntry == null)
         {
-            cacheEntry = methodMap.find( name,
-                                         params );
-            
+            try
+            {
+                cacheEntry = methodMap.find( name,
+                                             params );
+            }
+            catch( MethodMap.AmbiguousException ae )
+            {
+
+                String msg = "Introspection Error : Ambiguous method invocation "
+                    + name + "( ";
+
+                for (int i = 0; i < params.length; i++)
+                {
+                    if ( i > 0)
+                        msg = msg + ", ";
+                    
+                    msg = msg + params[i].getClass().getName();
+                }
+                
+                msg = msg + ") for class " + clazz;
+
+                rsvc.error( msg );
+                
+                cacheEntry = null;
+            }
+
             if ( cacheEntry == null )
             {
                 methodCache.put( methodKey,
