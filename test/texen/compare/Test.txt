@@ -1,0 +1,11 @@
+# These should all evaluate to true
+
+true
+true
+true
+
+# These should all evaluate to false
+
+false
+false
+false

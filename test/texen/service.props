@@ -8,3 +8,14 @@ email=jvanzyl@periapt.com
 ## as $license.
 
 license.file.contents = ../test/texen/license.txt
+
+# Test some properties that have be give some boolean
+# values.
+
+one = true
+two = yes
+three = on
+
+four = false
+five = no
+six = off
