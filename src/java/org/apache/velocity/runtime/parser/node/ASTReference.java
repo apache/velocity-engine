@@ -80,7 +80,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.26 2001/04/18 20:54:32 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.27 2001/04/18 21:00:44 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -95,7 +95,8 @@ public class ASTReference extends SimpleNode
     private boolean escaped = false;
     private boolean computableReference = true;
     private String  prefix = "";
-    private String firstToken = "";
+    private String firstTokenPrefix = "";
+    private String identifier = "";
 
     private int numChildren = 0;
 
@@ -115,7 +116,8 @@ public class ASTReference extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public Object init( InternalContextAdapter context, Object data) throws Exception
+    public Object init( InternalContextAdapter context, Object data) 
+        throws Exception
     {
         /*
          *  init our children
@@ -132,7 +134,23 @@ public class ASTReference extends SimpleNode
         rootString = getRoot();
 
         numChildren = jjtGetNumChildren();
-        firstToken = NodeUtils.specialText( getFirstToken() );
+
+        /*
+         *  we can glom these together.. both are template immutables...
+         */
+
+        String firstToken = NodeUtils.specialText( getFirstToken() );
+        firstTokenPrefix = firstToken + prefix;
+
+        /*
+         * and if appropriate...
+         */
+
+        if (numChildren > 0 )
+        {
+            identifier = jjtGetChild(numChildren - 1).getFirstToken().image;
+        }
+
         return data;
     }        
     
@@ -221,15 +239,13 @@ public class ASTReference extends SimpleNode
         {
             if ( value == null )
             {
-                writer.write( firstToken );
-                writer.write( prefix );
+                writer.write( firstTokenPrefix );
                 writer.write( "\\" );
                 writer.write( nullString );
             }
             else
             {
-                writer.write( firstToken );
-                writer.write( prefix );
+                writer.write( firstTokenPrefix );
                 writer.write( nullString );
             }
         
@@ -246,8 +262,7 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
             
-            writer.write( firstToken );
-            writer.write( prefix );
+            writer.write( firstTokenPrefix );
             writer.write( prefix );
             writer.write( nullString );
 
@@ -260,8 +275,7 @@ public class ASTReference extends SimpleNode
         }                    
         else
         {
-            writer.write( firstToken );
-            writer.write( prefix );
+            writer.write( firstTokenPrefix );
             writer.write( value.toString() );
         }                    
     
@@ -348,8 +362,6 @@ public class ASTReference extends SimpleNode
          *  1) ref.setFoo( value )
          *  2) ref,put("foo", value ) to parallel the get() map introspection
          */
-
-        String identifier = jjtGetChild(numChildren - 1).getFirstToken().image;
 
         try
         {
