@@ -83,8 +83,6 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
 
-import org.apache.velocity.runtime.log.Log;
-
 /**
  * This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
@@ -142,7 +140,7 @@ import org.apache.velocity.runtime.log.Log;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.27 2000/10/26 19:37:16 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.28 2000/10/26 19:38:08 jvanzyl Exp $
  */
 public class Runtime
 {
