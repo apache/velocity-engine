@@ -69,7 +69,7 @@ import junit.framework.TestSuite;
  *  Simple introspector test case for primitive problem found in 1.3
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectorTestCase3.java,v 1.1.2.2 2002/07/14 22:04:09 geirm Exp $
+ * @version $Id: IntrospectorTestCase3.java,v 1.1.2.3 2002/07/24 22:02:46 geirm Exp $
  */
 public class IntrospectorTestCase3 extends BaseTestCase
 {
@@ -100,6 +100,8 @@ public class IntrospectorTestCase3 extends BaseTestCase
          */
 
         Object[] listIntInt = { new ArrayList(), new Integer(1), new Integer(2) };
+        Object[] listLongList = { new ArrayList(), new Long(1), new ArrayList() };
+        Object[] listLongInt = { new ArrayList(), new Long(1), new Integer(2) };
         Object[] intInt = {  new Integer(1), new Integer(2) };
         Object[] longInt = {  new Long(1), new Integer(2) };
         Object[] longLong = {  new Long(1), new Long(2) };
@@ -122,11 +124,22 @@ public class IntrospectorTestCase3 extends BaseTestCase
 
         assertTrue(result.equals("ll"));
 
+        /*
+         * test overloading with primitives
+         */
+
         method = RuntimeSingleton.getIntrospector().getMethod(
             MethodProvider.class, "ll", longLong);
         result = (String) method.invoke(mp, longLong);
 
         assertTrue(result.equals("ll"));
+
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "lll", listLongList);
+        result = (String) method.invoke(mp, listLongList);
+
+        assertTrue(result.equals("lll"));
+
     }
 
     public static class MethodProvider
@@ -141,10 +154,22 @@ public class IntrospectorTestCase3 extends BaseTestCase
             return "lii";
         }
 
-        public String lll(List s, long p, long d)
+        public String lll(List s, long p, List d)
         {
             return "lll";
         }
+
+
+        public String lll(List s, long p, int d)
+        {
+            return "lli";
+        }
+
+        public String lll(List s, long p)
+        {
+            return "Listl";
+        }
+
         public String ll(long p, long d)
         {
             return "ll";
