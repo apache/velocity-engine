@@ -1018,7 +1018,7 @@ $blargh
       (ii) the value is not null.  Remember that the Velocity context only
       contains Objects, so when we say 'boolean', it will be represented
       as a Boolean (the class).  This is true even for methods that return
-      <code>boolean</code> - the intrspection infrastructure will return
+      <code>boolean</code> - the introspection infrastructure will return
       a <code>Boolean</code> of the same logical value.
     </p>
 
@@ -1057,7 +1057,7 @@ $blargh
     </p>
 
     <p>
-    Please note that currently, Velocity's numeric comparisons are contrained
+    Please note that currently, Velocity's numeric comparisons are constrained
     to Integers - anything else will evaluate to <em>false</em>.  The only exception
     to this is equality '==', where Velocity requires that the objects on each
     side of the '==' is of the <em>same</em> class.
@@ -1236,7 +1236,7 @@ $blargh
 
 <source><![CDATA[
 # Default name of the loop counter
-# variable refernce.
+# variable reference.
 counter.name = velocityCount
 
 # Default starting value of the loop
@@ -1273,7 +1273,7 @@ counter.initial.value = 1
     <p>
     The file being included need not be referenced by name; in fact, it
     is often preferable to use a variable instead of a filename. This
-    could be useful for targetting output according to criteria
+    could be useful for targeting output according to criteria
     determined when the page request is submitted. Here is an example
     showing both a filename and a variable.
     </p>
@@ -1394,7 +1394,7 @@ $count
     </p>
 
     <p>
-    A Velocimacro could take any number number of arguments -- even zero
+    A Velocimacro could take any number of arguments -- even zero
     arguments, as demonstrated in the first example, is an option -- but
     when the Velocimacro is invoked, it must be called with the same
     number of arguments with which it was defined. Many Velocimacros are
@@ -1741,10 +1741,10 @@ Vyacheslav Ganelin
   ended by a newline (return) will omit the newline from the output.
   Therefore, the body of the <code>#if()</code>
   block follows the first '\', rendered
-  from the '\\' preceeding the <code>#if()</code>.
+  from the '\\' preceding the <code>#if()</code>.
    The last \ is on a different
-  line than the text beacsue there is a newline after 'Ganelin', so
-  the final \\, preceeding the <code>#end</code> is part of the
+  line than the text because there is a newline after 'Ganelin', so
+  the final \\, preceding the <code>#end</code> is part of the
   body of the block.
   </p>
 
@@ -2065,7 +2065,7 @@ You can save a step...
 ]]></source>
 
 <p>
-Please note that in the latter exmaple the arg
+Please note that in the latter example the arg
 is evaluated <i>inside</i> the VM, not at the
 calling level.  In other words, the argument to
 the VM is passed in in its entirety and evaluated within the VM
@@ -2218,7 +2218,7 @@ invoke the method outside of the VM, and pass the value into the VM.
    <p>
      and the output will render as 'The clock is BigBen'.
      For more interesting cases, such as when you want to concatenate
-     strings to pass to a method, or to set a new referece, just
+     strings to pass to a method, or to set a new reference, just
      do
    </p>
 
