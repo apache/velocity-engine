@@ -64,7 +64,7 @@
 <p>
     <strong>IntelliJ IDEA Uses Velocity</strong>
     <blockquote>
-    <a href="http://www.intellij.com/">IntelliJ IDEA</a> uses Velocity as it's
+    <a href="http://www.intellij.com/">IntelliJ IDEA</a> uses Velocity as its
         templating system for generating class and method javaodocs.
     (<i>2003-10-14</i>)
     </blockquote>
@@ -75,7 +75,7 @@
 <blockquote>
 <a href="http://www.cotsec.com/">Cotsec</a> has released a
 cross-language/cross-platform rapid development
-environment called Cotsec Forms that uses Velocity as it's underlying
+environment called Cotsec Forms that uses Velocity as its underlying
 template engine.
 (<i>2003-08-23</i>)
 </blockquote>
