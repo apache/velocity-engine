@@ -145,7 +145,7 @@
     <mkdir dir="${build.dest}"/>
     <mkdir dir="${build.src}"/>
 
-    <copy todir="${build.src}">
+    <copy todir="${build.src}" filtering="yes">
       <fileset dir="${src.java.dir}"> 
         <include name="**/*.java"/>
       </fileset>
