@@ -56,12 +56,11 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.BufferedInputStream;
-import java.util.Hashtable;
 
 import javax.sql.DataSource;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -143,7 +142,7 @@ import java.sql.SQLException;
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.8 2002/02/10 18:46:58 geirm Exp $
+ * @version $Id: DataSourceResourceLoader.java,v 1.9 2003/10/27 10:46:40 geirm Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -155,7 +154,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      private InitialContext ctx;
      private DataSource dataSource;
 
-     public void init( ExtendedProperties configuration)
+     public void init(ExtendedProperties configuration)
      {
          dataSourceName  = configuration.getString("resource.datasource");
          tableName       = configuration.getString("resource.table");
@@ -163,10 +162,10 @@ public class DataSourceResourceLoader extends ResourceLoader
          templateColumn  = configuration.getString("resource.templatecolumn");
          timestampColumn = configuration.getString("resource.timestampcolumn");
 
-         Runtime.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
-         Runtime.info( "Resource Loader using columns: " + keyColumn + ", "
+         rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
+         rsvc.info("Resource Loader using columns: " + keyColumn + ", "
                        + templateColumn + " and " + timestampColumn);
-         Runtime.info("Resource Loader Initalized.");
+         rsvc.info("Resource Loader Initalized.");
      }
 
      public boolean isSourceModified(Resource resource)
@@ -187,7 +186,7 @@ public class DataSourceResourceLoader extends ResourceLoader
       *  @param name name of template
       *  @return InputStream containing template
       */
-     public synchronized InputStream getResourceStream( String name )
+     public synchronized InputStream getResourceStream(String name)
          throws ResourceNotFoundException
      {
          if (name == null || name.length() == 0)
@@ -214,9 +213,9 @@ public class DataSourceResourceLoader extends ResourceLoader
                      {
                          String msg = "DataSourceResourceLoader Error: cannot find resource "
                              + name;
-                         Runtime.error(msg );
+                         rsvc.error(msg);
 
-                         throw new ResourceNotFoundException (msg);
+                         throw new ResourceNotFoundException(msg);
                      }
                  }
                  finally
@@ -234,12 +233,10 @@ public class DataSourceResourceLoader extends ResourceLoader
              String msg =  "DataSourceResourceLoader Error: database problem trying to load resource "
                  + name + ": " + e.toString();
 
-             Runtime.error( msg );
+             rsvc.error(msg);
 
-             throw new ResourceNotFoundException (msg);
-
+             throw new ResourceNotFoundException(msg);
          }
-
      }
 
     /**
@@ -272,7 +269,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         Runtime.error("DataSourceResourceLoader Error: while "
+                         rsvc.error("DataSourceResourceLoader Error: while "
                                        + i_operation
                                        + " could not find resource " + name);
                      }
@@ -287,12 +284,19 @@ public class DataSourceResourceLoader extends ResourceLoader
                  closeDbConnection(conn);
              }
          }
-         catch(Exception e)
+         catch(SQLException e)
          {
-             Runtime.error( "DataSourceResourceLoader Error: error while "
+             rsvc.error( "DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
                  + name + ": " + e.toString() );
          }
+         catch(NamingException e)
+         {
+             rsvc.error( "DataSourceResourceLoader Error: error while "
+                 + i_operation + " when trying to load resource "
+                 + name + ": " + e.toString() );
+         }
+
          return 0;
      }
 
@@ -303,14 +307,14 @@ public class DataSourceResourceLoader extends ResourceLoader
      *  @return connection
      */
      private Connection openDbConnection()
-         throws Exception
+         throws NamingException, SQLException
     {
-         if(ctx == null)
+         if (ctx == null)
          {
              ctx = new InitialContext();
          }
 
-         if(dataSource == null)
+         if (dataSource == null)
          {
              dataSource = (DataSource)ctx.lookup(dataSourceName);
          }
@@ -329,7 +333,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch (Exception e)
          {
-             Runtime.info(
+             rsvc.info(
                  "DataSourceResourceLoader Quirk: problem when closing connection: "
                  + e.toString());
          }
