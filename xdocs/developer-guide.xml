@@ -187,6 +187,15 @@ Some great sources are :
 
 <ul>
   <li>
+     The user and developer community : join us via the
+     <a href="http://jakarta.apache.org/getinvolved/mail.html">mail-lists</a>.
+  </li>
+  <li>
+     Mail-list archives : <a href="http://www.mail-archive.com">
+    http:// www.mail-archive.com</a> is a good one.  Type 'velocity' into the search
+    box to see both our -user and -dev archives.
+  </li>
+  <li>
     source code : <code>src/java/...</code> : all the source code to the
     Velocity project
   </li>
