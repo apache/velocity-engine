@@ -86,7 +86,7 @@ have an identical format. -JC
     Methods are references that consist of a leading <vtl>$</vtl>
     character followed a VTL Identifier, followed
     by a VTL <em>Method Body</em>. A VTL Method Body
-    consists of a VTL Identifier followed by an
+    consists of a VTL Identifier followed by a
     left parenthesis character ("("), followed by an optional parameter
     list, followed by right parenthesis character (")").
     Examples of valid method references in the
@@ -178,7 +178,7 @@ have an identical format. -JC
 </p>
 
 <p>
-    <vtl>$ref</vtl> - The LHS of the assigment must be
+    <vtl>$ref</vtl> - The LHS of the assignment must be
     a variable reference or a property reference. 
 </p>
 
