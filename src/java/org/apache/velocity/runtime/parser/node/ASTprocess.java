@@ -25,13 +25,4 @@ public class ASTprocess extends SimpleNode
     {
         return visitor.visit(this, data);
     }
-
-    public void render(Context context, Writer writer)
-        throws IOException
-    {
-        int i, k = jjtGetNumChildren();
-
-        for (i = 0; i < k; i++)
-            jjtGetChild(i).render(context, writer);
-    }
 }
