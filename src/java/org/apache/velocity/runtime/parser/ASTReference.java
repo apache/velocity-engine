@@ -82,11 +82,34 @@ public class ASTReference extends SimpleNode
         int children = jjtGetNumChildren();
         
         for (int i = 0; i < children; i++)
-        {
-            Node n = jjtGetChild(i);
-            result = n.invoke(result, context);
-        }
+            result = jjtGetChild(i).invoke(result, context);
+
         return result;
+    }
+
+    public void setValue(Context context, Object value)
+    {
+        // The rootOfIntrospection is the object we will
+        // retrieve from the Context. This is the base
+        // object we will apply reflection to.
+        String root = getRoot();
+        Object result = getVariableValue(context, root);
+        
+        if (result == null)
+        {
+            Runtime.error("Reference error: " + root + " " +
+                          "not defined in the context.");
+        }                          
+        
+        // How many child nodes do we have?
+        int children = jjtGetNumChildren();
+        
+        for (int i = 0; i < children - 1; i++)
+            result = jjtGetChild(i).invoke(result, context);
+
+        Object[] args = { value };
+        ClassUtils.invoke(result, "set" + jjtGetChild(children - 1)
+            .getFirstToken().image, args);
     }
 
     private String getRoot()
