@@ -99,7 +99,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.32 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: TemplateTestCase.java,v 1.33 2001/10/24 03:03:33 geirm Exp $
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -186,12 +186,14 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
          */
 
         Object[] oarr = { "a","b","c","d" } ;
+       int intarr[] = { 10, 20, 30, 40, 50 };
 
         context.put( "collection", vec );
         context2.put("iterator", vec.iterator());
         context1.put("map", h );
         context.put("obarr", oarr );
         context.put("enumerator", vec.elements());
+        context.put("intarr", intarr );
     }
 
     /**

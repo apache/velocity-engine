@@ -89,13 +89,16 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
 import org.apache.velocity.context.Context;
 
+import java.net.URL;
+
+
 /**
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.32 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: Test.java,v 1.33 2001/10/24 03:03:33 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
@@ -241,12 +244,13 @@ public class Test implements ReferenceInsertionEventHandler,
             context.put("Floog", "floogie woogie");
             context.put("geirstring", str );
             context.put("mylong", new Long(5) );
-
-
+            
             /*
              *  we want to make sure we test all types of iterative objects
              *  in #foreach()
              */
+             
+            int intarr[] = { 10, 20, 30, 40, 50 };
 
             Object[] oarr = { "a","b","c","d" } ;
             
@@ -254,7 +258,8 @@ public class Test implements ReferenceInsertionEventHandler,
             context.put("iterator", v.iterator());
             context.put("map", h );
             context.put("obarr", oarr );
-
+            context.put("intarr", intarr );
+            
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
             //            Velocity.evaluate( context, w, "evaltest",stest );
