@@ -148,6 +148,20 @@ public class SimpleNode implements Node
 
     // All additional methods
 
+    public String literal()
+    {
+        Token t = first;
+        StringBuffer sb = new StringBuffer(t.image);
+        
+        while (t != last)
+        {
+            t = t.next;
+            sb.append(t.image);
+        }
+        
+        return sb.toString();
+    }
+
     public Object init(Context context, Object data) throws Exception
     {
         int i, k = jjtGetNumChildren();
@@ -206,11 +220,6 @@ public class SimpleNode implements Node
     public int getInfo()
     {
         return info;
-    }        
-
-    public String literal()
-    {
-        return first.image;
     }        
 
     public void setInvalid()
