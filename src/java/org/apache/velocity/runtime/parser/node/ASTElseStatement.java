@@ -63,7 +63,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseStatement.java,v 1.4 2000/12/15 06:55:33 jvanzyl Exp $ 
+ * @version $Id: ASTElseStatement.java,v 1.5 2001/01/03 05:25:17 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -71,8 +71,8 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTElseStatement extends SimpleNode
 {
@@ -96,7 +96,7 @@ public class ASTElseStatement extends SimpleNode
      * An ASTElseStatement always evaluates to
      * true. Basically behaves like an #if(true).
      */
-    public boolean evaluate(Context context)
+    public boolean evaluate( InternalContextAdapter context)
     {
         return true;
     }        

@@ -63,12 +63,12 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSubtractNode.java,v 1.2 2000/12/27 14:31:54 geirm Exp $ 
+ * @version $Id: ASTSubtractNode.java,v 1.3 2001/01/03 05:27:04 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -95,7 +95,7 @@ public class ASTSubtractNode extends SimpleNode
      *  limited to integers
      *  @return Integer(value) or null
      */
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         /*
          *  get the two args
@@ -112,7 +112,7 @@ public class ASTSubtractNode extends SimpleNode
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) + " side of subtraction operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
             return null;
         }
@@ -135,5 +135,6 @@ public class ASTSubtractNode extends SimpleNode
         return new Integer( ( (Integer) left ).intValue() - (  (Integer) right ).intValue() );
     }
 }
+
 
 

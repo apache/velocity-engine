@@ -70,11 +70,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.util.SimplePool;
+
+import org.apache.velocity.context.Context;
+import org.apache.velocity.VelocityContext;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
@@ -98,7 +100,7 @@ import org.apache.velocity.util.SimplePool;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.19 2000/12/20 07:06:04 jvanzyl Exp $
+ * $Id: VelocityServlet.java,v 1.20 2001/01/03 05:28:51 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -219,7 +221,8 @@ public abstract class VelocityServlet extends HttpServlet
         try
         {
             // create a new context
-            Context context = new Context();
+            VelocityContext context = new VelocityContext();
+            
             // put the request/response objects into the context
             context.put (REQUEST, request);
             context.put (RESPONSE, response);

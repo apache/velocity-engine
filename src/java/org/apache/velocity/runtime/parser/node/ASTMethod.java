@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.9 2000/12/12 23:46:07 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.10 2001/01/03 05:26:27 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -77,11 +77,10 @@ import java.lang.reflect.Method;
 
 import java.io.*;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
-
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 public class ASTMethod extends SimpleNode
@@ -110,7 +109,7 @@ public class ASTMethod extends SimpleNode
      *  simple init - init our subtree and get what we can from 
      *  the AST
      */
-    public Object init( Context context, Object data)
+    public Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         super.init( context, data );
@@ -131,7 +130,7 @@ public class ASTMethod extends SimpleNode
      *   Note, as this calls value() on the args if any, this must
      *   only be called at execute() / render() time
      */
-    private Method doIntrospection(Context context, Class data)
+    private Method doIntrospection( InternalContextAdapter context, Class data)
         throws Exception
     {      
         /*
@@ -153,7 +152,7 @@ public class ASTMethod extends SimpleNode
      *  actual return if the method returns something, or 
      *  an empty string "" if the method returns void
      */
-    public Object execute(Object o, Context context)
+    public Object execute(Object o, InternalContextAdapter context)
     {
         /*
          *  new strategy (strategery!) for introspection. Since we want to be thread- as well as 
@@ -169,7 +168,7 @@ public class ASTMethod extends SimpleNode
              *   check the cache 
              */
 
-            IntrospectionCacheData icd = context.icacheGet( this );
+            IntrospectionCacheData icd =  context.icacheGet( this );
             Class c = o.getClass();
 
             /*

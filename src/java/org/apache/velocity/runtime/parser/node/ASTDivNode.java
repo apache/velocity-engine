@@ -63,12 +63,12 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDivNode.java,v 1.2 2000/12/27 14:31:53 geirm Exp $ 
+ * @version $Id: ASTDivNode.java,v 1.3 2001/01/03 05:24:59 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -95,7 +95,7 @@ public class ASTDivNode extends SimpleNode
      *  Integers.
      *  @return Integer(value) or null 
      */
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         /*
          *  get the two args
@@ -112,7 +112,7 @@ public class ASTDivNode extends SimpleNode
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) + " side of division operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
             return null;
         }
@@ -139,7 +139,7 @@ public class ASTDivNode extends SimpleNode
         if ( ( (Integer) right).intValue() == 0 )
         {
             Runtime.error( "Right side of division operation is zero. Must be non-zero. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return null;

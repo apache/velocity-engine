@@ -60,7 +60,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIfStatement.java,v 1.5 2000/12/15 06:55:33 jvanzyl Exp $ 
+ * @version $Id: ASTIfStatement.java,v 1.6 2001/01/03 05:25:51 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -68,7 +68,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTIfStatement extends SimpleNode
@@ -89,7 +89,7 @@ public class ASTIfStatement extends SimpleNode
         return visitor.visit(this, data);
     }
     
-    public boolean render(Context context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
         /*
@@ -131,18 +131,10 @@ public class ASTIfStatement extends SimpleNode
         return true;
     }
 
-    public void process(Context context, ParserVisitor visitor)
+    public void process( InternalContextAdapter context, ParserVisitor visitor)
     {
     }
 }
-
-
-
-
-
-
-
-
 
 
 

@@ -62,7 +62,7 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTEscapedDirective.java,v 1.1 2000/11/11 22:42:42 geirm Exp $ 
+ * @version $Id: ASTEscapedDirective.java,v 1.2 2001/01/03 05:25:17 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -70,10 +70,11 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
-import org.apache.velocity.runtime.parser.*;
-public class ASTEscapedDirective extends SimpleNode {
-  
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.Parser;
+
+public class ASTEscapedDirective extends SimpleNode 
+{  
     public ASTEscapedDirective(int id) 
     {
         super(id);
@@ -91,7 +92,7 @@ public class ASTEscapedDirective extends SimpleNode {
         return visitor.visit(this, data);
     }
 
-    public boolean render(Context context, Writer writer)
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException
     {
         writer.write(getFirstToken().image);

@@ -61,7 +61,8 @@ import java.io.Writer;
 
 import java.util.Properties;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.VelocityContext;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
@@ -75,7 +76,7 @@ import junit.framework.TestCase;
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.4 2000/12/20 06:47:38 jvanzyl Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.5 2001/01/03 05:28:51 geirm Exp $
  */
 public class InlineScopeVMTestCase extends TestCase
 {
@@ -172,7 +173,7 @@ public class InlineScopeVMTestCase extends TestCase
              *  put the Vector into the context, and merge both
              */
 
-            Context context = new Context();
+            VelocityContext context = new VelocityContext();
 
             template1.merge(context, writer1);
             writer1.flush();

@@ -59,13 +59,13 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.6 2000/12/21 05:51:38 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.7 2001/01/03 05:27:04 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.StringWriter;
 import java.io.ByteArrayInputStream;
@@ -92,7 +92,7 @@ public class ASTStringLiteral extends SimpleNode
      *  init : we don't have to do much.  Init the tree (there shouldn't be
      *  one ) and then see if interpolation is turned on.
      */
-    public Object init(Context context, Object data) 
+    public Object init( InternalContextAdapter context, Object data) 
         throws Exception
     {
         /*
@@ -135,7 +135,7 @@ public class ASTStringLiteral extends SimpleNode
      *  the literal is rendered against the context
      *  Otherwise, the stringlit is returned.
      */
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         if (interpolate )
         {          
