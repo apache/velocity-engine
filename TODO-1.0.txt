@@ -63,15 +63,6 @@ o Test for Texen
   STATUS:
   [JVZ] I will add the test for Texen.
   
-o Test for Anakia
-  
-  PLAN:
-  Just add a simple test for Anakia to make sure things
-  don't break when changes are made.
-  
-  STATUS:
-  [JSS] I will work on this one
-
 +------------- Not Critical For Release -------------+
 
 o Speed testing suite
