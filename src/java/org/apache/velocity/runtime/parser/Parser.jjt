@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.37 2000/12/06 05:57:18 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.38 2000/12/06 19:49:23 geirm Exp $ 
 */
 public class Parser
 {
@@ -789,7 +789,7 @@ TOKEN :
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE: "else"> 
+|   <ELSE_DIRECTIVE: "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )?  > 
      { 
         inDirective = false; 
         stateStackPop();
