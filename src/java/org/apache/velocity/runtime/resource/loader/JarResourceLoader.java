@@ -80,7 +80,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * ResourceLoader to load templates from multiple Jar files.
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.7 2001/03/20 00:55:04 jon Exp $
+ * @version $Id: JarResourceLoader.java,v 1.8 2001/03/23 04:18:50 jvanzyl Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -124,7 +124,8 @@ public class JarResourceLoader extends ResourceLoader
         }
         if ( !path.startsWith("jar:") )
         {
-            Runtime.error("JAR path must start with jar: -> see java.net.JarURLConnection for information");
+            Runtime.error("JAR path must start with jar: -> " +
+                "see java.net.JarURLConnection for information");
         }
         if ( !path.endsWith("!/") )
         {

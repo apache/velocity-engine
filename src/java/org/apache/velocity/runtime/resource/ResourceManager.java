@@ -78,7 +78,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.20 2001/03/22 15:55:37 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.21 2001/03/23 04:18:50 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -105,12 +105,12 @@ public class ResourceManager
     private static ArrayList resourceLoaders = new ArrayList();
     
     /**
-     * This is a list of the template stream source
+     * This is a list of the template input stream source
      * initializers, basically properties for a particular
      * template stream source. The order in this list
      * reflects numbering of the properties i.e.
-     * template.loader.1.<property> = <value>
-     * template.loader.2.<property> = <value>
+     *
+     * <loader-id>.resource.loader.<property> = <value>
      */
     private static ArrayList sourceInitializerList = new ArrayList();
     
@@ -272,17 +272,23 @@ public class ResourceManager
                     }
                     catch( ResourceNotFoundException rnfe )
                     {
-                        Runtime.error("ResourceManager.getResource() exception: " + rnfe);
+                        Runtime.error(
+                            "ResourceManager.getResource() exception: " + rnfe);
+                        
                         throw rnfe;
                     }
                     catch( ParseErrorException pee )
                     {
-                        Runtime.error("ResourceManager.getResource() exception: " + pee);
+                        Runtime.error(
+                            "ResourceManager.getResource() exception: " + pee);
+                        
                         throw pee;
                     }
                     catch( Exception eee )
                     {
-                        Runtime.error("ResourceManager.getResource() exception: " + eee);
+                        Runtime.error(
+                            "ResourceManager.getResource() exception: " + eee);
+                        
                         throw eee;
                     }
                 }
@@ -357,7 +363,10 @@ public class ResourceManager
                  * Return null if we can't find a resource.
                  */
                 if (resource.getData() == null)
-                    throw new ResourceNotFoundException("Unable to find resource '" + resourceName + "'");
+                {
+                    throw new ResourceNotFoundException(
+                        "Unable to find resource '" + resourceName + "'");
+                }                        
 
                 resource.setLastModified( howOldItWas );
                  
@@ -372,21 +381,30 @@ public class ResourceManager
                  */
                 
                 if (resourceLoader.isCachingOn())
+                {
                     globalCache.put(resourceName, resource);
+                }                    
             }
             catch( ResourceNotFoundException rnfe2 )
             {
-                Runtime.error("ResourceManager : unable to find resource '" + resourceName + "' in any resource loader.");
+                Runtime.error(
+                    "ResourceManager : unable to find resource '" + resourceName + 
+                        "' in any resource loader.");
+                
                 throw rnfe2;
             }
             catch( ParseErrorException pee )
             {
-                Runtime.error("ResourceManager.getResource() parse exception: " + pee);
+                Runtime.error(
+                    "ResourceManager.getResource() parse exception: " + pee);
+                
                 throw pee;
             }
             catch( Exception ee )
             {
-                Runtime.error("ResourceManager.getResource() exception: " + ee);
+                Runtime.error(
+                    "ResourceManager.getResource() exception: " + ee);
+                
                 throw ee;
             }
         }
