@@ -1870,6 +1870,36 @@ $blargh
     in Java, its name could be retrieved by referencing the
     <em>$product.Name</em> method (ie: <em>$Product.getName()</em>).
     </p>
+                                                <p>
+    Lets say that $allProducts is a Hashtable. If you wanted to retrieve
+    the key values for the Hashtable as well as the objects within the 
+    Hashtable, you can use code like this:
+    </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+&lt;ul&gt;
+#foreach( $key in $allProducts.keySet() )
+    &lt;li&gt;Key: $key -&gt; Value: $allProducts.get($key)&lt;/li&gt;
+#end
+&lt;/ul&gt;
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
                             </blockquote>
         </p>
       </td></tr>
