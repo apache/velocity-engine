@@ -153,6 +153,7 @@ This section describes changes to the man branch after the
    </li>
    <li>
      Added patch from Sylwester Lachiewicz (matrix@plusnet.pl)
+     for the DataSourceResourceLoader
      to bring the javadoc up to date re the properties example,
      and he also added examples for the DataSource configuration as well as the
      syntax needed to create a compatible table. (gmj)
