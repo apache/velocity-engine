@@ -57,7 +57,6 @@ package org.apache.velocity.runtime;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import java.util.Vector;
 import java.util.Map;
@@ -69,7 +68,7 @@ import java.util.HashMap;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.16 2001/10/21 10:58:35 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.17 2003/05/04 17:14:36 geirm Exp $ 
  */
 public class VelocimacroFactory
 {

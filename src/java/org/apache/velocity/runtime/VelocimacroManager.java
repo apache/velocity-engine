@@ -55,13 +55,10 @@ package org.apache.velocity.runtime;
  */
 
 import java.util.Hashtable;
-import java.util.TreeMap;
 
 import java.io.StringReader;
 import java.io.BufferedReader;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
@@ -82,7 +79,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.16 2002/02/28 05:24:00 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.17 2003/05/04 17:14:36 geirm Exp $ 
  */
 public class VelocimacroManager
 {
