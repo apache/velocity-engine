@@ -56,8 +56,8 @@ package org.apache.velocity.texen.util;
  *
  */
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+//import java.util.*;
 
 /**
  * A general file utility for use in the context
