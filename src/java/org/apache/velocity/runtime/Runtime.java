@@ -142,7 +142,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.104 2001/03/25 22:57:55 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.105 2001/03/26 04:18:52 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -347,6 +347,20 @@ public class Runtime implements RuntimeConstants
         }            
             
         overridingProperties.addProperty( key, value );
+    }
+    
+    /**
+     * Clear the values pertaining to a particular
+     * property.
+     *
+     * @param String key of property to clear
+     */
+    public static void clearProperty(String key)
+    {
+        if (overridingProperties != null)
+        {
+            overridingProperties.clearProperty(key);
+        }            
     }
     
     /**
