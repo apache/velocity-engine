@@ -36,29 +36,6 @@ o Specification Directory
   STATUS:
   [NONE]
 
-o Control Caching Resource Usage
-
-  Change resource caching to limit cache size and expire
-  least-recently-used.  This is needed to prevent Vel from
-  sucking up RAM uncontrollably for content-centric or 
-  other sites that may use #include() or #parse() 
-  extensively.
-
-  PLAN:
-  Fix code.
-
-  STATUS:
-  [GMJ] Will start once the config stuff is set in stone.
-
-o Method Exception Propogation
-
-  Need to propgate errors out from methods called in user objects
-  when rendering.
-
-  STATUS :
-  [GMJ]  working
-
-
 +------------- Not Critical For Release -------------+
 
 o Speed testing suite
@@ -71,3 +48,17 @@ o Speed testing suite
 
   STATUS:
   None
+
+o Control Caching Resource Usage
+
+  Change resource caching to limit cache size and expire
+  least-recently-used.  This is needed to prevent Vel from
+  sucking up RAM uncontrollably for content-centric or 
+  other sites that may use #include() or #parse() 
+  extensively.
+
+  PLAN:
+  Fix code.
+
+  STATUS:
+  [GMJ] Punt for next release.
