@@ -70,7 +70,6 @@ import org.apache.tools.ant.Task;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
 
@@ -78,13 +77,14 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.24 2001/05/08 11:55:29 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.25 2001/05/11 03:55:32 geirm Exp $
  */
 public class TexenTask extends Task
 {
@@ -151,7 +151,7 @@ public class TexenTask extends Task
      * So initial context values can be set with
      * properties file.
      */
-    protected Configuration contextProperties;
+    protected ExtendedProperties contextProperties;
 
     /**
      * [REQUIRED] Set the control template for the
@@ -248,7 +248,7 @@ public class TexenTask extends Task
      */
     public void setContextProperties( File file )
     {
-        contextProperties = new Configuration();
+        contextProperties = new ExtendedProperties();
         
         try
         {
@@ -265,7 +265,7 @@ public class TexenTask extends Task
      * fed into the initial context be the
      * generating process starts.
      */
-    public Configuration getContextProperties()
+    public ExtendedProperties getContextProperties()
     {
         return contextProperties;
     }

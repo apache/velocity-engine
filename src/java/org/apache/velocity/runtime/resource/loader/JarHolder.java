@@ -66,7 +66,6 @@ import java.util.Hashtable;
 
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -75,7 +74,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * A small wrapper around a Jar
  *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarHolder.java,v 1.4 2001/03/20 00:55:04 jon Exp $
+ * @version $Id: JarHolder.java,v 1.5 2001/05/11 03:59:41 geirm Exp $
  */
 public class JarHolder
 {
