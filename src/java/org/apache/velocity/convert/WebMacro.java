@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.13 2001/05/11 19:49:34 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.14 2001/05/12 02:04:25 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -90,10 +90,12 @@ public class WebMacro
         "#if( $1 )",
 
         // Remove the WM #end #else #begin usage.
-        "[ \\t]?(#end|})(\\s*)#else\\s*(#begin|{)[ \\t]?(\\w)",
+        "[ \\t]?(#end|})[ \\t]*\n(\\s*)#else\\s*(#begin|{)[ \\t]?(\\w)",
         "$2#else#**#$4", // avoid touching followup word with embedded comment
-        "[ \\t]?(#end|})(\\s*)#else\\s*(#begin|{)[ \\t]?",
+        "[ \\t]?(#end|})[ \\t]*\n(\\s*)#else\\s*(#begin|{)[ \\t]?",
         "$2#else",
+        "(#end|})(\\s*#else)\\s*(#begin|{)[ \\t]?",
+        "$1\n$2",
 
         // Convert WM style #foreach to Velocity directive style.
         "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$[^\\s#]+)\\s*(#begin|{)[ \\t]?",
@@ -283,15 +285,24 @@ public class WebMacro
             contents += "\n";
         }
 
+        // Convert most markup.
         Perl5Util perl = new Perl5Util();
-        String re;
         for (int i = 0; i < perLineREs.length; i += 2)
         {
-            re = makeSubstRE(i);
-            while (perl.match('/' + perLineREs[i] + '/', contents))
-            {
-                contents = perl.substitute(re, contents);
-            }
+            contents = perl.substitute(makeSubstRE(i), contents);
+        }
+
+        // Convert closing curlies.
+        if (perl.match("m/javascript/i", contents))
+        {
+            // ASSUMPTION: JavaScript is indented, WM is not.
+            contents = perl.substitute("s/\n}/\n#end/g", contents);
+        }
+        else
+        {
+            contents = perl.substitute("s/(\n\\s*)}/$1#end/g", contents);
+            contents = perl.substitute("s/#end\\s*\n\\s*#else/#else/g",
+                                       contents);
         }
 
         return contents;
