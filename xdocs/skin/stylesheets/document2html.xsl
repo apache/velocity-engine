@@ -402,7 +402,31 @@
  <xsl:template match="code">
     <code><font face="courier, monospaced"><xsl:apply-templates/></font></code>
  </xsl:template>
+
+ <xsl:template match="variable">
+    <variable><font face="courier,
+monospaced"><xsl:apply-templates/></font></variable>
+ </xsl:template>
+
+ <xsl:template match="vtldirective">
+    <variable><font face="courier,
+monospaced"><xsl:apply-templates/></font></variable>
+ </xsl:template>
+
+ <xsl:template match="vtl">
+    <variable><font face="courier,
+monospaced"><xsl:apply-templates/></font></variable>
+ </xsl:template>
  
+ <xsl:template match="filename">
+    <filename><xsl:apply-templates/></filename>
+ </xsl:template>
+ 
+ <xsl:template match="dummyvariable">
+    <dummyvariable><font face="courier,
+monospaced"><xsl:apply-templates/></font></dummyvariable>
+ </xsl:template>
+
 <!-- ====================================================================== -->
 <!-- images section -->
 <!-- ====================================================================== -->
