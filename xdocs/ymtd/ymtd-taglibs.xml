@@ -62,7 +62,7 @@ The same example using Velocity would be written like this:
 
 <source><![CDATA[
 <!-- Is the number guess right? -->
-#if ( $number = 7 )
+#if ( $number == 7 )
   You guessed right! You win a high speed blender!
 #end
 
