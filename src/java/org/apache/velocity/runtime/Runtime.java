@@ -180,6 +180,10 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * specified by the client app is laid down on top of that
  * overriding any of the defaults, then any calls to setProperty()
  * or setSourceProperty() will override those.
+ *
+ * Turbine uses this method with its TurbineVelocityService. If
+ * you would like to see an example of this method of initialization
+ * look at org.apache.turbine.services.velocity.TurbineVelocityService.
  * -----------------------------------------------------------------------
  * Runtime.setDefaultProperties()
  * [ Runtime.setProperty || Runtime.setSourceProperty() ]
@@ -197,7 +201,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.74 2000/12/19 16:24:18 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.75 2000/12/19 17:31:39 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -318,6 +322,19 @@ public class Runtime implements RuntimeConstants
     public synchronized static void setProperties(String propertiesFileName) 
         throws Exception
     {
+        /*
+         * Set the default properties because client apps are
+         * using the:
+         *
+         * 1) Runtime.setProperties();
+         * 2) Runtime.setProperty() | Runtime.setSourceProperty()
+         * 3) Runtime.init();
+         *
+         * Sequence and the default props have to be present
+         * in order for 2) to work.
+         */
+        setDefaultProperties();
+        
         Properties p = new Properties();        
         
         /*
