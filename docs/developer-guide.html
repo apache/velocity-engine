@@ -99,12 +99,66 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>Contents</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="contents" />
+                                                <p>
+<ol>
+
+<li>
+<a href="developer-guide.html#intro">Introduction and Getting Started</a>
+</li>
+
+<li>
+<a href="developer-guide.html#resources">Resources</a>
+</li>
+
+<li>
+<a href="developer-guide.html#howvelworks">How Velocity Works</a>
+</li>
+
+<li>
+<a href="developer-guide.html#context">The Context</a>
+</li>
+
+<li>
+<a href="developer-guide.html#servlets">Using Velocity in Servlets</a>
+</li>
+
+<li>
+<a href="developer-guide.html#general">Using Velocity in General Applications</a>
+</li>
+
+<li>
+<a href="developer-guide.html#config">Configuration Keys and Values</a>
+</li>
+
+<li>
+<a href="developer-guide.html#logging">Configuring the Log System</a>
+</li>
+
+<li>
+<a href="developer-guide.html#summary">Summary</a>
+</li>
+
+</ol>
+</p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>Introduction</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="intro" />
+                                                <p>
 Velocity is a Java-based template engine, a simple and powerful development tool
 that allows you to easily create and render documents that format and present
 your data. In this guide, we hope to give an overview of the basics of
@@ -233,7 +287,8 @@ root of the Velocity distribution tree.
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="resources" />
+                                                <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
 Some great sources are :
@@ -296,7 +351,8 @@ All directory references above are relative to the distribution root directory.
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>or 'The Fundamental Pattern'</strong>
+                                    <a name="howvelworks" />
+                                                <strong>or 'The Fundamental Pattern'</strong>
                                                 <p>
 When using Velocity in an application program or in a servlet (or anywhere, actually), you will generally do the following :
 
@@ -379,7 +435,8 @@ either explicitly, or behind the scenes.
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>The Basics</strong>
+                                    <a name="context" />
+                                                <strong>The Basics</strong>
                                                 <p>
 The concept of the 'context' is central to Velocity, and is a common technique
 for moving a container of data around between parts of a system. The idea is
@@ -606,7 +663,8 @@ Please note that these examples are unsupported and are there for demonstration/
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>Programming</strong>
+                                    <a name="servlets" />
+                                                <strong>Programming</strong>
                                                 <p>
 The most common use of Velocity is in the area of Java Servlet programming for the WWW.  There are many reasons why Velocity is
 well suited for this task, one of the primary ones is Velocity's enforcement of the separation of the presentation (or view) layer from
@@ -779,7 +837,8 @@ This deployment method will ensure that different web applications will not be s
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="general" />
+                                                <p>
 As Velocity was designed to be a general-use tool, it is just as useful in general application programs as it is servlets.
 In general, you can use the same programming pattern discussed at the beginning of this guide, but there are a few utility methods
 provided for application use, just like we provide the VelocityServlet base class for ease of use in servlet programming.
@@ -1065,7 +1124,8 @@ information - the error messages are pretty good for figuring out what is wrong.
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="config" />
+                                                <p>
 Velocity's runtime configuration is controlled by a set of configuration keys listed below.  Generally, these keys will have
 values that consist of either a String, or a comma-separated list of Strings, referred to as a CSV for comma-separated values.
 </p>
@@ -1093,6 +1153,17 @@ to the right of the '=' sign.
 <code>runtime.log = velocity.log</code><br />
 Full path and name of log file for error, warning,
 and informational messages.  The location, if not absolute, is relative to the 'current directory'.
+</p>
+                                                <p>
+<code>runtime.log.logsystem</code><br />
+This property has no default value.  It is used to give Velocity an instantiated instance of a logging class
+that supports the interface <code>org.apache.velocity.runtime.log.LogSystem.</code>, which allows
+the combination of Velocity log messages with your other application log messages.  Please see the 
+section <a href="developer-guide.html#logging">Configuring the Log System</a> for more information.
+</p>
+                                                <p>
+<code>runtime.log.logsystem.class = org.apache.velocity.runtime.log.AvalonLogSystem</code><br />
+Class to be used for the Velocity-instantiated log system.
 </p>
                                                 <p>
 <code>runtime.log.error.stacktrace = false</code><br />
@@ -1123,8 +1194,8 @@ Default starting value for the loop counter reference in a #foreach() loop.
 </p>
                                                 <strong> #include() and #parse() Directive </strong>
                                                 <p>
-<code>directive.include.output.errormsg.start = <![CDATA[ <!-- include error : ]]> </code><br />
-<code>directive.include.output.errormsg.end   =  <![CDATA[ see error log --> ]]></code><br />
+<code>directive.include.output.errormsg.start =  <!-- include error :  </code><br />
+<code>directive.include.output.errormsg.end   =   see error log --> </code><br />
 Defines the beginning and ending tags for an in-stream error message in the case of a problem with the #include() directive.
 If both the .start and .end tags are defined, an error message will be output to the stream, of the form '.start msg .end' where .start and .end refer to the property values.
 Output to the render stream will only occur if both the .start and .end (next) tag are defined.
@@ -1245,12 +1316,60 @@ Controls interpolation mechanism of VTL String Literals.  Note that a VTL String
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>Configuring the Log System</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="logging" />
+                                                <p>
+Velocity has a few nice logging features to allow both simplicity and flexibility. Without any extra configuration,
+Velocity will setup a file-based logger that will output all logging messages to a file called <code>velocity.log</code> 
+in the 'current directory' where Velocity was initialized.   For more advanced users, you may integrate your current
+logging facilities with Velocity to have all log messages sent to your logger.
+</p>
+                                                <p>
+Your options :
+
+<ul>
+
+<li>
+<b>Default Configuration</b><br />
+By default, Velocity will create a file-based logger in the current directory.
+</li>
+
+<li>
+<b>Custom Standalone Logger</b><br />
+You can create a custom logging class - you simply must implement the interface <code>org.apache.velocity.runtime.log.LogSystem</code>
+and then simply set the configuration property <code>runtime.log.logsystem.class</code> with the classname, and velocity
+will create an instance of that class at init time.  You may specify the classname as you specify any other properties. See 
+the information on the <a href="developer-guide.html#general">Velocity helper class</a> as well as the 
+<a href="developer-guide.html#config">configuration keys and values.</a>
+</li>
+
+<li>
+<b>Integrated Logging</b><br />
+You can integrate Velocity's logging capabilities with your applications existing logging system, simply by implementing the
+<code>org.apache.velocity.runtime.log.LogSystem</code> interface.  Then, pass an instance of your logging class to Velocity
+via the <code>runtime.log.logsystem</code> configuration key before calling init(), and Velocity will log messages to your
+applications logger. See the information on the <a href="developer-guide.html#general">Velocity helper class</a> as well as the 
+<a href="developer-guide.html#config">configuration keys and values.</a>
+</li>
+</ul>
+</p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <strong>Summary</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
+                                    <a name="summary" />
+                                                <p>
 We hope this brief guide was a helpful introduction to using Velocity in your Java projects, and thank you for you interest
 in Velocity.  We welcome any and all comments
 you may have about this documentation and the Velocity template engine itself.
