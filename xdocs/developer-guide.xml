@@ -127,45 +127,50 @@ your computer is very easy.  Note that all directory references are relative the
 root of the Velocity distribution tree.
 <ol>
   <li>
-    Get the Velocity distribution. This is available as a nightly snapshot or
-    directly from the CVS code repository. Either way is fine. For more
+    Get the Velocity distribution. This is available as a release, nightly snapshot or
+    directly from the CVS code repository. Any are fine, although for the latest
+    features, the nightly snapshot is most likely the best way. For more
     information, go <a href="index.html">here</a>.
+  </li>
+  <li>
+    If you don't have <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a>, 
+    the Java build tool already installed, please do so.  It is required for
+    building Velocity, although not required for <i>using</i> Velocity.
   </li>
   <li>
     Go to the <code>build</code> directory in the distribution.
   </li>
   <li>
-    Type <code>./build-velocity.sh jar</code> under Unix, or
-    <code>build-velocity.bat jar</code> under Windows. The major build targets
-    are :
+    Type <code>ant &lt;build target&gt;</code> where &lt;build target&gt;
+    is one of:
     <ul>
       <li>
-        <code>jar</code> builds the complete Velocity jar in the
+        <b><code>jar</code></b> builds the complete Velocity jar in the
         <code>bin</code> directory.  This jar will be called 'velocity-X.jar',
         where 'X' is the current version number. Unless you have specific
         storage space considerations, use this jar for convenience, as it
         includes everything you need.
       </li>
       <li>
-        <code>jar-core</code> builds a slimmer Velocity jar in the
+        <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
         <code>bin</code> directory, called 'velocity-core-X.jar'. This jar
         contains the core Velocity functionality, and doesn't include example
         and utility things like Anakia, Texen or the VelocityServlet support
         baseclass.
       </li>
       <li>
-        <code>jar-util</code> builds a utility Velocity jar in the
+        <b><code>jar-util</code></b> builds a utility Velocity jar in the
         <code>bin</code> directory, called 'velocity-util-X.jar'. This jar
         contains utility code, specifically Anakia, Texen, and the WebMacro
         template conversion utility.
       </li>
       <li>
-        <code>jar-servlet</code> builds a utility Velocity jar in the
+        <b><code>jar-servlet</code></b> builds a utility Velocity jar in the
         <code>bin</code> directory, called 'velocity-servlet-X.jar'. This jar
         contains utility code for servlet programmers.
       </li>
       <li>
-        <code>jar-j2ee</code> builds a complete jar, like the 'jar' target,
+        <b><code>jar-j2ee</code></b> builds a complete jar, like the 'jar' target,
         that includes any components that require J2EE support. Currently, this
         includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
         As usual, it is placed in the  <code>bin</code> directory, called
@@ -175,32 +180,35 @@ root of the Velocity distribution tree.
         http://java.sun.com/
       </li>
       <li>
-        <code>examples</code> builds the example code in the example programs
+        <b><code>examples</code></b> builds the example code in the example programs
         found in the <code>examples</code> directory. This build target will
         also build the forumdemo example project.
       </li>
       <li>
-        <code>forumdemo</code> builds the example webapplication in the
+        <b><code>forumdemo</code></b> builds the example webapplication in the
         <code>examples/forumdemo</code> directory.
       </li>
       <li>
-        <code>docs</code> builds these docs in the <code>docs</code> directory
+        <b><code>docs</code></b> builds these docs in the <code>docs</code> directory
         using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.  
         Allowing you to use
         Velocity templates in place of stylesheets
         - give it a try!
       </li>
       <li>  
-        <code>jarsrc</code> bundles all the Velocity source code into a single
+        <b><code>jarsrc</code></b> bundles all the Velocity source code into a single
         jar, placed in the <code>bin</code> directory.
       </li>
       <li>
-        <code>javadocs</code> builds the Javadoc class documentation in the
+        <b><code>javadocs</code></b> builds the Javadoc class documentation in the
         <code>docs/api</code> directory
       </li>
       <li>
-        <code>test</code> (after jar) will test Velocity against it's testbed
+        <b><code>test</code></b> (after jar) will test Velocity against it's testbed
         suite of test routines
+      </li>
+      <li>  
+        <b><code>help</code></b> lists the build targets that are available.
       </li>
     </ul>
   </li>
@@ -216,8 +224,7 @@ root of the Velocity distribution tree.
   <li>
     If you want to play with the examples, which is highly recommended when
     getting started, use build the examples via
-    <code>./build-velocity.sh examples</code> or
-    <code>build-velocity.bat examples</code>.
+    <code>ant examples</code>.
   </li>
 </ol>
 </p>
@@ -268,7 +275,10 @@ Some great sources are :
     within a Velocity template.  It also includes a demonstration of 
     a recursive Velocimacro that walks the document tree.
   </li>
-
+ <li>
+    event example : <code>examples/event_example</code> : An example that
+    demonstrates the use of the event handling API in Velocity 1.1
+  </li>
   <li>
     Anakia application : <code>examples/anakia</code> : example application
     showing how to use Velocity for creating stylesheet renderings of xml data
