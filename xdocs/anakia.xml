@@ -20,6 +20,33 @@
     files.
 </p>
 <p>
+   The basic model that AnakiaTask uses is pretty straightforward : 
+   <ol>
+   <li>Parse your XML into a JDOM Document:<br/>
+<pre>SAXBuilder builder;
+Document root = null;
+
+try 
+{
+    builder = new SAXBuilder( 
+        "org.apache.xerces.parsers.SAXParser" );
+    root = builder.build( file );
+}
+catch( Exception )
+{
+    System.out.println( ...  );
+}</pre></li>
+
+    <li>Stuff the Document (or root Element) into the context:<br/>
+<pre>context.put("root", root );</pre></li>
+
+    <li>Render a template using Velocity. Within the template, one
+        can use JDOM's methods to access the data contained in the
+        XML document.</li>
+    </ol>
+</p>
+
+<p>
     Anakia is potentially easier to learn than XSL, but it maintains a
     similar level of functionality. Learning cryptic &lt;xsl:&gt; tags
     is unnecessary; you only need to know how to use the provided
