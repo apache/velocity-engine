@@ -84,7 +84,7 @@ import org.apache.velocity.context.NullReferenceEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.28 2001/04/20 04:28:47 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.29 2001/04/30 17:46:52 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -172,7 +172,7 @@ public class ASTReference extends SimpleNode
          */
 
         Object result = getVariableValue(context, rootString);
-        
+       
         if (result == null)
         {
             return null;
@@ -636,11 +636,36 @@ public class ASTReference extends SimpleNode
         else
         {
             /*
-             *  ex : $provider.Title
+             * the magic <MORE> can prepend '#' and '$'
+             * on the front of a reference - so lets clean it
+             * and save that info as the prefix
              */
+            String img = t.image;
+            int loc = 0;
+
+            for( loc = 0; loc < img.length(); loc++)
+            {
+                char c = img.charAt(loc);
+
+                if ( c != '#' && c != '$')
+                {
+                    break;
+                }
+            }
+             
+            /*
+             *  if we have extra stuff, loc > 0
+             *  ex. '#$foo' so attach that to 
+             *  the prefix.
+             */
+            if( loc > 0)
+            {
+                prefix = prefix + img.substring(0, loc-1);
+            }
 
             referenceType = NORMAL_REFERENCE;
-            return t.image.substring(1);
+
+            return img.substring(loc);
         }            
     }
 
