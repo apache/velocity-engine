@@ -3,7 +3,7 @@ package org.apache.velocity.anakia;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,7 @@ import java.io.StringWriter;
 
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.jdom.output.Format;
 
 /**
  * This class extends XMLOutputter in order to provide
@@ -66,7 +67,7 @@ import org.jdom.output.XMLOutputter;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
- * @version $Id: OutputWrapper.java,v 1.6 2003/05/03 23:15:36 geirm Exp $
+ * @version $Id: OutputWrapper.java,v 1.7 2004/02/19 19:22:03 geirm Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
@@ -76,7 +77,12 @@ public class OutputWrapper extends XMLOutputter
     public OutputWrapper()
     {
     }
-    
+
+    public OutputWrapper(Format f)
+    {
+        super(f);
+    }
+
     /**
      * This method walks an Element tree into a String. The cool
      * thing about it is that it will strip off the first Element.
@@ -92,7 +98,6 @@ public class OutputWrapper extends XMLOutputter
     public String outputString(Element element, boolean strip)
     {
         StringWriter buff = new StringWriter();
-        String name = element.getName();
 
         try
         {
