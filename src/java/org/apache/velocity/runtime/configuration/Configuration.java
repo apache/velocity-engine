@@ -163,7 +163,7 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.20 2001/03/23 17:36:36 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.21 2001/03/23 22:05:54 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -1193,43 +1193,27 @@ public class Configuration extends Hashtable
     }
     
     /**
-     * Test whether the string represent by value maps
-     * to a boolean value or not. We will allow "true",
-     * "on", and "yes" for a true boolean value, and
-     * "false", "off", and "no" for false boolean
-     * values.
+     * Test whether the string represent by value maps to a boolean
+     * value or not. We will allow <code>true</code>, <code>on</code>,
+     * and <code>yes</code> for a <code>true</code> boolean value, and
+     * <code>false</code>, <code>off</code>, and <code>no</code> for
+     * <code>false</code> boolean values.  Case of value to test for
+     * boolean status is ignored.
      *
-     * @param String value
-     * @return String
+     * @param String The value to test for boolean state.
+     * @return <code>true</code> or <code>false</code> if the supplied
+     * text maps to a boolean value, or <code>null</code> otherwise.
      */
     public String testBoolean(String value)
     {
-        /*
-         * Look at the value, we allow the following
-         * values for true:
-         *
-         * "true", "on", "yes"
-         *
-         * And allow the following values for false:
-         *
-         * "false", "off", "no"
-         *
-         * Case doesn't matter.
-         */
         String s = ((String)value).toLowerCase();
     
         if (s.equals("true") || s.equals("on") || s.equals("yes"))
         {
-            /*
-             * Map our string to "true".
-             */ 
             return "true";
         }
         else if (s.equals("false") || s.equals("off") || s.equals("no"))
         {
-            /*
-             * Map our string to "false".
-             */
             return "false";
         }
         else
