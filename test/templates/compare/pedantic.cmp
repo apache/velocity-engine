@@ -36,19 +36,39 @@ pedantic
  woogie!
 --
 
-2)  You can even just have spaces : be careful!
+2) Whitespace will be eaten if there is a following newline 
 
 --
 pedantic
-  
-<preceeded by a line with just 2 spaces>
 --
 
 should be
 
 --
 pedantic
-  
-<preceeded by a line with just 2 spaces>
 --
 
+
+-- INLINE STUFF ---
+
+1) respect spaces in the block
+>first elementsecond element<
+> first element second element<
+>first element second element <
+> first element  second element <
+
+2) set statement has no output, incuding preceeding whitespace
+ first element is first element
+ second element is second element
+
+	public void foo( String lala )
+	{
+  		System.out.println("first element"); 
+  		System.out.println("second element"); 
+	}
+
+	public void foo( String lala )
+	{
+	  	System.out.println("first element"); 
+	  	System.out.println("second element"); 
+		}

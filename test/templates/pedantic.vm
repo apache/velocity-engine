@@ -49,20 +49,47 @@ pedantic
  woogie!
 --
 
-2)  You can even just have spaces : be careful!
+2) Whitespace will be eaten if there is a following newline 
 
 --
 #if ($pedantic)
 $pedantic
-#end  
-<preceeded by a line with just 2 spaces>
+#end  		  
 --
 
 should be
 
 --
 pedantic
-  
-<preceeded by a line with just 2 spaces>
 --
 
+
+-- INLINE STUFF ---
+
+1) respect spaces in the block
+>#foreach($a in $stringarray)$a#end<
+>#foreach($a in $stringarray) $a#end<
+>#foreach($a in $stringarray)$a #end<
+>#foreach($a in $stringarray) $a #end<
+
+2) set statement has no output, incuding preceeding whitespace
+#foreach($a in $stringarray)
+		#set    $b = $a
+ $a is $b
+#end
+
+	public void foo( String lala )
+	{
+#foreach($a in $stringarray)
+		#set    $b = $a
+  		System.out.println("$b"); 
+#end
+	}
+
+	public void foo( String lala )
+	{
+	#foreach($a in $stringarray)
+		#set    $b = $a
+  	System.out.println("$b"); 
+	#end
+	}
