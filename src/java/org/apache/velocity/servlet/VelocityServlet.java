@@ -128,7 +128,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.28 2001/03/22 16:08:37 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.29 2001/04/04 10:42:39 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -493,11 +493,14 @@ public abstract class VelocityServlet extends HttpServlet
      * Implement this method to add your application data to the context, 
      * calling the <code>getTemplate()</code> method to produce your return 
      * value.
+     * <br><br>
+     * In the event of a problem, you may simple return <code>null</code>
+     * or throw a more meaningful exception.
      *
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
      */
-    protected abstract Template handleRequest( Context ctx );
+    protected abstract Template handleRequest( Context ctx ) throws Exception;
  
     /**
      * Invoked when there is an error thrown in any part of doRequest() processing.
