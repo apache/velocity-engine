@@ -54,8 +54,12 @@ package org.apache.velocity.util.introspection;
  * <http://www.apache.org/>.
  */
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Hashtable;
 
@@ -67,10 +71,15 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.13 2001/11/27 00:40:46 geirm Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: MethodMap.java,v 1.14 2002/03/23 13:30:57 geirm Exp $
  */
 public class MethodMap
 {
+    private static final int MORE_SPECIFIC = 0;
+    private static final int LESS_SPECIFIC = 1;
+    private static final int INCOMPARABLE = 2;
+
     /**
      * Keep track of all methods with the same name.
      */
@@ -85,19 +94,19 @@ public class MethodMap
     {
         String methodName = method.getName();
 
-        List l = (List) methodByNameMap.get( methodName );
+        List l = get( methodName );
 
         if ( l == null)
         {
             l = new ArrayList();
             methodByNameMap.put(methodName, l);
-        }            
+        }
 
         l.add(method);
 
         return;
     }
-    
+
     /**
      * Return a list of methods with the same name.
      *
@@ -111,266 +120,364 @@ public class MethodMap
 
     /**
      *  <p>
-     *  Find a method.  Attempts to find the 
-     *  most appropriate method using the
-     *  sense of 'specificity'.
+     *  Find a method.  Attempts to find the
+     *  most specific applicable method using the
+     *  algorithm described in the JLS section
+     *  15.12.2 (with the exception that it can't
+     *  distinguish a primitive type argument from
+     *  an object type argument, since in reflection
+     *  primitive type arguments are represented by
+     *  their object counterparts, so for an argument of
+     *  type (say) java.lang.Integer, it will not be able
+     *  to decide between a method that takes int and a
+     *  method that takes java.lang.Integer as a parameter.
      *  </p>
-     * 
+     *
      *  <p>
      *  This turns out to be a relatively rare case
      *  where this is needed - however, functionality
-     *  like this is needed.  This may not be the
-     *  optimum approach, but it works.
+     *  like this is needed.
      *  </p>
      *
-     *  @param String name of method
-     *  @param Object[] params
-     *  @return Method
+     *  @param methodName name of method
+     *  @param args the actual arguments with which the method is called
+     *  @return the most specific applicable method, or null if no
+     *  method is applicable.
+     *  @throws AmbiguousException if there is more than one maximally
+     *  specific applicable method
      */
-    public Method find(String methodName, Object[] params)
+    public Method find(String methodName, Object[] args)
         throws AmbiguousException
     {
-        List methodList = (List) methodByNameMap.get(methodName);
-        
+        List methodList = get(methodName);
+
         if (methodList == null)
         {
             return null;
         }
 
-        Class[] parameterTypes = null;
-        Method  method = null;
+        int l = args.length;
+        Class[] classes = new Class[l];
 
-        int numMethods = methodList.size();
-        
-        int bestDistance  = -2;
-        Method bestMethod = null;
-        Twonk bestTwonk = null;
-        boolean ambiguous = false;
-        
-        for (int i = 0; i < numMethods; i++)
+        for(int i = 0; i < l; ++i)
         {
-            method = (Method) methodList.get(i);
-            parameterTypes = method.getParameterTypes();
-            
-            /*
-             * The methods we are trying to compare must
-             * the same number of arguments.
-             */
+            Object arg = args[i];
+            // A null argument is always treated as being a generic Object.
+            classes[i] =
+                arg == null ? java.lang.Object.class : arg.getClass();
+        }
 
-            if (parameterTypes.length == params.length)
-            {
-                /*
-                 *  use the calling parameters as the baseline
-                 *  and calculate the 'distance' from the parameters
-                 *  to the method args.  This will be useful when
-                 *  determining specificity
-                 */
-                 
-                Twonk twonk = calcDistance( params, parameterTypes );
-                
-                if (twonk != null )
-                {
-                    /*
-                     *  if we don't have anything yet, take it
-                     */
-                     
-                    if ( bestTwonk == null )
-                    {
-                        bestTwonk = twonk;
-                        bestMethod = method;
-                    }
-                    else
-                    {
-                        /*
-                         * now see which is more specific, this current
-                         * versus what we think of as the best candidate
-                         */
-                         
-                        int val = twonk.moreSpecific( bestTwonk );
-                         
-                        //System.out.println("Val = " + val + " for " + method + " vs " + bestMethod );
-                            
-                        if( val == 0)
-                        {
-                            /*
-                             * this means that the parameters 'crossed'
-                             * therefore, it's ambiguous because one is as 
-                             * good as the other
-                             */
-                            ambiguous = true;
-                        }
-                        else if ( val == 1)
-                        {
-                            /*
-                             *  the current method is clearly more
-                             *  specific than the current best, so
-                             *  we take the current we are testing
-                             *  and clear the ambiguity flag
-                             */
-                            ambiguous = false;
-                            bestTwonk = twonk;
-                            bestMethod = method;
-                        }
-                    }
-                }        
-               
-            }
+        return getMostSpecific(methodList, classes);
+    }
+
+    /**
+     *  simple distinguishable exception, used when
+     *  we run across ambiguous overloading
+     */
+    public static class AmbiguousException extends Exception
+    {
+    }
+
+
+    private static Method getMostSpecific(List methods, Class[] classes)
+        throws AmbiguousException
+    {
+        LinkedList applicables = getApplicables(methods, classes);
+
+        if(applicables.isEmpty())
+        {
+            return null;
+        }
+
+        if(applicables.size() == 1)
+        {
+            return (Method)applicables.getFirst();
         }
 
         /*
-         *  if ambiguous is true, it means we couldn't decide
-         *  so inform the caller...
+         * This list will contain the maximally specific methods. Hopefully at
+         * the end of the below loop, the list will contain exactly one method,
+         * (the most specific method) otherwise we have ambiguity.
          */
 
-        if ( ambiguous )
-        {    
+        LinkedList maximals = new LinkedList();
+
+        for (Iterator applicable = applicables.iterator();
+             applicable.hasNext();)
+        {
+            Method app = (Method) applicable.next();
+            Class[] appArgs = app.getParameterTypes();
+            boolean lessSpecific = false;
+
+            for (Iterator maximal = maximals.iterator();
+                 !lessSpecific && maximal.hasNext();)
+            {
+                Method max = (Method) maximal.next();
+
+                switch(moreSpecific(appArgs, max.getParameterTypes()))
+                {
+                    case MORE_SPECIFIC:
+                    {
+                        /*
+                         * This method is more specific than the previously
+                         * known maximally specific, so remove the old maximum.
+                         */
+
+                        maximal.remove();
+                        break;
+                    }
+
+                    case LESS_SPECIFIC:
+                    {
+                        /*
+                         * This method is less specific than some of the
+                         * currently known maximally specific methods, so we
+                         * won't add it into the set of maximally specific
+                         * methods
+                         */
+
+                        lessSpecific = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!lessSpecific)
+            {
+                maximals.addLast(app);
+            }
+        }
+
+        if(maximals.size() > 1)
+        {
+            // We have more than one maximally specific method
             throw new AmbiguousException();
         }
-           
-        return bestMethod;
+
+        return (Method)maximals.getFirst();
     }
 
     /**
-     *  Calculates the distance, expressed as a vector of inheritance
-     *  steps, between the calling args and the method args.
-     *  There still is an issue re interfaces...
+     * Determines which method signature (represented by a class array) is more
+     * specific. This defines a partial ordering on the method signatures.
+     * @param c1 first signature to compare
+     * @param c2 second signature to compare
+     * @return MORE_SPECIFIC if c1 is more specific than c2, LESS_SPECIFIC if
+     * c1 is less specific than c2, INCOMPARABLE if they are incomparable.
      */
-    private Twonk calcDistance( Object[] set, Class[] base )
+    private static int moreSpecific(Class[] c1, Class[] c2)
     {
-        if ( set.length != base.length)
-            return null;
-            
-        Twonk twonk = new Twonk( set.length );
-        
-        int distance = 0;
-        
-        for (int i = 0; i < set.length; i++)
-        {
-            /* 
-             * can I get from here to there?
-             */
-             
-            Class setclass = set[i].getClass();
-             
-            if ( !base[i].isAssignableFrom( set[i].getClass() ))
-                return null;
-    
-            /*
-             * ok, I can.  How many steps?
-             */
-           
-            Class c = setclass;
-                      
-            while( c != null)
-            {      
-                /*
-                 * is this a valid step?
-                 */
-                 
-                if ( !base[i].isAssignableFrom( c ) )
-                {      
-                    /*
-                     *  it stopped being assignable - therefore we are looking at
-                     *  an interface as our target, so move back one step
-                     *  from the distance as the stop wasn't valid
-                     */
-                    break;
-                }
-                
-                if(  base[i].equals( c ) )
-                {
-                    /*
-                     *  we are equal, so no need to move forward
-                     */
-                     
-                    break;
-                }
+        boolean c1MoreSpecific = false;
+        boolean c2MoreSpecific = false;
 
-                c = c.getSuperclass();
-                twonk.distance++;
-                twonk.vec[i]++;
-            }
-         }
-                
-        return twonk;
-    }
-
-    /**
-     *  simple distinguishable exception, used when 
-     *  we run across ambiguous overloading
-     */
-    public class AmbiguousException extends Exception
-    {
-    }
-
-    /**
-     *  little class to hold 'distance' information
-     *  for calling params, as well as determine
-     *  specificity
-     */
-    private class Twonk
-    {
-        public int distance;
-        public int[] vec;
-        
-        public Twonk( int size )
+        for(int i = 0; i < c1.length; ++i)
         {
-            vec = new int[size];
-        }
-        
-        public int moreSpecific( Twonk other )
-        {
-            if (other.vec.length != vec.length )
-                return -1;
-                
-            boolean low = false;
-            boolean high = false;
-            
-            for (int i = 0; i < vec.length; i++)
+            if(c1[i] != c2[i])
             {
-                if ( vec[i] > other.vec[i])
-                {
-                    high = true;
-                }
-                else if (vec[i] < other.vec[i] )
-                {
-                    low = true;
-                }                    
+                c1MoreSpecific =
+                    c1MoreSpecific ||
+                    isStrictMethodInvocationConvertible(c2[i], c1[i]);
+                c2MoreSpecific =
+                    c2MoreSpecific ||
+                    isStrictMethodInvocationConvertible(c1[i], c2[i]);
             }
-            
-            /*
-             *  this is a 'crossing' - meaning that
-             *  we saw the parameter 'slopes' cross
-             *  this means ambiguity
-             */
-             
-            if (high && low)
-                return 0;
-               
-            /*
-             *  we saw that all args were 'high', meaning
-             *  that the other method is more specific so
-             *  we are less
-             */
-             
-            if( high && !low)
-                return -1;
-                
-            /*
-             *  we saw that all points were lower, therefore
-             *  we are more specific
-             */
-             
-            if( !high && low )
-                return 1;
-            
-            /*
-             *  the remainder, neither high or low
-             *  means we are the same.  This really can't 
-             *  happen, as it implies the same args, right?
-             */
-             
-            return 1;
         }
+
+        if(c1MoreSpecific)
+        {
+            if(c2MoreSpecific)
+            {
+                /*
+                 *  Incomparable due to cross-assignable arguments (i.e.
+                 * foo(String, Object) vs. foo(Object, String))
+                 */
+
+                return INCOMPARABLE;
+            }
+
+            return MORE_SPECIFIC;
+        }
+
+        if(c2MoreSpecific)
+        {
+            return LESS_SPECIFIC;
+        }
+
+        /*
+         * Incomparable due to non-related arguments (i.e.
+         * foo(Runnable) vs. foo(Serializable))
+         */
+
+        return INCOMPARABLE;
+    }
+
+    /**
+     * Returns all methods that are applicable to actual argument types.
+     * @param methods list of all candidate methods
+     * @param classes the actual types of the arguments
+     * @return a list that contains only applicable methods (number of
+     * formal and actual arguments matches, and argument types are assignable
+     * to formal types through a method invocation conversion).
+     */
+    private static LinkedList getApplicables(List methods, Class[] classes)
+    {
+        LinkedList list = new LinkedList();
+
+        for (Iterator imethod = methods.iterator(); imethod.hasNext();)
+        {
+            Method method = (Method) imethod.next();
+
+            if(isApplicable(method, classes))
+            {
+                list.add(method);
+            }
+
+        }
+        return list;
+    }
+
+    /**
+     * Returns true if the supplied method is applicable to actual
+     * argument types.
+     */
+    private static boolean isApplicable(Method method, Class[] classes)
+    {
+        Class[] methodArgs = method.getParameterTypes();
+
+        if(methodArgs.length != classes.length)
+        {
+            return false;
+        }
+
+        for(int i = 0; i < classes.length; ++i)
+        {
+            if(!isMethodInvocationConvertible(methodArgs[i], classes[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Determines whether a type represented by a class object is
+     * convertible to another type represented by a class object using a
+     * method invocation conversion, treating object types of primitive
+     * types as if they were primitive types (that is, a Boolean actual
+     * parameter type matches boolean primitive formal type). This behavior
+     * is because this method is used to determine applicable methods for
+     * an actual parameter list, and primitive types are represented by
+     * their object duals in reflective method calls.
+     *
+     * @param formal the formal parameter type to which the actual
+     * parameter type should be convertible
+     * @param actual the actual parameter type.
+     * @return true if either formal type is assignable from actual type,
+     * or formal is a primitive type and actual is its corresponding object
+     * type or an object type of a primitive type that can be converted to
+     * the formal type.
+     */
+    private static boolean isMethodInvocationConvertible(Class formal,
+                                                         Class actual)
+    {
+        /*
+         *  Check for identity or widening reference conversion
+         */
+
+        if(formal.isAssignableFrom(actual))
+        {
+            return true;
+        }
+
+        /*
+         * Check for boxing with widening primitive conversion. Note that
+         * actual parameters are never primitives.
+         */
+
+        if(formal.isPrimitive())
+        {
+            if(formal == Boolean.TYPE && actual == Boolean.class)
+                return true;
+            if(formal == Character.TYPE && actual == Character.class)
+                return true;
+            if(formal == Byte.TYPE && actual == Byte.class)
+                return true;
+            if(formal == Short.TYPE &&
+               (actual == Short.class || actual == Byte.class))
+                return true;
+            if(formal == Integer.TYPE &&
+               (actual == Integer.class || actual == Short.class ||
+                actual == Byte.class))
+                return true;
+            if(formal == Long.TYPE &&
+               (actual == Long.class || actual == Integer.class ||
+                actual == Short.class || actual == Byte.class))
+                return true;
+            if(formal == Float.TYPE &&
+               (actual == Float.class || actual == Long.class ||
+                actual == Integer.class || actual == Short.class ||
+                actual == Byte.class))
+                return true;
+            if(formal == Double.TYPE &&
+               (actual == Double.class || actual == Float.class ||
+                actual == Long.class || actual == Integer.class ||
+                actual == Short.class || actual == Byte.class))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether a type represented by a class object is
+     * convertible to another type represented by a class object using a
+     * method invocation conversion, without matching object and primitive
+     * types. This method is used to determine the more specific type when
+     * comparing signatures of methods.
+     *
+     * @param formal the formal parameter type to which the actual
+     * parameter type should be convertible
+     * @param actual the actual parameter type.
+     * @return true if either formal type is assignable from actual type,
+     * or formal and actual are both primitive types and actual can be
+     * subject to widening conversion to formal.
+     */
+    private static boolean isStrictMethodInvocationConvertible(Class formal,
+                                                               Class actual)
+    {
+        /*
+         *  Check for identity or widening reference conversion
+         */
+        if(formal.isAssignableFrom(actual))
+        {
+            return true;
+        }
+
+        /*
+         *  Check for widening primitive conversion.
+         */
+
+        if(formal.isPrimitive())
+        {
+            if(formal == Short.TYPE && (actual == Byte.TYPE))
+                return true;
+            if(formal == Integer.TYPE &&
+               (actual == Short.TYPE || actual == Byte.TYPE))
+                return true;
+            if(formal == Long.TYPE &&
+               (actual == Integer.TYPE || actual == Short.TYPE ||
+                actual == Byte.TYPE))
+                return true;
+            if(formal == Float.TYPE &&
+               (actual == Long.TYPE || actual == Integer.TYPE ||
+                actual == Short.TYPE || actual == Byte.TYPE))
+                return true;
+            if(formal == Double.TYPE &&
+               (actual == Float.TYPE || actual == Long.TYPE ||
+                actual == Integer.TYPE || actual == Short.TYPE ||
+                actual == Byte.TYPE))
+                return true;
+        }
+        return false;
     }
 }
