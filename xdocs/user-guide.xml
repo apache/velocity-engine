@@ -914,7 +914,7 @@ The result of the second query is bill
      successful.  After <em>$result</em> has been <em>#set</em> (added to
      the context), it cannot be set back to <em>null</em> (removed from
      the context).  The details of the <em>#if</em> and <em>#foreach</em>
-     directives later in this document.
+     directives are covered later in this document.
  </p>
 
  <p>
