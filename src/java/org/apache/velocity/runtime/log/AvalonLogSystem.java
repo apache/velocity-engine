@@ -58,7 +58,6 @@ import java.io.File;
 
 import java.net.URL;
 
-import org.apache.log.Formatter;
 import org.apache.log.Priority;
 import org.apache.log.Logger;
 import org.apache.log.Hierarchy;
@@ -75,7 +74,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.7 2001/08/09 15:47:15 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -143,7 +142,6 @@ public class AvalonLogSystem implements LogSystem
          *  use the toString() of RuntimeServices to make a unique logger
          */
 
-        //        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "velocity" );
         logger = Hierarchy.getDefaultHierarchy().getLoggerFor( rsvc.toString() );
         logger.setPriority( Priority.DEBUG );
         logger.setLogTargets( new LogTarget[] { target } );
