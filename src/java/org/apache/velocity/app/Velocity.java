@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.19 2001/07/02 02:28:10 geirm Exp $
+ * @version $Id: Velocity.java,v 1.20 2001/07/03 23:21:16 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -588,4 +588,48 @@ public class Velocity implements RuntimeConstants
     {
         return (Runtime.getLoaderNameForResource(templateName) != null);
     }
+    
+    /**
+     * Log a warning message.
+     *
+     * @param Object message to log
+     */
+    public static void warn(Object message)
+    {
+        Runtime.warn( message );
+    }
+    
+    /** 
+     * Log an info message.
+     *
+     * @param Object message to log
+     */
+    public static void info(Object message)
+    {
+        Runtime.info( message );
+    }
+    
+    /**
+     * Log an error message.
+     *
+     * @param Object message to log
+     */
+    public static void error(Object message)
+    {
+        Runtime.error( message );
+    }
+    
+    /**
+     * Log a debug message.
+     *
+     * @param Object message to log
+     */
+    public static void debug(Object message)
+    {
+        Runtime.debug( message );
+    }
+
 } 
+
+
+
