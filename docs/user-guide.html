@@ -1,6 +1,6 @@
-<HTML><HEAD><TITLE>Velocity User Guide</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+<HTML><HEAD><SCRIPT language="JavaScript" src="resources/script.js" type="text/javascript"></SCRIPT><TITLE>Velocity User Guide</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
 
-<P></P>
+<P>About</P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
@@ -9,13 +9,12 @@
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="todo.html">TODO</A></LI></FONT>
-    <P></P>
+<P>Guides</P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="user-guide.html">User's Guide</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
-    <P></P>
+<P>Tools</P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
-    <P></P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
 </TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
 
@@ -91,10 +90,10 @@
  
    <P align="justify">
     You meet with software engineers at your company, and everyone
-    has agreed that <VARIABLE><FONT face="courier, monospaced">$customer</FONT></VARIABLE> will hold information
+    has agreed that $customer will hold information
     pertaining to the customer currently logged in,
-    that <VARIABLE><FONT face="courier, monospaced">$mudsOnSpecial</FONT></VARIABLE> will be all the types mud on sale at present.
-    The <VARIABLE><FONT face="courier, monospaced">$flogger</FONT></VARIABLE> object contains methods that help with promotion.
+    that $mudsOnSpecial will be all the types mud on sale at present.
+    The $flogger object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
     references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -107,7 +106,7 @@
    </P>
  
    <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;HTML&gt;
     &lt;BODY&gt;
     Hello $customer.Name!
@@ -122,11 +121,11 @@
        #end
     #end
     &lt;/table&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
    </P>
  
    <P align="justify">
-    The exact details of the <VARIABLE><FONT face="courier, monospaced">foreach</FONT></VARIABLE> statement will be described
+    The exact details of the foreach statement will be described
     in greater depth shortly; what's important is the impact this short 
     script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
@@ -166,34 +165,34 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #set $a = &quot;Velocity&quot;
     
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
     This VTL statement, like all VTL statements, begins with the # 
     character and contains a directive (set. When an online visitor requests 
     your web page, the Velocity Templating Engine will search through your web page to 
-    find all <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE> characters, then determine which mark the beginning of VTL 
+    find all # characters, then determine which mark the beginning of VTL 
     statements, and which of the # characters that have nothing to do with VTL.
  </P>
 
  <P align="justify">
-    The <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE> character is followed by a directive, <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE>. The 
-    <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive uses an equation to assign a <I>value</I> to 
+    The # character is followed by a directive, set. The 
+    set directive uses an equation to assign a <I>value</I> to 
     a <I>variable</I>. The variable 
     is listed on the left hand side and its value on the right hand side; 
     the two are separated by an 
-    <VARIABLE><FONT face="courier, monospaced">=</FONT></VARIABLE> character.
+    = character.
  </P>
  
  <P align="justify">
-    In the example above, the variable is <VARIABLE><FONT face="courier, monospaced">$a</FONT></VARIABLE> and the value is
-    <VARIABLE><FONT face="courier, monospaced">Velocity</FONT></VARIABLE>. References <I>always</I> begin with <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE>
+    In the example above, the variable is $a and the value is
+    Velocity. References <I>always</I> begin with $
     characters; all variables are references, ergo all variables begin
-    with <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> characters.
+    with $ characters.
     Values are always enclosed in quotes; with Velocity there is no confusion about
     data types, as only strings (text-based information) may be passed to variables.
  </P>
@@ -205,11 +204,11 @@
  <P align="justify">
     Once a value has been assigned to a variable, you can reference the 
     variable anywhere in your HTML document. In the following example, 
-    a value is assigned to <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and later referenced.
+    a value is assigned to $foo and later referenced.
  </P>
 
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;HTML&gt;
     &lt;BODY&gt;
     #set $foo = &quot;Velocity&quot;
@@ -217,7 +216,7 @@
     &lt;/BODY&gt;
     &lt;HTML&gt;
     
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
@@ -227,7 +226,7 @@
  <P align="justify">   
     To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
-    do so. The <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive will be revisited in greater detail 
+    do so. The set directive will be revisited in greater detail 
     later on.
  </P>
 
@@ -243,20 +242,20 @@
  </P> 
 
  <P align="justify">
- <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+ <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     ## This is a single line comment.
- </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
-    A single line comment begins with <VARIABLE><FONT face="courier, monospaced">##</FONT></VARIABLE> and finishes at the end of the line.
+    A single line comment begins with ## and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multi-line comments, which begin with <VARIABLE><FONT face="courier, monospaced">#*</FONT></VARIABLE>
-    and end with <VARIABLE><FONT face="courier, monospaced">*#</FONT></VARIABLE>, are available to handle this scenario.
+    single line comments. Multi-line comments, which begin with #*
+    and end with *#, are available to handle this scenario.
  </P>
  
  <P align="justify">
- <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+ <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
 
     This is text that is outside the multi-line comment. Online visitors can see it.
 
@@ -267,7 +266,7 @@
     
     Here is text outside the multi-line comment; it is visible. 
 
- </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
@@ -276,7 +275,7 @@
  </P>
 
  <P align="justify">
- <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+ <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     This text is visible. ## This text is not.
     This text is visible.
     This text is visible. #* This text, as part of a multi-line comment, is not visible.
@@ -284,7 +283,7 @@
     This text still not visible. *# This text is outside the comment, so
     it is visible.
     ## This text is not visible.
- </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
@@ -293,7 +292,7 @@
  </P>
  
  <P align="justify">
- <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+ <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #** 
     This is a VTL comment block and
     may be used to store such information 
@@ -302,7 +301,7 @@
     @author 
     @version 5
     *#
- </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -319,7 +318,7 @@
 
  <P align="justify">
     Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> (such as an Integer object), 
+    If there is an object that represents $foo (such as an Integer object), 
     then Velocity will call its .toString() method to resolve the 
     object into a String.
  </P>
@@ -336,32 +335,32 @@
  </P>
 
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $foo
     $mudSlinger
     $mud-slinger
     $mud_slinger
     $mudSlinger1
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
-    When VTL references a variable, such as <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>, the variable can 
-    get its value from either a <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive in the template, or from the
-    Java code. For example, if the Java variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
-    has the value <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> at the time the template is requested,
-    <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> replaces all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> on the web 
+    When VTL references a variable, such as $foo, the variable can 
+    get its value from either a set directive in the template, or from the
+    Java code. For example, if the Java variable $foo
+    has the value bar at the time the template is requested,
+    bar replaces all instances of $foo on the web 
     page. Alternatively, if I include the statement
  </P>
     
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #set $foo = &quot;bar&quot;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
     
  <P align="justify">
-    the output will be the same for all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
+    the output will be the same for all instances of $foo
     that follow this directive.
  </P>
   
@@ -369,28 +368,28 @@
  <B>Properties</B>
  <BR>
     The second flavor of VTL references are properties, and properties have
-    a distinctive format. The shorthand notation consists of a leading <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE>
+    a distinctive format. The shorthand notation consists of a leading $
     character followed a VTL Identifier, followed by
     a dot character (&quot;.&quot;) and another VTL Identifier.
     These are examples of valid property references in the VTL:
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $customer.Address
     $purchase.Total
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>   
 
  <P align="justify">
-    Take the first example, <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>. It can 
+    Take the first example, $customer.Address. It can 
     have two meanings. It can mean,
-    Look in the hashtable identified as <VARIABLE><FONT face="courier, monospaced">customer</FONT></VARIABLE> and return the
-    value associated with the key <VARIABLE><FONT face="courier, monospaced">Address</FONT></VARIABLE>. But
-    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> can also be referring to a method (references 
+    Look in the hashtable identified as customer and return the
+    value associated with the key Address. But
+    $customer.Address can also be referring to a method (references 
     that refer to methods will be discussed
-    in the next section); <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> could be an 
-    abbreviated way of writing <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. 
+    in the next section); $customer.Address could be an 
+    abbreviated way of writing $customer.getAddress(). 
     When your page is requested, Velocity will determine which of these 
     two possibilities makes sense, and then return the appropriate value.
  </P>
@@ -411,27 +410,27 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $customer.getAddress()
     $purchase.getTotal()
     $page.setTitle(&quot;My Home Page&quot;)
     $person.setAttributes([&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;])
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>  
 
  <P align="justify">
     The first two examples -- 
-    <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE> and <VARIABLE><FONT face="courier, monospaced">$purchase.getTotal()</FONT></VARIABLE> 
+    $customer.getAddress() and $purchase.getTotal() 
     -- may look similiar to those used in the Properties section above,
-    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>
-    and <VARIABLE><FONT face="courier, monospaced">$purchase.Total</FONT></VARIABLE>. If you guessed that these examples must
+    $customer.Address
+    and $purchase.Total. If you guessed that these examples must
     be related some in some fashion, you are correct! 
  </P>
  
  <P align="justify">
     VTL Properties can be used as a shorthand notation for VTL Methods. The
-    Property <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> has the exact same effect as
-    using the Method <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. It is generally preferable
+    Property $customer.Address has the exact same effect as
+    using the Method $customer.getAddress(). It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
  </P>
@@ -441,11 +440,11 @@
  </P>
 
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $sun.getPlanets()
     $annelid.getDirt()
     $album.getPhoto()
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
@@ -455,7 +454,7 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $sun.getPlanet([&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;]) 
     ## Can't pass a parameter list with $sun.Planets
 
@@ -464,7 +463,7 @@
     
     $book.setTitle(&quot;Homage to Catalonia&quot;)
     ## Can't pass a parameter list
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
@@ -476,11 +475,11 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     ${mudSlinger}
     ${customer.Address}
     ${purchase.getTotal()}
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
@@ -500,26 +499,26 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     Jack is a $vicemaniac.
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
-    There is ambiguity here, and Velocity assumes that <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>,
-    not <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, is the Identifier that you mean to use. Finding no
-    value for <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, it will return <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>.
+    There is ambiguity here, and Velocity assumes that $vicemaniac,
+    not $vice, is the Identifier that you mean to use. Finding no
+    value for $vicemaniac, it will return $vicemaniac.
     Using formal notation can resolve this problem.
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     Jack is a ${vice}maniac.
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
-    Now Velocity knows that <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, not <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, is your
+    Now Velocity knows that $vice, not $vicemaniac, is your
     Identifier. Formal notation is often useful when references
     are directly adjacent to text in your templates.
  </P>
@@ -535,30 +534,30 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$email&quot;/&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
     When the form initially loads, the variable
-    reference <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> has no value, but you prefer
+    reference $email has no value, but you prefer
     a blank text field to one with a value of &quot;$email&quot;.
     Using the quiet reference notation circumvents Velocity's
     normal behavior; instead of using $email in the
-    VTL you would use <VARIABLE><FONT face="courier, monospaced">$!email</FONT></VARIABLE>. So the above example
+    VTL you would use $!email. So the above example
     would look like the following:
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!email&quot;/&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
     Now when the form is initially loaded and
-    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> still has no value, an empty string will
+    $email still has no value, an empty string will
     be output instead of &quot;$email&quot;.
  </P>
 
@@ -568,9 +567,9 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!{email}&quot;/&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -578,7 +577,7 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Getting literal</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
   <P align="justify">
-    VTL uses special characters, such as <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> and <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE>, to do its work, so some
+    VTL uses special characters, such as $ and #, to do its work, so some
     added care should be taken where using these characters in your 
     templates.
   </P>
@@ -603,20 +602,20 @@
   
   <P align="justify">
     If Velocity encounters in your VTL template a reference to 
-    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE>, it will search for a corresponding value, but
-    when the escape character is used, <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is treated
+    $email, it will search for a corresponding value, but
+    when the escape character is used, $email is treated
     as ordinary text
   </P>
   
   <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     \$email
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
   </P>
  
   <P align="justify">
-    Velocity treats <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> as a literal rather than a special 
-    character, <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> as text rather than a reference, 
+    Velocity treats $ as a literal rather than a special 
+    character, $email as text rather than a reference, 
     and doesn't even attempt to find a corresponding value.
   </P>
  
@@ -632,7 +631,7 @@
     </P>
 
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $foo
     
     $foo.getBar() 
@@ -649,7 +648,7 @@
     $data.Request.ServerName
     ## is the same as 
     ${data.Request.ServerName}
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
     <P align="justify">
@@ -676,16 +675,16 @@
  <P align="justify">
     <B>#set</B>
     <BR>
-    The <VARIABLE><FONT face="courier, monospaced">#set</FONT></VARIABLE> directive is used for setting the value of
+    The #set directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference:
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #set $primate = &quot;monkey&quot;
     #set $customer.Behavior = $primate
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
@@ -712,14 +711,14 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #set $monkey = $bill ##variable reference
     #set $monkey.Friend = &quot;monica&quot; ##string literal
     #set $monkey.Blame = $whitehouse.Leak ##property reference
     #set $monkey.Plan = $spindoctor.weave($web) ##method reference
     #set $monkey.Number = 123 ##number literal
     #set $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ##object array
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
  <P align="justify">
@@ -727,17 +726,17 @@
  </P>
  
  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #set $value = $foo + 1
     #set $value = $bar - 1
     #set $value = $foo * $bar
     #set $value = $foo / $bar
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
-    Unlike some directive that will be discussed below, the <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive 
-    does not have a <VARIABLE><FONT face="courier, monospaced">#end</FONT></VARIABLE> statement. The <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> statement <I>must</I> 
+    Unlike some directive that will be discussed below, the set directive 
+    does not have a #end statement. The set statement <I>must</I> 
     end with a newline character (obtained by pressing Enter); it cannot be used inline.
  </P>
 
@@ -745,39 +744,39 @@
 
     <B>If / ElseIf / Else</B>
     <P align="justify">
-       The <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> directive in Velocity allows for text to be 
+       The #if directive in Velocity allows for text to be 
        included when the web page is generated, on the conditional 
        that the if statement is true. For example:
     </P>
 
     <P align="justify">
-      <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+      <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
       #if ($foo)
          &lt;strong&gt;Velocity!&lt;/strong&gt;
       #end
-      </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+      </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
     <P align="justify">
-      The variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is evaluated to determine whether it is true, which will happen 
-      under one of two circumstances: (i) <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is a boolean (true/false) which 
+      The variable $foo is evaluated to determine whether it is true, which will happen 
+      under one of two circumstances: (i) $foo is a boolean (true/false) which 
       has a true value, or (ii) the value is not null. The content between the 
-      <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> and the <VARIABLE><FONT face="courier, monospaced">#end</FONT></VARIABLE> statements become the output if 
-      the evaluation is true. In this case, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
-      output will be: &quot;Velocity!&quot;. Conversely, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a null 
+      #if and the #end statements become the output if 
+      the evaluation is true. In this case, if $foo is true, the
+      output will be: &quot;Velocity!&quot;. Conversely, if $foo has a null 
       value, or if it is a boolean false, the statement evaluates as false, and
       there is no output.
     </P>
     
     <P align="justify">
-      An <VARIABLE><FONT face="courier, monospaced">#elseif</FONT></VARIABLE> or <VARIABLE><FONT face="courier, monospaced">#else</FONT></VARIABLE> element can be used with an <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> element. Note that 
+      An #elseif or #else element can be used with an #if element. Note that 
       the Velocity Templating Engine will stop at the first expression that is
-      found to be true. In the following example, suppose that <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a 
-      value of 15 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> has a value of 6.
+      found to be true. In the following example, suppose that $foo has a 
+      value of 15 and $bar has a value of 6.
     </P>
 
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #if ($foo &lt; 10)
         &lt;strong&gt;Go North&lt;/strong&gt;
     #elseif ($foo &gt; 10)
@@ -787,15 +786,15 @@
     #else
         &lt;strong&gt;Go West&lt;/strong&gt;
     #end
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
-    In this example, <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is greater than or equal to 10, so the Velocity
+    In this example, $foo is greater than or equal to 10, so the Velocity
     Templating Engine makes the output of the if 
-    statement <B>Go East</B>. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> had a value of 10 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>
-    had a value of 6.1, then <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is neither greater than 10 nor equal to 
-    10, and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is not equal to 6. All if and elseif statements are false,
+    statement <B>Go East</B>. If $foo had a value of 10 and $bar
+    had a value of 6.1, then $foo is neither greater than 10 nor equal to 
+    10, and $bar is not equal to 6. All if and elseif statements are false,
     so the output is <B>Go West</B>. 
     </P>
 
@@ -809,21 +808,21 @@
     </P>
 
     <P align="justify">
-      <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+      <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
       #if ($foo &amp;&amp; $bar)
          &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
       #end
-      </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+      </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
-      The if statement will only evaluate to true if both <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and 
-      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> are true. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, the expression will evaluate
-      to false; <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> will not be evaluated. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
-      Velocity Templating Engine will then check the value of <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>;
-      if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire expression is
+      The if statement will only evaluate to true if both $foo and 
+      $bar are true. If $foo is false, the expression will evaluate
+      to false; $bar will not be evaluated. If $foo is true, the
+      Velocity Templating Engine will then check the value of $bar;
+      if $bar is true, then the entire expression is
       true and <B>Velocity Rocks!</B> becomes the output.
-      If <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is false, then there will be no output; the entire
+      If $bar is false, then there will be no output; the entire
       expression is false.
     </P>
     
@@ -835,21 +834,21 @@
     </P>
     
     <P align="justify">
-      <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+      <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
       #if ($foo || $bar)
          &lt;strong&gt;Velocity Rocks Again!&lt;/strong&gt;
       #end
-      </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+      </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
       
     <P align="justify">
-      If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the Velocity Templating Engine has no 
-      need to look at <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>; whether <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true or false, the
+      If $foo is true, the Velocity Templating Engine has no 
+      need to look at $bar; whether $bar is true or false, the
       expression will be true, and <B>Velocity Rocks 
-      Again!</B> will be output. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, however,
-      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> must be checked. In this case, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is also false, 
+      Again!</B> will be output. If $foo is false, however,
+      $bar must be checked. In this case, if $bar is also false, 
       the expression evaluates to false and there is no output.
-      On the other hand, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire 
+      On the other hand, if $bar is true, then the entire 
       expression is true, and the output is <B>Velocity Rocks 
       Again!</B>
     </P>
@@ -859,48 +858,48 @@
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Loops</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <B>Foreach Loop</B>
     <P align="justify">
-    The <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> element allows for looping. For example:
+    The #foreach element allows for looping. For example:
     </P>
 
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;ul&gt;
     #foreach ($product in $allProducts)
         &lt;li&gt;$product&lt;/li&gt;
     #end
     &lt;/ul&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
     <P align="justify">
-    This <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> loop causes the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> list (the object) to be 
+    This #foreach loop causes the $allProducts list (the object) to be 
     looped over for all of the products (targets) in the list. Each time 
-    through the loop, the value from <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> is placed into the 
-    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable.
+    through the loop, the value from $allProducts is placed into the 
+    $product variable.
     </P>
     
     <P align="justify">
-    The contents of the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> variable is a Vector, a Hashtable 
-    or an Array. The value assigned to the <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable is a Java
+    The contents of the $allProducts variable is a Vector, a Hashtable 
+    or an Array. The value assigned to the $product variable is a Java
     Object and can be referenced from a variable as such. For example, if 
-    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> was really a Product class in Java, its name could be retrieved
-    by referencing the <VARIABLE><FONT face="courier, monospaced">$product.Name</FONT></VARIABLE> method (ie: <VARIABLE><FONT face="courier, monospaced">$Product.getName()</FONT></VARIABLE>).
+    $product was really a Product class in Java, its name could be retrieved
+    by referencing the $product.Name method (ie: $Product.getName()).
     </P>
 
  </FONT></TD></TR></TABLE></DIV><BR>    
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Include</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The <VARIABLE><FONT face="courier, monospaced">#include</FONT></VARIABLE> script element allows the template designer to import a 
-    local file, which is then inserted into the location where the <VARIABLE><FONT face="courier, monospaced">#include</FONT></VARIABLE> 
+    The #include script element allows the template designer to import a 
+    local file, which is then inserted into the location where the #include 
     directive is defined. The contents of the file are not rendered through 
     the template engine.
     </P>
     
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #include /path/to/file.vm
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
  </FONT></TD></TR></TABLE></DIV><BR>
 
@@ -908,27 +907,27 @@
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Stop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The <VARIABLE><FONT face="courier, monospaced">#stop</FONT></VARIABLE> script element allows the template designer to stop the execution
+    The #stop script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
     </P>
     
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #stop
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>    
  </FONT></TD></TR></TABLE></DIV><BR>
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macro</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    With the <VARIABLE><FONT face="courier, monospaced">#macro</FONT></VARIABLE> script element, the template designer can define a 
+    With the #macro script element, the template designer can define a 
     timesaving macro. 
     </P>    
     
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #macro (row $content) &lt;tr&gt;&lt;td&gt;$content&lt;/td&gt;&lt;/tr&gt; #end
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
@@ -939,20 +938,20 @@
     </P>
     
     <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;table&gt;
     #foreach ($element in $list)
 	#row ($element)
     #end
     &lt;/table&gt;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
-    Here a newly created <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro is nested inside a <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE>
-    statement. As the <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> statement loops through each <VARIABLE><FONT face="courier, monospaced">$element</FONT></VARIABLE>
-    target in the <VARIABLE><FONT face="courier, monospaced">$list</FONT></VARIABLE> object, the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro will take the value of
-    <VARIABLE><FONT face="courier, monospaced">$element</FONT></VARIABLE> and put it into its table data cell.
+    Here a newly created <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro is nested inside a #foreach
+    statement. As the #foreach statement loops through each $element
+    target in the $list object, the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro will take the value of
+    $element and put it into its table data cell.
     </P>
     
  </FONT></TD></TR></TABLE></DIV><BR>
