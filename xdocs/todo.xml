@@ -137,11 +137,23 @@ importance.
         object caching/pooling code could be borrowed from Turbine,
         JServ, or the Avalon Server Framework.
     <p/>
-    
+
+    <strong>Velocity Profiling</strong>
+    <br/>
+        If someone is handy with one of the standard profilers,
+        it would be great to start hunting for bottlenecks. No
+        serious optimization has been started. But in conjuction
+        with the presence of a JUnit test suite, optimization
+        changes could be made with confidence. It would be nice
+        to have a configuration of a setup for a common profiling
+        so that anyone who wanted to do some profiling could do
+        so in a consistent manner.
+    <p/>
+
     <strong>Encoding Caching</strong>
     <br/>
         What would this entail? And how could we implement an
-        efficient encoding mechanism.
+        efficient encoding caching mechanism.
     <p/>
     
     <strong>Plugins</strong>
@@ -204,7 +216,21 @@ importance.
         How could Velocity be integrated into standard IDEs like
         JBuilder and VisualAge?
     <p/>
+
+    <strong>Scripting Language Integration</strong>
+    <br/>
+        This is something that has been discussed on the Turbine
+        list. Allowing Context building classes to be written
+        in JPython, Rhino or another scripting language. This would 
+        dramatically improve development time and might allow technically 
+        proficient web designers who are familiar JavaScript to create 
+        an entire servlet solution with Velocity. And as most of these
+        scripting solutions provide a compiler, performance would still
+        remain at an acceptable level.
+    <p/>
+
     
+
 </s1>
 
 </body>
