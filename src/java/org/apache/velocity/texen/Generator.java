@@ -54,12 +54,16 @@ package org.apache.velocity.texen;
  * <http://www.apache.org/>.
  */
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.Writer;
+import java.io.FileWriter;
 import java.io.StringWriter;
+import java.io.OutputStreamWriter;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -76,7 +80,7 @@ import org.apache.velocity.app.Velocity;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.18 2001/10/22 03:53:27 jon Exp $ 
+ * @version $Id: Generator.java,v 1.19 2001/12/06 07:46:47 jvanzyl Exp $ 
  */
 public class Generator
 {
@@ -114,7 +118,7 @@ public class Generator
      * appended to the file instead of overwritting
      * the contents.
      */
-    private Hashtable fileWriters = new Hashtable();
+    private Hashtable writers = new Hashtable();
 
     /**
      * The generator tools used for creating additional
@@ -122,6 +126,17 @@ public class Generator
      * use some cleaning up.
      */
     private static Generator instance = new Generator();
+
+    /**
+     * This is the encoding for the output file(s).
+     */
+    protected String outputEncoding;
+
+    /**
+     * This is the encoding for the input file(s)
+     * (templates).
+     */
+    protected String inputEncoding;
 
     /**
      * Default constructor.
@@ -262,6 +277,56 @@ public class Generator
     }
 
     /**
+     * Set the output encoding.
+     */
+    public void setOutputEncoding(String outputEncoding)
+    {
+        this.outputEncoding = outputEncoding;
+    }
+
+    /**
+     * Set the input (template) encoding.
+     */
+    public void setInputEncoding(String inputEncoding)
+    {
+        this.inputEncoding = inputEncoding;
+    }
+
+    /**
+     * Returns a writer, based on encoding and path.
+     *
+     * @param path      path to the output file
+     * @param encoding  output encoding
+     */
+    public Writer getWriter(String path, String encoding) throws Exception {
+        Writer writer;
+        if (encoding == null || encoding.length() == 0 || encoding.equals("8859-1") || encoding.equals("8859_1")) {
+            writer = new FileWriter(path);
+        }
+        else {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), encoding));
+        }
+        return writer;
+    }
+
+    /**
+     * Returns a template, based on encoding and path.
+     *
+     * @param templateName  name of the template
+     * @param encoding      template encoding
+     */
+    public Template getTemplate(String templateName, String encoding) throws Exception {
+        Template template;
+        if (encoding == null || encoding.length() == 0 || encoding.equals("8859-1") || encoding.equals("8859_1")) {
+            template = Velocity.getTemplate(templateName);
+        }
+        else {
+            template = Velocity.getTemplate(templateName, encoding);
+        }
+        return template;
+    }
+
+    /**
      * Parse an input and write the output to an output file.  If the
      * output file parameter is null or an empty string the result is
      * returned as a string object.  Otherwise an empty string is returned.
@@ -286,10 +351,34 @@ public class Generator
      * @param String id for object to be placed in the control context
      * @param String object to be placed in the context
      * @return String generated output from velocity
+     */
+    public String parse (String inputTemplate,
+                         String outputFile,
+                         String objectID,
+                         Object object)
+        throws Exception
+    {
+        return parse(inputTemplate, null, outputFile, null, objectID, object);
+    }
+    /**
+     * Parse an input and write the output to an output file.  If the
+     * output file parameter is null or an empty string the result is
+     * returned as a string object.  Otherwise an empty string is returned.
+     * You can add objects to the context with the objs Hashtable.
+     *
+     * @param String input template
+     * @param String inputEncoding template encoding
+     * @param String output file
+     * @param String outputEncoding encoding of output file
+     * @param String id for object to be placed in the control context
+     * @param String object to be placed in the context
+     * @return String generated output from velocity
      */ 
     public String parse (String inputTemplate, 
-                         String outputFile, 
-                         String objectID, 
+                         String intputEncoding,
+                         String outputFile,
+                         String outputEncoding,
+                         String objectID,
                          Object object)
         throws Exception
     {
@@ -298,7 +387,7 @@ public class Generator
             controlContext.put(objectID, object);
         }            
         
-        Template template = Velocity.getTemplate(inputTemplate);
+        Template template = getTemplate(inputTemplate, inputEncoding != null ? inputEncoding : this.inputEncoding);
         
         if (outputFile == null || outputFile.equals(""))
         {
@@ -308,30 +397,32 @@ public class Generator
         }
         else
         {
-            FileWriter fileWriter = null;
+            Writer writer = null;
             
-            if (fileWriters.get(outputFile) == null)
+            if (writers.get(outputFile) == null)
             {
                 /*
                  * We have never seen this file before so create
                  * a new file writer for it.
                  */
-                fileWriter = new FileWriter(
-                    getOutputPath() + File.separator + outputFile);
+                writer = getWriter(
+                            getOutputPath() + File.separator + outputFile,
+                            outputEncoding != null ? outputEncoding : this.outputEncoding
+                         );
                     
                 /*
                  * Place the file writer in our collection
                  * of file writers.
                  */
-                fileWriters.put(outputFile, fileWriter);                    
+                writers.put(outputFile, writer);
             }
             else
             {
-                fileWriter = (FileWriter) fileWriters.get(outputFile);
+                writer = (Writer) writers.get(outputFile);
             }                
             
             VelocityContext vc = new VelocityContext( controlContext );
-            template.merge (vc,fileWriter);
+            template.merge (vc,writer);
 
             // commented because it is closed in shutdown();
             //fw.close();
@@ -354,8 +445,8 @@ public class Generator
         this.controlContext = controlContext;
         fillContextDefaults(this.controlContext);
         fillContextProperties(this.controlContext);
-        
-        Template template = Velocity.getTemplate(controlTemplate);
+
+        Template template = getTemplate(controlTemplate, inputEncoding);
         StringWriter sw = new StringWriter();
         template.merge (controlContext,sw);
         
@@ -447,16 +538,16 @@ public class Generator
      */
     public void shutdown()
     {
-        Iterator iterator = fileWriters.values().iterator();
+        Iterator iterator = writers.values().iterator();
         
         while(iterator.hasNext())
         {
-            FileWriter fileWriter = (FileWriter) iterator.next();
+            Writer writer = (Writer) iterator.next();
                         
             try
             {
-                fileWriter.flush();
-                fileWriter.close();
+                writer.flush();
+                writer.close();
             }
             catch (Exception e)
             {
@@ -464,6 +555,6 @@ public class Generator
             }
         }
         // clear the file writers cache
-        fileWriters.clear();
+        writers.clear();
     }
 }
