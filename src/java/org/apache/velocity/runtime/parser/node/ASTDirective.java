@@ -117,7 +117,8 @@ public class ASTDirective extends SimpleNode
         }
         else
         {
-            if (context.getAllowRendering()) {
+            if (context.getAllowRendering()) 
+            {
                 writer.write( "#");
                 writer.write( directiveName );
             }

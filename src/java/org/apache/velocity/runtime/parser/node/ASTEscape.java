@@ -63,7 +63,8 @@ public class ASTEscape extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering()) {
+        if (context.getAllowRendering()) 
+        {
             writer.write(ctext);
         }
         return true;
