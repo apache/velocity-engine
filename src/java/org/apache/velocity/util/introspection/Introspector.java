@@ -89,10 +89,18 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.14 2001/09/11 17:47:52 geirm Exp $
+ * @version $Id: Introspector.java,v 1.15 2001/09/16 23:57:46 geirm Exp $
  */
 public class Introspector
 {
+    /*
+     *  define a public string so that it can be looked for
+     *  if interested
+     */
+     
+    public final static String CACHEDUMP_MSG = 
+        "Introspector : detected classloader change. Dumping cache.";
+    
     private RuntimeServices rsvc = null;
 
     /**
@@ -110,7 +118,7 @@ public class Introspector
     /**
      *  Recieves our RuntimeServices object
      */
-    public void init( RuntimeServices r )
+    public Introspector( RuntimeServices r )
     {
         this.rsvc = r;
     }
@@ -143,7 +151,7 @@ public class Introspector
              */
              
             if (classMap == null)
-            {
+            {                
                 if ( cachedClassNames.contains( c.getName() ))
                 {
                     /*
@@ -151,9 +159,8 @@ public class Introspector
                      * this class we are looking at.  This implies a 
                      * classloader change, so dump
                      */
-                     
-                    clearCache();
-                    rsvc.info("Introspector : detected classloader change. Dumping cache.");
+                    clearCache();                    
+                    rsvc.info( CACHEDUMP_MSG );
                 }
                  
                 classMap = createClassMap(c);
@@ -169,7 +176,7 @@ public class Introspector
      * for later Classloader change detection.
      */
     private ClassMap createClassMap(Class c)
-    {
+    {        
         ClassMap classMap = new ClassMap(c);        
         classMethodMaps.put(c, classMap);
         cachedClassNames.add( c.getName() );
