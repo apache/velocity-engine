@@ -476,7 +476,7 @@
       <delete file="../${final.name}.tar.gz" quiet="true"/>
       <tar tarfile="../${final.name}.tar" basedir="../" 
            includes="**/${final.name}/**" longfile="gnu"/>
-      <gzip zipfile="../${final.name}.tar.gz" src="../${Name}-${version}.tar"/>
+      <gzip zipfile="../${final.name}.tar.gz" src="../${final.name}.tar"/>
   </target>
 
   <!-- ================================================================== -->
