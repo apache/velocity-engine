@@ -92,8 +92,8 @@ import org.apache.velocity.VelocityContext;
  * Velocity 
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
- * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.26 2001/03/18 22:42:50 jon Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: AnakiaTask.java,v 1.27 2001/03/20 00:47:43 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {

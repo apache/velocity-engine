@@ -89,9 +89,9 @@ import org.jdom.Element;
  * #end
  * </code>
  *  
- * @author <a href="bob@werken.com">bob mcwhirter</a>
- * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: XPathTool.java,v 1.8 2001/03/05 11:44:37 jvanzyl Exp $
+ * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: XPathTool.java,v 1.9 2001/03/20 00:47:44 jon Exp $
  */
 public class XPathTool
 {
