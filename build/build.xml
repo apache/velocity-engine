@@ -39,7 +39,7 @@
   <property name="servlet.jar" value="lib/servlet.jar"/>
   <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
   <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
-  <property name="junit.jar" value="lib/junit-3.2.jar"/>
+  <property name="junit.jar" value="lib/junit-3.7.jar"/>
   <property name="collections.jar" value="lib/commons-collections.jar" />
 
   <!-- Forum demo build information -->
