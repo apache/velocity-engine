@@ -87,7 +87,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.26 2001/02/14 23:18:01 dlr Exp $
+ * @version $Id: Template.java,v 1.27 2001/02/20 16:10:42 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -118,13 +118,24 @@ public class Template extends Resource
                     return true;
                 }    
             } 
+            catch ( ParseException pex )
+            {
+                /*
+                 *  there was a problem parsing the template
+                 */                
+            }
             finally 
             {
                 // Make sure to close the inputstream when we are done.
                 is.close();
             }
         }
-        catch (Exception ignored) {}
+        catch (Exception ignored) 
+        {
+            /*
+             *  most likely, the resource wasn't found ?
+             */
+        }
    
         return false;            
     }
@@ -207,8 +218,17 @@ public class Template extends Resource
             }
         }
         else
+        {
             Runtime.error("Template.merge() failure. The document is null, " + 
                           "most likely due to parsing error.");
+         
+            /*
+             *  lets throw a general exception here and see if anyone likes it
+             */
+
+            throw new Exception("Template.merge() failure. The document is null, " + 
+                          "most likely due to parsing error.");
+        }
     }
 }
 
