@@ -33,7 +33,8 @@
                                    test-contextsafety,
                                    test-anakia,
                                    test-configuration,
-                                   test-externallogger
+                                   test-externallogger,
+                                   test-texen
                                    "/>
 
   <target name="test-template">
@@ -166,6 +167,37 @@
       </classpath>
     </java>
    </target>
+
+  <!-- ================================================================ -->
+  <!-- T E X E N  T E S T                                               -->
+  <!-- ================================================================ -->
+  <!-- Generate turbine service code via Texen                          -->
+  <!-- ================================================================ -->
+  
+  <target name="test-texen">
+    
+    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </taskdef>
+  
+    <texen 
+      contextProperties="../test/texen/service.props"
+      controlTemplate="Control.vm"
+      outputDirectory="../test/texen/results"
+      templatePath="../test/texen/templates"
+      outputFile="report"
+    />
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.TexenTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+
+  </target>
 
 </project>
 
