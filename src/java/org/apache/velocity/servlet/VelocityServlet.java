@@ -96,7 +96,7 @@ import org.apache.velocity.io.*;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.12 2000/11/04 02:41:36 jvanzyl Exp $
+ * $Id: VelocityServlet.java,v 1.13 2000/11/04 03:08:51 jon Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -235,7 +235,7 @@ public abstract class VelocityServlet extends HttpServlet
                 throw new Exception ("Cannot find the template!" );
             
             //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
-            vw = new JspWriterImpl(response);
+            vw = new JspWriterImpl(response, 4*1024, true);
             template.merge( context, vw);
 
         }
