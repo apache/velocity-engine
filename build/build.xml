@@ -33,7 +33,7 @@
   <property name="docs.dest" value="../docs"/>
   <property name="docs.src" value="../xdocs"/>
     
-  <property name="log.jar" value="lib/log.jar"/>
+  <property name="log.jar" value="lib/logkit-1.0b5.jar"/>
   <property name="jdom.jar" value="lib/jdom-b6.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="servlet.jar" value="lib/servlet.jar"/>
