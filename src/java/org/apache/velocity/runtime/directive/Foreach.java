@@ -81,7 +81,7 @@ import org.apache.velocity.runtime.exception.ReferenceException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.18 2000/11/11 22:43:25 geirm Exp $
+ * @version $Id: Foreach.java,v 1.19 2000/11/16 01:54:36 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
@@ -144,7 +144,12 @@ public class Foreach extends Directive
         if (listObject instanceof Object[])
         {
             node.setInfo(ARRAY);
-            sampleElement = ((Object[]) listObject)[0];
+            Object[] arrayObject = ((Object[]) listObject);
+            
+            if (arrayObject.length == 0)
+                node.setInvalid();
+            else                
+                sampleElement = arrayObject[0];
         }            
         else if (implementsMethod(listObject, "iterator"))
         {
