@@ -86,33 +86,52 @@ public class WebMacro
      */
     protected String[] res =
     {
-        // Remove all #begin statements.
-        "#begin\\n", 
-        "",
-            
-        // Remove the "{" for the start of block directives,
-        // Velocity doesn't use them.
-        "(#\\w+\\s*.*)\\n?\\s*\\{",
-        "$1",
+        // Make #if directive match the Velocity directive style.
+        "#if\\s*[(]\\s*(.*\\S)\\s*[)]\\s*(#begin|{)[ \\t]?",
+        "#if( $1 )",
+
+        // Remove the WM #end #else #begin usage.
+        "[ \\t]?(#end|})\\s*#else\\s*(#begin|{)[ \\t]?(\\w)",
+        "#else#**#$3", // avoid touching a followup word with embedded comment
+        "[ \\t]?(#end|})\\s*#else\\s*(#begin|{)[ \\t]?",
+        "#else",
+
+        // Convert WM style #foreach to Velocity directive style.
+        "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$[^\\s#]+)\\s*(#begin|{)[ \\t]?",
+        "#foreach( $1 in $2 )",
 
         // Change the "}" to #end. Have to get more
         // sophisticated here. Will assume either {}
         // and no javascript, or #begin/#end with the
         // possibility of javascript.
-        "}",
-        "#end",
-            
-        // Convert WM style if/else to Velocity style.
-        "#end.*\\n?\\s*(#else)",
-        "$1",
-            
-        // Convert WM style #foreach to Velocity #foreach.
-        "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$\\w+)",
-        "#foreach ($1 in $2)",
+        "\n}", // assumes that javascript is indented, WMs not!!!
+        "\n#end",
         
-        // Change parse to include.
-        "#parse",
-        "#include",
+        // Convert WM style #set to Velocity directive style.
+        "#set\\s+(\\$[^\\s=]+)\\s*=\\s*(.*\\S)[ \\t]*",
+        "#set( $1 = $2 )",
+        "(##[# \\t\\w]*)\\)", // fix comments included at end of line
+        ")$1",
+
+        // Convert WM style #parse to Velocity directive style.
+        "#parse\\s+([^\\s#]+)[ \\t]?",
+        "#parse( $1 )",
+
+        // Convert WM style #include to Velocity directive style.
+        "#include\\s+([^\\s#]+)[ \\t]?",
+        "#include( $1 )",
+
+        // Convert WM formal reference to VL syntax.
+        "\\$\\(([^\\)]+)\\)",
+        "${$1}",
+        "\\${([^}\\(]+)\\(([^}]+)}\\)", // fix encapsulated brakets: {(})
+        "${$1($2)}",
+
+        // Velocity currently does not permit leading underscore.
+        "\\$_",
+        "$l_",
+        "\\${(_[^}]+)}", // within a formal reference
+        "${l$1}",
             
         // Change extensions when seen.
         "\\.wm",
@@ -233,8 +252,12 @@ public class WebMacro
     public String convertTemplate(String template)
     {
         orignalTemplate = StringUtils.fileContentsToString(template);
-        perl = new Perl5Util();
 
+        // overcome current velocity 0.71 limitation
+        if ( !orignalTemplate.endsWith("\n") )
+          orignalTemplate += "\n";
+
+        perl = new Perl5Util();
         for (int i = 0; i < res.length; i += 2)
             while (perl.match("/" + res[i] + "/", orignalTemplate))
                 orignalTemplate = perl.substitute(
