@@ -143,7 +143,10 @@ import org.apache.velocity.util.introspection.Introspector;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeSingleton.java,v 1.4 2001/10/31 02:59:28 geirm Exp $
+ *
+ * @see org.apache.velocity.runtime.RuntimeInstance
+ *
+ * @version $Id: RuntimeSingleton.java,v 1.5 2002/08/09 00:47:28 dlr Exp $
  */
 public class RuntimeSingleton implements RuntimeConstants
 {
