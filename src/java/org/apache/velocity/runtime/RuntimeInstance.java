@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.9 2001/11/06 03:18:05 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.10 2001/11/06 11:13:34 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -595,31 +595,56 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         while (directiveClasses.hasMoreElements())
         {
             String directiveClass = (String) directiveClasses.nextElement();
+            loadDirective( directiveClass, "System" );
+        }
         
-            try
+        /*
+         *  now the user's directives
+         */
+         
+        String[] userdirective = configuration.getStringArray("userdirective");
+        
+        for( int i = 0; i < userdirective.length; i++)
+        {
+            loadDirective( userdirective[i], "User");
+        }
+        
+    }
+    
+    /**
+     *  instantiates and loads the directive with some basic checks
+     * 
+     *  @param directiveClass classname of directive to load 
+     */
+    private void loadDirective( String directiveClass, String caption )
+    {    
+        try
+        {
+            Object o = Class.forName( directiveClass ).newInstance();
+            
+            if ( o instanceof Directive )
             {
-                /*
-                 * Attempt to instantiate the directive class. This
-                 * should usually happen without error because the
-                 * properties file that lists the directives is
-                 * not visible. It's in a package that isn't 
-                 * readily accessible.
-                 */
-                Class clazz = Class.forName(directiveClass);
-                Directive directive = (Directive) clazz.newInstance();
+                Directive directive = (Directive) o;
                 runtimeDirectives.put(directive.getName(), directive);
-                
-                info("Loaded Pluggable Directive: " 
+                    
+                info("Loaded " + caption + " Directive: " 
                     + directiveClass);
             }
-            catch (Exception e)
+            else
             {
-                error("Error Loading Pluggable Directive: " 
-                    + directiveClass);    
+                error( caption + " Directive " + directiveClass 
+                    + " is not org.apache.velocity.runtime.directive.Directive."
+                    + " Ignoring. " );
             }
         }
+        catch (Exception e)
+        {
+            error("Exception Loading " + caption + " Directive: " 
+                + directiveClass + " : " + e);    
+        }
     }
-
+    
+    
     /**
      * Initializes the Velocity parser pool.
      * This still needs to be implemented.
