@@ -63,20 +63,16 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 
 import junit.framework.TestCase;
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  *  Simple introspector test case for primitive problem found in 1.3
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectorTestCase3.java,v 1.1.2.1 2002/07/14 21:37:06 geirm Exp $
+ * @version $Id: IntrospectorTestCase3.java,v 1.1.2.2 2002/07/14 22:04:09 geirm Exp $
  */
 public class IntrospectorTestCase3 extends BaseTestCase
 {
-    IntrospectorTestCase3()
-    {
-        super("IntrospectorTestCase3");
-    }
-
     /**
       * Creates a new instance.
       */
@@ -87,10 +83,11 @@ public class IntrospectorTestCase3 extends BaseTestCase
 
     public static Test suite()
     {
-        return new IntrospectorTestCase();
+        return new TestSuite(IntrospectorTestCase3.class);
     }
 
-    public void runTest()
+    public void testSimple()
+        throws Exception
     {
         Method method;
         String result;
@@ -98,60 +95,60 @@ public class IntrospectorTestCase3 extends BaseTestCase
 
         MethodProvider mp = new MethodProvider();
 
-        try
-        {
-            /*
-             * string integer
-             */
+        /*
+         * string integer
+         */
 
-            Object[] listIntInt = { new ArrayList(), new Integer(1), new Integer(2) };
-            Object[] intInt = {  new Integer(1), new Integer(2) };
-            Object[] longInt = {  new Long(1), new Integer(2) };
-            Object[] longLong = {  new Long(1), new Long(2) };
+        Object[] listIntInt = { new ArrayList(), new Integer(1), new Integer(2) };
+        Object[] intInt = {  new Integer(1), new Integer(2) };
+        Object[] longInt = {  new Long(1), new Integer(2) };
+        Object[] longLong = {  new Long(1), new Long(2) };
 
-            method = RuntimeSingleton.getIntrospector().getMethod(
-                MethodProvider.class, "lii", listIntInt);
-            result = (String) method.invoke(mp, listIntInt);
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "lii", listIntInt);
+        result = (String) method.invoke(mp, listIntInt);
 
-            assertTrue(result.equals("lii"));
+        assertTrue(result.equals("lii"));
 
-            method = RuntimeSingleton.getIntrospector().getMethod(
-                MethodProvider.class, "ii", intInt);
-            result = (String) method.invoke(mp, intInt);
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "ii", intInt);
+        result = (String) method.invoke(mp, intInt);
 
-            assertTrue(result.equals("ii"));
+        assertTrue(result.equals("ii"));
 
-            method = RuntimeSingleton.getIntrospector().getMethod(
-                MethodProvider.class, "ii", longInt);
-            result = (String) method.invoke(mp, longInt);
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "ll", longInt);
+        result = (String) method.invoke(mp, longInt);
 
-            assertTrue(result.equals("ii"));
+        assertTrue(result.equals("ll"));
 
-            method = RuntimeSingleton.getIntrospector().getMethod(
-                MethodProvider.class, "ii", longLong);
-            result = (String) method.invoke(mp, longLong);
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "ll", longLong);
+        result = (String) method.invoke(mp, longLong);
 
-            assertTrue(result.equals("ii"));
-
-        }
-        catch (Exception e)
-        {
-            fail( e.toString() );
-        }
+        assertTrue(result.equals("ll"));
     }
 
     public static class MethodProvider
     {
-        public String ii (int p, int d) { return "ii"; }
-        public String lii (List s, int p, int d) { return "lii"; }
-    }
+        public String ii(int p, int d)
+        {
+            return "ii";
+        }
 
-    public static void main(String[] args)
-        throws Exception
-    {
-        IntrospectorTestCase3 ii = new IntrospectorTestCase3();
+        public String lii(List s, int p, int d)
+        {
+            return "lii";
+        }
 
-        ii.runTest();
+        public String lll(List s, long p, long d)
+        {
+            return "lll";
+        }
+        public String ll(long p, long d)
+        {
+            return "ll";
+        }
 
     }
 }
