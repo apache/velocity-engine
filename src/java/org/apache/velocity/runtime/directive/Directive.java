@@ -71,9 +71,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Base class for all directives used in Velocity.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Directive.java,v 1.17 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: Directive.java,v 1.18 2002/10/10 16:56:24 dlr Exp $ 
  */
-public abstract class Directive implements DirectiveConstants,Cloneable
+public abstract class Directive implements DirectiveConstants, Cloneable
 {
     private int line = 0;
     private int column = 0;
@@ -108,7 +108,8 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be initialized.
      */
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
+    public void init( RuntimeServices rs, InternalContextAdapter context,
+                      Node node)
         throws Exception
     {
         rsvc = rs;
@@ -126,4 +127,4 @@ public abstract class Directive implements DirectiveConstants,Cloneable
                                     Writer writer, Node node )       
            throws IOException, ResourceNotFoundException, ParseErrorException, 
                 MethodInvocationException;
- }   
+}
