@@ -5,6 +5,7 @@ o Configuration Cleanup
   
   STATUS:
   [JVZ] I will make the changes when we agree.
+  [JSS] At this point, I don't care.
 
 o Log4j for Logging
   
@@ -15,6 +16,7 @@ o Log4j for Logging
   
   STATUS:
   [JVZ] I will do this if we can agree on this.
+  [JSS] I agree.
   
 o Get a copy of Alexandria for Javadocs
 
@@ -27,6 +29,8 @@ o Get a copy of Alexandria for Javadocs
   [JVZ] I have asked on the Alexandria mailing list to
   to see if someone will look into setting up Alexandria
   but I have heard anything back yet.
+  [JSS] For now, lets just use DLR's scripts to generate
+  the javadocs through cron.
 
 o UML Diagrams
   
@@ -46,10 +50,14 @@ o Getting a mailing list archive working, or at least have
   If no one has time for this, can we at least place
   a message at the bottom of messages that go out
   on the mailing list?
-  
+
+  COMMENTS:
+  What is wrong with mail-archive.com?
+  http://www.mail-archive.com/index.php3?hunt=velocity
+
   STATUS:
-  None
-  
+  [JSS] Done
+
 o Test for Texen
 
   PLAN:
@@ -66,25 +74,29 @@ o Test for Anakia
   don't break when changes are made.
   
   STATUS:
-  None
-  
+  [JSS] I will work on this one
+
 o Codify the testing harness
 
   PLAN:
   Have a single target that runs the whole set of
   tests. Right now the main test is the template testing,
   it would be nice to run all the tests in there.
+
+  COMMENTS:
+  [JSS] Lets just move the testing into its own build.xml file
+        which can be called from a the main build.xml file
   
   STATUS:
   None
   
-o Grinder for Velocity
+o Speed testing suite
 
   PLAN:
-  Create a grinder that will stress velocity and report
-  performance so that anyone interested in trying to
-  improve the speed of Velocity can easily try and
-  use the grinder to check the results.
-  
+  Create a repeatable testing suite for Velocity so that it can be 
+  compared against other tools. In other words, other tools should also
+  be plugged into this suite. We can also use this to test the 
+  relevant performance of changes made to Velocity.
+
   STATUS:
   None
