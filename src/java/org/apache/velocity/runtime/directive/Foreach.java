@@ -85,7 +85,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.26 2000/11/28 04:16:21 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.27 2000/12/04 02:06:52 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -157,105 +157,71 @@ public class Foreach extends Directive
      * it is immutable.
      */
     private String elementKey;
-    
+
+    /**
+     *  simple init - init the tree and get the elementKey from
+     *  the AST
+     */
     public void init(Context context, Node node) throws Exception
     {
-        Object sampleElement = null;
-        Object listObject = null;
-        
-        elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
+        super.init( context, node );
 
         /*
-         * This is a refence node and it needs to
-         * be inititialized.
+         *  this is really the only thing we can do here as everything
+         *  else is context sensitive
          */
-        node.jjtGetChild(2).init(context, null);
+
+        elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
+    }
+
+    private Iterator getIterator( Context context, Node node )
+    {
+        Object listObject = null;
+  
+        /*
+         *  get our list object, and punt if it's null.
+         */
+
         listObject = node.jjtGetChild(2).value(context);
         
-        /* 
-         * If the listObject is null then we know that this
-         * whole foreach directive is useless. We need to
-         * throw a ReferenceException which is caught by
-         * the SimpleNode.init() and logged. But we also need
-         * to set a flag so that the rendering of this node
-         * is ignored as the output would be useless.
-         */
-        
-        /* 
-         * Slight problem with this approach. The list object
-         * may have been #set previously, this usually wouldn't
-         * be the case, but this check should be moved into
-         * the rendering phase.
-         */
         if (listObject == null)
-        {
-            node.setInvalid();
-            throw new ReferenceException("#foreach", node.jjtGetChild(2));
-        }                
+            return null;
 
         /* 
          * Figure out what type of object the list
-         * element is so that we don't have to do it
-         * everytime the node is traversed.
-         * if (listObject instanceof Object[])
+         * element is, and get the iterator for it
          */
-        if (listObject instanceof Object[])
+
+        if (Introspector.implementsMethod(listObject, "iterator"))
+        {
+            if (((Collection) listObject).size() == 0)
+                return null;
+
+            return ((Collection) listObject).iterator();        
+        }
+        else if (listObject instanceof Object[])
         {
             Object[] arrayObject = ((Object[]) listObject);
             
             if (arrayObject.length == 0)
-            {
-                node.setInfo(INFO_EMPTY_LIST_OBJECT);
-            }                
-            else
-            {
-                node.setInfo(INFO_ARRAY);
-                sampleElement = arrayObject[0];
-            }                    
+                return null;
+            
+            return new ArrayIterator( arrayObject );
         }            
-        else if (Introspector.implementsMethod(listObject, "iterator"))
-        {
-            if (((Collection) listObject).size() == 0)
-            {
-                node.setInfo(INFO_EMPTY_LIST_OBJECT);
-            }                
-            else
-            {
-                node.setInfo(INFO_ITERATOR);
-                sampleElement = ((Collection) listObject).iterator().next();
-            }                    
-        }
         else if (Introspector.implementsMethod(listObject, "values"))
         {
             if (((Map) listObject).size() == 0)
-            {
-                node.setInfo(INFO_EMPTY_LIST_OBJECT);
-            }
-            else
-            {
-                node.setInfo(INFO_MAP);
-                sampleElement = ((Map) listObject).values().iterator().next();
-            }                    
+                return null;
+ 
+            return ((Map) listObject).values().iterator();
         }
         else
         {
-            // If it's not an array or an object that provides
-            // an iterator then the node is invalid and should
-            // not be rendered.
-            node.setInvalid();
-            Runtime.warn ("Could not determine type of iterator for #foreach loop ");
-            throw new NodeException ("Could not determine type of iterator for #foreach loop " , node);
-        }            
-        
-        // This is a little trick so that we can initialize
-        // all the blocks in the foreach  properly given
-        // that there are references that refer to the
-        // elementKey name.
-        if (sampleElement != null)
-        {
-            context.put(elementKey, sampleElement);
-            super.init(context, node);
-            context.remove(elementKey);
+            /*
+             *  we have no clue what this is
+             */
+            Runtime.warn ("Could not determine type of iterator for #foreach loop for " +  node.jjtGetChild(2).getFirstToken().image);
+            return null;
         }            
     }
 
@@ -264,69 +230,24 @@ public class Foreach extends Directive
     {
         int counter;
         Iterator i;
-        Object listObject = null;
         
         /*
-         * If the node has been set to invalid then it is because
-         * the list object placed in the context is not an array,
-         * does not provide an Iterator, or is not Map. In these
-         * cases there is nothing we can do, and nothing will
-         * be rendered.
+         *  do our introspection to see what our collection is
          */
-        if (node.isInvalid())
-            return false;
-            
-        if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
-        {
-            /*
-             * If the list object had no elements
-             * then lets try to init again. If the list
-             * object is still empty then an exception
-             * will be thrown again. But we will keep
-             * trying!
-             */
-            synchronized(this)
-            {
-                /* 
-                 * Check again for other threads that
-                 * got through above. Don't want to
-                 * have to synchronize on every render,
-                 * but we don't want to init() multiple
-                 * times here either. A few threads might
-                 * get into this block, but only one thread
-                 * will try the init().
-                 */
-                if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
-                {
-                    try
-                    {
-                        init(context, node);
-                        
-                        /*
-                         * Check again, if the list is still
-                         * empty then return false.
-                         */
-                        if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
-                            return false;
-                    }
-                    catch (Exception e)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-    
-        listObject = node.jjtGetChild(2).value(context);
 
-        if (node.getInfo() == INFO_ARRAY)
-            i = new ArrayIterator((Object[]) listObject);
-        else if (node.getInfo() == INFO_MAP)
-            i = ((Map) listObject).values().iterator();
-        else            
-            i = ((Collection) listObject).iterator();
+        i = getIterator( context, node );
+   
+        if ( i == null)
+            return false;
         
         counter = COUNTER_INITIAL_VALUE;
+        
+        /*
+         *  save the element key if there is one
+         */
+
+        Object o = context.get( elementKey );
+
         while (i.hasNext())
         {
             context.put(COUNTER_NAME, new Integer(counter));
@@ -337,7 +258,14 @@ public class Foreach extends Directive
 
         context.remove(COUNTER_NAME);
         context.remove(elementKey);
-    
+
+        /*
+         *  restores element key if exists
+         */
+
+        if (o != null)
+            context.put( elementKey, o );
+
         return true;
     }
 
