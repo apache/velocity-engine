@@ -54,10 +54,12 @@ package org.apache.velocity.util.introspection;
  * <http://www.apache.org/>.
  */
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 import org.apache.velocity.runtime.RuntimeServices;
 
@@ -87,7 +89,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.13 2001/09/11 17:31:42 geirm Exp $
+ * @version $Id: Introspector.java,v 1.14 2001/09/11 17:47:52 geirm Exp $
  */
 public class Introspector
 {
@@ -100,9 +102,10 @@ public class Introspector
     private final Map classMethodMaps = new HashMap();
     
     /**
-     * Holds the qualified class name to Class object mapping.
+     * Holds the qualified class names for the classes
+     * we hold in the classMethodMaps hash
      */
-    private Map cachedClassNames = new HashMap();
+    private Set cachedClassNames = new HashSet();
 
     /**
      *  Recieves our RuntimeServices object
@@ -141,10 +144,14 @@ public class Introspector
              
             if (classMap == null)
             {
-                Class cachedClass = (Class) cachedClassNames.get( c.getName() );
-                
-                if (cachedClass != null)
+                if ( cachedClassNames.contains( c.getName() ))
                 {
+                    /*
+                     * we have a map for a class with same name, but not
+                     * this class we are looking at.  This implies a 
+                     * classloader change, so dump
+                     */
+                     
                     clearCache();
                     rsvc.info("Introspector : detected classloader change. Dumping cache.");
                 }
@@ -165,7 +172,7 @@ public class Introspector
     {
         ClassMap classMap = new ClassMap(c);        
         classMethodMaps.put(c, classMap);
-        cachedClassNames.put(c.getName(), c);
+        cachedClassNames.add( c.getName() );
 
         return classMap;
     }
@@ -187,7 +194,7 @@ public class Introspector
          * for speed, we can just make a new one
          * and let the old one be GC'd
          */
-        cachedClassNames = new HashMap();
+        cachedClassNames = new HashSet();
     }
         
     /**
