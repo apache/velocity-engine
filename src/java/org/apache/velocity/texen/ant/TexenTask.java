@@ -54,9 +54,8 @@ package org.apache.velocity.texen.ant;
  * <http://www.apache.org/>.
  */
 
-import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Properties;
+import java.util.Iterator;
 import java.util.Map;
 
 import java.io.File;
@@ -67,9 +66,10 @@ import java.io.FileInputStream;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.VelocityContext;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
 
@@ -77,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.19 2001/03/23 03:46:00 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.20 2001/03/23 17:35:36 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -135,7 +135,7 @@ public class TexenTask extends Task
      * So initial context values can be set with
      * properties file.
      */
-    protected Properties contextProperties;
+    protected Configuration contextProperties;
 
     /**
      * Get the control template for the
@@ -232,7 +232,7 @@ public class TexenTask extends Task
      */
     public void setContextProperties( File file )
     {
-        contextProperties = new Properties();
+        contextProperties = new Configuration();
         
         try
         {
@@ -249,7 +249,7 @@ public class TexenTask extends Task
      * fed into the initial context be the
      * generating process starts.
      */
-    public Properties getContextProperties()
+    public Configuration getContextProperties()
     {
         return contextProperties;
     }
@@ -344,12 +344,12 @@ public class TexenTask extends Task
             
             if (contextProperties != null)
             {
-                Enumeration e = contextProperties.propertyNames();
+                Iterator i = contextProperties.getKeys();
         
-                while (e.hasMoreElements())
+                while (i.hasNext())
                 {
-                    String property = (String) e.nextElement();
-                    String value = (String) contextProperties.get(property);
+                    String property = (String) i.next();
+                    String value = contextProperties.getString(property);
                     
                     /* 
                      * Now lets quickly check to see if what
@@ -363,35 +363,52 @@ public class TexenTask extends Task
                     catch (NumberFormatException nfe)
                     {
                         /*
-                         * We are going to do something special
-                         * for properties that have a "file.contents"
-                         * suffix: for these properties will pull
-                         * in the contents of the file and make
-                         * them available in the context. So for
-                         * a line like the following in a properties file:
-                         *
-                         * license.file.contents = license.txt
-                         *
-                         * We will pull in the contents of license.txt
-                         * and make it available in the context as
-                         * $license. This should make texen a little
-                         * more flexible.
+                         * Now we will try to place the value into
+                         * the context as a boolean value if it
+                         * maps to a valid boolean value.
                          */
-                        if (property.endsWith("file.contents"))
-                        {
-                            /*
-                             *  we need to turn the license file from relative to
-                             *  absolute, and let Ant help :)
-                             */
-
-                            value = StringUtils.fileContentsToString(   
-                                      project.resolveFile(value).getCanonicalPath() );
-                            
-                            property = property.substring(
-                                0, property.indexOf("file.contents") - 1);
-                        }
+                         
+                        String booleanString = 
+                            contextProperties.testBoolean(value);
                         
-                        c.put(property, value);
+                        if (booleanString != null)
+                        {    
+                            c.put(property, new Boolean(booleanString));
+                        }
+                        else
+                        {
+                        
+                            /*
+                             * We are going to do something special
+                             * for properties that have a "file.contents"
+                             * suffix: for these properties will pull
+                             * in the contents of the file and make
+                             * them available in the context. So for
+                             * a line like the following in a properties file:
+                             *
+                             * license.file.contents = license.txt
+                             *
+                             * We will pull in the contents of license.txt
+                             * and make it available in the context as
+                             * $license. This should make texen a little
+                             * more flexible.
+                             */
+                            if (property.endsWith("file.contents"))
+                            {
+                                /*
+                                 * We need to turn the license file from relative to
+                                 * absolute, and let Ant help :)
+                                 */
+
+                                value = StringUtils.fileContentsToString(   
+                                    project.resolveFile(value).getCanonicalPath());
+                            
+                                property = property.substring(
+                                    0, property.indexOf("file.contents") - 1);
+                            }
+                        
+                            c.put(property, value);
+                        }
                     }
                 }
             }
