@@ -18,4 +18,9 @@ To run :
 
 ./logger_example.sh
 
+or 
+
+logger_example.bat
+
+
 
