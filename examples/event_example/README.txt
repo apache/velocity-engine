@@ -21,14 +21,16 @@ seems like too much at first - ignore it!
 This is a standalone program.  It is compiled by the 'examples' build
 target.
 
-To run, and assuming you have the Velocity jar in your CLASSPATH,
- simply do :
+To run, and assuming you have the Velocity and Commons-Collections jar
+in your CLASSPATH, simply do :
 
 java EventExample
 
-if it's not in your classpath, do :
+if the .jar's are not in your classpath, do :
 
-java -cp ../../bin/velocity-1.1.jar:. EventExample
+java -cp \
+../../bin/velocity-[VERSION].jar:../../build/lib/commons-collections.jar:. \
+EventExample
 
-(make sure that the jarname is correct - this document might get out of
-synch with the release version number.)  
+(NOTE: make sure that the jarname is correct - this document might get
+out of synch with the release version numbers.)
