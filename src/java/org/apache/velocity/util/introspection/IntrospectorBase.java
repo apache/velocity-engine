@@ -87,7 +87,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: IntrospectorBase.java,v 1.1 2001/12/05 21:22:10 geirm Exp $
+ * @version $Id: IntrospectorBase.java,v 1.2 2001/12/05 23:43:55 jvanzyl Exp $
  */
 public class IntrospectorBase
 {   
@@ -106,6 +106,11 @@ public class IntrospectorBase
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
+     *
+     * @param c Class in which the method search is taking place
+     * @param name Name of the method being searched for
+     * @param params An array of Objects (not Classes) that describe the
+     *               the parameters
      *
      * @return The desired Method object.
      */
