@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.18 2001/05/18 12:01:43 geirm Exp $
+ * @version $Id: Velocity.java,v 1.19 2001/07/02 02:28:10 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -116,8 +116,6 @@ public class Velocity implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default 
      *  properties of the Velocity distribution
-     *
-     *  @return true if successful, false otherwise
      */
     public static void init() 
         throws Exception
@@ -131,9 +129,6 @@ public class Velocity implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize 
      *         the Velocity runtime
-     *
-     *  @return true if successful, false otherwise.  Check runtime log if 
-     *         false
      */
     public static void init( String propsFilename ) 
         throws Exception
@@ -147,7 +142,6 @@ public class Velocity implements RuntimeConstants
      *
      *  @param p  Proprties object containing initialization properties
      *
-     *  @return true if successful, false otherwise
      */
     public static void init( Properties p )
         throws Exception
