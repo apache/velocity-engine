@@ -56,6 +56,8 @@ package org.apache.velocity.context;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
+import org.apache.velocity.context.EventCartridge;
+
 /**
  *  This adapter class is the container for all context types for internal
  *  use.  The AST now uses this class rather than the app-level Context
@@ -84,9 +86,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.4 2001/03/31 20:14:25 geirm Exp $
+ * @version $Id: InternalContextAdapterImpl.java,v 1.5 2001/04/20 04:31:29 geirm Exp $
  */
-
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
     /**  the Context that we are wrapping */
@@ -125,6 +126,16 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     public Context getInternalUserContext()
     {
         return context;
+    }
+
+    public EventCartridge attachEventCartridge( EventCartridge ec )
+    {
+        return icb.attachEventCartridge( ec );
+    }
+
+    public EventCartridge getEventCartridge()
+    {
+        return icb.getEventCartridge( );
     }
 
     /* --- InternalContext interface methods --- */
@@ -190,4 +201,5 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     {
         return this;
     }
+
 }
