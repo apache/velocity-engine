@@ -153,7 +153,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.47 2000/11/17 00:58:01 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.48 2000/11/17 00:59:08 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -370,7 +370,7 @@ public class Runtime implements RuntimeConstants
     /**
      * Initialize the Velocity logging system.
      */
-    public static void initializeLogger() throws
+    private static void initializeLogger() throws
         MalformedURLException
     {
         // Let's look at the log file entry and
@@ -431,7 +431,7 @@ public class Runtime implements RuntimeConstants
      * to be set by some external mechanism: Turbine
      * for example.
      */
-    public static void initializeTemplateLoader() throws Exception
+    private static void initializeTemplateLoader() throws Exception
     {
         if(!sourceInitializersAssembled)
             assembleSourceInitializers();
