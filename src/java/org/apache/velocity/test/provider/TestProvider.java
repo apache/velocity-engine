@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.4 2000/11/06 01:22:52 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.5 2000/11/06 04:51:15 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -253,9 +253,20 @@ public class TestProvider
      * @param i Number of characters to chop.
      * @return String with processed answer.
      */
-    public static String chop(String string, int i)
+    public String chop(String string, int i)
     {
         return(string.substring(0, string.length() - i));
+    }
+
+    public boolean allEmpty(Object[] list)
+    {
+        int size = list.length;
+        
+        for (int i = 0; i < size; i++)
+            if (list[i].toString().length() > 0)
+                return false;
+        
+        return true;
     }
 
     /*
