@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import java.util.Stack;
  * Exception for #parse() problems
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseDirectiveException.java,v 1.2 2000/12/11 03:50:38 geirm Exp $
+ * @version $Id: ParseDirectiveException.java,v 1.3 2001/03/05 11:45:49 jvanzyl Exp $
  */
 
 public class ParseDirectiveException extends Exception

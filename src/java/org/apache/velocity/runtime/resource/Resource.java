@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Resource.java,v 1.3 2001/02/26 03:33:19 geirm Exp $
+ * @version $Id: Resource.java,v 1.4 2001/03/05 11:46:44 jvanzyl Exp $
  */
 public abstract class Resource
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.test.provider;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.14 2001/01/24 15:30:09 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.15 2001/03/05 11:48:06 jvanzyl Exp $
  */
 public class TestProvider
 {

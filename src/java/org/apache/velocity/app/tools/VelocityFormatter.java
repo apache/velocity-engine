@@ -1,7 +1,7 @@
 package org.apache.velocity.app.tools;
 
 /*
- * Copyright (c) 1997-2000 The Java Apache Project.  All rights reserved.
+ * Copyright (c) 2001 The Java Apache Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -79,7 +79,7 @@ import org.apache.velocity.context.*;
  * </pre></code>
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
- * @version $Id: VelocityFormatter.java,v 1.1 2001/02/11 21:25:54 geirm Exp $
+ * @version $Id: VelocityFormatter.java,v 1.2 2001/03/05 11:44:54 jvanzyl Exp $
  */
 public class VelocityFormatter
 {

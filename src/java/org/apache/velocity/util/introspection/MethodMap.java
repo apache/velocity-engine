@@ -3,7 +3,7 @@ package org.apache.velocity.util.introspection;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,11 +66,14 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: MethodMap.java,v 1.8 2000/12/07 17:44:33 jvanzyl Exp $
+ * @version $Id: MethodMap.java,v 1.9 2001/03/05 11:48:51 jvanzyl Exp $
  */
 
 public class MethodMap
 {
+    /**
+     * Keep track of all methods with the same name.
+     */
     Map methodByNameMap = new Hashtable();
 
     /**
@@ -83,16 +86,31 @@ public class MethodMap
         String methodName = method.getName();
         
         if (!methodByNameMap.containsKey(methodName))
+        {
             methodByNameMap.put(methodName, new ArrayList());
+        }            
 
         ((List) methodByNameMap.get(methodName)).add(method);
     }
-
+    
+    /**
+     * Return a list of methods with the same name.
+     *
+     * @param String key
+     * @return List list of methods
+     */
     public List get(String key)
     {
         return (List) methodByNameMap.get(key);
     }
 
+    /**
+     * Find a method.
+     *
+     * @param String name of method
+     * @param Object[] params
+     * @return Method
+     */
     public Method find(String methodName, Object[] params)
     {
         List methodList = (List) methodByNameMap.get(methodName);
@@ -112,13 +130,17 @@ public class MethodMap
             method = (Method) methodList.get(i);
             parameterTypes = method.getParameterTypes();
             
-            // The methods we are trying to compare must
-            // the same number of arguments.
+            /*
+             * The methods we are trying to compare must
+             * the same number of arguments.
+             */
 
             if (parameterTypes.length == params.length)
             {
-                // Make sure the given parameter is a valid
-                // subclass of the method parameter in question.
+                /* 
+                 * Make sure the given parameter is a valid
+                 * subclass of the method parameter in question.
+                 */
 
                 for (int j = 0; ; j++)
                 {

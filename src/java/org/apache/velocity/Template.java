@@ -3,7 +3,7 @@ package org.apache.velocity;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,7 +89,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.28 2001/02/26 02:55:31 geirm Exp $
+ * @version $Id: Template.java,v 1.29 2001/03/05 11:44:21 jvanzyl Exp $
  */
 public class Template extends Resource
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.log;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.apache.log.output.FileOutputLogTarget;
  * this class for logging.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: LogManager.java,v 1.1 2001/01/02 02:40:30 jvanzyl Exp $
+ * @version $Id: LogManager.java,v 1.2 2001/03/05 11:46:28 jvanzyl Exp $
  */
 public class LogManager
 {

@@ -1,15 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/VelocityWriter.java,v 1.2 2000/12/20 07:07:25 jvanzyl Exp $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 07:07:25 $
- *
- * ====================================================================
- * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999 The Apache Software Foundation.  All rights 
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -17,7 +11,7 @@ package org.apache.velocity.io;
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -25,15 +19,15 @@ package org.apache.velocity.io;
  *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:  
- *       "This product includes software developed by the 
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
- *    from this software without prior written permission. For written 
+ *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
@@ -58,8 +52,7 @@ package org.apache.velocity.io;
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- *
- */ 
+ */
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -137,6 +130,7 @@ import java.io.Writer;
  * are fixed -akv 
  *
  * @author Anil K. Vijendran
+ * @version $Id: VelocityWriter.java,v 1.3 2001/03/05 11:45:04 jvanzyl Exp $
  */
 public final class VelocityWriter extends Writer
 {

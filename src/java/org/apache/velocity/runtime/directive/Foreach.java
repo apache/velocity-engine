@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.31 2001/02/14 22:31:50 geirm Exp $
+ * @version $Id: Foreach.java,v 1.32 2001/03/05 11:45:41 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {

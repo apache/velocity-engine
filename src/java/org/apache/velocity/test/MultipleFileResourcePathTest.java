@@ -3,7 +3,7 @@ package org.apache.velocity.test;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.1 2001/03/04 00:42:05 jvanzyl Exp $
+ * @version $Id: MultipleFileResourcePathTest.java,v 1.2 2001/03/05 11:47:38 jvanzyl Exp $
  */
 public class MultipleFileResourcePathTest extends TestCase
 {

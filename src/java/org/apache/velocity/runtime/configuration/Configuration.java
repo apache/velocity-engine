@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.configuration;
 
 /*
- * Copyright (c) 1997-2000 The Java Apache Project.  All rights reserved.
+ * Copyright (c) 2001 The Java Apache Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -136,8 +136,9 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Configuration.java,v 1.9 2001/03/05 10:37:55 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.10 2001/03/05 11:45:31 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -351,8 +352,7 @@ public class Configuration extends Hashtable
      *
      * @exception IOException, if there was an I/O problem.
      */
-    private void init( Configuration exp )
-        throws IOException
+    private void init( Configuration exp ) throws IOException
     {
         isInitialized = true;
     }

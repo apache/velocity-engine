@@ -3,7 +3,7 @@ package org.apache.velocity.servlet;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.22 2001/02/26 04:51:23 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.23 2001/03/05 11:47:25 jvanzyl Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {

@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.visitor;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.parser.node.*;
  * as well.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: NodeViewMode.java,v 1.3 2000/10/21 02:00:18 jvanzyl Exp $
+ * @version $Id: NodeViewMode.java,v 1.4 2001/03/05 11:47:19 jvanzyl Exp $
  */
 public class NodeViewMode extends BaseVisitor
 {

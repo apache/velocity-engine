@@ -3,7 +3,7 @@ package org.apache.velocity.util.introspection;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,13 +85,8 @@ import org.apache.velocity.util.StringUtils;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.8 2000/11/25 18:27:27 jon Exp $
+ * @version $Id: Introspector.java,v 1.9 2001/03/05 11:48:49 jvanzyl Exp $
  */
-
-// isAssignable checks for arguments that are subclasses
-// DirectHit map
-// DirectMiss map
-
 public class Introspector
 {
     private static Hashtable classMethodMaps = new Hashtable();
@@ -100,25 +95,33 @@ public class Introspector
         throws Exception
     {
         if (c == null)
-            throw new Exception ( "Introspector.getMethod(): Class method key was null: " + name );
+        {
+            throw new Exception ( 
+                "Introspector.getMethod(): Class method key was null: " + name );
+        }                
 
-        // If this is the first time seeing this class
-        // then create a method map for this class and
-        // store it in Hashtable of class method maps.
+        /* 
+         * If this is the first time seeing this class
+         * then create a method map for this class and
+         * store it in Hashtable of class method maps.
+         */
         if (!classMethodMaps.containsKey(c))
         {
-            // Lots of threads might be whizzing through here,
-            // so we do a double-checked lock, which only involves
-            // synchronization when there's a key-miss.  Avoids
-            // doing duplicate work, and constructing objects twice
-            // in particular race conditions
+            /*
+             * Lots of threads might be whizzing through here,
+             * so we do a double-checked lock, which only involves
+             * synchronization when there's a key-miss.  Avoids
+             * doing duplicate work, and constructing objects twice
+             * in particular race conditions
+             */
 
-            // Though, some folks say that double-checked-locking
-            // doesn't necessarily work-as-expected in Java on
-            // multi-proc machines.  Doesn't make things worse,
-            // but just doesn't help as much as you'd imagine it
-            // would.  Darn re-ordering of instructions.
-        
+            /* 
+             * Though, some folks say that double-checked-locking
+             * doesn't necessarily work-as-expected in Java on
+             * multi-proc machines.  Doesn't make things worse,
+             * but just doesn't help as much as you'd imagine it
+             * would.  Darn re-ordering of instructions.
+             */
             synchronized (classMethodMaps)
             {
                 if (!classMethodMaps.containsKey(c))
@@ -130,6 +133,13 @@ public class Introspector
         return findMethod(c, name, params);
     }
 
+    /**
+     * Find a method in a class.
+     *
+     * @param Class class to search
+     * @param String name of method
+     * @param Object[] parameters
+     */
     private static Method findMethod(Class c, String name, Object[] params)
     {
         ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c);
@@ -138,6 +148,7 @@ public class Introspector
 
     /**
      * Checks whether the provided object implements a given method.
+     *
      *
      * @param object     The object to check.
      * @param methodName The method to check for.
@@ -148,9 +159,14 @@ public class Introspector
         int m;
         
         Method[] methods = object.getClass().getMethods();
+        
         for (m = 0 ; m < methods.length ; ++m)
+        {
             if (methodName.equals(methods[m].getName()))
+            {
                 break;
+            }
+        }            
         
         return (m < methods.length);
     }

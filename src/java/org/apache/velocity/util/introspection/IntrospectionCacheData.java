@@ -1,7 +1,9 @@
+package org.apache.velocity.util.introspection;
+
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,14 +54,12 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.util.introspection;
-
 /**
  *  Holds information for  node-local context data introspection
  *  information  @see InternalContext
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectionCacheData.java,v 1.1 2000/12/12 23:44:18 geirm Exp $
+ * @version $Id: IntrospectionCacheData.java,v 1.2 2001/03/05 11:48:46 jvanzyl Exp $
  */
 
 public class IntrospectionCacheData

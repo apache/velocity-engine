@@ -3,7 +3,7 @@ package org.apache.velocity.runtime;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.90 2001/03/04 21:10:26 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.91 2001/03/05 11:45:08 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    

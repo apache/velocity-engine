@@ -3,7 +3,7 @@ package org.apache.velocity.test;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import junit.framework.TestCase;
  * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.5 2000/12/20 06:51:47 jvanzyl Exp $
+ * @version $Id: BaseTestCase.java,v 1.6 2001/03/05 11:47:32 jvanzyl Exp $
  */
 public abstract class BaseTestCase extends TestCase
 {

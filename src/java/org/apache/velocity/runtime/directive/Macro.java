@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.10 2001/01/13 16:40:32 geirm Exp $
+ * @version $Id: Macro.java,v 1.11 2001/03/05 11:45:46 jvanzyl Exp $
  */
 public class Macro extends Directive
 {

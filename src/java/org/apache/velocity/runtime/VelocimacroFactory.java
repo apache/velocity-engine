@@ -3,7 +3,7 @@ package org.apache.velocity.runtime;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.9 2001/02/23 21:29:44 jon Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.10 2001/03/05 11:45:12 jvanzyl Exp $ 
  *
  */
 public class VelocimacroFactory
