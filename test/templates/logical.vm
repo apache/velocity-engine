@@ -188,3 +188,81 @@ wrong
 right
 #end
 
+-----------
+comparisons
+-----------
+#set($int = 1)
+#set($str = "str")
+#set($bool = true)
+
+#if( $int > 0 )
+right
+#else
+wrong
+#end
+
+#if( $str > 0 )
+wrong
+#else
+right
+#end
+
+#if( $nonexistant > 0 )
+wrong
+#else
+right
+#end
+
+#if( $int >= 0 )
+right
+#else
+wrong
+#end
+
+#if( $str >= 0 )
+wrong
+#else
+right
+#end
+
+#if( $nonexistant >= 0 )
+wrong
+#else
+right
+#end
+
+#if( $int < 10 )
+right
+#else
+wrong
+#end
+
+#if( $str < 10 )
+wrong
+#else
+right
+#end
+
+#if( $nonexistant < 10 )
+wrong
+#else
+right
+#end
+
+#if( $int <= 10 )
+right
+#else
+wrong
+#end
+
+#if( $str <= 10 )
+wrong
+#else
+right
+#end
+
+#if( $nonexistant <= 10 )
+wrong
+#else
+right
+#end
