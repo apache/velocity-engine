@@ -45,5 +45,9 @@
         <item name="Editors and IDEs"       href="/devtools.html"/>
         <item name="IT Manager wants JSP?"  href="/veltag.html"/>
     </menu>
+    <menu name="Site Translations">
+        <item name="English"                 href="http://jakarta.apache.org/velocity/"/>
+        <item name="Japanese"                href="http://www.ingrid.org/jajakarta/velocity/velocity-1.2-rc2/docs-ja/index.html"/>
+    </menu>
     </body>
 </project>
