@@ -23,14 +23,14 @@ import java.util.Enumeration;
  * An Iterator wrapper for an Enumeration.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EnumerationIterator.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public class EnumerationIterator implements Iterator
 {
     /**
      * The enumeration to iterate.
      */
-    private Enumeration enum = null;
+    private Enumeration enumeration = null;
 
     /**
      * Creates a new iteratorwrapper instance for the specified 
@@ -38,9 +38,9 @@ public class EnumerationIterator implements Iterator
      *
      * @param enum  The Enumeration to wrap.
      */
-    public EnumerationIterator( Enumeration enum)
+    public EnumerationIterator(Enumeration enumeration)
     {
-        this.enum = enum;
+        this.enumeration = enumeration;
     }
 
     /**
@@ -50,7 +50,7 @@ public class EnumerationIterator implements Iterator
      */
     public Object next()
     {
-        return enum.nextElement();
+        return enumeration.nextElement();
     }
     
     /**
@@ -60,7 +60,7 @@ public class EnumerationIterator implements Iterator
      */
     public boolean hasNext()
     {
-        return enum.hasMoreElements();
+        return enumeration.hasMoreElements();
     }
 
     /**
