@@ -155,6 +155,9 @@ public interface RuntimeConstants
     /** switch for VM blather : default true  */
     public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
 
+   /** switch for local context in VM : default true  */
+    public final static String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
+
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.
