@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.5 2000/11/22 12:11:59 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.6 2000/11/22 12:45:32 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -156,8 +156,8 @@ public class ASTMethod extends SimpleNode
             
             if (obj == null)
             {
-                if (method.getReturnType().toString().equals("void"))
-                    return new String("");
+                if( method.getReturnType() == Void.TYPE)
+                     return new String("");
             }
             
             return obj;
