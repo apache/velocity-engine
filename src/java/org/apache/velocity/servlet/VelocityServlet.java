@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.47 2002/07/03 21:14:59 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.48 2002/09/06 00:09:08 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -212,8 +212,6 @@ public abstract class VelocityServlet extends HttpServlet
         defaultContentType = RuntimeSingleton.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
         encoding = RuntimeSingleton.getString( RuntimeSingleton.OUTPUT_ENCODING, 
                         DEFAULT_OUTPUT_ENCODING);
-                        
-        return;
     }
 
     /**
@@ -242,10 +240,8 @@ public abstract class VelocityServlet extends HttpServlet
         }
         catch( Exception e )
         {
-            throw new ServletException("Error initializing Velocity: " + e);
+            throw new ServletException("Error initializing Velocity: " + e, e);
         }   
-        
-        return;
     }    
      
     /**
