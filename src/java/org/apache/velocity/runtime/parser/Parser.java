@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.51 2000/12/28 16:22:25 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.52 2001/01/06 20:56:12 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -480,7 +480,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
  *   Supports the arguments for the Pluggable Directives
  *   We add whitespace in here as a token so the VMs can 
  *   easily reconstruct a macro body from the token stream
- *   @see Directive()
+ *   See Directive()
  */
   final public void DirectiveArg() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
