@@ -69,7 +69,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.11 2003/05/04 17:24:31 geirm Exp $
+ * @version $Id: Resource.java,v 1.12 2003/08/31 23:38:00 dlr Exp $
  */
 public abstract class Resource
 {
@@ -89,7 +89,7 @@ public abstract class Resource
     protected static final long MILLIS_PER_SECOND =  1000;
 
     /**
-     * How often the file modification time is checked (in milliseconds).
+     * How often the file modification time is checked (in seconds).
      */
     protected long modificationCheckInterval = 0;
 
@@ -154,7 +154,7 @@ public abstract class Resource
 
     /**
      * Set the modification check interval.
-     * @param interval The interval (in minutes).
+     * @param interval The interval (in seconds).
      */
     public void setModificationCheckInterval(long modificationCheckInterval)
     {
