@@ -23,22 +23,26 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-            #set $au = $root.getChild("properties").getChild("author").getText()
-            #set $em = $root.getChild("properties").getChild("author").getAttributeValue("email")
+            ##set $au = $root.getChild("properties").getChild("author").getText()
+            ##set $em = $root.getChild("properties").getChild("author").getAttributeValue("email")
 
 <!--
-            Just a convenient place to try this out, it should return a List.
-            
-            $xpath.applyTo("properties/author", $root) 
+            ## For some reason, we can't .getText() and .getValue() directly in the
+            ## set directive, but rather have to wait a moment, and do it in the
+            ## metaauthor directive.
 
-            ## Commented out, since it doesn't work
+            #set $au = $xpath.applyTo("properties/author", $root).get(0)
+            #set $em = $xpath.applyTo("properties/author/@email", $root).get(0)
 
-            ##set $au = $xpath.applyTo("properties/author", $root)
-            ##set $em = $xpath.applyTo("properties/author/email", $root)
+            ## This should work, but doesn't
+
+            ##set $au = $xpath.applyTo("properties/author", $root).get(0).getText()
+            ##set $em = $xpath.applyTo("properties/author/@email", $root).get(0).getValue()
+
 -->
 
 
-            #metaauthor ( $au $em )
+            #metaauthor ( $au.getText() $em.getValue() )
 
             <title>$root.getChild("properties").getChild("title").getText()</title>
         </head>
@@ -50,7 +54,9 @@
                 #makeProject()
                 </td>
                 <td>
-                #set $allSections = $root.getChild("body").getChildren("section")
+                ##set $allSections = $root.getChild("body").getChildren("section")
+                #set $allSections = $xpath.applyTo("body/section", $root)
+
                 #foreach ( $section in $allSections )
                     #foreach ( $item in $section.getChildren() )                
                         #if ($item.getName().equals("img"))
@@ -68,7 +74,9 @@
 #end
 
 #macro ( makeProject )
-    #set $menus = $project.getChild("body").getChildren("menu")
+    ##set $menus = $project.getChild("body").getChildren("menu")
+    #set $menus = $xpath.applyTo("body/menu", $project)
+
     #foreach ( $menu in $menus )
         <strong>$menu.getAttributeValue("name")</strong>
         <ul>
