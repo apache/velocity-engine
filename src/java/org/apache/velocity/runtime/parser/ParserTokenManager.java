@@ -21,7 +21,7 @@ public class ParserTokenManager implements ParserConstants
     private boolean inReference;
     public boolean inDirective;
     private boolean inComment;
-    private boolean inSet;
+    public  boolean inSet;
 
     /**
      *  pushes the current state onto the 'state stack',
@@ -3653,7 +3653,9 @@ final void TokenLexicalActions(Token matchedToken)
          */
 
         if ( lparen == 0 && !inSet && curLexState != REFMOD2)
+        {
             stateStackPop();
+        }
          break;
       case 56 :
         if (image == null)
