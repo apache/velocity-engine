@@ -56,7 +56,8 @@ package org.apache.velocity.context;
 
 import java.util.HashMap;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.VMProxyArg;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.runtime.resource.Resource;
@@ -74,7 +75,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.7 2001/05/20 19:44:35 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.8 2001/08/07 22:21:51 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -91,14 +92,15 @@ public class VMContext implements InternalContextAdapter
     InternalContextAdapter wrappedContext = null;
 
     /** support for local context scope feature, where all references are local */
-    static boolean localcontextscope = 
-        Runtime.getBoolean(Runtime.VM_CONTEXT_LOCALSCOPE, true);
+    private  boolean localcontextscope = true;
 
-    /**
+     /**
      *  CTOR, wraps an ICA
      */
-    public VMContext( InternalContextAdapter  inner )
+    public VMContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
+        localcontextscope = rsvc.getBoolean( RuntimeConstants.VM_CONTEXT_LOCALSCOPE, true );
+
         wrappedContext = inner;
         innerContext = inner.getBaseContext();
     }
