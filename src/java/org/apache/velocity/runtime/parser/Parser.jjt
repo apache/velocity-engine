@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.61 2001/06/12 03:18:05 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.62 2001/06/29 23:31:37 geirm Exp $ 
 */
 public class Parser
 {
@@ -480,7 +480,7 @@ TOKEN:
 |   <COMMA:",">
 }
 
-<DIRECTIVE>
+<DIRECTIVE, REFMOD2>
 TOKEN:
 {
   <DOUBLEDOT : ".." >
@@ -1149,7 +1149,7 @@ void DirectiveArg() #void : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
-|   LOOKAHEAD(4) IntegerRange()
+|   LOOKAHEAD(5) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1287,13 +1287,14 @@ void Parameter() #void: {}
     [<WHITESPACE>]
     (
         StringLiteral()
+      | LOOKAHEAD(5) IntegerRange()
       | ObjectArray()
       | True()
       | False()
       | Reference()
       | NumberLiteral()
     )
-    [<WHITESPACE>]
+    [ <WHITESPACE>]
 }
 
 /**
@@ -1485,8 +1486,8 @@ void PrimaryExpression() #void : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
-  | LOOKAHEAD(3) ObjectArray()
-  | IntegerRange()
+  | LOOKAHEAD(5) IntegerRange()
+  | ObjectArray()
   | True()
   | False()
   | <LPAREN>  Expression()  <RPAREN>
