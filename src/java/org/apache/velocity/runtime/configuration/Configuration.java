@@ -163,7 +163,8 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.23 2001/04/09 22:38:39 dlr Exp $
+ * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
+ * @version $Id: Configuration.java,v 1.24 2001/04/18 20:29:23 geirm Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -1484,9 +1485,17 @@ public class Configuration extends Hashtable
      */
     public int getInteger(String key,
                           int defaultValue)
-    {
-        return getInteger(key, new Integer(defaultValue)).intValue();
-    }
+    {    
+        Integer i = getInteger(key, null);
+        
+        if (i == null)
+        {
+            return defaultValue;
+        }
+        
+        return i.intValue();
+      }
+
 
     /**
      * Get a int associated with the given configuration key.
