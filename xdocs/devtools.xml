@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity and Development Tools</title>
+  <author email="velocity-user@jakarta.apache.org">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Velocity and Development Tools">
+
+<p>
+   We have two contributions from the user community to help make developing with
+   Velocity easier and more convenient.
+</p>
+
+<subsection name="IntelliJ IDEA">
+
+<p>
+ Rickard Oberg (rickard@xpedio.com) has contributed templates for the
+ <a href="http://www.intellij.com/">IntelliJ IDEA</a> IDE. 
+ </p>
+
+ <p>
+ They can  be found 
+ <a href="http://cvs.apache.org/viewcvs/jakarta-velocity/contrib/tools/intellij/">
+ here</a> in the Velocity CVS, or can be found in the /contrib/tools directory
+ of the source tree.
+</p>
+
+</subsection>
+
+<subsection name="UltraEdit Editor">
+
+<p>
+Herve Guidetti (Herve.Guidetti@idbsoft.ch) contributed a 'WordFile.txt' addition
+(with  tweaks and comments by Wido Hillmann (wido.hillmann@epost.de) )
+for the <a href="http://www.ultraedit.com/">UltraEdit</a> programmers editor.
+</p>
+
+<p>
+ It can  be found 
+ <a href="http://cvs.apache.org/viewcvs/jakarta-velocity/contrib/tools/ultraedit/">
+ here</a> in the Velocity CVS, or can be found in the /contrib/tools directory
+ of the source tree.
+</p>
+
+</subsection>
+</section>
+
+</body>
+</document>
