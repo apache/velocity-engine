@@ -54,17 +54,23 @@ package org.apache.velocity.test.misc;
  * <http://www.apache.org/>.
   */
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Stack;
+import java.util.Vector;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 
-import org.apache.velocity.io.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
-
 
 /**
  * This class the testbed for Velocity. It is used to
@@ -72,7 +78,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.8 2000/11/30 05:24:56 geirm Exp $
+ * @version $Id: Test.java,v 1.9 2000/12/20 06:59:12 jvanzyl Exp $
  */
 public class Test
 {
@@ -118,7 +124,8 @@ public class Test
             
             try
             {
-                FileInputStream fis =  new FileInputStream( new File("velocity.properties" ));
+                FileInputStream fis =  new FileInputStream( 
+                    new File("velocity.properties" ));
             
                 if( fis != null)
                     p.load( fis );
