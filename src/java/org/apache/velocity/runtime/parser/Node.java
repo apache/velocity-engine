@@ -57,7 +57,6 @@ public interface Node
         throws IOException;
 
     public Object execute(Object o, Context context);
-
     public void setInfo(int info);
     public int getInfo();
 }
