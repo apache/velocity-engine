@@ -33,3 +33,10 @@ $provider.objConcat( [$foo ] )
 #showme( [ $woog,$floog] )
 #showme( [1..2])
 #showme( [1 ..2 ])
+
+##  and more....
+
+$p.m( [ $A.g(1), $title ])
+$pp.messageFormat( [ $Abc.get($sti), $title, $ti, $sti, 'bodytext' ], $subtopicTemplate)
+#set ($args = [ $pp.nQuestions, $pass, $units ] )
+
