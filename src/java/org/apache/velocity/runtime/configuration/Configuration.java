@@ -164,7 +164,7 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.26 2001/05/01 02:30:20 dlr Exp $
+ * @version $Id: Configuration.java,v 1.27 2001/05/01 02:36:12 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -1016,8 +1016,7 @@ public class Configuration extends Hashtable
             }
             else
             {
-                throw new IllegalArgumentException("'" +
-                                                   token +
+                throw new IllegalArgumentException('\'' + token +
                                                    "' does not contain " +
                                                    "an equals sign");
             }
@@ -1063,7 +1062,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a String/Vector object");
+                '\'' + key + "' doesn't map to a String/Vector object");
         }
 
         String[] tokens = new String[vector.size()];
@@ -1130,7 +1129,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Vector object");
+                '\'' + key + "' doesn't map to a Vector object");
         }
     }
 
@@ -1154,7 +1153,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + "doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1212,7 +1211,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Boolean object");
+                '\'' + key + "' doesn't map to a Boolean object");
         }
     }
     
@@ -1268,7 +1267,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + " doesn't map to an existing object");
         }
     }
 
@@ -1330,7 +1329,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Byte object");
+                '\'' + key + "' doesn't map to a Byte object");
         }
     }
 
@@ -1356,7 +1355,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1418,7 +1417,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Short object");
+                '\'' + key + "' doesn't map to a Short object");
         }
     }
 
@@ -1470,7 +1469,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1540,7 +1539,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Integer object");
+                '\'' + key + "' doesn't map to a Integer object");
         }
     }
 
@@ -1566,7 +1565,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1628,7 +1627,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Long object");
+                '\'' + key + "' doesn't map to a Long object");
         }
     }
 
@@ -1654,7 +1653,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1716,7 +1715,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Float object");
+                '\'' + key + "' doesn't map to a Float object");
         }
     }
 
@@ -1742,7 +1741,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new NoSuchElementException(
-                key + " doesn't map to an existing object");
+                '\'' + key + "' doesn't map to an existing object");
         }
     }
 
@@ -1804,7 +1803,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + " doesn't map to a Double object");
+                '\'' + key + "' doesn't map to a Double object");
         }
     }
 
