@@ -14,3 +14,8 @@ test doesn't fail incorrectly.
 #if (true)
     "what is $this"
 #end
+
+<input type="checkbox" name="$name" #if($checked)checked="1"#end/>
+ 
+<input type="checkbox" name="$hashtable.Bar" #if($checked)checked="1"#end/>
+
