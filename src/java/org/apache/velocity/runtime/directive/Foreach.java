@@ -85,7 +85,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.22 2000/11/25 21:31:30 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.23 2000/11/26 10:18:13 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
@@ -252,10 +252,17 @@ public class Foreach extends Directive
                     try
                     {
                         init(context, node);
+                        
+                        /*
+                         * Check again, if the list is still
+                         * empty then return false.
+                         */
+                        if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
+                            return false;
                     }
                     catch (Exception e)
                     {
-                        // do nothing.
+                        return false;
                     }
                 }
             }
