@@ -952,7 +952,8 @@ As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
 <i><code>public Template handleRequest( HttpServletRequest, HttpServletResponse, Context )</code></i>
 
 <blockquote>
-   This is the newer of the two <code>handleRequest()</code> methods.  
+   This is the newer of the two <code>handleRequest()</code> methods, implemented
+   in version 1.1.  
    The difference with this method is that the <code>HttpServletRequest</code>
    and <code>HttpServletResponse</code> objects are passed to you as arguments
    to the method, as well as in the <code>Context</code>.  The other difference
@@ -1613,38 +1614,54 @@ Starting in version 1.1, a fine-grain event handling system was added to Velocit
 The EventCartridge is a class in which you register your event handlers, and then the
 EventCartridge acts as the delivery agent from which the Velocity engine will
 access the event handlers at merge time if needed.
-Currently, there are 4 events that can be handled, and all are found in the 
+Currently, there are 3 events that can be handled, and all are found in the 
 <code>org.apache.velocity.context</code> package. [note : they don't belong there ]
+</p>
+                                                <p>
+<i><code>org.apache.velocity.context.NullSetEventHandler</code></i>
 
-<ol>
-<li>
-   Null #set() : when a #set() results in a null assignment, this is normally 
-   logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
-   logging of this condition.
-</li>
+<blockquote>
+When a #set() results in a null assignment, this is normally 
+logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
+logging of this condition.
+<br />
+<pre>
+public interface NullSetEventHandler extends EventHandler
+{
+    public boolean nullSetLogMessage( String reference );
+}   
+</pre>
+</blockquote>
 
-<li>
-   Reference Insertion : a <code>ReferenceInsertionEventHandler</code> allows the 
-   developer to intercept each write of a reference ($foo) value to the output 
-   stream and modify that output. 
-</li>
+<i><code>org.apache.velocity.context.ReferenceInsertionEventHandler</code></i>
+<blockquote>
+A <code>ReferenceInsertionEventHandler</code> allows the 
+developer to intercept each write of a reference ($foo) value to the output 
+stream and modify that output. 
+<pre>
+public interface  ReferenceInsertionEventHandler extends EventHandler
+{
+    public Object referenceInsert( String reference, Object value  );
+}
+</pre>
+</blockquote>
 
-<li>
-   Null Reference :  When a reference is null, normally this results in a literal 
-   representation of the reference going to the output.  The
-   <code>NullReferenceEventHandler</code> is called with the reference literal,
-   and allows you to modify the output to the stream.
-</li>
-
-<li>
-  Method Exception : When a user-supplied method throws an exception, the
-  <code>MethodExceptionEventHandler</code> is invoked with the Class, method name
-  and thrown Exception.  The handler can either return a valid Object to be used
+<i><code>org.apache.velocity.context.MethodExceptionEventHandler</code></i>
+<blockquote>
+When a user-supplied method throws an exception, the
+<code>MethodExceptionEventHandler</code> is invoked with the Class, method name
+and thrown Exception.  The handler can either return a valid Object to be used
 as the return value of the method call, or throw the passed-in or new Exception, 
-  which will be wrapped and propogated to the user as a 
-  <code>MethodInvocationException</code>
-</li>
-</ol>
+which will be wrapped and propogated to the user as a 
+<code>MethodInvocationException</code>
+<pre>
+public interface MethodExceptionEventHandler extends EventHandler
+{
+    public Object methodException( Class claz, String method, Exception e )
+         throws Exception;
+}
+</pre>
+</blockquote>
 </p>
                                                 <strong>Using the EventCartridge</strong>
                                                 <p>
@@ -1668,12 +1685,11 @@ import org.apache.velocity.context.EventCartridge;
 import org.apache.velocity.context.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.MethodExceptionEventHandler;
 import org.apache.velocity.context.NullSetEventHandler;
-import org.apache.velocity.context.NullReferenceEventHandler;
 
  ...
 
  public class Test implements ReferenceInsertionEventHandler, 
-                             NullSetEventHandler,NullReferenceEventHandler,
+                             NullSetEventHandler,
                              MethodExceptionEventHandler
 {
  ...
@@ -2452,7 +2468,7 @@ for proper operation, the ClasspathResourceLoader is the simplest.
         <blockquote>
                                     <a name="encoding" />
                                                 <p>
-Velocity allows you to specify the character encoding of your
+As of version 1.1, Velocity allows you to specify the character encoding of your
 template resources on a template by template basis.  The normal resource
 API's have been extended to take the encoding as an argument :
 </p>
@@ -2475,7 +2491,8 @@ API's have been extended to take the encoding as an argument :
 </p>
                                                 <p>
 The value for the <i>encoding</i> argument is the conventional encoding specification 
-supported by your JVM, for example "UTF-8" or "ISO-8859-1".
+supported by your JVM, for example "UTF-8" or "ISO-8859-1".  For the official names
+for character sets, see <a href="http://www.iana.org/assignments/character-sets">here</a>.
 </p>
                                                 <p>
 Note that this applies only to the encoding of the template itself - the output

@@ -181,7 +181,7 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
     Tomcat and setup a webapp. (gmj)
   </li>
   <li>
-    Removed the .close() and .flush() of the output stream in VelocityServlet
+    Removed the .close() of the output stream in VelocityServlet
     and symmetrized VelocityWriter recycle.  (gmj)
   </li>
   <li>
@@ -190,6 +190,22 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
      (Which came from Velocity and was renamed.)  Should result in no changes 
      other than deprecation of Configuration and one deprecated method in
      o.a.v.app.Velocity. (gmj)
+  </li>
+  <li>
+     Removed build/build.sh and build/build.bat and build/lib/ant*.jar to 
+     move to explicit Ant-based build. (jss)
+  </li>
+  <li>
+     Changed JarResourceLoader to use normal 'path' configuration key
+     and added jar test to MultiLoaderTestCase. (gmj)
+  </li>
+  <li>
+    Updated the regexp in the WM conversion tool. (dlr)
+  </li>
+  <li>
+    Added EventHandler test case and example, and 
+    removed NullReferenceEventHandler
+    as redundant. (gmj)
   </li>
 </ul>
                             </blockquote>
