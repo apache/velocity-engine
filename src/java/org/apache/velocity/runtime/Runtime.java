@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.66 2000/12/06 05:58:02 geirm Exp $
+ * @version $Id: Runtime.java,v 1.67 2000/12/10 04:51:25 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -1046,9 +1046,9 @@ public class Runtime implements RuntimeConstants
      * @param strVMName  Name of velocimacro requested
      * @return VelocimacroProxy 
      */
-    public static Directive getVelocimacro( String strVMName )
+    public static Directive getVelocimacro( String strVMName, String strTemplateName  )
     {
-        return vmFactory_.getVelocimacro( strVMName );
+        return vmFactory_.getVelocimacro( strVMName, strTemplateName );
     }
 
    /**
@@ -1073,9 +1073,18 @@ public class Runtime implements RuntimeConstants
      * @param strName  Name of velocimacro
      * @return boolean  True if VM by that name exists, false if not
      */
-    public static boolean isVelocimacro( String strVMName )
+    public static boolean isVelocimacro( String strVMName, String strTemplateName )
     {
-        return vmFactory_.isVelocimacro( strVMName );
+        return vmFactory_.isVelocimacro( strVMName, strTemplateName );
+    }
+
+    /**
+     *  tells the vmFactory to dump the specified namespace.  This is to support
+     *  clearing the VM list when in inline-VM-local-scope mode
+     */
+    public static boolean dumpVMNamespace( String strNamespace )
+    {
+        return vmFactory_.dumpVMNamespace( strNamespace );
     }
 
     /* --------------------------------------------------------------------
