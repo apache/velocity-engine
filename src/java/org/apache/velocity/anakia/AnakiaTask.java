@@ -66,6 +66,8 @@ import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 
+import org.xml.sax.SAXParseException;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -90,7 +92,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.18 2001/03/12 04:47:07 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.19 2001/03/12 21:35:55 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -390,16 +392,31 @@ public class AnakiaTask extends MatchingTask
         }
         catch (JDOMException e)
         {
+            if (outFile != null ) outFile.delete();
             if (e.getRootCause() != null)
             {
-                e.getRootCause().printStackTrace();
+                Throwable rootCause = e.getRootCause();
+                if (rootCause instanceof SAXParseException)
+                {
+                    System.out.println("");
+		            System.out.println("Error: " + rootCause.getMessage());
+		            System.out.println(
+		                "       Line: " + 
+		                    ((SAXParseException)rootCause).getLineNumber() + 
+		                " Column: " + 
+		                    ((SAXParseException)rootCause).getColumnNumber());
+                    System.out.println("");
+                }
+                else
+                {
+                    rootCause.printStackTrace();
+                }
             }
             else
             {
                 e.printStackTrace();
             }
 //            log("Failed to process " + inFile, Project.MSG_INFO);
-            if (outFile != null ) outFile.delete();
         }
         catch (Throwable e)
         {
