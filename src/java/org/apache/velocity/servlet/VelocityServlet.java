@@ -98,7 +98,7 @@ import org.apache.velocity.io.*;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.14 2000/11/04 04:58:42 jon Exp $
+ * $Id: VelocityServlet.java,v 1.15 2000/11/07 23:13:52 jon Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -247,14 +247,12 @@ public abstract class VelocityServlet extends HttpServlet
             }
             catch (Exception e)
             {
-                // do nothing
             }
             if (vw == null)
                 vw = new JspWriterImpl(new OutputStreamWriter(output, encoding), 4*1024, true);
             else
                 vw.recycle(new OutputStreamWriter(output, encoding));
             template.merge( context, vw);
-            writerStack.push(vw);
 
             //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
         }
@@ -269,6 +267,7 @@ public abstract class VelocityServlet extends HttpServlet
             {
                 if (vw != null)
                 {
+                    writerStack.push(vw);
                     vw.flush();
                     output.close();
                 }                
