@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.11 2000/11/27 03:55:58 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.12 2000/12/04 02:02:52 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -89,8 +89,6 @@ public class ASTReference extends SimpleNode
     
     private int referenceType;
     private String nullString;
-    private Object rootObject;
-    private Object value;
     private String rootString;
     private boolean bIsEscaped_ = false;
     private String  strPrefix_ = "";
@@ -113,33 +111,45 @@ public class ASTReference extends SimpleNode
 
     public Object init(Context context, Object data) throws Exception
     {
-        rootString = getRoot();
-        rootObject = getVariableValue(context, rootString);
-        
-        // An object has to be in the context for
-        // subsequent introspection.
+        /*
+         *  init our children
+         */
 
-        if (rootObject == null) return null;
-        
-        Class clazz = rootObject.getClass();
-        
-        // All children here are either Identifier() nodes
-        // or Method() nodes.
-        
-        int children = jjtGetNumChildren();
-        for (int i = 0; i < children; i++)
-            clazz = (Class) jjtGetChild(i).init(context, clazz);
-    
+        super.init( context, data );
+
+        /*
+         *  the only thing we can do in init() is getRoot()
+         *  as that is template based, not context based,
+         *  so it's thread- and context-safe
+         */
+
+        rootString = getRoot();
+
         return data;
     }        
     
+    /**
+     *   gets an Object that 'is' the value of the reference
+     *
+     *   @param o   unused Object parameter
+     *   @param context context used to generate value
+     */
     public Object execute(Object o, Context context)
-    {
+    {   
+        /*
+         *  get the root object from the context
+         */
+
         Object result = getVariableValue(context, rootString);
         
         if (result == null)
             return null;
-        
+
+        /*
+         *  iteratively work 'down' (it's flat...) the reference
+         *  to get the value
+         */
+
         int children = jjtGetNumChildren();
         
         for (int i = 0; i < children; i++)
@@ -148,16 +158,22 @@ public class ASTReference extends SimpleNode
         return result;
     }
 
+    /**
+     *  gets the value of the reference and outputs it to the
+     *  writer.
+     *
+     *  @param context  context of data to use in getting value
+     *  @param writer   writer to render to
+     */
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-        value = execute(null, context);
+        Object value = execute(null, context);
         
         /*
          *  if this reference is escaped (\$foo) then we want to do one of two things :
          *  1) if this is a reference in the context, then we want to print $foo
          *  2) if not, then \$foo  (its considered shmoo, not VTL)
-         *
          */
 
         if (bIsEscaped_)
@@ -193,9 +209,16 @@ public class ASTReference extends SimpleNode
         return true;
     }
 
+    /**
+     *   Computes boolean value of this reference
+     *   Returns the actual value of reference return type
+     *   boolean, and 'true' if value is not null
+     *
+     *   @param context context to compute value with
+     */
     public boolean evaluate(Context context)
     {
-        value = execute(null, context);
+        Object value = execute(null, context);
         
         if (value == null)
             return false;
@@ -235,7 +258,7 @@ public class ASTReference extends SimpleNode
          * How many child nodes do we have?
          */
 
-        int children = jjtGetNumChildren();
+         int children = jjtGetNumChildren();
 
         for (int i = 0; i < children - 1; i++)
         {
