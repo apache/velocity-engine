@@ -56,7 +56,7 @@ package org.apache.velocity.anakia;
 
 import java.util.List;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 
 import com.werken.xpath.XPath;
 
@@ -91,7 +91,7 @@ import org.jdom.Element;
  *  
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: XPathTool.java,v 1.10 2001/03/20 01:52:52 jon Exp $
+ * @version $Id: XPathTool.java,v 1.11 2001/08/07 22:30:15 geirm Exp $
  */
 public class XPathTool
 {
@@ -101,7 +101,7 @@ public class XPathTool
      */
     public XPathTool()
     {
-        Runtime.info("XPathTool::XPathTool()");
+        //        RuntimeSingleton.info("XPathTool::XPathTool()");
         // intentionally left blank
     }
 
@@ -116,7 +116,7 @@ public class XPathTool
     public List applyTo(String xpathSpec,
                         Document doc)
     {
-        Runtime.info("XPathTool::applyTo(String, Document)");
+        //RuntimeSingleton.info("XPathTool::applyTo(String, Document)");
         XPath xpath = new XPath( xpathSpec );
         return xpath.applyTo( doc );
     }
@@ -132,7 +132,7 @@ public class XPathTool
     public List applyTo(String xpathSpec,
                         Element elem)
     {
-        Runtime.info("XPathTool::applyTo(String, Element)");
+        //RuntimeSingleton.info("XPathTool::applyTo(String, Element)");
         XPath xpath = new XPath(xpathSpec);
         return xpath.applyTo( elem );
     }
@@ -148,8 +148,11 @@ public class XPathTool
     public List applyTo(String xpathSpec,
                         List nodeSet)
     {
-        Runtime.info("XPathTool::applyTo(String, List)");
+        //RuntimeSingleton.info("XPathTool::applyTo(String, List)");
         XPath xpath = new XPath(xpathSpec);
         return xpath.applyTo( nodeSet );
     }
 }
+
+
+
