@@ -66,6 +66,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
@@ -101,7 +102,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.9 2001/03/19 17:19:36 geirm Exp $
+ * @version $Id: Velocity.java,v 1.10 2001/03/25 22:58:19 jvanzyl Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -157,6 +158,30 @@ public class Velocity implements RuntimeConstants
     public static void setProperty(String key, Object value)
     {
         Runtime.setProperty(key,value);
+    }
+
+    /**
+     * Add a Velocity Runtime property.
+     *
+     * @param String key
+     * @param Object value
+     */
+    public static void addProperty(String key, Object value)
+    {
+        Runtime.addProperty(key,value);
+    }
+
+    /**
+     * Set an entire configuration at once. This is
+     * useful in cases where the parent application uses
+     * the Configuration class and the velocity configuration
+     * is a subset of the parent application's configuration.
+     *
+     * @param Configuration configuration
+     */
+    public static void setConfiguration(Configuration configuration)
+    {
+        Runtime.setConfiguration(configuration);
     }
 
     /**
