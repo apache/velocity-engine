@@ -12,7 +12,7 @@ o UML Diagrams
   [JVZ] I've place the XMI file on the apache website
   if anyone wants to take a crack at using ArgoUML.
 
-o Specification Directory
+o Specification Files
   PLAN:
   1. Update the bnf and ast files to reflect latest Velocity code.
   2. Make sure that the questions in the questions file 
