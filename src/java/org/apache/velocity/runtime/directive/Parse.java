@@ -64,7 +64,6 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.visitor.ParseDirectiveVisitor;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -84,12 +83,11 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.13 2001/01/03 05:28:33 geirm Exp $
+ * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ * @version $Id: Parse.java,v 1.14 2001/02/05 04:33:59 geirm Exp $
  */
 public class Parse extends Directive
 {
-    private SimpleNode nodeTree = null;
-    private int parseDepth = 1;
     private boolean ready = false;
 
     /**
@@ -128,7 +126,9 @@ public class Parse extends Directive
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
+
         Object value =  node.jjtGetChild(0).value( context );
+
         if ( value == null)
         {
             Runtime.error( "#parse() error :  null argument" );
@@ -139,8 +139,33 @@ public class Parse extends Directive
          *  get the path
          */
         String arg = value.toString();
-             
+        
+        /*
+         *   see if we have exceeded the configured depth.
+         *   If it isn't configured, put a stop at 20 just in case.
+         */
+
+        Object[] templateStack = context.getTemplateNameStack();
+
+        if ( templateStack.length >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20) )
+        {
+            StringBuffer path = new StringBuffer();
+
+            for( int i = 0; i < templateStack.length; ++i)
+            {
+                path.append( " > " + templateStack[i] );
+            }
+
+            Runtime.error( "Max recursion depth reached (" + templateStack.length + ")"  + " File stack:" + path );
+            return false;
+        }
+
+        /*
+         *  now use the Runtime resource loader to get the template
+         */
+
         Template t = null;
+
         try 
         {
             t = Runtime.getTemplate( arg );   
@@ -148,56 +173,29 @@ public class Parse extends Directive
         catch ( Exception e)
         {
             Runtime.error("#parse : cannot find " + arg + " template!");
+            return false;
         }
     
-        if ( t == null )
-            return false;
+        /*
+         *  and render it
+         */
 
         try
-        {        
-            //nodeTree = t.getDocument();
-            nodeTree = (SimpleNode) t.getData();
-            
-            ParseDirectiveVisitor v = new ParseDirectiveVisitor();
-            v.setDepth( parseDepth );
-            v.setContext( null );
-            v.setWriter( null );
-            nodeTree.jjtAccept( v, null );
-            nodeTree.init( context, null );
-            
-            ready = true;
-        }
-        catch ( ParseDirectiveException pde )
         {
-            pde.addFile( arg );
-            Runtime.error( "Parse.render() : " + pde );
+            context.pushCurrentTemplateName(arg);
+            ((SimpleNode) t.getData()).render( context, writer );
         }
         catch ( Exception e )
         {        
             Runtime.error( "Parse.render() : " + e );
+            return false;
+        }
+        finally
+        {
+            context.popCurrentTemplateName();
         }
 
-        if ( ready )
-            nodeTree.render( context, writer );
-
         return true;
-    }
-
-    /**
-     *  Sets the depth of recursive parsing
-     */
-    public void setParseDepth( int i )
-        throws Exception
-    {
-        parseDepth = i;
-
-        /*
-         *  see if we have exceeded the configured depth.  If it isn't configured, put a stop at 20 just in case.
-         */
-        if ( parseDepth >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20))
-                throw new ParseDirectiveException("Max recursion depth reached.", parseDepth);
-
-        return;
     }
 }
 
