@@ -1,0 +1,110 @@
+<!-- Content Stylesheet for Site -->
+
+    ## Defined variables
+    #set ($bodybg = "#ffffff")
+    #set ($bodyfg = "#000000")
+    #set ($bodylink = "#525D76")
+    #set ($bannerbg = "#525D76")
+    #set ($bannerfg = "#ffffff")
+    #set ($tablethbg = "#039acc")
+    #set ($tabletdbg = "#a0ddf0")
+    
+<!-- start the processing -->
+#document()
+<!-- end the processing -->
+
+## This is where the macro's live
+
+#macro ( makeProject )
+    ##set ($menus = $project.getChild("body").getChildren("menu"))
+    #set ($menus = $xpath.applyTo("body/menu", $project))
+
+    #foreach ( $menu in $menus )
+        <strong>$menu.getAttributeValue("name")</strong>
+        <ul>
+        #foreach ( $item in $menu.getChildren() )
+            #set ($name = $item.getAttributeValue("name"))
+            <li>#projectanchor($name $item.getAttributeValue("href"))</li>
+        #end
+        </ul>
+    #end
+#end
+
+#macro ( image $value )
+#if ($value.getAttributeValue("width"))
+#set ($width=$value.getAttributeValue("width"))
+#end
+#if ($value.getAttributeValue("height"))
+#set ($height=$value.getAttributeValue("height"))
+#end
+#if ($value.getAttributeValue("align"))
+#set ($align=$value.getAttributeValue("align"))
+#end
+<img src="$relativePath$value.getAttributeValue("src")" width="$!width" height="$!height" align="$!align">
+#end
+
+#macro ( projectanchor $name $value )
+    <a href="$relativePath$value">$name</a>
+#end
+#macro ( metaauthor $author $email )
+            <meta name="author" value="$author">
+            <meta name="email" value="$email">
+#end
+
+#macro (document)
+    <!-- ====================================================================== -->
+    <!-- Main Page Section -->
+    <!-- ====================================================================== -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+
+            ##set ($au = $root.getChild("properties").getChild("author").getText())
+            ##set ($em = $root.getChild("properties").getChild("author").getAttributeValue("email"))
+
+<!--
+            ## For some reason, we can't .getText() and .getValue() directly in the
+            ## set directive, but rather have to wait a moment, and do it in the
+            ## metaauthor directive.
+
+            #set ($au = $xpath.applyTo("properties/author", $root).get(0))
+            #set ($em = $xpath.applyTo("properties/author/@email", $root).get(0))
+
+            ## This should work, but doesn't
+
+            ##set ($au = $xpath.applyTo("properties/author", $root).get(0).getText())
+            ##set ($em = $xpath.applyTo("properties/author/@email", $root).get(0).getValue())
+
+-->
+
+
+            #metaauthor ( $au.getText() $em.getValue() )
+
+            <title>$root.getChild("properties").getChild("title").getText()</title>
+        </head>
+
+        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">        
+            <table border="1">
+                <tr>
+                <td>
+                #makeProject()
+                </td>
+                <td>
+                ##set ($allSections = $root.getChild("body").getChildren("section"))
+                #set ($allSections = $xpath.applyTo("body/section", $root))
+
+                #foreach ( $section in $allSections )
+                    #foreach ( $item in $section.getChildren() )                
+                        #if ($item.getName().equals("img"))
+                            #image ($item)
+                        #else
+                            $xmlout.outputString($item)
+                        #end
+                    #end
+                #end
+                </td>
+                </tr>
+            </table>
+        </body>
+    </html>
+#end
