@@ -43,6 +43,18 @@
 <section name="Velocity News">
 
     <p>
+        <strong>New Article on Velocity</strong>
+        <blockquote>
+        Eric Hatcher's recent article
+        <a href="http://today.java.net/pub/a/today/2003/12/16/velocity.html">
+        Velocity: Fast Track to Templating</a> is currently a featured
+        article at <a href="http://www.java.net/">java.net</a>.
+        (<i>2003-12-23</i>)
+        </blockquote>
+
+    </p>
+
+    <p>
         <strong>Velosurf 0.8 Released</strong>
         <blockquote>
         <a href="http://velosurf.sourceforge.net">Velosurf</a>,
