@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.10 2001/11/06 11:13:34 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.11 2001/11/17 12:34:26 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -258,7 +258,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (initialized == false)
         {
-            info("Jakarta Velocity v@version@");
+            info("************************************************************** ");
+            info("Starting Jakarta Velocity v@version@");
             info("RuntimeInstance initializing.");
             initializeProperties();
             initializeLogger();
