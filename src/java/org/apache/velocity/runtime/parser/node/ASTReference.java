@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.41 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTReference.java,v 1.42 2001/12/07 04:43:21 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -93,6 +93,7 @@ public class ASTReference extends SimpleNode
     private static final int NORMAL_REFERENCE = 1;
     private static final int FORMAL_REFERENCE = 2;
     private static final int QUIET_REFERENCE = 3;
+    private static final int RUNT = 4;
     
     private int referenceType;
     private String nullString;
@@ -171,6 +172,10 @@ public class ASTReference extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {   
+
+        if ( referenceType == RUNT )
+            return null;
+
         /*
          *  get the root object from the context
          */
@@ -235,6 +240,13 @@ public class ASTReference extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
+
+        if (referenceType == RUNT )
+        {
+            writer.write( rootString );
+            return true;
+        }
+
         Object value = execute(null, context);
         
         /*
@@ -665,7 +677,7 @@ public class ASTReference extends SimpleNode
             referenceType = FORMAL_REFERENCE;
             return t.next.image;
         }            
-        else
+        else if ( t.image.startsWith("$") )
         {
             /*
              *  just nip off the '$' so we have 
@@ -674,7 +686,18 @@ public class ASTReference extends SimpleNode
              
             referenceType = NORMAL_REFERENCE;   
             return t.image.substring(1);
-        }            
+        }
+        else
+        {
+            /*
+             * this is a 'RUNT', which can happen in certain circumstances where
+             *  the parser is fooled into believeing that an IDENTIFIER is a real 
+             *  reference.  Another 'dreaded' MORE hack :). 
+             */
+            referenceType = RUNT;
+            return t.image;
+        }
+                
     }
 
     public Object getVariableValue(Context context, String variable)
