@@ -72,6 +72,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * InjectorVistor, this is part of the planned
  * caching mechanism.
  *
+ * <pre>
  * Template template = Runtime.getTemplate("test.wm");
  * Context context = new Context();
  *
@@ -79,9 +80,10 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * context.put("customer", new Customer());
  *
  * template.merge(context, writer);
+ * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.4 2000/10/12 14:24:22 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.5 2000/10/15 03:25:03 dlr Exp $
  */
 public class Template
 {
