@@ -82,6 +82,7 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
+import org.apache.velocity.runtime.directive.Include;
 
 import org.apache.velocity.util.*;
 import org.apache.velocity.runtime.configuration.VelocityResources;
@@ -143,7 +144,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.31 2000/11/03 23:25:23 jon Exp $
+ * @version $Id: Runtime.java,v 1.32 2000/11/06 04:14:14 geirm Exp $
  */
 public class Runtime
 {
@@ -390,6 +391,7 @@ public class Runtime
         Hashtable directives = new Hashtable();
         directives.put("foreach", new Foreach());
         directives.put("dummy", new Dummy());
+        directives.put("include", new Include() );
         parser.setDirectives(directives);
     }
 
