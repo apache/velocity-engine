@@ -76,6 +76,11 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 public class PathMapAdapter extends LoaderAdapter
 {
     /**
+     * The file separator to use when creating paths.
+     */
+    protected String separator;
+
+    /**
      * The paths to search for templates.
      */
     protected List paths = null;
@@ -94,6 +99,9 @@ public class PathMapAdapter extends LoaderAdapter
 
         // Initialize parent class "classLoader" instance member.
         super.initLoader(configuration);
+
+        separator = (resourceLoader instanceof FileResourceLoader ?
+                     File.separator : "/");
 
         paths = configuration.getVector("path");
 
@@ -182,7 +190,7 @@ public class PathMapAdapter extends LoaderAdapter
         throws Exception
      {
          return resourceLoader.getResourceStream(
-                 path.length() > 0 ? path + "/" + name : name );
+                 path.length() > 0 ? path + separator + name : name );
      }
 
      /**
@@ -190,8 +198,6 @@ public class PathMapAdapter extends LoaderAdapter
       */
      private String normalizePath(String path)
      {
-         String separator = (resourceLoader instanceof FileResourceLoader ?
-                             File.separator : "/");
          if (path.startsWith(separator))
          {
              path = path.substring(1);
