@@ -57,6 +57,9 @@ import java.util.Properties;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  * This class is a simple demonstration of how the Velocity Template Engine
  * can be used in a standalone application using the Velocity utility class.
@@ -66,7 +69,7 @@ import org.apache.velocity.VelocityContext;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example2.java,v 1.2 2001/03/17 06:15:36 geirm Exp $
+ * @version $Id: Example2.java,v 1.3 2001/03/20 18:03:10 geirm Exp $
  */
 
 public class Example2
@@ -114,7 +117,35 @@ public class Example2
 
         String s = "We are using $project $name to render this.";
         w = new StringWriter();
-        Velocity.evaluate( context, w, "mystring", s );
+
+        try
+        {
+            Velocity.evaluate( context, w, "mystring", s );
+        }
+        catch( ParseErrorException pee )
+        {
+            /*
+             * thrown if something is wrong with the
+             * syntax of our template string
+             */
+            System.out.println("ParseErrorException : " + pee );
+        }
+        catch( MethodInvocationException mee )
+        {
+            /*
+             *  thrown if a method of a reference
+             *  called by the template
+             *  throws an exception. That won't happen here
+             *  as we aren't calling any methods in this
+             *  example, but we have to catch them anyway
+             */
+            System.out.println("MethodInvocationException : " + mee );
+        }
+        catch( Exception e )
+        {
+            System.out.println("Exception : " + e );
+        }
+
         System.out.println(" string : " + w );
     }
 }
