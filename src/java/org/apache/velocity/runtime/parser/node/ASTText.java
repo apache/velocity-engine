@@ -30,8 +30,18 @@ public class ASTText extends SimpleNode
 
     public Object init(Context context, Object data) throws Exception
     {
-        text = NodeUtils.specialText(getFirstToken()) +
-            getFirstToken().image;
+        // text = NodeUtils.specialText(getFirstToken()) +
+        //    getFirstToken().image;
+       
+        /*
+         *  there is only one special case we care about now : if the specialToken leads with a $
+         *  Everything else seems to be working right now 
+         */
+ 
+        text =  getFirstToken().image;
+       
+        if (NodeUtils.specialText(getFirstToken()).startsWith("$") )
+            text = "$" + text;
         
         return data;
     }
