@@ -73,4 +73,7 @@ public interface RuntimeConstants
 
     /** External service initialization of the Velocity Runtime */
     public static final String EXTERNAL_INIT = "external.init";
+
+    public static final String FILE_TEMPLATE_PATH = "File.template.path";
+    public static final String FILE_TEMPLATE_CACHE = "File.template.cache";
 }

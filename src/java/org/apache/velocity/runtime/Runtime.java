@@ -153,7 +153,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.45 2000/11/16 20:42:25 geirm Exp $
+ * @version $Id: Runtime.java,v 1.46 2000/11/16 23:06:40 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -222,6 +222,30 @@ public class Runtime implements RuntimeConstants
     private static StringBuffer pendingMessages = new StringBuffer();
 
     /**
+     * This is a list of the template stream source
+     * initializers, basically properties for a particular
+     * template stream source. The order in this list
+     * reflects numbering of the properties i.e.
+     * template.loader.1.<property> = <value>
+     * template.loader.2.<property> = <value>
+     */
+    private static List sourceInitializerList;
+    
+    /**
+     * This is a map of public name of the template
+     * stream source to it's initializer. This is so
+     * that clients of velocity can set properties of
+     * a template source stream with its public name.
+     * So for example, a client could set the 
+     * File.template.path property and this would
+     * change the template.path property for the
+     * file template stream source.
+     */
+    private static Map sourceInitializerMap;
+
+    private static boolean sourceInitializersAssembled = false;
+
+    /**
      * Get the default properties for the Velocity Runtime.
      * This would allow the retrieval and modification of
      * the base properties before initializing the Velocity
@@ -235,6 +259,7 @@ public class Runtime implements RuntimeConstants
             InputStream inputStream = classLoader.getResourceAsStream(
                 DEFAULT_RUNTIME_PROPERTIES);
             VelocityResources.setPropertiesInputStream( inputStream );
+            assembleSourceInitializers();
             info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getAbsolutePath());
         }
         catch (IOException ioe)
@@ -390,12 +415,14 @@ public class Runtime implements RuntimeConstants
     {
         if (!getString(EXTERNAL_INIT, "false" ).equalsIgnoreCase("true"))
         {
-            List initializers = getTemplateLoaderInitializers();
+            if(!sourceInitializersAssembled)
+                assembleSourceInitializers();
+            
             templateLoaders = new ArrayList();
             
-            for (int i = 0; i < initializers.size(); i++)
+            for (int i = 0; i < sourceInitializerList.size(); i++)
             {
-                Map initializer = (Map) initializers.get(i);
+                Map initializer = (Map) sourceInitializerList.get(i);
                 String loaderClass = (String) initializer.get("class");
                 templateLoader = TemplateFactory.getLoader(loaderClass);
                 templateLoader.init(initializer);
@@ -411,9 +438,10 @@ public class Runtime implements RuntimeConstants
      * will be passed in when initializing the
      * the template loader.
      */
-    private static List getTemplateLoaderInitializers()
+    private static void assembleSourceInitializers()
     {
-        ArrayList loaderInitializers = new ArrayList();
+        sourceInitializerList = new ArrayList();
+        sourceInitializerMap = new Hashtable();
         
         for (int i = 0; i < 10; i++)
         {
@@ -423,7 +451,7 @@ public class Runtime implements RuntimeConstants
             if (!e.hasMoreElements())
                 continue;
             
-            Hashtable loaderInitializer = new Hashtable();
+            Hashtable sourceInitializer = new Hashtable();
             
             while (e.hasMoreElements())
             {
@@ -431,15 +459,41 @@ public class Runtime implements RuntimeConstants
                 String value = VelocityResources.getString(property);
                 
                 property = property.substring(loaderID.length() + 1);
-                loaderInitializer.put(property, value);
+                sourceInitializer.put(property, value);
+                
+                // Make a Map of the public names for the sources
+                // to the sources property identifier so that external
+                // clients can set source properties. For example:
+                // File.template.path would get translated into
+                // template.loader.1.template.path and the translated
+                // name would be used to set the property.
+                
+                if (property.equals("public.name"))
+                    sourceInitializerMap.put(value, sourceInitializer);
             }    
             
-            loaderInitializers.add(loaderInitializer);
+            sourceInitializerList.add(sourceInitializer);
+            sourceInitializersAssembled = true;
         }
-        
-        return loaderInitializers;
     }
-    
+
+    /**
+     * Allow clients of Velocity to set a template stream
+     * source property before the template source streams
+     * are initialized. This would for example allow clients
+     * to set the template path that would be used by the
+     * file template stream source. Right now these properties
+     * have to be set before the template stream source is
+     * initialized. Maybe we should allow these properties
+     * to be changed on the fly.
+     */
+    public static void setSourceProperty(String key, String value)
+    {
+        String publicName = key.substring(0, key.indexOf("."));
+        String property = key.substring(key.indexOf(".") + 1);
+        ((Map)sourceInitializerMap.get(publicName)).put(property, value);
+    }
+
     /**
      * Initializes the Velocity parser pool.
      * This still needs to be implemented.
