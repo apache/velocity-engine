@@ -108,11 +108,17 @@ public interface RuntimeConstants
     public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
 
     /**
-     * The public handle for setting the base path of the standard
-     * FileResourceLoader.
+     * The public handle for setting a path in
+     * the FileResourceLoader.
      */
     public static final String FILE_RESOURCE_LOADER_PATH = "file.resource.path";
-    
+
+    /**
+     * The public handle for setting a jar to search in
+     * the JarResourceLoader.
+     */
+    public static final String JAR_RESOURCE_LOADER_PATH = "jar.resource.path";
+
     /**
      * The public handle for turning the caching on in the
      * FileResourceLoader.
