@@ -70,8 +70,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * an existing category, or just do a simple rolling file log.
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @author <a href="mailto:jon@apache.org>Jon Scott Stevens</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.4 2003/10/22 01:38:10 dlr Exp $
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.5 2003/10/22 05:52:53 dlr Exp $
  * @since Velocity 1.3
  */
 public class SimpleLog4JLogSystem implements LogSystem
