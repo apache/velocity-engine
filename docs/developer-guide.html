@@ -168,6 +168,14 @@ root of the Velocity distribution tree.
       </li>
       <li>
         <code>docs</code> builds these docs in the <code>docs</code> directory
+        using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.  
+        Allowing you to use
+        Velocity templates in place of stylesheets
+        - give it a try!
+      </li>
+      <li>  
+        <code>jarsrc</code> bundles all the Velocity source code into a single
+        jar, placed in the <code>bin</code> directory.
       </li>
       <li>
         <code>javadocs</code> builds the Javadoc class documentation in the
@@ -306,6 +314,14 @@ Template template = null;
 try
 {
    template = Runtime.getTemplate(&quot;mytemplate.vm&quot;);
+}
+catch( ResourceNotFoundException rnfe )
+{
+   // couldn't find the template
+}
+catch( ParseErrorException pee )
+{
+  // syntax error : problem parsing the template
 }
 catch( Exception e )
 {}
@@ -601,7 +617,6 @@ public class SampleServlet extends VelocityServlet
 {
     public Template handleRequest( Context context )
     {
-        Template template = null;
 
         String p1 = &quot;Jakarta&quot;;
         String p2 = &quot;Velocity&quot;;
@@ -612,9 +627,19 @@ public class SampleServlet extends VelocityServlet
 
         context.put(&quot;list&quot;, vec );
 
+        Template template = null;
+
         try
         {
             template =  getTemplate(&quot;sample.vm&quot;);
+        }
+        catch( ResourceNotFoundException rnfe )
+        {
+          // couldn't find the template
+        } 
+        catch( ParseErrorException pee )
+        {
+          // syntax error : problem parsing the template
         }
         catch( Exception e )
         {}
@@ -637,6 +662,32 @@ Look familiar?  With the exception of creating the context object, which is done
  and  the  merge() step which is also done for you by the VelocityServlet base class,
 it's identical to the basic code pattern we mentioned at the beginning of this guide.
 We take the context, add our application data, and return a template.
+</p>
+                                                <p>
+For advanced users,  the VelocityServlet base class allows you to override parts of the handling of the request processing.  The following methods may be overridden. 
+
+<ul>
+  <li> <code>Context createContext(HttpServletRequest request,  HttpServletResponse response )</code>
+    Allows you to create the Context object yourself. This allows more advanced techniques, such as chaining
+    or pre-loading with tools or data.  The default implementation simply returns a VelocityContext
+    object with the request and response objects placed inside.
+  </li>
+  <li> <code>void setContentType( HttpServletRequest request, HttpServletResponse response )</code>
+    Allows you to examine the request and set the content type yourself, depending on the request or
+    client.  The default implementation sets the content type to be that either specified in the 
+    velocity.properties, if any, or the default, "text/html" if not specified in the properties.
+  </li>
+  <li> <code>void mergeTemplate( Template template, Context context, HttpServletResponse response )</code>
+    Allows you to produce the output stream.  The VelocityServlet uses a pool of very efficient Writer classes,
+    so this would usually be overridden in special situations.
+  </li>
+  <li> <code>void requestCleanup( HttpServletRequest request, HttpServletResponse response, Context context )</code>
+    Allows you to do any cleanup or resource reclamation at the end of the request processing.  The default
+    does nothing.
+  </li>
+</ul>
+
+For further information, please see the Javadoc <a href="apidocs/index.html">API documentation</a>.
 </p>
                                                 <strong>Deployment</strong>
                                                 <p>
