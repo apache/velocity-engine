@@ -81,7 +81,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.25 2001/04/27 15:23:40 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.26 2001/04/30 11:02:19 geirm Exp $
  */
 public class ResourceManager
 {
@@ -482,7 +482,11 @@ public class ResourceManager
             try
             {
                 is=resourceLoader.getResourceStream( resourceName );
-                return resourceLoader.getClass().toString();
+               
+                if( is != null)
+                {
+                    return resourceLoader.getClass().toString();
+                }
             }
             catch( ResourceNotFoundException e)
             {
