@@ -36,7 +36,7 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
 fi
 
 if [ "$BUILDFILE" = "" ] ; then
-    BUILDFILE=build-velocity.xml
+    BUILDFILE=build.xml
 fi
 
 ${JAVA_HOME}/bin/java -classpath ${CLASSPATH} \
