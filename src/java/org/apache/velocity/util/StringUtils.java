@@ -65,6 +65,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Map;
+
 
 /**
  * This class provides some methods for dynamically
@@ -75,7 +77,7 @@ import java.util.StringTokenizer;
  *
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.15 2001/10/22 03:53:27 jon Exp $
+ *  @version $Id: StringUtils.java,v 1.16 2002/02/20 11:35:11 geirm Exp $
  */
 public class StringUtils
 {
@@ -290,34 +292,43 @@ public class StringUtils
      * @return String with processed answer.
      */
     public static String chop(String s, int i, String eol)
-    {        
-        char[] sa = s.toCharArray();
-        int length = sa.length;
-
-        if ( eol.length() == 2 ) 
+    {
+        if ( i == 0 || s == null || eol == null )
         {
-            char eol1 = eol.charAt(0);
-            char eol2 = eol.charAt(1);
-            for (; i>0; i--)
-            {
-                if ( sa[length-1] == eol2 && sa[length-2] == eol1 ) 
-                {
-                    length -= 2;
-                }
-                else 
-                {
-                    length--;
-                }
-            }
+           return s;
         }
-        else
+
+        int length = s.length();
+
+        /*
+         * if it is a 2 char EOL and the string ends with
+         * it, nip it off.  The EOL in this case is treated like 1 character
+         */
+        if ( eol.length() == 2 && s.endsWith(eol ))
+        {
+            length -= 2;
+            i -= 1;
+        }
+
+        if ( i > 0)
         {
             length -= i;
         }
 
-        return new String(sa, 0, length);
+        if ( length < 0)
+        {
+            length = 0;
+        }
+
+        return s.substring( 0, length);
     }
-    
+
+    public static StringBuffer stringSubstitution( String argStr,
+                                                   Hashtable vars )
+    {
+        return stringSubstitution( argStr, (Map) vars );
+    }
+
     /**
      * Perform a series of substitutions. The substitions
      * are performed by replacing $variable in the target
@@ -329,7 +340,7 @@ public class StringUtils
      * @return String target string with replacements.
      */
     public static StringBuffer stringSubstitution(String argStr,
-            Hashtable vars)
+            Map vars)
     {
         StringBuffer argBuf = new StringBuffer();
 
