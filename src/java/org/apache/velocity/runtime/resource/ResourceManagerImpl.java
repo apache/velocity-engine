@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.4 2002/01/19 01:59:20 dlr Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.5 2002/02/05 04:55:17 dlr Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -464,7 +464,7 @@ public class ResourceManagerImpl implements ResourceManager
             try 
             {
                 if (resource.process())
-                 {
+                {
                      /*
                       *  FIXME  (gmj)
                       *  moved in here - technically still 
@@ -500,7 +500,7 @@ public class ResourceManagerImpl implements ResourceManager
         {
             throw new ResourceNotFoundException(
                 "Unable to find resource '" + resourceName + "'");
-        }                        
+        }
 
         /*
          *  some final cleanup
