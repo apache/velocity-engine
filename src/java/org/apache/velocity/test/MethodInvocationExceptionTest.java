@@ -69,7 +69,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodInvocationExceptionTest.java,v 1.4 2001/04/18 12:21:24 geirm Exp $
+ * @version $Id: MethodInvocationExceptionTest.java,v 1.5 2001/04/18 20:43:36 geirm Exp $
  */
 public class MethodInvocationExceptionTest extends TestCase 
 {
@@ -197,6 +197,32 @@ public class MethodInvocationExceptionTest extends TestCase
         {
             fail("Wrong exception thrown, third test");
         }
+
+        template = "#set($woogie.foo = 'lala') boing!";
+ 
+        try
+        {
+            Velocity. evaluate( vc,  w, "test", template );
+            fail("No exception thrown, set test.");
+        }
+        catch( MethodInvocationException mie )
+        {
+            System.out.println("Caught MIE (good!) :" );
+            System.out.println("  reference = " + mie.getReferenceName() );
+            System.out.println("  method    = " + mie.getMethodName() );
+
+            Throwable t = mie.getWrappedThrowable();
+            System.out.println("  throwable = " + t );
+
+            if( t instanceof Exception)
+            {
+                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+            }
+        }
+        catch( Exception e)
+        {
+            fail("Wrong exception thrown, set test");
+        }
     }
 
     public void doException()
@@ -209,5 +235,11 @@ public class MethodInvocationExceptionTest extends TestCase
         throws Exception
     {
         throw new Exception("Hello from getFoo()" );
+    }
+
+    public void  setFoo( String foo )
+        throws Exception
+    {
+        throw new Exception("Hello from setFoo()");
     }
 }
