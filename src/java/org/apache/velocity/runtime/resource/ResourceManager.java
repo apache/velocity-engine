@@ -78,7 +78,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.21 2001/03/23 04:18:50 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.22 2001/04/07 08:50:36 dlr Exp $
  */
 public class ResourceManager
 {
@@ -319,7 +319,7 @@ public class ResourceManager
                 
                 long howOldItWas = 0;  // Initialize to avoid warnings
 
-		ResourceLoader resourceLoader = null;
+                ResourceLoader resourceLoader = null;
 
                 for (int i = 0; i < resourceLoaders.size(); i++)
                 {
