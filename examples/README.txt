@@ -14,7 +14,7 @@ the output will be in the file 'output'.
 If you wish to recompile the example, remember to include the velocity jar in your classpath, or 
 just specify it on the command line :
 
-	javac -classpath .:../bin/velocity-0.7.jar Example.java
+	javac -classpath .:../bin/velocity-0.71.jar Example.java
 
 (If there is a problem, make sure that the filename of the velocity jar hasn't changed. We can 
 be forgetful at times :)
