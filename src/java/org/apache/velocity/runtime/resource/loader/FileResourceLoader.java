@@ -77,7 +77,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.10 2001/03/20 17:28:35 geirm Exp $
+ * @version $Id: FileResourceLoader.java,v 1.11 2001/03/23 04:18:50 jvanzyl Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -203,7 +203,6 @@ public class FileResourceLoader extends ResourceLoader
      */
     private InputStream findTemplate(String path, String template)
     {
-    
         try 
         {
             File file = new File( path, template );   
