@@ -56,6 +56,9 @@ package org.apache.velocity.test;
 
 import junit.framework.*;
 
+import java.util.ArrayList;
+import java.lang.reflect.Method;
+
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -64,10 +67,15 @@ import org.apache.velocity.util.introspection.Introspector;
  * signature of the methods used in VTL templates.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.1 2000/11/10 04:07:46 jvanzyl Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.2 2000/11/10 05:15:46 jvanzyl Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
+    private Method method;
+    private String result;
+    private String type;
+    private ArrayList failures = new ArrayList();
+
     /**
       * Creates a new instance.
       */
@@ -80,14 +88,105 @@ public class IntrospectorTestCase extends BaseTestCase
     {
         MethodProvider mp = new MethodProvider();
     
-        Class[] booleanParam = { Boolean.class };
-        Class[] byteParam = { Byte.class };
-        Class[] charParam = { Character.class };
-        Class[] doubleParam = { Double.class };
-        Class[] floatParam = { Float.class };
-        Class[] intParam = { Integer.class };
-        Class[] longParam = { Long.class };
-        Class[] shortParam = { Short.class };
+        try
+        {
+            // Test boolean primitive.
+            Object[] booleanParams = { new Boolean(true) };
+            type = "boolean";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", booleanParams);
+            result = (String) method.invoke(mp, booleanParams);
+            
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+            
+            // Test byte primitive.
+            Object[] byteParams = { new Byte("1") };
+            type = "byte";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", byteParams);
+            result = (String) method.invoke(mp, byteParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test char primitive.
+            Object[] characterParams = { new Character('a') };
+            type = "character";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", characterParams);
+            result = (String) method.invoke(mp, characterParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test double primitive.
+            Object[] doubleParams = { new Double((double)1) };
+            type = "double";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", doubleParams);
+            result = (String) method.invoke(mp, doubleParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test float primitive.
+            Object[] floatParams = { new Float((float)1) };
+            type = "float";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", floatParams);
+            result = (String) method.invoke(mp, floatParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test integer primitive.
+            Object[] integerParams = { new Integer((int)1) };
+            type = "integer";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", integerParams);
+            result = (String) method.invoke(mp, integerParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test long primitive.
+            Object[] longParams = { new Long((long)1) };
+            type = "long";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", longParams);
+            result = (String) method.invoke(mp, longParams);
+
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+
+            // Test short primitive.
+            Object[] shortParams = { new Short((short)1) };
+            type = "short";
+            method = Introspector.getMethod(
+                MethodProvider.class, type + "Method", shortParams);
+            result = (String) method.invoke(mp, shortParams);
+        
+            if (!result.equals(type))
+                failures.add(type + "Method could not be found!");
+            
+            // There were any failures then show all the
+            // errors that occured.
+            
+            int totalFailures = failures.size();
+            if (totalFailures > 0)
+            {
+                StringBuffer sb = new StringBuffer("Introspection Errors:\n");
+                for (int i = 0; i < totalFailures; i++)
+                    sb.append((String) failures.get(i));
+            
+                fail(sb.toString());
+            }                    
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -108,10 +207,10 @@ public class IntrospectorTestCase extends BaseTestCase
          */
         public String booleanMethod (boolean p) { return "boolean"; }
         public String byteMethod (byte p) { return "byte"; }
-        public String charMethod (char p) { return "char"; }
+        public String characterMethod (char p) { return "char"; }
         public String doubleMethod (double p) { return "double"; }
         public String floatMethod (float p) { return "float"; }
-        public String intMethod (int p) { return "int"; }
+        public String integerMethod (int p) { return "int"; }
         public String longMethod (long p) { return "long"; }
         public String shortMethod (short p) { return "short"; }
     }
