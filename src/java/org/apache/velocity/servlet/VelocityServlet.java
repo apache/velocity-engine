@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.34 2001/05/11 11:44:16 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.35 2001/05/14 04:44:23 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -477,8 +477,12 @@ public abstract class VelocityServlet extends HttpServlet
          *   problems 
          */
            
-        context.put( REQUEST, new HttpServletRequestWrap( request ) );
-        context.put( RESPONSE, new HttpServletResponseWrap( response ) );
+        // GMJ test of new introspection modification
+        // context.put( REQUEST, new HttpServletRequestWrap( request ) );
+        // context.put( RESPONSE, new HttpServletResponseWrap( response ) );
+
+        context.put( REQUEST, request );
+        context.put( RESPONSE, response );
 
         return context;
     }
