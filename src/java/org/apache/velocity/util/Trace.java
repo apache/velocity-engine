@@ -135,7 +135,7 @@ import java.util.*;
  */ 
 public class Trace
 {
-    /** Set via the cj.trace property. */
+    /** Set via the trace property. */
     public static final boolean ON = active();
 
     private static final PrintWriter    LOG     = getLog();
