@@ -90,7 +90,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.13 2001/03/04 19:17:47 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.14 2001/03/04 21:24:14 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -130,6 +130,9 @@ public class AnakiaTask extends MatchingTask
 
     /** the default output extension is .html */
     private String extension = ".html";
+
+    /** the template path */
+    private String templatePath = null;
 
     /** the file to get the velocity properties file */
     private File velocityPropertiesFile = null;
@@ -175,6 +178,7 @@ public class AnakiaTask extends MatchingTask
     {
         this.style = style;
     }
+    
     /**
      * Allow people to set the path to the project.xml file
      */
@@ -182,12 +186,27 @@ public class AnakiaTask extends MatchingTask
     {
         this.projectAttribute = projectAttribute;
     }
+
+    /**
+     * Set the path to the templates.
+     * The way it works is this:
+     * If you have a Velocity.properties file defined, this method
+     * will <strong>override</strong> whatever is set in the 
+     * Velocity.properties file. This allows one to not have to define
+     * a Velocity.properties file, therefore using Velocity's defaults
+     * only.
+     */
+    public void setTemplatePath(String templatePath)
+    {
+        this.templatePath = templatePath;
+    }
     
     /**
      * Allow people to set the path to the velocity.properties file
      * This file is found relative to the path where the JVM was run.
      * For example, if build.sh was executed in the ./build directory, 
      * then the path would be relative to this directory.
+     * This is optional based on the setting of setTemplatePath().
      */
     public void setVelocityPropertiesFile(File velocityPropertiesFile)
     {
@@ -228,13 +247,25 @@ public class AnakiaTask extends MatchingTask
         {
             throw new BuildException("style attribute must be set!");
         }
+
         if (velocityPropertiesFile == null)
         {
             velocityPropertiesFile = new File("velocity.properties");
         }
-        if (!velocityPropertiesFile.exists())
+
+        // If the props file doesn't exist AND a templatePath hasn't 
+        // been defined, then throw the exception. otherwise, make
+        // the propertiesFile null here so that we can check for it
+        // when we initialize the Runtime.
+        if (!velocityPropertiesFile.exists() && templatePath != null)
+        {
+            velocityPropertiesFile = null;
+        }
+        else if (templatePath != null)
+        {
             throw new BuildException ("Could not locate velocity.properties file: " + 
                 velocityPropertiesFile.getAbsolutePath());
+        }
 
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
@@ -255,7 +286,21 @@ public class AnakiaTask extends MatchingTask
         try
         {
             // initialize Velocity
-            Runtime.init(velocityPropertiesFile.getAbsolutePath());
+            if (velocityPropertiesFile == null)
+            {
+                Runtime.init();
+            }
+            else
+            {
+                Runtime.init(velocityPropertiesFile.getAbsolutePath());
+            }
+            // override the templatePath if it exists
+            if (templatePath != null && templatePath.length() > 0)
+            {
+                Runtime.setSourceProperty(Runtime.FILE_RESOURCE_LOADER_PATH,
+                    templatePath);
+            }
+
             // get the last modification of the VSL stylesheet
             styleSheetLastModified = Runtime.getTemplate(style).getLastModified();
         }
@@ -321,7 +366,8 @@ public class AnakiaTask extends MatchingTask
                 context.put ("treeWalk", new TreeWalker());
                 context.put ("xpath", new XPathTool() );
                 context.put ("escape", new Escape() );
-                
+                context.put ("date", new java.util.Date() );
+
                 // only put this into the context if it exists.
                 if (projectDocument != null)
                     context.put ("project", projectDocument.getRootElement());
