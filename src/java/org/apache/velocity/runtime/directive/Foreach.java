@@ -65,6 +65,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.parser.node.ASTReference;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -78,7 +80,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.44 2003/10/29 11:43:33 geirm Exp $
+ * @version $Id: Foreach.java,v 1.45 2003/12/23 14:35:48 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -144,7 +146,20 @@ public class Foreach extends Directive
          *  else is context sensitive
          */
 
-        elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
+        SimpleNode sn = (SimpleNode) node.jjtGetChild(0);
+
+        if (sn instanceof ASTReference)
+        {
+            elementKey = ((ASTReference) sn).getRootString();
+        }
+        else
+        {
+            /*
+             * the default, error-prone way which we'll remove
+             *  TODO : remove if all goes well
+             */
+            elementKey = sn.getFirstToken().image.substring(1);
+        }
 
         /*
          * make an uberinfo - saves new's later on
