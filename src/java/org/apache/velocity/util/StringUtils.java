@@ -75,7 +75,7 @@ import java.util.StringTokenizer;
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.12 2001/05/09 01:56:52 jon Exp $
+ *  @version $Id: StringUtils.java,v 1.13 2001/07/02 03:16:01 geirm Exp $
  */
 public class StringUtils
 {
@@ -119,10 +119,17 @@ public class StringUtils
     }
 
     /**
-     * Remove Underscores from a string and replaces first
-     * Letters with Capitals.  foo_bar becomes FooBar.
+     * <p>
+     * Remove underscores from a string and replaces first
+     * letters with capitals.  Other letters are changed to lower case. 
+     * </p>
      *
-     * @param String string to remove underscores from.
+     * <p> 
+     * For example <code>foo_bar</code> becomes <code>FooBar</code>
+     * but <code>foo_barBar</code> becomes <code>FooBarbar</code>.
+     * </p>
+     *
+     * @param data string to remove underscores from.
      * @return String 
      */
     static public String removeUnderScores (String data)
@@ -132,24 +139,108 @@ public class StringUtils
         temp = data;
 
         StringTokenizer st = new StringTokenizer(temp, "_");
+       
         while (st.hasMoreTokens())
         {
             String element = (String) st.nextElement();
             out.append ( firstLetterCaps(element));
         }//while
+
         return out.toString();
     }
 
     /**
-     * Makes the first letter caps and the rest lowercase.
+     * <p> 
+     *  'Camels Hump' replacement of underscores.
+     * </p>
      *
-     * @param String
+     * <p> 
+     * Remove underscores from a string but leave the capitalization of the
+     * other letters unchanged.
+     * </p>
+     *
+     * <p> 
+     * For example <code>foo_barBar</code> becomes <code>FooBarBar</code>.
+     * </p>
+     *
+     * @param data string to hump
+     * @return String 
+     */
+    static public String removeAndHump (String data)
+    {
+        return removeAndHump(data,"_");
+    }
+
+    /**
+     * <p>
+     * 'Camels Hump' replacement.
+     * </p>
+     *
+     * <p> 
+     * Remove one string from another string but leave the capitalization of the
+     * other letters unchanged.
+     * </p>
+     *
+     * <p>
+     * For example, removing "_" from <code>foo_barBar</code> becomes <code>FooBarBar</code>.
+     * </p>
+     *
+     * @param data string to hump
+     * @param replaceThis string to be replaced
+     * @return String 
+     */
+    static public String removeAndHump (String data,String replaceThis)
+    {
+        String temp = null;
+        StringBuffer out = new StringBuffer();
+        temp = data;
+
+        StringTokenizer st = new StringTokenizer(temp, replaceThis);
+       
+        while (st.hasMoreTokens())
+        {
+            String element = (String) st.nextElement();
+            out.append ( capitalizeFirstLetter(element));
+        }//while
+        
+        return out.toString();
+    }
+
+    /**
+     * <p> 
+     *  Makes the first letter caps and the rest lowercase.
+     * </p>
+     *
+     * <p> 
+     *  For example <code>fooBar</code> becomes <code>Foobar</code>.
+     * </p>
+     *
+     * @param data capitalize this
      * @return String
      */
     static public String firstLetterCaps ( String data )
     {
         String firstLetter = data.substring(0,1).toUpperCase();
         String restLetters = data.substring(1).toLowerCase();
+        return firstLetter + restLetters;
+    }
+
+    /**
+     * <p> 
+     * Capitalize the first letter but leave the rest as they are. 
+     * </p>
+     *
+     * <p> 
+     *  For example <code>fooBar</code> becomes <code>FooBar</code>.
+     * </p>
+     *
+     * @param data capitalize this
+     * @return String
+     */
+    static public String capitalizeFirstLetter ( String data )
+    {
+        String firstLetter = data.substring(0,1).toUpperCase();
+        String restLetters = data.substring(1);
         return firstLetter + restLetters;
     }
 
