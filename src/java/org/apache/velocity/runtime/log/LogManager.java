@@ -65,7 +65,7 @@ import org.apache.velocity.runtime.Runtime;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.4 2001/03/19 05:18:29 geirm Exp $
+ * @version $Id: LogManager.java,v 1.5 2001/03/19 06:15:54 jon Exp $
  */
 public class LogManager
 {
@@ -81,10 +81,8 @@ public class LogManager
         /*
          *  if a logSystem was set as a configuation value, use that
          */
-        
         Object o = Runtime.getProperty( Runtime.RUNTIME_LOG_LOGSYSTEM );
-
-        if ( o instanceof LogSystem)
+        if (o != null && o instanceof LogSystem)
         {
             return (LogSystem) o;
         }
@@ -92,20 +90,20 @@ public class LogManager
         /*
          *  otherwise, see if a class was specified
          */
-
-        String claz = (String) Runtime.getProperty( Runtime.RUNTIME_LOG_LOGSYSTEM_CLASS );
+        String claz = (String) Runtime.getProperty( 
+            Runtime.RUNTIME_LOG_LOGSYSTEM_CLASS );
         
         if (claz != null || claz.length() > 0 )
         {
             o = Class.forName( claz ).newInstance();
-
             if (o instanceof LogSystem)
             {
                 return (LogSystem) o;
             }
             else
             {
-                Runtime.error("The specifid logger class " + claz + " isn't a valid LogSystem\n");
+                Runtime.error("The specifid logger class " + claz + 
+                    " isn't a valid LogSystem\n");
             }
         }
       
@@ -113,11 +111,8 @@ public class LogManager
          *  if the above failed, then 
          *  make an Avalon log system
          */
-        
         AvalonLogSystem als = new AvalonLogSystem();
-        
         return als;
-        
     }
 }
 

@@ -75,7 +75,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.2 2001/03/19 05:16:47 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.3 2001/03/19 06:15:54 jon Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -92,7 +92,6 @@ public class AvalonLogSystem implements LogSystem
          *  since this is a Velocity-provided logger, we will
          *  use the Runtime configuration
          */
-
         String logfile = (String) Runtime.getProperty( Runtime.RUNTIME_LOG );
 
         /*
@@ -102,13 +101,14 @@ public class AvalonLogSystem implements LogSystem
         {
             init( logfile );
 
-            logVelocityMessage( 0, "AvalonLogSystem initialized using logfile " + logPath );
+            logVelocityMessage( 0, 
+                "AvalonLogSystem initialized using logfile " + logPath );
         }
         catch( Exception e )
         {
-            System.out.println("PANIC : error configuring AvalonLogSystem : " + e );
+            System.out.println( 
+                "PANIC : error configuring AvalonLogSystem : " + e );
         }
-                
     }
 
     /**
@@ -149,31 +149,30 @@ public class AvalonLogSystem implements LogSystem
     }
     
     /**
-     *  logs error messages
+     *  logs messages
      *
      *  @param level severity level
      *  @param message complete error message
      */
     public void logVelocityMessage(int level, String message)
     {
-		switch (level) 
+        switch (level) 
         {
-        case LogSystem.WARN_ID:
-            logger.warn( message );
-            break;
-        case LogSystem.INFO_ID:
-            logger.info(message);
-            break;
-        case LogSystem.DEBUG_ID:
-            logger.debug(message);
-            break;
-        case LogSystem.ERROR_ID:
-            logger.error(message);
-            break;
-        default:
-            logger.info(message);
-            break;
-		}
+            case LogSystem.WARN_ID:
+                logger.warn( message );
+                break;
+            case LogSystem.INFO_ID:
+                logger.info(message);
+                break;
+            case LogSystem.DEBUG_ID:
+                logger.debug(message);
+                break;
+            case LogSystem.ERROR_ID:
+                logger.error(message);
+                break;
+            default:
+                logger.info(message);
+                break;
+        }
     }
-
 }
