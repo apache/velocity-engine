@@ -61,6 +61,9 @@ import org.apache.velocity.util.introspection.Introspector;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.exception.MethodInvocationException;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
+
 /**
  * Executor that simply tries to execute a get(key)
  * operation. This will try to find a get(key) method
@@ -69,7 +72,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * the case.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: GetExecutor.java,v 1.4 2001/04/18 12:25:28 geirm Exp $
+ * @version $Id: GetExecutor.java,v 1.5 2001/09/09 21:49:11 geirm Exp $
  */
 public class GetExecutor extends AbstractExecutor
 {
@@ -82,11 +85,12 @@ public class GetExecutor extends AbstractExecutor
     /**
      * Default constructor.
      */
-    public GetExecutor(Class c, String key)
+    public GetExecutor( RuntimeServices r, Class c, String key)
         throws Exception
     {
+        rsvc = r;
         args[0] = key;
-        method = Introspector.getMethod(c, "get", args);
+        method = rsvc.getIntrospector().getMethod(c, "get", args);
     }
 
     /**

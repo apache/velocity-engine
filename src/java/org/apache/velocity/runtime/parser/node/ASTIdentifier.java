@@ -80,7 +80,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.13 2001/08/07 21:56:30 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.14 2001/09/09 21:49:11 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
@@ -137,11 +137,11 @@ public class ASTIdentifier extends SimpleNode
         
         AbstractExecutor executor;
 
-        executor = new PropertyExecutor(data, identifier);
+        executor = new PropertyExecutor(rsvc, data, identifier);
 
         if (executor.isAlive() == false)
         {
-            executor = new GetExecutor(data, identifier);
+            executor = new GetExecutor( rsvc, data, identifier);
         }
         
         return executor;

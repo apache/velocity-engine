@@ -61,16 +61,20 @@ import java.lang.reflect.Method;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  * Abstract class that is used to execute an arbitrary
  * method that is in introspected. This is the superclass
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.8 2001/04/20 23:20:20 dlr Exp $
+ * @version $Id: AbstractExecutor.java,v 1.9 2001/09/09 21:49:11 geirm Exp $
  */
 public abstract class AbstractExecutor
 {
+    protected RuntimeServices rsvc = null;
+    
     /**
      * Method to be executed.
      */

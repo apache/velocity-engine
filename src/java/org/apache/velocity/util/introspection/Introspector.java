@@ -59,7 +59,7 @@ import java.util.Hashtable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * This basic function of this class is to return a Method
@@ -85,15 +85,21 @@ import org.apache.velocity.util.StringUtils;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.9 2001/03/05 11:48:49 jvanzyl Exp $
+ * @version $Id: Introspector.java,v 1.10 2001/09/09 21:50:33 geirm Exp $
  */
 public class Introspector
 {
     private static Hashtable classMethodMaps = new Hashtable();
+    private RuntimeServices rsvc = null;
 
-    public static Method getMethod(Class c, String name, Object[] params)
-        throws Exception
+    public void init( RuntimeServices r )
     {
+        this.rsvc = r;
+    }
+
+    public Method getMethod(Class c, String name, Object[] params)
+        throws Exception
+    {       
         if (c == null)
         {
             throw new Exception ( 
@@ -140,7 +146,7 @@ public class Introspector
      * @param String name of method
      * @param Object[] parameters
      */
-    private static Method findMethod(Class c, String name, Object[] params)
+    private Method findMethod(Class c, String name, Object[] params)
     {
         ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c);
         return classMethodMap.findMethod(name, params);
@@ -154,7 +160,7 @@ public class Introspector
      * @param methodName The method to check for.
      * @return           Whether the method is implemented.
      */
-    public static boolean implementsMethod(Object object, String methodName)
+    public  boolean implementsMethod(Object object, String methodName)
     {
         int m;
         
