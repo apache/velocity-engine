@@ -50,6 +50,13 @@ Changes to version 1.0
     Added Enumerator as a valid iteration type for #foreach() - added warnings
     to use of same to documentation. (gmj)
   </li>
+  <li> 
+    Added panic sqawk in AvalonLogSystem() to also go to stderr. (gmj)
+  </li>
+  <li> 
+    Finished all comparison nodes (NPE prevention and good logging) and 
+    enhanced logical.vm test template to try them all. (gmj)
+  </li>
 </ul>
 
 </subsection>
