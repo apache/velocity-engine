@@ -75,7 +75,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.3 2001/03/19 06:15:54 jon Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.4 2001/04/08 21:58:29 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -107,7 +107,9 @@ public class AvalonLogSystem implements LogSystem
         catch( Exception e )
         {
             System.out.println( 
-                "PANIC : error configuring AvalonLogSystem : " + e );
+                "PANIC : Error configuring AvalonLogSystem : " + e );
+            System.err.println( 
+                "PANIC : Error configuring AvalonLogSystem : " + e );
         }
     }
 
