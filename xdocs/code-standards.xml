@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Coding Standards</title>
+  <subtitle>Coding Standards</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Coding Standards">
+
+<p>
+    This document describes a list of coding conventions that are required
+    for code submissions to the project. By default, the coding conventions
+    for most Open Source Projects should follow the existing coding conventions
+    in the code that you are working on. For example, if the bracket is on
+    the same line as the if statement, then you should write all your code
+    to have that convention.<strong></strong>
+</p>
+
+<p>
+    <strong>If you commit code that does not follow these conventions and you
+    are caught, you are responsible for also fixing your own code.</strong>
+</p>
+
+<p>
+    Below is a list of coding conventions that are specific to Turbine,
+    everything else not specificially mentioned here should follow the official
+    <link href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
+    Java Coding Conventions</link>.
+</p>
+
+<p>
+1. Brackets should begin and end on a new line. Examples:
+</p>
+
+<p>
+<source><![CDATA[
+
+if ( foo )
+{
+    // code here
+}    
+
+try
+{
+    // code here
+}
+catch (Exception bar)
+{
+    // code here
+}
+finally
+{
+    // code here
+}    
+
+while ( true )
+{
+    // code here
+}    
+]]></source>
+</p>
+
+<p>
+2. It is <strong>OK</strong> to have spaces between the parens or not. The preference
+is to not include the extra spaces. For example, both of these are ok:
+</p>
+
+<p>
+<source><![CDATA[
+
+if (foo)
+
+or
+
+if ( foo )
+]]></source>
+</p>
+
+<p>
+3. 4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you like
+to use tabs, but the fact of the matter is that in a distributed development
+enviroment, when the cvs commit messages get sent to a mailing list, they
+are almost impossible to read if you use tabs.
+</p>
+
+<p>
+In Emacs-speak, this translates to the following command:
+
+(setq-default tab-width 4 indent-tabs-mode nil)
+</p>
+
+<p>
+4. Unix linefeeds for all .java source code files. Other platform specific
+files should have the platform specific linefeeds.
+</p>
+
+<p>
+5. Javadoc <strong>MUST</strong> exist on all your methods. Also, if you are working
+on existing code and there currently isn't a javadoc for that method/class/variable
+or whatever, then you should contribute and add it. This will improve the
+project as a whole.
+</p>
+
+<p>
+6. The Jakarta Apache/Velocity License <strong>MUST</strong> be placed at the top
+of each and every file.
+</p>
+
+</s1>
+
+</body>
+</document>

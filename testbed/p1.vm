@@ -1,0 +1,10 @@
+
+#*
+
+have a boolean in an object array is
+giving me a InvocationTargetException.
+Fix that.
+
+*#
+
+$provider.concat(["I", "am", "a", true, $provider.Title])

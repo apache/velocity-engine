@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Velocity Getting Started</title>
+  <subtitle>Velocity Getting Started</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Getting Started">
+
+<p>
+    The purpose of this document is to define simple documentation on getting
+    started with Velocity. For information about the overall structure of
+    Velocity, please refer to the <a href="design.html">Design Document
+    </a>. The composition of this document will be written from the
+    perspective of what you should do in order to start a newly functional system.
+</p>
+
+<p>
+    The first thing that you should do is download and install Velocity.
+    This step is documented in the <a href="install.html">INSTALL</a>
+    document, so it will not be covered here. If you would like to view the detailed API documentation
+    run "build-velocity.sh|bat javadocs" from the "build" directory.  
+    This will create a full set of Velocity API docs in the "docs/apidocs" directory. 
+</p>
+
+</s1>
+
+</body>
+</document>

@@ -1,0 +1,10 @@
+## fp1 => formatting problem 1
+
+## The whitespace was being lost
+## inside the #foreach i.e. $name
+## was flush with the left margin
+## that's fixed now.
+
+#foreach $name in $list
+    $name
+#end    

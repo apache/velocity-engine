@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Velocity Installation</title>
+  <subtitle>Velocity Installation</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Installation">
+
+<p>
+    Everything required to build Velocity comes with the distribution.
+</p>
+
+</s1>
+
+<s1 title="Compiling">
+
+<p>
+    Execute the following script in the velocity/build directory:
+</p>    
+
+<p>
+<source><![CDATA[
+
+./build-velocity
+]]></source>
+</p>
+
+<p>
+    Executing the above script will create a "bin" directory within the Velocity
+    distribution directory. In there will be the compiled class files (inside a 
+    "classes" directory) as well as a "velocity.jar" file. You can either use 
+    the .jar file directly or copy the org directory into your classpath.
+</p>
+
+<p>
+    If you get compiler error about not being able to find some package, then 
+    it means that you have not edited the scripts to properly specify the paths 
+    to each of the packages.
+</p>
+
+</s1>
+
+<s1 title="Testing Your Installation">
+
+<p>
+    There is testing scripts in the velocity/examples directory.
+</p>
+
+</s1>
+
+</body>
+</document>
+

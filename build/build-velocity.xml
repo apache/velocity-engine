@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+
+<!-- Build file for Velocity -->
+
+<project name="Velocity" default="compile" basedir=".">
+
+    <target name="init">
+        <property name="Name" value="Velocity"/>
+        <property name="version" value="0.4"/>
+        <property name="project" value="velocity"/>
+        <property name="build.compiler" value="classic"/>
+        
+        <property name="build.dir" value="../bin"/>
+        <property name="build.src" value="${build.dir}/src"/>
+        <property name="build.dest" value="${build.dir}/classes"/>
+        
+        <property name="src.java.dir" value="../src/java"/>
+        <property name="javadoc.destdir" value="../docs/apidocs"/>
+        <property name="final.name" value="${project}-${version}"/>
+        <property name="dist.root" value="../dist"/>
+        <property name="dist.dir" value="${dist.root}/${final.name}"/>
+        <property name="year" value="1999-2000"/>
+        <property name="ant.home" value="."/>
+        <property name="debug" value="on"/>
+        <property name="optimize" value="on"/>
+        <property name="deprecation" value="on"/>
+        <property name="log.jar" value="lib/log.jar"/>
+        
+        <property name="velocity.docs" value="../docs"/>
+        <property name="velocity.xdocs" value="../xdocs"/>
+        <property name="velocity.skin" value="../xdocs/skin"/>
+        <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
+        
+        <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
+        <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
+        <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
+
+        <filter token="year" value="${year}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="date" value="${TODAY}"/>        
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Prepares the build directory                                        -->
+    <!-- =================================================================== -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dest}"/>
+        <mkdir dir="${build.src}"/>
+
+        <copydir src="${src.java.dir}" dest="${build.src}" includes="**/*.java"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Compiles the source directory                                       -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="prepare">
+
+        <javac srcdir="${build.src}"
+            destdir="${build.dest}"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"/>
+            
+            <!-- hack for test viewing -->
+            
+            <copydir 
+                src="${src.java.dir}/org/apache/velocity"
+                dest="${build.dest}/org/apache/velocity"
+                includes="test*"
+            />                
+    
+            <chmod file="${build.dest}/org/apache/velocity/test.sh" perm="+x"/>
+            
+    </target>
+  
+    <!-- =================================================================== -->
+    <!-- Compiles the source directory and creates a .jar file               -->
+    <!-- =================================================================== -->
+    <target name="jar" depends="compile">
+        
+        <unzip src="${log.jar}" dest="${build.dest}"/>
+    
+        <jar jarfile="${build.dir}/${project}-${version}.jar"
+            basedir="${build.dest}"
+            excludes="**/package.html"/>
+    </target>
+    
+    <!-- =================================================================== -->
+    <!-- Creates the API documentation                                       -->
+    <!-- =================================================================== -->
+    <target name="javadocs" depends="prepare">
+        <mkdir dir="${javadoc.destdir}"/>
+        <javadoc
+            sourcepath="${build.src}"
+            packagenames="org.apache.velocity.*"
+            destdir="${javadoc.destdir}"
+            author="true"
+            private="true"
+            version="true"
+            use="true"
+            windowtitle="${Name} ${version} API"
+            doctitle="${Name} ${version} API"
+            bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved."
+        />
+    </target>
+    
+    <!-- =================================================================== -->
+    <!-- Package                                                             -->
+    <!-- =================================================================== -->
+    <target name="dist" depends="jar,javadocs">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}/src/java"/>
+        <copydir src="${build.dir}/src/" dest="${dist.dir}/src/java/"/>
+        <copydir src="../docs" dest="${dist.dir}/docs" />
+        <copydir src="../build" dest="${dist.dir}/build"/>
+        
+        <copydir src="../examples" dest="${dist.dir}/examples"/>
+        <chmod file="${dist.dir}/examples/test.sh" perm="+x" />
+        
+        <copydir src="../testbed" dest="${dist.dir}/testbed"/>
+        <chmod file="${dist.dir}/testbed/test.sh" perm="+x" />
+        
+        <copyfile src="${build.dir}/${project}.jar" 
+            dest="${dist.dir}/${project}.jar"/>
+        
+        <jar jarfile="../${final.name}.jar" basedir="${dist.root}" 
+            excludes="**/package.html"/>
+    
+        <deltree dir="${dist.root}"/>
+
+    </target>
+  
+    <!-- =================================================================== -->
+    <!-- Cleans up the build directory                                       -->
+    <!-- =================================================================== -->
+    <target name="clean">
+        <deltree dir="${build.dir}"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Make Velocity documentation                                         -->
+    <!-- =================================================================== -->
+    <target name="docs" depends="init">
+
+        <java fork="yes" classname="${doc.generator}">
+            <arg value="targetDirectory=${velocity.docs}"/>
+            <arg value="${velocity.xdocs}/site-book.xml"/>
+            <arg value="${velocity.skin}"/>
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement location="${stylebook.jar}"/>
+                <pathelement location="${xerces.jar}"/>
+                <pathelement location="${xalan.jar}"/>
+            </classpath>
+        </java>
+
+        <deltree dir="${velocity.docs}/graphics"/>
+
+  </target>
+
+</project>

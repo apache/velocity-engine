@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<book title="Velocity Documentation" copyright="2000 The Apache Software Foundation">
+
+<separator/>
+    <page id="index" label="Overview" source="index.xml"/>
+    <page id="getting-started" label="Getting Started" source="getting-started.xml"/>
+    <page id="install" label="Install" source="install.xml"/>
+    <page id="design" label="Design" source="design.xml"/>
+    <page id="script-elements" label="Script Elements" source="script-elements.xml"/>
+    <page id="contributors" label="Contributors" source="contributors.xml"/>
+    <page id="code-standards" label="Coding Standards" source="code-standards.xml"/>
+    <page id="license" label="License" source="license.xml"/>
+</book>

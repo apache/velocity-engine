@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Velocity Contributors</title>
+  <subtitle>Velocity Contributors</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Contributors">
+
+<p>
+    The people listed below have made significant contributions to Velocity by
+    working long and hard to make quality software for the rest of the world to use. 
+</p>
+
+<p>
+    If you would like to become a contributor, please see the document titled 
+    todo.html to find areas where you can contribute. If there is nothing in there 
+    that suits your interest, but you still have ideas, please feel free to suggest 
+    them on the mailing list.
+</p>
+
+<p>
+    We are following a certification scheme like the one that is outlined here:
+    <link href="http://www.advogato.org/certs.html">http://www.advogato.org/certs.html</link>. 
+    The ordering of the names is based on the first contributor at the top to the most recent
+    at the bottom.
+</p>
+
+<p>
+<table>
+
+<tr>
+    <td>Jason van Zyl</td>
+    <td><link href="mailto:jvanzyl@periapt.com">jvanzyl@periapt.com</link></td>
+    <td>Periapt</td>
+    <td>Master</td>
+</tr>    
+
+<tr>
+    <td>Jon S. Stevens</td>
+    <td><link href="mailto:jon@latchkey.com">jon@latchkey.com</link></td>
+    <td>CollabNet</td>
+    <td>Master</td>
+</tr>    
+
+<tr>
+    <td>Daniel L. Rall</td>
+    <td><link href="mailto:dlr@collab.net">dlr@collab.net</link></td>
+    <td>CollabNet</td>
+    <td>Master</td>
+</tr>    
+
+<tr>
+    <td>Dave Bryson</td>
+    <td><link href="mailto:dave@miceda-data.com">dave@miceda-data.com</link></td>
+    <td>Miceda-Data</td>
+    <td>Master</td>
+</tr>
+
+<tr>
+    <td>Josh Lucas</td>
+    <td><link href="mailto:josh@stonecottage.com">josh@stonecottage.com</link></td>
+    <td>CollabNet</td>
+    <td>Master</td>
+</tr>
+
+<tr>
+    <td>Bob McWhirter</td>
+    <td><link href="mailto:bob@werken.com">bob@werken.com</link></td>
+    <td>Werken &amp; Sons Company</td>
+    <td>Master</td>
+</tr>
+
+<tr>
+    <td>Terence Parr</td>
+    <td><link href="mailto:parrt@jguru.com">parrt@jguru.com</link></td>
+    <td>JGuru</td>
+    <td>Master</td>
+</tr>
+
+</table>
+
+</p>
+
+</s1>
+
+</body>
+</document>

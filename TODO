@@ -1,0 +1,11 @@
+=> Try to get leon's code generating tool to
+   work with this instead of WM. Almost there!
+   
+=> where should the processor be initialized. right
+   now it's in the template loader. it should probably
+   go into the Runtime.
+   
+=> a pool of processors, or a pool of parsers.
+   avalon has an object pool class.
+
+=> add logging to servlet.

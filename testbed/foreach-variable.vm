@@ -1,0 +1,5 @@
+Foreach with a variable.
+
+#foreach $provider in $list
+    This is $provider.
+#end
