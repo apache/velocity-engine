@@ -544,8 +544,13 @@
     </copy>
 
     <copy 
-      file="../LICENSE.txt" 
-      tofile="${dist.dir}/LICENSE.txt"
+      file="../LICENSE" 
+      tofile="${dist.dir}/LICENSE"
+    />
+
+    <copy 
+      file="../NOTICE" 
+      tofile="${dist.dir}/NOTICE"
     />
 
     <copy 
