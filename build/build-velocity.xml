@@ -97,8 +97,6 @@
                 src="${src.java.dir}/${default.properties}"
                 dest="${build.dest}/${default.properties}"
             />                
-
-            <chmod file="${build.dest}/org/apache/velocity/test.sh" perm="+x"/>
             
     </target>
   
