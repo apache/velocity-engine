@@ -101,7 +101,7 @@ import org.apache.velocity.VelocityContext;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.1 2001/02/05 06:15:40 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.2 2001/02/05 06:23:55 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -231,7 +231,7 @@ public abstract class VelocityServlet extends HttpServlet
              *   set the content type 
              */
 
-            setContentType( response );
+            setContentType( request, response );
 
             /*
              *  let someone handle the request
@@ -307,7 +307,7 @@ public abstract class VelocityServlet extends HttpServlet
         }
     }
 
-    protected void setContentType( ServletResponse response )
+    protected void setContentType( HttpServletRequest request, HttpServletResponse response )
     {
         response.setContentType( defaultContentType );
     }
