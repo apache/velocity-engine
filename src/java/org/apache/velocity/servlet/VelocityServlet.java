@@ -72,12 +72,12 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.FastWriter;
 
 /**
- * Base class to use Velocity with Servlets.
+ * Base class which simplifies the use of Velocity with Servlets.
  * Simply extend this class, override the handleRequest method
  * and add your data to the context. Then call getTemplate("mytemplate.wm")
  * 
  * @author Dave Bryson
- * $Revision: 1.4 $
+ * $Revision: 1.5 $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -93,8 +93,12 @@ public abstract class VelocityServlet extends HttpServlet
     private boolean asciiHack;
 
     /** 
-     * Init the loader
-     * @param ServletConfig
+     * Performs initialization of this servlet.  Called by the servlet 
+     * container on loading.
+     *
+     * @param config The servlet configuration to apply.
+     *
+     * @exception ServletException
      */
     public void init( ServletConfig config )
         throws ServletException
@@ -154,27 +158,32 @@ public abstract class VelocityServlet extends HttpServlet
         writer.setAsciiHack(asciiHack);
         template.merge( context, writer );
         writer.flush();
+        // HELP: Why wouldn't we want to close() the writer as well?
     }
     
     /**
-     * @return the requested template
+     * Retrieves the requested template.
+     *
+     * @param name The file name of the template to retrieve.
+     * @return     The requested template.
      */
     public Template getTemplate( String name )
-     throws Exception
+        throws Exception
     {
         return Runtime.getTemplate(name);
     }
     
     /**
-     * Override the method to add your information to the
-     * context and call the getTemplate method.
-     * @param Context 
-     * @return Template
+     * Override the method to add your application data to the context, 
+     * then call the <code>getTemplate()</code> method.
+     *
+     * @param ctx The context to add your data to.
+     * @return    The template to merge with your context.
      */
     public abstract Template handleRequest( Context ctx );
  
     /**
-     * Send an error message
+     * Send an error message to the client.
      */
     private void error( HttpServletResponse response, String message )
         throws ServletException, IOException
