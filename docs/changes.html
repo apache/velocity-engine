@@ -172,7 +172,22 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
   <li>
     Fix for the much acclaimed and dreaded #$foo, $$foo #$#$foofoo, etc bug.  (gmj)
   </li>
-
+  <li>
+    Added some autoconfigure support for the servlet example to hele
+    users new to Servlets, and added a little README to help then find
+    Tomcat and setup a webapp. (gmj)
+  </li>
+  <li>
+    Removed the .close() and .flush() of the output stream in VelocityServlet
+    and symmetrized VelocityWriter recycle.  (gmj)
+  </li>
+  <li>
+     Converted from using the Velocity Configuration class (now deprecated) to
+     the Jakarta Commons collections component's ExtendedProperties class.
+     (Which came from Velocity and was renamed.)  Should result in no changes 
+     other than deprecation of Configuration and one deprecated method in
+     o.a.v.app.Velocity. (gmj)
+  </li>
 </ul>
                             </blockquote>
       </td></tr>
