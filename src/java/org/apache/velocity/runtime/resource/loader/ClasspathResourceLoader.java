@@ -80,7 +80,8 @@ import org.apache.commons.collections.ExtendedProperties;
  *  the following is all that the loader needs to be functional :
  *  <br>
  *  <br>
- *  resource.loader.1.class = 
+ *  resource.loader = class
+ *  class.resource.loader.class =
  *    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
  *  <br>
  *  <br>
@@ -105,7 +106,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.6 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.7 2002/03/28 15:16:08 geirm Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {
