@@ -66,7 +66,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -77,7 +76,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: MultiLoaderTestCase.java,v 1.2 2001/03/25 22:56:03 jvanzyl Exp $
+ * @version $Id: MultiLoaderTestCase.java,v 1.3 2001/05/15 13:11:40 geirm Exp $
  */
 public class MultiLoaderTestCase extends BaseTestCase
 {
@@ -134,10 +133,10 @@ public class MultiLoaderTestCase extends BaseTestCase
             
             Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
 
+            Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
+
             /*
-             * I don't think I should have to do this, these should
-             * be in the default config file. Set up the classpath
-             * loader.
+             *  Set up the classpath loader.
              */
 
             Velocity.setProperty(
@@ -150,6 +149,17 @@ public class MultiLoaderTestCase extends BaseTestCase
             Velocity.setProperty(
                 "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
                     "2");
+
+            /*
+             *  setup the Jar loader
+             */
+
+            Velocity.setProperty(
+                                 "jar." + Velocity.RESOURCE_LOADER + ".class",
+                                 "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
+
+            Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",  
+                                  "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
 
             Velocity.init();
         }
@@ -181,15 +191,25 @@ public class MultiLoaderTestCase extends BaseTestCase
             /*
              * Template to find with the file loader.
              */
-            Template template1 = Runtime.getTemplate(
+            Template template1 = Velocity.getTemplate(
                 getFileName(null, "path1", TMPL_FILE_EXT));
             
             /*
              * Template to find with the classpath loader.
              */
-            Template template2 = Runtime.getTemplate(
+            Template template2 = Velocity.getTemplate(
                 getFileName(null, "template/test1", TMPL_FILE_EXT));
            
+            /*
+             * Template to find with the jar loader
+             */
+            Template template3 = Velocity.getTemplate(
+               getFileName(null, "template/test2", TMPL_FILE_EXT));
+
+            /*
+             * and the results files
+             */
+
             FileOutputStream fos1 = 
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
@@ -198,8 +218,13 @@ public class MultiLoaderTestCase extends BaseTestCase
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
 
+            FileOutputStream fos3 = 
+                new FileOutputStream (
+                    getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
+
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+            Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
             
             /*
              *  put the Vector into the context, and merge both
@@ -215,10 +240,23 @@ public class MultiLoaderTestCase extends BaseTestCase
             writer2.flush();
             writer2.close();
 
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"path1",RESULT_FILE_EXT,CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR,COMPARE_DIR,"test1",RESULT_FILE_EXT,CMP_FILE_EXT))
+            template3.merge(context, writer3);
+            writer3.flush();
+            writer3.close();
+
+            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"path1",RESULT_FILE_EXT,CMP_FILE_EXT))
             {
-                fail("Output is incorrect!");
+                fail("Output incorrect for FileResourceLoader test.");
+            }
+ 
+            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output incorrect for ClasspathResourceLoader test.");
+            }
+            
+            if( !isMatch(RESULTS_DIR,COMPARE_DIR,"test3",RESULT_FILE_EXT,CMP_FILE_EXT))
+            {
+                fail("Output incorrect for JarResourceLoader test.");
             }
         }
         catch (Exception e)
