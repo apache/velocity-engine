@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.15 2000/12/17 00:06:23 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.16 2000/12/19 11:47:17 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -178,6 +178,8 @@ public class ASTReference extends SimpleNode
 
         if ( escaped )
         {
+            //            System.out.println("Escaped : " + prefix + " : " + nullString );
+
             if ( value == null )
                 writer.write( NodeUtils.specialText(getFirstToken()) + prefix + "\\" +  nullString );
             else
@@ -208,7 +210,7 @@ public class ASTReference extends SimpleNode
     
         return true;
     }
-
+       
     /**
      *   Computes boolean value of this reference
      *   Returns the actual value of reference return type
@@ -307,7 +309,7 @@ public class ASTReference extends SimpleNode
          *  regular behavior determine if we should output this
          *  as \$foo or $foo later on in render(). Lazyness..
          */
-
+      
         escaped = false;
 
         if ( t.image.startsWith("\\"))
@@ -330,31 +332,28 @@ public class ASTReference extends SimpleNode
 
             t.image = t.image.substring(i);
         }
- 
+
         /*
-         *  geirm :   changed Parser.jjt to handle the $foo! bug 
-         *  and the tree structure changed.  Leaving this stuff here
-         *  for a little while in case something bad happens. :)
-         *  following line was ->  if (t.image.equals("$!"))
+         *  get the literal in case this reference isn't backed by the context at runtime
          */
+
+        nullString = literal();
 
         if (t.image.startsWith("$!"))
         {
             referenceType = QUIET_REFERENCE;
-            nullString = "";
-            
+ 
             /*
-             *  geirm : Parser.jjt change. was ->  if (t.next.image.equals("{"))
+             *  only if we aren't escaped do we want to null the output
              */
 
+            if (!escaped)
+                nullString = "";
+ 
             if (t.image.startsWith("$!{"))
             {
                 /*
                  *  ex : $!{provider.Title} 
-                 */
-
-                /*
-                 * geirm : Parser.jjt change.  Was -> return t.next.next.image;
                  */
 
                 return t.next.image;
@@ -364,11 +363,7 @@ public class ASTReference extends SimpleNode
                 /*
                  *  ex : $!provider.Title
                  */
-                
-                /* 
-                 *  geirm : Parser.jjt change.  Was -> return t.next.image;
-                 */
-
+ 
                 return t.image.substring(2);
             }
         }
@@ -379,7 +374,6 @@ public class ASTReference extends SimpleNode
              */
 
             referenceType = FORMAL_REFERENCE;
-            nullString = literal();
             return t.next.image;
         }            
         else
@@ -389,7 +383,6 @@ public class ASTReference extends SimpleNode
              */
 
             referenceType = NORMAL_REFERENCE;
-            nullString = literal();
             return t.image.substring(1);
         }            
     }
