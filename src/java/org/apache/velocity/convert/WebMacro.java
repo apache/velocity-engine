@@ -67,8 +67,13 @@ import org.apache.tools.ant.DirectoryScanner;
  */
 public class WebMacro
 {
+    /** Name of the original webmacro template */
     protected String orignalTemplate;
+    
+    /** Regular expression tool */
     protected Perl5Util perl;
+    
+    /** Path separator property */
     protected String pathSeparator = File.separator;
     
     protected final static String VM_EXT = ".vm";
@@ -114,6 +119,10 @@ public class WebMacro
         ".vm"
     };
     
+    /**
+     * Iterate through the set of find/replace regexes
+     * that will convert a given WM template to a VM template
+     */
     public void convert(String args[])
     {
         if (args.length < 1)
@@ -145,6 +154,10 @@ public class WebMacro
             writeTemplate(args[0], "", "");
     }
 
+    /**
+     * Write out the converted template to the given named file
+     * and base directory.
+     */
     private boolean writeTemplate(String file, String basedir, String newBasedir)
     {
         if (file.indexOf(WM_EXT) < 0)
@@ -194,6 +207,9 @@ public class WebMacro
         return true;
     }
 
+    /**
+     * Simple extension conversion of .wm to .vm
+     */
     private String convertName(String name)
     {
         if (name.indexOf(WM_EXT) > 0)
@@ -202,12 +218,18 @@ public class WebMacro
             return name;
     }
 
+    /**
+     * How to use this little puppy :-)
+     */
     public void usage()
     {
         System.err.println("Usage: convert-wm <template>.wm | directory");
         System.exit(1);
     }
 
+    /**
+     * Apply find/replace regexes to our WM template
+     */
     public String convertTemplate(String template)
     {
         orignalTemplate = StringUtils.fileContentsToString(template);
@@ -221,6 +243,9 @@ public class WebMacro
         return orignalTemplate;
     }
 
+    /**
+     * Main hook for the conversion process.
+     */
     public static void main(String[] args)
     {
         WebMacro converter = new WebMacro();
