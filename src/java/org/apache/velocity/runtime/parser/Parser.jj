@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.76 2003/12/30 11:47:58 geirm Exp $
+ * @version $Id: Parser.jj,v 1.77 2003/12/30 12:18:52 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -797,7 +797,7 @@ TOKEN :
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
   < STRING_LITERAL:
       ("\""
-        (   (~["\"","\\","\n","\r"])
+        (   (~["\"","\\"])
           | ("\\"
               ( ["n","t","b","r","f","\\","'","\""]
               | ["0"-"7"] ( ["0"-"7"] )?
@@ -810,7 +810,7 @@ TOKEN :
       )
     |
     ("\'"
-        (   (~["\'","\n","\r"])
+        (   (~["\'"])
           | ( "\\" (" ")* "\n")
         )*
         "\'"
