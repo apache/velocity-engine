@@ -53,24 +53,10 @@
  */
 
 /*
- *  Background
- *  ----------
- *
- *  VTL == Velocity Template Language
- *
- *  The problem with parsing VTL is that an input stream consists generally of little
- *  bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
- *  other languages, like C or Java, where the parser can punt whenever it encounters 
- *  input that doesn't conform to the grammar, the VTL parser can't do that.  
- *
- *  There are a few things that we do here :
- *    - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
- *    - define for each parser state a set of tokens for each state
- *    - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
- *  
- *   (cont)
+ *  NOTE : please see documentation at bottom of this file. (It was placed there its tiring
+ *    to always have to page past it... :)
  */
- 
+
 options
 {
     /** The default package for this parser kit */
@@ -141,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.14 2000/11/02 01:24:49 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.15 2000/11/02 03:53:04 geirm Exp $ 
 */
 public class Parser
 {
@@ -181,7 +167,16 @@ public class Parser
     {
         token_source.clearStateVars();
         ReInit(stream);  
-        return process();
+    
+       // return process();
+
+        SimpleNode n = null;
+
+        try {
+            n = process();
+        } catch (Exception e ) { System.out.println( e ); }
+
+        return n;
     }        
 
     public void setDirectives(Hashtable directives)
@@ -470,12 +465,11 @@ TOKEN:
             lparen++;
 
         /*
-         *  if we have seen the dot, then move to REFMOD2 -> Modifier()
+         *  if in REFERENCE and we have seen the dot, then move to REFMOD2 -> Modifier()
          */
 
         if (curLexState == REFMODIFIER )
-            SwitchTo( REFMOD2 );
-
+            SwitchTo( REFMOD2 ); 
     }
 
 |   <RPAREN: ")" (" ")* ("\n")?>
@@ -554,9 +548,8 @@ MORE :
         SwitchTo( IN_MULTI_LINE_COMMENT ); 
     } 
 
-
 |   <HASH : "#"> 
-  { 
+    { 
         if (! inComment)
         {
             inDirective = true;
@@ -576,13 +569,11 @@ TOKEN :
 |   <TEXT: (~["$", "#", "\\"])+ >
 }    
 
-
-// -----------------------------------------------------------------------
-// 
-// COMMENT Lexical States
-// 
-// -----------------------------------------------------------------------
-
+/* -----------------------------------------------------------------------
+ * 
+ *   *_COMMENT Lexical tokens
+ *
+ *-----------------------------------------------------------------------*/
 <IN_SINGLE_LINE_COMMENT>
 TOKEN :
 {
@@ -623,12 +614,11 @@ MORE :
   < ~[] >
 }
 
-// -----------------------------------------------------------------------
-// 
-// DIRECTIVE Lexical State
-// 
-// -----------------------------------------------------------------------
-
+/* -----------------------------------------------------------------------
+ * 
+ *  DIRECTIVE Lexical State (some of it, anyway)
+ * 
+ * ---------------------------------------------------------------------- */
 <DIRECTIVE,REFMOD2> 
 SKIP:
 {
@@ -637,6 +627,7 @@ SKIP:
 //|   "\n"
 //|   "\r"
 }
+
 
 <REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
 TOKEN :
@@ -691,6 +682,7 @@ TOKEN :
     }        
 }    
 
+
 <DIRECTIVE>
 TOKEN : 
 {
@@ -721,7 +713,9 @@ TOKEN :
     } 
 
 |   <INCLUDE_DIRECTIVE: "include"> 
-    { incMode = true; }
+    { 
+        incMode = true; 
+    }
 
 |   <IF_DIRECTIVE: "if">
 
@@ -745,23 +739,41 @@ TOKEN :
 |   <#DIGIT: [ "0"-"9" ] >
 |   <NUMBER_LITERAL: (<DIGIT>)+ >
     {
-        //!!! fixed <bcolor="#333333"/>
-        // needs to be more thorough.
-       // if (lparen == 0)
-       //     SwitchTo(DEFAULT);
-    }            
-    
-    //!!! fixed #FFFFFF
+        /*
+         *  in the spirit of Jason's fix :)
+         *  but check to see if we are in set
+         *    ex.  #set $foo = $foo + 3
+         *  because we want to handle the \n after
+         */
+
+        if ( lparen == 0 && !inSet )
+            stateStackPop();
+    }
+
 |   <#LETTER: [ "a"-"z", "A" - "Z" ] >
 |   <WORD: (<LETTER>)+ >
 }
 
-
-// -----------------------------------------------------------------------
-// 
-// REFERENCE Lexical State
-// 
-// -----------------------------------------------------------------------
+/* -----------------------------------------------------------------------
+ * 
+ *  REFERENCE Lexical States
+ *
+ *  This is more than a single state, because of the  structure of
+ *  the VTL references.  We use three states because the set of tokens
+ *  for each state is different.
+ *
+ *  $foo.bar( "arg" )
+ *  ^   ^   ^
+ *  |   |   |
+ *  ----------- >  REFERENCE : state initiated by the '$' character.  Continues 
+ *      |   |       until end of the reference, or the . character.
+ *      |------ >  REFMODIFIER : state switched to when the <DOT> is encountered.
+ *          |       note that this is a switch, not a push. See notes at bottom
+ *          |       re stateStack.
+ *          |-- >  REFMOD2 : state switch to when the LPAREN is encountered.
+ *                  again, this is a switch, not a push.
+ *
+ * ---------------------------------------------------------------------------- */
 
 <REFERENCE,REFMODIFIER,REFMOD2> 
 TOKEN :
@@ -792,7 +804,6 @@ TOKEN :
 |   <LCURLY: "{">
 |   <RCURLY: "}">
     {
-        // was :DEFAULT
         stateStackPop();
     }
 }
@@ -849,23 +860,13 @@ SimpleNode process() : {}
    { return jjtThis; }
 }
 
-// -----------------------------------------------------------------------
-// 
-// Statement Syntax
-// 
-// -----------------------------------------------------------------------
-
 /**
  * These are the types of statements that
  * are acceptable in Velocity templates.
- * I have not found that the order here
- * matters much. Someone please correct
- * me here if I'm wrong.
  */
-
 void Statement() #void : {}
 {
-   IfStatement()
+    IfStatement()
 |   IncludeStatement()
 |   StopStatement()
 |   Reference()
@@ -913,6 +914,10 @@ void Word() : {}
     <WORD>
 }    
 
+/**
+ *   Supports the arguments for the Pluggable Directives
+ *   @see Directive()
+ */
 void DirectiveArg() #void : {}
 {
     Reference()
@@ -922,12 +927,20 @@ void DirectiveArg() #void : {}
 |   ObjectArray()
 }
 
+/**
+ *   Supports the Pluggable Directives
+ *     #foo( arg+ )
+ */
 SimpleNode Directive() : 
 {
     Token t;
     Directive d;
 }
 {
+    /*
+     *  Get the directive identifier and check to see if this is a directive.
+     *   Note that because '#' is a <MORE> token, the identifier is preceeded by the '#'
+     */
     t = <WORD>
     {
         d = (Directive) directives.get(t.image.substring(1));
@@ -940,11 +953,19 @@ SimpleNode Directive() :
         }            
     }
 
+    /*
+     *  if this is indeed a token, match the #foo ( arg ) pattern
+     */
+
     <LPAREN> (DirectiveArg())+ <RPAREN>
     {
         if (d.getType() == Directive.LINE)
             return jjtThis;
     }
+
+    /*
+     *  and the following block if the PD needs it
+     */
     
     ( Statement() )+ #Block 
     <END>
@@ -984,7 +1005,6 @@ void Method() : {}
 
 void Reference() : {}
 { 
-
     // This should be changed to Indentifier() now. Make
     // it easier to walk the AST.
     [<LCURLY>]
@@ -1027,11 +1047,11 @@ void Text() :
 
 }
 
-// -----------------------------------------------------------------------
-// 
-// Directive Syntax
-// 
-// -----------------------------------------------------------------------
+/* -----------------------------------------------------------------------
+ * 
+ *  Defined Directive Syntax
+ * 
+ * ----------------------------------------------------------------------*/
 
 void IfStatement() : {}
 {
@@ -1078,7 +1098,7 @@ void IncludeStatement() #void: {}
  * This method corresponds to the #stop
  * directive which just simulates and EOF
  * so that parsing stops. The #stop directive
- * is really only useful for debugging
+ * is useful for end-user debugging
  * purposes.
  */
 void StopStatement() #void: {}
@@ -1086,11 +1106,11 @@ void StopStatement() #void: {}
     <STOP_DIRECTIVE>
 }
 
-// -----------------------------------------------------------------------
-// 
-// Expression Syntax
-// 
-// -----------------------------------------------------------------------
+/* -----------------------------------------------------------------------
+ * 
+ *  Expression Syntax
+ * 
+ * ----------------------------------------------------------------------*/
 
 void Expression() : {}
 {
@@ -1171,3 +1191,39 @@ void PrimaryExpression() #void : {}
 |   False()
 |   <LPAREN> Expression() <RPAREN>
 }
+
+
+/* ======================================================================
+ *
+ *  Background
+ *  ----------
+ *
+ *  VTL == Velocity Template Language
+ *
+ *  The problem with parsing VTL is that an input stream consists generally of little
+ *  bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
+ *  other languages, like C or Java, where the parser can punt whenever it encounters 
+ *  input that doesn't conform to the grammar, the VTL parser can't do that.  
+ *
+ *  There are a few things that we do here :
+ *    - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
+ *    - define for each parser state a set of tokens for each state
+ *    - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
+ *  
+ *  It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
+ *  evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
+ *  this documentation is in disagreement w/ the source, the source takes precedence.
+ *
+ *  Parser States
+ *  -------------
+ *  DEFAULT :  This is the base or starting state, and strangely enough, the default state.
+ *
+ *  DIRECTIVE : This state is triggered by the '#' character, and is used when processing both
+ *     'defined' directives such as #if() #else #elseif() #end #set #foreach() as well as the 
+ *     so-called 'pluggable' directives (PDs), which include #foreach(), #macro() etc.  The
+ *     PDs are able to be implemented entirely outside of the parser.
+ *      - with the exception of #set, #else and #else, the 'shape' of a directive is  
+ *           #foo( optional args )
+ *      - 
+ */
+ 
