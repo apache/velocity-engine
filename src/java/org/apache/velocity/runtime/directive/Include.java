@@ -93,7 +93,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.6 2000/11/28 00:21:03 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.7 2000/11/28 00:38:40 jvanzyl Exp $
  */
 public class Include extends Directive
 {
@@ -112,9 +112,6 @@ public class Include extends Directive
      * and initialized.
      */
     public int DIRECTIVE_TYPE = LINE;
-    
-    private static String ERRORMSG_START =  "include.output.errormsg.start";
-    private static String ERRORMSG_END  = "include.output.errormsg.end";
     
     /**
      *  iterates through the argument list and renders every
@@ -265,8 +262,8 @@ public class Include extends Directive
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
     {
-        String strOutputMsgStart = Runtime.getString( ERRORMSG_START);
-        String strOutputMsgEnd = Runtime.getString( ERRORMSG_END );
+        String strOutputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
+        String strOutputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
         
         if ( strOutputMsgStart != null  && strOutputMsgEnd != null)
         {
