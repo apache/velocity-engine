@@ -59,7 +59,7 @@ package org.apache.velocity.runtime.log;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogSystem.java,v 1.2 2001/03/19 05:19:48 geirm Exp $
+ * @version $Id: LogSystem.java,v 1.3 2001/03/19 06:15:55 jon Exp $
  */
 public interface LogSystem
 {
@@ -84,8 +84,9 @@ public interface LogSystem
      * Prefix for error messages.
      */
     public final static int ERROR_ID = 3;
-   
-    public void logVelocityMessage(  int level, String messsage);
-   
-}
 
+    /**
+     * Send a log message to Velocity.
+     */
+    public void logVelocityMessage(int level, String messsage);
+}

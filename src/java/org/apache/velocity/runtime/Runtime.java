@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.98 2001/03/19 05:30:49 geirm Exp $
+ * @version $Id: Runtime.java,v 1.99 2001/03/19 06:15:54 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -627,31 +627,29 @@ public class Runtime implements RuntimeConstants
         /*
          * Start with the appropriate prefix
          */
-
         switch( level ) 
         {
-        case LogSystem.DEBUG_ID :
-            out = DEBUG_PREFIX;
-            break;
-        case LogSystem.INFO_ID :
-            out = WARN_PREFIX;
-            break;
-        case LogSystem.WARN_ID :
-            out = WARN_PREFIX;
-            break;
-        case LogSystem.ERROR_ID : 
-            out = ERROR_PREFIX;
-            break;
-        default :
-            out = "[unknown]";
-            break;
+            case LogSystem.DEBUG_ID :
+                out = DEBUG_PREFIX;
+                break;
+            case LogSystem.INFO_ID :
+                out = WARN_PREFIX;
+                break;
+            case LogSystem.WARN_ID :
+                out = WARN_PREFIX;
+                break;
+            case LogSystem.ERROR_ID : 
+                out = ERROR_PREFIX;
+                break;
+            default :
+                out = "[unknown]";
+                break;
         }
 
         /*
          *  now,  see if the logging stacktrace is on
          *  and modify the message to suit
          */
-
         if ( showStackTrace() &&
             (message instanceof Throwable || message instanceof Exception) )
         {
@@ -666,10 +664,9 @@ public class Runtime implements RuntimeConstants
          *  now, if we have a log system, log it
          *  otherwise, queue it up for later
          */
-
         if (logSystem != null)
         {
-     		logSystem.logVelocityMessage( level, out);
+            logSystem.logVelocityMessage( level, out);
         }
         else
         {
