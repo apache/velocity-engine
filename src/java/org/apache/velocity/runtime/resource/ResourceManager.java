@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.7 2001/02/14 21:34:48 dlr Exp $
+ * @version $Id: ResourceManager.java,v 1.8 2001/02/16 14:26:03 geirm Exp $
  */
 public class ResourceManager
 {
@@ -213,23 +213,47 @@ public class ResourceManager
              * the input stream and parse it to make a new
              * AST for the resource.
              */
-            if (resource.requiresChecking() && 
-                resource.isSourceModified())
+            if ( resource.requiresChecking() )
             {
-                try
+                /*
+                 *  touch() the resource to reset the counters
+                 */
+
+                resource.touch();
+
+                if(  resource.isSourceModified() )
                 {
-                    resource.process();
-                    return resource;
-                }
-                catch (Exception e)
-                {
-                    Runtime.error(e);
+                    try
+                    {
+                        /*
+                         *  read in the fresh stream and parse
+                         */
+
+                        resource.process();
+
+                        /*
+                         *  now set the modification info and reset
+                         *  the modification check counters
+                         */
+                        
+                        resource.setLastModified( 
+                            resourceLoader.getLastModified( resource ));               
+                    }
+                    catch (Exception e)
+                    {
+                        Runtime.error(e);
+                    }
                 }
             }
+
             return resource;
         }
         else
         {
+            /*
+             *  it's not in the cache
+             */
+
             try
             {
                 resource = ResourceFactory.getResource(resourceName, resourceType);
