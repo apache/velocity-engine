@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.14 2001/11/07 13:00:29 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.15 2001/11/19 13:02:33 geirm Exp $
  */
 public class NodeUtils
 {
@@ -83,10 +83,12 @@ public class NodeUtils
             return specialText;
             
         Token tmp_t = t.specialToken;
-        
+
         while (tmp_t.specialToken != null)
+        {
             tmp_t = tmp_t.specialToken;
-        
+        }
+
         while (tmp_t != null)
         {
             String st = tmp_t.image;
@@ -98,10 +100,59 @@ public class NodeUtils
                 char c = st.charAt(i);
 
                 if ( c == '#' || c == '$' )
+                {
                     sb.append( c );
+                }
+
+                /*
+                 *  more dreaded MORE hack :)
+                 * 
+                 *  looking for ("\\")*"$" sequences
+                 */
+
+                if ( c == '\\')
+                {
+                    boolean ok = true;
+                    boolean term = false;
+
+                    int j = i;
+                    for( ok = true; ok && j < st.length(); j++)
+                    {
+                        char cc = st.charAt( j );
+                 
+                        if (cc == '\\')
+                        {
+                            /*
+                             *  if we see a \, keep going
+                             */
+                            continue;
+                        }
+                        else if( cc == '$' )
+                        {
+                            /*
+                             *  a $ ends it correctly
+                             */
+                            term = true;
+                            ok = false;
+                        }
+                        else
+                        {
+                            /*
+                             *  nah...
+                             */
+                            ok = false;
+                        }
+                    }
+
+                    if (term)
+                    {
+                        String foo =  st.substring( i, j );
+                        sb.append( foo );
+                        i = j;
+                    }
+                }
             }
             
-            // specialText += tmp_t.image;
             specialText += sb.toString();
 
             tmp_t = tmp_t.next;
