@@ -18,7 +18,7 @@ limitations under the License.
 
 <!-- Content Stylesheet for Site -->
 
-
+        
 <!-- start the processing -->
     <!-- ====================================================================== -->
     <!-- GENERATED FILE, DO NOT EDIT, EDIT THE XML FILE IN xdocs INSTEAD! -->
@@ -30,17 +30,17 @@ limitations under the License.
 
                                                     <meta name="author" value="Jon S. Stevens">
             <meta name="email" value="jon@latchkey.com">
-
-
-
-
-
-
-
+            
+           
+            
+            
+            
+            
+            
             <title>Velocity - Anakia</title>
         </head>
 
-        <body bgcolor="#ffffff" text="#000000" link="#525D76">
+        <body bgcolor="#ffffff" text="#000000" link="#525D76">        
             <table border="0" width="100%" cellspacing="0">
                 <!-- TOP IMAGE -->
                 <tr>
@@ -56,11 +56,11 @@ limitations under the License.
                 <tr><td colspan="2">
                     <hr noshade="" size="1"/>
                 </td></tr>
-
+                
                 <tr>
                     <!-- LEFT SIDE NAVIGATION -->
                     <td width="20%" valign="top" nowrap="true">
-
+                    
     <!-- ============================================================ -->
 
                 <p><strong>About</strong></p>
@@ -117,6 +117,10 @@ limitations under the License.
 </li>
                     <li>    <a href="./api/index.html">Javadoc</a>
 </li>
+                    <li>    <a href="http://wiki.apache.org/jakarta-velocity/">Wiki</a>
+</li>
+                    <li>    <a href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ">FAQ</a>
+</li>
                 </ul>
             <p><strong>Tools</strong></p>
         <ul>
@@ -172,15 +176,15 @@ limitations under the License.
     files.
 </p>
                                                 <p>
-   The basic model that AnakiaTask uses is pretty straightforward :
+   The basic model that AnakiaTask uses is pretty straightforward : 
    <ol>
    <li>Parse your XML into a JDOM Document:<br />
 <pre>SAXBuilder builder;
 Document root = null;
 
-try
+try 
 {
-    builder = new SAXBuilder(
+    builder = new SAXBuilder( 
         "org.apache.xerces.parsers.SAXParser" );
     root = builder.build( file );
 }
@@ -212,9 +216,9 @@ catch( Exception )
     Anakia -- intended to replace Stylebook, which was originally used
     to generate simple, static web sites in which all pages had the same
     look and feel -- is great for documentation/project web sites, such
-    as the sites on <a href="http://www.apache.org/">www.apache.org</a>
-    and <a href="http://jakarta.apache.org">jakarta.apache.org</a>. As it
-    is more targeted to a specific purpose, it does not provide some of
+    as the sites on <a href="http://www.apache.org/">www.apache.org</a> 
+    and <a href="http://jakarta.apache.org">jakarta.apache.org</a>. As it 
+    is more targeted to a specific purpose, it does not provide some of 
     XSL's "extra" functionality.
 </p>
                                                 <p>
@@ -226,17 +230,17 @@ catch( Exception )
     Anakia creates a Context, which contains a JDOM Document object of
     the .xml page, as well as an (optional) JDOM Document object of your
     project.xml page. In addition to the project.xml based context, additional
-    xml contexts can be added through context nested elements. The
-    .vsl page is executed (using Velocity) with the Context. You can then
+    xml contexts can be added through context nested elements. The 
+    .vsl page is executed (using Velocity) with the Context. You can then 
     navigate your .xml file and pull information out of it by simply executing
     methods on the JDOM Document object.
 </p>
                                                 <p>
     Anakia is being used to create the documentation for not only this
-    website, but also for the Jakarta Project's website as well as
-    many of the projects that live under the Jakarta Project. This
-    process is
-    <a href="http://jakarta.apache.org/site/jakarta-site2.html">documented</a>
+    website, but also for the Jakarta Project's website as well as 
+    many of the projects that live under the Jakarta Project. This 
+    process is 
+    <a href="http://jakarta.apache.org/site/jakarta-site2.html">documented</a> 
     on the site. You are welcome to use this for your own needs as well.
 </p>
                             </blockquote>
@@ -268,7 +272,7 @@ catch( Exception )
                                                 <p>
     The jakarta-velocity/examples/anakia/xdocs/ directory has all of the
     .xml source code. The xdocs/stylesheets directory contains the .vsl
-    file, in which most of the magic happens. Understanding <a href="user-guide.html">Velocity Template Language</a> and
+    file, in which most of the magic happens. Understanding <a href="user-guide.html">Velocity Template Language</a> and 
     <a href="http://www.jdom.org/">JDOM</a> is
     necessary to understand how the .vsl file works.
 </p>
@@ -393,12 +397,12 @@ catch( Exception )
 </td>
                                 <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
-
+                
             This is the extension that is appended to the end of your
             .xml file. For example, with an extension of ".html",
             index.xml would be converted into index.html. By default,
             the extension is .html.
-
+            
             </font>
 </td>
             </tr>
@@ -413,7 +417,7 @@ catch( Exception )
                 This is the path (relative to Velocity's
             template.loader.1.template.path) to the
             VelocityStyleTemplate to process. This file is the
-            equivalent to the .xsl file in Ant's style task.
+            equivalent to the .xsl file in Ant's style task. 
             </font>
 </td>
             </tr>
@@ -432,7 +436,7 @@ catch( Exception )
             this file. <strong>It is an optional task argument.</strong>
             If you look at the Anakia example in the
             jakarta-velocity/examples/anakia directory, you can see the
-            project.xml file being used in the .vsl file.
+            project.xml file being used in the .vsl file. 
             </font>
 </td>
             </tr>
@@ -572,7 +576,7 @@ catch( Exception )
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
                 This contains the JDOM root Element to your project.xml
             document. If you have not specified a project.xml document,
-            then this variable will not be in the context.
+            then this variable will not be in the context. 
             </font>
 </td>
             </tr>
@@ -588,7 +592,7 @@ catch( Exception )
             $string that is passed into it and it will return the
             converted String. This is good for dealing with CDATA. The
             entities that are converted are: " -&gt; &amp;quot; | &lt;
-            -&gt; &amp;lt; | &gt; -&gt; &amp;gt; | &amp; - &gt; &amp;amp;
+            -&gt; &amp;lt; | &gt; -&gt; &amp;gt; | &amp; - &gt; &amp;amp; 
             </font>
 </td>
             </tr>
@@ -642,7 +646,7 @@ catch( Exception )
             not the actual &lt;td&gt; &lt;/td&gt;. NOTE: this object is
             obsoleted as simply specifying $element.content will produce the
             desired output.
-
+            
             </font>
 </td>
             </tr>
@@ -676,7 +680,7 @@ catch( Exception )
 </td>
                                 <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
-
+                
                The W3C XPath Specification <a href="http://www.w3.org/TR/xpath/">http://www.w3.org/TR/xpath/
                </a> refers to NodeSets repeatedly, but this implementation
                simply uses java.util.List to hold all Nodes. A 'Node' is any
@@ -687,7 +691,7 @@ catch( Exception )
                for backward compatibility only. You can use
                $element.selectNodes("document/properties/@title") to achieve
                the same effect with a more intuitive syntax.
-
+            
             </font>
 </td>
             </tr>
@@ -699,17 +703,17 @@ catch( Exception )
 </td>
                                 <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
-
+                
                 This is a new java.util.Date object. Useful for putting
                 the current date/time into a page.
-
+            
             </font>
 </td>
             </tr>
             </table>
                                                 <p>
     All node lists returned from Anakia objects through $element.selectNodes,
-    $element.content, and $element.children, as well as through obsoleted
+    $element.content, and $element.children, as well as through obsoleted 
     $treeWalk.allElements and $xpath.applyTo have two special features:
     <ul>
         <li>they support the selectNodes method just as a single element does
@@ -734,7 +738,7 @@ catch( Exception )
         <p>
         <blockquote>
                                     <p>
-    The Anakia context can be customized by using one or more context nested
+    The Anakia context can be customized by using one or more context nested 
     elements.
 </p>
                                                     <div align="left">
@@ -785,10 +789,10 @@ catch( Exception )
 </td>
                                 <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
-
+                
             This sets the name of the context within the velocity context.
             It cannot be one of the predefined context objects.
-
+        
             </font>
 </td>
             </tr>
@@ -800,10 +804,10 @@ catch( Exception )
 </td>
                                 <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
     <font color="#000000" size="-1" face="arial,helvetica,sanserif">
-
+                
             The location of the custom file relative to the anakia basedir.
             This must be an XML file.
-
+        
             </font>
 </td>
             </tr>
@@ -856,7 +860,7 @@ catch( Exception )
         <p>
         <blockquote>
                                     <p>
-    Anakia was originally conceptualized and implemented by
+    Anakia was originally conceptualized and implemented by 
         <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>.
 </p>
                                                 <p>
