@@ -1346,10 +1346,18 @@ ${data.Request.ServerName}
     Sun Microsystems, is case sensitive; however, its developers have
     strove to catch and correct user errors wherever possible. 
     When the method <em>getFoo()</em> is referred to in a template
-    by <em>$bar.foo</em>, Velocity will first try <em>$getfoo</em>.
-    If this fails, it will then try <em>$getFoo</em>.
-    Similarly, when a template refers to <em>$bar.Foo</em>, Velocity
+    by <code>$bar.foo</code>, Velocity will first try <code>$getfoo</code>.
+    If this fails, it will then try <code>$getFoo</code>.
+    Similarly, when a template refers to <code>$bar.Foo</code>, Velocity
     will try <em>$getFoo()</em> first and then try <em>getfoo()</em>.
+    </p>
+                                                <p>
+    Note: <em>References to instance variables in a template are not
+    resolved.</em> Only references to the attribute equivalents of
+    JavaBean getter/setter methods are resolved
+    (i.e. <code>$foo.Name</code> does resolve to the class Foo's
+    <code>getName()</code> instance method, but not to a public
+    <code>Name</code> instance variable of Foo).
     </p>
                             </blockquote>
         </p>
@@ -1590,7 +1598,7 @@ $blargh
                                                 <p>
     By default, this feature of using single quotes to render unparsed
     text is available in Velocity. This default can be changed by
-    editing <code> velocity.properties</code> such that
+    editing <code>velocity.properties</code> such that
     <code>stringliterals.interpolate=false</code>.
  </p>
                             </blockquote>
