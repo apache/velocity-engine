@@ -22,35 +22,40 @@
     XML documents into whatever you like.
 </p>
 <p>
-    The benefit of using Anakia over XSL is that it is MUCH easier to learn 
-    while still maintaining the same functionality level. Instead of learning 
-    cryptic &lt;xsl:&gt; tags, all you need to know is how to use JDOM and 
-    Velocity's simple directives. Anakia also seems much faster than Xalan's XSL 
-    processor at creating pages.
+    The benefit of using Anakia over XSL is that it is potentially easier to 
+    learn while still maintaining a similar functionality level. Instead of 
+    learning cryptic &lt;xsl:&gt; tags, all you need to know is how to use the 
+    provided Context objects, JDOM and Velocity's simple directives. Anakia also 
+    seems to perform much faster than Xalan's XSL processor at creating pages 
+    (23 pages are generated in 7-8 seconds on a PIII 500mhz running Win98 and 
+    JDK 1.3 with client Hotspot. A similar system using Ant's &lt;style&gt; task 
+    took 14-15 seconds. A nearly 2x speed improvement.).
 </p>
 <p>
     In the end, Anakia is intended as a replacement for Stylebook which was 
-    originally used to generate simple static websites where all the pages have
-    the same look and feel. This is great for documentation websites as well as
-    for project websites like what we have on jakarta.apache.org.
+    originally used to generate simple static websites where all the pages have 
+    the same look and feel. This is great for documentation websites as well as 
+    for project websites like what we have on jakarta.apache.org. Therefore some 
+    of the &quot;extra&quot; functionality that XSL provides is not being 
+    provided here.
 </p>
 <p>
     We suggest that you take a look at the jakarta-velocity/examples/anakia directory
     for an example of how to get started with Anakia. It really is quite simple to use.    
 </p>
 <p>
-    The basic premise of Anakia is that a Context is created, the .vsl page is 
-    executed with the Context. Within the Context contains a JDOM Document 
-    object of your .xml page as well as (optionally) a JDOM Document object of 
-    your project.xml page. You can then navigate your .xml file and pull 
-    information out of it by simply executing methods on the JDOM Document 
-    object.
+    The basic usage premise of Anakia is that a Context is created, the .vsl 
+    page is executed (using Velocity) with the Context. Within the Context 
+    contains a JDOM Document object of your .xml page as well as (optionally) a 
+    JDOM Document object of your project.xml page. You can then navigate your 
+    .xml file and pull information out of it by simply executing methods on the 
+    JDOM Document object.
 </p>
 </s1>
 
 <s1 title="Installation/Example">
 <p>
-    As we just mentioned, take a look at the jakarta-velocity/examples/anakia directory.
+    As mentioned earlier, take a look at the jakarta-velocity/examples/anakia directory.
     In order to use those examples, you will need to first build Velocity by following 
     these <link href="install.html">directions</link>.
 </p>
@@ -212,15 +217,52 @@
             for example usage of this String.</td>
         </tr>
         <tr>
-            <td>$xmloutput</td>
+            <td>$xmlout</td>
             <td>This contains an instance of the JDOM XMLOutputter() object. 
             This allows you to easily create String output out of your JDOM 
-            element objects. Again, please look at the examples for more information 
-            on how to use this object.</td>
+            element objects. $xmlout.outputString(Element). Again, please look 
+            at the examples for more information on how to use this object.</td>
+        </tr>
+        <tr>
+            <td>$treeWalk.allElements($element)</td> <td>This will allow you to 
+            walk a tree of JDOM Element objects starting at $element. The point 
+            of this context object is to allow you to build an XSLT type system 
+            where you can look at each Element node conditionally and set its 
+            content and attribute values. This is probably one of the more 
+            &quot;ugly&quot; aspects of Anakia, but it does do the job and 
+            suggestions for improvement are appreciated. This context object is 
+            still under development and more documentation will follow 
+            soon.</td>
+        </tr>
+        <tr>
+            <td>$xpath.applyTo("/document/author", $root)</td> 
+            <td>This context object returns a List of NodeSet objects. 
+            Essentially, it gives you the power of the XPath specification 
+            within Anakia. This context object is still under development
+            and more documentation will follow soon.</td>
         </tr>
     </table>
 </p>
 
+</s1>
+
+<s1 title="Credits">
+<p>
+    Anakia was originally conceptualized and implemented by Jon S. Stevens.
+</p>
+<p>
+    The name <link 
+    href="http://www.kabalarians.com/female/anakia.htm">Anakia</link> is just a 
+    cool name that I think fits this project quite nicely; "The name of Anakia 
+    has given you the desire for creative, artistic or musical expression in an 
+    original way. You strive to be different and have the self-confidence to 
+    implement your ideas because you have the perseverance necessary to see 
+    something through, despite obstacles."
+</p>
+<p>
+    Further help and assistance was provided by Jason van Zyl, Geir Magnusson Jr., 
+    and the XPath support was added by Bob McWhirter.
+</p>
 </s1>
 
 </body>
