@@ -12,45 +12,45 @@ public interface ParserConstants {
   int ESCAPE_SEQUENCE = 6;
   int TEXT = 7;
   int DOLLAR = 8;
-  int HASH = 12;
-  int SINGLE_LINE_COMMENT = 13;
-  int FORMAL_COMMENT = 14;
-  int MULTI_LINE_COMMENT = 15;
-  int STRING_LITERAL = 19;
-  int TRUE = 20;
-  int FALSE = 21;
-  int NEWLINE = 22;
-  int MINUS = 23;
-  int PLUS = 24;
-  int MULTIPLY = 25;
-  int DIVIDE = 26;
-  int MODULUS = 27;
-  int LOGICAL_AND = 28;
-  int LOGICAL_OR = 29;
-  int LOGICAL_LT = 30;
-  int LOGICAL_LE = 31;
-  int LOGICAL_GT = 32;
-  int LOGICAL_GE = 33;
-  int LOGICAL_EQUALS = 34;
-  int LOGICAL_NOT_EQUALS = 35;
-  int LOGICAL_NOT = 36;
-  int EQUALS = 37;
-  int END = 38;
-  int INCLUDE_DIRECTIVE = 39;
-  int IF_DIRECTIVE = 40;
-  int ELSEIF_DIRECTIVE = 41;
-  int ELSE_DIRECTIVE = 42;
-  int SET_DIRECTIVE = 43;
-  int STOP_DIRECTIVE = 44;
-  int DIGIT = 45;
-  int NUMBER_LITERAL = 46;
-  int LETTER = 47;
-  int WORD = 48;
-  int ALPHA_CHAR = 49;
-  int ALPHANUM_CHAR = 50;
-  int IDENTIFIER_CHAR = 51;
-  int IDENTIFIER = 52;
-  int SHORTHAND = 53;
+  int DOLLARBANG = 9;
+  int HASH = 13;
+  int SINGLE_LINE_COMMENT = 14;
+  int FORMAL_COMMENT = 15;
+  int MULTI_LINE_COMMENT = 16;
+  int STRING_LITERAL = 20;
+  int TRUE = 21;
+  int FALSE = 22;
+  int NEWLINE = 23;
+  int MINUS = 24;
+  int PLUS = 25;
+  int MULTIPLY = 26;
+  int DIVIDE = 27;
+  int MODULUS = 28;
+  int LOGICAL_AND = 29;
+  int LOGICAL_OR = 30;
+  int LOGICAL_LT = 31;
+  int LOGICAL_LE = 32;
+  int LOGICAL_GT = 33;
+  int LOGICAL_GE = 34;
+  int LOGICAL_EQUALS = 35;
+  int LOGICAL_NOT_EQUALS = 36;
+  int LOGICAL_NOT = 37;
+  int EQUALS = 38;
+  int END = 39;
+  int INCLUDE_DIRECTIVE = 40;
+  int IF_DIRECTIVE = 41;
+  int ELSEIF_DIRECTIVE = 42;
+  int ELSE_DIRECTIVE = 43;
+  int SET_DIRECTIVE = 44;
+  int STOP_DIRECTIVE = 45;
+  int DIGIT = 46;
+  int NUMBER_LITERAL = 47;
+  int LETTER = 48;
+  int WORD = 49;
+  int ALPHA_CHAR = 50;
+  int ALPHANUM_CHAR = 51;
+  int IDENTIFIER_CHAR = 52;
+  int IDENTIFIER = 53;
   int DOT = 54;
   int LCURLY = 55;
   int RCURLY = 56;
@@ -75,14 +75,15 @@ public interface ParserConstants {
     "<ESCAPE_SEQUENCE>",
     "<TEXT>",
     "\"$\"",
+    "\"$!\"",
     "\"##\"",
-    "<token of kind 10>",
+    "<token of kind 11>",
     "\"#*\"",
     "\"#\"",
     "<SINGLE_LINE_COMMENT>",
     "\"*#\"",
     "\"*#\"",
-    "<token of kind 16>",
+    "<token of kind 17>",
     "\" \"",
     "\"\\t\"",
     "<STRING_LITERAL>",
@@ -119,7 +120,6 @@ public interface ParserConstants {
     "<ALPHANUM_CHAR>",
     "<IDENTIFIER_CHAR>",
     "<IDENTIFIER>",
-    "\"!\"",
     "\".\"",
     "\"{\"",
     "\"}\"",

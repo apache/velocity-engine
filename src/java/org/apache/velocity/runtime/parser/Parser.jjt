@@ -122,7 +122,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.7 2000/10/24 23:34:21 jvanzyl Exp $ 
+ * @version $Id: Parser.jjt,v 1.8 2000/10/27 05:18:44 jvanzyl Exp $ 
 */
 public class Parser
 {
@@ -471,6 +471,10 @@ TOKEN :
 <*>
 MORE :
 {
+    //
+    //  Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
+    //
+
     <DOLLAR: "$"> 
     { 
         if (! inComment)
@@ -479,6 +483,20 @@ MORE :
 
            if ( bDebugPrint_ )
                 System.out.print( "$  : going to " + REFERENCE );
+
+            stateStackPush();
+            SwitchTo(REFERENCE);
+        }            
+    }
+
+|   <DOLLARBANG: "$!"> 
+    { 
+        if (! inComment)
+        {
+            inReference = true;
+
+           if ( bDebugPrint_ )
+                System.out.print( "$!  : going to " + REFERENCE );
 
             stateStackPush();
             SwitchTo(REFERENCE);
@@ -699,7 +717,6 @@ TOKEN :
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
 |   <IDENTIFIER:  <ALPHA_CHAR> (<IDENTIFIER_CHAR>)* >
-|   <SHORTHAND: "!">
 |   <DOT: ".">
     {
         if ( bDebugPrint_ )
@@ -902,7 +919,7 @@ void Method() : {}
 
 void Reference() : {}
 { 
-    [<SHORTHAND>]
+
     // This should be changed to Indentifier() now. Make
     // it easier to walk the AST.
     [<LCURLY>]
