@@ -56,6 +56,9 @@ package org.apache.velocity.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -93,7 +96,7 @@ import org.apache.velocity.io.*;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.11 2000/11/03 23:26:50 jon Exp $
+ * $Id: VelocityServlet.java,v 1.12 2000/11/04 02:41:36 jvanzyl Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -202,8 +205,9 @@ public abstract class VelocityServlet extends HttpServlet
          throws ServletException, IOException
     {
         ServletOutputStream output = response.getOutputStream();
-        CharToByteBufferWriter buffer = null;
         String contentType = null;
+        Writer vw = null;
+        
         try
         {
             // create a new context
@@ -230,22 +234,10 @@ public abstract class VelocityServlet extends HttpServlet
             if ( template == null )
                 throw new Exception ("Cannot find the template!" );
             
-            // create the output buffer
-            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
-                new DefaultCharToByteBuffer(new DefaultByteBuffer(), encoding));
-            buffer = new CharToByteBufferWriter (ictbb);
+            //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
+            vw = new JspWriterImpl(response);
+            template.merge( context, vw);
 
-            // merge the context with the template and output in the buffer
-            template.merge( context, buffer );
-
-            // set the content length
-            long length = ictbb.getByteCount();
-            if (length <= Integer.MAX_VALUE)
-            {
-                response.setContentLength((int)length);
-            }
-
-            ictbb.writeTo(output);
         }
         catch (Exception e)
         {
@@ -256,15 +248,10 @@ public abstract class VelocityServlet extends HttpServlet
         {
             try
             {
-                // flush and close
-                if (buffer != null)
+                if (vw != null)
                 {
-                    buffer.close();
-                }
-                if (output != null)
-                {
-                    output.flush();
-                    output.close();
+                    vw.flush();
+                    vw.close();
                 }                
             }
             catch (Exception e)
