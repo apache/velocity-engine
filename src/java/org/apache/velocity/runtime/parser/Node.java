@@ -48,11 +48,17 @@ public interface Node
     public Token getLastToken();
     public int getType();
 
+    public Object init(Context context, Object data) throws Exception;
+
     public boolean evaluate(Context context);
     public Object value(Context context);
-    public void process(Node node, Context context, ParserVisitor visitor);
+
     public void render(Context context, Writer writer)
         throws IOException;
 
     public Object invoke(Object o, Context context);
+    public Object execute(Object o, Context context);
+
+    public void setInfo(int info);
+    public int getInfo();
 }

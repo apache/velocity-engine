@@ -2,11 +2,19 @@
 
 package org.apache.velocity.runtime.parser;
 
+import java.lang.reflect.Method;
+
 import org.apache.velocity.Context;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.Introspector;
 
 public class ASTMethod extends SimpleNode
 {
+    private String methodName;
+    private int paramCount;
+    private Method method;
+    private Object[] params;
+
     public ASTMethod(int id)
     {
         super(id);
@@ -21,6 +29,44 @@ public class ASTMethod extends SimpleNode
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
+    }
+
+    public Object init(Context context, Object data)
+        throws Exception
+    {
+        methodName = getFirstToken().image;
+        
+        paramCount = jjtGetNumChildren() - 1;
+        params = new Object[paramCount];
+        
+        method = Introspector.getMethod((Class) data, methodName, paramCount);
+        
+        // Now the parameters have to be processed, there
+        // may be references contained within that need
+        // to be introspected.
+        
+        for (int i = 0; i < paramCount; i++)
+            jjtGetChild(i + 1).init(context, null);
+        
+        return method.getReturnType();
+    }
+    
+    public Object execute(Object o, Context context)
+    {
+        // I need to pass in the arguments to the
+        // method. 
+
+        for (int j = 0; j < paramCount; j++)
+            params[j] = jjtGetChild(j + 1).value(context);
+        
+        try
+        {
+            return method.invoke(o, params);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }            
     }
 
     public Object invoke(Object result, Context context)
@@ -42,7 +88,7 @@ public class ASTMethod extends SimpleNode
             Node p = jjtGetChild(j + 1);
             params[j] = p.value(context);
         }
-
-        return ClassUtils.invoke(result, method, params);
+        
+        return ClassUtils.invoke(result, method, params); 
     }
 }

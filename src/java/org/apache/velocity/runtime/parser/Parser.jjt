@@ -120,7 +120,7 @@ import org.apache.velocity.runtime.directive.Directive;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parser.jjt,v 1.3 2000/10/03 17:03:15 jvanzyl Exp $ 
+ * @version $Id: Parser.jjt,v 1.4 2000/10/09 15:06:32 jvanzyl Exp $ 
 */
 public class Parser
 {
@@ -326,10 +326,12 @@ TOKEN :
         }
         incMode = false;
     }
-
+|   <#DIGIT: [ "0"-"9" ] >
+|   <NUMBER_LITERAL: (<DIGIT>)+ >
 |   <COMMA: ",">
 |   <TRUE: "true">
 |   <FALSE: "false">
+|   <EQUALS: "=" >
 }
 
 <*>
@@ -447,7 +449,6 @@ TOKEN :
 |   <LOGICAL_EQUALS: "==">
 |   <LOGICAL_NOT_EQUALS: "!=">
 |   <LOGICAL_NOT: "!">
-|   <EQUALS: "=" >
 }
 
 <DIRECTIVE> 
@@ -478,8 +479,6 @@ TOKEN :
         fileDepth = 0;
     }
 
-|   <#DIGIT: [ "0"-"9" ] >
-|   <NUMBER_LITERAL: (<DIGIT>)+ >
 |   <#LETTER: [ "a"-"z" ] >
 |   <WORD: (<LETTER>)+ >
 }
@@ -678,8 +677,9 @@ void Reference() : {}
     // This should be changed to Indentifier() now. Make
     // it easier to walk the AST.
     [<LCURLY>]
-    <IDENTIFIER> 
-    (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() [<RCURLY>] ) )*
+    <IDENTIFIER>
+    [<RCURLY>]
+    (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) [<RCURLY>] )*
 }
 
 void True() : {}
