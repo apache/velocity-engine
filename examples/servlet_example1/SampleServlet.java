@@ -64,20 +64,25 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.servlet.*;
 import org.apache.velocity.runtime.*;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
 /**
  * Sample of how to use the VelocityServlet.
  * This example shows how to add objects to the context and
  * pass them to the template.
  * 
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class SampleServlet extends VelocityServlet
 {
     public Template handleRequest( Context ctx )
-    {
-        Template outty = null;
-        
+    {        
+        /*
+         *  set up some data to put into the context
+         */
+
         String p1 = "Bob";
         String p2 = "Harold";
         
@@ -85,14 +90,31 @@ public class SampleServlet extends VelocityServlet
         personList.addElement( p1 );
         personList.addElement( p2 );
 
-        // Add the list to the context
-        // this is how it's passed to the template
+        /*
+         *  Add the list to the context.
+         *  This is how it's passed to the template.
+         */
+
         ctx.put("theList", personList );
+        
+        /*
+         *  get the template.  There are three possible
+         *  exceptions.  Good to know what happened.
+         */
+
+        Template outty = null;
         
         try
         {
-            // Get the template
             outty =  getTemplate("sample.vm");
+        }
+        catch( ParseErrorException pee )
+        {
+            System.out.println("SampleServlet : parse error for template " + pee);
+        }
+        catch( ResourceNotFoundException rnfe )
+        {
+            System.out.println("SampleServlet : template not found " + rnfe);
         }
         catch( Exception e )
         {
