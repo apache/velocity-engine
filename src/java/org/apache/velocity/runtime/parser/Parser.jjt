@@ -141,7 +141,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.13 2000/11/01 23:13:00 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.14 2000/11/02 01:24:49 geirm Exp $ 
 */
 public class Parser
 {
@@ -181,15 +181,7 @@ public class Parser
     {
         token_source.clearStateVars();
         ReInit(stream);  
-       // return process();
-    
-        SimpleNode n = null;
-
-        try {
-            n = process();
-        } catch (Exception e) { System.out.println(e);}
-
-        return n;
+        return process();
     }        
 
     public void setDirectives(Hashtable directives)
