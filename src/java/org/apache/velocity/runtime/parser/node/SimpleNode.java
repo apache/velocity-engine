@@ -225,5 +225,15 @@ public class SimpleNode implements Node
     {
         return invalid;
     }        
+
+    public int getLine()
+    {
+        return first.beginLine;
+    }
+    
+    public int getColumn()
+    {
+        return first.beginColumn;
+    }        
 }
 

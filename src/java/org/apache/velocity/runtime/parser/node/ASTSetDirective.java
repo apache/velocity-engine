@@ -40,9 +40,7 @@ public class ASTSetDirective extends SimpleNode
 
         if (right.value(context) == null)
         {
-            Runtime.error(new ReferenceException(
-                "#set: " + right.literal() + " is not a valid reference."));
-            
+            Runtime.error(new ReferenceException("#set", right));
             return false;
         }                
 
