@@ -139,10 +139,10 @@
   </target>
   
   <target name="test-clean">
-    <delete>
+    <delete quiet="true">
       <fileset dir="${test.home}/templates/results" includes="**/*.res"/>
     </delete>
-    <delete dir="${test.home}/anakia/results"/>
+    <delete dir="${test.home}/anakia/results" quiet="true"/>
   </target>
 
 </project>
