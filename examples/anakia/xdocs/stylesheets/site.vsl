@@ -30,27 +30,48 @@
             <title>$root.getChild("properties").getChild("title").getText()</title>
         </head>
 
-        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">
-            #set $sections = $root.getChild("body").getChildren("section")
-            #foreach ( $sec in $sections )
-                #set $data = $sec.getChildren()
-                #foreach ( $item in $data )                
-                    #if ($item.getName().equals("img"))
-                        #image ($item)
-                    #else
-                        $xmlout.outputString($item)
+        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">        
+            <table border="1">
+                <tr>
+                <td>
+                #makeProject()
+                </td>
+                <td>
+                #set $sections = $root.getChild("body").getChildren("section")
+                #foreach ( $sec in $sections )
+                    #foreach ( $item in $sec.getChildren() )                
+                        #if ($item.getName().equals("img"))
+                            #image ($item)
+                        #else
+                            $xmlout.outputString($item)
+                        #end
                     #end
                 #end
-            #end
+                </td>
+                </tr>
+            </table>
         </body>
     </html>
+#end
+
+#macro ( makeProject )
+    #set $menus = $project.getChild("body").getChildren("menu")
+    #foreach ( $menu in $menus )
+        <strong>$menu.getAttributeValue("name")</strong>
+        <ul>
+        #foreach ( $item in $menu.getChildren() )
+            #set $name = $item.getAttributeValue("name")
+            <li>#projectanchor($name $item.getAttributeValue("href"))</li>
+        #end
+        </ul>
+    #end
 #end
 
 #macro ( image $value )
     <img src="$relativePath$value.getAttributeValue("src")">
 #end
-#macro ( projectanchor $value )
-    <a href="$relativePath$value.getAttributeValue("href")">
+#macro ( projectanchor $name $value )
+    <a href="$relativePath$value">$name</a>
 #end
 #macro ( metaauthor $author $email )
             <meta name="author" value="$author">
