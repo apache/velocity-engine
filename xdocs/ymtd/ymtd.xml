@@ -45,6 +45,14 @@ and Velocity).
 </p>
 
 <p>
+Please note that there are a bazillion different things that could be
+compared here. To be clear, we are not really trying to compare the
+feature set of each of these technologies as they both can get the job
+done. Instead, we are trying to compare what it is like to do the job
+with each of the tools.
+</p>
+
+<p>
 The design concepts mentioned above that we will be exploring have been
 documented in detail in various locations, for more information, please
 refer to some of these reference URL's:
@@ -84,9 +92,9 @@ Servlets as well as Jason for his hard work.
 </p>
 
 <p>
-Jason's book includes chapters covering JSP, Velocity, and other MVC
-technologies.  We definitely encourage you to read the book to learn JSP
-and Velocity and see how they compare.  What we do here (that Jason
+Jason's book includes chapters covering Struts/JSP, Velocity, and other
+MVC technologies.  We definitely encourage you to read the book to learn
+JSP and Velocity and see how they compare.  What we do here (that Jason
 couldn't do in the book) is put JSP/Struts and Velocity/Turbine on the
 same page together for a direct side-by-side comparison.
 </p>
@@ -94,6 +102,11 @@ same page together for a direct side-by-side comparison.
 </section>
 
 <section name="Revisions / Corrections / Additions">
+
+<p>
+This <a href="./ymtd-changes.html">page</a> tracks the list of changes
+in this essay.
+</p>
 
 <p>
 It is very important to accurately compare these technologies.

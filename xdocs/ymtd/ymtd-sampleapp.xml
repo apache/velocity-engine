@@ -10,6 +10,44 @@
 
 <section name="Sample Application">
 
+<p>
+It is the belief of the Velocity developers that you should not have to
+specially code your applications to work around issues that are related
+directly to Java.
+</p>
+
+<p>
+In other words, one of the strong arguments of the JSP/Struts community
+is to say something to the effect of: "this is a poor example of using
+JSP." While this may be true, the fact of the matter is that nearly
+every example available really is a poor example of using JSP. This goes
+back to the statement that says that embedding Java code in your page is
+a bad thing. Yes, we all know that now. 
+</p>
+
+<p>
+If one reads the articles available on <a
+href="http://www.javaworld.com/">JavaWorld</a> that are about JSP,
+nearly every single article has one thing or another in it that
+demonstrates poor usage of the tool. Why is it that so many (obviously)
+talented people cannot come up with correct examples of using the tool?
+</p>
+
+<p>
+The truth is that it is very hard to use the tool correctly. Struts is
+doing an excellent job of making it easier and attempting to show the
+right way, however it is simply hiding the uglyness of the original
+design of JSP.
+</p>
+
+<p>
+Object Oriented design dictates that you extend a class to add
+functionality to the base class. The publicly available methods in the
+base class are still available to the classes that extend it. Putting
+Struts on top of JSP doesn't fix the warts in JSP. It simply hides them
+until your developers find them.
+</p>
+
 <source><![CDATA[
 <%-- toolview.jsp --%>
 
@@ -72,12 +110,6 @@ With this code the background servlet would attempt to print a new line
 between the if and else clauses, causing the obscure compile error:
 'else' without 'if'.
 ]]></source>
-
-<p>
-It is the belief of the Velocity developers that you should not have to
-specially code your applications to work around issues that are related
-directly to Java.
-</p>
 
 <hr noshade="true" size="1"/>
 
