@@ -138,6 +138,13 @@ importance.
         JServ, or the Avalon Server Framework.
     <p/>
 
+    <strong>UML Overview</strong>
+    <br/>
+        It would great to include a set of comprehensive
+        UML diagrams that describe Velocity in order to
+        allow new developers to get up to speed quickly.
+    <p/>
+
     <strong>Velocity Profiling</strong>
     <br/>
         If someone is handy with one of the standard profilers,
