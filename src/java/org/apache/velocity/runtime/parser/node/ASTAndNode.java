@@ -60,12 +60,12 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAndNode.java,v 1.2 2000/12/28 17:23:13 geirm Exp $ 
+ * @version $Id: ASTAndNode.java,v 1.3 2001/01/03 05:23:22 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTAndNode extends SimpleNode
@@ -92,7 +92,7 @@ public class ASTAndNode extends SimpleNode
      *   left && null = false
      *   null && null = false
      */     
-    public boolean evaluate(Context context)
+    public boolean evaluate( InternalContextAdapter context)
     {       
         Node left = jjtGetChild(0);
         Node right = jjtGetChild(1);
@@ -105,3 +105,4 @@ public class ASTAndNode extends SimpleNode
             return false;
     }
 }
+
