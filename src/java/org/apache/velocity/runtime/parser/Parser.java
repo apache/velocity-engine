@@ -4,6 +4,7 @@ package org.apache.velocity.runtime.parser;
 import java.io.*;
 import java.util.*;
 
+import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
 
 /**
@@ -17,7 +18,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.5 2000/10/11 14:46:24 jvanzyl Exp $ 
+ * @version $Id: Parser.java,v 1.6 2000/10/20 19:16:24 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();
@@ -1993,14 +1994,14 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
-  final private boolean jj_3R_20() {
-    if (jj_scan_token(IDENTIFIER)) return true;
+  final private boolean jj_3R_35() {
+    if (jj_scan_token(FALSE)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
-  final private boolean jj_3R_35() {
-    if (jj_scan_token(FALSE)) return true;
+  final private boolean jj_3R_20() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }

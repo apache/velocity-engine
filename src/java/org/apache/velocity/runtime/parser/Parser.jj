@@ -84,6 +84,7 @@ package org.apache.velocity.runtime.parser;
 import java.io.*;
 import java.util.*;
 
+import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
 
 /**
@@ -97,7 +98,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.5 2000/10/11 14:46:25 jvanzyl Exp $ 
+ * @version $Id: Parser.jj,v 1.6 2000/10/20 19:16:25 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/

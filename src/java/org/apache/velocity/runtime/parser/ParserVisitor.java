@@ -2,6 +2,8 @@
 
 package org.apache.velocity.runtime.parser;
 
+import org.apache.velocity.runtime.parser.node.*;
+
 public interface ParserVisitor
 {
   public Object visit(SimpleNode node, Object data);

@@ -2,6 +2,8 @@
 
 package org.apache.velocity.runtime.parser;
 
+import org.apache.velocity.runtime.parser.node.*;
+
 class JJTParserState {
   private java.util.Stack nodes;
   private java.util.Stack marks;
