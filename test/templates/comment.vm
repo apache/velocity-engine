@@ -30,3 +30,8 @@ this is some text.
 The following is a 'Christoph Comment' ;)
 ##  ##
 foo
+
+We can now comment after the inline set :
+
+#set( $foo = 1 ) ## and this is a set statement
+

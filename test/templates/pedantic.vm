@@ -93,3 +93,9 @@ pedantic
   	System.out.println("$b"); 
 	#end
 	}
+
+Inline set statement :
+
+Here are the prices :#set( $arr = ["$10.24","$15.32","$12.15"] ) #foreach($a in $arr) $a #end
+
+
