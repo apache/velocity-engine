@@ -82,8 +82,10 @@ public class ASTComment extends SimpleNode
     {
 
         if (context.getAllowRendering())
-        writer.write(carr);
-
+        {
+            writer.write(carr);
+        }
+        
         return true;
     }
 

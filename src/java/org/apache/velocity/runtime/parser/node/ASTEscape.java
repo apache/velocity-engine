@@ -64,7 +64,7 @@ public class ASTEscape extends SimpleNode
         throws IOException
     {
         if (context.getAllowRendering()) {
-        writer.write(ctext);
+            writer.write(ctext);
         }
         return true;
     }

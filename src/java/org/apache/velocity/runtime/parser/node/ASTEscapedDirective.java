@@ -54,8 +54,9 @@ public class ASTEscapedDirective extends SimpleNode
     public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering()) {
-        writer.write(getFirstToken().image);
+        if (context.getAllowRendering()) 
+        {
+            writer.write(getFirstToken().image);
         }
         return true;
     }    
