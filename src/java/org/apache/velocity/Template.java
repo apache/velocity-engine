@@ -89,7 +89,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.20 2001/01/03 05:15:02 geirm Exp $
+ * @version $Id: Template.java,v 1.21 2001/01/08 15:46:54 jvanzyl Exp $
  */
 public class Template extends Resource
 {
@@ -116,19 +116,24 @@ public class Template extends Resource
         {
             InputStream is = resourceLoader.getResourceStream(name);
         
-            if (is != null)
+            try
             {
-                data = Runtime.parse(is, name);
-                initDocument();
-                return true;
+                if (is != null)
+                {
+                    data = Runtime.parse(is, name);
+                    initDocument();
+                    return true;
+                }    
+            } 
+            finally 
+            {
+                // Make sure to close the inputstream when we are done.
+                is.close();
             }
-            else
-                return false;
         }
-        catch (Exception e)
-        {
-            return false;
-        }            
+        catch (Exception ignored) {}
+   
+        return false;            
     }
 
     /**
