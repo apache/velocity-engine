@@ -63,4 +63,75 @@ public class StringUtil extends BaseUtil
         String restLetters = data.substring(1).toLowerCase();
         return firstLetter + restLetters;
     }
+
+    /**
+     * Chop i characters off the end of a string.
+     *
+     * @param string String to chop.
+     * @param i Number of characters to chop.
+     * @return String with processed answer.
+     */
+    public static String chop(String string, int i)
+    {
+        return(string.substring(0, string.length() - i));
+    }
+
+    /**
+     * Remove/collapse multiple spaces.
+     *
+     * @param argStr String to process.
+     * @return String with processed answer.
+     */
+    public static String collapseSpaces(String argStr)
+    {
+        char last = argStr.charAt(0);
+        StringBuffer argBuf = new StringBuffer();
+
+        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
+        {
+            char ch = argStr.charAt(cIdx);
+            if (ch != ' ' || last != ' ')
+            {
+                argBuf.append(ch);
+                last = ch;
+            }
+        }
+
+        return argBuf.toString();
+    }
+
+    /**
+     * Remove/collapse multiple newline characters.
+     *
+     * @param argStr String to process.
+     * @return String with processed answer.
+     */
+    public static String collapseNewlines(String argStr)
+    {
+        char last = argStr.charAt(0);
+        StringBuffer argBuf = new StringBuffer();
+
+        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
+        {
+            char ch = argStr.charAt(cIdx);
+            if (ch != '\n' || last != '\n')
+            {
+                argBuf.append(ch);
+                last = ch;
+            }
+        }
+
+        return argBuf.toString();
+    }
+
+    public boolean allEmpty(Object[] list)
+    {
+        int size = list.length;
+        
+        for (int i = 0; i < size; i++)
+            if (list[i].toString().length() > 0)
+                return false;
+        
+        return true;
+    }
 }
