@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.25 2001/04/22 18:17:42 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.26 2001/05/20 21:40:40 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -253,6 +253,12 @@ public interface RuntimeConstants
      * R E S O U R C E  L O A D E R  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
+
+    /**
+     *  controls if the finding of a resource is logged
+     */
+    public static final String RESOURCE_MANAGER_LOGWHENFOUND = 
+        "resource.manager.logwhenfound";
 
     /**
      * Key used to retrieve the names of the resource loaders

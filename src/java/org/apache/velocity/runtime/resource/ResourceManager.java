@@ -81,7 +81,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.28 2001/05/15 13:26:26 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.29 2001/05/20 21:40:40 geirm Exp $
  */
 public class ResourceManager
 {
@@ -143,6 +143,12 @@ public class ResourceManager
     private static boolean resourceLoaderInitializersActive = false;
 
     /**
+     *  switch to turn off log notice when a resource is found for
+     *  the first time.
+     */
+    private static boolean logWhenFound = true;
+    
+    /**
      * Initialize the ResourceManager. It is assumed
      * that assembleSourceInitializers() has been
      * called before this is run.
@@ -173,6 +179,12 @@ public class ResourceManager
             resourceLoaders.add(resourceLoader);
 
         }
+
+        /*
+         * now see if this is overridden by configuration
+         */
+
+        logWhenFound = Runtime.getBoolean( Runtime.RESOURCE_MANAGER_LOGWHENFOUND, true );
     }
 
     /**
@@ -383,8 +395,12 @@ public class ResourceManager
                               *  it out due to to the new 
                               *  multi-path support - will revisit and fix
                               */
-                             Runtime.info("ResourceManager : found " + resourceName + 
-                                          " with loader " + resourceLoader.getClassName());
+
+                             if ( logWhenFound )
+                             {
+                                 Runtime.info("ResourceManager : found " + resourceName + 
+                                              " with loader " + resourceLoader.getClassName());
+                             }
            
                              howOldItWas = resourceLoader.getLastModified( resource );
                              break;
