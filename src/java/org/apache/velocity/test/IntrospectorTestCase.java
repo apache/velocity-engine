@@ -56,19 +56,63 @@ package org.apache.velocity.test;
 
 import junit.framework.*;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 /**
- * Automated test case for Apache Velocity.
+ * Test case for the Velocity Introspector which uses
+ * the Java Reflection API to determine the correct
+ * signature of the methods used in VTL templates.
  *
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.8 2000/10/25 23:29:13 dlr Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: IntrospectorTestCase.java,v 1.1 2000/11/10 04:07:46 jvanzyl Exp $
  */
-public class VelocityTest extends BaseTestCase
+public class IntrospectorTestCase extends BaseTestCase
 {
     /**
-     * Creates a new instance.
-     */
-    public VelocityTest (String name)
+      * Creates a new instance.
+      */
+    public IntrospectorTestCase (String name)
     {
         super(name);
+    }
+
+    public void runTest()
+    {
+        MethodProvider mp = new MethodProvider();
+    
+        Class[] booleanParam = { Boolean.class };
+        Class[] byteParam = { Byte.class };
+        Class[] charParam = { Character.class };
+        Class[] doubleParam = { Double.class };
+        Class[] floatParam = { Float.class };
+        Class[] intParam = { Integer.class };
+        Class[] longParam = { Long.class };
+        Class[] shortParam = { Short.class };
+    }
+
+    /**
+      * Get the containing <code>TestSuite</code>.  This is always
+      * <code>VelocityTestSuite</code>.
+      *
+      * @return The <code>TestSuite</code> to run.
+      */
+    public static junit.framework.Test suite ()
+    {
+        return new VelocityTestSuite();
+    }
+
+    static class MethodProvider
+    {
+        /*
+         * Methods with native parameter types.
+         */
+        public String booleanMethod (boolean p) { return "boolean"; }
+        public String byteMethod (byte p) { return "byte"; }
+        public String charMethod (char p) { return "char"; }
+        public String doubleMethod (double p) { return "double"; }
+        public String floatMethod (float p) { return "float"; }
+        public String intMethod (int p) { return "int"; }
+        public String longMethod (long p) { return "long"; }
+        public String shortMethod (short p) { return "short"; }
     }
 }
