@@ -35,6 +35,16 @@
         <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
         <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
 
+        <!-- PDF generation using FOP -->
+
+        <property name="xdocs.dir" value="../xdocs"/>
+        <property name="allfiles.xml" value="velocity-doc.xml"/>
+        <property name="outfile.fo" value="velocity.fo"/>
+        <property name="outfile.pdf" value="../docs/velocity.pdf"/>
+
+        <taskdef name="fop" classname="Fop"/>
+        <taskdef name="xslt" classname="Xslt"/>
+        
         <filter token="year" value="${year}"/>
         <filter token="version" value="${version}"/>
         <filter token="date" value="${TODAY}"/>        
@@ -139,7 +149,7 @@
     </target>
 
     <!-- =================================================================== -->
-    <!-- Make Velocity documentation                                         -->
+    <!-- Make HTML version of Velocity documentation                         -->
     <!-- =================================================================== -->
     <target name="docs" depends="init">
 
@@ -157,6 +167,22 @@
 
         <deltree dir="${velocity.docs}/graphics"/>
 
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Make PDF version ofVelocity documentation                           -->
+    <!-- =================================================================== -->
+    <target name="pdf" depends="init">
+        <xslt infile="../xdocs/site-book.xml" xsltfile="xsl/xml2xml.xsl"
+            outfile="${allfiles.xml}" smart="yes"/>
+    
+        <xslt infile="${allfiles.xml}" xsltfile="xsl/xml2pdf.xsl"
+            outfile="${outfile.fo}" smart="yes"/>
+    
+        <fop fofile="${outfile.fo}"   pdffile="${outfile.pdf}"/> 
+        
+        <delete file="${allfiles.xml}"/>
+        <delete file="${outfile.fo}"/>
   </target>
 
 </project>
