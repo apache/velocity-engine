@@ -49,42 +49,14 @@
   <property name="outfile.fo" value="velocity.fo"/>
   <property name="outfile.pdf" value="../docs/velocity.pdf"/>
 
-  <!-- JUnit Testbed -->
-  <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
-
   <property 
-    name="template.test" 
-    value="org.apache.velocity.test.TemplateTestCase"
-  />
-
-  <property 
-    name="introspector.test"
-    value="org.apache.velocity.test.IntrospectorTestCase"
-  />
-
-  <property 
-    name="inlinevmscope.test"
-    value="org.apache.velocity.test.InlineScopeVMTestCase"
-  />
-
-  <property 
-    name="multi.file.resource.path.test"
-    value="org.apache.velocity.test.MultipleFileResourcePathTest"
-  />
-
-   <property 
-    name="cpload.resource.test"
-    value="org.apache.velocity.test.ClasspathResourceTest"
+    name="default.texen.properties"
+    value="org/apache/velocity/texen/defaults/texen.properties"
   />
 
   <property 
     name="runtime.defaults.dir" 
     value="org/apache/velocity/runtime/defaults"
-  />
-
-  <property 
-    name="default.texen.properties"
-    value="org/apache/velocity/texen/defaults/texen.properties"
   />
 
   <!-- disabled for now == classpath issues
@@ -565,78 +537,11 @@
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
-  <target name="test">
-
-    <echo message="Running JUnit tests for Velocity ..."/>
-
-    <java classname="${velocity.test.runner}">
-      <arg value="${template.test}"/>
-      <classpath>
-        <pathelement path="${classpath}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </java>
-
-  </target>
-
-  <target name="test-introspector">
-
-    <echo message="Running JUnit Introspector tests for Velocity ..."/>
-
-    <java classname="${velocity.test.runner}">
-      <arg value="${introspector.test}"/>
-      <classpath>
-        <pathelement path="${classpath}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </java>
-
-  </target>
-
-  <target name="test-inlinevmscope">
-
-    <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
-
-    <java classname="${velocity.test.runner}">
-      <arg value="${inlinevmscope.test}"/>
-      <classpath>
-        <pathelement path="${classpath}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </java>
-
-  </target>
-
-  <target name="test-multi">
-
-    <echo message="Running JUnit MultipleFileResourcePathTest ..."/>
-      <java classname="${velocity.test.runner}">
-      <arg value="${multi.file.resource.path.test}"/>
-      <classpath>
-        <pathelement path="${classpath}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </java>
-
-  </target>
-
-   <target name="test-cpload">
-    <echo message="Running JUnit ClasspatheResourceTest ..."/>
-      <java classname="${velocity.test.runner}">
-      <arg value="${cpload.resource.test}"/>
-      <classpath>
-        <pathelement path="${classpath}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${build.dest}"/>
-        <pathelement location="../test/cpload/test1.jar"/>
-        <pathelement location="../test/cpload/test2.jar"/>
-      </classpath>
-    </java>
-  </target>
+   <target name="test"
+            depends="compile"
+            description="--> Run the testcases">
+        <ant antfile="build-testcases.xml"/>
+   </target>  
 
   <!-- =================================================================== -->
   <!-- Forum Demo Web App                                                  -->
