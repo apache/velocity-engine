@@ -16,7 +16,6 @@
 ## This is where the macro's live
 
 #macro ( makeProject )
-    ##set ($menus = $project.getChild("body").getChildren("menu"))
     #set ($menus = $xpath.applyTo("body/menu", $project))
 
     #foreach ( $menu in $menus )
@@ -61,23 +60,6 @@
 
             ##set ($au = $root.getChild("properties").getChild("author").getText())
             ##set ($em = $root.getChild("properties").getChild("author").getAttributeValue("email"))
-
-<!--
-            ## For some reason, we can't .getText() and .getValue() directly in the
-            ## set directive, but rather have to wait a moment, and do it in the
-            ## metaauthor directive.
-
-            #set ($au = $xpath.applyTo("properties/author", $root).get(0))
-            #set ($em = $xpath.applyTo("properties/author/@email", $root).get(0))
-
-            ## This should work, but doesn't
-
-            ##set ($au = $xpath.applyTo("properties/author", $root).get(0).getText())
-            ##set ($em = $xpath.applyTo("properties/author/@email", $root).get(0).getValue())
-
--->
-
-
             #metaauthor ( $au.getText() $em.getValue() )
 
             <title>$root.getChild("properties").getChild("title").getText()</title>

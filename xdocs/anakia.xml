@@ -74,10 +74,11 @@ catch( Exception )
 <p>
     Anakia creates a Context, which contains a JDOM Document object of
     the .xml page, as well as an (optional) JDOM Document object of your
-    project.xml page. The .vsl page is executed (using Velocity) with
-    the Context. You can then navigate your .xml file and pull
-    information out of it by simply executing methods on the JDOM
-    Document object.
+    project.xml page. In addition to the project.xml based context, additional
+    xml contexts can be added through context nested elements. The 
+    .vsl page is executed (using Velocity) with the Context. You can then 
+    navigate your .xml file and pull information out of it by simply executing
+    methods on the JDOM Document object.
 </p>
 <p>
     Anakia is being used to create the documentation for not only this
@@ -245,16 +246,10 @@ catch( Exception )
     </table>
 </section>
 
-<section name="Context Objects">
+<section name="Predefined Context Objects">
 <p>
     The Anakia Ant task places several objects into the Context for you.
-    Right now, you do not have control over what is placed into the
-    Context. Eventually, we hope to have a way to give you control over
-    this. However, that does not prevent Anakia from being extremely
-    useful for you today. :-) The objects that are available to you in
-    your .vsl template are:
 </p>
-
     <table border="0">
         <tr>
         <th>Name</th>
@@ -363,6 +358,57 @@ catch( Exception )
 
 </section>
 
+<section name="Customizing the Anakia Context">
+<p>
+    The Anakia context can be customized by using one or more context nested 
+    elements.
+</p>
+<source><![CDATA[
+<anakia ...>
+    <context name="customContext" file="./customContext.xml"/>
+</anakia>
+]]></source>
+<p>
+    The context file must be an xml file and is an instance of a JDOM
+    root element similar to $project. There are two attributes for the context:
+</p>
+<table border="0">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>
+            This sets the name of the context within the velocity context.
+            It cannot be one of the predefined context objects.
+        </td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>
+            The location of the custom file relative to the anakia basedir.
+            This must be an XML file.
+        </td>
+    </tr>
+</table>
+<p>
+    Within the velocity template the context can be accessed using the standard
+    velocity template language.
+</p>
+<source><![CDATA[
+#set ($customMenus = $xpath.applyTo("body/menu",$customContext))
+#foreach($customMenu in $customMenus)
+    <strong>$customMenu.getAttributeValue("name")</strong>
+    <ul>
+    #foreach ($customItem in $customMenu.getChildren() )
+        #set ($name = $customItem.getAttributeValue("name"))
+        <li>#projectanchor($name $customItem.getAttributeValue("href"))</li>
+        #end
+    </ul>
+#end]]></source>
+</section>
+
 <section name="Credits">
 <p>
     Anakia was originally conceptualized and implemented by 
@@ -381,8 +427,10 @@ catch( Exception )
     Further help and assistance was provided by Jason van Zyl and Geir
     Magnusson Jr. XPath support was added by Bob McWhirter. The more
     intuitive syntax achieved through selectNodes() and self-rendering
-    elements and node lists was added by Attila Szegedi.
+    elements and node lists was added by Attila Szegedi. The custom context
+    nested element was added by Peter Ryan.
 </p>
+
 </section>
 
 </body>

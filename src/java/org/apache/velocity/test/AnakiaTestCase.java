@@ -22,13 +22,15 @@ package org.apache.velocity.test;
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class AnakiaTestCase extends BaseTestCase
 {
     private static final String COMPARE_DIR = "../test/anakia/compare";
     private static final String RESULTS_DIR = "../test/anakia/results";
-    private static final String FILE_EXT = ".html";
+
+    private static final String FILE_EXT = "html";
+    private static final String CONTEXT_FILE_EXT = "context.html";
 
     /**
      * Creates a new instance.
@@ -55,10 +57,22 @@ public class AnakiaTestCase extends BaseTestCase
         {
             assureResultsDirectoryExists(RESULTS_DIR);
             
+            /**
             if (!isMatch(RESULTS_DIR,COMPARE_DIR,"index",FILE_EXT,FILE_EXT))
             {
                 fail("Output is incorrect!");
             }
+            **/
+            
+            if (!isMatch(
+                    RESULTS_DIR,
+                    COMPARE_DIR,
+                    "index",
+                    CONTEXT_FILE_EXT,
+                    CONTEXT_FILE_EXT))
+                    {
+                    fail("Custom Context Output is incorrect");
+                    }            
             else
             {
                 System.out.println ("Passed!");
