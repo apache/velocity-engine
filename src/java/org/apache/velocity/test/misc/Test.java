@@ -70,7 +70,7 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.5 2000/11/04 16:20:59 geirm Exp $
+ * @version $Id: Test.java,v 1.6 2000/11/27 18:16:51 jvanzyl Exp $
  */
 public class Test
 {
@@ -91,7 +91,12 @@ public class Test
 
         try
         {
-            Runtime.init("velocity.properties");
+            Runtime.setDefaultProperties();
+            Runtime.setProperty(Runtime.RUNTIME_LOG_ERROR_STACKTRACE, "true");
+            Runtime.setProperty(Runtime.RUNTIME_LOG_WARN_STACKTRACE, "true");
+            Runtime.setProperty(Runtime.RUNTIME_LOG_INFO_STACKTRACE, "true");
+            Runtime.init();
+            
             if (templateFile == null)
                 templateFile = "examples/example.vm";
             Template template = Runtime.getTemplate(templateFile);
