@@ -58,6 +58,7 @@ import java.io.*;
 
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.Context;
+import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -80,7 +81,8 @@ import org.apache.velocity.util.StringUtils;
  *    safety in the event that the parameter isn't set.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parse.java,v 1.1 2000/11/12 06:39:50 geirm Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: Parse.java,v 1.2 2000/11/16 01:57:28 jvanzyl Exp $
  */
 public class Parse extends Directive
 {
@@ -142,7 +144,7 @@ public class Parse extends Directive
          *  everything must be under the template root TEMPLATE_PATH
          */
         
-        String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
+        //String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
         
         /*
          *  for security, we will not accept anything with .. in the path
@@ -165,40 +167,30 @@ public class Parse extends Directive
          *  we will put caching here in the future...
          */
 
-        File file = new File(strTemplatePath, strArg);
-                
-        try {
-            BufferedInputStream inStream = new BufferedInputStream( new FileInputStream( file ));
-            
-            /*
-             *  parse the stream.  This will create other parse directive nodes, but not #parse down...
-             */
-
-            nodeTree_ = Runtime.parse( inStream );
-
-            /*
-             *  Now visit all and set the parse depth.  Then init().  That will parse down
-             */
-
-            ParseDirectiveVisitor v = new ParseDirectiveVisitor();
-            v.setDepth( iParseDepth_ );
-            v.setContext( null );
-            v.setWriter( null );
-            nodeTree_.jjtAccept( v, null );
-            nodeTree_.init( context, null );   
-         
-        } 
-        catch ( FileNotFoundException e ) 
+        Template t = Runtime.getTemplate(strArg);
+        
+        if (t != null)
         {
-            Runtime.error( new String("#parse() : " + e ));
-            throw e;
+            try
+            {
+                nodeTree_ = t.getDocument();
+
+                ParseDirectiveVisitor v = new ParseDirectiveVisitor();
+                v.setDepth( iParseDepth_ );
+                v.setContext( null );
+                v.setWriter( null );
+                nodeTree_.jjtAccept( v, null );
+                nodeTree_.init( context, null );
+            }
+            catch ( ParseDirectiveException pde )
+            {
+                pde.addFile( strArg );
+                throw pde;
+            }
         }
-        catch ( ParseDirectiveException pde )
-        {
-            pde.addFile( strArg );
-            throw pde;
-        }
-      
+        else
+            throw new Exception("#parse : cannot find " + strArg + " template!");
+
         bReady_ = true;
     }
 
