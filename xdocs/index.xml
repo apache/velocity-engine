@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.0.1 Released">
+<section name="Velocity v1.1 Release Candidate 1 Released">
 
  <p>
    <table>
@@ -18,7 +18,7 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   The Velocity team is proud to announce that version 1.0.1 of the 
+   The 1st release candidate of version 1.1 of the 
    Velocity Template Engine is now released.
    Congratulations and thanks to all participants in the
    Velocity community.
@@ -28,7 +28,23 @@
  </p>
 
  <p>
-   This is a minor bugfix release.  Please see the
+   Major enhancements include :
+ </p>
+
+ <ul>
+   <li> 
+      The new event-handling facility, allowing finer control and interaction with
+      the rendering process.
+   </li>
+   <li> 
+      Internationalization support through full support of template character encoding.
+   </li>
+   <li> 
+      Optimizations for improved performance.
+   </li>
+ </ul>
+ <p> 
+   Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
 </p>
@@ -85,6 +101,15 @@ The release distribution is available in both <code>tar.gz</code> and <code>zip<
 formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0.1/">here</a>.
 </p>
 
+<p> 
+   The current release candidate is version 1.1-rc1.
+</p>
+
+<p>
+It is available in both <code>tar.gz</code> and <code>zip</code>
+formats, and is found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.1/">here</a>.
+</p>
+
 </section>
 
 <section name="Where do I get nightly snapshots?">
@@ -137,3 +162,8 @@ to see the current state of affairs (and help out!)
 
  </body>
  </document>
+
+
+
+
+
