@@ -70,7 +70,7 @@ import org.apache.velocity.io.FastWriter;
  * Easily add test cases which evaluate templates and check their output.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: TemplateTestCase.java,v 1.5 2000/10/23 21:03:52 jvanzyl Exp $
+ * @version $Id: TemplateTestCase.java,v 1.6 2000/10/23 22:19:37 dlr Exp $
  */
 public class TemplateTestCase extends BaseTestCase
 {
@@ -150,8 +150,10 @@ public class TemplateTestCase extends BaseTestCase
     {
         try
         {
-            Template template = Runtime.getTemplate(baseFileName + "." + TMPL_FILE_EXT);
-            
+            StringBuffer buf = new StringBuffer();
+            buf.append(baseFileName).append('.').append(TMPL_FILE_EXT);
+            Template template = Runtime.getTemplate(buf.toString());
+
             template.merge(context, getWriter(
                 new FileOutputStream(
                     RESULT_DIR + baseFileName + "." + RESULT_FILE_EXT)));
