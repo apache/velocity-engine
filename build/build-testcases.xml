@@ -15,6 +15,7 @@
   <!-- =================================================================== -->
   <target name="test-all" depends="
                                    test-template,
+                                   test-velocityapp,
                                    test-introspect,
                                    test-inlinevmscope,
                                    test-multi,
@@ -34,6 +35,19 @@
       </classpath>
     </java>
    </target>
+
+  <target name="test-velocityapp"> 
+    <echo message="Running app.Velocity tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.VelocityAppTestCase"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+  </target>
 
   <target name="test-introspect"> 
     <echo message="Running Introspector tests..."/>
