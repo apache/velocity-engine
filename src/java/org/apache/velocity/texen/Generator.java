@@ -17,11 +17,12 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.5 2000/11/16 01:50:42 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.6 2000/11/18 00:56:04 jvanzyl Exp $ 
  */
 public class Generator
 {
-    public  static final String PATH_OUTPUT = "path.output";
+    public static final String OUTPUT_PATH = "output.path";
+    public static final String TEMPLATE_PATH = "template.path";
     
     private static final String DEFAULT_TEXEN_PROPERTIES =
         "org/apache/velocity/texen/defaults/texen.properties";
@@ -100,35 +101,42 @@ public class Generator
             System.err.println("Cannot get default properties!");
         }
     }
-        
-    /**
-     * Get a property from the propery set of this generator.
-     */        
-    public String getProperty (String name)
-    {
-        return props.getProperty (name,"");
-    }
-
-    /**
-     * Get a property from the propery set of this generator.
-     */        
-    public void setProperty (String key, String value)
-    {
-        props.put(key,value);
-    }
-
-    /**
-     * Parse an input file and return the result as a String
-     * object.
-     */ 
     
-    /*
-    public String parse (String input) throws Exception
+    /**
+     * Set the template path, where Texen will look
+     * for Velocity templates.
+     */
+    public void setTemplatePath(String templatePath)
     {
-        return this.parse (input,null);
+        props.put(TEMPLATE_PATH, templatePath);
     }
-    */
-     
+
+    /**
+     * Get the template path.
+     */
+    public String getTemplatePath()
+    {
+        return props.getProperty(TEMPLATE_PATH);
+    }
+
+    /**
+     * Set the output path for the generated
+     * output.
+     */
+    public void setOutputPath(String outputPath)
+    {
+        props.put(OUTPUT_PATH, outputPath);
+    }
+
+    /**
+     * Get the output path for the generated
+     * output.
+     */
+    public String getOutputPath()
+    {
+        return props.getProperty(OUTPUT_PATH);
+    }
+
     /**
      * Parse an input and write the output to an output file.  If the
      * output file parameter is null or an empty string the result is
@@ -162,7 +170,7 @@ public class Generator
         }
         else
         {
-            FileWriter fw = new FileWriter (props.getProperty (PATH_OUTPUT)+
+            FileWriter fw = new FileWriter (getOutputPath() +
                 File.separator + output);
             template.merge (controlContext,fw);
             fw.close();
@@ -217,7 +225,7 @@ public class Generator
     protected void fillContextDefaults (Context context)
     {
         context.put ("generator", instance);
-        context.put ("outputDirectory", props.getProperty(PATH_OUTPUT));
+        context.put ("outputDirectory", getOutputPath());
     }
     
     /**
