@@ -151,7 +151,12 @@ This section describes changes to the man branch after the
      parameter as the default value for the path to their
      velocity.properties file. (dlr)
    </li>
-
+   <li>
+     Added patch from Sylwester Lachiewicz (matrix@plusnet.pl)
+     to bring the javadoc up to date re the properties example,
+     and he also added examples for the DataSource configuration as well as the
+     syntax needed to create a compatible table. (gmj)
+   </li>
 
 </ul>
 
