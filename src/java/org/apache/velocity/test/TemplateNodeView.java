@@ -60,8 +60,8 @@ import java.io.FileInputStream;
 
 import org.apache.velocity.runtime.Runtime;
 
-import org.apache.velocity.runtime.parser.SimpleNode;
 import org.apache.velocity.runtime.visitor.NodeViewMode;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * Simple class for dumping the AST for a template.

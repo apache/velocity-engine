@@ -73,7 +73,7 @@ import org.apache.velocity.runtime.log.VelocityFormater;
 import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.SimpleNode;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import org.apache.velocity.runtime.loader.TemplateFactory;
 import org.apache.velocity.runtime.loader.TemplateLoader;
@@ -138,7 +138,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.21 2000/10/19 22:10:10 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.22 2000/10/21 02:00:17 jvanzyl Exp $
  */
 public class Runtime
 {
