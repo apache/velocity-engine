@@ -70,7 +70,7 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.9 2001/01/03 05:28:51 geirm Exp $ 
+ * @version $Id: Generator.java,v 1.10 2001/02/27 08:04:16 jvanzyl Exp $ 
  */
 public class Generator
 {
@@ -301,9 +301,8 @@ public class Generator
                 try
                 {
                     Class cls = Class.forName (contextObj);
-                    BaseUtil b = (BaseUtil)cls.newInstance();
-                    b.init();
-                    context.put (contextName,b);
+                    Object o = cls.newInstance();
+                    context.put (contextName,o);
                 }
                 catch (Exception e)
                 {
