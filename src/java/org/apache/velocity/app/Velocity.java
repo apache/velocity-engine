@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.22 2001/08/23 18:44:06 dlr Exp $
+ * @version $Id: Velocity.java,v 1.23 2001/09/07 05:05:14 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -247,7 +247,8 @@ public class Velocity implements RuntimeConstants
      */
     public static  boolean evaluate( Context context,  Writer out,  
                                      String logTag, String instring )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException, 
+        	ResourceNotFoundException, IOException
     {
         return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
     }
@@ -271,7 +272,8 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, InputStream instream )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException,
+        	ResourceNotFoundException, IOException
     {
         /*
          *  first, parse - convert ParseException if thrown
@@ -313,7 +315,8 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, Reader reader )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException, 	
+        	ResourceNotFoundException,IOException
     {
         SimpleNode nodeTree = null;
         

@@ -106,7 +106,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityEngine.java,v 1.1 2001/08/07 22:15:36 geirm Exp $
+ * @version $Id: VelocityEngine.java,v 1.2 2001/09/07 05:05:14 geirm Exp $
  */
 public class VelocityEngine implements RuntimeConstants
 {
@@ -246,7 +246,8 @@ public class VelocityEngine implements RuntimeConstants
      */
     public  boolean evaluate( Context context,  Writer out,  
                                      String logTag, String instring )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException,
+        	ResourceNotFoundException, IOException
     {
         return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
     }
@@ -270,7 +271,8 @@ public class VelocityEngine implements RuntimeConstants
      */
     public boolean evaluate( Context context, Writer writer, 
                                     String logTag, InputStream instream )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException, 
+        	ResourceNotFoundException, IOException
     {
         /*
          *  first, parse - convert ParseException if thrown
@@ -312,7 +314,8 @@ public class VelocityEngine implements RuntimeConstants
      */
     public boolean evaluate( Context context, Writer writer, 
                                     String logTag, Reader reader )
-        throws ParseErrorException, MethodInvocationException, IOException
+        throws ParseErrorException, MethodInvocationException, 
+        	ResourceNotFoundException,IOException
     {
         SimpleNode nodeTree = null;
         
