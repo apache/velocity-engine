@@ -67,9 +67,9 @@ import java.io.FileInputStream;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
 
@@ -77,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.16 2001/03/05 11:48:22 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.17 2001/03/14 22:03:52 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -286,12 +286,10 @@ public class TexenTask extends Task
             /* 
              * Setup the Velocity Runtime.
              */
-            Runtime.setDefaultProperties();
+            Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, templatePath);
             
-            Runtime.setSourceProperty(
-                Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
-            
-            Runtime.init();
+            Velocity.init();
 
             /* 
              * Create the text generator.
