@@ -7,7 +7,7 @@
 
 CLASSPATH=.
 
-for jar in ../bin/*.jar ../build/lib/*.jar
+for jar in ../bin/vel*.jar ../build/lib/ant*.jar
 do
     CLASSPATH=${CLASSPATH}:${jar}
 done
