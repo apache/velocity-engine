@@ -53,6 +53,14 @@ how your servlet engine works, and how you deploy and access servlets to try thi
 While we cannot supply this, we know of a good one :)
    http://jakarta.apache.org/tomcat
 
+servlet_example2
+----------------
+This is another example of how to use Velocity with servlets.
+It is different from servlet_example1 in that it shows how to 
+use the servlet environment to automatically set paths relative
+to the webapplication root.  It also shows how to use the 
+ClasspathResourceLoader to make template loading easy.
+
 context_example
 --------------
 This is a demonstration of 2 different context implementations :
