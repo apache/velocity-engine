@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.37 2001/09/09 21:49:11 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.38 2001/09/10 08:56:47 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -164,6 +164,14 @@ public class ASTReference extends SimpleNode
         return data;
     }        
     
+    /**
+     *  Returns the 'root string', the reference key
+     */
+     public String getRootString()
+     {
+        return rootString;
+     }
+     
     /**
      *   gets an Object that 'is' the value of the reference
      *

@@ -113,7 +113,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.9 2001/08/07 21:57:56 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.10 2001/09/10 08:56:47 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -187,7 +187,12 @@ public class VMProxyArg
         if ( type == ParserTreeConstants.JJTREFERENCE )
         {
             if ( numTreeChildren == 0)
-                singleLevelRef = callerReference.substring(1,callerReference.length());
+            {
+                /*
+                 * do this properly and use the Reference node
+                 */
+                 singleLevelRef = ((ASTReference) nodeTree).getRootString();
+            }
         }
     }
 
@@ -286,7 +291,7 @@ public class VMProxyArg
             Object retObject = null;
             
             if ( type == ParserTreeConstants.JJTREFERENCE ) 
-            {
+            {                
                 /*
                  *  two cases :  scalar reference ($foo) or multi-level ($foo.bar....)
                  */
@@ -296,7 +301,7 @@ public class VMProxyArg
                     /*
                      *  if I am a single-level reference, can I not get get it out of my context?
                      */
-                    
+                
                     retObject = context.get( singleLevelRef );
                 }
                 else
@@ -515,7 +520,12 @@ public class VMProxyArg
         if ( type == ParserTreeConstants.JJTREFERENCE )
         {
             if ( numTreeChildren == 0)
-                singleLevelRef = callerReference.substring(1,callerReference.length());
+            {
+                /*
+                 *  use the reference node to do this...
+                 */
+                singleLevelRef = ((ASTReference) nodeTree).getRootString();
+            }
         }
     }
   
