@@ -4,20 +4,21 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.io.Writer;
 import java.io.IOException;
-
 import java.util.Map;
+import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTReference extends SimpleNode
 {
     private String nullString;
-    private Object root;
+    private Object rootObject;
     private Object value;
-
+    private String rootString;
+    
     public ASTReference(int id)
     {
         super(id);
@@ -36,14 +37,15 @@ public class ASTReference extends SimpleNode
 
     public Object init(Context context, Object data) throws Exception
     {
-        root = getVariableValue(context, getRoot());
+        rootString = getRoot();
+        rootObject = getVariableValue(context, rootString);
         
         // An object has to be in the context for
         // subsequent introspection.
 
-        if (root == null) return null;
+        if (rootObject == null) return null;
         
-        Class clazz = root.getClass();
+        Class clazz = rootObject.getClass();
         
         // All children here are either Identifier() nodes
         // or Method() nodes.
@@ -57,7 +59,7 @@ public class ASTReference extends SimpleNode
     
     public Object execute(Object o, Context context)
     {
-        Object result = getVariableValue(context, getRoot());
+        Object result = getVariableValue(context, rootString);
         
         if (result == null)
             return null;
@@ -109,29 +111,56 @@ public class ASTReference extends SimpleNode
         return execute(null, context);
     }
 
-    public void setValue(Context context, Object value)
+    public boolean setValue(Context context, Object value)
     {
         // The rootOfIntrospection is the object we will
         // retrieve from the Context. This is the base
         // object we will apply reflection to.
-        String root = getRoot();
-        Object result = getVariableValue(context, root);
+        Object result = getVariableValue(context, rootString);
         
         if (result == null)
         {
-            Runtime.error("Reference error: " + root + " " +
-                          "not defined in the context.");
+            Runtime.error(new ReferenceException("#set", this));
+            return false;
         }                          
         
         // How many child nodes do we have?
         int children = jjtGetNumChildren();
-        
+
         for (int i = 0; i < children - 1; i++)
+        {
             result = jjtGetChild(i).execute(result, context);
+            
+            if (result == null)
+            {
+                Runtime.error(new ReferenceException("#set", this));
+                return false;
+            }                          
+        }            
 
         Object[] args = { value };
-        ClassUtils.invoke(result, "set" + jjtGetChild(children - 1)
-            .getFirstToken().image, args);
+        Class[] params = { value.getClass() };
+        
+        /*
+         * This catches the last phase of setting a property
+         * if we catch an exception we know that something
+         * like $provider.Monkey is not a valid reference.
+         * $provider may be in the context, but Monkey is
+         * not a method of $provider.
+         */
+        try
+        {
+            Class c = result.getClass();
+            Method m = c.getMethod("set" + jjtGetChild(children - 1).getFirstToken().image, params);
+            m.invoke(result, args);
+        }
+        catch (Exception e)
+        {
+            Runtime.error(new ReferenceException("#set", this));
+            return false;
+        }
+        
+        return true;
     }
 
     private String getRoot()
