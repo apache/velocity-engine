@@ -1087,6 +1087,38 @@ $blargh
 </ul>
 ]]></source>
 
+    <p>
+    Velocity provides an easy way to get the loop counter so that you
+    can do something like the following:
+    </p>
+
+<source><![CDATA[
+<table>
+#foreach( $customer in $customerList )
+    <tr><td>$velocityCount</td><td>$customer.Name</td></tr>
+#end
+</table>
+]]></source>
+
+    <p>
+    The default name for the loop counter variable reference, which is
+    specified in the velocity.properties file, is $velocityCount. By
+    default the counter starts at 1, but this can be set to either 0 or
+    1 in the <code>velocity.properties</code> file. Here's what the loop
+    counter properties section of the <code>velocity.properties</code>
+    file appears:
+    </p>
+
+<source><![CDATA[
+# Default name of the loop counter
+# variable refernce.
+counter.name = velocityCount
+
+# Default starting value of the loop
+# counter variable reference.
+counter.initial.value = 1
+]]></source>
+
  </section>
 
 <section name="Include">
