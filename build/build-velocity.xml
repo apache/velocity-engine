@@ -67,6 +67,11 @@
   />
 
   <property 
+    name="multi.file.resource.path.test"
+    value="org.apache.velocity.test.MultipleFileResourcePathTest"
+  />
+
+  <property 
     name="runtime.defaults.dir" 
     value="org/apache/velocity/runtime/defaults"
   />
@@ -598,6 +603,20 @@
 
     <java classname="${velocity.test.runner}">
       <arg value="${inlinevmscope.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
+
+  </target>
+
+  <target name="test-multi">
+
+    <echo message="Running JUnit MultipleFileResourcePathTest ..."/>
+      <java classname="${velocity.test.runner}">
+      <arg value="${multi.file.resource.path.test}"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
