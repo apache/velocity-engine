@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.38 2001/09/10 08:56:47 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.39 2001/09/24 13:23:10 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -99,8 +99,8 @@ public class ASTReference extends SimpleNode
     private String rootString;
     private boolean escaped = false;
     private boolean computableReference = true;
-    private String  prefix = "";
-    private String firstTokenPrefix = "";
+    private String escPrefix = "";
+    private String morePrefix = "";
     private String identifier = "";
     
     private String literal = null;
@@ -132,9 +132,6 @@ public class ASTReference extends SimpleNode
 
         super.init( context, data );
 
-        //        System.out.println("Reference init() : " + literal() );
-
-
         /*
          *  the only thing we can do in init() is getRoot()
          *  as that is template based, not context based,
@@ -144,14 +141,7 @@ public class ASTReference extends SimpleNode
         rootString = getRoot();
 
         numChildren = jjtGetNumChildren();
-
-        /*
-         *  we can glom these together.. both are template immutables...
-         */
-
-        String firstToken = NodeUtils.specialText( getFirstToken() );
-        firstTokenPrefix = firstToken + prefix;
-
+        
         /*
          * and if appropriate...
          */
@@ -253,19 +243,17 @@ public class ASTReference extends SimpleNode
          *  2) if not, then \$foo  (its considered shmoo, not VTL)
          */
 
-        //        System.out.println("Render : Escaped? " + escaped + " : " + ((Object) this) );
-
         if ( escaped )
         {
             if ( value == null )
             {
-                writer.write( firstTokenPrefix );
+                writer.write( escPrefix );
                 writer.write( "\\" );
                 writer.write( nullString );
             }
             else
             {
-                writer.write( firstTokenPrefix );
+                writer.write( escPrefix );
                 writer.write( nullString );
             }
         
@@ -294,11 +282,12 @@ public class ASTReference extends SimpleNode
             /* 
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
-            
-            writer.write( firstTokenPrefix );
-            writer.write( prefix );
+              
+            writer.write( escPrefix );
+            writer.write( escPrefix );
+            writer.write( morePrefix );          
             writer.write( nullString );
-            
+          
             if (referenceType != QUIET_REFERENCE 
                 && rsvc.getBoolean( 
                                       RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
@@ -314,7 +303,9 @@ public class ASTReference extends SimpleNode
             /*
              *  non-null processing
              */
-            writer.write( firstTokenPrefix );
+
+            writer.write( escPrefix );
+            writer.write( morePrefix );
             writer.write( value.toString() );
         
             return true;
@@ -511,8 +502,6 @@ public class ASTReference extends SimpleNode
     {
         Token t = getFirstToken();
 
-        //        System.out.println("First token for " + ((Object) this ) + " : " + t );
-
         /*
          *  we have a special case where something like 
          *  $(\\)*!, where the user want's to see something
@@ -606,11 +595,9 @@ public class ASTReference extends SimpleNode
             if ( (i % 2) != 0 )                
                 escaped = true;
 
-            //           System.out.println("Escaped?  : " + i + " : " + escaped + " : " + ( (Object) this) );
-
             if (i > 0)
-                prefix = t.image.substring(0, i / 2 );
-
+                escPrefix = t.image.substring(0, i / 2 );
+                                     
             t.image = t.image.substring(i);
         }
 
@@ -620,6 +607,7 @@ public class ASTReference extends SimpleNode
 
         nullString = literal();
 
+        
         if (t.image.startsWith("$!"))
         {
             referenceType = QUIET_REFERENCE;
@@ -673,7 +661,7 @@ public class ASTReference extends SimpleNode
 
                 if ( c != '#' && c != '$')
                 {
-                    break;
+                   break;
                 }
             }
              
@@ -684,11 +672,12 @@ public class ASTReference extends SimpleNode
              */
             if( loc > 0)
             {
-                prefix = prefix + img.substring(0, loc-1);
+                morePrefix = morePrefix + img.substring(0, loc-1);
+                nullString = nullString.substring(loc-1);
             }
 
             referenceType = NORMAL_REFERENCE;
-
+            
             return img.substring(loc);
         }            
     }
