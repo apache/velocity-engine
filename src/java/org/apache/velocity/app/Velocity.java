@@ -3,7 +3,7 @@ package org.apache.velocity.app;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,20 +69,34 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
 /**
- * This class provides an interface to accessing Velocity functionality
- * in ways different from the usual template parse/merge model. 
+ * This class provides  services to the application 
+ * developer, such as :
+ * <ul>
+ * <li> Simple Velocity Runtime engine initialization methods.
+ * <li> Functions to apply the template engine to streams and strings
+ *      to allow embedding and dynamic template generation.
+ * <li> Methods to access Velocimacros directly.
+ * </ul>
  *
- * It is intended to mediate between applications and the Velocity core
- * services.  Use this.  Try to avoid hitting Runtime directly.
+ * <br><br>
+ * While the most common way to use Velocity is via templates, as 
+ * Velocity is a general-purpose template engine, there are other
+ * uses that Velocity is well suited for, such as processing dynamically
+ * created templates, or processing content streams.
  *
- * NOTE THAT YOU DON'T NEED TO USE THE init() METHODS IN HERE TO 
- * USE THE OTHER FUNCTIONS.  THIS IS CURRENTLY A WORK IN PROGRESS.
+ * <br><br>
+ * The methods herein were developed to allow easy access to the Velocity
+ * facilities without direct spelunking of the internals.  If there is
+ * something you feel is necessary to add here, please, send a patch.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.4 2001/03/14 22:06:41 jvanzyl Exp $
+ * @version $Id: Velocity.java,v 1.5 2001/03/15 02:24:00 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -93,23 +107,10 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise
      */
-    public static void init() throws Exception
+    public static void init() 
+        throws Exception
     {
         Runtime.init();
-        /*
-        try
-        {
-            Runtime.init();
-            return true;
-        }
-        catch(Exception e ) 
-        {
-            System.out.println(
-                "Velocity.init() : Velocity init exception : " + e);
-            
-            return false;
-        }
-        */
     }
 
     /**
@@ -122,24 +123,10 @@ public class Velocity implements RuntimeConstants
      *  @return true if successful, false otherwise.  Check runtime log if 
      *         false
      */
-    public static void init( String propsFilename ) throws Exception
+    public static void init( String propsFilename ) 
+        throws Exception
     {
         Runtime.init(propsFilename);
-        
-        /*
-        try
-        {
-            Runtime.init( propsFilename );
-            return true;
-        }
-        catch(Exception e ) 
-        {
-            System.out.println("Velocity.init( filename ) : "
-                               + "Velocity init exception : " 
-                               + e);
-            return false;
-        }
-        */
     }
 
     /**
@@ -150,20 +137,10 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise
      */
-    public static  boolean init( Properties p )
-    {
-        try
-        {
-            Runtime.init( p );
-            return true;
-        }
-        catch(Exception e ) 
-        {
-            System.out.println("Velocity.init( props ) : "
-                               + " Velocity init exception : " 
-                               + e);
-            return  false;
-        }
+    public static void init( Properties p )
+        throws Exception
+    {      
+        Runtime.init( p ); 
     }
     
     /**
@@ -375,6 +352,7 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean mergeTemplate( String templateName, 
                                          Context context, Writer writer )
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
         try
         {
@@ -391,6 +369,9 @@ public class Velocity implements RuntimeConstants
             }
 
             return true;
+        }
+        catch( ResourceNotFoundException rnfe )
+        {
         }
         catch( Exception e )
         {
