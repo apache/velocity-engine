@@ -64,14 +64,14 @@ And more...
 #end
 
 \	hi
-\\
+\
 \#if(true)
 	hi
 \#else
 	there
 \#end
 
-\\	there
+\	there
 \
 \#if(false)
 	hi
