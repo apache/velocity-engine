@@ -70,7 +70,7 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.5 2000/12/06 05:59:21 geirm Exp $
+ * @version $Id: Macro.java,v 1.6 2000/12/10 19:38:33 geirm Exp $
  */
 
 package org.apache.velocity.runtime.directive;
@@ -84,6 +84,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 public class Macro extends Directive
 {
@@ -202,29 +203,7 @@ public class Macro extends Directive
         int iMacroArgs = strArgs.length - 1;
 
         boolean bRet = Runtime.addVelocimacro( strArgs[0], strMacro, strArgs, strMacroArray, tmArgIndexMap, strSourceTemplate );
- 
-        /*
-         *  lets make nicey-nicey output
-         */
 
-        String s = "#" +  strArgs[0];
-        s += "(";
-
-        for( int i=1; i < strArgs.length; i++)
-        {
-            s += " ";
-            s += strArgs[i];
-        }
-        s += " ) : source = ";
-        s += strSourceTemplate;
-
-        if (bRet)
-        {          
-            Runtime.info( "Velocimacro : added new VM : " + s );
-        }
-        else
-           Runtime.warn("Velocimacro : VM addition rejected : " + s + " Check VM permissions and defaults."  );
-        
         return;
     }
 
