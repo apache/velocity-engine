@@ -57,14 +57,12 @@ package org.apache.velocity.app.event;
 import org.apache.velocity.context.InternalEventContext;
 import org.apache.velocity.context.Context;
 
-import java.util.ArrayList;
-
 /**
  *  'Package' of event handlers...
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
- * @version $Id: EventCartridge.java,v 1.2 2001/05/20 21:09:04 geirm Exp $
+ * @version $Id: EventCartridge.java,v 1.3 2003/05/04 17:06:11 geirm Exp $
  */
 public class EventCartridge implements ReferenceInsertionEventHandler,
                                        NullSetEventHandler,
