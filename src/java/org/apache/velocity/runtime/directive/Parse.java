@@ -89,7 +89,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.23 2001/10/22 03:53:24 jon Exp $
+ * @version $Id: Parse.java,v 1.24 2002/10/10 16:47:00 dlr Exp $
  */
 public class Parse extends Directive
 {
@@ -118,7 +118,8 @@ public class Parse extends Directive
      */
     public boolean render( InternalContextAdapter context, 
                            Writer writer, Node node)
-        throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException
+        throws IOException, ResourceNotFoundException, ParseErrorException,
+               MethodInvocationException
     {
         /*
          *  did we get an argument?
@@ -170,8 +171,9 @@ public class Parse extends Directive
         Resource current = context.getCurrentResource();
 
         /*
-         *  get the resource, and assume that we use the encoding of the current template
-         *  the 'current resource' can be null if we are processing a stream....
+         *  get the resource, and assume that we use the encoding of
+         *  the current template the 'current resource' can be null if
+         *  we are processing a stream....
          */
 
         String encoding = null;
@@ -182,7 +184,8 @@ public class Parse extends Directive
         }
         else
         {
-            encoding = (String) rsvc.getProperty( RuntimeConstants.INPUT_ENCODING);
+            encoding =
+                (String) rsvc.getProperty(RuntimeConstants.INPUT_ENCODING);
         }
 
         /*
@@ -201,8 +204,10 @@ public class Parse extends Directive
        		 * the arg wasn't found.  Note it and throw
        		 */
        		 
-        	rsvc.error("#parse(): cannot find template '" + arg + "', called from template " 
-        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() + ")" );       	
+        	rsvc.error("#parse(): cannot find template '" + arg +
+                       "', called from template " +
+                       context.getCurrentTemplateName() + " at (" +
+                       getLine() + ", " + getColumn() + ")" );
         	throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -212,8 +217,10 @@ public class Parse extends Directive
         	 *  note it and throw
         	 */
 
-        	rsvc.error("#parse(): syntax error in #parse()-ed template '" + arg + "', called from template " 
-        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() + ")" );    
+        	rsvc.error("#parse(): syntax error in #parse()-ed template '" +
+                       arg + "', called from template " +
+                       context.getCurrentTemplateName() + " at (" +
+                       getLine() + ", " + getColumn() + ")" );
         		
         	throw pee;
         } 
