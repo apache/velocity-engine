@@ -55,30 +55,65 @@ package org.apache.velocity.texen.util;
  */
 
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.IOException;
 import java.util.Properties;
+import org.apache.velocity.texen.Generator;
 
 /**
  * A property utility class for the texen text/code generator
  * Usually this class is only used from a Velocity context.
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: PropertiesUtil.java,v 1.6 2001/03/20 01:39:33 jon Exp $ 
+ * @version $Id: PropertiesUtil.java,v 1.7 2001/08/30 13:29:47 jvanzyl Exp $ 
  */
 public class PropertiesUtil
 {
     public Properties load(String propertiesFile)
     {
+        String templatePath = Generator.getInstance().getTemplatePath();
         Properties properties = new Properties();
         
-        try
+        if (templatePath != null)
         {
-            properties.load(new FileInputStream(propertiesFile));
-            return properties;
+            try
+            {
+                properties.load(new FileInputStream(propertiesFile));
+            }
+            catch (Exception e)
+            {
+                // do nothing
+            }
         }
-        catch (Exception e)
+        else
         {
-            e.printStackTrace();
-            return null;
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            
+            try
+            {
+                // This is a hack for now to make sure that properties
+                // files referenced in the filesystem work in
+                // a JAR file. We have to deprecate the use
+                // of $generator.templatePath in templates first
+                // and this hack will allow those same templates
+                // that use $generator.templatePath to work in
+                // JAR files.
+                if (propertiesFile.startsWith("$generator"))
+                {
+                    propertiesFile = propertiesFile.substring(
+                        "$generator.templatePath/".length());
+                }
+                
+                InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
+                properties.load(inputStream);
+            }
+            catch (IOException ioe)
+            {
+                // do nothing
+            }
         }
+    
+        return properties;
+        
     }
 }
