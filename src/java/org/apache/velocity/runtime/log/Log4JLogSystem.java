@@ -69,13 +69,14 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Implementation of a simple log4j system that will either latch onto
  * an existing category, or just do a simple rolling file log.
  *
- * This is the one that you wan to use - it uses the modern 'Logger'
- * concept of Log4j rather than the deprecated 'Categeory' concept.
+ * Use this one rather than {@link SimpleLog4JLogSystem}; it uses the
+ * modern <code>Logger</code> concept of Log4J, rather than the
+ * deprecated <code>Categeory</code> concept.
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
- * @version $Id: Log4JLogSystem.java,v 1.10 2003/10/22 10:49:27 geirm Exp $
- * @since Velocity 1.3
+ * @version $Id: Log4JLogSystem.java,v 1.11 2003/10/22 17:24:41 dlr Exp $
+ * @since Velocity 1.5
  */
 public class Log4JLogSystem implements LogSystem
 {
