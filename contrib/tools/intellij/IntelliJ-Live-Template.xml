@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+
+<!--
+    This is a template for the IntelliJ IDE so that it will make it
+    easier to add Velocity Template Language to your Velocity files.
+    
+    Contributed by: Rickard …berg <rickard@xpedio.com>
+-->
+<templateSet group="Velocity">
+  <template name="#foreach" value="#foreach ($$$ITEM$ in $$$ITERATOR$)&#13;&#10;  $END$&#13;&#10;#end" shortcut="SPACE" description="Velocity foreach" toReformat="false" toShortenFQNames="true">
+    <variable name="ITEM" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="ITERATOR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#if" value="#if ($EXPR$)&#13;&#10;  $END$&#13;&#10;#end" shortcut="SPACE" description="Velocity if" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#ifelse" value="#if ($EXPR$)&#13;&#10;  $END$&#13;&#10;#else&#13;&#10;#end" shortcut="SPACE" description="Velocity if/else" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#ifelseif" value="#if ($EXPR$)&#13;&#10;  $END$&#13;&#10;#elseif ($EXPR$)&#13;&#10;#end" shortcut="SPACE" description="Velocity if/elseif" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#include" value="#include ($NAME$)" shortcut="SPACE" description="Velocity include" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#macro" value="#macro($NAME$ $$$ARGS$)&#13;&#10;  $END$&#13;&#10;#end" shortcut="SPACE" description="Velocity macro" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="ARGS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#parse" value="#parse ($NAME$)" shortcut="SPACE" description="Velocity parse" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#set" value="#set ($$$PROPERTY$ = $EXPR$)" shortcut="SPACE" description="Velocity set" toReformat="false" toShortenFQNames="true">
+    <variable name="PROPERTY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="#stop" value="#stop" shortcut="SPACE" description="Velocity stop" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+</templateSet>
