@@ -65,7 +65,10 @@ import java.util.Properties;
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
 import org.apache.log.LogTarget;
+import org.apache.log.Formater;
 import org.apache.log.output.FileOutputLogTarget;
+
+import org.apache.velocity.runtime.log.VelocityFormater;
 
 import org.apache.velocity.Template;
 
@@ -135,7 +138,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff</a>
- * @version $Id: Runtime.java,v 1.18 2000/10/19 19:32:43 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.19 2000/10/19 22:03:25 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -294,9 +297,15 @@ public class Runtime
                 getString(RUNTIME_LOG), "DEBUG");
                 
             LogTarget[] t = logger.getLogTargets();            
+
             ((FileOutputLogTarget)t[0])
-                .setFormat("%5.5{time} %{message}\\n%{throwable}" );
-        
+                .setFormater((Formater) new VelocityFormater());
+
+            ((FileOutputLogTarget)t[0])
+                .setFormat("%{time} %{message}\\n%{throwable}" );
+
+            //.setFormat("%5.5{time} %{message}\\n%{throwable}" );
+
             if (pendingMessages.length() > 0)
             {
                 logger.info(pendingMessages.toString());
