@@ -19,3 +19,7 @@ should be precompiled for you.  To run :
 
   ./example2.sh
 
+or
+
+  example2.bat
+
