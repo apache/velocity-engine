@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.13 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: NodeUtils.java,v 1.14 2001/11/07 13:00:29 geirm Exp $
  */
 public class NodeUtils
 {
@@ -108,6 +108,15 @@ public class NodeUtils
         }            
 
         return specialText;
+    }
+    
+    /**
+     *  complete node literal
+     *
+     */
+    public static String tokenLiteral( Token t )
+    {
+        return specialText( t ) + t.image;
     }
     
     /**
