@@ -129,14 +129,14 @@ import java.util.*;
  * f    2 calls 0.4s total  0.2s avg.
  * </pre>
  * </blockquote>
- * Other properties which can be set are <i>trace.detail</i>, which may be set 
- * to false to disable the printing of enter/leave statements, and 
- * <i>trace.pattern</i>, which will cause only the methods containing the 
- * string specified to be traced. You may also set <i>trace.log</i> to the
+ * Other properties which can be set are <code>trace.detail</code>, which may 
+ * be set to false to disable the printing of enter/leave statements, and 
+ * <code>trace.pattern</code>, which will cause only the methods containing the 
+ * string specified to be traced. You may also set <code>trace.log</code> to the
  * name of a file to redirect output to a file.
  *
  * @author <a href="mailto:carl@destinymusic.com">Carl Ludwig</a>
- * @version $Id: Trace.java,v 1.3 2001/01/02 23:43:44 dlr Exp $
+ * @version $Id: Trace.java,v 1.4 2001/01/03 01:55:33 dlr Exp $
  */ 
 public class Trace
 {
