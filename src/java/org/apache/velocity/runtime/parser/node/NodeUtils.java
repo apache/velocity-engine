@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.7 2000/11/28 02:53:33 jvanzyl Exp $
+ * @version $Id: NodeUtils.java,v 1.8 2000/11/28 03:05:11 jvanzyl Exp $
  */
 public class NodeUtils
 {
@@ -133,12 +133,12 @@ public class NodeUtils
 
                     if (nameBuf.length() > 0)
                     {
-                        String value = (String) vars.get(nameBuf.toString());
+                        Object value = vars.get(nameBuf.toString());
 
                         if (value == null)
                             argBuf.append("$").append(nameBuf.toString());
                         else
-                            argBuf.append(value);
+                            argBuf.append(value.toString());
                     }
                     break;
 
