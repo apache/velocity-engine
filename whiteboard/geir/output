@@ -1,0 +1,30 @@
+
+  <document> 
+    <properties> 
+      <author> 
+        <email>
+           geirm@optonline.net
+        </email>
+        <name> 
+          <last> 
+            <full>
+               Magnusson
+            </full>
+            <firstinitial>
+               M
+            </firstinitial>
+          </last>
+          <first>
+             Geir
+          </first>
+        </name>
+      </author>
+      <title>
+         The Jakarta Project
+      </title>
+    </properties>
+    <body>
+       I am the body
+    </body>
+  </document>
+

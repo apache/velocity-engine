@@ -1,0 +1,11 @@
+Tests to make sure string lits are working
+
+#macro(foo $string $thename)
+  $string
+  #set($thename = "bill")
+  $string
+#end
+
+#set($name = "geir")
+#foo("Hello $name" $name )
+

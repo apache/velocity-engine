@@ -1,0 +1,35 @@
+Tests the basic arg passing for VMs
+We want to pass through two VMs
+
+#macro( foo $a )
+  Hello from foo!
+  #foreach($i in $a)
+    foo: $i
+  #end 
+#end
+
+#macro( floog $a)
+  floog : $a
+#end
+
+#set($woogie = "geir")
+#set($x = 4)
+#set($y = 10)
+#bar("hello $woogie")
+#bar( $woogie )
+#bar( 1 )
+#bar( true )
+#foo( ["a","b"] )
+#foo( [1..4] )
+#foo( [$x..$y] )
+
+This tests the pass-by-name feature
+
+#macro( bar $b )
+  bar : $b
+  #floog( $b )
+#end
+
+>$provider.bang()<
+#bar( $provider.bang() )
+#bar( $provider.bang() )
