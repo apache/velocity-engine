@@ -61,6 +61,7 @@ import java.io.BufferedReader;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ASTReference;
@@ -70,6 +71,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.VelocityContext;
 
 /**
  *  The function of this class is to proxy for the calling parameter to the VM.
@@ -113,7 +115,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.11 2002/02/28 05:24:24 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.12 2002/03/26 15:14:53 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -402,7 +404,7 @@ public class VMProxyArg
                 
                 constant = false;
 
-                try 
+                try
                 {
                     /*
                      *  fakie : wrap in  directive to get the parser to treat our args as args
@@ -435,10 +437,16 @@ public class VMProxyArg
                     }
 
                     /*
-                     *  init.  We can do this as they are only references
+                     *  init.  be a good citizen and give it an ICA
                      */
 
-                    nodeTree.init(null, rsvc);
+                    InternalContextAdapter ica
+                            = new InternalContextAdapterImpl(new VelocityContext());
+
+                    ica.pushCurrentTemplateName("VMProxyArg : "
+                            + ParserTreeConstants.jjtNodeName[type]);
+
+                    nodeTree.init(ica, rsvc);
                 } 
                 catch ( Exception e ) 
                 {
