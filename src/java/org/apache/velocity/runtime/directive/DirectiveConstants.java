@@ -65,20 +65,4 @@ public interface DirectiveConstants
     
     /** Line directive indicator */
     public static final int LINE = 2;
-
-    /**
-     * Name of the field that contains the
-     * name for this directive. It will be grabbed
-     * via reflection and set when the directive
-     * is initialized in the Velocity Runtime.
-     */
-    public static final String NAME_FIELD = "DIRECTIVE_NAME";
-    
-    /**
-     * Type of the field that contains the
-     * name for this directive. It will be grabbed
-     * via reflection and set when the directive
-     * is initialized in the Velocity Runtime.
-     */
-    public static final String TYPE_FIELD = "DIRECTIVE_TYPE";
 }        
