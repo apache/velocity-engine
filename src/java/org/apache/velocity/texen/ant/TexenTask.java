@@ -79,10 +79,10 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.7 2000/11/23 17:48:00 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.8 2000/11/23 18:28:47 jvanzyl Exp $
  */
 
-public abstract class TexenTask extends Task
+public class TexenTask extends Task
 {
     /**
      * This is the control template that governs the output.
