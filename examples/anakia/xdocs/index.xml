@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<document prefix="." url="./index.xml">
+<document>
 
   <properties>
     <author email="jon@latchkey.com">Jon S. Stevens</author>
@@ -15,7 +15,7 @@
 This is an example template that gets processed.
 </p>
 
-<img src="images/velocity.gif" width="329" height="105"/>
+<img src="/images/velocity.gif" width="329" height="105"/>
 
 <table border="1">
 <tr>
@@ -44,4 +44,3 @@ This is an example template that gets processed.
 
 </body>
 </document>
-
