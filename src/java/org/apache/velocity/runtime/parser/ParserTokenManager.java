@@ -23,45 +23,6 @@ public class ParserTokenManager implements ParserConstants
     private boolean inComment;
     private boolean inSet;
 
-    Stack streams = new Stack();
-    Stack states = new Stack();
-
-    /**
-     * Retrieve the oldStream and oldState and
-     * continue processing the input.
-     */
-    void popFile()
-    {
-        ReInit((ASCII_CharStream) streams.pop(), ((Integer) states.pop()).intValue());
-        fileDepth--;
-    }
-
-    private boolean AtParent()
-    {
-        if (fileDepth == 0)
-            return true;
-        else
-            return false;
-    }
-
-    void CommonTokenAction(Token t)
-    {
-        if (t.kind == EOF && ! AtParent())
-        {
-            Token new_t;
-            popFile();
-            new_t = getNextToken();
-            t.kind = new_t.kind;
-            t.beginLine = new_t.beginLine;
-            t.beginColumn = new_t.beginColumn;
-            t.endLine = new_t.endLine;
-            t.endColumn = new_t.endColumn;
-            t.image = new_t.image;
-            t.next = new_t.next;
-            t.specialToken = new_t.specialToken;
-        }
-    }
-
     /**
      *  pushes the current state onto the 'state stack',
      *  and maintains the parens counts
@@ -87,8 +48,11 @@ public class ParserTokenManager implements ParserConstants
         }
 
         if( bDebugPrint_ )
-            System.out.println(" stack pop (" + stateStack.size() + ") : lparen=" + ( (Integer) hStack.get("lparen")).intValue()
-                + " newstate=" +  ( (Integer)  hStack.get("lexstate")).intValue() );
+            System.out.println(
+                " stack pop (" + stateStack.size() + ") : lparen=" +
+                    ( (Integer) hStack.get("lparen")).intValue() +
+                        " newstate=" + ( (Integer) hStack
+                            .get("lexstate")).intValue() );
 
         lparen = ( (Integer) hStack.get("lparen")).intValue();
         rparen = ( (Integer) hStack.get("rparen")).intValue();
@@ -105,7 +69,8 @@ public class ParserTokenManager implements ParserConstants
     public boolean stateStackPush()
     {
         if( bDebugPrint_ )
-            System.out.println(" (" + stateStack.size() + ") pushing cur state : " + curLexState );
+            System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
+                curLexState );
 
         Hashtable hStack = new Hashtable();
         hStack.put("lexstate", new Integer( curLexState ) );
@@ -145,8 +110,9 @@ public class ParserTokenManager implements ParserConstants
     private void RPARENHandler()
     {
         /*
-         *  Ultimately, we want to drop down to the state below the one that has an open (
-         *  if we hit bottom (DEFAULT), that's fine. It's just text schmoo.
+         * Ultimately, we want to drop down to the state below 
+         * the one that has an open (if we hit bottom (DEFAULT), 
+         * that's fine. It's just text schmoo.
          *
          */
 
@@ -158,15 +124,16 @@ public class ParserTokenManager implements ParserConstants
         while( !bClosed)
         {
             /*
-             * look at current state.  If we haven't seen a lparen in this state
-             * then we drop a state, because this lparen clearly closes our state
+             * look at current state.  If we haven't seen a lparen 
+             * in this state then we drop a state, because this 
+             * lparen clearly closes our state
              */
 
             if( lparen > 0)
             {
                 /*
-                 *  if rparen + 1 == lparen, then this state is closed. Otherwise, increment
-                 *  and keep parsing
+                 *  if rparen + 1 == lparen, then this state is closed. 
+                 * Otherwise, increment and keep parsing
                  */
 
                  if( lparen == rparen + 1)
@@ -3014,7 +2981,6 @@ public final Token getNextToken()
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
       matchedToken.specialToken = specialToken;
-      CommonTokenAction(matchedToken);
       return matchedToken;
    }
    image = null;
@@ -3109,7 +3075,6 @@ public final Token getNextToken()
            TokenLexicalActions(matchedToken);
        if (jjnewLexState[jjmatchedKind] != -1)
          curLexState = jjnewLexState[jjmatchedKind];
-           CommonTokenAction(matchedToken);
            return matchedToken;
         }
         else if ((jjtoSkip[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
@@ -3287,9 +3252,10 @@ final void MoreLexicalActions()
         if (! inComment)
         {
             /*
-             *  We can have the situation where #if($foo)$foo#end.  We need to transition out of 
-             *  REFERENCE before going to DIRECTIVE.  I don't really like this, but I can't think of
-             *  a legal way you are going into DIRECTIVE while in REFERENCE.  -gmj
+             * We can have the situation where #if($foo)$foo#end.  
+             * We need to transition out of REFERENCE before going to DIRECTIVE. 
+             * I don't really like this, but I can't think of a legal way 
+             * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
             if (curLexState == REFERENCE)
@@ -3324,7 +3290,8 @@ final void TokenLexicalActions(Token matchedToken)
             lparen++;
 
         /*
-         *  if in REFERENCE and we have seen the dot, then move to REFMOD2 -> Modifier()
+         * If in REFERENCE and we have seen the dot, then move 
+         * to REFMOD2 -> Modifier()
          */
 
         if (curLexState == REFMODIFIER )
@@ -3343,8 +3310,9 @@ final void TokenLexicalActions(Token matchedToken)
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
         /*
-         *  need to simply switch back to REFERENCE, not drop down the stack
-         *  because we can (infinitely) chain, ala $foo.bar().blargh().woogie().doogie()
+         * need to simply switch back to REFERENCE, not drop down the stack
+         * because we can (infinitely) chain, ala 
+         * $foo.bar().blargh().woogie().doogie()
          */
 
         SwitchTo( REFERENCE );
@@ -3481,13 +3449,15 @@ final void TokenLexicalActions(Token matchedToken)
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
         /*
-         * push the alpha char back into the stream so the following identifier is complete
+         * push the alpha char back into the stream so the following identifier 
+         * is complete
          */
 
         input_stream.backup(1);
 
         /*
-         *  and munge the <DOT> so we just get a . when we have normal text that looks like a ref.ident
+         * and munge the <DOT> so we just get a . when we have normal text that 
+         * looks like a ref.ident
          */
 
         matchedToken.image = ".";
