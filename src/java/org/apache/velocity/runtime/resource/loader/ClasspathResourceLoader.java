@@ -100,6 +100,20 @@ public class ClasspathResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException ("No template name provided");
         }
         
+        /**
+         * remove leading slash so path will work with classes in a JAR file
+         */
+        
+        while (name.startsWith("/"))
+        {
+            name = name.substring(1);
+        }
+
+        /**
+         * look for resource in thread classloader first (e.g. WEB-INF\lib in 
+         * a servlet container) then fall back to the system classloader.
+         */
+        
         try 
         {
             ClassLoader classLoader = Thread.currentThread()
@@ -109,6 +123,12 @@ public class ClasspathResourceLoader extends ResourceLoader
                 result = classLoader.getResourceAsStream( name );
             } else {
                 result= classLoader.getResourceAsStream( name );
+                
+                /**
+                 * for compatibility with texen / ant tasks, fall back to 
+                 * old method when resource is not found.
+                 */
+                
                 if (result == null) {
                     classLoader = this.getClass().getClassLoader();
                     result = classLoader.getResourceAsStream( name );
