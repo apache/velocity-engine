@@ -57,3 +57,6 @@ $provider.chop("stringy",1)
 #set $bar = "bar" 
 #if ($bar.length()>0)$bar#end 
 
+
+#set($a=1)
+#0F
