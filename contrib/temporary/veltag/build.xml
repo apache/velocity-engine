@@ -114,13 +114,28 @@
 
 
   <target name="compile" depends="static" description="Compile">
+
+    <taskdef name="jjar" classname="org.apache.commons.jjar.JJARTask">
+       <classpath>
+          <pathelement location="${bin}/${jjar.jar}"/>
+       </classpath>
+    </taskdef>
+
+    <jjar package="veltag" 
+          onlydependencies="true"  
+          verifyignore="true" 
+          localrepository="${local.repository}"
+          pathrefid="jjarclasspath"  >
+    </jjar>
+  
     <javac  srcdir="${source.home}/java"
-           destdir="${build.home}/classes"
-             debug="${compile.debug}"
-       deprecation="${compile.deprecation}"
-          optimize="${compile.optimize}">
-      <classpath refid="compile.classpath"/>
+            destdir="${build.home}/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}">
+        <classpath refid="jjarclasspath"/>
     </javac>
+
     <copy    todir="${build.home}/classes" filtering="on">
       <fileset dir="${source.home}/java" excludes="**/*.java"/>
     </copy>
