@@ -1681,7 +1681,7 @@ $count
 ## #include( "a.txt" ) renders as <contents of a.txt>
 #include( "a.txt" )
 
-## \#include( "a.txt" ) renders as \#include( "a.txt" )
+## \#include( "a.txt" ) renders as #include( "a.txt" )
 \#include( "a.txt" )
 
 ## \\#include ( "a.txt" ) renders as \<contents of a.txt>
@@ -1763,7 +1763,15 @@ Vyacheslav Ganelin
   </p>
 
   <p>
-  If <em>$jazz</em> is false, there is no output. Note that
+  If <em>$jazz</em> is false, the output is
+  </p>
+
+<source><![CDATA[
+\
+]]></source>
+
+  <p>
+  Note that
   things start to break if script elements are not properly escaped.
   </p>
 
