@@ -84,7 +84,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * 
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.4 $
+ * $Revision: 1.5 $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -108,10 +108,11 @@ public class JarResourceLoader extends ResourceLoader
     public void init(Configuration configuration)
     {
         Vector paths = configuration.getVector("resource.path");
+        Runtime.info("PATHS SIZE= " + paths.size() );
         
         for ( int i=0; i<paths.size(); i++ )
         {
-            loadJar( (String)paths.elementAt(i) );
+            loadJar( (String)paths.get(i) );
         }
         
         Runtime.info("JarResourceLoader initialized...");
@@ -119,6 +120,7 @@ public class JarResourceLoader extends ResourceLoader
     
     private void loadJar( String path )
     {
+        Runtime.info("Try to load: " + path);
         // Check path information
         if ( path == null )
         {
