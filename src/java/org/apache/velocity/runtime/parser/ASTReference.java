@@ -164,11 +164,21 @@ public class ASTReference extends SimpleNode
      * Return the literal string representation
      * of a reference. Used when a reference has
      * a null value.
+     *
+     * For a variable reference like $foo this isn't
+     * working. hmmm.
      */
     public String literal()
     {
         Token t = getFirstToken();
         StringBuffer sb = new StringBuffer(t.image);
+        
+        // Check to see if there are any children. If
+        // there aren't then we can return with the first
+        // token becasue it's a shorthand variable reference
+        // like $foo.
+        if (children == null)
+            return sb.toString();
         
         while(t.next != null && t.next.last == false)
         {
