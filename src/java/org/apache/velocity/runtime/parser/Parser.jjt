@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.15 2000/11/02 03:53:04 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.16 2000/11/03 03:26:32 geirm Exp $ 
 */
 public class Parser
 {
@@ -167,16 +167,19 @@ public class Parser
     {
         token_source.clearStateVars();
         ReInit(stream);  
-    
-       // return process();
+        return process();
 
-        SimpleNode n = null;
+        /*
+         * leave the following. Useful for debugging the parser.  thx - geir
+         */
 
-        try {
-            n = process();
-        } catch (Exception e ) { System.out.println( e ); }
-
-        return n;
+       //SimpleNode n = null;
+       //
+       // try {
+       //     n = process();
+       // } catch (Exception e ) { System.out.println( e ); }   
+       // 
+       //  return n;
     }        
 
     public void setDirectives(Hashtable directives)
@@ -472,7 +475,7 @@ TOKEN:
             SwitchTo( REFMOD2 ); 
     }
 
-|   <RPAREN: ")" (" ")* ("\n")?>
+|   <RPAREN: ")" (" ")* ( "\n" | "\r" | "\r\n" )?>
     {
        RPARENHandler();
     }    
@@ -490,14 +493,48 @@ TOKEN:
     }    
 }
 
+/*----------------------------------------------
+ *
+ *  escape "\\" handling for the built-in directives
+ *
+ *--------------------------------------------- */
+TOKEN:
+{
+    /*
+     *  We have to do this, because we want these to be a Text node, and
+     *  whatever follows to be peer to this text in the tree.
+     *  And we don't want to try an and deal with this w/in the AST.
+     *
+     *  This is really simplistic.  I actually would prefer to find them in
+     *  grammatical context, but I am neither smart nor rested, a receipe
+     *  for disaster, another long night with Mr. Parser, or both.
+     */
+
+     <ESCAPE_SET_DIRECTIVE : "\\#set">   
+     { matchedToken.image = "#set"; }
+|    <ESCAPE_IF_DIRECTIVE : "\\#if">   
+     { matchedToken.image = "#if"; }
+|    <ESCAPE_END_DIRECTIVE : "\\#end">   
+     { matchedToken.image = "#end"; }
+|    <ESCAPE_INCLUDE_DIRECTIVE: "\\#include"> 
+     { matchedToken.image = "#include"; }
+|    <ESCAPE_ELSEIF_DIRECTIVE: "\\#elseif">
+     { matchedToken.image = "#elseif"; }
+|    <ESCAPE_ELSE_DIRECTIVE: "\\#else"> 
+     { matchedToken.image = "#else"; }
+|    <ESCAPE_STOP_DIRECTIVE: "\\#stop">
+     { matchedToken.image = "#stop"; }
+
+}
+
 <*>
 MORE :
 {
-    //
-    //  Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
-    //
+    /*
+     *   Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
+     */
 
-    <DOLLAR: "$"> 
+    <DOLLAR: ("\\")? "$"> 
     { 
         if (! inComment)
         {
@@ -548,7 +585,7 @@ MORE :
         SwitchTo( IN_MULTI_LINE_COMMENT ); 
     } 
 
-|   <HASH : "#"> 
+|   <HASH : ("\\")? "#"> 
     { 
         if (! inComment)
         {
@@ -565,7 +602,7 @@ MORE :
 
 TOKEN :
 {
-    <ESCAPE_SEQUENCE: "\\" ~[] >
+    <ESCAPE: "\\">
 |   <TEXT: (~["$", "#", "\\"])+ >
 }    
 
@@ -581,7 +618,6 @@ TOKEN :
   { 
      inComment = false;
      stateStackPop();
-    // was :DEFAULT
   } 
 
 }
@@ -593,7 +629,6 @@ TOKEN :
   {     
     inComment = false;
     stateStackPop();
-    // was :DEFAULT
   } 
 }
 
@@ -604,7 +639,6 @@ TOKEN :
   { 
     inComment = false; 
     stateStackPop();
-    // was :DEFAULT
   } 
 }
 
@@ -641,10 +675,6 @@ TOKEN :
             pushFile(matchedToken.image);
         }
         incMode = false;
-    
-       // from jason :
-       // if (lparen == 0)
-       //     SwitchTo(DEFAULT);
     
         /*
          *  - if we are in REFERENCE || REFMODIFIER then " is an ender
@@ -706,7 +736,7 @@ TOKEN :
 <DIRECTIVE> 
 TOKEN :
 {
-    <END: "end" ("\n")?> 
+    <END: "end" ( "\n" | "\r" | "\r\n" )?> 
     { 
         inDirective = false; 
         stateStackPop();
@@ -760,7 +790,7 @@ TOKEN :
  *
  *  This is more than a single state, because of the  structure of
  *  the VTL references.  We use three states because the set of tokens
- *  for each state is different.
+ *  for each state can be different.
  *
  *  $foo.bar( "arg" )
  *  ^   ^   ^
@@ -817,7 +847,7 @@ SPECIAL_TOKEN :
          *  These can terminate a reference, but are needed in subsequent states
          */
 
-        if (image.toString().equals("=") || image.toString().equals("\n"))
+        if (image.toString().equals("=") || image.toString().equals("\n") || image.toString().equals("\r") )
         {
             input_stream.backup(1);
         } 
@@ -938,18 +968,31 @@ SimpleNode Directive() :
 }
 {
     /*
-     *  Get the directive identifier and check to see if this is a directive.
-     *   Note that because '#' is a <MORE> token, the identifier is preceeded by the '#'
+     *  There are two things we do here :
+     *  1) If the first char is a \, then this has been escaped, so don't 
+     *     continue.  We will take care of the rest in ASTDirective.java
+     *  2) Get the directive identifier and check to see if this is a directive.
+     *     Note that because '#' is a <MORE> token, the identifier is preceeded by the '#'
      */
+
     t = <WORD>
     {
-        d = (Directive) directives.get(t.image.substring(1));
-        
-        if (d == null)
+        if( t.image.startsWith("\\"))
         {
             token_source.stateStackPop();
             token_source.inDirective = false;
-            return jjtThis;
+            return jjtThis;            
+        }
+        else
+        {
+            d = (Directive) directives.get(t.image.substring(1));
+        
+            if (d == null)
+            {
+                token_source.stateStackPop();
+                token_source.inDirective = false;
+                return jjtThis;
+            }
         }            
     }
 
@@ -1040,11 +1083,14 @@ void Text() :
 |   <LPAREN>
 |   <NUMBER_LITERAL>
 |   <STRING_LITERAL>
-|   t = <ESCAPE_SEQUENCE>
-    {
-        t.image = t.image.substring(1);
-    }      
-
+|   <ESCAPE>
+|   <ESCAPE_SET_DIRECTIVE>
+|   <ESCAPE_IF_DIRECTIVE>
+|   <ESCAPE_END_DIRECTIVE>   
+|   <ESCAPE_INCLUDE_DIRECTIVE> 
+|   <ESCAPE_ELSEIF_DIRECTIVE>
+|   <ESCAPE_ELSE_DIRECTIVE> 
+|   <ESCAPE_STOP_DIRECTIVE>
 }
 
 /* -----------------------------------------------------------------------
@@ -1194,36 +1240,60 @@ void PrimaryExpression() #void : {}
 
 
 /* ======================================================================
- *
- *  Background
- *  ----------
- *
- *  VTL == Velocity Template Language
- *
- *  The problem with parsing VTL is that an input stream consists generally of little
- *  bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
- *  other languages, like C or Java, where the parser can punt whenever it encounters 
- *  input that doesn't conform to the grammar, the VTL parser can't do that.  
- *
- *  There are a few things that we do here :
- *    - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
- *    - define for each parser state a set of tokens for each state
- *    - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
- *  
- *  It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
- *  evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
- *  this documentation is in disagreement w/ the source, the source takes precedence.
- *
- *  Parser States
- *  -------------
- *  DEFAULT :  This is the base or starting state, and strangely enough, the default state.
- *
- *  DIRECTIVE : This state is triggered by the '#' character, and is used when processing both
- *     'defined' directives such as #if() #else #elseif() #end #set #foreach() as well as the 
- *     so-called 'pluggable' directives (PDs), which include #foreach(), #macro() etc.  The
- *     PDs are able to be implemented entirely outside of the parser.
- *      - with the exception of #set, #else and #else, the 'shape' of a directive is  
- *           #foo( optional args )
- *      - 
- */
+ 
+   Background
+   ----------
+ 
+   VTL == Velocity Template Language
+ 
+   The problem with parsing VTL is that an input stream consists generally of little
+   bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
+   other languages, like C or Java, where the parser can punt whenever it encounters 
+   input that doesn't conform to the grammar, the VTL parser can't do that.  
+ 
+   There are a few things that we do here :
+     - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
+     - define for each parser state a set of tokens for each state
+     - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
+   
+   It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
+   evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
+   this documentation is in disagreement w/ the source, the source takes precedence.
+ 
+   Parser States
+   -------------
+   DEFAULT :  This is the base or starting state, and strangely enough, the default state.
+ 
+   DIRECTIVE : This state is triggered by the '#' character, and is used when processing both
+      'defined' directives such as #if() #else #elseif() #end #set #foreach() as well as the 
+      so-called 'pluggable' directives (PDs), which include #foreach(), #macro() etc.  The
+      PDs are able to be implemented entirely outside of the parser.
+       - with the exception of #set, #else and #else, the 'shape' of a directive is  
+            #foo( optional args )
+       - 
+ 
+    (cont)
+
+    Escape Sequences
+    ----------------
+    The escape processing in VTL is very simple.  The '\' character acts only as an escape when :
+    
+        1) It preceeds a reference that is in the context.
+
+        2) It preceeds a defined directive (#set, #if, #end, etc) or a valid pluggable directive, 
+            such as #foreach
+
+    In all other cases the '\' is just another piece of text.  The purpose of this is to allow the non-VTL
+    parts of a template (the 'schmoo') to not have to be altered for processing by Velocity.
+
+    So if in the context $foo and $bar were defined and $woogie was not 
+        
+        \$foo  \$bar \$woogie
+
+    would output
+
+        $foo  $bar  \$woogie
+
+
+*/
  
