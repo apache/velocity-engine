@@ -3,7 +3,7 @@ package org.apache.velocity.context;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.2 2001/03/05 11:16:48 jvanzyl Exp $
+ * @version $Id: AbstractContext.java,v 1.3 2001/03/05 11:21:39 jvanzyl Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 

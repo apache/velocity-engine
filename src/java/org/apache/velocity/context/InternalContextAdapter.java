@@ -1,10 +1,9 @@
 package org.apache.velocity.context;
 
-
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,9 +64,10 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  I will rename soon :)
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalContextAdapter.java,v 1.2 2001/01/13 16:31:51 geirm Exp $
+ *  @version $Id: InternalContextAdapter.java,v 1.3 2001/03/05 11:21:41 jvanzyl Exp $
  */
 
-public interface InternalContextAdapter extends InternalHousekeepingContext, Context, InternalWrapperContext
+public interface InternalContextAdapter 
+    extends InternalHousekeepingContext, Context, InternalWrapperContext
 {
 }

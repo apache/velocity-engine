@@ -3,7 +3,7 @@ package org.apache.velocity.context;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.2 2001/02/05 04:30:02 geirm Exp $
+ *  @version $Id: InternalHousekeepingContext.java,v 1.3 2001/03/05 11:21:44 jvanzyl Exp $
  */
 interface InternalHousekeepingContext
 {

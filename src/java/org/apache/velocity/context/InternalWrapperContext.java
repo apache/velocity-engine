@@ -3,7 +3,7 @@ package org.apache.velocity.context;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ package org.apache.velocity.context;
  *  interface for internal context wrapping functionality
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalWrapperContext.java,v 1.1 2001/01/13 16:23:28 geirm Exp $ 
+ *  @version $Id: InternalWrapperContext.java,v 1.2 2001/03/05 11:21:45 jvanzyl Exp $ 
  */
 public interface InternalWrapperContext
 {
