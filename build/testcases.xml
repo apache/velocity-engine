@@ -76,6 +76,7 @@
                                    test-servlet,
                                    test-parser,
                                    test-resourceinstance,
+                                   test-foreachmethodcall,
                                    test-anakia 
                                    "/>
 
@@ -412,6 +413,16 @@
     <echo message="Running Resource Loader instance tests..."/>
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.ResourceLoaderInstanceTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+ <target name="test-foreachmethodcall">
+    <echo message="Running Foreach Method call tests..."/>
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ForeachMethodCallTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
