@@ -218,7 +218,7 @@ the user's guide to this document
 
 <p>
     <source><![CDATA[
-    #set $primate = "five assed monkey"
+    #set $primate = "monkey"
     #set $customer.Behavior = $primate 
     ]]></source>
 </p>
@@ -248,11 +248,24 @@ the user's guide to this document
 <p>
     <source><![CDATA[
     #set $monkey = $bill
-    #set $monkey.Sucker = "monica"
+    #set $monkey.Friend = "monica"
     #set $monkey.Blame = $whitehouse.Leak
     #set $monkey.Plan = $spindoctor.weave($web)
-    #set $monkey.Accomplice = 666
-    #set $monkey.Say = ["I", $will, "rise", $again]
+    #set $monkey.Number = 123
+    #set $monkey.Say = ["Not", $me]
+    ]]></source>
+</p>
+
+<p>
+    The RHS can also be a simple arithmetic expression:
+</p>    
+
+<p>
+    <source><![CDATA[
+    #set $value = $foo + 1
+    #set $value = $bar - 1
+    #set $value = $foo * $bar
+    #set $value = $foo / $bar
     ]]></source>
 </p>
 
