@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.7 2001/01/03 05:27:04 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.8 2001/02/27 03:24:23 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -77,6 +77,7 @@ public class ASTStringLiteral extends SimpleNode
     private boolean interpolate = true;
     private SimpleNode nodeTree = null;
     private String image = "";
+    private String interpolateimage = "";
 
     public ASTStringLiteral(int id)
     {
@@ -120,6 +121,12 @@ public class ASTStringLiteral extends SimpleNode
         
         image = getFirstToken().image.substring(1, getFirstToken().image.length() - 1);
 
+        /*
+         * tack a space on the end (dreaded <MORE> kludge)
+         */
+
+        interpolateimage = image + " ";
+
         return data;
     }
 
@@ -148,7 +155,7 @@ public class ASTStringLiteral extends SimpleNode
                 if (nodeTree == null)
                 {
                    
-                    ByteArrayInputStream inStream = new ByteArrayInputStream( image.getBytes() );
+                    ByteArrayInputStream inStream = new ByteArrayInputStream( interpolateimage.getBytes() );
   
                     /*
                      *  parse the stringlit
@@ -174,7 +181,14 @@ public class ASTStringLiteral extends SimpleNode
                  * and return the result as a String
                  */
 
-                return writer.toString();
+                String ret = writer.toString();
+
+                /*
+                 *  remove the space from the end (dreaded <MORE> kludge)
+                 */
+
+                return ret.substring(0, ret.length() - 1 );
+
             }
             catch( Exception e )
             {
