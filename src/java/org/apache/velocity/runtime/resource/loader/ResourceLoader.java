@@ -58,10 +58,11 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
+
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This is abstract class the all text resource loaders should
@@ -69,7 +70,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceLoader.java,v 1.9 2001/03/20 17:28:38 geirm Exp $
+ * @version $Id: ResourceLoader.java,v 1.10 2001/05/11 03:59:42 geirm Exp $
  */
 public abstract class ResourceLoader
 {
@@ -96,7 +97,7 @@ public abstract class ResourceLoader
      * loaders and must be called to set up common
      * properties shared by all resource loaders
      */
-    public void commonInit(Configuration configuration)
+    public void commonInit( ExtendedProperties configuration)
     {
         /*
          *  these two properties are not required for all loaders.
@@ -120,7 +121,7 @@ public abstract class ResourceLoader
      * Initialize the template loader with a
      * a resources class.
      */
-    public abstract void init(Configuration configuration);
+    public abstract void init( ExtendedProperties configuration);
 
     /** 
      * Get the InputStream that the Runtime will parse

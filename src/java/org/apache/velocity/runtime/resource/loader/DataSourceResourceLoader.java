@@ -64,10 +64,11 @@ import javax.sql.DataSource;
 import javax.naming.InitialContext;
 
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
+
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This is a simple template file loader that loads templates
@@ -94,7 +95,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.6 2001/03/20 00:55:03 jon Exp $
+ * @version $Id: DataSourceResourceLoader.java,v 1.7 2001/05/11 03:59:41 geirm Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -106,7 +107,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      private InitialContext ctx;
      private DataSource dataSource;
 
-     public void init(Configuration configuration)
+     public void init( ExtendedProperties configuration)
      {
          dataSourceName  = configuration.getString("resource.datasource");
          tableName       = configuration.getString("resource.table");

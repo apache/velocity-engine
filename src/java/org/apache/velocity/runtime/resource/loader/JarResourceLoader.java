@@ -71,16 +71,17 @@ import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
+
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * ResourceLoader to load templates from multiple Jar files.
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.9 2001/04/30 11:03:14 geirm Exp $
+ * @version $Id: JarResourceLoader.java,v 1.10 2001/05/11 03:59:41 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -101,7 +102,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * Called by Velocity to initialize the loader
      */
-    public void init(Configuration configuration)
+    public void init( ExtendedProperties configuration)
     {
         Vector paths = configuration.getVector("resource.path");
         Runtime.info("PATHS SIZE= " + paths.size() );

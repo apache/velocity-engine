@@ -65,11 +65,12 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
+
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This is a simple template file loader.
@@ -77,7 +78,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.11 2001/03/23 04:18:50 jvanzyl Exp $
+ * @version $Id: FileResourceLoader.java,v 1.12 2001/05/11 03:59:41 geirm Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -93,7 +94,7 @@ public class FileResourceLoader extends ResourceLoader
      */
     private Hashtable templatePaths = new Hashtable();
 
-    public void init(Configuration configuration)
+    public void init( ExtendedProperties configuration)
     {
         Runtime.info("FileResourceLoader : initialization starting.");
         

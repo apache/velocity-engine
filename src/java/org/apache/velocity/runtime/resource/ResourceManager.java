@@ -65,7 +65,6 @@ import java.io.IOException;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.ResourceFactory;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
@@ -73,6 +72,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * Class to manage the text resource for the Velocity
@@ -81,7 +81,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.26 2001/04/30 11:02:19 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.27 2001/05/11 04:00:29 geirm Exp $
  */
 public class ResourceManager
 {
@@ -150,7 +150,7 @@ public class ResourceManager
         
         for (int i = 0; i < sourceInitializerList.size(); i++)
         {
-            Configuration configuration = (Configuration) sourceInitializerList.get(i);
+            ExtendedProperties configuration = (ExtendedProperties) sourceInitializerList.get(i);
             String loaderClass = configuration.getString("class");
 
             resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
@@ -191,7 +191,7 @@ public class ResourceManager
             String loaderID = 
                 resourceLoaderNames.get(i) + "." + Runtime.RESOURCE_LOADER;
 
-            Configuration loaderConfiguration =
+            ExtendedProperties loaderConfiguration =
                 Runtime.getConfiguration().subset(loaderID);
 
             /*

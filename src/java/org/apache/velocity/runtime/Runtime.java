@@ -94,7 +94,7 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
-import org.apache.velocity.runtime.configuration.Configuration;
+import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -141,7 +141,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.109 2001/04/27 15:22:16 geirm Exp $
+ * @version $Id: Runtime.java,v 1.110 2001/05/11 04:00:58 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -174,7 +174,7 @@ public class Runtime implements RuntimeConstants
      * These are the properties that are laid down over top
      * of the default properties when requested.
      */
-    private static Configuration overridingProperties = null;
+    private static ExtendedProperties overridingProperties = null;
 
     /**
      * The logging systems initialization may be defered if
@@ -196,19 +196,19 @@ public class Runtime implements RuntimeConstants
 
     /**
      * Object that houses the configuration options for
-     * the velocity runtime. The Configuration object allows
+     * the velocity runtime. The ExtendedProperties object allows
      * the convenient retrieval of a subset of properties.
      * For example all the properties for a resource loader
-     * can be retrieved from the main Configuration object
+     * can be retrieved from the main ExtendedProperties object
      * using something like the following:
      *
-     * Configuration loaderConfiguration = 
+     * ExtendedProperties loaderConfiguration = 
      *         configuration.subset(loaderID);
      *
      * And a configuration is a lot more convenient to deal
      * with then conventional properties objects, or Maps.
      */
-    private static Configuration configuration = new Configuration();
+    private static ExtendedProperties configuration = new ExtendedProperties();
 
     /*
      * This is the primary initialization method in the Velocity
@@ -291,23 +291,23 @@ public class Runtime implements RuntimeConstants
     {
         if (overridingProperties == null)
         {
-            overridingProperties = new Configuration();
+            overridingProperties = new ExtendedProperties();
         }            
             
         overridingProperties.setProperty( key, value );
     }        
 
     /**
-     * Allow an external system to set a Configuration
+     * Allow an external system to set an ExtendedProperties
      * object to use. This is useful where the external
-     * system also uses the Configuration class and
+     * system also uses the ExtendedProperties class and
      * the velocity configuration is a subset of
      * parent application's configuration. This is
      * the case with Turbine.
      *
-     * @param Configuration configuration
+     * @param ExtendedProperties configuration
      */
-    public static void setConfiguration(Configuration configuration)
+    public static void setConfiguration( ExtendedProperties configuration)
     {
         if (overridingProperties == null)
         {
@@ -342,7 +342,7 @@ public class Runtime implements RuntimeConstants
     {
         if (overridingProperties == null)
         {
-            overridingProperties = new Configuration();
+            overridingProperties = new ExtendedProperties();
         }            
             
         overridingProperties.addProperty( key, value );
@@ -407,20 +407,20 @@ public class Runtime implements RuntimeConstants
      */
     public static void init(Properties p) throws Exception
     {
-        overridingProperties = Configuration.convertProperties(p);
+        overridingProperties = ExtendedProperties.convertProperties(p);
         init();
     }
     
     /**
      * Initialize the Velocity Runtime with the name of
-     * Configuration object.
+     * ExtendedProperties object.
      *
      * @param Properties
      */
     public static void init(String configurationFile)
         throws Exception
     {
-        overridingProperties = new Configuration(configurationFile);
+        overridingProperties = new ExtendedProperties(configurationFile);
         init();
     }
 
@@ -984,10 +984,10 @@ public class Runtime implements RuntimeConstants
     /**
      * Return the velocity runtime configuration object.
      *
-     * @return Configuration configuration object which houses
+     * @return ExtendedProperties configuration object which houses
      *                       the velocity runtime properties.
      */
-    public static Configuration getConfiguration()
+    public static ExtendedProperties getConfiguration()
     {
         return configuration;
     }        
