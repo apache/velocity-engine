@@ -80,10 +80,10 @@
  
    <p>
     You meet with software engineers at your company, and everyone
-    has agreed that <pre>$customer</pre> will hold information
+    has agreed that <variable>$customer</variable> will hold information
     pertaining to the customer currently logged in,
-    that <pre>$mudsOnSpecial</pre> will be all the types mud on sale at present.
-    The <pre>$flogger</pre> object contains methods that help with promotion.
+    that <variable>$mudsOnSpecial</variable> will be all the types mud on sale at present.
+    The <variable>$flogger</variable> object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
     references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -115,7 +115,7 @@
    </p>
  
    <p>
-    The exact details of the <pre>foreach</pre> statement will be described
+    The exact details of the <vtldirective>foreach</vtldirective> statement will be described
     in greater depth shortly; what's important is the impact this short 
     script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
@@ -162,27 +162,27 @@
  </p>
 
  <p>
-    This VTL statement, like all VTL statements, begins with the <pre>#</pre> 
-    character and contains a directive (<pre>set</pre>. When an online visitor requests 
+    This VTL statement, like all VTL statements, begins with the <directive>#</directive> 
+    character and contains a directive (<directive>set</directive>. When an online visitor requests 
     your web page, the Velocity Templating Engine will search through your web page to 
-    find all <pre>#</pre> characters, then determine which mark the beginning of VTL 
+    find all <variable>#</variable> characters, then determine which mark the beginning of VTL 
     statements, and which of the # characters that have nothing to do with VTL.
  </p>
 
  <p>
-    The <pre>#</pre> character is followed by a directive, <pre>set</pre>. The 
-    <pre>set</pre> directive uses an equation to assign a <em>value</em> to 
+    The <vtldirective>#</vtldirective> character is followed by a directive, <vtldirective>set</vtldirective>. The 
+    <variable>set</variable> directive uses an equation to assign a <em>value</em> to 
     a <em>variable</em>. The variable 
     is listed on the left hand side and its value on the right hand side; 
     the two are separated by an 
-    <pre>=</pre> character.
+    <variable>=</variable> character.
  </p>
  
  <p>
-    In the example above, the variable is <pre>$a</pre> and the value is
-    <pre>Velocity</pre>. References <em>always</em> begin with <pre>$</pre>
+    In the example above, the variable is <variable>$a</variable> and the value is
+    <variable>Velocity</variable>. References <em>always</em> begin with <variable>$</variable>
     characters; all variables are references, ergo all variables begin
-    with <pre>$</pre> characters.
+    with <variable>$</variable> characters.
     Values are always enclosed in quotes; with Velocity there is no confusion about
     data types, as only strings (text-based information) may be passed to variables.
  </p>
@@ -194,7 +194,7 @@
  <p>
     Once a value has been assigned to a variable, you can reference the 
     variable anywhere in your HTML document. In the following example, 
-    a value is assigned to <pre>$foo</pre> and later referenced.
+    a value is assigned to <variable>$foo</variable> and later referenced.
  </p>
 
  <p>
@@ -216,7 +216,7 @@
  <p>   
     To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
-    do so. The <pre>set</pre> directive will be revisited in greater detail 
+    do so. The <vtldirective>set</vtldirective> directive will be revisited in greater detail 
     later on.
  </p>
 
@@ -238,10 +238,10 @@
  </p>
  
  <p>
-    A single line comment begins with <pre>##</pre> and finishes at the end of the line.
+    A single line comment begins with <vtl>##</vtl> and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multi-line comments, which begin with <pre>#*</pre>
-    and end with <pre>*#</pre>, are available to handle this scenario.
+    single line comments. Multi-line comments, which begin with <vtl>#*</vtl>
+    and end with <vtl>*#</vtl>, are available to handle this scenario.
  </p>
  
  <p>
@@ -308,7 +308,7 @@
 
  <p>
     Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents $foo (such as an Integer object), 
+    If there is an object that represents <variable>$foo</variable> (such as an Integer object), 
     then Velocity will call its .toString() method to resolve the 
     object into a String.
  </p>
@@ -335,11 +335,11 @@
  </p>
 
  <p>
-    When VTL references a variable, such as <pre>$foo</pre>, the variable can 
-    get its value from either a <pre>set</pre> directive in the template, or from the
-    Java code. For example, if the Java variable <pre>$foo</pre>
-    has the value <pre>bar</pre> at the time the template is requested,
-    <pre>bar</pre> replaces all instances of <pre>$foo</pre> on the web 
+    When VTL references a variable, such as <variable>$foo</variable>, the variable can 
+    get its value from either a <vtldirective>set</vtldirective> directive in the template, or from the
+    Java code. For example, if the Java variable <variable>$foo</variable>
+    has the value <variable>bar</variable> at the time the template is requested,
+    <variable>bar</variable> replaces all instances of <variable>$foo</variable> on the web 
     page. Alternatively, if I include the statement
  </p>
     
@@ -350,7 +350,7 @@
  </p>
     
  <p>
-    the output will be the same for all instances of <pre>$foo</pre>
+    the output will be the same for all instances of <variable>$foo</variable>
     that follow this directive.
  </p>
   
@@ -358,7 +358,7 @@
  <strong>Properties</strong>
  <br/>
     The second flavor of VTL references are properties, and properties have
-    a distinctive format. The shorthand notation consists of a leading "$"
+    a distinctive format. The shorthand notation consists of a leading <vtl>$</vtl>
     character followed a VTL Identifier, followed by
     a dot character (".") and another VTL Identifier.
     These are examples of valid property references in the VTL:
@@ -372,14 +372,14 @@
  </p>   
 
  <p>
-    Take the first example, <pre>$customer.Address</pre>. It can 
+    Take the first example, <variable>$customer.Address</variable>. It can 
     have two meanings. It can mean,
-    Look in the hashtable identified as <pre>customer</pre> and return the
-    value associated with the key <pre>Address</pre>. But
-    <pre>$customer.Address</pre> can also be referring to a method (references 
+    Look in the hashtable identified as <variable>customer</variable> and return the
+    value associated with the key <variable>Address</variable>. But
+    <variable>$customer.Address</variable> can also be referring to a method (references 
     that refer to methods will be discussed
-    in the next section); <pre>$customer.Address</pre> could be an 
-    abbreviated way of writing <pre>$customer.getAddress()</pre>. 
+    in the next section); <variable>$customer.Address</variable> could be an 
+    abbreviated way of writing <variable>$customer.getAddress()</variable>. 
     When your page is requested, Velocity will determine which of these 
     two possibilities makes sense, and then return the appropriate value.
  </p>
@@ -410,17 +410,17 @@
 
  <p>
     The first two examples -- 
-    <pre>$customer.getAddress()</pre> and <pre>$purchase.getTotal()</pre> 
+    <variable>$customer.getAddress()</variable> and <variable>$purchase.getTotal()</variable> 
     -- may look similiar to those used in the Properties section above,
-    <pre>$customer.Address</pre>
-    and <pre>$purchase.Total</pre>. If you guessed that these examples must
+    <variable>$customer.Address</variable>
+    and <variable>$purchase.Total</variable>. If you guessed that these examples must
     be related some in some fashion, you are correct! 
  </p>
  
  <p>
     VTL Properties can be used as a shorthand notation for VTL Methods. The
-    Property $customer.Address has the exact same effect as
-    using the Method $customer.getAddress(). It is generally preferable
+    Property <variable>$customer.Address</variable> has the exact same effect as
+    using the Method <variable>$customer.getAddress()</variable>. It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
  </p>
@@ -495,9 +495,9 @@
  </p>
  
  <p>
-    There is ambiguity here, and Velocity assumes that $vicemaniac,
-    not $vice, is the Identifier that you mean to use. Finding no
-    value for $vicemaniac, it will return <pre>$vicemaniac</pre>.
+    There is ambiguity here, and Velocity assumes that <variable>$vicemaniac</variable>,
+    not <variable>$vice</variable>, is the Identifier that you mean to use. Finding no
+    value for <variable>$vicemaniac</variable>, it will return <variable>$vicemaniac</variable>.
     Using formal notation can resolve this problem.
  </p>
  
@@ -508,7 +508,7 @@
  </p>
  
  <p>
-    Now Velocity knows that $vice, not $vicemaniac, is your
+    Now Velocity knows that <variable>$vice</variable>, not <variable>$vicemaniac</variable>, is your
     Identifier. Formal notation is often useful when references
     are directly adjacent to text in your templates.
  </p>
@@ -531,11 +531,11 @@
  
  <p>
     When the form initially loads, the variable
-    reference <pre>$email</pre> has no value, but you prefer
+    reference <variable>$email</variable> has no value, but you prefer
     a blank text field to one with a value of "$email".
     Using the quiet reference notation circumvents Velocity's
     normal behavior; instead of using $email in the
-    VTL you would use $!email. So the above example
+    VTL you would use <variable>$!email</variable>. So the above example
     would look like the following:
  </p>
  
@@ -547,7 +547,7 @@
  
  <p>
     Now when the form is initially loaded and
-    $email still has no value, an empty string will
+    <variable>$email</variable> still has no value, an empty string will
     be output instead of "$email".
  </p>
 
@@ -567,7 +567,7 @@
 <s1 title="Getting literal">
 
   <p>
-    VTL uses special characters, such as $ and #, to do its work, so some
+    VTL uses special characters, such as <vtl>$</vtl> and <vtl>#</vtl>, to do its work, so some
     added care should be taken where using these characters in your 
     templates.
   </p>
@@ -592,8 +592,8 @@
   
   <p>
     If Velocity encounters in your VTL template a reference to 
-    <pre>$email</pre>, it will search for a corresponding value, but
-    when the escape character is used, <pre>$email</pre> is treated
+    <variable>$email</variable>, it will search for a corresponding value, but
+    when the escape character is used, <variable>$email</variable> is treated
     as ordinary text
   </p>
   
@@ -604,22 +604,11 @@
   </p>
  
   <p>
-    Velocity treats <pre>$</pre> as a literal rather than a special 
-    character, <pre>$email</pre> as text rather than a reference, 
+    Velocity treats <variable>$</variable> as a literal rather than a special 
+    character, <variable>$email</variable> as text rather than a reference, 
     and doesn't even attempt to find a corresponding value.
   </p>
  
-  <p>
-    And what if -- for instance you are writing documentation for
-    the Windows platform -- and you want to print a backslash character?
-    Just escape one backslash character with another, as shown:
-  </p>
-  
-  <p>
-    <source><![CDATA[
-    c:\\winnt\\system32
-    ]]></source>
-  </p>
 </s1>
 
 <s1 title="Summary: References">
@@ -676,7 +665,7 @@
  <p>
     <strong>#set</strong>
     <br/>
-    The #set directive is used for setting the value of
+    The <vtldirective>#set</vtldirective> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference:
  </p>
@@ -736,8 +725,8 @@
  </p>
 
  <p>
-    Unlike some directive that will be discussed below, the <pre>set</pre> directive 
-    does not have a <pre>#end</pre> statement. The <pre>set</pre> statement <em>must</em> 
+    Unlike some directive that will be discussed below, the <vtldirective>set</vtldirective> directive 
+    does not have a <vtldirective>#end</vtldirective> statement. The <vtldirective>set</vtldirective> statement <em>must</em> 
     end with a newline character (obtained by pressing Enter); it cannot be used inline.
  </p>
 
@@ -745,7 +734,7 @@
 
     <strong>If / ElseIf / Else</strong>
     <p>
-       The #if statement in Velocity allows for text to be 
+       The <vtldirective>#if</vtldirective> directive in Velocity allows for text to be 
        included when the web page is generated, on the conditional 
        that the if statement is true. For example:
     </p>
@@ -759,21 +748,21 @@
     </p>
 
     <p>
-      The variable $foo is evaluated to determine whether it is true, which will happen 
-      under one of two circumstances: (i) $foo is a boolean (true/false) which 
+      The variable <variable>$foo</variable> is evaluated to determine whether it is true, which will happen 
+      under one of two circumstances: (i) <variable>$foo</variable> is a boolean (true/false) which 
       has a true value, or (ii) the value is not null. The content between the 
-      <pre>#if</pre> and the <pre>#end</pre> statements become the output if 
-      the evaluation is true. In this case, if <pre>$foo</pre> is true, the
-      output will be: "Velocity!". Conversely, if <pre>$foo</pre> has a null 
+      <vtldirective>#if</vtldirective> and the <vtldirective>#end</vtldirective> statements become the output if 
+      the evaluation is true. In this case, if <variable>$foo</variable> is true, the
+      output will be: "Velocity!". Conversely, if <variable>$foo</variable> has a null 
       value, or if it is a boolean false, the statement evaluates as false, and
       there is no output.
     </p>
     
     <p>
-      An #elseif or #else element can be used with an #if element. Note that 
+      An <vtldirective>#elseif</vtldirective> or <vtldirective>#else</vtldirective> element can be used with an <vtldirective>#if</vtldirective> element. Note that 
       the Velocity Templating Engine will stop at the first expression that is
-      found to be true. In the following example, suppose that $foo has a 
-      value of 15 and $bar has a value of 6.
+      found to be true. In the following example, suppose that <variable>$foo</variable> has a 
+      value of 15 and <variable>$bar</variable> has a value of 6.
     </p>
 
     <p>
@@ -791,11 +780,11 @@
     </p>
     
     <p>
-    In this example, $foo is greater than or equal to 10, so the Velocity
-    Templating Engine makes the output of the if-statment
-    statement <strong>Go East</strong>. If $foo had a value of 10 and $bar
-    had a value of 6.1, then $foo is neither greater than 10 nor equal to 
-    10, and $bar is not equal to 6. All if and elseif statements are false,
+    In this example, <variable>$foo</variable> is greater than or equal to 10, so the Velocity
+    Templating Engine makes the output of the if 
+    statement <strong>Go East</strong>. If <variable>$foo</variable> had a value of 10 and <variable>$bar</variable>
+    had a value of 6.1, then <variable>$foo</variable> is neither greater than 10 nor equal to 
+    10, and <variable>$bar</variable> is not equal to 6. All if and elseif statements are false,
     so the output is <strong>Go West</strong>. 
     </p>
 
@@ -817,13 +806,13 @@
     </p>
     
     <p>
-      The if statement will only evaluate to true if both $foo and 
-      $bar are true. If $foo is false, the expression will evaluate
-      to false; $bar will not be evaluated. If $foo is true, the
-      Velocity Templating Engine will then check the value of $bar;
-      if $bar is true, then the entire expression is
+      The if statement will only evaluate to true if both <variable>$foo</variable> and 
+      <variable>$bar</variable> are true. If <variable>$foo</variable> is false, the expression will evaluate
+      to false; <variable>$bar</variable> will not be evaluated. If <variable>$foo</variable> is true, the
+      Velocity Templating Engine will then check the value of <variable>$bar</variable>;
+      if <variable>$bar</variable> is true, then the entire expression is
       true and <strong>Velocity Rocks!</strong> becomes the output.
-      If $bar is false, then there will be no output; the entire
+      If <variable>$bar</variable> is false, then there will be no output; the entire
       expression is false.
     </p>
     
@@ -843,13 +832,13 @@
     </p>
       
     <p>
-      If $foo is true, the Velocity Templating Engine has no 
-      need to look at $bar; whether $bar is true or false, the
+      If <variable>$foo</variable> is true, the Velocity Templating Engine has no 
+      need to look at <variable>$bar</variable>; whether <variable>$bar</variable> is true or false, the
       expression will be true, and <strong>Velocity Rocks 
-      Again!</strong> will be output. If $foo is false, however,
-      $bar must be checked. In this case, if $bar is also false, 
+      Again!</strong> will be output. If <variable>$foo</variable> is false, however,
+      <variable>$bar</variable> must be checked. In this case, if <variable>$bar</variable> is also false, 
       the expression evaluates to false and there is no output.
-      On the other hand, if $bar is true, then the entire 
+      On the other hand, if <variable>$bar</variable> is true, then the entire 
       expression is true, and the output is <strong>Velocity Rocks 
       Again!</strong>
     </p>
@@ -859,7 +848,7 @@
  <s1 title="Loops">
     <strong>Foreach Loop</strong>
     <p>
-    The #foreach element allows for looping. For example:
+    The <vtldirective>#foreach</vtldirective> element allows for looping. For example:
     </p>
 
     <p>
@@ -873,26 +862,26 @@
     </p>
 
     <p>
-    This #foreach loop causes the $allProducts list (the object) to be 
+    This <vtldirective>#foreach</vtldirective> loop causes the <variable>$allProducts</variable> list (the object) to be 
     looped over for all of the products (targets) in the list. Each time 
-    through the loop, the value from $allProducts is placed into the 
-    $product variable.
+    through the loop, the value from <variable>$allProducts</variable> is placed into the 
+    <variable>$product</variable> variable.
     </p>
     
     <p>
-    The contents of the $allProducts variable is a Vector, a Hashtable 
-    or an Array. The value assigned to the $product variable is a Java
+    The contents of the <variable>$allProducts</variable> variable is a Vector, a Hashtable 
+    or an Array. The value assigned to the <variable>$product</variable> variable is a Java
     Object and can be referenced from a variable as such. For example, if 
-    $product was really a Product class in Java, its name could be retrieved
-    by referencing the $product.Name method (ie: Product.getName()).
+    <variable>$product</variable> was really a Product class in Java, its name could be retrieved
+    by referencing the <variable>$product.Name</variable> method (ie: <variable>$Product.getName()</variable>).
     </p>
 
  </s1>    
 
  <s1 title="Include">
     <p>
-    The #include script element allows the template designer to import a 
-    local file, which is then inserted into the location where the #include 
+    The <vtldirective>#include</vtldirective> script element allows the template designer to import a 
+    local file, which is then inserted into the location where the <vtldirective>#include</vtldirective> 
     directive is defined. The contents of the file are not rendered through 
     the template engine.
     </p>
@@ -908,7 +897,7 @@
 
  <s1 title="Stop">
     <p>
-    The #stop script element allows the template designer to stop the execution
+    The <vtldirective>#stop</vtldirective> script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
     </p>
     
@@ -921,7 +910,7 @@
 
  <s1 title="Macro">
     <p>
-    With the #macro script element, the template designer can define a 
+    With the <vtldirective>#macro</vtldirective> script element, the template designer can define a 
     timesaving macro. 
     </p>    
     
@@ -934,7 +923,7 @@
     <p>
     This establishes a macro called "row", which uses HTML tags to
     put content into its own table data cell in an HTML table. Having 
-    defined the #row macro, the template designer can now call the #row 
+    defined the <code>#row</code> macro, the template designer can now call the <code>#row</code> 
     macro by name.
     </p>
     
@@ -949,10 +938,10 @@
     </p>
     
     <p>
-    Here a newly created #row macro is nested inside a #foreach
-    statement. As the #foreach statement loops through each $element
-    target in the $list object, the #row macro will take the value of
-    $element and put it into its table data cell.
+    Here a newly created <code>#row</code> macro is nested inside a <vtldirective>#foreach</vtldirective>
+    statement. As the <vtldirective>#foreach</vtldirective> statement loops through each <variable>$element</variable>
+    target in the <variable>$list</variable> object, the <code>#row</code> macro will take the value of
+    <variable>$element</variable> and put it into its table data cell.
     </p>
     
  </s1>

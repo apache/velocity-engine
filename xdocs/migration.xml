@@ -31,14 +31,14 @@
 <s1 title="WebMacro to Velocity Template Converter">
 
 <p>
-    The <pre>convert-wm.sh</pre> script in the <pre>convert</pre> directory
-    converts a single WebMacro template (<pre>*.wm</pre>) to a Velocity 
-    template (<pre>*.vm</pre>), or converts an entire directory structure 
+    The <filename>convert-wm.sh</filename> script in the <filename>convert</filename> directory
+    converts a single WebMacro template (<filename>*.wm</filename>) to a Velocity 
+    template (<filename>*.vm</filename>), or converts an entire directory structure 
     of WebMacro templates to Velocity templates.
 </p>
 
 <p>
-    The <pre>convert-wm.sh</pre> script can convert a single
+    The <filename>convert-wm.sh</filename> script can convert a single
     WebMacro template to a Velocity template.
 </p>
 
@@ -50,13 +50,13 @@
 
 <p>
     This will produce a single Velocity template named
-    <pre>template.vm</pre> from the WebMacro template <pre>template.wm</pre>. 
+    <filename>template.vm</filename> from the WebMacro template <filename>template.wm</filename>. 
     The original WebMacro template will be preserved. 
 </p>
 
 <p>
     To convert an entire directory structure of WebMacro templates using
-    the <pre>convert-wm.sh</pre> script, simply include the directory
+    the <filename>convert-wm.sh</filename> script, simply include the directory
     name instead of the template name, as indicated below.
 </p>
 
@@ -68,7 +68,7 @@
 
 <p>
     This will produce a directory structure of templates
-    named <pre>templates.vm</pre>. The original WebMacro templates will be
+    named <filename>templates.vm</filename>. The original WebMacro templates will be
     preserved during the conversion process.
 </p>
 </s1>

@@ -30,7 +30,7 @@
 <s1 title="Compiling">
 
 <p>
-    On Unix/Linux, sh to the <pre>velocity/build</pre> directory and execute the following 
+    On Unix/Linux, <code>sh</code> to the <filename>velocity/build</filename> directory and execute the following 
     script:
 </p>    
 
@@ -42,26 +42,20 @@
 </p>
 
 <p>
-    On Windows, execute the following script in the <pre>velocity\build</pre> directory:
+    On Windows, executing <code>build-velocity.bat</code>, found in the <filename>velocity\build</filename> directory,
+    will have the same effect.
 </p>
 
 <p>
-<source><![CDATA[
-
-build-velocity.bat
-]]></source>
-</p>
-
-<p>
-    Executing this script will create a <pre>bin</pre> directory within the Velocity
-    distribution directory. The <pre>bin</pre> directory will contain the compiled class 
-    files (inside a <pre>classes</pre> directory) as well as a <pre>velocity.jar</pre> file. 
+    Executing this script will create a <filename>bin</filename> directory within the Velocity
+    distribution directory. The <filename>bin</filename> directory will contain the compiled class 
+    files (inside a <filename>classes</filename> directory) as well as a <filename>velocity.jar</filename> file. 
     Be sure to update your classpath to include Velocity's .jar file.
 </p>
 
 <p>
     If you get a compiler error related to one or more packages that could not 
-    be found, ensure the <pre>build-velocity</pre> script you are using is edited to 
+    be found, ensure the <filename>build-velocity</filename> script you are using is edited to 
     properly specify the paths to each of the packages that could not be found.
 </p>
 
@@ -70,7 +64,7 @@ build-velocity.bat
 <s1 title="Testing Your Installation">
 
 <p>
-    There are testing scripts in the <pre>velocity/examples</pre> directory.
+    There are testing scripts in the <filename>velocity/examples</filename> directory.
 </p>
 
 </s1>

@@ -31,7 +31,7 @@
 
 <p>    
     If you are working on Unix/Linux and would like to create a full set 
-    of detailed API documentation for Velocity, go to the "build" directory
+    of detailed API documentation for Velocity, go to the <filename>build</filename> directory
     and run the following script.
     
     <source><![CDATA[
@@ -40,15 +40,8 @@
     
     ]]></source>
     
-    If you are working on Windows, the following command will have the same 
-    effect.
-    
-    <source><![CDATA[
-    
-    build-velocity.bat javadocs
-    
-    ]]></source>
-     
+    If you are working on Windows, running <code>build-velocity.bat javadocs</code> at the 
+    DOS prompt will have the same effect.
 </p>
 
 </s1>
