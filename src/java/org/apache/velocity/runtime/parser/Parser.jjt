@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.79 2003/10/29 11:18:58 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.80 2003/12/23 13:28:36 geirm Exp $
 */
 public class Parser
 {
@@ -809,7 +809,7 @@ SKIP :
 <DIRECTIVE,REFMOD2>
 TOKEN:
 {
-    <WHITESPACE : ([" ","\t"])+ >
+    <WHITESPACE : ([" ","\t", "\n", "\r"])+ >
 }
 
 <DIRECTIVE,REFMOD2>
