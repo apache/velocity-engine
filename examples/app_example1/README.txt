@@ -17,3 +17,6 @@ template provided (example.vm):
 
   ./example.sh
 
+or
+
+  example.bat
