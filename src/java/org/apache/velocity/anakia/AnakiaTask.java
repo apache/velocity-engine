@@ -54,40 +54,43 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
-// JDK Stuff
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 
-// Ant Stuff
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.taskdefs.*;
+import java.util.StringTokenizer;
 
-// JDOM Stuff
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
-// Velocity Stuff
-import org.apache.velocity.*;
+import org.apache.velocity.Context;
+import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 
 /**
-    The purpose of this Ant Task is to allow you to use 
-    Velocity as an XML transformation tool like XSLT is.
-    So, instead of using XSLT, you will be able to use this 
-    class instead to do your transformations. It works very
-    similar in concept to Ant's &lt;style&gt; task.
-    <p>
-    You can find more documentation about this class on the
-    Velocity 
-    <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
-    
-    @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.10 2000/11/27 01:06:59 jon Exp $
-*/
+ * The purpose of this Ant Task is to allow you to use 
+ * Velocity as an XML transformation tool like XSLT is.
+ * So, instead of using XSLT, you will be able to use this 
+ * class instead to do your transformations. It works very
+ * similar in concept to Ant's &lt;style&gt; task.
+ * <p>
+ * You can find more documentation about this class on the
+ * Velocity 
+ * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
+ *   
+ * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: AnakiaTask.java,v 1.11 2000/12/20 07:29:09 jvanzyl Exp $
+ */
 public class AnakiaTask extends MatchingTask
 {
     /** Default SAX Driver class to use */
@@ -99,20 +102,25 @@ public class AnakiaTask extends MatchingTask
 
     /** the destination directory */
     private File destDir = null;
+    
     /** the base directory */
     private File baseDir = null;
 
     /** the style= attribute */
     private String style = null;
+    
     /** the File to the style file */
     private File styleFile = null;
+    
     /** last modified of the style sheet */
     private long styleSheetLastModified = 0;
 
     /** the projectFile= attribute */
     private String projectAttribute = null;
+    
     /** the File for the project.xml file */
     private File projectFile = null;
+    
     /** last modified of the project file if it exists */
     private long projectFileLastModified = 0;
 
@@ -126,8 +134,8 @@ public class AnakiaTask extends MatchingTask
     private File velocityPropertiesFile = null;
 
     /**
-        Constructor creates the SAXBuilder.
-    */
+     * Constructor creates the SAXBuilder.
+     */
     public AnakiaTask()
     {
         builder = new SAXBuilder(DEFAULT_SAX_DRIVER_CLASS);
@@ -135,54 +143,59 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Set the base directory.
-    **/
+     */
     public void setBasedir(File dir)
     {
         baseDir = dir;
     }
+    
     /**
      * Set the destination directory into which the VSL result
      * files should be copied to
      * @param dirName the name of the destination directory
-    **/
+     */
     public void setDestdir(File dir)
     {
         destDir = dir;
     }
+    
     /**
-        Allow people to set the default output file extension
-    */
+     * Allow people to set the default output file extension
+     */
     public void setExtension(String extension)
     {
         this.extension = extension;
     }
+    
     /**
-        Allow people to set the path to the .vsl file
-    */
+     * Allow people to set the path to the .vsl file
+     */
     public void setStyle(String style)
     {
         this.style = style;
     }
     /**
-        Allow people to set the path to the project.xml file
-    */
+     * Allow people to set the path to the project.xml file
+     */
     public void setProjectFile(String projectAttribute)
     {
         this.projectAttribute = projectAttribute;
     }
+    
     /**
-        Allow people to set the path to the velocity.properties file
-        This file is found relative to the path where the JVM was run.
-        For example, if build.sh was executed in the ./build directory, 
-        then the path would be relative to this directory.
-    */
+     * Allow people to set the path to the velocity.properties file
+     * This file is found relative to the path where the JVM was run.
+     * For example, if build.sh was executed in the ./build directory, 
+     * then the path would be relative to this directory.
+     */
     public void setVelocityPropertiesFile(File velocityPropertiesFile)
     {
         this.velocityPropertiesFile = velocityPropertiesFile;
     }
+    
     /**
-        Turn on/off last modified checking. by default, it is on.
-    */
+     * Turn on/off last modified checking. by default, it is on.
+     */
     public void setLastModifiedCheck(String lastmod)
     {
         if (lastmod.equalsIgnoreCase("false") || lastmod.equalsIgnoreCase("no") 
@@ -193,8 +206,8 @@ public class AnakiaTask extends MatchingTask
     }
 
     /**
-        Main body of the application
-    */
+     * Main body of the application
+     */
     public void execute () throws BuildException
     {
         DirectoryScanner scanner;
@@ -262,8 +275,8 @@ public class AnakiaTask extends MatchingTask
     }    
     
     /**
-        Process an XML file using Velocity
-    */
+     * Process an XML file using Velocity
+     */
     private void process(File baseDir, String xmlFile, File destDir)
         throws BuildException
     {
@@ -351,11 +364,12 @@ public class AnakiaTask extends MatchingTask
             }
         }
     }
+    
     /**
-        hacky method to figure out the relative path
-        that we are currently in. This is good for getting
-        the relative path for images and anchor's.
-    */
+     * Hacky method to figure out the relative path
+     * that we are currently in. This is good for getting
+     * the relative path for images and anchor's.
+     */
     private String getRelativePath(String file)
     {
         if (file == null || file.length()==0)
@@ -373,9 +387,10 @@ public class AnakiaTask extends MatchingTask
         else
             return ".";    
     }
+    
     /**
-        create directories as needed
-    */
+     * create directories as needed
+     */
     private void ensureDirectoryFor( File targetFile ) throws BuildException {
         File directory = new File( targetFile.getParent() );
         if (!directory.exists()) {
