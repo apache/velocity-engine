@@ -1,9 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.2 2000/11/04 03:08:20 jon Exp $
- * $Revision: 1.2 $
- * $Date: 2000/11/04 03:08:20 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.3 2000/11/04 04:58:28 jon Exp $
+ * $Revision: 1.3 $
+ * $Date: 2000/11/04 04:58:28 $
  *
  * ====================================================================
  * 
@@ -62,9 +62,7 @@ package org.apache.velocity.io;
  */ 
 
 import java.io.IOException;
-import java.io.Writer;
-
-import javax.servlet.ServletResponse;
+import java.io.OutputStreamWriter;
 
 /**
  * Write text to a character-output stream, buffering characters so as
@@ -79,11 +77,9 @@ import javax.servlet.ServletResponse;
  *
  * @author Anil K. Vijendran
  */
-public class JspWriterImpl extends JspWriter
+public final class JspWriterImpl extends JspWriter
 {
-    private Writer out;
-
-    private ServletResponse response;
+    private OutputStreamWriter writer;
     
     private char cb[];
     private int nextChar;
@@ -92,20 +88,15 @@ public class JspWriterImpl extends JspWriter
 
     private boolean flushed = false;
 
-    public JspWriterImpl() 
-    {
-        super( defaultCharBufferSize, true );
-    }
-
     /**
      * Create a buffered character-output stream that uses a default-sized
      * output buffer.
      *
      * @param  response  A Servlet Response
      */
-    public JspWriterImpl(ServletResponse response)
+    public JspWriterImpl(OutputStreamWriter writer)
     {
-        this(response, defaultCharBufferSize, true);
+        this(writer, defaultCharBufferSize, true);
     }
 
     /**
@@ -117,23 +108,24 @@ public class JspWriterImpl extends JspWriter
      *
      * @exception  IllegalArgumentException  If sz is <= 0
      */
-    public JspWriterImpl(ServletResponse response, int sz, boolean autoFlush)
+    public JspWriterImpl(OutputStreamWriter writer, int sz, boolean autoFlush)
     {
         super(sz, autoFlush);
         if (sz < 0)
             throw new IllegalArgumentException("Buffer size <= 0");
-	this.response = response;
+        this.writer = writer;
         cb = sz == 0 ? null : new char[sz];
-	nextChar = 0;
+        nextChar = 0;
     }
 
-    void init( ServletResponse response, int sz, boolean autoFlush ) {
-	this.response= response;
-	if( sz > 0 && ( cb == null || sz > cb.length ) )
-	    cb=new char[sz];
-	nextChar = 0;
-	this.autoFlush=autoFlush;
-	this.bufferSize=sz;
+    private final void init( OutputStreamWriter writer, int sz, boolean autoFlush )
+    {
+        this.writer= writer;
+        if( sz > 0 && ( cb == null || sz > cb.length ) )
+            cb=new char[sz];
+        nextChar = 0;
+        this.autoFlush=autoFlush;
+        this.bufferSize=sz;
     }
 
     /**
@@ -141,60 +133,40 @@ public class JspWriterImpl extends JspWriter
      * flushing the stream itself.  This method is non-private only so that it
      * may be invoked by PrintStream.
      */
-    protected final void flushBuffer() throws IOException {
-            if (bufferSize == 0)
-                return;
-            flushed = true;
-	    if (nextChar == 0)
-		return;
-            initOut();
-            out.write(cb, 0, nextChar);
-	    nextChar = 0;
+    private final void flushBuffer() throws IOException
+    {
+        if (bufferSize == 0)
+            return;
+        flushed = true;
+        if (nextChar == 0)
+            return;
+        writer.write(cb, 0, nextChar);
+        nextChar = 0;
     }
-
-    protected void initOut() throws IOException {
-        if (out == null) {
-            out = response.getWriter();
-	    //System.out.println("JspWriterImpl: initOut: " + this + " " +out);
-	}
-    }
-	
 
     /**
      * Discard the output buffer.
      */
-    public final void clear() throws IOException {
-            if (bufferSize == 0)
-                throw new IllegalStateException("ise_on_clear");
-                //throw new IllegalStateException(Constants.getString("jsp.error.ise_on_clear"));
-            if (flushed)
-                throw new IOException("attempt_to_clear_flushed_buffer");
-                //throw new IOException(Constants.getString("jsp.error.attempt_to_clear_flushed_buffer"));
-	    nextChar = 0;
+    public final void clear()
+    {
+        nextChar = 0;
     }
 
-    public void clearBuffer() throws IOException {
-            if (bufferSize == 0)
-                throw new IllegalStateException("ise_on_clear");
-                //throw new IllegalStateException(Constants.getString("jsp.error.ise_on_clear"));
-	    nextChar = 0;
-    }
-
-    private final void bufferOverflow() throws IOException {
+    private final void bufferOverflow() throws IOException
+    {
         throw new IOException("overflow");
-        //throw new IOException(Constants.getString("jsp.error.overflow"));
     }
 
     /**
      * Flush the stream.
      *
      */
-    public void flush()  throws IOException {
-            flushBuffer();
-            if (out != null) {
-                out.flush();
-		// Also flush the response buffer.
-		response.flushBuffer();
+    public final void flush()  throws IOException
+    {
+        flushBuffer();
+        if (writer != null)
+        {
+            writer.flush();
         }
     }
 
@@ -202,56 +174,49 @@ public class JspWriterImpl extends JspWriter
      * Close the stream.
      *
      */
-    public void close() throws IOException {
-            if (response == null)
-                return;
-            flush();
-            if (out != null)
-                out.close();
-            out = null;
-	    //            cb = null;
+    public final void close() throws IOException {
+        if (writer == null)
+            return;
+        flush();
     }
 
     /**
      * @return the number of bytes unused in the buffer
      */
-    public int getRemaining() {
+    public final int getRemaining()
+    {
         return bufferSize - nextChar;
     }
-
-    /** check to make sure that the stream has not been closed */
-    protected void ensureOpen() throws IOException {
-	if (response == null)
-	    throw new IOException("Stream closed");
-    }
-
 
     /**
      * Write a single character.
      *
      */
-    public void write(int c) throws IOException {
-            if (bufferSize == 0) {
-                initOut();
-                out.write(c);
-            }
-            else {
-                if (nextChar >= bufferSize)
-                    if (autoFlush)
-                        flushBuffer();
-                    else
-                        bufferOverflow();
-                cb[nextChar++] = (char) c;
-            }
+    public final void write(int c) throws IOException
+    {
+        if (bufferSize == 0)
+        {
+            writer.write(c);
+        }
+        else
+        {
+            if (nextChar >= bufferSize)
+                if (autoFlush)
+                    flushBuffer();
+                else
+                    bufferOverflow();
+            cb[nextChar++] = (char) c;
+        }
     }
 
     /**
      * Our own little min method, to avoid loading java.lang.Math if we've run
      * out of file descriptors and we're trying to print a stack trace.
      */
-    private int min(int a, int b) {
-	if (a < b) return a;
-	return b;
+    private final int min(int a, int b)
+    {
+	    if (a < b) return a;
+    	    return b;
     }
 
     /**
@@ -269,55 +234,55 @@ public class JspWriterImpl extends JspWriter
      * @param  len   Number of characters to write
      *
      */
-    public void write(char cbuf[], int off, int len) 
+    public final void write(char cbuf[], int off, int len) 
         throws IOException 
     {
-            if (bufferSize == 0) {
-                initOut();
-                out.write(cbuf, off, len);
-                return;
-            }
+        if (bufferSize == 0)
+        {
+            writer.write(cbuf, off, len);
+            return;
+        }
 
-            if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-                ((off + len) > cbuf.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return;
-            } 
+        if (len == 0)
+        {
+            return;
+        } 
 
-            if (len >= bufferSize) {
-                /* If the request length exceeds the size of the output buffer,
-                   flush the buffer and then write the data directly.  In this
-                   way buffered streams will cascade harmlessly. */
+        if (len >= bufferSize)
+        {
+            /* If the request length exceeds the size of the output buffer,
+            flush the buffer and then write the data directly.  In this
+            way buffered streams will cascade harmlessly. */
+            if (autoFlush)
+                flushBuffer();
+            else
+                bufferOverflow();
+                writer.write(cbuf, off, len);
+            return;
+        }
+
+        int b = off, t = off + len;
+        while (b < t)
+        {
+            int d = min(bufferSize - nextChar, t - b);
+            System.arraycopy(cbuf, b, cb, nextChar, d);
+            b += d;
+            nextChar += d;
+            if (nextChar >= bufferSize) 
                 if (autoFlush)
                     flushBuffer();
                 else
                     bufferOverflow();
-		initOut();
-                out.write(cbuf, off, len);
-                return;
-            }
-
-            int b = off, t = off + len;
-            while (b < t) {
-                int d = min(bufferSize - nextChar, t - b);
-                System.arraycopy(cbuf, b, cb, nextChar, d);
-                b += d;
-                nextChar += d;
-                if (nextChar >= bufferSize) 
-                    if (autoFlush)
-                        flushBuffer();
-                    else
-                        bufferOverflow();
-            }
+        }
     }
 
     /**
      * Write an array of characters.  This method cannot be inherited from the
      * Writer class because it must suppress I/O exceptions.
      */
-    public void write(char buf[]) throws IOException {
-	write(buf, 0, buf.length);
+    public final void write(char buf[]) throws IOException
+    {
+    	write(buf, 0, buf.length);
     }
 
     /**
@@ -328,23 +293,25 @@ public class JspWriterImpl extends JspWriter
      * @param  len   Number of characters to be written
      *
      */
-    public void write(String s, int off, int len) throws IOException {
-            if (bufferSize == 0) {
-                initOut();
-                out.write(s, off, len);
-                return;
-            }
-            int b = off, t = off + len;
-            while (b < t) {
-                int d = min(bufferSize - nextChar, t - b);
-                s.getChars(b, b + d, cb, nextChar);
-                b += d;
-                nextChar += d;
-                if (nextChar >= bufferSize) 
-                    if (autoFlush)
-                        flushBuffer();
-                    else
-                        bufferOverflow();
+    public final void write(String s, int off, int len) throws IOException
+    {
+        if (bufferSize == 0)
+        {
+            writer.write(s, off, len);
+            return;
+        }
+        int b = off, t = off + len;
+        while (b < t)
+        {
+            int d = min(bufferSize - nextChar, t - b);
+            s.getChars(b, b + d, cb, nextChar);
+            b += d;
+            nextChar += d;
+            if (nextChar >= bufferSize) 
+                if (autoFlush)
+                    flushBuffer();
+                else
+                    bufferOverflow();
         }
     }
 
@@ -352,14 +319,19 @@ public class JspWriterImpl extends JspWriter
      * Write a string.  This method cannot be inherited from the Writer class
      * because it must suppress I/O exceptions.
      */
-    public void write(String s) throws IOException {
-	write(s, 0, s.length());
+    public final void write(String s) throws IOException
+    {
+    	write(s, 0, s.length());
     }
 
-    /** Package-level access
+    /**
+     * resets this class so that it can be reused
+     *
      */
-    void recycle() {
-	flushed = false;
-	nextChar = 0;
+    public final void recycle(OutputStreamWriter writer)
+    {
+        this.writer = writer;
+        flushed = false;
+        clear();
     }
 }

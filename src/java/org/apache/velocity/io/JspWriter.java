@@ -155,22 +155,9 @@ abstract public class JspWriter extends java.io.Writer {
      * been flushed then the clear operation shall throw an IOException
      * to signal the fact that some data has already been irrevocably 
      * written to the client response stream.
-     *
-     * @throws IOException		If an I/O error occurs
      */
 
-    abstract public void clear() throws IOException;
-
-    /**
-     * Clears the current contents of the buffer. Unlike clear(), this
-     * method will not throw an IOException if the buffer has already been
-     * flushed. It merely clears the current content of the buffer and
-     * returns.
-    *
-     * @throws IOException		If an I/O error occurs
-     */
-
-    abstract public void clearBuffer() throws IOException;
+    abstract public void clear();
 
     /**
      * Flush the stream.  If the stream has saved any characters from the
