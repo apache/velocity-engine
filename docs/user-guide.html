@@ -1,4 +1,4 @@
-<HTML><HEAD><TITLE>Velocity User's Guide</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+<HTML><HEAD><TITLE>Velocity User Guide</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
 
 <P></P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
@@ -18,34 +18,224 @@
 
 
 
-<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>User's Guide</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>About this Guide</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
-<P align="justify">
-    This guide is meant to provide an easy way for designers
-    to get aquainted with Velocity. Velocity may be used as a
-    stand-alone servlet framework, or may be used in conjuction
-    with another servlet framework like 
-    <A href="http://java.apache.org/turbine/">Turbine</A>,
-    but in both cases a designer will be using the Velocity
-    Template Language (VTL) to incorporate dynamic content
-    into a site design.
-</P>
+ <P align="justify">
+    The Velocity User Guide is intended to help page designers and content 
+    providers get aquainted with Velocity and the syntax of its simple yet 
+    powerful scripting language, the Velocity Template Language (VTL). 
+    Many of the examples in this guide deal with using Velocity to embed 
+    dynamic content in web sites, but all VTL examples are equally applicable 
+    to other pages and templates.
+ </P> 
 
-<P align="justify">
-    The VTL is meant to provide the easiest, simplest, and
-    cleanest way to render dynamic content in a page design.
-</P>
+ </FONT></TD></TR></TABLE></DIV><BR>
 
-</FONT></TD></TR></TABLE></DIV><BR>
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>What is Velocity?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+ 
+ <P align="justify">
+    Velocity is a Java-based template engine. It permits web page designers
+    to reference methods defined in Java code. Web designers can work in parallel 
+    with Java programmers to develop web sites according to the Model-View-Controller
+    (MVC) model, meaning that web page designers can focus solely on creating
+    a well-designed site, and programmers can focus solely on writing
+    top-notch code. Velocity separates Java code from the web pages,
+    making the web site more maintainable over the long run and providing
+    a viable alternative to
+    <A href="http://java.sun.com/products/jsp/">Java Server Pages</A>
+    (JSPs) or <A href="http://www.php.net/">PHP</A>.
+ </P>
+ 
+ <P align="justify">
+    Velocity can be used to generate web pages, SQL, PostScript and other 
+    output from templates.
+    It can be used either as a standalone utility for generating
+    source code and reports, or as an integrated component of other systems.
+    When complete, Velocity will provide template services for the
+    <A href="http://java.apache.org/turbine/">Turbine</A>
+    web application framework. Velocity-Turbine will provide
+    a template service that will allow web applications to be developed
+    according to a true MVC model.
+ </P>
+ 
+ </FONT></TD></TR></TABLE></DIV><BR>
 
-<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>VTL Reference</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>What can Velocity do for me?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+   <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>The Mud Store Example</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
+   <P align="justify">
+    Suppose you have an online store that specializes in selling mud. Let's call
+    it &quot;The Online Mud Store&quot;. Business is thriving. Your customers 
+    place orders for various types and quantities of mud. They
+    login to your site using their username and password, which allows them to 
+    view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
+    is very popular. A minority of your customers regularly buy Bright Red 
+    Mud, which is also on sale, though not as popular and usually relegated 
+    to the margin of your web page. Information about each customer is tracked
+    in your database, so it occurs to you one day, Why not use Velocity to target
+    special deals on mud to the customers who are most interested in those types of 
+    mud?
+   </P>
+ 
+   <P align="justify">
+    Velocity makes it easy to customize web pages to your online visitors. As a web site 
+    designer at The Mud Room, you want to make the web page that the customer will 
+    see after logging into your site.
+   </P>
+ 
+   <P align="justify">
+    You meet with software engineers at your company, and everyone
+    has agreed that the variable $customer will hold all the
+    information about the customer currently logged in,
+    that $mudsOnSpecial will be all the types mud on sale at
+    present, and that the
+    $flogger() variable contains methods for promoting
+    particular types of mud.
+    For the task at hand, let's concern ourselves only with these three 
+    variables. Remember, you don't need to worry about how the software 
+    engineers extract the necessary information from the database, you just need
+    to know that it works. This lets you get on with your job, and lets the
+    software engineers get on with theirs.
+   </P>
+ 
+   <P align="justify">
+    You could embed the following VTL statement in the web page:
+   </P>
+ 
+   <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;HTML&gt;
+    &lt;BODY&gt;
+    Hello $customer.Name!
+    &lt;table&gt;
+    #foreach ($mud in $mudsOnSpecial)
+       #if ($customer.hasPurchased($mud))
+          &lt;tr&gt;
+            &lt;td&gt;
+              $flogger.getPromo($mud)
+            &lt;/td&gt;
+          &lt;/tr&gt;
+       #end
+    #end
+    &lt;/table&gt;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+   </P>
+ 
+   <P align="justify">
+    The extact details of the foreach statement will be described
+    in greater depth shortly; what's important is the impact this short 
+    script will have on your web site. When a customer with a 
+    penchant for Bright Red Mud logs in, and Bright Red Mud
+    is on sale, that is what this customer will see, prominently displayed. 
+    If another customer with a long history of Terracotta Mud purchases logs in,
+    the notice of a Terracotta Mud sale will be front and center. 
+    The flexibility of Velocity is
+    enormous and limited only by your creativity.
+   </P>
+ 
+   </FONT></TD></TR></TABLE></DIV><BR>
+
+   <P align="justify">
+    VTL has many other elements documented in the VTL Reference, which collectively 
+    give you the power and flexibility you need to make your web site a web
+    <I>presence</I>. As you get more familiar with these elements, you will begin to unleash the power
+    of Velocity.
+   </P>
+
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Velocity Template Language (VTL): An Introduction</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+ <P align="justify">
+    The Velocity Template 
+    Language (VTL) is meant to provide the easiest, simplest, and cleanest way 
+    to incorporate dynamic content in a web page. Even a web page developer with little 
+    or no programming experience should soon be capable of using VTL to incorporate 
+    dynamic content in a web site.
+ </P>
+
+ <P align="justify">
+    VTL uses <I>statements</I> to embed dynamic content in a web site. Statements 
+    are made up of <I>elements</I>. Here is an example of a VTL statement
+    embedded in an HTML document:
+ </P>
+ 
+ <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set $a = &quot;Velocity&quot;
+    
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+
+ <P align="justify">
+    This VTL statement, like all VTL statements that contain directives, begins 
+    with the # character. When an online visitor requests 
+    your web page, the 
+    Velocity Templating Engine will search through your web page to find all
+    # characters, then determine which mark the beginning of VTL 
+    statements, and which of the # characters that have nothing to do with VTL.
+ </P>
+
+ <P align="justify">
+    The # character is followed by a directive,
+    set. The set directive works in conjunction with other
+    script elements to assign a <I>value</I> to a <I>variable</I>. The variable 
+    is listed on the left and its value on the right; the two are separated by an 
+    = character.
+ </P>
+ 
+ <P align="justify">
+    In the example above, the variable is $a and the value is
+    Velocity. Variables <I>always</I> begin with $ characters. 
+    Values are always enclosed in quotes; with Velocity there is no confusion about
+    data types, as only strings (text-based information) may be passed to variables.
+ </P>
+
+ <P align="justify">
+    Once a value has been assigned to a variable, you can reference the 
+    variable anywhere in your HTML document. In the following example, 
+    a value is assigned to $foo and later referenced.
+ </P>
+
+ <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;HTML&gt;
+    &lt;BODY&gt;
+    #set $foo = &quot;Velocity&quot;
+    Hello $foo World!
+    &lt;/BODY&gt;
+    &lt;HTML&gt;
+    
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+
+ <P align="justify">
+    The result is a web page that prints &quot;Hello Velocity World!&quot;.
+ </P>
+
+ <P align="justify">   
+    To make your VTL directive statements more readable, we encourage you to 
+    start each VTL statement on a new line, although you are not required to 
+    do so. The set directive will be revisited in greater detail 
+    later on.
+ </P>
+
+ <P align="justify">
+    The set example is useful for demonstrating the syntax of a simple VTL 
+    statement, but not very exciting for revealing the capabilities of Velocity.
+ </P>
+
+
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>VTL Reference</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    
     <P align="justify">
-    Velocity references its variables in a fashion similar to Perl (i.e. they 
-    use a $), but takes advantage of some Java principles that template 
-    designers will find easy to use. For example:
+    Velocity references its variables in a fashion similar to 
+    <A href="http://www.perl.com">Perl</A> (i.e. they 
+    use a $), but takes advantage of some Java principles that 
+    template designers will find easy to use. For example:
     </P>
 
     <P align="justify">
@@ -53,15 +243,16 @@
     $foo
     $foo.getBar() or $foo.Bar
     $data.getUser(&quot;jon&quot;) or $data.User(&quot;jon&quot;)
-    $data.getRequest().getServerName() or $data.Request.ServerName</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    $data.getRequest().getServerName() or $data.Request.ServerName
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
     <P align="justify">
     These examples illustrate alternative uses for the same variables. 
     Velocity takes advantage of Java's introspection and 
     bean features to resolve the variable names to both objects in the Context 
-    as well as the objects methods. It is possible to embed variables almost
-    anywhere in your template. These variables can be evaluated.
+    as well as the objects methods. It is possible to embed and evaluate 
+    variables almost anywhere in your template.
     </P>
     
     <P align="justify">
@@ -70,7 +261,87 @@
     then Velocity will call its .toString() method to resolve the 
     object into a String.
     </P>
+
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+    <P align="justify">
+    VTL variables can reference three types of objects: variables, 
+    properties, and methods.
+    </P>
+    
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    
+    <P align="justify">
+    A VTL variable, such as $foo, can get its value from 
+    either a set directive in the template, or from the
+    Java code. For example, if the Java variable $foo
+    has the value bar at the time the template is requested,
+    bar replaces all instances of $foo on the web 
+    page. Alternatively, if I include the statement
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set $foo = &quot;bar&quot;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    the output will be the same for all instances of $foo
+    that follow this directive.
+    </P>
+    
     </FONT></TD></TR></TABLE></DIV><BR>
+    
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Properties</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    
+    <P align="justify">
+    The second flavour of VTL variable references properties, and it has
+    a distinctive format:
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    $whomever.Address
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    Here, $whomever.Address can have two meanings. It can mean,
+    Look in the hashtable identified as whomever and return the
+    value associated with the key Address. This syntax can also 
+    be referring to a method (variables that refer to methods will be discussed
+    in the next section); $whomever.Address could be an 
+    abbreviated way of writing getAddress(&quot;whomever&quot;). 
+    When your page is requested, Velocity will determine which of these 
+    two possibilities makes sense, and then return the appropriate value.
+    </P>
+    
+    </FONT></TD></TR></TABLE></DIV><BR>
+    
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Methods</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    
+    <P align="justify">
+    A method is defined in the Java code and is capable of doing something
+    useful, like running a calculation or arriving at a decision. VTL 
+    variables that refer to Java methods have the following format:
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    $purchase.getTotalPrice()
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    In this example, the getTotalPrice() method, defined in the Java code, 
+    will presumably return the total price of a purchase that is being tracked.
+    Note that this could also have been written,
+    $purchase.TotalPrice.
+    </P>
+    
+    </FONT></TD></TR></TABLE></DIV><BR>
+  </FONT></TD></TR></TABLE></DIV><BR>
 
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
@@ -233,11 +504,12 @@
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     #** 
     
-    This is a VelociDoc comment block and
-    may be used to store author and versioning
+    This is a VTL comment block and
+    may be used to store such information 
+    as the document author and versioning
     information:
     
-    @author Designer Dude
+    @author 
     @version 5
     
     *#
