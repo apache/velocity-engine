@@ -68,7 +68,7 @@ import java.util.Properties;
  * 
  * @author Dave Bryson
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: Configuration.java,v 1.1 2000/09/30 17:04:28 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.2 2000/10/15 21:15:38 jon Exp $
  */
 public class Configuration
 {
@@ -133,6 +133,18 @@ public class Configuration
     {
         String prop = properties.getProperty( key );
         return (prop == null ? null : prop);
+    }
+
+    /**
+     * Return a string value from the properties file.
+     * @param key     The key name.
+     * @param defaultValue The default value if key doesn't exist.
+     * @return        The string value of the specified property.
+     */
+    public static String getString( String key, String defaultValue )
+    {
+        String prop = getString( key );
+        return (prop == null ? defaultValue : prop);
     }
 
    /**
