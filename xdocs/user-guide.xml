@@ -7,7 +7,6 @@
   <subtitle>Velocity User Guide</subtitle>
   <authors>
    <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-   <person name="John Castura" email="jcastura@kw.igs.net"/>
   </authors>
  </header>
 
@@ -278,6 +277,7 @@
  
 </s1>
 
+
 <s1 title="References, revisited">
 
  <p>
@@ -426,114 +426,187 @@
  
  <p>
     <source><![CDATA[
-    $sun.getPlanets("Earth", "Mars", "Neptune") 
+    $sun.getPlanet("Earth", "Mars", "Neptune") 
     ## Can't pass a parameter list with $sun.Planets
 
-    $annelid.digestDirt 
-    ## $annelid.Segments assumes I mean $annelid.getSegements() 
+    $sisyphus.pushRock()
+    ## Velocity assumes I mean $sisyphus.getRock() 
     
-    $book.getChapter("1", "4", "11")
-    ## Can't pass a parameter list with $book.Chapter
+    $book.setTitle("Homage to Catalonia")
+    ## Can't pass a parameter list
     ]]></source>
  </p>
 
-
-<p>
+ <p>
     <strong>Formal Reference Notation</strong>
     <br/>
-    In the examples listed above the shorthand notation for
-    references was used, but there is a formal notation that
-    looks like the following:
-</p>
+    Shorthand notation for
+    references was used for the examples listed above, but there is 
+    also a formal notation for references, which is demonstrated below:
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     ${mudSlinger}
     ${customer.Address}
     ${purchase.getTotal()}
     ]]></source>
-</p>
+ </p>
  
-<p>
+ <p>
     In almost all cases you will use the shorthand notation
     for references, but in some cases the formal
-    notation is required for correct processing. Suppose you were
+    notation is required for correct processing. 
+ </p>
+    
+    Suppose you were
     constructing a sentence on the fly where $vice was to be
-    used as the base word in the noun of a sentence. Say you
+    used as the base word in the noun of a sentence. Suppose you
     wanted to allow someone to choose the base word and produce
     one of the two following results: "Jack is a pyromaniac." or
-    "Jack is a kleptomaniac.". You might attempt to use the following in
-    a VTL template:
-</p>
+    "Jack is a kleptomaniac.". Using shorthand notation would
+    produce the following:
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     Jack is a $vicemaniac.
     ]]></source>
-</p>
+ </p>
  
-<p>
-    Velocity can't tell that $vice is the Identifer
-    that you mean to use; it will assume that $vicemaniac
-    is the Identifier and try to use that to find an appropriate
-    value. You can get around this problem by using the formal
-    notation for this reference:
-</p>
+ <p>
+    There is ambiguity here, and Velocity assumes that $vicemaniac,
+    not $vice, is the Identifer that you mean to use. Finding no
+    value for $vicemaniac, it will return <pre>$vicemaniac</pre>.
+    Using formal notation can resolve this problem.
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     Jack is a ${vice}maniac.
     ]]></source>
-</p>
+ </p>
  
-<p>
+ <p>
     Now Velocity knows that $vice, not $vicemaniac, is your
-    Identifier. The formal notation usually
-    comes in handy when you have references directly adjacent
-    to text in your templates.
-</p>
+    Identifier. Formal notation is often useful when references
+    are directly adjacent to text in your templates.
+ </p>
 
 
-<p>
+ <p>
     <strong>Quiet Reference Notation</strong>
     <br/>
     When Velocity encounters a reference that is undefined,
     its normal behavior is to output the image
-    of the reference. For example, if you have
-    the following VTL as part of an HTML page:
-</p>
+    of the reference. For example, suppose the following
+    reference appears as part of a VTL template.
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     <input type="text" name="email" value="$email"/>
     ]]></source>
-</p>
+ </p>
  
-<p>
-    When the form initially loads the variable
-    reference $email has no value, but you prefer the
+ <p>
+    When the form initially loads, the variable
+    reference <pre>$email</pre> has no value, but you prefer the
     a blank text field to one with a value of "$email".
-    Using the quiet reference notation can circumvent Velocity's
+    Using the quiet reference notation circumvents Velocity's
     normal behavior; instead of using $email in the
     VTL you would use $!email. So the above example
     would look like the following:
-</p>
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     <input type="text" name="email" value="$!email"/>
     ]]></source>
-</p>
+ </p>
  
-<p>
+ <p>
     Now when the form is initially loaded and
     $email still has no value, an empty string will
     be output instead of "$email".
-</p>
+ </p>
+
+ <p>
+    Formal and quiet reference notation can be used together,
+    as demonstrated below.
+ </p>
+ 
+ <p>
+    <source><![CDATA[
+    <input type="text" name="email" value="$!{email}"/>
+    ]]></source>
+ </p>
+ 
+ <strong>Escaping special characters</strong>
+
+
+ <s1 title="Getting literal">
+
+  <p>
+    VTL uses special characters, such as $ and #, to do its work, so some
+    added care should be taken where using these characters in your 
+    templates.
+  </p>
+ 
+  <p>
+    <strong>Currency</strong>
+    <br/>
+    There is no problem writing "I bought a 4 lb. sack of 
+    potatoes at the farmer's market for only $2.50!" As mentioned, a VTL
+    identifier always begins with an upper- or lowercase letter, so
+    $2.50 would not be mistaken for a reference.
+  </p>
+  
+  <p>
+    <strong>Escaping special characters</strong>
+    <br/>
+    Other cases may arise, however, where there is the potential for Velocity
+    to get confused. <em>Escaping</em> special characters is the best way
+    to handle VTL's special characters in your templates, and this can be
+    done using the backslash ("\") character.
+  </p>
+  
+  <p>
+    If Velocity encounters in your VTL template a reference to 
+    <pre>$email</pre>, it will search for a corresponding value, but
+    when the escape character is used, <pre>$email</pre> is treated
+    as ordinary text
+  </p>
+  
+  <p>
+    <source><![CDATA[
+    \$email
+    ]]></source>
+  </p>
+ 
+  <p>
+    Velocity treats <pre>$</pre> as a literal rather than a special 
+    character, <pre>$email</pre> as text rather than a reference, 
+    and doesn't even attempt to find a corresponding value.
+  </p>
+ 
+  <p>
+    And what if -- for instance you are writing documentation for
+    the Windows platform -- and you want to print a backslash character?
+    Just escape one backslash character with another, as shown:
+  </p>
+  
+  <p>
+    <source><![CDATA[
+    c:\\winnt\\system32
+    ]]></source>
+  </p>
 
  <strong>Summary: References</strong>
     
     <p>
+    Now that you are familiar with references, you can begin to
+    apply them effectively in your templates.
     Velocity references take advantage of some Java principles that 
     template designers will find easy to use. For example:
     </p>
@@ -541,9 +614,21 @@
     <p>
     <source><![CDATA[
     $foo
-    $foo.getBar() or $foo.Bar
-    $data.getUser("jon") or $data.User("jon")
-    $data.getRequest().getServerName() or $data.Request.ServerName
+    
+    $foo.getBar() 
+    ## is the same as 
+    $foo.Bar
+    
+    $data.getUser("jon")
+    ## is the same as 
+    $data.User("jon")
+    
+    
+    $data.getRequest().getServerName()
+    ## is the same as 
+    $data.Request.ServerName
+    ## is the same as 
+    ${data.Request.ServerName}
     ]]></source>
     </p>
 
@@ -557,41 +642,117 @@
     
  </s1>
 
+
 <s1 title="Directives">  
+ 
+ <p>
+    References allow template designers to generate dynamic content for
+    web sites, while <em>directives</em> -- easy to use 
+    script elements that can be used to creatively manipulate the output of 
+    Java code -- permit web designers to truly take charge 
+    of the appearance and content of the web site.
+ </p>
+
+ <p>
+    <strong>#set</strong>
+    <br/>
+    The #set directive is used for setting the value of
+    a reference. A value can be assigned to either a variable
+    reference or a property reference:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    #set $primate = "monkey"
+    #set $customer.Behavior = $primate
+    ]]></source>
+</p>
+ 
+<p>
+    The left hand side (LHS) of the assigment must be
+    a variable reference or a property reference. The
+    right hand side (RHS) can be one of the following
+    types:
+</p>
+ 
+<p>
+    <ul>
+        <li>Variable reference</li>
+        <li>String literal</li>
+        <li>Property reference</li>
+        <li>Method reference</li>
+        <li>Number literal</li>
+        <li>Object array</li>
+    </ul>
+</p>
+ 
+<p>
+    These examples demonstrate each of the aforementioned 
+    types:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    #set $monkey = $bill ##variable reference
+    #set $monkey.Friend = "monica" ##string literal
+    #set $monkey.Blame = $whitehouse.Leak ##property reference
+    #set $monkey.Plan = $spindoctor.weave($web) ##method reference
+    #set $monkey.Number = 123 ##number literal
+    #set $monkey.Say = ["Not", $my, "fault"] ##object array
+    ]]></source>
+</p>
+ 
+<p>
+    The RHS can also be a simple arithmetic expression:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    #set $value = $foo + 1
+    #set $value = $bar - 1
+    #set $value = $foo * $bar
+    #set $value = $foo / $bar
+    ]]></source>
+</p>
+        
 
 <s1 title="Conditionals">
 
     <s1 title="If / ElseIf / Else Conditionals">
     <p>
-    The #if statement in Velocity allows for text in the brackets to be 
-    included in the text, on the conditional that the if statement
-    is true. For example:
+       The #if statement in Velocity allows for text to be 
+       included when the web page is generated, on the conditional 
+       that the if statement is true. For example:
     </p>
 
     <p>
-    <source><![CDATA[
-    #if ($foo)
-        <strong>Velocity Rocks!</strong>
-    #end
-    ]]></source>
+      <source><![CDATA[
+      #if ($foo)
+         <strong>Velocity!</strong>
+      #end
+      ]]></source>
     </p>
 
     <p>
-    The variable $foo is evaluated to see if it is a boolean or not null; the 
-    content within the brackets becomes the output if the evaluation is true. 
-    Unlike in JSP, Velocity does not force web developers to wrap HTML code 
-    within an out.println(), or to delve into ugly workarounds to out.println().
+      The variable $foo is evaluated to see if it is true, which will happen 
+      under one of two circumstances: (i) $foo is a boolean (true/false) which 
+      has a true value, or (ii) the value is not null. The content between the 
+      <pre>#if</pre> and the <pre>#end</pre> statements become the output if 
+      the evaluation is true. In this case, if <pre>$foo</pre> is true, the
+      output will be: "Velocity!". Conversely, if <pre>$foo</pre> has a null 
+      value, or if it is a boolean false, the statement evaluates as false, and
+      there is no output.
     </p>
     
     <p>
-    An #elseif or #else element can be used with an #if element.
+      An #elseif or #else element can be used with an #if element.
     </p>
 
     <p>
     <source><![CDATA[
     #if ($foo)
         <strong>Velocity Rocks!</strong>
-    #elseif($bar)
+    #elseif ($bar)
         <strong>Velocity Rocks Again!</strong>
     #else
         <strong>Velocity Still Rocks!</strong>
@@ -605,17 +766,17 @@
     </p>
 
     <p>
-    Note that logical operators are not yet available in Velocity. 
-    This functionality is expected to be added soon. An example of
-    a logical operator is shown below.
+      Logical operators are not yet available in Velocity. This functionality is 
+      expected to be added soon. An unexplained example of a logical operator is 
+      shown below.
     </p>
 
     <p>
-    <source><![CDATA[
-    #if ($foo && $bar)
-        <strong>Velocity Rocks!</strong>
-    #end
-    ]]></source>
+      <source><![CDATA[
+      #if ($foo && $bar)
+         <strong>Velocity Rocks!</strong>
+      #end
+      ]]></source>
     </p>
     </s1>
 </s1>
