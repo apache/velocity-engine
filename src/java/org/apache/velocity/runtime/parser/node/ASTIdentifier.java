@@ -79,7 +79,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.10 2001/04/18 12:25:27 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.11 2001/04/18 12:51:01 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
@@ -221,7 +221,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch( Exception e )
         {
-            System.out.println("ASTIdentifier() : exception invoking method '" 
+            System.out.println("ASTIdentifier() : exception invoking method for identifier '" 
                                + identifier + "' in " + o.getClass() + " : "  + e );
         }            
 
