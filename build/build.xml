@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.1-dev"/>
+  <property name="version" value="1.1"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -376,9 +376,10 @@
       **   examples/appexample1 : application example
       **   examples/appexample2 : application example
       **   examples/servletexample1 : servlet example
+      **   examples/servletexample2 : servlet example
       **   examples/context_example : example context implementations
       **   examples/logger_example : how to make an external logger
-      **   examples/xmlapp_example : how to access XML data in a template
+      **   example/xmlapp_example : how to access XML data in a template
       **   examples/event_example : how to use Velocity's event handlers
       **   forumdemo : demonstration webapp
       **************************************************************
@@ -387,6 +388,7 @@
     <javac srcdir="${example.dir}/app_example1
                   :${example.dir}/app_example2
                   :${example.dir}/servlet_example1
+                  :${example.dir}/servlet_example2
                   :${example.dir}/context_example
                   :${example.dir}/logger_example
                   :${example.dir}/xmlapp_example

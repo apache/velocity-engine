@@ -15,9 +15,56 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
-<subsection name="1.1-dev : ongoing development">
+<subsection name="1.1-rc2">
 <p>
-Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS branch.
+This section describes changes to the VEL_1_1_BRANCH after the 
+1.1-rc2 release.  This was released as v1.1 on June 16, 2001.
+</p>
+
+<ul>
+ <li>
+   Update from Russel Edens to clear fileWriter cache for Texen's
+   Generator.java.  (JSS)
+ </li>
+</ul>
+
+</subsection>
+
+<subsection name="1.1-rc1">
+<p>
+This section describes changes to VEL_1_1_BRANCH after the 1.1-rc1
+release.  This was released as v1.1-rc2 on June 2, 2001.
+</p>
+
+<ul>
+  <li>
+     Fix to AbstractContext to 'roll forward' EventCartridges to ensure that
+     the last one added is available at render time.  (gmj)
+  </li>
+  <li>
+    Small changes to developer docs re jar-src target and docs target. (gmj)
+  </li>
+  <li>
+    Small changes to AND and OR nodes to support the legal but wacky use like
+    #set( $foo = ($woog || $bar ) ). (gmj)
+  </li>
+  <li>
+    Major change to Parser char stream - no longer using the stock, javacc generated
+    ASCII 8-bit char stream but rather a Unicode 'custom' char stream.  This solves
+    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the 
+    low-order byte. (gmj)
+  </li>
+  <li>
+    Added additional templates to encoding test using contributions from
+    Ilkka Priha, Michael Zhou and Vitaly Repetenko.  Thanks guys!  (gmj)
+  </li>
+</ul>
+</subsection>
+ 
+<subsection name="1.1-dev">
+<p>
+This section describes changes to the main branch after the 1.0.1 release.
+This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 20, 2001. 
 </p>
 
 <ul>
