@@ -4,335 +4,467 @@
 
 <project name="Velocity" default="jar" basedir=".">
 
-    <property name="Name" value="Velocity"/>
-    <property name="version" value="0.71"/>
-    <property name="project" value="velocity"/>
-    <property name="build.compiler" value="classic"/>
+  <property name="Name" value="Velocity"/>
+  <property name="version" value="0.71"/>
+  <property name="project" value="velocity"/>
+  <property name="build.compiler" value="classic"/>
     
-    <property name="build.dir" value="../bin"/>
-    <property name="build.src" value="${build.dir}/src"/>
-    <property name="build.dest" value="${build.dir}/classes"/>
+  <property name="build.dir" value="../bin"/>
+  <property name="build.src" value="${build.dir}/src"/>
+  <property name="build.dest" value="${build.dir}/classes"/>
     
-    <property name="src.java.dir" value="../src/java"/>
-    <property name="javadoc.destdir" value="../docs/apidocs"/>
-    <property name="final.name" value="${project}-${version}"/>
-    <property name="dist.root" value="../dist"/>
-    <property name="dist.dir" value="${dist.root}/${final.name}"/>
-    <property name="year" value="2000"/>
-    <property name="ant.home" value="."/>
-    <property name="debug" value="on"/>
-    <property name="optimize" value="on"/>
-    <property name="deprecation" value="on"/>
-    <property name="log.jar" value="lib/log.jar"/>
-    <property name="oro.jar" value="lib/oro.jar"/>
+  <property name="src.java.dir" value="../src/java"/>
+  <property name="javadoc.destdir" value="../docs/apidocs"/>
+  <property name="final.name" value="${project}-${version}"/>
+  <property name="dist.root" value="../dist"/>
+  <property name="dist.dir" value="${dist.root}/${final.name}"/>
+  <property name="year" value="2000"/>
+  <property name="ant.home" value="."/>
+  <property name="debug" value="on"/>
+  <property name="optimize" value="on"/>
+  <property name="deprecation" value="on"/>
+  <property name="log.jar" value="lib/log.jar"/>
+  <property name="oro.jar" value="lib/oro.jar"/>
     
-    <property name="velocity.docs" value="../docs"/>
-    <property name="velocity.xdocs" value="../xdocs"/>
-    <property name="velocity.skin" value="../xdocs/skin"/>
-    <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
+  <property name="velocity.docs" value="../docs"/>
+  <property name="velocity.xdocs" value="../xdocs"/>
+  <property name="velocity.skin" value="../xdocs/skin"/>
+  <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
     
-    <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
-    <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
-    <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
-    <property name="junit.jar" value="lib/junit-3.2.jar"/>
+  <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
+  <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
+  <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
+  <property name="junit.jar" value="lib/junit-3.2.jar"/>
 
-    <!-- Forum demo build information -->
-    <property name="demo.base" value="../examples/forumdemo"/>
-    <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
-    <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
+  <!-- Forum demo build information -->
+  <property name="demo.base" value="../examples/forumdemo"/>
+  <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
+  <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
             
-     <!-- PDF generation using FOP -->
-    <property name="xdocs.dir" value="../xdocs"/>
-    <property name="allfiles.xml" value="velocity-doc.xml"/>
-    <property name="outfile.fo" value="velocity.fo"/>
-    <property name="outfile.pdf" value="../docs/velocity.pdf"/>
+  <!-- PDF generation using FOP -->
+  <property name="xdocs.dir" value="../xdocs"/>
+  <property name="allfiles.xml" value="velocity-doc.xml"/>
+  <property name="outfile.fo" value="velocity.fo"/>
+  <property name="outfile.pdf" value="../docs/velocity.pdf"/>
 
+  <!-- JUnit Testbed -->
+  <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
 
-    <!-- JUnit Testbed -->
-    <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
+  <property 
+    name="template.test" 
+    value="org.apache.velocity.test.TemplateTestCase"
+  />
 
-    <property name="template.test"
-        value="org.apache.velocity.test.TemplateTestCase"/>
+  <property 
+    name="introspector.test"
+    value="org.apache.velocity.test.IntrospectorTestCase"
+  />
 
-    <property name="introspector.test"
-        value="org.apache.velocity.test.IntrospectorTestCase"/>
+  <property 
+    name="inlinevmscope.test"
+    value="org.apache.velocity.test.InlineScopeVMTestCase"
+  />
 
-    <property name="inlinevmscope.test"
-        value="org.apache.velocity.test.InlineScopeVMTestCase"/>
+  <property 
+    name="runtime.defaults.dir" 
+    value="org/apache/velocity/runtime/defaults"
+  />
 
-    <property name="runtime.defaults.dir" 
-        value="org/apache/velocity/runtime/defaults"/>
+  <property 
+    name="default.test.properties"
+    value="org/apache/velocity/test/defaults/velocity.properties"
+  />
 
-    <property name="default.test.properties"
-        value="org/apache/velocity/test/defaults/velocity.properties"/>
+  <property 
+    name="default.texen.properties"
+    value="org/apache/velocity/texen/defaults/texen.properties"
+  />
 
-    <property name="default.texen.properties"
-        value="org/apache/velocity/texen/defaults/texen.properties"/>
-
-<!-- disabled for now == classpath issues
+  <!-- disabled for now == classpath issues
     <taskdef name="fop" classname="Fop"/>
     <taskdef name="xslt" classname="Xslt"/>
-    -->
+  -->
 
-    <!-- Build classpath -->
-    <path id="classpath">
-        <fileset dir="./lib">
-	        <include name="**/*.jar"/>
-        </fileset>
-    </path>
+  <!-- Build classpath -->
+  <path id="classpath">
+    <fileset dir="./lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
 
-    <!-- =================================================================== -->
-    <!-- prints the environement                                        -->
-    <!-- =================================================================== -->
-    <target name="env">
-        <echo message="build.compiler = ${build.compiler}"/>
-        <echo message="java.home = ${java.home}"/>
-        <echo message="user.home = ${user.home}"/>
-        <echo message="java.class.path = ${java.class.path}"/>
-        <echo message=""/>
-    </target>
-
-    <!-- =================================================================== -->
-    <!-- Prepares the build directory                                        -->
-    <!-- =================================================================== -->
-    <target name="prepare" depends="env">
-        <tstamp/>
-        <filter token="year" value="${year}"/>
-        <filter token="version" value="${version}"/>
-        <filter token="date" value="${DSTAMP}"/>        
-
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.dest}"/>
-        <mkdir dir="${build.src}"/>
-
-        <copy todir="${build.src}">
-            <fileset dir="${src.java.dir}" includes="**/*.java"/>
-        </copy>
-    </target>
-
-    <!-- =================================================================== -->
-    <!-- Compiles the source directory                                       -->
-    <!-- =================================================================== -->
-    <target name="compile" depends="prepare">
-        <javac srcdir="${build.src}"
-            destdir="${build.dest}"
-            debug="${debug}"
-            deprecation="${deprecation}"
-            optimize="${optimize}">
-
-            <classpath refid="classpath"/>
-        </javac>
-            
-            <copy todir="${build.dest}/org/apache/velocity">
-                <fileset dir="${src.java.dir}/org/apache/velocity"
-                    includes="**/*.class"/>
-            </copy>
-            
-            <copy todir="${build.dest}/${runtime.defaults.dir}">
-                <fileset 
-                    dir="${src.java.dir}/${runtime.defaults.dir}" 
-                    includes="*"
-                />
-            </copy>
-            
-            <copy file="${src.java.dir}/${default.test.properties}"
-                tofile="${build.dest}/${default.test.properties}"/>
-
-            <copy file="${src.java.dir}/${default.texen.properties}"
-                tofile="${build.dest}/${default.texen.properties}"/>
-
-    </target>
+  <!-- =================================================================== -->
+  <!-- prints the environement                                        -->
+  <!-- =================================================================== -->
+  <target name="env">
+    
+    <echo message="build.compiler = ${build.compiler}"/>
+    <echo message="java.home = ${java.home}"/>
+    <echo message="user.home = ${user.home}"/>
+    <echo message="java.class.path = ${java.class.path}"/>
+    <echo message=""/>
   
-    <!-- =================================================================== -->
-    <!-- Compiles the source directory and creates a .jar file               -->
-    <!-- =================================================================== -->
-    <target name="jar" depends="compile">
-        
-        <unzip src="${log.jar}" dest="${build.dest}"/>
-        <unzip src="${oro.jar}" dest="${build.dest}"/>
+  </target>
 
-        <delete dir="${build.dest}/meta-inf"/>
-
-        <jar jarfile="${build.dir}/${project}-${version}.jar"
-            basedir="${build.dest}"
-            excludes="**/package.html"/>
-    </target>
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="env">
     
-    <!-- =================================================================== -->
-    <!-- Creates the API documentation                                       -->
-    <!-- =================================================================== -->
-    <target name="javadocs" depends="prepare">
-        <mkdir dir="${javadoc.destdir}"/>
-        <javadoc
-            sourcepath="${build.src}"
-            packagenames="org.apache.velocity.*"
-            destdir="${javadoc.destdir}"
-            author="true"
-            private="true"
-            version="true"
-            use="true"
-            windowtitle="${Name} ${version} API"
-            doctitle="${Name} ${version} API"
-            bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved."
-        />
-    </target>
-    
-    <!-- =================================================================== -->
-    <!-- Package                                                             -->
-    <!-- =================================================================== -->
-    <target name="dist" depends="jar,javadocs">
-        <mkdir dir="${dist.dir}"/>
-        <mkdir dir="${dist.dir}/src/java"/>
+    <tstamp/>
+    <filter token="year" value="${year}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="date" value="${DSTAMP}"/>        
 
-        <copy todir="${dist.dir}/src/java/">
-            <fileset dir="${build.dir}/src/" includes="**"/>
-        </copy>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.dest}"/>
+    <mkdir dir="${build.src}"/>
 
-        <copy todir="${dist.dir}/docs">
-            <fileset dir="../docs" includes="**"/>
-        </copy>
-
-        <copy todir="${dist.dir}/build">
-            <fileset dir="../build" includes="**"/>
-        </copy>
-
-        <copy todir="${dist.dir}/examples">
-            <fileset dir="../examples" includes="**"/>
-        </copy>
-        <chmod file="${dist.dir}/examples/test.sh" perm="+x"/>
-
-        <copy todir="${dist.dir}/testbed">
-            <fileset dir="../testbed" includes="**"/>
-        </copy>
-        <chmod file="${dist.dir}/testbed/test.sh" perm="+x"/>
-        
-        <copy file="${build.dir}/${project}.jar" 
-            tofile="${dist.dir}/${project}.jar"/>
-        <jar jarfile="../${final.name}.jar" basedir="${dist.root}" 
-            excludes="**/package.html"/>
-    
-        <delete dir="${dist.root}"/>
-    </target>
+    <copy todir="${build.src}">
+      <fileset dir="${src.java.dir}"> 
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
   
-    <!-- =================================================================== -->
-    <!-- Cleans up the build directory                                       -->
-    <!-- =================================================================== -->
-    <target name="clean">
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <target name="compile" depends="prepare">
+      
+    <javac srcdir="${build.src}"
+      destdir="${build.dest}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      optimize="${optimize}">
+
+      <classpath refid="classpath"/>
+    </javac>
+            
+    <copy todir="${build.dest}/org/apache/velocity">
+      <fileset dir="${src.java.dir}/org/apache/velocity">
+        <include name="**/*.class"/>
+      </fileset>
+    </copy>
+            
+    <copy todir="${build.dest}/${runtime.defaults.dir}">
+      <fileset dir="${src.java.dir}/${runtime.defaults.dir}">
+        <include name="*"/>
+      </fileset>
+    </copy>
+            
+    <copy 
+      file="${src.java.dir}/${default.test.properties}"
+      tofile="${build.dest}/${default.test.properties}"
+    />
+
+    <copy 
+      file="${src.java.dir}/${default.texen.properties}"
+      tofile="${build.dest}/${default.texen.properties}"
+    />
+
+  </target>
+  
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- =================================================================== -->
+  <target name="jar" depends="compile">
+        
+    <unzip src="${log.jar}" dest="${build.dest}"/>
+    <unzip src="${oro.jar}" dest="${build.dest}"/>
+
+    <delete dir="${build.dest}/meta-inf"/>
+
+    <jar jarfile="${build.dir}/${project}-${version}.jar"
+      basedir="${build.dest}"
+      excludes="**/package.html"
+    />
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- =================================================================== -->
+  <target name="jar-core" depends="compile">
+        
+    <unzip src="${log.jar}" dest="${build.dest}"/>
+
+    <delete dir="${build.dest}/meta-inf"/>
+
+    <jar jarfile="${build.dir}/${project}-core-${version}.jar">
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+        <exclude name="org/apache/oro/**"/>
+        <exclude name="org/apache/velocity/anakia/**"/>
+        <exclude name="org/apache/velocity/convert/**"/>
+        <exclude name="org/apache/velocity/servlet/**"/>
+        <exclude name="org/apache/velocity/texen/**"/>
+        <exclude name="org/apache/velocity/test/**"/>
+      </fileset>
+    </jar>
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- =================================================================== -->
+  <target name="jar-util" depends="compile">
+        
+    <unzip src="${log.jar}" dest="${build.dest}"/>
+
+    <delete dir="${build.dest}/meta-inf"/>
+
+    <jar jarfile="${build.dir}/${project}-util-${version}.jar">
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+        <include name="org/apache/velocity/anakia/**"/>
+        <include name="org/apache/velocity/convert/**"/>
+        <include name="org/apache/velocity/texen/**"/>
+      </fileset>
+    </jar>
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- =================================================================== -->
+  <target name="jar-servlet" depends="compile">
+        
+    <unzip src="${log.jar}" dest="${build.dest}"/>
+
+    <delete dir="${build.dest}/meta-inf"/>
+
+    <jar jarfile="${build.dir}/${project}-servlet-${version}.jar">
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+        <include name="org/apache/velocity/servlet/**"/>
+      </fileset>
+    </jar>
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the API documentation                                       -->
+  <!-- =================================================================== -->
+  <target name="javadocs" depends="prepare">
+    
+    <mkdir dir="${javadoc.destdir}"/>
+    
+    <javadoc
+      sourcepath="${build.src}"
+      packagenames="org.apache.velocity.*"
+      destdir="${javadoc.destdir}"
+      author="true"
+      private="true"
+      version="true"
+      use="true"
+      windowtitle="${Name} ${version} API"
+      doctitle="${Name} ${version} API"
+      bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved."
+    />
+  
+  </target>
+    
+  <!-- =================================================================== -->
+  <!-- Package                                                             -->
+  <!-- =================================================================== -->
+  <target name="dist" depends="jar,javadocs">
+        
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${dist.dir}/src/java"/>
+
+    <copy todir="${dist.dir}/src/java/">
+      <fileset dir="${build.dir}/src/">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/docs">
+      <fileset dir="../docs">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/build">
+      <fileset dir="../build">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/examples">
+      <fileset dir="../examples">
+        <include name="**"/>
+      </fileset>
+    </copy>
+    
+    <chmod file="${dist.dir}/examples/test.sh" perm="+x"/>
+
+    <copy todir="${dist.dir}/testbed">
+      <fileset dir="../testbed">
+        <include name="**"/>
+      </fileset>
+    </copy>
+    
+    <chmod file="${dist.dir}/testbed/test.sh" perm="+x"/>
+        
+    <copy 
+      file="${build.dir}/${project}.jar" 
+      tofile="${dist.dir}/${project}.jar"
+    />
+    
+    <jar 
+      jarfile="../${final.name}.jar" 
+      basedir="${dist.root}"
+      excludes="**/package.html"
+    />
+    
+    <delete dir="${dist.root}"/>
+    
+  </target>
+  
+  <!-- =================================================================== -->
+  <!-- Cleans up the build directory                                       -->
+  <!-- =================================================================== -->
+  <target name="clean">
+        
         <delete dir="${build.dir}"/>
-    </target>
-
-    <!-- =================================================================== -->
-    <!-- Make HTML version of Velocity documentation                         -->
-    <!-- =================================================================== -->
-    <target name="docs" depends="prepare">
-
-        <java fork="yes" classname="${doc.generator}">
-            <arg value="targetDirectory=${velocity.docs}"/>
-            <arg value="${velocity.xdocs}/site-book.xml"/>
-            <arg value="${velocity.skin}"/>
-            <classpath refid="classpath"/>
-        </java>
-
-    </target>
-
-    <!-- =================================================================== -->
-    <!-- Make PDF version of Velocity documentation                           -->
-    <!-- =================================================================== -->
-<!--    <target name="pdf">
-        <xslt infile="../xdocs/site-book.xml" xsltfile="xsl/xml2xml.xsl"
-            outfile="${allfiles.xml}" smart="yes"/>
     
-        <xslt infile="${allfiles.xml}" xsltfile="xsl/xml2pdf.xsl"
-            outfile="${outfile.fo}" smart="yes"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Make HTML version of Velocity documentation                         -->
+  <!-- =================================================================== -->
+  <target name="docs" depends="prepare">
+
+    <java fork="yes" classname="${doc.generator}">
+      <arg value="targetDirectory=${velocity.docs}"/>
+      <arg value="${velocity.xdocs}/site-book.xml"/>
+      <arg value="${velocity.skin}"/>
+      <classpath refid="classpath"/>
+    </java>
+
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Make PDF version of Velocity documentation                           -->
+  <!-- =================================================================== -->
+  <!--    
+  <target name="pdf">
+    <xslt 
+      infile="../xdocs/site-book.xml" 
+      xsltfile="xsl/xml2xml.xsl"
+      outfile="${allfiles.xml}" 
+      smart="yes"
+    />
     
-        <fop fofile="${outfile.fo}"   pdffile="${outfile.pdf}"/> 
+    <xslt 
+      infile="${allfiles.xml}" 
+      xsltfile="xsl/xml2pdf.xsl"
+      outfile="${outfile.fo}" 
+      smart="yes"
+    />
+    
+    <fop 
+      fofile="${outfile.fo}" 
+      pdffile="${outfile.pdf}"
+    /> 
         
-        <delete file="${allfiles.xml}"/>
-        <delete file="${outfile.fo}"/>
-    </target>
--->
-    <!-- =================================================================== -->
-    <!-- JUnit Tests for Velocity                                            -->
-    <!-- =================================================================== -->
+    <delete file="${allfiles.xml}"/>
+    <delete file="${outfile.fo}"/>
+  
+  </target>
+  -->
+    
+  <!-- =================================================================== -->
+  <!-- JUnit Tests for Velocity                                            -->
+  <!-- =================================================================== -->
+  <target name="test">
 
-    <target name="test">
+    <echo message="Running JUnit template tests for Velocity ..."/>
 
-        <echo message="Running JUnit template tests for Velocity ..."/>
+    <java classname="${velocity.test.runner}">
+      <arg value="${template.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
 
-        <java classname="${velocity.test.runner}">
-            <arg value="${template.test}"/>
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement location="${junit.jar}"/>
-                <pathelement location="${build.dest}"/>
-            </classpath>
-        </java>
+  </target>
 
-    </target>
+  <target name="test-introspector">
 
-    <target name="test-introspector">
+    <echo message="Running JUnit Introspector tests for Velocity ..."/>
 
-        <echo message="Running JUnit Introspector tests for Velocity ..."/>
+    <java classname="${velocity.test.runner}">
+      <arg value="${introspector.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
 
-        <java classname="${velocity.test.runner}">
-            <arg value="${introspector.test}"/>
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement location="${junit.jar}"/>
-                <pathelement location="${build.dest}"/>
-            </classpath>
-        </java>
+  </target>
 
-    </target>
+  <target name="test-inlinevmscope">
 
-    <target name="test-inlinevmscope">
+    <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
 
-        <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
+    <java classname="${velocity.test.runner}">
+      <arg value="${inlinevmscope.test}"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </java>
 
-        <java classname="${velocity.test.runner}">
-            <arg value="${inlinevmscope.test}"/>
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement location="${junit.jar}"/>
-                <pathelement location="${build.dest}"/>
-            </classpath>
-        </java>
+  </target>
 
-    </target>
-
-    <!-- =================================================================== -->
-    <!-- Forum Demo Web App                                                  -->
-    <!-- =================================================================== -->
-    <target name="builddemo" depends="compile">
+  <!-- =================================================================== -->
+  <!-- Forum Demo Web App                                                  -->
+  <!-- =================================================================== -->
+  <target name="builddemo" depends="compile">
        
-       <echo message="**************************************************"/>
-       <echo message="** Building the Forum demo ..."/>
-       <echo message="** Remember to set the PATH in Velocity.properties"/>
-       <echo message="** once you move the WAR to your Servlet engine."/>
-       <echo message="**************************************************"/>
+    <echo>
+      **************************************************
+      ** Building the Forum demo ...
+      ** Remember to set the PATH in Velocity.properties
+      ** once you move the WAR to your Servlet engine.
+      **************************************************
+    </echo>
               
-        <javac srcdir="${demo.src}"
-            destdir="${demo.dest}"
-            debug="${debug}"
-            deprecation="${deprecation}"
-            classpath="${build.dest}"
-            optimize="${optimize}"/>
+    <javac srcdir="${demo.src}"
+      destdir="${demo.dest}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      classpath="${build.dest}"
+      optimize="${optimize}"
+    />
             
-            <copy todir="${demo.dest}">
-                <fileset dir="${build.dest}"
-                    includes="**/*.class"/>
-            </copy>
+    <copy todir="${demo.dest}">
+      <fileset dir="${build.dest}">
+        <include name="**/*.class"/>
+      </fileset>
+    </copy>
             
-             <jar jarfile="${build.dir}/forumdemo.war"
-                basedir="${demo.base}"
-                excludes="**/package.html"/>
-    </target>
+    <jar
+      jarfile="${build.dir}/forumdemo.war"
+      basedir="${demo.base}"
+      excludes="**/package.html"
+    />
+    
+  </target>
 
-    <!-- Delete the demo files for re-build -->
-    <target name="cleandemo">
-        <delete dir="${demo.dest}/org"/>
-        <delete file="${build.dir}/forumdemo.war"/>
-    </target>
+  <!-- Delete the demo files for re-build -->
+  <target name="cleandemo">
+    
+    <delete dir="${demo.dest}/org"/>
+    <delete file="${build.dir}/forumdemo.war"/>
+    
+  </target>
     
 </project>
 
