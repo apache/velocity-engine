@@ -83,7 +83,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.6 2000/10/15 19:30:08 dlr Exp $
+ * @version $Id: Template.java,v 1.7 2000/10/20 02:19:51 jvanzyl Exp $
  */
 public class Template
 {
@@ -145,30 +145,17 @@ public class Template
      * determine the objects being used by reflection.
      */
     public void merge(Context context, Writer writer)
-        throws IOException
+        throws IOException, Exception
     {
         synchronized(this)
         {
-            if (!initialized) 
-                init(context);
+            if (!initialized)
+            {
+                document.init(context, null);
+                initialized = true;
+            }
         }                
         
         document.render(context, writer);
-    }
-
-    /**
-     * Initialize the AST node structure.
-     */
-    private void init(Context context)
-    {
-        try
-        {
-            document.init(context, null);
-            initialized = true;
-        }
-        catch (Exception e)
-        {
-            Runtime.error(e);
-        }
     }
 }

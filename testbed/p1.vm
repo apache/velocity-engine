@@ -1,10 +1,24 @@
-
 #*
 
-have a boolean in an object array is
-giving me a InvocationTargetException.
-Fix that.
+Trying to debug a problem submitted to the
+mailing list by killi.
+
+If $item is a hashtable and there are
+entries for: id, name, and label everything
+works fine.
 
 *#
-
-$provider.concat(["I", "am", "a", true, $provider.Title])
+   
+   
+   $link.setPage("default.xml")
+   <navigation>
+      <menu>
+      #foreach ($item in $menu)
+         <item>
+            <id>$item.id</id>
+            <name>$item.name</name>
+            <label>$item.label</label>
+         </item>
+      #end
+      </menu>
+   </navigation> 

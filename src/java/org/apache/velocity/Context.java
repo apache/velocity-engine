@@ -56,6 +56,8 @@ package org.apache.velocity;
 
 import java.util.Hashtable;
 
+import org.apache.velocity.util.ArrayIterator;
+
 /**
  * This class provides the storage location for all dynamic
  * information that is used to create a document. A final
@@ -64,7 +66,7 @@ import java.util.Hashtable;
  * an valid object derived from Object. These objects
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.3 2000/10/15 03:20:06 dlr Exp $
+ * @version $Id: Context.java,v 1.4 2000/10/20 02:19:50 jvanzyl Exp $
  */
 public class Context
 {
