@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.3.1-rc2 Available">
+<section name="Velocity v1.3.1 Released">
 
  <p>
    <table>
@@ -18,10 +18,8 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Release candidate 2 of version 1.3.1 of the Velocity Template Engine is
-   available.  This is a bugfix to the 1.3 release, fixing some specific
-   introspection bugs. A final version 1.3.1 will follow after validation
-   by users in the community. (2002-07-24)
+   Version 1.3.1 of the Velocity Template Engine is
+   available.  (2003-03-31)
    </td>
    </tr>
    </table>
