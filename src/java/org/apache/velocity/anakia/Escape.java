@@ -18,14 +18,18 @@ package org.apache.velocity.anakia;
 
 /**
  * This class is for escaping CDATA sections. The code was 
- * "borrowed" from the JDOM code. I also added in escaping
- * of the " -> &amp;quot; character.
+ * "borrowed" from the JDOM code. Also included is escaping
+ * the " -> &amp;quot; character and the conversion of newlines
+ * to the platform line separator.
  *
+ * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Escape.java,v 1.6 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class Escape
 {
+    public static String LINE_SEPARATOR = System.getProperty("line.separator");
+    
     /**
      * Empty constructor
      */
@@ -59,6 +63,9 @@ public class Escape
                     break;
                 case '"' :
                     stEntity = "&quot;";
+                    break;
+                case '\n' :
+                    stEntity = LINE_SEPARATOR;
                     break;
                 default :
                     /* no-op */ ;
