@@ -75,6 +75,45 @@
     </fileset>
   </path>
 
+
+  <!-- =================================================================== -->
+  <!-- prints the targets available in this build file                     -->
+  <!-- =================================================================== -->
+  <target name="help">
+    
+    <echo>
+  ****************************************************************************
+  ** 
+  **  Help for Velocity build file
+  **
+  **  Target        Depends on          Description
+  **                                    default - see jar
+  **  env                               echos environment variables to screen
+  **  prepare       env                 creates build dir, copies source
+  **  J2EE-error    prepare             message if J2EE missing but required
+  **  compile       prepare             compiles non-J2EE source
+  **  compile-J2EE  prepare, J2EE-error compiles J2EE source
+  **  compile-copy                      move non-J2EE classes out of the way.
+  **  jar           compile             prepares {project}-{version} jar file
+  **  jar-J2EE      compile-J2EE        prepares jar including J2EE
+  **  jar-core      compile             prepares jar with only core classes
+  **  jar-util      compile             prepares jar with only util classes
+  **  jar-servlet   compile             prepares jar with only servlet classes
+  **  jar-src                           prepares jar of source
+  **  examples      jar                 compiles examples and calls forumdemo
+  **  examples-clean-anakia             cleans anakia example
+  **  examples-clean-forumdemo          cleans forum demo
+  **  examples-clean-all
+  **                examples-clean-anakia, examples-clean-forumdemo
+  **  javadocs      prepare             build javadocs
+  **  javadocs-clean                    delete javadocs
+  **  test          compile             runs JUnit tests
+  **  test-clean                        deletes test results
+  **  clean                             deletes build dir
+  ***************************************************************************
+    </echo>
+  
+  </target>
   <!-- =================================================================== -->
   <!-- prints the environment                                              -->
   <!-- =================================================================== -->
@@ -127,7 +166,7 @@
            **
            *********************************************************
         </echo>
-    </target>
+  </target>
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory w/o the j2ee dependent files          -->
@@ -162,10 +201,9 @@
       <classpath refid="classpath"/>
     </javac>
             
-   <antcall target="compile-copy"/>
+    <antcall target="compile-copy"/>
 
   </target>
-
 
   <!-- ====================================================================== -->
   <!-- copies post-compile target files to the right place.  (This target     -->
@@ -191,7 +229,6 @@
     />
 
   </target>
-   
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
@@ -207,7 +244,7 @@
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
+        <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
      
     </jar>
@@ -250,7 +287,7 @@
         <exclude name="org/apache/velocity/servlet/**"/>
         <exclude name="org/apache/velocity/texen/**"/>
         <exclude name="org/apache/velocity/test/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
+        <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -271,7 +308,7 @@
         <include name="org/apache/velocity/anakia/**"/>
         <include name="org/apache/velocity/convert/**"/>
         <include name="org/apache/velocity/texen/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
+        <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -290,7 +327,7 @@
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <include name="org/apache/velocity/servlet/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
+        <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -312,7 +349,7 @@
   <!-- =================================================================== -->
   <target name="examples" depends="jar">
         
-     <echo>
+    <echo>
       **************************************************************
       ** Building the examples :
       **   examples/appexample1 : application example
@@ -323,7 +360,7 @@
       **   examples/xmlapp_example : how to access XML data in a template
       **   forumdemo : demonstration webapp
       **************************************************************
-      </echo>
+    </echo>
 
     <javac srcdir="${example.dir}/app_example1
                   :${example.dir}/app_example2
@@ -338,7 +375,7 @@
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${build.dest}"/>
-        <pathelement location="${servlet.jar}"/>
+        <pathelement location="${servlet.jar}"/> 
       </classpath>
       
     </javac>
@@ -350,7 +387,9 @@
   <target name="examples-clean-all" depends="examples-clean-anakia,
                                              examples-clean-forumdemo">
     <delete quiet="true">
-      <fileset dir="${example.dir}" includes="**/*.class"/>
+      <fileset dir="${example.dir}" includes="**/*.class">
+        <include name="**/*.log"/>
+      </fileset>
     </delete>
   </target>
 
@@ -360,6 +399,7 @@
 
   <target name="examples-clean-forumdemo">
     <delete dir="${example.dir}/forumdemo/WEB-INF/classes" quiet="true"/>
+    <delete dir="${example.dir}/forumdemo/WEB-INF/lib" quiet="true"/>
   </target>
 
   <!-- =================================================================== -->
@@ -530,7 +570,7 @@
   <!-- Cleans up the build directory                                       -->
   <!-- =================================================================== -->
   <target name="clean">
-      <delete dir="${build.dir}" quiet="true"/>
+    <delete dir="${build.dir}" quiet="true"/>
   </target>
   
   <!-- =================================================================== -->
@@ -598,7 +638,7 @@
        #  for more information on obtaining jakarta-site2.
        #
        #######################################################
-       </echo>
+      </echo>
 
       <anakia basedir="${docs.src}" destdir="${docs.dest}/"
            extension=".html" style="./site.vsl"
