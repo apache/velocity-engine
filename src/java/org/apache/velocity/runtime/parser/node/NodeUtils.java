@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.6 2000/11/28 02:29:12 jvanzyl Exp $
+ * @version $Id: NodeUtils.java,v 1.7 2000/11/28 02:53:33 jvanzyl Exp $
  */
 public class NodeUtils
 {
@@ -123,8 +123,10 @@ public class NodeUtils
                     for (++cIdx ; cIdx < argStr.length(); ++cIdx)
                     {
                         ch = argStr.charAt(cIdx);
-                        if (ch == '_' || Character.isLetterOrDigit(ch))
+                        if (ch == '_' || ch == '-' || Character.isLetterOrDigit(ch))
                             nameBuf.append(ch);
+                        else if (ch == '{' || ch == '}')
+                            continue;  
                         else
                             break;
                     }
