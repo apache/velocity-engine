@@ -94,8 +94,8 @@ public class XPathTool
 
        @return A nodest
     */
-    List applyTo(String xpathSpec,
-                 Document doc)
+    public List applyTo(String xpathSpec,
+                        Document doc)
     {
         XPath xpath = new XPath( xpathSpec );
 
@@ -110,8 +110,8 @@ public class XPathTool
 
        @return A nodest
     */
-    List applyTo(String xpathSpec,
-                 Element elem)
+    public List applyTo(String xpathSpec,
+                        Element elem)
     {
         XPath xpath = new XPath(xpathSpec);
 
@@ -126,12 +126,13 @@ public class XPathTool
 
        @return A nodest
     */
-    List applyTo(String xpathSpec,
-                 List nodeSet)
+    public List applyTo(String xpathSpec,
+                        List nodeSet)
     {
         XPath xpath = new XPath(xpathSpec);
 
         return xpath.applyTo( nodeSet );
     }
+
         
 }
