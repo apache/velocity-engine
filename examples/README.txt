@@ -57,6 +57,10 @@ This is a demonstration of 2 different context implementations :
    script.
  - a context implementation that uses a TreeMap for storage.  Very simple.
 
+logger_example
+--------------
+This is a toy program to show how any class can be used as a logging
+facility with Velocity.
 
 Thanks for using Velocity!
 
