@@ -264,7 +264,7 @@
     </taskdef>
   
     <texen 
-      contextProperties="../test/texen/service.props"
+      contextProperties="../test/texen/service.props,../test/texen/additional.props"
       controlTemplate="Control.vm"
       outputDirectory="../test/texen/results"
       templatePath="../test/texen/templates"
