@@ -71,15 +71,11 @@ import java.util.Enumeration;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import org.apache.log.LogKit;
 import org.apache.log.Logger;
-import org.apache.log.LogTarget;
-import org.apache.log.Formater;
-import org.apache.log.output.FileOutputLogTarget;
-
-import org.apache.velocity.runtime.log.VelocityFormater;
 
 import org.apache.velocity.Template;
+
+import org.apache.velocity.runtime.log.LogManager;
 
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -173,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.79 2000/12/20 05:25:18 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.80 2001/01/02 02:42:29 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -414,29 +410,19 @@ public class Runtime implements RuntimeConstants
     /**
      * Initialize the Velocity logging system.
      */
-    private static void initializeLogger() throws
-        MalformedURLException
+    private static void initializeLogger() throws Exception
     {
-        /* 
-         * Let's look at the log file entry and
-         * correct it if it is not a property 
-         * fomratted URL.
+        /*
+         * Grab the log file entry from the velocity
+         * properties file.
          */
         String logFile = VelocityResources.getString(RUNTIME_LOG);
 
         /*
-         * Initialize the logger.
+         * Initialize the logger. We will eventually move all
+         * logging into the logging manager.
          */
-        logger = LogKit.createLogger("velocity", 
-        StringUtils.fileToURL(logFile), "DEBUG");
-                
-        LogTarget[] t = logger.getLogTargets();            
-
-        ((FileOutputLogTarget)t[0])
-            .setFormater((Formater) new VelocityFormater());
-
-        ((FileOutputLogTarget)t[0])
-            .setFormat("%{time} %{message}\\n%{throwable}" );
+        logger = LogManager.createLogger(logFile);
 
         if ( !pendingMessages.isEmpty())
         {
