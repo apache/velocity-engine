@@ -352,7 +352,7 @@ Once we know about these basic helpers, it is easy to write Java program that us
 
 <source><![CDATA[
 import java.io.StringWriter;
-import org.apache.velocity.util.Velocity;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 
 public class Example2
