@@ -268,7 +268,18 @@
     </td>
    </tr>
 
-
+   <tr>
+    <td>
+     <a href="http://www.aidministrator.nl/spectacle/">Spectacle:Server</a>
+    </td>
+    <td>
+	Spectacle Server is a 100% Java web component (to be deployed in
+	a web app server like Tomcat/JBoss/SunOne/WebSphere) which offers
+	high-performance, scalable guided exploration on sets of structured or
+	unstructured data. Spectacle uses Velocity templates for the rendering of 
+	information objects in HTML, XML or other formats.
+    </td>
+   </tr>
 
  </table>
 
