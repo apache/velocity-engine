@@ -53,19 +53,22 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
   <li>
     Documentation : basic EventCartridge description. (gmj)
   </li>
+  <li>
+    Added request specific encoding specification for templates. (gmj)
+  </li>
+  <li>
+    Additions from Tim Joyce for more Method Exception propogation
+    and exception event handling. (gmj)
+  </li>
 </ul>
-</subsection>
-
-<subsection name="1.0.2-dev">
-<p>
-Changes to v1.0.1-rc1
-</p>
-
 </subsection>
 
 <subsection name="1.0.1-dev">
 <p>
 Released as v1.0.1-rc1 on April 10, 2001.
+</p>
+<p>
+No changes following rc1.  Released as v1.0.1 on April 22, 2001.
 </p>
 
 <ul>
