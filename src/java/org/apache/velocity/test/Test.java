@@ -67,42 +67,39 @@ import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.Runtime;
 
-import org.apache.velocity.test.provider.TestProvider;
-
 /**
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.4 2000/10/22 16:00:02 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.5 2000/10/22 22:47:38 dlr Exp $
  */
 public class Test
 {
     public Test(String templateFile)
     {
-        TestProvider provider = new TestProvider();
-        ArrayList al = provider.getCustomers();
+        //TestProvider provider = new TestProvider();
+        //ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
         
         h.put("Bar", "this is from a hashtable!");
 
         try
         {
-            
             Runtime.init("velocity.properties");
             Template template = Runtime.getTemplate(templateFile);
             
             Context context = new Context();
-            context.put("provider", provider);
+            //context.put("provider", provider);
             context.put("name", "jason");
-            context.put("providers", provider.getCustomers2());
-            context.put("list", al);
+            //context.put("providers", provider.getCustomers2());
+            //context.put("list", al);
             context.put("hashtable", h);
-            context.put("search", provider.getSearch());
-            context.put("relatedSearches", provider.getRelSearches());
-            context.put("searchResults", provider.getRelSearches());
-            context.put("menu", provider.getMenu());
-            context.put("stringarray", provider.getArray());
+            //context.put("search", provider.getSearch());
+            //context.put("relatedSearches", provider.getRelSearches());
+            //context.put("searchResults", provider.getRelSearches());
+            //context.put("menu", provider.getMenu());
+            //context.put("stringarray", provider.getArray());
             
             FastWriter fw = new FastWriter(
                 System.out, Runtime.getString(
