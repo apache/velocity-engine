@@ -107,9 +107,9 @@
       <tr><td>
         <blockquote>
                                     <p>
-    This guide is the definitive but imcomplete reference for
+    This guide is the reference for
     the Velocity Template Language (VTL). For more information,
-    please refer to the Velocity User Guide.
+    please also refer to the <a href="user-guide.html">Velocity User Guide</a>.
 </p>
                             </blockquote>
       </td></tr>
@@ -132,19 +132,21 @@
         <blockquote>
                                     <p>
     Notation:
-    <br />
+    </p>
+                                                <p>
     <strong>$</strong> [ <strong>!</strong> ][ <strong>{</strong> ][
     <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>,
     <strong>A..Z</strong>, <strong>0..9</strong>, <strong>-</strong>,
     <strong>_</strong> ][ <strong>}</strong> ]
-
-      <br />
-      Examples:
-      <br />
-      Normal notation: <variable>$mud-Slinger_9</variable><br />
-      Silent notation: <variable>$!mud-Slinger_9</variable><br />
-      Formal notation: <variable>${mud-Slinger_9}</variable><br />
     </p>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
+        <li>Normal notation: <variable>$mud-Slinger_9</variable></li>
+        <li>Silent notation: <variable>$!mud-Slinger_9</variable></li>
+        <li>Formal notation: <variable>${mud-Slinger_9}</variable></li>
+    </ul>
                             </blockquote>
       </td></tr>
     </table>
@@ -157,20 +159,23 @@
       <tr><td>
         <blockquote>
                                     <p>
-      Notation:
-      <br />
+    Notation:
+    </p>
+                                                <p>
       <strong>$</strong> [ <strong>{</strong> ][ <strong>a..z</strong>,
       <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>,
       <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]*
       <strong>.</strong>[<strong>a..z</strong>, <strong>A..Z</strong> ][
       <strong>a..z</strong>, <strong>A-Z</strong>, <strong>0..9</strong>,
       <strong>-</strong>, <strong>_</strong> ]* [ <strong>}</strong> ]
-      <br />
-      Examples:
-      <br />
-      Regular Notation: $customer.Address<br />
-      Formal Notation: ${purchase.Total}<br />
     </p>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
+        <li>Regular Notation: $customer.Address</li>
+        <li>Formal Notation: ${purchase.Total}</li>
+    </ul>
                             </blockquote>
       </td></tr>
     </table>
@@ -183,8 +188,9 @@
       <tr><td>
         <blockquote>
                                     <p>
-      Notation:
-      <br />
+    Notation:
+    </p>
+                                                <p>
       <strong>$</strong> [ <strong>{</strong> ][ <strong>a..z</strong>,
       <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>,
       <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]*
@@ -193,21 +199,26 @@
       <strong>-</strong>, <strong>_</strong> ]*<strong>(</strong> [
       <i>opional parameter list...</i> ] <strong>)</strong> [
       <strong> } </strong>]
-      <br />
-      Examples:
-      <br />
-      Regular Notation: $customer.getAddress()<br />
-      Formal Notation: ${purchase.getTotal()}<br />
-      Regular Notation with Parameter List: $page.setTitle( "My Home Page" )<br />
     </p>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
+      <li>Regular Notation: $customer.getAddress()</li>
+      <li>Formal Notation: ${purchase.getTotal()}</li>
+      <li>Regular Notation with Parameter List: $page.setTitle( "My Home Page" )</li>
+    </ul>
                             </blockquote>
       </td></tr>
     </table>
-                                                <em>get</em>
-                                                <em>set</em>
-                                                <em>$object.getMethod()</em>
-                                                <em>$object.setMethod()</em>
-                                                <em>$object.Method</em>
+                                                <p>
+  VTL Properties can be used as a shorthand notation for VTL Methods
+  that take <em>get</em> and <em>set</em>. Either
+  <em>$object.getMethod()</em> or <em>$object.setMethod()</em> can be
+  abbreviated as <em>$object.Method</em>. It is generally preferable to
+  use a Property when available. The main difference between Properties
+  and Methods is that you can specify a parameter list to a Method.
+  </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -229,20 +240,24 @@
         <blockquote>
                                     <p>
     Format:
-    <br />
+    </p>
+                                                <p>
     <strong>#set( $</strong>ref <strong>=</strong> [ <strong>"</strong>,
     <strong>'</strong> ]arg[ <strong>"</strong>, <strong>'</strong> ] )
-    <br />
+    </p>
+                                                <p>
     Usage:
-    <br />
-    <em>$ref</em> - The LHS of the assignment must be a variable reference or
-    a property reference.
-    <br />
-    <em>arg</em> - The RHS of the assignment, <em>arg</em> is parsed if
-    enclosed in double quotes, and not parsed if enclosed in single quotes.
-    Examples of possible types are demonstrated:
-    <br />
-    <ul>
+    </p>
+                                                <ul>
+    <li><em>$ref</em> - The LHS of the assignment must be a variable reference or
+    a property reference.</li>
+    <li><em>arg</em> - The RHS of the assignment, <em>arg</em> is parsed if
+    enclosed in double quotes, and not parsed if enclosed in single quotes.</li>
+    </ul>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
       <li>Variable reference: #set( $monkey = "bill" )</li>
       <li>String literal: #set( $monkey.Friend = "monica" )</li>
       <li>Property reference: #set( $monkey.Blame = $whitehouse.Leak )</li>
@@ -250,15 +265,16 @@
       <li>Number literal: #set( $monkey.Number = 123 )</li>
       <li>Object array: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
     </ul>
-    The RHS can also be a simple arithmetic expression, such as:<br />
-    <ul>
+                                                <p>
+    The RHS can also be a simple arithmetic expression, such as:
+    </p>
+                                                <ul>
       <li>Addition: #set( $value = $foo + 1 )</li>
       <li>Subtraction: #set( $value = $bar - 1 )</li>
       <li>Multiplication: #set( $value = $foo * $bar )</li>
       <li>Division: #set( $value = $foo / $bar )</li>
       <li>Remainder: #set( $value = $foo % $bar )</li>
     </ul>
-    </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -272,19 +288,25 @@
         <blockquote>
                                     <p>
     Format:
-    <br />
+    </p>
+                                                <p>
     <strong>#if(</strong> [condition] <strong>)</strong> [output] [
     <strong>#elseif( </strong>[condition] <strong>)</strong> [output] ]* [
     <strong>#else( </strong>[condition] <strong>)</strong> [output] ]
     <strong>#end</strong>
-    <br />
+    </p>
+                                                <p>
     Usage:
-    <br />
-    <em>condition</em> - If a boolean, considered true if it has a true false;
-    if not a boolean, considered true if not null. Examples of conditions are
-    listed below:
-    <br />
-    <ul>
+    </p>
+                                                <ul>
+    <li><em>condition</em> - If a boolean, considered true if it has a true false;
+    if not a boolean, considered true if not null.</li>
+    <li><em>output</em> - May contain VTL.</li>
+    </ul>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
        <li>Equivalent Operator: #if( $foo == $bar )</li>
        <li>Greater Than: #if( $foo &gt; 42 )</li>
        <li>Less Than: #if( $foo &lt; 42 )</li>
@@ -293,8 +315,6 @@
        <li>Equals Number: #if( $foo = 42 )</li>
        <li>Equals String: #if( $foo = "bar" )</li>
     </ul>
-    <em>output</em> - May contain VTL.
-    </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -308,19 +328,24 @@
         <blockquote>
                                     <p>
     Format:
-    <br />
-    <strong>#foreach( $</strong>ref1 <strong>in $</strong>ref2
+    </p>
+                                                <p>
+    <strong>#foreach(</strong> $ref1 <strong>in</strong> $ref2
     <strong>)</strong> [ statement... ] <strong>#end</strong>
-    <br />
+    </p>
+                                                <p>
     Usage:
-    <br />
-    <em>$ref1</em> - The first variable reference is the item.<br />
-    <em>$ref2</em> - The second variable reference is the list that holds the
-    items.<br />
-    <em>statement</em> - What is done each time Velocity finds a valid item
-    ($ref1) in the list ($ref2).<br />
+    </p>
+                                                <ul>
+    <li><em>$ref1</em> - The first variable reference is the item.</li>
+    <li><em>$ref2</em> - The second variable reference is the list that holds the
+    items.</li>
+    <li><em>statement</em> - What is output each time Velocity finds a valid item
+    ($ref1) in the list ($ref2).</li>
+    </ul>
+                                                <p>
     Velocity provides an easy way to get the loop counter so that you can do
-    something like the following:<br />
+    something like the following:
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -334,8 +359,9 @@
       <td bgcolor="#ffffff"><pre>
     &lt;table&gt;
     #foreach( $customer in $customerList )
-    &lt;tr&gt;&lt;td&gt; $velocityCounter &lt;/td&gt;&lt;td&gt; $customer.Name &lt;/td&gt;&lt;/tr&gt;
-    #end &lt;/table&gt;
+        &lt;tr&gt;&lt;td&gt;$velocityCounter&lt;/td&gt;&lt;td&gt;$customer.Name&lt;/td&gt;&lt;/tr&gt;
+    #end
+    &lt;/table&gt;
     </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -347,12 +373,13 @@
     </table>
     </div>
                                                 <p>
-The default name for the loop counter variable reference, which is specified in
-the velocity.properties file, is $velocityCount. By default the counter starts
-at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
-</filename> file. Here's what the loop counter properties section of the
-<filename>velocity.properties</filename> file appears:
-</p>
+    The default name for the loop counter variable reference, which is
+    specified in the velocity.properties file, is $velocityCount. By
+    default the counter starts at 1, but this can be set to either 0 or
+    1 in the <code>velocity.properties</code> file. Here's what
+    the loop counter properties section of the
+    <code>velocity.properties</code> file appears:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -365,7 +392,7 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
       <td bgcolor="#ffffff"><pre>
     # Default name of the loop counter
     # variable refernce.
-      counter.name = velocityCount
+    counter.name = velocityCount
 
     # Default starting value of the loop
     # counter variable reference.
@@ -393,16 +420,20 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
         <blockquote>
                                     <p>
     Format:
-    <br />
+    </p>
+                                                <p>
     <strong>#include( </strong>arg[, arg2, ... argn]<strong> )</strong>
-    <br />
-    <em>arg</em> - Refers to a valid file under TEMPLATE_ROOT. Can be one of two types:
-    <br />
-    <ul>
+    </p>
+                                                <ul>
+    <li><em>arg</em> - Refers to a valid file under TEMPLATE_ROOT.</li>
+    </ul>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
       <li>String: #include( "disclaimer.txt", "opinion.txt" )</li>
       <li>Variable: #include( $foo, $bar )</li>
     </ul>
-    </p>
                             </blockquote>
       </td></tr>
     </table>
@@ -416,18 +447,23 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
         <blockquote>
                                     <p>
     Format:
-    <br />
-    <strong>#parse( </strong>arg<strong> )</strong>
-    <br />
-    <em>arg</em> - Refers to a template under TEMPLATE_ROOT. Can be one of two types:
-    <br />
-    <ul>
+    </p>
+                                                <p>
+    <strong>#parse(</strong> arg <strong>)</strong>
+    </p>
+                                                <ul>
+    <li><em>arg</em> - Refers to a template under TEMPLATE_ROOT.</li>    
+    </ul>
+                                                <p>
+    Examples:
+    </p>
+                                                <ul>
       <li>String: #parse( "lecorbusier.vm" )</li>
       <li>Variable: #parse( $foo )</li>
     </ul>
-    <br />
+                                                <p>
     Recursion permitted. See <em>parse_directive.maxdepth</em> in
-    <filename>velocity.properties</filename>
+    <code>velocity.properties</code>
     to change from parse depth. (The default parse depth is 10.)
     </p>
                             </blockquote>
@@ -443,12 +479,18 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
         <blockquote>
                                     <p>
     Format:
-    <br />
-    #stop
-    <br />
+    </p>
+                                                <p>
+    <strong>#stop</strong>
+    </p>
+                                                <p>
     Usage:
-    <br />
-    Intended for debugging purposes.
+    </p>
+                                                <p>
+    This will stop execution of the current template. This can also be
+    used in conjunction with the <strong>#foreach</strong> and
+    <strong>#if</strong> directives to conditionally stop a loop from
+    executing.
     </p>
                             </blockquote>
       </td></tr>
@@ -463,21 +505,22 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
         <blockquote>
                                     <p>
     Format:
-    <br />
+    </p>
+                                                <p>
     <strong>#macro(</strong> vmname $arg1[, $arg2, $arg3, ... $argn ]
     <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
-    <br />
-    <em>vmname</em> - Name used to call the VM (<em>#vmname</em>)<br />
-    <em>$arg1 $arg2 [ ... ]</em> - Arguments to the VM. There can be any number
+    </p>
+                                                <ul>
+    <li><em>vmname</em> - Name used to call the VM (<em>#vmname</em>)</li>
+    <li><em>$arg1 $arg2 [ ... ]</em> - Arguments to the VM. There can be any number
     of argumentss, but the number used at invocation must match the number
-    specified in the definition.
-    <br />
-    <em>[ VM VTL code... ]</em> - Any valid VTL code, anything you can put into
-    a template, can be put into a VM.
-    <br />
-
-   Once defined, the VM is used like any other VTL directive in a template.
-   </p>
+    specified in the definition.</li>
+    <li><em>[ VM VTL code... ]</em> - Any valid VTL code, anything you can put into
+    a template, can be put into a VM.</li>
+    </ul>
+                                                <p>
+    Once defined, the VM is used like any other VTL directive in a template.
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -488,8 +531,8 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-   #vmname( $arg1 $arg2 )
-   </pre></td>
+    #vmname( $arg1 $arg2 )
+    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -500,12 +543,17 @@ at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties
     </table>
     </div>
                                                 <p>
-   VMs can be defined in one of three places:
-   <br />
-   <i>Global library:</i> VMs pre-packaged with Velocity; available from any template<br />
-   <i>Local library:</i> customized, user-defined, site-specific VMs; availabe from any template<br />
-   <i>Inline:</i> found in regular templates, only usable when <em>velocimacro.permissions.allowInline=true</em> in <filename>velocity.properties</filename>.
-   </p>
+    VMs can be defined in one of three places:
+    </p>
+                                                <ol>
+    <li><i>Global library:</i> VMs pre-packaged with Velocity; available
+        from any template</li>
+    <li><i>Local library:</i> customized, user-defined, site-specific
+        VMs; availabe from any template</li>
+    <li><i>Inline:</i> found in regular templates, only usable when
+        <em>velocimacro.permissions.allowInline=true</em> in
+        <code>velocity.properties</code>.</li>
+    </ol>
                             </blockquote>
       </td></tr>
     </table>
