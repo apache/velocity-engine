@@ -30,6 +30,7 @@
   <property name="docs.src" value="../xdocs"/>
     
   <property name="log.jar" value="lib/log.jar"/>
+  <property name="jdom.jar" value="lib/jdom-b5.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="servlet.jar" value="lib/servlet.jar"/>
   <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
@@ -455,14 +456,27 @@
           >
 
       <echo>
-       #####################################################
+       ####################################################################
        #
        #  Fetching the latest stylesheet from jakarta-site2
        #
-       #  Ant really is the bee's knees.
-       #  http://jakarta.apache.org/ant/
+       #  NOTE : As this build target is meant for developers, this requires 
+       #    a properly setup CVS.  But you are encouraged to use this to 
+       #    experiment with Anakia - if the fetch fails, it may be because 
+       #    you haven't yet logged into CVS. The way to do it, assuming you
+       #    have a resonable CVS client setup is
        #
-       #####################################################
+       #  $ cvs -d :pserver:anoncvs@jakarta.apache.org:/home/cvspublic login
+       #  password: anoncvs
+       #
+       #  and that should solve it.  
+       #
+       #  See http://jakarta.apache.org/site/cvsindex.html for more 
+       #      information, or http://www.cvshome.org/
+       #
+       #  Ant really is the bee's knees. http://jakarta.apache.org/ant/
+       #
+       ######################################################################
        </echo>
 
       <cvs cvsRoot=":pserver:anoncvs@jakarta.apache.org:/home/cvspublic"
@@ -475,6 +489,7 @@
           
           <classpath>
              <pathelement location="${build.dir}/${project}-${version}.jar"/>
+             <pathelement location="${jdom.jar}"/>
           </classpath>
 
       </taskdef>
