@@ -55,13 +55,14 @@ package org.apache.velocity.runtime.loader;
  */
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 
+import java.util.Map;
 import java.util.Hashtable;
 
 import org.apache.velocity.Template;
-
 import org.apache.velocity.runtime.Runtime;
 
 /**
@@ -70,99 +71,78 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.9 $
+ * $Revision: 1.10 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
-    private Hashtable cache;
-    private String templatepath;
-    private boolean useCache;
-    private long checkInterval;
+    private String templatePath;
 
-    /**
-     * Get the properties needed.
+    /*
+     * This should probably be moved into the super class,
+     * the stand init stuff. For the properties that all
+     * loaders will probably share.
      */
-    public void init()
+    public void init(Map initializer)
     {
-        templatepath = Runtime.getString(
-            Runtime.TEMPLATE_PATH);
+        templatePath = (String) initializer.get("template.path");
+        cache = new Boolean((String)initializer.get("cache")).booleanValue();
+        modificationCheckInterval = Long.parseLong((String)initializer
+            .get("modificationCheckInterval"));
         
-        Runtime.info("Templates Loaded From: " + new File(templatepath).getAbsolutePath() );
-        
-        useCache = Runtime.getBoolean(
-            Runtime.TEMPLATE_CACHE );
-
-        Runtime.info("Template Caching: " + useCache );
-        
-        checkInterval = new Long(Runtime.getString(
-            Runtime.TEMPLATE_MOD_CHECK_INTERVAL)).longValue();
-
-        if ( useCache )
-        {
-            cache = new Hashtable();
-        }
-        
+        Runtime.info("Templates Loaded From: " +  new File(templatePath).getAbsolutePath());
         Runtime.info("Template Loader Initialized.");
     }
-    
+
     /**
-     * Fetch the template
-     * If caching is turned on, then it will get it from cache.
-     * otherwise, it will attempt to load it from the file
-     * @param name the name of the file
-     * @return Template
+     * Get an InputStream so that the Runtime can build a
+     * template with it.
      */
-    public synchronized Template getTemplate( String name )
+    public synchronized InputStream getTemplateStream( String name )
      throws Exception
     {
         if (name == null || name.length() == 0)
         {
             throw new Exception ("Need to specify a file name or file path!");
         }
-        if ( useCache )
-        {
-            if ( cache.containsKey( name ) )
-            {
-                CachedTemplate ct = (CachedTemplate)cache.get( name );
-                
-                if ( ct.isValid() )
-                {
-                    return ct.getTemplate();
-                }
-                else
-                {
-                    //remove from cache
-                    ct.setFile( null );
-                    ct.setTemplate( null );
-                    cache.remove( name );
-                }
-            }
-        }
-        File file = new File( templatepath, name );           
+        
+        File file = new File( templatePath, name );           
         if ( file.canRead() )
         {
-            Template template = new Template(new BufferedInputStream(
-                new FileInputStream(file.getAbsolutePath())));
+            return new BufferedInputStream(
+                new FileInputStream(file.getAbsolutePath()));
+        }
+        
+        return null;
+    }
 
-            if ( useCache )
-            {
-                CachedTemplate cacheit = new CachedTemplate( file );
-                cacheit.setTemplate( template );
-                cacheit.setInterval( checkInterval );
-                cache.put( name, cacheit );
-            }
-            return template;
-        }
-        else
+    public boolean isSourceModified(Template t)
+    {
+        File file = new File( templatePath, t.getName() );           
+        
+        if ( file.canRead() )
         {
-            throw new Exception("Can't load template: " + file.getAbsolutePath());
+            if (file.lastModified() != t.getLastModified())
+                return true;
+            else
+                return false;
         }
+        
+        // If the file is now unreadable, or it has
+        // just plain disappeared then we'll just say
+        // that it's modified :-) When the loader attempts
+        // to load the stream it will fail and the error
+        // will be reported then.
+        
+        return true;
+    }
+
+    public long getLastModified(Template t)
+    {
+        File file = new File(templatePath, t.getName());
+    
+        if (file.canRead())
+            return file.lastModified();
+        else
+            return 0;
     }
 }
-
-
-
-
-
-
-
