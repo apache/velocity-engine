@@ -60,7 +60,7 @@ import junit.framework.*;
  * Automated test case for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.7 2000/10/23 22:29:47 dlr Exp $
+ * @version $Id: VelocityTest.java,v 1.8 2000/10/25 23:29:13 dlr Exp $
  */
 public class VelocityTest extends BaseTestCase
 {
@@ -70,15 +70,5 @@ public class VelocityTest extends BaseTestCase
     public VelocityTest (String name)
     {
         super(name);
-    }
-
-    /**
-     * Get the containing <code>TestSuite</code>.
-     *
-     * @return The <code>TestSuite</code> to run.
-     */
-    public static junit.framework.Test suite ()
-    {
-        return BaseTestCase.suite();
     }
 }
