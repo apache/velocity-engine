@@ -27,6 +27,9 @@ REQUIREMENTS
 
 The Java 2 SDK is required to build Velocity.
 
+For users that wish to use Log4J as the logging
+system, version 1.1 of Log4J is required.
+
 BUILDING VELOCITY
 -----------------
 
