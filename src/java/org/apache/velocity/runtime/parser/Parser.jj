@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.37 2000/12/06 19:50:05 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.38 2000/12/08 03:19:23 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -1710,37 +1710,43 @@ void ElseIfStatement() : {/*@bgen(jjtree) ElseIfStatement */
 /*@egen*/
 }
 
+/**
+ *  Currently support both types of set :
+ *   #set( expr )
+ *   #set expr
+ */
 void SetDirective() : {/*@bgen(jjtree) SetDirective */
   ASTSetDirective jjtn000 = new ASTSetDirective(this, JJTSETDIRECTIVE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
 {/*@bgen(jjtree) SetDirective */
-   try {
+    try {
 /*@egen*/
-   (  <SET_DIRECTIVE>  Expression()  [<NEWLINE>] )/*@bgen(jjtree)*/
-   } catch (Throwable jjte000) {
-     if (jjtc000) {
-       jjtree.clearNodeScope(jjtn000);
-       jjtc000 = false;
-     } else {
-       jjtree.popNode();
-     }
-     if (jjte000 instanceof RuntimeException) {
-       throw (RuntimeException)jjte000;
-     }
-     if (jjte000 instanceof ParseException) {
-       throw (ParseException)jjte000;
-     }
-     throw (Error)jjte000;
-   } finally {
-     if (jjtc000) {
-       jjtree.closeNodeScope(jjtn000, true);
-     }
-   }
+    <SET_DIRECTIVE>  
+    [ LOOKAHEAD(2) <WHITESPACE> ] 
+    ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
 /*@egen*/
 }    
-
 
 /**
  * This method corresponds to the #stop
