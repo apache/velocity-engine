@@ -61,7 +61,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -93,7 +92,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.33 2001/04/22 18:22:11 geirm Exp $
+ * @version $Id: Template.java,v 1.34 2001/08/07 22:20:03 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -161,7 +160,7 @@ public class Template extends Resource
             {
                 BufferedReader br = new BufferedReader( new InputStreamReader( is, encoding ) );
  
-                data = Runtime.parse( br, name);
+                data = rsvc.parse( br, name);
                 initDocument();
                 return true;
             }
@@ -237,7 +236,7 @@ public class Template extends Resource
              *  init the AST
              */
 
-            ((SimpleNode)data).init( ica, null);
+            ((SimpleNode)data).init( ica, rsvc);
         }
         finally
         {
@@ -314,7 +313,7 @@ public class Template extends Resource
             String msg = "Template.merge() failure. The document is null, " + 
                 "most likely due to parsing error.";
 
-            Runtime.error(msg);
+            rsvc.error(msg);
             throw new Exception(msg);
         }
     }
