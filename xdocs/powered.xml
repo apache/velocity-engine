@@ -290,6 +290,18 @@
       </td>
      </tr>
 
+     <tr>
+      <td>
+       <a href="http://jag.sourceforge.net/">JAG - Java Application Generator</a>
+      </td>
+      <td>
+        JAG is an application that creates complete, working J2EE applications.
+          It is intended to alleviate much of the repetitive work involved in
+          creating such applications, while providing a means of quality
+          assurance that the applications created will be of consistent quality.
+      </td>
+     </tr>
+
  </table>
 
  </section>
