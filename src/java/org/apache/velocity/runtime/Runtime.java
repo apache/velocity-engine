@@ -173,7 +173,7 @@ public class Runtime
         return parser.parse(inputStream);
     }
 
-    public void initTemplateLoader()
+    public static void initTemplateLoader()
     {
         templateLoader.init();
     }

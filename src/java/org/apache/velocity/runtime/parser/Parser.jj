@@ -97,7 +97,7 @@ import org.apache.velocity.runtime.directive.Directive;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parser.jj,v 1.1 2000/09/30 17:04:24 jvanzyl Exp $ 
+ * @version $Id: Parser.jj,v 1.2 2000/09/30 22:58:14 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -151,6 +151,14 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
     {
         return (Directive) directives.get(directive);
     }
+
+    public boolean isDirective(String directive)
+    {
+        if (directives.containsKey(directive))
+            return true;
+        else
+            return false;
+    }            
 }
 
 PARSER_END(Parser)
@@ -676,6 +684,13 @@ SimpleNode Directive() :
     t = <WORD>
     {
         d = (Directive) directives.get(t.image.substring(1));
+        
+        if (d == null)
+        {
+            token_source.SwitchTo(DEFAULT);
+            return jjtn000;
+        }            
+        
         args = d.getArgs();
     }
 

@@ -30,6 +30,10 @@ public class ASTDirective extends SimpleNode
         throws IOException
     {
         String directive = getFirstToken().image.substring(1);
-        parser.getDirective(directive).render(context, writer, this);
+        
+        if (parser.isDirective(directive))
+            parser.getDirective(directive).render(context, writer, this);
+        else
+            writer.write(getFirstToken().image);
     }
 }
