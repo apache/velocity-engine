@@ -63,13 +63,15 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 
 /**
  * Base class for all directives used in Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Directive.java,v 1.15 2001/08/07 21:57:56 geirm Exp $ 
+ * @version $Id: Directive.java,v 1.16 2001/09/07 05:03:49 geirm Exp $ 
  */
 public abstract class Directive implements DirectiveConstants,Cloneable
 {
@@ -121,6 +123,7 @@ public abstract class Directive implements DirectiveConstants,Cloneable
      * How this directive is to be rendered 
      */
     public abstract boolean render( InternalContextAdapter context, 
-                                    Writer writer, Node node )
-        throws IOException, MethodInvocationException;
-}   
+                                    Writer writer, Node node )       
+           throws IOException, ResourceNotFoundException, ParseErrorException, 
+                MethodInvocationException;
+ }   
