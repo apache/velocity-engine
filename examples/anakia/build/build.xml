@@ -23,7 +23,9 @@
              projectFile="./stylesheets/project.xml"
              excludes="**/stylesheets/**"
              includes="**/*.xml"
-             lastModifiedCheck="true">
+             lastModifiedCheck="true"
+             templatePath="../xdocs/stylesheets"
+        >
         </anakia>
 
         <copy todir="${docs.dest}/images" filtering="no">
