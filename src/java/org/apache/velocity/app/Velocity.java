@@ -96,7 +96,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.5 2001/03/15 02:24:00 geirm Exp $
+ * @version $Id: Velocity.java,v 1.6 2001/03/15 04:46:32 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -152,6 +152,18 @@ public class Velocity implements RuntimeConstants
     public static void setProperty(String key, Object value)
     {
         Runtime.setProperty(key,value);
+    }
+
+    /**
+     *  Get a Velocity Runtime property.
+     *
+     *  @param key property to retrieve
+     *  @return property value or null if the property
+     *        not currently set
+     */
+    public static Object getProperty( String key )
+    {
+        return Runtime.getProperty( key );
     }
 
     /**
