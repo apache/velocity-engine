@@ -146,8 +146,7 @@
 
 	<target name="test-introspect3">
     <echo message="Running Introspector3 tests..."/>
-    <java classname="${velocity.test.runner}" fork="yes" 
-failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.IntrospectorTestCase3"/>
       <classpath>
         <path refid="classpath"/>
