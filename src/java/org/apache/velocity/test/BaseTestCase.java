@@ -63,8 +63,26 @@ import org.apache.velocity.runtime.Runtime;
  * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.3 2000/10/25 23:16:51 dlr Exp $
+ * @version $Id: BaseTestCase.java,v 1.4 2000/10/25 23:25:54 dlr Exp $
  */
 public abstract class BaseTestCase extends TestCase
 {
+    /**
+     * Creates a new instance.
+     */
+    public BaseTestCase (String name)
+    {
+        super(name);
+    }
+
+    /**
+     * Get the containing <code>TestSuite</code>.  This is always 
+     * <code>VelocityTestSuite</code>.
+     *
+     * @return The <code>TestSuite</code> to run.
+     */
+    public static junit.framework.Test suite ()
+    {
+        return new VelocityTestSuite();
+    }
 }
