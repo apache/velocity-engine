@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.33 2003/04/29 00:22:07 dlr Exp $
+ * @version $Id: RuntimeConstants.java,v 1.34 2003/10/22 03:00:46 dlr Exp $
  */
 public interface RuntimeConstants
 {
@@ -254,11 +254,24 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
      
-     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
-     
-     public static String RESOURCE_MANAGER_CACHE_CLASS =
+    public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
+
+    /**
+     * The <code>resource.manager.cache.class</code> property
+     * specifies the name of the {@link
+     * org.apache.velocity.runtime.resource.ResourceCache}
+     * implementation to use.
+     */
+    public static String RESOURCE_MANAGER_CACHE_CLASS =
                 "resource.manager.cache.class";
-                
+
+    /**
+     * The <code>resource.manager.cache.size</code> property specifies
+     * the cache upper bound (if relevant).
+     */
+    public static String RESOURCE_MANAGER_CACHE_SIZE =
+                "resource.manager.cache.size";
+
     /*
      * ----------------------------------------------------------------------
      * R E S O U R C E  L O A D E R  C O N F I G U R A T I O N

@@ -32,6 +32,15 @@ references, and Category.getInstance() with Logger.getLogger(). (#19133) (dlr)
 Removed the long-deprecated Log4JLogSystem.  Never fear,
 SimpleLog4JLogSystem remains. (dlr)
 </li>
+<li>
+Enhanced the implementation of ResourceCacheImpl using Jakarta Commons
+Collections LRUMap class.  The previous greedy implementation did not
+set an upper bound for the cache size, meaning that cached resources
+were never relinquished (a possible memory leak).  You can continue to
+use that behavior by setting the
+<code>resource.manager.cache.size</code> for your cache to less than
+1. (dlr)
+</li>
 </ul>
 
 </subsection>
