@@ -75,7 +75,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * A loader for templates stored on the file system.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.19 2003/05/04 17:37:41 geirm Exp $
+ * @version $Id: FileResourceLoader.java,v 1.20 2003/10/26 10:43:53 geirm Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -115,7 +115,7 @@ public class FileResourceLoader extends ResourceLoader
      * Get an InputStream so that the Runtime can build a
      * template with it.
      *
-     * @param name name of template to get
+     * @param templateName name of template to get
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
@@ -190,7 +190,8 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * Try to find a template given a normalized path.
      * 
-     * @param String a normalized path
+     * @param path a normalized path
+     * @param template name of template to find
      * @return InputStream input stream that will be parsed
      *
      */
