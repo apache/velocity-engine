@@ -126,9 +126,6 @@
        <classpath refid = "classpath"/> 
      </available>
 
-     <available classname="org.apache.velocity.anakia.AnakiaTask" 
-       property="AnakiaTask.present">
-     </available>
   </target>
 
   <target name="J2EE-error" depends="prepare"  unless="J2EE.present">
@@ -451,22 +448,45 @@
   <!-- =================================================================== -->
   <!-- Make HTML version of Velocity documentation                         -->
   <!-- =================================================================== -->
-  <target name="docs-prepare-error" depends="prepare" unless="AnakiaTask.present">
-      <echo>
-          The Jakarta-Site2 module is not present! Please check
-          to make sure that you have checked it out from CVS.
-          &lt;http://jakarta.apache.org/site/jakarta-site2.html&gt;
-      </echo>
-  </target>
 
   <target name="docs"
-          depends="docs-prepare-error"
+          depends="jar"
           description="--> generates the HTML documentation"
-          if="AnakiaTask.present">
+          >
 
+      <echo>
+       #####################################################
+       #
+       #  Fetching the latest stylesheet from jakarta-site2
+       #
+       #  Ant really is the bee's knees.
+       #  http://jakarta.apache.org/ant/
+       #
+       #####################################################
+       </echo>
+
+      <cvs cvsRoot=":pserver:anoncvs@jakarta.apache.org:/home/cvspublic"
+          command="checkout -p jakarta-site2/xdocs/stylesheets/site.vsl"
+          output="${docs.src}/stylesheets/site.vsl"
+      />
+      
       <taskdef name="anakia"
           classname="org.apache.velocity.anakia.AnakiaTask">
+          
+          <classpath>
+             <pathelement location="${build.dir}/${project}-${version}.jar"/>
+          </classpath>
+
       </taskdef>
+
+      <echo>
+       #######################################################
+       #
+       #  Now using Anakia to transform our XML documentation
+       #  to HTML
+       #
+       #######################################################
+       </echo>
 
       <anakia basedir="${docs.src}" destdir="${docs.dest}/"
            extension=".html" style="./site.vsl"
@@ -484,6 +504,7 @@
               <include name="**/*.jpg"/>
           </fileset>
       </copy>
+  
       <!-- In case we have CSS someday
       <copy todir="${docs.dest}" filtering="no">
           <fileset dir="${docs.src}">
