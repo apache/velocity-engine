@@ -18,7 +18,6 @@ public class Foreach implements Directive
 {
     public String getName() { return "foreach"; }        
     public int getType() { return BLOCK; }
-    public int getArgs() { return 3; }
 
     public void render(Context context, Writer writer, Node node)
         throws IOException

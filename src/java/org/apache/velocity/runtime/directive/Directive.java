@@ -14,7 +14,6 @@ public interface Directive
     
     public String getName();
     public int getType();
-    public int getArgs();
 
     public void render(Context context, Writer writer, Node node)
         throws IOException;

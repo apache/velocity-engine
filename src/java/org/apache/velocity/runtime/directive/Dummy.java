@@ -11,7 +11,6 @@ public class Dummy implements Directive
 {
     public String getName() { return "dummy"; }
     public int getType() { return LINE; }
-    public int getArgs() { return 3; }
 
     public void render(Context context, Writer writer, Node node)
         throws IOException
