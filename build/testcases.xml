@@ -269,6 +269,39 @@
 
   </target>
 
+  <!-- ================================================================ -->
+  <!-- T E X E N  C L A S S P A T H                                     -->
+  <!-- ================================================================ -->
+  <!-- Generate turbine service code via Texen with all the templates   -->
+  <!-- and ancillary files in a JAR.                                    -->
+  <!-- ================================================================ -->
+  
+  <target name="test-texen-classpath">
+    
+    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
+      <classpath>
+        <pathelement location="./test.jar"/>
+        <path refid="classpath"/>
+      </classpath>
+    </taskdef>
+  
+    <texen
+      useClassPath="true"
+      contextProperties="service.props"
+      controlTemplate="Control.vm"
+      outputDirectory="../test/texen-classpath/results"
+      outputFile="report"
+    />
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.TexenTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+
+  </target>
+
   <target name="test-multiloader">
     <echo message="Running MultiLoader tests..."/>
 
