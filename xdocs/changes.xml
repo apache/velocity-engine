@@ -15,9 +15,16 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.0.2-dev">
+<p>
+Changes to v1.0.1-rc1
+</p>
+
+</subsection>
+
 <subsection name="1.0.1-dev">
 <p>
-Changes to version 1.0
+Released as v1.0.1-rc1 on April 10, 2001.
 </p>
 
 <ul>
@@ -57,6 +64,11 @@ Changes to version 1.0
     Finished all comparison nodes (NPE prevention and good logging) and 
     enhanced logical.vm test template to try them all. (gmj)
   </li>
+  <li> 
+    Added xmlapp_example to examples, and added to examples build target.
+    Was moved from whiteboard. (gmj)
+  </li>
+
 </ul>
 
 </subsection>
