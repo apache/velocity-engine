@@ -132,10 +132,10 @@ import java.util.*;
  * much time to improve it), I wrote it this way.  If you don't like
  * it, go ahead and tune it up!
  *
- * @see org.apache.java.util.Configurations
+ * @see org.apache.velocity.util.Configurations
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: ExtendedProperties.java,v 1.1 2000/10/09 21:17:37 jvanzyl Exp $
+ * @version $Id: ExtendedProperties.java,v 1.2 2000/10/15 22:50:38 dlr Exp $
  */
 public class ExtendedProperties
     extends ConfigurationsRepository
