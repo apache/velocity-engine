@@ -26,12 +26,14 @@ public class ASTBlock extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
+    
+        return true;
     }
 }

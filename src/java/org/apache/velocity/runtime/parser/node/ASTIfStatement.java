@@ -27,7 +27,7 @@ public class ASTIfStatement extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         Object data = null;
@@ -68,6 +68,8 @@ public class ASTIfStatement extends SimpleNode
                     child.jjtGetChild(0).render(context, writer);
             }
         }            
+    
+        return true;
     }
 
     public void process(Context context, ParserVisitor visitor)
