@@ -167,7 +167,7 @@ public class VMContext implements InternalContextAdapter
      *  @param key name of item to get
      *  @return  stored object or null
      */
-    public Object get( String key ) throws MethodInvocationException
+    public Object get( String key ) 
     {
         /*
          * first, see if it's a VMPA

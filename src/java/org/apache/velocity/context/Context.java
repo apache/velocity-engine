@@ -1,6 +1,5 @@
 package org.apache.velocity.context;
 
-import org.apache.velocity.exception.MethodInvocationException;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -49,9 +48,8 @@ public interface Context
      *
      * @param key The name of the desired value.
      * @return    The value corresponding to the provided key.
-     * @throws MethodInvocationException
      */
-    Object get(String key) throws MethodInvocationException;
+    Object get(String key);
  
     /**
      * Indicates whether the specified key is in the context.

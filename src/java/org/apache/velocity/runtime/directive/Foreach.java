@@ -79,7 +79,7 @@ public class Foreach extends Directive
          * Get an object from the context, or null if the key is equal to the loop variable
          * @see org.apache.velocity.context.InternalContextAdapter#get(java.lang.String)
          */
-        public Object get( String key ) throws MethodInvocationException
+        public Object get( String key )
         {
             return ( active && loopVariableKey.equals(key) )
                 ? null

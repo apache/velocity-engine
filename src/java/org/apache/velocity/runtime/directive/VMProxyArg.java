@@ -240,7 +240,7 @@ public class VMProxyArg
      *  @return Object value
      *
      */
-    public Object getObject( InternalContextAdapter context ) throws MethodInvocationException
+    public Object getObject( InternalContextAdapter context )
     {        
         try
         {
@@ -346,7 +346,7 @@ public class VMProxyArg
             
             rsvc.error("VMProxyArg.getObject() : method invocation error getting value : " + mie );
             
-            throw mie;
+            return null;
         }
     }
 
