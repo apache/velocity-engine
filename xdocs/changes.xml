@@ -23,7 +23,7 @@
 <ul>
   <li>
      Fix to AbstractContext to 'roll forward' EventCartridges to ensure that
-     the last one added is available at render time.  (gmj)
+     the last one added is available at render time. (gmj)
   </li>
   <li>
     Small changes to developer docs re jar-src target and docs target. (gmj)
@@ -50,8 +50,66 @@
      Fix to VM system to prevent dumping of VM namespace when using 
      namespaces (in local.scope).  (gmj)
   </li>
+  <li> 
+     Fix to VM system to have correct 'schmoo'
+     output of a non-reference passed as arg to VM.  Thanks to DLR 
+     and Paulo for flogging this out of me :) (gmj)
+  </li>
+  <li>
+    Updates to StringUtils from Robert Burrell Donkin. (gmj)
+  </li>
+  <li>
+    Added MIE propogation from #parse() and VMs to propogate out. Thanks
+    to Michael Salmon for pointing this out. (gmj)
+  </li>
+  <li>
+    Added logging interface to Velocity class for completeness. (gmj)
+  </li>
+  <li>
+    Patch by Michael Salmon to WebMacro converter tool to let arbitrary
+    set of files be converted. (gmj)
+  </li>
+  <li>
+     TokenManagerError now thrown as ParserException to allow catching
+     at application level. (Suggested by Tim Joyce.)  (gmj)
+  </li>
+  <li>
+    Small parser fix to get ObjectArrray and IntegerRange handling right
+    everywhere. (gmj)
+  </li>
+  <li>
+     Speed optimzations for test provider. (dlr)
+  </li>
+  <li>
+    Enhancement to MIE message suggested by Conor MacNeill to make interpretation
+    of exception more useful when debugging. (gmj)
+  </li>
+  <li>
+    Small fix to #parse() and #include() 
+    such that when the template/resource was not file based
+    but stream based, there was no 'parent template' encoding to use 
+    for decoding the arg to #parse/#include.  Runtime default is used.
+    Thanks to Dan Finkelstein for finding this bug. (gmj)
+  </li>
+  <li>
+    Fix to problem reported by Andreas Wikberger (and patch too!) where
+    two loads were required to have template refresh after change when
+    time-based caching was enabled. (gmj)
+  </li>
+  <li>
+    Updated log4j adapter to be compatible with 1.1.x and updated
+    jars in build/lib to match. (gmj)
+  </li>
+  <li>
+    Changed VMFactory to not output scary messages when library is 
+    not found or empty string. Suggested by Tal Dayan. (gmj)
+  </li>
   <li>
      Added auto alternator functionality to VelocityFormatter. (dlr)
+  </li>
+  <li> 
+    Modified Velocity to support separate runtime instances and
+    added application support class o.a.v.app.VelocityEngine (gmj)
   </li>
 
 </ul>
