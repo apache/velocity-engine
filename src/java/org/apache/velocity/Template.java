@@ -63,6 +63,11 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+
+
 /**
  * This class is used for controlling all template
  * operations. This class uses a parser created
@@ -74,7 +79,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *
  * <pre>
  * Template template = Runtime.getTemplate("test.wm");
- * Context context = new Context();
+ * VelocityContext context = new VelocityContext();
  *
  * context.put("foo", "bar");
  * context.put("customer", new Customer());
@@ -84,7 +89,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.19 2000/12/19 05:36:32 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.20 2001/01/03 05:15:02 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -134,9 +139,15 @@ public class Template extends Resource
      */
     public void initDocument() throws Exception
     {
-        Context c = new Context();
-        c.setCurrentTemplateName( name );
-        ((SimpleNode)data).init( c, null);
+        /*
+         *  send an empty InternalContextAdapter down into the AST to initialize it
+         */
+        
+        InternalContextAdapter ica = new InternalContextAdapter(  new VelocityContext() );
+
+        ica.setCurrentTemplateName( name );
+        
+        ((SimpleNode)data).init( ica, null);
     }
 
     /**
@@ -149,16 +160,25 @@ public class Template extends Resource
      * in of the context. The context is required to
      * determine the objects being used by reflection.
      */
-    public void merge(Context context, Writer writer)
+    public void merge( Context context, Writer writer)
         throws IOException, Exception
     {
         if( data != null)
         {
-            context.setCurrentTemplateName( name );
-            ((SimpleNode)data).render(context, writer);
+            /*
+             *  create an InternalContextAdapter to carry the user Context down
+             *  into the rendering engine.  Set the template name and render()
+             */
+
+            InternalContextAdapter ica = new InternalContextAdapter( context );
+
+            ica.setCurrentTemplateName( name );
+
+            ( (SimpleNode) data ).render( ica, writer);
         }
         else
             Runtime.error("Template.merge() failure. The document is null, " + 
                           "most likely due to parsing error.");
     }
 }
+
