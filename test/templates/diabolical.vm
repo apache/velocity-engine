@@ -1,0 +1,24 @@
+#*
+
+@test diabolical.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression
+test doesn't fail incorrectly.
+
+This is for wierd strangeness that doesn't have any other home.
+
+*#
+
+$f.
+$f
+$f. $f
+#set $f = "foo"
+$f.
+$f
+$f. $f
+$thingy.dingy
+"#FFFFFF"
+"$ow"
+
