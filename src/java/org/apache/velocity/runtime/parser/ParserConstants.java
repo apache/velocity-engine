@@ -120,7 +120,7 @@ public interface ParserConstants {
     "<LOGICAL_GE>",
     "<LOGICAL_EQUALS>",
     "<LOGICAL_NOT_EQUALS>",
-    "\"!\"",
+    "<LOGICAL_NOT>",
     "\"=\"",
     "<END>",
     "\"if\"",
