@@ -124,7 +124,7 @@ public class ASTReference extends SimpleNode
         int children = jjtGetNumChildren();
         
         for (int i = 0; i < children - 1; i++)
-            result = jjtGetChild(i).invoke(result, context);
+            result = jjtGetChild(i).execute(result, context);
 
         Object[] args = { value };
         ClassUtils.invoke(result, "set" + jjtGetChild(children - 1)

@@ -56,7 +56,6 @@ public interface Node
     public void render(Context context, Writer writer)
         throws IOException;
 
-    public Object invoke(Object o, Context context);
     public Object execute(Object o, Context context);
 
     public void setInfo(int info);

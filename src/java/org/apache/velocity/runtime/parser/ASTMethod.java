@@ -68,27 +68,4 @@ public class ASTMethod extends SimpleNode
             return null;
         }            
     }
-
-    public Object invoke(Object result, Context context)
-    {
-        // node 1: method name
-        // The rest of the nodes are parameters
-        // to the method. They may be references
-        // or string literals. If they are
-        // references then we just use a little
-        // recursion.
-
-        String method = jjtGetChild(0).getFirstToken().image;
-        int parameters = jjtGetNumChildren() - 1;
-
-        Object[] params = new Object[parameters];
-
-        for (int j = 0; j < parameters; j++)
-        {
-            Node p = jjtGetChild(j + 1);
-            params[j] = p.value(context);
-        }
-        
-        return ClassUtils.invoke(result, method, params); 
-    }
 }
