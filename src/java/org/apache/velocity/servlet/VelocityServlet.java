@@ -91,7 +91,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.57 2004/03/20 03:35:51 dlr Exp $
+ * $Id$
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -299,14 +299,7 @@ public abstract class VelocityServlet extends HttpServlet
         
         if ( propsFile != null )
         {
-            String realPath = getServletContext().getRealPath(propsFile);
-        
-            if ( realPath != null )
-            {
-                propsFile = realPath;
-            }
-
-            p.load( new FileInputStream(propsFile) );
+            p.load(getServletContext().getResourceAsStream(propsFile));
         }
 
         return p;
