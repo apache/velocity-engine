@@ -1,0 +1,77 @@
+<html>
+ <head>
+  <title>the blab</title>
+  <link REL="stylesheet" TYPE="text/css" HREF="../images/forum.css">
+ </head>
+ <body>
+   <img src="../images/blabheader.gif" width="350" height="58">
+   <br>
+   <b>
+   <a href="/forumdemo/index.html">Home</a>&nbsp;|&nbsp;<a href="/forumdemo/post.html">Post a message</a>&nbsp;|&nbsp;<a href="/forumdemo/servlet/forum?action=list">View messages</a>
+   </b> 
+   <hr>
+   <center>
+   <form action="/forumdemo/servlet/forum" method="POST">
+    <input type="hidden" name="id" value="$id">
+    <input type="hidden" name="action" value="postreply">
+    <table border="0" cellspacing="0" cellpadding="5">
+     <tr>
+       <td bgcolor="#4a8ed6" align="right">
+         <b>Post a Reply</b>
+       </td>
+       <td bgcolor="#4a8ed6" align="left">
+         &nbsp;
+       </td>
+     </tr>
+     <tr>
+       <td bgcolor="#eeeeee" align="right">
+         Name:
+       </td>
+       <td bgcolor="#eeeeee" align="left">
+         <input type="text" name="name">
+       </td>
+     </tr>
+     <tr>
+       <td bgcolor="#eeeeee" align="right">
+         Email:
+       </td>
+       <td bgcolor="#eeeeee" align="left">
+         <input type="text" name="email">
+       </td>
+     </tr>
+     <tr>
+       <td bgcolor="#eeeeee" align="right">
+         Subject:
+       </td>
+       <td bgcolor="#eeeeee" align="left">
+        <input type="text" name="subject" value="RE: $subject" size="40">
+       </td>
+     </tr>
+     <tr>
+       <td bgcolor="#eeeeee" align="right">
+        Message:
+       </td>
+       <td bgcolor="#eeeeee" align="left">
+        <textarea  name="content" rows="8" cols="60" wrap="physical"></textarea>
+       </td>
+     </tr>
+      <tr>
+       <td bgcolor="#eeeeee" align="right">
+        &nbsp; 
+       </td>
+       <td bgcolor="#eeeeee" align="left">
+        <input type="Submit" name="Submit" value="Post a Reply"> 
+       </td>
+     </tr>
+    </table>
+  </form>  
+ </center>
+ </body> 
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+/* Page background color */
+body { background-color: #FFFFFF }
+
+BODY  {font-family: "Verdana"; font-size: 9pt; color: 000000}
+TD  {font-family: "Verdana"; font-size: 9pt; color: 000000}
+TR  {font-family: "Verdana"; font-size: 9pt; color: 000000}
+FONT  {font-family: "Verdana"; font-size: 9pt; color: 000000}
+I  {font-family: "Verdana"; font-size: 9pt; color: 000000;font-style: italic}
+BIG  {font-family: "Verdana"; font-size: 13pt; color: 000000;font-weight: bold}
+TH  {font-family: "Verdana"; font-size: 9pt; color: 000000;font-weight: bold}
+H1 {font-family: "Arial"; font-size: 30pt; color: navy;}
+STRONG {font-family: "Verdana"; font-size: 9pt; color: 000000;text-decoration: none; margin-left=0}
+H2 {font-family: "Verdana"; font-size: 15pt; color: 000000;text-decoration: none; margin-left=0}
+H3 {font-family: "Verdana"; font-size: 9pt; color: 000000;text-decoration: none; margin-left=0}
+PRE {font-family: "Verdana"; font-size: 9pt; color: 000000}
+BLOCKQUOTE {font-family: "Verdana, Arial, Helvetica"; font-size:9pt; color: 000000}
+
+
+/* Normal Links */
+A:link { color: #000000 }
+A:visted { color: #000000 }         
+A:active { color: #000000 }
+
+.theblue { color: #4a8ed6 }
+
+
+
+
+

@@ -1,0 +1,61 @@
+<html>
+ <head>
+  <title>the blab</title>
+  <link REL="stylesheet" TYPE="text/css" HREF="../images/forum.css">
+ </head>
+ <body>
+   <img src="../images/blabheader.gif" width="350" height="58">
+   <br>
+   <b>
+   <a href="/forumdemo/index.html">Home</a>&nbsp;|&nbsp;<a href="/forumdemo/post.html">Post a message</a>&nbsp;|&nbsp;<a href="/forumdemo/servlet/forum?action=list">View messages</a>
+   </b>
+   <hr>
+    <br>
+     <table border="0" cellspacing="0" cellpadding="5">
+     <tr>
+       <td bgcolor="#4a8ed6" align="center">
+         <b>Subject:</b>
+       </td>
+       <td bgcolor="#4a8ed6" align="center">
+         <b>Replies:</b>
+       </td>
+       <td bgcolor="#4a8ed6" align="center">
+         <b>Posted by:</b>
+       </td>
+       <td bgcolor="#4a8ed6" align="center">
+         <b>Submitted:</b>
+       </td>
+     </tr>
+    
+     #if ( $hasMessages )
+      #foreach ( $item in $listall )
+      
+       <tr>
+        <td bgcolor="#eeeeee" align="left">
+         <a href="/forumdemo/servlet/forum?action=view&id=$item.getId()">$item.getSubject()</a>
+        </td>
+        <td bgcolor="#eeeeee" align="center">
+          $item.numberOfReplies()
+        </td>
+        <td bgcolor="#eeeeee" align="center">
+          $item.getName()
+        </td>
+        <td bgcolor="#eeeeee" align="center">
+          $item.getSubmitted()
+        </td>
+      </tr>
+      
+     #end
+   #else
+     <tr>
+        <td bgcolor="#eeeeee" colspan="4">
+         <b>No Messages</b> Please post one!    
+        </td>
+     </tr>  
+   #end   
+      
+    </table>
+  
+ </body> 
+</html>
+
