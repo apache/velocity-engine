@@ -18,7 +18,12 @@
 <subsection name="1.0b3">
 <ul>
    <li>
-      Second beta period begun.
+        Documentation: Fix the VTL Reference guide for the #if
+        statement. Thanks to Joaquim Carvalho for the find. (JSS)
+   </li>
+   <li>
+        Documentation: Fixed the html in the user guide that generates
+        the TOC so that the numbers come out in proper order. (JSS)
    </li>
 </ul>
 

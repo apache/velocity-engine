@@ -166,7 +166,7 @@
     <p>
     <strong>#if(</strong> [condition] <strong>)</strong> [output] [
     <strong>#elseif( </strong>[condition] <strong>)</strong> [output] ]* [
-    <strong>#else( </strong>[condition] <strong>)</strong> [output] ]
+    <strong>#else</strong> [output] ]
     <strong>#end</strong>
     </p>
     
