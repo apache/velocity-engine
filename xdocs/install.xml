@@ -23,7 +23,9 @@ can be obtained from <a
 href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</a> or
 from the <a
 href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly
-builds</a>.
+builds</a>.  However, you will need to install Ant, an excellent
+Java-based build tool.  Ant is also a Jakarta project, and can be
+found <a href="http://jakarta.apache.org.ant/">here</a>.
 </p>
 
 <p>
@@ -48,11 +50,12 @@ jakarta-velocity
 <section name="Building">
 
 <p>
-To make building Velocity easy and consistant, we have provided scripts
-to build Velocity for both Unix and Windows.  We use a Jakarta project
+To make building Velocity easy and consistant, we require a Jakarta project
 called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.3 or
 higher to perform the build process. We assume that you have followed
-Ant's installation instructions and have it properly installed.
+Ant's installation instructions and have it properly installed.  It's not
+difficult, and I think that you will find it an excellent addition to
+your programmer's toolbox.
 </p>
 
 <p>
@@ -81,6 +84,17 @@ directory will contain the compiled class files (inside a
 version number. Be sure to update your classpath to include Velocity's
 <filename>.jar</filename> file.
 </p>
+
+<p>
+Note that to build any of the specific build targets, as detailed in
+the <a href="developers-guide.html">developers guide</a>, simply add
+the target name to the command line.  For example, to build the Javadoc
+API documentation :
+</p>
+
+<source><![CDATA[
+ant javadocs
+]]></source>
 
 <p>
 Velocity should build 'out of the box', independent of your classpath.
