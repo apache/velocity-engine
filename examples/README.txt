@@ -62,6 +62,11 @@ logger_example
 This is a toy program to show how any class can be used as a logging
 facility with Velocity.
 
+xmlapp_example
+--------------
+This is simple example that demonstrates direct access of XML data via 
+Velocity templates, as well as Velocimacro recursion.
+
 Thanks for using Velocity!
 
 - the Velocity team
