@@ -15,6 +15,11 @@
 <s1 title="Installation">
 
 <p>
+    Velocity runs on a variety of platforms that have installed the Java 2 Virtual Machine.
+    The J2SDK is required for users who want to compile Velocity from its source code.
+</p>
+
+<p>
     Everything required to build Velocity comes with the distribution, which 
     be obtained via <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> 
     or <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">downloaded</link>.
@@ -25,7 +30,7 @@
 <s1 title="Compiling">
 
 <p>
-    On Unix/Linux, sh to the velocity/build directory and execute the following 
+    On Unix/Linux, sh to the <pre>velocity/build</pre> directory and execute the following 
     script:
 </p>    
 
@@ -37,7 +42,7 @@
 </p>
 
 <p>
-    On Windows, execute the following script in the velocity\build directory:
+    On Windows, execute the following script in the <pre>velocity\build</pre> directory:
 </p>
 
 <p>
@@ -48,15 +53,15 @@ build-velocity.bat
 </p>
 
 <p>
-    Executing this script will create a "bin" directory within the Velocity
-    distribution directory. The bin directory will contain the compiled class 
-    files (inside a "classes" directory) as well as a "velocity.jar" file. 
+    Executing this script will create a <pre>bin</pre> directory within the Velocity
+    distribution directory. The <pre>bin</pre> directory will contain the compiled class 
+    files (inside a <pre>classes</pre> directory) as well as a <pre>velocity.jar</pre> file. 
     Be sure to update your classpath to include Velocity's .jar file.
 </p>
 
 <p>
     If you get a compiler error related to one or more packages that could not 
-    be found, ensure the build-velocity script you are using is edited to 
+    be found, ensure the <pre>build-velocity</pre> script you are using is edited to 
     properly specify the paths to each of the packages that could not be found.
 </p>
 
@@ -65,7 +70,7 @@ build-velocity.bat
 <s1 title="Testing Your Installation">
 
 <p>
-    There are testing scripts in the velocity/examples directory.
+    There are testing scripts in the <pre>velocity/examples</pre> directory.
 </p>
 
 </s1>
