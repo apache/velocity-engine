@@ -69,19 +69,19 @@ import junit.framework.TestCase;
  * generative task and compares the output.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TexenTestCase.java,v 1.1 2001/03/19 06:36:31 jvanzyl Exp $
+ * @version $Id: TexenTestCase.java,v 1.2 2001/03/19 22:38:58 jvanzyl Exp $
  */
-public class TexenTestCase extends TestCase
+public class TexenTestCase extends BaseTestCase
 {
-    /**
-     * Directory where comparison output is stored.
-     */
-    private static final String COMPARE_DIR = "../test/texen/compare";
-    
     /**
      * Directory where results are generated.
      */
     private static final String RESULTS_DIR = "../test/texen/results";
+
+    /**
+     * Directory where comparison output is stored.
+     */
+    private static final String COMPARE_DIR = "../test/texen/compare";
 
     /**
      * Creates a new instance.
@@ -111,9 +111,11 @@ public class TexenTestCase extends TestCase
     {
         try
         {
-            if (!isMatch("TurbineWeather") ||
-                !isMatch("TurbineWeatherService") ||
-                !isMatch("WeatherService"))
+            assureResultsDirectoryExists(RESULTS_DIR);
+            
+            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeather","java","java") ||
+                !isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeatherService","java","java") ||
+                !isMatch(RESULTS_DIR,COMPARE_DIR,"WeatherService","java","java"))
             {
                 fail("Output is incorrect!");
             }
@@ -124,62 +126,5 @@ public class TexenTestCase extends TestCase
              * do nothing.
              */
         }
-    }
-
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isMatch (String file) throws Exception
-    {
-        String result = StringUtils.fileContentsToString
-            (getFileName(RESULTS_DIR, file, "java"));
-            
-        String compare = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, file, "java"));
-
-        return result.equals(compare);
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        /* No op. */
     }
 }

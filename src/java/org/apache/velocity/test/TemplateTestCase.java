@@ -99,9 +99,9 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.28 2001/03/13 02:23:09 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.29 2001/03/19 22:38:58 jvanzyl Exp $
  */
-public class TemplateTestCase extends TestCase implements TemplateTestBase
+public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
     /**
      * The base file name of the template and comparison file (i.e. array for 
@@ -203,7 +203,7 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
             Template template = Runtime.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
             
-            assureResultsDirectoryExists();
+            assureResultsDirectoryExists(RESULT_DIR);
 
             /* get the file to write to */
             FileOutputStream fos = 
@@ -219,7 +219,8 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
             writer.flush();
             writer.close();
             
-            if (!isMatch())
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,baseFileName,
+                    RESULT_FILE_EXT,CMP_FILE_EXT))
             {
                 fail("Processed template did not match expected output");
             }
@@ -228,85 +229,5 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
         {
             fail(e.getMessage());
         }
-    }
-
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Assures that the results directory exists.  If the results directory
-     * cannot be created, fails the test.
-     */
-    private static void assureResultsDirectoryExists ()
-    {
-        File resultDir = new File(RESULT_DIR);
-        if (!resultDir.exists())
-        {
-            Runtime.info("Template results directory does not exist");
-            if (resultDir.mkdirs())
-            {
-                Runtime.info("Created template results directory");
-            }
-            else
-            {
-                String errMsg = "Unable to create template results directory";
-                Runtime.warn(errMsg);
-                fail(errMsg);
-            }
-        }
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isMatch () throws Exception
-    {
-        String result = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT));
-            
-        String compare = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, baseFileName, CMP_FILE_EXT));
-
-        return result.equals(compare);
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        /* No op. */
     }
 }

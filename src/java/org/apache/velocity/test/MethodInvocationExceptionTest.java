@@ -69,7 +69,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodInvocationExceptionTest.java,v 1.1 2001/03/19 17:10:01 geirm Exp $
+ * @version $Id: MethodInvocationExceptionTest.java,v 1.2 2001/03/19 22:38:58 jvanzyl Exp $
  */
 public class MethodInvocationExceptionTest extends TestCase 
 {
@@ -148,13 +148,5 @@ public class MethodInvocationExceptionTest extends TestCase
     {
         System.out.println("DooException");
         throw new NullPointerException();
-    }
-  
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        // No op.
     }
 }

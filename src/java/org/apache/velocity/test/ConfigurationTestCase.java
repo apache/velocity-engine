@@ -70,9 +70,9 @@ import junit.framework.TestCase;
  * Tests for the Configuration class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ConfigurationTestCase.java,v 1.1 2001/03/17 19:00:30 jvanzyl Exp $
+ * @version $Id: ConfigurationTestCase.java,v 1.2 2001/03/19 22:38:57 jvanzyl Exp $
  */
-public class ConfigurationTestCase extends TestCase
+public class ConfigurationTestCase extends BaseTestCase
 {
     /**
      * Comparison directory.
@@ -113,6 +113,8 @@ public class ConfigurationTestCase extends TestCase
     {
         try
         {
+            assureResultsDirectoryExists(RESULTS_DIR);
+            
             Configuration c = new Configuration(TEST_CONFIG);
             
             FileWriter result = new FileWriter(
@@ -166,7 +168,7 @@ public class ConfigurationTestCase extends TestCase
             result.flush();
             result.close();
             
-            if (!isMatch())
+            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "output","res","cmp"))
             {
                 fail("Output incorrect.");
             }
@@ -208,49 +210,5 @@ public class ConfigurationTestCase extends TestCase
         result.write(message + "\n");
         result.write("--------------------------------------------------\n");
         result.write("\n");
-    }
-
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        
-        return buf.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isMatch () throws Exception
-    {
-        String result = StringUtils.fileContentsToString
-            (getFileName(RESULTS_DIR, "output", "res"));
-            
-        String compare = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "output", "cmp"));
-
-        return result.equals(compare);
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        /* No op. */
     }
 }

@@ -70,9 +70,9 @@ import junit.framework.TestCase;
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.3 2001/03/19 19:10:33 jon Exp $
+ * @version $Id: AnakiaTestCase.java,v 1.4 2001/03/19 22:38:57 jvanzyl Exp $
  */
-public class AnakiaTestCase extends TestCase
+public class AnakiaTestCase extends BaseTestCase
 {
     private static final String COMPARE_DIR = "../test/anakia/compare";
     private static final String RESULTS_DIR = "../test/anakia/results";
@@ -93,13 +93,6 @@ public class AnakiaTestCase extends TestCase
     }
 
     /**
-     * Sets up the test.
-     */
-    protected void setUp ()
-    {
-    }
-
-    /**
      * Runs the test. This is empty on purpose because the
      * code to do the Anakia output is in the .xml file that runs
      * this test.
@@ -108,7 +101,9 @@ public class AnakiaTestCase extends TestCase
     {
         try
         {
-            if (!isMatch())
+            assureResultsDirectoryExists(RESULTS_DIR);
+            
+            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"index",FILE_EXT,FILE_EXT))
             {
                 fail("Output is incorrect!");
             }
@@ -123,62 +118,5 @@ public class AnakiaTestCase extends TestCase
              * do nothing.
              */
         }
-    }
-    
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isMatch () throws Exception
-    {
-        String result = StringUtils.fileContentsToString
-            (getFileName(RESULTS_DIR, "index", FILE_EXT));
-            
-        String compare = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "index", FILE_EXT));
-
-        return result.equals(compare);
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        /* No op. */
     }
 }
