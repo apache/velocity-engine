@@ -1,5 +1,5 @@
 Foreach with a vector
 
-#foreach $provider in $provider.Vector
+#foreach ($provider in $provider.Vector)
     This is the $provider.
 #end

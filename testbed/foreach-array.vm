@@ -1,7 +1,7 @@
 Foreach with an array.
 
 <table>
-#foreach $provider in $provider.Array
+#foreach ($provider in $provider.Array)
     <tr>
         <td>This is $provider</td>
     </tr>        
