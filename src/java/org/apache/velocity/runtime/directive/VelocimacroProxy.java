@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.9 2000/12/01 13:50:33 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.10 2000/12/02 03:31:32 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -88,6 +88,7 @@ public class VelocimacroProxy extends Directive
     private String[] strMacroArray_ = null;
     private TreeMap  tmArgIndexMap_ = null;
     private SimpleNode nodeTree_ = null;
+    private int iNumArgs_ = 0;
 
     private boolean bInit_ = false;
 
@@ -122,6 +123,21 @@ public class VelocimacroProxy extends Directive
     public void setArgArray( String [] strArray )
     {
         strArgArray_ = strArray;
+
+        /*
+         *  get the arg count from the arg array.  remember that the arg array 
+         *  has the macro name as it's 0th element
+         */
+
+        iNumArgs_ = strArgArray_.length - 1;
+    }
+
+    /**
+     *  returns the number of ars needed for this VM
+     */
+    public int getNumArgs()
+    {
+        return iNumArgs_;
     }
 
     /**
@@ -205,24 +221,20 @@ public class VelocimacroProxy extends Directive
     public void init(Context context, Node node) 
        throws Exception
     {
-         /*
+        /*
          *  how many args did we get?
          */
 
         int i  = node.jjtGetNumChildren();
         
         /*
-         *  get the arg count from the arg array.  remember that the arg array 
-         *  has the macro name as it's 0th element
-         *   if we don't have enough children specified...?
+         *  right number of args?
          */
-
-        int iArgCount = strArgArray_.length - 1;
         
-        if ( iArgCount != i ) 
+        if ( getNumArgs() != i ) 
         {
-            Runtime.error("VM : error : too few arguments to macro. Wanted " 
-                         + iArgCount + " got " + i + "  -->");
+            Runtime.error("VM #" + strMacroName_ + ": error : too few arguments to macro. Wanted " 
+                         + getNumArgs() + " got " + i + "  -->");
             return;
         }
 
@@ -236,6 +248,19 @@ public class VelocimacroProxy extends Directive
          *  now, expand our macro out to a string patched with the instance arguments
          */
        
+        expandAndParse( strCallingArgs );
+
+        return;
+    }
+
+    /**
+     *  takes an array of calling args, patches the VM and parses it.
+     *  called by init() or callable alone if you know what you are doing.
+     *
+     * @param strCallingArgs array of reference literals
+     */
+    public void expandAndParse( String strCallingArgs[] )
+    {
         StringBuffer strExpanded = expandMacroArray( strCallingArgs );
         
         /*
@@ -253,11 +278,6 @@ public class VelocimacroProxy extends Directive
 
             ByteArrayInputStream  inStream = new ByteArrayInputStream( strExpanded.toString().getBytes() );
             nodeTree_ = Runtime.parse( inStream );
-
-            /*
-             *  moved the init() down to render() to prevent problems with recursive VMs
-             */
-            //            nodeTree_.init( context, null );
         } 
         catch ( Exception e ) 
         {
