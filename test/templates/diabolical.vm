@@ -34,8 +34,13 @@ $strings.getVillageType($col.Type)
 $strings.getVillageType( $col.Type)
 $strings.getVillageType($col.Type )
 
--- Note that the \#end
-#foreach($a in  $stringarray)<$a>#end
+
+-#-# Inline loops #-#-
+
+blargh>#foreach($a in  $stringarray)<$a>#end<blargh
+blargh>#foreach($a in  $stringarray) <$a>#end<blargh
+blargh>#foreach($a in  $stringarray)<$a> #end<blargh
+blargh>#foreach($a in  $stringarray) <$a> #end<blargh
 
 #"FFFF
 -#-#-#-#-#

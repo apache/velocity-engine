@@ -22,8 +22,14 @@ $strings.getVillageType($col.Type)
 $strings.getVillageType($col.Type)
 $strings.getVillageType($col.Type)
 
--- Note that the #end
-<first element><second element>
+
+-#-# Inline loops #-#-
+
+blargh><first element><second element><blargh
+blargh> <first element> <second element><blargh
+blargh><first element> <second element> <blargh
+blargh> <first element>  <second element> <blargh
+
 #"FFFF
 -#-#-#-#-#
 #-#-#-#
