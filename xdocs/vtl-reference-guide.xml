@@ -261,12 +261,12 @@
 
 <source><![CDATA[
 # Default name of the loop counter
-# variable refernce.
-counter.name = velocityCount
+# variable reference.
+directive.foreach.counter.name = velocityCount
 
 # Default starting value of the loop
 # counter variable reference.
-counter.initial.value = 1
+directive.foreach.counter.initial.value = 1
 ]]></source>
 
   </subsection>
