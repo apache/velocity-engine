@@ -74,13 +74,12 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.10 2001/11/09 00:57:09 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.11 2001/11/17 12:02:52 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
     private Logger logger = null;
-    private String logPath = "";
-    
+
     private RuntimeServices rsvc = null;
 
     /**
@@ -123,7 +122,7 @@ public class AvalonLogSystem implements LogSystem
                 init( logfile );
 
                 logVelocityMessage( 0,
-                    "AvalonLogSystem initialized using logfile " + logPath );
+                    "AvalonLogSystem initialized using logfile '" + logfile + "'" );
             }
             catch( Exception e )
             {
