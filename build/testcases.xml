@@ -12,6 +12,8 @@
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
 
+ <property name="gump.failonerror" value="true"/>
+
   <!-- Build classpath -->
   <path id="classpath">
     <fileset dir="./lib">
@@ -66,7 +68,7 @@
   <target name="test-template">
     <echo message="Running Template tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.TemplateTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -77,7 +79,7 @@
   <target name="test-velocityapp"> 
     <echo message="Running app.Velocity tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.VelocityAppTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -88,7 +90,7 @@
   <target name="test-introspect"> 
     <echo message="Running Introspector tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.IntrospectorTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -99,7 +101,7 @@
   <target name="test-inlinevmscope">
     <echo message="Running Inline VM Scope tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}" >
       <arg value="org.apache.velocity.test.InlineScopeVMTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -110,7 +112,7 @@
   <target name="test-multi">
     <echo message="Running Multiple File Resource Path tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.MultipleFileResourcePathTest"/>
       <classpath>
         <path refid="classpath"/>
@@ -121,7 +123,7 @@
   <target name="test-cpload">
     <echo message="Running Classpath Resource tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.ClasspathResourceTest"/>
       <classpath>
         <path refid="classpath"/>
@@ -134,7 +136,7 @@
   <target name="test-contextsafety">
     <echo message="Running Context Safety tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.ContextSafetyTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -159,7 +161,7 @@
             lastModifiedCheck="false">
     </anakia>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}" >
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -168,7 +170,7 @@
   </target>
 
   <target name="test-configuration">
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}" >
       <arg value="org.apache.velocity.test.ConfigurationTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -179,7 +181,7 @@
   <target name="test-externallogger">
     <echo message="Running external logger tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.ExternalLoggerTest"/>
       <classpath>
         <path refid="classpath"/>
@@ -191,7 +193,7 @@
   <target name="test-methodinvocationexception">
     <echo message="Running MethodInvocationException tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.MethodInvocationExceptionTest"/>
       <classpath>
         <path refid="classpath"/>
@@ -222,7 +224,7 @@
       outputFile="report"
     />
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.TexenTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -234,7 +236,7 @@
   <target name="test-multiloader">
     <echo message="Running MultiLoader tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${gump.failonerror}">
       <arg value="org.apache.velocity.test.MultiLoaderTestCase"/>
       <classpath>
         <path refid="classpath"/>
