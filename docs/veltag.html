@@ -123,6 +123,11 @@
 
 <li>
 <a href="#So You Have To Use JSP...">So You Have To Use JSP...</a>
+<ul>
+  <li>
+    <a href="#What Are The Advantages">What Are The Advantages?</a>
+  </li>
+</ul>
 </li>
 
 <li>
@@ -139,6 +144,14 @@
 
 <li>
 <a href="#Building The Velocity Taglib">Building The Velocity Taglib</a>
+<ul>
+  <li>
+    <a href="#JJAR build">Build Using JJAR</a>
+  </li>
+  <li>
+    <a href="#nonJJAR build">Non-JJAR Traditional Build</a>
+  </li>
+</ul>
 </li>
 
 <li>
@@ -228,6 +241,61 @@ simple as :
     </div>
                                                 <p>
 Not hard at all, is it?
+</p>
+                                                <a name="What Are The Advantages"><strong>What Are The Advantages?</strong></a>
+                                                <p>
+The first question asked when confronted with this subject is something 
+along the lines of "What advantage does this have over 'pure' Velocity?".  
+Generally, there are few reasons why one would take a Velocity-only 
+system, and convert it to a JSP system with Velocity embedded in the 
+JSP pages.  The only reason that you might want to do this is to use 
+an existing JSP taglib that you want to use that you don't have the 
+source code for, or don't wish to dig out the core functional classes 
+of a taglib you do have the source for.  Otherwise, you could just drop
+those core classes in the Context, and access them directly from within
+the Velocity template.
+</p>
+                                                <p>
+The advantages, then, are found in a JSP-centric environment, where an
+existing application is already written in JSP and you wish to add or
+maintain functionality.  Some things that Velocity provides :
+
+<ul>
+<li> 
+     Simple access to Java objects, without any need to create a taglib
+     shell.  If it has public methods on a public interface, you can 
+     drop it right into a scope and access directly (or use a tool to 
+     create an instances of the class for you.)
+</li>
+<li> 
+     Simple access to complicated Java objects.  It's not clear how to 
+     access an arbitrary call chain such as $foo.bar( $thing ).getIterator().hasNext()
+</li>
+<li> 
+     Although this is a matter of personal taste, some people prefer the
+     control directives of Velocity ( #if(), #else(), #elseif(), #foreach() )
+     to the various taglibs that offer the same functionality.
+     <i>De gustibus non est disputandum!</i>.
+</li>
+<li> 
+     An easy bridge between complicated Java objects and JSP - for example
+     if you wished to dynamically choose/create an object at runtime, and
+     then poke into a scope for access in other parts of the JSP, you could
+     do that.
+     <pre>
+         &lt;vel:velocity strictaccess="true"&gt;
+             #set($reqbean = $scopetool.getRequestScope("beaninrequest"))
+             #set($newthing = $reqbean.getThing().makeBlue("azure"))
+             $request.getSession().setAttribute("bluething", $newthing)
+         &lt;/vel:velocity&gt;
+     </pre>
+     Or something like that :)
+</li>
+<li>
+     If nothing else, there are always the Velocimacros.
+</li>
+</ul>
+
 </p>
                             </blockquote>
         </p>
@@ -398,6 +466,59 @@ temporary directory as it is hoped this package will
 be accepted by the 
 <a href="http://jakarta.apache.org/taglibs/">Jakarta Taglibs</a>
 project.
+</p>
+                                                <a name="JJAR build"><strong>The Easy, JJAR Way</strong></a>
+                                                <p>
+The Veltag taglib can be built using a new, <b>experimental</b> 
+jar management tool called <em>JJAR</em>
+(Jakarta Jar Archive &amp; Repository) which makes finding and retrieving the
+dependencies to build the taglib simple.
+</p>
+                                                <p>
+ <i>Please note that JJAR is 
+currently a work in progress - while every effort will be made to ensure
+that the JJAR-based build works, it may not always be so.  In that case, 
+do it the regular way, listed below.</i>
+</p>
+                                                <p>
+To build with JJAR :
+
+<ol>
+<li> 
+  <a href="http://jakarta.apache.org/ant/">Ant</a>, the fabulous
+  Jakarta build tool, must be installed.
+</li>
+<li>
+   Get the Velocity distribution from CVS or a nightly snapshot.
+</li>
+<li>
+   Change directory to the <code>/contrib/temporary/veltag</code>
+   directory in the Velocity distribution.
+</li>
+<li>
+   Type :
+    <pre>
+      $ ant getjars
+    </pre>
+    This will fetch JJAR and then use JJAR to fetch the dependencies du
+    jour for Veltag.
+</li>
+<li>
+   Type :
+     <pre>
+      $ant jar
+     </pre>
+    which will build the veltag-XX.jar (XX = current version).
+</li>
+</ol>
+
+That's it.  Pretty easy.
+
+</p>
+                                                <a name="nonJJAR build"><strong>The JJAR-Is-A-Work-In-Progress Way</strong></a>
+                                                <p>
+In the event the JJAR-based build is broken, or you just enjoy
+schlepping around finding jars, do the following to build Veltag.
 </p>
                                                 <p>
 To build, you need the following :
