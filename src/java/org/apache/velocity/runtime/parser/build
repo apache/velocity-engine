@@ -11,3 +11,4 @@ javacc Parser.jj
 rm -f AST*
 rm -f Node.java
 rm -f SimpleNode.java
+rm -f ParserVisitor.java

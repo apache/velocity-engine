@@ -98,7 +98,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.6 2000/10/20 19:16:25 jvanzyl Exp $ 
+ * @version $Id: Parser.jj,v 1.7 2000/10/24 23:34:21 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -652,7 +652,15 @@ TOKEN :
 
 |   <#DIGIT: [ "0"-"9" ] >
 |   <NUMBER_LITERAL: (<DIGIT>)+ >
-|   <#LETTER: [ "a"-"z" ] >
+    {
+        //!!! fixed <bcolor="#333333"/>
+        // needs to be more thorough.
+        if (lparen == 0)
+            SwitchTo(DEFAULT);
+    }            
+    
+    //!!! fixed #FFFFFF
+|   <#LETTER: [ "a"-"z", "A" - "Z" ] >
 |   <WORD: (<LETTER>)+ >
 }
 
