@@ -61,6 +61,7 @@ import java.io.Serializable;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.runtime.resource.Resource;
 
 /**
  *  class to encapsulate the 'stuff' for internal operation of velocity.  
@@ -75,7 +76,7 @@ import org.apache.velocity.context.EventCartridge;
  *  is derived from this.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.6 2001/04/20 04:31:29 geirm Exp $
+ * @version $Id: InternalContextBase.java,v 1.7 2001/04/22 18:29:37 geirm Exp $
  */
 class InternalContextBase implements InternalHousekeepingContext,Serializable
 {
@@ -89,8 +90,8 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
      */
     private Stack templateNameStack = new Stack();
 
-
     private EventCartridge eventCartridge = null;
+    private Resource currentResource = null;
 
     /**
      *  set the current template name on top of stack
@@ -173,4 +174,14 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
         return eventCartridge;
     }
 
+    public void setCurrentResource( Resource r )
+    {
+        currentResource = r;
+    }
+
+    public Resource getCurrentResource()
+    {
+        return currentResource;
+    }
 }
+
