@@ -58,6 +58,8 @@ import java.io.StringWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 /**
  * This class represent a general text resource that may have been
  * retrieved from any number of possible sources.
@@ -67,7 +69,7 @@ import java.io.InputStreamReader;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.9 2002/10/10 17:28:09 dlr Exp $
+ * @version $Id: ContentResource.java,v 1.10 2002/10/10 17:53:33 dlr Exp $
  */
 public class ContentResource extends Resource
 {
@@ -76,8 +78,14 @@ public class ContentResource extends Resource
     {
     }
     
-    /** Pull in static content and store it */
+    /**
+     * Pull in static content and store it.
+     *
+     * @exception ResourceNotFoundException Resource could not be
+     * found.
+     */
     public boolean process()
+        throws ResourceNotFoundException
     {
         BufferedReader reader = null;
 
@@ -98,6 +106,12 @@ public class ContentResource extends Resource
             setData(sw.toString());
            
             return true;
+        }
+        catch ( ResourceNotFoundException e )
+        {
+            // Tell the ContentManager to continue to look through any
+            // remaining configured ResourceLoaders.
+            throw e;
         }
         catch ( Exception e ) 
         {
