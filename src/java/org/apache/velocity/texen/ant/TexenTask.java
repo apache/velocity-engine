@@ -77,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.17 2001/03/14 22:03:52 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.18 2001/03/23 01:02:23 geirm Exp $
  */
 
 public class TexenTask extends Task
@@ -160,11 +160,19 @@ public class TexenTask extends Task
      * for templates using the file template
      * loader.
      */
-    public void setTemplatePath(String templatePath)
-    {
-        this.templatePath = templatePath;
-    }
     
+    public void setTemplatePath(File templatePath)
+    {
+         try 
+         {
+             this.templatePath = templatePath.getCanonicalPath();
+         } 
+         catch (java.io.IOException ioe) 
+         {
+             throw new BuildException(ioe);
+         }
+     }
+
     /**
      * Get the path where Velocity will look
      * for templates using the file template
