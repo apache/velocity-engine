@@ -103,7 +103,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.19 2000/11/04 15:30:29 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.20 2000/11/05 03:18:42 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -467,12 +467,13 @@ TOKEN:
     }    
 }
 
-/*
- *  in REFMOD2, we don't want to bind the whitespace and \n like we do when closing a directive.
- */
+
 <REFMOD2>
 TOKEN:
 {
+    /*
+     *  in REFMOD2, we don't want to bind the whitespace and \n like we do when closing a directive.
+     */
     <REFMOD2_RPAREN: ")">
     {
         /*
@@ -835,34 +836,17 @@ SPECIAL_TOKEN :
     <REFERENCE_TERMINATOR: ~[] >
     {   
         /*
-         *  These can terminate a reference, but are needed in subsequent states
+         * push every terminator character back into the stream  
          */
 
-        if (image.toString().equals("=") || image.toString().equals("\n") || image.toString().equals("\r") )
-        {
-            input_stream.backup(1);
-        } 
-                
+        input_stream.backup(1);
+      
         inReference = false;
     
         if ( bDebugPrint_ )
             System.out.print("REF_TERM :");
         
         stateStackPop();
-
-        /*
-         *  I removed LPAREN & RPAREN from REFERENCE;  as there is no LPAREN,RPAREN in REF is there is REFMETHOD
-         */
-        
-        if (curLexState != DEFAULT && ( image.toString().equals(")") 
-                                        || image.toString().equals(",") 
-                                        || image.toString().equals("[") 
-                                        || image.toString().equals("]")
-                                        ) )
-        {
-            input_stream.backup(1);
-        }
-
     }
 }
 
@@ -2162,6 +2146,26 @@ void PrimaryExpression()       : {}
     would output
 
         $foo  $bar  \$woogie
+
+    
+    What You Expect
+    ---------------
+    The recent versions of the parser are trying to support precise output to support general template use.
+    So the #set statment no longer renders to a \n in the output, nor do the control statements.  So if you
+    had a template
+    
+        ------
+        #set $foo="foo"
+        #if($foo)
+        \$foo = $foo
+        #end
+        ------
+
+    it will render precisely :
+
+        ------
+        $foo = foo
+        ------
 
 
 */

@@ -3244,13 +3244,10 @@ final void SkipLexicalActions(Token matchedToken)
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
         /*
-         *  These can terminate a reference, but are needed in subsequent states
+         * push every terminator character back into the stream  
          */
 
-        if (image.toString().equals("=") || image.toString().equals("\n") || image.toString().equals("\r") )
-        {
-            input_stream.backup(1);
-        }
+        input_stream.backup(1);
 
         inReference = false;
 
@@ -3258,19 +3255,6 @@ final void SkipLexicalActions(Token matchedToken)
             System.out.print("REF_TERM :");
 
         stateStackPop();
-
-        /*
-         *  I removed LPAREN & RPAREN from REFERENCE;  as there is no LPAREN,RPAREN in REF is there is REFMETHOD
-         */
-
-        if (curLexState != DEFAULT && ( image.toString().equals(")")
-                                        || image.toString().equals(",")
-                                        || image.toString().equals("[")
-                                        || image.toString().equals("]")
-                                        ) )
-        {
-            input_stream.backup(1);
-        }
          break;
       default :
          break;
