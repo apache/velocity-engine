@@ -56,6 +56,7 @@ package org.apache.velocity.anakia;
 
 // JDK Stuff
 import java.io.*;
+import java.util.*;
 
 // Ant Stuff
 import org.apache.tools.ant.*;
@@ -63,6 +64,7 @@ import org.apache.tools.ant.taskdefs.*;
 
 // JDOM Stuff
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
@@ -85,7 +87,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.2 2000/11/22 06:56:34 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.3 2000/11/22 19:31:20 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -251,9 +253,10 @@ public class AnakiaTask extends MatchingTask
     
                 // Shove things into the Context
                 Context context = new Context();
-                context.put ("jdom", doc);
+                context.put ("root", doc.getRootElement());
                 context.put ("project", project);
-    
+                context.put ("xmlout", new XMLOutputter());
+
                 // Process the VSL template with the context and write out
                 // the result as the outFile.
                 writer = new BufferedWriter(new FileWriter(outFile));
