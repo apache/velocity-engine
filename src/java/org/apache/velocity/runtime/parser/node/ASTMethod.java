@@ -84,7 +84,7 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.17 2001/05/20 19:50:05 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.18 2001/07/18 10:42:22 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -295,7 +295,8 @@ public class ASTMethod extends SimpleNode
                         "Invocation of method '" 
                         + methodName + "' in  " + o.getClass() 
                         + " threw exception " 
-                        + e.getClass(), e, methodName );
+                        + e.getClass() + " : " + e.getMessage(), 
+                        e, methodName );
                 }
             }
             else
@@ -308,7 +309,8 @@ public class ASTMethod extends SimpleNode
                 "Invocation of method '" 
                 + methodName + "' in  " + o.getClass() 
                 + " threw exception " 
-                + ite.getTargetException().getClass(), 
+                + ite.getTargetException().getClass() + " : "
+                + ite.getTargetException().getMessage(), 
                 ite.getTargetException(), methodName );
             }
         }
