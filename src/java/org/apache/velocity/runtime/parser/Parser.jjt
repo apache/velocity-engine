@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.52 2001/01/24 16:05:06 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.53 2001/01/29 04:27:11 geirm Exp $ 
 */
 public class Parser
 {
@@ -821,7 +821,9 @@ TOKEN:
 TOKEN:
 {
     <#LETTER: [ "a"-"z", "A" - "Z" ] >
-|   <WORD: (<LETTER>)+ >
+|   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
+|   <WORD:  ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* >
+
 }
 
 /* -----------------------------------------------------------------------
