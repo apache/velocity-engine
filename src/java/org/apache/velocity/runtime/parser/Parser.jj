@@ -2,7 +2,7 @@
 /*@egen*//*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -97,6 +97,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
+import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -110,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.69 2002/03/23 13:38:32 geirm Exp $
+ * @version $Id: Parser.jj,v 1.70 2002/03/25 00:37:45 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -194,6 +195,15 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
              *  do that voodoo...
              */
             sn = process();
+        }
+        catch (MacroParseException mee)
+        {
+            /*
+             *  thrown by the Macro class when something is amiss in the
+             *  Macro specification
+             */
+            rsvc.error ("Parser Error:  #macro() : " + templateName + " : " + StringUtils.stackTrace(mee));
+            throw new ParseException(mee.getMessage());
         }
         catch (ParseException pe)
         {
@@ -393,7 +403,6 @@ TOKEN_MGR_DECLS:
 
         return;
     }
-
 
     /**
      *  handles the dropdown logic when encountering a RPAREN
@@ -1262,17 +1271,37 @@ void Word() : {/*@bgen(jjtree) Word */
  *   easily reconstruct a macro body from the token stream
  *   See Directive()
  */
-void DirectiveArg()       : {}
+int DirectiveArg()       : {}
 {
     Reference()
+    {
+        return ParserTreeConstants.JJTREFERENCE;
+    }
 |   Word()
+    {
+        return ParserTreeConstants.JJTWORD;
+    }
 |   StringLiteral()
+    {
+        return ParserTreeConstants.JJTSTRINGLITERAL;
+    }
 |   NumberLiteral()
-|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+    {
+        return ParserTreeConstants.JJTINTEGERRANGE;
+    }
 |   ObjectArray()
+    {
+        return ParserTreeConstants.JJTOBJECTARRAY;
+    }
 |   True()
+    {
+        return ParserTreeConstants.JJTTRUE;
+    }
 |   False()
-|   <WHITESPACE>
+    {
+        return ParserTreeConstants.JJTFALSE;
+    }
 }
 
 /**
@@ -1286,8 +1315,11 @@ SimpleNode Directive() :
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
     Token t = null;
+    int argType;
+    int argPos = 0;
     Directive d;
     int directiveType;
+    boolean isVM = false;
     boolean doItNow = false;
 }
 {/*@bgen(jjtree) Directive */
@@ -1301,7 +1333,7 @@ SimpleNode Directive() :
     {
         String directiveName = t.image.substring(1);
 
-        d = (Directive) directives.get( directiveName );
+        d = (Directive) directives.get(directiveName);
 
         /*
          *  Velocimacro support : if the directive is macro directive
@@ -1309,7 +1341,7 @@ SimpleNode Directive() :
          *   right then. (So available if used w/in the current template )
          */
 
-        if ( directiveName.equals("macro"))
+        if (directiveName.equals("macro"))
         {
              doItNow = true;
         }
@@ -1319,22 +1351,23 @@ SimpleNode Directive() :
          * about parser tokens
          */
 
-        jjtn000.setDirectiveName( directiveName );
+        jjtn000.setDirectiveName(directiveName);
 
         if ( d == null)
         {
             /*
              *  if null, then not a real directive, but maybe a Velocimacro
-	         */
+             */
 
-            //d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
+            isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
 
-            if ( !rsvc.isVelocimacro( directiveName, currentTemplateName ) )
+            if (!isVM)
             {
                 token_source.stateStackPop();
                 token_source.inDirective = false;
                 return jjtn000;
             }
+
 
             /*
              *  Currently, all VMs are LINE directives
@@ -1352,16 +1385,66 @@ SimpleNode Directive() :
          */
 
         token_source.SwitchTo(DIRECTIVE);
+
+        argPos = 0;
     }
 
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
 
-    [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )* <RPAREN>
+    [<WHITESPACE>] <LPAREN>  ( LOOKAHEAD(2) [<WHITESPACE>]
+
+            argType = DirectiveArg()
+            {
+                if (argType == ParserTreeConstants.JJTWORD)
+                {
+                    if (doItNow && argPos == 0)
+                    {
+                        /* if a VM and it's the 0th arg... ok */
+                        ;
+                    }
+                    else if( t.image.equals("#foreach") && argPos == 1)
+                    {
+                        /* if a foreach and it's the 2nd arg ok */
+                        ;
+                    }
+                    else
+                    {
+                        throw new MacroParseException("Invalid arg #"
+                            + argPos + " in "
+                            + (isVM ? "VM " : "directive " )
+                            + t.image
+                            + " at line " + t.beginLine + ", column "
+                            + t.beginColumn
+                            + " in template " + currentTemplateName);
+                    }
+                }
+                else
+                {
+                    if (doItNow && argPos == 0)
+                    {
+                        /* if a VM and it's the 0th arg, not ok */
+
+                        throw new MacroParseException("Invalid first arg "
+                            + " in #macro() directive - must be a"
+                            + " word token (no \' or \" surrounding)"
+                            + " at line " + t.beginLine + ", column "
+                            + t.beginColumn
+                            + " in template " + currentTemplateName);
+                    }
+                }
+
+                argPos++;
+            }
+
+    )* [<WHITESPACE>] <RPAREN>
     {
-        if ( directiveType  == Directive.LINE)
+
+        if (directiveType  == Directive.LINE)
+        {
             return jjtn000;
+        }
     }/*@bgen(jjtree) Block */
     {
       ASTBlock jjtn001 = new ASTBlock(this, JJTBLOCK);
@@ -1411,9 +1494,9 @@ SimpleNode Directive() :
          *     we don't have to worry about forward references and such...
          */
 
-        if ( doItNow )
+        if (doItNow)
         {
-            Macro.processAndRegister( rsvc, jjtn000, currentTemplateName );
+            Macro.processAndRegister(rsvc, jjtn000, currentTemplateName);
         }
 
         /*
@@ -1884,7 +1967,7 @@ void SetDirective() : {/*@bgen(jjtree) SetDirective */
 /*@egen*/
     <SET_DIRECTIVE>
     [ LOOKAHEAD(2) <WHITESPACE> ]
-    ( <LPAREN> Expression() <RPAREN>
+    ( <LPAREN>  [<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
     {
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
@@ -1939,29 +2022,30 @@ void Expression() : {/*@bgen(jjtree) Expression */
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
 {/*@bgen(jjtree) Expression */
-    try {
+try {
 /*@egen*/
-    LOOKAHEAD( PrimaryExpression() <EQUALS>  ) Assignment()
-|   ConditionalOrExpression()/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
+//    LOOKAHEAD( PrimaryExpression() <EQUALS>  ) Assignment()
+//|
+ConditionalOrExpression()/*@bgen(jjtree)*/
+} catch (Throwable jjte000) {
+  if (jjtc000) {
+    jjtree.clearNodeScope(jjtn000);
+    jjtc000 = false;
+  } else {
+    jjtree.popNode();
+  }
+  if (jjte000 instanceof RuntimeException) {
+    throw (RuntimeException)jjte000;
+  }
+  if (jjte000 instanceof ParseException) {
+    throw (ParseException)jjte000;
+  }
+  throw (Error)jjte000;
+} finally {
+  if (jjtc000) {
+    jjtree.closeNodeScope(jjtn000, true);
+  }
+}
 /*@egen*/
 }
 
