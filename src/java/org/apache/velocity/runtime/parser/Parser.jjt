@@ -130,7 +130,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.32 2000/11/21 02:29:38 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.33 2000/11/22 02:17:25 geirm Exp $ 
 */
 public class Parser
 {
@@ -1168,7 +1168,7 @@ SimpleNode Directive() :
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
 
-    [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )+ <RPAREN>
+    [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )* <RPAREN>
     {
         if (d.getType() == Directive.LINE)
             return jjtThis;
