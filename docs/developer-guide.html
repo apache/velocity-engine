@@ -2414,14 +2414,28 @@ your current logging facilities with Velocity to have all log messages
 sent to your logger.
 </p>
                                                 <p>
-Your options :
+Starting with version 1.3, Velocity will automatically use either the 
+<a href="http://jakarta.apache.org/avalon/logkit/index.html">
+Jakarta Avalon Logkit</a> logger, or the
+<a href="http://jakarta.apache.org/log4j/">Jakarta Log4j</a> logger.
+It will do so by using whatever it finds in the current classpath, starting
+first with Logkit.  If Logkit isn't found, it tries Log4j.
+</p>
+                                                <p>
+To utilize this feature, simply use the 'non-dependency' Velocity jar 
+(because Logkit is baked into the jar with dependencies) and place 
+either the logkit or log4j jar in your classpath.
+</p>
+                                                <p>
+In general, you have the following logging options :
 </p>
                                                 <ul>
 
 <li>
 <b>Default Configuration</b><br />
 By default, Velocity will create a file-based logger in the current 
-directory.
+directory.  See the note above regarding automatic detection of
+Logkit or Log4j to use as the default logging system.
 </li>
 
 <li>
@@ -2432,9 +2446,17 @@ then simply set the  configuration property
 <code>runtime.log.logsystem.class</code> with the 
 classname, and Velocity will create an instance of that class at init time.  
 You may specify the classname as you specify any other properties. See 
-the information on the <a href="developer-guide.html#Using Velocity In General Applications">
+the information on the 
+<a href="developer-guide.html#Using Velocity In General Applications">
 Velocity helper class</a> as well as the  
-<a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
+<a href="developer-guide.html#Velocity Configuration Keys and Values">
+configuration keys and values.</a>
+Please note that through oversight, the interface to
+<code>org.apache.velocity.runtime.log.LogSystem</code>
+was changed in v1.2 to support the separable instances of the Velocity
+runtime.  If you have an exisiting pre v1.2 custom logger that is going 
+to be instantiated by the Velocity LogManager, you must add the 
+<code>init( RuntimeServices )</code> method.
 </li>
 
 <li>
@@ -2443,9 +2465,11 @@ You can integrate Velocity's logging capabilities with your applications
 existing logging system, simply by implementing the 
 <code>org.apache.velocity.runtime.log.LogSystem</code> interface.  Then, 
 pass an instance of your logging class to Velocity via the 
-<code>runtime.log.logsystem</code> configuration key before calling init(), 
-and Velocity will log messages to your applications logger. See the information 
-on the <a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a> 
+<code>runtime.log.logsystem</code> configuration key before
+initializing the Velocity engine, 
+and Velocity will log messages to your applications logger. 
+See the information on the 
+<a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a> 
 as well as the 
 <a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
 </li>
@@ -2471,7 +2495,7 @@ into your own application.
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 import org.apache.velocity.runtime.log.LogSystem;
-
+import org.apache.velocity.runtime.RuntimeServices;
 ...
 
 public class MyClass implements LogSystem
@@ -2497,6 +2521,15 @@ public class MyClass implements LogSystem
              *  do something
              */
         }             
+    }
+
+    /**
+     *  This init() will be invoked once by the LogManager
+     *  to give you current RuntimeServices intance
+     */
+    public void init( RuntimeServices rsvc )
+    {
+        // do nothing
     }
 
     /**
