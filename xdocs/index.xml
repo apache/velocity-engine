@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.2 Release Candidate 1 Released">
+<section name="Velocity v1.2 Released">
 
  <p>
    <table>
@@ -18,7 +18,7 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Release candidate 1 of version 1.2 of the 
+   Version 1.2 of the
    Velocity Template Engine is now released.
    Combining contributions and improvements from throughout the 
    Velocity community, this version offers many new enhancements
@@ -52,9 +52,82 @@
    </a> for details.
 </p>
 
+<p>
+ <b>Note:</b>  Starting with this release, the distribution will contain
+ two pre-built jars, one with external dependencies included, and one
+ without.  Please see the <i>WHY_TWO_JARS.txt</i> note in the distribution
+ for more information.
+</p>
 </section>
 
 <section name="Velocity News">
+
+<p>
+  <strong>Luxor, Velocity-based XUL Toolkit Released</strong>
+  <blockquote>
+    Luxor is an open-source XML User Interface Language (XUL) toolkit for
+    Java. Read more <a href="http://luxor-xul.sourceforge.net">here</a>.
+    <i>(2001-12-08)</i>
+  </blockquote>
+</p>
+<p>
+<strong>Generate Code with Velocity in Borland's JBuilder </strong>
+<blockquote>
+  <a href="http://community.borland.com/article/0,1410,28086,00.html">Read</a> 
+  about how to use Velocity and Borland's OpenTools API to extend Borland's 
+  JBuilder for template-based Java source code generation. <i>(2001-12-08)</i> 
+</blockquote>
+</p>
+
+<p>
+<strong>Hey, Maybe We're On The Right Track After All...</strong>
+<blockquote>
+Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a 
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP 
+implementation.  As they say on their site :
+<blockquote>
+<i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
+</i>
+</blockquote>
+
+We do think that this is a step in the right direction for JSPs, making the page content easier to
+write and maintain. 
+<br/>
+<br/>
+However, we want to emphasize to users that this isn't the same thing as using
+Velocity - this is a small subset of the Velocity syntax which 
+was reimplemented in Resin.
+<br/>
+<br/>
+ Velocity is much more than an alternative syntax to the scriptlets and
+tags found in JSPs - it's a full-featured templating engine, fully portable to any
+J2EE servlet container, that offers many advanges over JSPs in the J2EE
+web application environment.  It also an excellent templating tool
+for other kinds of applications written in Java.
+<br/>
+<br/>
+So if you are interested in portable alternatives to JSP, we strongly 
+encourage you look deeper into what Velocity has to offer.
+<br/>
+<br/>
+And if you must use JSPs and want to incorporate Velocity into your
+current or new JSP-based web applications, take a look at our
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full 
+power of Velocity in your JSPs.
+</blockquote>
+</p>
+
+<p>
+<strong>Velocidoc Released</strong>
+<blockquote>
+<a href="http://velocidoc.sourceforge.net/intro.html">
+Velocidoc</a>, a Velocimacro documentation tool modeled after
+Javadoc, is now available.  Use Javadoc-style comments in your
+Velocimacro libraries, and use Velocidoc to generate HTML 
+documentation.
+</blockquote>
+</p>
 
 <p>
 <strong>New Apache Site Generated with Anakia</strong>
