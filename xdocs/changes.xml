@@ -38,6 +38,12 @@ This section describes changes to the man branch after the
      Change reported in bug #4256 by Jim Mackraz (jim@mackraz.com)
      reviewd and fixed by DLR. (gmj)
    </li>
+   <li>
+     Fixed Velocimacro autoload infinite loop bug. (gmj)
+   </li>
+   <li>
+     Update docs re autoload VM and repeatability of init() (gmj)
+   </li>
 </ul>
 
 </subsection>
