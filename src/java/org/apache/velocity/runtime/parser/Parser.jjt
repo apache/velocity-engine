@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.39 2000/12/08 03:17:31 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.40 2000/12/10 04:49:33 geirm Exp $ 
 */
 public class Parser
 {
@@ -161,6 +161,15 @@ public class Parser
         SimpleNode sn = null;
         
         strCurrentTemplateName = strTemplateName;
+
+        /*
+         *  clearing the VM namespace for this template
+         *  the VM factory / manager will determine if this 
+         *  is appropose, but I think this is the place to indicate
+         *  that it should be done.
+         */
+
+        Runtime.dumpVMNamespace( strCurrentTemplateName );
 
         try
         {
@@ -233,7 +242,7 @@ public class Parser
         {
            bRecognizedDirective = true;
         }
-        else if (Runtime.isVelocimacro( strDirective.substring(1)))
+        else if (Runtime.isVelocimacro( strDirective.substring(1), strCurrentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -1010,7 +1019,7 @@ void Escape() : {}
 
         if ( isDirective( t.next.image.substring(1)))
             bControl = true;
-        else if ( Runtime.isVelocimacro( t.next.image.substring(1)))
+        else if ( Runtime.isVelocimacro( t.next.image.substring(1), strCurrentTemplateName))
             bControl = true;
 
         t.image = "";
@@ -1120,7 +1129,7 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) Runtime.getVelocimacro( strDirectiveName );
+            d  =  (Directive) Runtime.getVelocimacro( strDirectiveName, strCurrentTemplateName );
 
             if (d == null) 
             {   
