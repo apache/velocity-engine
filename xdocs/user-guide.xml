@@ -1192,11 +1192,11 @@ $count
     </p>
 
 <source><![CDATA[
-#d
+#d()
 ]]></source>
 
     <p>
-    When this template is called, Velocity would replace <em>#d</em>
+    When this template is called, Velocity would replace <em>#d()</em>
     with a row containing a single, empty data cell.
     </p>
 
@@ -1331,6 +1331,82 @@ $count
     <tr><td bgcolor="#CC00FF">pileus</td></tr>
 </table>
 ]]></source>
+
+  <strong>Velocimacro Arguments</strong>
+
+  <p>
+   Velocimacros can take as arguments any of the following 
+   VTL elements :
+  </p>
+
+  <ul>
+    <li> 
+      Reference : anything that starts with '$'
+    </li>
+    <li> 
+      String literal : something like "$foo" or 'hello'
+    </li>
+    <li> 
+      Number literal : 1, 2 etc
+    </li>
+    <li> 
+      IntegerRange : [ 1..2] or [$foo .. $bar]
+    </li>
+    <li> 
+      ObjectArray : [ "a", "b", "c"]
+    </li>
+    <li> 
+       boolean value true
+    </li>
+    <li> 
+       boolean value false
+    </li>
+  </ul>
+
+   <p>
+     When passing references as arguments to Velocimacros, 
+     please note that references are passed 'by name'.  
+     This means that their value is 'generated' at each
+     use inside the Velocimacro.  This feature allows you
+     to pass references with method calls and have the 
+     method called at each use.  For example, when calling
+     the following Velocimacro as shown
+   </p>
+
+   <source><![CDATA[
+     #macro( callme $a )
+         $a $a $a
+     #end
+
+     #callme( $foo.bar() )
+   ]]></source>
+
+    <p>
+       results in the method bar() of the reference $foo
+       being called 3 times.
+    </p>
+
+    <p>
+       At first glance, this feature appears surprising, but 
+       when you take into consideration the original motivation
+       behind Velocimacros -- to eliminate cut'n'paste duplication
+       of commonly used VTL -- it makes sense.  It allows you to
+       do things like pass stateful objects, such as an object
+       that generates colors in a repeating sequence for 
+       coloring table rows, into the Velocimacro.
+    </p>
+   
+    <p>
+       If you need to circumvent this feature, you can always 
+       just get the value from the method as a new reference 
+       and pass that :
+    </p>
+
+    <source><![CDATA[
+     #set( $myval = $foo.bar() )
+     #callme( $myval )
+   ]]></source>
+
 
  </section>
 
