@@ -65,8 +65,7 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.9 2001/05/14 04:43:36 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.10 2001/05/14 19:44:08 geirm Exp $
  */
 
 // TODO: public boolean (String[] list)
@@ -151,84 +150,19 @@ public class ClassMap
     /**
      * Populate the Map of direct hits. These
      * are taken from all the public methods
-     * of all the public classes / interfaces
      * that our class provides.
      */
     private void populateMethodCache()
     {
-        /*
-         *  start with the interfaces
-         */
-
-        Class[] classes = clazz.getInterfaces();
-
-        for (int j = 0; j < classes.length; j++)
-        {
-            /*
-             * if the class is public, then add it to the cache
-             */
-
-            if (Modifier.isPublic( classes[j].getModifiers()))
-            {
-                populateMethodCache( classes[j] );
-            }
-        }
-
-        /*
-         *  and now the classes
-         */
-
-        classes = clazz.getClasses();
-
-        for (int j = 0; j < classes.length; j++)
-        {
-            /*
-             * if the class is public, then add it to the cache
-             */
-            
-            if (Modifier.isPublic( classes[j].getModifiers()))
-            {
-                populateMethodCache( classes[j] );
-            }
-        }
-    }
-
-    /**
-     *  adds all public methods to the method cache
-     *  and map
-     *  @param claz  Class to analyze
-     */
-    private void populateMethodCache( Class claz )
-    {
-        /*
-         * now, get all methods, from both interfaces
-         * as well as super
-         */
-
-        Method[] methods = claz.getMethods();
-        String  methodKey = null;
+        Method[] methods = clazz.getMethods();
+        StringBuffer methodKey;
 
         for (int i = 0; i < methods.length; i++)
         {
-            /*
-             *  only care if the method is public
-             */
-
             if (Modifier.isPublic(methods[i].getModifiers()))
             {
-                methodKey = makeMethodKey( methods[i] );
-
-                /*
-                 *  Only add this if we don't already have it, because the method
-                 *  key doesn't distinguish for which class/interface it 
-                 *  belongs FOR THIS CLASS.  And it shouldn't matter.
-                 */
-                
-                if( methodCache.get( methodKey ) == null)
-                {
-                    methodMap.add( methods[i] );
-                    methodCache.put( methodKey, methods[i]);
-                }
+                methodMap.add(methods[i]);
+                methodCache.put(makeMethodKey(methods[i]), methods[i]);
             }
         }            
     }
