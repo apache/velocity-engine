@@ -27,3 +27,12 @@ Using an Enumeration
 
   string1
   string2
+
+
+Using an array of primitives
+
+  10
+  20
+  30
+  40
+  50

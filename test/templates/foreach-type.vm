@@ -39,3 +39,10 @@ Using an Enumeration
 #foreach($i in $enumerator)
   $i
 #end
+
+
+Using an array of primitives
+
+#foreach( $i in $intarr )
+  $i
+#end
