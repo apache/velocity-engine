@@ -141,6 +141,42 @@
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="1.3-rc1"><strong>1.3-rc1</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+This section describes changes to the VEL_1_3_BRANCH after the
+1.3-rc1 release. These are updates working towards a rc2 or
+final.
+</p>
+                                                <ul>
+<li>
+Fixed javadoc in ClasspathResourceLoader (gmj)
+</li>
+<li>
+Backport from HEAD the #foo("#bar('a')") NPE fix (gmj)
+</li>
+<li>
+Update User's Guide - remove confusing and wrong content. (gmj)
+</li>
+<li>
+Fixed problem discovered by Ivan Bella where concurrent method
+invocations with varying parameters would be incorrect. (gmj)
+</li>
+<li>
+Brought recent Spanish and French translations of the User's Guide to the
+1.3 branch. (gmj)
+</li>
+</ul>
+                            </blockquote>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <a name="1.3-dev"><strong>1.3-dev</strong></a>
         </font>
       </td></tr>
@@ -148,7 +184,8 @@
         <blockquote>
                                     <p>
 This section describes changes to the main branch after the
-1.2 release.
+1.2 release. This was then branched as VEL_1_3_BRANCH in CVS
+and released as v1.3-rc on March 17, 2002.
 </p>
                                                 <ul>
   <li>

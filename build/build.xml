@@ -11,7 +11,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.3-dev"/>
+  <property name="version" value="1.3"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -25,7 +25,7 @@
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
-  <property name="year" value="2001"/>
+  <property name="year" value="2002"/>
   <property name="ant.home" value="."/>
   <property name="debug" value="on"/>
   <property name="optimize" value="on"/>
@@ -36,7 +36,7 @@
   <property name="docs.src" value="../xdocs"/>
 
   <!-- jars explicitly needed for bulding 'dep jar' -->    
-  <property name="log.jar" value="lib/logkit-1.0.jar"/>
+  <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="collections.jar" value="lib/commons-collections.jar" />
 
@@ -489,7 +489,7 @@
   <!-- =================================================================== -->
   <target name="package" depends="javadocs-clean,
                                examples-clean-anakia,
-                               test-clean,jar,javadocs">
+                               test-clean,clean,jar,jar-dep,javadocs">
         
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
@@ -556,6 +556,11 @@
     <copy 
       file="${build.dir}/${final.name}.jar" 
       tofile="${dist.dir}/${final.name}.jar"
+    />
+
+    <copy
+      file="${build.dir}/${project}-dep-${version}.jar"
+      tofile="${dist.dir}/${project}-dep-${version}.jar"
     />
 
     <fixcrlf srcdir="${dist.dir}"

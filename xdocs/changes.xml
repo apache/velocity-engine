@@ -15,11 +15,40 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.3-rc1">
+<p>
+This section describes changes to the VEL_1_3_BRANCH after the
+1.3-rc1 release. These are updates working towards a rc2 or
+final.
+</p>
+
+<ul>
+<li>
+Fixed javadoc in ClasspathResourceLoader (gmj)
+</li>
+<li>
+Backport from HEAD the #foo("#bar('a')") NPE fix (gmj)
+</li>
+<li>
+Update User's Guide - remove confusing and wrong content. (gmj)
+</li>
+<li>
+Fixed problem discovered by Ivan Bella where concurrent method
+invocations with varying parameters would be incorrect. (gmj)
+</li>
+<li>
+Brought recent Spanish and French translations of the User's Guide to the
+1.3 branch. (gmj)
+</li>
+</ul>
+
+</subsection>
 
 <subsection name="1.3-dev">
 <p>
 This section describes changes to the main branch after the
-1.2 release.
+1.2 release. This was then branched as VEL_1_3_BRANCH in CVS
+and released as v1.3-rc on March 17, 2002.
 </p>
 
 <ul>

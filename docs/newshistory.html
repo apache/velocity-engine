@@ -12,11 +12,11 @@
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
                                                     <meta name="author" value="Velocity Documentation Team">
-            <meta name="email" value="jon@latchkey.com">
+            <meta name="email" value="geirm@apache.org">
             
            
                                     
-            <title>Velocity - Velocity Specification - BNF</title>
+            <title>Velocity - Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -130,181 +130,118 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity Specification - BNF"><strong>Velocity Specification - BNF</strong></a>
+          <a name="Older Velocity News"><strong>Older Velocity News</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-Please note that this is currently out of date and will be updated soon.
+<strong>Hey, Maybe We're On The Right Track After All...</strong>
+<blockquote>
+Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP
+implementation.  As they say on their site :
+<blockquote>
+<i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
+</i>
+</blockquote>
+
+We do think that this is a step in the right direction for JSPs, making the page content easier to
+write and maintain.
+<br />
+<br />
+However, we want to emphasize to users that this isn't the same thing as using
+Velocity - this is a small subset of the Velocity syntax which
+was reimplemented in Resin.
+<br />
+<br />
+ Velocity is much more than an alternative syntax to the scriptlets and
+tags found in JSPs - it's a full-featured templating engine, fully portable to any
+J2EE servlet container, that offers many advanges over JSPs in the J2EE
+web application environment.  It also an excellent templating tool
+for other kinds of applications written in Java.
+<br />
+<br />
+So if you are interested in portable alternatives to JSP, we strongly
+encourage you look deeper into what Velocity has to offer.
+<br />
+<br />
+And if you must use JSPs and want to incorporate Velocity into your
+current or new JSP-based web applications, take a look at our
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full
+power of Velocity in your JSPs.
+</blockquote>
 </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-This is a tentative BNF for Velocity, right now this is
-pretty much the WM syntax. This might change, as arithmetic
-might not make it into the syntax, and the future
-velocity syntax will more then likely remove block
-markers and instead use an &quot;#end&quot; token to signify
-the end of a directive.
-
-
-&lt;statement&gt;         
-    
-    ::=   &lt;text&gt;
-        | &lt;block&gt;
-        | &lt;if-statement&gt;
-        | &lt;else-if-statement&gt;
-        | &lt;foreach-statement&gt;
-        | &lt;include-statement&gt;
-        | &lt;set-statement&gt;
-        | &lt;parse-statement&gt;
-        | &lt;param-statment&gt;
-        | &lt;stop-statement&gt;
-        | &lt;reference&gt;
-
-&lt;block&gt;
-    
-    ::= &quot;#begin&quot; { &lt;expresion&gt; } &quot;#end&quot;
-
-&lt;if-statement&gt;
-    
-    ::= &quot;#if&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
-
-
-&lt;else-if-statement&gt; 
-
-    ::= &quot;#elseif&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
-
-&lt;foreach-statement&gt; 
-
-    ::= &quot;#foreach&quot; &lt;reference&gt; &quot;in&quot; &lt;reference&gt; &lt;statement&gt;
-
-&lt;include-statement&gt; 
-
-    ::= &quot;#include&quot; &lt;string-literal&gt;
-
-&lt;set-statement&gt;     
-
-    ::= &quot;#set&quot; &lt;reference&gt; &quot;=&quot; &lt;expression&gt;
-
-&lt;parse-statement&gt;   
-
-    ::= &quot;#parse&quot; &lt;string-literal&gt;
-
-&lt;param-statment&gt;    
-
-    ::= &quot;#param&quot; &lt;reference&gt; &quot;=&quot; &lt;string-literal&gt;
-
-&lt;stop-statement&gt;    
-
-    ::= &quot;#stop&quot;
-
-&lt;reference&gt;         
-
-    ::= &quot;$&quot; &lt;identifier&gt; { &quot;.&quot; &lt;method&gt; | &lt;identifier&gt; }
-
-&lt;method&gt;            
-
-    ::= &lt;identifier&gt; &quot;(&quot; [ &lt;parameter&gt; { &quot;,&quot; &lt;parameter&gt; } ] &quot;)&quot;
-
-&lt;parameter&gt;         
-
-    ::= &lt;reference&gt; | &lt;string-literal&gt;
-
-&lt;alpha-char&gt;
-
-    ::= &quot;a..z, A..Z&quot;
-
-&lt;identifier-char&gt;   
-
-    ::= &quot;a..z, A..Z ,0..9 ,- ,_&quot;
-
-&lt;identifier&gt;        
-
-    ::= &lt;alpha-char&gt; { &lt;identifier-char&gt; }
-
-&lt;expression&gt;        
-
-    ::=   &lt;true&gt;
-        | &lt;false&gt;
-        | &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
-        | &lt;conditional-or-expression&gt;
-                        
-&lt;assignment&gt;        
-    
-    ::= &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
-
-&lt;conditional-or-expression&gt;
-
-    ::= &lt;conditional-and-expression&gt; { &quot;||&quot; &lt;conditional-and-expression&gt; }
-                            
-&lt;conditional-and-expression&gt;
-
-    ::= &lt;equality-expression&gt; { &quot;&amp;&amp;&quot; &lt;equality-expression&gt; }
-                        
-&lt;equality-expression&gt;
-
-    ::= &lt;relational-expression&gt;
-        {     &quot;==&quot; &lt;relational-expression&gt; 
-            | &quot;!=&quot; &lt;relational-expression&gt; 
-        }
-                        
-&lt;relational-expression&gt;
-
-    ::= &lt;additive-expression&gt;
-        {
-              &quot;&lt;&quot;  &lt;additive-expression&gt;
-            | &quot;&gt;&quot;  &lt;additive-expression&gt;
-            | &quot;&lt;=&quot; &lt;additive-expression&gt;
-            | &quot;&gt;=&quot; &lt;additive-expression&gt;
-        }
-                        
-&lt;additive-expression&gt;
-
-    ::= &lt;multiplicative-expression&gt;
-        {
-              &quot;+&quot; &lt;multiplicative-expression&gt;
-            | &quot;-&quot; &lt;multiplicative-expression&gt;
-        }
-                        
-&lt;multiplicative-expression&gt;
-
-    ::= &lt;unary-expression&gt;
-        {
-              &quot;*&quot; &lt;unary-expression&gt;
-            | &quot;/&quot; &lt;unary-expression&gt;
-            | &quot;%&quot; &lt;unary-expression&gt;
-        }
-                        
-&lt;unary-expression&gt;
-
-    ::= &quot;!&quot; &lt;unary-expression&gt; | &lt;primary-expression&gt;
-                
-&lt;primary-expression&gt;
-
-    ::=   &lt;string-literal&gt;
-        | &lt;number-literal&gt;
-        | &lt;reference&gt;
-        | &quot;(&quot; &lt;expression&gt; &quot;)&quot;
-
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
+                                                <p>
+<strong>Velocidoc Released</strong>
+<blockquote>
+<a href="http://velocidoc.sourceforge.net/intro.html">
+Velocidoc</a>, a Velocimacro documentation tool modeled after
+Javadoc, is now available.  Use Javadoc-style comments in your
+Velocimacro libraries, and use Velocidoc to generate HTML
+documentation.
+</blockquote>
+</p>
+                                                <p>
+<strong>New Apache Site Generated with Anakia</strong>
+<blockquote>
+The new web site of the
+<a href="http://www.apache.org">Apache Software Foundation</a>
+is now generated using
+<a href="anakia.html">Anakia</a>,
+the Velocity-based XML transformation tool.
+Take a look.
+</blockquote>
+</p>
+                                                <p>
+<strong>Need To Mix JSP and Velocity?</strong>
+<blockquote>
+Take a look at a new contribution, a
+<a href="veltag.html">Velocity taglib</a> that lets you
+use Velocity right in your JSPs.
+</blockquote>
+</p>
+                                                <p>
+<strong>4 published articles covering Velocity</strong>
+</p>
+                                                <blockquote>
+<a href="http://www.webtechniques.com/archives/2001/09/serv/">Getting Up
+to Speed with Velocity</a> is a really well written article by Jim
+Jagielski about the merits of using a tool like Velocity.
+</blockquote>
+                                                <blockquote>
+Many people believe that Velocity can only be used in the context of web
+applications. This excellent <a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0727-templates.html">JavaWorld
+article</a> by Leon Messerschmidt shows that the design of Velocity is
+such that it can be used in a myriad of applications.
+</blockquote>
+                                                <blockquote>
+The Java Developer Journal recently <a href="http://www.sys-con.com/java/articlea.cfm?id=1080">published</a> an
+edited version of the <a href="./ymtd/ymtd.html">YMTD article</a> by Jon
+Stevens as the cover story for their July edition.
+</blockquote>
+                                                <blockquote>
+  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out
+  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here</a>.  Thanks Sun!
+</blockquote>
+                                                <p>
+<strong> 4 Products/Projects Now Depend on Velocity </strong>
+</p>
+                                                <blockquote>
+Gentleware, Xadra and Vamp have built products which depend on Velocity.
+J/Top, a server monitoring project, also uses Velocity for email output
+formatting.
+We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
+</blockquote>
+                                                <p>
+<strong> 5 Web Frameworks Now Support Velocity </strong>
+</p>
+                                                <blockquote>
+Turbine, JPublish, Melati, Maverick and WebWork
+all support Velocity.
+We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
+</blockquote>
                             </blockquote>
         </p>
       </td></tr>
