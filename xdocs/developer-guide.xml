@@ -1161,7 +1161,7 @@ import java.util.Properties;
         /* first, we init the runtime engine.  */
 
         Properties p = new Properties();
-        p.setProperty("resource.loader.1.resource.path", "/opt/templates");
+        p.setProperty("file.resource.loader.path", "/opt/templates");
         Velocity.init( p );
 
         /* lets make a Context and put data into it */
