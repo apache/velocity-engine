@@ -53,7 +53,7 @@ as part of the distribution package, and of course, you can generate it
 yourself from the included sources.
 </p>
 <p>
-    If you are working on Unix/Linux and would like to create a full set
+    If you would like to create a full set
     of detailed API documentation for Velocity, go to the
     <code>build</code> directory and run:
 </p>
