@@ -56,6 +56,8 @@ package org.apache.velocity.util;
 
 import java.io.*;
 
+import java.net.MalformedURLException;
+
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -68,7 +70,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.4 2000/12/11 19:39:01 jon Exp $
+ *  @version $Id: StringUtils.java,v 1.5 2000/12/17 21:53:42 jon Exp $
  */
 public class StringUtils
 {
@@ -91,6 +93,33 @@ public class StringUtils
             s[i] = (String) v.elementAt(i);
 
         return s;
+    }
+
+    /**
+     * This was borrowed form xml-fop. Convert a file
+     * name into a string that represents a well-formed
+     * URL.
+     *
+     * d:\path\to\logfile
+     * file://d:/path/to/logfile
+     *
+     * NOTE: this is a total hack-a-roo! This should
+     * be dealt with in the org.apache.log package. Client
+     * packages should not have to mess around making
+     * properly formed URLs when log files are almost
+     * always going to be specified with file paths!
+     */
+    public static String fileToURL(String filename)
+        throws MalformedURLException
+    {
+        File file = new File(filename);
+        String path = file.getAbsolutePath();
+        String fSep = System.getProperty("file.separator");
+        
+        if (fSep != null && fSep.length() == 1)
+            path = "file://" + path.replace(fSep.charAt(0), '/');
+        
+        return path;
     }
 
     public static StringBuffer stringSubstitution(String argStr,
