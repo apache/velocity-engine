@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  Currently implemented by RuntimeInstance.
  * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeServices.java,v 1.5 2002/04/21 18:36:06 geirm Exp $
+ * @version $Id: RuntimeServices.java,v 1.6 2002/08/09 01:05:30 dlr Exp $
  */
 public interface RuntimeServices extends RuntimeLogger
 {
@@ -391,14 +391,22 @@ public interface RuntimeServices extends RuntimeLogger
      */
     public ExtendedProperties getConfiguration();
 
-    /*
-     *  Return the specified applcation attribute
+    /**
+     * Return the specified applcation attribute.
+     *
+     * @param key The name of the attribute to retrieve.
      */
     public Object getApplicationAttribute( Object key );
 
+    /**
+     * Returns the configured class introspection/reflection
+     * implemenation.
+     */
     public Uberspect getUberspect();
 
+    /**
+     * Returns the configured method introspection/reflection
+     * implemenation.
+     */
     public Introspector getIntrospector();
-
-
 }
