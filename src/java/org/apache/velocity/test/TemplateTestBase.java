@@ -55,8 +55,11 @@ package org.apache.velocity.test;
  */
 
 /**
+ * This is a base interface that contains a bunch of static final
+ * strings that are of use when testing templates.
+ *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestBase.java,v 1.1 2001/03/12 00:31:14 jon Exp $
+ * @version $Id: TemplateTestBase.java,v 1.2 2001/03/12 00:39:46 jon Exp $
  */
 public interface TemplateTestBase
 {
