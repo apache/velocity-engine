@@ -125,3 +125,66 @@ Logical AND :
 #else
  wrong
 #end
+
+----------
+equivalence
+-----------
+
+#set($int = 1)
+#set($str = "str")
+#set($bool = true)
+
+#if( $int == $str)
+wrong
+#else
+right
+#end
+
+#if( $int == 1 )
+right
+#else
+wrong
+#end
+
+#if ( $int == 2 )
+wrong
+#else
+right
+#end
+
+#if( $str == 2 )
+wrong
+#else
+right
+#end
+
+#if( $str == "str")
+right
+#else
+wrong
+#end
+
+#if( $str == $nonexistantreference )
+wrong
+#else
+right
+#end
+
+#if( $str == $bool )
+wrong
+#else
+right
+#end
+
+#if ($bool == true )
+right
+#else
+wrong
+#end
+
+#if( $bool == false )
+wrong
+#else
+right
+#end
+
