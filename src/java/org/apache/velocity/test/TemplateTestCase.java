@@ -69,6 +69,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
+import org.apache.velocity.test.provider.BoolObj;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.app.FieldMethodizer;
@@ -99,7 +100,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.33 2001/10/24 03:03:33 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.34 2001/11/19 13:56:09 geirm Exp $
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -179,6 +180,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.RuntimeSingleton" ));
         context.put("fmprov", new FieldMethodizer( provider ));
         context.put("Floog", "floogie woogie");
+        context.put("boolobj", new BoolObj() );
 
         /*
          *  we want to make sure we test all types of iterative objects
