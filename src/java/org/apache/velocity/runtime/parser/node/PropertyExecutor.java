@@ -1,4 +1,3 @@
-package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
@@ -53,28 +52,49 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.runtime.parser.node;
+
 import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
+/**
+ * Returned the value of object property when executed.
+ */
 public class PropertyExecutor extends AbstractExecutor
 {
-    protected Method method;
-    
-    public void setData(Object data)
+    public PropertyExecutor(Class c, String property)
     {
-        this.method = (Method) data;
-    }        
+        /*
+         * Not using the Introspector here because
+         * it can't deal with methods that have
+         * no arguments! That needs to be fixed.
+         */
+        
+        try
+        {
+            method = c.getMethod("get" + property, null);
+        }
+        catch (NoSuchMethodException nsme)
+        {
+        }
+    }
     
+    /**
+     * Get the value of the specified property.
+     */
     public Object execute(Object o, InternalContextAdapter context)
     {
         try
         {
+            if (method == null)
+                return null;
+            
             return method.invoke(o, null);
         }
         catch (Exception e)
         {
             return null;
-        }            
-    }    
+        }
+    }
 }

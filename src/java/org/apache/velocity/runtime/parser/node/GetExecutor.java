@@ -54,40 +54,37 @@
 
 package org.apache.velocity.runtime.parser.node;
 
-import java.util.Map;
+import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.util.introspection.Introspector;
 
-public class MapExecutor extends AbstractExecutor
+public class GetExecutor extends AbstractExecutor
 {
-    private String name;
+    private Object[] args = new Object[1];
     
-    public void setData(Object data)
+    public GetExecutor(Class c, String key)
+        throws Exception
     {
-        this.name = data.toString();
-    }        
+        args[0] = key;
+        method = Introspector.getMethod(c, "get", args);
+    }
     
     /**
-     * The root of introspection is assumed to be a Map
-     * so try to get the object that has been stored
-     * with the key 'name'. The lookup might fail
-     * for two reasons: the object may actually not
-     * be in the Map, or a property/method name
-     * could have been typed in incorrectly in
-     * the template which means we will be trying
-     * to cast a context object to a Map which
-     * will cause a ClassCastException. Just catch
-     * the CCE and return null: ASTIdentifier will
-     * log the warning.
+     * Try and execute the get(key) method for this
+     * object. There is no longer a requirement that
+     * this object implement the Map interface.
      */
     public Object execute(Object o, InternalContextAdapter context)
     {
         try
         {
-            return ((Map)o).get(name);
+            if (method == null)
+                return null;
+            
+            return method.invoke(o, args);
         }
-        catch (ClassCastException cce)
+        catch (Exception e)
         {
             return null;
         }
