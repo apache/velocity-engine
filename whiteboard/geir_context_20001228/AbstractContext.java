@@ -70,7 +70,7 @@ import org.apache.velocity.InternalContextBase;
  * abstract routines that access your preferred storage method.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AbstractContext.java,v 1.1 2000/12/29 19:21:28 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.2 2000/12/29 22:19:05 geirm Exp $
  */
 
 public abstract class AbstractContext implements Context, Serializable
@@ -149,6 +149,28 @@ public abstract class AbstractContext implements Context, Serializable
          *  call the global toolsmith :)  and get the toolset
          *  comprised of globals if request, as well as locals
          *  if specified
+         */
+
+        /*
+         *  NOTE : just to make it clear what I mean here - if we decide to implement
+         *  tool management via the velocity.props file (for global tools), then that 
+         *  tool management code should be used for both the global tools as well
+         *  as dealing with tool sets the app wants to specify via the loadTool() method.
+         *
+         *  so an app can :
+         *
+         *  call loadTools() with props/filenam = null and doGlobal = true
+         *    to get the global toolset into this context
+         *
+         *  call loadTools() with a valid props/filename and doGlobal = true
+         *    to get the global toolset PLUS the toolset in the props/propsfile
+         *    loaded into this context (by the toolmanager)
+         *
+         *  call loadTools() w/ valid props/filename and doGlobal = false
+         *    to get the toolset in the props/propsfile loaded into this context
+         *
+         *  The following line is just to let it compile, until we resolve (maybe) how
+         *  the global 'toolsmith' will work.
          */
 
         Hashtable h = new Hashtable(); // Runtime.toolsmith( props, doGlobal );
