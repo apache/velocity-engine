@@ -1,9 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.4 2000/11/16 02:16:13 jvanzyl Exp $
- * $Revision: 1.4 $
- * $Date: 2000/11/16 02:16:13 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/VelocityWriter.java,v 1.1 2000/11/16 07:06:01 jvanzyl Exp $
+ * $Revision: 1.1 $
+ * $Date: 2000/11/16 07:06:01 $
  *
  * ====================================================================
  * 
@@ -66,6 +66,66 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
+ * <p>
+ * The actions and template data in a JSP page is written using the
+ * JspWriter object that is referenced by the implicit variable out which
+ * is initialized automatically using methods in the PageContext object.
+ * <p>
+ * This abstract class emulates some of the functionality found in the
+ * java.io.BufferedWriter and java.io.PrintWriter classes,
+ * however it differs in that it throws java.io.IOException from the print
+ * methods while PrintWriter does not.
+ * <p><B>Buffering</B>
+ * <p>
+ * The initial JspWriter object is associated with the PrintWriter object
+ * of the ServletResponse in a way that depends on whether the page is or
+ * is not buffered. If the page is not buffered, output written to this
+ * JspWriter object will be written through to the PrintWriter directly,
+ * which will be created if necessary by invoking the getWriter() method
+ * on the response object. But if the page is buffered, the PrintWriter
+ * object will not be created until the buffer is flushed and
+ * operations like setContentType() are legal. Since this flexibility
+ * simplifies programming substantially, buffering is the default for JSP
+ * pages.
+ * <p>
+ * Buffering raises the issue of what to do when the buffer is
+ * exceeded. Two approaches can be taken:
+ * <ul>
+ * <li>
+ * Exceeding the buffer is not a fatal error; when the buffer is
+ * exceeded, just flush the output.
+ * <li>
+ * Exceeding the buffer is a fatal error; when the buffer is exceeded,
+ * raise an exception.
+ * </ul>
+ * <p>
+ * Both approaches are valid, and thus both are supported in the JSP
+ * technology. The behavior of a page is controlled by the autoFlush
+ * attribute, which defaults to true. In general, JSP pages that need to
+ * be sure that correct and complete data has been sent to their client
+ * may want to set autoFlush to false, with a typical case being that
+ * where the client is an application itself. On the other hand, JSP
+ * pages that send data that is meaningful even when partially
+ * constructed may want to set autoFlush to true; such as when the
+ * data is sent for immediate display through a browser. Each application
+ * will need to consider their specific needs.
+ * <p>
+ * An alternative considered was to make the buffer size unbounded; but,
+ * this had the disadvantage that runaway computations would consume an
+ * unbounded amount of resources.
+ * <p>
+ * The "out" implicit variable of a JSP implementation class is of this type.
+ * If the page directive selects autoflush="true" then all the I/O operations
+ * on this class shall automatically flush the contents of the buffer if an
+ * overflow condition would result if the current operation were performed
+ * without a flush. If autoflush="false" then all the I/O operations on this
+ * class shall throw an IOException if performing the current operation would
+ * result in a buffer overflow condition.
+ *
+ * @see java.io.Writer
+ * @see java.io.BufferedWriter
+ * @see java.io.PrintWriter
+ *
  * Write text to a character-output stream, buffering characters so as
  * to provide for the efficient writing of single characters, arrays,
  * and strings. 
@@ -78,8 +138,26 @@ import java.io.Writer;
  *
  * @author Anil K. Vijendran
  */
-public final class JspWriterImpl extends JspWriter
+public final class VelocityWriter extends Writer
 {
+    /**
+     * constant indicating that the Writer is not buffering output
+     */
+    public static final int	NO_BUFFER = 0;
+
+    /**
+     * constant indicating that the Writer is buffered and is using the implementation default buffer size
+     */
+    public static final int	DEFAULT_BUFFER = -1;
+
+    /**
+     * constant indicating that the Writer is buffered and is unbounded; this is used in BodyContent
+     */
+    public static final int	UNBOUNDED_BUFFER = -2;
+
+    protected int     bufferSize;
+    protected boolean autoFlush;
+
     private Writer writer;
     
     private char cb[];
@@ -95,10 +173,33 @@ public final class JspWriterImpl extends JspWriter
      *
      * @param  response  A Servlet Response
      */
-    public JspWriterImpl(Writer writer)
+    public VelocityWriter(Writer writer)
     {
         this(writer, defaultCharBufferSize, true);
     }
+
+    /**
+     * private constructor.
+     */
+    private VelocityWriter(int bufferSize, boolean autoFlush)
+    {
+        this.bufferSize = bufferSize;
+        this.autoFlush  = autoFlush;
+    }
+
+    /**
+     * This method returns the size of the buffer used by the JspWriter.
+     *
+     * @return the size of the buffer in bytes, or 0 is unbuffered.
+     */
+    public int getBufferSize() { return bufferSize; }
+
+    /**
+     * This method indicates whether the JspWriter is autoFlushing.
+     *
+     * @return if this JspWriter is auto flushing or throwing IOExceptions on buffer overflow conditions
+     */
+    public boolean isAutoFlush() { return autoFlush; }
 
     /**
      * Create a new buffered character-output stream that uses an output
@@ -109,9 +210,9 @@ public final class JspWriterImpl extends JspWriter
      *
      * @exception  IllegalArgumentException  If sz is <= 0
      */
-    public JspWriterImpl(Writer writer, int sz, boolean autoFlush)
+    public VelocityWriter(Writer writer, int sz, boolean autoFlush)
     {
-        super(sz, autoFlush);
+        this(sz, autoFlush);
         if (sz < 0)
             throw new IllegalArgumentException("Buffer size <= 0");
         this.writer = writer;
