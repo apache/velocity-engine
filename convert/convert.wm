@@ -33,6 +33,8 @@
 
 $_leadingUnderscore
 
+#set $entries = $host.getAuditLog($acl, $itemsPerPage, $filter)
+
 This is an explicitly terminated $statement;.
 
 $foo;.getBar() when $foo is a variable and getBar() is schmoo.
