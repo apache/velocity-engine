@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>The Velocity JSP Tag Library</title>
+  <author email="geirm@apache.org">Geir Magnusson Jr.</author>
+ </properties>
+
+<body>
+
+<section name="So You Have To Use JSP...">
+
+<p>
+ Sometimes it appears you don't have a choice - technology decisions are 
+ made based on all sorts of factors, ranging from network externalities
+("They're using it - I should too...") to legacy considerations
+("They used it - I have to...").
+</p>
+
+<p>
+In the event where the usage of JSP is mandatory, we offer a JSP tag library that lets 
+you take advantage of the simple control directives and powerful binding to the
+Java object model offered by Velocity.  Using Velocity in your JSPs is as 
+simple as :
+</p>
+
+<source><![CDATA[
+
+<%@ taglib uri="/WEB-INF/veltag.tld" prefix="vel" %>
+
+<html>
+<head>
+  <title> Velocity! </title>
+</head>
+
+<jsp:useBean id="mybean"  class="GeirBean" />
+
+<body>
+    <vel:velocity strictaccess="true">
+
+         #set($mybean = $scopetool.getPageScope("mybean"))
+
+         #if(true)
+            this is true!
+         #end
+
+         <br>
+
+         $mybean.string
+
+         <br>
+
+        #foreach($item in $mybean.array) 
+            $item <br>
+        #end
+
+    </vel:velocity>
+</body>
+</html>
+
+
+]]></source>
+
+<p>
+Not hard at all.
+</p>
+
+
+<subsection name="Building the Velocity Taglib">
+
+<p>
+To use the Velocity taglib, you need to build it, as it is not 
+yet included in the main Velocity jar.  In the Jakarta tradition,
+we made it very easy to build.  The code for the project is 
+located in the contrib section of the distribution under 
+<code>/contrib/temporary/veltag</code>.  It is under the 
+temporary directory as it is hoped this package will
+be accepted by the 
+<a href="http://jakarta.apache.org/taglibs/">Jakarta Taglibs</a>
+project.
+</p>
+
+<p>
+To build, you need the following :
+
+<ul>
+<li> 
+  <a href="http://jakarta.apache.org/ant/">Ant</a>, the fabulous
+  Jakarta build tool, must be installed.
+</li>
+<li>
+  You will need a servlet API jar.  We recommend you get it from
+  <a href="http://jakarta.apache.org/builds/jakarta-tomcat/release/v3.2.3/bin/">here</a> 
+  for servlet 2.2 and
+  <a href="http://jakarta.apache.org/builds/jakarta-servletapi-4/nightly/">here</a>
+  for the unreleased servlet 2.3 API.  Note - if you are a JSP user, you will have 
+  one included with your servlet engine.
+</li>
+<li> 
+   A velocity.jar.  This can be found, of course,
+  <a href="http://jakarta.apache.org/velocity/">here</a>.
+</li>
+<li> 
+  The build script expects to find the servlet and velocity jars in the
+  <code>/contrib/temporary/veltag/lib/</code>
+   directory.  Modification
+  of the build script is easy if they are in another location.  Look for
+  'servlet.home' and 'velocity.home' in the 
+  <code>/contrib/temporary/veltag/build.xml</code> file.
+</li>
+<li>
+  Once the above is complete, cd into 
+  <code>/contrib/temporary/veltag</code> in the Velocity
+  distribution and type 'ant'.  The jar should build
+  for you.
+</li>
+</ul>
+</p>
+</subsection>
+
+<subsection name="How Do I Use It?">
+
+<p>
+Using the taglib is very straightforward.  The following assumes
+that you have setup a servlet container with JSP support, such as 
+<a href="http://jakarta.apache.org/tomcat/">Tomcat</a>, and know
+enough to write and view a simple JSP page.  Also, all directory 
+references are relative to the root of the veltag project, not 
+the Velocity distribution.
+</p>
+
+<p>
+To test the Velocity Taglib :
+
+<blockquote>
+   You need to copy the veltag-XX.jar to the
+   <code>WEB-INF/lib</code> directory of your webapp. (Where XX 
+   is the current version number.
+</blockquote>
+<blockquote>
+   Take the example taglib descriptor,
+   <code> /examples/veltag.tld</code> and place in WEB-INF of your
+   webapp.
+</blockquote>
+<blockquote>
+  Finally, add 
+  <pre>
+    &lt;taglib&gt;
+      &lt;taglib-uri&gt;http://jakarta.apache.org/taglibs/veltag-1.0&lt;/taglib-uri&gt;
+      &lt;taglib-location&gt;/WEB-INF/veltag.tld&lt;/taglib-location&gt;
+    &lt;/taglib&gt;
+  </pre>
+  to your web.xml file, within the &lt;webapp&gt; section.
+</blockquote>
+
+If you wish to use the included example JSP, you will also need to compile
+<code>examples/SimpleBean.java</code> and place the resulting 
+<code>SimpleBean.class</code> into the <code>WEB-INF/classes</code>
+directory in your webapp.
+</p>
+
+<p>
+  After that, try the example JSP found in <code>examples/</code>.  Drop it
+  into the root of your webapp and view it with your browser. Enjoy!
+</p>
+
+<p>
+Please direct all comments, questions, fixes and contributions to 
+<a href="mailto:geirm@apache.org?SUBJECT=Veltag">Geir Magnusson Jr.</a> or the
+Velocity user list.  To subscribe to the Velocity lists, read 
+<a href="http://jakarta.apache.org/mail/">this</a> and follow the 
+instructions at the end.
+</p>
+
+<p>
+  Please note that this code is not an official part of the Velocity
+  distribution.
+</p>
+
+</subsection>
+</section>
+
+</body>
+</document>
