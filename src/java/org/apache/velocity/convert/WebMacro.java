@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.16 2001/05/22 02:40:39 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.17 2001/06/21 02:32:46 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -102,7 +102,7 @@ public class WebMacro
         "#foreach( $1 in $2 )",
 
         // Convert WM style #set to Velocity directive style.
-        "#set\\s+(\\$[^\\s=]+)\\s*=\\s*([\\S]+)[ \\t]*",
+        "#set\\s+(\\$[^\\s=]+)\\s*=\\s*([\\S \\t]+)",
         "#set( $1 = $2 )",
         "(##[# \\t\\w]*)\\)", // fix comments included at end of line
         ")$1",
