@@ -24,6 +24,12 @@ This document tracks the changes in Velocity between releases.
         Fixed release packaging to create things in the right directory
         structure (JSS).
     </li>
+    <li>
+         Re-added 'include' support for Configuration. (JVZ)
+    </li>
+    <li>
+         Fixed VMProxy bug when reference arg was null. (#1074) (gmj)
+    </li>
 </ul>
 </subsection>
 
