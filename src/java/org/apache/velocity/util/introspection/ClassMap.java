@@ -60,6 +60,13 @@ import java.util.Hashtable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+/**
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
+ * @version $Id: ClassMap.java,v 1.2 2000/11/01 18:31:35 jvanzyl Exp $
+ */
+
 public class ClassMap
 {
     /** 
