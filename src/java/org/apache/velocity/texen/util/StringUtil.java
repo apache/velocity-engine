@@ -67,6 +67,8 @@ import java.util.StringTokenizer;
  */
 public class StringUtil extends BaseUtil
 {
+    private static final String EOL = System.getProperty("line.separator");
+    private static final int EOL_LENGTH = EOL.length();
     
     /**
      * Concatenates a list of objects as a String
@@ -120,14 +122,25 @@ public class StringUtil extends BaseUtil
 
     /**
      * Chop i characters off the end of a string.
+     * This method is sensitive to the EOL for a
+     * particular platform. The EOL character will
+     * considered a single character.
      *
      * @param string String to chop.
      * @param i Number of characters to chop.
      * @return String with processed answer.
      */
-    public static String chop(String string, int i)
+    public static String chop(String s, int i)
     {
-        return(string.substring(0, string.length() - i));
+        for (int j = 0; j < i; j++)
+        {
+            if (EOL.indexOf(s.substring(s.length() - 1)) > 0 && EOL_LENGTH == 2)
+                s = s.substring(0, s.length() - 2);
+            else
+                s = s.substring(0, s.length() - 1);
+        }            
+    
+        return s;
     }
 
     /**
