@@ -15,7 +15,7 @@ This is content from parse1.vm
 #end
 
 Now using a reference to get the next one :
-#set $foo = "parse2.vm"
+#set($foo = "parse2.vm")
    --
 #parse($foo)
    --

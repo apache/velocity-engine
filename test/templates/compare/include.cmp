@@ -13,7 +13,7 @@ test doesn't fail incorrectly.
 
 #include("include.vm" "include.vm")
 
-#set $foo = "subdir/test.txt"
+#set($foo = "subdir/test.txt")
 
 #include($foo)
 
@@ -30,7 +30,7 @@ test doesn't fail incorrectly.
 
 #include("include.vm" "include.vm")
 
-#set $foo = "subdir/test.txt"
+#set($foo = "subdir/test.txt")
 
 #include($foo)
 

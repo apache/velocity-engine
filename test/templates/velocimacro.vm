@@ -19,11 +19,11 @@ test doesn't fail incorrectly.
 Now, use the \#quietnull example from the global library VM_global_library.vm : 
 Now, there should be nothing in the brackets : >#quietnull($nada)<
 
-#set $foo = "hello!"
+#set($foo = "hello!")
 Where there should be something here : >#quietnull($foo)<
 
-#set $arr = ["$10.24","$15.32","$12.15"]
-#set $col = "blue"
+#set($arr = ["$10.24","$15.32","$12.15"])
+#set($col = "blue")
 
 <table>
 #tablerow( $arr $col)

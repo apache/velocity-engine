@@ -9,9 +9,9 @@ test doesn't fail incorrectly.
 
 *#
 
-#set $user = "jason"
-#set $login = false
-#set $count = 5
+#set($user = "jason")
+#set($login = false)
+#set($count = 5)
 
 #if ($user == "jason")
     the user $user is logged in!

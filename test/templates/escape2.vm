@@ -21,7 +21,7 @@ $foo
 \\\#woogie
 
 Now put $foo in the context :
-#set $foo = "bar"
+#set($foo = "bar")
 \$foo = $foo
 \\\$foo =\\$foo
 \\\\\$foo =\\\\$foo

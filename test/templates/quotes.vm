@@ -9,7 +9,7 @@ test doesn't fail incorrectly.
 
 *#
 
-#set $this = "that"
+#set($this = "that")
 
 #if (true)
     "what is $this"

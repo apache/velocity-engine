@@ -8,7 +8,7 @@ corresponding comparison file so that the regression
 test doesn't fail incorrectly.
 
 *#
-#set $pedantic = "pedantic"
+#set( $pedantic = "pedantic")
 
 This is a test of the new #if($pedantic)$pedantic#end mode.
 
@@ -74,14 +74,14 @@ pedantic
 
 2) set statement has no output, incuding preceeding whitespace
 #foreach($a in $stringarray)
-		#set    $b = $a
+		#set($b = $a)
  $a is $b
 #end
 
 	public void foo( String lala )
 	{
 #foreach($a in $stringarray)
-		#set    $b = $a
+		#set($b = $a)
   		System.out.println("$b"); 
 #end
 	}
@@ -89,7 +89,7 @@ pedantic
 	public void foo( String lala )
 	{
 	#foreach($a in $stringarray)
-		#set    $b = $a
+		#set($b = $a)
   	System.out.println("$b"); 
 	#end
 	}
