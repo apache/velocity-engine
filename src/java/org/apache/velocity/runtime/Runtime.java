@@ -154,7 +154,6 @@ public class Runtime
             parser = new Parser();
             Hashtable directives = new Hashtable();
             directives.put("foreach", new Foreach());
-            //directives.put("set", new Set());
             directives.put("dummy", new Dummy());
             parser.setDirectives(directives);
 
@@ -186,7 +185,7 @@ public class Runtime
         templateLoader.init();
     }
 
-    public synchronized static Template getTemplate(String template)
+    public static Template getTemplate(String template)
     {
         try
         {
