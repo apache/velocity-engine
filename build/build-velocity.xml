@@ -61,6 +61,9 @@
         <property name="default.properties" 
             value="org/apache/velocity/runtime/defaults/velocity.properties"/>
 
+        <property name="default.test.properties"
+            value="org/apache/velocity/test/defaults/velocity.properties"/>
+
         <property name="default.texen.properties"
             value="org/apache/velocity/texen/defaults/texen.properties"/>
 
@@ -102,6 +105,9 @@
             
             <copy file="${src.java.dir}/${default.properties}"
                 tofile="${build.dest}/${default.properties}"/>
+
+            <copy file="${src.java.dir}/${default.test.properties}"
+                tofile="${build.dest}/${default.test.properties}"/>
 
             <copy file="${src.java.dir}/${default.texen.properties}"
                 tofile="${build.dest}/${default.texen.properties}"/>
