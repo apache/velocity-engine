@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.96 2001/03/17 19:19:52 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.97 2001/03/19 05:15:51 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -328,7 +328,7 @@ public class Runtime implements RuntimeConstants
      */
     public static Object getProperty( String key )
     {
-        return configuration.get( key );
+        return configuration.getProperty( key );
     }
 
     /**
@@ -387,26 +387,20 @@ public class Runtime implements RuntimeConstants
      * @throws Exception
      */
     private static void initializeLogger() throws Exception
-    {
-        /*
-         * Grab the log file entry from the velocity
-         * properties file.
-         */
-        String logFile = configuration.getString(RUNTIME_LOG);
-
+    { 
         /*
          * Initialize the logger. We will eventually move all
          * logging into the logging manager.
          */
         if (logSystem == null)
-            logSystem = LogManager.createLogSystem(logFile);
+        {
+            logSystem = LogManager.createLogSystem();
+        }
 
         /*
          * Dump the pending messages
          */
         dumpPendingMessages();
-
-        Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
     /*
@@ -626,18 +620,61 @@ public class Runtime implements RuntimeConstants
      *
      * @param String message to log
      */
-    private static void log(int type, Object message)
+    private static void log(int level, Object message)
     {
+        String out = "";
+     
+        /*
+         * Start with the appropriate prefix
+         */
+
+        switch( level ) {
+        case LogSystem.DEBUG_ID :
+            out = DEBUG_PREFIX;
+            break;
+        case LogSystem.INFO_ID :
+            out = WARN_PREFIX;
+            break;
+        case LogSystem.WARN_ID :
+            out = WARN_PREFIX;
+            break;
+        case LogSystem.ERROR_ID : 
+            out = ERROR_PREFIX;
+            break;
+        default :
+            out = "[unknown]";
+            break;
+        }
+
+        /*
+         *  now,  see if the logging stacktrace is on
+         *  and modify the message to suit
+         */
+
+        if ( showStackTrace() &&
+            (message instanceof Throwable || message instanceof Exception) )
+        {
+            out += StringUtils.stackTrace((Throwable)message);
+        }
+        else
+        {
+            out += message.toString();    
+        }            
+
+        /*
+         *  now, if we have a log system, log it
+         *  otherwise, queue it up for later
+         */
+
         if (logSystem != null)
         {
-     		logSystem.setStackTrace(showStackTrace());
-     		logSystem.log(type, message);
+     		logSystem.logVelocityMessage( level, out);
         }
         else
         {
             Object[] data = new Object[2];
-            data[0] = new Integer(type);
-            data[1] = message;
+            data[0] = new Integer(level);
+            data[1] = out;
             pendingMessages.addElement(data);
         }
     }
