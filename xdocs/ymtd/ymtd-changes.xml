@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Changes</title>
+  </properties>
+
+<body>
+
+<section name="Changes">
+
+<p>
+We are getting great feedback on this document. As promised, on the
+homepage, this is a live document that will undergo changes over time to
+correct mistakes and add improvements and clarifications. Below are a
+list of changes to date (latest changes first in listing):
+</p>
+
+<p>
+<ul>
+<li>Added the <a href="./ymtd-hosting.html">Hosting</a> page to address
+the idea that JSP makes a great hosting platform.</li>
+<li>Added a paragraph on the <a 
+href="./ymtd-conclusion.html">Conclusion</a> page.</li>
+<li>Added a few paragraphs to the bottom of the <a 
+href="./ymtd-taglibs.html">Taglibs</a> page.</li>
+<li>Added a few paragraphs to the top of the <a 
+href="./ymtd-sampleapp.html">Sample App</a> page.</li>
+<li>Updated the example "right way" on the <a
+href="./ymtd-saying-hello.html">Saying Hello</a> page as well as the
+comments about it. Thanks to <a
+href="mailto:niall.pemberton@btInternet.com">Niall Pemberton</a> for the
+correction.</li>
+<li>Added more clarification on the <a href="./ymtd.html">Home</a> page
+about what we are comparing. The reason is that we got feedback from <a
+href="mailto:niall.pemberton@btInternet.com">Niall Pemberton</a>
+suggesting that because we didn't compare Internationalization that this
+article was not of use for him.</li>
+<li>Added a link to this page to the <a href="./ymtd.html">Home</a>
+page.</li>
+<li>Copy/paste error on the <a href="./ymtd-sampleapp.html">Sample
+Application</a> page. (JSS)</li>
+</ul>
+
+</p>
+
+<p>
+<strong>[ Next -&gt; <a href="./ymtd.html">Home</a> ]</strong>
+</p>
+
+</section>
+
+</body>
+</document>

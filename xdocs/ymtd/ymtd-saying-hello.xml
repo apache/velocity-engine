@@ -105,10 +105,10 @@ this:
 <head><title>Hello</title></head>
 <body>
 <h1>
-<% if (request.getParameter("name") == null) {  %>
-   Hello World
-<% } else { %>
-  Hello, <% out.println (request.getParameter("name")); } %>
+<% if (request.getParameter("name") == null) %>
+          Hello World
+<% else %>
+          Hello, <% request.getParameter("name") %>
 </h1>
 </body></html>]]></source>
 
@@ -124,13 +124,11 @@ example when loaded directly into the browser. ]</font>
 <hr noshade="true" size="1"/>
 
 <p>
-The point that needs to be made is that in order to make JSP "pure",
-one really needs to jump through hoops. In other words, it is much
-easier to type the out.println() then to embed the necessary <code>&lt;%
-%&gt;</code> tags everywhere. It is also important to remember to add
-that extra "<code>; }</code>" at the end of the last out.println()
-because JSP will not be able to compile the page (we will get into the
-problems with debugging JSP pages in a later chapter).
+The point that needs to be made is that in order to make JSP "pure", one
+really needs to jump through hoops. One still needs to embed the
+necessary <code>&lt;% %&gt;</code> tags everywhere though. There is also 
+a bit of a disconnect as to when the ";" needs to be added and when it 
+does not.
 </p>
 
 <p>
