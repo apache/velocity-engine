@@ -61,7 +61,7 @@ import java.util.Map;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.VelocityResources;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.ResourceFactory;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
@@ -75,13 +75,24 @@ import org.apache.velocity.exception.ParseErrorException;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.9 2001/02/26 03:33:19 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.10 2001/03/03 20:33:22 jvanzyl Exp $
  */
 public class ResourceManager
 {
+    /**
+     * A template resources.
+     */
     public static final int RESOURCE_TEMPLATE = 1;
+    
+    /**
+     * A static content resource.
+     */
     public static final int RESOURCE_CONTENT = 2;
 
+    /**
+     * Hashtable used to store templates that have been
+     * processed. Our simple caching mechanism.
+     */
     private static Hashtable globalCache = new Hashtable();
     
     /**
@@ -112,6 +123,12 @@ public class ResourceManager
      */
     private static Hashtable sourceInitializerMap = new Hashtable();
 
+    /**
+     * Each loader needs a configuration object for
+     * its initialization, this flags keeps track of whether
+     * or not the configuration objects have been created
+     * for the resource loaders.
+     */
     private static boolean resourceLoaderInitializersActive = false;
 
     /**
@@ -127,11 +144,11 @@ public class ResourceManager
         
         for (int i = 0; i < sourceInitializerList.size(); i++)
         {
-            Map initializer = (Map) sourceInitializerList.get(i);
-            String loaderClass = (String) initializer.get("class");
+            Configuration configuration = (Configuration) sourceInitializerList.get(i);
+            String loaderClass = configuration.getString("class");
             resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
-            resourceLoader.commonInit(initializer);
-            resourceLoader.init(initializer);
+            resourceLoader.commonInit(configuration);
+            resourceLoader.init(configuration);
             resourceLoaders.add(resourceLoader);
         }
     }
@@ -146,43 +163,47 @@ public class ResourceManager
     private static void assembleResourceLoaderInitializers()
     {
         if (resourceLoaderInitializersActive)
+        {
             return;
+        }            
         
-        for (int i = 0; i < 10; i++)
+        for (int i = 1; i < 10; i++)
         {
             String loaderID = "resource.loader." + new Integer(i).toString();
-            Enumeration e = VelocityResources.getKeys(loaderID);
             
-            if (!e.hasMoreElements())
+            /*
+             * Create a resources class specifically for
+             * the loader if we have a valid subset of
+             * resources. VelocityResources.subset(prefix)
+             * will return null if we do not have a valid
+             * subset of resources.
+             */
+            if (Runtime.getConfiguration().subset(loaderID) == null)
             {
                 continue;
-            }
+            }                
             
-            Hashtable sourceInitializer = new Hashtable();
-            
-            while (e.hasMoreElements())
-            {
-                String property = (String) e.nextElement();
-                String value = VelocityResources.getString(property);
-                
-                property = property.substring(loaderID.length() + 1);
-                sourceInitializer.put(property, value);
-                
-                /*
-                 * Make a Map of the public names for the sources
-                 * to the sources property identifier so that external
-                 * clients can set source properties. For example:
-                 * File.resource.path would get translated into
-                 * template.loader.1.resource.path and the translated
-                 * name would be used to set the property.
-                 */
-                if (property.equalsIgnoreCase("public.name"))
-                {
-                    sourceInitializerMap.put(value.toLowerCase(), sourceInitializer);
-                }
-            }    
-            sourceInitializerList.add(sourceInitializer);
-        }
+            Configuration loaderConfiguration = new Configuration(
+                Runtime.getConfiguration().subset(loaderID));
+
+            /*
+             * Add resources to the list of resource loader
+             * initializers.
+             */
+            sourceInitializerList.add(loaderConfiguration);
+
+            /*
+             * Make a Map of the public names for the sources
+             * to the sources property identifier so that external
+             * clients can set source properties. For example:
+             * File.resource.path would get translated into
+             * template.loader.1.resource.path and the translated
+             * name would be used to set the property.
+             */
+            sourceInitializerMap.put(
+                loaderConfiguration.getString("public.name").toLowerCase(), 
+                    loaderConfiguration);
+        }            
     }
 
     /**
@@ -354,10 +375,16 @@ public class ResourceManager
     public static void setSourceProperty(String key, String value)
     {
         if (resourceLoaderInitializersActive == false)
+        {
             assembleResourceLoaderInitializers();
+        }            
             
         String publicName = key.substring(0, key.indexOf("."));
         String property = key.substring(key.indexOf(".") + 1);
-        ((Map)sourceInitializerMap.get(publicName.toLowerCase())).put(property, value);
+        
+        Configuration loaderConfiguration = (Configuration) 
+            sourceInitializerMap.get(publicName.toLowerCase());
+        
+        loaderConfiguration.getConfig().getRepository().put(property, value);
     }
 }

@@ -82,7 +82,7 @@ import java.io.*;
  * configuration syntax.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @version $Id: Configurations.java,v 1.1 2000/11/02 02:51:26 daveb Exp $
+ * @version $Id: Configurations.java,v 1.2 2001/03/03 20:33:21 jvanzyl Exp $
  */
 public class Configurations
 {
@@ -182,6 +182,39 @@ public class Configurations
             }
         }
         return matchingKeys.elements();
+    }
+
+    public Configurations subset(String prefix)
+    {
+        Configurations c = new Configurations(new ExtendedProperties());
+        Enumeration keys = this.repository.keys();
+        boolean validSubset = false;
+        
+        while( keys.hasMoreElements() )
+        {
+            Object key = keys.nextElement();
+            
+            if( key instanceof String &&
+                ((String) key).startsWith(prefix) )
+            {
+                if (!validSubset)
+                {
+                    validSubset = true;
+                }
+                
+                String newKey = ((String)key).substring(prefix.length() + 1);
+                c.getRepository().put(newKey, repository.get(key));
+            }
+        }
+        
+        if (validSubset)
+        {
+            return c;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**

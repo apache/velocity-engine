@@ -64,6 +64,7 @@ import javax.sql.DataSource;
 import javax.naming.InitialContext;
 
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -93,7 +94,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="Paulo Gaspar <paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.2 2001/02/26 03:37:56 geirm Exp $
+ * @version $Id: DataSourceResourceLoader.java,v 1.3 2001/03/03 20:33:22 jvanzyl Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -105,18 +106,14 @@ public class DataSourceResourceLoader extends ResourceLoader
      private InitialContext ctx;
      private DataSource dataSource;
 
-     /*
-      * This should probably be moved into the super class,
-      * the stand init stuff. For the properties that all
-      * loaders will probably share.
-      */
-     public void init(Map initializer)
+     public void init(Configuration configuration)
      {
-         dataSourceName  = (String) initializer.get("resource.datasource");
-         tableName       = (String) initializer.get("resource.table");
-         keyColumn       = (String) initializer.get("resource.keycolumn");
-         templateColumn  = (String) initializer.get("resource.templatecolumn");
-         timestampColumn = (String) initializer.get("resource.timestampcolumn");
+         dataSourceName  = configuration.get("resource.datasource");
+         tableName       = configuration.get("resource.table");
+         keyColumn       = configuration.get("resource.keycolumn");
+         templateColumn  = configuration.get("resource.templatecolumn");
+         timestampColumn = configuration.get("resource.timestampcolumn");
+         
          Runtime.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
          Runtime.info( "Resource Loader using columns: " + keyColumn + ", "
                        + templateColumn + " and " + timestampColumn);

@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -76,22 +77,15 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Revision: 1.3 $
+ * $Revision: 1.4 $
  */
 public class FileResourceLoader extends ResourceLoader
 {
     private String path;
 
-    /*
-     * This should probably be moved into the super class,
-     * the stand init stuff. For the properties that all
-     * loaders will probably share.
-     */
-    public void init(Map initializer)
+    public void init(Configuration configuration)
     {
-        path = (String) initializer.get("resource.path");
-        Runtime.info("Resources Loaded From: " +  new File(path).getAbsolutePath());
-        Runtime.info("Resource Loader Initialized.");
+        path = configuration.getString("resource.path");
     }
 
     /**
@@ -171,16 +165,22 @@ public class FileResourceLoader extends ResourceLoader
         if ( file.canRead() )
         {
             if (file.lastModified() != resource.getLastModified())
+            {
                 return true;
+            }                
             else
+            {
                 return false;
+            }                
         }
         
-        // If the file is now unreadable, or it has
-        // just plain disappeared then we'll just say
-        // that it's modified :-) When the loader attempts
-        // to load the stream it will fail and the error
-        // will be reported then.
+        /*
+         * If the file is now unreadable, or it has
+         * just plain disappeared then we'll just say
+         * that it's modified :-) When the loader attempts
+         * to load the stream it will fail and the error
+         * will be reported then.
+         */
         
         return true;
     }
@@ -190,8 +190,12 @@ public class FileResourceLoader extends ResourceLoader
         File file = new File(path, resource.getName());
     
         if (file.canRead())
+        {
             return file.lastModified();
+        }            
         else
+        {
             return 0;
+        }            
     }
 }
