@@ -84,7 +84,7 @@ import org.apache.velocity.context.NullReferenceEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.29 2001/04/30 17:46:52 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.30 2001/05/17 13:04:16 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -258,59 +258,51 @@ public class ASTReference extends SimpleNode
 
         /*
          *  the normal processing
+         *
+         *  if we have an event cartridge, get a new value object
          */
 
         EventCartridge ec = context.getEventCartridge();
 
-        if (value == null)
-        { 
-            /*
-             *  if we have an event cartridge, get a new value object
-             */
-            if (ec != null)
-            {
-               value = ec.nullReferenceRender( nullString );
-            }
-
-            /*
-             *  if still null, then render output.  If we got a value object
-             *  then fall through to the normal rendering
-             */
-            if (value == null)
-            {
-                /* 
-                 *  write prefix twice, because it's shmoo, so the \ don't escape each other...
-                 */
-                
-                writer.write( firstTokenPrefix );
-                writer.write( prefix );
-                writer.write( nullString );
-                
-                if (referenceType != QUIET_REFERENCE 
-                    && Runtime.getBoolean( 
-                                          RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
-                {
-                    Runtime.warn(new ReferenceException("reference : template = " 
-                                                        + context.getCurrentTemplateName(), this));
-                }
-
-                return true;
-            }
-        }                    
-       
-        /*
-         *  now see if user want's to override the value for this
-         *  insert
-         */
         if (ec != null)
         {
             value =  ec.referenceInsert( nullString, value );
-	    }
+        }
 
-        writer.write( firstTokenPrefix );
-        writer.write( value.toString() );
-                            
-        return true;
+        /*
+         *  if value is null...
+         */
+
+        if (value == null)
+        {
+            /* 
+             *  write prefix twice, because it's shmoo, so the \ don't escape each other...
+             */
+            
+            writer.write( firstTokenPrefix );
+            writer.write( prefix );
+            writer.write( nullString );
+            
+            if (referenceType != QUIET_REFERENCE 
+                && Runtime.getBoolean( 
+                                      RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+            {
+                Runtime.warn(new ReferenceException("reference : template = " 
+                                                    + context.getCurrentTemplateName(), this));
+            }
+
+            return true;
+        }
+        else
+        {
+            /*
+             *  non-null processing
+             */
+            writer.write( firstTokenPrefix );
+            writer.write( value.toString() );
+        
+            return true;
+        }
     }
        
     /**
@@ -664,6 +656,15 @@ public class ASTReference extends SimpleNode
             }
 
             referenceType = NORMAL_REFERENCE;
+
+
+            //   Token tt = first;
+
+            //           while(tt != null)
+            //  {
+            //      System.out.println("->" + tt.image);
+            //      tt = tt.next;
+            //  }
 
             return img.substring(loc);
         }            
