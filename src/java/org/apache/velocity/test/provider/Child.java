@@ -59,8 +59,8 @@ package org.apache.velocity.test.provider;
  * introspection with subclasses of a particular
  * class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Child.java,v 1.4 2001/03/20 01:11:39 jon Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Child.java,v 1.5 2001/10/22 03:53:27 jon Exp $
  */
 public class Child extends Person
 {

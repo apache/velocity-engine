@@ -67,8 +67,8 @@ import org.apache.velocity.runtime.RuntimeServices;
  * grab the literal value on init(), then repeatedly use
  * that during render().
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.5 2001/08/07 21:57:56 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Literal.java,v 1.6 2001/10/22 03:53:24 jon Exp $
  */
 public class Literal extends Directive
 {

@@ -70,8 +70,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 /**
  * Base class for all directives used in Velocity.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Directive.java,v 1.16 2001/09/07 05:03:49 geirm Exp $ 
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Directive.java,v 1.17 2001/10/22 03:53:24 jon Exp $ 
  */
 public abstract class Directive implements DirectiveConstants,Cloneable
 {

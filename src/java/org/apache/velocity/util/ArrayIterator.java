@@ -65,8 +65,8 @@ import java.util.NoSuchElementException;
  * allow us to deal with all array like structures
  * in a consistent manner.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ArrayIterator.java,v 1.4 2001/04/08 21:06:22 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: ArrayIterator.java,v 1.5 2001/10/22 03:53:27 jon Exp $
  */
 public class ArrayIterator implements Iterator
 {

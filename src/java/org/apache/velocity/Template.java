@@ -90,9 +90,9 @@ import org.apache.velocity.exception.MethodInvocationException;
  * template.merge(context, writer);
  * </pre>
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.34 2001/08/07 22:20:03 geirm Exp $
+ * @version $Id: Template.java,v 1.35 2001/10/22 03:53:22 jon Exp $
  */
 public class Template extends Resource
 {

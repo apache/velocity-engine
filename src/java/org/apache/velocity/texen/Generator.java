@@ -75,8 +75,8 @@ import org.apache.velocity.app.Velocity;
  * A text/code generator class
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.17 2001/08/07 22:31:50 geirm Exp $ 
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Generator.java,v 1.18 2001/10/22 03:53:27 jon Exp $ 
  */
 public class Generator
 {

@@ -71,9 +71,9 @@ import org.apache.velocity.util.ArrayIterator;
  *  @see org.apache.velocity.context.AbstractContext
  *  @see org.apache.velocity.VelocityContext
  *
- *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: Context.java,v 1.2 2001/03/05 11:21:40 jvanzyl Exp $
+ *  @version $Id: Context.java,v 1.3 2001/10/22 03:53:23 jon Exp $
  */
 public interface Context
 {

@@ -69,10 +69,10 @@ import junit.framework.TestSuite;
  * Test suite for Templates.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestSuite.java,v 1.5 2001/03/14 22:05:22 jvanzyl Exp $
+ * @version $Id: TemplateTestSuite.java,v 1.6 2001/10/22 03:53:26 jon Exp $
  */
 public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {

@@ -68,8 +68,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * ASTStringLiteral support.  Will interpolate!
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.11 2001/08/07 21:56:30 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: ASTStringLiteral.java,v 1.12 2001/10/22 03:53:25 jon Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {

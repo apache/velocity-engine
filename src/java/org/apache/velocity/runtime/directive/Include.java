@@ -100,9 +100,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *    special separator.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.22 2001/09/07 18:11:22 geirm Exp $
+ * @version $Id: Include.java,v 1.23 2001/10/22 03:53:24 jon Exp $
  */
 public class Include extends Directive
 {

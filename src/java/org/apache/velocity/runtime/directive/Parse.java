@@ -87,9 +87,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *    safety in the event that the parameter isn't set.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.22 2001/09/07 05:03:49 geirm Exp $
+ * @version $Id: Parse.java,v 1.23 2001/10/22 03:53:24 jon Exp $
  */
 public class Parse extends Directive
 {

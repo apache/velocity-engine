@@ -60,9 +60,9 @@ import org.apache.velocity.runtime.parser.*;
 /**
  * Utilities for dealing with the AST node structure.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.12 2001/03/19 18:53:54 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.13 2001/10/22 03:53:25 jon Exp $
  */
 public class NodeUtils
 {

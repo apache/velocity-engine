@@ -80,9 +80,9 @@ import org.apache.commons.collections.ExtendedProperties;
 /**
  * An ant task for generating output by using Velocity
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.33 2001/10/22 03:45:15 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.34 2001/10/22 03:53:27 jon Exp $
  */
 public class TexenTask 
     extends Task

@@ -81,11 +81,11 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.40 2001/09/26 11:22:25 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.41 2001/10/22 03:53:24 jon Exp $ 
 */
 public class ASTReference extends SimpleNode
 {

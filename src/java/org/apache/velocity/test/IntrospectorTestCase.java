@@ -71,8 +71,8 @@ import junit.framework.TestCase;
  * of the methods searched for but this is a start
  * for now.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.9 2001/09/09 21:50:02 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: IntrospectorTestCase.java,v 1.10 2001/10/22 03:53:26 jon Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {

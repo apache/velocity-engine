@@ -73,10 +73,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.19 2001/09/07 05:02:15 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.20 2001/10/22 03:53:24 jon Exp $ 
  */
 public class ASTDirective extends SimpleNode
 {

@@ -61,9 +61,9 @@ package org.apache.velocity.runtime.parser.node;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.7 2001/08/07 21:56:30 geirm Exp $ 
+ * @version $Id: ASTAddNode.java,v 1.8 2001/10/22 03:53:24 jon Exp $ 
 */
 
 import org.apache.velocity.context.InternalContextAdapter;

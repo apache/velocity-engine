@@ -80,10 +80,10 @@ import org.apache.commons.collections.ExtendedProperties;
  * Class to manage the text resource for the Velocity
  * Runtime.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.30 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.31 2001/10/22 03:53:25 jon Exp $
  */
 public class ResourceManager
 {

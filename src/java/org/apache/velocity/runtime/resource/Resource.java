@@ -73,9 +73,9 @@ import org.apache.velocity.exception.ParseErrorException;
  * may have been retrieved from any number of possible
  * sources.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.8 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: Resource.java,v 1.9 2001/10/22 03:53:25 jon Exp $
  */
 public abstract class Resource
 {

@@ -66,8 +66,8 @@ import org.apache.velocity.runtime.parser.node.*;
  * debugging, but it useful for documentation
  * as well.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: NodeViewMode.java,v 1.4 2001/03/05 11:47:19 jvanzyl Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: NodeViewMode.java,v 1.5 2001/10/22 03:53:26 jon Exp $
  */
 public class NodeViewMode extends BaseVisitor
 {

@@ -60,8 +60,8 @@ import org.apache.velocity.util.StringUtils;
 /**
  * Factory to grab a template loader.
  * 
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceLoaderFactory.java,v 1.5 2001/08/07 21:58:18 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: ResourceLoaderFactory.java,v 1.6 2001/10/22 03:53:26 jon Exp $
  */
 public class ResourceLoaderFactory
 {

@@ -74,9 +74,9 @@ import junit.framework.TestCase;
 /**
  * Load templates from the Classpath.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: MultiLoaderTestCase.java,v 1.3 2001/05/15 13:11:40 geirm Exp $
+ * @version $Id: MultiLoaderTestCase.java,v 1.4 2001/10/22 03:53:26 jon Exp $
  */
 public class MultiLoaderTestCase extends BaseTestCase
 {

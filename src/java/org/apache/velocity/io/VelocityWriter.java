@@ -62,10 +62,10 @@ import java.io.Writer;
  * Implementation of a fast Writer. It was originally taken from JspWriter
  * and modified to have less syncronization going on.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.5 2001/05/08 12:15:33 geirm Exp $
+ * @version $Id: VelocityWriter.java,v 1.6 2001/10/22 03:53:23 jon Exp $
  */
 public final class VelocityWriter extends Writer
 {

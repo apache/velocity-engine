@@ -64,9 +64,9 @@ import org.apache.velocity.exception.MethodInvocationException;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTOrNode.java,v 1.5 2001/05/30 04:47:38 geirm Exp $ 
+ * @version $Id: ASTOrNode.java,v 1.6 2001/10/22 03:53:24 jon Exp $ 
 */
 public class ASTOrNode extends SimpleNode
 {
