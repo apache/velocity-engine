@@ -84,7 +84,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.25 2001/05/11 03:55:32 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.26 2001/08/21 01:26:58 dlr Exp $
  */
 public class TexenTask extends Task
 {
@@ -480,26 +480,25 @@ public class TexenTask extends Task
     }
 
     /**
-     * <p>
-     * Place useful objects into the initial context.
-     * </p><p>
-     * TexenTask places <code>Date().toString()</code> into the context as <code>$now</code>.
-     * Subclasses who want to vary the objects in the context should override this method.
-     * </p><p>
-     * <code>$generator</code> is not put into the context in this method.
-     * </p>
-     * @param Context initial context
+     * <p>Place useful objects into the initial context.</p>
      *
-     * @throws Exception the execute method will catch and rethrow as a <code>BuildException</code>
+     * <p>TexenTask places <code>Date().toString()</code> into the
+     * context as <code>$now</code>.  Subclasses who want to vary the
+     * objects in the context should override this method.</p>
+     *
+     * <p><code>$generator</code> is not put into the context in this
+     * method.</p>
+     *
+     * @param context The context to populate, as retrieved from
+     * {@link #initControlContext()}.
+     *
+     * @throws Exception Error while populating context.  The {@link
+     * #execute()} method will catch and rethrow as a
+     * <code>BuildException</code>.
      */
     protected void populateInitialContext(Context context) 
         throws Exception
     {
-        /*
-         * Place the current date in the context. Hmm,
-         * this should probably be standard and moved
-         * into the Texen task proper.
-         */
         context.put("now", new Date().toString());
     }
 }
