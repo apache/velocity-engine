@@ -1307,14 +1307,15 @@ $count
     
     <p>
     Several lines in the <code>velocity.properties</code> file allow for
-    flexible implementation of Velocimacros:
+    flexible implementation of Velocimacros.  Node that these are also
+    documented in the <a href="developer-guide.html">Developer Guide</a>.
     </p>
 
     <p>
     <code>velocimacro.library</code> - A comma-separated list of all 
     Velocimacro template libraries. By default, Velocity looks for
-    a single library: <em>VM_global_lib.vm</em>. All template libraries
-    in the list must be found in the template path.
+    a single library: <em>VM_global_lib.vm</em>. The configured template path
+    is used to find the Velocimacro libraries.
     </p>
 
     <p>
@@ -1326,7 +1327,7 @@ $count
     </p>
 
     <p>
-    <code>velocimacro.permissions.allow.inline.to.override</code> -
+    <code>velocimacro.permissions.allow.inline.to.replace.global</code> -
      With possible values of true or false,
     this property allows the user to specify if a  Velocimacro defined
     inline in a template can replace a globally defined template, one 
