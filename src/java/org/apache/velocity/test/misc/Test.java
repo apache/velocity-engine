@@ -74,6 +74,9 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.FieldMethodizer;
 import org.apache.velocity.app.Velocity;
 
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
@@ -83,7 +86,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.15 2001/02/15 12:30:27 geirm Exp $
+ * @version $Id: Test.java,v 1.16 2001/02/26 04:02:32 geirm Exp $
  */
 public class Test
 {
@@ -162,7 +165,20 @@ public class Test
             if (templateFile == null)
                 templateFile = "examples/example.vm";
          
-            Template template = Runtime.getTemplate(templateFile);
+            Template template = null;
+
+            try 
+            {
+                template = Runtime.getTemplate(templateFile);
+            }
+            catch( ResourceNotFoundException rnfe )
+            {
+                System.out.println("Test : Cannot find template " + templateFile );
+            }
+            catch( ParseErrorException pee )
+            {
+                System.out.println("Test : Syntax error in template " + templateFile + ":" + pee );
+            }
 
             /*
              * now, make a Context object and populate it.
@@ -217,11 +233,14 @@ public class Test
              *  make a writer, and merge the template 'against' the context
              */
 
-            writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            template.merge( context , writer);
-
-            writer.flush();
-            writer.close();
+            if( template != null)
+            {
+                writer = new BufferedWriter(new OutputStreamWriter(System.out));
+                template.merge( context , writer);
+                writer.flush();
+                writer.close();
+            }
+ 
         }
         catch( Exception e )
         {
