@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.33 2000/11/21 02:30:00 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.34 2000/11/22 02:17:42 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -564,7 +564,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       jj_consume_token(LPAREN);
       label_3:
       while (true) {
-        DirectiveArg();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case LBRACKET:
         case WHITESPACE:
@@ -579,6 +578,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
           jj_la1[5] = jj_gen;
           break label_3;
         }
+        DirectiveArg();
       }
       jj_consume_token(RPAREN);
         if (d.getType() == Directive.LINE)
