@@ -20,12 +20,12 @@ test doesn't fail incorrectly.
 
 #if ($count == 5)
     the count is 5!
-#end    
+#end
 
 #if ($login == false)
     the user isn't logged in.
-#end    
+#end
 
 #if ($count != 3)
     \$count is not equal to 3
-#end    
+#end

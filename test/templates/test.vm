@@ -16,7 +16,7 @@ $name
 
 #if ($customer)
     $customer.Name
-#end    
+#end
 
 
 ## this is a comment.
@@ -115,6 +115,7 @@ $a
 $b
 
 <input type="text" name="email" value="">
+<input type="text" name="email" value="$!schmarg">
 
 
 #set $c = $provider.Title

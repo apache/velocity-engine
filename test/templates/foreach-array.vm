@@ -9,14 +9,22 @@ test doesn't fail incorrectly.
 
 *#
 
-Foreach with an array.
+--Foreach with an array. 2 blank lines follow
 
 ##foreach ($element in $provider.Array)
 
-$stringarray
-
 <table>
 #foreach ($element in $stringarray)
+    <tr>
+        <td>This is $element and it is the $velocityCount item</td>
+    </tr>        
+#end
+</table>
+
+--Foreach with a null array.  1 blank line follows
+
+<table>
+#foreach ($element in $woogiefoogie)
     <tr>
         <td>This is $element and it is the $velocityCount item</td>
     </tr>        

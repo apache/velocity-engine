@@ -4,5 +4,4 @@ A
 
 #set $foo = "bar"
 
-
 $foo => bar

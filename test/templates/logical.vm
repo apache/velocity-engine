@@ -13,7 +13,7 @@ test doesn't fail incorrectly.
 
 #if ($foo > 1)
     \$foo is greater then 1
-#end    
+#end
 
 #if ($foo < 10)
     \$foo is less than 10
@@ -25,10 +25,10 @@ test doesn't fail incorrectly.
 
 #if ($foo <= 5)
     \$foo is less than or equal to 5
-#end    
+#end
 
 #set $foo = false
 
 #if (!($foo == true))
     foo is false
-#end    
+#end

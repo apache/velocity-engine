@@ -15,8 +15,8 @@ test doesn't fail incorrectly.
 
 #if (false)
     this is false
-#end    
+#end
 
 #if ($foo)
     this isn't defined yet.
-#end    
+#end

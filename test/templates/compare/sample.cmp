@@ -13,23 +13,18 @@
             Names
         </td>
     </tr>
-    
-    <tr>
+        <tr>
         <td bgcolor="#eeeeee">ArrayList element 1</td>
     </tr>
-    
-    <tr>
+        <tr>
         <td bgcolor="#eeeeee">ArrayList element 2</td>
     </tr>
-    
-    <tr>
+        <tr>
         <td bgcolor="#eeeeee">ArrayList element 3</td>
     </tr>
-    
-    <tr>
+        <tr>
         <td bgcolor="#eeeeee">ArrayList element 4</td>
     </tr>
-    
-</table>
+    </table>
 </center>
 </html>
