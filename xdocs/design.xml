@@ -29,8 +29,8 @@
     Velocity has a myriad of potential uses -- generating SQL, PostScript,
     or Java source code from templates -- but it is expected to be most 
     widely used by web developers looking for a viable alternative to 
-    <link href="http://www.php.org/">PHP</link> and 
-    <link href="http://java.sun.org/products/jsp/">Java 
+    <link href="http://www.php.net/">PHP</link> and 
+    <link href="http://java.sun.com/products/jsp/">Java 
     Server Pages</link> (JSPs). 
  </p>    
 
