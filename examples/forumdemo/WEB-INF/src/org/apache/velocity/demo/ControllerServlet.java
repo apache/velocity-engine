@@ -65,7 +65,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // Velocity stuff
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.servlet.VelocityServlet;
 
@@ -77,8 +77,8 @@ import org.apache.velocity.demo.action.*;
  * All requests are made to this servlet.
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Revision: 1.1 $
- * $Id: ControllerServlet.java,v 1.1 2000/11/03 02:45:05 daveb Exp $
+ * @version $Revision: 1.2 $
+ * $Id: ControllerServlet.java,v 1.2 2001/01/03 06:04:54 geirm Exp $
  */
 public class ControllerServlet extends VelocityServlet
 {
