@@ -64,6 +64,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
@@ -80,10 +81,11 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Velocity.java,v 1.3 2001/02/12 04:19:07 geirm Exp $
+ * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Velocity.java,v 1.4 2001/03/14 22:06:41 jvanzyl Exp $
  */
 
-public class Velocity
+public class Velocity implements RuntimeConstants
 {
     /**
      *  initialize the Velocity runtime engine, using the default 
@@ -91,19 +93,23 @@ public class Velocity
      *
      *  @return true if successful, false otherwise
      */
-    public static boolean init()
+    public static void init() throws Exception
     {
+        Runtime.init();
+        /*
         try
         {
-            Runtime.init("");
+            Runtime.init();
             return true;
         }
         catch(Exception e ) 
         {
-            System.out.println("Velocity.init() : Velocity init exception : " 
-                               + e);
-            return true;
+            System.out.println(
+                "Velocity.init() : Velocity init exception : " + e);
+            
+            return false;
         }
+        */
     }
 
     /**
@@ -116,8 +122,11 @@ public class Velocity
      *  @return true if successful, false otherwise.  Check runtime log if 
      *         false
      */
-    public static boolean init( String propsFilename )
+    public static void init( String propsFilename ) throws Exception
     {
+        Runtime.init(propsFilename);
+        
+        /*
         try
         {
             Runtime.init( propsFilename );
@@ -130,6 +139,7 @@ public class Velocity
                                + e);
             return false;
         }
+        */
     }
 
     /**
@@ -154,6 +164,17 @@ public class Velocity
                                + e);
             return  false;
         }
+    }
+    
+    /**
+     * Set a Velocity Runtime property.
+     *
+     * @param String key
+     * @param Object value
+     */
+    public static void setProperty(String key, Object value)
+    {
+        Runtime.setProperty(key,value);
     }
 
     /**
