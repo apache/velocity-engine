@@ -104,7 +104,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.2 2001/03/20 00:55:03 jon Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.3 2001/03/20 17:15:04 geirm Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {
@@ -112,8 +112,10 @@ public class ClasspathResourceLoader extends ResourceLoader
     /**
      *  This is abstract in the base class, so we need it
      */
-    public  void init(Configuration configuration)
+    public void init(Configuration configuration)
     {
+        Runtime.info("ClasspathResourceLoader : initialization starting.");
+        Runtime.info("ClasspathResourceLoader : initialization complete.");
     }
 
     /**
@@ -146,8 +148,7 @@ public class ClasspathResourceLoader extends ResourceLoader
              *  log and convert to a general Velocity ResourceNotFoundException
              */
             
-            Runtime.error("ClasspathResourceLoader Error : exception : " + fnfe );
-            throw new ResourceNotFoundException( fnfe.getMessage() );
+             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         
         return result;
