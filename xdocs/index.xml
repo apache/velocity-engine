@@ -73,8 +73,38 @@
 <strong>Hey, Maybe We're On The Right Track After All...</strong>
 <blockquote>
 Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
-a read.  Of course, there are plenty of reasons why you still want to use
-Velocity in creating your J2EE web applications, but this is nice to see anyway.
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a 
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP 
+implementation.  As they say on their site :
+<blockquote>
+<i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
+</i>
+</blockquote>
+
+We do think that this is a step in the right direction for JSPs, making the page content easier to
+write and maintain. 
+<br/>
+<br/>
+However, we want to emphasize to users that this isn't the same thing as using
+Velocity - this is a small subset of the Velocity syntax which 
+was reimplemented in Resin.
+<br/>
+<br/>
+ Velocity is much more than an alternative syntax to the scriptlets and
+tags found in JSPs - it's a full-featured templating engine, fully portable to any
+J2EE servlet container, that offers many advanges over JSPs in the J2EE
+web application environment.  It also an excellent templating tool
+for other kinds of applications written in Java.
+<br/>
+<br/>
+So if you are interested in portable alternatives to JSP, we strongly 
+encourage you look deeper into what Velocity has to offer.
+<br/>
+<br/>
+And if you must use JSPs and want to incorporate Velocity into your
+current or new JSP-based web applications, take a look at our
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full 
+power of Velocity in your JSPs.
 </blockquote>
 </p>
 
