@@ -169,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.80 2001/01/02 02:42:29 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.81 2001/01/12 19:42:36 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -560,9 +560,15 @@ public class Runtime implements RuntimeConstants
         
         if (parser != null)
         {
-            AST = parser.parse(inputStream, strTemplateName);
-            parserPool.put(parser);
-            return AST;
+            try
+            {
+                AST = parser.parse(inputStream, strTemplateName);
+                return AST;
+            }
+            finally
+            {
+                parserPool.put(parser);
+            }
         }
         else
         {
