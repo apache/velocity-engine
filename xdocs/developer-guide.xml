@@ -1329,12 +1329,12 @@ When a #set() results in a null assignment, this is normally
 logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
 logging of this condition.
 <br/>
-<source>
+<pre>
 public interface NullSetEventHandler extends EventHandler
 {
     public boolean shouldLogOnNullSet( String lhs, String rhs );
 }   
-</source>
+</pre>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
@@ -1342,12 +1342,12 @@ public interface NullSetEventHandler extends EventHandler
 A <code>ReferenceInsertionEventHandler</code> allows the 
 developer to intercept each write of a reference ($foo) value to the output 
 stream and modify that output. 
-<source>
+<pre>
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {
     public Object referenceInsert( String reference, Object value  );
 }
-</source>
+</pre>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.MethodExceptionEventHandler</code></i>
@@ -1358,13 +1358,13 @@ and thrown Exception.  The handler can either return a valid Object to be used
 as the return value of the method call, or throw the passed-in or new Exception, 
 which will be wrapped and propogated to the user as a 
 <code>MethodInvocationException</code>
-<source>
+<pre>
 public interface MethodExceptionEventHandler extends EventHandler
 {
     public Object methodException( Class claz, String method, Exception e )
          throws Exception;
 }
-</source>
+</pre>
 </blockquote>
 </p>
 
