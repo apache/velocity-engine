@@ -114,6 +114,54 @@
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="1.1-dev : ongoing development"><strong>1.1-dev : ongoing development</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS branch.
+</p>
+                                                <ul>
+  <li> 
+    Added Kent's, others and my changes to VelocityServlet. Fundamental change is changing
+    handleRequest() to take a req, resp and ctx args, as well as making returning 
+    <code>null</code> permissible to indicate that request is taken care of. (gmj)
+  </li>
+  <li>
+    Added support for alternate encoding for templates (input sources). It is now
+    controllable by two properties (input and output), and tested with UTF-8. 
+    UTF-8 rocks.  Why are there others?  :)  Also added testcase. (gmj)
+  </li>
+  <li>
+    Fixed problem where MethodInvocationExceptions were not correctly generated for
+    method exceptions in a few places.  All seems to work now. (gmj)
+  </li>
+  <li>
+    Added fix from Charles Bennet for build.xml to include all necessary parts in classpath
+    for building examples. (gmj)
+  </li>
+  <li>
+    Performance improvment additions for the AST, the majority from Kent Johnson, plus
+    his suggestions for Configuration and ResourceManager (gmj)
+  </li>
+ <li>
+    More MethodInvocationExceptions fun : the LHS of a #set() could throw
+    an Exception, and we wouldn't propogate it. (gmj)
+  </li>
+  <li>
+    EventCartridge support.  See docs :) (gmj)
+  </li>
+  <li>
+    Documentation : basic EventCartridge description. (gmj)
+  </li>
+</ul>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <a name="1.0.2-dev"><strong>1.0.2-dev</strong></a>
         </font>
       </td></tr>
