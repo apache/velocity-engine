@@ -113,6 +113,48 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Contents"><strong>Contents</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+<ol>
+
+<li>
+<a href="#So You Have To Use JSP...">So You Have To Use JSP...</a>
+</li>
+
+<li>
+ <a href="#Using The Velocity Taglib">Using The Velocity Taglib</a>
+ <ul>
+  <li>
+    <a href="#Automatic Scope Access">Automatic Scope Access</a>
+  </li>
+  <li>
+    <a href="#Strict Scope Access">Strict Scope Access</a>
+  </li>
+</ul>
+</li>
+
+<li>
+<a href="#Building The Velocity Taglib">Building The Velocity Taglib</a>
+</li>
+
+<li>
+<a href="#Configuration">Configuration</a>
+</li>
+
+</ol>
+</p>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <a name="So You Have To Use JSP..."><strong>So You Have To Use JSP...</strong></a>
         </font>
       </td></tr>
@@ -185,12 +227,163 @@ simple as :
     </table>
     </div>
                                                 <p>
-Not hard at all.
+Not hard at all, is it?
 </p>
-                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
-      <tr><td bgcolor="#828DA6">
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Building the Velocity Taglib"><strong>Building the Velocity Taglib</strong></a>
+          <a name="Using The Velocity Taglib"><strong>Using The Velocity Taglib</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+The biggest challenge in bringing together Velocity and JSP is the 
+'impedance matching' related to scope and bean access.  'Scope', 
+the fundamental storage mechanism in JSP, is a 
+concept that comes from the underlying servlet API, where data objects 
+are stored for later retrieval within the page, request, session or
+application.  Velocity organizes data in a non-hierachical mechanism 
+called the 'context', the expectation being that a controller servlet
+or other non-view code will manage and organize the data accessable 
+to the template.
+</p>
+                                                <p>
+So to make data access in JSPs easy using the Velocity taglib, two 
+separate approaches are offered.  These two approaches, automatic
+access and strict access, allow two distinct ways of managing and 
+accessing data.  These two ways can also be used together.
+</p>
+                                                <a name="Automatic Scope Access"><strong>Automatic Scope Access</strong></a>
+                                                <p>
+The first way, automatic access, is the most convenient.  When an 
+object is referenced (via a VTL 'reference'), the scopes are searched
+to find an object with the same id.  The scopes are searched in the 
+order of :
+
+<ol>
+<li> page scope </li>
+<li> request scope </li>
+<li> session scope </li>
+<li> application scope </li>
+</ol>
+ 
+Automatic scope access is enabled by default.  To use 
+automatic scope access, just access the bean by name. For example :
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+&lt;!-- place a bean in page scope --&gt;
+&lt;jsp:useBean id=&quot;mybean&quot;  class=&quot;GeirBean&quot; /&gt;
+
+ &lt;vel:velocity&gt;
+
+    &lt;!-- just access by id - the context --&gt;
+    &lt;!-- will find it automatically      --&gt;
+
+    #foreach($item in $mybean.array) 
+       $item &lt;br&gt;
+    #end
+
+&lt;/vel:velocity&gt;
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+While automatic scope access is the easier of the two methods, 
+integrating with existing applications might require using the
+other access mode, strict scope access, or a combination of the
+two.
+</p>
+                                                <a name="Strict Scope Access"><strong>Strict Scope Access</strong></a>
+                                                <p>
+   The alternative (or addition to) Automatic Scope Access is something called 
+   <i>Strict Scope Access</i>.  Strict Scope Acccess means that the Velocity
+   Context won't search the scopes for you - you must retrieve objects directly
+   using ScopeTool that is provided for your use in the template.  This is a 
+   closer model to that of regular JSP, where the designer must be aware of 
+   the scopes that objects are stored in.
+  </p>
+                                                <p>
+   For example, the following snippet of JSP shows how the scopetool is used to
+   access an object in the request scope, and add it to the Velocity context.
+   Note how the <code>strictaccess</code> property is set to true in the
+   <code>&lt;vel:velocity strictaccess="true"&gt;</code> tag.  This tells 
+   the Veltag taglib to not do any automatic scope searching.  Note that you can
+   mix the two modes, leaving off (or setting to false) <code>strictaccess</code>
+   and also using the scopetool to eliminate any question about the source
+   of an object.
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+
+&lt;jsp:useBean id=&quot;beaninrequest&quot; class=&quot;GeirBean&quot; scope=&quot;request&quot; /&gt;
+
+&lt;vel:velocity strictaccess=&quot;true&quot;&gt;
+
+         #set($reqbean = $scopetool.getRequestScope(&quot;beaninrequest&quot;))
+
+         $reqbean.string
+
+         &lt;br&gt;
+
+        #foreach($item in $reqbean.array) 
+            $item &lt;br&gt;
+        #end
+
+&lt;/vel:velocity&gt;
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Again, pretty straightforward.
+</p>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Building The Velocity Taglib"><strong>Building The Velocity Taglib</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -243,13 +436,14 @@ To build, you need the following :
 </ul>
 </p>
                             </blockquote>
+        </p>
       </td></tr>
       <tr><td><br/></td></tr>
     </table>
-                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
-      <tr><td bgcolor="#828DA6">
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="How Do I Use It?"><strong>How Do I Use It?</strong></a>
+          <a name="Configuration"><strong>Configuration</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -306,10 +500,6 @@ instructions at the end.
   Please note that this code is not an official part of the Velocity
   distribution.
 </p>
-                            </blockquote>
-      </td></tr>
-      <tr><td><br/></td></tr>
-    </table>
                             </blockquote>
         </p>
       </td></tr>

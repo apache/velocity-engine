@@ -9,6 +9,40 @@
 
 <body>
 
+<section name="Contents">
+
+<p>
+<ol>
+
+<li>
+<a href="#So You Have To Use JSP...">So You Have To Use JSP...</a>
+</li>
+
+<li>
+ <a href="#Using The Velocity Taglib">Using The Velocity Taglib</a>
+ <ul>
+  <li>
+    <a href="#Automatic Scope Access">Automatic Scope Access</a>
+  </li>
+  <li>
+    <a href="#Strict Scope Access">Strict Scope Access</a>
+  </li>
+</ul>
+</li>
+
+<li>
+<a href="#Building The Velocity Taglib">Building The Velocity Taglib</a>
+</li>
+
+<li>
+<a href="#Configuration">Configuration</a>
+</li>
+
+</ol>
+</p>
+
+</section>
+
 <section name="So You Have To Use JSP...">
 
 <p>
@@ -63,11 +97,123 @@ simple as :
 ]]></source>
 
 <p>
-Not hard at all.
+Not hard at all, is it?
 </p>
 
+</section>
 
-<subsection name="Building the Velocity Taglib">
+<section name="Using The Velocity Taglib">
+
+<p>
+The biggest challenge in bringing together Velocity and JSP is the 
+'impedance matching' related to scope and bean access.  'Scope', 
+the fundamental storage mechanism in JSP, is a 
+concept that comes from the underlying servlet API, where data objects 
+are stored for later retrieval within the page, request, session or
+application.  Velocity organizes data in a non-hierachical mechanism 
+called the 'context', the expectation being that a controller servlet
+or other non-view code will manage and organize the data accessable 
+to the template.
+</p>
+
+<p>
+So to make data access in JSPs easy using the Velocity taglib, two 
+separate approaches are offered.  These two approaches, automatic
+access and strict access, allow two distinct ways of managing and 
+accessing data.  These two ways can also be used together.
+</p>
+
+<a name="Automatic Scope Access"><strong>Automatic Scope Access</strong></a>
+
+<p>
+The first way, automatic access, is the most convenient.  When an 
+object is referenced (via a VTL 'reference'), the scopes are searched
+to find an object with the same id.  The scopes are searched in the 
+order of :
+
+<ol>
+<li> page scope </li>
+<li> request scope </li>
+<li> session scope </li>
+<li> application scope </li>
+</ol>
+ 
+Automatic scope access is enabled by default.  To use 
+automatic scope access, just access the bean by name. For example :
+</p>
+
+<source><![CDATA[
+
+<!-- place a bean in page scope -->
+<jsp:useBean id="mybean"  class="GeirBean" />
+
+ <vel:velocity>
+
+    <!-- just access by id - the context -->
+    <!-- will find it automatically      -->
+
+    #foreach($item in $mybean.array) 
+       $item <br>
+    #end
+
+</vel:velocity>
+]]></source>
+
+<p>
+While automatic scope access is the easier of the two methods, 
+integrating with existing applications might require using the
+other access mode, strict scope access, or a combination of the
+two.
+</p>
+
+<a name="Strict Scope Access"><strong>Strict Scope Access</strong></a>
+  <p>
+   The alternative (or addition to) Automatic Scope Access is something called 
+   <i>Strict Scope Access</i>.  Strict Scope Acccess means that the Velocity
+   Context won't search the scopes for you - you must retrieve objects directly
+   using ScopeTool that is provided for your use in the template.  This is a 
+   closer model to that of regular JSP, where the designer must be aware of 
+   the scopes that objects are stored in.
+  </p>
+
+   <p>
+   For example, the following snippet of JSP shows how the scopetool is used to
+   access an object in the request scope, and add it to the Velocity context.
+   Note how the <code>strictaccess</code> property is set to true in the
+   <code>&lt;vel:velocity strictaccess="true"&gt;</code> tag.  This tells 
+   the Veltag taglib to not do any automatic scope searching.  Note that you can
+   mix the two modes, leaving off (or setting to false) <code>strictaccess</code>
+   and also using the scopetool to eliminate any question about the source
+   of an object.
+  </p>
+
+<source><![CDATA[
+
+
+<jsp:useBean id="beaninrequest" class="GeirBean" scope="request" />
+
+<vel:velocity strictaccess="true">
+
+         #set($reqbean = $scopetool.getRequestScope("beaninrequest"))
+
+         $reqbean.string
+
+         <br>
+
+        #foreach($item in $reqbean.array) 
+            $item <br>
+        #end
+
+</vel:velocity>
+]]></source>
+
+<p>
+Again, pretty straightforward.
+</p>
+
+</section>
+
+<section name="Building The Velocity Taglib">
 
 <p>
 To use the Velocity taglib, you need to build it, as it is not 
@@ -117,9 +263,9 @@ To build, you need the following :
 </li>
 </ul>
 </p>
-</subsection>
+</section>
 
-<subsection name="How Do I Use It?">
+<section name="Configuration">
 
 <p>
 Using the taglib is very straightforward.  The following assumes
@@ -178,8 +324,8 @@ instructions at the end.
   distribution.
 </p>
 
-</subsection>
 </section>
 
 </body>
 </document>
+
