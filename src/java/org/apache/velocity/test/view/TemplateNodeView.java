@@ -94,7 +94,7 @@ public class TemplateNodeView
         try
         {
             Runtime.init("velocity.properties");
-            document = Runtime.parse(new FileInputStream(template));
+            document = Runtime.parse(new FileInputStream(template), template);
             visitor = new NodeViewMode();
             visitor.setContext(null);
             visitor.setWriter(new PrintWriter(System.out));
