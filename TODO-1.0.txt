@@ -1,18 +1,5 @@
 +------------- Critical For Release -------------+
 
-o Configuration Cleanup
-  
-  PLAN:
-  We're still debating.
-  
-  STATUS:
-  [JVZ] I will make the changes when we agree.
-  [JSS] At this point, I don't care.
-  [GMJ] I do and I think we're in agreement. I will
-        do the necessary support in the Velocity class
-        to keep things friendly for app developers once
-        Jason finished the Runtime configuration API.
-
 o Log4j for Logging
   
   PLAN:
