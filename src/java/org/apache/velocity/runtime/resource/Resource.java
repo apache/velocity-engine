@@ -69,7 +69,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.12 2003/08/31 23:38:00 dlr Exp $
+ * @version $Id: Resource.java,v 1.13 2003/12/31 14:25:09 geirm Exp $
  */
 public abstract class Resource
 {
@@ -154,7 +154,7 @@ public abstract class Resource
 
     /**
      * Set the modification check interval.
-     * @param interval The interval (in seconds).
+     * @param modificationCheckInterval The interval (in seconds).
      */
     public void setModificationCheckInterval(long modificationCheckInterval)
     {
