@@ -1,0 +1,222 @@
+<html>
+
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="Geir Magnusson Jr.">
+<title>Jakarta Project: Velocity Template Engine Tag Library</title>
+<link type="text/css" href="taglib.css" rel="stylesheet">
+</head>
+
+<body>
+<h1>Jakarta Project: Velocity Template Engine Tag Library</h1>
+<h3 class="middle">Version: 1.0</h3>
+<h3>Table of Contents</h3>
+<a href="#overview">Overview</a>
+<br>
+<a href="#requirements">Requirements</a>
+<br>
+<a href="#build">Building the Library</a>
+<br>
+<a href="#config">Configuration</a>
+<br>
+<a href="#summary">Tag Summary</a>
+<br>
+<a href="#reference">Tag Reference</a>
+<br>
+<a href="#examples">Examples</a>
+<br>
+<a href="#javadocs">Javadocs</a>
+<br>
+<a href="#history">Revision History</a>
+<br>
+<a name="overview"></a>
+<h3>Overview</h3>
+<p>
+The Velocity Template Engine allows the Velocity Template Language to be
+used within a JSP using JSP custom tags.  
+<a href="http://jakarta.apache.org/velocity/">Velocity</a> is a general
+templating tool that provides a simple template language that allows easy
+access to java objects, methods, and data.
+</p>
+
+<p> 
+By allowing the use of Velocity from within a JSP, it allows a JSP author 
+easy access to all public methods exposed by a Java class, as well as 
+a simple set of control and logical directives.
+</p>
+
+<a name="requirements"></a>
+<h3>Requirements</h3>
+<p>
+    This custom tag library requires no software other than a servlet container
+    that supports the JavaServer Pages Specification, version 1.1 or higher, and
+    the Jakarta Velocity Template Engine, version 1.1 or higher. 
+</p>
+
+<a name="build"></a>
+<h3>Building the Library</h3>
+<p>
+Building the library is fairly straightforward.  What to do :
+<ul>
+<li>  This taglib includes an <a href="http://jakarta.apache.org/ant/">ant</a> 
+build script. (Ant rocks!) Install ant on your computer (it's easy...)
+<li>  You will need a servlet API jar.  We recommend you get it from
+<a href="http://jakarta.apache.org/builds/jakarta-tomcat/release/v3.2.3/bin/">here</a> 
+for servlet 2.2 and
+<a href="http://jakarta.apache.org/builds/jakarta-servletapi-4/nightly/">here</a>
+for the unreleased servlet 2.3 API.  Note - if you are a JSP user, you will have 
+one included with your servlet engine.
+<li> A velocity.jar.  This can be found 
+<a href="http://jakarta.apache.org/velocity/">here</a>.
+<li> The build script expects to find the jars in the lib directory.  Modification
+of the build script is easy if they are in another location.  Look for
+'servlet.home' and 'velocity.home' in the build.xml.
+<li> Once all of the pieces are in place, cd to your distribution directory (where
+you unpacked this taglib, and where build.xml is, and simply type 'ant'.
+</ul>
+
+
+<a name="config"></a>
+<h3>Configuration</h3>
+<p>Follow these steps to configure your web application with this tag library:</p>
+<ul>
+<li>Copy the tag library descriptor file to the /WEB-INF subdirectory
+                 of your web application.  An example of this descriptor file
+                 can be found in the /examples directory.</li>
+<li>Copy the tag library JAR file to the /WEB-INF/lib subdirectory 
+                of your web application.  This will be created by the 
+                build process.</li>
+<li>Copy the Velocity JAR file to the /WEB-INF/lib subdirectory 
+                of your web application. Please get from the 
+                <a href="http://jakarta.apache.org/velocity/">Jakarta Velocity site.</a></li>
+
+<li>Add a &lt;taglib&gt; element to your web application deployment
+                descriptor in /WEB-INF/web.xml like this:
+<pre>
+&lt;taglib&gt;
+  &lt;taglib-uri&gt;http://jakarta.apache.org/taglibs/veltag-0.01&lt;/taglib-uri&gt;
+  &lt;taglib-location&gt;/WEB-INF/veltag.tld&lt;/taglib-location&gt;
+&lt;/taglib&gt;
+</pre>
+</li>
+</ul>
+<p>To use the tags from this library in your JSP pages, add the following
+        directive at the top of each page: </p>
+<pre>
+&lt;%@ taglib uri="/WEB-INF/veltag.tld" prefix="vel" %&gt;
+</pre>
+<p>
+where "<i>vel</i>" is the tag name prefix you wish to use for tags 
+        from this library. You can change this value to any prefix you like.
+</p>
+
+
+
+<a name="summary"></a>
+<h3>Tag Summary</h3>
+<table summary="summary list of tags with short description of each.">
+<tr>
+<td><a href="#velocity">velocity</a></td><td>
+          Processes the body as VTL.  The body of the tag consists of normal Velocity template 
+          content.  This content is a free mixture of VTL (Velocity Template Language)
+          references and directives, as well as non-VTL content which is called
+          'schmoo'.
+        </td>
+</tr>
+
+<tr>
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<a name="reference"></a>
+<h3>Tag Reference</h3>
+<table summary="This table is for visual formatting of tag reference information." cellspacing="0" cellpadding="3" width="90%" border="0">
+<tr>
+<td colspan="2">
+<table summary="name and tag library version availability of tag." cellspacing="0" width="100%" bgcolor="#cccccc" border="0">
+<tr>
+<td><b><font size="+1"><a name="velocity">velocity</a></font></b></td><td align="right">Availability: version 0.01</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+          Processes the body as VTL.  The body of the tag consists of normal Velocity template 
+          content.  This content is a free mixture of VTL (Velocity Template Language)
+          references and directives, as well as non-VTL content which is called
+          'schmoo'.
+        </td>
+</tr>
+<tr>
+<td width="2%">&nbsp;</td><td width="98%">
+<table summary="Tag class, tag name, script variable (if any), and restrictions (if any)." width="100%" border="0">
+<tr>
+<td width="20%"><span class="tclass">Tag Class</span></td><td width="80%">org.apache.taglibs.velocity.VelocityTag</td>
+</tr>
+<tr>
+<td width="20%"><span class="tbody">Tag Body</span></td><td width="80%">Velocity Template Language</td>
+</tr>
+<tr>
+<td width="20%"><span class="scriptvar">Script Variable</span></td><td width="80%">No</td>
+</tr>
+<tr>
+<td width="20%"><span class="restrictions">Restrictions</span></td><td width="80%"></td>
+</tr>
+<tr>
+<td width="20%"><span class="attributes">Attributes</span></td><td width="80%">&nbsp;</td>
+</tr>
+<tr>
+<td width="20%">&nbsp;</td><td width="80%">
+<table summary="Tag attribute name, whether required, and whether rtexprvalue allowed." width="100%" border="0">
+<tr>
+<td width="40%">Name</td><td width="20%">Required</td><td width="40%">Runtime Expression Evaluation</td>
+</tr>
+<tr bgcolor="#cccccc">
+<td width="40%"><b>strictaccess</b></td><td width="20%">false</td><td width="40%">true</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td valign="top" width="20%"><span class="example">Example</span></td><td width="80%">
+<ol>
+<li>
+<br>
+<p>
+<pre>
+<code>
+&lt;vel:velocity strictaccess="true"&gt;
+  #set( $name = "Geir")
+  Hello $name
+&lt;/vel:velocity&gt;
+
+</code>
+</pre>
+</p>
+</li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<a name="examples">
+<h3>Examples</h3>
+</a>
+<p>See the example template in the distrubution /examples directory</p>
+<a name="javadocs">
+<h3>Java Docs</h3>
+</a>
+<p>
+To create the javadocs, use the 'javadoc' build target. The docs will
+be <a href="target/javadoc/index.html">here</a>.</p>
+<a name="history">
+<h3>Revision History</h3>
+</a>
+<p>v0.01</p>
+</body>
+
+</html>
