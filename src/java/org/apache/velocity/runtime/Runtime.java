@@ -156,7 +156,10 @@ public class Runtime
     
     /** Enable the speed up provided by FastWriter */
     public static final String TEMPLATE_ASCIIHACK = "template.asciihack";
-    
+
+    /** Initial counter value in #foreach directives */
+    public static final String INITIAL_COUNTER_VALUE = "initial.counter.value";
+
     /** How often to check for modified templates. */
     public static final String TEMPLATE_MOD_CHECK_INTERVAL = 
         "template.modificationCheckInterval";
