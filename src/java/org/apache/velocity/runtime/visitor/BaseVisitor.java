@@ -62,16 +62,20 @@ import java.util.Map;
 import org.apache.velocity.Context;
 import org.apache.velocity.util.ClassUtils;
 
-// This will be expanded to full form when the
-// nodes settle down.
 import org.apache.velocity.runtime.parser.*;
 
+/**
+ * This is the base class for all visitors.
+ * For each AST node, this class will provide
+ * a bare-bones method for traversal.
+ */
 public abstract class BaseVisitor implements ParserVisitor
 {
+    /** Context used during traversal */
     protected Context context;
+    
+    /** Writer used as the output sink */
     protected Writer writer;
-    protected SimpleNode root;
-    protected String property;
     
     public void setWriter(Writer writer)
     {
