@@ -63,10 +63,15 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ClassUtils;
 
 import org.apache.velocity.runtime.parser.Node;
 import org.apache.velocity.runtime.parser.Token;
+
+//! TODO: wrap arrays in an iterator so we can
+//        get rid of the array/iterator check just
+//        make everything an iterator.
 
 /**
  * Foreach directive used for moving through arrays,
@@ -79,10 +84,14 @@ public class Foreach extends Directive
 
     private final static int ARRAY = 1;
     private final static int ITERATOR = 2;
+    private final static String COUNTER_IDENTIFIER = "velocityCount";
+    private final static int INITIAL_COUNTER_VALUE = 
+        new Integer(Runtime.getString(Runtime.INITIAL_COUNTER_VALUE)).intValue();
 
     private String elementKey;
     private Object listObject;
     private Object tmp;
+    private int iterator;
     
     public void init(Context context, Node node) throws Exception
     {
@@ -137,9 +146,12 @@ public class Foreach extends Directive
             
                 for (int i = 0; i < length; i++)
                 {
+                    context.put(COUNTER_IDENTIFIER, 
+                        new Integer(i + INITIAL_COUNTER_VALUE));
                     context.put(elementKey,((Object[])listObject)[i]);
                     node.jjtGetChild(3).render(context, writer);
                 }
+                context.remove(COUNTER_IDENTIFIER);
                 context.remove(elementKey);
                 break;
             
@@ -148,12 +160,16 @@ public class Foreach extends Directive
                 // Check the interface. size() and get(index) might
                 // be faster then using an Iterator.
                 Iterator i = ((Collection) listObject).iterator();
-            
+                
+                iterator = INITIAL_COUNTER_VALUE;
                 while (i.hasNext())
                 {
+                    context.put(COUNTER_IDENTIFIER, new Integer(iterator));
                     context.put(elementKey,i.next());
                     node.jjtGetChild(3).render(context, writer);
+                    iterator++;
                 }
+                context.remove(COUNTER_IDENTIFIER);
                 context.remove(elementKey);
                 break;
         }            
