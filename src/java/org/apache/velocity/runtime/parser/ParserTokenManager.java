@@ -3323,13 +3323,13 @@ static final long[] jjtoToken = {
    0x7897fffffdf81fffL, 0x0L, 
 };
 static final long[] jjtoSkip = {
-   0x8000000000000000L, 0x1L, 
+   0x8000000002000000L, 0x1L, 
 };
 static final long[] jjtoSpecial = {
    0x8000000000000000L, 0x1L, 
 };
 static final long[] jjtoMore = {
-   0x207e000L, 0x0L, 
+   0x7e000L, 0x0L, 
 };
 private CharStream input_stream;
 private final int[] jjrounds = new int[42];
