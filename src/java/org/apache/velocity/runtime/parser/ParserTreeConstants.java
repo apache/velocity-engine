@@ -10,7 +10,7 @@ public interface ParserTreeConstants
   public int JJTNUMBERLITERAL = 3;
   public int JJTSTRINGLITERAL = 4;
   public int JJTIDENTIFIER = 5;
-  public int JJTDIRECTIVEARGS = 6;
+  public int JJTWORD = 6;
   public int JJTDIRECTIVE = 7;
   public int JJTBLOCK = 8;
   public int JJTOBJECTARRAY = 9;
@@ -22,22 +22,23 @@ public interface ParserTreeConstants
   public int JJTIFSTATEMENT = 15;
   public int JJTELSESTATEMENT = 16;
   public int JJTELSEIFSTATEMENT = 17;
-  public int JJTEXPRESSION = 18;
-  public int JJTASSIGNMENT = 19;
-  public int JJTORNODE = 20;
-  public int JJTANDNODE = 21;
-  public int JJTEQNODE = 22;
-  public int JJTNENODE = 23;
-  public int JJTLTNODE = 24;
-  public int JJTGTNODE = 25;
-  public int JJTLENODE = 26;
-  public int JJTGENODE = 27;
-  public int JJTADDNODE = 28;
-  public int JJTSUBTRACTNODE = 29;
-  public int JJTMULNODE = 30;
-  public int JJTDIVNODE = 31;
-  public int JJTMODNODE = 32;
-  public int JJTNOTNODE = 33;
+  public int JJTSETDIRECTIVE = 18;
+  public int JJTEXPRESSION = 19;
+  public int JJTASSIGNMENT = 20;
+  public int JJTORNODE = 21;
+  public int JJTANDNODE = 22;
+  public int JJTEQNODE = 23;
+  public int JJTNENODE = 24;
+  public int JJTLTNODE = 25;
+  public int JJTGTNODE = 26;
+  public int JJTLENODE = 27;
+  public int JJTGENODE = 28;
+  public int JJTADDNODE = 29;
+  public int JJTSUBTRACTNODE = 30;
+  public int JJTMULNODE = 31;
+  public int JJTDIVNODE = 32;
+  public int JJTMODNODE = 33;
+  public int JJTNOTNODE = 34;
 
 
   public String[] jjtNodeName = {
@@ -47,7 +48,7 @@ public interface ParserTreeConstants
     "NumberLiteral",
     "StringLiteral",
     "Identifier",
-    "DirectiveArgs",
+    "Word",
     "Directive",
     "Block",
     "ObjectArray",
@@ -59,6 +60,7 @@ public interface ParserTreeConstants
     "IfStatement",
     "ElseStatement",
     "ElseIfStatement",
+    "SetDirective",
     "Expression",
     "Assignment",
     "OrNode",

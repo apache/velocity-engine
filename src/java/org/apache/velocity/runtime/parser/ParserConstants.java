@@ -40,20 +40,21 @@ public interface ParserConstants {
   int IF_DIRECTIVE = 40;
   int ELSEIF_DIRECTIVE = 41;
   int ELSE_DIRECTIVE = 42;
-  int STOP_DIRECTIVE = 43;
-  int DIGIT = 44;
-  int NUMBER_LITERAL = 45;
-  int LETTER = 46;
-  int WORD = 47;
-  int ALPHA_CHAR = 48;
-  int ALPHANUM_CHAR = 49;
-  int IDENTIFIER_CHAR = 50;
-  int IDENTIFIER = 51;
-  int DOT = 52;
-  int SHORTHAND = 53;
-  int LCURLY = 54;
-  int RCURLY = 55;
-  int REFERENCE_TERMINATOR = 56;
+  int SET_DIRECTIVE = 43;
+  int STOP_DIRECTIVE = 44;
+  int DIGIT = 45;
+  int NUMBER_LITERAL = 46;
+  int LETTER = 47;
+  int WORD = 48;
+  int ALPHA_CHAR = 49;
+  int ALPHANUM_CHAR = 50;
+  int IDENTIFIER_CHAR = 51;
+  int IDENTIFIER = 52;
+  int DOT = 53;
+  int SHORTHAND = 54;
+  int LCURLY = 55;
+  int RCURLY = 56;
+  int REFERENCE_TERMINATOR = 57;
 
   int DEFAULT = 0;
   int REFERENCE = 1;
@@ -106,6 +107,7 @@ public interface ParserConstants {
     "\"if\"",
     "\"elseif\"",
     "\"else\"",
+    "\"set\"",
     "\"stop\"",
     "<DIGIT>",
     "<NUMBER_LITERAL>",
