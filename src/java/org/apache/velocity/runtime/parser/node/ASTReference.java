@@ -41,6 +41,12 @@ public class ASTReference extends SimpleNode
         return visitor.visit(this, data);
     }
 
+    public void jjtClose()
+    {
+        super.jjtClose();
+        last.last = true;
+    }
+
     public Object init(Context context, Object data) throws Exception
     {
         rootString = getRoot();
