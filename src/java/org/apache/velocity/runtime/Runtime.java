@@ -160,7 +160,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.57 2000/11/27 17:34:12 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.58 2000/11/28 00:10:05 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -182,6 +182,10 @@ public class Runtime implements RuntimeConstants
     /** Default Runtime properties */
     private final static String DEFAULT_RUNTIME_PROPERTIES = 
         "org/apache/velocity/runtime/defaults/velocity.properties";
+
+    /** Default Runtime properties */
+    private final static String DEFAULT_RUNTIME_DIRECTIVES = 
+        "org/apache/velocity/runtime/defaults/directive.properties";
 
     /** Include paths property used by Runtime for #included content */
     private final static String INCLUDE_PATHS = "include.path";
@@ -258,6 +262,15 @@ public class Runtime implements RuntimeConstants
     private static Map sourceInitializerMap;
 
     private static boolean sourceInitializersAssembled = false;
+    
+    /**
+     * This is a hashtable of initialized directives.
+     * The directives that populate this hashtable are
+     * taken from the RUNTIME_DEFAULT_DIRECTIVES
+     * property file. This hashtable is passed
+     * to each parser that is created.
+     */
+    private static Hashtable runtimeDirectives;
 
     /**
      * Initializes the Velocity Runtime.
@@ -422,7 +435,8 @@ public class Runtime implements RuntimeConstants
             try
             {
                 initializeLogger();
-                initializeTemplateLoader();           
+                initializeTemplateLoader();
+                initializeDirectives();
                 initializeParserPool();
                 initializeGlobalCache();
                 initializeIncludePaths();
@@ -666,6 +680,87 @@ public class Runtime implements RuntimeConstants
             sourceInitializersAssembled = true;
         }
     }
+    
+    /**
+     * This methods initializes all the directives
+     * that are used by the Velocity Runtime. The
+     * directives to be initialized are listed in
+     * the RUNTIME_DEFAULT_DIRECTIVES properties
+     * file.
+     */
+    private static void initializeDirectives() throws Exception
+    {
+        /*
+         * Initialize the runtime directive table.
+         * This will be used for creating parsers.
+         */
+        runtimeDirectives = new Hashtable();
+        
+        Properties directiveProperties = new Properties();
+        
+        /*
+         * Grab the properties file with the list of directives
+         * that we should initialize.
+         */
+        ClassLoader classLoader = Runtime.class.getClassLoader();
+        InputStream inputStream = classLoader
+            .getResourceAsStream(DEFAULT_RUNTIME_DIRECTIVES);
+    
+        directiveProperties.load(inputStream);
+        
+        /*
+         * Grab all the values of the properties. These
+         * are all class names for example:
+         *
+         * org.apache.velocity.runtime.directive.Foreach
+         *
+         */
+        Enumeration directiveClasses = directiveProperties.elements();
+        
+        while (directiveClasses.hasMoreElements())
+        {
+            String directiveClass = (String) directiveClasses.nextElement();
+        
+            try
+            {
+                /*
+                 * Attempt to instantiate the directive class. This
+                 * should usually happen without error because the
+                 * properties file that lists the directives is
+                 * not visible. It's in a package that isn't 
+                 * readily accessible.
+                 *
+                 * After the directive is instantiated, use
+                 * reflection to grab the values of the name and
+                 * type fields as they have been defined in the
+                 * individual directive.
+                 *
+                 * After the name and type are nabbed, then
+                 * set them.
+                 */
+                Class clazz = Class.forName(directiveClass);
+                Directive directive = (Directive) clazz.newInstance();
+                
+                String name = (String) clazz
+                    .getField(Directive.NAME_FIELD).get(directive);
+                
+                directive.setName(name);
+                
+                directive.setType(clazz.getField(Directive.TYPE_FIELD)
+                    .getInt(directive));
+                
+                runtimeDirectives.put(name, directive);
+                
+                Runtime.info("Loaded Pluggable Directive: " 
+                    + directiveClass);
+            }
+            catch (Exception e)
+            {
+                Runtime.error("Error Loading Pluggable Directive: " 
+                    + directiveClass);    
+            }
+        }
+    }
 
     /**
      * Allow clients of Velocity to set a template stream
@@ -704,13 +799,16 @@ public class Runtime implements RuntimeConstants
     public static Parser createNewParser()
     {
         Parser parser = new Parser();
+        
+        /*
         Hashtable directives = new Hashtable();
         directives.put("foreach", new Foreach());
         directives.put("dummy", new Dummy());
         directives.put("include", new Include() );
         directives.put("parse", new Parse() );
         directives.put("macro", new Macro() );
-        parser.setDirectives(directives);
+        */
+        parser.setDirectives(runtimeDirectives);
         return parser;
     }
 
