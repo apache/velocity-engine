@@ -37,6 +37,15 @@ In order to get started with Velocity, you may want to build it.  If
 you are working with an offical Velocity release package, you will find
 the Velocity jar in the top level directory.
 
+Note that starting with the versio 1.2 release, this Velocity jar 
+does *NOT* contain any classes from external packages that it 
+depends on.
+
+Specifically, these are the Jakarta commons-collections, 
+Jakarta ORO, and Jakarta Avalon Logkit.  These jars are included 
+in the distribution in build/lib, and further information can be 
+found in the developers guide.
+
 Building Velocity is easy.  All components necessary to build Velocity are
 included, except for the Java 2 SDK and the fabulous Ant build tool
 from the Jakarta project.
@@ -51,6 +60,16 @@ ant jar
 This will create a bin/ directory containing the Velocity .jar file. Be
 sure to update your classpath to include Velocity's .jar file, or when using a 
 modern servlet container, put it in the WEB-INF/lib directory.
+
+If you wish to build a Velocity jar that contains all dependencies, we have
+provided an optional build target for our convenience :
+
+ant jar-dep
+
+This will build a complete Velocity jar with dependencies included, and it can
+be found in the /bin directory as
+
+velocity-dep-1.2.jar
 
 TRYING THE EXAMPLES
 -------------------
