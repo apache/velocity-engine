@@ -1,9 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.3 2000/11/04 04:58:28 jon Exp $
- * $Revision: 1.3 $
- * $Date: 2000/11/04 04:58:28 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.4 2000/11/16 02:16:13 jvanzyl Exp $
+ * $Revision: 1.4 $
+ * $Date: 2000/11/16 02:16:13 $
  *
  * ====================================================================
  * 
@@ -63,6 +63,7 @@ package org.apache.velocity.io;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
  * Write text to a character-output stream, buffering characters so as
@@ -79,7 +80,7 @@ import java.io.OutputStreamWriter;
  */
 public final class JspWriterImpl extends JspWriter
 {
-    private OutputStreamWriter writer;
+    private Writer writer;
     
     private char cb[];
     private int nextChar;
@@ -94,7 +95,7 @@ public final class JspWriterImpl extends JspWriter
      *
      * @param  response  A Servlet Response
      */
-    public JspWriterImpl(OutputStreamWriter writer)
+    public JspWriterImpl(Writer writer)
     {
         this(writer, defaultCharBufferSize, true);
     }
@@ -108,7 +109,7 @@ public final class JspWriterImpl extends JspWriter
      *
      * @exception  IllegalArgumentException  If sz is <= 0
      */
-    public JspWriterImpl(OutputStreamWriter writer, int sz, boolean autoFlush)
+    public JspWriterImpl(Writer writer, int sz, boolean autoFlush)
     {
         super(sz, autoFlush);
         if (sz < 0)
@@ -118,7 +119,7 @@ public final class JspWriterImpl extends JspWriter
         nextChar = 0;
     }
 
-    private final void init( OutputStreamWriter writer, int sz, boolean autoFlush )
+    private final void init( Writer writer, int sz, boolean autoFlush )
     {
         this.writer= writer;
         if( sz > 0 && ( cb == null || sz > cb.length ) )
