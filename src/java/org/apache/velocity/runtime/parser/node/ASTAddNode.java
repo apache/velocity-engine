@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.parser.node;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.11 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id: ASTAddNode.java,v 1.12 2004/03/20 03:35:51 dlr Exp $ 
 */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -63,8 +63,8 @@ public class ASTAddNode extends SimpleNode
          *  get the two addends
          */
 
-        Object left = jjtGetChild(0).value( context );
-        Object right = jjtGetChild(1).value( context );
+        Object left = jjtGetChild(0).value(context);
+        Object right = jjtGetChild(1).value(context);
 
         /*
          *  if either is null, lets log and bail
@@ -72,7 +72,7 @@ public class ASTAddNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) 
+            rsvc.error( ( left == null ? "Left" : "Right" )
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of addition operation has null value."
@@ -81,25 +81,35 @@ public class ASTAddNode extends SimpleNode
                            + ", column " + getColumn() + "]");
             return null;
         }
-        
+
         /*
-         *  if not an Integer, not much we can do either
+         * put the Integer test first, as that should happen most often
          */
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        if (left instanceof Integer && right instanceof Integer)
         {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
-                           + " side of addition operation is not a valid type. "
-                           + "Currently only integers (1,2,3...) and Integer type is supported. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
-                           + ", column " + getColumn() + "]");
- 
-            return null;
+            return new Integer(((Integer) left).intValue() + ((Integer) right).intValue());
         }
 
-        return new Integer( ( (Integer) left ).intValue() + (  (Integer) right ).intValue() );
-    }
+        /*
+         * shall we try for strings?
+         */
+        if (left instanceof String || right instanceof String)
+        {
+            return left.toString().concat(right.toString());
+        }
 
+        /*
+         *  if not an Integer or Strings, not much we can do right now
+         */
+        rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" )
+                       + " side of addition operation is not a valid type. "
+                       + "Currently only Strings, integers (1,2,3...) and Integer type are supported. "
+                       + context.getCurrentTemplateName() + " [line " + getLine()
+                       + ", column " + getColumn() + "]");
+
+        return null;
+    }
 }
 
 

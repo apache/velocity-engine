@@ -29,7 +29,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * This class is responsible for handling the pluggable
- * directives in VTL. ex.  #foreach()
+ * directives in VTL.
+ *
+ * For example :  #foreach()
  * 
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
@@ -37,7 +39,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.24 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id: ASTDirective.java,v 1.25 2004/03/20 03:35:51 dlr Exp $ 
  */
 public class ASTDirective extends SimpleNode
 {

@@ -28,13 +28,20 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
+ *  <p><em>This class is deprecated in favor of the new incarnation of
+ *  {@link Log4JLogSystem}, which makes use of Log4J's
+ *  <code>Logger</code> concept rather than its deprecated
+ *  <code>Category</code> concept.</em></p>
+ *
  *  Implementation of a simple log4j system that will either
  *  latch onto an existing category, or just do a simple
  *  rolling file log.  Derived from Jon's 'complicated'
  *  version :)
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.9 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.10 2004/03/20 03:35:50 dlr Exp $
+ * @deprecated Use Log4JLogSystem instead for compatibility with
+ * modern Log4J versions.
  */
 public class SimpleLog4JLogSystem implements LogSystem
 {

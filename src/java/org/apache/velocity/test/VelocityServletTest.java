@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -36,6 +37,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.servlet.VelocityServlet;
 
 import junit.framework.TestCase;
+
 
 /**
  * Tests our VelocityServlet implementation.
@@ -146,6 +148,11 @@ public class VelocityServletTest extends TestCase
             return this;
         }
 
+        public String getServletContextName()
+        {
+            return "VelocityTestContext";
+        }
+
         public String getInitParameter(String ignored)
         {
             return null;
@@ -162,6 +169,11 @@ public class VelocityServletTest extends TestCase
         }
 
         public String getMimeType(String ignored)
+        {
+            return null;
+        }
+
+        public Set getResourcePaths(String string)
         {
             return null;
         }
@@ -246,6 +258,10 @@ public class VelocityServletTest extends TestCase
         // ---- ServletResponse implementation -----------------------------
 
         public void flushBuffer() throws IOException
+        {
+        }
+
+        public void resetBuffer()
         {
         }
 

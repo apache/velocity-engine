@@ -73,7 +73,7 @@ import org.apache.velocity.VelocityContext;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.16 2004/03/19 17:13:35 dlr Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.17 2004/03/20 03:35:50 dlr Exp $ 
  */
 public class VMProxyArg
 {
@@ -273,6 +273,10 @@ public class VMProxyArg
                     retObject = nodeTree.execute( null, context);
                 }
             }
+            else if (type == ParserTreeConstants.JJTMAP)
+            {
+                retObject = nodeTree.value(context);
+            }
             else if( type == ParserTreeConstants.JJTOBJECTARRAY )
             {
                 retObject = nodeTree.value( context );
@@ -353,6 +357,7 @@ public class VMProxyArg
         case ParserTreeConstants.JJTINTEGERRANGE :
         case ParserTreeConstants.JJTREFERENCE :
         case ParserTreeConstants.JJTOBJECTARRAY :
+        case ParserTreeConstants.JJTMAP :
         case ParserTreeConstants.JJTSTRINGLITERAL :
         case ParserTreeConstants.JJTTEXT :
             {

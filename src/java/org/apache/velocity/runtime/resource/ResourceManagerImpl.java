@@ -17,7 +17,6 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import java.io.InputStream;
@@ -42,7 +41,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.10 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.11 2004/03/20 03:35:51 dlr Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -82,18 +81,6 @@ public class ResourceManagerImpl implements ResourceManager
      * <loader-id>.resource.loader.<property> = <value>
      */
     private  ArrayList sourceInitializerList = new ArrayList();
-    
-    /**
-     * This is a map of public name of the template
-     * stream source to it's initializer. This is so
-     * that clients of velocity can set properties of
-     * a template source stream with its public name.
-     * So for example, a client could set the 
-     * File.resource.path property and this would
-     * change the resource.path property for the
-     * file template stream source.
-     */
-    private  Hashtable sourceInitializerMap = new Hashtable();
 
     /**
      * Each loader needs a configuration object for
