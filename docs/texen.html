@@ -14,6 +14,8 @@
                                                     <meta name="author" value="Velocity Documentation Team">
             <meta name="email" value="jvanzyl@zenplex.com">
             
+           
+                                    
             <title>Velocity - Texen</title>
         </head>
 
@@ -246,7 +248,7 @@ page generator!
 
 #foreach ($planet in $Planets)
 
-    #set ($outputFile = strings.concat([$planet, &quot;.html&quot;]))
+    #set ($outputFile = $stringutils.concat([$planet, &quot;.html&quot;]))
     $generator.parse(&quot;HtmlTemplate.vm&quot;, $outputFile, &quot;planet&quot;, $planet)
 
 #end
@@ -338,6 +340,12 @@ not so useful in this case). :-)
         </body>
     </html>
 <!-- end the processing -->
+
+
+
+
+
+
 
 
 
