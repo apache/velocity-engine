@@ -38,18 +38,6 @@ The Todo list that follows is roughly in order of importance.
     </p>
 
     <p>
-    <strong>JUnit Test Suite</strong>
-    <br/>
-        A JUnit test suite would allow Velocity developers to
-        aggressively add, refactor, and optimize code. We need
-        a comprehensive test suite so that we can
-        be assured changes in the code base have no adverse
-        effects for users. <link href="mailto:dlr@collab.net">Daniel L. Rall</link>
-        has started us off with some code so you may want to contact
-        him if you are interested in working on a JUnit test suite.
-    </p>
-
-    <p>
     <strong>Directive Interface</strong>
     <br/>
         Right now there is a very thin interface for directives, but
@@ -69,14 +57,6 @@ The Todo list that follows is roughly in order of importance.
         make that process efficient; how to stamp items in
         the context with expiry durations so that items can
         be cached and how this might work.
-    </p>
-
-    <p>
-    <strong>Sample Applications</strong>
-    <br/>
-        Any type of sample application would be useful to
-        help new developers get acquainted with
-        Velocity. Any suggestions are welcome.
     </p>
 
     <p>
@@ -218,16 +198,6 @@ The Todo list that follows is roughly in order of importance.
         hooked into various designer tools like DreamWeaver.
     </p>
     
-    <p>
-    <strong>Extended Properties</strong>
-    <br/>
-        There are classes that are present in JServ, Turbine and Cocoon
-        that allow a more flexible properties mechanism. It allows properties
-        files to be 'included', and allows the concatentation of the values
-        of multiply defined properties. These classes are very good and
-        should be integrated into Velocity.
-    </p>
-
     <p>
     <strong>Compiler</strong>
     <br/>
