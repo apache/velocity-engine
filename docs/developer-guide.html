@@ -1544,8 +1544,13 @@ for debugging.
 </p>
                                                 <strong>Character Encoding</strong>
                                                 <p>
-<code>template.encoding = 8859_1</code><br />
- Encoding scheme to use.  Currently used in VelocityServlet.
+<code>input.encoding = ISO-8859-1</code><br />
+Character encoding for input (templates).  Using this, you can use
+alternative encoding for your templates, such as UTF-8.
+</p>
+                                                <p>
+<code>output.encoding = ISO-8859-1</code><br />
+Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
                                                 <strong> #foreach() Directive </strong>
                                                 <p>
