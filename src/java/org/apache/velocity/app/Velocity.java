@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.25 2001/11/22 06:00:27 geirm Exp $
+ * @version $Id: Velocity.java,v 1.26 2001/11/22 06:18:31 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -409,19 +409,27 @@ public class Velocity implements RuntimeConstants
             return false;
         }
 
-        String construct = "#" + vmName + "(";
+        /*
+         *  now just create the VM call, and use evaluate
+         */
+
+        StringBuffer construct = new StringBuffer("#");
+
+        construct.append( vmName );
+        construct.append( "(" );
  
         for( int i = 0; i < params.length; i++)
         {
-            construct = construct + " $"+params[i];
+            construct.append( " $" );
+            construct.append( params[i] );
         }
 
-        construct = construct + " )";
+        construct.append(" )");
 
         try
         {
             boolean retval = evaluate(  context,  writer,  
-                                         logTag, construct );
+                                         logTag, construct.toString() );
   
             return retval;
         }
