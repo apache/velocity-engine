@@ -42,6 +42,10 @@
    <li>
      The Resource Manager and Resource Cache are now pluggable.
    </li>
+   <li>
+    The User's Guide is now available in Finnish, French, Spanish and
+    English.
+    </li>
  </ul>
  <p>
    Minor enhancements are too numerous to mention. Please see the
@@ -241,7 +245,7 @@ it</a> out. <i>(2001-12-09)</i>
 <section name="Where do I get releases?">
 
 <p>
-   The current release version is version 1.2
+   The current release version is version 1.3
 </p>
 
 <p>
@@ -249,14 +253,6 @@ The release distribution is available in both <code>tar.gz</code> and <code>zip<
 formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
 </p>
 
-<p>
-   The current release release candidate version is version 1.3-rc1
-</p>
-
-<p>
-The release candidate distribution is available in both <code>tar.gz</code> and <code>zip</code>
-formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.3/">here</a>.
-</p>
 </section>
 
 <section name="Where do I get nightly snapshots?">
