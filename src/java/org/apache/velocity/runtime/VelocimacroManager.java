@@ -65,7 +65,6 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
@@ -84,10 +83,12 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.11 2001/06/12 03:20:35 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.12 2001/08/07 22:06:49 geirm Exp $ 
  */
 public class VelocimacroManager
 {
+    private RuntimeServices rsvc = null;
+
     private static String GLOBAL_NAMESPACE = "";
 
     /*  hash of namespace hashes */
@@ -103,8 +104,10 @@ public class VelocimacroManager
     /**
      *  not much to do but add the global namespace to the hash
      */
-    VelocimacroManager()
+    VelocimacroManager( RuntimeServices rs)
     {
+        this.rsvc = rs;
+
         /*
          *  add the global namespace to the namespace hash. We always have that.
          */
@@ -368,12 +371,12 @@ public class VelocimacroManager
             {
                 BufferedReader br = new BufferedReader( new StringReader( macrobody ) );
  
-                nodeTree = Runtime.parse( br, "VM:" + macroname );
+                nodeTree = rsvc.parse( br, "VM:" + macroname );
                 nodeTree.init(ica,null);
             } 
             catch ( Exception e ) 
             {
-                Runtime.error("VelocimacroManager.parseTree() : exception " + macroname + 
+                rsvc.error("VelocimacroManager.parseTree() : exception " + macroname + 
                               " : "  + StringUtils.stackTrace(e));
             }
         }

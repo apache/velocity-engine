@@ -67,16 +67,24 @@ import java.util.Vector;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.13 2001/07/30 11:05:12 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.14 2001/08/07 22:06:49 geirm Exp $ 
  */
 public class VelocimacroFactory
 {
-    private VelocimacroManager vmManager = new VelocimacroManager();
+    private RuntimeServices rsvc = null;
+
+    private VelocimacroManager vmManager = null;
 
     private boolean replaceAllowed = false;
     private boolean addNewAllowed = true;
     private boolean templateLocal = false;
     private boolean blather = false;
+
+    public VelocimacroFactory( RuntimeServices rs )
+    {
+        this.rsvc = rs;
+        vmManager = new VelocimacroManager( rsvc );
+    }
 
     /**
      *    setup
@@ -107,10 +115,8 @@ public class VelocimacroFactory
              *  All we have to do is get the template. The template will be parsed;
              *  VM's  are added during the parse phase
              */
-            //String globalMacroLibrary = Runtime.getString( 
-            //  Runtime.VM_GLOBAL_LIBRARY, "");
-            
-             Object libfiles = Runtime.getProperty( Runtime.VM_LIBRARY );
+
+             Object libfiles = rsvc.getProperty( RuntimeConstants.VM_LIBRARY );
            
              if( libfiles != null)
              {
@@ -140,7 +146,7 @@ public class VelocimacroFactory
                              logVMMessageInfo("Velocimacro : adding VMs from " +
                                               "VM library template : " + lib  );
                              
-                             Template template = Runtime.getTemplate( lib );   
+                             Template template = rsvc.getTemplate( lib );   
                              
                              logVMMessageInfo("Velocimacro :  VM library template " +
                                               "macro registration complete." );
@@ -166,7 +172,7 @@ public class VelocimacroFactory
              */
             setAddMacroPermission( true );
                         
-            if ( !Runtime.getBoolean(  Runtime.VM_PERM_ALLOW_INLINE, true) )
+            if ( !rsvc.getBoolean(  RuntimeConstants.VM_PERM_ALLOW_INLINE, true) )
             {
                 setAddMacroPermission( false );
                 
@@ -187,8 +193,8 @@ public class VelocimacroFactory
              */
             setReplacementPermission( false );
             
-            if ( Runtime.getBoolean(  
-                 Runtime.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
+            if ( rsvc.getBoolean(  
+                 RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
             {
                 setReplacementPermission( true );
                 
@@ -210,8 +216,8 @@ public class VelocimacroFactory
             /*
              *  template-local inline VM mode : default is off
              */
-            setTemplateLocalInline( Runtime.getBoolean(
-                Runtime.VM_PERM_INLINE_LOCAL, false) );
+            setTemplateLocalInline( rsvc.getBoolean(
+                RuntimeConstants.VM_PERM_INLINE_LOCAL, false) );
         
             if ( getTemplateLocalInline() )
             {
@@ -229,7 +235,7 @@ public class VelocimacroFactory
             /*
              *  general message switch.  default is on
              */
-            setBlather( Runtime.getBoolean( Runtime.VM_MESSAGES_ON, true ));
+            setBlather( rsvc.getBoolean( RuntimeConstants.VM_MESSAGES_ON, true ));
         
             if (getBlather())
             {
@@ -238,10 +244,10 @@ public class VelocimacroFactory
             }
             else
             {
-                Runtime.info("Velocimacro : messages off : VM system will be quiet");
+                rsvc.info("Velocimacro : messages off : VM system will be quiet");
             }
 
-            Runtime.info("Velocimacro : initialization complete.");
+            rsvc.info("Velocimacro : initialization complete.");
         }
     
         return;
@@ -338,7 +344,7 @@ public class VelocimacroFactory
     private void logVMMessageInfo( String s )
     {
         if (blather)
-            Runtime.info( s );
+            rsvc.info( s );
     }
 
     /**
@@ -347,7 +353,7 @@ public class VelocimacroFactory
     private void logVMMessageWarn( String s )
     {
         if (blather)
-            Runtime.warn( s );
+            rsvc.warn( s );
     }
       
     /**
