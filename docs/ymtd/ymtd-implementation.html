@@ -170,7 +170,10 @@ not as well defined as others, leaving some of the specific details to
 be determined by the implementation. Not only does this mean that there
 is plenty of places to make mistakes, but it also means that JSP
 template code has the possibility of not behaving the same across
-implementations. This makes testing JSP based applications a nightmare.
+implementations. This makes testing JSP based applications across
+several different containers a nightmare. Especially if there are
+essoteric bugs (meaning bugs that only show up under extreme conditions)
+in one and not in the other.
 </p>
                                                 <p>
 Part of the founding reason for creating the Jakarta Project and having
@@ -193,18 +196,15 @@ pass the tests in order to publicly humiliate them into submission.
       <tr><td>
         <blockquote>
                                     <p>
-Even though Velocity is lacking a formal specification document (it is
-on the TODO list and volunteers are welcome to help out) and is not a
-"Sun Specification Standard", that should not stop anyone from using it
-in production environments. The reason is that, as shown above, is that
-JSP is no more of a "standard" than anything else.
-</p>
-                                                <p>
-Velocity is actually a more reliable implementation than JSP because
-there is currently only one implementation. Even if there were more
-implementations the modifications to all aspects of the Velocity project
-are discussed in the open (anyone is welcome to participate) and the
-testing suite is strictly maintained.
+The definition of what Velocity is is set forth by the developers on the
+project. They have created a comprehensive testing suite that is used
+for regression testing to ensure that all changes to Velocity will not
+break existing templates. If you or your company ever wants to join the
+development of Velocity and help determine its direction that can be
+done easily by simply joining a mailing list and contributing to the
+development effort. This means that no one corporation will ever own the
+Velocity specification and it also means that Velocity will always work
+with your templates within any servlet engine.
 </p>
                             </blockquote>
       </td></tr>

@@ -189,9 +189,10 @@ is no intermediate step and no layers of abstraction.
     </table>
     </div>
                                                 <p>
-JSP also allows one to define an error page that is used if an Throwable 
-exception is thrown during the processing of a page. Doesn't this 
-again break the MVC model?
+JSP also allows one to define an error page that is used if an Throwable
+exception is thrown during the processing of a page. Doesn't this again
+break the MVC model? In other words, shouldn't the application framework
+be responsible for dealing with error messages
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -321,12 +322,15 @@ generated code to reconstruct what caused the error.</pre></td>
                                                 <p>
 Velocity does not have of these same problems because it does not allow
 the author to place any Java code within a template. The only things allowed
-in the template are Velocity Template Language (VTL). Everything else is
-ignored by the parser. The only place where one could run into trouble
-within Velocity is if there is a call to a method which throws an
-exception during runtime. For example, this VTL defines a String
-<code>$foo</code> and then attempts to call its <code>substring()</code>
-method on it would throw an <code>IndexOutOfBoundsException</code>:
+in the template are Velocity Template Language (VTL) and method calls.
+</p>
+                                                <p>
+Everything else is considered 'text' for literal output by the parser.
+The only place where one could run into trouble within Velocity is if
+there is a call to a method which throws an exception during runtime.
+For example, this VTL defines a String <code>$foo</code> and then
+attempts to call its <code>substring()</code> method on it would throw
+an <code>IndexOutOfBoundsException</code>:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -355,16 +359,24 @@ method on it would throw an <code>IndexOutOfBoundsException</code>:
 When the exception is thrown, the parser will stop processing and throw
 that exception up the stack tree where it can be caught in the method
 that caused the parser to execute. At that point, the exception can be
-handled gracefully. This is one of the benefits of using Turbine
-combined with Velocity because of Turbine's design it easy to deal with
-Exceptions in a consistent manner. It is also possible to get this same
-functionality with by using Velocity's included VelocityServlet. The
-Exception will contain the line number and column number in the .vm file
-of where the error happened. Because there is no abstraction like with
-JSP, the line number and column matches up to the error. Also, the only
-tool that will throw the exception is the parser. No need to try to
-debug the cryptic javac messages which are a result of generated .java
-code.
+handled gracefully. Yes, this is something that is probably not easily
+debugged by a Designer without Java knowledge, it is easily debugged by
+a Template Engineer who has at least limited Java knowledge.
+</p>
+                                                <p>
+This is one of the benefits of using Turbine combined with Velocity
+because of Turbine's design it easy to deal with Exceptions in a
+consistent manner. It is also possible to get this same functionality
+with by using Velocity's included VelocityServlet. The Exception will
+contain the line number and column number in the .vm file of where the
+error happened. Because there is no abstraction like with JSP, the line
+number and column matches up to the error. Also, the only tool that will
+throw the exception is the parser and that exception will contain the
+location and error information pertinent to your actual template, not an
+intermediary file. No need to try to debug the cryptic javac messages
+which are a result of generated .java code. Note: one commercial
+application server offers better handling of matching the line number in
+the JSP file to the error.
 </p>
                                                 <p>
 You make the decision.

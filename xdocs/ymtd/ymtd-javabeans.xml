@@ -28,10 +28,10 @@ Examining the syntax of the above code, the first thing that pops up
 right away is the use of the scope attribute. How many HTML designers
 understand the programming concepts of scope? It is safe to suggest that
 a good portion of web designers barely understand the concept of how a
-CGI works. By stating this, we are not trying to slight people. Instead
-we are simply pointing out that having a degree in Design does not also
-imply that they also have a degree in Software Engineering or even web
-applications.
+CGI works. By stating this, we are not trying to slight people. Instead,
+we are simply pointing out that design and software engineering are
+distinct skill sets. You wouldn't expect a Java programmer to select a
+print and web safe color palette, would you?
 </p>
 
 <p>

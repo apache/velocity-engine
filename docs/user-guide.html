@@ -1377,7 +1377,7 @@ ${data.Request.ServerName}
         <li>Property reference</li>
         <li>Method reference</li>
         <li>Number literal</li>
-        <li>Object array</li>
+        <li>ArrayList</li>
     </ul>
  </p>
                                                 <p>
@@ -1393,12 +1393,12 @@ ${data.Request.ServerName}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $monkey = $bill ) ##variable reference
-#set( $monkey.Friend = &quot;monica&quot; ) ##string literal
-#set( $monkey.Blame = $whitehouse.Leak ) ##property reference
-#set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+#set( $monkey = $bill ) ## variable reference
+#set( $monkey.Friend = &quot;monica&quot; ) ## string literal
+#set( $monkey.Blame = $whitehouse.Leak ) ## property reference
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## method reference
 #set( $monkey.Number = 123 ) ##number literal
-#set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ##object array
+#set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ## ArrayList
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1409,6 +1409,12 @@ ${data.Request.ServerName}
     </tr>
     </table>
     </div>
+                                                <p>
+   NOTE: In the last example the elements defined with the
+   [..] operator are accessible using the methods defined
+   in the ArrayList class. So, for example, you could access
+   the first element above using $monkey.Say.get(0).
+ </p>
                                                 <p>
     The RHS can also be a simple arithmetic expression:
  </p>

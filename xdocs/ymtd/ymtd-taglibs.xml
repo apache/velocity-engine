@@ -79,6 +79,20 @@ The same example using Velocity would be written like this:
 ]]></source>
 
 <p>
+Of course this could be written even cleaner as:
+</p>
+
+<source><![CDATA[
+#if($number == 7)
+  You guessed right! You win a high speed blender!
+#elseif( $number < 7 )
+  lower
+#else
+  higher
+#end
+]]></source>
+
+<p>
 This really falls into a preferences situation. In other words, which
 syntax would someone prefer to use? It seems as though the amount of
 typing required to implement the taglibs approach would be a major
@@ -210,6 +224,8 @@ known as "directives"):
 #elseif
 #foreach
 #set
+#parse
+#include
 </source>
 
 <p>
@@ -241,10 +257,10 @@ hope so.
 
 <p>
 One last point to make about using a HTML syntax is that this really
-pigeon holes JSP and Struts into simply being a tool for creating only
-dynamic HTML code. Velocity on the other hand is designed to take as
-input any type of text (Java, SQL, HTML, etc) and output anything as a
-result of running it through its processing engine.
+pigeon holes JSP and Struts into simply being a tool for creating
+dynamic HTML/XML/WML (ie: tag markup) code. Velocity on the other hand
+is designed to take as input any type of text (Java, SQL, HTML, etc) and
+output anything as a result of running it through its processing engine.
 </p>
 
 <p>
