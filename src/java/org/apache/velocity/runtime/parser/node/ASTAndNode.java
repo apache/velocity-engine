@@ -58,14 +58,14 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.exception.MethodInvocationException;
-
+import org.apache.velocity.runtime.Runtime;
 /**
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAndNode.java,v 1.4 2001/03/19 17:17:44 geirm Exp $ 
+ * @version $Id: ASTAndNode.java,v 1.5 2001/04/03 05:05:31 geirm Exp $ 
  */
 public class ASTAndNode extends SimpleNode
 {
@@ -97,12 +97,32 @@ public class ASTAndNode extends SimpleNode
         Node left = jjtGetChild(0);
         Node right = jjtGetChild(1);
 
-        if (left != null &&  right != null)
+        /*
+         *  if either is null, lets log and bail
+         */
+
+        if (left == null || right == null)
         {
-            return ( left.evaluate( context) && right.evaluate( context ) );
-        }
-        else
+            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of '&&' operation is null."
+                           + " Operation not possible. "
+                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + ", column " + getColumn() + "]");
             return false;
+        }
+        
+        /*
+         *  short circuit the test.  Don't eval the RHS if the LHS is false
+         */
+
+        if( left.evaluate( context ) )
+        {
+            if ( right.evaluate( context ) )
+            {
+                return true;
+            }
+        }        
+           
+        return false;
     }
 }
 
