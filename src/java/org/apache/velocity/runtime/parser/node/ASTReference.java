@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.16 2000/12/19 11:47:17 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.17 2000/12/19 13:34:58 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -91,6 +91,7 @@ public class ASTReference extends SimpleNode
     private String nullString;
     private String rootString;
     private boolean escaped = false;
+    private boolean computableReference = true;
     private String  prefix = "";
 
     public ASTReference(int id)
@@ -178,8 +179,6 @@ public class ASTReference extends SimpleNode
 
         if ( escaped )
         {
-            //            System.out.println("Escaped : " + prefix + " : " + nullString );
-
             if ( value == null )
                 writer.write( NodeUtils.specialText(getFirstToken()) + prefix + "\\" +  nullString );
             else
@@ -237,7 +236,7 @@ public class ASTReference extends SimpleNode
 
     public Object value(Context context)
     {
-        return execute(null, context);
+        return ( computableReference ? execute(null, context) : null );
     }
 
     public boolean setValue(Context context, Object value)
@@ -303,6 +302,74 @@ public class ASTReference extends SimpleNode
     {
         Token t = getFirstToken();
          
+        /*
+         *  we have a special case where something like 
+         *  $(\\)*!, where the user want's to see something
+         *  like $!blargh in the output, but the ! prevents it from showing.
+         *  I think that at this point, this isn't a reference.
+         */
+
+        /* so, see if we have "\\!" */
+
+        int slashbang = t.image.indexOf("\\!");
+
+        if ( slashbang != -1 )
+        {
+            /*
+             *  lets do all the work here.  I would argue that if this occurrs, it's 
+             *  not a reference at all, so preceeding \ characters in front of the $
+             *  are just schmoo.  So we just do the escape processing trick (even | odd)
+             *  and move on.  This kind of breaks the rule pattern of $ and # but '!' really
+             *  tosses a wrench into things.
+             */
+
+             /* 
+              *  count the escapes : even # -> not escaped, odd -> escaped
+              */
+
+            int i = 0;
+            int len = t.image.length();
+
+            i = t.image.indexOf("$");
+
+            if (i == -1)
+            {
+                /* yikes! */
+                Runtime.error("ASTReference.getRoot() : internal error : no $ found for slashbang.");
+                computableReference = false;
+                nullString = t.image;
+                return nullString;
+            }
+
+            while( i < len && t.image.charAt(i) != '\\')
+                i++;
+
+            /*  ok, i is the first \ char */
+
+            int start = i;
+            int count = 0;
+ 
+            while( i < len && t.image.charAt(i++) == '\\' )
+                count++;
+           
+            /*
+             *  now construct the output string.  We really don't care about leading 
+             *  slashes as this is not a reference.  It's quasi-schmoo
+             */
+
+            nullString = t.image.substring(0,start); // prefix up to the first 
+            nullString += t.image.substring(start, start + count-1 ); // get the slashes
+            nullString += t.image.substring(start+count); // and the rest, including the 
+
+            /*
+             *  this isn't a valid reference, so lets short circuit the value and set calcs
+             */
+
+            computableReference = false;
+
+            return nullString;
+        }
+
         /*
          *  we need to see if this reference is escaped.  if so
          *  we will clean off the leading \'s and let the 
@@ -392,3 +459,4 @@ public class ASTReference extends SimpleNode
         return context.get(variable);
     }
 }
+
