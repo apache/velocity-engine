@@ -54,15 +54,6 @@ package org.apache.velocity.runtime.directive;
  * <http://www.apache.org/>.
  */
 
-/**
- *  VelocimacroProxy.java
- *
- *   a proxy Directive-derived object to fit with the current directive system
- *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.15 2000/12/13 00:00:32 jon Exp $ 
- */
-
 import java.io.Writer;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
@@ -80,6 +71,14 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
+/**
+ *  VelocimacroProxy.java
+ *
+ *   a proxy Directive-derived object to fit with the current directive system
+ *
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: VelocimacroProxy.java,v 1.16 2000/12/20 07:41:11 jvanzyl Exp $ 
+ */
 public class VelocimacroProxy extends Directive
 {
     private String macroName = "";
