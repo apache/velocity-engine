@@ -87,7 +87,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.4 2000/11/22 21:01:30 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.5 2000/11/22 21:50:26 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -175,7 +175,9 @@ public class AnakiaTask extends MatchingTask
     {
         if (lastmod.equalsIgnoreCase("false") || lastmod.equalsIgnoreCase("no") 
                 || lastmod.equalsIgnoreCase("off"))
+        {
             this.lastModifiedCheck = false;
+        }
     }
 
     /**
@@ -257,7 +259,7 @@ public class AnakiaTask extends MatchingTask
             outFile = new File(destDir,xmlFile.substring(0,xmlFile.lastIndexOf('.'))+extension);
 
             // only process files that have changed
-            if (lastModifiedCheck && (inFile.lastModified() > outFile.lastModified() ||
+            if (lastModifiedCheck == false || (inFile.lastModified() > outFile.lastModified() ||
                     styleSheetLastModified > outFile.lastModified() ||
                     projectFileLastModified > outFile.lastModified()))
             {
@@ -279,7 +281,8 @@ public class AnakiaTask extends MatchingTask
                 Context context = new Context();
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", new XMLOutputter());
-                
+                context.put ("relativePath", getRelativePath(xmlFile));
+                                
                 // only put this into the context if it exists.
                 if (projectDocument != null)
                     context.put ("project", projectDocument.getRootElement());
@@ -325,6 +328,23 @@ public class AnakiaTask extends MatchingTask
                 }
             }
         }
+    }
+    /**
+        hacky method to figure out the relative path
+        that we are currently in. This is good for getting
+        the relative path for images and anchor's.
+    */
+    private String getRelativePath(String file)
+    {
+        StringTokenizer st = new StringTokenizer(file, "/\\");
+        // needs to be -1 cause ST returns 1 even if there are no matches. huh?
+        int slashCount = st.countTokens() - 1;
+        StringBuffer sb = new StringBuffer();        
+        for (int i=0;i<slashCount ;i++ )
+        {
+            sb.append ("../");
+        }
+        return sb.toString();
     }
     /**
         create directories as needed
