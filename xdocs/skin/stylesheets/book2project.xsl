@@ -33,19 +33,6 @@
       </processor>
     </process>
 
-    <xsl:call-template name="header">
-      <xsl:with-param name="id"     select="@id"/>
-      <xsl:with-param name="source" select="@source"/>
-      <xsl:with-param name="label"  select="@label"/>
-    </xsl:call-template>
-
-    <xsl:if test="not(name(.)='hidden')">
-      <xsl:call-template name="labels">
-        <xsl:with-param name="id" select="@id"/>
-        <xsl:with-param name="label" select="@label"/>
-      </xsl:call-template>
-    </xsl:if>
-    
     <create source="{@source}" target="{@id}.html" producer="parser" printer="html">
       <processor name="xslt">
         <parameter name="id" value="{@id}"/>
@@ -118,62 +105,6 @@
       <xsl:with-param name="id" select="concat('ext-',position())"/>
       <xsl:with-param name="label" select="@label"/>
     </xsl:call-template>
-  </xsl:template>
-  
-<!-- ********************************************************************** -->
-<!-- NAMED TEMPLATES -->
-<!-- ********************************************************************** -->
-
-<!-- Generate the doument header image -->
-  <xsl:template name="header"> 
-    <xsl:param name="id"/>
-    <xsl:param name="source"/>
-    <xsl:param name="label"/>
-    <xsl:param name="type"/>
-
-    <create source="{$source}" target="graphics/{$id}-header.jpg" producer="parser" printer="image">
-      <xsl:if test="$type">
-       <processor name="xslt">
-        <parameter name="stylesheet" value="sbk:/style/stylesheets/{$type}2document.xsl"/>
-       </processor>
-      </xsl:if>
-      <processor name="xslt">
-        <parameter name="stylesheet" value="sbk:/style/stylesheets/document2image.xsl"/>
-      </processor>
-    </create>
-  </xsl:template>
-
-<!-- Generate the three rollover label images -->
-  <xsl:template name="labels"> 
-    <xsl:param name="id"/>
-    <xsl:param name="label"/>
-    
-    <create source="" target="graphics/{$id}-label-1.jpg" producer="context" printer="image">
-      <parameter name="label" value="{$label}"/>
-      <processor name="xslt">
-        <parameter name="stylesheet" value="sbk:/style/stylesheets/context2label.xsl"/>
-        <parameter name="image" value="sbk:/style/graphics/button-a.gif"/>
-        <parameter name="color" value="ffffff"/>
-      </processor>
-    </create>
-
-    <create source="" target="graphics/{$id}-label-2.jpg" producer="context" printer="image">
-      <parameter name="label" value="{$label}"/>
-      <processor name="xslt">
-        <parameter name="stylesheet" value="sbk:/style/stylesheets/context2label.xsl"/>
-        <parameter name="image" value="sbk:/style/graphics/button-b.gif"/>
-        <parameter name="color" value="ffff00"/>
-      </processor>
-    </create>
-
-    <create source="" target="graphics/{$id}-label-3.jpg" producer="context" printer="image">
-      <parameter name="label" value="{$label}"/>
-      <processor name="xslt">
-        <parameter name="stylesheet" value="sbk:/style/stylesheets/context2label.xsl"/>
-        <parameter name="image" value="sbk:/style/graphics/button-b.gif"/>
-        <parameter name="color" value="ffffff"/>
-      </processor>
-    </create>
   </xsl:template>
 
 </xsl:stylesheet>
