@@ -16,5 +16,9 @@ or altered, it must be *manually* moved to the node subdirectory, and have it's
 package declaration fixed.  This should be an extremely rare event at this point
 and will change with javacc 2.0.
 
+4) When committing changes, to aid readability to those watching the cvs commit 
+messages, please commit Parser.jjt separately from the .jj and .java
+files generated from .jjt. 
+
 -gmj
 
