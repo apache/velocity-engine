@@ -54,7 +54,9 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 
 /**
  * LogManager.java
@@ -65,7 +67,7 @@ import org.apache.velocity.runtime.Runtime;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.5 2001/03/19 06:15:54 jon Exp $
+ * @version $Id: LogManager.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
  */
 public class LogManager
 {
@@ -75,34 +77,41 @@ public class LogManager
      *  Note that the class created has to do its own
      *  initialization - there is no init() method called/
      */
-    public static LogSystem createLogSystem()
+    public static LogSystem createLogSystem( RuntimeServices rsvc )
         throws Exception
     {
         /*
          *  if a logSystem was set as a configuation value, use that
          */
-        Object o = Runtime.getProperty( Runtime.RUNTIME_LOG_LOGSYSTEM );
+
+        Object o = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM );
+
         if (o != null && o instanceof LogSystem)
         {
+            ((LogSystem) o).init( rsvc );
+
             return (LogSystem) o;
         }
   
         /*
          *  otherwise, see if a class was specified
          */
-        String claz = (String) Runtime.getProperty( 
-            Runtime.RUNTIME_LOG_LOGSYSTEM_CLASS );
+        String claz = (String) rsvc.getProperty( 
+            RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
         
         if (claz != null || claz.length() > 0 )
         {
             o = Class.forName( claz ).newInstance();
+
             if (o instanceof LogSystem)
             {
+                ((LogSystem) o).init( rsvc );
+
                 return (LogSystem) o;
             }
             else
             {
-                Runtime.error("The specifid logger class " + claz + 
+                rsvc.error("The specifid logger class " + claz + 
                     " isn't a valid LogSystem\n");
             }
         }
@@ -112,6 +121,9 @@ public class LogManager
          *  make an Avalon log system
          */
         AvalonLogSystem als = new AvalonLogSystem();
+
+        als.init( rsvc );
+
         return als;
     }
 }
