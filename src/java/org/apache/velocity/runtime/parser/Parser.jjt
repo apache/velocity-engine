@@ -134,7 +134,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.70 2001/10/30 04:28:38 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.71 2002/02/22 21:40:22 geirm Exp $ 
 */
 public class Parser
 {
@@ -658,6 +658,12 @@ MORE :
    { 
         if (!inComment)
         {
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
             inComment = true;
             stateStackPush();
             SwitchTo(IN_SINGLE_LINE_COMMENT);
