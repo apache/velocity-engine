@@ -25,10 +25,10 @@ xdocs/      This is the .xml files for building the .html files
 REQUIREMENTS
 ------------
 
-The Java 2 SDK is required to build Velocity.
+The Java 2 SDK is required to build and run Velocity.
 
-For users that wish to use Log4J as the logging
-system, version 1.1 of Log4J is required.
+For users that wish to use Log4J as the logging system, version 1.1 of 
+Log4J is required.
 
 BUILDING VELOCITY
 -----------------
@@ -48,7 +48,7 @@ simply type :
 
 ant jar
 
-This will create a bin/ directory containing the Velocity .jar file. Be
+This will create a bin/ directory containing the Velocity .jar file. Be 
 sure to update your classpath to include Velocity's .jar file, or when using a 
 modern servlet container, put it in the WEB-INF/lib directory.
 
