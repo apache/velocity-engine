@@ -63,12 +63,12 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.2 2000/12/27 14:31:52 geirm Exp $ 
+ * @version $Id: ASTAddNode.java,v 1.3 2001/01/03 05:23:22 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -95,7 +95,7 @@ public class ASTAddNode extends SimpleNode
      *  supported.
      *  @return Integer object with value, or null
      */
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         /*
          *  get the two addends
