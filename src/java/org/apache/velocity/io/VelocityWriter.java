@@ -1,9 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/VelocityWriter.java,v 1.1 2000/11/16 07:06:01 jvanzyl Exp $
- * $Revision: 1.1 $
- * $Date: 2000/11/16 07:06:01 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/VelocityWriter.java,v 1.2 2000/12/20 07:07:25 jvanzyl Exp $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 07:07:25 $
  *
  * ====================================================================
  * 
@@ -146,12 +146,14 @@ public final class VelocityWriter extends Writer
     public static final int	NO_BUFFER = 0;
 
     /**
-     * constant indicating that the Writer is buffered and is using the implementation default buffer size
+     * constant indicating that the Writer is buffered and is using the 
+     * implementation default buffer size
      */
     public static final int	DEFAULT_BUFFER = -1;
 
     /**
-     * constant indicating that the Writer is buffered and is unbounded; this is used in BodyContent
+     * constant indicating that the Writer is buffered and is unbounded; 
+     * this is used in BodyContent
      */
     public static final int	UNBOUNDED_BUFFER = -2;
 
