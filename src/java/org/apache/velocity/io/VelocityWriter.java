@@ -64,7 +64,7 @@ import java.io.Writer;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.7 2003/05/04 17:14:36 geirm Exp $
+ * @version $Id: VelocityWriter.java,v 1.8 2003/08/24 17:31:12 dlr Exp $
  */
 public final class VelocityWriter extends Writer
 {
@@ -243,13 +243,13 @@ public final class VelocityWriter extends Writer
     }
 
     /**
-     * Our own little min method, to avoid loading java.lang.Math if we've run
-     * out of file descriptors and we're trying to print a stack trace.
+     * Our own little min method, to avoid loading
+     * <code>java.lang.Math</code> if we've run out of file
+     * descriptors and we're trying to print a stack trace.
      */
     private final int min(int a, int b)
     {
-	    if (a < b) return a;
-    	    return b;
+	    return (a < b ? a : b);
     }
 
     /**
