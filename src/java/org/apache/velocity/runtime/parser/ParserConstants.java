@@ -9,52 +9,53 @@ public interface ParserConstants {
   int COMMA = 3;
   int LPAREN = 4;
   int RPAREN = 5;
-  int DOLLAR = 6;
-  int DOLLARBANG = 7;
-  int HASH = 11;
-  int ESCAPE_SEQUENCE = 12;
-  int TEXT = 13;
-  int SINGLE_LINE_COMMENT = 14;
-  int FORMAL_COMMENT = 15;
-  int MULTI_LINE_COMMENT = 16;
-  int STRING_LITERAL = 20;
-  int TRUE = 21;
-  int FALSE = 22;
-  int NEWLINE = 23;
-  int MINUS = 24;
-  int PLUS = 25;
-  int MULTIPLY = 26;
-  int DIVIDE = 27;
-  int MODULUS = 28;
-  int LOGICAL_AND = 29;
-  int LOGICAL_OR = 30;
-  int LOGICAL_LT = 31;
-  int LOGICAL_LE = 32;
-  int LOGICAL_GT = 33;
-  int LOGICAL_GE = 34;
-  int LOGICAL_EQUALS = 35;
-  int LOGICAL_NOT_EQUALS = 36;
-  int LOGICAL_NOT = 37;
-  int EQUALS = 38;
-  int END = 39;
-  int INCLUDE_DIRECTIVE = 40;
-  int IF_DIRECTIVE = 41;
-  int ELSEIF_DIRECTIVE = 42;
-  int ELSE_DIRECTIVE = 43;
-  int SET_DIRECTIVE = 44;
-  int STOP_DIRECTIVE = 45;
-  int DIGIT = 46;
-  int NUMBER_LITERAL = 47;
-  int LETTER = 48;
-  int WORD = 49;
-  int ALPHA_CHAR = 50;
-  int ALPHANUM_CHAR = 51;
-  int IDENTIFIER_CHAR = 52;
-  int IDENTIFIER = 53;
-  int DOT = 54;
-  int LCURLY = 55;
-  int RCURLY = 56;
-  int REFERENCE_TERMINATOR = 57;
+  int REFMOD2_RPAREN = 6;
+  int DOLLAR = 7;
+  int DOLLARBANG = 8;
+  int HASH = 12;
+  int ESCAPE_SEQUENCE = 13;
+  int TEXT = 14;
+  int SINGLE_LINE_COMMENT = 15;
+  int FORMAL_COMMENT = 16;
+  int MULTI_LINE_COMMENT = 17;
+  int STRING_LITERAL = 21;
+  int TRUE = 22;
+  int FALSE = 23;
+  int NEWLINE = 24;
+  int MINUS = 25;
+  int PLUS = 26;
+  int MULTIPLY = 27;
+  int DIVIDE = 28;
+  int MODULUS = 29;
+  int LOGICAL_AND = 30;
+  int LOGICAL_OR = 31;
+  int LOGICAL_LT = 32;
+  int LOGICAL_LE = 33;
+  int LOGICAL_GT = 34;
+  int LOGICAL_GE = 35;
+  int LOGICAL_EQUALS = 36;
+  int LOGICAL_NOT_EQUALS = 37;
+  int LOGICAL_NOT = 38;
+  int EQUALS = 39;
+  int END = 40;
+  int INCLUDE_DIRECTIVE = 41;
+  int IF_DIRECTIVE = 42;
+  int ELSEIF_DIRECTIVE = 43;
+  int ELSE_DIRECTIVE = 44;
+  int SET_DIRECTIVE = 45;
+  int STOP_DIRECTIVE = 46;
+  int DIGIT = 47;
+  int NUMBER_LITERAL = 48;
+  int LETTER = 49;
+  int WORD = 50;
+  int ALPHA_CHAR = 51;
+  int ALPHANUM_CHAR = 52;
+  int IDENTIFIER_CHAR = 53;
+  int IDENTIFIER = 54;
+  int DOT = 55;
+  int LCURLY = 56;
+  int RCURLY = 57;
+  int REFERENCE_TERMINATOR = 58;
 
   int DIRECTIVE = 0;
   int REFMODIFIER = 1;
@@ -72,10 +73,11 @@ public interface ParserConstants {
     "\",\"",
     "\"(\"",
     "<RPAREN>",
+    "\")\"",
     "\"$\"",
     "\"$!\"",
     "\"##\"",
-    "<token of kind 9>",
+    "<token of kind 10>",
     "\"#*\"",
     "\"#\"",
     "<ESCAPE_SEQUENCE>",
@@ -83,7 +85,7 @@ public interface ParserConstants {
     "<SINGLE_LINE_COMMENT>",
     "\"*#\"",
     "\"*#\"",
-    "<token of kind 17>",
+    "<token of kind 18>",
     "\" \"",
     "\"\\t\"",
     "<STRING_LITERAL>",

@@ -98,7 +98,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.11 2000/10/31 16:03:00 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.12 2000/11/01 01:11:21 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -429,7 +429,7 @@ TOKEN:
     <COMMA:",">
 }
 
-<DIRECTIVE,REFMODIFIER,REFMOD2>
+<DIRECTIVE,REFMODIFIER>
 TOKEN:
 {
     <LPAREN: "(">
@@ -447,6 +447,18 @@ TOKEN:
     }
 
 |   <RPAREN: ")" (" ")* ("\n")?>
+    {
+       RPARENHandler();
+    }    
+}
+
+/*
+ *  in REFMOD2, we don't want to bind the whitespace and \n like we do when closing a directive.
+ */
+<REFMOD2>
+TOKEN:
+{
+    <REFMOD2_RPAREN: ")">
     {
        RPARENHandler();
     }    
@@ -1116,7 +1128,7 @@ void Method() : {/*@bgen(jjtree) Method */
 {/*@bgen(jjtree) Method */
     try {
 /*@egen*/
-    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <RPAREN>/*@bgen(jjtree)*/
+    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
