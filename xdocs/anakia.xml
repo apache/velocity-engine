@@ -97,20 +97,18 @@ catch( Exception )
 </p>
 <p>
     After building Velocity, <code>cd</code> into the
-    jakarta-velocity/examples/anakia/build directory and run
-    <code>./build.sh</code>. (Shell scripts will work on the Windows
-    platform if you install <a
-    href="http://sources.redhat.com/cygwin/">Cygwin</a>.)
+    jakarta-velocity/examples/anakia/build directory and run 'ant'.
 </p>
 <p>
-    Output from the build.sh script, in this case HTML files, is placed
+    Output from running ant, in this case HTML files, is placed
     into the jakarta-velocity/examples/anakia/docs/ directory.
 </p>
 <p>
     The jakarta-velocity/examples/anakia/xdocs/ directory has all of the
     .xml source code. The xdocs/stylesheets directory contains the .vsl
     file, in which most of the magic happens. Understanding <a
-    href="user-guide.html">Velocity Template Language</a> and JDOM is
+    href="user-guide.html">Velocity Template Language</a> and 
+    <a href="http://www.jdom.org/">JDOM</a> is
     necessary to understand how the .vsl file works.
 </p>
 </section>
@@ -367,7 +365,8 @@ catch( Exception )
 
 <section name="Credits">
 <p>
-    Anakia was originally conceptualized and implemented by Jon S. Stevens.
+    Anakia was originally conceptualized and implemented by 
+        <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>.
 </p>
 <p>
     The name <a
