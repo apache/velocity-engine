@@ -52,7 +52,7 @@ package org.apache.velocity.test.misc;
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- */
+  */
 
 import java.io.*;
 
@@ -70,7 +70,7 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.6 2000/11/27 18:16:51 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.7 2000/11/28 04:33:22 geirm Exp $
  */
 public class Test
 {
@@ -91,15 +91,55 @@ public class Test
 
         try
         {
-            Runtime.setDefaultProperties();
-            Runtime.setProperty(Runtime.RUNTIME_LOG_ERROR_STACKTRACE, "true");
-            Runtime.setProperty(Runtime.RUNTIME_LOG_WARN_STACKTRACE, "true");
-            Runtime.setProperty(Runtime.RUNTIME_LOG_INFO_STACKTRACE, "true");
-            Runtime.init();
+            /*
+             *  this is another way to do properties when initializing Runtime.
+             *  make a Properties 
+             */
+
+            Properties p = new Properties();
+
+            /*
+             *  now, if you want to, load it from a file (or whatever)
+             */
             
+            try
+            {
+                FileInputStream fis =  new FileInputStream( new File("velocity.properties" ));
+            
+                if( fis != null)
+                    p.load( fis );
+            }
+            catch (Exception ex)
+            {
+                /* no worries. no file... */
+            }
+
+            /*
+             *  add some individual properties if you wish
+             */
+
+            p.setProperty(Runtime.RUNTIME_LOG_ERROR_STACKTRACE, "true");
+            p.setProperty(Runtime.RUNTIME_LOG_WARN_STACKTRACE, "true");
+            p.setProperty(Runtime.RUNTIME_LOG_INFO_STACKTRACE, "true");
+            
+            /*
+             *  and now call init
+             */
+
+            Runtime.init(p);
+
+            /*
+             *  now, do what we want to do.  First, get the Template
+             */
+
             if (templateFile == null)
                 templateFile = "examples/example.vm";
+         
             Template template = Runtime.getTemplate(templateFile);
+
+            /*
+             * now, make a Context object and populate it.
+             */
 
             Context context = new Context();
             context.put("provider", provider);
@@ -113,55 +153,25 @@ public class Test
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
 
+            /*
+             *  make a writer, and merge the template 'against' the context
+             */
+
             writer = new BufferedWriter(new OutputStreamWriter(System.out));
             template.merge(context, writer);
+
             writer.flush();
             writer.close();
-
-            //  gmj 11/04/00 : this goes boom in merge...
-
-            //try
-            //{
-            //    vw = (JspWriterImpl) writerStack.pop();
-            // }
-            //catch (Exception e)
-            // {
-            //    Runtime.error( e );
-            // }
-            //if (vw == null)
-            //    vw = new JspWriterImpl(new OutputStreamWriter(System.out), 4*1024, true);
-            //else
-            //                vw.recycle(new OutputStreamWriter(System.out));
-
-            //template.merge(context, vw);
- 
-            //writerStack.push(vw);
         }
         catch( Exception e )
         {
             Runtime.error(e);
         }
-        //        finally
-        //{
-        //    try
-        //    {
-        //        if (vw != null)
-        //        {
-        //            vw.flush();
-        //        }                
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        // do nothing
-        //    }
-        // }
     }
 
     public static void main(String[] args)
     {
         Test t;
-    
         t = new Test(args[0]);
-   
     }
 }
