@@ -9,6 +9,8 @@ import org.apache.velocity.Context;
 
 public class ASTText extends SimpleNode
 {
+    private String text;
+
     public ASTText(int id)
     {
         super(id);
@@ -25,10 +27,17 @@ public class ASTText extends SimpleNode
         return visitor.visit(this, data);
     }
 
+    public Object init(Context context, Object data) throws Exception
+    {
+        text = NodeUtils.specialText(getFirstToken()) +
+            getFirstToken().image;
+        
+        return data;
+    }
+
     public void render(Context context, Writer writer)
         throws IOException
     {
-        writer.write(NodeUtils.specialText(getFirstToken()) +
-            getFirstToken().image);
+        writer.write(text);
     }    
 }
