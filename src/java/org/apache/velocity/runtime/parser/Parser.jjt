@@ -116,7 +116,7 @@ import java.util.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
-//import org.apache.velocity.runtime.directive.Macro;
+import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -130,7 +130,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.30 2000/11/16 20:24:25 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.31 2000/11/19 23:14:49 geirm Exp $ 
 */
 public class Parser
 {
@@ -235,6 +235,10 @@ public class Parser
         if ( isDirective( strDirective.substring(1)))
         {
            bRecognizedDirective = true;
+        }
+        else if (Runtime.isVelocimacro( strDirective.substring(1)))
+        {
+            bRecognizedDirective = true;
         }
         else
         {
@@ -716,15 +720,12 @@ MORE :
  *  DIRECTIVE Lexical State (some of it, anyway)
  * 
  * ---------------------------------------------------------------------- */
-<DIRECTIVE,REFMOD2> 
-SKIP:
-{
-    " "
-|   "\t"
-//|   "\n"
-//|   "\r"
-}
 
+<DIRECTIVE,REFMOD2>
+TOKEN:
+{
+    <WHITESPACE : ([" ","\t"])+ >
+}
 
 <REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
 TOKEN :
@@ -1020,12 +1021,14 @@ void Escape() : {}
         }
 
         /*
-         * if that failed, lets lookahead to see if we matched a PD
+         * if that failed, lets lookahead to see if we matched a PD or a VM
          */ 
 
         if ( isDirective( t.next.image.substring(1)))
             bControl = true;
-        
+        else if ( Runtime.isVelocimacro( t.next.image.substring(1)))
+            bControl = true;
+
         t.image = "";
         
         for( int i = 0; i < iCount; i++)
@@ -1074,6 +1077,8 @@ void Word() : {}
 
 /**
  *   Supports the arguments for the Pluggable Directives
+ *   We add whitespace in here as a token so the VMs can 
+ *   easily reconstruct a macro body from the token stream
  *   @see Directive()
  */
 void DirectiveArg() #void : {}
@@ -1083,6 +1088,7 @@ void DirectiveArg() #void : {}
 |   StringLiteral()
 |   NumberLiteral()
 |   ObjectArray()
+|   <WHITESPACE>
 }
 
 /**
@@ -1106,16 +1112,16 @@ SimpleNode Directive() :
  
         d = (Directive) directives.get( strDirectiveName );
 
-      //  /*
-      //   *  Velocimacro support : if the directive is macro directive
-      //   *   then set the flag so after the block parsing, we add the VM
-      //   *   right then. (So available if used w/in the current template )
-      //   */
+        /*
+         *  Velocimacro support : if the directive is macro directive
+         *   then set the flag so after the block parsing, we add the VM
+         *   right then. (So available if used w/in the current template )
+         */
 
-      //  if ( strDirectiveName.equals("macro"))  
-      //  {
-      //       bDoItNow = true;
-      //  }
+        if ( strDirectiveName.equals("macro"))  
+        {
+             bDoItNow = true;
+        }
 
         /*
          *  set the directive name from here.  No reason for the thing to know about parser tokens
@@ -1129,7 +1135,7 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-          //  d  =  (Directive) Runtime.getVelocimacro( strDirectiveName );
+            d  =  (Directive) Runtime.getVelocimacro( strDirectiveName );
 
             if (d == null) 
             {   
@@ -1150,7 +1156,7 @@ SimpleNode Directive() :
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
 
-    <LPAREN> ( DirectiveArg() )+ <RPAREN>
+    [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )+ <RPAREN>
     {
         if (d.getType() == Directive.LINE)
             return jjtThis;
@@ -1173,8 +1179,8 @@ SimpleNode Directive() :
       
         if (bDoItNow)  
         {
-        //    Macro m = new Macro();
-        //    m.processAndRegister( jjtThis );
+            Macro m = new Macro();
+            m.processAndRegister( jjtThis );
         }
 
         /*
@@ -1197,12 +1203,16 @@ void ObjectArray() : {}
  */
 void Parameter() #void: {}
 {
-    StringLiteral()
-|   ObjectArray()
-|   True()
-|   False()
-|   Reference()
-|   NumberLiteral()
+    [<WHITESPACE>]
+    (
+        StringLiteral()
+      | ObjectArray()
+      | True()
+      | False()
+      | Reference()
+      | NumberLiteral()
+    )
+    [<WHITESPACE>]
 }
 
 /**
@@ -1259,7 +1269,7 @@ void Text() : {}
 
 void IfStatement() : {}
 {
-    <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
+    <IF_DIRECTIVE> [<WHITESPACE>] <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block 
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
@@ -1275,7 +1285,7 @@ void ElseStatement() : {}
 
 void ElseIfStatement() : {}
 {
-    <ELSEIF_DIRECTIVE> 
+    <ELSEIF_DIRECTIVE> [<WHITESPACE>] 
     <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block
 }
@@ -1306,45 +1316,45 @@ void StopStatement() #void: {}
 
 void Expression() : {}
 {
-    LOOKAHEAD( PrimaryExpression() <EQUALS> ) Assignment()
+    LOOKAHEAD( PrimaryExpression() <EQUALS>  ) Assignment()
 |   ConditionalOrExpression()
 }
 
 void Assignment() #Assignment(2) : {}
 {
-    PrimaryExpression() <EQUALS> Expression()
+    PrimaryExpression() <EQUALS>  Expression()
 }
 
 void ConditionalOrExpression() #void : {}
 {
   ConditionalAndExpression()
-  ( <LOGICAL_OR> ConditionalAndExpression() #OrNode(2) )*
+  (  <LOGICAL_OR>  ConditionalAndExpression() #OrNode(2) )*
 }
 
 
 void ConditionalAndExpression() #void : {}
 {
   EqualityExpression()
-  ( <LOGICAL_AND>  EqualityExpression() #AndNode(2) )*
+  ( <LOGICAL_AND> EqualityExpression() #AndNode(2) )*
 }
 
 void EqualityExpression() #void : {}
 {
     RelationalExpression()
-    (
-          <LOGICAL_EQUALS> RelationalExpression()     #EQNode(2)
-        | <LOGICAL_NOT_EQUALS> RelationalExpression() #NENode(2)
+    (           
+       <LOGICAL_EQUALS> RelationalExpression()     #EQNode(2)
+     | <LOGICAL_NOT_EQUALS> RelationalExpression() #NENode(2)    
     )*
 }
 
 void RelationalExpression() #void : {}
 {
-    AdditiveExpression()
+    AdditiveExpression() 
     (
-          <LOGICAL_LT> AdditiveExpression() #LTNode(2)
-        | <LOGICAL_GT> AdditiveExpression() #GTNode(2)
-        | <LOGICAL_LE> AdditiveExpression() #LENode(2)
-        | <LOGICAL_GE> AdditiveExpression() #GENode(2)
+        <LOGICAL_LT>  AdditiveExpression() #LTNode(2)
+      | <LOGICAL_GT>  AdditiveExpression() #GTNode(2)
+      | <LOGICAL_LE>  AdditiveExpression() #LENode(2)
+      | <LOGICAL_GE>  AdditiveExpression() #GENode(2)  
     )*
 }
 
@@ -1352,8 +1362,8 @@ void AdditiveExpression() #void : {}
 {
     MultiplicativeExpression()
     (
-          <PLUS>  MultiplicativeExpression() #AddNode(2)
-        | <MINUS> MultiplicativeExpression() #SubtractNode(2)
+        <PLUS>  MultiplicativeExpression() #AddNode(2)
+      | <MINUS> MultiplicativeExpression() #SubtractNode(2)    
     )*
 }
 
@@ -1361,27 +1371,31 @@ void MultiplicativeExpression() #void : {}
 {
     UnaryExpression()
     (
-          <MULTIPLY> UnaryExpression() #MulNode(2)
-        | <DIVIDE>   UnaryExpression() #DivNode(2)
-        | <MODULUS>  UnaryExpression() #ModNode(2)
+            <MULTIPLY>  UnaryExpression() #MulNode(2)
+          | <DIVIDE>  UnaryExpression() #DivNode(2)
+          | <MODULUS>  UnaryExpression() #ModNode(2)
     )*
 }
 
 void UnaryExpression() #void : {}
 {
-    <LOGICAL_NOT> UnaryExpression() #NotNode(1)
-|   PrimaryExpression()
+    <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
+|   PrimaryExpression() 
 }
 
 void PrimaryExpression() #void : {}
-{    
+{  
+[<WHITESPACE>] 
+(  
     StringLiteral()
-|   NumberLiteral()    
-|   Reference()
-|   ObjectArray()
-|   True()
-|   False()
-|   <LPAREN> Expression() <RPAREN>
+  | NumberLiteral()    
+  | Reference()
+  | ObjectArray()
+  | True()
+  | False()
+  | <LPAREN>  Expression()  <RPAREN>
+)
+[<WHITESPACE>]
 }
 
 
