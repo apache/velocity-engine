@@ -91,6 +91,8 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
@@ -141,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.2 2001/08/20 11:09:01 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.3 2001/09/09 21:47:35 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -212,15 +214,24 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     private ResourceManager resourceManager = null;
 
+    /*
+     *  Each runtime instance has it's own introspector
+     *  to ensure that each instance is completely separate.
+     */
+    private Introspector introspector = null;
+    
     public RuntimeInstance()
     {
         /*
-         *  create a VM factory
+         *  create a VM factory, resource manager
+         *  and introspector
          */
 
         vmFactory = new VelocimacroFactory( this );
 
         resourceManager = new ResourceManager( this );
+        
+        introspector = new Introspector();
     }
 
     /*
@@ -1016,4 +1027,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return configuration;
     }        
+    
+    /**
+     *  Return the Introspector for this instance
+     */
+    public Introspector getIntrospector()
+    {
+        return introspector;
+    }
 }

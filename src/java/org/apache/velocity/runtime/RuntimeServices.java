@@ -91,6 +91,8 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
@@ -105,7 +107,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  Currently implemented by RuntimeInstance.
  * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeServices.java,v 1.1 2001/08/07 22:03:00 geirm Exp $
+ * @version $Id: RuntimeServices.java,v 1.2 2001/09/09 21:47:35 geirm Exp $
  */
 public interface RuntimeServices
 {
@@ -416,4 +418,9 @@ public interface RuntimeServices
      */
     public ExtendedProperties getConfiguration();
 
+    /*
+     *  Return this instance's Introspector
+     */
+    public Introspector getIntrospector();
+    
 }

@@ -96,6 +96,8 @@ import org.apache.velocity.exception.ParseErrorException;
 
 import org.apache.commons.collections.ExtendedProperties;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 /**
  * This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
@@ -141,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeSingleton.java,v 1.1 2001/08/07 22:00:21 geirm Exp $
+ * @version $Id: RuntimeSingleton.java,v 1.2 2001/09/09 21:47:35 geirm Exp $
  */
 public class RuntimeSingleton implements RuntimeConstants
 {
@@ -572,4 +574,14 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         return ri.getConfiguration();
     }        
+    
+    /*
+     *  Return the Introspector for this RuntimeInstance
+     *
+     *  @return Introspector object for this runtime instance
+     */
+    public static Introspector getIntrospector()
+    {
+        return ri.getIntrospector();
+    }
 }
