@@ -1,5 +1,5 @@
 #set $foo = [$this, $that, $foo.Bar, [$this, "this"] ]
 
-$string.concat([$this, $that, $the.Other])
+$provider.concat(["a", "b", "c"])
 
 this is some text.

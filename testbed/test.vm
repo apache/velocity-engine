@@ -164,8 +164,6 @@ Foreach with a variable.
     This is $element.
 #end
 
-
-
 Foreach with an array.
 
 <table>
@@ -187,8 +185,6 @@ Foreach with a method.
 #foreach ($element in $provider.getCustomers())
     This is $element.
 #end
-
-#stop
 
 $10.00
 
