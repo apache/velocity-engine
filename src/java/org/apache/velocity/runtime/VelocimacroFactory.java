@@ -58,7 +58,7 @@
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.4 2000/12/10 19:37:05 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.5 2000/12/10 21:26:29 geirm Exp $ 
  *
  */
 
@@ -105,7 +105,7 @@ public class VelocimacroFactory
              *  add all library macros to the global namespace
              */
 
-           vmManager_. setNamespaceUsage( false );
+           vmManager_.setNamespaceUsage( false );
         
             /*
              *  now, if there is a global or local libraries specified, use them.
