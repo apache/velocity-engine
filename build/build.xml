@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.0.1-rc1"/>
+  <property name="version" value="1.0.1"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -336,6 +336,7 @@
       optimize="${optimize}">
 
       <classpath>
+        <path refid="classpath"/>
         <pathelement location="${build.dest}"/>
         <pathelement location="${servlet.jar}"/>
       </classpath>
