@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.23 2000/10/22 01:27:34 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.24 2000/10/22 21:05:16 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -155,30 +155,24 @@ public class Runtime
     /** Specify template caching true/false */
     public static final String TEMPLATE_CACHE = "template.cache";
     
-    /** Template processor to use. A processor is associated
-      * with a parser generator tool, and its utilities
-      * used for parsing.
-      */
-    public static final String TEMPLATE_PROCESSOR = "template.processor";
-    
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
     
     /** Enable the speed up provided by FastWriter */
     public static final String TEMPLATE_ASCIIHACK = "template.asciihack";
 
+    /** How often to check for modified templates. */
+    public static final String TEMPLATE_MOD_CHECK_INTERVAL =
+        "template.modificationCheckInterval";
+    
     /** Initial counter value in #foreach directives */
     public static final String COUNTER_NAME = "counter.name";
 
     /** Initial counter value in #foreach directives */
     public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
 
-    /** Initial counter value in #foreach directives */
+    /** Content type */
     public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
-
-    /** How often to check for modified templates. */
-    public static final String TEMPLATE_MOD_CHECK_INTERVAL = 
-        "template.modificationCheckInterval";
 
     /** Prefix for warning messages */
     private final static String WARN  = "  [warn] ";
@@ -220,6 +214,34 @@ public class Runtime
     private static StringBuffer pendingMessages = new StringBuffer();
 
     private static Properties properties;
+    
+    /**
+     * Initializes the Velocity Runtime with a set of
+     * values from a default velocity.properties that
+     * is on the classpath. This default properties file
+     * will be included in the distribution jar file to
+     * make the Velocity Runtime easy to init.
+     */
+    public synchronized static void init() throws Exception
+    {
+        System.out.println("using init()");
+        Properties properties = new Properties();
+        ClassLoader classLoader = Runtime.class.getClassLoader();
+        
+        try
+        {
+            InputStream inputStream = classLoader.getResourceAsStream(
+                "org/apache/velocity/runtime/velocity.properties");
+        
+            properties.load(inputStream);
+        }
+        catch (IOException ioe)
+        {
+            System.err.println("Cannot initialize Velocity Runtime!");
+        }
+        
+        init(properties);
+    }
 
     /**
      * Initializes the Velocity Runtime.
@@ -229,16 +251,22 @@ public class Runtime
     {
         Properties properties = new Properties();
         File file = new File( propertiesFileName );
+        
+        /*
+         * Try loading the properties from the named properties
+         * file. If that fails then set the default values.
+         * From the command line and for testing the default
+         * values should work fine, and makes initializing
+         * the Velocity runtime as easy as Runtime.init();
+         */
+        
         try
         {
-            if (file.exists()) 
-            {
-                properties.load( new FileInputStream(file) );
-            }
+            properties.load( new FileInputStream(file) );
         }
         catch(Exception ex) 
         {
-            throw new Exception( "Cannot load properties file: " + ex );
+            init();
         }
         init( properties );
     }
