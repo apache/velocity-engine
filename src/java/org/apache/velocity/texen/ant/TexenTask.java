@@ -77,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.18 2001/03/23 01:02:23 geirm Exp $
+ * @version $Id: TexenTask.java,v 1.19 2001/03/23 03:46:00 geirm Exp $
  */
 
 public class TexenTask extends Task
@@ -187,11 +187,18 @@ public class TexenTask extends Task
      * Set the output directory. It will be
      * created if it doesn't exist.
      */
-    public void setOutputDirectory(String outputDirectory)
+    public void setOutputDirectory(File outputDirectory)
     {
-        this.outputDirectory = outputDirectory;
+        try
+        {
+            this.outputDirectory = outputDirectory.getCanonicalPath();
+        }
+        catch (java.io.IOException ioe)
+        {
+            throw new BuildException(ioe);
+        }
     }
-    
+      
     /**
      * Get the output directory.
      */
@@ -223,7 +230,7 @@ public class TexenTask extends Task
      * fed into the initial context be the
      * generating process starts.
      */
-    public void setContextProperties(String file)
+    public void setContextProperties( File file )
     {
         contextProperties = new Properties();
         
@@ -372,7 +379,13 @@ public class TexenTask extends Task
                          */
                         if (property.endsWith("file.contents"))
                         {
-                            value = StringUtils.fileContentsToString(value);
+                            /*
+                             *  we need to turn the license file from relative to
+                             *  absolute, and let Ant help :)
+                             */
+
+                            value = StringUtils.fileContentsToString(   
+                                      project.resolveFile(value).getCanonicalPath() );
                             
                             property = property.substring(
                                 0, property.indexOf("file.contents") - 1);
