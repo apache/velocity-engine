@@ -1,3 +1,5 @@
+package org.apache.velocity.app;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,8 +54,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.app;
-
 import java.io.Writer;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -80,7 +80,7 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Velocity.java,v 1.1 2001/02/11 20:46:34 geirm Exp $
+ * @version $Id: Velocity.java,v 1.2 2001/02/12 01:25:06 geirm Exp $
  */
 
 public class Velocity
