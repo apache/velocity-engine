@@ -163,7 +163,7 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.21 2001/03/23 22:05:54 dlr Exp $
+ * @version $Id: Configuration.java,v 1.22 2001/03/25 22:57:29 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -477,7 +477,8 @@ public class Configuration extends Hashtable
                     }
                     else
                     {
-                        setProperty(key,value);
+                        addProperty(key,value);
+                        //setProperty(key,value);
                     }                       
                 }
             }
@@ -522,13 +523,26 @@ public class Configuration extends Hashtable
     }
     
     /**
-     * Set a property taking into consideration
-     * duplicate keys.
+     * Add a property to the configuration. If it already
+     * exists then the value stated here will be added
+     * to the configuration entry. For example, if
+     *
+     * resource.loader = file
+     *
+     * is already present in the configuration and you
+     *
+     * addProperty("resource.loader", "classpath")
+     *
+     * Then you will end up with a Vector like the
+     * following:
+     *
+     * ["file", "classpath"]
      *
      * @param String key
-     * @param String token
+     * @param String value
      */
-    public void setProperty(String key, Object token)
+    //public void setProperty(String key, Object token)
+    public void addProperty(String key, Object token)
     {
         Object o = this.get(key);
 
@@ -586,7 +600,7 @@ public class Configuration extends Hashtable
                      * just goes in rather than risking vectorization
                      * if it contains an escaped comma
                      */
-                    setStringProperty(key,value);
+                    addStringProperty(key,value);
                 }
             }
             else
@@ -628,7 +642,7 @@ public class Configuration extends Hashtable
      *  Thanks to Leon Messerschmidt for this one.
      *
      */
-    private  void setStringProperty(String key, String token)
+    private  void addStringProperty(String key, String token)
     {
         Object o = this.get(key);
 
@@ -674,26 +688,17 @@ public class Configuration extends Hashtable
     }
 
     /**
-     * Add a property to the configuration. If it already
-     * exists then the value stated here will be added
-     * to the configuration entry. For example, if
-     *
-     * resource.loader = file
-     *
-     * is already present in the configuration and you
-     *
-     * addProperty("resource.loader", "classpath")
-     *
-     * Then you will end up with a Vector like the
-     * following:
-     *
-     * ["file", "classpath"]
+     * Set a property, this will replace any previously
+     * set values. Set values is implicitly a call
+     * to clearProperty(key), addProperty(key,value).
      *
      * @param String key
      * @param String value
      */
-    public void addProperty(String key, Object value)
+    public void setProperty(String key, Object value)
     {
+        clearProperty(key);
+        addProperty(key,value);
     }
     
     /**
@@ -763,7 +768,7 @@ public class Configuration extends Hashtable
         for (Iterator i = c.getKeys() ; i.hasNext() ;)
         {
             String key = (String) i.next();
-            clearProperty(key);
+            //clearProperty(key);
             setProperty( key, c.get(key) );
         }
     }
@@ -892,6 +897,22 @@ public class Configuration extends Hashtable
             return null;
         }
     }
+
+    /**
+     * Display the configuration for debugging
+     * purposes.
+     */
+    public void display()
+    {
+        Iterator i = getKeys();
+        
+        while (i.hasNext())
+        {
+            String key = (String) i.next();
+            Object value = get(key);
+            System.out.println(key + " => " + value);
+        }
+    }     
 
     /**
      * Get a string associated with the given configuration key.
