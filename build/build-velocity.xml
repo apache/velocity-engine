@@ -5,7 +5,7 @@
 <project name="Velocity" default="jar" basedir=".">
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="0.72"/>
+  <property name="version" value="0.75"/>
   <property name="project" value="velocity"/>
   <property name="build.compiler" value="classic"/>
     
@@ -156,7 +156,7 @@
       deprecation="${deprecation}"
       optimize="${optimize}">
 
-      <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.java"/>
+      <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.java"/>
       
       <classpath refid="classpath"/>
     </javac>
@@ -224,7 +224,7 @@
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
      
     </jar>
@@ -233,7 +233,7 @@
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file of all        -->
-  <!--  source AND code that requires j2ee (DBResourceLoader, for ex)      -->
+  <!--  source AND code that requires j2ee (ex. DataSourceResourceLoader)  -->
   <!-- =================================================================== -->
   <target name="jar-j2ee" depends="compile-j2ee" if="J2EE.present">
         
@@ -267,7 +267,7 @@
         <exclude name="org/apache/velocity/servlet/**"/>
         <exclude name="org/apache/velocity/texen/**"/>
         <exclude name="org/apache/velocity/test/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -288,7 +288,7 @@
         <include name="org/apache/velocity/anakia/**"/>
         <include name="org/apache/velocity/convert/**"/>
         <include name="org/apache/velocity/texen/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -307,7 +307,7 @@
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <include name="org/apache/velocity/servlet/**"/>
-        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
   
