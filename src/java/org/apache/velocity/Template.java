@@ -3,7 +3,7 @@ package org.apache.velocity;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * This class is used for controlling all template
@@ -89,7 +90,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.29 2001/03/05 11:44:21 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.30 2001/03/19 17:20:35 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -252,7 +253,7 @@ public class Template extends Resource
      *  @throws  Exception  anything else. 
      */
     public void merge( Context context, Writer writer)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
         /*
          *  we shouldn't have to do this, as if there is an error condition, 
