@@ -280,7 +280,7 @@
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- that has no built-in dependencies on Oro or Logkit                  -->
   <!-- =================================================================== -->
-  <target name="jar-nodep" depends="compile, collections-support">
+  <target name="jar-nodep" depends="compile">
          
     <jar jarfile="${build.dir}/${project}-${version}-nodep.jar">
 
@@ -316,7 +316,7 @@
   <!-- source AND code that requires J2EE (ex. DataSourceResourceLoader)  -->
   <!-- but without built-in dependencies on Oro or Logkit                  -->
   <!-- =================================================================== -->
-  <target name="jar-J2EE-nodep" depends="compile-J2EE, collections-support" if="J2EE.present">
+  <target name="jar-J2EE-nodep" depends="compile-J2EE" if="J2EE.present">
         
     <jar jarfile="${build.dir}/${project}-J2EE-${version}-nodep.jar"
       basedir="${build.dest}"
