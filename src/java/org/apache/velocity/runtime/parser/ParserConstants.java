@@ -81,7 +81,7 @@ public interface ParserConstants {
     "<ESCAPE_DIRECTIVE>",
     "<SET_DIRECTIVE>",
     "<DOLLAR>",
-    "\"$!\"",
+    "<DOLLARBANG>",
     "\"##\"",
     "<token of kind 12>",
     "\"#*\"",
