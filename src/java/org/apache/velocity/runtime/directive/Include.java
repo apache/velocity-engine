@@ -64,6 +64,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  * Pluggable directive that handles the #include() statement in VTL. 
  * This #include() can take multiple arguments of either StringLiteral or Reference.
@@ -95,7 +97,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.15 2001/03/05 11:45:43 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.16 2001/03/19 17:12:59 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -121,7 +123,7 @@ public class Include extends Directive
      *  arguments are logged, but render() continues.
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException
+        throws IOException, MethodInvocationException
     {
         /*
          *  get our arguments and check them
@@ -162,7 +164,7 @@ public class Include extends Directive
      *  @return boolean success or failure.  failures are logged
      */
     private boolean renderOutput( Node node, InternalContextAdapter context, Writer writer )
-       throws IOException
+        throws IOException, MethodInvocationException
     {
         String arg = "";
         

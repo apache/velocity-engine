@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -66,6 +66,8 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
+
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *  The function of this class is to proxy for the calling parameter to the VM.
@@ -109,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.4 2001/03/05 11:45:50 jvanzyl Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.5 2001/03/19 17:13:01 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -203,8 +205,6 @@ public class VMProxyArg
      */
     public Object setObject(  InternalContextAdapter context,  Object o )
     {  
-        //System.out.println("VMProxyArg.setObject() : " + contextReference + " / " + callerReference );
-
         /*
          *  if we are a reference, we could be updating a property
          */
@@ -218,10 +218,14 @@ public class VMProxyArg
                  *  #foo( $bar.BangStart) 
                  */
 
-                ( (ASTReference) nodeTree).setValue( context, o );
-
-               // alternate impl ( (ASTReference) nodeTree).setValue(usercontext, o );
-  
+                try
+                {
+                    ( (ASTReference) nodeTree).setValue( context, o );
+                }
+                catch( MethodInvocationException mie )
+                {
+                    Runtime.error("VMProxyArg.getObject() : method invocation error setting value : " + mie );                    
+                }
            }
             else
             {
@@ -266,123 +270,132 @@ public class VMProxyArg
      */
     public Object getObject( InternalContextAdapter context )
     {        
-        /*
-         *  we need to output based on our type
-         */
-
-        Object retObject = null;
-        
-        if ( type == ParserTreeConstants.JJTREFERENCE ) 
+        try
         {
+
             /*
-             *  two cases :  scalar reference ($foo) or multi-level ($foo.bar....)
+             *  we need to output based on our type
              */
 
-            if ( numTreeChildren == 0)
-            {      
-                /*
-                 *  if I am a single-level reference, can I not get get it out of my context?
-                 */
-
-                retObject = context.get( singleLevelRef );
-
-                //  alternate impl : retObject = usercontext.get( singleLevelRef );
-            }
-            else
+            Object retObject = null;
+            
+            if ( type == ParserTreeConstants.JJTREFERENCE ) 
             {
                 /*
-                 *  I need to let the AST produce it for me.
+                 *  two cases :  scalar reference ($foo) or multi-level ($foo.bar....)
                  */
-
-                retObject = nodeTree.execute( null, context);
                 
-                // atlernate impl :retObject = nodeTree.execute( null, usercontext);
+                if ( numTreeChildren == 0)
+                {      
+                    /*
+                     *  if I am a single-level reference, can I not get get it out of my context?
+                     */
+                    
+                    retObject = context.get( singleLevelRef );
+                }
+                else
+                {
+                    /*
+                     *  I need to let the AST produce it for me.
+                     */
+
+                    retObject = nodeTree.execute( null, context);
+                }
+
+                /*
+                 *  If this resolves to null, we need just the literal representation of it
+                 *  to support the 'cut-and-paste' features of VMs
+                 *
+                 *  There are reasons why people do this, although why they can't solve it
+                 *  with some other method...
+                 *
+                 *  Note that we lose a current feature of VMs, rendering the literal of the 
+                 *  original calling arg.  This needs to be fixed or we live with it.
+                 *
+                 *  below, what we do is technically wrong.  Will revisit.
+                 */
+                
+                if( retObject == null && numTreeChildren > 0)
+                {
+                    try
+                    {
+                        StringWriter writer =  new StringWriter() ;
+                        nodeTree.render( context, writer );
+                        
+                        retObject = writer;
+                    }
+                    catch (Exception e ) 
+                    {
+                        Runtime.error("VMProxyArg.getObject() : error rendering reference : " + e );
+                    }
+                }         
             }
-
-           /*
-            *  If this resolves to null, we need just the literal representation of it
-            *  to support the 'cut-and-paste' features of VMs
-            *
-            *  There are reasons why people do this, although why they can't solve it
-            *  with some other method...
-            *
-            *  Note that we lose a current feature of VMs, rendering the literal of the 
-            *  original calling arg.  This needs to be fixed or we live with it.
-            *
-            *  below, what we do is technically wrong.  Will revisit.
-            */
-
-            if( retObject == null && numTreeChildren > 0)
+            else if( type == ParserTreeConstants.JJTOBJECTARRAY )
             {
+                retObject = nodeTree.value( context );
+            }
+            else if ( type == ParserTreeConstants.JJTINTEGERRANGE)
+            {
+                retObject = nodeTree.value( context );    
+            }
+            else if( type == ParserTreeConstants.JJTTRUE )
+            {
+                retObject = staticObject;
+            }
+            else if ( type == ParserTreeConstants.JJTFALSE )
+            {
+                retObject = staticObject;
+            }
+            else if ( type == ParserTreeConstants.JJTSTRINGLITERAL )
+            {
+                retObject =  nodeTree.value( context );
+            }
+            else if ( type == ParserTreeConstants.JJTNUMBERLITERAL )
+            {
+                retObject = staticObject;
+            }
+            else if ( type == ParserTreeConstants.JJTTEXT )
+            {
+                /*
+                 *  this really shouldn't happen.  text is just a thowaway arg for #foreach()
+                 */
+                           
                 try 
                 {
-                    //System.out.println("StringWriter!");
-                    StringWriter writer =  new StringWriter() ;
+                    StringWriter writer =new StringWriter();
                     nodeTree.render( context, writer );
                     
                     retObject = writer;
                 }
-                catch (Exception e ) 
+                catch (Exception e )
                 {
                     Runtime.error("VMProxyArg.getObject() : error rendering reference : " + e );
                 }
-                   
-            }         
-       }
-       else if( type == ParserTreeConstants.JJTOBJECTARRAY )
-       {
-           retObject = nodeTree.value( context );
-       }
-       else if ( type == ParserTreeConstants.JJTINTEGERRANGE)
-       {
-           retObject = nodeTree.value( context );    
-       }
-       else if( type == ParserTreeConstants.JJTTRUE )
-       {
-           retObject = staticObject;
-       }
-       else if ( type == ParserTreeConstants.JJTFALSE )
-       {
-           retObject = staticObject;
-       }
-       else if ( type == ParserTreeConstants.JJTSTRINGLITERAL )
-       {
-           retObject =  nodeTree.value( context );
-       }
-       else if ( type == ParserTreeConstants.JJTNUMBERLITERAL )
-       {
-           retObject = staticObject;
-       }
-       else if ( type == ParserTreeConstants.JJTTEXT )
-       {
-           /*
-            *  this really shouldn't happen.  text is just a thowaway arg for #foreach()
-            */
-           
-           System.out.println(" VMProxyArg.getObject() : asking for TEXT ");
-           
-           try 
-           {
-               StringWriter writer =new StringWriter();
-               nodeTree.render( context, writer );
-                   
-               retObject = writer;
-           }
-           catch (Exception e )
-           {
-               Runtime.error("VMProxyArg.getObject() : error rendering reference : " + e );
-           }
-       }
-       else if( type ==  GENERALSTATIC )
-       {
-           retObject = staticObject;
-       }
-       else
-       {
-           Runtime.error("Unsupported VM arg type : VM arg = " + callerReference +" type = " + type + "( VMProxyArg.getObject() )");
-       }
-        
-       return retObject;
+            }
+            else if( type ==  GENERALSTATIC )
+            {
+                retObject = staticObject;
+            }
+            else
+            {
+                Runtime.error("Unsupported VM arg type : VM arg = " + callerReference +" type = " + type + "( VMProxyArg.getObject() )");
+            }
+            
+            return retObject;
+        }
+        catch( MethodInvocationException mie )
+        {
+            /*
+             *  not ideal, but otherwise we propogate out to the 
+             *  VMContext, and the Context interface's put/get 
+             *  don't throw. So this is a the best compromise
+             *  I can think of
+             */
+            
+            Runtime.error("VMProxyArg.getObject() : method invocation error getting value : " + mie );
+            
+            return null;
+        }
     }
 
     /**
