@@ -58,7 +58,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.runtime.parser.Node;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Base class for all directives used in Velocity.
@@ -91,6 +91,6 @@ public abstract class Directive
     /**
      * How this directive is to be rendered 
      */
-    public abstract void render(Context context, Writer writer, Node node)
+    public abstract boolean render(Context context, Writer writer, Node node)
         throws IOException;
 }        

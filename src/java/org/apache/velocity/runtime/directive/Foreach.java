@@ -67,8 +67,10 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ArrayIterator;
 
-import org.apache.velocity.runtime.parser.Node;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.Node;
+
+import org.apache.velocity.runtime.exception.ReferenceException;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -107,14 +109,25 @@ public class Foreach extends Directive
         
         // This is a refence node and it needs to
         // be inititialized.
-        
         node.jjtGetChild(2).init(context, null);
         listObject = node.jjtGetChild(2).value(context);
         
+        // If the listObject is null then we know that this
+        // whole foreach directive is useless. We need to
+        // throw a ReferenceException which is caught by
+        // the SimpleNode.init() and logged. But we also need
+        // to set a flag so that the rendering of this node
+        // is ignored as the output would be useless.
+        if (listObject == null)
+        {
+            node.setInvalid();
+            throw new ReferenceException(node.jjtGetChild(2).literal() +
+                " is not a valid reference.");
+        }                
+
         // Figure out what type of object the list
         // element is so that we don't have to do it
         // everytime the node is traversed.
-        
         if (listObject instanceof Object[])
         {
             node.setInfo(ARRAY);
@@ -138,9 +151,12 @@ public class Foreach extends Directive
         }            
     }
 
-    public void render(Context context, Writer writer, Node node)
+    public boolean render(Context context, Writer writer, Node node)
         throws IOException
     {
+        if (node.isInvalid())
+            return false;
+    
         Iterator i;
         listObject = node.jjtGetChild(2).value(context);
 
@@ -159,5 +175,7 @@ public class Foreach extends Directive
         }
         context.remove(COUNTER_IDENTIFIER);
         context.remove(elementKey);
+    
+        return true;
     }
 }
