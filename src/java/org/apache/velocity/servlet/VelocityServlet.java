@@ -93,7 +93,7 @@ import org.apache.velocity.io.FastWriter;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.9 2000/10/15 23:19:01 jvanzyl Exp $
+ * $Id: VelocityServlet.java,v 1.10 2000/10/27 23:12:42 daveb Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -128,6 +128,12 @@ public abstract class VelocityServlet extends HttpServlet
      */
     private static String defaultContentType;
 
+    /**
+     * This is the string that is looked for when getInitParameter is
+     * called.
+     */
+    private static final String INIT_PROPS_KEY = "properties";
+
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
      * container on loading.
@@ -141,7 +147,24 @@ public abstract class VelocityServlet extends HttpServlet
     {
         super.init( config );
         
-        String propsFile = config.getInitParameter("properties");
+        String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+        
+        /*
+         * This will attempt to find the location of the properties
+         * file from the relative path to the WAR archive (ie:
+         * docroot). Since JServ returns null for getRealPath()
+         * because it was never implemented correctly, then we know we
+         * will not have an issue with using it this way. I don't know
+         * if this will break other servlet engines, but it probably
+         * shouldn't since WAR files are the future anyways.
+         */
+        if ( propsFile != null )
+        {
+            String realPath = getServletContext().getRealPath(propsFile);
+            if ( realPath != null )
+                propsFile = realPath;
+        }
+
         try
         {
             Runtime.init(propsFile);
@@ -195,18 +218,25 @@ public abstract class VelocityServlet extends HttpServlet
             // put the request/response objects into the context
             context.put (REQUEST, request);
             context.put (RESPONSE, response);
+
+             // check for a content type in the context    
+            if (context.containsKey(CONTENT_TYPE))
+            {
+                contentType = (String) context.get (CONTENT_TYPE);
+            }
+            else
+            {
+                contentType = defaultContentType;
+            }
+            // set the content type
+            response.setContentType(contentType);
+
             // call whomever extends this class and implements this method
             Template template = handleRequest(context);        
             // could not find the template
             if ( template == null )
                 throw new Exception ("Cannot find the template!" );
-            // check for a content type in the context    
-            if (context.containsKey(CONTENT_TYPE))
-                contentType = (String) context.get (CONTENT_TYPE);
-            else
-                contentType = defaultContentType;
-            // set the content type
-            response.setContentType(contentType);
+            
             // write the data out.
             writer = new FastWriter(output, encoding);
             writer.setAsciiHack(asciiHack);
@@ -279,3 +309,4 @@ public abstract class VelocityServlet extends HttpServlet
         out.print( html.toString() );
     }
 }
+
