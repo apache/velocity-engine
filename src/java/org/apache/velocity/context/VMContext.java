@@ -75,7 +75,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.8 2001/08/07 22:21:51 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.9 2001/08/31 09:38:59 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -92,14 +92,14 @@ public class VMContext implements InternalContextAdapter
     InternalContextAdapter wrappedContext = null;
 
     /** support for local context scope feature, where all references are local */
-    private  boolean localcontextscope = true;
+    private  boolean localcontextscope = false;
 
      /**
      *  CTOR, wraps an ICA
      */
     public VMContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
-        localcontextscope = rsvc.getBoolean( RuntimeConstants.VM_CONTEXT_LOCALSCOPE, true );
+        localcontextscope = rsvc.getBoolean( RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false );
 
         wrappedContext = inner;
         innerContext = inner.getBaseContext();
