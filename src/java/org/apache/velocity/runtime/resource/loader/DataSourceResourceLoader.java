@@ -93,8 +93,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * resource.loader.1.modificationCheckInterval = 60<br>
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
- * @author <a href="Paulo Gaspar <paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.4 2001/03/12 04:17:43 geirm Exp $
+ * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
+ * @version $Id: DataSourceResourceLoader.java,v 1.5 2001/03/20 00:50:25 jon Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
