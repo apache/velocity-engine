@@ -56,10 +56,16 @@ package org.apache.velocity.runtime;
 
 import java.util.Hashtable;
 import java.util.TreeMap;
+import java.io.ByteArrayInputStream;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.runtime.Runtime;
+
+import org.apache.velocity.context.InternalContextAdapter;
 
 /**
  *  VelocimacroManager.java
@@ -76,7 +82,7 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.6 2000/12/20 06:10:46 jvanzyl Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.7 2001/01/13 16:49:59 geirm Exp $ 
  */
 public class VelocimacroManager
 {
@@ -108,12 +114,10 @@ public class VelocimacroManager
      *  adds a VM definition to the cache
      * @return boolean if all went ok
      */
-    public boolean addVM(String vmName, String macroBody, String argArray[],
-                         String macroArray[], TreeMap argIndexMap, 
-                         String namespace )
+    public boolean addVM(String vmName, String macroBody, String argArray[], String namespace )
     {
-        MacroEntry me = new MacroEntry( vmName,  macroBody,  argArray, macroArray, 
-            argIndexMap, namespace );
+
+        MacroEntry me = new MacroEntry( this, vmName,  macroBody,  argArray,  namespace );
 
         if ( usingNamespaces( namespace ) )
         {
@@ -124,7 +128,7 @@ public class VelocimacroManager
 
             Hashtable local = getNamespace( namespace, true );
             local.put( (String) vmName, me );
-            
+         
             return true;
         }
         else
@@ -312,21 +316,23 @@ public class VelocimacroManager
     {
         String macroname;
         String[] argarray;
-        String[] macroarray;
-        TreeMap indexmap;
         String macrobody;
         String sourcetemplate;
+        SimpleNode nodeTree = null;
+        VelocimacroManager manager = null;
 
-        MacroEntry(String vmName, String macroBody, String argArray[], 
-              String macroArray[], TreeMap argIndexMap, 
-              String sourceTemplate)
+        MacroEntry(VelocimacroManager vmm, String vmName, String macroBody, String argArray[],  String sourceTemplate)
         {
             this.macroname = vmName;
             this.argarray = argArray;
-            this.macroarray = macroArray;
-            this.indexmap = argIndexMap;
             this.macrobody = macroBody;
             this.sourcetemplate = sourceTemplate;
+            this.manager = vmm;
+        }
+
+        public SimpleNode getNodeTree()
+        {
+            return nodeTree;
         }
 
         VelocimacroProxy createVelocimacro()
@@ -334,11 +340,36 @@ public class VelocimacroManager
             VelocimacroProxy vp = new VelocimacroProxy();
             vp.setName( this.macroname );
             vp.setArgArray(  this.argarray ); 
-            vp.setMacroArray( this.macroarray );
-            vp.setArgIndexMap( this.indexmap );
             vp.setMacrobody( this.macrobody );
-            
+            vp.setNodeTree( this.nodeTree);
+
             return vp;
+        }
+
+        void setup( InternalContextAdapter ica)
+        {
+            /*
+             *  if not parsed yet, parse!
+             */
+            
+            if( nodeTree == null)
+                parseTree( ica );
+        }
+
+        void parseTree( InternalContextAdapter ica)
+        {
+            try 
+            {
+
+                ByteArrayInputStream  inStream = new ByteArrayInputStream( macrobody.getBytes() );
+                nodeTree = Runtime.parse( inStream, "VM:" + macroname );
+                nodeTree.init(ica,null);
+            } 
+            catch ( Exception e ) 
+            {
+                Runtime.error("VelocimacroManager.parseTree() : exception " + macroname + 
+                              " : "  + StringUtils.stackTrace(e));
+            }
         }
     }
 }
