@@ -51,7 +51,7 @@ the build/lib directory, or at the respective project sites.
 2) velocity-dep-<version>.jar : This is a Velocity jar that includes
 all dependencies that were included with previous distribution
 jars.  It is intended as a convenience to allow you to drop
-this 1.3 distribution in place of existing 1.1 or 1.2-dep
+this 1.3 (or later)  distribution in place of existing 1.1 or 1.2-dep
  distributions.
 
 Please see the developers guide for more information.
