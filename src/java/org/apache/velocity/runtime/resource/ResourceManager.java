@@ -55,8 +55,8 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -77,7 +77,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: ResourceManager.java,v 1.17 2001/03/15 04:39:28 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.18 2001/03/17 19:19:53 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -184,10 +184,10 @@ public class ResourceManager
              */
             String loaderID = 
                 resourceLoaderNames.get(i) + "." + Runtime.RESOURCE_LOADER;
-        
+
             Configuration loaderConfiguration =
                 Runtime.getConfiguration().subset(loaderID);
-                
+
             /*
              * Add resources to the list of resource loader
              * initializers.

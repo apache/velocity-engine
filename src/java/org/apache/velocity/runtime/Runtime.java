@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.95 2001/03/15 04:42:06 geirm Exp $
+ * @version $Id: Runtime.java,v 1.96 2001/03/17 19:19:52 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -267,7 +267,7 @@ public class Runtime implements RuntimeConstants
             InputStream inputStream = classLoader
                 .getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
             
-            configuration.setPropertiesInputStream( inputStream );
+            configuration.load( inputStream );
             
             info ("Default Properties File: " + 
                 new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
@@ -295,8 +295,28 @@ public class Runtime implements RuntimeConstants
         overridingProperties.setProperty( key, value );
     }        
 
-    public static void addProperty(String key, String value)
+    /**
+     * Add a property to the configuration. If it already
+     * exists then the value stated here will be added
+     * to the configuration entry. For example, if
+     *
+     * resource.loader = file
+     *
+     * is already present in the configuration and you
+     *
+     * addProperty("resource.loader", "classpath")
+     *
+     * Then you will end up with a Vector like the
+     * following:
+     *
+     * ["file", "classpath"]
+     *
+     * @param String key
+     * @param String value
+     */
+    public static void addProperty(String key, Object value)
     {
+        configuration.addProperty(key, value);
     }
     
     /**
