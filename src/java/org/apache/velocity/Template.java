@@ -83,7 +83,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.5 2000/10/15 03:25:03 dlr Exp $
+ * @version $Id: Template.java,v 1.6 2000/10/15 19:30:08 dlr Exp $
  */
 public class Template
 {
@@ -129,7 +129,7 @@ public class Template
      * produces an AST node structure from the
      * InputStream.
      */
-    public void parse(InputStream inputStream) throws Exception
+    protected void parse(InputStream inputStream) throws Exception
     {
         document = Runtime.parse(inputStream);
     }
