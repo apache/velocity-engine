@@ -153,7 +153,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.46 2000/11/16 23:06:40 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.47 2000/11/17 00:58:01 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -304,6 +304,35 @@ public class Runtime implements RuntimeConstants
         init();
     }
 
+    public static void setProperties(String propertiesFileName) throws Exception
+    {
+        /*
+         * Try loading propertiesFile as a straight file first,
+         * if that fails, then try and use the classpath, if
+         * that fails then use the default values.
+         */
+        try
+        {
+            VelocityResources.setPropertiesFileName( propertiesFileName );
+            assembleSourceInitializers();
+            info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
+        }
+        catch(Exception ex) 
+        {
+            ClassLoader classLoader = Runtime.class.getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(propertiesFileName);
+            
+            if (inputStream != null)
+            {
+                VelocityResources.setPropertiesInputStream( inputStream );
+                assembleSourceInitializers();
+                info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
+            }
+            else
+                throw new Exception("Cannot find " + propertiesFileName + "!");
+        }
+    }
+
     public synchronized static void init()
         throws Exception
     {
@@ -344,32 +373,27 @@ public class Runtime implements RuntimeConstants
     public static void initializeLogger() throws
         MalformedURLException
     {
-        if (!getString(EXTERNAL_INIT, "false" ).equalsIgnoreCase("true"))
-        {
-            // Let's look at the log file entry and
-            // correct it if it is not a property 
-            // fomratted URL.
-            String logFile = getString(RUNTIME_LOG);
+        // Let's look at the log file entry and
+        // correct it if it is not a property 
+        // fomratted URL.
+        String logFile = getString(RUNTIME_LOG);
 
-            // Initialize the logger.
-            logger = LogKit.createLogger("velocity", 
-                fileToURL(logFile), "DEBUG");
+        // Initialize the logger.
+        logger = LogKit.createLogger("velocity", 
+        fileToURL(logFile), "DEBUG");
                 
-            LogTarget[] t = logger.getLogTargets();            
+        LogTarget[] t = logger.getLogTargets();            
 
-            ((FileOutputLogTarget)t[0])
-                .setFormater((Formater) new VelocityFormater());
+        ((FileOutputLogTarget)t[0])
+            .setFormater((Formater) new VelocityFormater());
 
-            ((FileOutputLogTarget)t[0])
-                .setFormat("%{time} %{message}\\n%{throwable}" );
+        ((FileOutputLogTarget)t[0])
+            .setFormat("%{time} %{message}\\n%{throwable}" );
 
-            if (pendingMessages.length() > 0)
-            {
-                logger.info(pendingMessages.toString());
-            }
+        if (pendingMessages.length() > 0)
+            logger.info(pendingMessages.toString());
             
-            Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
-        }
+        Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
     /**
@@ -407,28 +431,21 @@ public class Runtime implements RuntimeConstants
      * to be set by some external mechanism: Turbine
      * for example.
      */
-    
-    // We have to change this to allow multiple template
-    // loaders. We need a list of them.
-    
     public static void initializeTemplateLoader() throws Exception
     {
-        if (!getString(EXTERNAL_INIT, "false" ).equalsIgnoreCase("true"))
+        if(!sourceInitializersAssembled)
+            assembleSourceInitializers();
+            
+        templateLoaders = new ArrayList();
+            
+        for (int i = 0; i < sourceInitializerList.size(); i++)
         {
-            if(!sourceInitializersAssembled)
-                assembleSourceInitializers();
-            
-            templateLoaders = new ArrayList();
-            
-            for (int i = 0; i < sourceInitializerList.size(); i++)
-            {
-                Map initializer = (Map) sourceInitializerList.get(i);
-                String loaderClass = (String) initializer.get("class");
-                templateLoader = TemplateFactory.getLoader(loaderClass);
-                templateLoader.init(initializer);
-                templateLoaders.add(templateLoader);
-            }
-        }            
+            Map initializer = (Map) sourceInitializerList.get(i);
+            String loaderClass = (String) initializer.get("class");
+            templateLoader = TemplateFactory.getLoader(loaderClass);
+            templateLoader.init(initializer);
+            templateLoaders.add(templateLoader);
+        }
     }
 
     /**
@@ -604,6 +621,7 @@ public class Runtime implements RuntimeConstants
      * Get a template via the TemplateLoader.
      */
     public static Template getTemplate(String template)
+        throws Exception
     {
         // Try the cache first.
         
@@ -670,7 +688,7 @@ public class Runtime implements RuntimeConstants
                 
                 // Return null if we can't find a template.
                 if (is == null)
-                    return null;
+                    throw new Exception("Can't find " + template + "!");
                 
                 t.setLastModified(tl.getLastModified(t));
                 t.setModificationCheckInterval(tl.getModificationCheckInterval());
