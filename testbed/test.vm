@@ -19,11 +19,12 @@ this is testing for wild loose commas , ,
 
 $100
 
+
 #set $foo = "bar"
 
-
-
 This is the $foo way.
+
+
 
 #if ($foo)
     This is $bar.
@@ -41,6 +42,8 @@ This is the $foo way.
     This is the else.
 #end
 
+
+
 \#set \$foo = "bar"
 
 \$foo   => $foo
@@ -55,6 +58,8 @@ This is the $foo way.
 \$fooo+ => $fooo+
 \$foo-x => $foo-x
 \$foo$  => $foo$
+
+
 
 #set $iam-cool = "jon"
 $iam-cool
@@ -91,6 +96,8 @@ function changeImage(layer,imgName,imgObj)
 
 <!-- This is an HTML comment -->
 
+
+
 $provider2.Title
 
 #set $a = "x"
@@ -101,26 +108,38 @@ $b
 
 <input type="text" name="email" value="">
 
+
 #set $c = $provider.Title
 $c
+
 
 #set $d = $provider.getTitle()
 $d
 
+
 #set $provider.Title = "crocodile hunter!"
 
+
+
 $provider.Title
+
+
 
 <!-- look here -->
 
 #set $provider.Title = $d
 $provider.Title
 
+
+
 #set $provider.Title = $provider.Name
 $provider.Title
 
+
 #set $provider.Title = $provider.getName()
 $provider.Title
+
+
 
 #set $a = true
 
@@ -129,6 +148,7 @@ $provider.Title
 #set $provider.State = true
 
 #set $provider.State = false
+
 
 
 #if ($provider.StateTrue)
@@ -142,14 +162,15 @@ $provider.Title
 
 Foreach with a variable.
 
-#foreach $provider in $list
+#foreach ($provider in $list)
     This is $provider.
 #end
+
 
 Foreach with an array.
 
 <table>
-#foreach $provider in $provider.Array
+#foreach ($provider in $provider.Array)
     <tr>
         <td>This is $provider</td>
     </tr>        
@@ -157,14 +178,16 @@ Foreach with an array.
 </table>
 
 
-#foreach $provider in $provider.Vector
+
+#foreach ($provider in $provider.Vector)
     This is the $provider.
 #end
 
 
+
 Foreach with a method.
 
-#foreach $provider in $provider.getCustomers()
+#foreach ($provider in $provider.getCustomers())
     This is $provider.
 #end
 

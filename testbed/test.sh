@@ -7,4 +7,4 @@ do
     CLASSPATH=${CLASSPATH}:${jar}
 done
 
-java -cp ${CLASSPATH} org.apache.velocity.test.Test $1 > output
+java -cp ${CLASSPATH} org.apache.velocity.test.Test $1 > output 2>&1

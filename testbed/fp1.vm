@@ -5,6 +5,6 @@
 ## was flush with the left margin
 ## that's fixed now.
 
-#foreach $name in $list
+#foreach ($name in $list)
     $name
 #end    
