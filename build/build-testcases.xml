@@ -98,8 +98,6 @@
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${build.dest}"/>
-        <pathelement location="../test/cpload/test1.jar"/>
-        <pathelement location="../test/cpload/test2.jar"/>
       </classpath>
     </java>
   </target>
