@@ -260,8 +260,11 @@
       use="true"
       windowtitle="${Name} ${version} API"
       doctitle="${Name} ${version} API"
-      bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved."
-    />
+      bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved.">
+      
+      <classpath refid="classpath"/> 
+      
+    </javadoc>
   
   </target>
     
