@@ -111,8 +111,8 @@ public class ParserTokenManager implements ParserConstants
     private void RPARENHandler()
     {
         /*
-         *  Ultimately, we want to drop down to the state below 
-         *  the one that has an open (if we hit bottom (DEFAULT), 
+         *  Ultimately, we want to drop down to the state below
+         *  the one that has an open (if we hit bottom (DEFAULT),
          *  that's fine. It's just text schmoo.
          */
 
@@ -124,15 +124,15 @@ public class ParserTokenManager implements ParserConstants
         while( !closed )
         {
             /*
-             * look at current state.  If we haven't seen a lparen 
-             * in this state then we drop a state, because this 
+             * look at current state.  If we haven't seen a lparen
+             * in this state then we drop a state, because this
              * lparen clearly closes our state
              */
 
             if( lparen > 0)
             {
                 /*
-                 *  if rparen + 1 == lparen, then this state is closed. 
+                 *  if rparen + 1 == lparen, then this state is closed.
                  * Otherwise, increment and keep parsing
                  */
 
@@ -3558,7 +3558,7 @@ final void SkipLexicalActions(Token matchedToken)
          else
             image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
-         * push every terminator character back into the stream  
+         * push every terminator character back into the stream
          */
 
         input_stream.backup(1);
@@ -3696,9 +3696,9 @@ final void MoreLexicalActions()
         if (! inComment)
         {
             /*
-             * We can have the situation where #if($foo)$foo#end.  
-             * We need to transition out of REFERENCE before going to DIRECTIVE. 
-             * I don't really like this, but I can't think of a legal way 
+             * We can have the situation where #if($foo)$foo#end.
+             * We need to transition out of REFERENCE before going to DIRECTIVE.
+             * I don't really like this, but I can't think of a legal way
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
@@ -3734,7 +3734,7 @@ final void TokenLexicalActions(Token matchedToken)
             lparen++;
 
         /*
-         * If in REFERENCE and we have seen the dot, then move 
+         * If in REFERENCE and we have seen the dot, then move
          * to REFMOD2 -> Modifier()
          */
 
@@ -3755,7 +3755,7 @@ final void TokenLexicalActions(Token matchedToken)
             image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          * need to simply switch back to REFERENCE, not drop down the stack
-         * because we can (infinitely) chain, ala 
+         * because we can (infinitely) chain, ala
          * $foo.bar().blargh().woogie().doogie()
          */
 
@@ -3808,7 +3808,7 @@ final void TokenLexicalActions(Token matchedToken)
          else
             image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
-         *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
+         *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out.
          *      don't forget to account for the beloved yet wierd #set
          *  - finally, if we are in REFMOD2 (remember : $foo.bar( ) then " is ok!
          */
@@ -3892,14 +3892,14 @@ final void TokenLexicalActions(Token matchedToken)
          else
             image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
-         * push the alpha char back into the stream so the following identifier 
+         * push the alpha char back into the stream so the following identifier
          * is complete
          */
 
         input_stream.backup(1);
 
         /*
-         * and munge the <DOT> so we just get a . when we have normal text that 
+         * and munge the <DOT> so we just get a . when we have normal text that
          * looks like a ref.ident
          */
 
