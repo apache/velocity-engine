@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.36 2000/11/30 08:15:50 jvanzyl Exp $ 
+ * @version $Id: Parser.java,v 1.37 2000/12/05 05:05:52 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -50,9 +50,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse(InputStream stream) throws ParseException
+    public SimpleNode parse(InputStream stream, String strTemplateName ) throws ParseException
     {
         SimpleNode sn = null;
+
         try
         {
             token_source.clearStateVars();
@@ -61,16 +62,18 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         catch (ParseException pe)
         {
-            Runtime.error ("Parser Exception: " + StringUtils.stackTrace(pe));
+            Runtime.error ("Parser Exception: " + strTemplateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken,
                 pe.expectedTokenSequences, pe.tokenImage);
         }
         catch (Exception e)
         {
-            Runtime.error ("Parser Error: " + StringUtils.stackTrace(e));
+            Runtime.error ("Parser Error: " + strTemplateName + " : " + StringUtils.stackTrace(e));
         }
+
         return sn;
     }
+
     /**
      *  This method sets the directives Hashtable
      */
@@ -2009,12 +2012,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return retval;
   }
 
-  final private boolean jj_3R_18() {
-    if (jj_3R_21()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   final private boolean jj_3R_68() {
     if (jj_3R_74()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2634,6 +2631,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     if (jj_3R_79()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_18() {
+    if (jj_3R_21()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
