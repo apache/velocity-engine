@@ -59,13 +59,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * This class represent a general text resource that
- * may have been retrieved from any number of possible
- * sources.
+ * This class represent a general text resource that may have been
+ * retrieved from any number of possible sources.
+ *
+ * Also of interest is Velocity's {@link org.apache.velocity.Template}
+ * <code>Resource</code>.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.8 2002/03/25 18:00:49 dlr Exp $
+ * @version $Id: ContentResource.java,v 1.9 2002/10/10 17:28:09 dlr Exp $
  */
 public class ContentResource extends Resource
 {
@@ -84,7 +86,8 @@ public class ContentResource extends Resource
             StringWriter sw = new StringWriter();
             
             reader = new BufferedReader(
-                new InputStreamReader(resourceLoader.getResourceStream(name), encoding));
+                new InputStreamReader(resourceLoader.getResourceStream(name),
+                                      encoding));
             
             char buf[] = new char[1024];
             int len = 0;
@@ -92,7 +95,7 @@ public class ContentResource extends Resource
             while ( ( len = reader.read( buf, 0, 1024 )) != -1)
                 sw.write( buf, 0, len );
         
-            data = sw.toString();
+            setData(sw.toString());
            
             return true;
         }
