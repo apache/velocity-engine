@@ -16,28 +16,26 @@ package org.apache.velocity.texen.ant;
  * limitations under the License.
  */
 
-import java.util.StringTokenizer;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
-import java.io.File;
-import java.io.Writer;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-
+import org.apache.commons.collections.ExtendedProperties;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.texen.Generator;
-import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.texen.Generator;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * An ant task for generating output by using Velocity
@@ -284,11 +282,12 @@ public class TexenTask
             }
             catch (Exception e)
             {
+                ClassLoader classLoader = this.getClass().getClassLoader();
+
                 try
                 {
-                    
-                    InputStream inputStream = ClassUtils.getResourceAsStream(getClass(),sources[i]);
-                    
+                    InputStream inputStream = classLoader.getResourceAsStream(sources[i]);
+
                     if (inputStream == null)
                     {
                         throw new BuildException("Context properties file " + sources[i] +
@@ -401,14 +400,14 @@ public class TexenTask
             // Setup the Velocity Runtime.
             if (templatePath != null)
             {
-            	log("Using templatePath: " + templatePath, project.MSG_VERBOSE);
+                log("Using templatePath: " + templatePath, project.MSG_VERBOSE);
                 ve.setProperty(
                     ve.FILE_RESOURCE_LOADER_PATH, templatePath);
             }
 
             if (useClasspath)
             {
-            	log("Using classpath");
+                log("Using classpath");
                 ve.addProperty(
                     VelocityEngine.RESOURCE_LOADER, "classpath");
 
