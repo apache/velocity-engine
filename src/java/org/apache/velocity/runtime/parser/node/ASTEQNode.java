@@ -29,7 +29,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  This operator requires that the LHS and RHS are both of the
  *  same Class.
  *
- *  @version $Id: ASTEQNode.java,v 1.11 2004/03/19 17:13:36 dlr Exp $
+ *  @version $Id$
  */
 public class ASTEQNode extends SimpleNode
 {
@@ -65,7 +65,7 @@ public class ASTEQNode extends SimpleNode
      *          false if not compatible arguments, or false
      *          if either LHS or RHS is null
      */
-    public boolean evaluate( InternalContextAdapter context)
+    public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
     {
         Object left = jjtGetChild(0).value(context);
@@ -115,9 +115,6 @@ public class ASTEQNode extends SimpleNode
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
-        boolean val = evaluate(context);
-
-        return val ? Boolean.TRUE : Boolean.FALSE;
+        return evaluate(context) ? Boolean.TRUE : Boolean.FALSE;
     }
-
 }
