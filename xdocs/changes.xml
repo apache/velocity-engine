@@ -144,7 +144,23 @@
     Also added AvalonLogSystem switch to allow user to simply
     specify by name a logger from the existing hierarchy.  Thanks to 
     Carsten Ziegeler.  (gmj)
-  </li>
+   </li>
+   <li> 
+    Texen enhancement - allow to use template resources from
+    a jar.  (jvz)
+   </li>
+   <li>
+     Allow proper propagation of VelocityExceptions (RNFE, PEE, and MIE)
+     from #parse() and #include(), where appropriate. (gmj)
+   </li>
+   <li>
+      Bug fix to allow formal reference to be passed into VMs. (gmj)
+   </li>
+   <li>
+      Provisional revamping of Introspector to allow dump of cache
+      when classloader change is detected, by Attila Szegedi
+      and Paulo Gaspar.  (gmj)
+    </li>
 </ul>
 </subsection>
 
