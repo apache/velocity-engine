@@ -62,6 +62,7 @@
                                    test-externallogger,
                                    test-methodinvocationexception,   
                                    test-multiloader,
+                                   test-encoding,
                                    test-anakia,
                                    test-texen
                                    "/>
@@ -71,6 +72,17 @@
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TemplateTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
+
+  <target name="test-encoding">
+    <echo message="Running Template encoding test..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.EncodingTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
