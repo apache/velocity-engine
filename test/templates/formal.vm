@@ -29,3 +29,8 @@ ${provider.Title}.map.${provider.Title}MapBuilder
 ${this}${that}
 
 ${provider.getTitle()}
+
+$provider.getHashtable().get( "key0")
+$provider.getHashtable().get("key1" )
+$provider.getHashtable().get(   "key2"                 )
+$provider.getHashtable().get("floogie!")
