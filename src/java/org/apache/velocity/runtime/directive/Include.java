@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.directive;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,15 +54,13 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.runtime.directive;
-
 import java.io.*;
 
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.Context;
-import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -94,7 +94,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.11 2000/12/11 19:42:12 jon Exp $
+ * @version $Id: Include.java,v 1.12 2000/12/19 05:32:05 jvanzyl Exp $
  */
 public class Include extends Directive
 {
@@ -136,7 +136,8 @@ public class Include extends Directive
 
             Node n = node.jjtGetChild(i);
 
-            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL || n.getType() ==  ParserTreeConstants.JJTREFERENCE )
+            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL || 
+                 n.getType() ==  ParserTreeConstants.JJTREFERENCE )
             {
                 if (!renderOutput( n, context, writer ))
                     outputErrorToStream( writer, "error with arg " + i + " please see log.");
@@ -185,65 +186,21 @@ public class Include extends Directive
          */
         arg = value.toString();
 
-        /*
-         *  everything must be under the template root TEMPLATE_PATH
-         */        
-        String[] includePaths = Runtime.getIncludePaths();
-        
-        /*
-         *  for security, we will not accept anything with .. in the path
-         */
-        arg = StringUtils.normalizePath(arg);
-        if ( arg == null || arg.length() == 0 )
-        {
-            Runtime.error( "#include() error : argument " + arg + 
-                " contains .. and may be trying to access " + 
-                "content outside of template root.  Rejected." );
-            return false;
-        }
-
-        /*
-         *  if a / leads off, then just nip that :)
-         */
-        if ( arg.startsWith("/") )
-            arg = arg.substring(1);
-        
-        /*
-         * Try to locate the file in all of the possible
-         * locations. If we can't even find a trace of existence
-         * report the problem and leave.
-         */
-        File file = null;
-        for (int i = 0; i < includePaths.length; i++)
-        {
-            file = new File(includePaths[i], arg);            
-            if (file.exists())
-                break;
-            else
-                file = null;
-        }
-    
-        if (file == null)
-        {
-            Runtime.error("#include() : " + arg + " doesn't exist!");
-            return false;
-        }            
+        Resource resource = null;
         
         try
         {
-            BufferedReader reader = new BufferedReader( new FileReader(file.getAbsolutePath()));
-            
-            char buf[] = new char[1024];
-            int len = 0;
-            
-            while ( ( len = reader.read( buf, 0, 1024 )) != -1)
-                writer.write( buf, 0, len );
+            resource = Runtime.getContent(arg);
         }
-        catch ( Exception e ) 
+        catch (Exception e)
         {
-            Runtime.error("#include() : " + e.toString() );
+            Runtime.error("#include : cannot find " + arg + " template!");
+        }            
+        
+        if ( resource == null )
             return false;
-        }
+       
+        writer.write((String)resource.getData());       
         return true;
     }
 
