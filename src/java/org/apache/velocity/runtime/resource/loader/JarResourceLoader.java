@@ -102,7 +102,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.14 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: JarResourceLoader.java,v 1.15 2002/01/02 09:03:17 dlr Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -224,7 +224,7 @@ public class JarResourceLoader extends ResourceLoader
 
         if ( source == null || source.length() == 0)
         {
-            throw new ResourceNotFoundException ("Need to a resource!");
+            throw new ResourceNotFoundException("Need to have a resource!");
         }
         
         String normalizedPath = StringUtils.normalizePath( source );
