@@ -274,15 +274,151 @@ This deployment method will ensure that different web applications will not be s
 Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties contained
  in Velocity's jar, found in
 /src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  This ensures that Velocity will always have a 'correct' value
-for it's configuration and startup. 
+for it's configuration and startup, although it may not be what you want. 
 </P>
-<P align="justify">  Any properties then specified at init() time will replace the  default values.  This ensures that you only have to
+<P align="justify">  Any properties then specified at init() time will replace the  default values.  Therefore, you only have to
 configure velocity with the properties that you need to change, and not worry about the rest.  Further, as we add more 
 features and configuration capability, you don't have to change your configuration files to suit - the Velocity engine will
  always have default values.
 </P>
+
 <P align="justify">
-describe properties here
+Below are listed the properties that control Velocity's behavior.  Organized by category, each property is listed with it's current default value 
+to the right of the '=' sign.
+</P>
+
+<B>Runtime Log</B>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">runtime.log = velocity.log</FONT></CODE><BR>
+ Full path and name of log file for error, warning, 
+and informational messages.  The location, if not absolute, is relative to the 'current directory'.
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">runtime.log.error.stacktrace = false</FONT></CODE><BR>
+<CODE><FONT face="courier, monospaced">runtime.log.warn.stacktrace = false</FONT></CODE><BR>
+<CODE><FONT face="courier, monospaced">runtime.log.info.stacktrace = false</FONT></CODE><BR>
+ Turns on stacktracing for the three error categories.  These produce a large 
+amount of log output.
+</P>
+
+<B>Encoding and Content Type</B>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">template.encoding = 8859_1</FONT></CODE><BR>
+ Encoding scheme to use.  Currently used in VelocityServlet.
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">default.contentType = text/html</FONT></CODE><BR>
+Content type, currently used in VelocityServlet.
+</P>
+
+<B> #foreach() Directive </B>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">counter.name = velocityCount</FONT></CODE><BR>
+Used in the #foreach() directive, defines the string to be used as the context key for the loop count. A template would access
+the loop count as $velocityCount.
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">counter.initial.value = 1</FONT></CODE><BR>
+Default starting value for the loop counter reference in a #foreach() loop.
+</P>
+
+<B> #include() and #parse() Directive </B>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">include.output.errormsg.start =  &lt;!-- include error :  </FONT></CODE><BR>
+<CODE><FONT face="courier, monospaced">include.output.errormsg.end   =   see error log --&gt; </FONT></CODE><BR>
+Defines the beginning and ending tags for an in-stream error message in the case of a problem with the #include() directive.
+If both the .start and .end tags are defined, an error message will be output to the stream, of the form '.start msg .end' where .start and .end refer to the property values.  
+Output to the render stream will only occur if both the .start and .end (next) tag are defined. 
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">parse_directive.maxdepth = 10</FONT></CODE><BR>
+Defines the allowable parse depth for a template. A template may #parse() another template which itself may have a #parse() directive.  This value prevents runaway #parse() recursion.
+</P>
+
+<B> Resource Management </B>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.public.name = File</FONT></CODE><BR>
+Pulic name of the file resource loader, to allow application software to alter propertes 
+of a loader by name rather than the 'load number',
+the integer following 'loader'.  This allows the administration of resource loaders to be decoupled from the application uses.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.description = Velocity File Resource Loader</FONT></CODE><BR>
+Description string for the loader.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader</FONT></CODE><BR>
+Name of implementation class for the loader.  The default loader is the file loader.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.resource.path = .</FONT></CODE><BR>
+Root from which the file loader loads templates. Templates may live in subdirectories of this root.  ex. homesite/index.vm
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.cache = false</FONT></CODE><BR>
+Controls caching of the templates in the loader.  Default is false, to make life easy for development and debugging.  This should
+be set to true for production deployment.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">resource.loader.1.modificationCheckInterval = 2</FONT></CODE><BR>
+</P>
+
+<B>Velocimacro</B>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.library.global = VM_global_library.vm </FONT></CODE><BR>
+Name of one of two default libraries of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all 
+templates.  The file is assumed to be relative to the root of the file loader resource path.
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.library.local = [no default value] </FONT></CODE><BR>
+The 'other' default library of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all 
+templates.  The file is assumed to be relative to the root of the file loader resource path.
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.permissions.allowInline = true</FONT></CODE><BR>
+Determines of the definition of new VMs via the #macro() directive in templates is allowed.  The default value is true, meaning any
+template can define and use new VMs.  Note that depending on other properties, those #macro() statements can replace global
+definitions.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.permissions.allowInlineToReplaceGlobal = false </FONT></CODE><BR>
+</P>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.permissions.allowInlineLocalScope = false</FONT></CODE><BR>
+Controls 'private' templates namespaces for VMs.  When true, a #macro() directive in a template creates a VM that is accessable
+only from the defining template.  This means that VMs cannot be shared unless they are in the global or local library loaded 
+at startup. (See above.)  It also means that templates cannot interfere with each other.  This property also allows a technique
+where there is a 'default' VM definition in the global or local library, and a template can 'override' the implementation for 
+use within that template.  This occurrs because when this property is true, the template's namespace is searched for a VM before
+the global namespace, therefore allowing the override mechanism.
+</P>
+<P align="justify">
+<CODE><FONT face="courier, monospaced">velocimacro.context.localscope = false</FONT></CODE><BR>
+Controls whether reference access (set/get) within a Velocimacro will change the context, or be of local scope in that 
+VM.
+</P>
+
+<B>References</B>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">runtime.log.reference.log_invalid = true </FONT></CODE><BR>
+Property to turn off the log output when a reference isn't valid.  Good thing to turn of in production, but very valuable
+for debugging.
+</P>
+
+<B>String Interpolation</B>
+
+<P align="justify">
+<CODE><FONT face="courier, monospaced">stringliterals.interpolate = true</FONT></CODE><BR>
+Controls interpolation mechanism of VTL String Literals.  Note that a VTL StringLiteral is specifically a string using double quotes that is used in a #set() statement, a method call of a reference, a parameter to a VM, or as an argument to a VTL directive in general.  See the VTL reference for further information.
 </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
