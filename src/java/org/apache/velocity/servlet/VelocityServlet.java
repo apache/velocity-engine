@@ -60,6 +60,8 @@ import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 
+import java.util.Stack;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -96,7 +98,7 @@ import org.apache.velocity.io.*;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.13 2000/11/04 03:08:51 jon Exp $
+ * $Id: VelocityServlet.java,v 1.14 2000/11/04 04:58:42 jon Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -131,6 +133,11 @@ public abstract class VelocityServlet extends HttpServlet
      */
     private static final String INIT_PROPS_KEY = "properties";
 
+    /**
+     * Cache of writers
+     */
+    private static Stack writerStack = new Stack();
+    
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
      * container on loading.
@@ -206,7 +213,7 @@ public abstract class VelocityServlet extends HttpServlet
     {
         ServletOutputStream output = response.getOutputStream();
         String contentType = null;
-        Writer vw = null;
+        JspWriterImpl vw = null;
         
         try
         {
@@ -234,10 +241,22 @@ public abstract class VelocityServlet extends HttpServlet
             if ( template == null )
                 throw new Exception ("Cannot find the template!" );
             
-            //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
-            vw = new JspWriterImpl(response, 4*1024, true);
+            try
+            {
+                vw = (JspWriterImpl) writerStack.pop();
+            }
+            catch (Exception e)
+            {
+                // do nothing
+            }
+            if (vw == null)
+                vw = new JspWriterImpl(new OutputStreamWriter(output, encoding), 4*1024, true);
+            else
+                vw.recycle(new OutputStreamWriter(output, encoding));
             template.merge( context, vw);
+            writerStack.push(vw);
 
+            //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
         }
         catch (Exception e)
         {
@@ -251,7 +270,7 @@ public abstract class VelocityServlet extends HttpServlet
                 if (vw != null)
                 {
                     vw.flush();
-                    vw.close();
+                    output.close();
                 }                
             }
             catch (Exception e)

@@ -56,8 +56,7 @@ package org.apache.velocity.test.misc;
 
 import java.io.*;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.*;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
@@ -71,13 +70,19 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.3 2000/11/04 02:41:57 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.4 2000/11/04 04:58:52 jon Exp $
  */
 public class Test
 {
+    /**
+     * Cache of writers
+     */
+    private static Stack writerStack = new Stack();
+
     public Test(String templateFile)
     {
-        Writer writer = null;
+//        Writer writer = null;
+        JspWriterImpl vw = null;
         TestProvider provider = new TestProvider();
         ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
@@ -103,24 +108,56 @@ public class Test
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
 
-            writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            template.merge(context, writer);
+//            writer = new BufferedWriter(new OutputStreamWriter(System.out));
+//            template.merge(context, writer);
+            try
+            {
+                vw = (JspWriterImpl) writerStack.pop();
+            }
+            catch (Exception e)
+            {
+            }
+            if (vw == null)
+                vw = new JspWriterImpl(new OutputStreamWriter(System.out), 4*1024, true);
+            else
+                vw.recycle(new OutputStreamWriter(System.out));
+            template.merge(context, vw);
+            writerStack.push(vw);
 
-            writer.flush();
-            writer.close();
         }
         catch( Exception e )
         {
             Runtime.error(e);
+        }
+        finally
+        {
+            try
+            {
+                if (vw != null)
+                {
+                    vw.flush();
+                }                
+            }
+            catch (Exception e)
+            {
+                // do nothing
+            }
         }
     }
 
     public static void main(String[] args)
     {
         Test t;
+        /*
         if (args.length > 0)
             t = new Test(args[0]);
         else
             t = new Test(null);
+*/
+            t = new Test(null);
+            t = new Test(null);
+            t = new Test(null);
+            t = new Test(null);
+            
     }
 }
