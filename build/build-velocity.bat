@@ -58,8 +58,7 @@ if exist %JAVA_HOME%\lib\tools.jar set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\too
 
 echo Now building %TARGET%...
 
-set
-CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%
+set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%
 
 echo Classpath: %CP%
 echo JAVA_HOME: %JAVA_HOME%
