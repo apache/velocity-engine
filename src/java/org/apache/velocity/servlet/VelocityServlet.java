@@ -84,6 +84,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.app.HttpServletRequestWrap;
+import org.apache.velocity.app.HttpServletResponseWrap;
 import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -125,7 +126,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.26 2001/03/16 04:50:57 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.27 2001/03/16 23:06:18 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -462,7 +463,7 @@ public abstract class VelocityServlet extends HttpServlet
          */
            
         context.put( REQUEST, new HttpServletRequestWrap( request ) );
-        context.put( RESPONSE, response );
+        context.put( RESPONSE, new HttpServletResponseWrap( response ) );
 
         return context;
     }
