@@ -2246,35 +2246,55 @@ $count
     reducing the chance of error, and ensures that a single change to a
     macro available to more than one template.
     </p>
+                                                <strong>Velocimacro Properties</strong>
                                                 <p>
     Several lines in the <code>velocity.properties</code> file allow for
     flexible implementation of Velocimacros:
     </p>
                                                 <p>
     <code>velocimacro.library</code> - A comma-separated list of all 
-    Velocimacro template libraries. By default, Velocity comes with a 
-    single library: <em>VM_global_lib.vm</em>. All template libraries
+    Velocimacro template libraries. By default, Velocity looks for
+    a single library: <em>VM_global_lib.vm</em>. All template libraries
     in the list must be found in the template path.
     </p>
                                                 <p>
-    <code>velocimacro.permissions.allowInline</code> - This property,
+    <code>velocimacro.permissions.allow.inline</code> - This property,
     which has possible values of true or false, determines whether
     Velocimacros can be defined in regular templates. The default,
-    false, limits template designers to defining Velocimacros in the
-    Velocimacro template libraries.
+    true, allows template designers to define Velocimacros in the
+    templates themselves.
     </p>
                                                 <p>
-    <code>velocimacro.permissions.allowInlineToOverride</code> - When
-    Velocimacros can be defined in both Velocimacro template libraries
-    and in regular templates, it becomes possible for a Velocimacro to
-    be defined more than once. With possible values of true or false,
-    this property allows the user to specify which Velocimacro will take
-    precedence over the other. The default, <code>false</code>, allows
-    Velocimacros defined in the template libraries to take
-    precedence over those defined in regular templates.
+    <code>velocimacro.permissions.allow.inline.to.override</code> -
+     With possible values of true or false,
+    this property allows the user to specify if a  Velocimacro defined
+    inline in a template can replace a globally defined template, one 
+    that was loaded on startup via the <code>velocimacro.library</code>
+    property. The default, <code>false</code>, prevents
+    Velocimacros defined inline in a template from replacing those
+    defined in the template libraries loaded at startup.
     </p>
                                                 <p>
-    Were the <em>#tablerows</em> Velocimacro defined in a
+    <code>velocimacro.permissions.allow.inline.local.scope</code> - This
+    property, with possible values of true or false, defaulting to false,
+    controls if Velocimacros defined inline are 'visible' only to the 
+    defining template.  In other words, with this property set to true,
+    a template can define inline VMs that are usable only by the defining
+    template.  You can use this for fancy VM tricks - if a global VM calls
+    another global VM, with inline scope, a template can define a
+    private implementation of the second VM that will be called by the
+    first VM when invoked by that template.  All other templates
+    are unaffected.
+    </p>
+                                                <p>
+    <code>velocimacro.context.localscope</code> - This property has the
+    possible values true or false, and the default is false.  When true,
+    any modifications to the context via #set() within a Velocimacro
+    are considered 'local' to the Velocimacro, and will not
+    permanently affect the context.
+    </p>
+                                                <p>
+    Were the <em>#tablerows($color $list)</em> Velocimacro defined in a
     Velocimacros template library, this macro could be used on any of
     the regular templates. It could be used many times and for many
     different purposes. In the template <code>mushroom.vm</code> devoted
@@ -2441,6 +2461,21 @@ $count
     </tr>
     </table>
     </div>
+                                                <strong>Velocimacro Trivia</strong>
+                                                <p>
+    Currently, Velocimacros must be defined before they are first 
+    used in a template.  This means that your #macro() declarations 
+    should come before using the Velocimacros.
+    </p>
+                                                <p>
+    This is important to remember if you try to #parse() 
+    a template containing inline #macro() directives.  Because
+    the #parse() happens at runtime, and the parser decides if
+    a VM-looking element in the template is a VM at parsetime, 
+    #parse()-ing a set of VM declarations won't work as expected.
+    To get around this, simply use the <code>velocimacro.library</code>
+    facility to have Velocity load your VMs at startup.
+    </p>
                             </blockquote>
       </td></tr>
     </table>
