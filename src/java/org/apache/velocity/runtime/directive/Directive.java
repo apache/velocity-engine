@@ -65,12 +65,34 @@ import org.apache.velocity.runtime.parser.node.Node;
  */
 public abstract class Directive implements DirectiveConstants,Cloneable
 {
+    private int line = 0;
+    private int column = 0;
+
     /** Return the name of this directive */
     public abstract String getName();
     
     /** Get the directive type BLOCK/LINE */
     public abstract int getType();
+
+    /** Allows the template location to be set */
+    public void setLocation( int line, int column )
+    {
+        this.line = line;
+        this.column = column;
+    }
+
+    /** for log msg purposes */
+    public int getLine()
+    {
+        return line;
+    }
     
+    /** for log msg purposes */
+    public int getColumn()
+    {
+        return column;
+    }     
+
     /**
      * How this directive is to be initialized.
      */
