@@ -55,6 +55,7 @@ package org.apache.velocity.test;
  */
 
 import java.io.File;
+import org.apache.velocity.anakia.AnakiaTask;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.util.StringUtils;
 import junit.framework.TestCase;
@@ -64,32 +65,33 @@ import junit.framework.TestCase;
  * generative task and compares the output.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TexenTestCase.java,v 1.5 2001/08/29 01:56:43 jvanzyl Exp $
+ * @version $Id: TexenClasspathTestCase.java,v 1.1 2001/08/29 01:56:43 jvanzyl Exp $
  */
-public class TexenTestCase extends BaseTestCase
+public class TexenClasspathTestCase 
+    extends BaseTestCase
 {
     /**
      * Directory where results are generated.
      */
-    private static final String RESULTS_DIR = "../test/texen/results";
+    private static final String RESULTS_DIR = "../test/texen-classpath/results";
 
     /**
      * Directory where comparison output is stored.
      */
-    private static final String COMPARE_DIR = "../test/texen/compare";
+    private static final String COMPARE_DIR = "../test/texen-classpath/compare";
 
     /**
      * Creates a new instance.
      *
      */
-    public TexenTestCase()
+    public TexenClasspathTestCase()
     {
-        super("TexenTestCase");
+        super("TexenClasspathTestCase");
     }
 
     public static junit.framework.Test suite()
     {
-        return new TexenTestCase();
+        return new TexenClasspathTestCase();
     }
 
     /**
