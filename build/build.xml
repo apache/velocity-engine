@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.2-rc3"/>
+  <property name="version" value="1.2"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -22,6 +22,7 @@
   <property name="src.java.dir" value="../src/java"/>
   <property name="javadoc.destdir" value="../docs/api"/>
   <property name="final.name" value="${project}-${version}"/>
+  <property name="final.dep.name" value="${project}-dep-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
   <property name="year" value="2001"/>
@@ -34,11 +35,9 @@
   <property name="docs.src" value="../xdocs"/>
     
   <property name="log.jar" value="lib/logkit-1.0.jar"/>
-  <property name="jdom.jar" value="lib/jdom-b6.jar"/>
+  <property name="jdom.jar" value="lib/jdom-b7.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="servlet.jar" value="lib/servlet.jar"/>
-  <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
-  <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
   <property name="junit.jar" value="lib/junit-3.7.jar"/>
   <property name="collections.jar" value="lib/commons-collections.jar" />
 
@@ -267,7 +266,7 @@
  
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
-    <jar jarfile="${build.dir}/${project}-dep-${version}.jar">
+    <jar jarfile="${build.dir}/${final.dep.name}.jar">
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -284,7 +283,7 @@
   <!-- =================================================================== -->
   <target name="jar" depends="compile">
          
-    <jar jarfile="${build.dir}/${project}-${version}.jar">
+    <jar jarfile="${build.dir}/${final.name}.jar">
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -486,7 +485,7 @@
   <!-- =================================================================== -->
   <target name="package" depends="javadocs-clean,
                                examples-clean-anakia,
-                               test-clean,jar,javadocs">
+                               test-clean,clean,jar,jar-dep,javadocs">
         
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
@@ -549,11 +548,21 @@
       file="../README.txt" 
       tofile="${dist.dir}/README.txt"
     />
+  
+   <copy 
+      file="../WHY_TWO_JARS.txt" 
+      tofile="${dist.dir}/WHY_TWO_JARS.txt"
+    />
     
     <copy 
       file="${build.dir}/${final.name}.jar" 
       tofile="${dist.dir}/${final.name}.jar"
     />
+
+    <copy
+      file="${build.dir}/${final.dep.name}.jar"
+      tofile="${dist.dir}/${final.dep.name}.jar"
+   />
 
     <fixcrlf srcdir="${dist.dir}"
        cr="add"
