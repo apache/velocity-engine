@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.5 2000/11/25 15:12:51 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.6 2000/11/26 19:38:27 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -76,6 +76,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
@@ -276,20 +277,41 @@ public class VelocimacroProxy extends  Directive
     
         while( i <  iNumArgs ) 
         {
-            t = node.jjtGetChild(i).getFirstToken();
-            tLast = node.jjtGetChild(i).getLastToken();
-            strArgs[i] = "";
+           strArgs[i] = "";
 
-            while( t != tLast ) 
+            /*
+             *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched 
+             *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
+             */
+
+            if ( node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
-                strArgs[i] += t.image;
-                t = t.next;
+                strArgs[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
             }
-            
-            strArgs[i] += t.image;
+            else
+            {
+                /*
+                 *  just wander down the token list, concatenating everything together
+                 */
+
+                t = node.jjtGetChild(i).getFirstToken();
+                tLast = node.jjtGetChild(i).getLastToken();
+ 
+                while( t != tLast ) 
+                    {
+                        strArgs[i] += t.image;
+                        t = t.next;
+                    }
+
+                /*
+                 *  don't forget the last one... :)
+                 */
+
+                strArgs[i] += t.image;
+            }
             i++;
          }
-	      
+
         return strArgs;
     }
    
