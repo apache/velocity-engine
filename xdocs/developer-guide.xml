@@ -54,7 +54,8 @@
 <li><a href="developer-guide.html#velocityclass">The Velocity Helper Class</a></li>
 <li><a href="developer-guide.html#exceptions">Exceptions</a></li>
 <li><a href="developer-guide.html#generalmisc">Miscellaneous</a></li>
-</ul></li>
+</ul>
+</li>
 
 <li>
 <a href="developer-guide.html#config">Configuration Keys and Values</a>
@@ -62,6 +63,20 @@
 
 <li>
 <a href="developer-guide.html#logging">Configuring the Log System</a>
+ <ul>
+  <li>
+    <a href="developer-guide.html#customlogging">Simple Example of a Custom Logger</a>
+  </li>
+ </ul>
+</li>
+
+<li>
+<a href="developer-guide.html#loaders">Configuring the Resource Loaders (template loaders)</a>
+<ul>
+  <li>
+    <a href="developer-guide.html#resourceexamples">Configuration Examples</a>
+  </li>
+ </ul>
 </li>
 
 <li>
@@ -140,7 +155,7 @@ root of the Velocity distribution tree.
       <li>
         <code>jar-j2ee</code> builds a complete jar, like the 'jar' target,
         that includes any components that require J2EE support. Currently, this
-        includes only org.apache.velocity.runtime.resource.loader.DataResourceLoader.
+        includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
         As usual, it is placed in the  <code>bin</code> directory, called
         'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
         must place (or link) a copy of j2ee.jar into the build/lib directory.
@@ -1312,6 +1327,22 @@ in a #set() statement, a method call of a reference, a parameter to a VM,
 or as an argument to a VTL directive in general.  See the VTL reference for 
 further information.
 </p>
+
+<strong>Runtime Configuration</strong>
+<p>
+<code>parser.pool.size = 20</code><br/>
+This property sets the number of parsers that Velocity will
+create at startup and keep in a pool.  The default of 20 parsers
+should be more than enough for most uses.  In the event 
+that Velocity does run out of parsers, it will indicate 
+so in the log, and
+dynamically create them as needed.  Note that they will not
+be added to the pool.  This is a slow operation compared to 
+the normal parser pooling, but this is considered an 
+exceptional condition.  If you see a log message, please
+increment this property.
+</p>
+
 </section>
 
 <section name="Configuring the Log System">
@@ -1365,8 +1396,273 @@ as well as the
 </ul>
 </p>
 
+<p>
+Making a custom logger class if very simple.  The code below is a 
+simple sketch of how you might do this in your own application.
+</p>
+
+<strong>Simple Example of a Custom Logger</strong>
+<a name="customlogging"></a>
+<p>
+Here is a simple example of how to integrate Velocity's logging system into your own application.  
+</p>
+<source><![CDATA[
+
+import org.apache.velocity.runtime.log.LogSystem;
+
+...
+
+public class MyClass implements LogSystem
+{
+
+...
+
+    public MyClass()
+    {
+        ...
+
+        try
+        {
+            /*
+             *  register this class as a logger
+             */
+            
+            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
+            Velocity.init();
+        }
+        catch (Exception e)
+        {
+            /*
+             *  do something
+             */
+        }             
+    }
+
+    /**
+     *  This is the method that you implement for Velocity to call
+     *  with log messages.
+     */
+    public void logVelocityMessage(int level, String message)
+    {
+        /*  do something useful */
+    }
+...
+}
+            
+]]></source>
+
 </section>
 
+<section name="Configuring Resource Loaders">
+<a name="loaders"></a>
+
+<p>
+One of the fundamental and important parts about Velocity is the resource 
+management system and the resource loaders.  They are referred to as 'resources'
+here rather than 'templates' because the resource management system will also 
+handle non-template reasources, specifically things that are loaded via the
+#include() directive.
+</p>
+
+<p>
+The resource loader system if very flexible, allowing one or more resource
+loaders to be in operation at the same time.  This allows tremendous 
+flexibility in configuration and resource managment, and futher allows you
+to write your own resource loaders for your special needs.
+</p>
+
+<p>
+There are currently four kinds of resource loaders that are included with Velocity,
+each described below.  Note that in the example configuration properties given,
+a common name for the loader is shown 
+(ex.'file' in <code>file.resource.loader.path</code>). This 'common name'
+may not work for your configuration. Please read the section on
+<a href="developer-guide.html#config">resource configuration properties</a>
+ to understand how this system works.  Also, each of these loaders is
+located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
+<ul>
+<li>
+  <b>FileResourceLoader :</b> This loader gets resources from the filesystem. It's 
+  configuration properties include :
+  <ul>
+    <li>
+      <code>file.resource.loader.path</code> = &lt;path to root of templates&gt;
+    </li>
+    <li>
+      <code>file.resource.loader.cache</code> = true/false
+    </li>
+    <li>
+      <code>file.resource.loader.modificationCheckInterval</code> = &lt;seconds between checks&gt;
+    </li>
+  </ul>
+  This is the default loader, and is configured, by default to get templates from the
+  'current directory'.  In the case of using Velocity with servlets, this can be a problem
+  as you don't want to have to keep your templates in the directory from which you start
+  your servlet engine.  Please see the section on 
+  <a href="developer-guide.html#servlets"> developing servlets with Velocity</a>
+   for more information.
+</li>
+<li>
+  <b>JarResourceLoader :</b> This loader gets resource from specific jar files.  It is very 
+  similar to the FileResourceLoader, except that you have the convenience of bundling
+  your templates into jars.  The properties are identical, except for
+  <code>jar.resource.loader.path</code>, where you provide the full location of 
+  the jar(s) you wish to load resources from.
+</li>
+<li>
+  <b>ClasspathResourceLoader :</b> This loader gets resources from the classloader.  While the 
+  classpath is a source of great pain and suffering in general, it is a very useful
+  mechanism when working on a Servlet Spec 2.2 compliant servler runner.  
+  <a href="http://jakarta.apache.org/tomcat/">Tomcat 3.2</a>
+  is an example of such.  To use this loader effectively, all you must do is 
+  jar your templates, and put that jar into the WEB-INF/lib directory of your
+  webapp.  There are no configuration options to worry about, nor is the absolute vs.
+  relative path an issue, as it is with Jar and File resource loaders.
+</li>
+
+<li>
+  <b>DataSourceResourceLoader :</b>  This loader will load resources from a DataSource
+such as a database.  This loader is not built as part of the standard build
+as it requires J2EE support.  To build this loader, please download the J2EE
+distribution, move the j2ee.jar into the <code>build/lib</code> directory,
+and then build the new velocity jar with the <code>jar-j2ee</code> build target.
+For more information on this loader, please see the javadoc for the class
+<code>org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader</code>.
+</li>
+
+</ul>
+</p>
+
+<strong>Configuration Examples</strong>
+<a name="resourceexamples"></a>
+
+<p>
+Configuring the resource loaders for Velocity is straightforward. 
+The properties that control the are listed in the 
+<a href="developer-guide.html#config">resource configuration</a>
+section, for further reference.
+</p>
+
+<p>
+The first step in configuring one or more resource loaders is do 
+'declare' them by name to Velocity.  Use the property 
+<code>resource.loader</code> and list one or more loader names.
+You can use anything you want - these names are used to associate
+configuration properties with a given loader.
+</p>
+
+<source><![CDATA[
+
+  resource.loader = file
+
+]]></source> 
+
+
+<p>
+That entry declares that we will have a resource loader known as 'file'.  
+The next thing to do is to set the important properties.  The most critical 
+is to declare the class to use as the loader :
+</p>
+
+<source><![CDATA[
+
+  file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
+
+]]></source> 
+
+<p>
+In this case, we are telling velocity that we are setting up 
+a resource loadercalled 'file', and are using the class
+<code>
+org.apache.velocity.runtime.resource.loader.FileResourceLoader
+</code>
+to be the class to use.
+The next thing we do is set the properties important 
+to this loader.
+</p>
+
+<source><![CDATA[
+file.resource.loader.path = /opt/templates
+file.resource.loader.cache = true
+file.resource.loader.modificationCheckInterval = 2
+]]></source> 
+
+<p>
+Here, we set a few things.  First, we set the path to find 
+the templates to be <code>/opt/templates</code>.  Second, we
+turned caching on, so that after a template or static file
+is read in, it is cached in memory.  And finally, we set
+the modification check interval to 2 seconds, allowing Velocity
+to check for new templates.
+</p>
+
+<p>
+Those are the basics.  What follows are a few examples of different configuraitons.
+</p>
+
+<p>
+<b>Do-nothing Default Configuration : </b> As the name says, there is nothing
+you have to do or configure to get the default configuration.  This configuration
+uses the FileResourceLoader with the current directory as the default resource
+path, and caching is off.  As a properties set, this is expressed as :
+</p>
+
+<source><![CDATA[
+resource.loader = file
+
+file.resource.loader.description = Velocity File Resource Loader
+file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
+file.resource.loader.path = .
+file.resource.loader.cache = false
+file.resource.loader.modificationCheckInterval = 0
+]]></source> 
+
+<p>
+<b>Multiple Template Path Configuration : </b> This configuration
+uses the FileResourceLoader with several directories as 'nodes' on the
+template search path. We also want to use caching, and have the templates
+checked for changes in 10 second intervals.  As a properties set, this is expressed as :
+</p>
+
+<source><![CDATA[
+resource.loader = file
+
+file.resource.loader.description = Velocity File Resource Loader
+file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
+file.resource.loader.path = /opt/directory1, /opt/directory2
+file.resource.loader.cache = true
+file.resource.loader.modificationCheckInterval = 10
+]]></source> 
+
+<p>
+<b>Dual Loader Configuration :</b>  This configuration sets up 
+two loaders at the same time, the FileResourceLoaderm, and 
+the ClasspathResourceLoader. The loaders are set-up such that the 
+FileResourceLoader is consulted first, and then the 
+ClasspathResourceLoader.  This would allow you to qickly 
+drop a template into the file template are to replace on of the
+templates found in the classpath (usually via a jar) without
+having to rebuild the jar.
+</p>
+
+<source><![CDATA[
+resource.loader = file, class
+
+file.resource.loader.description = Velocity File Resource Loader
+file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
+file.resource.loader.path = .
+file.resource.loader.cache = false
+file.resource.loader.modificationCheckInterval = 0
+
+class.resource.loader.description = Velocity Classpath Resource Loader
+class.resource.loader.class = org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+]]></source> 
+
+<p>
+Note that the ClasspathResourceLoader doesn't require much configuration.
+</p>
+
+</section>
 
 <section name="Summary">
 <a name="summary"></a>
