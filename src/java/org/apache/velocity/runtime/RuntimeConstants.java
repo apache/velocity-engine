@@ -109,4 +109,21 @@ public interface RuntimeConstants
      */
     public static String INTERPOLATE_STRINGLITERALS = "stringliterals.interpolate";
 
+    /** name of global Velocimacro library template */
+    public static final String VM_GLOBAL_LIBRARY = "velocimacro.library.global";
+
+    /** name of local Velocimacro library template */
+    public static final String VM_LOCAL_LIBRARY  = "velocimacro.library.local";
+
+    /** boolean (true/false) default true : allow inline (in-template) macro definitions */
+    public static final String VM_PERM_ALLOW_INLINE  = "velocimacro.permissions.allowInline";
+
+    /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing */
+    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = "velocimacro.permissions.allowInlineToReplaceGlobal";
+    
+    /** switch for forcing inline macros to be local : default false */
+    public final static String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allowInlineLocalScope";
+
+    /** switch for VM blather : default true  */
+    public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
 }
