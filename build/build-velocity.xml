@@ -37,8 +37,12 @@
         <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
         <property name="junit.jar" value="lib/junit-3.2.jar"/>
 
-        <!-- PDF generation using FOP -->
-
+        <!-- Forum demo build information -->
+        <property name="demo.base" value="../examples/forumdemo"/>
+        <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
+        <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
+                
+         <!-- PDF generation using FOP -->
         <property name="xdocs.dir" value="../xdocs"/>
         <property name="allfiles.xml" value="velocity-doc.xml"/>
         <property name="outfile.fo" value="velocity.fo"/>
@@ -229,4 +233,39 @@
 
     </target>
 
+    <!-- =================================================================== -->
+    <!-- Forum Demo Web App                                                  -->
+    <!-- =================================================================== -->
+    <target name="builddemo" depends="compile">
+       
+       <echo message="**************************************************"/>
+       <echo message="** Building the Forum demo ..."/>
+       <echo message="** Remember to set the PATH in Velocity.properties"/>
+       <echo message="** once you move the WAR to your Servlet engine."/>
+       <echo message="**************************************************"/>
+              
+        <javac srcdir="${demo.src}"
+            destdir="${demo.dest}"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            classpath="${build.dest}"
+            optimize="${optimize}"/>
+            
+            <copy todir="${demo.dest}">
+                <fileset dir="${build.dest}"
+                    includes="**/*.class"/>
+            </copy>
+            
+             <jar jarfile="${build.dir}/forumdemo.war"
+                basedir="${demo.base}"
+                excludes="**/package.html"/>
+    </target>
+
+    <!-- Delete the demo files for re-build -->
+    <target name="cleandemo" depends="init">
+        <delete dir="${demo.dest}/org"/>
+        <delete file="${build.dir}/forumdemo.war"/>
+    </target>
+    
 </project>
+
