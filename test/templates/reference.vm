@@ -15,3 +15,8 @@ $_foo
    \$_foo equals "bar" : $_foo
 #end
 
+Late introspection :
+
+$vector.firstElement().length()
+
+
