@@ -17,4 +17,9 @@ lunatic.map.lunaticMapBuilder
 
 thisthat
 
-lunatic}
+lunatic
+
+value0
+value1
+value2
+$provider.getHashtable().get("floogie!")
