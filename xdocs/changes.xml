@@ -36,6 +36,9 @@ Changes to version 1.0
   <li> 
     Small fix to ASTGTNode.jave to catch NPE if LHS or RHS is null. (gmj)
   </li>
+  <li> 
+    Documentation : changed license instructions in coding-standards.xml (gmj)
+  </li>
 </ul>
 
 </subsection>
