@@ -185,8 +185,7 @@
   <target name="test-anakia">
     <echo message="Running Anakia tests..."/>
     
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"
-	reverseloader="true">
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
       <classpath>
         <path refid="classpath"/>
       </classpath>
