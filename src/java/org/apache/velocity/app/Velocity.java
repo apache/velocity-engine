@@ -60,6 +60,11 @@ import java.util.Properties;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
@@ -102,7 +107,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.11 2001/03/26 04:18:51 jvanzyl Exp $
+ * @version $Id: Velocity.java,v 1.12 2001/04/22 18:20:17 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -224,10 +229,7 @@ public class Velocity implements RuntimeConstants
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException, IOException
     {
-        ByteArrayInputStream inStream = 
-            new ByteArrayInputStream( instring.getBytes() );
-
-        return evaluate( context, out, logTag, inStream );
+        return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
     }
 
     /**
@@ -243,20 +245,57 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see 
      *               Velocity runtime log
+     *  @deprecated
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, InputStream instream )
         throws ParseErrorException, MethodInvocationException, IOException
     {
-        SimpleNode nodeTree = null;
-        
         /*
          *  first, parse - convert ParseException if thrown
          */
 
+        BufferedReader br  = null;
+        String encoding = null;
+
         try
         {
-            nodeTree = Runtime.parse( instream, logTag );        
+            encoding = Runtime.getString(INPUT_ENCODING,ENCODING_DEFAULT);
+            br = new BufferedReader(  new InputStreamReader( instream, encoding));
+        }
+        catch( UnsupportedEncodingException  uce )
+        {   
+            String msg = "Unsupported input encoding : " + encoding
+                + " for template " + logTag;
+            throw new ParseErrorException( msg );
+        }
+
+        return evaluate( context, writer, logTag, br );
+    }
+
+    /**
+     *  Renders the input reader using the context into the output writer.
+     *  To be used when a template is dynamically constructed, or want to
+     *  use Velocity as a token replacer.
+     *
+     *  @param context context to use in rendering input string
+     *  @param out  Writer in which to render the output
+     *  @param logTag  string to be used as the template name for log messages
+     *                 in case of error
+     *  @param reader Reader containing the VTL to be rendered
+     *
+     *  @return true if successful, false otherwise.  If false, see 
+     *               Velocity runtime log
+     */
+    public static boolean evaluate( Context context, Writer writer, 
+                                    String logTag, Reader reader )
+        throws ParseErrorException, MethodInvocationException, IOException
+    {
+        SimpleNode nodeTree = null;
+        
+        try
+        {
+            nodeTree = Runtime.parse( reader, logTag );        
         }
         catch ( ParseException pex )
         {
@@ -459,6 +498,12 @@ public class Velocity implements RuntimeConstants
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
         return Runtime.getTemplate( name );
+    }
+
+    public static Template getTemplate(String name, String encoding)
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {
+        return Runtime.getTemplate( name, encoding );
     }
 
 
