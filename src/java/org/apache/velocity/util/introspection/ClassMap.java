@@ -70,7 +70,7 @@ import java.lang.reflect.Modifier;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.12 2001/08/11 19:04:21 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.13 2001/09/10 10:36:09 geirm Exp $
  */
 public class ClassMap
 {
@@ -101,6 +101,14 @@ public class ClassMap
         this.clazz = clazz;
         populateMethodCache();
     }
+    
+    /**
+     * @return the class object whose methods are cached by this map.
+     */
+     Class getCachedClass()
+     {
+         return clazz;
+     }
     
     /**
      * Find a Method using the methodKey
