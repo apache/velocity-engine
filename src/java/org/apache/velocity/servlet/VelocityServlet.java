@@ -77,13 +77,12 @@ import org.apache.velocity.io.FastWriter;
  * and add your data to the context. Then call getTemplate("mytemplate.wm")
  * 
  * @author Dave Bryson
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
     private String encoding;
     private boolean asciiHack;
-    private FastWriter writer;
 
     /** 
      * Init the loader
@@ -146,7 +145,7 @@ public abstract class VelocityServlet extends HttpServlet
 
         response.setContentType("text/html");
         
-        writer = new FastWriter(response.getOutputStream(), encoding);
+        FastWriter writer = new FastWriter(response.getOutputStream(), encoding);
         writer.setAsciiHack(asciiHack);
         template.merge( context, writer );
         writer.flush();
