@@ -15,7 +15,8 @@
              extension=".html" style="./site.vsl"
              projectFile="./stylesheets/project.xml"
              excludes="**/stylesheets/**"
-             includes="**/*.xml">
+             includes="**/*.xml"
+             lastModifiedCheck="true">
         </anakia>
 
         <copy todir="${docs.dest}/images" filtering="no">
