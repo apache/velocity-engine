@@ -91,9 +91,25 @@ options
      * the nothing has to change in the node code.
      */
     VISITOR=true;
-    
+
+    /**
+     * Declare that we are accepting unicode input and
+     * that we are using a custom character stream class    
+     * Note that the char stream class is really a slightly
+     * modified ASCII_CharStream, as it appears we are safe
+     * because we only deal with pre-encoding-converted
+     * Readers rather than raw input streams.
+     */
+    UNICODE_INPUT=true;
+    USER_CHAR_STREAM=true;
+
+    /**
+     *  for debugging purposes.  Keep false
+     */
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
+
+
 }    
 
 PARSER_BEGIN(Parser)
@@ -120,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.59 2001/04/22 18:03:48 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.59.2.1 2001/06/02 21:23:21 geirm Exp $ 
 */
 public class Parser
 {
@@ -134,6 +150,8 @@ public class Parser
      */
     String currentTemplateName = "";
 
+    VelocityCharStream velcharstream = null; 
+
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -143,7 +161,18 @@ public class Parser
      */
     public Parser()
     {
-        this(new ByteArrayInputStream("\n".getBytes()));
+        /*
+         * need to call the CTOR first thing.
+         */
+
+        this(   new VelocityCharStream( 
+                new ByteArrayInputStream("\n".getBytes()), 1, 1 ));
+
+        /*
+         * now setup a VCS for later use
+         */    
+        velcharstream = new VelocityCharStream( 
+                new ByteArrayInputStream("\n".getBytes()), 1, 1 );
     }
 
     /** 
@@ -174,7 +203,21 @@ public class Parser
         try
         {
             token_source.clearStateVars();
-            ReInit(reader);
+
+            /*
+             *  reinitialize the VelocityCharStream
+             *  with the new reader
+             */
+            velcharstream.ReInit( reader, 1, 1 );   
+
+            /*
+             * now reinit the Parser with this CharStream
+             */
+            ReInit( velcharstream  );
+
+            /*
+             *  do that voodoo...
+             */
             sn = process();
         }
         catch (ParseException pe)
