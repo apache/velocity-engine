@@ -3398,7 +3398,12 @@ final void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
-       RPARENHandler();
+        /*
+         *  need to simply switch back to REFERENCE, not drop down the stack
+         *  because we can (infinitely) chain, ala $foo.bar().blargh().woogie().doogie()
+         */
+
+        SwitchTo( REFERENCE );
          break;
       case 7 :
         if (image == null)
