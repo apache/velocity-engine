@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.23 2001/09/07 05:05:14 geirm Exp $
+ * @version $Id: Velocity.java,v 1.23.2.1 2001/12/09 19:28:24 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -376,13 +376,14 @@ public class Velocity implements RuntimeConstants
      *  Note : currently only accepts args to the VM if they are in the context. 
      *
      *  @param vmName name of Velocimacro to call
+     *  @param logTag string to identify as 'template' in logging
      *  @param params[] args used to invoke Velocimacro. In context key format : 
      *                  eg  "foo","bar" (rather than "$foo","$bar")
      *  @param context Context object containing data/objects used for rendering.
      *  @param writer  Writer for output stream
      *  @return true if Velocimacro exists and successfully invoked, false otherwise.
      */
-    public static  boolean invokeVelocimacro( String vmName, String namespace, 
+    public static  boolean invokeVelocimacro( String vmName, String logTag, 
                                               String params[], Context context, 
                                               Writer writer )
     {
@@ -391,7 +392,7 @@ public class Velocity implements RuntimeConstants
          */
 
         if ( vmName == null ||  params == null ||  context == null 
-             || writer == null || namespace == null)
+             || writer == null || logTag == null)
         {
             RuntimeSingleton.error( "Velocity.invokeVelocimacro() : invalid parameter");
             return false;
@@ -401,7 +402,7 @@ public class Velocity implements RuntimeConstants
          * does the VM exist?
          */
           
-        if (!RuntimeSingleton.isVelocimacro( vmName, namespace ))
+        if (!RuntimeSingleton.isVelocimacro( vmName, logTag ))
         {
             RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '"+ vmName 
                            + "' not registered.");
@@ -409,75 +410,35 @@ public class Velocity implements RuntimeConstants
         }
 
         /*
-         * apparently.  Ok, make one..
-         */
-           
-        VelocimacroProxy vp = 
-            (VelocimacroProxy) RuntimeSingleton.getVelocimacro( vmName, namespace );
-        
-        if ( vp == null )
-        {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '" 
-                           + vmName 
-                           + "' : severe error.  Unable to get VM from factory.");
-            return false;
-        }
-  
-        /*
-         * if we get enough args?
-         */
-            
-        if ( vp.getNumArgs() > params.length )
-        {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '" 
-                           + vmName + "' : invalid # of args.  Needed " 
-                           + vp.getNumArgs() 
-                           + " but called with " + params.length);
-            return false;
-        }
-
-        /*
-         *  ok.  setup the vm
+         *  now just create the VM call, and use evaluate
          */
 
-        /*
-         *  fix the parms : since we don't require the $ from the caller, 
-         *  we need to add it
-         */
+        StringBuffer construct = new StringBuffer("#");
 
-        int [] types = new int[vp.getNumArgs()];
-        String[] p = new String[vp.getNumArgs()];
+        construct.append( vmName );
+        construct.append( "(" );
  
-        for( int i = 0; i < types.length; i++)
+        for( int i = 0; i < params.length; i++)
         {
-            types[i] = ParserTreeConstants.JJTREFERENCE;
-            p[i] = "$" + params[i]; 
+            construct.append( " $" );
+            construct.append( params[i] );
         }
 
-        vp.setupMacro( p, types  );
-      
+        construct.append(" )");
+
         try
         {
-            InternalContextAdapterImpl ica 
-                = new InternalContextAdapterImpl( context );
-            
-            try
-            {
-                ica.pushCurrentTemplateName( namespace );
-                vp.render( ica, writer, null);
-            }
-            finally
-            {
-                ica.popCurrentTemplateName();
-            }
+            boolean retval = evaluate(  context,  writer,  
+                                         logTag, construct.toString() );
+  
+            return retval;
         }
-        catch (Exception e )
+        catch( Exception  e )
         {
-            RuntimeSingleton.error("Velocity.invokeVelocimacro() : " + e );
-            return false;
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
         }
         
-        return true;
+        return false;
     }
 
     /**

@@ -209,6 +209,10 @@
 </li>
 
 <li>
+<a href="developer-guide.html#FAQ (Frequently Asked Questions)">FAQ (Frequently Asked Questions)</a>
+</li>
+
+<li>
 <a href="developer-guide.html#Summary">Summary</a>
 </li>
 
@@ -285,44 +289,48 @@ root of the Velocity distribution tree.
       <li>
         <b><code>jar</code></b> builds the complete Velocity jar in the
         <code>bin</code> directory.  This jar will be called 'velocity-X.jar',
-        where 'X' is the current version number. Unless you have specific
-        storage space considerations, use this jar for convenience, as it
-        includes everything you need.
-      </li>
-      <li>
-        <b><code>jar-nodeps</code></b> builds the complete Velocity jar in
-        the <code>bin</code> directory, without including necessary 
-        support for logging from the 
-        <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
-        Avalon Logkit</a> package, critical configuration support from the
-        <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
-        or the necesary support for WebMacro
-        template conversion using the 
-        <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
-        package. If you use this
+        where 'X' is the current version number. This jar does not include 
+        necessary dependencies for Velocity.  If you use this
         target, you must get the Collections component jar from Jakarta Commons and add
         to your CLASSPATH (or WEB-INF/lib). 
         If you wish to use the built-in logging or template conversion,
         you must include the appropriate jars in your CLASSPATH or
         webapp's WEB-INF/lib.
+        For convenience, you can use the <code>jar-dep</code> target to build
+        a jar with ORO, Logkit and Commons Collections included.        
+      </li>
+      <li>
+        <b><code>jar-dep</code></b> builds the complete Velocity jar in
+        the <code>bin</code> directory, including necessary 
+        support for logging from the 
+        <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
+        Avalon Logkit</a> package, critical configuration support from the
+        <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
+        and the necesary support for WebMacro
+        template conversion using the 
+        <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
+        package. 
        </li>
        <li>
         <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
         <code>bin</code> directory, called 'velocity-core-X.jar'. This jar
         contains the core Velocity functionality, and doesn't include example
         and utility things like Anakia, Texen or the VelocityServlet support
-        baseclass.
+        baseclass.  It has the same external dependency requirements as the
+        regular <code>jar</code> target.
       </li>
       <li>
         <b><code>jar-util</code></b> builds a utility Velocity jar in the
         <code>bin</code> directory, called 'velocity-util-X.jar'. This jar
         contains utility code, specifically Anakia, Texen, and the WebMacro
-        template conversion utility.
+        template conversion utility. It has the same external dependency requirements as the
+        regular <code>jar</code> target.
       </li>
       <li>
         <b><code>jar-servlet</code></b> builds a utility Velocity jar in the
         <code>bin</code> directory, called 'velocity-servlet-X.jar'. This jar
-        contains utility code for servlet programmers.
+        contains utility code for servlet programmers. It has the same external dependency requirements as the
+        regular <code>jar</code> target.
       </li>
       <li>
         <b><code>jar-J2EE</code></b> builds a complete jar, like the 'jar' target,
@@ -332,13 +340,14 @@ root of the Velocity distribution tree.
         'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
         must place (or link) a copy of j2ee.jar into the build/lib directory.
         We do not provide it as part of the distribution. A good source is
-        http://java.sun.com/
+        http://java.sun.com/.  It has the same external dependency requirements as the
+        regular <code>jar</code> target.
       </li>
       <li>
-        <b><code>jar-J2EE-nodeps</code></b> build a complete jar with J2EE support
-        but omits including logging support from the Jakarta Avalon Logkit and 
+        <b><code>jar-J2EE-dep</code></b> build a complete jar with J2EE support
+        and includes logging support from the Jakarta Avalon Logkit and 
         regexp support fromt the Jakarta ORO package. See the notes on the
-        <code>jar-nodeps</code> target, above.
+        <code>jar-dep</code> target, above.
       </li>
       <li>
         <b><code>examples</code></b> builds the example code in the example programs
@@ -391,6 +400,30 @@ root of the Velocity distribution tree.
   </li>
 </ol>
 </p>
+                                                <strong>Dependencies</strong>
+                                                <p>
+Velocity is dependent upon a few packages for general functionality.  They
+are included in the <code>build/lib</code> directory for convenience, but
+the default build target (see above) does not include them.  If you use the
+default build target, you must add the dependencies to your classpath.
+</p>
+                                                <ul>
+<li>
+  <a href="http://jakarta.apache.org/commons/">
+  <b>Jakarta Commons Collections</b></a> - required.
+</li>
+<li>
+  <a href="http://jakarta.apache.org/avalon/logkit/index.html">
+  <b>Jakarta Avalon Logkit</b></a> - optional, but very common.  
+  Needed if using the default file-based logging in Velocity.
+</li>
+<li>
+  <a href="http://jakarta.apache.org/oro/index.html"><b>Jakarta ORO</b></a>
+   - optional.  Needed when using the 
+   <code>org.apache.velocity.convert.WebMacro</code> template conversion
+   utility.
+ </li>
+</ul>
                             </blockquote>
         </p>
       </td></tr>
@@ -1578,6 +1611,13 @@ you are interested in changing need to be specified, rather
 than a complete set. 
 </p>
                                                 <p>
+Another thing to note is that the <code>init()</code> calls may be called
+more than once without harm in an application.  However, the first call to any
+of the <code>init()</code> functions will configure the engine with the 
+configuration properties set at that point, and any further configuration
+changes or <code>init()</code> calls will be ignored.
+</p>
+                                                <p>
 The most common approaches to initializing Velocity will be something like :
 </p>
                                                 <ol>
@@ -2299,6 +2339,17 @@ the override mechanism.
 Controls whether reference access (set/get) within a Velocimacro will change 
 the context, or be of local scope in that
 Velocimacro.
+</p>
+                                                <p>
+<code>velocimacro.library.autoreload = false</code><br />
+Controls Velocimacro library autoloading.  When set to <code>true</code>
+the source Velocimacro library for an invoked Velocimacro will be checked
+for changes, and reloaded if necessary.  This allows you to change and 
+test Velocimacro libraries without having to restart your application or
+servlet container, just like you can with regular templates.
+This mode only works when caching is <i>off</i>
+in the resource loaders (e.g. <code>file.resource.loader.cache = false</code> ).
+This feature is intended for development, not for production.
 </p>
                                                 <p>
 <strong>String Interpolation</strong>
@@ -3105,6 +3156,136 @@ Christoph Reck, an active participant in the Velocity community.  We are
 very grateful for his [unknowing] contribution to this document, and
 hope his ideas weren't mangled too badly  :)
 </p>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="FAQ (Frequently Asked Questions)"><strong>FAQ (Frequently Asked Questions)</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+In no apparent order, here are questions and answers that repeatedly arise
+by developers using Velocity.  As we get more, we will move this out to
+a separate document.
+</p>
+                                                <strong>Why Can't I Access Class Members and Constants from VTL?</strong>
+                                                <p>
+ The short answer is because we don't introspect for fields.  We don't do that
+ because we wish to promote the idea that you hide your raw data in your 
+ data objects.  There are two solutions to this issue.  The first is 
+ that you should be writing accessors for data elements you wish to be
+ publicly exposed.  That of course won't work for instances where you don't
+ have the source, or simply are too lazy.  There is a class for the latter 
+ group, <code>org.apache.velocity.app.FieldMethodizer</code> which introspects
+ your class, and exposes the public static fields in a way that allows easy 
+ access from a template. Suppose you have a class :
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+    public class Foo
+    {
+        public static String PATH_ROOT = &quot;/foo/bar&quot;;
+     
+        ....
+    }
+  </pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  Then, in your code, you would put a <code>Foo</code> into the context like this
+  </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+      context.put(&quot;myfoo&quot;, new FieldMethodizer( new Foo() ) );
+  </pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     Then to access this field in your template, you would simply access in
+     a manner similar to Java :
+   </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+       $myfoo.PATH_ROOT
+  </pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     If you have a crushing need to access public non-static members (or even private
+     if you are so driven), then you would have to exend / modify the 
+     <code>FieldMethodizer</code> yourself. (And we still recommend you provide accessors....)
+  </p>
+                                                <strong>Where does Velocity look for Templates?</strong>
+                                                <p>
+    By default, without any configuration on your part, Velocity will look
+    for templates in files, and look for them in the current directory
+    (or relative to the current directory, if you prepend a path to your
+    template, like 'foo/bar.vm').
+   </p>
+                                                <p>
+     Velocity does this to make it as easy as possible to use out of the box.
+     It has been argued that Velocity should do it from the 'root' directory, but
+     it's never clear what that is on filesystems where there are multiple roots
+     (like - "C:\", "D:\", etc).
+    </p>
+                                                <p>
+      For more information, see the section on 
+      <a href="developer-guide.html#Configuring Resource Loaders">
+      resource loaders</a> as well as the section on
+      <a href="developer-guide.html#Velocity Configuration Keys and Values">
+      configuration keys, values and defaults</a>.
+     </p>
                             </blockquote>
         </p>
       </td></tr>

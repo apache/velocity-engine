@@ -58,6 +58,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import org.apache.velocity.texen.Generator;
 
 /**
@@ -65,30 +66,71 @@ import org.apache.velocity.texen.Generator;
  * Usually this class is only used from a Velocity context.
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: PropertiesUtil.java,v 1.8 2001/08/30 14:14:15 jvanzyl Exp $ 
+ * @author <a href="mailto:sbailliez@apache.org">Stephane Bailliez</a>
+ * @version $Id: PropertiesUtil.java,v 1.8.2.1 2001/11/08 04:05:57 geirm Exp $ 
  */
 public class PropertiesUtil
 {
+    /**
+     * Load properties from either a file in the templatePath if there
+     * is one or the classPath.
+     *
+     * @param propertiesFile the properties file to load through
+     * either the templatePath or the classpath.
+     * @return a properties instance filled with the properties found
+     * in the file or an empty instance if no file was found.
+     */
     public Properties load(String propertiesFile)
     {
-        String templatePath = Generator.getInstance().getTemplatePath();
         Properties properties = new Properties();
-        
+        String templatePath = Generator.getInstance().getTemplatePath();
         if (templatePath != null)
         {
-            // We might have something like the following:
-            //
-            // #set ($dbprops = $properties.load("$generator.templatePath/path/props")
-            //
-            // as we have in Torque but we want people to start using
-            //
-            // #set ($dbprops = $properties.load("path/props")
-            //
-            // so that everything works from the filesystem or from
-            // a JAR. So the actual Generator.getTemplatePath()
-            // is not deprecated but it's use in templates
-            // should be.
-            
+            properties = loadFromTemplatePath(propertiesFile);
+        }
+        else
+        {
+            properties = loadFromClassPath(propertiesFile);
+        }
+    
+        return properties;
+        
+    }
+    
+    /**
+     * Load a properties file from the templatePath defined in the
+     * generator. As the templatePath can contains multiple paths,
+     * it will cycle through them to find the file. The first file
+     * that can be successfully loaded is considered. (kind of
+     * like the java classpath), it is done to clone the Velocity
+     * process of loading templates.
+     *
+     * @param propertiesFile the properties file to load. It must be
+     * a relative pathname.
+     * @return a properties instance loaded with the properties from
+     * the file. If no file can be found it returns an empty instance.
+     */
+    protected Properties loadFromTemplatePath(String propertiesFile)
+    {
+        Properties properties = new Properties();
+        String templatePath = Generator.getInstance().getTemplatePath();
+        
+        // We might have something like the following:
+        //
+        // #set ($dbprops = $properties.load("$generator.templatePath/path/props")
+        //
+        // as we have in Torque but we want people to start using
+        //
+        // #set ($dbprops = $properties.load("path/props")
+        //
+        // so that everything works from the filesystem or from
+        // a JAR. So the actual Generator.getTemplatePath()
+        // is not deprecated but it's use in templates
+        // should be.
+        StringTokenizer st = new StringTokenizer(templatePath, ",");
+        while (st.hasMoreTokens())
+        {
+            String templateDir = st.nextToken();
             try
             {
                 // If the properties file is being pulled from the
@@ -102,47 +144,62 @@ public class PropertiesUtil
                 // for the properties file to be found. We want (1)
                 // to work whether the generation is being run from
                 // the file system or from a JAR file.
-                if (!propertiesFile.startsWith(templatePath))
-                {
-                    propertiesFile = templatePath + "/" + propertiesFile;
-                }
+                String fullPath = propertiesFile;
                 
-                properties.load(new FileInputStream(propertiesFile));
+                // FIXME probably not that clever since there could be
+                // a mix of file separators and the test will fail :-(
+                if (!fullPath.startsWith(templateDir))
+                {
+                    fullPath = templateDir + "/" + propertiesFile;
+                }
+
+                properties.load(new FileInputStream(fullPath));
+                // first pick wins, we don't need to go further since
+                // we found a valid file.
+                break;
             }
             catch (Exception e)
             {
                 // do nothing
             }
-        }
-        else
-        {
-            ClassLoader classLoader = this.getClass().getClassLoader();
-            
-            try
-            {
-                // This is a hack for now to make sure that properties
-                // files referenced in the filesystem work in
-                // a JAR file. We have to deprecate the use
-                // of $generator.templatePath in templates first
-                // and this hack will allow those same templates
-                // that use $generator.templatePath to work in
-                // JAR files.
-                if (propertiesFile.startsWith("$generator"))
-                {
-                    propertiesFile = propertiesFile.substring(
-                        "$generator.templatePath/".length());
-                }
-                
-                InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
-                properties.load(inputStream);
-            }
-            catch (IOException ioe)
-            {
-                // do nothing
-            }
-        }
-    
+        } 
         return properties;
+    }
+
+    /**
+     * Load a properties file from the classpath
+     *
+     * @param propertiesFile the properties file to load.
+     * @return a properties instance loaded with the properties from
+     * the file. If no file can be found it returns an empty instance.
+     */ 
+    protected Properties loadFromClassPath(String propertiesFile)
+    {
+        Properties properties = new Properties();
+        ClassLoader classLoader = this.getClass().getClassLoader();
         
+        try
+        {
+            // This is a hack for now to make sure that properties
+            // files referenced in the filesystem work in
+            // a JAR file. We have to deprecate the use
+            // of $generator.templatePath in templates first
+            // and this hack will allow those same templates
+            // that use $generator.templatePath to work in
+            // JAR files.
+            if (propertiesFile.startsWith("$generator"))
+            {
+                propertiesFile = propertiesFile.substring(
+                    "$generator.templatePath/".length());
+            }
+            
+            InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
+            properties.load(inputStream);
+        }
+        catch (IOException ioe)
+        {
+            // do nothing
+        }
+        return properties;
     }
 }

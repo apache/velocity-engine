@@ -1,0 +1,32 @@
+WHY ARE THERE TWO JARS?  WHAT'S THE DIFFERENCE?
+
+Starting with the 1.2 release, we are including two jars with 
+the distribution.
+
+velocity-1.2.jar 
+---------------
+  This jar does not include any external dependencies that Velocity
+  depends on.  It does include the core Velocity Template engine,
+  all supporting classes, Anakia and Texen.
+
+  All external dependencies needed by Velocity, such as the 
+  jakarta-commons-collection classes, Jakarta Avalon Logkit, or 
+  Jakarta ORO are *NOT* included. 
+
+  We do this to allow you to use whatever version of
+  collections, logkit, etc that you wish w/o fear of collision.
+  
+  For your convenience, these jars are included with the 
+  distribution package, in the build/lib directory.
+
+  The can also be found at respective project sites.
+
+velocity-dep-1.2.jar
+--------------------
+  This is a Velocity jar that includes all dependencies that 
+  were included with previous distribution jars.  It is included
+  as a convenience to allow you to drop this 1.2 distribution 
+  in place of existing 1.1 distributions.
+
+Please see the developers guide for more information.
+

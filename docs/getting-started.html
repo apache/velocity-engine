@@ -169,7 +169,7 @@ as part of the distribution package, and of course, you can generate it
 yourself from the included sources.
 </p>
                                                 <p>
-    If you are working on Unix/Linux and would like to create a full set
+    If you would like to create a full set
     of detailed API documentation for Velocity, go to the
     <code>build</code> directory and run the following script:
 </p>
@@ -183,7 +183,7 @@ yourself from the included sources.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-./build.sh javadocs
+ant javadocs
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -195,8 +195,12 @@ yourself from the included sources.
     </table>
     </div>
                                                 <p>
-    If you are working on Windows, running <code>build.bat javadocs
-    </code> at the DOS prompt will have the same effect.
+The docs will be found in the <code>/docs/apidocs/</code> directory.
+</p>
+                                                <p>
+<b>Note:</b> Velocity uses the <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a> 
+build tool for all code and documentation generation, so you will need to have it 
+installed.  We strongly endorse this wonderful tool for any Java developer.
 </p>
                             </blockquote>
         </p>

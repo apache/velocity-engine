@@ -69,21 +69,20 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 
 /**
- *  VelocimacroManager.java
+ * Manages VMs in namespaces.  Currently, two namespace modes are
+ * supported:
  *
- *   manages VMs in namespaces.  Currently, there are two namespace modes 
- *   supported :
- *   <ul>
- *   <li>  flat namespace : all allowable VMs are in the global namespace
- *   <li>  local namespace : inline VMs are added to it's own template namespace
- *   </ul>
+ * <ul>
+ * <li>flat - all allowable VMs are in the global namespace</li>
+ * <li>local - inline VMs are added to it's own template namespace</li>
+ * </ul>
  *
- *   Thanks to <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- *   for some ideas incorporated here.
+ * Thanks to <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
+ * for some ideas incorporated here.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.13 2001/08/13 13:58:35 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.13.2.1 2001/11/08 03:45:34 geirm Exp $ 
  */
 public class VelocimacroManager
 {
@@ -92,9 +91,12 @@ public class VelocimacroManager
 
     private boolean registerFromLib = false;
 
-    /*  hash of namespace hashes */
+    /** Hash of namespace hashes. */
     private Hashtable namespaceHash = new Hashtable();
-
+    
+    /** map of names of library tempates/namespaces */
+    private Hashtable libraryMap = new Hashtable();
+    
     /* 
      * big switch for namespaces.  If true, then properties control 
      * usage. If false, no. 
@@ -103,9 +105,9 @@ public class VelocimacroManager
     private boolean  inlineLocalMode = false;
 
     /**
-     *  not much to do but add the global namespace to the hash
+     * Adds the global namespace to the hash.
      */
-    VelocimacroManager( RuntimeServices rs)
+    VelocimacroManager(RuntimeServices rs)
     {
         this.rsvc = rs;
 
@@ -117,16 +119,44 @@ public class VelocimacroManager
     }
 
     /**
-     *  adds a VM definition to the cache
-     * @return boolean if all went ok
+     * Adds a VM definition to the cache.
+     * @return Whether everything went okay.
      */
-    public boolean addVM(String vmName, String macroBody, String argArray[], String namespace )
+    public boolean addVM(String vmName, String macroBody, String argArray[],
+                         String namespace)
     {
-        MacroEntry me = new MacroEntry( this, vmName,  macroBody,  argArray,  namespace );
+        MacroEntry me = new MacroEntry(this, vmName, macroBody, argArray,
+                                       namespace);
 
         me.setFromLibrary(registerFromLib);
     
-        if ( usingNamespaces( namespace ) )
+        /*
+         *  the client (VMFactory) will signal to us via
+         *  registerFromLib that we are in startup mode registering
+         *  new VMs from libraries.  Therefore, we want to
+         *  addto the library map for subsequent auto reloads
+         */
+         
+        boolean isLib = true;
+        
+        if ( registerFromLib)
+        {
+           libraryMap.put( namespace, namespace );
+        }
+        else
+        {
+            /*
+             *  now, we first want to check to see if this namespace (template)
+             *  is actually a library - if so, we need to use the global namespace
+             *  we don't have to do this when registering, as namespaces should
+             *  be shut off. If not, the default value is true, so we still go
+             *  global
+             */
+         
+            isLib = libraryMap.containsKey( namespace);
+        }
+               
+        if ( !isLib && usingNamespaces( namespace ) )
         {
             /*
              *  first, do we have a namespace hash already for this namespace?
@@ -139,10 +169,10 @@ public class VelocimacroManager
             return true;
         }
         else
-        {
+        {        
             /*
-             *  otherwise, add to global template.  First, check if we already have it
-             *  to preserve some of the autoload information
+             *  otherwise, add to global template.  First, check if we
+             *  already have it to preserve some of the autoload information
              */
 
             MacroEntry exist = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
@@ -239,13 +269,11 @@ public class VelocimacroManager
     public void setNamespaceUsage( boolean b )
     {
         namespacesOn = b;
-        return;
     }
 
     public void setRegisterFromLib( boolean b )
     {
         registerFromLib = b;
-        return;
     }
 
     public void setTemplateLocalInlineVM( boolean b )
@@ -277,8 +305,10 @@ public class VelocimacroManager
     {
         Hashtable h = (Hashtable)  namespaceHash.get( namespace );
 
-        if (h == null && addIfNew)               
+        if (h == null && addIfNew)
+        {
             h = addNamespace( namespace );
+        }
   
         return h;
     }
@@ -327,14 +357,18 @@ public class VelocimacroManager
          */
 
         if ( !namespacesOn )
+        {
             return false;
+        }
 
         /*
          *  currently, we only support the local template namespace idea
          */
 
         if ( inlineLocalMode )
+        {
             return true;
+        }
 
         return false;
     }
@@ -367,7 +401,7 @@ public class VelocimacroManager
          * if it's in the global namespace
          */
         
-        MacroEntry me = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
+        MacroEntry me = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
         
         if (me != null)
         {
@@ -391,7 +425,8 @@ public class VelocimacroManager
         VelocimacroManager manager = null;
         boolean fromLibrary = false;
 
-        MacroEntry(VelocimacroManager vmm, String vmName, String macroBody, String argArray[],  String sourceTemplate)
+        MacroEntry(VelocimacroManager vmm, String vmName, String macroBody,
+                   String argArray[],  String sourceTemplate)
         {
             this.macroname = vmName;
             this.argarray = argArray;
@@ -452,8 +487,8 @@ public class VelocimacroManager
             } 
             catch ( Exception e ) 
             {
-                rsvc.error("VelocimacroManager.parseTree() : exception " + macroname + 
-                              " : "  + StringUtils.stackTrace(e));
+                rsvc.error("VelocimacroManager.parseTree() : exception " +
+                           macroname + " : "  + StringUtils.stackTrace(e));
             }
         }
     }

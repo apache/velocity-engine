@@ -84,3 +84,5 @@ $provider.title
 $$provider.title
 #$provider.title
 
+$foo.bar#if( $foo ) ($bar) #end
+

@@ -15,9 +15,94 @@
    This document tracks the changes in Velocity between releases.
 </p>
 
+<subsection name="1.2">
+<p>
+1.2 was released on December 9, 2001.
+</p>
+
+</subsection>
+
+<subsection name="1.2-rc3">
+<p>
+This section describes changes to the VEL_1_2_BRANCH after the 
+1.2-rc3 release. 1.2-rc3 was released on November 7, 2001
+for a quick community check.  It is intended to be the final
+rc for the 1.2 release.
+</p>
+
+<ul>
+  <li>
+    Small fix to Velocity.java and VelocityEngine.java for
+    invokeVelocimacro() - the were broken in the last major
+    VM change (months ago) and no-one noticed. (gmj)
+  </li>
+  <li>
+   Added notes re the new no-dep jar. (gmj)
+  </li>
+</ul>
+
+</subsection>
+
+
+<subsection name="1.2-rc2">
+<p>
+This section describes changes to the VEL_1_2_BRANCH after the 
+1.2-rc2 release. 1.2-rc2 was released on October 18, 2001
+as an administrative fix for 1.2-rc1 (files were damaged.)
+</p>
+
+<ul>
+  <li>
+    Backport the 'disappearing curly' and 'nit' fixes from 1.3 (gmj)
+  </li>
+  <li>
+    Backport autoreload infinte loop and local-scope
+    interferance bugs. (gmj )
+  </li>
+  <li>
+    Backport Texen patches from Stephane Bailliez and follow-on
+    fixes from jvz and dlr. (gmj)
+  </li>
+  <li>
+    Changed build targets to not include external dependencies in
+    velocity jars by default. (gmj)
+   </li>
+</ul>
+
+</subsection>
+
+<subsection name="1.2-rc1">
+<p>
+This section describes changes to the VEL_1_2_BRANCH after the 
+1.2-rc1 release. 
+</p>
+
+<ul>
+  <li>
+    Fix to LogSystem. ORed when I should have ANDed.  Reported
+    by Matt Gould (mpg@mpgsoftware.com). (gmj)
+   </li>
+   <li>
+    Documentation patch for 'getting started', reported by
+    Yuji Kumasaka (kumasaka@mms.intec.co.jp) (gmj)
+   </li>
+   <li>
+     Changed AnakiaTask to not specify Xerces, but let JDOM find
+     a parser. (gmj)
+   </li>
+   <li>
+     Change reported in bug #4256 by Jim Mackraz (jim@mackraz.com)
+     reviewd and fixed by DLR. (gmj)
+   </li>
+</ul>
+
+</subsection>
+
 <subsection name="1.2-dev">
 <p>
   This section describes changes to the main branch after the 1.1 release.
+  This was then branched as VEL_1_2_BRANCH in CVS and released as v1.2-rc1
+  on September 26, 2001. 
 </p>
  
 <ul>
@@ -157,10 +242,23 @@
       Bug fix to allow formal reference to be passed into VMs. (gmj)
    </li>
    <li>
-      Provisional revamping of Introspector to allow dump of cache
+      Revamping of Introspector to allow dump of cache
       when classloader change is detected, by Attila Szegedi
       and Paulo Gaspar.  (gmj)
-    </li>
+   </li>
+   <li>
+      Added testcase to verify introspection cache dumped when
+      classloader changed. (gmj)
+   </li>
+   <li>
+      Added PrimordialLogSystem and changed RuntimeInstance to use it. (gmj)
+   </li>
+   <li>
+      Minor fixes to ASTRefernce presentation. (gmj)
+   </li>
+   <li>
+      Texen enhancement - allow multiple properties files to be specified. (jvz)
+   </li> 
 </ul>
 </subsection>
 

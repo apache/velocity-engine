@@ -115,7 +115,7 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity v1.1 Released"><strong>Velocity v1.1 Released</strong></a>
+          <a name="Velocity v1.2 Released"><strong>Velocity v1.2 Released</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -127,10 +127,11 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32" />
    </td>
    <td>
-   Version 1.1 of the 
+   Version 1.2 of the
    Velocity Template Engine is now released.
-   Congratulations and thanks to all participants in the
-   Velocity community.
+   Combining contributions and improvements from throughout the 
+   Velocity community, this version offers many new enhancements
+   features and fixes.
    </td>
    </tr>
    </table>      
@@ -140,20 +141,28 @@
  </p>
                                                 <ul>
    <li> 
-      The new event-handling facility, allowing finer control and interaction with
-      the rendering process.
+      Application programmers now can instantiate separate, independent
+      instances of the Velocity Template Engine or continue to use the 
+      traditional singleton model.
    </li>
    <li> 
-      Internationalization support through full support of template character encoding.
+      Major improvements to Anakia and Texen.
    </li>
    <li> 
-      Optimizations for improved performance.
+      The Velocimacro system can be configured to reload changed
+      VM libraries automatically when the macro definitions change.
    </li>
  </ul>
                                                 <p> 
    Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
+</p>
+                                                <p>
+ <b>Note:</b>  Starting with this release, the distribution will contain
+ two pre-built jars, one with external dependencies included, and one
+ without.  Please see the <i>WHY_TWO_JARS.txt</i> note in the distribution
+ for more information.
 </p>
                             </blockquote>
         </p>
@@ -169,6 +178,81 @@
       <tr><td>
         <blockquote>
                                     <p>
+  <strong>Luxor, Velocity-based XUL Toolkit Released</strong>
+  <blockquote>
+    Luxor is an open-source XML User Interface Language (XUL) toolkit for
+    Java. Read more <a href="http://luxor-xul.sourceforge.net">here</a>.
+    <i>(2001-12-08)</i>
+  </blockquote>
+</p>
+                                                <p>
+<strong>Generate Code with Velocity in Borland's JBuilder </strong>
+<blockquote>
+  <a href="http://community.borland.com/article/0,1410,28086,00.html">Read</a> 
+  about how to use Velocity and Borland's OpenTools API to extend Borland's 
+  JBuilder for template-based Java source code generation. <i>(2001-12-08)</i> 
+</blockquote>
+</p>
+                                                <p>
+<strong>Hey, Maybe We're On The Right Track After All...</strong>
+<blockquote>
+Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a 
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP 
+implementation.  As they say on their site :
+<blockquote>
+<i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
+</i>
+</blockquote>
+
+We do think that this is a step in the right direction for JSPs, making the page content easier to
+write and maintain. 
+<br />
+<br />
+However, we want to emphasize to users that this isn't the same thing as using
+Velocity - this is a small subset of the Velocity syntax which 
+was reimplemented in Resin.
+<br />
+<br />
+ Velocity is much more than an alternative syntax to the scriptlets and
+tags found in JSPs - it's a full-featured templating engine, fully portable to any
+J2EE servlet container, that offers many advanges over JSPs in the J2EE
+web application environment.  It also an excellent templating tool
+for other kinds of applications written in Java.
+<br />
+<br />
+So if you are interested in portable alternatives to JSP, we strongly 
+encourage you look deeper into what Velocity has to offer.
+<br />
+<br />
+And if you must use JSPs and want to incorporate Velocity into your
+current or new JSP-based web applications, take a look at our
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full 
+power of Velocity in your JSPs.
+</blockquote>
+</p>
+                                                <p>
+<strong>Velocidoc Released</strong>
+<blockquote>
+<a href="http://velocidoc.sourceforge.net/intro.html">
+Velocidoc</a>, a Velocimacro documentation tool modeled after
+Javadoc, is now available.  Use Javadoc-style comments in your
+Velocimacro libraries, and use Velocidoc to generate HTML 
+documentation.
+</blockquote>
+</p>
+                                                <p>
+<strong>New Apache Site Generated with Anakia</strong>
+<blockquote>
+The new web site of the 
+<a href="http://www.apache.org">Apache Software Foundation</a>
+is now generated using 
+<a href="anakia.html">Anakia</a>,
+the Velocity-based XML transforamtion tool.
+Take a look.
+</blockquote>
+</p>
+                                                <p>
 <strong>Need To Mix JSP and Velocity?</strong>
 <blockquote>
 Take a look at a new contribution, a 
@@ -273,6 +357,10 @@ We have listed them on our ever expanding <a href="./powered.html">Powered By Ve
                                                 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
 formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.1/">here</a>.
+</p>
+                                                <p>
+  The latest release candidate, verion 1.2-rc1 can be found
+  <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
 </p>
                             </blockquote>
         </p>
