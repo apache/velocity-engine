@@ -54,20 +54,64 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
-import java.util.Date;
-import org.apache.log.format.PatternFormater;
+import java.io.File;
 
-public class VelocityFormater extends PatternFormater
+import java.net.URL;
+
+import org.apache.log.Category;
+import org.apache.log.Formatter;
+import org.apache.log.Priority;
+import org.apache.log.Logger;
+import org.apache.log.LogKit;
+import org.apache.log.LogTarget;
+import org.apache.log.output.FileOutputLogTarget;
+
+/**
+ * LogManager.java
+ *
+ * Very rudimentary log manager. Lifted in part from the
+ * SAR deployer in Avalon. This is how the logging system
+ * is supposed to be used. The Velocity runtime uses
+ * this class for logging.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: LogManager.java,v 1.1 2001/01/02 02:40:30 jvanzyl Exp $
+ */
+public class LogManager
 {
-    /**
-     * Utility method to format time.
-     *
-     * @param time the time
-     * @param format ancilliary format parameter - allowed to be null
-     * @return the formatted string
+    /*
+     * This method was removed from Avalon, it was noted that this
+     * method should be moved to a LogManager of some sort so that's
+     * what I'm doing. This is the start of a LogManager because there
+     * doesn't appear to be one in Avalon.
      */
-    protected String getTime( final long time, final String format )
+    public static Logger createLogger(String logFile)
+        throws Exception
     {
-        return new Date().toString();
+        String targetName = "velocity";
+        String priority = "DEBUG";
+                
+        Category category = LogKit.createCategory( 
+            targetName, LogKit.getPriorityForName( priority ) );
+        
+        /*
+         * Just create a FileOutputLogTarget, this is taken
+         * from the SAR deployer in Avalon.
+         */
+        FileOutputLogTarget target = new FileOutputLogTarget();
+        File logFileLocation = new File (logFile);
+        
+        target.setFilename(logFileLocation.getAbsolutePath());
+        target.setFormatter(new VelocityFormatter());
+        target.setFormat("%{time} %{message}\\n%{throwable}" );
+        
+        LogTarget logTargets[] = null;
+                
+        if ( null != target ) 
+        {
+            logTargets = new LogTarget[] { target };
+        }            
+                
+        return LogKit.createLogger( category, logTargets );
     }
 }
