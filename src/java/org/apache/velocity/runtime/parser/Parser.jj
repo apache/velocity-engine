@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.40 2000/12/11 04:26:23 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.41 2000/12/19 11:47:37 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -572,7 +572,7 @@ MORE :
         }            
     }
 
-|   <DOLLARBANG: "$!"> 
+|   <DOLLARBANG: ("\\")* "$!"> 
     { 
         if (! inComment)
         {
