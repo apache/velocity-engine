@@ -279,22 +279,28 @@
   </xsl:template>
 
   <xsl:template match="source">
-   <div align="center">
-    <table cellspacing="4" cellpadding="0" border="0">
+   <div align="left">
+    <table cellspacing="0" cellpadding="0" border="0">
     <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1" colspan="3"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
       <td bgcolor="#023264" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre><xsl:apply-templates/></pre></td>
+      <td bgcolor="#ffffff">
+        <table>
+          <tr>
+            <td align="left">
+              <pre>
+                <xsl:apply-templates/>
+              </pre>
+            </td>
+          </tr>
+        </table>
+      </td>
       <td bgcolor="#023264" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1" colspan="3"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     </table>
    </div>
