@@ -63,7 +63,7 @@ package org.apache.velocity.runtime.parser.node;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.5 2001/03/19 18:27:17 geirm Exp $ 
+ * @version $Id: ASTAddNode.java,v 1.6 2001/06/20 04:24:24 geirm Exp $ 
 */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -112,7 +112,9 @@ public class ASTAddNode extends SimpleNode
         if (left == null || right == null)
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) 
-                           + " side of addition operation has null value."
+                           + " side ("
+                           + jjtGetChild( (left == null? 0 : 1) ).literal()
+                           + ") of addition operation has null value."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");

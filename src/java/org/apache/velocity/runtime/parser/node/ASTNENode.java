@@ -90,7 +90,9 @@ public class ASTNENode extends SimpleNode
 
         if ( left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of '!=' operation has null value."
+            Runtime.error( ( left == null ? "Left" : "Right" ) + " side ("
+                           + jjtGetChild( (left == null? 0 : 1) ).literal()
+                           + ") of '!=' operation has null value."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");

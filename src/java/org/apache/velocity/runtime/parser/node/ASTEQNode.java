@@ -68,7 +68,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  This operator requires that the LHS and RHS are both of the
  *  same Class.
  *
- *  @version $Id: ASTEQNode.java,v 1.6 2001/04/09 02:24:03 geirm Exp $
+ *  @version $Id: ASTEQNode.java,v 1.7 2001/06/20 04:24:26 geirm Exp $
  */
 public class ASTEQNode extends SimpleNode
 {
@@ -117,12 +117,14 @@ public class ASTEQNode extends SimpleNode
         if (left == null || right == null)
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) 
-                           + " side of equality operator (==) "
-                           + "has null value."
-                           + " If a reference, it may not be in the context."
+                           + " side ("
+                           + jjtGetChild( (left == null? 0 : 1) ).literal() 
+                           + ") of '==' operation "
+                           + "has null value. " 
+                           + "If a reference, it may not be in the context."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
-                           + ", column " + getColumn() + "] (ASTEQNode)");
+                           + ", column " + getColumn() + "]");
             return false;
         }
 
