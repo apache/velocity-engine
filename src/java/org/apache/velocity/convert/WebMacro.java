@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.18 2001/06/21 23:38:55 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.19 2001/07/10 19:19:27 geirm Exp $ 
  */
 public class WebMacro
 {
@@ -320,8 +320,11 @@ public class WebMacro
     {
         if (args.length > 0)
         {
-            WebMacro converter = new WebMacro();
-            converter.convert(args[0]);
+            for (int x=0; x < args.length; x++)
+            {
+                WebMacro converter = new WebMacro();
+                converter.convert(args[x]);
+            }
         }
         else
         {
