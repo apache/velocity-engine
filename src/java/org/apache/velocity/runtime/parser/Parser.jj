@@ -98,7 +98,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.8 2000/10/27 05:18:44 jvanzyl Exp $ 
+ * @version $Id: Parser.jj,v 1.9 2000/10/28 14:19:53 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -189,9 +189,6 @@ TOKEN_MGR_DECLS:
     private int lparen = 0;
     private int rparen = 0;
 
-    /*
-     * gmj : make sure this is reset before each parse
-     */
     Stack stateStack = new Stack();
     public boolean bDebugPrint_ = false;
 

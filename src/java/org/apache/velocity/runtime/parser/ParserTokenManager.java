@@ -13,9 +13,6 @@ public class ParserTokenManager implements ParserConstants
     private int lparen = 0;
     private int rparen = 0;
 
-    /*
-     * gmj : make sure this is reset before each parse
-     */
     Stack stateStack = new Stack();
     public boolean bDebugPrint_ = false;
 
