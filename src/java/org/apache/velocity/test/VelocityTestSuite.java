@@ -71,7 +71,7 @@ import junit.framework.*;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: VelocityTestSuite.java,v 1.7 2000/10/23 20:46:00 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.8 2000/11/16 01:51:25 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -79,10 +79,10 @@ public class VelocityTestSuite extends TestSuite
      * Path to test templates relative to the build directory
      * where the tests will be started from.
      */
-     private final static String TEST_TEMPLATE_PATH =
-        "../test/templates";
-
      private final static String TEST_PROPERTIES =
+        "org/apache/velocity/test/defaults/velocity.properties";
+
+     private final static String TEST_CASE_PROPERTIES =
         "../test/test.properties";
 
     private Properties testProperties;
@@ -96,12 +96,10 @@ public class VelocityTestSuite extends TestSuite
 
         try
         {
-            Runtime.setDefaultProperties();
-            Runtime.setProperty(Runtime.TEMPLATE_PATH, TEST_TEMPLATE_PATH);
-            Runtime.init();
+            Runtime.init(TEST_PROPERTIES);
             
             testProperties = new Properties();
-            testProperties.load(new FileInputStream(TEST_PROPERTIES));
+            testProperties.load(new FileInputStream(TEST_CASE_PROPERTIES));
         }
         catch (Exception e)
         {
