@@ -65,7 +65,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * extend.
  * 
  * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.2 2000/12/19 21:46:52 jvanzyl Exp $
+ * $Id: ResourceLoader.java,v 1.3 2000/12/19 21:52:57 jvanzyl Exp $
  */
 public abstract class ResourceLoader
 {
@@ -85,7 +85,7 @@ public abstract class ResourceLoader
      * Class name for this loader, for logging/debuggin
      * purposes.
      */
-     protected String className;
+     protected String className = null;
    
     /**
      * This initialization is used by all resource
