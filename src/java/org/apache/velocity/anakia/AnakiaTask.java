@@ -90,7 +90,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.16 2001/03/05 11:44:32 jvanzyl Exp $
+ * @version $Id: AnakiaTask.java,v 1.17 2001/03/12 03:37:13 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -451,8 +451,10 @@ public class AnakiaTask extends MatchingTask
      */
     private void ensureDirectoryFor( File targetFile ) throws BuildException {
         File directory = new File( targetFile.getParent() );
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
+        if (!directory.exists())
+        {
+            if (!directory.mkdirs())
+            {
                 throw new BuildException("Unable to create directory: " 
                                          + directory.getAbsolutePath() );
             }
