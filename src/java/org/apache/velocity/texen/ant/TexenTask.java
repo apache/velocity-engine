@@ -56,9 +56,7 @@ package org.apache.velocity.texen.ant;
 
 import java.util.StringTokenizer;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
 
 import java.io.File;
 import java.io.Writer;
@@ -83,7 +81,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.39 2002/07/25 03:07:41 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.40 2003/10/26 10:54:15 geirm Exp $
  */
 public class TexenTask 
     extends Task
@@ -172,11 +170,6 @@ public class TexenTask
      * will be used when trying to locate templates.
      */
     protected boolean useClasspath;
-
-    /**
-     * Path separator.
-     */
-    private String fileSeparator = System.getProperty("file.separator");
 
     /**
      * [REQUIRED] Set the control template for the
@@ -366,7 +359,7 @@ public class TexenTask
     /**
      * Set the use of the classpath in locating templates
      *
-     * @param boolean true means the classpath will be used.
+     * @param useClasspath true means the classpath will be used.
      */
     public void setUseClasspath(boolean useClasspath)
     {
@@ -446,11 +439,11 @@ public class TexenTask
 
                 ve.setProperty(
                     "classpath." + VelocityEngine.RESOURCE_LOADER + 
-                        ".cache", "false");
+                        ".cache", "true");
 
                 ve.setProperty(
                     "classpath." + VelocityEngine.RESOURCE_LOADER + 
-                        ".modificationCheckInterval", "2");
+                        ".modificationCheckInterval", "60");
             }
             
             ve.init();
