@@ -58,25 +58,26 @@
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.2 2000/12/06 05:58:57 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.3 2000/12/10 04:52:51 geirm Exp $ 
  *
  */
 
 package org.apache.velocity.runtime;
 
-import java.util.Hashtable;
 import java.util.TreeMap;
 
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.Template;
+import org.apache.velocity.runtime.VelocimacroManager;
 
 public class VelocimacroFactory
 {
-    private Hashtable hMacros_ = new Hashtable();
+    private VelocimacroManager vmManager_ = new VelocimacroManager();
+
     private boolean bReplaceAllowed_ = false;
     private boolean bAddNewAllowed_ = true;
-    private Object  obLock = new Object();
+    private boolean bTemplateLocal_ = false;
 
     /** name of global Velocimacro library template */
     private static String GLOBAL_LIBRARY = "velocimacro.library.global";
@@ -85,11 +86,14 @@ public class VelocimacroFactory
     private static String LOCAL_LIBRARY  = "velocimacro.library.local";
 
     /** boolean (true/false) default true : allow inline (in-template) macro definitions */
-    private static String PERM_ALLOW_INLINE  = "velocimacro.permissions.allowInline";
+    private static String VM_PERM_ALLOW_INLINE  = "velocimacro.permissions.allowInline";
 
     /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing */
-    private static String PERM_ALLOW_INLINE_OVERRIDE  = "velocimacro.permissions.allowInlineToOverride";
-
+    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = "velocimacro.permissions.allowInlineToReplaceGlobal";
+    
+    /** switch for forcing inline macros to be local */
+    public final static String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allowInlineLocalScope";
+    
     /**
      *    setup
      */
@@ -99,13 +103,19 @@ public class VelocimacroFactory
          *  maybe I'm just paranoid...
          */
 
-        synchronized( obLock )
+        synchronized( this )
         {
             /*
              *   allow replacements while we add the libraries, if exist
              */
             
             setReplacementPermission( true );
+
+            /*
+             *  add all library macros to the global namespace
+             */
+
+           vmManager_. setNamespaceUsage( false );
         
             /*
              *  now, if there is a global or local libraries specified, use them.
@@ -142,7 +152,8 @@ public class VelocimacroFactory
             }
             else
                 Runtime.info("Velocimacro : no local VM library template used.");
-     
+   
+
             /*
              *   now, the permissions
              */
@@ -156,9 +167,8 @@ public class VelocimacroFactory
             
             setAddMacroPermission( true );
             
-            strLib = Runtime.getString( PERM_ALLOW_INLINE, "");
             
-            if ( strLib.equals("false"))
+            if ( !Runtime.getBoolean( VM_PERM_ALLOW_INLINE, true) )
             {
                 setAddMacroPermission( false );
                 Runtime.info("Velocimacro : allowInline = false : VMs can not be defined inline in templates");
@@ -167,29 +177,157 @@ public class VelocimacroFactory
                 Runtime.info("Velocimacro : allowInline = true : VMs can be defined inline in templates");
 
             /*
-             *  allowInlineToOverride : allows an inline, if allowed at all
-             *  to replace an existing VM
+             *  allowInlineToReplaceGlobal : allows an inline VM , if allowed at all,
+             *  to replace an existing global VM
              *
              *  default = false
              */
             
             setReplacementPermission( false );
             
-            strLib = Runtime.getString( PERM_ALLOW_INLINE_OVERRIDE, "");
-            
-            if (strLib.equals("true"))
+            if ( Runtime.getBoolean( VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
             {
                 setReplacementPermission( true );
                 Runtime.info("Velocimacro : allowInlineToOverride = true : VMs defined inline may replace previous VM definitions");
             }
             else
                Runtime.info("Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions");
+
+            /*
+             *  now turn on namespace handling as far as permissions allow in the manager, and also set it
+             *  here for gating purposes
+             */
+           
+            vmManager_.setNamespaceUsage( true );
+
+            if (Runtime.getBoolean(  VM_PERM_INLINE_LOCAL, false ))
+            {
+                setTemplateLocal( true );
+                Runtime.info("Velocimacro : allowInlineLocal = true : VMs defined inline will be local to their defining template only.");
+            }
+            else
+                Runtime.info("Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.");
+ 
         }
 
         Runtime.info("Velocimacro initialized.");
         return;
     }
-    
+
+    /**
+     *   adds a macro to the factory. 
+     */
+    public boolean addVelocimacro( String strName, String strMacro, String strArgArray[], String strMacroArray[], 
+                                   TreeMap tmArgIndexMap, String strSourceTemplate )
+    {
+        /*
+         *  maybe we should throw an exception, maybe just tell the caller like this...
+         * 
+         *  I hate this : maybe exceptions are in order here...
+         */
+        
+        if ( strName == null || strMacro == null | strArgArray == null || strMacroArray == null || tmArgIndexMap == null )
+            return false;
+        
+        /*
+         *  maybe the rules should be in manager?  I dunno. It's to manage the namespace issues
+         *
+         *  first, are we allowed to add VMs at all?  This trumps all.
+         */
+
+        if ( !bAddNewAllowed_ )
+            return false;
+
+        /*
+         *  are they local in scope?  Then it is ok to add.
+         */
+
+        if (!bTemplateLocal_  )
+        {
+            /* 
+             * otherwise, if we have it already in global namespace, and they can't replace
+             * since local templates are not allowed, the global namespace is implied.
+             *  remember, we don't know anything about namespace managment here, so lets
+             *  note do anything fancy like trying to give it the global namespace here
+             *
+             *  so if we have it, and we aren't allowed to replace, bail
+             */
+            
+            if ( isVelocimacro( strName, strSourceTemplate ) && !bReplaceAllowed_ )
+                return false;
+        }
+
+        /*
+         *  seems like all is good.  Lets do it.
+         */
+
+        synchronized( this ) 
+        {
+            vmManager_.addVM( strName, strMacro, strArgArray, strMacroArray, tmArgIndexMap, strSourceTemplate );
+        }
+
+        return true;
+    }
+
+    /**
+     *   tells the world if a given directive string is a Velocimacro
+     */
+    public boolean isVelocimacro( String vm , String strSourceTemplate )
+    {
+        synchronized( this ) 
+        {
+            /*
+             *  first we check the locals to see if we have a local definition for this template
+             */
+            
+            if (vmManager_.get( vm, strSourceTemplate ) != null)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *  actual factory : creates a Directive that will
+     *  behave correctly wrt getting the framework to 
+     *  dig out the correct # of args
+     */
+    public Directive getVelocimacro( String strVMName, String strSourceTemplate )
+    {
+        synchronized( this ) 
+        {
+            if ( isVelocimacro( strVMName, strSourceTemplate ) ) 
+            {    
+                return  vmManager_.get( strVMName, strSourceTemplate );
+            }
+        }
+
+        /*
+         *  wasn't a VM.  Sorry...
+         */
+        
+        return null;
+    }
+
+    /**
+     *  tells the vmManager to dump the specified namespace
+     */
+    public boolean dumpVMNamespace( String strNamespace )
+    {
+        return vmManager_.dumpNamespace( strNamespace );
+    }
+
+    /**
+     *  sets permission to have VMs local in scope to their declaring template
+     *  note that this is really taken care of in the VMManager class, but
+     *  we need it here for gating purposes in addVM
+     *  eventually, I will slide this all into the manager, maybe.
+     */   
+    private void setTemplateLocal( boolean b )
+    {
+        bTemplateLocal_ = b;
+    }
+
     /**
      *   sets the permission to add new macros
      */
@@ -213,94 +351,6 @@ public class VelocimacroFactory
         return b;
     }
 
-    /**
-     *   adds a macro to the factory.  Lots of room for improvement here...
-     */
-    public boolean addVelocimacro( String strName, String strMacro, String strArgArray[], String strMacroArray[], 
-                                   TreeMap tmArgIndexMap, String strSourceTemplate )
-    {
-        /*
-         *  maybe we should throw an exception, maybe just tell the caller like this...
-         * 
-         *  I hate this : maybe exceptions are in order here...
-         */
-        
-        if ( strName == null || strMacro == null | strArgArray == null || strMacroArray == null || tmArgIndexMap == null )
-            return false;
-        
-        /*
-         *   if exists, need to see if allowed to replace
-         */
-        
-        if ( isVelocimacro( strName ) && !bReplaceAllowed_ )
-            return false;
-        
-        if ( !bAddNewAllowed_ )
-            return false;
-        /*
-         *  ok. Just make one
-         */
-        
-        Hashtable h = new Hashtable();
-        h.put("macroname", strName );
-        h.put("argarray",  strArgArray );
-        h.put("macroarray",  strMacroArray );
-        h.put("indexmap", tmArgIndexMap );
-        h.put("macrobody", strMacro);
-        h.put("sourcetemplate", strSourceTemplate );
-
-        synchronized( obLock) {
-            if (!isVelocimacro( strName ))
-                hMacros_.put( strName, h );
-        }
-
-        return true;
-    }
-
-    /**
-     *   tells the world if a given directive string is a Velocimacro
-     */
-    public boolean isVelocimacro( String vm )
-    {
-        synchronized( obLock ) {
-            if (hMacros_.get( vm ) != null)
-                return true;
-        }
-
-        return false;
-    }
-
-    /**
-     *  actual factory : creates a Directive that will
-     *  behave correctly wrt getting the framework to 
-     *  dig out the correct # of args
-     */
-    public Directive getVelocimacro( String strVMName )
-    {
-        synchronized( obLock ) 
-        {
-            if ( isVelocimacro( strVMName ) ) 
-                {    
-                    Hashtable h = (Hashtable) hMacros_.get( strVMName );
-                    
-                    VelocimacroProxy vp = new VelocimacroProxy();
-                     
-                    vp.setName( (String) h.get("macroname"));
-                    vp.setArgArray(  (String []) h.get("argarray") ); 
-                    vp.setMacroArray( (String [] ) h.get("macroarray"));
-                    vp.setArgIndexMap( (TreeMap) h.get("indexmap"));
-                    vp.setMacrobody( (String) h.get("macrobody"));
-
-                    return vp;
-                }
-        }
-
-        /*
-         *  wasn't a VM.  Sorry...
-         */
-        
-        return null;
-    }
 }
 
 
