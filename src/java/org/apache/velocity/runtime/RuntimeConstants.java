@@ -64,29 +64,47 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** Location of the log file */
+    /** 
+     * Location of the velocity log file.
+     */
     public static final String RUNTIME_LOG = "runtime.log";
     
-    /**  stack trace output */
+    /** 
+     * Stack trace output for error messages.
+     */
     public static final String RUNTIME_LOG_ERROR_STACKTRACE = 
         "runtime.log.error.stacktrace";
     
+    /** 
+     * Stack trace output for warning messages.
+     */
     public static final String RUNTIME_LOG_WARN_STACKTRACE = 
         "runtime.log.warn.stacktrace";
     
+    /** 
+     * Stack trace output for info messages.
+     */
     public static final String RUNTIME_LOG_INFO_STACKTRACE = 
         "runtime.log.info.stacktrace";
 
-    /** The encoding to use for the template */
+    /** 
+     * The encoding to use for the template.
+     */
     public static final String TEMPLATE_ENCODING = "template.encoding";
     
-    /** Initial counter value in #foreach directives */
+    /** 
+     * Initial counter value in #foreach directives.
+     */
     public static final String COUNTER_NAME = "counter.name";
 
-    /** Initial counter value in #foreach directives */
+    /** 
+     * Initial counter value in #foreach directives.
+     */
     public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
 
-    /** Content type */
+    /** 
+     * Default Content type for output.
+     */
     public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
 
     /**
@@ -101,6 +119,9 @@ public interface RuntimeConstants
      */
     public static final String FILE_RESOURCE_LOADER_CACHING = "file.cache";
 
+    /**
+     * Logging of invalid references.
+     */
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
         "runtime.log.reference.log_invalid";
 
@@ -148,14 +169,20 @@ public interface RuntimeConstants
     public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = 
         "velocimacro.permissions.allowInlineToReplaceGlobal";
     
-    /** switch for forcing inline macros to be local : default false */
+    /** 
+     * Switch for forcing inline macros to be local : default false.
+     */
     public final static String VM_PERM_INLINE_LOCAL = 
         "velocimacro.permissions.allowInlineLocalScope";
 
-    /** switch for VM blather : default true  */
+    /** 
+     * Switch for VM blather : default true.
+     */
     public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
 
-   /** switch for local context in VM : default true  */
+   /** 
+    * switch for local context in VM : default true 
+    */
     public final static String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
 
     /*
@@ -166,26 +193,40 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** Prefix for warning messages */
+    /** 
+     * Prefix for warning messages.
+     */
     final static String WARN  = "  [warn] ";
     
-    /** Prefix for info messages */
+    /** 
+     * Prefix for info messages.
+     */
     final static String INFO  = "  [info] ";
     
-    /**  Prefix for debug messages */
+    /** 
+     * Prefix for debug messages.
+     */
     final static String DEBUG = " [debug] ";
     
-    /** Prefix for error messages */
+    /** 
+     * Prefix for error messages.
+     */
     final static String ERROR = " [error] ";
 
-    /** Turn Runtime debugging on with this field */
+    /** 
+     * Turn Runtime debugging on with this field.
+     */
     final static boolean DEBUG_ON = true;
 
-    /** Default Runtime properties */
+    /** 
+     * Default Runtime properties.
+     */
     final static String DEFAULT_RUNTIME_PROPERTIES = 
         "org/apache/velocity/runtime/defaults/velocity.properties";
 
-    /** Default Runtime properties */
+    /** 
+     * Default Runtime properties 
+     */
     final static String DEFAULT_RUNTIME_DIRECTIVES = 
         "org/apache/velocity/runtime/defaults/directive.properties";
 
@@ -193,5 +234,4 @@ public interface RuntimeConstants
       * Number of parsers to create
       */
     final static int NUMBER_OF_PARSERS = 20;
-
 }
