@@ -84,6 +84,7 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
 import org.apache.velocity.runtime.directive.Include;
+import org.apache.velocity.runtime.directive.Parse;
 
 import org.apache.velocity.util.*;
 import org.apache.velocity.runtime.configuration.VelocityResources;
@@ -145,7 +146,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.37 2000/11/08 03:22:41 jon Exp $
+ * @version $Id: Runtime.java,v 1.38 2000/11/12 06:37:00 geirm Exp $
  */
 public class Runtime
 {
@@ -415,6 +416,7 @@ public class Runtime
         directives.put("foreach", new Foreach());
         directives.put("dummy", new Dummy());
         directives.put("include", new Include() );
+        directives.put("parse", new Parse() );
         parser.setDirectives(directives);
         return parser;
     }
@@ -451,6 +453,22 @@ public class Runtime
             error(e);
             return null;
         }            
+    }
+
+    /**
+     *  Get an integer property with a default value
+     */
+    public static int getInt( String property, int iDef )
+    {
+        return VelocityResources.getInt( property, iDef );
+    }
+
+    /**
+     *  Get an integer property 
+     */
+    public static int getInt( String property )
+    {
+        return VelocityResources.getInt( property  );
     }
 
     /**
