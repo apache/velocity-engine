@@ -76,7 +76,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * A loader for templates stored on the file system.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.15 2002/02/07 06:21:14 dlr Exp $
+ * @version $Id: FileResourceLoader.java,v 1.15.2.1 2003/02/18 18:41:36 dlr Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -124,48 +124,44 @@ public class FileResourceLoader extends ResourceLoader
     public synchronized InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
-        String template = null;
-        int size = paths.size();
+        /*
+         * Make sure we have a valid templateName.
+         */
+        if (templateName == null || templateName.length() == 0)
+        {
+            /*
+             * If we don't get a properly formed templateName then
+             * there's not much we can do. So we'll forget about
+             * trying to search any more paths for the template.
+             */
+            throw new ResourceNotFoundException(
+                "Need to specify a file name or file path!");
+        }
 
+        String template = StringUtils.normalizePath(templateName);
+        if ( template == null || template.length() == 0 )
+        {
+            String msg = "File resource error : argument " + template + 
+                " contains .. and may be trying to access " + 
+                "content outside of template root.  Rejected.";
+
+            rsvc.error( "FileResourceLoader : " + msg );
+      
+            throw new ResourceNotFoundException ( msg );
+        }
+
+        /*
+         *  if a / leads off, then just nip that :)
+         */
+        if (template.startsWith("/"))
+        {
+            template = template.substring(1);
+        }
+
+        int size = paths.size();
         for (int i = 0; i < size; i++)
         {
             String path = (String) paths.get(i);
-        
-            /*
-             * Make sure we have a valid templateName.
-             */
-            if (templateName == null || templateName.length() == 0)
-            {
-                /*
-                 * If we don't get a properly formed templateName
-                 * then there's not much we can do. So
-                 * we'll forget about trying to search
-                 * any more paths for the template.
-                 */
-                throw new ResourceNotFoundException(
-                    "Need to specify a file name or file path!");
-            }
-
-            template = StringUtils.normalizePath(templateName);
-            if ( template == null || template.length() == 0 )
-            {
-                String msg = "File resource error : argument " + template + 
-                    " contains .. and may be trying to access " + 
-                    "content outside of template root.  Rejected.";
-
-                rsvc.error( "FileResourceLoader : " + msg );
-      
-                throw new ResourceNotFoundException ( msg );
-            }
-
-            /*
-             *  if a / leads off, then just nip that :)
-             */
-            if ( template.startsWith("/") )
-            {
-                template = template.substring(1);
-            }
-
             InputStream inputStream = findTemplate(path, template);
             
             if (inputStream != null)
@@ -226,34 +222,61 @@ public class FileResourceLoader extends ResourceLoader
     
     /**
      * How to keep track of all the modified times
-     * across the paths.
+     * across the paths.  Note that a file might have
+     * appeared in a directory which is earlier in the
+     * path; so we should search the path and see if
+     * the file we find that way is the same as the one
+     * that we have cached.
      */
     public boolean isSourceModified(Resource resource)
     {
-        String path = (String) templatePaths.get(resource.getName());
-        File file = new File( path, resource.getName() );           
-        
-        if ( file.canRead() )
-        {
-            if (file.lastModified() != resource.getLastModified())
-            {
-                return true;
-            }                
-            else
-            {
-                return false;
-            }                
-        }
-        
         /*
-         * If the file is now unreadable, or it has
-         * just plain disappeared then we'll just say
-         * that it's modified :-) When the loader attempts
-         * to load the stream it will fail and the error
-         * will be reported then.
+         * we assume that the file needs to be reloaded; 
+         * if we find the original file and it's unchanged,
+         * then we'll flip this.
          */
-        
-        return true;
+        boolean modified = true;
+
+        String fileName = resource.getName();
+        String path = (String) templatePaths.get(fileName);
+        File currentFile = null;
+
+        for (int i = 0; currentFile == null && i < paths.size(); i++)
+        {
+            String testPath = (String) paths.get(i);
+            File testFile = new File(testPath, fileName);
+            if (testFile.canRead())
+            {
+                currentFile = testFile;
+            }
+        }
+        File file = new File(path, fileName);
+        if (currentFile == null || !file.exists())
+        {
+            /*
+             * noop: if the file is missing now (either the cached
+             * file is gone, or the file can no longer be found)
+             * then we leave modified alone (it's set to true); a 
+             * reload attempt will be done, which will either use
+             * a new template or fail with an appropriate message
+             * about how the file couldn't be found.
+             */
+        }
+        else if (currentFile.equals(file) && file.canRead())
+        {
+            /*
+             * if only if currentFile is the same as file and
+             * file.lastModified() is the same as
+             * resource.getLastModified(), then we should use the
+             * cached version.
+             */
+            modified = (file.lastModified() != resource.getLastModified());
+        }
+
+        /*
+         * rsvc.debug("isSourceModified for " + fileName + ": " + modified);
+         */
+        return modified;
     }
 
     public long getLastModified(Resource resource)
