@@ -166,7 +166,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.33 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: Configuration.java,v 1.34 2003/05/04 17:14:37 geirm Exp $
  *
  * @deprecated As of version 1.1, please use ExtendedProperties from
  * the Jakarta Commons Collections component.
@@ -413,7 +413,7 @@ public class Configuration extends Hashtable
      */
     public String getInclude()
     {
-        return this.include;
+        return Configuration.include;
     }
 
     /**
@@ -424,7 +424,7 @@ public class Configuration extends Hashtable
      */
     public void setInclude(String inc)
     {
-        this.include = inc;
+		Configuration.include = inc;
     }
 
     /**

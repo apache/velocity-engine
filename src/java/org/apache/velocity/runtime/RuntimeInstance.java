@@ -56,19 +56,13 @@ package org.apache.velocity.runtime;
 
 import java.io.InputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.Stack;
 import java.util.Enumeration;
-import java.util.TreeMap;
-import java.util.Vector;
 import java.util.HashMap;
 
 import org.apache.velocity.Template;
@@ -85,7 +79,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
-import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 
@@ -94,7 +87,6 @@ import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
-import org.apache.velocity.util.introspection.UberspectImpl;
 import org.apache.velocity.util.introspection.UberspectLoggable;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -147,7 +139,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.17 2002/08/09 00:54:53 dlr Exp $
+ * @version $Id: RuntimeInstance.java,v 1.18 2003/05/04 17:14:36 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    

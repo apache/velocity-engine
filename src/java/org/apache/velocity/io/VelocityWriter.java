@@ -55,7 +55,6 @@ package org.apache.velocity.io;
  */
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
@@ -65,7 +64,7 @@ import java.io.Writer;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.6 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: VelocityWriter.java,v 1.7 2003/05/04 17:14:36 geirm Exp $
  */
 public final class VelocityWriter extends Writer
 {

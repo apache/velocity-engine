@@ -54,8 +54,6 @@ package org.apache.velocity.context;
  * <http://www.apache.org/>.
  */
 
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-
 /**
  *  interface to bring all necessary internal and user contexts together.
  *  this is what the AST expects to deal with.  If anything new comes
@@ -64,7 +62,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  I will rename soon :)
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalContextAdapter.java,v 1.4 2001/05/20 19:44:34 geirm Exp $
+ *  @version $Id: InternalContextAdapter.java,v 1.5 2003/05/04 17:14:36 geirm Exp $
  */
 
 public interface InternalContextAdapter 

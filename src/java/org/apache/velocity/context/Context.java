@@ -54,9 +54,6 @@ package org.apache.velocity.context;
  * <http://www.apache.org/>.
  */
 
-import java.util.Hashtable;
-import java.io.Serializable;
-
 /**
  *  Interface describing the application data context.  This set of
  *  routines is used by the application to set and remove 'named' data
@@ -71,7 +68,7 @@ import java.io.Serializable;
  *
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: Context.java,v 1.4 2001/10/23 20:48:04 dlr Exp $
+ *  @version $Id: Context.java,v 1.5 2003/05/04 17:14:36 geirm Exp $
  */
 public interface Context
 {

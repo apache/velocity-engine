@@ -54,42 +54,17 @@ package org.apache.velocity.runtime;
  * <http://www.apache.org/>.
  */
 
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Reader;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Hashtable;
 import java.util.Properties;
-import java.util.Stack;
-import java.util.Enumeration;
-import java.util.TreeMap;
-import java.util.Vector;
-
-import org.apache.log.Logger;
 
 import org.apache.velocity.Template;
 
-import org.apache.velocity.runtime.log.LogManager;
-import org.apache.velocity.runtime.log.LogSystem;
-
-import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ContentResource;
-import org.apache.velocity.runtime.resource.ResourceManager;
-
-import org.apache.velocity.util.SimplePool;
-import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
@@ -108,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  Currently implemented by RuntimeInstance.
  * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeServices.java,v 1.6 2002/08/09 01:05:30 dlr Exp $
+ * @version $Id: RuntimeServices.java,v 1.7 2003/05/04 17:14:36 geirm Exp $
  */
 public interface RuntimeServices extends RuntimeLogger
 {
