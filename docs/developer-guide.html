@@ -294,11 +294,15 @@ root of the Velocity distribution tree.
         the <code>bin</code> directory, without including necessary 
         support for logging from the 
         <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
-        Avalon Logkit</a> package, or the necesary support for WebMacro
+        Avalon Logkit</a> package, critical configuration support from the
+        <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
+        or the necesary support for WebMacro
         template conversion using the 
         <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
         package. If you use this
-        target, and you wish to use the built-in logging or template conversion,
+        target, you must get the Collections component jar from Jakarta Commons and add
+        to your CLASSPATH (or WEB-INF/lib). 
+        If you wish to use the built-in logging or template conversion,
         you must include the appropriate jars in your CLASSPATH or
         webapp's WEB-INF/lib.
        </li>
