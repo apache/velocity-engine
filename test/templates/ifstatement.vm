@@ -17,6 +17,29 @@ start :
  right
 #end
 
+#if(!$foo)
+  wrong
+#else
+  right
+#end
+
+#if( !$foo )
+  wrong
+#else
+  right
+#end
+
+#if( ! $foo )
+  wrong
+#else
+  right
+#end
+
+#if( ! ! $foo )
+  right
+#end
+
+
 #if($bar)
  wrong
 #else
@@ -34,6 +57,20 @@ start :
 #elseif( $floogie )
  wrong
 #elseif( $woppie )
+ wrong
+#else
+ right
+#end
+
+#if(!$bar)
+  right
+#end
+
+#if( !$bar)
+  right
+#end
+
+#if( !!$bar)
  wrong
 #else
  right
