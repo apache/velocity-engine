@@ -38,4 +38,7 @@ And there was a bug where I wasn't getting the params right for the use-instance
 
 Arg :>$jdom.getRootElement().getChild("properties").getChild("author").getTextTrim()<
 
+String literals should work as you expect :
+Arg :>stringliteral<
+
 - Another fine Velocity Production -

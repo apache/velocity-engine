@@ -63,4 +63,7 @@ Arg :>$i<
 
 #showarg( $jdom.getRootElement().getChild("properties").getChild("author").getTextTrim() )
 
+String literals should work as you expect :
+#showarg( "stringliteral")
+
 - Another fine Velocity Production -
