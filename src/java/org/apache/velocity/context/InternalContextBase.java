@@ -72,9 +72,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  is derived from this.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.1 2001/01/03 05:19:34 geirm Exp $
+ * @version $Id: InternalContextBase.java,v 1.2 2001/01/13 16:33:57 geirm Exp $
  */
-class InternalContextBase implements InternalContext,Serializable
+class InternalContextBase implements InternalHousekeepingContext,Serializable
 {
     /**
      *  cache for node/context specific introspection information
