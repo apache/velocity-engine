@@ -76,6 +76,7 @@ import org.apache.log.Logger;
 import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.log.LogManager;
+import org.apache.velocity.runtime.log.LogSystem;
 
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -172,7 +173,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.92 2001/03/06 19:26:24 geirm Exp $
+ * @version $Id: Runtime.java,v 1.93 2001/03/12 07:20:11 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -184,7 +185,7 @@ public class Runtime implements RuntimeConstants
     /** 
      * The Runtime logger.
      */
-    private static Logger logger;
+    private static LogSystem logSystem = null;
 
     /** 
      * The caching system used by the Velocity Runtime 
@@ -495,8 +496,22 @@ public class Runtime implements RuntimeConstants
          * Initialize the logger. We will eventually move all
          * logging into the logging manager.
          */
-        logger = LogManager.createLogger(logFile);
+        if (logSystem == null)
+            logSystem = LogManager.createLogSystem(logFile);
 
+        /*
+         * Dump the pending messages
+         */
+        dumpPendingMessages();
+
+        Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
+    }
+
+    /*
+     * Dump the pending messages
+     */
+    private static void dumpPendingMessages()
+    {
         if ( !pendingMessages.isEmpty())
         {
             /*
@@ -504,13 +519,13 @@ public class Runtime implements RuntimeConstants
              */
             for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
             {
-                logger.info( (String) e.nextElement());
+                Object[] data = (Object[]) e.nextElement();
+                log(((Integer) data[0]).intValue(), data[1]);
             }
+            pendingMessages = new Vector();
         }
-        
-        Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
-
+    
     /**
      * This methods initializes all the directives
      * that are used by the Velocity Runtime. The
@@ -706,23 +721,6 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Handle logging.
-     *
-     * @param String message to log
-     */
-    private static void log(String message)
-    {
-        if (logger != null)
-        {
-            logger.info(message);
-        }
-        else
-        {
-            pendingMessages.addElement(message);
-        }
-    }
-
-    /**
      * Added this to check and make sure that the configuration
      * is initialized before trying to get properties from it.
      * This occurs when there are errors during initialization
@@ -741,25 +739,34 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
+     * Handle logging.
+     *
+     * @param String message to log
+     */
+    private static void log(int type, Object message)
+    {
+        if (logSystem != null)
+        {
+     		logSystem.setStackTrace(showStackTrace());
+     		logSystem.log(type, message);
+        }
+        else
+        {
+            Object[] data = new Object[2];
+            data[0] = new Integer(type);
+            data[1] = message;
+            pendingMessages.addElement(data);
+        }
+    }
+
+    /**
      * Log a warning message.
      *
      * @param Object message to log
      */
     public static void warn(Object message)
     {
-        String out = null;
-        
-        if ( showStackTrace() &&
-            (message instanceof Throwable || message instanceof Exception) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        
-        log(WARN + out);
+        log(LogSystem.WARN_ID, message);
     }
     
     /** 
@@ -769,19 +776,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        String out = null;
-        
-        if ( showStackTrace() &&
-            ( message instanceof Throwable || message instanceof Exception) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        
-        log(INFO + out);
+        log(LogSystem.INFO_ID, message);
     }
     
     /**
@@ -791,19 +786,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        String out = null;
-        
-        if ( showStackTrace() &&
-            ( message instanceof Throwable || message instanceof Exception ) )
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();    
-        }
-        
-        log(ERROR + out);
+        log(LogSystem.ERROR_ID, message);
     }
     
     /**
@@ -813,10 +796,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        if (DEBUG_ON)
-        {
-            log(DEBUG + message.toString());
-        }
+        log(LogSystem.DEBUG_ID, message);
     }
 
     /**
