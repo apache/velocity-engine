@@ -951,40 +951,88 @@
 
  <s1 title="Velocimacros">
     <p>
-    With the <vtldirective>#macro</vtldirective> script element, the template designer can define a 
-    timesaving macro. 
-    </p>    
-    
+    The <vtldirective>#macro</vtldirective> script element allows template designers to define a 
+    repeated segment of a VTL template. Velocimacros are very useful in a wide
+    range of scenarios both simple and complex. This Velocimacro, created for the sole purpose of saving 
+    keystrokes and minimizing typographic errors, provides an introduction to the concept of Velocimacros.
+    </p>
+
     <p>
     <source><![CDATA[
-    #macro (row $content) <tr><td>$content</td></tr> #end
+    #macro (d)
+    <tr><td></td></tr>
+    #end
     ]]></source>
     </p>
-    
+
     <p>
-    This establishes a macro called "row", which uses HTML tags to
-    put content into its own table data cell in an HTML table. Having 
-    defined the <code>#row</code> macro, the template designer can now call the <code>#row</code> 
-    macro by name.
+    The Velocimacro being defined in this example is <vtl>d</vtl>, and it can be called in a manner
+    analogous to any other VTL directive:
     </p>
-    
+
     <p>
     <source><![CDATA[
-    <table>
-    #foreach ($element in $list)
-	#row ($element)
+    #d
+    ]]></source>
+    </p>
+
+    <p>
+    When this template is called, Velocity would replace <vtl>#d</vtl> with a row containing a single, 
+    empty data cell. 
+    </p>
+
+    <p>
+    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments: 
+    a color and an array.
+    </p>
+
+    <p>
+    <source><![CDATA[    
+    #macro (tablerows $color $list)
+    #foreach ($person in $list)
+    <tr><td bgcolor=$color>$person</td></tr>
     #end
+    #end
+    ]]></source>
+    </p>
+
+    <p>
+    The Velocimacro being defined in this example is <vtl>tablerows</vtl>, and it takes two arguments, <vtl>$color</vtl>
+    and <vtl>$list</vtl>. It could take any number number of arguments -- even zero arguments, as demonstrated in
+    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of 
+    arguments with which it was defined.
+    </p>
+
+    <p>
+    Anything that can be put into a VTL template can go into the body of a Velocimacro. The <vtl>tablerows</vtl> 
+    Velocimacro is a <vtl>foreach</vtl> statement. There are two <vtl>#end</vtl> statements; the first belongs to the 
+    <vtldirective>#foreach</vtldirective>, the second ends the Velocimacro definition. 
+    </p>
+
+    <p>
+    <source><![CDATA[    
+    #set $names = ["Tom","Dick","Harry"]
+    #set $color = "blue"
+    <table>
+    #tablerows ($color $names)
     </table>
     ]]></source>
     </p>
-    
+
     <p>
-    Here a newly created <code>#row</code> macro is nested inside a <vtldirective>#foreach</vtldirective>
-    statement. As the <vtldirective>#foreach</vtldirective> statement loops through each <variable>$element</variable>
-    target in the <variable>$list</variable> object, the <code>#row</code> macro will take the value of
-    <variable>$element</variable> and put it into its table data cell.
+    When the <vtl>#tablerows</vtl> Velocimacro is called in this situation, the following output is produced: 
     </p>
-    
+
+    <p>
+    <source><![CDATA[
+    <table>             
+        <tr><td bgcolor=blue>Tom</td></tr>
+        <tr><td bgcolor=blue>Dick</td></tr>
+        <tr><td bgcolor=blue>Harry</td></tr>
+    </table>  
+    ]]></source>
+    </p>
+
  </s1>
 
 </s1>
