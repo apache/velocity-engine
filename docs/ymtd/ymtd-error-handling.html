@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- Content Stylesheet for Site -->
+
+        
+<!-- start the processing -->
+    <!-- ====================================================================== -->
+    <!-- Main Page Section -->
+    <!-- ====================================================================== -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+
+                                                    <meta name="author" value="Jon S. Stevens">
+            <meta name="email" value="jon@latchkey.com">
+            
+            <title>Velocity - You make the decision - Error Handling</title>
+        </head>
+
+        <body bgcolor="#ffffff" text="#000000" link="#525D76">        
+            <table border="0" width="100%" cellspacing="0">
+                <!-- TOP IMAGE -->
+                <tr>
+                    <td align="left">
+<a href="http://jakarta.apache.org"><img src="http://jakarta.apache.org/images/jakarta-logo.gif" border="0"/></a>
+</td>
+<td align="right">
+<a href="http://jakarta.apache.org/velocity/"><img src="../images/logo.gif" alt="Velocity" border="0"/></a>
+</td>
+                </tr>
+            </table>
+            <table border="0" width="100%" cellspacing="4">
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                
+                <tr>
+                    <!-- LEFT SIDE NAVIGATION -->
+                    <td valign="top" nowrap="true">
+                                <p><strong>About</strong></p>
+        <ul>
+                    <li>    <a href="../index.html">Overview</a>
+</li>
+                    <li>    <a href="../getting-started.html">Getting Started</a>
+</li>
+                    <li>    <a href="../install.html">Install</a>
+</li>
+                    <li>    <a href="../design.html">Design</a>
+</li>
+                    <li>    <a href="../contributors.html">Contributors</a>
+</li>
+                    <li>    <a href="../code-standards.html">Coding Standards</a>
+</li>
+                    <li>    <a href="../license.html">License</a>
+</li>
+                    <li>    <a href="../todo.html">TODO</a>
+</li>
+                </ul>
+            <p><strong>Guides</strong></p>
+        <ul>
+                    <li>    <a href="../user-guide.html">User's Guide</a>
+</li>
+                    <li>    <a href="../developer-guide.html">Developer's Guide</a>
+</li>
+                    <li>    <a href="../vtl-reference-guide.html">VTL Reference Guide</a>
+</li>
+                </ul>
+            <p><strong>Comparisons</strong></p>
+        <ul>
+                    <li>    <a href="../ymtd.html">YMTD</a>
+</li>
+                    <li>    <a href="../differences.html">VM/WM Differences</a>
+</li>
+                </ul>
+            <p><strong>Tools</strong></p>
+        <ul>
+                    <li>    <a href="../anakia.html">Anakia</a>
+</li>
+                    <li>    <a href="../texen.html">Texen</a>
+</li>
+                    <li>    <a href="../migration.html">Migration to Velocity</a>
+</li>
+                </ul>
+                        </td>
+                    <td align="left" valign="top">
+                                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <strong>Error Handling</strong>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+This is a good one and a fundamental design issue with JSP. The question
+is: How many different types of errors can one get when using JSP? For
+example, because the JSP Servlet is auto generated from a .jsp text file
+and then compiled with a compiler, what happens when there is a
+generation/parsing error or a compile error? The unnecessary complexity
+of JSP actually increases the number of ways to get errors!
+</p>
+                                                <p>
+The ugliest aspect of all of this is the fact the errors are reported
+via two different mechanisms. The parser can throw its own set of errors
+and the javac compiler can throw a whole different set of errors and 
+as a result of the layers of generation, errors from the compiler generally
+do not make any sense whatsoever. For example, can you tell me what 
+this error is from?
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+org.apache.jasper.JasperException: Unable to compile class: Invalid type
+expression.
+                out.println(&quot;JSP is great!&quot;)
+                           ^
+: Invalid declaration.
+                out.write(&quot;\r\n\r\n\r\n&quot;);
+                         ^
+2 errors
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+If you guessed that the error was a result of a missing <code>;</code>
+after the first out.println(), you were correct! Now, put yourself in
+the shoes of someone who has never written or seen a line of Java code.
+Do you think that person could have figured out the error quickly and
+easily? Compound that with the fact that if the error had been on a less
+deterministic part of the file, it is now much harder to find the source
+of the error because there is a level of abstraction from the original
+.jsp file and because there is an intermediate .java file that gets
+generated.
+</p>
+                                                <p>
+Again, Velocity does not suffer from these same problems because there
+is no intermediate step and no layers of abstraction.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+&lt;%@ page errorPage=&quot;/error.jsp&quot; %&gt;
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+JSP also allows one to define an error page that is used if an Throwable 
+exception is thrown during the processing of a page. Doesn't this 
+again break the MVC model?
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+&lt;% throw new Exception(&quot;oops&quot;); %&gt;
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+In order to throw an Exception somewhere in a JSP page, one needs to
+first embed it within a statement. Note: that in this specific case, if
+optimizations are turned on in the compiler, chances are that the entire
+exception would be compiled out. Therefore, a more concrete object must
+be used instead of the "true". This can actually prove difficult if
+using a strict MVC model because instantiation of objects breaks the
+View.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+&lt;%
+  if (true) {
+    throw new Exception(&quot;oops&quot;);
+  }
+%&gt;</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+The reason is that JSP will generate an additional <code>out.println
+("\r\n");</code> after the Exception. When javac attempts to compile the
+page, another hard to debug error will be reported:
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+org.apache.jasper.JasperException: Unable to compile class for
+  JSPC:\engines\jakarta-tomcat\work\localhost_8080%2Fjsp\
+  _0002ferrorMaker_0002ejsperrorMaker_jsp_3.java:75:
+Statement not reached.
+                out.write(&quot;\r\n&quot;);
+                ^</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Taking a direct quote out of Jason's book (I couldn't say it better myself):
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+In fact, there are many such &quot;gotchas&quot; when using scriptlets with JSP. 
+If you accidentally write a scriptlet instead of an expression (by
+forgetting the equal sign), declare a static variable inside a scriptlet
+(where statics aren't allowed), forget a semi-colon (they're not needed
+in expressions but are needed in scriptlets), or write anything but
+perfect Java code, you're likely to get a confusing error message
+because the compiler is acting on the generated Java code, not on the
+JSP file.  To demonstrate the problem, picture if &lt;%= name %&gt; were
+replaced by &lt;% name %&gt; in errorTaker.jsp.  Tomcat generates this error:
+
+org.apache.jasper.JasperException: Unable to compile class for
+  JSPC:\engines\jakarta-tomcat\work\localhost_8080%2Fjsp\
+  _0002ferrorTaker_0002ejsperrorTaker_jsp_6.java:91:
+Class name not found.
+                 name 
+                 ^
+
+Debugging an error like this often requires a programmer to look at the
+generated code to reconstruct what caused the error.</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Velocity does not have of these same problems because it does not allow
+the author to place any Java code within a template. The only things allowed
+in the template are Velocity Template Language (VTL). Everything else is
+ignored by the parser. The only place where one could run into trouble
+within Velocity is if there is a call to a method which throws an
+exception during runtime. For example, this VTL defines a String
+<code>$foo</code> and then attempts to call its <code>substring()</code>
+method on it would throw an <code>IndexOutOfBoundsException</code>:
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set ($foo = &quot;bar&quot;)
+
+#set ($bar = $foo.substring(0,10))
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+When the exception is thrown, the parser will stop processing and throw
+that exception up the stack tree where it can be caught in the method
+that caused the parser to execute. At that point, the exception can be
+handled gracefully. This is one of the benefits of using Turbine
+combined with Velocity because of Turbine's design it easy to deal with
+Exceptions in a consistent manner. It is also possible to get this same
+functionality with by using Velocity's included VelocityServlet. The
+Exception will contain the line number and column number in the .vm file
+of where the error happened. Because there is no abstraction like with
+JSP, the line number and column matches up to the error. Also, the only
+tool that will throw the exception is the parser. No need to try to
+debug the cryptic javac messages which are a result of generated .java
+code.
+</p>
+                                                <p>
+You make the decision.
+</p>
+                                                <p>
+<strong>[ <a href="ymtd-generation.html">Generation?</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-javabeans.html">JavaBeans</a> ]
+</strong></p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                        </td>
+                </tr>
+
+                <!-- FOOTER -->
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                <tr><td colspan="2">
+                    <div align="center"><font color="#525D76" size="-1"><em>
+                    Copyright &#169; 1999-2001, Apache Software Foundation
+                    </em></font></div>
+                </td></tr>
+            </table>
+        </body>
+    </html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
