@@ -50,6 +50,9 @@
      Fix to VM system to prevent dumping of VM namespace when using 
      namespaces (in local.scope).  (gmj)
   </li>
+  <li>
+     Added auto alternator functionality to VelocityFormatter. (dlr)
+  </li>
 
 </ul>
 </subsection>
