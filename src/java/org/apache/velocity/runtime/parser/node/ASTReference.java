@@ -67,6 +67,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -83,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.35 2001/08/07 21:56:30 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.36 2001/08/11 18:58:07 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -398,13 +400,19 @@ public class ASTReference extends SimpleNode
              *  first, we introspect for the set<identifier> setter method
              */
 
-            Class[] params = { value.getClass() };
+            Object[] params = { value };
+
             Class c = result.getClass();
             Method m = null;
 
             try
             {
-                m = c.getMethod("set" + identifier, params);
+                m = Introspector.getMethod( c, "set" + identifier, params);
+
+                if (m == null)
+                {
+                    throw new NoSuchMethodException();
+                }
             }
             catch( NoSuchMethodException nsme2)
             {
@@ -419,8 +427,13 @@ public class ASTReference extends SimpleNode
                 {
                     sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
                 }
+               
+                m = Introspector.getMethod( c, sb.toString(), params);
 
-                m = c.getMethod( sb.toString(), params);
+                if (m == null)
+                {
+                    throw new NoSuchMethodException();
+                }
             }
 
             /*

@@ -56,6 +56,8 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -78,8 +80,15 @@ public class PropertyExecutor extends AbstractExecutor
         try
         {
             methodUsed = "get" + property;
-
-            method = c.getMethod( methodUsed, null);
+            
+            Object[] params = {  };
+            method = Introspector.getMethod( c, methodUsed, params);
+           
+            if (method == null)
+            {
+                throw new NoSuchMethodException();
+            }
+            
         }
         catch (NoSuchMethodException nsme)
         {
@@ -113,11 +122,24 @@ public class PropertyExecutor extends AbstractExecutor
             try
             {
                 methodUsed = sb.toString();
-                method = c.getMethod( methodUsed, null);
+                               
+                Object[] params = {  };
+                method = Introspector.getMethod( c, methodUsed, params);
+                
+                if (method == null)
+                {
+                    throw new NoSuchMethodException();
+                }
             }
             catch ( NoSuchMethodException nsme2 )
             {
             }
+            catch(Exception e )
+            {
+            }
+        }
+        catch(Exception e )
+        {
         }
     }
     
