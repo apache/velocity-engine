@@ -87,7 +87,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.46 2002/04/21 20:57:04 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.47 2002/04/27 18:08:34 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -295,7 +295,7 @@ public class ASTReference extends SimpleNode
 
         if (ec != null)
         {
-            value =  ec.referenceInsert( nullString, value );
+            value =  ec.referenceInsert(literal(), value);
         }
 
         /*
