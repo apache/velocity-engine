@@ -63,6 +63,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -84,7 +86,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.28 2001/08/29 01:46:31 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.29 2001/08/29 02:37:27 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -254,17 +256,34 @@ public class TexenTask
      * fed into the initial context be the
      * generating process starts.
      */
-    public void setContextProperties( File file )
+    public void setContextProperties( String file )
     {
         contextProperties = new ExtendedProperties();
         
-        try
+        if (useClasspath)
         {
-            contextProperties.load(new FileInputStream(file));
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            
+            try
+            {
+                InputStream inputStream = classLoader.getResourceAsStream(file);
+                contextProperties.load(inputStream);
+            }
+            catch (IOException ioe)
+            {
+                contextProperties = null;
+            }
         }
-        catch (Exception e)
+        else
         {
-            contextProperties = null;
+            try
+            {
+                contextProperties.load(new FileInputStream(file));
+            }
+            catch (Exception e)
+            {
+                contextProperties = null;
+            }
         }
     }
 
