@@ -106,10 +106,10 @@
   **  jar-servlet    compile             prepares jar with only servlet classes
   **  jar-src                            prepares jar of source
   **  examples       jar                 compiles examples and calls forumdemo
-  **  examples-clean-anakia             cleans anakia example
-  **  examples-clean-forumdemo          cleans forum demo
-  **  examples-clean-all
-  **                 examples-clean-anakia, examples-clean-forumdemo
+  **  examples-clean-anakia              cleans anakia example
+  **  examples-clean-forumdemo           cleans forum demo
+  **  examples-clean-all                 cleans the anakia/forumdemo examples
+  **
   **  javadocs       prepare             build javadocs
   **  javadocs-clean                     delete javadocs
   **  test           compile             runs JUnit tests
