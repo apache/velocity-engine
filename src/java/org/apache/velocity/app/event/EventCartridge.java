@@ -64,7 +64,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
- * @version $Id: EventCartridge.java,v 1.1 2001/05/20 19:48:55 geirm Exp $
+ * @version $Id: EventCartridge.java,v 1.2 2001/05/20 21:09:04 geirm Exp $
  */
 public class EventCartridge implements ReferenceInsertionEventHandler,
                                        NullSetEventHandler,
@@ -173,7 +173,7 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
 
     /**
      *  Implementation of NullSetEventHandler method
-     *  <code>nullSetLogMessage()</code>.
+     *  <code>shouldLogOnNullSet()</code>.
      *
      *  Called during Velocity merge to determine if when
      *  a #set() results in a null assignment, a warning
@@ -182,14 +182,14 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
      *  @param reference reference from template about to be inserted
      *  @return true if to be logged, false otherwise
      */
-    public boolean nullSetLogMessage( String reference )
+    public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
         if ( nseh == null)
         {
             return true;
         }
 
-        return nseh.nullSetLogMessage( reference );
+        return nseh.shouldLogOnNullSet( lhs, rhs );
     }
     
     /**
