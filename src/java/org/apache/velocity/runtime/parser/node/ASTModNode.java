@@ -64,10 +64,9 @@ package org.apache.velocity.runtime.parser.node;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTModNode.java,v 1.5 2001/06/20 04:24:29 geirm Exp $ 
+ * @version $Id: ASTModNode.java,v 1.6 2001/08/07 21:56:30 geirm Exp $ 
 */
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -106,7 +105,7 @@ public class ASTModNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side ("
+            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of modulus operation has null value."
                            + " Operation not possible. "
@@ -121,7 +120,7 @@ public class ASTModNode extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of modulus operation is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
@@ -136,7 +135,7 @@ public class ASTModNode extends SimpleNode
 
         if ( ( (Integer) right).intValue() == 0 )
         {
-            Runtime.error( "Right side of modulus operation is zero. Must be non-zero. "
+            rsvc.error( "Right side of modulus operation is zero. Must be non-zero. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  

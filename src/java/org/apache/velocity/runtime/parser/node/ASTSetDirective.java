@@ -58,7 +58,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
@@ -73,7 +73,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.18 2001/05/20 21:14:32 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.19 2001/08/07 21:56:30 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
@@ -112,7 +112,7 @@ public class ASTSetDirective extends SimpleNode
         right = getRightHandSide();
         left = getLeftHandSide();
 
-        blather = Runtime.getBoolean(Runtime.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
+        blather = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
  
         /*
          *  grab this now.  No need to redo each time
@@ -159,7 +159,7 @@ public class ASTSetDirective extends SimpleNode
 
                 if (doit)
                 {
-                    Runtime.error("RHS of #set statement is null. Context will not be modified. " 
+                    rsvc.error("RHS of #set statement is null. Context will not be modified. " 
                                   + context.getCurrentTemplateName() + " [line " + getLine() 
                                   + ", column " + getColumn() + "]");
                 }

@@ -56,7 +56,6 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
@@ -90,7 +89,7 @@ public class ASTNENode extends SimpleNode
 
         if ( left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side ("
+            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '!=' operation has null value."
                            + " Operation not possible. "
@@ -113,7 +112,7 @@ public class ASTNENode extends SimpleNode
         }
         else
         {
-            Runtime.error("Error in evaluation of != expression."
+            rsvc.error("Error in evaluation of != expression."
                           + " Both arguments must be of the same Class."
                           + " Currently left = " + left.getClass() + ", right = " 
                           + right.getClass() + ". "

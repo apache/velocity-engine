@@ -119,7 +119,7 @@ package org.apache.velocity.runtime.parser;
 import java.io.*;
 import java.util.*;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.64 2001/07/18 03:50:19 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.65 2001/08/07 21:57:10 geirm Exp $ 
 */
 public class Parser
 {
@@ -152,6 +152,8 @@ public class Parser
 
     VelocityCharStream velcharstream = null; 
 
+    private RuntimeServices rsvc = null;
+
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -159,7 +161,7 @@ public class Parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
      */
-    public Parser()
+    public Parser( RuntimeServices rs)
     {
         /*
          * need to call the CTOR first thing.
@@ -173,6 +175,11 @@ public class Parser
          */    
         velcharstream = new VelocityCharStream( 
                 new ByteArrayInputStream("\n".getBytes()), 1, 1 );
+
+        /*
+         *  and save the RuntimeServices
+         */
+        rsvc = rs;
     }
 
     /** 
@@ -213,7 +220,7 @@ public class Parser
         }
         catch (ParseException pe)
         {
-            Runtime.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
+            rsvc.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken, 
                 pe.expectedTokenSequences, pe.tokenImage);
         }
@@ -223,7 +230,7 @@ public class Parser
         }
         catch (Exception e)
         {
-            Runtime.error ("Parser Error: " + templateName + " : " + StringUtils.stackTrace(e));
+            rsvc.error ("Parser Error: " + templateName + " : " + StringUtils.stackTrace(e));
         }
 
         currentTemplateName = "";
@@ -280,7 +287,7 @@ public class Parser
         {
            bRecognizedDirective = true;
         }
-        else if (Runtime.isVelocimacro( strDirective.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro( strDirective.substring(1), currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -1092,7 +1099,7 @@ void Escape() : {}
 
         if ( isDirective( t.next.image.substring(1)))
             control = true;
-        else if ( Runtime.isVelocimacro( t.next.image.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro( t.next.image.substring(1), currentTemplateName))
             control = true;
 
         t.image = "";
@@ -1153,7 +1160,7 @@ void DirectiveArg() #void : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
-|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()    
 |   ObjectArray()
 |   True()
 |   False()
@@ -1205,7 +1212,7 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) Runtime.getVelocimacro( directiveName, currentTemplateName );
+            d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
 
             if (d == null) 
             {   
@@ -1249,8 +1256,8 @@ SimpleNode Directive() :
       
         if ( doItNow )  
         {
-            Macro m = new Macro();
-            m.processAndRegister( jjtThis, currentTemplateName );
+            // Macro m = new Macro(  );
+            Macro.processAndRegister( rsvc, jjtThis, currentTemplateName );
         }
 
         /*
@@ -1291,13 +1298,13 @@ void Parameter() #void: {}
     [<WHITESPACE>]
     (
         StringLiteral()
-      | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-      | ObjectArray()
-      | True()
-      | False()
-      | Reference()
-      | NumberLiteral()
-    )
+        | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()       
+        | ObjectArray()
+        | True()
+        | False()
+        | Reference()
+        | NumberLiteral()
+        )
     [ <WHITESPACE>]
 }
 
@@ -1485,18 +1492,18 @@ void UnaryExpression() #void : {}
 
 void PrimaryExpression() #void : {}
 {  
-[<WHITESPACE>] 
-(  
-    StringLiteral()
-  | NumberLiteral()    
-  | Reference()
-  | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-  | ObjectArray()
-  | True()
-  | False()
-  | <LPAREN>  Expression()  <RPAREN>
-)
-[<WHITESPACE>]
+    [<WHITESPACE>] 
+    (  
+     StringLiteral()
+    | NumberLiteral()    
+    | Reference()
+    | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()     
+    | ObjectArray()
+    | True()
+    | False()
+    | <LPAREN>  Expression()  <RPAREN>
+     )
+    [<WHITESPACE>]
 }
 
 

@@ -63,13 +63,12 @@ package org.apache.velocity.runtime.parser.node;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIntegerRange.java,v 1.3 2001/03/19 17:17:49 geirm Exp $ 
+ * @version $Id: ASTIntegerRange.java,v 1.4 2001/08/07 21:56:30 geirm Exp $ 
 */
 
 import java.util.ArrayList;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -115,7 +114,7 @@ public class ASTIntegerRange extends SimpleNode {
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of range operator [n..m] has null value."
+            rsvc.error( ( left == null ? "Left" : "Right" ) + " side of range operator [n..m] has null value."
                            + " Operation not possible. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
@@ -128,7 +127,7 @@ public class ASTIntegerRange extends SimpleNode {
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of range operator is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 

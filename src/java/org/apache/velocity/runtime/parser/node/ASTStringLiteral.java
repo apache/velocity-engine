@@ -62,14 +62,14 @@ import java.io.ByteArrayInputStream;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * ASTStringLiteral support.  Will interpolate!
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.10 2001/04/22 18:02:32 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.11 2001/08/07 21:56:30 geirm Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {
@@ -113,7 +113,7 @@ public class ASTStringLiteral extends SimpleNode
          *  can  interpolate.  Otherwise, don't bother.
          */
 
-        interpolate = Runtime.getBoolean(Runtime.INTERPOLATE_STRINGLITERALS , true)
+        interpolate = rsvc.getBoolean(RuntimeConstants.INTERPOLATE_STRINGLITERALS , true)
             && getFirstToken().image.startsWith("\"")
             && ( (getFirstToken().image.indexOf("$") != -1 ) 
                  || ( getFirstToken().image.indexOf("#") != -1 ));
@@ -165,13 +165,13 @@ public class ASTStringLiteral extends SimpleNode
                     BufferedReader br = new BufferedReader( new StringReader( interpolateimage ));
 
                     nodeTree 
-                        = Runtime.parse( br,context.getCurrentTemplateName() );        
+                        = rsvc.parse( br,context.getCurrentTemplateName() );        
                 
                     /*
                      *  init with context. It won't modify anything
                      */
 
-                    nodeTree.init( context, null );
+                    nodeTree.init( context, rsvc );
                 }
 
                 /*
@@ -200,7 +200,7 @@ public class ASTStringLiteral extends SimpleNode
                  *  eh.  If anything wrong, just punt 
                  *  and output the literal 
                  */
-                Runtime.error("Error in interpolating string literal : " + e );
+                rsvc.error("Error in interpolating string literal : " + e );
             }
         }
         
