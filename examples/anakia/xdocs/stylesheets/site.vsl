@@ -68,8 +68,18 @@
 #end
 
 #macro ( image $value )
-    <img src="$relativePath$value.getAttributeValue("src")">
+#if ($value.getAttributeValue("width"))
+#set $width=$value.getAttributeValue("width")
 #end
+#if ($value.getAttributeValue("height"))
+#set $height=$value.getAttributeValue("height")
+#end
+#if ($value.getAttributeValue("align"))
+#set $align=$value.getAttributeValue("align")
+#end
+<img src="$relativePath$value.getAttributeValue("src")" width="$!width" height="$!height" align="$!align">
+#end
+
 #macro ( projectanchor $name $value )
     <a href="$relativePath$value">$name</a>
 #end
