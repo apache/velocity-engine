@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.8 2000/11/25 19:49:35 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.9 2000/11/26 03:01:13 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -73,7 +73,16 @@ public class TestProvider
     {
         return "jason";
     }
-    
+
+    public Stack getStack()
+    {
+        Stack stack = new Stack();
+        stack.push("stack element 1");
+        stack.push("stack element 2");
+        stack.push("stack element 3");
+        return stack;
+    }
+
     public List getEmptyList()
     {
         List list = new ArrayList();
