@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.73 2002/03/25 00:33:52 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.74 2002/03/27 15:59:04 geirm Exp $
 */
 public class Parser
 {
@@ -1182,6 +1182,9 @@ int DirectiveArg() #void : {}
         return ParserTreeConstants.JJTSTRINGLITERAL;
     }
 |   NumberLiteral()
+    {
+        return ParserTreeConstants.JJTNUMBERLITERAL;
+    }
 |   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
     {
         return ParserTreeConstants.JJTINTEGERRANGE;
