@@ -28,6 +28,8 @@ set SERVLET=%LIB%\servlet.jar
 set LOG=%LIB%\log.jar
 set JAVACLASS=%LIB%\JavaClass.jar
 
+set JUNIT=%LIB%\junit-3.2.jar
+
 set XALAN=%LIB%\xalan_1_1_D01.jar
 set FOP=%LIB%\fop.jar
 set W3C=%LIB%\w3c.jar
@@ -59,7 +61,7 @@ if exist %JAVA_HOME%\lib\tools.jar set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\too
 
 echo Now building %TARGET%...
 
-set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%;%SERVLET%
+set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%;%SERVLET%;%JUNIT%
 
 echo Classpath: %CP%
 echo JAVA_HOME: %JAVA_HOME%
