@@ -163,7 +163,7 @@
     <!-- =================================================================== -->
     <!-- Cleans up the build directory                                       -->
     <!-- =================================================================== -->
-    <target name="clean">
+    <target name="clean" depends="init">
         <deltree dir="${build.dir}"/>
     </target>
 
