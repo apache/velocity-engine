@@ -2104,16 +2104,19 @@ further information.
 
 <p>
 <code>parser.pool.size = 20</code><br/>
-This property sets the number of parsers that Velocity will
+This property sets the number of parser instances that Velocity will
 create at startup and keep in a pool.  The default of 20 parsers
-should be more than enough for most uses.  In the event
-that Velocity does run out of parsers, it will indicate
-so in the log, and
-dynamically create them as needed.  Note that they will not
-be added to the pool.  This is a slow operation compared to
-the normal parser pooling, but this is considered an
-exceptional condition.  If you see a log message, please
-increment this property.
+should be more than enough for most uses.  In the event that Velocity
+does run out of parsers, it will indicate so in the log, and
+dynamically create overflow instances as needed.  Note that these
+extra parsers will not be added to the pool, and will be discarded
+after use.  This will result in very slow operation compared to the
+normal usage of pooled parsers, but this is considered an exceptional
+condition.  A web application using Velocity as its view engine might
+exhibit this behavior under extremely high concurrency (such as when
+getting Slashdotted).  If you see a corresponding message referencing
+the <code>parser.pool.size</code> property in your log files, please
+increment this property immediately to avoid performance degradation.
 </p>
 
 <p>
