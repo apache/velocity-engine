@@ -158,7 +158,7 @@
      <a href="http://www.espial.com">Espial</a>
     </td>
    </tr>
-
+   
    <tr>
     <td>
      <a href="http://www.adeptra.com">www.adeptra.com</a>
@@ -180,6 +180,22 @@
      Online discussion forum site built using Turbine and Velocity.
     </td>
     <td>
+    </td>
+   </tr>
+   
+   <tr>
+    <td>
+     <a href="http://www.webhelp.com/">www.webhelp.com</a>
+    </td>
+    <td>
+      Webhelp is a company that provides distributed call center integration
+      software and services for web and wireless technologies.  WebHelp
+      incorporated Velocity with their ETranscript component, so that events
+      generated in a conference are rendered as MIME email and XML using Velocity
+      templates.    
+    </td>
+    <td>
+     <a href="http://www.webhelp.com">WebHelp</a>
     </td>
    </tr>
 
