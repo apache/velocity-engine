@@ -184,6 +184,11 @@ public class VelocityServletTest extends TestCase
             return this;
         }
 
+        public String getServletContextName()
+        {
+            return "VelocityTestContext";
+        }
+
         public String getInitParameter(String ignored)
         {
             return null;
