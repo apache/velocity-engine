@@ -72,10 +72,11 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.14 2001/03/19 17:17:53 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.15 2001/04/18 20:28:11 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
+    private String leftReference = "";
     private Node right;
     private ASTReference left;
     boolean blather = false;
@@ -112,6 +113,11 @@ public class ASTSetDirective extends SimpleNode
 
         blather = Runtime.getBoolean(Runtime.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
  
+        /*
+         *  grab this now.  No need to redo each time
+         */
+        leftReference = left.getFirstToken().image.substring(1);
+
         return data;
     }        
 
@@ -148,9 +154,13 @@ public class ASTSetDirective extends SimpleNode
          */
         
         if (left.jjtGetNumChildren() == 0)
-            context.put(left.getFirstToken().image.substring(1), value);
+        {
+            context.put( leftReference, value);
+        }
         else
+        {
             left.setValue(context, value);
+        }
     
         return true;
     }
