@@ -54,6 +54,13 @@ package org.apache.velocity.runtime;
  * <http://www.apache.org/>.
  */
 
+import java.util.Hashtable;
+import java.util.TreeMap;
+
+import org.apache.velocity.Template;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.VelocimacroProxy;
+
 /**
  *  VelocimacroManager.java
  *
@@ -69,16 +76,8 @@ package org.apache.velocity.runtime;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.5 2000/12/20 06:09:02 jvanzyl Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.6 2000/12/20 06:10:46 jvanzyl Exp $ 
  */
-
-import java.util.Hashtable;
-import java.util.TreeMap;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.directive.VelocimacroProxy;
-
 public class VelocimacroManager
 {
     private static String GLOBAL_NAMESPACE = "";
