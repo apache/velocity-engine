@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Resource.java,v 1.1 2000/12/19 05:30:05 jvanzyl Exp $
+ * @version $Id: Resource.java,v 1.2 2001/02/16 14:26:02 geirm Exp $
  */
 public abstract class Resource
 {
@@ -84,7 +84,7 @@ public abstract class Resource
      * The number of milliseconds in a minute, used to calculate the
      * check interval.
      */
-    protected static final long MILLIS_PER_MINUTE = 60 * 1000;
+    protected static final long MILLIS_PER_SECOND =  1000;
 
     /**
      * How often the file modification time is checked (in milliseconds).
@@ -145,8 +145,22 @@ public abstract class Resource
      * Is it time to check to see if the resource
      * source has been updated?
      */
-     public boolean requiresChecking()
-     {
+    public boolean requiresChecking()
+    {
+        /*
+         *  short circuit this if modificationCheckInterval == 0
+         *  as this means "don't check"
+         */
+        
+        if (modificationCheckInterval <= 0 )
+        {
+           return false;
+        }
+
+        /*
+         *  otherwise, see where we are
+         */
+
         if ( lastCheck >= nextCheck)
         {
             return true;
@@ -165,7 +179,7 @@ public abstract class Resource
     public void touch()
     {
         lastCheck = System.currentTimeMillis();
-        nextCheck = lastCheck + modificationCheckInterval;
+        nextCheck = lastCheck + ( MILLIS_PER_SECOND *  modificationCheckInterval);
     }
     
     /**
