@@ -67,7 +67,8 @@
                                    test-eventhandling,
                                    test-velocimacro,
                                    test-anakia,
-                                   test-texen
+                                   test-texen,
+                                   test-texen-classpath
                                    "/>
 
   <target name="test-template">
