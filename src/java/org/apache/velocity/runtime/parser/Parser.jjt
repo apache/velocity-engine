@@ -1675,7 +1675,7 @@ void PrimaryExpression() #void : {}
 
     VTL == Velocity Template Language : the references, directives, etc
 
-    shmoo == the non-VTL component of a template
+    schmoo == the non-VTL component of a template
 
     reference == VTL entity that represents data within the context. ex. $foo
 

@@ -44,7 +44,7 @@ import org.apache.velocity.app.event.EventCartridge;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.51 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
 */
 public class ASTReference extends SimpleNode
 {
@@ -222,7 +222,7 @@ public class ASTReference extends SimpleNode
         /*
          *  if this reference is escaped (\$foo) then we want to do one of two things :
          *  1) if this is a reference in the context, then we want to print $foo
-         *  2) if not, then \$foo  (its considered shmoo, not VTL)
+         *  2) if not, then \$foo  (its considered schmoo, not VTL)
          */
 
         if (escaped)
@@ -262,7 +262,7 @@ public class ASTReference extends SimpleNode
         if (value == null)
         {
             /*
-             *  write prefix twice, because it's shmoo, so the \ don't escape each other...
+             *  write prefix twice, because it's schmoo, so the \ don't escape each other...
              */
 
             writer.write(escPrefix);
