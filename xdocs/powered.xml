@@ -387,6 +387,18 @@
      </td>
      </tr>
 
+     <tr>
+     <td>
+      <a href="http://modelj.sourceforge.net/">ModelJ</a>
+     </td>
+     <td>
+     ModelJ is a RAD (Rapid Application Development) tool that uses code
+     generation to create complete J2EE designs using the Struts and EJB
+     frameworks.
+     </td>
+     </tr>
+
+
  </table>
 
  </section>
