@@ -83,4 +83,23 @@ public interface RuntimeConstants
     public static final String FILE_TEMPLATE_CACHE = "File.template.cache";
 
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = "runtime.log.reference.log_invalid";
+
+    /**
+     * Starting tag for error messages triggered by passing
+     * a parameter not allowed in the #include directive. Only
+     * string literals, and references are allowed.
+     */
+    public static String ERRORMSG_START =  "include.output.errormsg.start";
+    
+    /**
+     * Ending tag for error messages triggered by passing
+     * a parameter not allowed in the #include directive. Only
+     * string literals, and references are allowed.
+     */
+    public static String ERRORMSG_END  = "include.output.errormsg.end";
+
+    /**
+     * Maximum recursion depth allowed for the #parse directive.
+     */
+    public static String PARSE_DIRECTIVE_MAXDEPTH = "parse_directive.maxdepth";
 }
