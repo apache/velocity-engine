@@ -69,6 +69,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.context.Context;
 
+import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
@@ -82,7 +83,7 @@ import org.apache.velocity.util.StringUtils;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.22 2001/06/12 03:20:36 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.23 2001/06/19 03:33:30 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -97,7 +98,7 @@ public class VelocimacroProxy extends Directive
     private String[] callingArgs;
     private int[]  callingArgTypes;
     private HashMap proxyArgHash = new HashMap();
-    private HashMap keyMap = new HashMap();
+
 
     /**
      * Return name of this Velocimacro.
@@ -233,9 +234,6 @@ public class VelocimacroProxy extends Directive
     public void init( InternalContextAdapter context, Node node) 
        throws Exception
     {
-        // Runtime.info("VMProxy:init() : calling for " + macroName + " with namespace : " + namespace 
-        //             + " curr templ : " +  context.getCurrentTemplateName() );
-
         /*
          *  how many args did we get?
          */
@@ -245,6 +243,7 @@ public class VelocimacroProxy extends Directive
         /*
          *  right number of args?
          */        
+     
         if ( getNumArgs() != i ) 
         {
             Runtime.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
@@ -266,10 +265,14 @@ public class VelocimacroProxy extends Directive
          return;
     }
 
+    /**
+     *  basic VM setup.  Sets up the proxy args for this
+     *  use, and parses the tree
+     */
     public boolean setupMacro( String[] callArgs, int[] callArgTypes )
     {
         setupProxyArgs( callArgs, callArgTypes );
-        parseTree();
+        parseTree( callArgs );
 
         return true;
     }
@@ -278,7 +281,7 @@ public class VelocimacroProxy extends Directive
      *   parses the macro.  We need to do this here, at init time, or else
      *   the local-scope template feature is hard to get to work :)
      */
-    private void parseTree()
+    private void parseTree( String[] callArgs )
     {
         try 
         {                
@@ -289,6 +292,41 @@ public class VelocimacroProxy extends Directive
              */
 
             nodeTree = Runtime.parse( br, namespace, false );
+
+            /*
+             *  now, to make null references render as proper schmoo
+             *  we need to tweak the tree and change the literal of
+             *  the appropriate references
+             *
+             *  we only do this at init time, so it's the overhead
+             *  is irrelevant
+             */
+
+            HashMap hm = new HashMap();
+
+            for( int i = 1; i < argArray.length; i++)
+            {
+                String arg = callArgs[i-1];
+
+                /*
+                 *  if the calling arg is indeed a reference
+                 *  then we add to the map.  We ignore other
+                 *  stuff
+                 */
+
+                if (arg.charAt(0) == '$')
+                {
+                    hm.put( argArray[i], arg );
+                }
+            }
+
+            /*
+             *  now make one of our reference-munging visitor, and 
+             *  let 'er rip
+             */
+
+            VMReferenceMungeVisitor v = new VMReferenceMungeVisitor( hm );
+            nodeTree.jjtAccept( v, null );
         } 
         catch ( Exception e ) 
         {
