@@ -63,7 +63,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.velocity.VelocityContext;
@@ -100,7 +99,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.26 2001/03/12 01:03:23 jon Exp $
+ * @version $Id: TemplateTestCase.java,v 1.27 2001/03/13 00:02:56 dlr Exp $
  */
 public class TemplateTestCase extends TestCase implements TemplateTestBase
 {
@@ -153,8 +152,8 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
 
         vec = new Vector();
 
-        vec.addElement( new String("string1"));
-        vec.addElement( new String("string2"));
+        vec.addElement(new String("string1"));
+        vec.addElement(new String("string2"));
 
         /*
          *  set up 3 chained contexts, and add our data 
@@ -170,7 +169,7 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
         context2.put("providers", provider.getCustomers2());
         context.put("list", al);
         context1.put("hashtable", h);
-        context2.put("hashmap", new HashMap() );
+        context2.put("hashmap", new HashMap());
         context2.put("search", provider.getSearch());
         context.put("relatedSearches", provider.getRelSearches());
         context1.put("searchResults", provider.getRelSearches());
