@@ -387,6 +387,8 @@
 
   <target name="test-texen-classpath">
 
+	<!--  note: previously the taskdef included the mysterious attribute reverseLoader="true" -->
+	<!--  now that this has been removed, we only guarantee this works with ant 1.5+ -->
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
        >
       <classpath>
