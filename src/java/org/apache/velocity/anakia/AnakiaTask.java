@@ -81,14 +81,12 @@ import org.apache.velocity.util.StringUtils;
     class instead to do your transformations. It works very
     similar in concept to Ant's &lt;style&gt; task.
     <p>
-    This class is still a work in progress, so more documentation
-    will be following soon.
-    <p>
-    The name Anakia is just a cool name that I liked so I used
-    it for this project.
+    You can find more documentation about this class on the
+    Velocity 
+    <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.8 2000/11/25 20:44:08 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.9 2000/11/26 06:52:22 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -303,8 +301,9 @@ public class AnakiaTask extends MatchingTask
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", new XMLOutputter());
                 context.put ("relativePath", getRelativePath(xmlFile));
+                context.put ("treeWalk", new TreeWalker());
                 context.put ("xpath", new XPathTool() );
-
+                
                 // only put this into the context if it exists.
                 if (projectDocument != null)
                     context.put ("project", projectDocument.getRootElement());
