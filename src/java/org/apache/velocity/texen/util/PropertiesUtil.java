@@ -56,9 +56,8 @@ package org.apache.velocity.texen.util;
  *
  */
 
-// JDK Classes
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * A property utility class for the texen text/code generator

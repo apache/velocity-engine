@@ -56,9 +56,8 @@ package org.apache.velocity.texen.util;
  *
  */
 
-// JDK Classes
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.StringTokenizer;
 
 /**
  * A string utility class for the texen text/code generator
