@@ -143,7 +143,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.30 2000/11/02 13:40:44 geirm Exp $
+ * @version $Id: Runtime.java,v 1.31 2000/11/03 23:25:23 jon Exp $
  */
 public class Runtime
 {
@@ -162,9 +162,6 @@ public class Runtime
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
     
-    /** Enable the speed up provided by FastWriter */
-    public static final String TEMPLATE_ASCIIHACK = "template.asciihack";
-
     /** How often to check for modified templates. */
     public static final String TEMPLATE_MOD_CHECK_INTERVAL =
         "template.modificationCheckInterval";
@@ -330,7 +327,7 @@ public class Runtime
                 logger.info(pendingMessages.toString());
             }
             
-            Runtime.info("Log file being used is: " + logFile);
+            Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
         }
     }
 
