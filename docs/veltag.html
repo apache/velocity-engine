@@ -11,12 +11,10 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-                                                    <meta name="author" value="Velocity Documentation Team">
-            <meta name="email" value="jon@latchkey.com">
-                                        <meta name="author" value="Velocity Documentation Team">
-            <meta name="email" value="geirm@optonline.net">
+                                                    <meta name="author" value="Geir Magnusson Jr.">
+            <meta name="email" value="geirm@apache.org">
             
-            <title>Velocity - Differences: Velocity vs. WebMacro</title>
+            <title>Velocity - The Velocity JSP Tag Library</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -115,51 +113,22 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Differences: Velocity vs. WebMacro"><strong>Differences: Velocity vs. WebMacro</strong></a>
+          <a name="So You Have To Use JSP..."><strong>So You Have To Use JSP...</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-On the mailing lists, we often get asked to explain the differences
-between Velocity and WebMacro. Instead of answering the same question
-over and over, we have started this document to describe some of the
-differences in our approaches. In reality, both are excellent tools and
-we feel that it is up to the user base to decide which one they would
-like to use.
- </p>
+ Sometimes it appears you don't have a choice - technology decisions are 
+ made based on all sorts of factors, ranging from network externalities
+("They're using it - I should too...") to legacy considerations
+("They used it - I have to...").
+</p>
                                                 <p>
-The language syntax is very close but not exactly the same. The syntaxes
-were kept close for a few reasons:
- </p>
-                                                <p>
-1) The syntactical approach of $&lt;foo&gt; for references and
-#&lt;bar&gt; for directives is a good one! It's easy for designers to
-work with, people understand it, and there was no reason to reinvent the
-wheel.
- </p>
-                                                <p>
-2) Since so many people were using the syntax, why invent another one?
-Also, it makes the WebMacro to Velocity conversion much easier :) We
-even have a <a href="migration.html">tool</a> to help with that.
- </p>
-                                                <p>
-Velocity was built new from the ground up.  There isn't a snippet of
-shared code. This was originally done because WebMacro was released
-under a license (GPL) that is not compatible with the BSD/ASF license
-and we (the original authors) needed a solution that was not under a GPL
-license. Since then, WebMacro has been released under a dual GPL/ASF
-license, however, that was too late, this project was already well
-underway and we also felt that we have a better technical solution by
-going with a generated parser instead of a hand coded one.
- </p>
-                                                <p>
-By starting new and fresh, we are less encumbered with some of the
-baggage that WebMacro must deal with due to backwards compatibility
-issues. We have fixed a few of the template language inconsistencies
-that we saw creeping into WebMacro such as the fact that we do not
-support using {} for code blocks (because we do not need to) and that we
-use () around all #directives on the right hand side. Examples:
+In the event where the usage of JSP is mandatory, we offer a JSP tag library that lets 
+you take advantage of the simple control directives and powerful binding to the
+Java object model offered by Velocity.  Using Velocity in your JSPs is as 
+simple as :
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -170,11 +139,40 @@ use () around all #directives on the right hand side. Examples:
     </tr>
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>#set ($bar = &quot;foo&quot;)
+      <td bgcolor="#ffffff"><pre>
 
-#if ($bar.length() &gt; 0)
-stuff here
-#end
+&lt;%@ taglib uri=&quot;/WEB-INF/veltag.tld&quot; prefix=&quot;vel&quot; %&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Velocity! &lt;/title&gt;
+&lt;/head&gt;
+
+&lt;jsp:useBean id=&quot;mybean&quot;  class=&quot;GeirBean&quot; /&gt;
+
+&lt;body&gt;
+    &lt;vel:velocity strictaccess=&quot;true&quot;&gt;
+
+         #set($mybean = $scopetool.getPageScope(&quot;mybean&quot;))
+
+         #if(true)
+            this is true!
+         #end
+
+         &lt;br&gt;
+
+         $mybean.string
+
+         &lt;br&gt;
+
+        #foreach($item in $mybean.array) 
+            $item &lt;br&gt;
+        #end
+
+    &lt;/vel:velocity&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
 
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -187,69 +185,131 @@ stuff here
     </table>
     </div>
                                                 <p>
-Architecturally, the biggest difference until recently was the parser.
-The Velocity parser is written using a tool called javacc, a very
-popular Java-based parser generator.  It was originally developed for
-Sun by Metamata and is now maintained and managed by Metamata as well :
-<a href="http://www.metamata.com/">www.metamata.com</a>.
- </p>
-                                                <p>
-The WebMacro parser was written by hand until recently and was the cause
-of much pain when using WebMacro (due to many bugs in it) - their new
-parser, for their 0.95 release is also written using javacc and promises
-to be better (however, support for a lot of the baggage still exists).
- </p>
-                                                <p>
-Velocity is very simple in its architecture, as it is meant to be
-nothing more than a template engine. The idea is to do one thing only
-and do it well.  Much in the spirit of the Unix philosophy - have a good
-set of simple tools, and create bigger things using them. This has
-enabled Velocity to be used as the basis for several different tools,
-such as <a href="anakia.html">Anakia</a> and <a href="texen.html">Texen</a>.
+Not hard at all.
+</p>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Building the Velocity Taglib"><strong>Building the Velocity Taglib</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+To use the Velocity taglib, you need to build it, as it is not 
+yet included in the main Velocity jar.  In the Jakarta tradition,
+we made it very easy to build.  The code for the project is 
+located in the contrib section of the distribution under 
+<code>/contrib/temporary/veltag</code>.  It is under the 
+temporary directory as it is hoped this package will
+be accepted by the 
+<a href="http://jakarta.apache.org/taglibs/">Jakarta Taglibs</a>
+project.
 </p>
                                                 <p>
-Velocity is recognized that it isn't going to try to be a 'development
-framework' - there are plenty around, such as <a href="http://jakarta.apache.org/turbine/">Turbine</a>.
- </p>
-                                                <p>
-Therefore, all facilities like 'context tool' and 'resource brokers' are
-purposely left out of Velocity, acknowledging that not only will
-frameworks do it, they will do it better anyway.  Further, by leaving out
-of the Velocity core much that should be done at the application / user
-/ framework level, the Velocity core remains smaller and therefore, in
-our opinion, more maintainable and extensible.
- </p>
-                                                <p>
-Internally, Velocity is pretty straightforward.  There are no threads
-created or managed for you.  Templates are parsed and caches, kept in
-their internal form of an 'Abstract Syntax Tree', a tree structure that
-is then rapidly walked when your template is merged.  Each node
-corresponds to on of the syntactical elements in your template.
- </p>
-                                                <p>
-Internally within WebMacro, many of the methods and classes are marked
-as private and/or final in order to achieve better speed. However, this
-has prevented people from easily extending or overriding some of the
-core funtionality and re-using some of the code. We would rather
-sacrifice a few ms in favor of allowing more people to use our software
-easily.
+To build, you need the following :
+
+<ul>
+<li> 
+  <a href="http://jakarta.apache.org/ant/">Ant</a>, the fabulous
+  Jakarta build tool, must be installed.
+</li>
+<li>
+  You will need a servlet API jar.  We recommend you get it from
+  <a href="http://jakarta.apache.org/builds/jakarta-tomcat/release/v3.2.3/bin/">here</a> 
+  for servlet 2.2 and
+  <a href="http://jakarta.apache.org/builds/jakarta-servletapi-4/nightly/">here</a>
+  for the unreleased servlet 2.3 API.  Note - if you are a JSP user, you will have 
+  one included with your servlet engine.
+</li>
+<li> 
+   A velocity.jar.  This can be found, of course,
+  <a href="http://jakarta.apache.org/velocity/">here</a>.
+</li>
+<li> 
+  The build script expects to find the servlet and velocity jars in the
+  <code>/contrib/temporary/veltag/lib/</code>
+   directory.  Modification
+  of the build script is easy if they are in another location.  Look for
+  'servlet.home' and 'velocity.home' in the 
+  <code>/contrib/temporary/veltag/build.xml</code> file.
+</li>
+<li>
+  Once the above is complete, cd into 
+  <code>/contrib/temporary/veltag</code> in the Velocity
+  distribution and type 'ant'.  The jar should build
+  for you.
+</li>
+</ul>
+</p>
+                            </blockquote>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="How Do I Use It?"><strong>How Do I Use It?</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+Using the taglib is very straightforward.  The following assumes
+that you have setup a servlet container with JSP support, such as 
+<a href="http://jakarta.apache.org/tomcat/">Tomcat</a>, and know
+enough to write and view a simple JSP page.  Also, all directory 
+references are relative to the root of the veltag project, not 
+the Velocity distribution.
 </p>
                                                 <p>
-The biggest feature difference between the two are the '<a href="user-guide.html">Velocimacros</a>'. Velocimacros can be thought of
-as snippets of re-usable data that can contain anything. They are parsed
-just like the data in a #parse() statement would be and you can pass in
-variables that can optionally have scope only within the Velocimacro.
- </p>
-                                                <p>
-Velocimacro's are also helping keep the core #directive set small and
-clean. In other words, WebMacro is adding #directives to the core at an
-increasing rate and we are not. We would rather support optional
-downloads for that "extra" funtionality that can be shared.
+To test the Velocity Taglib :
+
+<blockquote>
+   You need to copy the veltag-XX.jar to the
+   <code>WEB-INF/lib</code> directory of your webapp. (Where XX 
+   is the current version number.
+</blockquote>
+<blockquote>
+   Take the example taglib descriptor,
+   <code> /examples/veltag.tld</code> and place in WEB-INF of your
+   webapp.
+</blockquote>
+<blockquote>
+  Finally, add 
+  <pre>
+    &lt;taglib&gt;
+      &lt;taglib-uri&gt;http://jakarta.apache.org/taglibs/veltag-1.0&lt;/taglib-uri&gt;
+      &lt;taglib-location&gt;/WEB-INF/veltag.tld&lt;/taglib-location&gt;
+    &lt;/taglib&gt;
+  </pre>
+  to your web.xml file, within the &lt;webapp&gt; section.
+</blockquote>
+
+If you wish to use the included example JSP, you will also need to compile
+<code>examples/SimpleBean.java</code> and place the resulting 
+<code>SimpleBean.class</code> into the <code>WEB-INF/classes</code>
+directory in your webapp.
 </p>
                                                 <p>
-We hope this helps.  The best way to understand Velocity is to use it,
-and of course nothing beats looking at the source code.
- </p>
+  After that, try the example JSP found in <code>examples/</code>.  Drop it
+  into the root of your webapp and view it with your browser. Enjoy!
+</p>
+                                                <p>
+Please direct all comments, questions, fixes and contributions to 
+<a href="mailto:geirm@apache.org?SUBJECT=Veltag">Geir Magnusson Jr.</a> or the
+Velocity user list.  To subscribe to the Velocity lists, read 
+<a href="http://jakarta.apache.org/mail/">this</a> and follow the 
+instructions at the end.
+</p>
+                                                <p>
+  Please note that this code is not an official part of the Velocity
+  distribution.
+</p>
+                            </blockquote>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
                             </blockquote>
         </p>
       </td></tr>
