@@ -11,7 +11,7 @@
             Names
         </td>
     </tr>
-    #foreach $name in $theList
+    #foreach ($name in $theList)
     <tr>
         <td bgcolor="#eeeeee">$name</td>
     </tr>
