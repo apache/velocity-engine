@@ -9,7 +9,7 @@
      <servlet-class>org.apache.velocity.demo.ControllerServlet</servlet-class>
       <init-param>
         <param-name>properties</param-name>
-        <param-value>WEB-INF/conf/velocity.properties</param-value>
+        <param-value>/WEB-INF/conf/velocity.properties</param-value>
       </init-param>
     </servlet> 
 </web-app>
