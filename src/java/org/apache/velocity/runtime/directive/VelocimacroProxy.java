@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.directive;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -58,10 +60,8 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.14 2000/12/11 04:11:33 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.15 2000/12/13 00:00:32 jon Exp $ 
  */
-
-package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -128,7 +128,6 @@ public class VelocimacroProxy extends Directive
          *  get the arg count from the arg array.  remember that the arg array 
          *  has the macro name as it's 0th element
          */
-
         numMacroArgs = argArray.length - 1;
     }
 
@@ -185,7 +184,6 @@ public class VelocimacroProxy extends Directive
                  *
                  *  need a context here to carry the template name down through the init
                  */
-
                 if (!init)
                 {
                     Context c = new Context();
@@ -194,11 +192,12 @@ public class VelocimacroProxy extends Directive
                     nodeTree.init( c ,null);
                     init = true;
                 }
-
                 nodeTree.render(context, writer );
             }
             else
+            {
                 Runtime.error( "VM error : " + macroName + ". Null AST");
+            }
         } 
         catch ( Exception e ) 
         {
@@ -220,13 +219,11 @@ public class VelocimacroProxy extends Directive
         /*
          *  how many args did we get?
          */
-
         int i  = node.jjtGetNumChildren();
         
         /*
          *  right number of args?
-         */
-        
+         */        
         if ( getNumArgs() != i ) 
         {
             Runtime.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
@@ -237,15 +234,12 @@ public class VelocimacroProxy extends Directive
         /*
          *  get the argument list to the instance use of the VM
          */
-
         String callingArgs[] = getArgArray( node );
          
         /*
          *  now, expand our macro out to a string patched with the instance arguments
          */
-       
         expandAndParse( callingArgs );
-
         return;
     }
 
@@ -263,15 +257,12 @@ public class VelocimacroProxy extends Directive
          *  ok. I have the expanded macro.
          *  now, all I have to do  is let the parser render it
          */
-
         try 
         {
             /*
              *  take the patched macro code, and render() and init()
              */
-
             //System.out.println("Expanded : " + strExpanded.toString() );
-
             ByteArrayInputStream  inStream = new ByteArrayInputStream( expanded.toString().getBytes() );
             nodeTree = Runtime.parse( inStream, "VM:" + macroName );
         } 
@@ -284,8 +275,7 @@ public class VelocimacroProxy extends Directive
         /*
          *  we're done.  We have the correct AST
          */
-
-       return;
+        return;
     }
 
     /**
@@ -300,20 +290,17 @@ public class VelocimacroProxy extends Directive
         /*
          *  eat the args
          */
-    
         int i = 0;
         Token t = null;
         Token tLast = null;
     
         while( i <  numArgs ) 
         {
-           args[i] = "";
-
+            args[i] = "";
             /*
              *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched 
              *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
              */
-
             if ( node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
                 args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
@@ -323,25 +310,22 @@ public class VelocimacroProxy extends Directive
                 /*
                  *  just wander down the token list, concatenating everything together
                  */
-
                 t = node.jjtGetChild(i).getFirstToken();
                 tLast = node.jjtGetChild(i).getLastToken();
  
                 while( t != tLast ) 
-                    {
-                        args[i] += t.image;
-                        t = t.next;
-                    }
+                {
+                    args[i] += t.image;
+                    t = t.next;
+                }
 
                 /*
                  *  don't forget the last one... :)
                  */
-
                 args[i] += t.image;
             }
             i++;
          }
-
         return args;
     }
    
@@ -358,7 +342,6 @@ public class VelocimacroProxy extends Directive
          *  the new string.  Remember, don't modify the strMacro. Make a new one. The index
          *  elements are specific to the orignal macro body..
          */
-
         Set set = argIndexMap.keySet();
         Iterator it = set.iterator();
         StringBuffer sb = new StringBuffer();
@@ -381,9 +364,7 @@ public class VelocimacroProxy extends Directive
         /*
          *  and finish off the string
          */
-
         sb.append( macroBody.substring( loc ) );
-
         return sb;
     }
 }
