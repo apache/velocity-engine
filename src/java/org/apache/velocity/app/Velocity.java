@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.17 2001/05/11 03:56:31 geirm Exp $
+ * @version $Id: Velocity.java,v 1.18 2001/05/18 12:01:43 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -314,6 +314,8 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see 
      *               Velocity runtime log
+     *
+     *  @since Velocity v1.1
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, Reader reader )
@@ -512,6 +514,8 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  Errors 
      *           logged to velocity log
+     *
+     *  @since Velocity v1.1
      */
     public static boolean mergeTemplate( String templateName, String encoding,
                                       Context context, Writer writer )
@@ -562,6 +566,8 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      * @throws Exception if an error occurs in template initialization
+     *
+     *  @since Velocity v1.1
      */
     public static Template getTemplate(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
