@@ -110,6 +110,7 @@ public class Runtime
     private static Logger logger;
     private static Parser parser;
     private static boolean initialized;
+    private static StringBuffer pendingMessages = new StringBuffer();
 
     public synchronized static void init(String properties)
         throws Exception
@@ -125,6 +126,7 @@ public class Runtime
                 initializeParserPool();
                 
                 info("Velocity successfully started.");
+                
                 initialized = true;
             }
             catch (Exception e)
@@ -140,16 +142,24 @@ public class Runtime
         Configuration.setProperty(key, value);
     }        
 
-    private static void initializeLogger() throws
+    public static void initializeLogger() throws
         MalformedURLException
     {
-        // Initialize the logger.
-        logger = LogKit.createLogger("velocity", 
-            getString(RUNTIME_LOG), "DEBUG");
+        if (!getString(TEMPLATE_PATH).equals("system"))
+        {
+            // Initialize the logger.
+            logger = LogKit.createLogger("velocity", 
+                getString(RUNTIME_LOG), "DEBUG");
                 
-        LogTarget[] t = logger.getLogTargets();            
-        ((FileOutputLogTarget)t[0])
-            .setFormat("%5.5{time} %{message}\\n%{throwable}" );
+            LogTarget[] t = logger.getLogTargets();            
+            ((FileOutputLogTarget)t[0])
+                .setFormat("%5.5{time} %{message}\\n%{throwable}" );
+        
+            if (pendingMessages.length() > 0)
+            {
+                logger.info(pendingMessages.toString());
+            }
+        }
     }
 
     /**
@@ -217,24 +227,32 @@ public class Runtime
 
     // Runtime logging methods.
 
+    private static void log(String message)
+    {
+        if (logger != null)
+            logger.info(message);
+        else
+            pendingMessages.append(message);
+    }
+
     public static void warn(Object message)
     {
-        logger.warn(WARN + message.toString());
+        log(WARN + message.toString());
     }
     
     public static void info(Object message)
     {
-        logger.info(INFO + message.toString());
+        log(INFO + message.toString());
     }
     
     public static void error(Object message)
     {
-        logger.error(ERROR + message.toString());
+        log(ERROR + message.toString());
     }
     
     public static void debug(Object message)
     {
         if (DEBUG_ON)
-            logger.debug(DEBUG + message.toString());
+            log(DEBUG + message.toString());
     }
 }
