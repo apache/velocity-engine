@@ -13,6 +13,7 @@
         <item name="Install"                href="/install.html"/>
         <item name="Design"                 href="/design.html"/>
         <item name="Contributors"           href="/contributors.html"/>
+        <item name="ChangeLog"              href="/changes.html"/>
         <item name="Coding Standards"       href="/code-standards.html"/>
         <item name="License"                href="/license.html"/>
         <item name="TODO"                   href="/todo.html"/>
