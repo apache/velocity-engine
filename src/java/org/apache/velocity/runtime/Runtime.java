@@ -108,9 +108,7 @@ public class Runtime
     private static TemplateLoader templateLoader;
     private final static boolean DEBUG_ON = true;
     private static Logger logger;
-
     private static Parser parser;
-
     private static boolean initialized;
 
     public synchronized static void init(String properties)
@@ -122,30 +120,9 @@ public class Runtime
             {
                 Configuration.setPropertiesFile(properties);
         
-                // Initialize the logger.
-                logger = LogKit.createLogger("velocity", 
-                    getString(RUNTIME_LOG), "DEBUG");
-                
-                LogTarget[] t = logger.getLogTargets();            
-                ((FileOutputLogTarget)t[0])
-                    .setFormat("%5.5{time} %{message}\\n%{throwable}" );
-            
-                info("Logging system initialized.");
-        
-                // Create the template loader.
-                templateLoader = TemplateFactory
-                    .getLoader(getString(TEMPLATE_LOADER));
-            
-                // Initialize the template loader if there
-                // is a real path set for the template.path
-                // property. Otherwise defer initialization
-                // of the template loader because it is going
-                // to be set by some external mechanism. Turbine
-                // for example.
-                if (! getString(TEMPLATE_PATH).equals("system"))
-                    templateLoader.init();
-
-                createParserPool();
+                initializeLogger();
+                initializeTemplateLoader();           
+                initializeParserPool();
                 
                 info("Velocity successfully started.");
                 initialized = true;
@@ -163,7 +140,39 @@ public class Runtime
         Configuration.setProperty(key, value);
     }        
 
-    private static void createParserPool()
+    private static void initializeLogger() throws
+        MalformedURLException
+    {
+        // Initialize the logger.
+        logger = LogKit.createLogger("velocity", 
+            getString(RUNTIME_LOG), "DEBUG");
+                
+        LogTarget[] t = logger.getLogTargets();            
+        ((FileOutputLogTarget)t[0])
+            .setFormat("%5.5{time} %{message}\\n%{throwable}" );
+    }
+
+    /**
+     * Initialize the template loader if there
+     * is a real path set for the template.path
+     * property. Otherwise defer initialization
+     * of the template loader because it is going
+     * to be set by some external mechanism: Turbine
+     * for example.
+     */
+    public static void initializeTemplateLoader()
+        throws Exception
+    {
+        if (!getString(TEMPLATE_PATH).equals("system"))
+        {
+            templateLoader = TemplateFactory
+                .getLoader(getString(TEMPLATE_LOADER));
+            
+            templateLoader.init();
+        }            
+    }
+
+    private static void initializeParserPool()
     {
         // put this in a method and make a pool of
         // parsers.
