@@ -73,10 +73,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  * This class is used for controlling all template
  * operations. This class uses a parser created
  * by JavaCC to create an AST that is subsequently
- * traversed by a ProcessVisitor. This class is in
- * the process of changing over to use the
- * InjectorVistor, this is part of the planned
- * caching mechanism.
+ * traversed by a Visitor. 
  *
  * <pre>
  * Template template = Runtime.getTemplate("test.wm");
@@ -90,19 +87,14 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.22 2001/01/13 16:53:10 geirm Exp $
+ * @version $Id: Template.java,v 1.23 2001/02/05 04:31:06 geirm Exp $
  */
 public class Template extends Resource
 {
     /**
-     * To keep track of whether this template has been
-     * initialized. We use the document.init(context)
-     * to perform this. The AST walks itself optimizing
-     * nodes creating objects that can be reused during
-     * rendering. For example all reflection metadata
-     * is stored in ASTReference nodes, the Method objects 
-     * are determine in the init() phase and reused 
-     * during rendering.
+     *   To keep track of whether this template has been
+     *   initialized. We use the document.init(context)
+     *   to perform this.
      */
     private boolean initialized = false;
 
@@ -151,9 +143,23 @@ public class Template extends Resource
         
         InternalContextAdapterImpl ica = new InternalContextAdapterImpl(  new VelocityContext() );
 
-        ica.setCurrentTemplateName( name );
-        
+        /*
+         *  put the current template name on the stack
+         */
+
+        ica.pushCurrentTemplateName( name );
+
+        /*
+         *  init the AST
+         */
+
         ((SimpleNode)data).init( ica, null);
+
+        /*
+         *  pull it off for completeness
+         */
+
+        ica.popCurrentTemplateName();
     }
 
     /**
@@ -178,9 +184,11 @@ public class Template extends Resource
 
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
 
-            ica.setCurrentTemplateName( name );
+            ica.pushCurrentTemplateName( name );
 
             ( (SimpleNode) data ).render( ica, writer);
+
+            ica.popCurrentTemplateName();
         }
         else
             Runtime.error("Template.merge() failure. The document is null, " + 
