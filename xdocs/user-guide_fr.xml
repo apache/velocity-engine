@@ -1373,9 +1373,9 @@ $\\!foo
 ]]></source>
     <p>Ce qui produit la sortie suivante:</p>
     <source><![CDATA[
-\$foo
-\$!foo
-\$!{foo}
+$foo
+$!foo
+$!{foo}
 \bar
 ]]></source>
   </subsection>
