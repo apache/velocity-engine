@@ -74,6 +74,10 @@
        to keep from accumulating introspection cache data in iterative 
        calls to parse() with template caching off. (gmj)
      </li>
+     <li>
+       Documentation : added some special-case Context information and a 
+       secion on Vel and XML in the developers guide. (gmj)
+      </li>
 </ul>
 
 </subsection>
