@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.59 2000/11/28 00:14:27 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.60 2000/11/28 01:05:39 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -1111,6 +1111,11 @@ public class Runtime implements RuntimeConstants
     public static int getInt( String strKey )
     {
         return VelocityResources.getInt( strKey );
+    }
+
+    public static int getInt( String strKey, int defaultValue )
+    {
+        return VelocityResources.getInt( strKey, defaultValue );
     }
 
     /**
