@@ -61,8 +61,8 @@ import java.util.*;
  * are fed into the context that is set before the AST
  * is traversed and dynamic content generated.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.17 2001/06/29 23:39:03 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: TestProvider.java,v 1.18 2001/07/18 09:16:19 dlr Exp $
  */
 public class TestProvider
 {
@@ -240,36 +240,40 @@ public class TestProvider
         return "result of objectArrayMethod";
     }
 
-    public String concat(Object[] o)
+    public String concat(Object[] strings)
     {
-        String result = "";
+        StringBuffer result = new StringBuffer();
         
-        for (int i = 0; i < o.length; i++)
-            result += (String) o[i] + " ";
-        
-        return result;
-    }
-
-    public String concat( List o)
-    {
-        String result = "";
-        
-        for (int i = 0; i < o.size(); i++)
-            result += (String) o.get(i) + " ";
-        
-        return result;
-    }
-
-    public String objConcat( List list)
-    {
-        String result = "";
-        Object o;
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0; i < strings.length; i++)
         {
-            o = list.get(i);
-            result +=  o.toString() + " ";
+            result.append((String) strings[i]).append(' ');
         }
-        return result;
+        
+        return result.toString();
+    }
+
+    public String concat(List strings)
+    {
+        StringBuffer result = new StringBuffer();
+        
+        for (int i = 0; i < strings.size(); i++)
+        {
+            result.append((String) strings.get(i)).append(' ');
+        }
+        
+        return result.toString();
+    }
+
+    public String objConcat(List objects)
+    {
+        StringBuffer result = new StringBuffer();
+
+        for (int i = 0; i < objects.size(); i++)
+        {
+            result.append(objects.get(i)).append(' ');
+        }
+
+        return result.toString();
     }
 
     public String parse(String a, Object o, String c, String d)
@@ -387,10 +391,4 @@ public class TestProvider
     {
         throw new Exception("From getThrow()");
     }
-
 }
-
-
-
-
-
