@@ -66,4 +66,9 @@ Arg :>$i<
 String literals should work as you expect :
 #showarg( "stringliteral")
 
+
+Test boolean args :
+
+#testbool(true)
+#testbool(false)
 - Another fine Velocity Production -

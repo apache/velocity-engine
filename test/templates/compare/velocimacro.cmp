@@ -41,4 +41,9 @@ Arg :>$jdom.getRootElement().getChild("properties").getChild("author").getTextTr
 String literals should work as you expect :
 Arg :>stringliteral<
 
-- Another fine Velocity Production -
+
+Test boolean args :
+
+   arg true
+      arg false
+ - Another fine Velocity Production -
