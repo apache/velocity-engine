@@ -79,7 +79,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * traversed by a Visitor. 
  *
  * <pre>
- * Template template = Runtime.getTemplate("test.wm");
+ * Template template = Velocity.getTemplate("test.wm");
  * Context context = new VelocityContext();
  *
  * context.put("foo", "bar");
@@ -90,7 +90,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.30 2001/03/19 17:20:35 geirm Exp $
+ * @version $Id: Template.java,v 1.31 2001/03/20 01:11:35 geirm Exp $
  */
 public class Template extends Resource
 {
