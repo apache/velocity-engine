@@ -55,7 +55,6 @@ package org.apache.velocity.test;
  */
 
 import java.io.File;
-import org.apache.velocity.anakia.AnakiaTask;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.util.StringUtils;
 import junit.framework.TestCase;
@@ -65,7 +64,7 @@ import junit.framework.TestCase;
  * generative task and compares the output.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TexenClasspathTestCase.java,v 1.1 2001/08/29 01:56:43 jvanzyl Exp $
+ * @version $Id: TexenClasspathTestCase.java,v 1.2 2001/08/29 04:06:16 jvanzyl Exp $
  */
 public class TexenClasspathTestCase 
     extends BaseTestCase
