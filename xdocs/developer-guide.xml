@@ -2590,6 +2590,22 @@ This key is also defined as a contstant
 <code>RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS</code>
 </p>
 
+<p>
+A resource cache implementation may want to limit the cache size
+(rather than providing an unbounded cache which could consume all
+available memory).  To configure Velocity to set the size for your
+cache, use the configuration key:
+</p>
+
+<source><![CDATA[
+resource.manager.cache.size
+]]></source>
+
+<p>
+This key is also defined as a contstant
+<code>RuntimeConstants.RESOURCE_MANAGER_CACHE_SIZE</code>
+</p>
+
 </section>
 
 <section name="Template Encoding for Internationalization">
