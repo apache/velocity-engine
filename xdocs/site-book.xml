@@ -14,4 +14,5 @@
     <separator/>
     <page id="user-guide" label="User's Guide" source="user-guide.xml"/>
     <page id="developer-guide" label="Developer's Guide" source="developer-guide.xml"/>
+    <page id="vtl-reference-guide" label="VTL Reference Guide" source="vtl-reference-guide.xml"/>
 </book>
