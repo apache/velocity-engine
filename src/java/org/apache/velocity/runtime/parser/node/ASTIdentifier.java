@@ -80,7 +80,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.15 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.16 2001/11/19 13:53:08 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
@@ -127,23 +127,33 @@ public class ASTIdentifier extends SimpleNode
     private  AbstractExecutor doIntrospection( Class data )
         throws Exception
     {
-        /*
-         * We are now going to allow a get(key) method
-         * to be used on objects that don't implement
-         * the Map interface. That was a silly restriction,
-         * I just ran into it so it's silly ;-)
-         *
-         */
-        
         AbstractExecutor executor;
 
+        /*
+         *  first try for a getFoo() type of property
+         *  (also getfoo() )
+         */
+
         executor = new PropertyExecutor(rsvc, data, identifier);
+
+        /*
+         *  if that didn't work, look for get("foo")
+         */
 
         if (executor.isAlive() == false)
         {
             executor = new GetExecutor( rsvc, data, identifier);
         }
         
+        /*
+         *  finally, look for boolean isFoo() 
+         */
+
+        if( executor.isAlive() == false)
+        {
+            executor = new BooleanPropertyExecutor( rsvc, data, identifier );
+        }
+
         return executor;
     }
 
