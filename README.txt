@@ -16,7 +16,9 @@ docs/       This is where the documentation lives.
 examples/   This is where the examples live.
 src/        This is where all of the source code to Velocity lives.
 test/       This is where all of the tests live.
-
+xdocs/      This is the .xml files for building the .html files
+            related to the website and documentation.
+            
 REQUIREMENTS
 ------------
 
