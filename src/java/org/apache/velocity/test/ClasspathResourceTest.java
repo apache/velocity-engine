@@ -58,26 +58,18 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.File;
-
-import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import junit.framework.TestCase;
 
 /**
  * Load templates from the Classpath.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.8 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.9 2003/05/04 17:46:35 geirm Exp $
  */
 public class ClasspathResourceTest extends BaseTestCase
 {

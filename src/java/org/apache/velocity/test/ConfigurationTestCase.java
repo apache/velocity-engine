@@ -54,23 +54,18 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
 import java.io.FileWriter;
 
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.configuration.Configuration;
-import org.apache.velocity.util.StringUtils;
-
-import junit.framework.TestCase;
 
 /**
  * Tests for the Configuration class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ConfigurationTestCase.java,v 1.4 2001/05/20 20:29:48 geirm Exp $
+ * @version $Id: ConfigurationTestCase.java,v 1.5 2003/05/04 17:46:35 geirm Exp $
  *
  * @deprecated Will be removed when Configuration class is removed
  */

@@ -54,22 +54,13 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
-
-import org.apache.velocity.anakia.AnakiaTask;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.util.StringUtils;
-
-import junit.framework.TestCase;
-
 /**
  * This is a test case for Anakia. Right now, it simply will compare
  * two index.html files together. These are produced as a result of
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.5 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id: AnakiaTestCase.java,v 1.6 2003/05/04 17:46:35 geirm Exp $
  */
 public class AnakiaTestCase extends BaseTestCase
 {

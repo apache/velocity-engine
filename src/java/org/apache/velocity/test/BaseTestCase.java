@@ -54,24 +54,9 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.HashMap;
-import java.util.Vector;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
-
-import org.apache.velocity.app.FieldMethodizer;
 
 import junit.framework.TestCase;
 import org.apache.oro.text.perl.Perl5Util;
@@ -81,7 +66,7 @@ import org.apache.oro.text.perl.Perl5Util;
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.11 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id: BaseTestCase.java,v 1.12 2003/05/04 17:46:35 geirm Exp $
  */
 public class BaseTestCase extends TestCase
 {
