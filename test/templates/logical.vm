@@ -337,3 +337,10 @@ right
 #else
 wrong
 #end
+
+#set($val = ( 1 != 2))
+#if( $val == true)
+right
+#else
+wrong
+#end

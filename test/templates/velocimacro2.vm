@@ -68,3 +68,24 @@ test doesn't fail incorrectly.
 #macro( schlorp $i )#blorp( "hi $i" ) #end
 
 #schlorp("victor")
+
+
+##
+## test all directive arg types
+##
+
+#macro(dirarg $a)
+>$a<
+#end
+
+#set($ref = 1)
+
+#dirarg(1)
+#dirarg(true)
+#dirarg(false)
+#dirarg("hello")
+#dirarg('hello')
+#dirarg($ref)
+#dirarg([1..10])
+#dirarg(['a','b',$ref])
+
