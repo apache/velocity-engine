@@ -1,5 +1,4 @@
-## The arithmetic isn't functional yet,
-## just testing the parser.
+# Arithmetic tests
 
 #set $foo = 5
 #set $foo = $foo + 1
