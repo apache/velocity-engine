@@ -54,7 +54,6 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
-import com.werken.xpath.XPath;
 import java.io.Writer;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -74,7 +73,7 @@ import org.jdom.output.*;
  * sublist into a <code>NodeList</code>).
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: NodeList.java,v 1.1 2001/08/08 04:30:47 jon Exp $
+ * @version $Id: NodeList.java,v 1.2 2003/05/03 22:59:31 geirm Exp $
  */
 public class NodeList implements List, Cloneable
 {
@@ -187,10 +186,6 @@ public class NodeList implements List, Cloneable
                 else if(node instanceof Attribute)
                 {
                     DEFAULT_OUTPUTTER.output((Attribute)node, sw);
-                }
-                else if(node instanceof String)
-                {
-                    DEFAULT_OUTPUTTER.output(node.toString(), sw);
                 }
                 else if(node instanceof Text)
                 {
