@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.82 2003/12/30 12:18:32 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.83 2003/12/30 20:09:51 geirm Exp $
 */
 public class Parser
 {
@@ -892,7 +892,7 @@ TOKEN :
 |   <LOGICAL_GE: ">=" | "ge" >
 |   <LOGICAL_EQUALS: "==" | "eq" >
 |   <LOGICAL_NOT_EQUALS: "!=" | "ne" >
-|   <LOGICAL_NOT: "!">
+|   <LOGICAL_NOT: "!" | "not" >
 |   <EQUALS: "=" >
 }
 
