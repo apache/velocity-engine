@@ -1,9 +1,9 @@
 package org.apache.velocity.io;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.1 2000/11/04 02:40:18 jvanzyl Exp $
- * $Revision: 1.1 $
- * $Date: 2000/11/04 02:40:18 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/io/Attic/JspWriterImpl.java,v 1.2 2000/11/04 03:08:20 jon Exp $
+ * $Revision: 1.2 $
+ * $Date: 2000/11/04 03:08:20 $
  *
  * ====================================================================
  * 
@@ -81,16 +81,16 @@ import javax.servlet.ServletResponse;
  */
 public class JspWriterImpl extends JspWriter
 {
-    protected Writer out;
+    private Writer out;
 
-    protected ServletResponse response;
+    private ServletResponse response;
     
-    protected char cb[];
-    protected int nextChar;
+    private char cb[];
+    private int nextChar;
 
-    protected static int defaultCharBufferSize = 8 * 1024;
+    private static int defaultCharBufferSize = 8 * 1024;
 
-    protected boolean flushed = false;
+    private boolean flushed = false;
 
     public JspWriterImpl() 
     {
@@ -142,17 +142,14 @@ public class JspWriterImpl extends JspWriter
      * may be invoked by PrintStream.
      */
     protected final void flushBuffer() throws IOException {
-	synchronized (lock) {
             if (bufferSize == 0)
                 return;
             flushed = true;
-	    ensureOpen();
 	    if (nextChar == 0)
 		return;
             initOut();
             out.write(cb, 0, nextChar);
 	    nextChar = 0;
-	}
     }
 
     protected void initOut() throws IOException {
@@ -167,26 +164,20 @@ public class JspWriterImpl extends JspWriter
      * Discard the output buffer.
      */
     public final void clear() throws IOException {
-	synchronized (lock) {
             if (bufferSize == 0)
                 throw new IllegalStateException("ise_on_clear");
                 //throw new IllegalStateException(Constants.getString("jsp.error.ise_on_clear"));
             if (flushed)
                 throw new IOException("attempt_to_clear_flushed_buffer");
                 //throw new IOException(Constants.getString("jsp.error.attempt_to_clear_flushed_buffer"));
-            ensureOpen();
 	    nextChar = 0;
-	}
     }
 
     public void clearBuffer() throws IOException {
-	synchronized (lock) {
             if (bufferSize == 0)
                 throw new IllegalStateException("ise_on_clear");
                 //throw new IllegalStateException(Constants.getString("jsp.error.ise_on_clear"));
-            ensureOpen();
 	    nextChar = 0;
-	}
     }
 
     private final void bufferOverflow() throws IOException {
@@ -199,13 +190,11 @@ public class JspWriterImpl extends JspWriter
      *
      */
     public void flush()  throws IOException {
-        synchronized (lock) {
             flushBuffer();
             if (out != null) {
                 out.flush();
 		// Also flush the response buffer.
 		response.flushBuffer();
-	    }
         }
     }
 
@@ -214,7 +203,6 @@ public class JspWriterImpl extends JspWriter
      *
      */
     public void close() throws IOException {
-        synchronized (lock) {
             if (response == null)
                 return;
             flush();
@@ -222,7 +210,6 @@ public class JspWriterImpl extends JspWriter
                 out.close();
             out = null;
 	    //            cb = null;
-        }
     }
 
     /**
@@ -244,8 +231,6 @@ public class JspWriterImpl extends JspWriter
      *
      */
     public void write(int c) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
             if (bufferSize == 0) {
                 initOut();
                 out.write(c);
@@ -258,7 +243,6 @@ public class JspWriterImpl extends JspWriter
                         bufferOverflow();
                 cb[nextChar++] = (char) c;
             }
-        }
     }
 
     /**
@@ -288,9 +272,6 @@ public class JspWriterImpl extends JspWriter
     public void write(char cbuf[], int off, int len) 
         throws IOException 
     {
-        synchronized (lock) {
-            ensureOpen();
-
             if (bufferSize == 0) {
                 initOut();
                 out.write(cbuf, off, len);
@@ -329,7 +310,6 @@ public class JspWriterImpl extends JspWriter
                     else
                         bufferOverflow();
             }
-        }
     }
 
     /**
@@ -349,8 +329,6 @@ public class JspWriterImpl extends JspWriter
      *
      */
     public void write(String s, int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
             if (bufferSize == 0) {
                 initOut();
                 out.write(s, off, len);
@@ -367,7 +345,6 @@ public class JspWriterImpl extends JspWriter
                         flushBuffer();
                     else
                         bufferOverflow();
-            }
         }
     }
 
@@ -377,275 +354,6 @@ public class JspWriterImpl extends JspWriter
      */
     public void write(String s) throws IOException {
 	write(s, 0, s.length());
-    }
-
-
-    static String lineSeparator = System.getProperty("line.separator");
-
-    /**
-     * Write a line separator.  The line separator string is defined by the
-     * system property <tt>line.separator</tt>, and is not necessarily a single
-     * newline ('\n') character.
-     *
-     * @exception  IOException  If an I/O error occurs
-     */
-    
-    public void newLine() throws IOException {
-	synchronized (lock) {
-	    write(lineSeparator);
-	}
-    }
-
-
-    /* Methods that do not terminate lines */
-
-    /**
-     * Print a boolean value.  The string produced by <code>{@link
-     * java.lang.String#valueOf(boolean)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link
-     * #write(int)}</code> method.
-     *
-     * @param      b   The <code>boolean</code> to be printed
-     */
-    public void print(boolean b) throws IOException {
-	write(b ? "true" : "false");
-    }
-
-    /**
-     * Print a character.  The character is translated into one or more bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link
-     * #write(int)}</code> method.
-     *
-     * @param      c   The <code>char</code> to be printed
-     */
-    public void print(char c) throws IOException {
-	write(String.valueOf(c));
-    }
-
-    /**
-     * Print an integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(int)}</code> is translated into bytes according
-     * to the platform's default character encoding, and these bytes are
-     * written in exactly the manner of the <code>{@link #write(int)}</code>
-     * method.
-     *
-     * @param      i   The <code>int</code> to be printed
-     * @see        java.lang.Integer#toString(int)
-     */
-    public void print(int i) throws IOException {
-	write(String.valueOf(i));
-    }
-
-    /**
-     * Print a long integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(long)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link #write(int)}</code>
-     * method.
-     *
-     * @param      l   The <code>long</code> to be printed
-     * @see        java.lang.Long#toString(long)
-     */
-    public void print(long l) throws IOException {
-	write(String.valueOf(l));
-    }
-
-    /**
-     * Print a floating-point number.  The string produced by <code>{@link
-     * java.lang.String#valueOf(float)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link #write(int)}</code>
-     * method.
-     *
-     * @param      f   The <code>float</code> to be printed
-     * @see        java.lang.Float#toString(float)
-     */
-    public void print(float f) throws IOException {
-	write(String.valueOf(f));
-    }
-
-    /**
-     * Print a double-precision floating-point number.  The string produced by
-     * <code>{@link java.lang.String#valueOf(double)}</code> is translated into
-     * bytes according to the platform's default character encoding, and these
-     * bytes are written in exactly the manner of the <code>{@link
-     * #write(int)}</code> method.
-     *
-     * @param      d   The <code>double</code> to be printed
-     * @see        java.lang.Double#toString(double)
-     */
-    public void print(double d) throws IOException {
-	write(String.valueOf(d));
-    }
-
-    /**
-     * Print an array of characters.  The characters are converted into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link #write(int)}</code>
-     * method.
-     *
-     * @param      s   The array of chars to be printed
-     *
-     * @throws  NullPointerException  If <code>s</code> is <code>null</code>
-     */
-    public void print(char s[]) throws IOException {
-	write(s);
-    }
-
-    /**
-     * Print a string.  If the argument is <code>null</code> then the string
-     * <code>"null"</code> is printed.  Otherwise, the string's characters are
-     * converted into bytes according to the platform's default character
-     * encoding, and these bytes are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
-     *
-     * @param      s   The <code>String</code> to be printed
-     */
-    public void print(String s) throws IOException {
-	if (s == null) {
-	    s = "null";
-	}
-	write(s);
-    }
-
-    /**
-     * Print an object.  The string produced by the <code>{@link
-     * java.lang.String#valueOf(Object)}</code> method is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the <code>{@link #write(int)}</code>
-     * method.
-     *
-     * @param      obj   The <code>Object</code> to be printed
-     * @see        java.lang.Object#toString()
-     */
-    public void print(Object obj) throws IOException {
-	write(String.valueOf(obj));
-    }
-
-    /* Methods that do terminate lines */
-
-    /**
-     * Terminate the current line by writing the line separator string.  The
-     * line separator string is defined by the system property
-     * <code>line.separator</code>, and is not necessarily a single newline
-     * character (<code>'\n'</code>).
-     *
-     * Need to change this from PrintWriter because the default
-     * println() writes  to the sink directly instead of through the
-     * write method...  
-     */
-    public void println() throws IOException {
-	newLine();
-    }
-
-    /**
-     * Print a boolean value and then terminate the line.  This method behaves
-     * as though it invokes <code>{@link #print(boolean)}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(boolean x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print a character and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(char)}</code> and then <code>{@link
-     * #println()}</code>.
-     */
-    public void println(char x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print an integer and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(int)}</code> and then <code>{@link
-     * #println()}</code>.
-     */
-    public void println(int x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print a long integer and then terminate the line.  This method behaves
-     * as though it invokes <code>{@link #print(long)}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(long x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print a floating-point number and then terminate the line.  This method
-     * behaves as though it invokes <code>{@link #print(float)}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(float x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print a double-precision floating-point number and then terminate the
-     * line.  This method behaves as though it invokes <code>{@link
-     * #print(double)}</code> and then <code>{@link #println()}</code>.
-     */
-    public void println(double x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print an array of characters and then terminate the line.  This method
-     * behaves as though it invokes <code>{@link #print(char[])}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(char x[]) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print a String and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(String)}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(String x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
-    }
-
-    /**
-     * Print an Object and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(Object)}</code> and then
-     * <code>{@link #println()}</code>.
-     */
-    public void println(Object x) throws IOException {
-	synchronized (lock) {
-	    print(x);
-	    println();
-	}
     }
 
     /** Package-level access
