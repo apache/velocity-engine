@@ -75,7 +75,7 @@ import org.apache.velocity.context.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.1 2001/04/09 00:04:49 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.2 2001/04/09 01:03:27 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
@@ -140,22 +140,30 @@ public class ASTSetDirective extends SimpleNode
             {
                 EventCartridge ec = context.getEventCartridge();
 
+                boolean doit = true;
+               
+                /*
+                 *  if we have an EventCartridge...
+                 */
+
                 if (ec != null)
                 {
-                    Object[] rieh = ec.getNullSetEventHandlerArray();
-                
-                    boolean doit = true;
-
-                    for(int i = 0; i < rieh.length; i++)
+                    NullSetEventHandler[] nseh = ec.getNullSetEventHandlerArray();
+                    
+                    for(int i = 0; i < nseh.length; i++)
                     {
-                        if( !( (NullSetEventHandler) rieh[i]).nullSetLogMessage( left.literal() ))
+                        if( ! nseh[i].nullSetLogMessage( left.literal() ))
+                        {
                             doit = false;
+                        }
                     }
-                
-                    if (doit)
-                        Runtime.error("RHS of #set statement is null. Context will not be modified. " 
-                                      + context.getCurrentTemplateName() + " [line " + getLine() 
-                                      + ", column " + getColumn() + "]");
+                }
+
+                if (doit)
+                {
+                    Runtime.error("RHS of #set statement is null. Context will not be modified. " 
+                                  + context.getCurrentTemplateName() + " [line " + getLine() 
+                                  + ", column " + getColumn() + "]");
                 }
             }
                 

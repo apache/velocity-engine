@@ -82,7 +82,7 @@ import org.apache.velocity.context.NullReferenceEventHandler;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.1 2001/04/09 00:04:49 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.2 2001/04/09 01:03:26 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -238,14 +238,13 @@ public class ASTReference extends SimpleNode
             
             if (ec != null)
             {
-                Object[] rieh = ec.getNullReferenceHandlerArray();
+                NullReferenceEventHandler[] rieh = ec.getNullReferenceHandlerArray();
                 
                 for(int i = 0; i < rieh.length; i++)
                 {
-                    localNullstring = ( (NullReferenceEventHandler) rieh[i]).nullReferenceRender( localNullstring );
+                    localNullstring = rieh[i].nullReferenceRender( localNullstring );
                 }
             }
-          
            
             /* 
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
@@ -263,11 +262,11 @@ public class ASTReference extends SimpleNode
             
             if (ec != null)
             {
-                Object[] rieh = ec.getReferenceInsertionHandlerArray();
-                
+                ReferenceInsertionEventHandler[] rieh = ec.getReferenceInsertionHandlerArray();
+             
                 for(int i = 0; i < rieh.length; i++)
                 {
-                    val = ( (ReferenceInsertionEventHandler) rieh[i]).referenceInsert( nullString, val );
+                    val =  rieh[i].referenceInsert( nullString, val );
                 }
             }
             
