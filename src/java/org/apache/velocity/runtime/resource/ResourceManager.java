@@ -75,7 +75,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.12 2001/03/04 00:40:02 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.13 2001/03/05 10:38:31 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -183,8 +183,8 @@ public class ResourceManager
                 continue;
             }                
             
-            Configuration loaderConfiguration = new Configuration(
-                Runtime.getConfiguration().subset(loaderID));
+            Configuration loaderConfiguration =
+                Runtime.getConfiguration().subset(loaderID);
 
             /*
              * Add resources to the list of resource loader
