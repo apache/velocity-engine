@@ -54,20 +54,21 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import junit.framework.*;
-
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
-import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.io.*;
+import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
-
 
 /**
  * Easily add test cases which evaluate templates and check their output.
@@ -75,7 +76,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.17 2000/11/30 05:25:28 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.18 2000/12/20 06:36:41 jvanzyl Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -173,18 +174,20 @@ public class TemplateTestCase extends RuntimeTestCase
         {
             Template template = Runtime.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
+            
             assureResultsDirectoryExists();
 
-            // get the file to write to
+            /* get the file to write to */
             FileOutputStream fos = 
-                new FileOutputStream (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT));
+                new FileOutputStream (getFileName(
+                    RESULT_DIR, baseFileName, RESULT_FILE_EXT));
 
             Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
-            // process the template
+            /* process the template */
             template.merge(context, writer);
 
-            // close the file
+            /* close the file */
             writer.flush();
             writer.close();
             
@@ -216,7 +219,7 @@ public class TemplateTestCase extends RuntimeTestCase
     }
 
     /**
-     * Assures that the results directory exists.  If the results directory 
+     * Assures that the results directory exists.  If the results directory
      * cannot be created, fails the test.
      */
     private static void assureResultsDirectoryExists ()
@@ -276,6 +279,6 @@ public class TemplateTestCase extends RuntimeTestCase
      */
     protected void tearDown () throws Exception
     {
-        // No op.
+        /* No op. */
     }
 }
