@@ -185,14 +185,9 @@ public interface RuntimeConstants
      */
 
     /** 
-     * Name of global Velocimacro library template.
-     */
-    public static final String VM_GLOBAL_LIBRARY = "velocimacro.global.library";
-
-    /** 
      * Name of local Velocimacro library template.
      */
-    public static final String VM_LOCAL_LIBRARY  = "velocimacro.local.library";
+    public static final String VM_LIBRARY  = "velocimacro.library";
 
     /** 
      * boolean (true/false) default true : allow 

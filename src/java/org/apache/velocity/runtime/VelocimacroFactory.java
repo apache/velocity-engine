@@ -3,7 +3,7 @@ package org.apache.velocity.runtime;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -59,13 +59,15 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+import java.util.Vector;
+
 /**
  *  VelocimacroFactory.java
  *
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.10 2001/03/05 11:45:12 jvanzyl Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.11 2001/03/17 05:02:03 geirm Exp $ 
  *
  */
 public class VelocimacroFactory
@@ -98,63 +100,53 @@ public class VelocimacroFactory
             /*
              *  add all library macros to the global namespace
              */
-           vmManager.setNamespaceUsage( false );
+            
+            vmManager.setNamespaceUsage( false );
         
             /*
              *  now, if there is a global or local libraries specified, use them.
              *  All we have to do is get the template. The template will be parsed;
              *  VM's  are added during the parse phase
              */
-            String globalMacroLibrary = Runtime.getString( 
-                Runtime.VM_GLOBAL_LIBRARY, "");
+            //String globalMacroLibrary = Runtime.getString( 
+            //  Runtime.VM_GLOBAL_LIBRARY, "");
             
-            if (  !globalMacroLibrary.equals("") ) 
-            {
-                try 
-                {
-                    logVMMessageInfo("Velocimacro : adding VMs from global " +
-                        "VM library template : " + globalMacroLibrary );
+             Object libfiles = Runtime.getProperty( Runtime.VM_LIBRARY );
+           
+             if( libfiles != null)
+             {
+                 Vector v = new Vector();
+          
+                 if (libfiles instanceof Vector)
+                 {
+                     v = (Vector) libfiles;
+                 }
+                 else if (libfiles instanceof String)
+                 { 
+                     v.addElement( libfiles );
+                 }
+                 
+                 for( int i = 0; i < v.size(); i++)
+                 {
+                     String lib = (String) v.elementAt(i);
+                 
+                     try 
+                     {
+                         logVMMessageInfo("Velocimacro : adding VMs from " +
+                                          "VM library template : " + lib  );
                     
-                    Template template = Runtime.getTemplate( globalMacroLibrary );   
-                    
-                    logVMMessageInfo("Velocimacro : global VM library template " +
-                        "macro registration complete." );
-                } 
-                catch (Exception e)
-                {
-                    logVMMessageInfo("Velocimacro : error using global VM " +
-                        "library template " + globalMacroLibrary + " : " + e );
-                }
-            }
-            else
-            {
-                logVMMessageInfo("Velocimacro : no global VM library template used.");
-            }
-
-            globalMacroLibrary = Runtime.getString(  Runtime.VM_LOCAL_LIBRARY, "");
-            
-            if ( !globalMacroLibrary.equals("") ) 
-            {
-                try 
-                {
-                    logVMMessageInfo("Velocimacro : adding VMs from local VM " + 
-                        "library template : " + globalMacroLibrary );
-                    
-                    Template template = Runtime.getTemplate(globalMacroLibrary);
-                    
-                    logVMMessageInfo("Velocimacro : local VM library template " + 
-                        "macro registration complete.");
-                } 
-                catch ( Exception e ) 
-                {
-                    logVMMessageInfo("Velocimacro : error using local VM library template " +
-                        globalMacroLibrary + " : " + e );
-                }
-            }
-            else
-            {
-                logVMMessageInfo("Velocimacro : no local VM library template used.");
-            }
+                         Template template = Runtime.getTemplate( lib );   
+                         
+                         logVMMessageInfo("Velocimacro :  VM library template " +
+                                          "macro registration complete." );
+                     } 
+                     catch (Exception e)
+                     {
+                         logVMMessageInfo("Velocimacro : error using  VM " +
+                                          "library template " + lib + " : " + e );
+                     }
+                 }
+             }
 
             /*
              *   now, the permissions
