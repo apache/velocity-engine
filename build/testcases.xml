@@ -51,6 +51,7 @@
   </target>
 
   <target name="test-all" depends="
+                                   test-multiloader,
                                    test-template,
                                    test-velocityapp,
                                    test-introspect,
@@ -63,6 +64,7 @@
                                    test-methodinvocationexception,   
                                    test-multiloader,
                                    test-encoding,
+                                   test-eventhandling,
                                    test-anakia,
                                    test-texen
                                    "/>
@@ -72,6 +74,17 @@
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TemplateTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
+
+ <target name="test-eventhandling">
+    <echo message="Running Event Handler tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.EventHandlingTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
