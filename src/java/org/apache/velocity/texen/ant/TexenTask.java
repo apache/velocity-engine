@@ -84,15 +84,17 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.27 2001/08/22 00:29:10 dlr Exp $
+ * @version $Id: TexenTask.java,v 1.28 2001/08/29 01:46:31 jvanzyl Exp $
  */
-public class TexenTask extends Task
+public class TexenTask 
+    extends Task
 {
     /**
      * This message (telling users to consult the log) is appended to
      * rethrown exception messages.
      */
-    private final static String MSG_CONSULT_LOG= ". For more information consult the velocity log.";
+    private final static String MSG_CONSULT_LOG = 
+        ". For more information consult the velocity log.";
     
     /**
      * This is the control template that governs the output.
@@ -152,6 +154,12 @@ public class TexenTask extends Task
      * properties file.
      */
     protected ExtendedProperties contextProperties;
+
+    /**
+     * Property which controls whether the classpath
+     * will be used when trying to locate templates.
+     */
+    protected boolean useClasspath;
 
     /**
      * [REQUIRED] Set the control template for the
@@ -271,6 +279,16 @@ public class TexenTask extends Task
     }
     
     /**
+     * Set the use of the classpath in locating templates
+     *
+     * @param boolean true means the classpath will be used.
+     */
+    public void setUseClasspath(boolean useClasspath)
+    {
+        this.useClasspath = useClasspath;
+    }        
+    
+    /**
      * Creates a VelocityContext.
      *
      * @return new Context
@@ -293,33 +311,28 @@ public class TexenTask extends Task
     public void execute () 
         throws BuildException
     {
-        /*
-         * Make sure the template path is set.
-         */
-        if (templatePath == null)
+
+        // Make sure the template path is set.
+        if (templatePath == null && useClasspath == false)
         {
-            throw new BuildException("The template path needs to be defined!");
+            throw new BuildException(
+                "The template path needs to be defined if you are not using " +
+                "the classpath for locating templates!");
         }            
-        
-        /*
-         * Make sure the control template is set.
-         */
+    
+        // Make sure the control template is set.
         if (controlTemplate == null)
         {
             throw new BuildException("The control template needs to be defined!");
         }            
 
-        /*
-         * Make sure the output directory is set.
-         */
+        // Make sure the output directory is set.
         if (outputDirectory == null)
         {
             throw new BuildException("The output directory needs to be defined!");
         }            
         
-        /*
-         * Make sure there is an output file.
-         */
+        // Make sure there is an output file.
         if (outputFile == null)
         {
             throw new BuildException("The output file needs to be defined!");
@@ -327,26 +340,44 @@ public class TexenTask extends Task
 
         try
         {
-            /* 
-             * Setup the Velocity Runtime.
-             */
-            Velocity.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, templatePath);
+            // Setup the Velocity Runtime.
+            if (templatePath != null)
+            {
+                Velocity.setProperty(
+                    Velocity.FILE_RESOURCE_LOADER_PATH, templatePath);
+            }
+            
+            if (useClasspath)
+            {
+                Velocity.addProperty(
+                    Velocity.RESOURCE_LOADER, "classpath");
+            
+                Velocity.setProperty(
+                    "classpath." + Velocity.RESOURCE_LOADER + ".class",
+                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+                Velocity.setProperty(
+                    "classpath." + Velocity.RESOURCE_LOADER + 
+                        ".cache", "false");
+
+                Velocity.setProperty(
+                    "classpath." + Velocity.RESOURCE_LOADER + 
+                        ".modificationCheckInterval", "2");
+            }
             
             Velocity.init();
 
-            /* 
-             * Create the text generator.
-             */
+            // Create the text generator.
             Generator generator = Generator.getInstance();
             generator.setOutputPath(outputDirectory);
-            generator.setTemplatePath(templatePath);
             
-            /* 
-             * Make sure the output directory exists, if it doesn't
-             * then create it.
-             */
+            if (templatePath != null)
+            {
+                generator.setTemplatePath(templatePath);
+            }                
             
+            // Make sure the output directory exists, if it doesn't
+            // then create it.
             File file = new File(outputDirectory);
             if (! file.exists())
             {
@@ -357,28 +388,21 @@ public class TexenTask extends Task
             System.out.println(path);
             FileWriter writer = new FileWriter(path);
             
-            /* 
-             * The generator and the output path should
-             * be placed in the init context here and
-             * not in the generator class itself.
-             */
+            // The generator and the output path should
+            // be placed in the init context here and
+            // not in the generator class itself.
             Context c = initControlContext();
             
-            /*
-             * Everything in the generator class should be
-             * pulled out and placed in here. What the generator
-             * class does can probably be added to the Velocity
-             * class and the generator class can probably
-             * be removed all together.
-             */
+            // Everything in the generator class should be
+            // pulled out and placed in here. What the generator
+            // class does can probably be added to the Velocity
+            // class and the generator class can probably
+            // be removed all together.
             populateInitialContext(c);
             
-            /* 
-             * Feed all the options into the initial
-             * control context so they are available
-             * in the control/worker templates.
-             */
-            
+            // Feed all the options into the initial
+            // control context so they are available
+            // in the control/worker templates.
             if (contextProperties != null)
             {
                 Iterator i = contextProperties.getKeys();
@@ -388,23 +412,18 @@ public class TexenTask extends Task
                     String property = (String) i.next();
                     String value = contextProperties.getString(property);
                     
-                    /* 
-                     * Now lets quickly check to see if what
-                     * we have is numeric and try to put it
-                     * into the context as an Integer.
-                     */
+                    // Now lets quickly check to see if what
+                    // we have is numeric and try to put it
+                    // into the context as an Integer.
                     try
                     {
                         c.put(property, new Integer(value)); 
                     }
                     catch (NumberFormatException nfe)
                     {
-                        /*
-                         * Now we will try to place the value into
-                         * the context as a boolean value if it
-                         * maps to a valid boolean value.
-                         */
-                         
+                        // Now we will try to place the value into
+                        // the context as a boolean value if it
+                        // maps to a valid boolean value.
                         String booleanString = 
                             contextProperties.testBoolean(value);
                         
@@ -414,29 +433,23 @@ public class TexenTask extends Task
                         }
                         else
                         {
-                        
-                            /*
-                             * We are going to do something special
-                             * for properties that have a "file.contents"
-                             * suffix: for these properties will pull
-                             * in the contents of the file and make
-                             * them available in the context. So for
-                             * a line like the following in a properties file:
-                             *
-                             * license.file.contents = license.txt
-                             *
-                             * We will pull in the contents of license.txt
-                             * and make it available in the context as
-                             * $license. This should make texen a little
-                             * more flexible.
-                             */
+                            // We are going to do something special
+                            // for properties that have a "file.contents"
+                            // suffix: for these properties will pull
+                            // in the contents of the file and make
+                            // them available in the context. So for
+                            // a line like the following in a properties file:
+                            //
+                            // license.file.contents = license.txt
+                            //
+                            // We will pull in the contents of license.txt
+                            // and make it available in the context as
+                            // $license. This should make texen a little
+                            // more flexible.
                             if (property.endsWith("file.contents"))
                             {
-                                /*
-                                 * We need to turn the license file from relative to
-                                 * absolute, and let Ant help :)
-                                 */
-
+                                // We need to turn the license file from relative to
+                                // absolute, and let Ant help :)
                                 value = StringUtils.fileContentsToString(   
                                     project.resolveFile(value).getCanonicalPath());
                             
@@ -462,8 +475,9 @@ public class TexenTask extends Task
         catch( MethodInvocationException e )
         {
             throw new BuildException(
-                "Exception thrown by '" + e.getReferenceName() + "." + e.getMethodName() +"'" + MSG_CONSULT_LOG,
-                e.getWrappedThrowable());
+                "Exception thrown by '" + e.getReferenceName() + "." + 
+                    e.getMethodName() +"'" + MSG_CONSULT_LOG,
+                        e.getWrappedThrowable());
         }       
         catch( ParseErrorException e )
         {
