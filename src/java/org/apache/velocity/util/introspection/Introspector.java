@@ -82,7 +82,8 @@ import java.lang.reflect.Modifier;
  * This mapping is performed for all the methods in a class
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Introspector.java,v 1.3 2000/11/01 17:51:11 jvanzyl Exp $
+ * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
+ * @version $Id: Introspector.java,v 1.4 2000/11/01 18:31:36 jvanzyl Exp $
  */
 
 // isAssignable checks for arguments that are subclasses

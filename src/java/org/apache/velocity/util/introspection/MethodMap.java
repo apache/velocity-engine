@@ -61,6 +61,13 @@ import java.util.Hashtable;
 
 import java.lang.reflect.Method;
 
+/**
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
+ * @version $Id: MethodMap.java,v 1.2 2000/11/01 18:31:37 jvanzyl Exp $
+ */
+
 public class MethodMap
 {
     Map methodByNameMap = new Hashtable();
