@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.20 2000/11/05 05:46:18 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.21 2000/11/05 16:28:18 geirm Exp $ 
 */
 public class Parser
 {
@@ -482,7 +482,7 @@ TOKEN:
 <DIRECTIVE>
 TOKEN:
 {
-   <RPAREN: ")" (" ")* ( "\n" | "\r" | "\r\n" )?>
+   <RPAREN: ")" ((" ")* ( "\n" | "\r" | "\r\n" ))?>
     {
        RPARENHandler();
     }    
