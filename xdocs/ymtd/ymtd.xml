@@ -13,7 +13,7 @@
 <p>
 The title of this essay is called "You make the decision." The point of
 this essay is to explore what it is like to develop a web application
-using a couple popular tools that are available today. In order to do
+using a couple of popular tools that are available today. In order to do
 this, examples of using these technologies will be shown. This will give
 a nice first person account of what it is like to use these technologies
 on a daily basis.
@@ -121,7 +121,7 @@ Velocity project in the xdocs directory.
 
 <p>
 If there are any changes that need to be made to this document, please
-do not hesitate to contact <a href="jon@apache.org">Jon Stevens</a>.
+do not hesitate to contact <a href="mailto:jon@apache.org">Jon Stevens</a>.
 </p>
 
 <p>
