@@ -35,19 +35,19 @@ you are working with an offical Velocity release package, you will find
 the Velocity jar in the top level directory.
 
 Building Velocity is easy.  All components necessary to build Velocity are
-included, except for the Java 2 SDK.
+included, except for the Java 2 SDK and the fabulous Ant build tool
+from the Jakarta project.
 
-To build Velocity, change directory into the build/ directory and 
-execute the platform-specific build script.
+http://jakarta.apache.org/ant/
 
-Unix:
-./build.sh
+To build Velocity's jar, change directory into the build/ directory and 
+simply type :
 
-Win32:
-build.bat
+ant jar
 
 This will create a bin/ directory containing the Velocity .jar file. Be
-sure to update your classpath to include Velocity's .jar file.
+sure to update your classpath to include Velocity's .jar file, or when using a 
+modern servlet container, put it in the WEB-INF/lib directory.
 
 TRYING THE EXAMPLES
 -------------------
