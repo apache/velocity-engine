@@ -61,12 +61,11 @@ import java.io.Writer;
 
 import java.util.Properties;
 
-import org.apache.velocity.VelocityContext;
-
 import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -77,7 +76,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.1 2001/03/05 23:34:16 daveb Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.2 2001/03/14 22:05:17 jvanzyl Exp $
  */
 public class ClasspathResourceTest extends TestCase
 {
@@ -97,11 +96,6 @@ public class ClasspathResourceTest extends TestCase
     private static final String RESULT_FILE_EXT = "res";
 
     /**
-     * Overload velocity template
-     */
-    private final static String TEST_PROPERTY_FILE = "../test/cpload/velocity.properties";
-
-    /**
      * Results relative to the build directory.
      */
     private static final String RESULT_DIR = "../test/cpload/result";
@@ -114,13 +108,31 @@ public class ClasspathResourceTest extends TestCase
     /**
      * Default constructor.
      */
-    ClasspathResourceTest()
+    public ClasspathResourceTest()
     {
         super("ClasspathResourceTest");
 
         try
         {
-            Runtime.init( TEST_PROPERTY_FILE );
+            Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+
+            /*
+             * I don't think I should have to do this, these should
+             * be in the default config file.
+             */
+
+            Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".class",
+                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+            Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+
+            Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
+                    "2");
+
+            Velocity.init();
         }
         catch (Exception e)
         {

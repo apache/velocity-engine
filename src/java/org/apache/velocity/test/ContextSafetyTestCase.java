@@ -64,8 +64,9 @@ import java.util.Vector;
 import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.test.provider.TestProvider;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
 import junit.framework.TestCase;
@@ -81,19 +82,20 @@ import junit.framework.TestCase;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.6 2001/03/12 00:31:13 jon Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.7 2001/03/14 22:05:18 jvanzyl Exp $
  */
 public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
 {
     public ContextSafetyTestCase()
     {
         super("ContextSafetyTestCase");
+        
         try
         {
-	        Runtime.setDefaultProperties();
-	        Runtime.setSourceProperty(
-	            Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-	        Runtime.init();
+	        Velocity.setProperty(
+	            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+	        
+             Velocity.init();
 	    }
 	    catch (Exception e)
 	    {

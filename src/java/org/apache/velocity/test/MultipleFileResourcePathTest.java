@@ -64,9 +64,9 @@ import java.util.Properties;
 import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.test.provider.TestProvider;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -76,7 +76,7 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.2 2001/03/05 11:47:38 jvanzyl Exp $
+ * @version $Id: MultipleFileResourcePathTest.java,v 1.3 2001/03/14 22:05:20 jvanzyl Exp $
  */
 public class MultipleFileResourcePathTest extends TestCase
 {
@@ -126,15 +126,13 @@ public class MultipleFileResourcePathTest extends TestCase
 
         try
         {
-            Runtime.setDefaultProperties();
-            
-            Runtime.setSourceProperty(
-                Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
+            Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
 
-            Runtime.setSourceProperty(
-                Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
+            Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
 
-            Runtime.init();
+            Velocity.init();
         }
         catch (Exception e)
         {
