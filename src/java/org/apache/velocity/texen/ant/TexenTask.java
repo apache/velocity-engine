@@ -81,7 +81,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.31 2001/09/18 13:59:58 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.32 2001/09/26 21:40:42 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -253,6 +253,7 @@ public class TexenTask
      */
     public void setContextProperties( String file )
     {
+        String[] sources = StringUtils.split(file,",");
         contextProperties = new ExtendedProperties();
         
         // Always try to get the context properties resource
@@ -261,31 +262,45 @@ public class TexenTask
         // resource in the filesystem. If this fails than attempt
         // to get the context properties resource from the
         // classpath.
-        try
+        for (int i = 0; i < sources.length; i++)
         {
-            contextProperties.load(new FileInputStream(file));
-        }
-        catch (Exception e)
-        {
-            ClassLoader classLoader = this.getClass().getClassLoader();
+            ExtendedProperties source = new ExtendedProperties();
             
             try
             {
-                InputStream inputStream = classLoader.getResourceAsStream(file);
+                source.load(new FileInputStream(sources[i]));
+            }
+            catch (Exception e)
+            {
+                ClassLoader classLoader = this.getClass().getClassLoader();
+            
+                try
+                {
+                    InputStream inputStream = classLoader.getResourceAsStream(sources[i]);
                 
-                if (inputStream == null)
-                {
-                    throw new BuildException("Context properties file " + file + " could " +
-                        " not be found in the file system or on the classpath!");
+                    if (inputStream == null)
+                    {
+                        throw new BuildException("Context properties file " + sources[i] +
+                            " could not be found in the file system or on the classpath!");
+                    }
+                    else
+                    {
+                        source.load(inputStream);
+                    }
                 }
-                else
+                catch (IOException ioe)
                 {
-                    contextProperties.load(inputStream);
+                    source = null;
                 }
             }
-            catch (IOException ioe)
+        
+            Iterator j = source.getKeys();
+            
+            while (j.hasNext())
             {
-                contextProperties = null;
+                String name = (String) j.next();
+                String value = source.getString(name);
+                contextProperties.setProperty(name,value);
             }
         }
     }
