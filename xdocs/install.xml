@@ -131,28 +131,43 @@ ant test
 ]]></source>
 
 <p>
-If all is well, you should see output like :
+If all is well, you should see output similar to :
 </p>
 
 <source><![CDATA[
-test:
-Running JUnit template tests for Velocity ...
-Adding TemplateTestCase : arithmetic
-Adding TemplateTestCase : array
-Adding TemplateTestCase : block
-   .
-   .
-   .
-Adding TemplateTestCase : math
-Adding TemplateTestCase : range
-Adding TemplateTestCase : get
-Adding TemplateTestCase : velocimacro2
-Adding TemplateTestCase : foreach-type
-Adding ContextSafetyTestCase.
-......................................
-Time: 2.553
+junittest:
+    [junit] Running org.apache.velocity.util.TestSimplePool
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.025 sec
 
-OK (38 tests)
+test:
+
+test-template:
+     [echo] Running Template tests...
+     [java] Adding TemplateTestCase : arithmetic
+     ...
+     ...
+     ...
+     [java] Adding TemplateTestCase : foreach-introspect
+     [java] Adding TemplateTestCase : settest
+     [java] .......................................
+     [java] Time: 1.999
+
+     [java] OK (39 tests)
+
+
+test-velocityapp:
+     [echo] Running app.Velocity tests...
+     [java] .
+     [java] Time: 0.004
+
+     [java] OK (1 tests)
+
+
+...
+
+BUILD SUCCESSFUL
+Total time: 42 seconds
+
 ]]></source>
 
 <p>
