@@ -55,6 +55,7 @@ package org.apache.velocity;
  */
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
@@ -79,22 +80,31 @@ import org.apache.velocity.context.Context;
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
- *  @version $Id: VelocityContext.java,v 1.4 2001/03/19 22:32:49 geirm Exp $
+ *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ *  @version $Id: VelocityContext.java,v 1.5 2001/10/22 02:37:49 dlr Exp $
  */
 public class VelocityContext extends AbstractContext implements Cloneable
 {
     /**
-     *  storage for key/value pairs 
+     *  Storage for key/value pairs.
      */
-    private HashMap context = new HashMap();
+    private Map context = null;
 
     /** 
-     * default contructor, does nothing 
-     * interesting
+     *  Creates a new instance (with no inner context).
      */
     public VelocityContext()
     {
-        super();
+        this(null, null);
+    }
+
+    /** 
+     *  Creates a new instance with the provided storage (and no inner
+     *  context).
+     */
+    public VelocityContext(Map context)
+    {
+        this(context, null);
     }
 
     /**
@@ -104,13 +114,28 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  wrapping context will only effect the outermost
      *  context
      *
-     *  @param innerContext context impl to wrap
+     *  @param innerContext The <code>Context</code> implementation to
+     *  wrap.
      */
     public VelocityContext( Context innerContext )
     {
-        super( innerContext );
+        this(null, innerContext);
     }
- 
+
+    /**
+     *  Initializes internal storage (never to <code>null</code>), and
+     *  inner context.
+     *
+     *  @param context Internal storage, or <code>null</code> to
+     *  create default storage.
+     *  @param innerContext Inner context.
+     */
+    public VelocityContext(Map context, Context innerContext)
+    {
+        super(innerContext);
+        this.context = (context == null ? new HashMap() : context);
+    }
+
     /**
      *  retrieves value for key from internal
      *  storage
@@ -171,23 +196,21 @@ public class VelocityContext extends AbstractContext implements Cloneable
     }
 
     /**
-     * Clones this context object
-     * @return Object an instance of this Context
+     * Clones this context object.
+     *
+     * @return A deep copy of this <code>Context</code>.
      */
     public Object clone()
     {
         VelocityContext clone = null;
-
         try
         {
             clone = (VelocityContext) super.clone();
-            clone.context = (HashMap) context.clone();
+            clone.context = new HashMap(context);
         }
-        catch (CloneNotSupportedException cnse)
+        catch (CloneNotSupportedException ignored)
         {
         }
         return clone;
     }
-
 }
-
