@@ -49,6 +49,14 @@ we can move forward with an up-to-date version that uses Logger, and
 for one release, be backwards compatile for the Category-using log4j
 crowd.  (gmj)
 </li>
+
+<li>
+Deprecated the org.apache.velocity.servlet.VelocityServlet class in
+favor of org.apache.velocity.tools.view.servlet.VelocityViewServlet
+from the Velocity Tools library.  Servlet interaction is more a core
+competency of the Velocity Tools package than of Velocity's
+core. (dlr)
+</li>
 </ul>
 
 </subsection>
