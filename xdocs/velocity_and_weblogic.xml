@@ -1,0 +1,384 @@
+<document>
+
+<properties>
+  <title>Using Velocity With WebLogic</title>
+  <author email="Paw Dybdahl (pdy@csg.csc.dk)">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Contents">
+
+
+<ol>
+  <li>
+    <a href="velocity_and_weblogic.html#Assumptions">Assumptions</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#The Scope Of This Guide">The Scope Of This Guide</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#Where to Put the Template Files">
+    Where To Put the Template Files</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#Setting the Configuration Properties">
+    Setting the Configuration Properties</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#What About Stylesheets?">
+    What about stylesheets?</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#Where to Put the Velocity Jar">
+      Where to put the Velocity Jar</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#Making Life Easier for the Developer">
+    Making Life Easier for the Developer</a>
+  </li>
+  <li>
+    <a href="velocity_and_weblogic.html#A Build Process">
+    A Build Process</a>
+  </li>
+</ol>
+
+</section>
+
+<section name="Assumptions">
+
+<p>
+This short guide can only be keept short because it assumes you already have
+a working knowledge af Velocity and how to use it in the J2EE environment,
+for example with Apache-Tomcat.
+</p>
+
+</section>
+
+<section name="The Scope Of This Guide">
+
+<p>
+Deploying web-applications to Tomcat can be accomplished by a war-file, but
+at startup Tomcat explodes the war-file so the directory structure are available
+for the Velocity engine at runtime and the <code>getRealPath()</code> method in 
+<code>ServletContext</code> returns the real path to the given directory.
+</p>
+
+<p>
+Deploying the same war-file in WebLogic will not have the same effect,
+since WebLogic keeps its deployed war-files unexploded, and the 
+<code>getRealPath()</code> method in <code>ServletContext</code> 
+returns <code>null</code>. So how should you
+organize your properties file, templates, stylesheets, servlets and build
+process in this environment? 
+</p>
+
+<p>
+The scope of this little guide is to give you answers to these
+questions, so you can enjoy using Velocity even in the context of a commercial
+app server.
+</p>
+
+<p>
+While all the relevant information can be found in the JavaDoc documentation,
+this quick guide will help you get started quickly.
+</p>
+
+</section>
+
+<section name="Where to Put the Template Files">
+
+<p>
+Since the <code>ClasspathResourceLoader</code> can load a template from a
+resource found in the servlet engines classpath, it seems like a very good idea
+to jar all the template-files together and place this jar (<code>template.jar</code>
+for example) in <code>WEB-INF/lib</code> which will make it available as a 
+resource in the classpath.
+</p>
+
+</section>
+
+<section name="Setting the Configuration Properties">
+
+<p>
+Although the properties file could be given any name, for this guide we 
+will use <code>velocity.properties</code> since
+all documentation and examples on the Velocity site uses this filename.
+</p>
+
+<p>
+This file should include the following two lines to configure the resource
+loader:
+</p>
+
+<pre>
+    resource.loader = class
+    class.resource.loader.class = org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+</pre>
+
+<p>
+The file can contain other configurations as well.
+</p>
+
+<strong>Where to put <code>velocity.properties</code></strong>
+
+<p>
+Put the <code>velocity.properties</code> file directly in the <code>WEB-INF</code>
+directory and include the following lines in your <code>web.xml</code>:
+</p>
+
+<pre>
+&lt;servlet&gt;
+  &lt;servlet-name&gt;...&lt;/servlet-name&gt;
+  &lt;servlet-class&gt;...&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;properties&lt;/param-name&gt;
+      &lt;param-value&gt;/WEB-INF/velocity.properties&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
+</pre>
+
+<p>
+and include the following implementation in your servlet(s):
+</p>
+
+<pre>
+  protected Properties loadConfiguration (ServletConfig config) throws IOException, FileNotFoundException  {
+    String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+    Properties p = new Properties();
+
+    if ( propsFile != null ) {
+      InputStream iStream = getServletContext().getResourceAsStream( propsFile );
+
+      if ( iStream != null ) {
+        p.load( iStream );
+      }
+    }
+
+    return p;
+  }
+</pre>
+
+</section>
+
+<section name="What About Stylesheets?">
+
+<p>
+If you have any stylesheets you can place them anywhere you like, as long as
+you only make relative references to these files from your template files.
+</p>
+
+<p>
+I prefer to have my stylesheets keept in a directory called <code>stylesheets</code>
+located under the root-directory of the web application (i.e. at the same
+level as the <code>WEB-INF</code> directory).
+</p>
+
+<p>
+In your template files you can reference the stylesheets like this:
+</p>
+
+<pre>
+&lt;link REL=&quot;stylesheet&quot; TYPE=&quot;text/css&quot; HREF=&quot;./stylesheets/style.css&quot;&gt;
+</pre>
+
+</section>
+
+<section name="Where to Put the Velocity Jar">
+
+<p>
+First of all you have to decide whether you will use the dependency-free version of
+velocity.jar or the version including all dependend jars. If you are not worried about
+collisions with Avalon Logkit, Commons Collections or Jakarta Oro, using the 
+jar containing all dependencies is very convenient.
+</p>
+
+<p>
+Putting the velocity jar in <code>WEB-INF/lib</code> your web application will result
+in it's classes being available in the classpath for that web application.
+</p>
+
+</section>
+
+<section name="Making Life Easier for the Developer">
+
+<p>
+Using Velocity in 'real life' you quickly recognize a lot of
+similarity between your servlets. The first abstraction that will make life a
+little easier for the developers is a servlet like my <code>MainServlet</code>, which all
+application specific servlets can subclass. The only method the subclasses must
+override is the <code>getTemplateName()</code> method, which should return the name of
+this servlets template file.
+</p>
+
+<p>If the subclasses needs to put data into context (which most servlets do)
+they can implement the <code>loadData()</code> method.
+</p>
+
+<p>
+That's it. The rest is done by <code>MainServlet</code> (and <code>VelocityServlet</code> of course).
+</p>
+
+<pre>
+public abstract class MainServlet extends VelocityServlet {
+
+  public Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
+    loadData( request, response, ctx );
+    return getMyTemplate();
+  }
+
+  protected Properties loadConfiguration (ServletConfig config) throws IOException, FileNotFoundException  {
+    String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+    Properties p = new Properties();
+
+    if ( propsFile != null ) {
+      InputStream iStream = getServletContext().getResourceAsStream( propsFile );
+
+      if ( iStream != null ) {
+        p.load( iStream );
+      }
+    }
+
+    return p;
+  }
+
+  protected Template getMyTemplate( ) {
+    Template template = null;
+    try {
+      template =  getTemplate( getTemplateName() + &quot;.vm&quot; );
+    }
+    catch (ParseErrorException pee) {
+      mylog(&quot;Parse error for template &quot; + pee);
+    }
+    catch (ResourceNotFoundException rnfe) {
+      mylog(&quot;Template not found &quot; + rnfe);
+    }
+    catch (Exception e) {
+      mylog(&quot;Error &quot; + e);
+    }
+    return template;
+  }
+  
+  /**
+   * Gets the name of the template file to be processed from this servlet. Should be 
+   * overridden by every subclass.
+   */
+  abstract protected String getTemplateName();
+
+  /**
+   * Load data into context.
+   */
+  protected void loadData(HttpServletRequest request, HttpServletResponse response, Context ctx ) {
+    ctx.put( &quot;dummy&quot;, &quot;dummy&quot; );
+  }
+}
+</pre>
+
+</section>
+
+<section name="A Build Process">
+
+<p>
+A simple build process that supports the outlined directory contains the
+follwing steps:
+</p>
+
+<ol>
+  <li>Define shortcuts for the directories used during the build process</li>
+  <li>Prepare the build by coping all necessary files to the staging (build)
+    directory</li>
+  <li>Compile all java files</li>
+  <li>Make a jar containing all templates</li>
+  <li>Make a war containing the web application (in the distribution directory)</li>
+</ol>
+
+<p>
+A concrete example following the above scheme:
+</p>
+
+<pre>
+&lt;project name=&quot;carImportAdmin&quot; default=&quot;all&quot; basedir=&quot;.&quot;&gt;
+
+  &lt;!--	Source directory for deployment descriptors, manifest, properties,...  --&gt;
+  &lt;property name=&quot;dd&quot; value=&quot;./dd&quot;/&gt;
+
+  &lt;!--  Work directory used during build process  --&gt;	
+  &lt;property name=&quot;build&quot; value=&quot;./staging&quot;/&gt;
+
+  &lt;!--  Target directory for the final war-file  --&gt;
+  &lt;property name=&quot;dist&quot; value=&quot;../build-ear/modules&quot;/&gt;
+
+  &lt;!--  Source directory for all java files  --&gt;
+  &lt;property name=&quot;src&quot; value=&quot;./src&quot;/&gt;
+
+  &lt;!--  Source directory for template files  --&gt;
+  &lt;property name=&quot;templates&quot; value=&quot;./templates&quot;/&gt;
+
+  &lt;!--  Source directory for stylesheets  --&gt;
+  &lt;property name=&quot;stylesheets&quot; value=&quot;./stylesheets&quot;/&gt;
+
+  &lt;!--  Libraries used in compile  --&gt;
+  &lt;property name=&quot;lib&quot; value=&quot;${dist}/CarImport.jar;${dist}/FPGuiden.jar;${dist}/velocity-dep-1.2-rc3.jar&quot;/&gt;
+
+
+  &lt;target name=&quot;all&quot; depends=&quot;init, compile, jar, war&quot;/&gt;
+
+  &lt;target name=&quot;init&quot; depends=&quot;clean&quot;&gt;
+    &lt;tstamp/&gt;
+
+    &lt;mkdir dir=&quot;${build}&quot;/&gt;
+    &lt;mkdir dir=&quot;${build}/stylesheets&quot;/&gt;
+    &lt;mkdir dir=&quot;${build}/WEB-INF&quot;/&gt;
+    &lt;mkdir dir=&quot;${build}/WEB-INF/classes&quot;/&gt;
+    &lt;mkdir dir=&quot;${build}/WEB-INF/lib&quot;/&gt;
+
+    &lt;copy todir=&quot;${build}/WEB-INF&quot;&gt;
+      &lt;fileset dir=&quot;${dd}&quot;&gt;
+        &lt;include name=&quot;velocity.properties&quot;/&gt;
+      &lt;/fileset&gt;
+      &lt;fileset dir=&quot;${dd}/WEB-INF&quot;&gt;
+        &lt;include name=&quot;web.xml&quot;/&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+    &lt;copy todir=&quot;${build}/WEB-INF/lib&quot;&gt;
+      &lt;fileset dir=&quot;${dist}&quot;&gt;
+        &lt;include name=&quot;velocity-dep-1.2-rc3.jar&quot;/&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+    &lt;copy todir=&quot;${build}/stylesheets&quot;&gt;
+      &lt;fileset dir=&quot;${stylesheets}&quot;&gt;
+
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+
+
+  &lt;target name=&quot;compile&quot;&gt;
+    &lt;javac srcdir=&quot;${src}&quot; destdir=&quot;${build}/WEB-INF/classes&quot; classpath=&quot;${CLASSPATH};${lib}&quot;&gt;
+    &lt;/javac&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;jar&quot;&gt;
+    &lt;jar jarfile=&quot;${build}/WEB-INF/lib/templates.jar&quot;
+      basedir=&quot;${templates}&quot;&gt;
+    &lt;/jar&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;war&quot; depends=&quot;init&quot;&gt;
+    &lt;jar jarfile=&quot;${dist}/carImportAdmin.war&quot;
+      basedir=&quot;${build}&quot;&gt;
+    &lt;/jar&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;clean&quot;&gt;
+    &lt;delete dir=&quot;${build}&quot;/&gt;
+  &lt;/target&gt;
+
+&lt;/project&gt;
+</pre>
+
+</section>
+
+</body>
+
+</document>
