@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.5 2000/12/11 04:36:03 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.6 2000/12/21 05:51:38 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -70,10 +70,14 @@ import org.apache.velocity.runtime.parser.*;
 import java.io.StringWriter;
 import java.io.ByteArrayInputStream;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 public class ASTStringLiteral extends SimpleNode
 {
+    /* cache the value of the interpolation switch */
+    private boolean interpolate = true;
+    private SimpleNode nodeTree = null;
+    private String image = "";
+
     public ASTStringLiteral(int id)
     {
         super(id);
@@ -82,6 +86,41 @@ public class ASTStringLiteral extends SimpleNode
     public ASTStringLiteral(Parser p, int id)
     {
         super(p, id);
+    }
+    
+    /**
+     *  init : we don't have to do much.  Init the tree (there shouldn't be
+     *  one ) and then see if interpolation is turned on.
+     */
+    public Object init(Context context, Object data) 
+        throws Exception
+    {
+        /*
+         *  simple habit...  we prollie don't have an AST beneath us
+         */
+
+        super.init( context, data );
+
+        /*
+         *  the stringlit is set at template parse time, so we can do this here for now.
+         *  if things change and we can somehow create stringlits at runtime, this must
+         *  move to the runtime execution path
+         *
+         *  so, only if interpolation is turned on AND it starts with a " AND it has a 
+         *  directive or reference, then we can  interpolate.  Otherwise, don't bother.
+         */
+
+        interpolate = Runtime.getBoolean(Runtime.INTERPOLATE_STRINGLITERALS , true)
+            && getFirstToken().image.startsWith("\"")
+            && ( (getFirstToken().image.indexOf("$") != -1 ) || ( getFirstToken().image.indexOf("#") != -1 ));
+
+        /*
+         *  get the contents of the string, minus the '/" at each end
+         */
+        
+        image = getFirstToken().image.substring(1, getFirstToken().image.length() - 1);
+
+        return data;
     }
 
     /** Accept the visitor. **/
@@ -98,42 +137,43 @@ public class ASTStringLiteral extends SimpleNode
      */
     public Object value(Context context)
     {
-        /*
-         *  check to see if there are anything that might be a reference or directive in the string
-         */
-
-        if (  Runtime.getBoolean(RuntimeConstants.INTERPOLATE_STRINGLITERALS , true) && 
-              ( getFirstToken().image.indexOf("$") != -1  || getFirstToken().image.indexOf("#") != -1 ) )
-        {
-            /*
-             *  if so, and allowed, parse() and render()
-             *  In the future, we will get stringlits parsed into the AST at template parse time
-             */
-            
-            ByteArrayInputStream  inStream = new ByteArrayInputStream( getFirstToken().image.substring(1, getFirstToken().image.length() - 1).getBytes() );
-            
+        if (interpolate )
+        {          
             try
-            {    
+            {   
                 /*
-                 *  parse the stringlit
+                 *  only parse the first time
                  */
-                SimpleNode nodeTree = Runtime.parse( inStream, context.getCurrentTemplateName() );        
+
+                if (nodeTree == null)
+                {
+                   
+                    ByteArrayInputStream inStream = new ByteArrayInputStream( image.getBytes() );
+  
+                    /*
+                     *  parse the stringlit
+                     */
+                    
+                    nodeTree = Runtime.parse( inStream, context.getCurrentTemplateName() );        
                 
-                /*
-                 *  init with a cloned context
-                 */
-                Context ctxt = (Context) context.clone();
-                nodeTree.init( ctxt, null );
-                
+                    /*
+                     *  init with context. It won't modify anything
+                     */
+
+                    nodeTree.init( context, null );
+                }
+
                 /*
                  *  now render against the real context
                  */
+
                 StringWriter writer = new StringWriter();
                 nodeTree.render(context, writer );
                 
                 /*
                  * and return the result as a String
                  */
+
                 return writer.toString();
             }
             catch( Exception e )
@@ -148,7 +188,6 @@ public class ASTStringLiteral extends SimpleNode
          *  just output the literal
          */
 
-        return getFirstToken().image.substring(1, getFirstToken().image.length() - 1);
-
+        return image;
     }
 }
