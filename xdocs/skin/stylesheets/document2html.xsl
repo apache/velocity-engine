@@ -15,7 +15,6 @@
   <xsl:if test="not(book)">
     <html>
       <head>
-        <script language="JavaScript" type="text/javascript" src="resources/script.js"/>
         <title><xsl:value-of select="document/header/title"/></title>
       </head>
       <body text="#000000" link="#023264" vlink="#023264" alink="#023264"
