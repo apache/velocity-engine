@@ -153,7 +153,7 @@ import java.util.Vector;
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Configuration.java,v 1.14 2001/03/17 18:59:41 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.15 2001/03/17 19:19:53 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -529,6 +529,29 @@ public class Configuration extends Hashtable
         }
     }
 
+    /**
+     * Add a property to the configuration. If it already
+     * exists then the value stated here will be added
+     * to the configuration entry. For example, if
+     *
+     * resource.loader = file
+     *
+     * is already present in the configuration and you
+     *
+     * addProperty("resource.loader", "classpath")
+     *
+     * Then you will end up with a Vector like the
+     * following:
+     *
+     * ["file", "classpath"]
+     *
+     * @param String key
+     * @param String value
+     */
+    public void addProperty(String key, Object value)
+    {
+    }
+    
     /**
      * Save the properties to the given outputstream.
      *
