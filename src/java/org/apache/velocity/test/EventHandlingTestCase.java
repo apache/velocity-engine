@@ -65,16 +65,16 @@ import org.apache.velocity.runtime.log.LogSystem;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.ReferenceInsertionEventHandler;
-import org.apache.velocity.context.MethodExceptionEventHandler;
-import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.NullSetEventHandler;
 
 /**
  *  Tests event handling
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.1 2001/05/17 14:04:08 geirm Exp $
+ * @version $Id: EventHandlingTestCase.java,v 1.2 2001/05/20 19:49:29 geirm Exp $
  */
 public class EventHandlingTestCase extends TestCase implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,

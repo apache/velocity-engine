@@ -82,10 +82,11 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.ReferenceInsertionEventHandler;
-import org.apache.velocity.context.MethodExceptionEventHandler;
-import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.NullSetEventHandler;
+
 import org.apache.velocity.context.Context;
 
 /**
@@ -94,7 +95,7 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.28 2001/05/17 15:59:42 geirm Exp $
+ * @version $Id: Test.java,v 1.29 2001/05/20 19:49:31 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
