@@ -67,7 +67,7 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.1 2000/12/10 04:53:49 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.2 2000/12/10 19:38:05 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime;
@@ -88,6 +88,8 @@ public class VelocimacroManager
 
     /*  big switch for namespaces.  If true, then properties control usage. If false, no. */
     private boolean bUsingNamespaces_ = true;
+   
+    private boolean  bInlineLocalMode_ = false;
 
     /**
      *  not much to do but add the global namespace to the hash
@@ -187,9 +189,7 @@ public class VelocimacroManager
                     return false;
             
                 h.clear();
-                
-                Runtime.info("Velocimacro Manager : dumping VMs for namespace \"" + strNamespace + "\"" );
-
+               
                 return true;
             }
 
@@ -206,6 +206,11 @@ public class VelocimacroManager
     {
         bUsingNamespaces_ = b;
         return;
+    }
+
+    public void setTemplateLocalInlineVM( boolean b )
+    {
+        bInlineLocalMode_ = b;
     }
 
     /**
@@ -279,7 +284,7 @@ public class VelocimacroManager
          *  currently, we only support the local template namespace idea
          */
 
-        if (Runtime.getBoolean(VelocimacroFactory.VM_PERM_INLINE_LOCAL, false ))
+        if ( bInlineLocalMode_)
             return true;
 
         return false;
