@@ -1,0 +1,268 @@
+<HTML><HEAD><TITLE>Anakia</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+
+<P>About</P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="todo.html">TODO</A></LI></FONT>
+<P>Guides</P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="user-guide.html">User's Guide</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
+<P>Tools</P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="anakia.html">Anakia</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
+</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+
+ 
+
+
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>What Is Anakia?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<P align="justify">
+    Anakia is an alternative to using Ant's &lt;style&gt; task as well as using 
+    <A href="http://xml.apache.org/xalan/">XSL</A> to process your XML 
+    files. In summary, Anakia is an XML transformation tool that uses <A href="http://www.jdom.org">JDOM</A> and <A href="http://jakarta.apache.org/velocity">Velocity</A> to transform your 
+    XML documents into whatever you like.
+</P>
+<P align="justify">
+    The benefit of using Anakia over XSL is that it is MUCH easier to learn 
+    while still maintaining the same functionality level. Instead of learning 
+    cryptic &lt;xsl:&gt; tags, all you need to know is how to use JDOM and 
+    Velocity's simple directives. Anakia also seems much faster than Xalan's XSL 
+    processor at creating pages.
+</P>
+<P align="justify">
+    In the end, Anakia is intended as a replacement for Stylebook which was 
+    originally used to generate simple static websites where all the pages have
+    the same look and feel. This is great for documentation websites as well as
+    for project websites like what we have on jakarta.apache.org.
+</P>
+<P align="justify">
+    We suggest that you take a look at the jakarta-velocity/examples/anakia directory
+    for an example of how to get started with Anakia. It really is quite simple to use.    
+</P>
+<P align="justify">
+    The basic premise of Anakia is that a Context is created, the .vsl page is 
+    executed with the Context. Within the Context contains a JDOM Document 
+    object of your .xml page as well as (optionally) a JDOM Document object of 
+    your project.xml page. You can then navigate your .xml file and pull 
+    information out of it by simply executing methods on the JDOM Document 
+    object.
+</P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Installation/Example</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<P align="justify">
+    As we just mentioned, take a look at the jakarta-velocity/examples/anakia directory.
+    In order to use those examples, you will need to first build Velocity by following 
+    these <A href="install.html">directions</A>.
+</P>
+<P align="justify">
+    Once you have built Velocity, then you can cd into the jakarta-
+    velocity/examples/anakia/build directory and run ./build.sh. If you are on 
+    the Windows platform, then you should install <A href="http://sources.redhat.com/cygwin/">Cygwin</A> so that shell scripts 
+    will work on your PC as well.
+</P>
+<P align="justify">
+    The output of running the ./build.sh script will be placed into the 
+    jakarta-velocity/examples/anakia/docs/ directory. You can look at the HTML files
+    in there and view the results of the execution.
+</P>
+<P align="justify">
+    The jakarta-velocity/examples/anakia/xdocs/ directory has all of the .xml 
+    source code. In the stylesheets directory within the xdocs directory is the 
+    .vsl file. This is where most of the magic happens and a basic understanding 
+    of <A href="user-guide.html">Velocity Template Language</A> and JDOM 
+    is needed to understand how this file works.
+</P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>How does it work?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    Anakia is an Ant task that executes from an Ant build file. The build file looks
+    something like this:
+</P>
+
+<P align="justify">
+<DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>&lt;project name=&quot;build-site&quot; default=&quot;docs&quot; basedir=&quot;.&quot;&gt;
+    &lt;property name=&quot;project.name&quot;   value=&quot;site&quot;/&gt;
+    &lt;property name=&quot;docs.src&quot; value=&quot;../xdocs&quot;/&gt;
+    &lt;property name=&quot;docs.dest&quot; value=&quot;../docs&quot;/&gt;
+    &lt;taskdef name=&quot;anakia&quot; classname=&quot;org.apache.velocity.anakia.AnakiaTask&quot;/&gt;
+
+    &lt;target name=&quot;docs&quot;&gt;
+        &lt;anakia basedir=&quot;${docs.src}&quot; destdir=&quot;${docs.dest}/&quot;
+             extension=&quot;.html&quot; style=&quot;./site.vsl&quot;
+             projectFile=&quot;./stylesheets/project.xml&quot;
+             excludes=&quot;**/stylesheets/**&quot;
+             includes=&quot;**/*.xml&quot;
+             lastModifiedCheck=&quot;false&quot;
+             velocityPropertiesFile=&quot;velocity.properties&quot;&gt;
+        &lt;/anakia&gt;
+
+        &lt;copy todir=&quot;${docs.dest}/images&quot; filtering=&quot;no&quot;&gt;
+            &lt;fileset dir=&quot;${docs.src}/images&quot;&gt;
+                &lt;include name=&quot;**/*.gif&quot;/&gt;
+                &lt;include name=&quot;**/*.jpeg&quot;/&gt;
+                &lt;include name=&quot;**/*.jpg&quot;/&gt;
+            &lt;/fileset&gt;
+        &lt;/copy&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+    <TABLE border="0" cellpadding="2" cellspacing="2" width="100%"><CAPTION></CAPTION>
+        <TR>
+            <TD align="center" bgcolor="#039acc" colspan="" rowspan="" valign="center"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="-1"><B>Name</B>&nbsp;
+      </FONT></TD>
+            <TD align="center" bgcolor="#039acc" colspan="" rowspan="" valign="center"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="-1"><B>Description</B>&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">basedir&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">Specifies the path to the directory location of your .xml files.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">destdir&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">Specifies the path to the directory where the output files should go.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">extension&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">The extension that is appended to the end of your .xml file. For example, 
+            with an extension of &quot;.html&quot;, index.xml would be converted into index.html.
+            By default, the extension is .html.
+            &nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">style&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the path (relative to Velocity's template.loader.1.template.path) 
+            to the VelocityStyleTemplate to process. This file is the equivalent to the
+            .xsl file in Ant's style task.
+            &nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">projectFile&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the path to a &quot;project&quot; file. This file is an XML file 
+            that can be used as a &quot;navigation&quot; file. If you have used Stylebook 
+            or Struts system for generation of the website documentation, you 
+            will understand the purpose of this file. <B>It is an optional 
+            task argument.</B> If you look at the Anakia example in the 
+            jakarta-velocity/examples/anakia directory, you can see the project.xml
+            file being used in the .vsl file.
+            &nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">excludes&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the standard Ant excludes attribute. Specify any files 
+            or directories that you do not want Anakia to try to process.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">includes&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the standard Ant includes attribute. Specify any files 
+            or directories that you do want Anakia to try to process.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">lastModifiedCheck&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This turns on or off the ability to check the last modified date on files
+            in order to determine whether or not they need to be re-rendered or not.
+            The value of this attribute can be &quot;true, false, yes, no&quot;. By 
+            default, it is true meaning that the last modified date should be checked
+            and if the original .xml file, project file or .vsl file have not changed, 
+            then don't process the page. This speeds up processing quite a bit because
+            pages that have not changed will not get processed again.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">velocityPropertiesFile&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the path to the velocity.properties file. It is an optional
+            argument and by default is set to find the properties file in the same
+            directory that the JVM was started in.&nbsp;
+      </FONT></TD>
+        </TR>
+    </TABLE>
+</P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Context Objects</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<P align="justify">
+    The Anakia Ant task places several objects into the Context for you. Right now, 
+    you do not have control over what is placed into the Context. Eventually, 
+    we hope to have a way to give you control over this. However, that does not prevent
+    Anakia from being extremely useful for you today. :-)
+    The objects that are available to you in your .vsl template are:
+</P>
+<P align="justify">
+    <TABLE border="0" cellpadding="2" cellspacing="2" width="100%"><CAPTION></CAPTION>
+        <TR>
+        <TD align="center" bgcolor="#039acc" colspan="" rowspan="" valign="center"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="-1"><B>Name</B>&nbsp;
+      </FONT></TD>
+        <TD align="center" bgcolor="#039acc" colspan="" rowspan="" valign="center"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="-1"><B>Value</B>&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$root&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This contains the JDOM root Element to your .xml document.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$project&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This contains the JDOM root Element to your project.xml document. 
+            If you have not specified a project.xml document, then this variable
+            will not be in the context.                            
+            &nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$relativePath&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This contains a String which is the relative path to your
+            .xml document from the baseDir that was specified in your 
+            Ant task attributes. Please see the examples/anakia .vsl document
+            for example usage of this String.&nbsp;
+      </FONT></TD>
+        </TR>
+        <TR>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$xmloutput&nbsp;
+      </FONT></TD>
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This contains an instance of the JDOM XMLOutputter() object. 
+            This allows you to easily create String output out of your JDOM 
+            element objects. Again, please look at the examples for more information 
+            on how to use this object.&nbsp;
+      </FONT></TD>
+        </TR>
+    </TABLE>
+</P>
+
+</FONT></TD></TR></TABLE></DIV><BR>
+
+
+</TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
+              Copyright &copy; 2000 The Apache Software Foundation.
+              All Rights Reserved.
+            </I></FONT></TD></TR></TABLE></BODY></HTML>

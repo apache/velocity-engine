@@ -16,6 +16,7 @@
     <page id="developer-guide" label="Developer's Guide" source="developer-guide.xml"/>
     <page id="vtl-reference-guide" label="VTL Reference Guide" source="vtl-reference-guide.xml"/>
 <section label="Tools"/>
+    <page id="anakia" label="Anakia" source="anakia.xml"/>
     <page id="texen" label="Texen" source="texen.xml"/>
     <page id="migration" label="Migration To Velocity" source="migration.xml"/>
 </book>
