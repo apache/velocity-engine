@@ -773,20 +773,25 @@ The only new responsibility you have as the application programmer is to initial
 </p>
                                                 <strong>The Velocity Class</strong>
                                                 <p>
-Velocity contains an application utility class called Velocity (imagine!).  The purpose of this class is to provide the
+Velocity contains an application utility class called Velocity ( org.apache.velocity.app.Velocity ).  The purpose of this class is to provide the
 necessary methods required to initialize Velocity, as well as useful utility routines to make life easier in using Velocity.
 This class is documented in the project's javadoc, so please look there for definitive details.
 This documentation is intended to be of a tutorial nature; therefore for compete API information, the Javadoc is the definitive source.
 </p>
                                                 <p>
-The Velocity runtime engine is a singleton instance that provides resource and logging services to all Velocity users running
-in the same JVM.  Therefore, the runtime engine is initialized only once.  You can attempt to initialize Velocity more than once, but only the first initialization will apply.  The rest of the attempts will be ignored.  The Velocity utility class provides 3
-methods to initialize the runtime engine.  Note that in each case, the default properties will be used as a base configuration,
-and any additional properties specified by the application will replace individual defaults.  Any default properties not
-overwritten will remain in effect.  This has the benefit that only the properties you are interested in changing need to be
-specified, rather than a complete set.  The three initialization methods are :
+The Velocity runtime engine is a singleton instance that provides resource, logging and other 
+services to all Velocity users running
+in the same JVM.  Therefore, the runtime engine is initialized only once.  You can attempt to initialize Velocity more than once, but only the first initialization will apply.  The rest of the attempts will be ignored.  The Velocity utility class 
+currently provides five methods used in configuration of the runtime engine.  
+
+The five configuration methods are :
 
 <ul>
+<li> <code>setProperty( String key, Object o )</code><br />  Sets the property <code>key</code> with the value <code>o</code>.
+The value is typically a String, but in special cases can also be a comma-separated list of values (in a single String, ex.
+"foo, bar, woogie") as well as other things that will arise.</li>
+<li> <code>Object getProperty( String key )</code><br /> Returns the value of the property key.  Note that you must
+be aware of the type of the return value, as they can be things other than Strings. </li>
 <li> <code>init()</code><br /> initializes the runtime with the default properties provided in the distribution.
 (These are listed below in the section pertaining to properties.)</li>
 <li> <code>init( Properties p )</code><br /> initialized the runtime with the properties contained in the
@@ -794,6 +799,24 @@ java.util.Properties object passed as an argument. </li>
 <li> <code>init( String filename )</code><br /> initilizes the runtime using the properties found in the
 properties file filename</li>
 </ul>
+</p>
+                                                <p>
+Note that in each case, the default properties will be used as a base configuration,
+and any additional properties specified by the application will replace individual defaults.  Any default properties not
+overwritten will remain in effect.  This has the benefit that only the properties you are interested in changing need to be
+specified, rather than a complete set. 
+</p>
+                                                <p>
+The most common approaches to initializing Velocity will be something like :
+<ol>
+<li> Setup the configuration values you wish to set in a file in the same format as 
+org/apache/velocity/runtime/defaults/velocity.properties (the default set), or in a java.util.Properties, and then call
+either <code>init( filename )</code> or <code>init( Properties )</code></li>
+<li> Set the configuration values individually using <code>setProperty()</code> and then call <code>init()</code>.  This 
+method is generally used by more advanced applications that already have their own configuration management system - 
+this allows the application so configure Velocity based upon values it generates at runtime, for example.</li>
+</ol>
+
 </p>
                                                 <p>
 Once the runtime is initialized, you can do with it what you wish.. This mostly revolves around rendering templates into an output
@@ -1008,125 +1031,164 @@ information - the error messages are pretty good for figuring out what is wrong.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Velocity Properties</strong>
+          <strong>Velocity Configuration Keys and Values</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties contained
- in Velocity's jar, found in
-/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  This ensures that Velocity will always have a 'correct' value
-for it's configuration and startup, although it may not be what you want.
+Velocity's runtime configuration is controlled by a set of configuration keys listed below.  Generally, these keys will have
+values that consist of either a String, or a comma-separated list of Strings, referred to as a CSV for comma-separated values.
 </p>
-                                                <p>  Any properties then specified at init() time will replace the  default values.  Therefore, you only have to
-configure velocity with the properties that you need to change, and not worry about the rest.  Further, as we add more
+                                                <p>
+There is a set of default values contained in Velocity's jar, found in
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  
+This ensures that Velocity will always have a 'correct' value
+for it's configuration keys at startup, although it may not be what you want.
+</p>
+                                                <p>  Any values specified before init() time will replace the  default values.  Therefore, you only have to
+configure velocity with the values for the keys that you need to change, and not worry about the rest.  Further, as we add more
 features and configuration capability, you don't have to change your configuration files to suit - the Velocity engine will
  always have default values.
 </p>
                                                 <p>
-Below are listed the properties that control Velocity's behavior.  Organized by category, each property is listed with it's current default value
+Please sees the section above <b>Using Velocity In General Applications</b> for discussion on the configuration API. 
+</p>
+                                                <p>
+Below are listed the configuration keys that control Velocity's behavior.  Organized by category, each key
+is listed with it's current default value
 to the right of the '=' sign.
 </p>
                                                 <strong>Runtime Log</strong>
                                                 <p>
 <code>runtime.log = velocity.log</code><br />
- Full path and name of log file for error, warning,
+Full path and name of log file for error, warning,
 and informational messages.  The location, if not absolute, is relative to the 'current directory'.
 </p>
                                                 <p>
 <code>runtime.log.error.stacktrace = false</code><br />
 <code>runtime.log.warn.stacktrace = false</code><br />
 <code>runtime.log.info.stacktrace = false</code><br />
- Turns on stacktracing for the three error categories.  These produce a large
+Turns on stacktracing for the three error categories.  These produce a large
 amount of log output.
 </p>
-                                                <strong>Encoding and Content Type</strong>
+                                                <p>
+<code>runtime.log.invalid.references = true </code><br />
+Property to turn off the log output when a reference isn't valid.  Good thing to turn of in production, but very valuable
+for debugging.
+</p>
+                                                <strong>Character Encoding</strong>
                                                 <p>
 <code>template.encoding = 8859_1</code><br />
  Encoding scheme to use.  Currently used in VelocityServlet.
 </p>
-                                                <p>
-<code>default.contentType = text/html</code><br />
-Content type, currently used in VelocityServlet.
-</p>
                                                 <strong> #foreach() Directive </strong>
                                                 <p>
-<code>counter.name = velocityCount</code><br />
+<code>directive.foreach.counter.name = velocityCount</code><br />
 Used in the #foreach() directive, defines the string to be used as the context key for the loop count. A template would access
 the loop count as $velocityCount.
 </p>
                                                 <p>
-<code>counter.initial.value = 1</code><br />
+<code>directive.foreach.initial.value = 1</code><br />
 Default starting value for the loop counter reference in a #foreach() loop.
 </p>
                                                 <strong> #include() and #parse() Directive </strong>
                                                 <p>
-<code>include.output.errormsg.start = <![CDATA[ <!-- include error : ]]> </code><br />
-<code>include.output.errormsg.end   =  <![CDATA[ see error log --> ]]></code><br />
+<code>directive.include.output.errormsg.start =  <!-- include error :  </code><br />
+<code>directive.include.output.errormsg.end   =   see error log --> </code><br />
 Defines the beginning and ending tags for an in-stream error message in the case of a problem with the #include() directive.
 If both the .start and .end tags are defined, an error message will be output to the stream, of the form '.start msg .end' where .start and .end refer to the property values.
 Output to the render stream will only occur if both the .start and .end (next) tag are defined.
 </p>
                                                 <p>
-<code>parse_directive.maxdepth = 10</code><br />
+<code>directive.parse.maxdepth = 10</code><br />
 Defines the allowable parse depth for a template. A template may #parse() another template which itself may have a #parse() directive.  This value prevents runaway #parse() recursion.
 </p>
                                                 <strong> Resource Management </strong>
                                                 <p>
-<code>resource.loader.1.public.name = File</code><br />
-Pulic name of the file resource loader, to allow application software to alter propertes
-of a loader by name rather than the 'load number',
-the integer following 'loader'.  This allows the administration of resource loaders to be decoupled from the application uses.
+<code>resource.loader = &lt;name&gt; (default = File)</code><br />
+<i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a resource loader to be used.  This public name will then be used
+in the specification of the specific properties for that resource loader.  Note that as a multi-valued key, it's possible to pass 
+a value like "file, class" (sans quotes), indicating that following will be configuration values for two loaders.
 </p>
                                                 <p>
-<code>resource.loader.1.description = Velocity File Resource Loader</code><br />
-Description string for the loader.
+<code>&lt;name&gt;.loader.description = Velocity File Resource Loader</code><br />
+Description string for the given loader.
 </p>
                                                 <p>
-<code>resource.loader.1.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader</code><br />
+<code>&lt;name&gt;.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader</code><br />
 Name of implementation class for the loader.  The default loader is the file loader.
 </p>
                                                 <p>
-<code>resource.loader.1.resource.path = .</code><br />
-Root from which the file loader loads templates. Templates may live in subdirectories of this root.  ex. homesite/index.vm
+<code>&lt;name&gt;resource.loader.resource.path = .</code><br />
+<i>Multi-valued key.  Will accept CSV for value.</i> Root(s) from which the  loader loads templates. Templates may live in 
+subdirectories of this root.  ex. homesite/index.vm  
+This configuration key applies currently to the FileResourceLoader and JarResourceLoader.
 </p>
                                                 <p>
-<code>resource.loader.1.cache = false</code><br />
+<code>&lt;name&gt;.resource.loader.cache = false</code><br />
 Controls caching of the templates in the loader.  Default is false, to make life easy for development and debugging.  This should
 be set to true for production deployment.  When 'true', the <code>modificationCheckInterval</code> property applies.  This allows for the efficiency
 of caching, with the convenience of controlled reloads - useful in a hosted or ISP environment where templates can be modifed frequently and
 bouncing the application or servlet engine is not desired or permitted.
 </p>
                                                 <p>
-<code>resource.loader.1.modificationCheckInterval = 2</code><br />
+<code>&lt;name&gt;.resource.loader.modificationCheckInterval = 2</code><br />
 This is the number of seconds between modification checks when caching is turned on.  When this is an integer &gt; 0, this represents the
 number of seconds between checks to see if the template was modified.  If the template has been modified since last check, then it is reloaded and reparsed.  Otherwise nothing is done.  When &lt;= 0, no modification checks will take place, and assuming
 that the property <code>cache</code> (above) is true, once a template is loaded and parsed the first time it is used,
 it will not be checked or reloaded after that until the application or servlet engine is restarted.
 </p>
+                                                <p> To illustrate, here is an example taken right from the default Velocity properties, showing how setting up the
+FileRsourceLoader is managed
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+resource.loader = file
+
+file.resource.loader.description = Velocity File Resource Loader
+file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
+file.resource.loader.path = .
+file.resource.loader.cache = false
+file.resource.loader.modificationCheckInterval = 2
+
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
                                                 <strong>Velocimacro</strong>
                                                 <p>
-<code>velocimacro.library.global = VM_global_library.vm </code><br />
-Name of one of two default libraries of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all
+<code>velocimacro.global.library = VM_global_library.vm </code><br />
+Filename of Velocimacro library to be loaded when the Velocity Runtime engine starts.  These Velocimacros are accessable to all
 templates.  The file is assumed to be relative to the root of the file loader resource path.
 </p>
                                                 <p>
-<code>velocimacro.library.local = [no default value] </code><br />
-The 'other' default library of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all
-templates.  The file is assumed to be relative to the root of the file loader resource path.
-</p>
-                                                <p>
-<code>velocimacro.permissions.allowInline = true</code><br />
-Determines of the definition of new VMs via the #macro() directive in templates is allowed.  The default value is true, meaning any
+<code>velocimacro.permissions.allow.inline = true</code><br />
+Determines of the definition of new VM1s via the #macro() directive in templates is allowed.  The default value is true, meaning any
 template can define and use new VMs.  Note that depending on other properties, those #macro() statements can replace global
 definitions.
 </p>
                                                 <p>
-<code>velocimacro.permissions.allowInlineToReplaceGlobal = false </code><br />
+<code>velocimacro.permissions.allow.inline.to.replace.global = false </code><br />
+Controls if a Velocimacro defind 'inline' in a template can replace a Velocimacro defined in a library loaded at startup.
 </p>
                                                 <p>
-<code>velocimacro.permissions.allowInlineLocalScope = false</code><br />
+<code>velocimacro.permissions.allow.inline.local.scope = false</code><br />
 Controls 'private' templates namespaces for VMs.  When true, a #macro() directive in a template creates a VM that is accessable
 only from the defining template.  This means that VMs cannot be shared unless they are in the global or local library loaded
 at startup. (See above.)  It also means that templates cannot interfere with each other.  This property also allows a technique
@@ -1139,15 +1201,9 @@ the global namespace, therefore allowing the override mechanism.
 Controls whether reference access (set/get) within a Velocimacro will change the context, or be of local scope in that
 VM.
 </p>
-                                                <strong>References</strong>
-                                                <p>
-<code>runtime.log.reference.log_invalid = true </code><br />
-Property to turn off the log output when a reference isn't valid.  Good thing to turn of in production, but very valuable
-for debugging.
-</p>
                                                 <strong>String Interpolation</strong>
                                                 <p>
-<code>stringliterals.interpolate = true</code><br />
+<code>runtime.interpolate.string.literals = true</code><br />
 Controls interpolation mechanism of VTL String Literals.  Note that a VTL StringLiteral is specifically a string using double quotes that is used in a #set() statement, a method call of a reference, a parameter to a VM, or as an argument to a VTL directive in general.  See the VTL reference for further information.
 </p>
                             </blockquote>
