@@ -58,6 +58,7 @@ import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -81,6 +82,8 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
+
+import org.apache.velocity.runtime.log.Log;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -139,7 +142,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.26 2000/10/23 18:27:48 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.27 2000/10/26 19:37:16 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -198,7 +201,7 @@ public class Runtime
 
     /** The Runtime logger */
     private static Logger logger;
-    
+
     /** 
       * The Runtime parser. This has to be changed to
       * a pool of parsers!
@@ -332,13 +335,10 @@ public class Runtime
             // correct it if it is not a property 
             // fomratted URL.
             String logFile = getString(RUNTIME_LOG);
-            
-            if (! logFile.startsWith("file"))
-                logFile = "file://" + logFile;
-            
+
             // Initialize the logger.
             logger = LogKit.createLogger("velocity", 
-                getString(RUNTIME_LOG), "DEBUG");
+                fileToURL(logFile), "DEBUG");
                 
             LogTarget[] t = logger.getLogTargets();            
 
@@ -352,7 +352,36 @@ public class Runtime
             {
                 logger.info(pendingMessages.toString());
             }
+            
+            Runtime.info("Log file being used is: " + logFile);
         }
+    }
+
+    /**
+     * This was borrowed form xml-fop. Convert a file
+     * name into a string that represents a well-formed
+     * URL.
+     *
+     * d:\path\to\logfile
+     * file://d:/path/to/logfile
+     *
+     * NOTE: this is a total hack-a-roo! This should
+     * be dealt with in the org.apache.log package. Client
+     * packages should not have to mess around making
+     * properly formed URLs when log files are almost
+     * always going to be specified with file paths!
+     */
+    private static String fileToURL(String filename)
+        throws MalformedURLException
+    {
+        File file = new File(filename);
+        String path = file.getAbsolutePath();
+        String fSep = System.getProperty("file.separator");
+        
+        if (fSep != null && fSep.length() == 1)
+            path = "file://" + path.replace(fSep.charAt(0), '/');
+        
+        return path;
     }
 
     /**
@@ -472,5 +501,10 @@ public class Runtime
     {
         if (DEBUG_ON)
             log(DEBUG + message.toString());
+    }
+
+    public static void main(String[] args) throws Exception
+    {
+        System.out.println(fileToURL(args[0]));
     }
 }
