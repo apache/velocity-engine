@@ -57,6 +57,9 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
+import java.io.BufferedReader;
+import java.io.StringReader;
+
 import java.util.StringTokenizer;
 import java.util.HashMap;
 import java.util.Set;
@@ -79,7 +82,7 @@ import org.apache.velocity.util.StringUtils;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.20 2001/03/20 01:11:28 jon Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.21 2001/04/22 18:14:15 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -271,9 +274,9 @@ public class VelocimacroProxy extends Directive
         // System.out.println("VMP.parseTree() : " + macroName );
 
         try 
-        {    
-            ByteArrayInputStream  inStream = new ByteArrayInputStream( macroBody.getBytes() );
-            nodeTree = Runtime.parse( inStream, "VM:" + macroName );
+        {                
+            BufferedReader br = new BufferedReader( new StringReader( macroBody ) );
+            nodeTree = Runtime.parse( br, "VM:" + macroName );
         } 
         catch ( Exception e ) 
         {

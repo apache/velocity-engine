@@ -56,6 +56,8 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+import java.io.StringReader;
+import java.io.BufferedReader;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -111,7 +113,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.6 2001/03/21 23:21:26 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.7 2001/04/22 18:14:15 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -430,8 +432,11 @@ public class VMProxyArg
 
                     String buff ="#include(" + callerReference + " ) ";
 
-                    ByteArrayInputStream inStream = new ByteArrayInputStream( buff.getBytes() );
-                    nodeTree = Runtime.parse( inStream, "VMProxyArg:" + callerReference );
+                    //ByteArrayInputStream inStream = new ByteArrayInputStream( buff.getBytes() );
+
+                    BufferedReader br = new BufferedReader( new StringReader( buff ) );
+
+                    nodeTree = Runtime.parse( br, "VMProxyArg:" + callerReference );
 
                     /*
                      *  now, our tree really is the first DirectiveArg(), and only one
