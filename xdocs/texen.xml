@@ -145,6 +145,138 @@ not so useful in this case). :-)
     href="http://jakarta.apache.org/builds/jakarta-turbine/release/">here</a>.
 </p>
 
+    <table border="0">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>templatePath</td>
+            <td><b>[REQUIRED]</b>
+            Set the path where Velocity will look
+            for templates using the file template
+            loader.
+            <b>This is only required if useClasspath is not turned on.</b></td>
+        </tr>
+        <tr>
+            <td>useClasspath</td>
+            <td><b>[REQUIRED]</b>
+            Set the use of the classpath in locating templates.
+            true means the classpath will be used.
+            <b>This is only required if templatePath is not set.</b></td>
+        </tr>
+        <tr>
+            <td>useResourceLoaderCache</td>
+            <td>Optional argument used when useClasspath is turned on.
+            See the <a
+            href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            for details on resource caching.</td>
+        </tr>
+        <tr>
+            <td>resourceLoaderModificationCheckInterval</td>
+            <td>Optional argument used when useClasspath is turned on.
+            See the <a
+            href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            for details on resource caching.</td>
+        </tr>
+        <tr>
+            <td>controlTemplate</td>
+            <td><b>[REQUIRED]</b>
+            Set the control template for the
+            generating process.</td>
+        </tr>
+        <tr>
+            <td>outputDirectory</td>
+            <td><b>[REQUIRED]</b>
+            Set the output directory. It will be
+            created if it doesn't exist.</td>
+        </tr>
+        <tr>
+            <td>outputFile</td>
+            <td><b>[REQUIRED]</b>
+            Set the output file for the
+            generation process.</td>
+        </tr>
+        <tr>
+            <td>outputEncoding</td>
+            <td>Set the output encoding.</td>
+        </tr>
+        <tr>
+            <td>inputEncoding</td>
+            <td>Set the input (template) encoding.</td>
+        </tr>
+        <tr>
+            <td>contextProperties</td>
+            <td>Set the context properties that will be
+            fed into the initial context be the
+            generating process starts.
+            <p>
+            We are going to do something special
+            for properties that have a "file.contents"
+            suffix: for these properties will pull
+            in the contents of the file and make
+            them available in the context. So for
+            a line like the following in a properties file:
+            <pre>license.file.contents = license.txt</pre>
+            We will pull in the contents of license.txt
+            and make it available in the context as
+            $license. This should make texen a little
+            more flexible.
+            </p></td>
+        </tr>
+    </table>
+
+</section>
+
+<section name="Predefined Context Objects">
+<p>
+    The Texen Ant task places several objects into the Context for you.
+</p>
+    <table border="0">
+        <tr>
+        <th>Name</th>
+        <th>Value</th>
+        </tr>
+        <tr>
+            <td>$generator</td>
+            <td>
+                This contains the the <a
+                href ="api/org/apache/velocity/texen/Generator.html">Generator</a>
+                instance used to output the text files.
+            </td>
+        </tr>
+        <tr>
+            <td>$outputDirectory</td>
+            <td>
+                This contains the the value of the outputDirectory property given to the Texen Ant Task.
+            </td>
+        </tr>
+        <tr>
+            <td>$strings</td>
+            <td>
+                This contains the an instance of a <a
+                href="http://jakarta.apache.org/commons/lang/apidocs/org/apache/commons/lang/StringUtils.html">StringUtils</a>
+                object.
+            </td>
+        </tr>
+        <tr>
+            <td>$files</td>
+            <td>
+                This contains the an instance of a <a
+                href="api/org/apache/velocity/texen/util/FileUtil.html">FileUtil</a>
+                object.
+            </td>
+        </tr>
+        <tr>
+            <td>$properties</td>
+            <td>
+                This contains the an instance of a <a
+                href="api/org/apache/velocity/texen/util/PropertiesUtil.html">PropertiesUtil</a>
+                object.
+            </td>
+        </tr>
+    </table>
+
 </section>
 
 </body>
