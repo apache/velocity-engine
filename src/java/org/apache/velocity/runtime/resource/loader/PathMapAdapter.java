@@ -70,7 +70,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * <code>ClasspathResourceLoader</code> and
  * <code>FileResourceLoader</code>).
  *
- * @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  */
 public class PathMapAdapter extends LoaderAdapter
