@@ -76,7 +76,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.3 2000/11/16 01:50:43 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.4 2000/11/16 23:03:50 jvanzyl Exp $
  */
 
 public abstract class TexenTask extends Task
@@ -159,7 +159,7 @@ public abstract class TexenTask extends Task
             // This is strictly to allow vel to compile for now.
             // I need a new way to set what was the template path
             // now that templates streams can come from anywhere.
-            //!!!Runtime.setProperty(Runtime.TEMPLATE_PATH, templatePath);
+            Runtime.setSourceProperty(Runtime.FILE_TEMPLATE_PATH, templatePath);
             Runtime.init();
 
             // Create the text generator.
