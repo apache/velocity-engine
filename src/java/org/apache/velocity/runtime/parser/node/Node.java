@@ -60,4 +60,7 @@ public interface Node
     public Object execute(Object o, Context context);
     public void setInfo(int info);
     public int getInfo();
+
+    public String literal();
+    
 }

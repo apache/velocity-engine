@@ -193,5 +193,10 @@ public class SimpleNode implements Node
     {
         return info;
     }        
+
+    public String literal()
+    {
+        return first.image;
+    }        
 }
 
