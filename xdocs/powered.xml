@@ -22,7 +22,7 @@
 
  </section>
  
- <section name="Velocity powered Products">
+ <section name="Velocity-powered Products">
  <p>
    Velocity is a utility tool which can be used in conjunction with
    general applications which may or may not be web based.
@@ -64,6 +64,17 @@
       Venus Application Publisher is a user-friendly tool that helps you
       package, sign and publish Java (TM) Network Launching Protocol
       (JNLP) software.
+    </td>
+   </tr>
+
+  <tr>
+    <td>
+     <a href="http://jtop.sourceforge.net/">J/Top</a>
+    </td>
+    <td>
+    J/Top isan open source application for monitoring multiple servers running
+    'top'.   It has an email notifier which uses Velocity for formatting the 
+    notification emails.
     </td>
    </tr>
 
@@ -166,7 +177,7 @@
      <a href="http://www.discuss.gr">www.discuss.gr</a>
     </td>
     <td>
-     Online discussion forumm site built using Turbine and Velocity.
+     Online discussion forum site built using Turbine and Velocity.
     </td>
     <td>
     </td>
