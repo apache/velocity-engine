@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.22 2001/03/20 01:11:14 jon Exp $
+ * @version $Id: RuntimeConstants.java,v 1.23 2001/03/31 05:28:01 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -360,4 +360,6 @@ public interface RuntimeConstants
       * Number of parsers to create
       */
     final static int NUMBER_OF_PARSERS = 20;
+
+    final static String PARSER_POOL_SIZE = "parser.pool.size";
 }
