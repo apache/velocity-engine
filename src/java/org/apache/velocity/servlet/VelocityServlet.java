@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.37 2001/05/16 22:49:38 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.38 2001/05/18 12:01:16 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -515,6 +515,8 @@ public abstract class VelocityServlet extends HttpServlet
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      * @throws Exception if an error occurs in template initialization
+     *     
+     *  @since Velocity v1.1
      */
     public Template getTemplate( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -536,6 +538,8 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param ctx The context to add your data to.
      *  @return    The template to merge with your context or null, indicating
      *    that you handled the processing.
+     *
+     *  @since Velocity v1.1
      */
     protected Template handleRequest( HttpServletRequest request, HttpServletResponse response, Context ctx ) 
         throws Exception
