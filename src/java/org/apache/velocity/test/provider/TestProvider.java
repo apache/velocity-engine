@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.16 2001/04/20 04:32:16 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.17 2001/06/29 23:39:03 geirm Exp $
  */
 public class TestProvider
 {
@@ -260,6 +260,18 @@ public class TestProvider
         return result;
     }
 
+    public String objConcat( List list)
+    {
+        String result = "";
+        Object o;
+        for (int i = 0; i < list.size(); i++)
+        {
+            o = list.get(i);
+            result +=  o.toString() + " ";
+        }
+        return result;
+    }
+
     public String parse(String a, Object o, String c, String d)
     {
         return a + o.toString() + c + d;
@@ -375,6 +387,7 @@ public class TestProvider
     {
         throw new Exception("From getThrow()");
     }
+
 }
 
 
