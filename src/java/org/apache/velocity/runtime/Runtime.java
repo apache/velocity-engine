@@ -60,9 +60,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Stack;
+import java.util.Enumeration;
 
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
@@ -86,7 +91,9 @@ import org.apache.velocity.runtime.directive.Dummy;
 import org.apache.velocity.runtime.directive.Include;
 import org.apache.velocity.runtime.directive.Parse;
 
-import org.apache.velocity.util.*;
+import org.apache.velocity.util.SimplePool;
+import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.util.cache.GlobalCache;
 import org.apache.velocity.runtime.configuration.VelocityResources;
 
 /**
@@ -146,28 +153,15 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.42 2000/11/13 00:40:23 dlr Exp $
+ * @version $Id: Runtime.java,v 1.43 2000/11/16 02:15:29 jvanzyl Exp $
  */
 public class Runtime
 {
     /** Location of the log file */
     public static final String RUNTIME_LOG = "runtime.log";
     
-    /** Location of templates */
-    public static final String TEMPLATE_PATH = "template.path";
-    
-    /** Template loader to be used */
-    public static final String TEMPLATE_LOADER = "template.loader";
-    
-    /** Specify template caching true/false */
-    public static final String TEMPLATE_CACHE = "template.cache";
-    
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
-    
-    /** How often to check for modified templates. */
-    public static final String TEMPLATE_MOD_CHECK_INTERVAL =
-        "template.modificationCheckInterval";
     
     /** Initial counter value in #foreach directives */
     public static final String COUNTER_NAME = "counter.name";
@@ -177,6 +171,9 @@ public class Runtime
 
     /** Content type */
     public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
+
+    /** External service initialization of the Velocity Runtime */
+    public static final String EXTERNAL_INIT = "external.init";
 
     /** Prefix for warning messages */
     private final static String WARN  = "  [warn] ";
@@ -200,8 +197,24 @@ public class Runtime
     private final static String DEFAULT_RUNTIME_PROPERTIES = 
         "org/apache/velocity/runtime/defaults/velocity.properties";
 
+    /** Include paths property used by Runtime for #included content */
+    private final static String INCLUDE_PATHS = "include.path";
+    
+    /** A list of paths that we can pull static content from. */
+    private static String[] includePaths;
+
     /** The Runtime logger */
     private static Logger logger;
+
+    /** The caching system used by the Velocity Runtime */
+    //private static GlobalCache globalCache;
+    private static Hashtable globalCache;
+    
+    /**
+     * The List of templateLoaders that the Runtime will
+     * use to locate the InputStream source of a template.
+     */
+    private static List templateLoaders;
 
     /** 
       * The Runtime parser. This has to be changed to
@@ -209,8 +222,6 @@ public class Runtime
       */
     private static SimplePool parserPool;
     
-    //private static Parser parser = null;
-
     /**
       * Number of parsers to create
       */
@@ -227,7 +238,7 @@ public class Runtime
      * until the logger is alive.
      */
     private static StringBuffer pendingMessages = new StringBuffer();
-    
+
     /**
      * Get the default properties for the Velocity Runtime.
      * This would allow the retrieval and modification of
@@ -257,13 +268,10 @@ public class Runtime
         throws Exception
     {
         /*
-         * Try loading the properties from the named properties
-         * file. If that fails then set the default values.
-         * From the command line and for testing the default
-         * values should work fine, and makes initializing
-         * the Velocity runtime as easy as Runtime.init();
+         * Try loading propertiesFile as a straight file first,
+         * if that fails, then try and use the classpath, if
+         * that fails then use the default values.
          */
-        
         try
         {
             VelocityResources.setPropertiesFileName( propertiesFileName );
@@ -271,8 +279,19 @@ public class Runtime
         }
         catch(Exception ex) 
         {
-            // Do Default
-            setDefaultProperties();
+            ClassLoader classLoader = Runtime.class.getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(propertiesFileName);
+            
+            if (inputStream != null)
+            {
+                VelocityResources.setPropertiesInputStream( inputStream );
+                info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
+            }
+            else
+            {
+                // Do Default
+                setDefaultProperties();
+            }                
         }
 
         init();
@@ -288,6 +307,8 @@ public class Runtime
                 initializeLogger();
                 initializeTemplateLoader();           
                 initializeParserPool();
+                initializeGlobalCache();
+                initializeIncludePaths();
                 
                 info("Velocity successfully started.");
                 
@@ -316,7 +337,7 @@ public class Runtime
     public static void initializeLogger() throws
         MalformedURLException
     {
-        if (!getString(RUNTIME_LOG).equals("system"))
+        if (!getString(EXTERNAL_INIT).equalsIgnoreCase("true"))
         {
             // Let's look at the log file entry and
             // correct it if it is not a property 
@@ -379,16 +400,62 @@ public class Runtime
      * to be set by some external mechanism: Turbine
      * for example.
      */
-    public static void initializeTemplateLoader()
-        throws Exception
+    
+    // We have to change this to allow multiple template
+    // loaders. We need a list of them.
+    
+    public static void initializeTemplateLoader() throws Exception
     {
-        if (!getString(TEMPLATE_PATH).equals("system"))
+        if (!getString(EXTERNAL_INIT).equalsIgnoreCase("true"))
         {
-            templateLoader = TemplateFactory
-                .getLoader(getString(TEMPLATE_LOADER));
+            List initializers = getTemplateLoaderInitializers();
+            templateLoaders = new ArrayList();
             
-            templateLoader.init();
+            for (int i = 0; i < initializers.size(); i++)
+            {
+                Map initializer = (Map) initializers.get(i);
+                String loaderClass = (String) initializer.get("class");
+                templateLoader = TemplateFactory.getLoader(loaderClass);
+                templateLoader.init(initializer);
+                templateLoaders.add(templateLoader);
+            }
+        }            
+    }
+
+    /**
+     * This will produce a List of Hashtables, each
+     * hashtable contains the intialization info for
+     * a particular template loader. This Hastable
+     * will be passed in when initializing the
+     * the template loader.
+     */
+    private static List getTemplateLoaderInitializers()
+    {
+        ArrayList loaderInitializers = new ArrayList();
+        
+        for (int i = 0; i < 10; i++)
+        {
+            String loaderID = "template.loader." + new Integer(i).toString();
+            Enumeration e = VelocityResources.getKeys(loaderID);
+            
+            if (!e.hasMoreElements())
+                continue;
+            
+            Hashtable loaderInitializer = new Hashtable();
+            
+            while (e.hasMoreElements())
+            {
+                String property = (String) e.nextElement();
+                String value = VelocityResources.getString(property);
+                
+                property = property.substring(loaderID.length() + 1);
+                loaderInitializer.put(property, value);
+            }    
+            
+            loaderInitializers.add(loaderInitializer);
         }
+        
+        return loaderInitializers;
     }
     
     /**
@@ -443,19 +510,150 @@ public class Runtime
     }
     
     /**
+     * Initialize the global cache use by the Velocity
+     * runtime. Cached templates will be stored here,
+     * as well as cached content pulled in by the #include
+     * directive. Who knows what else we'll find to
+     * cache.
+     */
+    private static void initializeGlobalCache()
+    {
+        //globalCache = new GlobalCache();
+        globalCache = new Hashtable();
+    }
+    
+    private static void initializeIncludePaths()
+    {
+        includePaths = VelocityResources.getStringArray(INCLUDE_PATHS);
+    }
+
+    public static String[] getIncludePaths()
+    {
+        return includePaths;
+    }        
+
+    /**
+     * Set an object in the global cache for
+     * subsequent use.
+     */
+    public static void setCacheObject(String key, Object object)
+    {
+        globalCache.put(key,object);
+    }
+
+    /**
+     * Get an object from the cache.
+     *
+     * Hmm. Getting an object requires catching
+     * an ObjectExpiredException, but how can we do
+     * this without tying ourselves to the to
+     * the caching system?
+     */
+    public static Object getCacheObject(String key)
+    {
+        try
+        {
+            return globalCache.get(key);
+        }
+        catch (Exception e)
+        {
+            // This is an ObjectExpiredException, but
+            // I don't want to try the structure of the
+            // caching system to the Runtime.
+            return null;            
+        }
+    }        
+
+    /**
      * Get a template via the TemplateLoader.
      */
     public static Template getTemplate(String template)
     {
-        try
+        // Try the cache first.
+        
+        InputStream is = null;
+        Template t= null;
+        TemplateLoader tl = null;
+        
+        
+        // Check to see if the template was placed in the cache.
+        // If it was placed in the cache then we will use
+        // the cached version of the template. If not we
+        // will load it.
+        
+        if (globalCache.containsKey(template))
         {
-            return templateLoader.getTemplate(template);
+            t = (Template) globalCache.get(template);
+            tl = t.getTemplateLoader();
+
+            // The template knows whether it needs to be checked
+            // or not, and the template's loader can check to
+            // see if the source has been modified. If both
+            // these conditions are true then we must reload
+            // the input stream and parse it to make a new
+            // AST for the template.
+            
+            if (t.requiresChecking() && tl.isSourceModified(t))
+            {
+                try
+                {
+                    is = tl.getTemplateStream(template);
+                    t.setDocument(parse(is));
+                    return t;
+                }
+                catch (Exception e)
+                {
+                    error(e);
+                }
+            }
+            return t;
         }
-        catch (Exception e)
+        else
         {
-            error(e);
-            return null;
-        }            
+            try
+            {
+                t = new Template();
+                t.setName(template);
+                
+                // Now we have to try to find the appropriate
+                // loader for this template. We have to cycle through
+                // the list of available template loaders and see
+                // which one gives us a stream that we can use to
+                // make a template with.
+                
+                for (int i = 0; i < templateLoaders.size(); i++)
+                {
+                    tl = (TemplateLoader) templateLoaders.get(i);
+                    is = tl.getTemplateStream(template);
+                    
+                    // If we get an InputStream then we have found
+                    // our loader.
+                    if (is != null)
+                        break;
+                }
+                
+                // Return null if we can't find a template.
+                if (is == null)
+                    return null;
+                
+                t.setLastModified(tl.getLastModified(t));
+                t.setModificationCheckInterval(tl.getModificationCheckInterval());
+                t.setTemplateLoader(tl);
+                t.setDocument(parse(is));
+                t.touch();
+                
+                // Place the template in the cache if the template
+                // loader says to.
+                
+                if (tl.useCache())
+                    globalCache.put(template, t);
+            }
+            catch (Exception e)
+            {
+                error(e);
+            }
+        }
+        return t;
     }
 
     /**
