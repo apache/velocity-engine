@@ -96,7 +96,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.7 2001/03/16 05:04:37 geirm Exp $
+ * @version $Id: Velocity.java,v 1.8 2001/03/19 00:57:56 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -392,6 +392,24 @@ public class Velocity implements RuntimeConstants
         }
 
         return false;
+    }
+
+    /**
+     *  Returns a <code>Template</code> from the Velocity
+     *  resource management system.
+     *
+     * @param name The file name of the desired template.
+     * @return     The template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
+     */
+    public static Template getTemplate(String name)
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {
+        return Runtime.getTemplate( name );
     }
 
 
