@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.4 2000/10/31 19:17:03 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.5 2000/10/31 20:32:55 jvanzyl Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -117,24 +117,38 @@ public class ASTSetDirective extends SimpleNode
 
         super.init( context, data );
 
-        /*
-         *  get the right side of the #set, and only continue if an object array
+        /**
+         * We need to place all RHS objects into the context
+         * so that subsequent introspection is performed
+         * correctly.
+         *
+         * #set $bar = "bar"
+         * $provider.concat("foo", $bar)
+         *
+         * will not be introspected correctly if $bar
+         * is not place in the context.
+         *
+         * The same type of problem occurs with the
+         * following:
+         *
+         * #set $list = ["one", "two", "three" ]
+         * #foreach ($element in $list)
+         *     $element
+         * #end
+         *
+         * If $list is not placed in the context then
+         * the introspection phase of the #foreach will
+         * not occur as expected.
+         *
+         * The basic deal is that objects that are #set
+         * must be placed in the context during the initialization
+         * phase in order for subsequent VTL to be introspected
+         * correctly.
          */
-
+         
         right = getRightHandSide();
-
-        if ( right == null || ( right.toString() != null && ! right.toString().equals("ObjectArray")) )
-            return data;
-
-        /*
-         *  otherwise, get the value and stuffit!
-         */
-
         value = right.value(context);
         
-        if ( !( value  instanceof Object[]) )
-            return data;
-
         if ( value != null)
         {
             left = getLeftHandSide();
