@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.80 2003/12/23 13:28:36 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.81 2003/12/30 11:47:13 geirm Exp $
 */
 public class Parser
 {
@@ -884,14 +884,14 @@ TOKEN :
 |   <MULTIPLY: "*">
 |   <DIVIDE: "/">
 |   <MODULUS: "%">
-|   <LOGICAL_AND: "&&">
-|   <LOGICAL_OR: "||">
-|   <LOGICAL_LT: "<">
-|   <LOGICAL_LE: "<=">
-|   <LOGICAL_GT: ">">
-|   <LOGICAL_GE: ">=">
-|   <LOGICAL_EQUALS: "==">
-|   <LOGICAL_NOT_EQUALS: "!=">
+|   <LOGICAL_AND: "&&" | "and" >
+|   <LOGICAL_OR: "||" | "or" >
+|   <LOGICAL_LT: "<" | "lt" >
+|   <LOGICAL_LE: "<=" | "le" >
+|   <LOGICAL_GT: ">" | "gt" >
+|   <LOGICAL_GE: ">=" | "ge" >
+|   <LOGICAL_EQUALS: "==" | "eq" >
+|   <LOGICAL_NOT_EQUALS: "!=" | "ne" >
 |   <LOGICAL_NOT: "!">
 |   <EQUALS: "=" >
 }
