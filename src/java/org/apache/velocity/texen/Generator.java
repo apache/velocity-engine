@@ -63,14 +63,13 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 
-import org.apache.velocity.texen.util.BaseUtil;
 
 /**
  * A text/code generator class
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.10 2001/02/27 08:04:16 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.11 2001/02/27 11:22:36 geirm Exp $ 
  */
 public class Generator
 {
