@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.19 2000/11/05 03:16:37 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.20 2000/11/05 05:46:18 geirm Exp $ 
 */
 public class Parser
 {
@@ -178,8 +178,8 @@ public class Parser
        // try {
        //     n = process();
        // } catch (Exception e ) { System.out.println( e ); }   
-       // 
-       //  return n;
+       //  
+       // return n;
     }        
 
     public void setDirectives(Hashtable directives)
@@ -608,9 +608,10 @@ MORE :
                 System.out.print("# :  going to " + DIRECTIVE );
             
             stateStackPush();
-            SwitchTo(DIRECTIVE);
+            SwitchTo(PRE_DIRECTIVE);
         }
     } 
+
 }   
 
 TOKEN :
@@ -746,7 +747,7 @@ TOKEN :
 |   <EQUALS: "=" >
 }
 
-<DIRECTIVE> 
+<PRE_DIRECTIVE> 
 TOKEN :
 {
     <END: "end" ( "\n" | "\r" | "\r\n" )?> 
@@ -758,11 +759,18 @@ TOKEN :
 |   <INCLUDE_DIRECTIVE: "include"> 
     { 
         incMode = true; 
+        SwitchTo(DIRECTIVE);
     }
 
 |   <IF_DIRECTIVE: "if">
+    {
+        SwitchTo(DIRECTIVE);
+    }
 
 |   <ELSEIF_DIRECTIVE: "elseif">
+    {
+        SwitchTo(DIRECTIVE);
+    }
 
 |   <ELSE_DIRECTIVE: "else"> 
      { 
@@ -771,15 +779,22 @@ TOKEN :
     } 
 
 |   <SET_DIRECTIVE: "set" >
-    { inSet = true; }
+    { 
+        inSet = true; 
+        SwitchTo(DIRECTIVE);
+    }
 
 |   <STOP_DIRECTIVE: "stop">
     {
         matchedToken.kind = EOF;
         fileDepth = 0;
     }
+}
 
-|   <#DIGIT: [ "0"-"9" ] >
+<PRE_DIRECTIVE,DIRECTIVE>
+TOKEN:
+{
+   <#DIGIT: [ "0"-"9" ] >
 |   <NUMBER_LITERAL: (<DIGIT>)+ >
     {
         /*
@@ -868,6 +883,20 @@ SPECIAL_TOKEN :
             System.out.print("REF_TERM :");
         
         stateStackPop();
+    }
+}
+
+<PRE_DIRECTIVE> 
+SPECIAL_TOKEN :
+{
+    <DIRECTIVE_TERMINATOR: ~[] >
+    {
+        if ( bDebugPrint_ )
+            System.out.print("DIRECTIVE_TERM :");
+ 
+        input_stream.backup(1); 
+        inDirective = false;
+        stateStackPop();       
     }
 }
 
@@ -990,6 +1019,8 @@ SimpleNode Directive() :
                 return jjtThis;
             }
         }            
+
+        token_source.SwitchTo( DIRECTIVE );
     }
 
     /*
@@ -1097,7 +1128,7 @@ void Text() :
 
 void IfStatement() : {}
 {
-     <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
+    <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
@@ -1237,36 +1268,47 @@ void PrimaryExpression() #void : {}
 
 /* ======================================================================
  
-   Background
-   ----------
+   Notes
+   -----
  
-   VTL == Velocity Template Language
+    template == the input stream for this parser, contains 'VTL' mixed in with 'schmoo'
+    VTL == Velocity Template Language : the references, directives, etc
+    shmoo == the non-VTL component of a template
+    reference == VTL entity that represents data within the context. ex. $foo
+    directive == VTL entity that denotes 'action' (#set, #foreach, #if )
+    defined directive (DD) == VTL directive entity that is expressed explicitly w/in this grammar
+    pluggable directive (PD) == VTL directive entity that is defined outside of the grammar.  PD's
+            allow VTL to be easily expandable w/o parser modification.
  
-   The problem with parsing VTL is that an input stream consists generally of little
-   bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
-   other languages, like C or Java, where the parser can punt whenever it encounters 
-   input that doesn't conform to the grammar, the VTL parser can't do that.  
+    The problem with parsing VTL is that an input stream consists generally of little
+    bits of VTL mixed in with 'other stuff, referred to as 'schmoo'.  Unlike
+    other languages, like C or Java, where the parser can punt whenever it encounters 
+    input that doesn't conform to the grammar, the VTL parser can't do that.  It must simply 
+    output the schmoo and keep going.  
  
-   There are a few things that we do here :
+    There are a few things that we do here :
      - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
      - define for each parser state a set of tokens for each state
      - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
    
-   It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
-   evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
-   this documentation is in disagreement w/ the source, the source takes precedence.
+    It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
+    evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
+    this documentation is in disagreement w/ the source, the source takes precedence. :)
  
-   Parser States
-   -------------
-   DEFAULT :  This is the base or starting state, and strangely enough, the default state.
+    Parser States
+    -------------
+    DEFAULT :  This is the base or starting state, and strangely enough, the default state.
  
-   DIRECTIVE : This state is triggered by the '#' character, and is used when processing both
-      'defined' directives such as #if() #else #elseif() #end #set #foreach() as well as the 
-      so-called 'pluggable' directives (PDs), which include #foreach(), #macro() etc.  The
-      PDs are able to be implemented entirely outside of the parser.
-       - with the exception of #set, #else and #else, the 'shape' of a directive is  
-            #foo( optional args )
-       - 
+    PRE_DIRECTIVE : State immediately following '#' before we figure out which defined or pluggable
+        directive (or neither) we are working with.
+     
+    DIRECTIVE : This state is triggered by the a match of a DD or a PD.
+
+    REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE.
+
+    REFMODIFIER : Triggered by .<alpha> when in REFERENCE.
+
+    REFMOD2 : Triggered by ( when in REFMODIFIER
  
     (cont)
 
