@@ -83,6 +83,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  * structure that developers need to be familiar with
  * in order to get Velocity to perform.
  *
+ * <pre>
  * Runtime.init(properties);
  *
  * Template template = Runtime.getTemplate("template.vm");
@@ -91,6 +92,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  * Runtime.info(message);
  * Runtime.error(message);
  * Runtime.debug(message);
+ * </pre>
  *
  * The Runtime will also cooperate with external
  * systems like Turbine. Normally the Runtime will
@@ -118,11 +120,13 @@ import org.apache.velocity.runtime.directive.Dummy;
  * So in the case of Velocity cooperating with Turbine
  * the code might look something like the following:
  *
+ * <pre>
  * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
  * Runtime.initializeLogger();
  *
  * Runtime.setProperty(Runtime.TEMPLATE_PATH, pathToTemplates);
  * Runtime.initializeTemplateLoader();
+ * </pre>
  *
  * It is simply a matter of setting the appropriate property
  * an initializing the matching sub system.
