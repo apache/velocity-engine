@@ -2358,6 +2358,19 @@ and classname of the loader that found it will be noted in the
 runtime log.
 </p>
                                                 <p>
+<code>resource.manager.cache.class</code>  Declares the class to be used
+for resource caching.  The current default is
+<code>org.apache.velocity.runtime.resource.ResourceCacheImpl</code>
+which uses a LRU Map to prevent data from being held forever.  You can
+set the size of the LRU Map using the parameter
+<code>resource.manager.defaultcache.size</code>.  The dafault value
+of the default cache size is currently 89.
+</p>
+                                                <p>
+<code>resource.manager.defaultcache.size</code> Sets the size of the
+    default implementation of the resource manager resource cache.
+</p>
+                                                <p>
 <code>resource.loader = &lt;name&gt; (default = File)</code><br />
 <i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a
 resource loader to be used.  This public name will then be used
@@ -2576,26 +2589,35 @@ Logkit or Log4j to use as the default logging system.
 </li>
 
 <li>
-<b>Existing Log4j Category</b><br />
+<b>Existing Log4j Logger/Category</b><br />
 Starting with version 1.3, Velocity will log it's output to an existing
-Log4j Category setup elsewhere in the application.  To use this feature
-you must
+Log4j Category setup elsewhere in the application.  With version 1.5, we have
+switched to using the Logger class, as the Categeory class is now deprecated
+in Log4j. To use this feature you must
   <ol>
     <li>
     Make sure that the Log4j jar is in your classpath. (You would do this
     anyway since you are using Log4j in the application using Velocity.)
     </li>
     <li>
-    Configure Velocity to use the <code>SimpleLog4JLogSystem</code> class.
+    a) If your system still uses the deprecated Category,
+    configure Velocity to use the <code>SimpleLog4JLogSystem</code> class.
+    b) If your environment uses the Logger class,
+    cconfigure Velocity to use the <code>Log4JLogSystem</code> class.
     </li>
     <li>
-    Specify the name of the existing Category to use via the
+    a) If using a Category, specify the name of the existing Category to use via the
     'runtime.log.logsystem.log4j.category' property.
+    b) If using a Logger, specify the name of the existing Logger to use via the
+    'runtime.log.logsystem.log4j.logger' property.
     </li>
   </ol>
 
-This approach replaces and deprecates the older <code>Log4JLogSystem</code>
-class.  To see how this is done in code, see the example below.
+Note that this support for Logger is in version 1.5 of Velocity.  Further,
+in version 1.5 we removed the now-ancient and very deprecated origianl
+Log4JLogSystem class and replaced with the current Log4JLogSystem class which
+uses the Logger class.  We apologize for the confusion, but we needed to move
+on.
 </li>
 
 <li>
