@@ -106,97 +106,99 @@
           <a name="Contents"><strong>Contents</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="contents" />
-                                                <p>
+                                    <p>
 <ol>
 
 <li>
-<a href="developer-guide.html#intro">Introduction and Getting Started</a>
+<a href="developer-guide.html#Introduction">Introduction and Getting Started</a>
 </li>
 
 <li>
-<a href="developer-guide.html#resources">Resources</a>
+<a href="developer-guide.html#Resources">Resources</a>
 </li>
 
 <li>
-<a href="developer-guide.html#howvelworks">How Velocity Works</a>
+<a href="developer-guide.html#How Velocity Works">How Velocity Works</a>
 <ul>
- <li><a href="developer-guide.html#howvelworks">The Fundamental Pattern</a></li>
+ <li><a href="developer-guide.html#The Fundamental Pattern">The Fundamental Pattern</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#context">The Context</a>
+<a href="developer-guide.html#The Context">The Context</a>
 <ul>
-<li><a href="developer-guide.html#context">The Basics</a></li>
-<li><a href="developer-guide.html#contextforeach">Collections and #foreach()</a></li>
-<li><a href="developer-guide.html#contextchaining">Context Chaining</a></li>
-<li><a href="developer-guide.html#generatedobjects">Objects Created by the Template</a></li>
-<li><a href="developer-guide.html#othercontextissues">Other Context Issues</a></li>
+<li><a href="developer-guide.html#The Basics">The Basics</a></li>
+<li><a href="developer-guide.html#Support for Iterative Objects for #foreach()">Support for Iterative Objects for #foreach()</a></li>
+<li><a href="developer-guide.html#Context Chaining">Context Chaining</a></li>
+<li><a href="developer-guide.html#Objects Created in the Template">Objects Created by the Template</a></li>
+<li><a href="developer-guide.html#Other Context Issues">Other Context Issues</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#servlets">Using Velocity in Servlets</a>
+<a href="developer-guide.html#Using Velocity In Servlets">Using Velocity in Servlets</a>
 <ul>
-<li><a href="developer-guide.html#servlets">Servlet Programming</a></li>
-<li><a href="developer-guide.html#serveletdeployment">Deployment</a></li>
+<li><a href="developer-guide.html#Servlet Programming">Servlet Programming</a></li>
+<li><a href="developer-guide.html#Deployment">Deployment</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#general">Using Velocity in General Applications</a>
+<a href="developer-guide.html#Using Velocity In General Applications">Using Velocity in General Applications</a>
 <ul>
-<li><a href="developer-guide.html#velocityclass">The Velocity Helper Class</a></li>
-<li><a href="developer-guide.html#exceptions">Exceptions</a></li>
-<li><a href="developer-guide.html#generalmisc">Miscellaneous</a></li>
+<li><a href="developer-guide.html#The Velocity Helper Class">The Velocity Helper Class</a></li>
+<li><a href="developer-guide.html#Exceptions">Exceptions</a></li>
+<li><a href="developer-guide.html#Miscellaneous Details">Miscellaneous Details</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#eventcartridge">EventCartridge and Event Handlers</a>
+<a href="developer-guide.html#EventCartridge and Event Handlers">EventCartridge and Event Handlers</a>
 </li>
 
 <li>
-<a href="developer-guide.html#config">Configuration Keys and Values</a>
+<a href="developer-guide.html#Velocity Configuration Keys and Values">Velocity Configuration Keys and Values</a>
 </li>
 
 <li>
-<a href="developer-guide.html#logging">Configuring the Log System</a>
+<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a>
  <ul>
   <li>
-    <a href="developer-guide.html#customlogging">Simple Example of a Custom Logger</a>
+    <a href="developer-guide.html#Simple Example of a Custom Logger">Simple Example of a Custom Logger</a>
   </li>
  </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#loaders">Configuring the Resource Loaders (template loaders)</a>
+<a href="developer-guide.html#Configuring Resource Loaders">Configuring the Resource Loaders (template loaders)</a>
 <ul>
   <li>
-    <a href="developer-guide.html#resourceexamples">Configuration Examples</a>
+    <a href="developer-guide.html#Configuration Examples">Configuration Examples</a>
   </li>
  </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#encoding">Template Encoding for Internationalization</a>
+<a href="developer-guide.html#Template Encoding for Internationalization">Template Encoding for Internationalization</a>
 </li>
 
 <li>
-<a href="developer-guide.html#velxml">Velocity and XML</a>
+<a href="developer-guide.html#Velocity and XML">Velocity and XML</a>
 </li>
 
 <li>
-<a href="developer-guide.html#summary">Summary</a>
+<a href="developer-guide.html#Summary">Summary</a>
 </li>
 
 </ol>
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -204,26 +206,28 @@
           <a name="Introduction"><strong>Introduction</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="intro" />
-                                                <p>
+                                    <p>
 Velocity is a Java-based template engine, a simple and powerful development tool
 that allows you to easily create and render documents that format and present
 your data. In this guide, we hope to give an overview of the basics of
 development using Velocity, focusing on the two main areas for Velocity usage :
-
-<ul>
-<li> servlet-based WWW development</li>
-<li> general application use</li>
+</p>
+                                                <ul>
+<li>servlet-based WWW development</li>
+<li>general application use</li>
 </ul>
-
+                                                <p>
 You will see that there is no real difference between these, other than we make
 servlet development with Velocity very easy if you use our provided class
 VelocityServlet as a base class for your servlet, and offer a utility class to
 help with application development.
 </p>
-                                                <strong>Getting Started</strong>
+                                                <p>
+<strong>Getting Started</strong>
+</p>
                                                 <p>
 While this information is found elsewhere on the Velocity site and in the
 documentation, it is included here for completeness. Getting Velocity running on
@@ -333,7 +337,9 @@ root of the Velocity distribution tree.
 </ol>
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -341,22 +347,22 @@ root of the Velocity distribution tree.
           <a name="Resources"><strong>Resources</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="resources" />
-                                                <p>
+                                    <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
 Some great sources are :
-
-<ul>
+</p>
+                                                <ul>
   <li>
      The user and developer community : join us via the
      <a href="http://jakarta.apache.org/getinvolved/mail.html">mail-lists</a>.
   </li>
   <li>
      Mail-list archives : <a href="http://www.mail-archive.com">
-    http:// www.mail-archive.com</a> is a good one.  Type 'velocity' into the search
+    http://www.mail-archive.com</a> is a good one.  Type 'velocity' into the search
     box to see both our -user and -dev archives.
   </li>
   <li>
@@ -417,11 +423,13 @@ Some great sources are :
     showing how the Velocity context can be extended. For advanced users.
   </li>
 </ul>
-
+                                                <p>
 All directory references above are relative to the distribution root directory.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -429,22 +437,24 @@ All directory references above are relative to the distribution root directory.
           <a name="How Velocity Works"><strong>How Velocity Works</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="howvelworks" />
-                                                <strong>'The Fundamental Pattern'</strong>
+                                    <p>
+<a name="The Fundamental Pattern"><strong>'The Fundamental Pattern'</strong></a>
+</p>
                                                 <p>
 When using Velocity in an application program or in a servlet 
 (or anywhere, actually), you will generally do the following :
-
-<ol>
+</p>
+                                                <ol>
 <li>Initialize Velocity. (You only do this once.)</li>
 <li>Create a Context object (more on what that is later).</li>
 <li>Add your data objects to the Context.</li>
 <li>Choose a template.</li>
 <li>'Merge' the template and your data to produce the ouput.</li>
 </ol>
-
+                                                <p>
 In code, this looks like
 </p>
                                                     <div align="left">
@@ -510,7 +520,9 @@ things easier. In each case, though, the above sequence is what is happening
 either explicitly, or behind the scenes.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -518,10 +530,10 @@ either explicitly, or behind the scenes.
           <a name="The Context"><strong>The Context</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="context" />
-                                                <strong>The Basics</strong>
+                                    <a name="The Basics"><strong>The Basics</strong></a>
                                                 <p>
 The concept of the 'context' is central to Velocity, and is a common technique
 for moving a container of data around between parts of a system. The idea is
@@ -562,8 +574,8 @@ will use are
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- public Object put(String key, Object value);
- public Object get(String key);
+public Object put(String key, Object value);
+public Object get(String key);
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -583,16 +595,18 @@ be wrapped in the appropriate wrapper classes.
 That's really all there is to basic context operations. For more information,
 see the API documentation included in the distribution.
 </p>
-                                                <strong>Support for Iterative Objects for #foreach()</strong>
-                                                <a name="contextforeach" />
+                                                <p>
+<a name="Support for Iterative Objects for #foreach()"><strong>Support for Iterative Objects for
+#foreach()</strong></a>
+</p>
                                                 <p>
 As a programmer, you have great freedom in the objects that you put into the
 context.  But as with most freedoms, this one comes with a little bit of
 responsibility, so understand what Velocity supports, and any issues that may
 arise.  Velocity supports serveral types of collection types  suitable for use
 in the VTL <code>#foreach()</code> directive.
-
-<ul>
+</p>
+                                                <ul>
 
 <li> <code>Object [] </code>  Regular object array, not much needs to be said 
 here. Velocity will internally wrap your array in a class that provides an
@@ -629,7 +643,7 @@ as the Enumeration doesn't reset.
 </li>
 
 </ul>
-
+                                                <p>
 In the case of the <code>Iterator</code> and <code>Enumeration</code>, it is
 recommended that they are placed in the context only when it cannot be avoided,
 and you should let Velocity find the appropriate reusable iterative interface when 
@@ -639,7 +653,7 @@ that is sufficient and possible.
 There are good reasons to use the <code>java.util.Iterator</code> interface 
 directly (large data sets via JDBC, for example), but if it can be 
 avoided, it might be better to use something else. By 'directly' , we meant 
-doing something like :
+doing something like:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -651,11 +665,11 @@ doing something like :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  Vector v = new Vector();
-  v.addElement(&quot;Hello&quot;);
-  v.addElement(&quot;There&quot;);
+Vector v = new Vector();
+v.addElement(&quot;Hello&quot;);
+v.addElement(&quot;There&quot;);
 
-  context.put(&quot;words&quot;, v.iterator() );
+context.put(&quot;words&quot;, v.iterator() );
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -667,8 +681,8 @@ doing something like :
     </table>
     </div>
                                                 <p>
-where the Iterator itself is placed into the context.  Instead, if you simply 
-did :
+where the Iterator itself is placed into the context. Instead, if you
+simply did:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -680,8 +694,7 @@ did :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-  context.put(&quot;words&quot;, v );
+context.put(&quot;words&quot;, v );
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -693,7 +706,7 @@ did :
     </table>
     </div>
                                                 <p>
-then all would be fine : velocity would figure out that Vector implement 
+then all would be fine: Velocity would figure out that Vector implement 
 Collection (via List), and therefore will find the <code>iterator()</code> 
 method, and use that to get a 'fresh' Iterator for its use each time 
 it needs to.  With just a plain Iterator (the first snippet above...), 
@@ -708,8 +721,7 @@ collections in Velocity is something that requires great care and
 thought.  Rather, the opposite is true, in general.  Just be 
 careful when you place an Iterator into the context.
 </p>
-                                                <strong>Context Chaining</strong>
-                                                <a name="contextchaining" />
+                                                <a name="Context Chaining"><strong>Context Chaining</strong></a>
                                                 <p>
 An innovative feature of Velocity's context design is the concept 
 of <i>context chaining</i>. Also sometimes referred to as 
@@ -730,19 +742,18 @@ This is best illustrated by an example :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- VelocityContext context1 = new VelocityContext();
+VelocityContext context1 = new VelocityContext();
 
- context1.put(&quot;name&quot;,&quot;Velocity&quot;);
- context1.put(&quot;project&quot;, &quot;Jakarta&quot;);
- context1.put(&quot;duplicate&quot;, &quot;I am in context1&quot;);
+context1.put(&quot;name&quot;,&quot;Velocity&quot;);
+context1.put(&quot;project&quot;, &quot;Jakarta&quot;);
+context1.put(&quot;duplicate&quot;, &quot;I am in context1&quot;);
 
- VelocityContext context2 = new VelocityContext( context1 );
+VelocityContext context2 = new VelocityContext( context1 );
 
- context2.put(&quot;lang&quot;, &quot;Java&quot; );
- context2.put(&quot;duplicate&quot;, &quot;I am in context2&quot;);
+context2.put(&quot;lang&quot;, &quot;Java&quot; );
+context2.put(&quot;duplicate&quot;, &quot;I am in context2&quot;);
 
- template.merge( context2, writer );
-
+template.merge( context2, writer );
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -796,34 +807,70 @@ that uses a database as the backing storage.
 Please note that these examples are unsupported and are there for 
 demonstration/educational purposes only.
 </p>
-                                                <strong>Objects Created in the Template</strong>
-                                                <a name="generatedobjects" />
+                                                <a name="Objects Created in the Template"><strong>Objects Created in the
+Template</strong></a>
                                                 <p>
  There are two common situations where the Java code must deal with objects 
  created at runtime in the template :
-
- <ol>
-   <li> When a template author calls a method of an object placed into
-   the context by Java code.
-   <source><![CDATA[
-     #set($myarr = ["a","b","c"] )
-     $foo.bar( $myarr )
-   ]]></source>
-   </li>
-   <li> When a template adds objects to the context, the Java code can access
-   those objects after the merge process is complete.
-   <source><![CDATA[
-     #set($myarr = ["a","b","c"] )
-     #set( $foo = 1 )
-     #set( $bar = "bar")
-   ]]></source>
-   </li>
-  </ol>
-
-  Dealing with these cases if very straighforward, as there are just a few
-  things to know :
-
-  <ul>
+</p>
+                                                <p>
+When a template author calls a method of an object placed into
+the context by Java code.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set($myarr = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;] )
+$foo.bar( $myarr )
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+When a template adds objects to the context, the Java code can access
+those objects after the merge process is complete.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set($myarr = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;] )
+#set( $foo = 1 )
+#set( $bar = &quot;bar&quot;)
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Dealing with these cases if very straighforward, as there are just a few
+things to know:
+</p>
+                                                <ul>
     <li>
     The VTL RangeOperator  [ 1..10 ]  and  ObjectArray ["a","b"] are
     <code>java.util.ArrayList</code> objects when placed in the context
@@ -840,10 +887,7 @@ demonstration/educational purposes only.
     context via <code>#set()</code> will work fine.
     </li>
   </ul>
-
-   </p>
-                                                <strong>Other Context Issues</strong>
-                                                <a name="othercontextissues" />
+                                                <a name="Other Context Issues"><strong>Other Context Issues</strong></a>
                                                 <p>
 One of the features provided by the VelocityContext 
 (or any Context derived from AbstractContext) is 
@@ -855,8 +899,9 @@ known usage pattern where you must be aware of this feature.
                                                 <p>
 The VelocityContext will accumulate intropection information about the
 syntax nodes in a template as it visits those nodes.  So, in the following
-situation :
-<ul>
+situation:
+</p>
+                                                <ul>
 <li>
   You are iterating over the same template using the same VelocityContext
   object.
@@ -868,31 +913,31 @@ Template caching is off.
 You request the Template from getTemplate() on each iteration.
 </li>
 </ul>
-
-it is possible that your VelocityContext will appear to 'leak' memory (it is really
-just gathering more introspection information.)  What happens
-is that it accumulates template node introspection 
-information for each template it visits, and
-as template caching is off, it appears to the VelocityContext that it is visiting 
-a new template each time.  Hence it gathers more introspection information and grows.
-It is highly recommended that you do one or more of the following :
-
-<ul>
-<li> Create a new VelocityContext for each excursion
+                                                <p>
+It is possible that your VelocityContext will appear to 'leak' memory
+(it is really just gathering more introspection information.)  What
+happens is that it accumulates template node introspection information
+for each template it visits, and as template caching is off, it appears
+to the VelocityContext that it is visiting a new template each time. 
+Hence it gathers more introspection information and grows. It is highly
+recommended that you do one or more of the following :
+</p>
+                                                <ul>
+<li>Create a new VelocityContext for each excursion
 down through the template render process.   This will prevent the accumulation
 of introspection cache data.  For the case where you want to reuse the 
 VelocityContext because it's populated with data or objects,
  you can simply wrap the populated
 VelocityContext in another, and the 'outer' one will accumulate the 
 introspection information, which you will just discard.  Ex.
-<code>VelocityContext useThis = new VelocityContext( populatedVC ); </code>
+<code>VelocityContext useThis = new VelocityContext( populatedVC );</code>
 This works because the outer context will store the introspection
 cache data, and get any requested data from the inner context (as it is empty.)
 Be careful though - if your template places data into the context and it's 
 expected that it will be used in the subsequent iterations, you will need to do
 one of the other fixes, as any template #set() statements will be stored in
 the outermost context. See the discussion in 
-<a href="developer-guide.html#contextchaining"> Context chaining</a> for more
+<a href="developer-guide.html#Context Chaining">Context chaining</a> for more
 information.
 </li>
 
@@ -902,6 +947,7 @@ on each iteration, resulting the the VelocityContext being able to not only
 avoid adding to the introspection cache information, but be able to use it
 resulting in a performance improvement.
 </li>
+
 <li>
 Reuse the Template object for the duration of the loop iterations. 
 Then you won't be forcing Velocity, if the cache is turned off, to
@@ -909,10 +955,10 @@ reread and reparse the same template over and over, so the VelocityContext
 won't gather new introspection information each time.
 </li>
 </ul>
-
-</p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -920,10 +966,10 @@ won't gather new introspection information each time.
           <a name="Using Velocity In Servlets"><strong>Using Velocity In Servlets</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="servlets" />
-                                                <strong>Programming</strong>
+                                    <a name="Servlet Programming"><strong>Servlet Programming</strong></a>
                                                 <p>
 The most common use of Velocity is in the area of Java Servlet programming 
 for the WWW.   There are many reasons why Velocity is well suited for this 
@@ -948,38 +994,39 @@ As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
 <i><code>public Template handleRequest( Context )</code></i>
   
 <blockquote>
-  This is the older of the two methods.  This method requires that 
-  you return a valid Template object.  If not valid, or <code>null</code>,
-  this is considered an error condition, and will result in the 
-  <a href="developer-guide.html#error()"><code>error()</code></a> error handling method being called.  You may 
-  override the <code>error()</code> if you wish.  If returning a <code>null</code>
-  is something you expect to do (for example, you will want to redirect
-  requests) it is recommended that you use the newer method, listed next.
+  This is the older of the two methods.  This method requires that you
+  return a valid Template object.  If not valid, or <code>null</code>,
+  this is considered an error condition, and will result in the <a href="developer-guide.html#error()"><code>error()</code></a> error
+  handling method being called.  You may override the
+  <code>error()</code> if you wish.  If returning a <code>null</code> is
+  something you expect to do (for example, you will want to redirect
+  requests) it is recommended that you use the newer method, listed
+  next.
 </blockquote>
   <br />
  
 <i><code>public Template handleRequest( HttpServletRequest, HttpServletResponse, Context )</code></i>
 
 <blockquote>
-   This is the newer of the two <code>handleRequest()</code> methods, implemented
-   in version 1.1.  
-   The difference with this method is that the <code>HttpServletRequest</code>
-   and <code>HttpServletResponse</code> objects are passed to you as arguments
-   to the method, as well as in the <code>Context</code>.  The other difference
-   is that this method can return <code>null</code> to indicate that all
-   processing has been handled by the method, and that Velocity should do
-   nothing further than call 
+   This is the newer of the two <code>handleRequest()</code> methods,
+   implemented in version 1.1. The difference with this method is that
+   the <code>HttpServletRequest</code> and
+   <code>HttpServletResponse</code> objects are passed to you as
+   arguments to the method, as well as in the <code>Context</code>.  The
+   other difference is that this method can return <code>null</code> to
+   indicate that all processing has been handled by the method, and that
+   Velocity should do nothing further than call
    <a href="developer-guide.html#requestCleanup()"><code>requestCleanup()</code></a>.  
-   This is extremely
-   useful is you wish to redirect the request, for example.
+   This is extremely useful is you wish to redirect the request, for
+   example.
 </blockquote>
 
 As always, please refer to the Javadoc API documentation for the definitive and
 latest notes.
 </p>
                                                 <p>
-The following code is similar to the
-SampleServlet.java class included in the distribution in the examples directory.
+The following code is similar to the SampleServlet.java class included
+in the distribution in the examples directory.
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1063,13 +1110,12 @@ respectively.  To access and use these objects in your Java code :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+public Template handleRequest(  Context context )
+{
+    HttpServletRequest request =  (HttpServletRequest) context.get( REQUEST );
+    HttpServletResponse response =  (HttpServletResponse) context.get( RESPONSE );
 
-    public Template handleRequest(  Context context )
-    {
-        HttpServletRequest request =  (HttpServletRequest) context.get( REQUEST );
-        HttpServletResponse response =  (HttpServletResponse) context.get( RESPONSE );
-    
-       ...
+   ...
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1081,7 +1127,7 @@ respectively.  To access and use these objects in your Java code :
     </table>
     </div>
                                                 <p>
-and in your templates :
+and in your templates:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1093,10 +1139,7 @@ and in your templates :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-   #set($name = $req.getParameter('name') )
-
-
+#set($name = $req.getParameter('name') )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1122,7 +1165,8 @@ be overridden :
   webapp root at runtime.
 </blockquote>
 
-<i><a name="createContext()" /><code>Context createContext(HttpServletRequest, HttpServletResponse )</code></i>
+<i><a name="createContext()">
+<code>Context createContext(HttpServletRequest, HttpServletResponse )</code></a></i>
 <blockquote>
   Allows you to create the Context object yourself. This allows more advanced 
   techniques, such as chaining or pre-loading with tools or data.  The default 
@@ -1137,41 +1181,40 @@ be overridden :
 
 <i><code>void setContentType( HttpServletRequest,HttpServletResponse )</code></i>
 <blockquote>
-  Allows you to examine the request and set the content type yourself, 
-  depending on the request or client.  The default implementation sets 
-  the content type to be that either specified in the  velocity.properties, 
-  if any, or the default, "text/html" if not specified in the properties.
+  Allows you to examine the request and set the content type yourself,
+  depending on the request or client.  The default implementation sets
+  the content type to be that either specified in the 
+  velocity.properties, if any, or the default, "text/html" if not
+  specified in the properties.
 </blockquote>
 
 <i><code>void mergeTemplate( Template, Context, HttpServletResponse )</code></i>
 <blockquote>
-  Allows you to produce the output stream.  The VelocityServlet uses 
-  a pool of very efficient Writer classes, so this would usually be 
+  Allows you to produce the output stream.  The VelocityServlet uses a
+  pool of very efficient Writer classes, so this would usually be
   overridden in special situations.
 </blockquote>
 
-<i><a name="requestCleanup()" /><code>void requestCleanup( HttpServletRequest, 
-  HttpServletResponse , Context )</code></i>
+<i><a name="requestCleanup()"><code>void requestCleanup( HttpServletRequest, 
+  HttpServletResponse , Context )</code></a></i>
 <blockquote>
-  Allows you to do any cleanup or resource reclamation at the end of 
-  the request processing.  The default does nothing.
+  Allows you to do any cleanup or resource reclamation at the end of the
+  request processing.  The default does nothing.
 </blockquote>
 
-<i><a name="error()" /><code>protected void error( HttpServletRequest, 
-  HttpServletResponse, Exception  )</code></i>
+<i><a name="error()"><code>protected void error( HttpServletRequest, 
+  HttpServletResponse, Exception )</code></a></i>
 <blockquote>
-  Error handler that is called an exception occurrs in request processing.  
-  Default implementation will 
-  send a simple HTML message with stacktrace and exception information 
-  back to the user.  Override for custom client messages and more 
-  advanced problem handling.
+  Error handler that is called an exception occurrs in request
+  processing. Default implementation will send a simple HTML message
+  with stacktrace and exception information back to the user.  Override
+  for custom client messages and more advanced problem handling.
 </blockquote>
 
 For further information, please see the Javadoc 
 <a href="apidocs/index.html">API documentation</a>.
 </p>
-                                                <strong>Deployment</strong>
-                                                <a name="servletdeployment" />
+                                                <a name="Deployment"><strong>Deployment</strong></a>
                                                 <p>
 When you deploy your Velocity-based servlets, you will certainly want to 
 ensure that your properties file is used to configure the Velocity runtime.  
@@ -1225,7 +1268,9 @@ This deployment method will ensure that different web applications will
 not be subject to Velocity configuration conflicts.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -1233,10 +1278,10 @@ not be subject to Velocity configuration conflicts.
           <a name="Using Velocity In General Applications"><strong>Using Velocity In General Applications</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="general" />
-                                                <p>
+                                    <p>
 As Velocity was designed to be a general-use tool, it is just as useful in 
 general application programs as it is servlets. In general, you can use the 
 same programming pattern discussed at the beginning of this guide, but there 
@@ -1245,8 +1290,7 @@ the VelocityServlet base class for ease of use in servlet programming.
 The only new responsibility you have as the application programmer is to 
 initialize the Velocity runtime engine, but that is easy.
 </p>
-                                                <strong>The Velocity Class</strong>
-                                                <a name="velocityclass" />
+                                                <a name="The Velocity Helper Class"><strong>The Velocity Helper Class</strong></a>
                                                 <p>
 Velocity contains an application utility class called Velocity 
 ( <code>org.apache.velocity.app.Velocity</code> ).  The purpose of this class 
@@ -1263,40 +1307,40 @@ Therefore, the runtime engine is initialized only once.  You can attempt to
 initialize Velocity more than once, but only the first initialization will 
 apply.  The rest of the attempts will be ignored.  The Velocity utility 
 class currently provides five methods used in configuration of the runtime engine.  
-
+</p>
+                                                <p>
 The five configuration methods are :
+</p>
+                                                <ul>
 
-<ul>
-
-<li> <code>setProperty( String key, Object o )</code><br />  
+<li><code>setProperty( String key, Object o )</code><br />  
 Sets the property <code>key</code> with the value <code>o</code>. The value 
 is typically a String, but in special cases can also be a comma-separated 
 list of values (in a single String, ex."foo, bar, woogie") as well as other 
 things that will arise.
 </li> 
 
-<li> <code>Object getProperty( String key )</code><br /> 
+<li><code>Object getProperty( String key )</code><br /> 
 Returns the value of the property key.  Note that you must be aware of the 
 type of the return value, as they can be things other than Strings. 
 </li>
 
-<li> <code>init()</code><br /> 
+<li><code>init()</code><br /> 
 Initializes the runtime with the default properties provided in the 
 distribution.(These are listed below in the section pertaining to 
 properties.)
 </li>
 
-<li> <code>init( Properties p )</code><br /> Initialize the runtime with the 
+<li><code>init( Properties p )</code><br /> Initialize the runtime with the 
 properties contained in the <code>java.util.Properties</code> object passed 
 as an argument. 
 </li>
 
-<li> <code>init( String filename )</code><br /> initilizes the runtime 
+<li><code>init( String filename )</code><br /> initilizes the runtime 
 using the properties found in the properties file filename
 </li>
 
 </ul>
-</p>
                                                 <p>
 Note that in each case, the default properties will be used as a base 
 configuration, and any additional properties specified by the application
@@ -1307,8 +1351,8 @@ than a complete set.
 </p>
                                                 <p>
 The most common approaches to initializing Velocity will be something like :
-<ol>
-
+</p>
+                                                <ol>
 <li> Setup the configuration values you wish to set in a file in the same 
 format as org/apache/velocity/runtime/defaults/velocity.properties 
 (the default set),  or in a <code>java.util.Properties</code>, and then 
@@ -1321,16 +1365,14 @@ applications that already have their own configuration management system -
 this allows the application so configure Velocity based upon values it generates 
 at runtime, for example.
 </li>
-
 </ol>
-</p>
                                                 <p>
 Once the runtime is initialized, you can do with it what you wish.. This mostly 
 revolves around rendering templates into an output stream, and the Velocity 
 utility class allows you to do this easily.  Currently, here are the methods 
 and a brief description of what they do :
-
-<ul>
+</p>
+                                                <ul>
   <li>
      <code> evaluate( Context context,  Writer out, String logTag, 
      String instring )</code><br />
@@ -1373,10 +1415,9 @@ and a brief description of what they do :
     the currently configured resource loaders.
   </li>
 </ul>
-</p>
                                                 <p>
 Once we know about these basic helpers, it is easy to write Java program 
-that uses Velocity.  Here it is :
+that uses Velocity.  Here it is:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1420,7 +1461,6 @@ public class Example2
         w = new StringWriter();
         Velocity.evaluate( context, w, &quot;mystring&quot;, s );
         System.out.println(&quot; string : &quot; + w );
-
     }
 }
 </pre></td>
@@ -1449,9 +1489,9 @@ from is the current directory...), our output should be :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- template : Hi!  This Velocity from the Jakarta project.
+template : Hi!  This Velocity from the Jakarta project.
 
- string : We are using Jakarta Velocity to render this.
+string : We are using Jakarta Velocity to render this.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1512,14 +1552,13 @@ template engine, but the utility functions do some of
 the repeated drudge work, or allow you other options for your 
 template content other than template files.
 </p>
-                                                <strong>Exceptions</strong>
-                                                <a name="exceptions" />
+                                                <a name="Exceptions"><strong>Exceptions</strong></a>
                                                 <p>
 There are three exceptions that Velocity will throw during the parse / merge cycle.
 This are additional to the exceptions that will come from IO problems, etc.
-They are found in the package <code>org.apache.velocity.exception</code> and are :
-
-<ol>
+They are found in the package <code>org.apache.velocity.exception</code> and are:
+</p>
+                                                <ol>
 <li>
 <code>ResourceNotFoundException</code><br />
 Thrown when the resource managment system cannot find a resource (template) that
@@ -1539,12 +1578,11 @@ to the application.  This allows you to handle problems in your own objects
 at runtime.
 </li>
 </ol>
-
+                                                <p>
 In each case, a message is put into the runtime log.  For more information,
 see the Javadoc API documentation.
 </p>
-                                                <strong>Miscellaneous Details</strong>
-                                                <a name="generalmisc" />
+                                                <a name="Miscellaneous Details"><strong>Miscellaneous Details</strong></a>
                                                 <p>
 While the above example used the default properties, setting your own 
 properties is very simple. All you have to do is make a properties file 
@@ -1572,24 +1610,22 @@ load our template from, we could do something like this :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
  ...
 
 import java.util.Properties;
  ...
 
- public static void main( String args[] )
-    {
-        /* first, we init the runtime engine.  */
+public static void main( String args[] )
+{
+    /* first, we init the runtime engine.  */
 
-        Properties p = new Properties();
-        p.setProperty(&quot;file.resource.loader.path&quot;, &quot;/opt/templates&quot;);
-        Velocity.init( p );
+    Properties p = new Properties();
+    p.setProperty(&quot;file.resource.loader.path&quot;, &quot;/opt/templates&quot;);
+    Velocity.init( p );
 
-        /* lets make a Context and put data into it */
+    /* lets make a Context and put data into it */
 
  ...
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1607,7 +1643,9 @@ If you try this and have a problem, be sure to look at the velocity.log for
 information - the error messages are pretty good for figuring out what is wrong.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -1615,10 +1653,10 @@ information - the error messages are pretty good for figuring out what is wrong.
           <a name="EventCartridge and Event Handlers"><strong>EventCartridge and Event Handlers</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="eventcartridge" />
-                                                <p>
+                                    <p>
 Starting in version 1.1, a fine-grain event handling system was added to Velocity.
 The EventCartridge is a class in which you register your event handlers, and then the
 EventCartridge acts as the delivery agent from which the Velocity engine will
@@ -1634,12 +1672,12 @@ When a #set() results in a null assignment, this is normally
 logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
 logging of this condition.
 <br />
-<pre>
+<source>
 public interface NullSetEventHandler extends EventHandler
 {
     public boolean shouldLogOnNullSet( String lhs, String rhs );
 }   
-</pre>
+</source>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
@@ -1647,12 +1685,12 @@ public interface NullSetEventHandler extends EventHandler
 A <code>ReferenceInsertionEventHandler</code> allows the 
 developer to intercept each write of a reference ($foo) value to the output 
 stream and modify that output. 
-<pre>
+<source>
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {
     public Object referenceInsert( String reference, Object value  );
 }
-</pre>
+</source>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.MethodExceptionEventHandler</code></i>
@@ -1663,16 +1701,18 @@ and thrown Exception.  The handler can either return a valid Object to be used
 as the return value of the method call, or throw the passed-in or new Exception, 
 which will be wrapped and propogated to the user as a 
 <code>MethodInvocationException</code>
-<pre>
+<source>
 public interface MethodExceptionEventHandler extends EventHandler
 {
     public Object methodException( Class claz, String method, Exception e )
          throws Exception;
 }
-</pre>
+</source>
 </blockquote>
 </p>
-                                                <strong>Using the EventCartridge</strong>
+                                                <p>
+<strong>Using the EventCartridge</strong>
+</p>
                                                 <p>
 Using the EventCartridge is fairly straightforward.  The following abbreviated
 example was taken from <code>org.apache.velocity.test.misc.Test</code>.
@@ -1687,7 +1727,6 @@ example was taken from <code>org.apache.velocity.test.misc.Test</code>.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
  ...
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -1697,7 +1736,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
  ...
 
- public class Test implements ReferenceInsertionEventHandler, 
+public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,
                              MethodExceptionEventHandler
 {
@@ -1726,15 +1765,13 @@ import org.apache.velocity.app.event.NullSetEventHandler;
          * now merge your template with the context as you normally
          * do
          */
-          
-        ....
 
+        ....
     }
       
     /*
      *  and now the implementations of the event handlers
      */
-
     public Object referenceInsert( String reference, Object value  )
     {
         /*  do something with it */
@@ -1769,7 +1806,9 @@ import org.apache.velocity.app.event.NullSetEventHandler;
     </table>
     </div>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -1777,10 +1816,10 @@ import org.apache.velocity.app.event.NullSetEventHandler;
           <a name="Velocity Configuration Keys and Values"><strong>Velocity Configuration Keys and Values</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="config" />
-                                                <p>
+                                    <p>
 Velocity's runtime configuration is controlled by a set of configuration keys 
 listed below.  Generally, these keys will have values that consist of either a 
 String, or a comma-separated list of Strings, referred to as a CSV for 
@@ -1802,15 +1841,17 @@ configuration files to suit - the Velocity engine will always have default
 values.
 </p>
                                                 <p>
-Please sees the section above <b>Using Velocity In General Applications</b> 
-for discussion on the configuration API. 
+Please sees the section above <a href="developer-guide.html#Using Velocity In General Applications"><b>Using Velocity In General
+Applications</b></a> for discussion on the configuration API.
 </p>
                                                 <p>
 Below are listed the configuration keys that control Velocity's behavior.  
 Organized by category, each key is listed with it's current default value
 to the right of the '=' sign.
 </p>
-                                                <strong>Runtime Log</strong>
+                                                <p>
+<strong>Runtime Log</strong>
+</p>
                                                 <p>
 <code>runtime.log = velocity.log</code><br />
 Full path and name of log file for error, warning,
@@ -1824,7 +1865,7 @@ instantiated instance of a logging class that supports the interface
 <code>org.apache.velocity.runtime.log.LogSystem.</code>, which allows
 the combination of Velocity log messages with your other application 
 log messages.  Please see the section 
-<a href="developer-guide.html#logging">Configuring the Log System</a> 
+<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a> 
 for more information.
 </p>
                                                 <p>
@@ -1845,7 +1886,9 @@ Property to turn off the log output when a reference isn't valid.
 Good thing to turn of in production, but very valuable
 for debugging.
 </p>
-                                                <strong>Character Encoding</strong>
+                                                <p>
+<strong>Character Encoding</strong>
+</p>
                                                 <p>
 <code>input.encoding = ISO-8859-1</code><br />
 Character encoding for input (templates).  Using this, you can use
@@ -1855,7 +1898,9 @@ alternative encoding for your templates, such as UTF-8.
 <code>output.encoding = ISO-8859-1</code><br />
 Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
-                                                <strong> #foreach() Directive </strong>
+                                                <p>
+<strong>#foreach() Directive</strong>
+</p>
                                                 <p>
 <code>directive.foreach.counter.name = velocityCount</code><br />
 Used in the #foreach() directive, defines the string to be used as the 
@@ -1866,7 +1911,9 @@ the loop count as $velocityCount.
 <code>directive.foreach.initial.value = 1</code><br />
 Default starting value for the loop counter reference in a #foreach() loop.
 </p>
-                                                <strong> #include() and #parse() Directive </strong>
+                                                <p>
+<strong>#include() and #parse() Directive</strong>
+</p>
                                                 <p>
 <code>directive.include.output.errormsg.start 
 = <![CDATA[ <!-- include error : ]]> </code><br />
@@ -1885,7 +1932,9 @@ Defines the allowable parse depth for a template. A template may #parse()
 another template which itself may have a #parse() directive.  This value 
 prevents runaway #parse() recursion.
 </p>
-                                                <strong> Resource Management </strong>
+                                                <p>
+<strong>Resource Management</strong>
+</p>
                                                 <p>
 <code>resource.manager.logwhenfound = true</code><br />
 Switch to control logging of 'found' messages from resource manager.
@@ -1955,7 +2004,6 @@ properties, showing how setting up the FileResourceLoader is managed
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 resource.loader = file
 
 file.resource.loader.description = Velocity File Resource Loader
@@ -1963,7 +2011,6 @@ file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileRes
 file.resource.loader.path = .
 file.resource.loader.cache = false
 file.resource.loader.modificationCheckInterval = 2
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1974,7 +2021,9 @@ file.resource.loader.modificationCheckInterval = 2
     </tr>
     </table>
     </div>
-                                                <strong>Velocimacro</strong>
+                                                <p>
+<strong>Velocimacro</strong>
+</p>
                                                 <p>
 <code>velocimacro.library = VM_global_library.vm </code><br />
 <i>Multi-valued key.  Will accept CSV for value.</i>
@@ -2014,7 +2063,9 @@ Controls whether reference access (set/get) within a Velocimacro will change
 the context, or be of local scope in that
 Velocimacro.
 </p>
-                                                <strong>String Interpolation</strong>
+                                                <p>
+<strong>String Interpolation</strong>
+</p>
                                                 <p>
 <code>runtime.interpolate.string.literals = true</code><br />
 Controls interpolation mechanism of VTL String Literals.  Note that a VTL 
@@ -2023,7 +2074,9 @@ in a #set() statement, a method call of a reference, a parameter to a VM,
 or as an argument to a VTL directive in general.  See the VTL reference for 
 further information.
 </p>
-                                                <strong>Runtime Configuration</strong>
+                                                <p>
+<strong>Runtime Configuration</strong>
+</p>
                                                 <p>
 <code>parser.pool.size = 20</code><br />
 This property sets the number of parsers that Velocity will
@@ -2038,7 +2091,9 @@ exceptional condition.  If you see a log message, please
 increment this property.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -2046,10 +2101,10 @@ increment this property.
           <a name="Configuring the Log System"><strong>Configuring the Log System</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="logging" />
-                                                <p>
+                                    <p>
 Velocity has a few nice logging features to allow both simplicity and 
 flexibility. Without any extra configuration, Velocity will setup a 
 file-based logger that will output all logging messages to a file 
@@ -2060,8 +2115,8 @@ sent to your logger.
 </p>
                                                 <p>
 Your options :
-
-<ul>
+</p>
+                                                <ul>
 
 <li>
 <b>Default Configuration</b><br />
@@ -2077,9 +2132,9 @@ then simply set the  configuration property
 <code>runtime.log.logsystem.class</code> with the 
 classname, and Velocity will create an instance of that class at init time.  
 You may specify the classname as you specify any other properties. See 
-the information on the <a href="developer-guide.html#general">
+the information on the <a href="developer-guide.html#Using Velocity In General Applications">
 Velocity helper class</a> as well as the  
-<a href="developer-guide.html#config">configuration keys and values.</a>
+<a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
 </li>
 
 <li>
@@ -2090,20 +2145,19 @@ existing logging system, simply by implementing the
 pass an instance of your logging class to Velocity via the 
 <code>runtime.log.logsystem</code> configuration key before calling init(), 
 and Velocity will log messages to your applications logger. See the information 
-on the <a href="developer-guide.html#general">Velocity helper class</a> 
+on the <a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a> 
 as well as the 
-<a href="developer-guide.html#config">configuration keys and values.</a>
+<a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
 </li>
 </ul>
-</p>
                                                 <p>
 Making a custom logger class if very simple.  The code below is a 
 simple sketch of how you might do this in your own application.
 </p>
-                                                <strong>Simple Example of a Custom Logger</strong>
-                                                <a name="customlogging" />
+                                                <a name="Simple Example of a Custom Logger"><strong>Simple Example of a Custom Logger</strong></a>
                                                 <p>
-Here is a simple example of how to integrate Velocity's logging system into your own application.  
+Here is a simple example of how to integrate Velocity's logging system
+into your own application.
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2115,7 +2169,6 @@ Here is a simple example of how to integrate Velocity's logging system into your
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 import org.apache.velocity.runtime.log.LogSystem;
 
 ...
@@ -2134,7 +2187,6 @@ public class MyClass implements LogSystem
             /*
              *  register this class as a logger
              */
-            
             Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
             Velocity.init();
         }
@@ -2155,8 +2207,7 @@ public class MyClass implements LogSystem
         /*  do something useful */
     }
 ...
-}
-            
+}            
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2168,7 +2219,9 @@ public class MyClass implements LogSystem
     </table>
     </div>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -2176,10 +2229,10 @@ public class MyClass implements LogSystem
           <a name="Configuring Resource Loaders"><strong>Configuring Resource Loaders</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="loaders" />
-                                                <p>
+                                    <p>
 One of the fundamental and important parts about Velocity is the resource 
 management system and the resource loaders.  They are referred to as 'resources'
 here rather than 'templates' because the resource management system will also 
@@ -2198,10 +2251,11 @@ each described below.  Note that in the example configuration properties given,
 a common name for the loader is shown 
 (ex.'file' in <code>file.resource.loader.path</code>). This 'common name'
 may not work for your configuration. Please read the section on
-<a href="developer-guide.html#config">resource configuration properties</a>
+<a href="developer-guide.html#Velocity Configuration Keys and Values">resource configuration properties</a>
  to understand how this system works.  Also, each of these loaders is
 located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
-<ul>
+</p>
+                                                <ul>
 <li>
   <b>FileResourceLoader :</b> This loader gets resources from the filesystem. It's 
   configuration properties include :
@@ -2220,7 +2274,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   'current directory'.  In the case of using Velocity with servlets, this can be a problem
   as you don't want to have to keep your templates in the directory from which you start
   your servlet engine.  Please see the section on 
-  <a href="developer-guide.html#servlets"> developing servlets with Velocity</a>
+  <a href="developer-guide.html#Using Velocity In Servlets"> developing servlets with Velocity</a>
    for more information.
 </li>
 <li>
@@ -2235,7 +2289,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   <b>ClasspathResourceLoader :</b> This loader gets resources from the classloader.  While the 
   classpath is a source of great pain and suffering in general, it is a very useful
   mechanism when working on a Servlet Spec 2.2 compliant servler runner.  
-  <a href="http://jakarta.apache.org/tomcat/">Tomcat 3.2</a>
+  <a href="http://jakarta.apache.org/tomcat/">Tomcat</a>
   is an example of such.  To use this loader effectively, all you must do is 
   jar your templates, and put that jar into the WEB-INF/lib directory of your
   webapp.  There are no configuration options to worry about, nor is the absolute vs.
@@ -2253,13 +2307,11 @@ For more information on this loader, please see the javadoc for the class
 </li>
 
 </ul>
-</p>
-                                                <strong>Configuration Examples</strong>
-                                                <a name="resourceexamples" />
+                                                <a name="Configuration Examples"><strong>Configuration Examples</strong></a>
                                                 <p>
 Configuring the resource loaders for Velocity is straightforward. 
 The properties that control the are listed in the 
-<a href="developer-guide.html#config">resource configuration</a>
+<a href="developer-guide.html#Configuring Resource Loaders">resource configuration</a>
 section, for further reference.
 </p>
                                                 <p>
@@ -2279,9 +2331,7 @@ configuration properties with a given loader.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-  resource.loader = file
-
+resource.loader = file
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2307,9 +2357,7 @@ is to declare the class to use as the loader :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-  file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
-
+file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2452,16 +2500,15 @@ having to rebuild the jar.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
+#
 # specify three resource loaders to use
-
+#
 resource.loader = file, class, jar
 
 #
 # for the loader we call 'file', set the FileResourceLoader as the
 # class to use, turn off caching, and use 3 directories for templates
 #
-
 file.resource.loader.description = Velocity File Resource Loader
 file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
 file.resource.loader.path = templatedirectory1, anotherdirectory, foo/bar
@@ -2471,7 +2518,6 @@ file.resource.loader.modificationCheckInterval = 0
 #
 #  for the loader we call 'class', use the ClasspathResourceLoader
 #
-
 class.resource.loader.description = Velocity Classpath Resource Loader
 class.resource.loader.class = org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
 
@@ -2479,11 +2525,9 @@ class.resource.loader.class = org.apache.velocity.runtime.resource.loader.Classp
 # and finally, for the loader we call 'jar', use the JarResourceLoader
 # and specify two jars to load from
 #
-
 jar.resource.loader.description = Velocity Jar  Resource Loader
 jar.resource.loader.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
 jar.resource.loader.path = jar:file:/myjarplace/myjar.jar, jar:file:/myjarplace/myjar2.jar
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2505,7 +2549,9 @@ Note that while all three require very little configuration information
 for proper operation, the ClasspathResourceLoader is the simplest.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -2513,10 +2559,10 @@ for proper operation, the ClasspathResourceLoader is the simplest.
           <a name="Template Encoding for Internationalization"><strong>Template Encoding for Internationalization</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="encoding" />
-                                                <p>
+                                    <p>
 As of version 1.1, Velocity allows you to specify the character encoding of your
 template resources on a template by template basis.  The normal resource
 API's have been extended to take the encoding as an argument :
@@ -2548,7 +2594,9 @@ Note that this applies only to the encoding of the template itself - the output
 encoding is an application specific issue.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -2556,10 +2604,10 @@ encoding is an application specific issue.
           <a name="Velocity and XML"><strong>Velocity and XML</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="velxml" />
-                                                <p>
+                                    <p>
 Velocity's flexibility and simple template language makes it an ideal environment
 for working with XML data.  <a href="anakia.html">Anakia</a> is an example of how
 Velocity is used to replace XSL for rendering output from XML.  The Velocity site, 
@@ -2591,7 +2639,6 @@ with an XML document such as :
   &lt;author email=&quot;geirm@apache.org&quot;&gt;Velocity Documentation Team&lt;/author&gt;
  &lt;/properties&gt;
 &lt;/document&gt;
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2615,23 +2662,23 @@ Now make a little Java program that includes code similar to:
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  ...
+...
 
-  SAXBuilder builder;
-  Document root = null;
+SAXBuilder builder;
+Document root = null;
 
-  try 
-  {
-     builder = new SAXBuilder(  &quot;org.apache.xerces.parsers.SAXParser&quot; );
-     root = builder.build(&quot;test.xml&quot;);
-  }
-  catch( Exception ee)
-  {}
+try 
+{
+    builder = new SAXBuilder(  &quot;org.apache.xerces.parsers.SAXParser&quot; );
+    root = builder.build(&quot;test.xml&quot;);
+}
+catch( Exception ee)
+{}
 
-  VelocityContext vc = new VelocityContext();
-  vc.put(&quot;root&quot;, root );
+VelocityContext vc = new VelocityContext();
+vc.put(&quot;root&quot;, root );
 
-  ...
+...
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2643,8 +2690,8 @@ Now make a little Java program that includes code similar to:
     </table>
     </div>
                                                 <p>
-(See the Anakia source for details on how to do this, or the Anakia example in the <code>examples</code>
-directory in the distribution.)
+(See the Anakia source for details on how to do this, or the Anakia
+example in the <code>examples</code> directory in the distribution.)
 Now, make a regular Velocity template :
 </p>
                                                     <div align="left">
@@ -2657,12 +2704,12 @@ Now, make a regular Velocity template :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;html&gt;
-    &lt;body&gt;
-      The document title is $root.getChild(&quot;document&quot;).getChild(&quot;properties&quot;).getChild(&quot;title&quot;).getText()
-    &lt;/body&gt;
-   &lt;/html&gt;
-  &lt;/html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    The document title is 
+    $root.getChild(&quot;document&quot;).getChild(&quot;properties&quot;).getChild(&quot;title&quot;).getText()
+  &lt;/body&gt;
+&lt;/html&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2675,10 +2722,9 @@ Now, make a regular Velocity template :
     </div>
                                                 <p>
 and render that template as you normally would, using the Context
-containing the JDOM tree. 
-Of course, this isn't the prettiest of examples, but it shows 
-the basics - that you can easily access XML data directly from 
-a Velocity template.
+containing the JDOM tree. Of course, this isn't the prettiest of
+examples, but it shows the basics - that you can easily access XML data
+directly from a Velocity template.
 </p>
                                                 <p>
 One real advantage of styling XML data in Velocity is that you have 
@@ -2706,7 +2752,6 @@ when you need to render an entity into the output stream :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 ## first, define the Velocimacro somewhere
 
 #macro( xenc $sometext )$tools.escapeEntities($sometext)#end
@@ -2715,7 +2760,6 @@ when you need to render an entity into the output stream :
 
 #set( $sometext = &quot; &lt; &quot; )
 &lt;text&gt;#xenc($sometext)&lt;/text&gt;
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2741,12 +2785,11 @@ context as a constructor parameter and only implements a method:
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  public String get(String key)
-  {
-     Object obj = context.get(key)
-     return (obj != null) ? Escape.getText( obj.toString() ) : &quot;&quot;;
-  }
-
+public String get(String key)
+{
+    Object obj = context.get(key)
+    return (obj != null) ? Escape.getText( obj.toString() ) : &quot;&quot;;
+}
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2782,21 +2825,18 @@ Put it into the context as "xenc". Then you can use it as :
     </table>
     </div>
                                                 <p>
-This takes advantage of Velocity's introspection process - it
-will try to call get("sometext") on the $xenc object in the
-Context - then the xenc object can then get the
-value from the Context, encode it, and return it.
+This takes advantage of Velocity's introspection process - it will try
+to call get("sometext") on the $xenc object in the Context - then the
+xenc object can then get the value from the Context, encode it, and
+return it.
 </p>
                                                 <p>
-Alternatively, since Velocity makes it easy to 
-implement custom Context objects, 
-you could implement your own context which always 
-applies the encoding to any string returned. 
-Be careful to avoid rendering the
-output of method calls directly, as they
-could return objects or strings (which might need encoding).
-Place them first into the context with a #set() 
-directive and the use that, for example :
+Alternatively, since Velocity makes it easy to implement custom Context
+objects, you could implement your own context which always applies the
+encoding to any string returned. Be careful to avoid rendering the
+output of method calls directly, as they could return objects or strings
+(which might need encoding). Place them first into the context with a
+#set() directive and the use that, for example :
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2821,14 +2861,15 @@ directive and the use that, for example :
     </table>
     </div>
                                                 <p>
-The previous suggestions for dealing with XML entities
-came from Christoph Reck, an active
-participant in the Velocity community.  We are very grateful
-for his [unknowing] contribution to this document, and hope his
-ideas weren't mangled too badly  :)
+The previous suggestions for dealing with XML entities came from
+Christoph Reck, an active participant in the Velocity community.  We are
+very grateful for his [unknowing] contribution to this document, and
+hope his ideas weren't mangled too badly  :)
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
@@ -2836,21 +2877,23 @@ ideas weren't mangled too badly  :)
           <a name="Summary"><strong>Summary</strong></a>
         </font>
       </td></tr>
+      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
-                                    <a name="summary" />
-                                                <p>
-We hope this brief guide was a helpful introduction to using Velocity 
-in your Java projects, and thank you for you interest
-in Velocity.  We welcome any and all comments
-you may have about this documentation and the Velocity template engine itself.
+                                    <p>
+We hope this brief guide was a helpful introduction to using Velocity in
+your Java projects, and thank you for you interest in Velocity.  We
+welcome any and all comments you may have about this documentation and
+the Velocity template engine itself.
 </p>
                                                 <p>
 Please submit all detailed, thoughtful and constructive feedback through our
 <a href="http://jakarta.apache.org/getinvolved/mail.html">mail lists</a>.
 </p>
                             </blockquote>
+        </p>
       </td></tr>
+      <tr><td><br/></td></tr>
     </table>
                                         </td>
                 </tr>
