@@ -93,7 +93,7 @@ page generator!
 
 *#
 
-#set $Planets = ["Earth", "Mars", "Venus"]
+#set ($Planets = ["Earth", "Mars", "Venus"])
 
 #foreach ($planet in $Planets)
 
@@ -119,7 +119,7 @@ not so useful in this case). :-)
 
 *#
 
-#set $bgcolor = "#ffffff"
+#set ($bgcolor = "#ffffff")
 
 <html>
   <head>
