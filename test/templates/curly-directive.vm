@@ -1,0 +1,34 @@
+#*
+
+Check to see if directives with curly braces around them parse properly.
+
+*#
+
+#{if} (true)
+    this is a test
+#{elseif} (true)
+    more text
+#{else}
+    this is a test
+#end
+
+## a more realistic example
+#if(true)sometext#{else}more text#{end}and yet more
+
+### others
+#{set} ($a = 3)
+
+#{macro}(mymacro)
+    hello
+#{end}
+
+#{mymacro}()
+
+#foreach ($a in [1..3])x#{end}
+
+## Check escaped directives
+
+\#if
+\#else
+\#elseif
+\#set

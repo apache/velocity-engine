@@ -800,6 +800,25 @@ ${data.Request.ServerName}
     content of the web site.
  </p>
 
+ <p>
+    Directives always begin with a <code>#</code>.  Like references, the name of the directive may be 
+    bracketed by a <code>{</code> and a <code>}</code> symbol.  This is useful with directives 
+    that are immediately followed by text.  For example the following produces an error:
+  </p>    
+
+<source><![CDATA[
+#if($a==1)true enough#elseno way!#end
+]]></source>
+
+ <p>
+    In such a case, use the brackets to separate <code>#else</code> from the rest of the line.
+ </p>
+  
+<source><![CDATA[
+#if($a==1)true enough#{else}no way!#end
+]]></source>
+    
+ <p> </p>
  <a name="Set"><strong>#set</strong></a>
  <p>
     The <em>#set</em> directive is used for setting the value of a
