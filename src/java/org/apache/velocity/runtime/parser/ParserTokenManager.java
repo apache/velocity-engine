@@ -16,7 +16,7 @@ public class ParserTokenManager implements ParserConstants
     private int rparen = 0;
 
     Stack stateStack = new Stack();
-    public boolean bDebugPrint_ = false;
+    public boolean debugPrint = false;
 
     private boolean inReference;
     public boolean inDirective;
@@ -34,11 +34,11 @@ public class ParserTokenManager implements ParserConstants
     public boolean stateStackPop()
     {
 
-        Hashtable hStack;
+        Hashtable h;
 
         try
         {
-            hStack = (Hashtable) stateStack.pop();
+            h = (Hashtable) stateStack.pop();
         }
         catch( EmptyStackException e)
         {
@@ -47,16 +47,16 @@ public class ParserTokenManager implements ParserConstants
             return false;
         }
 
-        if( bDebugPrint_ )
+        if( debugPrint )
             System.out.println(
                 " stack pop (" + stateStack.size() + ") : lparen=" +
-                    ( (Integer) hStack.get("lparen")).intValue() +
-                        " newstate=" + ( (Integer) hStack
-                            .get("lexstate")).intValue() );
+                    ( (Integer) h.get("lparen")).intValue() +
+                        " newstate=" + ( (Integer) h.get("lexstate")).intValue() );
 
-        lparen = ( (Integer) hStack.get("lparen")).intValue();
-        rparen = ( (Integer) hStack.get("rparen")).intValue();
-        SwitchTo( ( (Integer) hStack.get("lexstate")).intValue() );
+        lparen = ( (Integer) h.get("lparen")).intValue();
+        rparen = ( (Integer) h.get("rparen")).intValue();
+
+        SwitchTo( ( (Integer) h.get("lexstate")).intValue() );
 
         return true;
     }
@@ -68,17 +68,19 @@ public class ParserTokenManager implements ParserConstants
      */
     public boolean stateStackPush()
     {
-        if( bDebugPrint_ )
+        if( debugPrint )
             System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
                 curLexState );
 
-        Hashtable hStack = new Hashtable();
-        hStack.put("lexstate", new Integer( curLexState ) );
-        hStack.put("lparen", new Integer( lparen ));
-        hStack.put("rparen", new Integer( rparen ));
+        Hashtable h = new Hashtable();
+
+        h.put("lexstate", new Integer( curLexState ) );
+        h.put("lparen", new Integer( lparen ));
+        h.put("rparen", new Integer( rparen ));
+
         lparen = 0;
 
-        stateStack.push( hStack );
+        stateStack.push( h );
 
         return true;
     }
@@ -116,12 +118,12 @@ public class ParserTokenManager implements ParserConstants
          *
          */
 
-        boolean bClosed = false;
+        boolean closed = false;
 
         if (inComment)
-            bClosed = true;
+            closed = true;
 
-        while( !bClosed)
+        while( !closed )
         {
             /*
              * look at current state.  If we haven't seen a lparen 
@@ -145,7 +147,7 @@ public class ParserTokenManager implements ParserConstants
                     rparen++;
                 }
 
-                 bClosed = true;
+                 closed = true;
             }
             else
             {
@@ -3221,7 +3223,7 @@ final void SkipLexicalActions(Token matchedToken)
 
         inReference = false;
 
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.print("REF_TERM :");
 
         stateStackPop();
@@ -3231,7 +3233,7 @@ final void SkipLexicalActions(Token matchedToken)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.print("DIRECTIVE_TERM :");
 
         input_stream.backup(1);
@@ -3257,7 +3259,7 @@ final void MoreLexicalActions()
         {
             inReference = true;
 
-           if ( bDebugPrint_ )
+           if ( debugPrint )
                 System.out.print( "$  : going to " + REFERENCE );
 
             stateStackPush();
@@ -3274,7 +3276,7 @@ final void MoreLexicalActions()
         {
             inReference = true;
 
-           if ( bDebugPrint_ )
+           if ( debugPrint )
                 System.out.print( "$!  : going to " + REFERENCE );
 
             stateStackPush();
@@ -3338,7 +3340,7 @@ final void MoreLexicalActions()
 
             inDirective = true;
 
-            if ( bDebugPrint_ )
+            if ( debugPrint )
                 System.out.print("# :  going to " + DIRECTIVE );
 
             stateStackPush();
@@ -3398,7 +3400,7 @@ final void TokenLexicalActions(Token matchedToken)
         {
             inDirective = true;
 
-            if ( bDebugPrint_ )
+            if ( debugPrint )
                 System.out.print("#set :  going to " + DIRECTIVE );
 
             stateStackPush();
@@ -3452,7 +3454,7 @@ final void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.println(" NEWLINE :");
 
         stateStackPop();
@@ -3534,7 +3536,7 @@ final void TokenLexicalActions(Token matchedToken)
 
         matchedToken.image = ".";
 
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.print("DOT : switching to " + REFMODIFIER);
         SwitchTo(REFMODIFIER);
          break;

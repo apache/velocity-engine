@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.41 2000/12/10 04:50:04 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.42 2000/12/11 04:26:23 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -33,7 +33,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
      *  Name of current template we are parsing.  Passed to us in parse()
      */
 
-    String strCurrentTemplateName = "";
+    String currentTemplateName = "";
 
     /** 
      * This constructor was added to allow the re-use of parsers.
@@ -56,11 +56,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse(InputStream stream, String strTemplateName ) throws ParseException
+    public SimpleNode parse(InputStream stream, String templateName )
+        throws ParseException
     {
         SimpleNode sn = null;
 
-        strCurrentTemplateName = strTemplateName;
+        currentTemplateName = templateName;
 
         /*
          *  clearing the VM namespace for this template
@@ -69,7 +70,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
          *  that it should be done.
          */
 
-        Runtime.dumpVMNamespace( strCurrentTemplateName );
+        Runtime.dumpVMNamespace( currentTemplateName );
 
         try
         {
@@ -79,16 +80,16 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         catch (ParseException pe)
         {
-            Runtime.error ("Parser Exception: " + strTemplateName + " : " + StringUtils.stackTrace(pe));
+            Runtime.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken,
                 pe.expectedTokenSequences, pe.tokenImage);
         }
         catch (Exception e)
         {
-            Runtime.error ("Parser Error: " + strTemplateName + " : " + StringUtils.stackTrace(e));
+            Runtime.error ("Parser Error: " + templateName + " : " + StringUtils.stackTrace(e));
         }
 
-        strCurrentTemplateName = "";
+        currentTemplateName = "";
 
         return sn;
     }
@@ -142,7 +143,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         {
            bRecognizedDirective = true;
         }
-        else if (Runtime.isVelocimacro( strDirective.substring(1), strCurrentTemplateName))
+        else if (Runtime.isVelocimacro( strDirective.substring(1), currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -334,12 +335,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   jjtree.openNodeScope(jjtn000);
     try {
         Token t = null;
-        int iCount = 0;
-        boolean bControl = false;
+        int count = 0;
+        boolean control = false;
       label_2:
       while (true) {
         t = jj_consume_token(DOUBLE_ESCAPE);
-        iCount++;
+        count++;
         if (jj_2_1(2)) {
           ;
         } else {
@@ -357,7 +358,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             case ELSEIF_DIRECTIVE :
             case END :
             case STOP_DIRECTIVE :
-                bControl = true;
+                control = true;
                 break;
         }
 
@@ -366,14 +367,14 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
          */
 
         if ( isDirective( t.next.image.substring(1)))
-            bControl = true;
-        else if ( Runtime.isVelocimacro( t.next.image.substring(1), strCurrentTemplateName))
-            bControl = true;
+            control = true;
+        else if ( Runtime.isVelocimacro( t.next.image.substring(1), currentTemplateName))
+            control = true;
 
         t.image = "";
 
-        for( int i = 0; i < iCount; i++)
-            t.image += (bControl ? "\\" : "\\\\");
+        for( int i = 0; i < count; i++)
+            t.image += ( control ? "\\" : "\\\\");
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -520,16 +521,16 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);Token t = null;
     Directive d;
-    boolean bDoItNow = false;
+    boolean doItNow = false;
     try {
       /*
            * note that if we were escaped, that is now handled by 
            * EscapedDirective()
            */
           t = jj_consume_token(WORD);
-        String strDirectiveName = t.image.substring(1);
+        String directiveName = t.image.substring(1);
 
-        d = (Directive) directives.get( strDirectiveName );
+        d = (Directive) directives.get( directiveName );
 
         /*
          *  Velocimacro support : if the directive is macro directive
@@ -537,9 +538,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
          *   right then. (So available if used w/in the current template )
          */
 
-        if ( strDirectiveName.equals("macro"))
+        if ( directiveName.equals("macro"))
         {
-             bDoItNow = true;
+             doItNow = true;
         }
 
         /*
@@ -547,7 +548,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
          * about parser tokens
          */
 
-        jjtn000.setDirectiveName( strDirectiveName );
+        jjtn000.setDirectiveName( directiveName );
 
         if ( d == null)
         {
@@ -555,7 +556,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) Runtime.getVelocimacro( strDirectiveName, strCurrentTemplateName );
+            d  =  (Directive) Runtime.getVelocimacro( directiveName, currentTemplateName );
 
             if (d == null)
             {
@@ -663,10 +664,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
          *     we don't have to worry about forward references and such...
          */
 
-        if (bDoItNow)
+        if ( doItNow )
         {
             Macro m = new Macro();
-            m.processAndRegister( jjtn000, strCurrentTemplateName );
+            m.processAndRegister( jjtn000, currentTemplateName );
         }
 
         /*
@@ -2078,39 +2079,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return retval;
   }
 
-  final private boolean jj_3R_69() {
-    if (jj_scan_token(LOGICAL_NOT_EQUALS)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_58()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_68() {
-    if (jj_scan_token(LOGICAL_EQUALS)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_58()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_65() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_68()) {
-    jj_scanpos = xsp;
-    if (jj_3R_69()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_22() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   final private boolean jj_3_3() {
     if (jj_3R_19()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2716,6 +2684,39 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     if (jj_scan_token(COMMA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     if (jj_3R_35()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_69() {
+    if (jj_scan_token(LOGICAL_NOT_EQUALS)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_58()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_68() {
+    if (jj_scan_token(LOGICAL_EQUALS)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_58()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_65() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_68()) {
+    jj_scanpos = xsp;
+    if (jj_3R_69()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_22() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
