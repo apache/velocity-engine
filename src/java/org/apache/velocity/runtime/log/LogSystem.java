@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.log;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -58,44 +58,34 @@ package org.apache.velocity.runtime.log;
  * Base interface that Logging systems need to implement.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: LogSystem.java,v 1.1 2001/03/12 07:19:53 jon Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: LogSystem.java,v 1.2 2001/03/19 05:19:48 geirm Exp $
  */
 public interface LogSystem
 {
     public final static boolean DEBUG_ON = true;
 
-    /** 
-     * Prefix for warning messages.
+    /**
+     * Prefix for debug messages.
      */
-    public final static String WARN  = "  [warn] ";
-    public final static int WARN_ID = 0;
+    public final static int DEBUG_ID = 0;
 
     /** 
      * Prefix for info messages.
      */
-    public final static String INFO  = "  [info] ";
     public final static int INFO_ID = 1;
     
     /** 
-     * Prefix for debug messages.
+     * Prefix for warning messages.
      */
-    public final static String DEBUG = " [debug] ";
-    public final static int DEBUG_ID = 2;
-    
+    public final static int WARN_ID = 2;
+
     /** 
      * Prefix for error messages.
      */
-    public final static String ERROR = " [error] ";
     public final static int ERROR_ID = 3;
-
-    public void init(String logFile) throws Exception;
-    
-    public void info (Object messsage);
-    public void error (Object messsage);
-    public void debug (Object messsage);
-    public void warn (Object messsage);
-    public void log (int type, Object messsage);
-    
-    public boolean getStackTrace();
-    public void setStackTrace(boolean value);
+   
+    public void logVelocityMessage(  int level, String messsage);
+   
 }
+
