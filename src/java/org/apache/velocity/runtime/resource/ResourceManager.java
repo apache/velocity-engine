@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.4 2000/12/19 21:46:50 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.5 2000/12/19 23:57:20 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -102,8 +102,8 @@ public class ResourceManager
      * that clients of velocity can set properties of
      * a template source stream with its public name.
      * So for example, a client could set the 
-     * File.template.path property and this would
-     * change the template.path property for the
+     * File.resource.path property and this would
+     * change the resource.path property for the
      * file template stream source.
      */
     private static Hashtable sourceInitializerMap = new Hashtable();
@@ -168,8 +168,8 @@ public class ResourceManager
                  * Make a Map of the public names for the sources
                  * to the sources property identifier so that external
                  * clients can set source properties. For example:
-                 * File.template.path would get translated into
-                 * template.loader.1.template.path and the translated
+                 * File.resource.path would get translated into
+                 * template.loader.1.resource.path and the translated
                  * name would be used to set the property.
                  */
                 if (property.equalsIgnoreCase("public.name"))

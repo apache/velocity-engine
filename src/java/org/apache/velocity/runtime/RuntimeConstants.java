@@ -110,8 +110,20 @@ public interface RuntimeConstants
     /** Include paths property used by Runtime for #included content */
     public final static String INCLUDE_PATHS = "include.path";
 
-    public static final String FILE_TEMPLATE_PATH = "file.resource.path";
-    public static final String FILE_TEMPLATE_CACHE = "file.cache";
+    //public static final String FILE_TEMPLATE_PATH = "file.resource.path";
+    //public static final String FILE_TEMPLATE_CACHE = "file.cache";
+
+    /**
+     * The public handle for setting the base path of the standard
+     * FileResourceLoader.
+     */
+    public static final String FILE_RESOURCE_LOADER_PATH = "file.resource.path";
+    
+    /**
+     * The public handle for turning the caching on in the
+     * FileResourceLoader.
+     */
+    public static final String FILE_RESOURCE_LOADER_CACHING = "file.cache";
 
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
         "runtime.log.reference.log_invalid";

@@ -72,7 +72,7 @@ import junit.framework.*;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.11 2000/12/19 16:12:43 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.12 2000/12/19 23:57:20 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -85,7 +85,7 @@ public class VelocityTestSuite extends TestSuite
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    private final static String FILE_TEMPLATE_PATH = "../test/templates";
+    private final static String FILE_RESOURCE_LOADER_PATH = "../test/templates";
 
     private Properties testProperties;
 
@@ -99,7 +99,8 @@ public class VelocityTestSuite extends TestSuite
         try
         {
             Runtime.setDefaultProperties();
-            Runtime.setSourceProperty(Runtime.FILE_TEMPLATE_PATH, FILE_TEMPLATE_PATH);
+            Runtime.setSourceProperty(
+                Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
             Runtime.init();
             
             testProperties = new Properties();
