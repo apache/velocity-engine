@@ -145,7 +145,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.35 2000/11/07 23:09:45 jon Exp $
+ * @version $Id: Runtime.java,v 1.36 2000/11/08 02:59:15 jon Exp $
  */
 public class Runtime
 {
@@ -241,6 +241,7 @@ public class Runtime
             InputStream inputStream = classLoader.getResourceAsStream(
                 DEFAULT_RUNTIME_PROPERTIES);
             VelocityResources.setPropertiesInputStream( inputStream );
+            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getAbsolutePath());
         }
         catch (IOException ioe)
         {
@@ -265,6 +266,7 @@ public class Runtime
         try
         {
             VelocityResources.setPropertiesFileName( propertiesFileName );
+            info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
         }
         catch(Exception ex) 
         {
