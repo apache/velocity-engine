@@ -73,7 +73,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.14 2000/12/20 06:37:52 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.15 2001/03/05 02:23:02 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -122,11 +122,7 @@ public class VelocityTestSuite extends TestSuite
          *  test 1 : template test cases
          */
 
-        List templateTestCases = getTemplateTestCases();
-        for (Iterator iter = templateTestCases.iterator(); iter.hasNext(); )
-        {
-            addTest(new TemplateTestCase((String)iter.next()));
-        }
+        addTemplateTestCases();
 
         /*
          *  test 2 : context safety test case
@@ -134,33 +130,44 @@ public class VelocityTestSuite extends TestSuite
 
         System.out.println("Adding ContextSafetyTestCase.");
         addTest( new ContextSafetyTestCase() );
-
     }
 
     /**
-     * Returns a list of the template test cases to run.
+     * Adds the template test cases to run to this test suite.  Template test
+     * cases are listed in the <code>TEST_CASE_PROPERTIES</code> file.
      *
      * @return A <code>List</code> of <code>String</code> objects naming the 
      *         test cases.
      */
-    private List getTemplateTestCases ()
+    private void addTemplateTestCases ()
     {
         String template;
-        List testCases = new ArrayList();
-        
         for (int i = 1 ;; i++)
         {
-            template = testProperties.getProperty(
-                "test.template." + Integer.toString(i));
-            
-            if (template == null)
+            template = testProperties.getProperty(getTemplateTestKey(i));
+
+            if (template != null)
+            {
+                System.out.println("Adding TemplateTestCase : " + template);
+                addTest(new TemplateTestCase(template));
+            }
+            else
+            {
+                // Assume we're done adding template test cases.
                 break;
-            
-            System.out.println("Adding TemplateTestCase : " + template);
-            
-            testCases.add(template);
-        }            
-        
-        return testCases;
+            }
+        }
+    }
+
+    /**
+     * Macro which returns the properties file key for the specified template
+     * test number.
+     *
+     * @param nbr The template test number to return a property key for.
+     * @return    The property key.
+     */
+    private static final String getTemplateTestKey (int nbr)
+    {
+        return ("test.template." + nbr);
     }
 }
