@@ -38,250 +38,113 @@ have an identical format. -JC
 
 <s1 title="References">
 
-<p>
-    There are three types of references in the VTL: variables, properties
-    and methods. As a designer using the VTL, you and your engineers must 
-    come to an agreement on the specific names of references so
-    you can use them correctly in your templates.
-</p>
+<p/>
 
-<p>
-    <strong>Variables</strong>
-    <br/>
-    The shorthand notation of a variable consists of a leading <vtl>$</vtl> character
-    followed by a VTL <em>Identifier</em>. A VTL Identifier must
-    start with an alphabetic character (a .. z or A .. Z); the rest of the
-    characters are limited to the following types of characters: alphabetic,
-    numeric (0 .. 9), hyphen ("-"), and underscore ("_").
-    Here are examples of valid variable references in the VTL:   
-</p>
+    <ul>
 
-<p>
-    <source><![CDATA[
-    $mudSlinger
-    $mud-slinger
-    $mud_slinger
-    $mudSlinger1
-    ]]></source>
-</p>
+    <li>Variables</li>
+    <p/>
+    Notation:
+    <p/>
+    <strong>$</strong> [ <strong>!</strong> ][ <strong>{</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>, <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ][ <strong>}</strong> ]
+    <p/>
+    Examples:<br/>
+    Normal notation: <variable>$mud-Slinger_9</variable><br/>
+    Silent notation: <variable>$!mud-Slinger_9</variable><br/>
+    Formal notation: <variable>${mud-Slinger_9}</variable><br/>
+    <p/>
 
-<p>
-    <strong>Properties</strong>
-    <br/>
-    Properties are references that consist of a leading <vtl>$</vtl>
-    character followed a VTL Identifier, followed by
-    a dot character (".") and another VTL Identifier. 
-    These are examples of valid property references in the VTL:
-</p>
+    <li>Properties</li>
+    <p/>
+    Notation:
+    <p/>
+    <strong>$</strong> [ <strong>{</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>, <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]*<strong>.</strong>[<strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A-Z</strong>, <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]* [ <strong>}</strong> ]
+    <p/>
+    Examples:
+    <p/>
+    Regular Notation: $customer.Address<br/>
+    Formal Notation: ${purchase.Total}<br/>
+    <p/>    
 
-<p>
-    <source><![CDATA[
-    $customer.Address
-    $purchase.Total
-    ]]></source>
-</p>
+    <li>Methods</li>
+    <p/>
+    Notation:
+    <p/>
+    <strong>$</strong> [ <strong>{</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>, <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]*<strong>.</strong>[ <strong>a..z</strong>, <strong>A..Z</strong> ][ <strong>a..z</strong>, <strong>A..Z</strong>, <strong>0..9</strong>, <strong>-</strong>, <strong>_</strong> ]*<strong>(</strong> [ <i>opional parameter list...</i> ] <strong>)</strong> [<strong> } </strong>]<br/>
+    Examples:<br/>
+    Regular Notation: $customer.getAddress()<br/>
+    Formal Notation: ${purchase.getTotal()}<br/>
+    Regular Notation with Parameter List: $page.setTitle( "My Home Page" )<br/>
+    <p/>
+    VTL Properties can be used as a shorthand notation for VTL Methods that take <vtl>get</vtl> and <vtl>set</vtl>. Either <vtl>$object.getMethod()</vtl> or <vtl>$object.setMethod()</vtl> can be abbreviated as <vtl>$object.Method</vtl>. It is generally preferable to use a Property when available. The main difference between Properties and Methods is that you can specify a parameter list to a Method.
+    <p/>
 
-<p>
-    <strong>Methods</strong>
-    <br/>
-    Methods are references that consist of a leading <vtl>$</vtl>
-    character followed a VTL Identifier, followed
-    by a VTL <em>Method Body</em>. A VTL Method Body
-    consists of a VTL Identifier followed by a
-    left parenthesis character ("("), followed by an optional parameter
-    list, followed by right parenthesis character (")").
-    Examples of valid method references in the
-    VTL are shown below:
-</p>
-
-<p>
-    <source><![CDATA[
-    $customer.getAddress()
-    $purchase.getTotal()
-    $page.setTitle( "My Home Page" )
-    $person.setAttributes( "Strange","Weird","Excited" )
-    ]]></source>
-</p>
-
-<p>
-    VTL Properties can be used as a shorthand notation 
-    for VTL Methods that take <vtl>get</vtl> and <vtl>set</vtl>.
-    <vtl>$object.getMethod()</vtl> or <vtl>$object.setMethod()</vtl>
-    can be abbreviated as <vtl>$object.Method</vtl>.
-</p>
-
-<p>
-    It is generally preferable to use a Property when available. The 
-    main difference between Properties and Methods is that you can 
-    specify a parameter list to a Method.
-</p>
-
-<p>
-    <strong>Formal Reference Notation</strong>
-    <br/>
-    In the examples listed above the shorthand notation for
-    references was used, but there is a formal notation that
-    looks like the following:
-</p>
-
-<p>
-    <source><![CDATA[
-    ${mudSlinger}
-    ${customer.Address}
-    ${purchase.getTotal()}
-    ]]></source>
-</p>
-
-<p>
-    Shorthand notation is usually used for references, but formal
-    reference notation is required for correct processing when 
-    the identifier would otherwise be adjacent to text. In the
-    following example, Velocity would determine the reference
-    to be <vtl>$vicemaniac</vtl> were shorthand reference notation
-    used.
-</p>
-
-<p>
-    <source><![CDATA[
-    Jack is a ${vice}maniac.
-    ]]></source>
-</p>
-
-
-<p>
-    <strong>Quiet Reference Notation</strong>
-    <br/>
-    When Velocity encounters an undefined reference,
-    it outputs the image of the reference. For example, if
-    <vtl>$reference</vtl> is undefined, the output will be
-    <vtl>$reference</vtl>. Quiet reference notation can be 
-    used to suppress this output, and is denoted with a 
-    <vtl>!</vtl> after the <vtl>$</vtl> character; for
-    example, the quiet notation for <vtl>$reference</vtl>
-    is <vtl>$!reference</vtl> if shorthand notation is used,
-    and <vtl>$!{reference}</vtl> if formal notation is used.
-</p>
+    </ul>
 
 </s1>
 
 <s1 title="Directives">
-<p>        
-    <strong>#set</strong>
-    <br/>
-    The <vtl>#set</vtl> directive is used to set the value of 
-    a reference. 
-</p>
 
-<p>
-    <source><![CDATA[
-    #set( $ref = arg )
-    ]]></source>
-</p>
-
-<p>
-    <vtl>$ref</vtl> - The LHS of the assignment must be
-    a variable reference or a property reference. 
-</p>
-
-<p>
-    <vtl>arg</vtl> - The RHS is limited to the following
-    types:
+    <p/>
     <ul>
-        <li>Variable reference</li>
-        <li>String literal</li>
-        <li>Property reference</li>
-        <li>Method reference</li>
-        <li>Number literal</li>
-        <li>Object array</li>
-    </ul>        
-</p>
-
-<p>
-    Here are examples demonstrating the 
-    aforementioned types:
-</p>
-
-<p>
-    <source><![CDATA[
-    #set( $monkey = $bill )
-    #set( $monkey.Friend = "monica" )
-    #set( $monkey.Blame = $whitehouse.Leak )
-    #set( $monkey.Plan = $spindoctor.weave($web) )
-    #set( $monkey.Number = 123 )
-    #set( $monkey.Say = ["Not", $my, "fault"] )
-    ]]></source>
-</p>
-
-<p>
-    The RHS can also be a simple arithmetic expression:
-</p>    
-
-<p>
-    <source><![CDATA[
-    #set( $value = $foo + 1 )
-    #set( $value = $bar - 1 )
-    #set( $value = $foo * $bar )
-    #set( $value = $foo / $bar )
-    ]]></source>
-</p>
-
-
-<p>        
-    <strong>#foreach</strong>
+    <li><strong>#set</strong> - Establishes the value of a reference.</li>
+    <p/>
+    Format:
+    <p/>
+    <strong>#set( $</strong>ref <strong>=</strong> [ <strong>"</strong>, <strong>'</strong> ]arg[ <strong>"</strong>, <strong>'</strong> ] )
+    <p/>
+    Usage:
     <br/>
-    The <vtl>#foreach</vtl> directive provides a simple way 
-    of looping through a list of objects.
-</p>
+    <vtl>$ref</vtl> - The LHS of the assignment must be a variable reference or a property reference.<br/>
+    <vtl>arg</vtl> - The RHS of the assignment, <vtl>arg</vtl> is parsed if enclosed in double quotes, and not parsed if enclosed in single quotes. Examples of possible types are demonstrated:
+    <br/>
+    <ul>
+        <li>Variable reference: #set( $monkey = "bill" )</li>
+        <li>String literal: #set( $monkey.Friend = "monica" )</li>
+        <li>Property reference: #set( $monkey.Blame = $whitehouse.Leak )</li>
+        <li>Method reference: #set( $monkey.Plan = $spindoctor.weave($web) )</li>
+        <li>Number literal: #set( $monkey.Number = 123 )</li>
+        <li>Object array: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
+    </ul>
+    The RHS can also be a simple arithmetic expression, such as:<br/>
+        <ul>
+	    <li>Addition: #set( $value = $foo + 1 )</li>
+	    <li>Subtraction: #set( $value = $bar - 1 )</li>
+	    <li>Multiplication: #set( $value = $foo * $bar )</li>
+	    <li>Division: #set( $value = $foo / $bar )</li>
+	    <li>Remainder: #set( $value = $foo % $bar )</li>
+	    </ul>
+    <p/>
 
-<p>
-    <source><![CDATA[
-    <table>
-    #foreach( $customer in $customerList )
-        <tr>
-          <td>
-            $customer.Name
-          </td>
-        </tr>
-    #end        
+
+    <li><strong>#foreach</strong> - Loops through a list of objects.</li>
+    <p/>
+    Format:
+    <p/>
+    <strong>#foreach( $</strong>ref1 <strong>in $</strong>ref2 <strong>)</strong> [ statement... ] <strong>#end</strong> 
+    <p/>
+    Usage:
+    <br/>
+    <vtl>$ref1</vtl> - The first variable reference is the item.<br/>
+    <vtl>$ref2</vtl> - The second variable reference is the list that holds the items.<br/>
+    <vtl>statement</vtl> - What is done each time Velocity finds a valid item ($ref1) in the list ($ref2).<br/>
+    Velocity provides an easy way to get the loop counter so that you can do something like the following:<br/>   
+
+    <source><![CDATA[ 
+    <table> 
+    #foreach( $customer in $customerList ) 
+    <tr><td> $velocityCounter </td><td> $customer.Name </td></tr> 
+    #end </table> 
     ]]></source>
-</p>
+    <br/>
 
-<p>
-    Velocity provides an easy way to get the loop
-    counter so that you can do something like the
-    following:
-</p>
-    
-<p>    
-    <source><![CDATA[
-    <table>
-    #foreach( $customer in $customerList )
-        <tr>
-          <td>
-            $velocityCounter
-          </td>
-          <td>
-            $customer.Name
-          </td>
-        </tr>
-    #end        
-    ]]></source>
-</p>
-
-<p>
-    The default name for the loop counter variable
-    reference, which is specified in the velocity.properties
-    file, is $velocityCount. By default the counter starts
-    at 1, but this can be set to either 0 or 1 in the 
-    velocity.properties file. Here's what the loop counter 
-    properties section of the velocity.properties file appears:
-</p>    
+    The default name for the loop counter variable reference, which is specified in the velocity.properties file, is $velocityCount. By default the counter starts at 1, but this can be set to either 0 or 1 in the <filename>velocity.properties</filename> file. Here's what the loop counter properties section of the <filename>velocity.properties</filename> file appears:    
 
 <p>    
     <source><![CDATA[
     # Default name of the loop counter
     # variable refernce.
-y    counter.name = velocityCount
+      counter.name = velocityCount
     
     # Default starting value of the loop
     # counter variable reference.
@@ -289,26 +152,18 @@ y    counter.name = velocityCount
     ]]></source>
 </p>
 
- <strong>#parse</strong>
-    <p>
-    The <vtldirective>#parse</vtldirective> script element allows the template designer to import a 
-    local file that contains VTL. Velocity will parse the VTL and render the template specified.
-    </p>
+    <li><strong>#parse</strong> - Imports a local template that is parsed and rendered by Velocity.</li>
+    <p/>
 
-    <p>
-    <source><![CDATA[
-    #parse( "me.vm" )
-    ]]></source>
-    </p>
-
-    <p>
+    Format:
+    <p/>
+    <strong>#parse( "</strong>template.vm<strong>" )</strong>
+    <p/>
     Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
     can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
     refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
     <vtldirective>#parse</vtldirective> will only take a single argument. 
-    </p>
-
-    <p>
+    <p/>
     VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn 
     have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> 
     line of the <filename>velocity.properties</filename> allows users to customize maximum number of 
@@ -316,7 +171,6 @@ y    counter.name = velocityCount
     template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
     <filename>velocity.properties</filename> file, Velocity will set this default to 10.)  
     Recursion is permitted, for example, if the template <filename>dofoo.vm</filename> contains the following lines:
-    </p>
 
     <p>
     <source><![CDATA[
@@ -350,35 +204,16 @@ y    counter.name = velocityCount
     </p>
 
 
- <strong>#macro</strong>
-
-   <p>
-   A Velocimacro is defined with the <vtl>#macro</vtl> 
-   directive.
-   </p>
-
-   <p>
-   <source><![CDATA[
-   #macro( vmname $arg1 $arg2 )
-   <VM VTL code>
-   #end
-   ]]></source>
-   </p>
-
-   <p>
-   <vtl>vmname</vtl> - The name that will be used to call the VM (<vtl>#vmname</vtl>)
-   </p>
-
-   <p>
-   <vtl>$arg1 $arg2</vtl> - Arguments to the VM. A VM can have any number of argumentss,
-   but the number used at invocation must match the number specified in the
-   definition.
-   </p>
-
-   <p>
-   <vtl>&lt;VM VTL code&gt;</vtl> - Any valid VTL code, anything you can put into a
-   template, can be put into a VM.
-   </p>
+    <li><strong>#macro</strong> - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required.</li>
+    <p/>
+    Format:
+    <p/>   
+    <strong>#macro(</strong> vmname $arg1 [ $arg2, $arg3, ... $argn ] <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
+    <p/>
+    <vtl>vmname</vtl> - The name that will be used to call the VM (<vtl>#vmname</vtl>)<br/>
+    <vtl>$arg1 $arg2 [ ... ]</vtl> - Arguments to the VM. A VM can have any number of argumentss, but the number used at invocation must match the number specified in the definition.<br/>
+    <vtl>[ VM VTL code... ]</vtl> - Any valid VTL code, anything you can put into a template, can be put into a VM.<br/>
+    <p/>
 
    <p>
    Once defined, the VM is used like any other VTL directive in your template.
@@ -400,6 +235,8 @@ y    counter.name = velocityCount
    these can only be used when the <vtl>velocimacro.permissions.allowInline=true</vtl>
    in the <filename>velocity.properties</filename> file.
    </p>
+
+</ul>
 
 </s1>
 
