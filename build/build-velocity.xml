@@ -198,7 +198,7 @@
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
 
-    <delete dir="${build.dest}/meta-inf"/>
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-${version}.jar">
 
@@ -220,7 +220,7 @@
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
 
-    <delete dir="${build.dest}/meta-inf"/>
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-j2ee-${version}.jar"
       basedir="${build.dest}"
@@ -236,7 +236,7 @@
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
 
-    <delete dir="${build.dest}/meta-inf"/>
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar compress="true" jarfile="${build.dir}/${project}-core-${version}.jar">
       <fileset dir="${build.dest}">
@@ -260,7 +260,7 @@
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
 
-    <delete dir="${build.dest}/meta-inf"/>
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-util-${version}.jar">
       <fileset dir="${build.dest}">
@@ -281,7 +281,7 @@
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
 
-    <delete dir="${build.dest}/meta-inf"/>
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-servlet-${version}.jar">
       <fileset dir="${build.dest}">
@@ -340,13 +340,13 @@
   </target>
 
   <target name="examples-clean-all" depends="examples-clean-anakia">
-    <delete>
+    <delete quiet="true">
       <fileset dir="${example.dir}" includes="**/*.class"/>
     </delete>
   </target>
 
   <target name="examples-clean-anakia">
-    <delete dir="${example.dir}/anakia/docs"/>
+    <delete dir="${example.dir}/anakia/docs" quiet="true"/>
   </target>
 
   <!-- =================================================================== -->
@@ -374,7 +374,7 @@
   </target>
 
   <target name="javadocs-clean">
-    <delete dir="${javadoc.destdir}"/>
+    <delete dir="${javadoc.destdir}" quiet="true"/>
   </target>
     
   <!-- =================================================================== -->
@@ -498,7 +498,7 @@
   <!-- Cleans up the build directory                                       -->
   <!-- =================================================================== -->
   <target name="clean">
-      <delete dir="${build.dir}"/>
+      <delete dir="${build.dir}" quiet="true"/>
   </target>
   
   <!-- =================================================================== -->
@@ -676,8 +676,8 @@
   <!-- Delete the demo files for re-build -->
   <target name="cleandemo">
     
-    <delete dir="${demo.dest}/org"/>
-    <delete file="${build.dir}/forumdemo.war"/>
+    <delete dir="${demo.dest}/org" quiet="true"/>
+    <delete file="${build.dir}/forumdemo.war" quiet="true"/>
     
   </target>
     
