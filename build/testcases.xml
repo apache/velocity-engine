@@ -65,6 +65,7 @@
                                    test-multiloader,
                                    test-encoding,
                                    test-eventhandling,
+                                   test-velocimacro,
                                    test-anakia,
                                    test-texen
                                    "/>
@@ -276,6 +277,16 @@
       <classpath>
         <path refid="classpath"/>
         <pathelement location="../test/multiloader/test1.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+ <target name="test-velocimacro">
+    <echo message="Running Velocimacro tests..."/>
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.VelocimacroTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
       </classpath>
     </java>
   </target>
