@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,9 +61,14 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.VelMethod;
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.VelPropertyGet;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.app.event.EventCartridge;
+
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -80,11 +85,13 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.16 2001/11/19 13:53:08 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.17 2002/04/21 20:57:03 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
     private String identifier = "";
+
+    protected Info uberInfo;
 
     public ASTIdentifier(int id)
     {
@@ -106,55 +113,17 @@ public class ASTIdentifier extends SimpleNode
      *  simple init - don't do anything that is context specific.
      *  just get what we need from the AST, which is static.
      */
-    public  Object init( InternalContextAdapter context, Object data)
+    public  Object init(InternalContextAdapter context, Object data)
         throws Exception
     {
         super.init( context, data );
 
         identifier = getFirstToken().image;
- 
+
+        uberInfo = new Info(context.getCurrentTemplateName(),
+                getLine(), getColumn());
+
         return data;
-    }
-
-    /**
-     *  introspects the class to find the method name of the node,
-     *  or if that fails, treats the reference object as a map
-     *  and treats the identifier as a key in that map.
-     *  This needs work.
-     *
-     *  @param data Class to be introspected
-     */
-    private  AbstractExecutor doIntrospection( Class data )
-        throws Exception
-    {
-        AbstractExecutor executor;
-
-        /*
-         *  first try for a getFoo() type of property
-         *  (also getfoo() )
-         */
-
-        executor = new PropertyExecutor(rsvc, data, identifier);
-
-        /*
-         *  if that didn't work, look for get("foo")
-         */
-
-        if (executor.isAlive() == false)
-        {
-            executor = new GetExecutor( rsvc, data, identifier);
-        }
-        
-        /*
-         *  finally, look for boolean isFoo() 
-         */
-
-        if( executor.isAlive() == false)
-        {
-            executor = new BooleanPropertyExecutor( rsvc, data, identifier );
-        }
-
-        return executor;
     }
 
     /**
@@ -163,7 +132,8 @@ public class ASTIdentifier extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
-        AbstractExecutor executor = null;
+
+        VelPropertyGet vg = null;
 
         try
         {
@@ -182,9 +152,9 @@ public class ASTIdentifier extends SimpleNode
              * that is fixed in the template :)
              */
 
-            if ( icd != null && icd.contextData == c )
+            if (icd != null && icd.contextData == c)
             {
-                 executor = ( AbstractExecutor ) icd.thingy;
+                vg = (VelPropertyGet) icd.thingy;
             }
             else
             {
@@ -192,14 +162,14 @@ public class ASTIdentifier extends SimpleNode
                  *  otherwise, do the introspection, and cache it
                  */
 
-                executor = doIntrospection(  c );
-                
-                if (executor != null)
-                {    
+                vg = rsvc.getUberspect().getPropertyGet(o,identifier, uberInfo);
+
+                if (vg != null)
+                {
                     icd = new IntrospectionCacheData();
                     icd.contextData = c;
-                    icd.thingy = executor;
-                    context.icachePut( this, icd );
+                    icd.thingy = vg;
+                    context.icachePut(this,icd);
                 }
             }
         }
@@ -210,11 +180,12 @@ public class ASTIdentifier extends SimpleNode
         }
 
         /*
-         *  we have no executor... punt...
+         *  we have no getter... punt...
          */
-        if (executor == null)
+
+        if (vg == null)
         {
-           return null;
+            return null;
         }
 
         /*
@@ -223,11 +194,56 @@ public class ASTIdentifier extends SimpleNode
          */
         try
         {
-            return executor.execute(o, context);
+            return vg.invoke(o);
         }
-        catch( MethodInvocationException mie )
+        catch(InvocationTargetException ite)
         {
-            throw mie;
+            EventCartridge ec = context.getEventCartridge();
+
+            /*
+             *  if we have an event cartridge, see if it wants to veto
+             *  also, let non-Exception Throwables go...
+             */
+
+            if (ec != null
+                    && ite.getTargetException() instanceof java.lang.Exception)
+            {
+                try
+                {
+                    return ec.methodException(o.getClass(), vg.getMethodName(),
+                            (Exception)ite.getTargetException());
+                }
+                catch(Exception e)
+                {
+                    throw new MethodInvocationException(
+                      "Invocation of method '" + vg.getMethodName() + "'"
+                      + " in  " + o.getClass()
+                      + " threw exception "
+                      + ite.getTargetException().getClass() + " : "
+                      + ite.getTargetException().getMessage(),
+                      ite.getTargetException(), vg.getMethodName());
+                }
+            }
+            else
+            {
+                /*
+                 * no event cartridge to override. Just throw
+                 */
+
+                throw  new MethodInvocationException(
+                "Invocation of method '" + vg.getMethodName() + "'"
+                + " in  " + o.getClass()
+                + " threw exception "
+                + ite.getTargetException().getClass() + " : "
+                + ite.getTargetException().getMessage(),
+                ite.getTargetException(), vg.getMethodName());
+
+
+            }
+        }
+        catch( IllegalArgumentException iae )
+        {
+            return null;
         }
         catch( Exception e )
         {

@@ -63,6 +63,8 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.util.introspection.VelMethod;
+import org.apache.velocity.util.introspection.Info;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import java.lang.reflect.InvocationTargetException;
@@ -84,7 +86,7 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.21 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTMethod.java,v 1.22 2002/04/21 20:57:04 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -129,28 +131,6 @@ public class ASTMethod extends SimpleNode
     }
 
     /**
-     *   does the instrospection of the class for the method needed.
-     *   Note, as this calls value() on the args if any, this must
-     *   only be called at execute() / render() time
-     */
-    private Method doIntrospection( InternalContextAdapter context, Class data)
-        throws MethodInvocationException, Exception
-    {      
-        /*
-         *  Now the parameters have to be processed, there
-         *  may be references contained within that need
-         *  to be introspected.
-         */
-        
-        for (int j = 0; j < paramCount; j++)
-            params[j] = jjtGetChild(j + 1).value(context);
- 
-        Method m = rsvc.getIntrospector().getMethod( data, methodName, params);
-
-        return m;
-    }
-    
-    /**
      *  invokes the method.  Returns null if a problem, the
      *  actual return if the method returns something, or 
      *  an empty string "" if the method returns void
@@ -165,7 +145,7 @@ public class ASTMethod extends SimpleNode
          *  but if we are careful, we can do it in the context.
          */
 
-        Method method = null;
+        VelMethod method = null;
 
         try 
         {
@@ -196,7 +176,7 @@ public class ASTMethod extends SimpleNode
                  * and get the method from the cache
                  */
 
-                method = (Method) icd.thingy;
+                method = (VelMethod) icd.thingy;
             }
             else
             {
@@ -205,8 +185,12 @@ public class ASTMethod extends SimpleNode
                  *  cache it
                  */
 
-                method = doIntrospection( context, c );
-                
+                for (int j = 0; j < paramCount; j++)
+                    params[j] = jjtGetChild(j + 1).value(context);
+
+                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info("",1,1));
+
+
                 if (method != null)
                 {    
                     icd = new IntrospectionCacheData();
