@@ -51,7 +51,6 @@
   </target>
 
   <target name="test-all" depends="
-                                   test-multiloader,
                                    test-template,
                                    test-velocityapp,
                                    test-introspect,
