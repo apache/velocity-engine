@@ -53,13 +53,11 @@
  */
 
 
-import org.apache.velocity.io.FastWriter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
-import java.io.FileWriter;
-import java.io.FileOutputStream;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -68,7 +66,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.2 2000/11/02 15:28:33 geirm Exp $
+ * @version $Id: Example.java,v 1.3 2000/11/06 22:19:47 jon Exp $
  */
 
 public class Example
@@ -83,13 +81,6 @@ public class Example
 
             Runtime.init("velocity.properties");
             
-            FastWriter fw = new FastWriter(
-                 System.out, Runtime.getString(
-                     Runtime.TEMPLATE_ENCODING));
-
-             fw.setAsciiHack(Runtime.getBoolean(
-                 Runtime.TEMPLATE_ASCIIHACK));
-
             /*
              *  Make a context object and populate with the data.  This 
              *  is where the Velocity engine gets the data to resolve the
@@ -112,14 +103,16 @@ public class Example
              *  of the template and the data to produce the output stream.
              */
 
-            template.merge(context, fw);
+            BufferedWriter writer = writer = new BufferedWriter(
+                new OutputStreamWriter(System.out));
+            template.merge(context, writer);
 
             /*
              *  flush and cleanup
              */
 
-            fw.flush();
-            fw.close();
+            writer.flush();
+            writer.close();
         }
         catch( Exception e )
         {
