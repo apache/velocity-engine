@@ -1,3 +1,4 @@
+
 package org.apache.velocity.runtime.parser.node;
 
 /*
@@ -68,8 +69,6 @@ import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
 import org.apache.velocity.util.introspection.Introspector;
-import org.apache.velocity.util.introspection.VelSetter;
-import org.apache.velocity.util.introspection.Info;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
@@ -79,7 +78,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 /**
  * This class is responsible for handling the references in
  * VTL ($foo).
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
@@ -87,7 +86,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.44 2002/03/27 15:51:33 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.45 2002/03/27 15:55:40 geirm Exp $
 */
 public class ASTReference extends SimpleNode
 {
@@ -96,7 +95,7 @@ public class ASTReference extends SimpleNode
     private static final int FORMAL_REFERENCE = 2;
     private static final int QUIET_REFERENCE = 3;
     private static final int RUNT = 4;
-    
+
     private int referenceType;
     private String nullString;
     private String rootString;
@@ -105,7 +104,7 @@ public class ASTReference extends SimpleNode
     private String escPrefix = "";
     private String morePrefix = "";
     private String identifier = "";
-    
+
     private String literal = null;
 
     private int numChildren = 0;
@@ -126,7 +125,7 @@ public class ASTReference extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public Object init( InternalContextAdapter context, Object data) 
+    public Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         /*
@@ -144,7 +143,7 @@ public class ASTReference extends SimpleNode
         rootString = getRoot();
 
         numChildren = jjtGetNumChildren();
-        
+
         /*
          * and if appropriate...
          */
@@ -155,8 +154,8 @@ public class ASTReference extends SimpleNode
         }
 
         return data;
-    }        
-    
+    }
+
     /**
      *  Returns the 'root string', the reference key
      */
@@ -164,7 +163,7 @@ public class ASTReference extends SimpleNode
      {
         return rootString;
      }
-     
+
     /**
      *   gets an Object that 'is' the value of the reference
      *
@@ -173,7 +172,7 @@ public class ASTReference extends SimpleNode
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
-    {   
+    {
 
         if ( referenceType == RUNT )
             return null;
@@ -183,11 +182,11 @@ public class ASTReference extends SimpleNode
          */
 
         Object result = getVariableValue(context, rootString);
-       
+
         if (result == null)
         {
             return null;
-        }            
+        }
 
         /*
          * Iteratively work 'down' (it's flat...) the reference
@@ -201,19 +200,19 @@ public class ASTReference extends SimpleNode
          * when we find a null value and return the null
          * so the error gets logged.
          */
-        
-        try 
+
+        try
         {
             for (int i = 0; i < numChildren; i++)
             {
                 result = jjtGetChild(i).execute(result,context);
-            
+
                 if (result == null)
                 {
                     return null;
-                }         
+                }
             }
-            
+
             return result;
         }
         catch( MethodInvocationException mie)
@@ -222,8 +221,8 @@ public class ASTReference extends SimpleNode
              *  someone tossed their cookies
              */
 
-            rsvc.error("Method " + mie.getMethodName() + " threw exception for reference $" 
-                          + rootString 
+            rsvc.error("Method " + mie.getMethodName() + " threw exception for reference $"
+                          + rootString
                           + " in template " + context.getCurrentTemplateName()
                           + " at " +  " [" + this.getLine() + "," + this.getColumn() + "]");
 
@@ -250,7 +249,7 @@ public class ASTReference extends SimpleNode
         }
 
         Object value = execute(null, context);
-        
+
         /*
          *  if this reference is escaped (\$foo) then we want to do one of two things :
          *  1) if this is a reference in the context, then we want to print $foo
@@ -270,7 +269,7 @@ public class ASTReference extends SimpleNode
                 writer.write( escPrefix );
                 writer.write( nullString );
             }
-        
+
             return true;
         }
 
@@ -293,20 +292,20 @@ public class ASTReference extends SimpleNode
 
         if (value == null)
         {
-            /* 
+            /*
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
-              
+
             writer.write( escPrefix );
             writer.write( escPrefix );
-            writer.write( morePrefix );          
+            writer.write( morePrefix );
             writer.write( nullString );
-          
-            if (referenceType != QUIET_REFERENCE 
-                && rsvc.getBoolean( 
+
+            if (referenceType != QUIET_REFERENCE
+                && rsvc.getBoolean(
                                       RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
             {
-               rsvc.warn(new ReferenceException("reference : template = " 
+               rsvc.warn(new ReferenceException("reference : template = "
                                                     + context.getCurrentTemplateName(), this));
             }
 
@@ -321,11 +320,11 @@ public class ASTReference extends SimpleNode
             writer.write( escPrefix );
             writer.write( morePrefix );
             writer.write( value.toString() );
-        
+
             return true;
         }
     }
-       
+
     /**
      *   Computes boolean value of this reference
      *   Returns the actual value of reference return type
@@ -337,7 +336,7 @@ public class ASTReference extends SimpleNode
         throws MethodInvocationException
     {
         Object value = execute(null, context);
-        
+
         if (value == null)
         {
             return false;
@@ -372,6 +371,7 @@ public class ASTReference extends SimpleNode
     public boolean setValue( InternalContextAdapter context, Object value)
       throws MethodInvocationException
     {
+
         if (jjtGetNumChildren() == 0)
         {
             context.put(rootString, value);
@@ -385,13 +385,13 @@ public class ASTReference extends SimpleNode
          */
 
         Object result = getVariableValue(context, rootString);
-        
+
         if (result == null)
         {
             rsvc.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
             return false;
-        }                          
-        
+        }
+
         /*
          * How many child nodes do we have?
          */
@@ -399,13 +399,13 @@ public class ASTReference extends SimpleNode
         for (int i = 0; i < numChildren - 1; i++)
         {
             result = jjtGetChild(i).execute(result, context);
-            
+
             if (result == null)
             {
                 rsvc.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
                 return false;
-            }                          
-        }            
+            }
+        }
 
         /*
          *  We support two ways of setting the value in a #set($ref.foo = $value ) :
@@ -415,12 +415,81 @@ public class ASTReference extends SimpleNode
 
         try
         {
-            VelSetter vs = rsvc.getUberspect().getSetter(result.getClass(), identifier, value, new Info("",1,1));
+            /*
+             *  first, we introspect for the set<identifier> setter method
+             */
 
-            if (vs == null)
+            Object[] params = { value };
+
+            Class c = result.getClass();
+            Method m = null;
+
+            try
+            {
+                m = rsvc.getIntrospector().getMethod( c, "set" + identifier, params);
+
+                if (m == null)
+                {
+                    throw new NoSuchMethodException();
+                }
+            }
+            catch( NoSuchMethodException nsme2)
+            {
+                StringBuffer sb = new StringBuffer( "set" );
+                sb.append( identifier );
+
+                if(  Character.isLowerCase( sb.charAt(3)))
+                {
+                    sb.setCharAt( 3 ,  Character.toUpperCase( sb.charAt( 3 ) ) );
+                }
+                else
+                {
+                    sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
+                }
+
+                m = rsvc.getIntrospector().getMethod( c, sb.toString(), params);
+
+                if (m == null)
+                {
+                    throw new NoSuchMethodException();
+                }
+            }
+
+            /*
+             *  and if we get here, getMethod() didn't chuck an exception...
+             */
+
+            Object[] args = { value };
+            m.invoke(result, args);
+        }
+        catch (NoSuchMethodException nsme)
+        {
+            /*
+             *  right now, we only support the Map interface
+             */
+
+            if (result instanceof Map)
+            {
+                try
+                {
+                    ((Map) result).put(identifier, value);
+                }
+                catch (Exception ex)
+                {
+                    rsvc.error("ASTReference Map.put : exception : " + ex
+                                  + " template = " + context.getCurrentTemplateName()
+                                  + " [" + this.getLine() + "," + this.getColumn() + "]");
+                    return false;
+                }
+            }
+            else
+            {
+                rsvc.error("ASTReference : cannot find " + identifier + " as settable property or key to Map in"
+                              + " template = " + context.getCurrentTemplateName()
+                              + " [" + this.getLine() + "," + this.getColumn() + "]");
                 return false;
 
-            vs.invoke(result, value);
+            }
         }
         catch( InvocationTargetException ite )
         {
@@ -454,7 +523,7 @@ public class ASTReference extends SimpleNode
         Token t = getFirstToken();
 
         /*
-         *  we have a special case where something like 
+         *  we have a special case where something like
          *  $(\\)*!, where the user want's to see something
          *  like $!blargh in the output, but the ! prevents it from showing.
          *  I think that at this point, this isn't a reference.
@@ -467,14 +536,14 @@ public class ASTReference extends SimpleNode
         if ( slashbang != -1 )
         {
             /*
-             *  lets do all the work here.  I would argue that if this occurrs, it's 
+             *  lets do all the work here.  I would argue that if this occurrs, it's
              *  not a reference at all, so preceeding \ characters in front of the $
              *  are just schmoo.  So we just do the escape processing trick (even | odd)
              *  and move on.  This kind of breaks the rule pattern of $ and # but '!' really
              *  tosses a wrench into things.
              */
 
-             /* 
+             /*
               *  count the escapes : even # -> not escaped, odd -> escaped
               */
 
@@ -499,18 +568,18 @@ public class ASTReference extends SimpleNode
 
             int start = i;
             int count = 0;
- 
+
             while( i < len && t.image.charAt(i++) == '\\' )
                 count++;
-           
+
             /*
-             *  now construct the output string.  We really don't care about leading 
+             *  now construct the output string.  We really don't care about leading
              *  slashes as this is not a reference.  It's quasi-schmoo
              */
 
-            nullString = t.image.substring(0,start); // prefix up to the first 
+            nullString = t.image.substring(0,start); // prefix up to the first
             nullString += t.image.substring(start, start + count-1 ); // get the slashes
-            nullString += t.image.substring(start+count); // and the rest, including the 
+            nullString += t.image.substring(start+count); // and the rest, including the
 
             /*
              *  this isn't a valid reference, so lets short circuit the value and set calcs
@@ -523,16 +592,16 @@ public class ASTReference extends SimpleNode
 
         /*
          *  we need to see if this reference is escaped.  if so
-         *  we will clean off the leading \'s and let the 
+         *  we will clean off the leading \'s and let the
          *  regular behavior determine if we should output this
          *  as \$foo or $foo later on in render(). Lazyness..
          */
-      
+
         escaped = false;
 
         if ( t.image.startsWith("\\"))
         {
-            /* 
+            /*
              *  count the escapes : even # -> not escaped, odd -> escaped
              */
 
@@ -542,13 +611,13 @@ public class ASTReference extends SimpleNode
             while( i < len && t.image.charAt(i) == '\\' )
                 i++;
 
- 
-            if ( (i % 2) != 0 )                
+
+            if ( (i % 2) != 0 )
                 escaped = true;
 
             if (i > 0)
                 escPrefix = t.image.substring(0, i / 2 );
-                                     
+
             t.image = t.image.substring(i);
         }
 
@@ -557,12 +626,12 @@ public class ASTReference extends SimpleNode
          *  and snip it off, except for the
          *  last $
          */
-              
+
         int loc1 = t.image.lastIndexOf('$');
-             
+
         /*
          *  if we have extra stuff, loc > 0
-         *  ex. '#$foo' so attach that to 
+         *  ex. '#$foo' so attach that to
          *  the prefix.
          */
         if( loc1 > 0)
@@ -570,30 +639,30 @@ public class ASTReference extends SimpleNode
             morePrefix = morePrefix + t.image.substring(0, loc1);
             t.image = t.image.substring(loc1);
         }
-        
+
         /*
-         *  Now it should be clean. Get the literal in case this reference 
+         *  Now it should be clean. Get the literal in case this reference
          *  isn't backed by the context at runtime, and then figure out what
          *  we are working with.
          */
 
         nullString = literal();
-        
+
         if (t.image.startsWith("$!"))
         {
             referenceType = QUIET_REFERENCE;
- 
+
             /*
              *  only if we aren't escaped do we want to null the output
              */
 
             if (!escaped)
                 nullString = "";
- 
+
             if (t.image.startsWith("$!{"))
             {
                 /*
-                 *  ex : $!{provider.Title} 
+                 *  ex : $!{provider.Title}
                  */
 
                 return t.next.image;
@@ -603,7 +672,7 @@ public class ASTReference extends SimpleNode
                 /*
                  *  ex : $!provider.Title
                  */
- 
+
                 return t.image.substring(2);
             }
         }
@@ -615,28 +684,28 @@ public class ASTReference extends SimpleNode
 
             referenceType = FORMAL_REFERENCE;
             return t.next.image;
-        }            
+        }
         else if ( t.image.startsWith("$") )
         {
             /*
-             *  just nip off the '$' so we have 
+             *  just nip off the '$' so we have
              *  the root
              */
-             
-            referenceType = NORMAL_REFERENCE;   
+
+            referenceType = NORMAL_REFERENCE;
             return t.image.substring(1);
         }
         else
         {
             /*
              * this is a 'RUNT', which can happen in certain circumstances where
-             *  the parser is fooled into believeing that an IDENTIFIER is a real 
-             *  reference.  Another 'dreaded' MORE hack :). 
+             *  the parser is fooled into believeing that an IDENTIFIER is a real
+             *  reference.  Another 'dreaded' MORE hack :).
              */
             referenceType = RUNT;
             return t.image;
         }
-                
+
     }
 
     public Object getVariableValue(Context context, String variable)
@@ -669,7 +738,7 @@ public class ASTReference extends SimpleNode
 
     /**
      *  Override of the SimpleNode method literal()
-     *  Returns the literal representation of the 
+     *  Returns the literal representation of the
      *  node.  Should be something like
      *  $<token>.
      */
@@ -681,4 +750,5 @@ public class ASTReference extends SimpleNode
         return super.literal();
     }
 }
+
 
