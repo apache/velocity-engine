@@ -17,10 +17,12 @@ package org.apache.turbine.services.weather;
  */
 
 
+
 import org.apache.turbine.services.Service;
 
 /**
  *
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  */
 public interface WeatherService extends Service
 {
