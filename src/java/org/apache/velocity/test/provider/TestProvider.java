@@ -62,13 +62,15 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.10 2001/01/06 22:07:40 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.11 2001/01/13 16:51:59 geirm Exp $
  */
 public class TestProvider
 {
     String title = "lunatic";
     boolean state;
-    
+
+    int stateint = 0;
+
     public String getName()
     {
         return "jason";
@@ -294,6 +296,39 @@ public class TestProvider
         return true;
     }
 
+    /*
+     * This can't have the signature
+    
+    public void setState(boolean state)
+    
+    or dynamically invoking the method
+    doesn't work ... you would have to
+    put a wrapper around a method for a
+    real boolean property that takes a 
+    Boolean object if you wanted this to
+    work. Not really sure how useful it
+    is anyway. Who cares about boolean
+    values you can just set a variable.
+    
+    */
+
+    public void setState(Boolean state)
+    {
+    }
+
+    public void setBangStart( Integer i )
+    {
+        System.out.println("SetBangStart() : called with val = " + i );
+        stateint = i.intValue();
+    }
+    public Integer bang()
+    {
+        System.out.println("Bang! : " + stateint );
+        Integer ret = new Integer( stateint );
+        stateint++;
+        return ret;
+    }
+
     /**
      * Test the ability of vel to use a get(key)
      * method for any object type, not just one
@@ -303,4 +338,6 @@ public class TestProvider
     {
         return key;
     }        
+
 }
+
