@@ -142,7 +142,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.106 2001/03/31 05:28:01 geirm Exp $
+ * @version $Id: Runtime.java,v 1.107 2001/04/01 02:00:23 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -598,7 +598,7 @@ public class Runtime implements RuntimeConstants
              */
             
             error("Runtime : ran out of parsers. Creating new.  "
-                  + " Please increment the parser.ppol.size property."
+                  + " Please increment the parser.pool.size property."
                   + " The current value is too small.");
 
             parser = createNewParser();
