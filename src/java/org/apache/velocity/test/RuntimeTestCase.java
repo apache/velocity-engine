@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.Runtime;
  * Base functionality to be extended by all runtime test cases.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: RuntimeTestCase.java,v 1.1 2000/10/25 23:16:18 dlr Exp $
+ * @version $Id: RuntimeTestCase.java,v 1.2 2000/10/25 23:25:54 dlr Exp $
  */
 public abstract class RuntimeTestCase extends BaseTestCase
 {
@@ -86,16 +86,5 @@ public abstract class RuntimeTestCase extends BaseTestCase
         {
             fail(e.getMessage());
         }
-    }
-
-    /**
-     * Get the containing <code>TestSuite</code>.  This is always 
-     * <code>VelocityTestSuite</code>.
-     *
-     * @return The <code>TestSuite</code> to run.
-     */
-    public static junit.framework.Test suite ()
-    {
-        return new VelocityTestSuite();
     }
 }

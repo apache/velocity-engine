@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.10 2000/10/25 23:17:14 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.11 2000/10/25 23:25:54 dlr Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -203,16 +203,6 @@ public class TemplateTestCase extends RuntimeTestCase
         name.append(Character.toTitleCase(s.charAt(0)));
         name.append(s.substring(1, s.length()).toLowerCase());
         return name.toString();
-    }
-
-    /**
-     * Get the containing <code>TestSuite</code>.
-     *
-     * @return The <code>TestSuite</code> to run.
-     */
-    public static junit.framework.Test suite ()
-    {
-        return BaseTestCase.suite();
     }
 
     /**
