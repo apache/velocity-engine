@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.11 2001/03/19 17:16:06 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.12 2001/03/19 18:13:43 jon Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -159,8 +159,9 @@ public class ASTMethod extends SimpleNode
         throws MethodInvocationException
     {
         /*
-         *  new strategy (strategery!) for introspection. Since we want to be thread- as well as 
-         *  context-safe, we *must* do it now, at execution time.  There can be no in-node caching,
+         *  new strategy (strategery!) for introspection. Since we want 
+         *  to be thread- as well as context-safe, we *must* do it now,
+         *  at execution time.  There can be no in-node caching,
          *  but if we are careful, we can do it in the context.
          */
 
@@ -216,8 +217,9 @@ public class ASTMethod extends SimpleNode
             }
  
             /*
-             *  if we still haven't gotten the method, either we are calling a method that 
-             *  doesn't exist (which is fine...)  or I screwed it up.
+             *  if we still haven't gotten the method, either we are calling 
+             *  a method that doesn't exist (which is fine...)  or I screwed
+             *  it up.
              */
 
             if (method == null)
@@ -260,7 +262,9 @@ public class ASTMethod extends SimpleNode
              *  above
              */
 
-            throw  new MethodInvocationException( "Invocation of method threw exception.", ite.getTargetException(), methodName );
+            throw  new MethodInvocationException( 
+                "Invocation of method threw exception.", 
+                ite.getTargetException(), methodName );
         }
         catch( Exception e )
         {
