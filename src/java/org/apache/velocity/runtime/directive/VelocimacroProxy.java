@@ -63,7 +63,8 @@ import java.util.TreeMap;
 import java.util.Set;
 import java.util.Iterator;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
@@ -77,7 +78,7 @@ import org.apache.velocity.util.StringUtils;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.16 2000/12/20 07:41:11 jvanzyl Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.17 2001/01/03 05:28:33 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -170,7 +171,7 @@ public class VelocimacroProxy extends Directive
     /**
      *   Renders the macro using the context
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
         try 
@@ -185,10 +186,7 @@ public class VelocimacroProxy extends Directive
                  */
                 if (!init)
                 {
-                    Context c = new Context();
-                    c.setCurrentTemplateName( context.getCurrentTemplateName() );
-                        
-                    nodeTree.init( c ,null);
+                    nodeTree.init( context ,null);
                     init = true;
                 }
                 nodeTree.render(context, writer );
@@ -212,7 +210,7 @@ public class VelocimacroProxy extends Directive
      *   macro body, renders the macro into an AST, and then inits the AST, so it is ready 
      *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
      */
-    public void init(Context context, Node node) 
+    public void init( InternalContextAdapter context, Node node) 
        throws Exception
     {
         /*

@@ -57,7 +57,7 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
@@ -74,7 +74,7 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be initialized.
      */
-    public void init(Context context, Node node) throws Exception
+    public void init( InternalContextAdapter context, Node node) throws Exception
     {
         int i, k = node.jjtGetNumChildren();
 
@@ -85,6 +85,6 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be rendered 
      */
-    public abstract boolean render(Context context, Writer writer, Node node)
+    public abstract boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException;
 }        
