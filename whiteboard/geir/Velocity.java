@@ -65,7 +65,7 @@
  * SLOW PROGRESS :)
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Velocity.java,v 1.2 2001/02/02 11:57:56 geirm Exp $
+ * @version $Id: Velocity.java,v 1.3 2001/02/05 04:42:23 geirm Exp $
  */
 
 package org.apache.velocity.util;
@@ -180,9 +180,10 @@ public class Velocity
             if (nodeTree != null)
             {
                 InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
-                ica.setCurrentTemplateName( logTag );
+                ica.pushCurrentTemplateName( logTag );
                 nodeTree.init( ica, null );
                 nodeTree.render( ica, writer );
+                ica.popCurrentTemplateName();
                 return true;
             }
         }
@@ -275,9 +276,9 @@ public class Velocity
         {
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
             
-            ica.setCurrentTemplateName( namespace );
-
+            ica.pushCurrentTemplateName( namespace );
             vp.render( ica, writer, null);
+            ica.popCurrentTemplateName();
         }
         catch (Exception e )
         {
