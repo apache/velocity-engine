@@ -57,7 +57,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.2 2000/10/31 15:58:02 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.3 2000/11/05 03:18:24 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -70,11 +70,7 @@ public class NodeUtils
     {
         String specialText = "";
         
-        /*
-         *  adding \n as an exception also, because of the push-back we do for refs et al 
-         */
-
-        if (t.specialToken == null || t.specialToken.image.startsWith("##") || t.specialToken.image.equals("\n"))
+        if (t.specialToken == null || t.specialToken.image.startsWith("##") )
             return specialText;
             
         Token tmp_t = t.specialToken;
