@@ -48,3 +48,5 @@ test doesn't fail incorrectly.
 
 #tester($foo)
 
+#foo2( ${foo} )
+
