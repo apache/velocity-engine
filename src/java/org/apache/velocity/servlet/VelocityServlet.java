@@ -83,6 +83,9 @@ import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 
+import org.apache.velocity.app.HttpServletRequestWrap;
+import org.apache.velocity.app.Velocity;
+
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
@@ -122,7 +125,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.25 2001/03/13 03:52:06 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.26 2001/03/16 04:50:57 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -191,7 +194,7 @@ public abstract class VelocityServlet extends HttpServlet
 
             Properties props = loadConfiguration( config );
   
-            Runtime.init( props );
+            Velocity.init( props );
             
             defaultContentType = DEFAULT_CONTENT_TYPE;
             
@@ -454,9 +457,11 @@ public abstract class VelocityServlet extends HttpServlet
         
         /*
          *   put the request/response objects into the context
+         *   wrap the HttpServletRequest to solve the introspection
+         *   problems 
          */
            
-        context.put( REQUEST, request );
+        context.put( REQUEST, new HttpServletRequestWrap( request ) );
         context.put( RESPONSE, response );
 
         return context;
