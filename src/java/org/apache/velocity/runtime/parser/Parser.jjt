@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.63 2001/07/14 13:22:40 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.64 2001/07/18 03:50:19 geirm Exp $ 
 */
 public class Parser
 {
@@ -1153,7 +1153,7 @@ void DirectiveArg() #void : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
-|   LOOKAHEAD(5) IntegerRange()
+|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1291,7 +1291,7 @@ void Parameter() #void: {}
     [<WHITESPACE>]
     (
         StringLiteral()
-      | LOOKAHEAD(5) IntegerRange()
+      | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
       | ObjectArray()
       | True()
       | False()
@@ -1490,7 +1490,7 @@ void PrimaryExpression() #void : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
-  | LOOKAHEAD(5) IntegerRange()
+  | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
   | ObjectArray()
   | True()
   | False()
