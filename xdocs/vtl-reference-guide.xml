@@ -18,6 +18,11 @@ Some of the user's guide info should be moved into
 this reference guide and links should be made from
 the user's guide to this document
 
+I now envision the user guide to be a long, pedagogical 
+book and the VTL guide to be a distillation of VTL for
+expert users and fast learners. I'd like each directive to
+have an identical format.
+
 -->
 
 <s1 title="About this Guide">
@@ -207,25 +212,24 @@ the user's guide to this document
 <p>        
     <strong>#set</strong>
     <br/>
-    The #set directive is used for setting the value of
-    a reference. A value can be assigned to either a variable 
-    reference or a property reference:
+    The <vtldirective>#set</vtldirective> directive is used to
+    set the value of a reference. 
 </p>
 
 <p>
     <source><![CDATA[
-    #set $primate = "monkey"
-    #set $customer.Behavior = $primate 
+    #set ($ref = arg)
     ]]></source>
 </p>
 
 <p>
-    The left hand side (LHS) of the assigment must be
-    a variable reference or a property reference. The
-    right hand side (RHS) can be one of the following:
+    <vtl>$ref</vtl> - The LHS of the assigment must be
+    a variable reference or a property reference. 
 </p>
 
 <p>
+    <vtl>$arg</vtl> - The RHS is limited to the following
+    types:
     <ul>
         <li>Variable reference</li>
         <li>String literal</li>
@@ -239,16 +243,16 @@ the user's guide to this document
 <p>
     Here are examples demonstrating the 
     aforementioned types:
-</p>    
+</p>
 
 <p>
     <source><![CDATA[
-    #set $monkey = $bill
-    #set $monkey.Friend = "monica"
-    #set $monkey.Blame = $whitehouse.Leak
-    #set $monkey.Plan = $spindoctor.weave($web)
-    #set $monkey.Number = 123
-    #set $monkey.Say = ["Not", $my, "fault"]
+    #set ($monkey = $bill)
+    #set ($monkey.Friend = "monica")
+    #set ($monkey.Blame = $whitehouse.Leak)
+    #set ($monkey.Plan = $spindoctor.weave($web))
+    #set ($monkey.Number = 123)
+    #set ($monkey.Say = ["Not", $my, "fault"])
     ]]></source>
 </p>
 
@@ -258,18 +262,19 @@ the user's guide to this document
 
 <p>
     <source><![CDATA[
-    #set $value = $foo + 1
-    #set $value = $bar - 1
-    #set $value = $foo * $bar
-    #set $value = $foo / $bar
+    #set ($value = $foo + 1)
+    #set ($value = $bar - 1)
+    #set ($value = $foo * $bar)
+    #set ($value = $foo / $bar)
     ]]></source>
 </p>
+
 
 <p>        
     <strong>#foreach</strong>
     <br/>
-    The #foreach directive provides a simple way of looping
-    through a list of objects:
+    The <vtldirective>#foreach</vtldirective> directive 
+    provides a simple way of looping through a list of objects.
 </p>
 
 <p>
@@ -328,7 +333,60 @@ the user's guide to this document
     ]]></source>
 </p>
 
+
+ <strong>#macro</strong>
+
+   <p>
+   A Velocimacro is defined with the <vtldirective>#macro</vtldirective> 
+   directive.
+   </p>
+
+   <p>
+   <source><![CDATA[
+   #macro (vmname arg1 arg2)
+   <VM VTL code>
+   #end
+   ]]></source>
+   </p>
+
+   <p>
+   <vtl>vmname</vtl> - The name that will be used to call the VM (<vtl>#vmname</vtl>)
+   </p>
+
+   <p>
+   <vtl>arg1 arg2</vtl> - Arguments to the VM. A VM can have any number of argumentss,
+   but the number used at invocation must match the number specified in the
+   definition.
+   </p>
+
+   <p>
+   <vtl>&lt;VM VTL code&gt;</vtl> - Any valid VTL code, anything you can put into a
+   template, can be put into a VM.
+   </p>
+
+   <p>
+   Once defined, the VM is used like any other VTL directive in your template.
+   </p>
+
+   <p>
+   <source><![CDATA[
+   #vmname( arg1 arg2 )
+   ]]></source>
+   </p>
+
+   <p>
+   VMs can be defined in a 'global library', a 'local library', or
+   'inline' in a template.  Both global library and local libraries can be
+   accessed by any template. The global library contains VMs pre-packaged 
+   with Velocity; the local library allows end users to supplement the 
+   pre-packaged VMs with customized, site-specific VMs. Inline VM
+   definitions are those found in regular 'user' templates, although
+   these can only be used when the <vtl>velocimacro.permissions.allowInline=true</vtl>
+   in the <filename>velocity.properties</filename> file.
+   </p>
+
 </s1>
 
 </body>
 </document>
+
