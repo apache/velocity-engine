@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.23 2001/09/07 05:05:14 geirm Exp $
+ * @version $Id: Velocity.java,v 1.24 2001/11/02 03:28:49 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -632,6 +632,20 @@ public class Velocity implements RuntimeConstants
         RuntimeSingleton.debug( message );
     }
 
+    /**
+     *  Set the ApplicationContext, which is an Object
+     *  of the applications choice which is accessable from
+     *  any component of the system that gets a RuntimeServices.
+     *  This allows communication between the application
+     *  environment and custom pluggable components of the
+     *  Velocity engine, such as loaders and loggers.
+     *
+     *  @param Object object to store as ApplicationContext
+     */
+     public static void setApplicationContext( Object o )
+     {
+        RuntimeSingleton.getRuntimeInstance().setApplicationContext( o );
+     }
 } 
 
 
