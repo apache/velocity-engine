@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.38 2001/05/18 12:01:16 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.39 2001/05/19 17:19:21 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -173,7 +173,7 @@ public abstract class VelocityServlet extends HttpServlet
      * This is the string that is looked for when getInitParameter is
      * called.
      */
-    private static final String INIT_PROPS_KEY = "properties";
+    protected static final String INIT_PROPS_KEY = "properties";
 
     /**
      * Cache of writers
