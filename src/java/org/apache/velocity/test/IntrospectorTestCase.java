@@ -54,12 +54,13 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import junit.framework.*;
-
 import java.util.ArrayList;
+
 import java.lang.reflect.Method;
 
 import org.apache.velocity.util.introspection.Introspector;
+
+import junit.framework.TestSuite;
 
 /**
  * Test case for the Velocity Introspector which uses
@@ -71,7 +72,7 @@ import org.apache.velocity.util.introspection.Introspector;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.3 2000/11/16 01:51:25 jvanzyl Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.4 2000/12/20 06:42:03 jvanzyl Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
