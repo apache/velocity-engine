@@ -57,7 +57,8 @@
                                    test-externallogger,
                                    test-methodinvocationexception,   
                                    test-anakia,
-                                   test-texen                                    
+                                   test-texen,
+                                   test-multiloader
                                    "/>
 
   <target name="test-template">
@@ -226,6 +227,18 @@
       </classpath>
     </java>
 
+  </target>
+
+  <target name="test-multiloader">
+    <echo message="Running MultiLoader tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.MultiLoaderTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="../test/multiloader/test1.jar"/>
+      </classpath>
+    </java>
   </target>
 
 </project>
