@@ -146,6 +146,11 @@ This section describes changes to the man branch after the
      Added support for ${user.home}/build.properties to Ant build
      file. (dlr)
    </li>
+   <li>
+     VelocityServlet subclasses may now use a web.xml context
+     parameter as the default value for the path to their
+     velocity.properties file. (dlr)
+   </li>
 
 
 </ul>
