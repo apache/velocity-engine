@@ -44,6 +44,7 @@ import org.apache.velocity.runtime.VelocimacroFactory;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
@@ -101,7 +102,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.24 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -257,7 +258,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             try
             {
-               o = Class.forName(rm).newInstance();
+               o = ClassUtils.getNewInstance( rm );
             }
             catch (ClassNotFoundException cnfe)
             {
@@ -495,7 +496,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             
             try
             {
-               o = Class.forName(rm).newInstance();
+               o = ClassUtils.getNewInstance( rm );
             }
             catch (ClassNotFoundException cnfe )
             {
@@ -644,7 +645,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {    
         try
         {
-            Object o = Class.forName(directiveClass).newInstance();
+            Object o = ClassUtils.getNewInstance( directiveClass );
             
             if (o instanceof Directive)
             {

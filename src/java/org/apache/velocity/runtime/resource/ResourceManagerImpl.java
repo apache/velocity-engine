@@ -28,6 +28,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.ResourceFactory;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
+import org.apache.velocity.util.ClassUtils;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -168,7 +169,7 @@ public class ResourceManagerImpl implements ResourceManager
         {
             try
             {
-               o = Class.forName( claz ).newInstance();
+               o = ClassUtils.getNewInstance( claz );
             }
             catch (ClassNotFoundException cnfe )
             {
