@@ -58,7 +58,7 @@
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.1 2000/11/19 23:17:28 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.2 2000/12/06 05:58:57 geirm Exp $ 
  *
  */
 
@@ -216,7 +216,8 @@ public class VelocimacroFactory
     /**
      *   adds a macro to the factory.  Lots of room for improvement here...
      */
-    public boolean addVelocimacro( String strName, String strMacro, String strArgArray[], String strMacroArray[], TreeMap tmArgIndexMap)
+    public boolean addVelocimacro( String strName, String strMacro, String strArgArray[], String strMacroArray[], 
+                                   TreeMap tmArgIndexMap, String strSourceTemplate )
     {
         /*
          *  maybe we should throw an exception, maybe just tell the caller like this...
@@ -246,6 +247,7 @@ public class VelocimacroFactory
         h.put("macroarray",  strMacroArray );
         h.put("indexmap", tmArgIndexMap );
         h.put("macrobody", strMacro);
+        h.put("sourcetemplate", strSourceTemplate );
 
         synchronized( obLock) {
             if (!isVelocimacro( strName ))
