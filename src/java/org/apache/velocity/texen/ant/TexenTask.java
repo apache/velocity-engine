@@ -56,12 +56,15 @@ package org.apache.velocity.texen.ant;
  *
  */
 
-import java.util.Map;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Map;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
 
 // Ant Stuff
 import org.apache.tools.ant.BuildException;
@@ -76,60 +79,167 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.6 2000/11/18 02:54:07 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.7 2000/11/23 17:48:00 jvanzyl Exp $
  */
 
 public abstract class TexenTask extends Task
 {
+    /**
+     * This is the control template that governs the output.
+     * It may or may not invoke the services of worker
+     * templates.
+     */
     protected String controlTemplate;
+    
+    /**
+     * This is where Velocity will look for templates
+     * using the file template loader.
+     */
     protected String templatePath;
+    
+    /**
+     * This is where texen will place all the output
+     * that is a product of the generation process.
+     */
     protected String outputDirectory;
+    
+    /**
+     * This is the file where the generated text
+     * will be placed.
+     */
     protected String outputFile;
-
-    protected Hashtable options = new Hashtable();
+    
+    /**
+     * These are properties that are fed into the
+     * initial context from a properties file. This
+     * is simply a convenient way to set some values
+     * that you wish to make available in the context.
+     *
+     * These values are not critical, like the template path or
+     * or output path, but allow a convenient way to
+     * set a value that may be specific to a particular
+     * generation task.
+     *
+     * For example, if you are generating scripts to allow
+     * user to automatically create a database, then
+     * you might want the $databaseName to be placed
+     * in the initial context so that it is available
+     * in a script that might look something like the
+     * following:
+     *
+     * #!bin/sh
+     * 
+     * echo y | mysqladmin create $databaseName
+     *
+     * The value of $databaseName isn't critical to
+     * output, and you obviously don't want to change
+     * the ant task to simply take a database name.
+     * So initial context values can be set with
+     * properties file.
+     */
+    protected Properties contextProperties;
 
     /**
-     * Set the output directory.  This directory must exist.
+     * Get the control template for the
+     * generating process.
      */
     public void setControlTemplate (String controlTemplate)
     {
         this.controlTemplate = controlTemplate;
     }
 
+    /**
+     * Get the control template for the
+     * generating process.
+     */
     public String getControlTemplate()
     {
         return controlTemplate;
     }
 
+    /**
+     * Set the path where Velocity will look
+     * for templates using the file template
+     * loader.
+     */
     public void setTemplatePath(String templatePath)
     {
         this.templatePath = templatePath;
     }
     
+    /**
+     * Get the path where Velocity will look
+     * for templates using the file template
+     * loader.
+     */
     public String getTemplatePath()
     {
         return templatePath;
     }        
 
+    /**
+     * Set the output directory. It will be
+     * created if it doesn't exist.
+     */
     public void setOutputDirectory(String outputDirectory)
     {
         this.outputDirectory = outputDirectory;
     }
     
+    /**
+     * Get the output directory.
+     */
     public String getOutputDirectory()
     {
         return outputDirectory;
     }        
 
+    /**
+     * Set the output file for the
+     * generation process.
+     */
     public void setOutputFile(String outputFile)
     {
         this.outputFile = outputFile;
     }
     
+    /**
+     * Get the output file for the
+     * generation process.
+     */
     public String getOutputFile()
     {
         return outputFile;
     }        
+
+    /**
+     * Set the context properties that will be
+     * fed into the initial context be the
+     * generating process starts.
+     */
+    public void setContextProperties(String file)
+    {
+        contextProperties = new Properties();
+        
+        try
+        {
+            contextProperties.load(new FileInputStream(file));
+        }
+        catch (Exception e)
+        {
+            contextProperties = null;
+        }
+    }
+
+    /**
+     * Set the context properties that will be
+     * fed into the initial context be the
+     * generating process starts.
+     */
+    public Properties getContextProperties()
+    {
+        return contextProperties;
+    }
 
     public abstract Context initControlContext();
     
@@ -182,6 +292,34 @@ public abstract class TexenTask extends Task
             // not in the generator class itself.
             
             Context c = initControlContext();
+            
+            // Feed all the options into the initial
+            // control context so they are available
+            // in the control/worker templates.
+            
+            if (contextProperties != null)
+            {
+                Enumeration e = contextProperties.propertyNames();
+        
+                while (e.hasMoreElements())
+                {
+                    String property = (String) e.nextElement();
+                    String value = (String) contextProperties.get(property);
+                    
+                    // Now lets quickly check to see if what
+                    // we have is numeric and try to put it
+                    // into the context as an Integer.
+                    try
+                    {
+                        c.put(property, new Integer(value)); 
+                    }
+                    catch (NumberFormatException nfe)
+                    {
+                        c.put(property, value);
+                    }
+                }
+            }
+            
             //c.put("generator", generator);
             
             writer.write(generator.parse(controlTemplate, c));
