@@ -252,7 +252,7 @@ the user's guide to this document
     #set $monkey.Blame = $whitehouse.Leak
     #set $monkey.Plan = $spindoctor.weave($web)
     #set $monkey.Number = 123
-    #set $monkey.Say = ["Not", $me]
+    #set $monkey.Say = ["Not", $my, "fault"]
     ]]></source>
 </p>
 
