@@ -116,9 +116,10 @@
    <tr>
     <td>
      <a href="http://www.vamphq.com/hazel.html">
-     Hazel - Web Start/JNLP app catalog creator (jnlp2html)</a>
+     Hazel</a>
     </td>
     <td>
+    Hazel is a Web Start/JNLP app catalog creator (jnlp2html).
     Hazel allows you to create your own Web Start/JNLP app catalogs.
     Hazel extracts all JNLP links from HTML documents and creates an
     informative, neat looking HTML document listing all WebStart/JNLP apps.
@@ -159,6 +160,19 @@
     </td>
    </tr>
   
+   <tr>
+    <td>
+  <a href=" http://luxor-xul.sourceforge.net">Luxor</a>
+    </td>
+    <td>
+    Luxor is an open-source XML User Interface Language (XUL) toolkit for
+    building rich cross-platform, zero-admin desktop apps in Java. Luxor
+    supports hand-picked Mozilla XUL goodies and also includes a ultra
+    light-weight, multi-threaded web server, a portal engine, and Velocity
+    as its template engine.
+    </td>
+   </tr>
+
  </table>
  
  </section>
