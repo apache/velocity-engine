@@ -153,7 +153,7 @@ import java.util.Vector;
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Configuration.java,v 1.16 2001/03/20 00:49:03 jon Exp $
+ * @version $Id: Configuration.java,v 1.17 2001/03/20 17:19:24 geirm Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -522,8 +522,19 @@ public class Configuration extends Hashtable
                  * to perform operations with configuration
                  * in a definite order it will be possible.
                  */
-                keysAsListed.add(key);
-                
+
+                /*
+                 * safety check
+                 */
+
+                if( !containsKey( key ) )
+                {
+                    keysAsListed.add(key);
+                }
+
+                /*
+                 * and the value
+                 */
                 put(key, token);
             }                
         }
@@ -633,6 +644,20 @@ public class Configuration extends Hashtable
     {
         if (containsKey(key))
         {
+            /*
+             * we also need to rebuild the keysAsListed or else
+             * things get *very* confusing
+             */
+
+            for(int i = 0; i < keysAsListed.size(); i++)
+            {
+                if ( ( (String) keysAsListed.get(i)).equals( key ) )
+                {
+                    keysAsListed.remove(i);
+                    break;
+                }
+            }
+
             remove(key);
         }            
     }
@@ -720,6 +745,7 @@ public class Configuration extends Hashtable
                  * properties files or the order they are set
                  * dynamically.
                  */
+
                 c.setProperty(newKey, get(key));
             }
         }
