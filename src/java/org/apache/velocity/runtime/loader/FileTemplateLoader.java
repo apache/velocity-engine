@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -96,6 +96,8 @@ public class FileTemplateLoader extends TemplateLoader
         {
             cache = new Hashtable();
         }
+        
+        Runtime.info("Template loader initialized.");
     }
     
     /**
