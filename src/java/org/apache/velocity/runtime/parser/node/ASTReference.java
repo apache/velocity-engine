@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.36 2001/08/11 18:58:07 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.37 2001/09/09 21:49:11 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -407,7 +407,7 @@ public class ASTReference extends SimpleNode
 
             try
             {
-                m = Introspector.getMethod( c, "set" + identifier, params);
+                m = rsvc.getIntrospector().getMethod( c, "set" + identifier, params);
 
                 if (m == null)
                 {
@@ -428,7 +428,7 @@ public class ASTReference extends SimpleNode
                     sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
                 }
                
-                m = Introspector.getMethod( c, sb.toString(), params);
+                m = rsvc.getIntrospector().getMethod( c, sb.toString(), params);
 
                 if (m == null)
                 {

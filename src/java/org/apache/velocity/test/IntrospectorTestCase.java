@@ -58,7 +58,7 @@ import java.util.ArrayList;
 
 import java.lang.reflect.Method;
 
-import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.runtime.RuntimeSingleton;
 
 import junit.framework.TestCase;
 
@@ -72,7 +72,7 @@ import junit.framework.TestCase;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.8 2001/08/11 18:58:49 geirm Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.9 2001/09/09 21:50:02 geirm Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
@@ -114,7 +114,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test boolean primitive.
             Object[] booleanParams = { new Boolean(true) };
             type = "boolean";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", booleanParams);
             result = (String) method.invoke(mp, booleanParams);
             
@@ -124,7 +124,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test byte primitive.
             Object[] byteParams = { new Byte("1") };
             type = "byte";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", byteParams);
             result = (String) method.invoke(mp, byteParams);
 
@@ -134,7 +134,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test char primitive.
             Object[] characterParams = { new Character('a') };
             type = "character";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", characterParams);
             result = (String) method.invoke(mp, characterParams);
 
@@ -144,7 +144,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test double primitive.
             Object[] doubleParams = { new Double((double)1) };
             type = "double";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", doubleParams);
             result = (String) method.invoke(mp, doubleParams);
 
@@ -154,7 +154,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test float primitive.
             Object[] floatParams = { new Float((float)1) };
             type = "float";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", floatParams);
             result = (String) method.invoke(mp, floatParams);
 
@@ -164,7 +164,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test integer primitive.
             Object[] integerParams = { new Integer((int)1) };
             type = "integer";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", integerParams);
             result = (String) method.invoke(mp, integerParams);
 
@@ -174,7 +174,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test long primitive.
             Object[] longParams = { new Long((long)1) };
             type = "long";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", longParams);
             result = (String) method.invoke(mp, longParams);
 
@@ -184,7 +184,7 @@ public class IntrospectorTestCase extends BaseTestCase
             // Test short primitive.
             Object[] shortParams = { new Short((short)1) };
             type = "short";
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", shortParams);
             result = (String) method.invoke(mp, shortParams);
         
@@ -195,7 +195,7 @@ public class IntrospectorTestCase extends BaseTestCase
 
             Object[] params = {};
            
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, "untouchable", params);
 
             if (method != null)
@@ -203,7 +203,7 @@ public class IntrospectorTestCase extends BaseTestCase
 
             // Test really untouchable
 
-            method = Introspector.getMethod(
+            method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, "reallyuntouchable", params);
 
             if (method != null)

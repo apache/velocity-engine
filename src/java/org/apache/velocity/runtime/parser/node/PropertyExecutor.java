@@ -62,6 +62,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.InternalContextAdapter;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  * Returned the value of object property when executed.
  */
@@ -69,8 +71,10 @@ public class PropertyExecutor extends AbstractExecutor
 {
     private String methodUsed = null;
 
-    public PropertyExecutor(Class c, String property)
+    public PropertyExecutor( RuntimeServices r, Class c, String property)
     {
+        rsvc = r;
+        
         /*
          * Not using the Introspector here because
          * it can't deal with methods that have
@@ -82,7 +86,7 @@ public class PropertyExecutor extends AbstractExecutor
             methodUsed = "get" + property;
             
             Object[] params = {  };
-            method = Introspector.getMethod( c, methodUsed, params);
+            method = rsvc.getIntrospector().getMethod( c, methodUsed, params);
            
             if (method == null)
             {
@@ -124,7 +128,7 @@ public class PropertyExecutor extends AbstractExecutor
                 methodUsed = sb.toString();
                                
                 Object[] params = {  };
-                method = Introspector.getMethod( c, methodUsed, params);
+                method = rsvc.getIntrospector().getMethod( c, methodUsed, params);
                 
                 if (method == null)
                 {
