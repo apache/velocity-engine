@@ -80,7 +80,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * ResourceLoader to load templates from multiple Jar files.
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.8 2001/03/23 04:18:50 jvanzyl Exp $
+ * @version $Id: JarResourceLoader.java,v 1.9 2001/04/30 11:03:14 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -214,10 +214,13 @@ public class JarResourceLoader extends ResourceLoader
             {
                 JarHolder holder = (JarHolder)jarfiles.get( jarurl );
                 results =  holder.getResource( normalizedPath );
+                return results;
             }
         }
         
-        return results;
+        throw new ResourceNotFoundException( "JarResourceLoader Error: cannot find resource " +
+          source );
+
     }
         
         
