@@ -95,7 +95,7 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.26 2001/04/20 04:31:58 geirm Exp $
+ * @version $Id: Test.java,v 1.27 2001/04/22 22:44:19 geirm Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,NullReferenceEventHandler,
@@ -106,7 +106,7 @@ public class Test implements ReferenceInsertionEventHandler,
      */
     private static Stack writerStack = new Stack();
 
-    public Test(String templateFile)
+    public Test(String templateFile, String encoding)
     {
         Writer writer = null;
         TestProvider provider = new TestProvider();
@@ -203,7 +203,7 @@ public class Test implements ReferenceInsertionEventHandler,
 
             try 
             {
-                template = Runtime.getTemplate(templateFile);
+                template = Runtime.getTemplate(templateFile, encoding);
             }
             catch( ResourceNotFoundException rnfe )
             {
@@ -331,6 +331,19 @@ public class Test implements ReferenceInsertionEventHandler,
     public static void main(String[] args)
     {
         Test t;
-        t = new Test(args[0]);
+
+        String encoding = "ISO-8859-1";
+
+        if( args.length > 1 )
+            encoding = args[1];
+
+        t = new Test(args[0], encoding);
     }
 }
+
+
+
+
+
+
+
