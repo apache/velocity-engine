@@ -68,6 +68,7 @@ import java.util.Vector;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
+import org.apache.velocity.util.EnumerationIterator;
 
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -84,7 +85,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.35 2001/03/20 01:11:22 jon Exp $
+ * @version $Id: Foreach.java,v 1.36 2001/04/08 21:14:21 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -129,7 +130,13 @@ public class Foreach extends Directive
      * is a Collection.
      */
     private final static int INFO_COLLECTION = 4;
-  
+
+    /**
+     *  Flag to indicate that the list object being used
+     *  is an Enumeration
+     */
+    private final static int INFO_ENUMERATION = 5;
+
     /**
      * The name of the variable to use when placing
      * the counter value into the context. Right
@@ -230,6 +237,8 @@ public class Foreach extends Directive
                 type = INFO_MAP;
             else if ( listObject instanceof Iterator )
                 type = INFO_ITERATOR;
+            else if ( listObject instanceof Enumeration )
+                type = INFO_ENUMERATION;
 
             /*
              *  if we did figure it out, cache it
@@ -259,10 +268,22 @@ public class Foreach extends Directive
                           + " is an Iterator in the #foreach() loop at ["
                           + getLine() + "," + getColumn() + "]"
                           + " in template " + context.getCurrentTemplateName() 
-                          + ". If used in more than once, this may lead to " 
-                          + "unexpected results.");
+                          + ". Because it's not resetable,"
+                          + " if used in more than once, this may lead to" 
+                          + " unexpected results.");
 
             return ( (Iterator) listObject);       
+
+        case INFO_ENUMERATION : 
+            Runtime.warn ("Warning! The reference " 
+                          + node.jjtGetChild(2).getFirstToken().image
+                          + " is an Enumeration in the #foreach() loop at ["
+                          + getLine() + "," + getColumn() + "]"
+                          + " in template " + context.getCurrentTemplateName() 
+                          + ". Because it's not resetable,"
+                          + " if used in more than once, this may lead to" 
+                          + " unexpected results.");
+            return new EnumerationIterator( (Enumeration)  listObject );       
 
         case INFO_ARRAY:
             return new ArrayIterator( (Object [] )  listObject );
