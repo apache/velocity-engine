@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Anakia</title>
+  <subtitle>Anakia</subtitle>
+  <authors>
+   <person name="Jon S. Stevens" email="jon@latchkey.com"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="What Is Anakia?">
+<p>
+    Anakia is an alternative to using Ant's &lt;style&gt; task as well as using 
+    <link href="http://xml.apache.org/xalan/">XSL</link> to process your XML 
+    files. In summary, Anakia is an XML transformation tool that uses <link 
+    href="http://www.jdom.org">JDOM</link> and <link 
+    href="http://jakarta.apache.org/velocity">Velocity</link> to transform your 
+    XML documents into whatever you like.
+</p>
+<p>
+    The benefit of using Anakia over XSL is that it is MUCH easier to learn 
+    while still maintaining the same functionality level. Instead of learning 
+    cryptic &lt;xsl:&gt; tags, all you need to know is how to use JDOM and 
+    Velocity's simple directives. Anakia also seems much faster than Xalan's XSL 
+    processor at creating pages.
+</p>
+<p>
+    In the end, Anakia is intended as a replacement for Stylebook which was 
+    originally used to generate simple static websites where all the pages have
+    the same look and feel. This is great for documentation websites as well as
+    for project websites like what we have on jakarta.apache.org.
+</p>
+<p>
+    We suggest that you take a look at the jakarta-velocity/examples/anakia directory
+    for an example of how to get started with Anakia. It really is quite simple to use.    
+</p>
+<p>
+    The basic premise of Anakia is that a Context is created, the .vsl page is 
+    executed with the Context. Within the Context contains a JDOM Document 
+    object of your .xml page as well as (optionally) a JDOM Document object of 
+    your project.xml page. You can then navigate your .xml file and pull 
+    information out of it by simply executing methods on the JDOM Document 
+    object.
+</p>
+</s1>
+
+<s1 title="Installation/Example">
+<p>
+    As we just mentioned, take a look at the jakarta-velocity/examples/anakia directory.
+    In order to use those examples, you will need to first build Velocity by following 
+    these <link href="install.html">directions</link>.
+</p>
+<p>
+    Once you have built Velocity, then you can cd into the jakarta-
+    velocity/examples/anakia/build directory and run ./build.sh. If you are on 
+    the Windows platform, then you should install <link 
+    href="http://sources.redhat.com/cygwin/">Cygwin</link> so that shell scripts 
+    will work on your PC as well.
+</p>
+<p>
+    The output of running the ./build.sh script will be placed into the 
+    jakarta-velocity/examples/anakia/docs/ directory. You can look at the HTML files
+    in there and view the results of the execution.
+</p>
+<p>
+    The jakarta-velocity/examples/anakia/xdocs/ directory has all of the .xml 
+    source code. In the stylesheets directory within the xdocs directory is the 
+    .vsl file. This is where most of the magic happens and a basic understanding 
+    of <link href="user-guide.html">Velocity Template Language</link> and JDOM 
+    is needed to understand how this file works.
+</p>
+</s1>
+
+<s1 title="How does it work?">
+
+<p>
+    Anakia is an Ant task that executes from an Ant build file. The build file looks
+    something like this:
+</p>
+
+<p>
+<source><![CDATA[<project name="build-site" default="docs" basedir=".">
+    <property name="project.name"   value="site"/>
+    <property name="docs.src" value="../xdocs"/>
+    <property name="docs.dest" value="../docs"/>
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
+
+    <target name="docs">
+        <anakia basedir="${docs.src}" destdir="${docs.dest}/"
+             extension=".html" style="./site.vsl"
+             projectFile="./stylesheets/project.xml"
+             excludes="**/stylesheets/**"
+             includes="**/*.xml"
+             lastModifiedCheck="false"
+             velocityPropertiesFile="velocity.properties">
+        </anakia>
+
+        <copy todir="${docs.dest}/images" filtering="no">
+            <fileset dir="${docs.src}/images">
+                <include name="**/*.gif"/>
+                <include name="**/*.jpeg"/>
+                <include name="**/*.jpg"/>
+            </fileset>
+        </copy>
+    </target>
+</project>]]></source>
+</p>
+
+<p>
+    <table border="0">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>basedir</td>
+            <td>Specifies the path to the directory location of your .xml files.</td>
+        </tr>
+        <tr>
+            <td>destdir</td>
+            <td>Specifies the path to the directory where the output files should go.</td>
+        </tr>
+        <tr>
+            <td>extension</td>
+            <td>The extension that is appended to the end of your .xml file. For example, 
+            with an extension of ".html", index.xml would be converted into index.html.
+            By default, the extension is .html.
+            </td>
+        </tr>
+        <tr>
+            <td>style</td>
+            <td>This is the path (relative to Velocity's template.loader.1.template.path) 
+            to the VelocityStyleTemplate to process. This file is the equivalent to the
+            .xsl file in Ant's style task.
+            </td>
+        </tr>
+        <tr>
+            <td>projectFile</td>
+            <td>This is the path to a "project" file. This file is an XML file 
+            that can be used as a "navigation" file. If you have used Stylebook 
+            or Struts system for generation of the website documentation, you 
+            will understand the purpose of this file. <strong>It is an optional 
+            task argument.</strong> If you look at the Anakia example in the 
+            jakarta-velocity/examples/anakia directory, you can see the project.xml
+            file being used in the .vsl file.
+            </td>
+        </tr>
+        <tr>
+            <td>excludes</td>
+            <td>This is the standard Ant excludes attribute. Specify any files 
+            or directories that you do not want Anakia to try to process.</td>
+        </tr>
+        <tr>
+            <td>includes</td>
+            <td>This is the standard Ant includes attribute. Specify any files 
+            or directories that you do want Anakia to try to process.</td>
+        </tr>
+        <tr>
+            <td>lastModifiedCheck</td>
+            <td>This turns on or off the ability to check the last modified date on files
+            in order to determine whether or not they need to be re-rendered or not.
+            The value of this attribute can be "true, false, yes, no". By 
+            default, it is true meaning that the last modified date should be checked
+            and if the original .xml file, project file or .vsl file have not changed, 
+            then don't process the page. This speeds up processing quite a bit because
+            pages that have not changed will not get processed again.</td>
+        </tr>
+        <tr>
+            <td>velocityPropertiesFile</td>
+            <td>This is the path to the velocity.properties file. It is an optional
+            argument and by default is set to find the properties file in the same
+            directory that the JVM was started in.</td>
+        </tr>
+    </table>
+</p>
+</s1>
+
+<s1 title="Context Objects">
+<p>
+    The Anakia Ant task places several objects into the Context for you. Right now, 
+    you do not have control over what is placed into the Context. Eventually, 
+    we hope to have a way to give you control over this. However, that does not prevent
+    Anakia from being extremely useful for you today. :-)
+    The objects that are available to you in your .vsl template are:
+</p>
+<p>
+    <table border="0">
+        <tr>
+        <th>Name</th>
+        <th>Value</th>
+        </tr>
+        <tr>
+            <td>$root</td>
+            <td>This contains the JDOM root Element to your .xml document.</td>
+        </tr>
+        <tr>
+            <td>$project</td>
+            <td>This contains the JDOM root Element to your project.xml document. 
+            If you have not specified a project.xml document, then this variable
+            will not be in the context.                            
+            </td>
+        </tr>
+        <tr>
+            <td>$relativePath</td>
+            <td>This contains a String which is the relative path to your
+            .xml document from the baseDir that was specified in your 
+            Ant task attributes. Please see the examples/anakia .vsl document
+            for example usage of this String.</td>
+        </tr>
+        <tr>
+            <td>$xmloutput</td>
+            <td>This contains an instance of the JDOM XMLOutputter() object. 
+            This allows you to easily create String output out of your JDOM 
+            element objects. Again, please look at the examples for more information 
+            on how to use this object.</td>
+        </tr>
+    </table>
+</p>
+
+</s1>
+
+</body>
+</document>
