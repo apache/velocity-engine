@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.76 2003/10/23 13:27:02 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.77 2003/10/23 15:53:46 geirm Exp $
 */
 public class Parser
 {
@@ -508,6 +508,13 @@ TOKEN:
 TOKEN:
 {
   <COLON : ":" >
+}
+
+<DIRECTIVE>
+TOKEN :
+{
+    <LEFT_CURLEY : "{" >
+  | <RIGHT_CURLEY : "}" >
 }
 
 <DIRECTIVE,REFMODIFIER>
@@ -1211,7 +1218,7 @@ int DirectiveArg() #void : {}
     {
         return ParserTreeConstants.JJTINTEGERRANGE;
     }
-|   LOOKAHEAD( <LBRACKET> Parameter() <COLON> ) Map()
+|   LOOKAHEAD( <LEFT_CURLEY> Parameter() <COLON> ) Map()
     {
         return ParserTreeConstants.JJTMAP;
     }
@@ -1401,7 +1408,7 @@ SimpleNode Directive() :
  */
 void Map() : {}
 {
-    <LBRACKET> [ Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )* ] <RBRACKET>
+    <LEFT_CURLEY> [ Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )* ] <RIGHT_CURLEY>
 }
 
 void ObjectArray() : {}
@@ -1435,7 +1442,7 @@ void Parameter() #void: {}
     (
         StringLiteral()
         | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-        | LOOKAHEAD( <LBRACKET>  Parameter() <COLON>) Map()
+        | LOOKAHEAD( <LEFT_CURLEY>  Parameter() <COLON>) Map()
         | ObjectArray()
         | True()
         | False()
@@ -1645,7 +1652,7 @@ void PrimaryExpression() #void : {}
     | NumberLiteral()
     | Reference()
     | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-    | LOOKAHEAD( <LBRACKET>  Parameter()  <COLON>) Map()
+    | LOOKAHEAD( <LEFT_CURLEY>  Parameter()  <COLON>) Map()
     | ObjectArray()
     | True()
     | False()
