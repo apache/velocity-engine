@@ -63,8 +63,8 @@
 
 <p>
     This will produce a directory structure of templates named
-    <code>templates.vm</code>. The original WebMacro templates will be
-    preserved during the conversion process.
+    <code>templates/[template].vm</code>. The original WebMacro templates
+    will be preserved during the conversion process.
 </p>
 </section>
 
