@@ -81,7 +81,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
-import org.apache.velocity.runtime.log.SimpleLogSystem;
+//import org.apache.velocity.runtime.log.SimpleLogSystem;
 
 /**
  * This class the testbed for Velocity. It is used to
@@ -89,7 +89,7 @@ import org.apache.velocity.runtime.log.SimpleLogSystem;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.21 2001/03/19 17:10:02 geirm Exp $
+ * @version $Id: Test.java,v 1.22 2001/03/19 17:31:33 geirm Exp $
  */
 public class Test
 {
@@ -171,9 +171,9 @@ public class Test
              *  use an alternative logger.  Set it up here and pass it in.
              */
             
-            SimpleLogSystem sls = new SimpleLogSystem("velocity_simple.log");
+            //            SimpleLogSystem sls = new SimpleLogSystem("velocity_simple.log");
             
-            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, sls );
+            // Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, sls );
           
             /*
              *  and now call init
