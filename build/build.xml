@@ -321,6 +321,7 @@
       **   examples/appexample2 : application example
       **   examples/servletexample1 : servlet example
       **   examples/context_example : example context implementations
+      **   examples/logger_example : how to make an external logger
       **   forumdemo : demonstration webapp
       **************************************************************
       </echo>
