@@ -10,39 +10,22 @@
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
 
-  <property 
-    name="template.test" 
-    value="org.apache.velocity.test.TemplateTestCase"
-  />
-
-  <property 
-    name="introspector.test"
-    value="org.apache.velocity.test.IntrospectorTestCase"
-  />
-
-  <property 
-    name="inlinevmscope.test"
-    value="org.apache.velocity.test.InlineScopeVMTestCase"
-  />
-
-  <property 
-    name="multi.file.resource.path.test"
-    value="org.apache.velocity.test.MultipleFileResourcePathTest"
-  />
-
-  <property 
-    name="cpload.resource.test"
-    value="org.apache.velocity.test.ClasspathResourceTest"
-  />
-   
   <!-- =================================================================== -->
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
-  <target name="test-all" depends="test-introspect">
+  <target name="test-all" depends="
+                                   test-template,
+                                   test-introspect,
+                                   test-inlinevmscope,
+                                   test-multi,
+                                   test-cpload
+                                   "/>
+
+  <target name="test-template">
     <echo message="Running Template tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
-      <arg value="${template.test}"/>
+      <arg value="org.apache.velocity.test.TemplateTestCase"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
@@ -50,12 +33,12 @@
       </classpath>
     </java>
    </target>
-   
-  <target name="test-introspect" depends="test-inlinevmscope"> 
+
+  <target name="test-introspect"> 
     <echo message="Running Introspector tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
-      <arg value="${introspector.test}"/>
+      <arg value="org.apache.velocity.test.IntrospectorTestCase"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
@@ -64,11 +47,11 @@
     </java>
   </target>
 
-  <target name="test-inlinevmscope" depends="test-multi">
+  <target name="test-inlinevmscope">
     <echo message="Running Inline VM Scope tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
-      <arg value="${inlinevmscope.test}"/>
+      <arg value="org.apache.velocity.test.InlineScopeVMTestCase"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
@@ -77,11 +60,11 @@
     </java>
   </target>
 
-  <target name="test-multi" depends="test-cpload">
+  <target name="test-multi">
     <echo message="Running Multiple File Resource Path tests..."/>
 
-      <java classname="${velocity.test.runner}" fork="yes">
-      <arg value="${multi.file.resource.path.test}"/>
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.MultipleFileResourcePathTest"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
@@ -90,10 +73,11 @@
     </java>
   </target>
 
-   <target name="test-cpload">
+  <target name="test-cpload">
     <echo message="Running Classpathe Resource tests..."/>
-      <java classname="${velocity.test.runner}" fork="yes">
-      <arg value="${cpload.resource.test}"/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.ClasspathResourceTest"/>
       <classpath>
         <pathelement path="${classpath}"/>
         <pathelement location="${junit.jar}"/>
