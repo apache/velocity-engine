@@ -133,6 +133,7 @@ public class Foreach extends Directive
         // Figure out what type of object the list
         // element is so that we don't have to do it
         // everytime the node is traversed.
+        //if (listObject instanceof Object[])
         if (listObject instanceof Object[])
         {
             node.setInfo(ARRAY);

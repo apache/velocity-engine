@@ -97,14 +97,18 @@ public class ClassMethodMap
      * a methodKey and add it to the
      * directHits Map.
      */
-    public Method findMethod(String methodKey)
+    public Method findMethod(String name, Object[] params)
     {
+        String methodKey = makeMethodKey(name, params);
+        
+        //if (!directHits.containsKey(methodKey))
+        
         return (Method) directHits.get(methodKey);
     }
     
     /**
      * Populate the Map of direct hits. These
-     * are taken from all the public method
+     * are taken from all the public methods
      * that our class provides.
      */
     private void populateDirectHits()
@@ -130,6 +134,16 @@ public class ClassMethodMap
         
         for (int j = 0; j < parameterTypes.length; j++)
             methodKey.append(parameterTypes[j].getName());
+
+        return methodKey.toString();
+    }
+
+    private static String makeMethodKey(String method, Object[] params)
+    {
+        StringBuffer methodKey = new StringBuffer().append(method);
+        
+        for (int j = 0; j < params.length; j++)
+            methodKey.append(params[j].getClass().getName());
 
         return methodKey.toString();
     }

@@ -55,13 +55,12 @@ package org.apache.velocity.runtime.loader;
  */
 
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.Configuration;
 
 /**
  * Factory to grab a template loader.
  * 
  * @author Dave Bryson
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  */
 public class TemplateFactory
 {

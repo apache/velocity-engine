@@ -82,7 +82,7 @@ import java.lang.reflect.Modifier;
  * This mapping is performed for all the methods in a class
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Introspector.java,v 1.1 2000/10/31 02:48:49 jvanzyl Exp $
+ * @version $Id: Introspector.java,v 1.2 2000/10/31 23:44:59 jvanzyl Exp $
  */
 
 // isAssignable checks for arguments that are subclasses
@@ -107,24 +107,8 @@ public class Introspector
 
     private static Method findMethod(Class c, String name, Object[] params)
     {
-        // Get the class method map for the class in
-        // question.
         ClassMethodMap classMethodMap = (ClassMethodMap) classMethodMaps.get(c.getName());
-        
-        // Return the method based method key.
-        Method method = classMethodMap.findMethod(makeMethodKey(name, params));
-        
-        return method;
-    }
-
-    private static String makeMethodKey(String method, Object[] params)
-    {
-        StringBuffer methodKey = new StringBuffer().append(method);
-        
-        for (int j = 0; j < params.length; j++)
-            methodKey.append(params[j].getClass().getName());
-    
-        return methodKey.toString();
+        return classMethodMap.findMethod(name, params);
     }
 
     private static class Test
