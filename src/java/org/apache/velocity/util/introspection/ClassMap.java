@@ -65,7 +65,7 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.6 2000/11/09 22:54:46 jvanzyl Exp $
+ * @version $Id: ClassMap.java,v 1.7 2000/11/10 02:29:48 jvanzyl Exp $
  */
 
 // TODO: public boolean (String[] list)
@@ -188,10 +188,22 @@ public class ClassMap
              */
             if (parameterTypes[j].isPrimitive())
             {
-                if (parameterTypes[j].equals(Integer.TYPE))
-                    methodKey.append("java.lang.Integer");
-                else if (parameterTypes[j].equals(Boolean.TYPE))
+                if (parameterTypes[j].equals(Boolean.TYPE))
                     methodKey.append("java.lang.Boolean");
+                else if (parameterTypes[j].equals(Byte.TYPE))
+                    methodKey.append("java.lang.Byte");
+                else if (parameterTypes[j].equals(Character.TYPE))
+                    methodKey.append("java.lang.Character");
+                else if (parameterTypes[j].equals(Double.TYPE))
+                    methodKey.append("java.lang.Double");
+                else if (parameterTypes[j].equals(Float.TYPE))
+                    methodKey.append("java.lang.Float");
+                else if (parameterTypes[j].equals(Integer.TYPE))
+                    methodKey.append("java.lang.Integer");
+                else if (parameterTypes[j].equals(Long.TYPE))
+                    methodKey.append("java.lang.Long");
+                else if (parameterTypes[j].equals(Short.TYPE))
+                    methodKey.append("java.lang.Short");
             }                
             else
                 methodKey.append(parameterTypes[j].getName());
