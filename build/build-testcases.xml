@@ -3,6 +3,7 @@
 <!-- Testcases for Velocity -->
 <project name="main" default="test-all">
 
+  <property name="build.dir" value="../bin"/>
   <property name="build.dest" value="${build.dir}/classes"/>
   <property name="ant.home" value="."/>
   <property name="test.home" value="../test"/>
@@ -10,6 +11,13 @@
 
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
+
+  <!-- Build classpath -->
+  <path id="classpath">
+    <fileset dir="./lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
 
   <!-- =================================================================== -->
   <!-- JUnit Test Cases                                                    -->
