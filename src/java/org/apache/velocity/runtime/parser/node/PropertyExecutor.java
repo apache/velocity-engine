@@ -156,7 +156,8 @@ public class PropertyExecutor extends AbstractExecutor
                       "Invocation of method '" + methodUsed + "'" 
                       + " in  " + o.getClass() 
                       + " threw exception " 
-                      + ite.getTargetException().getClass(), 
+                      + ite.getTargetException().getClass() + " : "
+                      + ite.getTargetException().getMessage(), 
                       ite.getTargetException(), methodUsed );
                 }
             }
@@ -170,7 +171,8 @@ public class PropertyExecutor extends AbstractExecutor
                 "Invocation of method '" + methodUsed + "'" 
                 + " in  " + o.getClass() 
                 + " threw exception " 
-                + ite.getTargetException().getClass(), 
+                + ite.getTargetException().getClass() + " : "
+                + ite.getTargetException().getMessage(),
                 ite.getTargetException(), methodUsed );
 
               
