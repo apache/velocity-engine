@@ -69,6 +69,7 @@ import java.util.Stack;
 import java.util.Enumeration;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.HashMap;
 
 import org.apache.velocity.Template;
 
@@ -143,7 +144,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.12 2001/11/25 14:00:13 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.13 2002/01/03 12:40:23 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -215,7 +216,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  application for use in application supplied/specified
      *  pluggable components
      */
-    private Object applicationContext = null;
+    private Map applicationAttributes = null;
     
     
     public RuntimeInstance()
@@ -232,13 +233,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          */
          
         introspector = new Introspector( this );
+
+        /*
+         * and a store for the application attributes
+         */
+
+        applicationAttributes = new HashMap();
     }
 
     /*
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
-     * 
+     *
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
@@ -1085,14 +1092,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return introspector;
     }
     
-    public Object getApplicationContext()
+    public Object getApplicationAttribute( Object key)
     {
-        return applicationContext;
+        return applicationAttributes.get( key );
     }
 
-    public void setApplicationContext( Object o )
+    public Object setApplicationAttribute( Object key, Object o )
     {
-        applicationContext = o;
+        return applicationAttributes.put( key, o );
     }
 
 }
