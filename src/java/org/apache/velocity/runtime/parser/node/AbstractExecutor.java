@@ -58,6 +58,8 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import java.lang.reflect.InvocationTargetException;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * Abstract class that is used to execute an arbitrary
@@ -65,7 +67,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.5 2001/03/19 18:53:53 geirm Exp $
+ * @version $Id: AbstractExecutor.java,v 1.6 2001/04/18 12:25:28 geirm Exp $
  */
 public abstract class AbstractExecutor
 {
@@ -77,8 +79,9 @@ public abstract class AbstractExecutor
     /**
      * Execute method against context.
      */
-    public abstract Object execute(Object o, InternalContextAdapter context);
-
+    public abstract Object execute(Object o, InternalContextAdapter context)
+        throws IllegalAccessException, MethodInvocationException;
+  
     /**
      * Tell whether the executor is alive by looking
      * at the value of the method.
@@ -92,3 +95,4 @@ public abstract class AbstractExecutor
     }            
 
 }
+

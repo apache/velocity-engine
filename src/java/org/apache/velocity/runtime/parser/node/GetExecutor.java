@@ -58,6 +58,9 @@ import java.lang.reflect.Method;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.util.introspection.Introspector;
 
+import java.lang.reflect.InvocationTargetException;
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  * Executor that simply tries to execute a get(key)
  * operation. This will try to find a get(key) method
@@ -66,7 +69,7 @@ import org.apache.velocity.util.introspection.Introspector;
  * the case.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: GetExecutor.java,v 1.3 2001/03/19 18:53:54 geirm Exp $
+ * @version $Id: GetExecutor.java,v 1.4 2001/04/18 12:25:28 geirm Exp $
  */
 public class GetExecutor extends AbstractExecutor
 {
@@ -85,24 +88,46 @@ public class GetExecutor extends AbstractExecutor
         args[0] = key;
         method = Introspector.getMethod(c, "get", args);
     }
-    
+
     /**
-     * Try and execute the get(key) method for this
-     * object. There is no longer a requirement that
-     * this object implement the Map interface.
+     * Execute method against context.
      */
     public Object execute(Object o, InternalContextAdapter context)
+        throws IllegalAccessException, MethodInvocationException
     {
-        try
+        if (method == null)
+            return null;
+     
+        try 
         {
-            if (method == null)
-                return null;
-            
-            return method.invoke(o, args);
+            return method.invoke(o, args);  
         }
-        catch (Exception e)
+        catch( InvocationTargetException ite )
+        {
+            /*
+             *  the method we invoked threw an exception.
+             *  package and pass it up
+             */
+
+            throw  new MethodInvocationException( 
+                "Invocation of method 'get(\"" + args[0] + "\")'" 
+                + " in  " + o.getClass() 
+                + " threw exception " 
+                + ite.getTargetException().getClass(), 
+                ite.getTargetException(), "get" );
+        }
+        catch( IllegalArgumentException iae )
         {
             return null;
         }
     }
 }
+
+
+
+
+
+
+
+
+

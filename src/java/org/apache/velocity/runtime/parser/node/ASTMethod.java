@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.13 2001/03/24 04:16:40 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.14 2001/04/18 12:25:28 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -271,6 +271,9 @@ public class ASTMethod extends SimpleNode
         }
         catch( Exception e )
         {
+            System.out.println("ASTMethod.execute() : exception invoking method '" 
+                               + methodName + "' in " + o.getClass() + " : "  + e );
+                               
             return null;
         }            
     }

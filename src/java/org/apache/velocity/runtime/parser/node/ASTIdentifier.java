@@ -58,9 +58,12 @@ import java.util.Map;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.Introspector;
+
+import org.apache.velocity.exception.MethodInvocationException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  *  ASTIdentifier.java
@@ -76,7 +79,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.9 2001/03/19 18:33:10 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.10 2001/04/18 12:25:27 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
@@ -136,7 +139,9 @@ public class ASTIdentifier extends SimpleNode
         executor = new PropertyExecutor(data, identifier);
 
         if (executor.isAlive() == false)
+        {
             executor = new GetExecutor(data, identifier);
+        }
         
         return executor;
     }
@@ -145,6 +150,7 @@ public class ASTIdentifier extends SimpleNode
      *  invokes the method on the object passed in
      */
     public Object execute(Object o, InternalContextAdapter context)
+        throws MethodInvocationException
     {
         AbstractExecutor executor = null;
 
@@ -185,7 +191,6 @@ public class ASTIdentifier extends SimpleNode
                     context.icachePut( this, icd );
                 }
             }
-
         }
         catch( Exception e)
         {
@@ -194,13 +199,32 @@ public class ASTIdentifier extends SimpleNode
                                + identifier + " : " + e );
         }
 
-        if (executor != null)
+        /*
+         *  we have no executor... punt...
+         */
+        if (executor == null)
+        {
+           return null;
+        }
+
+        /*
+         *  now try and execute.  If we get a MIE, throw that
+         *  as the app wants to get these.  If not, log and punt.
+         */
+        try
         {
             return executor.execute(o, context);
-        }            
-        else
+        }
+        catch( MethodInvocationException mie )
         {
-            return null;
+            throw mie;
+        }
+        catch( Exception e )
+        {
+            System.out.println("ASTIdentifier() : exception invoking method '" 
+                               + identifier + "' in " + o.getClass() + " : "  + e );
         }            
+
+        return null;
     }
 }
