@@ -113,29 +113,29 @@ import org.apache.commons.collections.ExtendedProperties;
  * systems like Turbine. Runtime properties can
  * set and then the Runtime is initialized.
  *
- * Turbine for example knows where the templates
- * are to be loaded from, and where the velocity
+ * Turbine, for example, knows where the templates
+ * are to be loaded from, and where the Velocity
  * log file should be placed.
  *
  * So in the case of Velocity cooperating with Turbine
  * the code might look something like the following:
  *
- * <pre>
- * Runtime.setProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
- * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
- * Runtime.init();
- * </pre>
+ * <blockquote><code><pre>
+ * ri.setProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
+ * ri.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
+ * ri.init();
+ * </pre></code></blockquote>
  *
  * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
- * Runtime.init()
+ * init()
  * 
- * If Runtime.init() is called by itself the Runtime will
- * initialize with a set of default values.
+ * If init() is called by itself the RuntimeInstance will initialize
+ * with a set of default values.
  * -----------------------------------------------------------------------
- * Runtime.init(String/Properties)
+ * init(String/Properties)
  *
  * In this case the default velocity properties are layed down
  * first to provide a solid base, then any properties provided
@@ -147,7 +147,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.16 2002/04/21 18:36:06 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.17 2002/08/09 00:54:53 dlr Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
