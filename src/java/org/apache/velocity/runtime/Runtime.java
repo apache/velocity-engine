@@ -141,7 +141,10 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.113 2001/10/22 03:53:23 jon Exp $
+ *
+ * @see org.apache.velocity.runtime.RuntimeSingleton
+ *
+ * @version $Id: Runtime.java,v 1.114 2002/08/09 00:53:44 dlr Exp $
  */
 public class Runtime implements RuntimeConstants
 {
