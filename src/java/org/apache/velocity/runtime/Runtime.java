@@ -158,7 +158,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.50 2000/11/19 23:17:52 geirm Exp $
+ * @version $Id: Runtime.java,v 1.51 2000/11/19 23:21:49 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -189,7 +189,6 @@ public class Runtime implements RuntimeConstants
       */
     private static final int NUMBER_OF_PARSERS = 20;
     
-
     /**
      *  VelocimacroFactory object to manage VMs
      */
