@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.20 2001/11/19 04:16:15 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.21 2001/11/19 13:55:30 geirm Exp $
  */
 public class TestProvider
 {
@@ -393,15 +393,5 @@ public class TestProvider
     {
         System.out.println("Hello from geThrow");
        throw new Exception("From getThrow()");
-    }
-
-    public boolean isBoolean()
-    {
-        return true;
-    }
-
-    public String  isNotboolean()
-    {
-        return "hello";
     }
 }
