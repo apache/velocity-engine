@@ -56,7 +56,8 @@ package org.apache.velocity.anakia;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import java.util.StringTokenizer;
@@ -92,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.25 2001/03/15 07:08:34 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.26 2001/03/18 22:42:50 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -362,7 +363,8 @@ public class AnakiaTask extends MatchingTask
                  *  get the property TEMPLATE_ENCODING
                  *  we know it's a string...
                  */
-                String encoding = (String) Velocity.getProperty( Runtime.TEMPLATE_ENCODING );
+                String encoding = (String) Velocity
+                    .getProperty( Runtime.TEMPLATE_ENCODING );
                 if (encoding == null || encoding.length() == 0 
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
@@ -386,7 +388,9 @@ public class AnakiaTask extends MatchingTask
 
                 // Process the VSL template with the context and write out
                 // the result as the outFile.
-                writer = new BufferedWriter(new FileWriter(outFile));
+                writer = new BufferedWriter(new OutputStreamWriter(
+                                            new FileOutputStream(outFile),
+                                                encoding));
                 // get the template to process
                 Template template = Runtime.getTemplate(style);
                 template.merge(context, writer);
