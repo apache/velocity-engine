@@ -30,7 +30,7 @@
 <s1 title="Compiling">
 
 <p>
-    On Unix/Linux, <code>sh</code> to the <filename>velocity/build</filename> directory and execute the following 
+    On Unix/Linux, <code>cd</code> to the <filename>velocity/build</filename> directory and execute the following 
     script:
 </p>    
 
