@@ -52,48 +52,72 @@
  * <http://www.apache.org/>.
  */
 
+
+import org.apache.velocity.io.FastWriter;
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.Context;
+import org.apache.velocity.Template;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-
-import org.apache.velocity.io.FastWriter;
-
-import org.apache.velocity.Context;
-import org.apache.velocity.Template;
-import org.apache.velocity.Configuration;
-import org.apache.velocity.runtime.TemplateFactory;
-import org.apache.velocity.runtime.TemplateLoader;
 
 /**
- * This class the testbed for Velocity. It is used to
- * test all the directives support by Velocity.
+ * This class is a simple demonstration of how the Velocity Template Engine
+ * can be used in a standalone application.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Example.java,v 1.1 2000/09/30 17:04:20 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Example.java,v 1.2 2000/11/02 15:28:33 geirm Exp $
  */
+
 public class Example
 {
     public Example(String templateFile)
     {
         try
         {
-            Configuration.setPropertiesFile("velocity.properties");
-            TemplateLoader loader = TemplateFactory.getLoader();
-            Template template = loader.getTemplate(templateFile);
+            /*
+             * setup
+             */
+
+            Runtime.init("velocity.properties");
             
+            FastWriter fw = new FastWriter(
+                 System.out, Runtime.getString(
+                     Runtime.TEMPLATE_ENCODING));
+
+             fw.setAsciiHack(Runtime.getBoolean(
+                 Runtime.TEMPLATE_ASCIIHACK));
+
+            /*
+             *  Make a context object and populate with the data.  This 
+             *  is where the Velocity engine gets the data to resolve the
+             *  references (ex. $list) in the template
+             */
+
             Context context = new Context();
             context.put("list", getNames());
             
-            FastWriter fw = new FastWriter(
-                System.out, Configuration.getString(
-                    Configuration.TEMPLATE_ENCODING));
-                
-            fw.setAsciiHack(Configuration.getBoolean(
-                Configuration.TEMPLATE_ASCIIHACK));
-            
+            /*
+             *  get the Template object.  This is the parsed version of your 
+             *  template input file.
+             */
+
+            Template template = Runtime.getTemplate(templateFile);
+             
+            /*
+             *  Now have the template engine process your template using the
+             *  data placed into the context.  Think of it as a  'merge' 
+             *  of the template and the data to produce the output stream.
+             */
+
             template.merge(context, fw);
+
+            /*
+             *  flush and cleanup
+             */
+
             fw.flush();
             fw.close();
         }
