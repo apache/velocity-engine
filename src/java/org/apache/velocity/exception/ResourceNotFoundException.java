@@ -58,18 +58,18 @@ package org.apache.velocity.exception;
  *  Application-level exception thrown when a resource of any type
  *  isn't found by the Velocity engine.
  *  <br>
- *  When this resource is thrown, a best effort will be made to have
+ *  When this exception is thrown, a best effort will be made to have
  *  useful information in the exception's message.  For complete 
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceNotFoundException.java,v 1.2 2001/03/27 02:06:40 geirm Exp $
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @version $Id: ResourceNotFoundException.java,v 1.3 2002/01/19 02:22:24 dlr Exp $
  */
 public class ResourceNotFoundException extends VelocityException
 {
-   public ResourceNotFoundException(String exceptionMessage )
+    public ResourceNotFoundException(String exceptionMessage)
     {
         super(exceptionMessage);
-    }       
+    }
 }
-
