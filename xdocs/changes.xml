@@ -61,6 +61,11 @@ key. (dlr)
 <li>
 Update user guide - remove confusing (wrong) content. (gmj)
 </li>
+<li>
+Brought all introspective-ish behavior under one umbrella interface, Uberspect,
+to allow customizable, pluggable introspection. (gmj)
+</li>
+
 </ul>
 
 
