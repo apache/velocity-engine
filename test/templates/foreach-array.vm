@@ -30,3 +30,11 @@ test doesn't fail incorrectly.
     </tr>        
 #end
 </table>
+
+-- And when we declare the array in-template :
+
+#set $colors=["red","blue","green"]
+Choose among :
+#foreach( $color in $colors )
+	$color
+#end
