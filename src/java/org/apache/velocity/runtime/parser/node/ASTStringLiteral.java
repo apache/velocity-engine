@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.13 2002/02/22 20:59:12 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.14 2002/02/22 21:46:00 jon Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {
@@ -91,16 +91,16 @@ public class ASTStringLiteral extends SimpleNode
     
     /**
      *  init : we don't have to do much.  Init the tree (there 
-     *  shouldn't be one ) and then see if interpolation is turned on.
+     *  shouldn't be one) and then see if interpolation is turned on.
      */
-    public Object init( InternalContextAdapter context, Object data) 
+    public Object init(InternalContextAdapter context, Object data) 
         throws Exception
     {
         /*
          *  simple habit...  we prollie don't have an AST beneath us
          */
 
-        super.init( context, data );
+        super.init(context, data);
 
         /*
          *  the stringlit is set at template parse time, so we can 
@@ -115,8 +115,8 @@ public class ASTStringLiteral extends SimpleNode
 
         interpolate = rsvc.getBoolean(RuntimeConstants.INTERPOLATE_STRINGLITERALS , true)
             && getFirstToken().image.startsWith("\"")
-            && ( (getFirstToken().image.indexOf("$") != -1 ) 
-                 || ( getFirstToken().image.indexOf("#") != -1 ));
+            && ((getFirstToken().image.indexOf('$') != -1) 
+                 || (getFirstToken().image.indexOf('#') != -1));
 
         /*
          *  get the contents of the string, minus the '/" at each end
@@ -131,22 +131,22 @@ public class ASTStringLiteral extends SimpleNode
 
         interpolateimage = image + " ";
 
-        if ( interpolate )
+        if (interpolate)
         {
             /*
              *  now parse and init the nodeTree
              */
 
-            BufferedReader br = new BufferedReader( new StringReader( interpolateimage ));
+            BufferedReader br = new BufferedReader(new StringReader(interpolateimage));
 
             nodeTree
-                = rsvc.parse( br, context.getCurrentTemplateName() );
+                = rsvc.parse(br, context.getCurrentTemplateName());
 
             /*
              *  init with context. It won't modify anything
              */
 
-            nodeTree.init( context, rsvc );
+            nodeTree.init(context, rsvc);
         }
 
         return data;
@@ -164,9 +164,9 @@ public class ASTStringLiteral extends SimpleNode
      *  the literal is rendered against the context
      *  Otherwise, the stringlit is returned.
      */
-    public Object value( InternalContextAdapter context)
+    public Object value(InternalContextAdapter context)
     {
-        if (interpolate )
+        if (interpolate)
         {          
             try
             {
@@ -175,7 +175,7 @@ public class ASTStringLiteral extends SimpleNode
                  */
 
                 StringWriter writer = new StringWriter();
-                nodeTree.render(context, writer );
+                nodeTree.render(context, writer);
                 
                 /*
                  * and return the result as a String
@@ -187,15 +187,15 @@ public class ASTStringLiteral extends SimpleNode
                  *  remove the space from the end (dreaded <MORE> kludge)
                  */
 
-                return ret.substring(0, ret.length() - 1 );
+                return ret.substring(0, ret.length() - 1);
             }
-            catch( Exception e )
+            catch(Exception e)
             {
                 /* 
                  *  eh.  If anything wrong, just punt 
                  *  and output the literal 
                  */
-                rsvc.error("Error in interpolating string literal : " + e );
+                rsvc.error("Error in interpolating string literal : " + e);
             }
         }
         
