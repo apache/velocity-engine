@@ -55,7 +55,6 @@ package org.apache.velocity;
  */
 
 import java.io.InputStream;
-import java.io.IOException;
 import java.io.Writer;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -67,7 +66,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -92,7 +90,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.35 2001/10/22 03:53:22 jon Exp $
+ * @version $Id: Template.java,v 1.36 2003/05/03 23:12:42 geirm Exp $
  */
 public class Template extends Resource
 {
