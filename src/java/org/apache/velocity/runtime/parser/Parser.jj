@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.46 2000/12/22 12:11:28 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.47 2000/12/27 14:48:24 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -778,7 +778,7 @@ TOKEN :
 TOKEN:
 {
    <#DIGIT: [ "0"-"9" ] >
-|   <NUMBER_LITERAL: (<DIGIT>)+ >
+|   <NUMBER_LITERAL: ("-")? (<DIGIT>)+ >
     {
         /*
          * check to see if we are in set
