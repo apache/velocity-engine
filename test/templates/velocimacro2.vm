@@ -1,0 +1,26 @@
+#**
+
+@test velocimacro2.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+#macro( foo $a )
+  Hello from foo : $a
+#end
+
+#macro( foo2 $a )
+  Hello from foo2 : $a
+#end
+
+#macro( foo_two $a )
+  Hello from foo_two : $a
+#end
+
+#foo( "hi" )
+#foo2( "hi" )
+#foo_two( "hi" )
+
