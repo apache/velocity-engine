@@ -77,7 +77,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Revision: 1.5 $
+ * $Revision: 1.6 $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -85,7 +85,14 @@ public class FileResourceLoader extends ResourceLoader
      * The paths to search for templates.
      */
     private Vector paths = null;
-    
+
+    /**
+     * Used to map the path that a template was found on
+     * so that we can properly check the modification
+     * times of the files.
+     */
+    private Hashtable templatePaths = new Hashtable();
+
     public void init(Configuration configuration)
     {
         paths = configuration.getVector("resource.path");
@@ -149,6 +156,12 @@ public class FileResourceLoader extends ResourceLoader
             
             if (inputStream != null)
             {
+                /*
+                 * Store the path that this template came
+                 * from so that we can check its modification
+                 * time.
+                 */
+                templatePaths.put(templateName, path);
                 return inputStream;
             }                
         }
@@ -204,7 +217,7 @@ public class FileResourceLoader extends ResourceLoader
      */
     public boolean isSourceModified(Resource resource)
     {
-        String path = "";
+        String path = (String) templatePaths.get(resource.getName());
         File file = new File( path, resource.getName() );           
         
         if ( file.canRead() )
@@ -232,7 +245,7 @@ public class FileResourceLoader extends ResourceLoader
 
     public long getLastModified(Resource resource)
     {
-        String path = "";
+        String path = (String) templatePaths.get(resource.getName());
         File file = new File(path, resource.getName());
     
         if (file.canRead())
