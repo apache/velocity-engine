@@ -76,35 +76,10 @@ import junit.framework.TestCase;
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.6 2001/03/05 11:47:35 jvanzyl Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.7 2001/03/13 00:07:22 dlr Exp $
  */
-public class InlineScopeVMTestCase extends TestCase
+public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
 {
-     /**
-     * VTL file extension.
-     */
-    private static final String TMPL_FILE_EXT = "vm";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String CMP_FILE_EXT = "cmp";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String RESULT_FILE_EXT = "res";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String RESULT_DIR = "../test/templates/results";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String COMPARE_DIR = "../test/templates/compare";
-
     InlineScopeVMTestCase()
     {
         super("InlineScopeVMTestCase");
@@ -112,7 +87,8 @@ public class InlineScopeVMTestCase extends TestCase
         try
         {
             /*
-             *  do our properties locally, and just override the ones we want changed
+             *  do our properties locally, and just override the ones we want
+             *  changed
              */
 
             Properties p = new Properties();
@@ -124,7 +100,7 @@ public class InlineScopeVMTestCase extends TestCase
                 RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
 
             p.setProperty( 
-                "resource.loader.1.resource.path"  , "../test/templates");
+                "resource.loader.1.resource.path", FILE_RESOURCE_LOADER_PATH);
             
             Runtime.init(p);    
         }
