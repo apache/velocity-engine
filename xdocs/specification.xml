@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Specification</title>
+  <author email="jon@latchkey.com">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Velocity Specification">
+
+<p>
+This document will eventually describe the Velocity Specification. 
+For now, we have links to our outdated BNF and AST specifications. 
+They will be updated soon.
+</p>
+
+<ul>
+<li><a href="./specification-bnf.html">BNF Specification</a></li>
+<li><a href="./specification-ast.html">AST Specification</a></li>
+</ul>
+
+</section>
+
+</body>
+</document>

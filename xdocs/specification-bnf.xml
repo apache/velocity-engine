@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Specification - BNF</title>
+  <author email="jon@latchkey.com">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Velocity Specification - BNF">
+
+<p>
+Please note that this is currently out of date and will be updated soon.
+</p>
+
+<source><![CDATA[
+This is a tentative BNF for Velocity, right now this is
+pretty much the WM syntax. This might change, as arithmetic
+might not make it into the syntax, and the future
+velocity syntax will more then likely remove block
+markers and instead use an "#end" token to signify
+the end of a directive.
+
+
+<statement>         
+    
+    ::=   <text>
+        | <block>
+        | <if-statement>
+        | <else-if-statement>
+        | <foreach-statement>
+        | <include-statement>
+        | <set-statement>
+        | <parse-statement>
+        | <param-statment>
+        | <stop-statement>
+        | <reference>
+
+<block>
+    
+    ::= "#begin" { <expresion> } "#end"
+
+<if-statement>
+    
+    ::= "#if" "(" <expresion> ")" <statement> [ <else-statement> ]
+
+
+<else-if-statement> 
+
+    ::= "#elseif" "(" <expresion> ")" <statement> [ <else-statement> ]
+
+<foreach-statement> 
+
+    ::= "#foreach" <reference> "in" <reference> <statement>
+
+<include-statement> 
+
+    ::= "#include" <string-literal>
+
+<set-statement>     
+
+    ::= "#set" <reference> "=" <expression>
+
+<parse-statement>   
+
+    ::= "#parse" <string-literal>
+
+<param-statment>    
+
+    ::= "#param" <reference> "=" <string-literal>
+
+<stop-statement>    
+
+    ::= "#stop"
+
+<reference>         
+
+    ::= "$" <identifier> { "." <method> | <identifier> }
+
+<method>            
+
+    ::= <identifier> "(" [ <parameter> { "," <parameter> } ] ")"
+
+<parameter>         
+
+    ::= <reference> | <string-literal>
+
+<alpha-char>
+
+    ::= "a..z, A..Z"
+
+<identifier-char>   
+
+    ::= "a..z, A..Z ,0..9 ,- ,_"
+
+<identifier>        
+
+    ::= <alpha-char> { <identifier-char> }
+
+<expression>        
+
+    ::=   <true>
+        | <false>
+        | <primary-expression> "=" <assignment>
+        | <conditional-or-expression>
+                        
+<assignment>        
+    
+    ::= <primary-expression> "=" <assignment>
+
+<conditional-or-expression>
+
+    ::= <conditional-and-expression> { "||" <conditional-and-expression> }
+                            
+<conditional-and-expression>
+
+    ::= <equality-expression> { "&&" <equality-expression> }
+                        
+<equality-expression>
+
+    ::= <relational-expression>
+        {     "==" <relational-expression> 
+            | "!=" <relational-expression> 
+        }
+                        
+<relational-expression>
+
+    ::= <additive-expression>
+        {
+              "<"  <additive-expression>
+            | ">"  <additive-expression>
+            | "<=" <additive-expression>
+            | ">=" <additive-expression>
+        }
+                        
+<additive-expression>
+
+    ::= <multiplicative-expression>
+        {
+              "+" <multiplicative-expression>
+            | "-" <multiplicative-expression>
+        }
+                        
+<multiplicative-expression>
+
+    ::= <unary-expression>
+        {
+              "*" <unary-expression>
+            | "/" <unary-expression>
+            | "%" <unary-expression>
+        }
+                        
+<unary-expression>
+
+    ::= "!" <unary-expression> | <primary-expression>
+                
+<primary-expression>
+
+    ::=   <string-literal>
+        | <number-literal>
+        | <reference>
+        | "(" <expression> ")"
+
+]]></source>
+
+</section>
+
+</body>
+</document>
