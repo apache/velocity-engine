@@ -57,10 +57,14 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.parser.node.NodeUtils;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.RuntimeServices;
 
@@ -81,7 +85,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.13 2001/08/07 21:57:56 geirm Exp $
+ * @version $Id: Macro.java,v 1.14 2001/11/07 12:59:50 geirm Exp $
  */
 public class Macro extends Directive
 {
@@ -180,17 +184,17 @@ public class Macro extends Directive
          *   now, try and eat the code block. Pass the root.
          */
         
-        String macroArray[] = 
+        List macroArray = 
             getASTAsStringArray( node.jjtGetChild( numArgs - 1) );
-    
+  
         /*
          *  make a big string out of our macro
          */
   
         StringBuffer temp  = new StringBuffer();
-        
-        for( int i=0; i < macroArray.length; i++)
-            temp.append( macroArray[i] );
+
+        for( int i=0; i < macroArray.size(); i++)
+            temp.append( macroArray.get(i) );
 
         String macroBody = temp.toString();    
    
@@ -261,10 +265,10 @@ public class Macro extends Directive
         return argArray;
     }
 
-   /**
+    /**
      *  Returns an array of the literal rep of the AST
      */
-    private static String [] getASTAsStringArray( Node rootNode )
+    private static List getASTAsStringArray( Node rootNode )
     {
         /*
          *  this assumes that we are passed in the root 
@@ -279,34 +283,13 @@ public class Macro extends Directive
          *  our first and last tokens
          */
 
-        int count = 0;
-        
-        //! Should this use the node.literal() ?
-        
-        while( t != null && t != tLast ) 
-        {
-            count++;
-            t = t.next;
-        }
+        ArrayList list = new ArrayList();
 
-        /*
-         *  account for the last one
-         */
-
-        count++;
-
-        /*
-         *  now, do it for real
-         */
-
-        String arr[] = new String[count];
-
-        count = 0;
         t = rootNode.getFirstToken();
 
         while( t != tLast ) 
         {
-            arr[count++] = t.image;
+            list.add( NodeUtils.tokenLiteral( t ) );
             t = t.next;
         }
 
@@ -314,9 +297,9 @@ public class Macro extends Directive
          *  make sure we get the last one...
          */
 
-        arr[count] = t.image;
+        list.add( NodeUtils.tokenLiteral( t ) );
 
-        return arr;
+        return list;
     }
 }
 
