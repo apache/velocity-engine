@@ -260,12 +260,15 @@ This deployment method will ensure that different web applications will not be s
 
 <s1 title="Velocity Properties">
 <p>
-Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties, found in
-/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.
+Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties contained
+ in Velocity's jar, found in
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  This ensures that Velocity will always have a 'correct' value
+for it's configuration and startup. 
 </p>
-<p>  Any
-properties specified at init() time will replace existing values.  This ensures that Velocity will always have a 'correct' value
-for it's configuration and startup.  These may not be the values you want, of course.
+<p>  Any properties then specified at init() time will replace the  default values.  This ensures that you only have to
+configure velocity with the properties that you need to change, and not worry about the rest.  Further, as we add more 
+features and configuration capability, you don't have to change your configuration files to suit - the Velocity engine will
+ always have default values.
 </p>
 <p>
 describe properties here
