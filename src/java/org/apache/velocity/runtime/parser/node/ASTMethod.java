@@ -5,8 +5,8 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.util.Introspector;
 import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.util.introspection.Introspector;
 
 public class ASTMethod extends SimpleNode
 {
@@ -39,15 +39,19 @@ public class ASTMethod extends SimpleNode
         paramCount = jjtGetNumChildren() - 1;
         params = new Object[paramCount];
         
-        method = Introspector.getMethod((Class) data, methodName, paramCount);
-        
         // Now the parameters have to be processed, there
         // may be references contained within that need
         // to be introspected.
         
         for (int i = 0; i < paramCount; i++)
             jjtGetChild(i + 1).init(context, null);
-        
+
+        for (int j = 0; j < paramCount; j++)
+            params[j] = jjtGetChild(j + 1).value(context);
+
+        //method = Introspector.getMethod((Class) data, methodName, paramCount);
+        method = Introspector.getMethod((Class) data, methodName, params);
+
         return method.getReturnType();
     }
     
