@@ -66,7 +66,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.velocity.Context;
-import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
 
@@ -86,7 +85,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.28 2000/12/12 23:45:38 geirm Exp $
+ * @version $Id: Foreach.java,v 1.29 2000/12/20 07:31:40 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
@@ -267,7 +266,9 @@ public class Foreach extends Directive
         default:
         
             /*  we have no clue what this is  */
-            Runtime.warn ("Could not determine type of iterator for #foreach loop for " +  node.jjtGetChild(2).getFirstToken().image);
+            Runtime.warn ("Could not determine type of iterator for " + 
+                "#foreach loop for " +  node.jjtGetChild(2).getFirstToken().image);
+            
             return null;
         }
     }
