@@ -35,7 +35,8 @@
     <menu name="Comparisons">
         <item name="YMTD"                   href="/ymtd/ymtd.html"/>
         <item name="VM/WM Differences"      href="/differences.html"/>
-        <item name="Case Study 1"           href="/casestudy1.html"/>
+        <item name="JSP vs. Velocity"       href="/casestudy1.html"/>
+        <item name="XMLC vs. Velocity"      href="/casestudy2.html"/>
     </menu>
     <menu name="Tools">
         <item name="Anakia"                 href="/anakia.html"/>
