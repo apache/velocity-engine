@@ -21,7 +21,7 @@ fi
 
 # convert the existing path to unix
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
-   CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+    CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
 fi
 
 CLASSPATH=${CLASSPATH}:./lib/ant-1.3.jar
@@ -32,10 +32,12 @@ CLASSPATH=${CLASSPATH}:./lib/antlr-runtime.jar
 
 # convert the unix path to windows
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
-   CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+    CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-BUILDFILE=build-velocity.xml
+if [ "$BUILDFILE" = "" ] ; then
+    BUILDFILE=build-velocity.xml
+fi
 
 ${JAVA_HOME}/bin/java -classpath ${CLASSPATH} \
                        org.apache.tools.ant.Main \
