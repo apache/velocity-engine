@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.31 2001/04/14 02:52:53 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.32 2001/04/22 23:02:03 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -543,7 +543,7 @@ public abstract class VelocityServlet extends HttpServlet
      * or throw a more meaningful exception.
      *
      * @deprecated Use
-     * {@link handleRequest( HttpServletRequest request, 
+     * {@link #handleRequest( HttpServletRequest request, 
      * HttpServletResponse response, Context ctx )}
      *
      * @param ctx The context to add your data to.
