@@ -62,6 +62,7 @@ import java.io.FileNotFoundException;
 
 import java.util.Map;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.configuration.Configuration;
@@ -70,22 +71,24 @@ import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-
 /**
  * This is a simple template file loader.
  * Currently it only supports a  single path to templates.
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Revision: 1.4 $
+ * $Revision: 1.5 $
  */
 public class FileResourceLoader extends ResourceLoader
 {
-    private String path;
-
+    /**
+     * The paths to search for templates.
+     */
+    private Vector paths = null;
+    
     public void init(Configuration configuration)
     {
-        path = configuration.getString("resource.path");
+        paths = configuration.getVector("resource.path");
     }
 
     /**
@@ -97,41 +100,84 @@ public class FileResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
      */
-    public synchronized InputStream getResourceStream( String name )
+    public synchronized InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
-        if (name == null || name.length() == 0)
+        String template = null;
+        int size = paths.size();
+
+        for (int i = 0; i < size; i++)
         {
+            String path = (String) paths.get(i);
+        
             /*
-             * I guess this exception is appropos..
+             * Make sure we have a valid templateName.
              */
+            if (templateName == null || templateName.length() == 0)
+            {
+                /*
+                 * If we don't get a properly formed templateName
+                 * then there's not much we can do. So
+                 * we'll forget about trying to search
+                 * any more paths for the template.
+                 */
+                throw new ResourceNotFoundException(
+                    "Need to specify a file name or file path!");
+            }
 
-            throw new ResourceNotFoundException ("Need to specify a file name or file path!");
-        }
+            template = StringUtils.normalizePath(templateName);
+            if ( template == null || template.length() == 0 )
+            {
+                String msg = "File resource error : argument " + template + 
+                    " contains .. and may be trying to access " + 
+                    "content outside of template root.  Rejected.";
 
-        String normalizedPath = StringUtils.normalizePath(name);
-        if ( normalizedPath == null || normalizedPath.length() == 0 )
-        {
-            String msg = "File resource error : argument " + normalizedPath + 
-                " contains .. and may be trying to access " + 
-                "content outside of template root.  Rejected.";
-
-            Runtime.error( "FileResourceLoader : " + msg );
+                Runtime.error( "FileResourceLoader : " + msg );
       
-            throw new ResourceNotFoundException ( msg );
-        }
+                throw new ResourceNotFoundException ( msg );
+            }
 
+            /*
+             *  if a / leads off, then just nip that :)
+             */
+            if ( template.startsWith("/") )
+            {
+                template = template.substring(1);
+            }
+
+            InputStream inputStream = findTemplate(path, template);
+            
+            if (inputStream != null)
+            {
+                return inputStream;
+            }                
+        }
+    
         /*
-         *  if a / leads off, then just nip that :)
+         * We have now searched all the paths for
+         * templates and we didn't find anything so
+         * throw an exception.
          */
-        if ( normalizedPath.startsWith("/") )
-        {
-            normalizedPath = normalizedPath.substring(1);
-        }
-
+        String msg = "FileResourceLoader Error: cannot find resource " +
+            template;
+    
+        Runtime.error(msg);
+        throw new ResourceNotFoundException( msg );
+    }
+    
+    /**
+     * Try to find a template given a normalized path.
+     * 
+     * @param String a normalized path
+     * @return InputStream input stream that will be parsed
+     *
+     */
+    private InputStream findTemplate(String path, String template)
+    {
+    
         try 
         {
-            File file = new File( path, normalizedPath );   
+            File file = new File( path, template );   
         
             if ( file.canRead() )
             {
@@ -140,11 +186,7 @@ public class FileResourceLoader extends ResourceLoader
             }
             else
             {                
-                String msg = "FileResourceLoader Error: cannot find resource " +
-                    file.getAbsolutePath();
-
-                Runtime.error(msg);
-                throw new ResourceNotFoundException( msg );
+                return null;
             }                
         }
         catch( FileNotFoundException fnfe )
@@ -152,14 +194,17 @@ public class FileResourceLoader extends ResourceLoader
             /*
              *  log and convert to a general Velocity ResourceNotFoundException
              */
-
-            Runtime.error("FileResourceLoader Error : exception : " + fnfe );
-            throw new ResourceNotFoundException( fnfe.getMessage() );
+            return null;
         }
     }
-
+    
+    /**
+     * How to keep track of all the modified times
+     * across the paths.
+     */
     public boolean isSourceModified(Resource resource)
     {
+        String path = "";
         File file = new File( path, resource.getName() );           
         
         if ( file.canRead() )
@@ -187,6 +232,7 @@ public class FileResourceLoader extends ResourceLoader
 
     public long getLastModified(Resource resource)
     {
+        String path = "";
         File file = new File(path, resource.getName());
     
         if (file.canRead())
