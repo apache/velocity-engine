@@ -6,6 +6,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
+import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.util.StringUtils;
 
 public class ParserTokenManager implements ParserConstants
@@ -103,7 +104,6 @@ public class ParserTokenManager implements ParserConstants
 
         return;
     }
-
 
     /**
      *  handles the dropdown logic when encountering a RPAREN
