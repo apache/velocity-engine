@@ -3,8 +3,6 @@
 # Script for building Velocity
 #-----------------------------
 
-TARGET=${1}
-
 #-------------------------------------------------------------------
 
 LIB=lib
@@ -38,21 +36,27 @@ if test -z "${JAVA_HOME}" ; then
     exit
 fi
 
+# convert the existing path to unix
+if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
+   CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+fi
+
 if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
+CLASSPATH=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
 
-echo "Now building ${TARGET}..."
-
-echo "Classpath: ${CP}"
+# convert the unix path to windows
+if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
+   CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+fi
 
 BUILDFILE=build-velocity.xml
 
-${JAVA_HOME}/bin/java -classpath ${CP} \
+${JAVA_HOME}/bin/java -classpath ${CLASSPATH} \
                        org.apache.tools.ant.Main \
-                       -buildfile ${BUILDFILE} ${TARGET}
+                       -buildfile ${BUILDFILE} "$@"
 
 
 
