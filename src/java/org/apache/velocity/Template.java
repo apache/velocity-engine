@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.12 2000/10/31 23:44:52 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.13 2000/11/01 18:22:07 jvanzyl Exp $
  */
 public class Template
 {
@@ -149,6 +149,7 @@ public class Template
                 Context initContext = (Context) context.clone();
                 document.init(initContext, null);
                 initialized = true;
+                initContext = null;
             }
         }                
         

@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.1 2000/10/22 22:51:12 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.2 2000/11/01 18:23:24 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -217,6 +217,23 @@ public class TestProvider
     public String concat(String a, String b)
     {
         return a + b;
+    }        
+
+    // These two are for testing subclasses.
+
+    public Person getPerson()
+    {
+        return new Person();
+    }
+    
+    public Child getChild()
+    {
+        return new Child();
+    }        
+
+    public String showPerson(Person person)
+    {
+        return person.getName();
     }        
 
     /*
