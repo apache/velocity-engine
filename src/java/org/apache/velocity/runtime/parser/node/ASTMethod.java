@@ -3,7 +3,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.10 2001/01/03 05:26:27 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.11 2001/03/19 17:16:06 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -82,6 +82,9 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+
+import org.apache.velocity.exception.MethodInvocationException;
+import java.lang.reflect.InvocationTargetException;
 
 public class ASTMethod extends SimpleNode
 {
@@ -153,6 +156,7 @@ public class ASTMethod extends SimpleNode
      *  an empty string "" if the method returns void
      */
     public Object execute(Object o, InternalContextAdapter context)
+        throws MethodInvocationException
     {
         /*
          *  new strategy (strategery!) for introspection. Since we want to be thread- as well as 
@@ -246,7 +250,19 @@ public class ASTMethod extends SimpleNode
             
             return obj;
         }
-        catch (Exception e)
+        catch( InvocationTargetException ite )
+        {
+            /*
+             *  In the even that the invocation of the method
+             *  itself throws an exception, we want to catch that
+             *  wrap it, and throw.  We don't log here as we want to figure
+             *  out which reference threw the exception, so do that 
+             *  above
+             */
+
+            throw  new MethodInvocationException( "Invocation of method threw exception.", ite.getTargetException(), methodName );
+        }
+        catch( Exception e )
         {
             return null;
         }            
