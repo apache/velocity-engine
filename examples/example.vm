@@ -4,7 +4,7 @@
 
 $this is great!
 
-#foreach $name in $list
+#foreach( $name in $list )
     $name is great!
 #end
 
