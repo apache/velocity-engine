@@ -8,7 +8,7 @@
  </properties>
 
  <body>
-<section name="Velocity v1.4-rc1 Released">
+<section name="Velocity v1.4 Released">
 
  <p>
    <table>
@@ -17,8 +17,7 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Release candidate #1 of Version 1.4 of the Velocity Template Engine is
-   available.  Yay! (2003-10-10)
+   Version 1.4 of the Velocity Template Engine is <i>finally</i> released (2004-4-14)
    </td>
    </tr>
    </table>
@@ -34,10 +33,6 @@
      </ul>
  </p>
 
- <p>
-     As this is a release candidate, it is <b>not</b> mirrored and can be found
-     <a href="http://cvs.apache.org/dist/jakarta/velocity/v1.4rc1/">here</a>.
- </p>
 </section>
 
 <section name="Notice : JDOM API Change">
@@ -56,6 +51,19 @@
 </section>
 
 <section name="Velocity News">
+
+
+    <p>
+        <strong>Velocity Dreamweaver Extension</strong>
+        <blockquote>
+        Jason Gill  (aka Pete the Chop) wrote a
+        <a href="http://www.macromedia.com/cfusion/exchange/index.cfm?view=sn121&amp;extID=1012541">
+        Dreamweaver Extension</a> that gives full Velocity support
+        in Dreamweaver.  Give it a look if you use Dreamweaver.
+
+        (<i>2004-04-14</i>)
+        </blockquote>
+    </p>
 
     <p>
         <strong>New Article on Velocity</strong>
@@ -188,17 +196,16 @@ the Struts framework.
 <section name="Where do I get releases?">
 
 <p>
-   The current release version is version 1.3.1.
+   The current release version is version 1.4
 </p>
 
 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
-formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.3.1/">here</a>.
+formats, and are found <a href="http://www.apache.org/dist/jakarta/velocity/binaries/velocity-1.4/">here</a>.
 </p>
 
 <p>
-    The latest <i>release candidate</i> v1.4-rc1 can be found
-    <a href="http://cvs.apache.org/dist/jakarta/velocity/v1.4rc1/">here</a>.    
+ The previous 1.3.1 release is found <a href="http://www.apache.org/dist/jakarta/velocity/binaries/velocity-1.3.1/">here</a>.
 </p>
 
 </section>

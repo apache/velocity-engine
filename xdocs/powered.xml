@@ -417,6 +417,17 @@
       </td>
      </tr>
 
+     <tr>
+      <td>
+       <a href="http://www.binamics.com/hibernatesynch/">Hibernate Synchronizer</a>
+      </td>
+      <td>
+      Hibernate Synchronizer is an Eclipse plugin to be used with Hibernate
+      to keep your Java business objects automatically synchronized with your 
+      Hibernate mapping  files.
+      </td>
+     </tr>
+
 
 
  </table>
