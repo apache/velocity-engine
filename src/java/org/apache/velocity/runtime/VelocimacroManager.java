@@ -84,7 +84,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.10 2001/04/22 18:17:41 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.11 2001/06/12 03:20:35 geirm Exp $ 
  */
 public class VelocimacroManager
 {
@@ -118,7 +118,6 @@ public class VelocimacroManager
      */
     public boolean addVM(String vmName, String macroBody, String argArray[], String namespace )
     {
-
         MacroEntry me = new MacroEntry( this, vmName,  macroBody,  argArray,  namespace );
 
         if ( usingNamespaces( namespace ) )
@@ -151,6 +150,7 @@ public class VelocimacroManager
      */
     public VelocimacroProxy get( String vmName, String namespace )
     {
+ 
         if ( usingNamespaces( namespace ) )
         {
             Hashtable local =  getNamespace( namespace, false );
@@ -162,9 +162,11 @@ public class VelocimacroManager
             if ( local != null)
             {
                 MacroEntry me = (MacroEntry) local.get( vmName );
-
+               
                 if (me != null)
-                    return me.createVelocimacro();
+                {
+                    return me.createVelocimacro( namespace );
+                }
             }
         }
 
@@ -176,8 +178,10 @@ public class VelocimacroManager
         MacroEntry me = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
         
         if (me != null)
-            return me.createVelocimacro();
-
+        {
+            return me.createVelocimacro( namespace );
+        }
+ 
         return null;
     }
 
@@ -337,14 +341,14 @@ public class VelocimacroManager
             return nodeTree;
         }
 
-        VelocimacroProxy createVelocimacro()
+        VelocimacroProxy createVelocimacro( String namespace )
         {
             VelocimacroProxy vp = new VelocimacroProxy();
             vp.setName( this.macroname );
             vp.setArgArray(  this.argarray ); 
             vp.setMacrobody( this.macrobody );
             vp.setNodeTree( this.nodeTree);
-
+            vp.setNamespace( namespace );
             return vp;
         }
 
