@@ -37,8 +37,15 @@
     
     or
     
-    ./convert-wm.sh <directory structure of templates>
+    ./convert-wm.sh templates
     ]]></source>
+</p>
+
+<p>
+    This will produce a single Velocity template named
+    template.vm, or a directory structure of templates
+    named templates.vm. Your original templates are
+    preserved.
 </p>
 
 </s1>
