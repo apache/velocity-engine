@@ -58,6 +58,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.context.EventCartridge;
 
+import org.apache.velocity.runtime.resource.Resource;
+
 /**
  *  interface to encapsulate the 'stuff' for internal operation of velocity.  
  *  We use the context as a thread-safe storage : we take advantage of the
@@ -69,7 +71,7 @@ import org.apache.velocity.context.EventCartridge;
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.4 2001/04/20 04:31:30 geirm Exp $
+ *  @version $Id: InternalHousekeepingContext.java,v 1.5 2001/04/22 18:18:45 geirm Exp $
  */
 interface InternalHousekeepingContext
 {
@@ -117,6 +119,21 @@ interface InternalHousekeepingContext
      */
     void icachePut( Object key, IntrospectionCacheData o );
 
+    /**
+     *  interface for the EventCartridge stuff.  This will be moved
+     *  to a separate interface
+     */
+
     EventCartridge attachEventCartridge( EventCartridge ec);
     EventCartridge getEventCartridge();
+
+    /**
+     *  temporary fix to enable #include() to figure out
+     *  current encoding.
+     *
+     */
+    Resource getCurrentResource();
+    void setCurrentResource( Resource r );
+    
+    
 }

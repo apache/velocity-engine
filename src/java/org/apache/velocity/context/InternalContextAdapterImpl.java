@@ -58,6 +58,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.context.EventCartridge;
 
+import org.apache.velocity.runtime.resource.Resource;
+
 /**
  *  This adapter class is the container for all context types for internal
  *  use.  The AST now uses this class rather than the app-level Context
@@ -86,7 +88,7 @@ import org.apache.velocity.context.EventCartridge;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.5 2001/04/20 04:31:29 geirm Exp $
+ * @version $Id: InternalContextAdapterImpl.java,v 1.6 2001/04/22 18:18:44 geirm Exp $
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
@@ -95,6 +97,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     
     /** the ICB we are wrapping.  We may need to make one */
     InternalHousekeepingContext icb = null;
+
+    Resource currentResource = null;
 
     /**
      *  CTOR takes a Context and wraps it, delegating all 'data' calls 
@@ -136,6 +140,17 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     public EventCartridge getEventCartridge()
     {
         return icb.getEventCartridge( );
+    }
+
+
+    public void setCurrentResource( Resource r )
+    {
+        currentResource = r;
+    }
+
+    public Resource getCurrentResource()
+    {
+        return currentResource;
     }
 
     /* --- InternalContext interface methods --- */
