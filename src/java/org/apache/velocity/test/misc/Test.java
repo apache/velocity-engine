@@ -83,7 +83,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.13 2001/02/11 21:39:05 geirm Exp $
+ * @version $Id: Test.java,v 1.14 2001/02/11 21:41:23 geirm Exp $
  */
 public class Test
 {
@@ -198,12 +198,6 @@ public class Test
             w = new StringWriter();
             Velocity.invokeVelocimacro( "floog", "test", new String[2],  context,  w );
             //System.out.println("Invoke = " + w );
-
-            Woogie woogie = new Woogie();
-
-            woogie.getMethod();
-
-            context.put("woogie", woogie );
 
  
             /*
