@@ -636,10 +636,16 @@ Root from which the file loader loads templates. Templates may live in subdirect
 <P align="justify">
 <CODE><FONT face="courier, monospaced">resource.loader.1.cache = false</FONT></CODE><BR>
 Controls caching of the templates in the loader.  Default is false, to make life easy for development and debugging.  This should
-be set to true for production deployment.
+be set to true for production deployment.  When 'true', the <CODE><FONT face="courier, monospaced">modificationCheckInterval</FONT></CODE> property applies.  This allows for the efficiency
+of caching, with the convenience of controlled reloads - useful in a hosted or ISP environment where templates can be modifed frequently and
+bouncing the application or servlet engine is not desired or permitted.
 </P>
 <P align="justify">
 <CODE><FONT face="courier, monospaced">resource.loader.1.modificationCheckInterval = 2</FONT></CODE><BR>
+This is the number of seconds between modification checks when caching is turned on.  When this is an integer &gt; 0, this represents the
+number of seconds between checks to see if the template was modified.  If the template has been modified since last check, then it is reloaded and reparsed.  Otherwise nothing is done.  When &lt;= 0, no modification checks will take place, and assuming
+that the property <CODE><FONT face="courier, monospaced">cache</FONT></CODE> (above) is true, once a template is loaded and parsed the first time it is used, 
+it will not be checked or reloaded after that until the application or servlet engine is restarted.
 </P>
 
 <B>Velocimacro</B>
