@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.11 2001/03/05 11:45:46 jvanzyl Exp $
+ * @version $Id: Macro.java,v 1.12 2001/03/20 01:11:24 jon Exp $
  */
 public class Macro extends Directive
 {
@@ -108,7 +108,8 @@ public class Macro extends Directive
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, 
+                           Writer writer, Node node)
         throws IOException 
     {
         /*
@@ -178,7 +179,8 @@ public class Macro extends Directive
          *   now, try and eat the code block. Pass the root.
          */
         
-        String macroArray[] = getASTAsStringArray( node.jjtGetChild( numArgs - 1) );
+        String macroArray[] = 
+            getASTAsStringArray( node.jjtGetChild( numArgs - 1) );
     
         /*
          *  make a big string out of our macro
@@ -196,7 +198,8 @@ public class Macro extends Directive
          * so just give it a whack...
          */
 
-        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody,  argArray, sourceTemplate );
+        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody,  
+                        argArray, sourceTemplate );
 
         return;
     }
@@ -236,7 +239,8 @@ public class Macro extends Directive
             if ( i > 0)
             {
                 if ( argArray[i].startsWith("$"))
-                    argArray[i] = argArray[i].substring(1, argArray[i].length());
+                    argArray[i] = argArray[i]
+                        .substring(1, argArray[i].length());
             }
 
             i++;

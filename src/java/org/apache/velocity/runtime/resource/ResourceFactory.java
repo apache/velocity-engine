@@ -59,6 +59,10 @@ import org.apache.velocity.Template;
 /**
  * Class responsible for instantiated a given resource type
  * given the resource type.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ResourceFactory.java,v 1.3 2001/03/20 01:11:33 jon Exp $
  */
 public class ResourceFactory
 {

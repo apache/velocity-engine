@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -68,7 +68,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * Pluggable directive that handles the #include() statement in VTL. 
- * This #include() can take multiple arguments of either StringLiteral or Reference.
+ * This #include() can take multiple arguments of either 
+ * StringLiteral or Reference.
  *
  * Notes:
  * -----
@@ -97,7 +98,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.16 2001/03/19 17:12:59 geirm Exp $
+ * @version $Id: Include.java,v 1.17 2001/03/20 01:11:23 jon Exp $
  */
 public class Include extends Directive
 {
@@ -122,7 +123,8 @@ public class Include extends Directive
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public boolean render(InternalContextAdapter context, 
+                           Writer writer, Node node)
         throws IOException, MethodInvocationException
     {
         /*
@@ -143,12 +145,15 @@ public class Include extends Directive
                  n.getType() ==  ParserTreeConstants.JJTREFERENCE )
             {
                 if (!renderOutput( n, context, writer ))
-                    outputErrorToStream( writer, "error with arg " + i + " please see log.");
+                    outputErrorToStream( writer, "error with arg " + i 
+                        + " please see log.");
             }
             else
             {
-                Runtime.error("#include() error : invalid argument type : " + n.toString());
-                outputErrorToStream( writer, "error with arg " + i + " please see log.");
+                Runtime.error("#include() error : invalid argument type : " 
+                    + n.toString());
+                outputErrorToStream( writer, "error with arg " + i 
+                    + " please see log.");
             }
         }
         
@@ -163,7 +168,8 @@ public class Include extends Directive
      *  @param writer output Writer
      *  @return boolean success or failure.  failures are logged
      */
-    private boolean renderOutput( Node node, InternalContextAdapter context, Writer writer )
+    private boolean renderOutput( Node node, InternalContextAdapter context, 
+                                  Writer writer )
         throws IOException, MethodInvocationException
     {
         String arg = "";

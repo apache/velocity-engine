@@ -84,7 +84,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.34 2001/03/19 23:52:41 geirm Exp $
+ * @version $Id: Foreach.java,v 1.35 2001/03/20 01:11:22 jon Exp $
  */
 public class Foreach extends Directive
 {
@@ -193,7 +193,8 @@ public class Foreach extends Directive
             return null;
 
         /*
-         *  See if we already know what type this is. Use the introspection cache
+         *  See if we already know what type this is. 
+         *  Use the introspection cache
          */
 
         int type = UNKNOWN;
@@ -258,7 +259,8 @@ public class Foreach extends Directive
                           + " is an Iterator in the #foreach() loop at ["
                           + getLine() + "," + getColumn() + "]"
                           + " in template " + context.getCurrentTemplateName() 
-                          + ". If used in more than once, this may lead to unexpected results.");
+                          + ". If used in more than once, this may lead to " 
+                          + "unexpected results.");
 
             return ( (Iterator) listObject);       
 
@@ -272,7 +274,8 @@ public class Foreach extends Directive
         
             /*  we have no clue what this is  */
             Runtime.warn ("Could not determine type of iterator in " 
-                          +  "#foreach loop for " +  node.jjtGetChild(2).getFirstToken().image 
+                          +  "#foreach loop for " 
+                          + node.jjtGetChild(2).getFirstToken().image 
                           + " at [" + getLine() + "," + getColumn() + "]"
                           + " in template " + context.getCurrentTemplateName() );            
 
@@ -283,7 +286,8 @@ public class Foreach extends Directive
     /**
      *  renders the #foreach() block
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, 
+                           Writer writer, Node node )
         throws IOException,  MethodInvocationException
     {        
         /*

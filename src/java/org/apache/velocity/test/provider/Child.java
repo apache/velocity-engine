@@ -58,6 +58,9 @@ package org.apache.velocity.test.provider;
  * Rudimentary class used in the testbed to test
  * introspection with subclasses of a particular
  * class.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: Child.java,v 1.4 2001/03/20 01:11:39 jon Exp $
  */
 public class Child extends Person
 {
