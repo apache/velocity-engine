@@ -3696,7 +3696,7 @@ final void MoreLexicalActions()
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
