@@ -121,8 +121,7 @@ public class Foreach extends Directive
         if (listObject == null)
         {
             node.setInvalid();
-            throw new ReferenceException(node.jjtGetChild(2).literal() +
-                " is not a valid reference.");
+            throw new ReferenceException("#foreach", node.jjtGetChild(2));
         }                
 
         // Figure out what type of object the list
