@@ -72,7 +72,10 @@ import java.io.IOException;
  *  <br><br>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: HttpServletRequestWrap.java,v 1.2 2001/03/29 21:08:55 geirm Exp $
+ * @version $Id: HttpServletRequestWrap.java,v 1.3 2001/09/11 18:04:45 geirm Exp $
+ *
+ * @deprecated Deprecated as of v1.2 because no longer necessary.
+ *
  */
 
 public class HttpServletRequestWrap implements HttpServletRequest

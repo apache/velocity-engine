@@ -72,7 +72,10 @@ import java.io.IOException;
  *  <br><br>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: HttpServletResponseWrap.java,v 1.2 2001/03/16 23:19:15 geirm Exp $
+ * @version $Id: HttpServletResponseWrap.java,v 1.3 2001/09/11 18:04:45 geirm Exp $
+ *
+ * @deprecated Deprecated as of v1.2 because no longer necessary.
+ *
  */
 public class HttpServletResponseWrap implements HttpServletResponse
 {
