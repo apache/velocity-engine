@@ -107,7 +107,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  Currently implemented by RuntimeInstance.
  * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeServices.java,v 1.3 2001/10/31 02:59:28 geirm Exp $
+ * @version $Id: RuntimeServices.java,v 1.4 2002/01/03 12:40:23 geirm Exp $
  */
 public interface RuntimeServices
 {
@@ -424,8 +424,8 @@ public interface RuntimeServices
     public Introspector getIntrospector();
     
     /*
-     *  Return the current application context
+     *  Return the specified applcation attribute
      */
-    public Object getApplicationContext();
+    public Object getApplicationAttribute( Object key );
     
 }
