@@ -115,18 +115,21 @@ import org.apache.velocity.exception.MethodInvocationException;
  * <li> error() : error handling
  * </ul>
  * <br>
- * If you put a contentType object into the context within either your
- * serlvet or within your template, then that will be used to override
+ * If you put a String with key "contentType" object into the context within either your
+ * servlet or within your template, then that will be used to override
  * the default content type specified in the properties file.
  *
- * "contentType" - The value for the Content-Type: header
+ * @deprecated This servlet has been replaced by VelocityViewServlet,
+ * available from the Velocity-Tools sub-project.  VelocityViewServlet
+ * provides support for quick, clean MVC web development.
+ * VelocityServlet will be removed in a future version of Velocity.
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.53 2003/10/23 16:13:28 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.54 2003/11/10 22:33:54 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
