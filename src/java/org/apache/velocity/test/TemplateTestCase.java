@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.11 2000/10/25 23:25:54 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.12 2000/10/26 22:06:22 dlr Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -160,6 +160,7 @@ public class TemplateTestCase extends RuntimeTestCase
         {
             Template template = Runtime.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
+            assureResultsDirectoryExists();
             template.merge(context, getWriter(new FileOutputStream
                 (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT))));
             closeWriter();
@@ -180,7 +181,7 @@ public class TemplateTestCase extends RuntimeTestCase
      *
      * @return The full path to the file.
      */
-    private String getFileName (String dir, String base, String ext)
+    private static String getFileName (String dir, String base, String ext)
     {
         StringBuffer buf = new StringBuffer();
         if (dir != null)
@@ -189,6 +190,29 @@ public class TemplateTestCase extends RuntimeTestCase
         }
         buf.append(base).append('.').append(ext);
         return buf.toString();
+    }
+
+    /**
+     * Assures that the results directory exists.  If the results directory 
+     * cannot be created, fails the test.
+     */
+    private static void assureResultsDirectoryExists ()
+    {
+        File resultDir = new File(RESULT_DIR);
+        if (!resultDir.exists())
+        {
+            Runtime.info("Template results directory did not exist");
+            if (resultDir.mkdirs())
+            {
+                Runtime.info("Created template results directory");
+            }
+            else
+            {
+                String errMsg = "Unable to create template results directory";
+                Runtime.warn(errMsg);
+                fail(errMsg);
+            }
+        }
     }
 
     /**
