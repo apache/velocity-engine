@@ -83,7 +83,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.4 2000/11/27 23:57:40 jvanzyl Exp $
+ * @version $Id: Parse.java,v 1.5 2000/11/28 00:21:04 jvanzyl Exp $
  */
 public class Parse extends Directive
 {
@@ -226,7 +226,7 @@ public class Parse extends Directive
          *  see if we have exceeded the configured depth.  If it isn't configured, put a stop at 20 just in case.
          */
 
-        if (iParseDepth_ >= VelocityResources.getInt("parse_directive.maxdepth", 20))
+        if (iParseDepth_ >= Runtime.getInt("parse_directive.maxdepth", 20))
                 throw new ParseDirectiveException("Max recursion depth reached.", iParseDepth_);
 
         return;
