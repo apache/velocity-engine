@@ -55,13 +55,12 @@ package org.apache.velocity.util.introspection;
  */
 
 /**
- *  Holds information for  node-local context data introspection
- *  information  @see InternalContext
+ *  Holds information for node-local context data introspection
+ *  information.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectionCacheData.java,v 1.2 2001/03/05 11:48:46 jvanzyl Exp $
+ * @version $Id: IntrospectionCacheData.java,v 1.3 2001/03/20 01:39:35 jon Exp $
  */
-
 public class IntrospectionCacheData
 {
     /**  

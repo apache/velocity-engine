@@ -56,6 +56,12 @@ package org.apache.velocity.runtime.exception;
 
 import org.apache.velocity.runtime.parser.node.Node;
 
+/**
+ * Exception thrown when a bad reference is found.
+ *
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ReferenceException.java,v 1.5 2001/03/20 01:39:28 jon Exp $ 
+ */
 public class ReferenceException extends Exception
 {
     public ReferenceException(String exceptionMessage, Node node)

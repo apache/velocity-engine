@@ -61,6 +61,7 @@ import java.io.File;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: FileUtil.java,v 1.8 2001/03/20 01:39:33 jon Exp $ 
  */
 public class FileUtil
 {
