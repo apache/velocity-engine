@@ -825,18 +825,20 @@ You request the Template from getTemplate() on each iteration.
 </li>
 </ul>
 
-it is possible that your VelocityContext will appear to 'leak' memory.  What happens
-is that it accumulates template node information for each template it visits, and
+it is possible that your VelocityContext will appear to 'leak' memory (it is really
+just gathering more introspection information.)  What happens
+is that it accumulates template node introspection 
+information for each template it visits, and
 as template caching is off, it appears to the VelocityContext that it is visiting 
-a new template each time.
-
+a new template each time.  Hence it gathers more introspection information and grows.
 It is highly recommended that you do one or more of the following :
 
 <ul>
 <li> Create a new VelocityContext for each excursion
 down through the template render process.   This will prevent the accumulation
 of introspection cache data.  For the case where you want to reuse the 
-VelocityContext because it's populated, you can simply wrap the populated
+VelocityContext because it's populated with data or objects,
+ you can simply wrap the populated
 VelocityContext in another, and the 'outer' one will accumulate the 
 introspection information, which you will just discard.  Ex.
 <code>VelocityContext useThis = new VelocityContext( populatedVC ); </code>
@@ -859,7 +861,8 @@ resulting in a performance improvement.
 <li>
 Reuse the Template object for the duration of the loop iterations. 
 Then you won't be forcing Velocity, if the cache is turned off, to
-reread and reparse the same template over and over.
+reread and reparse the same template over and over, so the VelocityContext
+won't gather new introspection information each time.
 </li>
 </ul>
 
@@ -2238,7 +2241,7 @@ Now make a little Java program that includes code similar to:
                                                 <p>
 (See the Anakia source for details on how to do this, or the Anakia example in the <code>examples</code>
 directory in the distribution.)
-And make a regular Velocity template :
+Now, make a regular Velocity template :
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2267,7 +2270,7 @@ And make a regular Velocity template :
     </table>
     </div>
                                                 <p>
-And render that template as you normally would, using the Context
+and render that template as you normally would, using the Context
 containing the JDOM tree. 
 Of course, this isn't the prettiest of examples, but it shows 
 the basics - that you can easily access XML data directly from 
@@ -2414,7 +2417,8 @@ directive and the use that, for example :
     </table>
     </div>
                                                 <p>
-The previous suggestions came from Christoph Reck, an active
+The previous suggestions for dealing with XML entities
+came from Christoph Reck, an active
 participant in the Velocity community.  We are very grateful
 for his [unknowing] contribution to this document, and hope his
 ideas weren't mangled too badly  :)
