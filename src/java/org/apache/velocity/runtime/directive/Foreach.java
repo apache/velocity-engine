@@ -85,13 +85,14 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.21 2000/11/24 23:59:47 jon Exp $
+ * @version $Id: Foreach.java,v 1.22 2000/11/25 21:31:30 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
-    private final static int ARRAY = 1;
-    private final static int ITERATOR = 2;
-    private final static int MAP = 3;
+    private final static int INFO_ARRAY = 1;
+    private final static int INFO_ITERATOR = 2;
+    private final static int INFO_MAP = 3;
+    private final static int INFO_EMPTY_LIST_OBJECT = 4;
     
     private final static String COUNTER_IDENTIFIER =
         VelocityResources.getString(Runtime.COUNTER_NAME);
@@ -119,70 +120,87 @@ public class Foreach extends Directive
         Object sampleElement = null;
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
 
-        // This is a refence node and it needs to
-        // be inititialized.
+        /*
+         * This is a refence node and it needs to
+         * be inititialized.
+         */
         node.jjtGetChild(2).init(context, null);
         listObject = node.jjtGetChild(2).value(context);
         
-        // If the listObject is null then we know that this
-        // whole foreach directive is useless. We need to
-        // throw a ReferenceException which is caught by
-        // the SimpleNode.init() and logged. But we also need
-        // to set a flag so that the rendering of this node
-        // is ignored as the output would be useless.
+        /* 
+         * If the listObject is null then we know that this
+         * whole foreach directive is useless. We need to
+         * throw a ReferenceException which is caught by
+         * the SimpleNode.init() and logged. But we also need
+         * to set a flag so that the rendering of this node
+         * is ignored as the output would be useless.
+         */
         
-        // Slight problem with this approach. The list object
-        // may have been #set previously, this usually wouldn't
-        // be the case, but this check should be moved into
-        // the rendering phase.
+        /* 
+         * Slight problem with this approach. The list object
+         * may have been #set previously, this usually wouldn't
+         * be the case, but this check should be moved into
+         * the rendering phase.
+         */
         if (listObject == null)
         {
             node.setInvalid();
             throw new ReferenceException("#foreach", node.jjtGetChild(2));
         }                
 
-        // Figure out what type of object the list
-        // element is so that we don't have to do it
-        // everytime the node is traversed.
-        //if (listObject instanceof Object[])
-        try
+        /* 
+         * Figure out what type of object the list
+         * element is so that we don't have to do it
+         * everytime the node is traversed.
+         * if (listObject instanceof Object[])
+         */
+        if (listObject instanceof Object[])
         {
-            if (listObject instanceof Object[])
-            {
-                node.setInfo(ARRAY);
-                Object[] arrayObject = ((Object[]) listObject);
+            Object[] arrayObject = ((Object[]) listObject);
             
-                if (arrayObject.length == 0)
-                    node.setInvalid();
-                else                
-                    sampleElement = arrayObject[0];
-            }            
-            else if (Introspector.implementsMethod(listObject, "iterator"))
+            if (arrayObject.length == 0)
             {
-                node.setInfo(ITERATOR);
+                node.setInfo(INFO_EMPTY_LIST_OBJECT);
+            }                
+            else
+            {
+                node.setInfo(INFO_ARRAY);
+                sampleElement = arrayObject[0];
+            }                    
+        }            
+        else if (Introspector.implementsMethod(listObject, "iterator"))
+        {
+            if (((Collection) listObject).size() == 0)
+            {
+                node.setInfo(INFO_EMPTY_LIST_OBJECT);
+            }                
+            else
+            {
+                node.setInfo(INFO_ITERATOR);
                 sampleElement = ((Collection) listObject).iterator().next();
-            }
-            else if (Introspector.implementsMethod(listObject, "values"))
+            }                    
+        }
+        else if (Introspector.implementsMethod(listObject, "values"))
+        {
+            if (((Map) listObject).size() == 0)
             {
-                node.setInfo(MAP);
-                sampleElement = ((Map) listObject).values().iterator().next();
+                node.setInfo(INFO_EMPTY_LIST_OBJECT);
             }
             else
             {
-                // If it's not an array or an object that provides
-                // an iterator then the node is invalid and should
-                // not be rendered.
-                node.setInvalid();
-                Runtime.warn ("Could not determine type of iterator for #foreach loop ");
-                throw new NodeException ("Could not determine type of iterator for #foreach loop " , node);
-            }            
+                node.setInfo(INFO_MAP);
+                sampleElement = ((Map) listObject).values().iterator().next();
+            }                    
         }
-        catch (java.util.NoSuchElementException nsee)
+        else
         {
+            // If it's not an array or an object that provides
+            // an iterator then the node is invalid and should
+            // not be rendered.
             node.setInvalid();
-            Runtime.warn ("Iterator for #foreach loop did not contain any values ");
-            throw new NodeException ("Iterator for #foreach loop did not contain any values ", node);
-        }
+            Runtime.warn ("Could not determine type of iterator for #foreach loop ");
+            throw new NodeException ("Could not determine type of iterator for #foreach loop " , node);
+        }            
         
         // This is a little trick so that we can initialize
         // all the blocks in the foreach  properly given
@@ -199,15 +217,56 @@ public class Foreach extends Directive
     public boolean render(Context context, Writer writer, Node node)
         throws IOException
     {
+        /*
+         * If the node has been set to invalid then it is because
+         * the list object placed in the context is not an array,
+         * does not provide an Iterator, or is not Map. In these
+         * cases there is nothing we can do, and nothing will
+         * be rendered.
+         */
         if (node.isInvalid())
             return false;
+            
+        if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
+        {
+            /*
+             * If the list object had no elements
+             * then lets try to init again. If the list
+             * object is still empty then an exception
+             * will be thrown again. But we will keep
+             * trying!
+             */
+            synchronized(this)
+            {
+                /* 
+                 * Check again for other threads that
+                 * got through above. Don't want to
+                 * have to synchronize on every render,
+                 * but we don't want to init() multiple
+                 * times here either. A few threads might
+                 * get into this block, but only one thread
+                 * will try the init().
+                 */
+                if (node.getInfo() == INFO_EMPTY_LIST_OBJECT)
+                {
+                    try
+                    {
+                        init(context, node);
+                    }
+                    catch (Exception e)
+                    {
+                        // do nothing.
+                    }
+                }
+            }
+        }
     
         Iterator i;
-        listObject = node.jjtGetChild(2).value(context);
+        Object listObject = node.jjtGetChild(2).value(context);
 
-        if (node.getInfo() == ARRAY)
+        if (node.getInfo() == INFO_ARRAY)
             i = new ArrayIterator((Object[]) listObject);
-        else if (node.getInfo() == MAP)
+        else if (node.getInfo() == INFO_MAP)
             i = ((Map) listObject).values().iterator();
         else            
             i = ((Collection) listObject).iterator();
