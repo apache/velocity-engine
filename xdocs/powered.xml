@@ -208,6 +208,22 @@
      <a href="http://www.webhelp.com">WebHelp</a>
     </td>
    </tr>
+   
+   <tr>
+    <td>
+     <a href="http://www.goodwoodinteriors.com">www.goodwoodinteriors.com</a>
+    </td>
+    <td>
+     Wood furniture factory site.  The static content of this site is 
+     generated using Velocity templates, providing the benefit of simple
+     deployment without the overhead of an online servlet container and
+     database with the advantage of Velocity's ease of use for generating
+     data driven content.
+    </td>
+    <td>
+     <a href="http://www.jawasoft.com">P.T.Jawasoft</a>
+    </td>
+   </tr>
 
   </table>
  </section>
