@@ -41,6 +41,7 @@
   <property name="demo.base" value="../examples/forumdemo"/>
   <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
   <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
+  <property name="demo.lib" value="${demo.base}/WEB-INF/lib"/>
 
   <!-- PDF generation using FOP -->
   <property name="xdocs.dir" value="../xdocs"/>
@@ -640,7 +641,10 @@
       ** The WAR can be found in the bin directory
       **************************************************
     </echo>
-              
+    
+    <mkdir dir="${demo.dest}"/>
+    <mkdir dir="${demo.lib}"/>
+
     <javac srcdir="${demo.src}"
       destdir="${demo.dest}"
       debug="${debug}"
@@ -653,7 +657,13 @@
       </classpath>
  
     </javac>
-                     
+
+    <copy todir="${demo.lib}">
+      <fileset dir="${build.dir}"> 
+        <include name="**/velocity*.jar"/>
+      </fileset>
+    </copy>
+
     <jar
       jarfile="${build.dir}/forumdemo.war"
       basedir="${demo.base}"
