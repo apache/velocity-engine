@@ -26,6 +26,9 @@ final.
 <li>
 Fixed javadoc in ClasspathResourceLoader (gmj)
 </li>
+<li>
+Backport from HEAD the #foo("#bar('a')") NPE fix (gmj)
+</li>
 </ul>
 
 </subsection>
