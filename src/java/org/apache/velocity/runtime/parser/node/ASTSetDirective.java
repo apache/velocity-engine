@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.5 2000/10/31 20:32:55 jvanzyl Exp $
+ * @version $Id: ASTSetDirective.java,v 1.6 2000/11/07 21:31:03 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -77,6 +77,7 @@ public class ASTSetDirective extends SimpleNode
     private Node right;
     private ASTReference left;
     private Object value;
+    public String strPrefix_ = "";
     
     public ASTSetDirective(int id)
     {
@@ -116,6 +117,26 @@ public class ASTSetDirective extends SimpleNode
          */
 
         super.init( context, data );
+
+        /*
+         *  see if we have any escape shmoo attached...  
+         */
+
+        Token t = getFirstToken();
+
+        strPrefix_ = "";
+
+        if (t.image.startsWith("\\"))
+        {
+            int i = 0;
+            int iLen = t.image.length();
+            
+            while( i < iLen && t.image.charAt(i) == '\\' )
+                i++;
+                
+            if (i > 0)
+                strPrefix_ = t.image.substring(0, i / 2 );
+        }
 
         /**
          * We need to place all RHS objects into the context
@@ -163,6 +184,17 @@ public class ASTSetDirective extends SimpleNode
     public boolean render(Context context, Writer writer)
         throws IOException
     {
+        /*
+         *  write any output we need to do (should be just escapes now)
+         */
+        
+        if ( strPrefix_.length() > 0)
+            writer.write( strPrefix_ );
+           
+        /*
+         *  regular processing
+         */
+
         right = getRightHandSide();
 
         if (right.value(context) == null)
