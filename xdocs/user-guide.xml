@@ -59,13 +59,14 @@ Introduction">Velocity Template Language (VTL): An Introduction</a></li>
 </li>
 <li><a href="#Escaping VTL Directives">Escaping VTL Directives</a></li>
 <li><a href="#VTL: Formatting Issues">VTL: Formatting Issues</a></li>
-<li><a href="#Other Features">Other Features</a>
+<li><a href="#Other Features and Miscellany">Other Features and Miscellany</a>
     <ol>
         <li><a href="#Math">Math</a></li>
         <li><a href="#Range Operator">Range Operator</a></li>
         <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
         !</a></li>
         <li><a href="#Velocimacro Miscellany">Velocimacro Miscellany</a></li>
+        <li><a href="#String Concatenation">String Concatenation</a></li>
     </ol>
 </li>
 <li><a href="#Feedback">Feedback</a></li>
@@ -1696,7 +1697,7 @@ Send me
 
 </section>
 
-<section name="Other Features">
+<section name="Other Features and Miscellany">
 
 <subsection name="Math">
 
@@ -2061,6 +2062,72 @@ invoke the method outside of the VM, and pass the value into the VM.
     Don't keep this on in production.
     </p>
 
+</subsection>
+
+<subsection name="String Concatenation">
+
+    <p>
+    A common question that developers ask is
+    <i>How do I do String concatenation?  Is there any
+    analogue to the '+' operator in Java?</i>.
+   </p>
+
+   <p>
+    To do concatenation of references in VTL, you 
+    just have to 'put them together'.  The context of 
+    where you want to put them together does matter, so 
+    we will illustrate with some examples.
+   </p>
+
+   <p> 
+    In the regular 'schmoo' of a template (when you are mixing
+    it in with regular content) :
+   </p>
+
+   <source><![CDATA[
+       #set( $size = "Big" )
+       #set( $name = "Ben" )
+
+      The clock is $size$name.
+   ]]></source>
+
+   <p>
+     and the output will render as 'The clock is BigBen'.
+     For more interesting cases, such as when you want to concatenate
+     strings to pass to a method, or to set a new referece, just
+     do
+   </p>
+
+   <source><![CDATA[
+      #set( $size = "Big" )
+      #set( $name = "Ben" )
+
+      #set($clock = "$size$name" )
+
+      The clock is $clock.
+    ]]></source>
+
+    <p>
+     Which will result in the same output.  As a final example, when 
+     you want to mix in 'static' strings with your references, you may 
+     need to use 'formal references' :
+    </p>
+
+    <source><![CDATA[
+      #set( $size = "Big" )
+      #set( $name = "Ben" )
+
+      #set($clock = "${size}Tall$name" )
+
+      The clock is $clock.
+    ]]></source>
+
+    <p>
+      Now the output is 'The clock is BigTallBen'.  The
+      formal notation is needed so the parser knows you
+      mean to use the reference '$size' versus '$sizeTall'
+      which it would if the '{}' weren't there.
+    </p>
 </subsection>
 
 </section>
