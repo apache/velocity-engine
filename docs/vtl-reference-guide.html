@@ -273,6 +273,64 @@
 <P align="justify">        
     <B>#foreach</B>
     <BR>
+    The #foreach directive provide a simple way of looping
+    through a list of objects:
+</P>
+
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    &lt;table&gt;
+    #foreach ($customer in $customerList)
+        &lt;tr&gt;
+          &lt;td&gt;
+            $customer.Name
+          &lt;/td&gt;
+        &lt;/tr&gt;
+    #end        
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+    Velocity provides an easy way to get the loop
+    counter so that you can do something like the
+    following:
+</P>
+    
+<P align="justify">    
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    &lt;table&gt;
+    #foreach ($customer in $customerList)
+        &lt;tr&gt;
+          &lt;td&gt;
+            $velocityCounter
+          &lt;/td&gt;
+          &lt;td&gt;
+            $customer.Name
+          &lt;/td&gt;
+        &lt;/tr&gt;
+    #end        
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+    The default name for the loop counter variable
+    reference is $velocityCounter, but you can specify
+    this in the velocity.properties file. You can also
+    specify whether the counter should start at 0 or 1.
+    Here's what the properties look like in the
+    velocity.properties file:
+</P>    
+
+<P align="justify">    
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    # Default name of the loop counter
+    # variable refernce.
+    counter.name = velocityCount
+    
+    # Default starting value of the loop
+    # counter variable reference.
+    counter.initial.value = 1
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
 </P>
 
 <P align="justify">        
