@@ -86,7 +86,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.17 2001/03/20 01:11:25 jon Exp $
+ * @version $Id: Parse.java,v 1.18 2001/04/22 23:08:42 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -171,7 +171,7 @@ public class Parse extends Directive
 
         try 
         {
-            t = Runtime.getTemplate( arg );   
+            t = Runtime.getTemplate( arg, context.getCurrentResource().getEncoding() );   
         }
         catch ( Exception e)
         {
