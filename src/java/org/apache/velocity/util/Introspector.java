@@ -82,7 +82,6 @@ public class Introspector
                 methods[i].getParameterTypes().length == params)
                 return methods[i];
         }            
-    
         return null;
     }
 }
