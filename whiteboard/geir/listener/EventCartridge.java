@@ -63,18 +63,18 @@ import java.util.ArrayList;
  *  'Package' of event handlers...
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventCartridge.java,v 1.1 2001/04/06 11:25:52 geirm Exp $
+ * @version $Id: EventCartridge.java,v 1.2 2001/04/09 01:03:27 geirm Exp $
  */
 public class EventCartridge
 {
     private ArrayList riehList = null;
-    private Object[] riehArr = null;
+    private ReferenceInsertionEventHandler[] riehArr = null;
 
     private ArrayList nsehList = null;
-    private Object[] nsehArr = null;
+    private NullSetEventHandler[] nsehArr = null;
 
     private ArrayList nrehList = null;
-    private Object[] nrehArr = null;
+    private NullReferenceEventHandler[] nrehArr = null;
 
     /**
      *  called by client to add an event handler.  For multiple
@@ -107,7 +107,14 @@ public class EventCartridge
              */
 
             riehList.add( ev );
-            riehArr = riehList.toArray();
+ 
+            /*
+             *  gen the static typed array
+             */
+
+            Object[] oarr = riehList.toArray();
+            riehArr = new ReferenceInsertionEventHandler[ oarr.length ];
+            System.arraycopy( oarr, 0, riehArr, 0, oarr.length);
 
             found = true;
         }
@@ -128,7 +135,14 @@ public class EventCartridge
              */
 
             nrehList.add( ev );
-            nrehArr = nrehList.toArray();
+
+            /*
+             *  gen the static typed array
+             */
+
+            Object[] oarr = nrehList.toArray();
+            nrehArr = new NullReferenceEventHandler[ oarr.length ];
+            System.arraycopy( oarr, 0, nrehArr, 0, oarr.length);
 
             found = true;
         }
@@ -150,7 +164,14 @@ public class EventCartridge
              */
 
             nsehList.add( ev );
-            nsehArr = nsehList.toArray();
+            
+            /*
+             *  gen the static typed array
+             */
+
+            Object[] oarr = nsehList.toArray();
+            nsehArr = new NullSetEventHandler[ oarr.length ];
+            System.arraycopy( oarr, 0, nsehArr, 0, oarr.length);
 
             found = true;
         }
@@ -167,18 +188,18 @@ public class EventCartridge
         return true;
     }
 
-    public Object[] getReferenceInsertionHandlerArray()
+    public ReferenceInsertionEventHandler[] getReferenceInsertionHandlerArray()
     {
         return riehArr;
     }
 
-    public Object[] getNullReferenceHandlerArray()
+    public NullReferenceEventHandler[] getNullReferenceHandlerArray()
     {
         return nrehArr;
     }
 
 
-    public Object[] getNullSetEventHandlerArray()
+    public NullSetEventHandler[] getNullSetEventHandlerArray()
     {
         return nsehArr;
     }
