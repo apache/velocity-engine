@@ -57,6 +57,9 @@
     <property name="introspector.test"
         value="org.apache.velocity.test.IntrospectorTestCase"/>
 
+    <property name="inlinevmscope.test"
+        value="org.apache.velocity.test.InlineScopeVMTestCase"/>
+
     <property name="runtime.defaults.dir" 
         value="org/apache/velocity/runtime/defaults"/>
 
@@ -250,6 +253,7 @@
     <!-- =================================================================== -->
     <!-- JUnit Tests for Velocity                                            -->
     <!-- =================================================================== -->
+
     <target name="test">
 
         <echo message="Running JUnit template tests for Velocity ..."/>
@@ -271,6 +275,21 @@
 
         <java classname="${velocity.test.runner}">
             <arg value="${introspector.test}"/>
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement location="${junit.jar}"/>
+                <pathelement location="${build.dest}"/>
+            </classpath>
+        </java>
+
+    </target>
+
+    <target name="test-inlinevmscope">
+
+        <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
+
+        <java classname="${velocity.test.runner}">
+            <arg value="${inlinevmscope.test}"/>
             <classpath>
                 <pathelement path="${classpath}"/>
                 <pathelement location="${junit.jar}"/>
