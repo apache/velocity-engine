@@ -58,7 +58,6 @@ import java.util.Vector;
 import java.util.Enumeration;
 
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  *  Pre-init logger.  I believe that this was suggested by
@@ -67,7 +66,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  know as this was a good idea... 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: PrimordialLogSystem.java,v 1.3 2002/08/09 00:58:01 dlr Exp $
+ * @version $Id: PrimordialLogSystem.java,v 1.4 2003/05/04 17:18:38 geirm Exp $
  */
 public class PrimordialLogSystem implements LogSystem
 {

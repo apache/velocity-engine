@@ -61,11 +61,8 @@ import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -92,7 +89,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.26 2002/10/10 17:10:30 dlr Exp $
+ * @version $Id: Parse.java,v 1.27 2003/05/04 17:18:38 geirm Exp $
  */
 public class Parse extends InputBase
 {

@@ -54,12 +54,10 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
 import java.util.Enumeration;
 
 import org.apache.log4j.*;
 import org.apache.log4j.net.*;
-import org.apache.log4j.spi.*;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -68,7 +66,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.6 2002/03/15 03:36:14 geirm Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.7 2003/05/04 17:18:38 geirm Exp $
  *
  * @deprecated As of v1.3.  Use
  *  {@link SimpleLog4jLogSystem}

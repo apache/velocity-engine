@@ -64,7 +64,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -102,7 +101,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.25 2002/10/10 17:10:30 dlr Exp $
+ * @version $Id: Include.java,v 1.26 2003/05/04 17:18:38 geirm Exp $
  */
 public class Include extends InputBase
 {
