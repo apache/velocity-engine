@@ -125,5 +125,56 @@ Thanks for your cooperation.
 
 </section>
 
+<section name="More Fun For Emacs">
+
+<p>
+  To make coding easier,  following bit of Emacs LISP does 
+  the 'right thing' with bracing, if you want.
+ </p>
+<source><![CDATA[
+(defun apache-jakarta-mode ()
+  "The Java mode specialization for Apache Jakarta projects."
+  (if (not (assoc "apache-jakarta" c-style-alist))
+      ;; Define the Apache Jakarta cc-mode style.
+      (c-add-style "apache-jakarta" '("java" (indent-tabs-mode . nil))))
+
+  (c-set-style "apache-jakarta")
+  (c-set-offset 'substatement-open 0 nil)
+  (setq mode-name "Apache Jakarta")
+
+  ;; Turn on syntax highlighting when X is running.
+  (if (boundp 'window-system)
+      (progn (setq font-lock-support-mode 'lazy-lock-mode)
+             (font-lock-mode t))))
+
+;; Activate Jakarta mode.
+(if (fboundp 'jde-mode)
+    (add-hook 'jde-mode-hook 'apache-jakarta-mode)
+  (add-hook 'java-mode-hook 'apache-jakarta-mode))
+]]></source>
+
+  <p>
+  Note that  this will apply to all java in emacs. 
+  To control it :
+
+  <ul>
+  <li>
+      Turn off : <code>M-: (remove-hook 'java-mode 'apache-jakarta-mode)</code>
+  </li>
+  <li>
+     Turn on : <code>M-: (add-hook 'java-mode 'apache-jakarta-mode)</code>
+  </li>
+  </ul>
+   'M-:' is &lt;meta&gt; followed by ':', of course.  
+   It will be on by default at startup.
+  </p>
+  
+  <p>
+  This was stolen lock, stock and barrel from the contribution 
+  to the Turbine project by Daniel L. Rall. Thanks Daniel!
+  </p>
+
+</section>
+
 </body>
 </document>

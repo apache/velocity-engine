@@ -260,6 +260,79 @@ Thanks for your cooperation.
                             </blockquote>
       </td></tr>
     </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="More Fun For Emacs"><strong>More Fun For Emacs</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+  To make coding easier,  following bit of Emacs LISP does 
+  the 'right thing' with bracing, if you want.
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+(defun apache-jakarta-mode ()
+  &quot;The Java mode specialization for Apache Jakarta projects.&quot;
+  (if (not (assoc &quot;apache-jakarta&quot; c-style-alist))
+      ;; Define the Apache Jakarta cc-mode style.
+      (c-add-style &quot;apache-jakarta&quot; '(&quot;java&quot; (indent-tabs-mode . nil))))
+
+  (c-set-style &quot;apache-jakarta&quot;)
+  (c-set-offset 'substatement-open 0 nil)
+  (setq mode-name &quot;Apache Jakarta&quot;)
+
+  ;; Turn on syntax highlighting when X is running.
+  (if (boundp 'window-system)
+      (progn (setq font-lock-support-mode 'lazy-lock-mode)
+             (font-lock-mode t))))
+
+;; Activate Jakarta mode.
+(if (fboundp 'jde-mode)
+    (add-hook 'jde-mode-hook 'apache-jakarta-mode)
+  (add-hook 'java-mode-hook 'apache-jakarta-mode))
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+  Note that  this will apply to all java in emacs. 
+  To control it :
+
+  <ul>
+  <li>
+      Turn off : <code>M-: (remove-hook 'java-mode 'apache-jakarta-mode)</code>
+  </li>
+  <li>
+     Turn on : <code>M-: (add-hook 'java-mode 'apache-jakarta-mode)</code>
+  </li>
+  </ul>
+   'M-:' is &lt;meta&gt; followed by ':', of course.  
+   It will be on by default at startup.
+  </p>
+                                                <p>
+  This was stolen lock, stock and barrel from the contribution 
+  to the Turbine project by Daniel L. Rall. Thanks Daniel!
+  </p>
+                            </blockquote>
+      </td></tr>
+    </table>
                                         </td>
                 </tr>
 
