@@ -129,7 +129,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.27 2000/11/08 02:45:00 jon Exp $ 
+ * @version $Id: Parser.jjt,v 1.28 2000/11/08 02:52:19 jon Exp $ 
 */
 public class Parser
 {
@@ -175,7 +175,13 @@ public class Parser
             ReInit(stream);
             sn = process();
         }
-        catch (Exception e )
+        catch (ParseException pe)
+        {
+            Runtime.error ("Parser Exception: " + StringUtils.stackTrace(pe));
+            throw new ParseException (pe.currentToken, 
+                pe.expectedTokenSequences, pe.tokenImage);
+        }
+        catch (Exception e)
         {
             Runtime.error ("Parser Error: " + StringUtils.stackTrace(e));
         }
