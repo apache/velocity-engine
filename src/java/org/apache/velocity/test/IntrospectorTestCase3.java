@@ -69,7 +69,7 @@ import junit.framework.TestSuite;
  *  Simple introspector test case for primitive problem found in 1.3
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectorTestCase3.java,v 1.1.2.3 2002/07/24 22:02:46 geirm Exp $
+ * @version $Id: IntrospectorTestCase3.java,v 1.1.2.4 2002/07/25 01:35:46 geirm Exp $
  */
 public class IntrospectorTestCase3 extends BaseTestCase
 {
@@ -139,6 +139,17 @@ public class IntrospectorTestCase3 extends BaseTestCase
         result = (String) method.invoke(mp, listLongList);
 
         assertTrue(result.equals("lll"));
+
+        /*
+         *  test invocation with nulls
+         */
+
+        Object [] oa = {null, new Integer(0)};
+        method = RuntimeSingleton.getIntrospector().getMethod(
+            MethodProvider.class, "lll", oa );
+        result = (String) method.invoke(mp, oa);
+
+        assertTrue(result.equals("Listl"));
 
     }
 
