@@ -70,7 +70,7 @@ import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.Runtime;
 
-import org.apache.velocity.io.FastWriter;
+import org.apache.velocity.io.*;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
@@ -93,7 +93,7 @@ import org.apache.velocity.io.FastWriter;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.10 2000/10/27 23:12:42 daveb Exp $
+ * $Id: VelocityServlet.java,v 1.11 2000/11/03 23:26:50 jon Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -116,12 +116,6 @@ public abstract class VelocityServlet extends HttpServlet
      * The encoding to use when generating outputing.
      */
     private static String encoding = null;
-
-    /**
-     * Whether to use the <code>FasterWriter</code> hack for faster generation 
-     * of ASCII output.
-     */
-    private static boolean asciiHack = true;
 
     /**
      * The default content type.
@@ -172,8 +166,7 @@ public abstract class VelocityServlet extends HttpServlet
             defaultContentType = 
                 Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
             
-            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
-            asciiHack = Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK);
+            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
         }
         catch( Exception e )
         {
@@ -209,7 +202,7 @@ public abstract class VelocityServlet extends HttpServlet
          throws ServletException, IOException
     {
         ServletOutputStream output = response.getOutputStream();
-        FastWriter writer = null;
+        CharToByteBufferWriter buffer = null;
         String contentType = null;
         try
         {
@@ -237,10 +230,22 @@ public abstract class VelocityServlet extends HttpServlet
             if ( template == null )
                 throw new Exception ("Cannot find the template!" );
             
-            // write the data out.
-            writer = new FastWriter(output, encoding);
-            writer.setAsciiHack(asciiHack);
-            template.merge( context, writer );
+            // create the output buffer
+            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
+                new DefaultCharToByteBuffer(new DefaultByteBuffer(), encoding));
+            buffer = new CharToByteBufferWriter (ictbb);
+
+            // merge the context with the template and output in the buffer
+            template.merge( context, buffer );
+
+            // set the content length
+            long length = ictbb.getByteCount();
+            if (length <= Integer.MAX_VALUE)
+            {
+                response.setContentLength((int)length);
+            }
+
+            ictbb.writeTo(output);
         }
         catch (Exception e)
         {
@@ -252,10 +257,9 @@ public abstract class VelocityServlet extends HttpServlet
             try
             {
                 // flush and close
-                if (writer != null)
+                if (buffer != null)
                 {
-                    writer.flush();            
-                    writer.close();                
+                    buffer.close();
                 }
                 if (output != null)
                 {
