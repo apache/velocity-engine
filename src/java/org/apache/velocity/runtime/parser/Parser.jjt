@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.58 2001/04/14 02:50:19 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.59 2001/04/22 18:03:48 geirm Exp $ 
 */
 public class Parser
 {
@@ -134,11 +134,6 @@ public class Parser
      */
     String currentTemplateName = "";
 
-    /**
-     *  encoding for the input stream. 
-     */
-    private String inputEncoding = "ISO-8859-1";
-
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -149,11 +144,6 @@ public class Parser
     public Parser()
     {
         this(new ByteArrayInputStream("\n".getBytes()));
-
-        /*
-         * get the encoding property.  Default is ISO latin
-         */
-        inputEncoding = Runtime.getString( Runtime.INPUT_ENCODING, "ISO-8859-1");
     }
 
     /** 
@@ -165,7 +155,7 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse(InputStream stream, String templateName ) 
+    public SimpleNode parse( Reader reader, String templateName ) 
         throws ParseException
     {
         SimpleNode sn = null;
@@ -181,29 +171,10 @@ public class Parser
 
         Runtime.dumpVMNamespace( currentTemplateName );
 
-        /*
-         *  wrap in a reader so users can control the encoding
-         *  of the template
-         */
-
-        BufferedReader br  = null;
-
-        try
-        {
-             br = new BufferedReader( new InputStreamReader( stream, inputEncoding ) );
-        }
-        catch( UnsupportedEncodingException  uce )
-        {   
-            String msg = "Parser Exception: Unsupported input encoding : " + inputEncoding 
-                + " for template " + templateName;
-            Runtime.error( msg );
-            throw new ParseException( msg );
-        }
-
         try
         {
             token_source.clearStateVars();
-            ReInit(br);
+            ReInit(reader);
             sn = process();
         }
         catch (ParseException pe)
