@@ -24,29 +24,59 @@ In this guide, we hope to give an overview of the basics of development using Ve
 </ul>
 
 You will see that there is no real difference between these, other than we make servlet development with Velocity very easy
-if you use our provided class VelocityServlet as a base class for your servlet.
+if you use our provided class VelocityServlet as a base class for your servlet, and offer a utility class to help with application
+development.
+</p>
+<strong>Getting Started</strong>
+<p>
+While this information is found elsewhere on the Velocity site and in the documentation, it is included here for completeness.  Getting 
+Velocity running on your computer is very easy.  Note that all directory references are relative the root of the Velocity
+distribution tree.
+<ol>
+<li> Get the Velocity distribution.  This is available as a nightly snapshot or directly from the CVS code repository.  Either way is fine.  For more information, go <link href="index.html">here</link>.</li>
+<li> Go to the <code>build</code> directory in the distribution.</li>
+<li> Type <code>./build-velocity.sh jar</code> under Unix, or <code>build-velocity.bat jar</code> under Windows.  The major build targets are :
+<ul>
+<li> <code>jar</code> builds the complete Velocity jar in the <code>bin</code> directory.  This jar will be called 'velocity-X.jar', where 'X' is the current version number.  Unless you have specific storage space considerations, use this jar for convenience, as it includes everything you need.</li>
+<li> <code>jar-core</code> builds a slimmer Velocity jar in the <code>bin</code> directory, called 'velocity-core-X.jar'. This
+jar contains the core Velocity functionality, and doesn't include example and utility things like Anakia, Texen or 
+the VelocityServlet support baseclass.</li>
+<li> <code>jar-util</code> builds a utility Velocity jar in the <code>bin</code> directory, called 'velocity-util-X.jar'. This
+jar contains utility code, specifically Anakia, Texen, and the WebMacro template conversion utility.</li>
+<li> <code>jar-servlet</code> builds a utility Velocity jar in the <code>bin</code> directory, called 'velocity-servlet-X.jar'. This
+jar contains utility code for servlet programmers.</li>
+<li> <code>docs</code> builds these docs in the <code>docs</code> directory</li>
+<li> <code>javadocs</code> builds the Javadoc class documentation in the <code>docs/apidocs</code> directory</li>
+<li> <code>test</code> (after jar) will test Velocity against it's testbed suite of test routines </li>
+</ul></li>
+<li> While not required, testing the build is a good idea.  Use the <code>test</code> target mentioned above.</li>
+<li> That's it!  Velocity is ready to be used.  Put the jar into your classpath, or into other appropriate places (such as the lib directory of your webapp if using with servlets)</li>
+</ol>
 </p>
 </s1>
 
 <s1 title="Resources">
 <p>
-There are quite a few resources and examples available to the programmer, and we recommend that you look at our examples, documentation and even the source code.  They are found in 
+There are quite a few resources and examples available to the programmer, and we recommend that you look at our examples, documentation and even the source code.  Some great sources are :
 
 <ul>
-<li> source code : /src/java/...</li>
-<li> general examples : /examples </li>
-<li> Anakia application :  example application showing how to use Velocity for creating stylesheet renderings of xml data 
-- /examples/anakia </li>
-<li> Forumdemo web app : working example of a simple servlet-based forum application - /examples/forumdemo</li>
-<li> documentation : /docs</li>
-<li> templates : for the designer, we have a large collection of template examples in our testbed directory - /test/templates</li>
+<li> source code : <code>src/java/...</code> : all the source code to the Velocity project</li>
+<li> general examples : <code>examples</code> : a set of general examples, showing how Velocity is used in both a general application as well as in a servlet. </li>
+<li> Anakia application : <code>examples/anakia</code> :  example application showing how to use Velocity for creating 
+stylesheet renderings of xml data </li>
+<li> Forumdemo web app : <code>examples/forumdemo</code> : working example of a simple servlet-based forum application </li>
+<li> documentation : <code>docs</code> : all the generated documentation for the Velocity project in html</li>
+<li> API documentation : <code>docs/apidocs</code> : the generated Javadoc documentation for the Velocity project</li>
+<li> templates : <code>test/templates</code> : a large collection of template examples in our testbed directory, these are a 
+great source of useage examples of VTL, the Velocity Template Language </li>
 </ul>
 
 All directory references above are relative to the distribution root directory.
 </p>
 </s1>
 
-<s1 title="The Fundamental Code Pattern">
+<s1 title="How Velocity Works">
+<strong>or 'The Fundamental Pattern'</strong>
 <p>
 When using Velocity in an application program or in a servlet (or anywhere, actually), you will generally do the following :
 
@@ -84,7 +114,11 @@ template.merge( context, sw );
 ]]></source>
 </p>
 <p>
-Thats the basic pattern.  It is very simple, isn't it?
+That's the basic pattern.  It is very simple, isn't it?  This is generally what happens when you use Velocity to render a template.
+You probably won't be writing code exactly like this - we provide a few tools to help make it even easier than this for 
+both servlet and application programmers.  Later on in this guide, we will talk about using Velocity in both servlets 
+as well as general applications, and we discuss the tools we provide to make things easier.  In each case, though,
+ the above sequence is what is happening either explicitly, or behind the scenes.
 </p>
 </s1>
 
@@ -97,8 +131,8 @@ of data between the Java layer (or you the programmer) and the template layer ( 
 gather objects of various types, whatever your application calls for, and place them in the context.  To the designer, these 
 objects, and their methods and properties, will become accessable via template elements called 
 <link href='vtl-reference-guide.html'> references</link>.  Generally, you will work with the designer to determine the data 
-needs for the application, and the 'API' that you are in a way creating as you produce a data set for the designer to access
-in the template.
+needs for the application.  In a sense, this will become an 'API'  as you produce a data set for the designer to access
+in the template.   Therefore, in this phase of  the development process it is worth devoting some time and careful analysis.
 </p>
 
 <p>
@@ -255,6 +289,177 @@ rather than putting it in the CLASSPATH or the top level lib directory of the se
 </p>
 <p>
 This deployment method will ensure that different web applications will not be subject to Velocity configuration conflicts.
+</p>
+</s1>
+
+<s1 title="Using Velocity In General Applications">
+<p>
+As Velocity was designed to be a general-use tool, it is just as useful in general application programs as it is servlets.
+In general, you can use the same programming pattern discussed at the beginning of this guide, but there are a few utility methods
+provided for application use, just like we provide the VelocityServlet base class for ease of use in servlet programming.
+The only new responsibility you have as the application programmer is to initialize the Velocity runtime engine, but that is easy.
+</p>
+<strong>The Velocity Class</strong>
+<p>
+Velocity contains an application utility class called Velocity (imagine!).  The purpose of this class is to provide the 
+necessary methods required to initialize Velocity, as well as useful utility routines to make life easier in using Velocity.
+This class is documented in the project's javadoc, so please look there for definitive details.
+This documentation is intended to be of a tutorial nature; therefore for compete API information, the Javadoc is the definitive source.
+</p>
+<p>
+The Velocity runtime engine is a singleton instance that provides resource and logging services to all Velocity users running
+in the same JVM.  Therefore, the runtime engine is initialized only once.  You can attempt to initialize Velocity more than once, but only the first initialization will apply.  The rest of the attempts will be ignored.  The Velocity utility class provides 3
+methods to initialize the runtime engine.  Note that in each case, the default properties will be used as a base configuration, 
+and any additional properties specified by the application will replace individual defaults.  Any default properties not 
+overwritten will remain in effect.  This has the benefit that only the properties you are interested in changing need to be 
+specified, rather than a complete set.  The three initialization methods are :
+
+<ul>
+<li> <code>init()</code><br/> initializes the runtime with the default properties provided in the distribution. 
+(These are listed below in the section pertaining to properties.)</li>
+<li> <code>init( Properties p )</code><br/> initialized the runtime with the properties contained in the 
+java.util.Properties object passed as an argument. </li>
+<li> <code>init( String filename )</code><br/> initilizes the runtime using the properties found in the
+properties file filename</li>
+</ul>
+</p>
+<p>
+Once the runtime is initialized, you can do with it what you wish.. This mostly revolves around rendering templates into an output
+stream, and the Velocity utility class allows you to do this easily.  Currently, here are the methods and a brief description
+of what they do :
+
+<ul>
+<li> <code> evaluate( Context context,  Writer out, String logTag, String instring )</code><br/>
+<code>evaluate( Context context, Writer writer, String logTag, InputStream instream )</code><br/>
+These methods will render the input, in either the form of String or InputStream to an output Writer, using a Context that you
+provide.  This is a very convenienient method to use for token replacement of strings, or if you keep 'templates' of VTL-containing
+content in a place like a database or other non-file storage, or simply generate such dynamically.</li>
+<li><code>invokeVelocimacro( String vmName, String namespace, String params[], Context context, Writer writer )</code><br/>
+Allows direct access to Velocimacros.  This can also be accomplished via the <code>evaluate()</code> method above if you wish.  Here
+you simply name the vm you wish to be called, create an array of args to the VM, a Context of data, and Writer for the output. 
+Note that the VM args must be the 'keys' of the data objects in the Context, rather than literal data to be used as the arg.  This
+will probably change.</li>
+<li><code>mergeTemplate( String templateName, Context context, Writer writer )</code><br/>
+Convenient access to the normal template handling and rendering services of Velocity.  This method will take care of getting and
+rendering the template.  It will take advantage of loading the template according to the properties setting for the file resource 
+loader, and therefore provides the advantage of file and parsed template caching that Velocity offers.  This is the most efficient
+way to access templates, and is recommended unless you have special needs.</li>
+</ul>
+</p>
+
+<p>
+Once we know about these basic helpers, it is easy to write Java program that uses Velocity.  Here it is :
+
+<source><![CDATA[
+import java.io.StringWriter;
+import org.apache.velocity.util.Velocity;
+import org.apache.velocity.VelocityContext;
+
+public class Example2
+{
+    public static void main( String args[] )
+    {
+        /* first, we init the runtime engine.  Defaults are fine. */
+
+        Velocity.init();
+
+        /* lets make a Context and put data into it */
+
+        VelocityContext context = new VelocityContext();
+
+        context.put("name", "Velocity");
+        context.put("project", "Jakarta");
+        
+        /* lets render a template */
+
+        StringWriter w = new StringWriter();
+
+        Velocity.mergeTemplate("testtemplate.vm", context, w );
+        System.out.println(" template : " + w );
+
+        /* lets make our own string to render */
+
+        String s = "We are using $project $name to render this.";
+        w = new StringWriter();
+        Velocity.evaluate( context, w, "mystring", s );
+        System.out.println(" string : " + w );
+
+    }
+}
+]]></source>
+</p>
+<p>
+When we run this program, and have the template <code> testtemplate.vm</code> in the same directory as our program (because we 
+used the default configuration properties, and the defaul place to load templates from is the current directory...), our output
+should be :
+<source><![CDATA[
+ template : Hi!  This Velocity from the Jakarta project.
+
+ string : We are using Jakarta Velocity to render this.
+]]></source>
+</p>
+<p>
+where the template we used, testtemplate.vm, is 
+<source><![CDATA[
+Hi!  This $name from the $project project.
+]]></source>
+</p>
+<p>
+That's all there is to it!  Note that we didn't have to use both <code>mergeTemplate()</code> and <code>evaluate()</code> in our 
+program.  They are both included there for demonstration purposes.  You will probably use only one of the methods, but depending
+on you application requirements,  you are free to do what you wish.  
+</p>
+<p>  This appears to be a little different from the 'fundamental pattern' that was mentioned at the beginning
+of this guide, but it really is the same thing.  First, you are making a context and filling it with the data needed.  Where this 
+examples differs is that in the part of the above example where <code>mergeTemplate()</code> is used, <code>mergeTemplate()</code>
+is doing the work of getting the template and merging it for you, using the lower-level calls in the Runtime class.  In the second 
+example, you are making your template dynamically via the String, so that is analgous to the 'choose template' part of the process,
+and the <code>evaluate()</code> method does the merging for you using lower level calls.
+</p>
+<p>
+So the example above sticks to the same simply pattern of using the Velocity template engine, but the utility functions do some of
+the repeated drudge work, or allow you other options for your template content other than template files.
+</p>
+
+<strong>Miscellaneous Details</strong>
+<p>
+While the above example used the default properties, setting your own properties is very simple.  
+All you have to do is make a properties file somewhere and pass the name of that file
+to the <code>init(String)</code> method of the Velocity utility class, or make a <code>java.util.Properties</code> object, 
+add the desired properties and values, and pass that to the <code>init(Properties)</code> method.  
+The latter method is convenient, because you can either fill it directly from a separate properties file via the 
+<code>load()</code>  method, or even better, you can fill it dynamically from your own application / framework's property set at
+runtime.  This gives you the freedom to combine all of the properties for your app into one properties file.
+</p>
+<p> If we wanted to use a different directory than the current directory to load our template from, we could do
+something like this :
+
+
+<source><![CDATA[
+
+ ...
+
+import java.util.Properties;
+ ...
+
+ public static void main( String args[] )
+    {
+        /* first, we init the runtime engine.  */
+
+        Properties p = new Properties();
+        p.setProperty("resource.loader.1.resource.path", "/opt/templates");
+        Velocity.init( p );
+
+        /* lets make a Context and put data into it */
+
+ ...
+
+]]></source>
+</p>
+<p>
+And, assuming you have a directory <code>/opt/templates</code> and the template <code>testtemplate.vm</code> is in there, 
+then things would work just fine.  If you try this and have a problem, be sure to look at the velocity.log for 
+information - the error messages are pretty good for figuring out what is wrong.
 </p>
 </s1>
 
