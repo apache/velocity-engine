@@ -167,7 +167,38 @@ This document tracks the changes in Velocity between releases.
        Turbine list.   (gmj)
      </li>
      <li>
-         Added powered by logo. (JSS)
+         Added powered by logo. Look in
+         xdocs/images/powered-by-logo.psd/.gif (JSS)
+     </li>
+     <li>
+       Changed the internals of the Configuration class so that
+       setProperty(K,V) will replace the value at K with V;
+       addProperty(K,V) works the way setProperty(K,V) used
+       to: if there is a value already stored at K then
+       V is added to the vector. If nothing is being stored
+       at K then the scalar V is simply added. setProperty(K,V)
+       is basically a short form for clearProperty(K)/addProperty(K,V).
+       Also added setConfiguration(C), so that an application using
+       velocity could easily take a subset of the application
+       configuration using C.subset(velocityProps) and set the
+       whole velocity configuration at once. This is now how
+       the velocity service works in Turbine. (JVZ)
+     </li>
+
+     <li>
+       Added support to the Runtime/Velocity classes for
+       addProperty(K,V). (JVZ)
+     </li>
+       
+     <li>
+       Added support to Runtime/Velocity classes for setConfiguration.
+       (JVZ)
+     </li>
+     
+     <li>
+        Confirmed that the build.bat works on Win98 as well as made the
+        classpath that the build.bat generates equal to the one that
+        build.sh generates. (JSS)
      </li>
 </ul>
                             </blockquote>
