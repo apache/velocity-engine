@@ -65,7 +65,7 @@
  * SLOW PROGRESS :)
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Velocity.java,v 1.3 2001/02/05 04:42:23 geirm Exp $
+ * @version $Id: Velocity.java,v 1.4 2001/02/05 10:14:33 geirm Exp $
  */
 
 package org.apache.velocity.util;
@@ -182,8 +182,16 @@ public class Velocity
                 InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
                 ica.pushCurrentTemplateName( logTag );
                 nodeTree.init( ica, null );
-                nodeTree.render( ica, writer );
-                ica.popCurrentTemplateName();
+                
+                try
+                {
+                    nodeTree.render( ica, writer );
+                }
+                finally
+                {
+                    ica.popCurrentTemplateName();
+                }
+                       
                 return true;
             }
         }
@@ -191,7 +199,7 @@ public class Velocity
         {
             Runtime.error("Velocity.evaluate() : tag = " + logTag + " : " + e );
         }
-
+        
         return false;
     }
 
@@ -276,15 +284,22 @@ public class Velocity
         {
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
             
-            ica.pushCurrentTemplateName( namespace );
-            vp.render( ica, writer, null);
-            ica.popCurrentTemplateName();
+            try
+            {
+                ica.pushCurrentTemplateName( namespace );
+                vp.render( ica, writer, null);
+            }
+            finally
+            {
+                ica.popCurrentTemplateName();
+            }
         }
         catch (Exception e )
         {
             Runtime.error("Velocity.invokeVelocimacro() : " + e );
             return false;
         }
+        
 
         return true;
     }
