@@ -130,14 +130,24 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /* --- InternalContext interface methods --- */
 
-    public void setCurrentTemplateName( String s )
+    public void pushCurrentTemplateName( String s )
     {
-        icb.setCurrentTemplateName( s );
+        icb.pushCurrentTemplateName( s );
+    }
+
+    public void popCurrentTemplateName()
+    {
+        icb.popCurrentTemplateName();
     }
   
     public String getCurrentTemplateName()
     {
         return icb.getCurrentTemplateName();
+    }
+
+    public Object[] getTemplateNameStack()
+    {
+        return icb.getTemplateNameStack();
     }
 
     public IntrospectionCacheData icacheGet( Object key )

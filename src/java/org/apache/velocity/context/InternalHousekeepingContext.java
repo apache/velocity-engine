@@ -66,16 +66,22 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  support, as well as node-local context data introspection caching.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.1 2001/01/13 16:24:41 geirm Exp $
+ *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ *  @version $Id: InternalHousekeepingContext.java,v 1.2 2001/02/05 04:30:02 geirm Exp $
  */
 interface InternalHousekeepingContext
 {
     /**
-     *  set the current template name
+     *  set the current template name on top of stack
      *
-     *  @param s current template name to set
+     *  @param s current template name
      */
-    void setCurrentTemplateName( String s );
+    void pushCurrentTemplateName( String s );
+
+    /**
+     *  remove the current template name from stack
+     */
+    void popCurrentTemplateName();
     
     /**
      *  get the current template name
@@ -83,6 +89,13 @@ interface InternalHousekeepingContext
      *  @return String current template name
      */
     String getCurrentTemplateName();
+
+    /**
+     *  Returns the template name stack in form of an array.
+     *
+     *  @return Object[] with the template name stack contents.
+     */
+    Object[] getTemplateNameStack();
 
     /**
      *  returns an IntrospectionCache Data (@see IntrospectionCacheData)
@@ -102,9 +115,3 @@ interface InternalHousekeepingContext
      */
     void icachePut( Object key, IntrospectionCacheData o );
 }
-
-
-
-
-
-

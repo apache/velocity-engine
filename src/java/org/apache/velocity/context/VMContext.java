@@ -72,7 +72,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.2 2001/01/14 14:53:14 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.3 2001/02/05 04:30:02 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -268,14 +268,24 @@ public class VMContext implements InternalContextAdapter
         return vmproxyhash.remove( key );
     }
 
-    public void setCurrentTemplateName( String s )
+    public void pushCurrentTemplateName( String s )
     {
-        innerContext.setCurrentTemplateName( s );
+        innerContext.pushCurrentTemplateName( s );
+    }
+
+    public void popCurrentTemplateName()
+    {
+        innerContext.popCurrentTemplateName();
     }
    
     public String getCurrentTemplateName()
     {
         return innerContext.getCurrentTemplateName();
+    }
+
+    public Object[] getTemplateNameStack()
+    {
+        return innerContext.getTemplateNameStack();
     }
 
     public IntrospectionCacheData icacheGet( Object key )
