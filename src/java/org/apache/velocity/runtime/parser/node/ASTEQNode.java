@@ -64,7 +64,10 @@ import org.apache.velocity.runtime.Runtime;
  *
  *    <arg1>  == <arg2>
  *
- *  @version $Id: ASTEQNode.java,v 1.3 2001/03/05 23:27:10 geirm Exp $
+ *  This operator requires that the LHS and RHS are both of the
+ *  same Class.
+ *
+ *  @version $Id: ASTEQNode.java,v 1.4 2001/03/06 12:56:21 geirm Exp $
  */
 public class ASTEQNode extends SimpleNode
 {
@@ -85,15 +88,15 @@ public class ASTEQNode extends SimpleNode
     }
 
     /**
-     *   calculates the value of the expression
+     *   Calculates the value of the logical expression
      *
-     *  Currently, the equivalences
-     *  <ul>
-     *  <li>  Boolean == Boolean
-     *  <li>  Integer == Integer
-     *  <li> String == String
-     *  </ul>
-     *  are supported.
+     *     arg1 == arg2
+     *
+     *   All class types are supported.   Uses equals() to 
+     *   determine equivalence.  This should work as we represent
+     *   with the types we already support, and anything else that
+     *   implements equals() to mean more than identical references.
+     *
      *
      *  @param context  internal context used to evaluate the LHS and RHS
      *  @return true if equivalent, false if not equivalent,
@@ -112,53 +115,34 @@ public class ASTEQNode extends SimpleNode
         if (left == null || right == null)
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) 
-                           + " side of equality operator "
-                           + " has null value."
+                           + " side of equality operator (==) "
+                           + "has null value."
                            + " If a reference, it may not be in the context."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
-                           + ", column " + getColumn() + "]");
+                           + ", column " + getColumn() + "] (ASTEQNode)");
             return false;
         }
 
         /*
-         *  ok, we have real args.  We could 'getClass()' to test,  but is this 
-         *  just as fast?
+         *  check to see if they are the same class.  I don't think this is slower
+         *  as I don't think that getClass() results in object creation, and we can
+         *  extend == to handle all classes
          */
 
-        if ( left instanceof Boolean )
+        if (left.getClass().equals( right.getClass() ) )
         {
-            if (right instanceof Boolean)
-            {
-                return ( (Boolean) left ).booleanValue() ==
-                    ( (Boolean) right ).booleanValue();
-            }
+            return left.equals( right );
         }
-        else if ( left instanceof Integer )
+        else
         {
-            if ( right instanceof Integer )
-            {
-                return ( (Integer) left).intValue() == 
-                    ( (Integer) right).intValue() ;
-            }
+            Runtime.error("Error in evaluation of == expression."
+                          + " Both arguments must be of the same Class."
+                          + " Currently left = " + left.getClass() + ", right = " 
+                          + right.getClass() + ". "
+                          + context.getCurrentTemplateName() + " [line " + getLine() 
+                          + ", column " + getColumn() + "] (ASTEQNode)");
         }
-        else if ( left instanceof String )
-        {
-            if ( right instanceof String )
-            {
-                return left.toString().equals( right );
-            }
-        }
-
-        /*
-         *  made it this far - we have a problem
-         */
-
-        Runtime.error("ASTEQNode : Error in evaluation of == expression in template "
-                     + context.getCurrentTemplateName() + " at "
-                     + "[" + getLine() + "," + getColumn() + "]." 
-                     + " Both arguments must be the same, and Boolean, Integer or String."
-                     + " Currently left is " + left.getClass() + " right -> " + right.getClass());
 
         return false;    
     }
