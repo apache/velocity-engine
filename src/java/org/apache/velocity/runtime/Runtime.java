@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.62 2000/11/28 01:46:35 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.63 2000/11/28 04:17:08 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -731,26 +731,10 @@ public class Runtime implements RuntimeConstants
                  * not visible. It's in a package that isn't 
                  * readily accessible.
                  *
-                 * After the directive is instantiated, use
-                 * reflection to grab the values of the name and
-                 * type fields as they have been defined in the
-                 * individual directive.
-                 *
-                 * After the name and type are nabbed, then
-                 * set them.
                  */
                 Class clazz = Class.forName(directiveClass);
                 Directive directive = (Directive) clazz.newInstance();
-                
-                String name = (String) clazz
-                    .getField(Directive.NAME_FIELD).get(directive);
-                
-                directive.setName(name);
-                
-                directive.setType(clazz.getField(Directive.TYPE_FIELD)
-                    .getInt(directive));
-                
-                runtimeDirectives.put(name, directive);
+                runtimeDirectives.put(directive.getName(), directive);
                 
                 Runtime.info("Loaded Pluggable Directive: " 
                     + directiveClass);
