@@ -17,14 +17,21 @@ This document tracks the changes in Velocity between releases.
 
 <subsection name="1.0b2">
 <ul>
-    <li>Fixed release packaging to create things in the right directory
-        structure (JSS).</li>
+    <li>
+        Make the distribution have CRLF for all of the text files (JSS).
+    </li>
+    <li>
+        Fixed release packaging to create things in the right directory
+        structure (JSS).
+    </li>
 </ul>
 </subsection>
 
 <subsection name="1.0b1">
 <ul>
-    <li>Initial release.</li>
+    <li>
+        Initial release.
+    </li>
 </ul>
 </subsection>
 
