@@ -83,7 +83,7 @@ import java.lang.reflect.Modifier;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.6 2000/11/01 21:36:58 jvanzyl Exp $
+ * @version $Id: Introspector.java,v 1.7 2000/11/25 00:00:06 jon Exp $
  */
 
 // isAssignable checks for arguments that are subclasses
@@ -131,5 +131,24 @@ public class Introspector
     {
         ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c);
         return classMethodMap.findMethod(name, params);
+    }
+
+    /**
+     * Checks whether the provided object implements a given method.
+     *
+     * @param object     The object to check.
+     * @param methodName The method to check for.
+     * @return           Whether the method is implemented.
+     */
+    public static boolean implementsMethod(Object object, String methodName)
+    {
+        int m;
+        
+        Method[] methods = object.getClass().getMethods();
+        for (m = 0 ; m < methods.length ; ++m)
+            if (methodName.equals(methods[m].getName()))
+                break;
+        
+        return (m < methods.length);
     }
 }
