@@ -180,28 +180,63 @@ public class ASTReference extends SimpleNode
     {
         Token t = getFirstToken();
         
-        if (t.image.equals("$!"))
+        /*
+         *  geirm :   changed Parser.jjt to handle $foo! 
+         *  so the tree structure changed.  Leaving this stuff here
+         *  for a little while in case something bad happens. :)
+         *  following line was ->  if (t.image.equals("$!"))
+         */
+
+        if (t.image.startsWith("$!"))
         {
             referenceType = QUIET_REFERENCE;
             nullString = "";
             
-            if (t.next.image.equals("{"))
-                // $!{provider.Title} 
-                return t.next.next.image;
-            else
-                // $!provider.Title
+            /*
+             *  geirm : Parser.jjt change. was ->  if (t.next.image.equals("{"))
+             */
+
+            if (t.image.startsWith("$!{"))
+            {
+                /*
+                 *  ex : $!{provider.Title} 
+                 */
+
+                /*
+                 * geirm : Parser.jjt change.  Was -> return t.next.next.image;
+                 */
+
                 return t.next.image;
+            }
+            else
+            {
+                /*
+                 *  ex : $!provider.Title
+                 */
+                
+                /* 
+                 *  geirm : Parser.jjt change.  Was -> return t.next.image;
+                 */
+
+                return t.image.substring(2);
+            }
         }
         else if (t.image.equals("${"))
         {
-            // ${provider.Title}
+            /*
+             *  ex : ${provider.Title}
+             */
+
             referenceType = FORMAL_REFERENCE;
             nullString = literal();
             return t.next.image;
         }            
         else
         {
-            // $provider.Title
+            /*
+             *  ex : $provider.Title
+             */
+
             referenceType = NORMAL_REFERENCE;
             nullString = literal();
             return t.image.substring(1);
