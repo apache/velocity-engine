@@ -81,12 +81,9 @@ catch( Exception )
     methods on the JDOM Document object.
 </p>
 <p>
-    Anakia is being used to create the documentation for not only this
-    website, but also for the Jakarta Project's website as well as 
-    many of the projects that live under the Jakarta Project. This 
-    process is 
-    <a href="http://jakarta.apache.org/site/jakarta-site2.html">documented</a> 
-    on the site. You are welcome to use this for your own needs as well.
+    Anakia is being used to create the documentation for this
+    website.  You can view the source for this website in the "xdocs" folder 
+    in the Velocity source distribution.
 </p>
 
 </section>
