@@ -1,6 +1,6 @@
 #*
 
-@test map.vm
+@test get.vm
 
 This template is used for Velocity regression testing.
 If you alter this template make sure you change the
@@ -9,7 +9,11 @@ test doesn't fail incorrectly.
 
 *#
 
-## This is a valid Map and Bar is a valid
-## element.
+## Now the provider has been outfitted with
+## a get(key) method so it will just return
+## the key when asked for it.
 
-$hashtable.Bar
+$provider.Muck
+$provider.Duck
+$provider.Truck
+
