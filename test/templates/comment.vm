@@ -41,3 +41,9 @@ We can now comment after the inline set :
 $bar##
 #set($foo = 'foo!' )
 $foo
+
+
+##  here's one reported by Daniel Dekany
+
+$##
+there is a dollar before me
