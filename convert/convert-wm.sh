@@ -5,11 +5,9 @@
           && echo \
           && exit
 
-CLASSPATH=.
-
-for jar in ../bin/vel*.jar ../build/lib/ant*.jar
+for jar in ../bin/vel*.jar
 do
-    CLASSPATH=${CLASSPATH}:${jar}
+    CLASSPATH="${jar}:${CLASSPATH}"
 done
 
-java -classpath ${CLASSPATH} org.apache.velocity.convert.WebMacro $1
+java -classpath "${CLASSPATH}" org.apache.velocity.convert.WebMacro "${1}"
