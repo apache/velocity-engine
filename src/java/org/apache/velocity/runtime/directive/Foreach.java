@@ -70,6 +70,7 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
 
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 
 import org.apache.velocity.runtime.exception.ReferenceException;
@@ -79,7 +80,8 @@ import org.apache.velocity.runtime.exception.ReferenceException;
  * or objects that provide an Iterator.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Foreach.java,v 1.16 2000/11/05 23:25:41 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Foreach.java,v 1.17 2000/11/07 21:41:41 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -98,6 +100,8 @@ public class Foreach extends Directive
     private Object tmp;
     private int iterator;
 
+    private Node endNode_ = null;
+
     public String getName() 
     { 
         return "foreach"; 
@@ -112,7 +116,22 @@ public class Foreach extends Directive
     {
         Object sampleElement = null;
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
-        
+
+        /*
+         *  I am assuming that since we are BLOCK type directive we have an EndStatement
+         */
+
+        for( int i = 0; i < node.jjtGetNumChildren(); i++)
+        {
+            Node child = node.jjtGetChild(i);
+               
+            if ( child.getType() == ParserTreeConstants.JJTENDSTATEMENT )
+            {    
+                endNode_ = child;
+                break;
+            }
+        }
+ 
         // This is a refence node and it needs to
         // be inititialized.
         node.jjtGetChild(2).init(context, null);
@@ -197,7 +216,16 @@ public class Foreach extends Directive
             context.put(elementKey,i.next());
             node.jjtGetChild(3).render(context, writer);
             iterator++;
+
+            /*
+             *  and render the EndStatement()
+             */
+  
+            if (endNode_ != null)
+                endNode_.render( context, writer );
+            
         }
+
         context.remove(COUNTER_IDENTIFIER);
         context.remove(elementKey);
     
