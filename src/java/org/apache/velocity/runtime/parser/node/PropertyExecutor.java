@@ -77,8 +77,43 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch (NoSuchMethodException nsme)
         {
+            /*
+             *  ok, to be more bean-spec-like, 
+             *  let try with the first letter of the property
+             *  altered to the other case (upper <-> lower)
+             *
+             *  I am not thrilled about this - this is an inverted
+             *  interpretation of the bean spec : the bean spec really
+             *  talks about the *other* direction, defining the property
+             *  that is related to a get<id>()  set<id>() pair.  We are going
+             *  the other way, I believe.  
+             *
+             *  Taking an uppercase to a lower is getting even further afield
+             *  I think, but symmetric and what people may expect.
+             */
+
+            StringBuffer sb = new StringBuffer( "get" );
+            sb.append( property );
+
+            if(  Character.isLowerCase( sb.charAt(3)))
+            {
+                sb.setCharAt( 3 ,  Character.toUpperCase( sb.charAt( 3 ) ) );
+            }
+            else
+            {
+                sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
+            }
+
+            try
+            {
+                method = c.getMethod( sb.toString(), null);
+            }
+            catch ( NoSuchMethodException nsme2 )
+            {
+            }
         }
     }
+
     
     /**
      * Get the value of the specified property.
