@@ -73,7 +73,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.15 2001/03/05 02:23:02 dlr Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.16 2001/03/05 02:28:11 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -135,9 +135,6 @@ public class VelocityTestSuite extends TestSuite
     /**
      * Adds the template test cases to run to this test suite.  Template test
      * cases are listed in the <code>TEST_CASE_PROPERTIES</code> file.
-     *
-     * @return A <code>List</code> of <code>String</code> objects naming the 
-     *         test cases.
      */
     private void addTemplateTestCases ()
     {
