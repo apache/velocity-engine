@@ -82,9 +82,9 @@ import junit.framework.TestCase;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.7 2001/03/14 22:05:18 jvanzyl Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.8 2001/03/19 22:38:57 jvanzyl Exp $
  */
-public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
+public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestBase
 {
     public ContextSafetyTestCase()
     {
@@ -135,6 +135,8 @@ public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
        
         try
         {
+            assureResultsDirectoryExists(RESULT_DIR);
+            
             /*
              *  get the template and the output
              */
@@ -171,7 +173,10 @@ public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
             writer2.flush();
             writer2.close();
 
-            if (!isOutputCorrect())
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"context_safety1",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) ||
+                !isMatch(RESULT_DIR,COMPARE_DIR,"context_safety2",
+                    RESULT_FILE_EXT,CMP_FILE_EXT))
             {
                 fail("Output incorrect.");
             }
@@ -180,68 +185,5 @@ public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
         {
             fail(e.getMessage());
         }
-    }
-
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isOutputCorrect() throws Exception
-    {
-        String result1 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "context_safety1", RESULT_FILE_EXT));
-            
-        String compare1 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "context_safety1", CMP_FILE_EXT));
-
-       String result2 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "context_safety2", RESULT_FILE_EXT));
-            
-        String compare2 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "context_safety2", CMP_FILE_EXT));
-
-        return ( result1.equals(compare1) && result2.equals(compare2));
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        // No op.
     }
 }

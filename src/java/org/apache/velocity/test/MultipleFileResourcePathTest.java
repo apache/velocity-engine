@@ -77,9 +77,9 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.4 2001/03/19 15:37:57 geirm Exp $
+ * @version $Id: MultipleFileResourcePathTest.java,v 1.5 2001/03/19 22:38:58 jvanzyl Exp $
  */
-public class MultipleFileResourcePathTest extends TestCase
+public class MultipleFileResourcePathTest extends BaseTestCase
 {
      /**
      * VTL file extension.
@@ -111,7 +111,7 @@ public class MultipleFileResourcePathTest extends TestCase
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULT_DIR = "../test/multi/results";
+    private static final String RESULTS_DIR = "../test/multi/results";
 
     /**
      * Results relative to the build directory.
@@ -127,7 +127,7 @@ public class MultipleFileResourcePathTest extends TestCase
 
         try
         {
-            assureResultsDirectoryExists();
+            assureResultsDirectoryExists(RESULTS_DIR);
 
             Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
@@ -165,11 +165,11 @@ public class MultipleFileResourcePathTest extends TestCase
            
             FileOutputStream fos1 = 
                 new FileOutputStream (
-                    getFileName(RESULT_DIR, "path1", RESULT_FILE_EXT));
+                    getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
 
             FileOutputStream fos2 = 
                 new FileOutputStream (
-                    getFileName(RESULT_DIR, "path2", RESULT_FILE_EXT));
+                    getFileName(RESULTS_DIR, "path2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
@@ -188,7 +188,10 @@ public class MultipleFileResourcePathTest extends TestCase
             writer2.flush();
             writer2.close();
 
-            if (!isOutputCorrect())
+            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1", 
+                    RESULT_FILE_EXT, CMP_FILE_EXT) ||
+                !isMatch(RESULTS_DIR, COMPARE_DIR, "path2", 
+                    RESULT_FILE_EXT, CMP_FILE_EXT))
             {
                 fail("Output incorrect.");
             }
@@ -197,90 +200,5 @@ public class MultipleFileResourcePathTest extends TestCase
         {
             fail(e.getMessage());
         }
-    }
-
-    /**
-     * Assures that the results directory exists.  If the results directory
-     * cannot be created, fails the test.
-     */
-    private static void assureResultsDirectoryExists()
-    {
-        File resultDir = new File(RESULT_DIR);
-        if (!resultDir.exists())
-        {
-            Runtime.info("Results directory does not exist (" + RESULT_DIR + ")");
-            if (resultDir.mkdirs())
-            {
-                Runtime.info("Created results directory" + RESULT_DIR);
-            }
-            else
-            {
-                String errMsg = "Unable to create results directory" + RESULT_DIR;
-                Runtime.warn(errMsg);
-                fail(errMsg);
-            }
-        }
-    }
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isOutputCorrect() throws Exception
-    {
-        String result1 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "path1", RESULT_FILE_EXT));
-            
-        String compare1 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "path1", CMP_FILE_EXT));
-
-       String result2 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "path2", RESULT_FILE_EXT));
-            
-        String compare2 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "path2", CMP_FILE_EXT));
-
-        return ( result1.equals(compare1) && result2.equals(compare2));
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        // No op.
     }
 }

@@ -72,9 +72,9 @@ import junit.framework.TestCase;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.6 2001/03/12 00:31:14 jon Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.7 2001/03/19 22:38:57 jvanzyl Exp $
  */
-public class IntrospectorTestCase extends TestCase
+public class IntrospectorTestCase extends BaseTestCase
 {
     private Method method;
     private String result;

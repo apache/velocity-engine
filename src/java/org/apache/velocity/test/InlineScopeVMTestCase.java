@@ -77,9 +77,9 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.9 2001/03/14 22:05:19 jvanzyl Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.10 2001/03/19 22:38:57 jvanzyl Exp $
  */
-public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
+public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {
     /**
      * The name of this test case.
@@ -127,6 +127,8 @@ public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
     {
         try
         {
+            assureResultsDirectoryExists(RESULT_DIR);
+            
             /*
              * Get the template and the output. Do them backwards. 
              * vm_test2 uses a local VM and vm_test1 doesn't
@@ -163,7 +165,10 @@ public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
             writer2.flush();
             writer2.close();
 
-            if (!isOutputCorrect())
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"vm_test1",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) ||
+                !isMatch(RESULT_DIR,COMPARE_DIR,"vm_test2",
+                    RESULT_FILE_EXT,CMP_FILE_EXT))
             {
                 fail("Output incorrect.");
             }
@@ -172,68 +177,5 @@ public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
         {
             fail(e.getMessage());
         }
-    }
-
-    /**
-     * Concatenates the file name parts together appropriately.
-     *
-     * @return The full path to the file.
-     */
-    private static String getFileName (String dir, String base, String ext)
-    {
-        StringBuffer buf = new StringBuffer();
-        if (dir != null)
-        {
-            buf.append(dir).append('/');
-        }
-        buf.append(base).append('.').append(ext);
-        return buf.toString();
-    }
-
-    /**
-     * Turns a base file name into a test case name.
-     *
-     * @param s The base file name.
-     * @return  The test case name.
-     */
-    private static final String getTestCaseName (String s)
-    {
-        StringBuffer name = new StringBuffer();
-        name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
-        return name.toString();
-    }
-
-    /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
-     *
-     * @return Whether the output matches the contents of the comparison file.
-     *
-     * @exception Exception Test failure condition.
-     */
-    protected boolean isOutputCorrect() throws Exception
-    {
-        String result1 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
-            
-        String compare1 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "vm_test1", CMP_FILE_EXT));
-
-       String result2 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
-            
-        String compare2 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "vm_test2", CMP_FILE_EXT));
-
-        return ( result1.equals(compare1) && result2.equals(compare2));
-    }
-
-    /**
-     * Performs cleanup activities for this test case.
-     */
-    protected void tearDown () throws Exception
-    {
-        // No op.
     }
 }
