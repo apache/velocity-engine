@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.94 2001/03/14 21:50:27 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.95 2001/03/15 04:42:06 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -299,6 +299,18 @@ public class Runtime implements RuntimeConstants
     {
     }
     
+    /**
+     *  Allows an external caller to get a property.  The calling
+     *  routine is required to know the type, as this routine
+     *  will return an Object, as that is what properties can be.
+     *
+     *  @param key property to return
+     */
+    public static Object getProperty( String key )
+    {
+        return configuration.get( key );
+    }
+
     /**
      * Initialize Velocity properties, if the default
      * properties have not been laid down first then
