@@ -42,7 +42,7 @@ import org.apache.velocity.app.VelocityEngine;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.22 2004/03/19 17:13:39 dlr Exp $ 
+ * @version $Id$ 
  */
 public class Generator
 {
@@ -451,10 +451,10 @@ public class Generator
      */
     protected void fillContextHash (Context context, Hashtable objs)
     {
-        Enumeration enum = objs.keys();
-        while (enum.hasMoreElements())
+        Enumeration enumeration = objs.keys();
+        while (enumeration.hasMoreElements())
         {
-            String key = enum.nextElement().toString();
+            String key = enumeration.nextElement().toString();
             context.put (key, objs.get(key));
         }
     }
@@ -479,11 +479,11 @@ public class Generator
      */
     protected void fillContextProperties (Context context)
     {
-        Enumeration enum = props.propertyNames();
+        Enumeration enumeration = props.propertyNames();
         
-        while (enum.hasMoreElements())
+        while (enumeration.hasMoreElements())
         {
-            String nm = (String)enum.nextElement();
+            String nm = (String) enumeration.nextElement();
             if (nm.startsWith ("context.objects."))
             {
                 
