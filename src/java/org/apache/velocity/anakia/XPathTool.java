@@ -55,6 +55,9 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
+// Velocity Stuff
+import org.apache.velocity.runtime.Runtime;
+
 // XPath Stuff
 import com.werken.xpath.XPath;
 
@@ -70,20 +73,24 @@ import org.jdom.Element;
    for Anakia.
    <p>
    All methods take a string XPath specification, along with
-   a context, and produces a resulting NodeSet (java.util.List).
+   a context, and produces a resulting java.util.List.
+   <p>
+   The W3C XPath Specification (http://www.w3.org/TR/xpath) refers
+   to NodeSets repeatedly, but this implementation simply uses
+   java.util.List to hold all NOdes.
    <p>
    To use it in Velocity, do this:
    <p>
    <code>
    #set $authors = $xpath.applyTo("document/author", $root)
    #foreach ($author in $authors)
-    $author.getValue() // At time of writting this could be wrong; what is NodeSet?
+    $author.getValue() 
    #end
    </code>
    
     @author <a href="bob@werken.com">bob mcwhirter</a>
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: XPathTool.java,v 1.4 2000/11/26 06:52:22 jon Exp $
+    @version $Id: XPathTool.java,v 1.5 2000/11/26 12:48:44 werken Exp $
 */
 
 public class XPathTool
@@ -94,6 +101,7 @@ public class XPathTool
     */
     public XPathTool()
     {
+        Runtime.info("XPathTool::XPathTool()");
         // intentionally left blank
     }
 
@@ -103,11 +111,12 @@ public class XPathTool
        @param xpathSpec The XPath to apply
        @param doc The Document context
 
-       @return A nodest
+       @return A list of selected nodes
     */
     public List applyTo(String xpathSpec,
                         Document doc)
     {
+        Runtime.info("XPathTool::applyTo(String, Document)");
         XPath xpath = new XPath( xpathSpec );
         return xpath.applyTo( doc );
     }
@@ -118,11 +127,12 @@ public class XPathTool
        @param xpathSpec The XPath to apply
        @param doc The Element context
 
-       @return A nodest
+       @return A list of selected nodes
     */
     public List applyTo(String xpathSpec,
                         Element elem)
     {
+        Runtime.info("XPathTool::applyTo(String, Element)");
         XPath xpath = new XPath(xpathSpec);
         return xpath.applyTo( elem );
     }
@@ -133,11 +143,12 @@ public class XPathTool
        @param xpathSpec The XPath to apply
        @param doc The nodeset context
 
-       @return A nodest
+       @return A list of selected nodes
     */
     public List applyTo(String xpathSpec,
                         List nodeSet)
     {
+        Runtime.info("XPathTool::applyTo(String, List)");
         XPath xpath = new XPath(xpathSpec);
         return xpath.applyTo( nodeSet );
     }
