@@ -66,7 +66,7 @@ import org.apache.velocity.runtime.parser.*;
  * as well.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: NodeViewMode.java,v 1.1 2000/09/30 17:04:28 jvanzyl Exp $
+ * @version $Id: NodeViewMode.java,v 1.2 2000/10/03 17:03:49 jvanzyl Exp $
  */
 public class NodeViewMode extends BaseVisitor
 {
@@ -303,7 +303,12 @@ public class NodeViewMode extends BaseVisitor
         return showNode(node,data);
     }
 
-    public Object visit(ASTDirectiveArgs node, Object data)
+    public Object visit(ASTWord node, Object data)
+    { 
+        return showNode(node,data);
+    }
+    
+    public Object visit(ASTSetDirective node, Object data)
     { 
         return showNode(node,data);
     }
