@@ -138,7 +138,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff</a>
- * @version $Id: Runtime.java,v 1.19 2000/10/19 22:03:25 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.20 2000/10/19 22:05:28 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -303,8 +303,6 @@ public class Runtime
 
             ((FileOutputLogTarget)t[0])
                 .setFormat("%{time} %{message}\\n%{throwable}" );
-
-            //.setFormat("%5.5{time} %{message}\\n%{throwable}" );
 
             if (pendingMessages.length() > 0)
             {
