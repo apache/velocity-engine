@@ -77,11 +77,19 @@ import org.apache.velocity.io.FastWriter;
  * and add your data to the context. Then call getTemplate("mytemplate.wm")
  * 
  * @author Dave Bryson
- * $Revision: 1.3 $
+ * $Revision: 1.4 $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
+    /**
+     * The encoding to use when generating outputing.
+     */
     private String encoding;
+
+    /**
+     * Whether to use the <code>FasterWriter</code> hack for faster generation 
+     * of ASCII output.
+     */
     private boolean asciiHack;
 
     /** 
@@ -89,24 +97,21 @@ public abstract class VelocityServlet extends HttpServlet
      * @param ServletConfig
      */
     public void init( ServletConfig config )
-     throws ServletException
+        throws ServletException
     {
         super.init( config );
         
-        String file = config.getInitParameter("properties");
+        String propsFile = config.getInitParameter("properties");
         try
         {
-            Runtime.init(file);
+            Runtime.init(propsFile);
             
-            encoding = Runtime.getString(
-                Runtime.TEMPLATE_ENCODING);
-            
-            asciiHack = Runtime.getBoolean(
-                Runtime.TEMPLATE_ASCIIHACK);
+            encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
+            asciiHack = Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK);
         }
-        catch( Exception e1 )
+        catch( Exception e )
         {
-            throw new ServletException( "Error configuring the loader: " + e1);
+            throw new ServletException("Error configuring the loader: " + e);
         }
     }
     
@@ -139,7 +144,7 @@ public abstract class VelocityServlet extends HttpServlet
         
         if ( template == null )
         {
-            error( response, "Cannot find template!");
+            error(response, "Cannot find template!");
             return;
         }
 
