@@ -15,7 +15,9 @@
 <s1 title="Installation">
 
 <p>
-    Everything required to build Velocity comes with the distribution.
+    Everything required to build Velocity comes with the distribution, which 
+    be obtained via <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> 
+    or <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">downloaded</link>.
 </p>
 
 </s1>
@@ -23,7 +25,8 @@
 <s1 title="Compiling">
 
 <p>
-    On Unix/Linux, execute the following script in the velocity/build directory:
+    On Unix/Linux, sh to the velocity/build directory and execute the following 
+    script:
 </p>    
 
 <p>

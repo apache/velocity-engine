@@ -17,17 +17,17 @@
 <p>
     This guide is meant to provide an easy way for designers
     to get aquainted with Velocity. Velocity may be used as a
-    stand-alone servlet framework, or may be used in conjuction
-    with another servlet framework like 
-    <link href="http://java.apache.org/turbine/">Turbine</link>,
-    but in both cases a designer will be using the Velocity
+    standalone servlet framework or in conjuction
+    with another servlet framework such as  
+    <link href="http://java.apache.org/turbine/">Turbine</link>.
+    In all cases a page designer will use the Velocity
     Template Language (VTL) to incorporate dynamic content
     into a site design.
 </p>
 
 <p>
     The VTL is meant to provide the easiest, simplest, and
-    cleanest way to render dynamic content in a page design.
+    cleanest way to render dynamic content in a web page.
 </p>
 
 </s1>
