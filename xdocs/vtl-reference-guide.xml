@@ -33,8 +33,8 @@ the user's guide to this document
 
 <p>
     There are three types of references in the VTL: variables, properties
-    and methods. As a designer using the VTL, you must come to an agreement
-    with your engineers as to what the specific names of references are so
+    and methods. As a designer using the VTL, you and your engineers must 
+    come to an agreement on the specific names of references so
     you can use them correctly in your templates.
 </p>
 
@@ -46,7 +46,7 @@ the user's guide to this document
     an alphabetic character (a .. z or A .. Z), the rest of the
     characters must be of the following types: an alphabetic character,
     a numeric character (0 .. 9), a hyphen character ("-"), 
-    or an underscore character ("_"). These are examples of valid
+    or an underscore character ("_"). Here are some examples of valid
     variable references in the VTL:
 </p>
 
@@ -102,9 +102,9 @@ the user's guide to this document
     $customer.getAddress() and $purchase.getTotal() look very
     similiar to the first two example Properties $customer.Address
     and $purchase.Total. If you guessed that these examples must
-    be related some in some fashion you are correct! VTL Properties
-    are simply a shorthand for notation for VTL Methods. Using the
-    Property $customer.Address would have the exact same effect as
+    be related some in some fashion, you are correct! VTL Properties
+    are simply a shorthand for notation for VTL Methods. The
+    Property $customer.Address has the exact same effect as
     using the Method $customer.getAddress(). It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
@@ -128,13 +128,13 @@ the user's guide to this document
 
 <p>
     In almost all cases you will use the shorthand notation
-    for references. But there are some cases where the formal
-    notation is required for correct processing. Say you were
+    for references, but in some cases the formal
+    notation is required for correct processing. Suppose you were
     constructing a sentence on the fly where $vice was to be
     used as the base word in the noun of a sentence. Say you
     wanted to allow someone to choose the base word and produce
     one of the two following results: "Jack is a pyromaniac." or
-    "Jack is a kleptomaniac.". You might have the following in
+    "Jack is a kleptomaniac.". You might attempt to use the following in
     a VTL template:
 </p>
 
@@ -145,12 +145,11 @@ the user's guide to this document
 </p>
 
 <p>
-    But as you might have guessed this will confuse Velocity
-    because Velocity can't tell that $vice is the Identifer
-    that you mean to use. It will assume that $vicemaniac
+    Velocity can't tell that $vice is the Identifer
+    that you mean to use; it will assume that $vicemaniac
     is the Identifier and try to use that to find an appropriate
     value. You can get around this problem by using the formal
-    notation for a reference:
+    notation for this reference:
 </p>
 
 <p>
@@ -160,20 +159,19 @@ the user's guide to this document
 </p>
 
 <p>
-    Now Velocity knows that you want to use $vice as your
-    Identifier and not $vicemaniac. The formal notation usually
-    comes in handy when you have references directly ajacent
+    Now Velocity knows that $vice, not $vicemaniac, is your
+    Identifier. The formal notation usually
+    comes in handy when you have references directly adjacent
     to text in your templates.
 </p>
 
 <p>
     <strong>Quiet Reference Notation</strong>
     <br/>
-    Velocity's normal behavior upon encountering a
-    reference that is undefined is to output the image
-    of the reference. For example, say you have have
-    the following VTL as part of an HTML for you
-    want to produce:
+    When Velocity encounters a reference that is undefined,
+    its normal behavior is to output the image
+    of the reference. For example, if you have
+    the following VTL as part of an HTML page:
 </p>
 
 <p>
@@ -183,12 +181,11 @@ the user's guide to this document
 </p>
 
 <p>
-    Now when the form initially loads the variable
-    reference $email has no value, but you don't
-    want the text field to have a value of "$email"
-    it should be blank. To circumvent Velocity's
-    normal behavior you use the quiet reference
-    notation: so instead of using $email in the
+    When the form initially loads the variable
+    reference $email has no value, but you prefer the
+    a blank text field to one with a value of "$email". 
+    Using the quiet reference notation can circumvent Velocity's 
+    normal behavior; instead of using $email in the
     VTL you would use $!email. So the above example
     would look like the following:
 </p>    
@@ -200,8 +197,8 @@ the user's guide to this document
 </p>
 
 <p>
-    Now when the form is initially loaded, while
-    $email has no value yet, an empty string will
+    Now when the form is initially loaded and
+    $email still has no value, an empty string will
     be output instead of "$email".
 </p>
 
@@ -212,8 +209,8 @@ the user's guide to this document
     <strong>#set</strong>
     <br/>
     The #set directive is used for setting the value of
-    a reference. The reference being assigned a value can
-    either be a variable reference or a property reference:
+    a reference. A value can be assigned to either a variable 
+    reference or a property reference:
 </p>
 
 <p>
@@ -241,8 +238,8 @@ the user's guide to this document
 </p>
 
 <p>
-    Here is an example of showing the use of the
-    above mentioned types:
+    Here are examples demonstrating the 
+    aforementioned types:
 </p>    
 
 <p>
@@ -272,7 +269,7 @@ the user's guide to this document
 <p>        
     <strong>#foreach</strong>
     <br/>
-    The #foreach directive provide a simple way of looping
+    The #foreach directive provides a simple way of looping
     through a list of objects:
 </p>
 
@@ -313,11 +310,11 @@ the user's guide to this document
 
 <p>
     The default name for the loop counter variable
-    reference is $velocityCounter, but you can specify
-    this in the velocity.properties file. You can also
-    specify whether the counter should start at 0 or 1.
-    Here's what the properties look like in the
-    velocity.properties file:
+    reference, which is specified in the velocity.properties
+    file, is $velocityCount. By default the counter starts
+    at 1, but this can be set to either 0 or 1 in the 
+    velocity.properties file. Here's what the loop counter 
+    properties section of the velocity.properties file appears:
 </p>    
 
 <p>    
@@ -332,15 +329,7 @@ the user's guide to this document
     ]]></source>
 </p>
 
-<p>        
-    <strong>#if/#elseif/#else</strong>
-    <br/>
-</p>
 
-</s1>
-
-<s1 title="Macros">
-</s1>
 
 </body>
 </document>

@@ -7,7 +7,7 @@
   <subtitle>Velocity User Guide</subtitle>
   <authors>
    <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
-   <person name="John Castura" email="jcastura@compusense.com"/>
+   <person name="John Castura" email="jcastura@kw.igs.net"/>
   </authors>
  </header>
 
@@ -224,9 +224,7 @@
  <s1 title="VTL Reference">
     
     <p>
-    Velocity references its variables in a fashion similar to 
-    <link href="http://www.perl.com">Perl</link> (i.e. they 
-    use a <pre>$</pre>), but takes advantage of some Java principles that 
+    Velocity references take advantage of some Java principles that 
     template designers will find easy to use. For example:
     </p>
 
@@ -240,31 +238,29 @@
     </p>
 
     <p>
-    These examples illustrate alternative uses for the same variables. 
+    These examples illustrate alternative uses for the same references. 
     Velocity takes advantage of Java's introspection and 
-    bean features to resolve the variable names to both objects in the Context 
+    bean features to resolve the reference names to both objects in the Context 
     as well as the objects methods. It is possible to embed and evaluate 
-    variables almost anywhere in your template.
+    references almost anywhere in your template.
     </p>
     
     <p>
-    Everything coming to and from a variable is treated as a String object. 
+    Everything coming to and from a reference is treated as a String object. 
     If there is an object that represents $foo (such as an Integer object), 
     then Velocity will call its .toString() method to resolve the 
     object into a String.
     </p>
 
-    <s1 title="Variables">
-
     <p>
-    VTL variables can reference three types of objects: variables, 
+    There are three types of references in the VTL: variables, 
     properties, and methods. 
     
     <s1 title="Variables">
     
     <p>
-    A VTL variable, such as <pre>$foo</pre>, can get its value from 
-    either a <pre>set</pre> directive in the template, or from the
+    When VTL references a variable, such as <pre>$foo</pre>, the variable can 
+    get its value from either a <pre>set</pre> directive in the template, or from the
     Java code. For example, if the Java variable <pre>$foo</pre>
     has the value <pre>bar</pre> at the time the template is requested,
     <pre>bar</pre> replaces all instances of <pre>$foo</pre> on the web 
@@ -287,7 +283,7 @@
     <s1 title="Properties">
     
     <p>
-    The second flavour of VTL variable references properties, and it has
+    The second flavour of VTL references are properties, and properties have
     a distinctive format:
     </p>
     
