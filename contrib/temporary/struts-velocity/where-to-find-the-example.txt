@@ -1,0 +1,9 @@
+The example can be found at
+
+http://jakarta.apache.org/builds/jakarta-velocity/contrib/struts/
+
+and is called struts-velocity-example.war
+
+Put this file into your  webapps directory (under Tomcat, or do 
+whatever is appropos for your servlet runner.)
+
