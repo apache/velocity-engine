@@ -15,6 +15,7 @@
   <xsl:if test="not(book)">
     <html>
       <head>
+        <script language="JavaScript" type="text/javascript" src="resources/script.js"/>
         <title><xsl:value-of select="document/header/title"/></title>
       </head>
       <body text="#000000" link="#023264" vlink="#023264" alink="#023264"
@@ -103,6 +104,10 @@
 
   <xsl:template match="separator">
     <p/>
+  </xsl:template>
+
+  <xsl:template match="section">
+    <p><xsl:value-of select="@label"/></p>
   </xsl:template>
   
 <!-- ====================================================================== -->
@@ -279,28 +284,22 @@
   </xsl:template>
 
   <xsl:template match="source">
-   <div align="left">
-    <table cellspacing="0" cellpadding="0" border="0">
+   <div align="center">
+    <table cellspacing="4" cellpadding="0" border="0">
     <tr>
-      <td bgcolor="#023264" height="1" colspan="3"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
       <td bgcolor="#023264" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff">
-        <table>
-          <tr>
-            <td align="left">
-              <pre>
-                <xsl:apply-templates/>
-              </pre>
-            </td>
-          </tr>
-        </table>
-      </td>
+      <td bgcolor="#ffffff"><pre><xsl:apply-templates/></pre></td>
       <td bgcolor="#023264" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
-      <td bgcolor="#023264" height="1" colspan="3"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     </table>
    </div>
@@ -402,31 +401,7 @@
  <xsl:template match="code">
     <code><font face="courier, monospaced"><xsl:apply-templates/></font></code>
  </xsl:template>
-
- <xsl:template match="variable">
-    <variable><font face="courier,
-monospaced"><xsl:apply-templates/></font></variable>
- </xsl:template>
-
- <xsl:template match="vtldirective">
-    <variable><font face="courier,
-monospaced"><xsl:apply-templates/></font></variable>
- </xsl:template>
-
- <xsl:template match="vtl">
-    <variable><font face="courier,
-monospaced"><xsl:apply-templates/></font></variable>
- </xsl:template>
  
- <xsl:template match="filename">
-    <filename><xsl:apply-templates/></filename>
- </xsl:template>
- 
- <xsl:template match="dummyvariable">
-    <dummyvariable><font face="courier,
-monospaced"><xsl:apply-templates/></font></dummyvariable>
- </xsl:template>
-
 <!-- ====================================================================== -->
 <!-- images section -->
 <!-- ====================================================================== -->
