@@ -544,7 +544,7 @@
           
           <classpath>
              <pathelement location="${build.dir}/${project}-${version}.jar"/>
-             <pathelement location="${jdom.jar}"/>
+             <path refid="classpath"/>
           </classpath>
 
       </taskdef>
