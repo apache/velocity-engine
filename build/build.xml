@@ -7,7 +7,7 @@
   <property name="Name" value="Velocity"/>
   <property name="version" value="0.94"/>
   <property name="project" value="velocity"/>
-  <property name="build.compiler" value="classic"/>
+  <property name="build.compiler" value="jikes"/>
     
   <property name="build.dir" value="../bin"/>
   <property name="build.src" value="${build.dir}/src"/>
