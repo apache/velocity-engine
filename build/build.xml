@@ -482,7 +482,7 @@
           depends="package"
           description="--> generates the distribution as .zip">
       <delete file="../${final.name}.zip" quiet="true"/>
-      <zip zipfile="../${final.name}.zip" basedir="../" 
+      <zip zipfile="../${final.name}.zip" basedir="${dist.root}" 
            includes="**/${final.name}/**"/>
   </target>
 
@@ -494,7 +494,7 @@
           description="--> generates the distribution as .tar.gz">
       <delete file="../${final.name}.tar" quiet="true"/>
       <delete file="../${final.name}.tar.gz" quiet="true"/>
-      <tar tarfile="../${final.name}.tar" basedir="../" 
+      <tar tarfile="../${final.name}.tar" basedir="${dist.root}" 
            includes="**/${final.name}/**" longfile="gnu"/>
       <gzip zipfile="../${final.name}.tar.gz" src="../${final.name}.tar"/>
   </target>
