@@ -72,7 +72,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestSuite.java,v 1.2 2001/03/12 00:39:47 jon Exp $
+ * @version $Id: TemplateTestSuite.java,v 1.3 2001/03/12 00:42:04 jon Exp $
  */
 public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {
@@ -95,7 +95,7 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
         }
         catch (Exception e)
         {
-            System.err.println("Cannot setup VelocityTestSuite!");
+            System.err.println("Cannot setup TemplateTestSuite!");
             e.printStackTrace();
             System.exit(1);
         }            
