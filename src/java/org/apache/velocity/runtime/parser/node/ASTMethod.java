@@ -59,12 +59,24 @@
  *
  *  Method support for references :  $foo.method()
  *
+ *  NOTE :
+ *
+ *  'late introspection' : Take the example of using in a reference a container whose methods can 
+ *   return Objects, such as java.util.Vector and the firstElement() or get(i) methods, and you 
+ *   you follow the container element accessor with a method call on the object returned :
+ *        
+ *       $foo.firstElement().getValue()
+ *
+ *   where $foo is a Vector.  In this case, the introspection cannot figure
+ *   out at init() time what class actually is returned by the accessor firstElement().  To solve this
+ *   we now will call init() on the ASTMethod node in execute() when the init() failed.
+ *
  *  Please look at the Parser.jjt file which is
  *  what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.6 2000/11/22 12:45:32 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.7 2000/11/30 05:29:13 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -74,6 +86,7 @@ import java.lang.reflect.Method;
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
+
 
 public class ASTMethod extends SimpleNode
 {
@@ -117,9 +130,9 @@ public class ASTMethod extends SimpleNode
 
         for (int j = 0; j < paramCount; j++)
             params[j] = jjtGetChild(j + 1).value(context);
-
-        method = Introspector.getMethod((Class) data, methodName, params);
-        
+ 
+        method = Introspector.getMethod( (Class) data, methodName, params);
+      
         if (method == null)
             return null;
         
@@ -143,6 +156,21 @@ public class ASTMethod extends SimpleNode
         
         try
         {
+            /*
+             *  it is possible that we have to do late introspection.  If we don't 
+             *  have a valid method object, cast this object to a Class, and try init()
+             *  again. As far as  I can tell, the only time that the introspection 
+             *  fails is when we try to case a j.l.Object to a Class, which is the 
+             *  fast track to a ClassCastException
+             *  See the notes above.
+             */
+
+            if (method == null)
+            {
+                Class c = o.getClass();
+                init( context, c);
+            }
+        
             /*
              *  get the returned object.  It may be null, and that is
              *  valid for something declared with a void return type.
