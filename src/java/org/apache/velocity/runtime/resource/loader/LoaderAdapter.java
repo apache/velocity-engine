@@ -81,6 +81,14 @@ public abstract class LoaderAdapter
      */
     protected void initLoader(ExtendedProperties configuration)
     {
+        // Use our sub-class's name.
+        String className = getClass().getName();
+        int i = className.lastIndexOf('.');
+        if (i != -1)
+        {
+            className = className.substring(i + 1);
+        }
+
         // We must have a resource loader to wrap.
         String loaderClass = configuration.getString("loader");
 
@@ -93,11 +101,11 @@ public abstract class LoaderAdapter
             resourceLoader.commonInit(rsvc, loaderConfiguration);
             resourceLoader.init(loaderConfiguration);
 
-            rsvc.info("PathMapAdapter : using loader : " + loaderClass);
+            rsvc.info(className + " : using loader : " + loaderClass);
         }
         catch (Exception e)
         {
-            rsvc.error("PathMapAdapter : problem instantiating loader : " + e);
+            rsvc.error(className + " : problem instantiating loader : " + e);
         }
     }
 
