@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.38 2002/07/24 22:42:51 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.39 2002/07/25 03:07:41 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -442,7 +442,7 @@ public class TexenTask
             
                 ve.setProperty(
                     "classpath." + VelocityEngine.RESOURCE_LOADER + ".class",
-                        "org.apache.VelocityEngine.runtime.resource.loader.ClasspathResourceLoader");
+                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
                 ve.setProperty(
                     "classpath." + VelocityEngine.RESOURCE_LOADER + 
