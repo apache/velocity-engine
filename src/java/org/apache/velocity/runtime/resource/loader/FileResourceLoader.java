@@ -76,7 +76,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * A loader for templates stored on the file system.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.15 2002/02/07 06:21:14 dlr Exp $
+ * @version $Id: FileResourceLoader.java,v 1.16 2002/10/10 17:19:32 dlr Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -235,14 +235,7 @@ public class FileResourceLoader extends ResourceLoader
         
         if ( file.canRead() )
         {
-            if (file.lastModified() != resource.getLastModified())
-            {
-                return true;
-            }                
-            else
-            {
-                return false;
-            }                
+            return (file.lastModified() != resource.getLastModified());
         }
         
         /*
