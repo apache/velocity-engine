@@ -54,7 +54,6 @@ package org.apache.velocity.runtime.visitor;
  * <http://www.apache.org/>.
  */
 
-import org.apache.velocity.*;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.*;
 
@@ -67,7 +66,7 @@ import org.apache.velocity.runtime.parser.node.*;
  * as well.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: NodeViewMode.java,v 1.5 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: NodeViewMode.java,v 1.6 2003/05/04 17:46:34 geirm Exp $
  */
 public class NodeViewMode extends BaseVisitor
 {

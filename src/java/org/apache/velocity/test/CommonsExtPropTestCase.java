@@ -54,18 +54,13 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
 import java.io.FileWriter;
 
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.util.StringUtils;
-
 import org.apache.commons.collections.ExtendedProperties;
 
-import junit.framework.TestCase;
 
 /**
  * Tests for the Commons ExtendedProperties class. This is an identical
@@ -74,7 +69,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: CommonsExtPropTestCase.java,v 1.1 2001/05/20 20:30:37 geirm Exp $
+ * @version $Id: CommonsExtPropTestCase.java,v 1.2 2003/05/04 17:46:35 geirm Exp $
  */
 public class CommonsExtPropTestCase extends BaseTestCase
 {

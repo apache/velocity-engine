@@ -57,12 +57,9 @@ package org.apache.velocity.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
-import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import java.util.Properties;
@@ -75,7 +72,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletResponse;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeSingleton;
@@ -129,7 +125,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.48 2002/09/06 00:09:08 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.49 2003/05/04 17:46:34 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {

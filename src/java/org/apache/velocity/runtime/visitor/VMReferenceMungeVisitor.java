@@ -56,7 +56,6 @@ package org.apache.velocity.runtime.visitor;
 
 import java.util.Map;
 
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 
 /**
@@ -66,7 +65,7 @@ import org.apache.velocity.runtime.parser.node.ASTReference;
  *  the VMProxy stuff more complicated than it is already.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VMReferenceMungeVisitor.java,v 1.1 2001/06/19 03:31:28 geirm Exp $
+ * @version $Id: VMReferenceMungeVisitor.java,v 1.2 2003/05/04 17:46:34 geirm Exp $
  */ 
 public class VMReferenceMungeVisitor extends BaseVisitor
 {

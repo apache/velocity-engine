@@ -66,10 +66,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-
-import junit.framework.TestCase;
 
 /**
  * Tests if we are context safe : can we switch objects in the context
@@ -82,7 +78,7 @@ import junit.framework.TestCase;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.9 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.10 2003/05/04 17:46:35 geirm Exp $
  */
 public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestBase
 {
