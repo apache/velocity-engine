@@ -16,31 +16,32 @@ public interface ParserTreeConstants
   public int JJTDIRECTIVE = 9;
   public int JJTBLOCK = 10;
   public int JJTOBJECTARRAY = 11;
-  public int JJTMETHOD = 12;
-  public int JJTREFERENCE = 13;
-  public int JJTTRUE = 14;
-  public int JJTFALSE = 15;
-  public int JJTTEXT = 16;
-  public int JJTIFSTATEMENT = 17;
-  public int JJTELSESTATEMENT = 18;
-  public int JJTELSEIFSTATEMENT = 19;
-  public int JJTSETDIRECTIVE = 20;
-  public int JJTEXPRESSION = 21;
-  public int JJTASSIGNMENT = 22;
-  public int JJTORNODE = 23;
-  public int JJTANDNODE = 24;
-  public int JJTEQNODE = 25;
-  public int JJTNENODE = 26;
-  public int JJTLTNODE = 27;
-  public int JJTGTNODE = 28;
-  public int JJTLENODE = 29;
-  public int JJTGENODE = 30;
-  public int JJTADDNODE = 31;
-  public int JJTSUBTRACTNODE = 32;
-  public int JJTMULNODE = 33;
-  public int JJTDIVNODE = 34;
-  public int JJTMODNODE = 35;
-  public int JJTNOTNODE = 36;
+  public int JJTINTEGERRANGE = 12;
+  public int JJTMETHOD = 13;
+  public int JJTREFERENCE = 14;
+  public int JJTTRUE = 15;
+  public int JJTFALSE = 16;
+  public int JJTTEXT = 17;
+  public int JJTIFSTATEMENT = 18;
+  public int JJTELSESTATEMENT = 19;
+  public int JJTELSEIFSTATEMENT = 20;
+  public int JJTSETDIRECTIVE = 21;
+  public int JJTEXPRESSION = 22;
+  public int JJTASSIGNMENT = 23;
+  public int JJTORNODE = 24;
+  public int JJTANDNODE = 25;
+  public int JJTEQNODE = 26;
+  public int JJTNENODE = 27;
+  public int JJTLTNODE = 28;
+  public int JJTGTNODE = 29;
+  public int JJTLENODE = 30;
+  public int JJTGENODE = 31;
+  public int JJTADDNODE = 32;
+  public int JJTSUBTRACTNODE = 33;
+  public int JJTMULNODE = 34;
+  public int JJTDIVNODE = 35;
+  public int JJTMODNODE = 36;
+  public int JJTNOTNODE = 37;
 
 
   public String[] jjtNodeName = {
@@ -56,6 +57,7 @@ public interface ParserTreeConstants
     "Directive",
     "Block",
     "ObjectArray",
+    "IntegerRange",
     "Method",
     "Reference",
     "True",
