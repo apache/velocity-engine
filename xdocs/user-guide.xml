@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>User's Guide</title>
+  <subtitle>User's Guide</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="User's Guide">
+
+<p>
+    Place holder for the User's Guide.
+</p>
+
+<p>
+</p>
+
+</s1>
+
+</body>
+</document>
