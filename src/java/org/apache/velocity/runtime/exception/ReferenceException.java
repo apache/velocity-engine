@@ -60,9 +60,8 @@ public class ReferenceException extends Exception
 {
     public ReferenceException(String exceptionMessage, Node node)
     {
-        super(exceptionMessage + ": " + node.literal() + 
-            " is not a valid reference." +
-                " [line " + node.getLine() + ",column " +
-                    node.getColumn() + "]");
+        super(exceptionMessage + " [line " + node.getLine() + ",column " +
+                    node.getColumn() + "] : " + node.literal() + 
+            " is not a valid reference.");
     }        
 }
