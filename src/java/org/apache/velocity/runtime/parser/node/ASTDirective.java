@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.13 2001/01/03 05:24:59 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.14 2001/02/05 04:34:44 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -83,8 +83,6 @@ public class ASTDirective extends SimpleNode
     private Directive directive;
     private String directiveName = "";
     private boolean isDirective;
-
-    int parseDepth = 0;
 
     public ASTDirective(int id)
     {
@@ -116,13 +114,7 @@ public class ASTDirective extends SimpleNode
             
             directive = (Directive) parser.getDirective( directiveName )
                 .getClass().newInstance();
-            
-            /*
-             *  we need to treat #parse differently, alas
-             */
-            if ( directiveName.equals("parse"))
-                ( (Parse) directive).setParseDepth( parseDepth );
-            
+    
             directive.init(context,this);
         }          
         else if (Runtime.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
@@ -179,17 +171,6 @@ public class ASTDirective extends SimpleNode
     {
         return directiveName;
     }
-
-    /**
-     *  Sets the parse depth for recursion limitataion
-     */
-    public void setParserDepth( int i)
-    {
-        parseDepth = i;
-    }
 }
-
-
-
 
 
