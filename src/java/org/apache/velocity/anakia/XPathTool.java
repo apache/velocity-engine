@@ -1,4 +1,3 @@
-
 package org.apache.velocity.anakia;
 
 /*
@@ -55,56 +54,51 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
-// Velocity Stuff
-import org.apache.velocity.runtime.Runtime;
-
-// XPath Stuff
-import com.werken.xpath.XPath;
-
-// JDK Stuff
 import java.util.List;
 
-// JDOM Stuff
+import org.apache.velocity.runtime.Runtime;
+
+import com.werken.xpath.XPath;
+
 import org.jdom.Document;
 import org.jdom.Element;
 
 /**
-   This class adds an entrypoint into XPath functionality,
-   for Anakia.
-   <p>
-   All methods take a string XPath specification, along with
-   a context, and produces a resulting java.util.List.
-   <p>
-   The W3C XPath Specification (http://www.w3.org/TR/xpath) refers
-   to NodeSets repeatedly, but this implementation simply uses
-   java.util.List to hold all Nodes.  A 'Node' is any object in
-   a JDOM object tree, such as an org.jdom.Element, org.jdom.Document,
-   or org.jdom.Attribute.
-   <p>
-   To use it in Velocity, do this:
-   <p>
-   <code>
-   #set $authors = $xpath.applyTo("document/author", $root)
-   #foreach ($author in $authors)
-    $author.getValue() 
-   #end
-   #set $chapterTitles = $xpath.applyTo("document/chapter/@title", $root)
-   #foreach ($title in $chapterTitles)
-    $title.getValue()
-   #end
-   </code>
-   
-    @author <a href="bob@werken.com">bob mcwhirter</a>
-    @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: XPathTool.java,v 1.6 2000/11/26 12:54:02 werken Exp $
-*/
-
+ * This class adds an entrypoint into XPath functionality,
+ * for Anakia.
+ * <p>
+ * All methods take a string XPath specification, along with
+ * a context, and produces a resulting java.util.List.
+ * <p>
+ * The W3C XPath Specification (http://www.w3.org/TR/xpath) refers
+ * to NodeSets repeatedly, but this implementation simply uses
+ * java.util.List to hold all Nodes.  A 'Node' is any object in
+ * a JDOM object tree, such as an org.jdom.Element, org.jdom.Document,
+ * or org.jdom.Attribute.
+ * <p>
+ * To use it in Velocity, do this:
+ * <p>
+ * <code>
+ * #set $authors = $xpath.applyTo("document/author", $root)
+ * #foreach ($author in $authors)
+ *   $author.getValue() 
+ * #end
+ * #set $chapterTitles = $xpath.applyTo("document/chapter/@title", $root)
+ * #foreach ($title in $chapterTitles)
+ *   $title.getValue()
+ * #end
+ * </code>
+ *  
+ * @author <a href="bob@werken.com">bob mcwhirter</a>
+ * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: XPathTool.java,v 1.7 2000/12/20 07:16:18 jvanzyl Exp $
+ */
 public class XPathTool
 {
     /**
-       Constructor does nothing, as this is mostly
-       just objectified static methods
-    */
+     * Constructor does nothing, as this is mostly
+     * just objectified static methods
+     */
     public XPathTool()
     {
         Runtime.info("XPathTool::XPathTool()");
@@ -112,13 +106,13 @@ public class XPathTool
     }
 
     /**
-       Apply an XPath to a JDOM Document
-
-       @param xpathSpec The XPath to apply
-       @param doc The Document context
-
-       @return A list of selected nodes
-    */
+     * Apply an XPath to a JDOM Document
+     *
+     * @param xpathSpec The XPath to apply
+     * @param doc The Document context
+     *
+     * @return A list of selected nodes
+     */
     public List applyTo(String xpathSpec,
                         Document doc)
     {
@@ -128,13 +122,13 @@ public class XPathTool
     }
 
     /**
-       Apply an XPath to a JDOM Element
-
-       @param xpathSpec The XPath to apply
-       @param doc The Element context
-
-       @return A list of selected nodes
-    */
+     * Apply an XPath to a JDOM Element
+     *
+     * @param xpathSpec The XPath to apply
+     * @param doc The Element context
+     *
+     * @return A list of selected nodes
+     */
     public List applyTo(String xpathSpec,
                         Element elem)
     {
@@ -144,13 +138,13 @@ public class XPathTool
     }
 
     /**
-       Apply an XPath to a nodeset
-
-       @param xpathSpec The XPath to apply
-       @param doc The nodeset context
-
-       @return A list of selected nodes
-    */
+     * Apply an XPath to a nodeset
+     *
+     * @param xpathSpec The XPath to apply
+     * @param doc The nodeset context
+     *
+     * @return A list of selected nodes
+     */
     public List applyTo(String xpathSpec,
                         List nodeSet)
     {
