@@ -141,7 +141,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.108 2001/04/22 18:17:42 geirm Exp $
+ * @version $Id: Runtime.java,v 1.109 2001/04/27 15:22:16 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -723,6 +723,21 @@ public class Runtime implements RuntimeConstants
     {
         return (ContentResource) ResourceManager
             .getResource(name,ResourceManager.RESOURCE_CONTENT, encoding );
+    }
+
+
+    /**
+     *  Determines is a template exists, and returns name of the loader that 
+     *  provides it.  This is a slightly less hokey way to support
+     *  the Velocity.templateExists() utility method, which was broken
+     *  when per-template encoding was introduced.  We can revisit this.
+     *
+     *  @param resourceName Name of template or content resource
+     *  @return class name of loader than can provide it
+     */
+    public static String getLoaderNameForResource( String resourceName )
+    {
+        return ResourceManager.getLoaderNameForResource( resourceName );
     }
 
     /**
