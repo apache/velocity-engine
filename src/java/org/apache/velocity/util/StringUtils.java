@@ -74,7 +74,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.6 2001/02/27 08:01:10 jvanzyl Exp $
+ *  @version $Id: StringUtils.java,v 1.7 2001/02/27 16:27:11 jvanzyl Exp $
  */
 public class StringUtils
 {
@@ -477,4 +477,26 @@ public class StringUtils
             return falseString;
         }            
     }            
+
+    /**
+     * Check to see if all the string objects passed
+     * in are empty.
+     *
+     * @param ArrayList list of string objects.
+     * @return boolean
+     */
+    public boolean allEmpty(ArrayList list)
+    {
+        int size = list.size();
+        
+        for (int i = 0; i < size; i++)
+        {
+            if ((list.get(i) != null) && (list.get(i).toString().length() > 0))
+            {
+                return false;
+            }
+        }            
+        
+        return true;
+    }
 }
