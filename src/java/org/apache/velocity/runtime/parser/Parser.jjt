@@ -122,7 +122,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.11 2000/10/31 16:02:21 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.12 2000/11/01 01:10:34 geirm Exp $ 
 */
 public class Parser
 {
@@ -450,7 +450,7 @@ TOKEN:
     <COMMA:",">
 }
 
-<DIRECTIVE,REFMODIFIER,REFMOD2>
+<DIRECTIVE,REFMODIFIER>
 TOKEN:
 {
     <LPAREN: "(">
@@ -468,6 +468,18 @@ TOKEN:
     }
 
 |   <RPAREN: ")" (" ")* ("\n")?>
+    {
+       RPARENHandler();
+    }    
+}
+
+/*
+ *  in REFMOD2, we don't want to bind the whitespace and \n like we do when closing a directive.
+ */
+<REFMOD2>
+TOKEN:
+{
+    <REFMOD2_RPAREN: ")">
     {
        RPARENHandler();
     }    
@@ -956,7 +968,7 @@ void Parameter() #void: {}
  */
 void Method() : {}
 {
-    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <RPAREN>
+    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>
 }
 
 void Reference() : {}
