@@ -28,18 +28,22 @@ import java.util.List;
  * same way as a single-element {@link NodeList} would.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaElement.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class AnakiaElement extends Element
 {
     private static final XMLOutputter DEFAULT_OUTPUTTER = new XMLOutputter();
+
+    static {
+        DEFAULT_OUTPUTTER.getFormat().setLineSeparator(System.getProperty("line.separator"));
+    }
 
     /**
      * <p>
      * This will create a new <code>AnakiaElement</code>
      *   with the supplied (local) name, and define
      *   the <code>{@link Namespace}</code> to be used.
-     * If the provided namespace is null, the element will have 
+     * If the provided namespace is null, the element will have
      * no namespace.
      * </p>
      *
@@ -98,7 +102,7 @@ public class AnakiaElement extends Element
     {
         super(name, prefix, uri);
     }
-    
+
     /**
      * Applies an XPath expression to this element and returns the resulting
      * node list. In order for this method to work, your application must have
@@ -126,15 +130,15 @@ public class AnakiaElement extends Element
     {
         return DEFAULT_OUTPUTTER.outputString(this);
     }
-    
+
     /**
      * <p>
      * This returns the full content of the element as a NodeList which
      * may contain objects of type <code>String</code>, <code>Element</code>,
      * <code>Comment</code>, <code>ProcessingInstruction</code>,
-     * <code>CDATA</code>, and <code>EntityRef</code>.  
-     * The List returned is "live" in document order and modifications 
-     * to it affect the element's actual contents.  Whitespace content is 
+     * <code>CDATA</code>, and <code>EntityRef</code>.
+     * The List returned is "live" in document order and modifications
+     * to it affect the element's actual contents.  Whitespace content is
      * returned in its entirety.
      * </p>
      *
@@ -149,14 +153,14 @@ public class AnakiaElement extends Element
     {
         return new NodeList(super.getContent(), false);
     }
-    
+
     /**
      * <p>
      * This returns a <code>NodeList</code> of all the child elements
-     * nested directly (one level deep) within this element, as 
-     * <code>Element</code> objects.  If this target element has no nested 
+     * nested directly (one level deep) within this element, as
+     * <code>Element</code> objects.  If this target element has no nested
      * elements, an empty List is returned.  The returned list is "live"
-     * in document order and changes to it affect the element's actual 
+     * in document order and changes to it affect the element's actual
      * contents.
      * </p>
      * <p>
@@ -185,9 +189,9 @@ public class AnakiaElement extends Element
      * <p>
      * This returns a <code>NodeList</code> of all the child elements
      * nested directly (one level deep) within this element with the given
-     * local name and belonging to no namespace, returned as 
-     * <code>Element</code> objects.  If this target element has no nested 
-     * elements with the given name outside a namespace, an empty List 
+     * local name and belonging to no namespace, returned as
+     * <code>Element</code> objects.  If this target element has no nested
+     * elements with the given name outside a namespace, an empty List
      * is returned.  The returned list is "live" in document order
      * and changes to it affect the element's actual contents.
      * </p>
@@ -208,9 +212,9 @@ public class AnakiaElement extends Element
      * <p>
      * This returns a <code>NodeList</code> of all the child elements
      * nested directly (one level deep) within this element with the given
-     * local name and belonging to the given Namespace, returned as 
-     * <code>Element</code> objects.  If this target element has no nested 
-     * elements with the given name in the given Namespace, an empty List 
+     * local name and belonging to the given Namespace, returned as
+     * <code>Element</code> objects.  If this target element has no nested
+     * elements with the given name in the given Namespace, an empty List
      * is returned.  The returned list is "live" in document order
      * and changes to it affect the element's actual contents.
      * </p>
@@ -230,10 +234,10 @@ public class AnakiaElement extends Element
 
     /**
      * <p>
-     * This returns the complete set of attributes for this element, as a 
-     * <code>NodeList</code> of <code>Attribute</code> objects in no particular 
-     * order, or an empty list if there are none.  
-     * The returned list is "live" and changes to it affect the 
+     * This returns the complete set of attributes for this element, as a
+     * <code>NodeList</code> of <code>Attribute</code> objects in no particular
+     * order, or an empty list if there are none.
+     * The returned list is "live" and changes to it affect the
      * element's actual attributes.
      * </p>
      *
