@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.52 2001/01/29 04:27:53 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.53 2001/01/29 06:07:14 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -1769,20 +1769,15 @@ void SetDirective() : {/*@bgen(jjtree) SetDirective */
 /*@egen*/
     <SET_DIRECTIVE>  
     [ LOOKAHEAD(2) <WHITESPACE> ] 
-    ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )/*@bgen(jjtree)*/
-    {
-      jjtree.closeNodeScope(jjtn000, true);
-      jjtc000 = false;
-    }
-/*@egen*/
-
+    ( <LPAREN> Expression() <RPAREN>
     { 
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
          */
     
         token_source.inSet = false; 
-    }/*@bgen(jjtree)*/
+    }
+    [<NEWLINE>] )/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
