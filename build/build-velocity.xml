@@ -420,14 +420,6 @@
     
     <chmod file="${dist.dir}/examples/test.sh" perm="+x"/>
 
-    <copy todir="${dist.dir}/testbed">
-      <fileset dir="../testbed">
-        <include name="**"/>
-      </fileset>
-    </copy>
-    
-    <chmod file="${dist.dir}/testbed/test.sh" perm="+x"/>
-        
     <copy 
       file="${build.dir}/${project}.jar" 
       tofile="${dist.dir}/${project}.jar"
