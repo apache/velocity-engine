@@ -91,7 +91,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.9 2001/11/17 12:32:34 geirm Exp $
+ * @version $Id: LogManager.java,v 1.10 2003/08/31 18:13:07 dlr Exp $
  */
 public class LogManager
 {
@@ -176,9 +176,9 @@ public class LogManager
                 }
                 catch( NoClassDefFoundError ncdfe )
                 {
-                    rsvc.info("Couldn't find class " + claz 
-                              +" or necessary supporting classes in classpath. Exception : " 
-                              + ncdfe );
+                    rsvc.debug("Couldn't find class " + claz 
+                               + " or necessary supporting classes in "
+                               + "classpath. Exception : " + ncdfe);
                 }
             }
         }
