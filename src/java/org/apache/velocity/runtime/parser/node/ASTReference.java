@@ -85,7 +85,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.39 2001/09/24 13:23:10 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.40 2001/09/26 11:22:25 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -602,11 +602,31 @@ public class ASTReference extends SimpleNode
         }
 
         /*
-         *  get the literal in case this reference isn't backed by the context at runtime
+         *  Look for preceeding stuff like '#' and '$'
+         *  and snip it off, except for the
+         *  last $
+         */
+              
+        int loc1 = t.image.lastIndexOf('$');
+             
+        /*
+         *  if we have extra stuff, loc > 0
+         *  ex. '#$foo' so attach that to 
+         *  the prefix.
+         */
+        if( loc1 > 0)
+        {
+            morePrefix = morePrefix + t.image.substring(0, loc1);
+            t.image = t.image.substring(loc1);
+        }
+        
+        /*
+         *  Now it should be clean. Get the literal in case this reference 
+         *  isn't backed by the context at runtime, and then figure out what
+         *  we are working with.
          */
 
         nullString = literal();
-
         
         if (t.image.startsWith("$!"))
         {
@@ -648,37 +668,12 @@ public class ASTReference extends SimpleNode
         else
         {
             /*
-             * the magic <MORE> can prepend '#' and '$'
-             * on the front of a reference - so lets clean it
-             * and save that info as the prefix
+             *  just nip off the '$' so we have 
+             *  the root
              */
-            String img = t.image;
-            int loc = 0;
-
-            for( loc = 0; loc < img.length(); loc++)
-            {
-                char c = img.charAt(loc);
-
-                if ( c != '#' && c != '$')
-                {
-                   break;
-                }
-            }
              
-            /*
-             *  if we have extra stuff, loc > 0
-             *  ex. '#$foo' so attach that to 
-             *  the prefix.
-             */
-            if( loc > 0)
-            {
-                morePrefix = morePrefix + img.substring(0, loc-1);
-                nullString = nullString.substring(loc-1);
-            }
-
-            referenceType = NORMAL_REFERENCE;
-            
-            return img.substring(loc);
+            referenceType = NORMAL_REFERENCE;   
+            return t.image.substring(1);
         }            
     }
 
