@@ -22,14 +22,33 @@ o Log4j for Logging
   
   STATUS:
   [JVZ] I will do this if we can agree on this.
-  [JSS] I agree.
+  [JSS]
+        Ok, I wrote the start of a pluggable system. In other words,
+        the LogManager can now be writen to Class.forName() the
+        appropriate class. I took the default Avalon code and
+        created an AvalonLoggingSystem. It should be possible to create
+        a Log4JLoggingSystem and then have LogManager instantiate that
+        instead.
+
+        Note: We should probably make it so that this can be tied
+        in with Turbine's logging system as well so that we can have a 
+        centralized system as needed. In other words, instead of logging
+        to a separate log file, we should be able to have Turbine init
+        Velocity and then have Turbine hand it a LoggingSystem to use.
+
+        Note: Implementing Log4J might become somewhat difficult if we 
+        want to support all of its features because it will add a lot
+        of configuration options to the vel.props file. For instance,
+        the ability to log to a console + syslog + file all at the same
+        time.
+
   [GMJ] +1 on log4j - and I think a simple Interface here and now
         would go a long way. Nothing too fancy - just let people
         plug in what they want.
         - another issue is distribution - we have a nice thing now
          where the user doesn't have to go fetch anything to get vel
          going.  I assume that we will include a tested version of 
-         log4j with the distro?
+         log4j with the distro? [JSS] yes.
 
 o Get a copy of Alexandria for Javadocs
 
