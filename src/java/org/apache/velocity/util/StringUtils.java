@@ -69,7 +69,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.1 2000/09/30 17:04:29 jvanzyl Exp $
+ *  @version $Id: StringUtils.java,v 1.2 2000/10/24 23:34:41 jvanzyl Exp $
  */
 public class StringUtils
 {
@@ -143,6 +143,7 @@ public class StringUtils
         String contents = "";
         
         File f = new File(file);
+        
         if (f.exists())
         {
             try
