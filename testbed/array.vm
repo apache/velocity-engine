@@ -1,5 +1,0 @@
-#set $foo = [$this, $that, $foo.Bar, [$this, "this"] ]
-
-$provider.concat(["a", "b", "c"])
-
-this is some text.

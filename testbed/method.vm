@@ -1,2 +1,0 @@
-
-$provider.concat(["I", "am", "a", $provider.concat(["running", "man"])])
