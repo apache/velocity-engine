@@ -19,6 +19,7 @@
         <item name="TODO"                   href="/todo.html"/>
     </menu>
     <menu name="Community">
+        <item name="Powered By Velocity"    href="/powered.html"/>
         <item name="Get Involved"           href="/site/getinvolved.html"/>
         <item name="Mailing Lists"          href="/site/mail.html"/>
         <item name="CVS Repositories"       href="/site/cvsindex.html"/>
