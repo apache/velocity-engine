@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.23 2001/03/31 05:28:01 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.24 2001/04/14 02:52:26 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -332,9 +332,15 @@ public interface RuntimeConstants
         "runtime.interpolate.string.literals";
 
     /** 
-     * The encoding to use for the template.
+     * The character encoding for the templates.  Used by the parser in 
+     * processing the input streams.
      */
-    public static final String TEMPLATE_ENCODING = "template.encoding";
+    public static final String INPUT_ENCODING = "input.encoding";
+
+    /**
+     *  Encoding for the output stream.  Currently used by Anakia and VelocityServlet
+     */
+    public static final String OUTPUT_ENCODING = "output.encoding";
 
     /*
      * ----------------------------------------------------------------------
