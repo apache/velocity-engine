@@ -71,7 +71,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.6 2001/01/06 22:08:33 jvanzyl Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.7 2001/02/05 00:44:57 geirm Exp $ 
  */
 package org.apache.velocity.runtime.parser.node;
 
@@ -86,7 +86,6 @@ import org.apache.velocity.util.introspection.Introspector;
 
 public class ASTIdentifier extends SimpleNode
 {
-    private String method = "";
     private String identifier = "";
 
     public ASTIdentifier(int id)
@@ -115,8 +114,7 @@ public class ASTIdentifier extends SimpleNode
         super.init( context, data );
 
         identifier = getFirstToken().image;
-        method = "get" + identifier;
-
+ 
         return data;
     }
 
