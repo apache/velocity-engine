@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.97 2001/03/19 05:15:51 geirm Exp $
+ * @version $Id: Runtime.java,v 1.98 2001/03/19 05:30:49 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -628,7 +628,8 @@ public class Runtime implements RuntimeConstants
          * Start with the appropriate prefix
          */
 
-        switch( level ) {
+        switch( level ) 
+        {
         case LogSystem.DEBUG_ID :
             out = DEBUG_PREFIX;
             break;
