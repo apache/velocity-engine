@@ -68,16 +68,6 @@ options
      */
     STATIC=false;                                                                                                                                                                                                                                                                                                                  
     
-    /**
-     * This option is used as one of the steps
-     * required to allow the use of an "#include"
-     * type behaviour. In this case the directive
-     * is "#parse". See the TOKEN_MGR_DECLS section
-     * below for details on how the TokenManager is
-     * modified to allow this behaviour.
-     */
-    COMMON_TOKEN_ACTION=true;
-    
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
 }    
@@ -106,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.33 2000/11/26 18:11:39 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.34 2000/11/30 08:15:50 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -118,33 +108,26 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
      */
     private Hashtable directives = new Hashtable(0);
   
-    /** This was added to allow the parser to be associated
-     * with a particular syntax. JavaCC doesn't generate
-     * a constructor without parameters. The normal constructor
-     * takes a single argument which an InputStream. But in
-     * order to make the parser dynamically loadable this
-     * constructor had to be added. This also allows us to
-     * create a single instance of a parser and reuse
-     * it over and over.
+    /** 
+     * This constructor was added to allow the re-use of parsers.
+     * The normal constructor takes a single argument which 
+     * an InputStream. This simply creates a re-usable parser
+     * object, we satisfy the requirement of an InputStream
+     * by using a newline character as an input stream.
      */
     public Parser()
     {
         this(new ByteArrayInputStream("\n".getBytes()));
     }
 
-    /** This was also added to allow parsers to be dynamically
-     * loadable.
-     * 
-     * Taken from the generated constructor in Parser.java.
-     * Just be watchful when you change the grammar because
-     * the generated method changes when the grammar changes
-     * WRT to adding new token types. So you have to
-     * occasionally do some cutting and pasting :-)
-     *
-     * It would be A LOT better it you could subclass grammars
-     * and override particular methods but that's not
-     * possible with JavaCC. I believe that you can do
-     * this with ANTLR though.
+    /** 
+     * This was also added to allow parsers to be
+     * re-usable. Normal JavaCC use entails passing an
+     * input stream to the constructor and the parsing
+     * process is carried out once. We want to be able
+     * to re-use parsers: we do this by adding this
+     * method and re-initializing the lexer with
+     * the new stream that we want parsed.
      */
     public SimpleNode parse(InputStream stream) throws ParseException
     {
@@ -197,7 +180,8 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 
    
     /**
-     *  Produces a processed output for an escaped control or pluggable directive
+     * Produces a processed output for an escaped control or 
+     * pluggable directive
      */
     private String escapedDirective( String strImage )
     {
@@ -280,45 +264,6 @@ TOKEN_MGR_DECLS:
     private boolean inComment;
     private boolean inSet;
 
-    Stack streams = new Stack();
-    Stack states = new Stack();
-   
-    /**
-     * Retrieve the oldStream and oldState and
-     * continue processing the input.
-     */
-    void popFile()
-    {
-        ReInit((ASCII_CharStream) streams.pop(), ((Integer) states.pop()).intValue());
-        fileDepth--;
-    }    
-    
-    private boolean AtParent()
-    {
-        if (fileDepth == 0)
-            return true;
-        else
-            return false;
-    }
-    
-    void CommonTokenAction(Token t)
-    {
-        if (t.kind == EOF && ! AtParent())
-        {
-            Token new_t;
-            popFile();
-            new_t = getNextToken();
-            t.kind = new_t.kind;
-            t.beginLine = new_t.beginLine;
-            t.beginColumn = new_t.beginColumn;
-            t.endLine = new_t.endLine;
-            t.endColumn = new_t.endColumn;
-            t.image = new_t.image;
-            t.next = new_t.next;
-            t.specialToken = new_t.specialToken;
-        }
-    } 
-
     /**
      *  pushes the current state onto the 'state stack',
      *  and maintains the parens counts
@@ -344,8 +289,11 @@ TOKEN_MGR_DECLS:
         }
 
         if( bDebugPrint_ )
-            System.out.println(" stack pop (" + stateStack.size() + ") : lparen=" + ( (Integer) hStack.get("lparen")).intValue() 
-                + " newstate=" +  ( (Integer)  hStack.get("lexstate")).intValue() );
+            System.out.println(
+                " stack pop (" + stateStack.size() + ") : lparen=" + 
+                    ( (Integer) hStack.get("lparen")).intValue() + 
+                        " newstate=" + ( (Integer) hStack
+                            .get("lexstate")).intValue() );
        
         lparen = ( (Integer) hStack.get("lparen")).intValue();
         rparen = ( (Integer) hStack.get("rparen")).intValue();
@@ -362,7 +310,8 @@ TOKEN_MGR_DECLS:
     public boolean stateStackPush()
     {
         if( bDebugPrint_ )
-            System.out.println(" (" + stateStack.size() + ") pushing cur state : " + curLexState );
+            System.out.println(" (" + stateStack.size() + ") pushing cur state : " + 
+                curLexState );
             
         Hashtable hStack = new Hashtable();
         hStack.put("lexstate", new Integer( curLexState ) );
@@ -402,8 +351,9 @@ TOKEN_MGR_DECLS:
     private void RPARENHandler()
     {
         /*
-         *  Ultimately, we want to drop down to the state below the one that has an open (
-         *  if we hit bottom (DEFAULT), that's fine. It's just text schmoo.
+         * Ultimately, we want to drop down to the state below 
+         * the one that has an open (if we hit bottom (DEFAULT), 
+         * that's fine. It's just text schmoo.
          *
          */
    
@@ -415,15 +365,16 @@ TOKEN_MGR_DECLS:
         while( !bClosed) 
         {
             /*
-             * look at current state.  If we haven't seen a lparen in this state
-             * then we drop a state, because this lparen clearly closes our state
+             * look at current state.  If we haven't seen a lparen 
+             * in this state then we drop a state, because this 
+             * lparen clearly closes our state
              */
 
             if( lparen > 0)
             {
                 /*
-                 *  if rparen + 1 == lparen, then this state is closed. Otherwise, increment
-                 *  and keep parsing
+                 *  if rparen + 1 == lparen, then this state is closed. 
+                 * Otherwise, increment and keep parsing
                  */
 
                  if( lparen == rparen + 1)
@@ -483,7 +434,8 @@ TOKEN:
             lparen++;
 
         /*
-         *  if in REFERENCE and we have seen the dot, then move to REFMOD2 -> Modifier()
+         * If in REFERENCE and we have seen the dot, then move 
+         * to REFMOD2 -> Modifier()
          */
 
         if (curLexState == REFMODIFIER )
@@ -492,7 +444,8 @@ TOKEN:
 }
 
 /* 
- *  we never will see a ')' in anything but DIRECTIVE and REFMOD2.  Each have their own
+ * we never will see a ')' in anything but DIRECTIVE and REFMOD2.  
+ * Each have their own
  */
 <DIRECTIVE>
 TOKEN:
@@ -511,13 +464,15 @@ TOKEN:
 TOKEN:
 {
     /*
-     *  in REFMOD2, we don't want to bind the whitespace and \n like we do when closing a directive.
+     * in REFMOD2, we don't want to bind the whitespace and \n like we 
+     * do when closing a directive.
      */
     <REFMOD2_RPAREN: ")">
     {
         /*
-         *  need to simply switch back to REFERENCE, not drop down the stack
-         *  because we can (infinitely) chain, ala $foo.bar().blargh().woogie().doogie()
+         * need to simply switch back to REFERENCE, not drop down the stack
+         * because we can (infinitely) chain, ala 
+         * $foo.bar().blargh().woogie().doogie()
          */
 
         SwitchTo( REFERENCE );
@@ -548,9 +503,10 @@ TOKEN:
 
 
 /*
- *  needed because #set is so wacky in it's desired behavior.  We want set to eat any preceeding whitespace
- *  so it is invisible in formatting. (As it should be.)  If this works well, I am going to chuck the whole MORE:
- *  token abomination. 
+ * needed because #set is so wacky in it's desired behavior.  We want set 
+ * to eat any preceeding whitespace so it is invisible in formatting. 
+ * (As it should be.)  If this works well, I am going to chuck the whole MORE:
+ * token abomination. 
  */
 TOKEN:
 {
@@ -635,9 +591,10 @@ MORE :
         if (! inComment)
         {
             /*
-             *  We can have the situation where #if($foo)$foo#end.  We need to transition out of 
-             *  REFERENCE before going to DIRECTIVE.  I don't really like this, but I can't think of
-             *  a legal way you are going into DIRECTIVE while in REFERENCE.  -gmj
+             * We can have the situation where #if($foo)$foo#end.  
+             * We need to transition out of REFERENCE before going to DIRECTIVE. 
+             * I don't really like this, but I can't think of a legal way 
+             * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
             if (curLexState == REFERENCE)
@@ -866,13 +823,15 @@ TOKEN :
 |   <DOT: "." <ALPHA_CHAR>> 
     { 
         /*
-         * push the alpha char back into the stream so the following identifier is complete
+         * push the alpha char back into the stream so the following identifier 
+         * is complete
          */
 
         input_stream.backup(1); 
 
         /*
-         *  and munge the <DOT> so we just get a . when we have normal text that looks like a ref.ident
+         * and munge the <DOT> so we just get a . when we have normal text that 
+         * looks like a ref.ident
          */
 
         matchedToken.image = ".";
@@ -1027,7 +986,7 @@ void EscapedDirective() : {/*@bgen(jjtree) EscapedDirective */
 
 /**
  *  Used to catch and process escape sequences in grammatical constructs
- *  as escapes outside of VTL are just characters.  Right now we hav both
+ *  as escapes outside of VTL are just characters.  Right now we have both
  *  this and the EscapeDirective() construction because in the EscapeDirective()
  *  case, we want to suck in the #<directive> and here we don't.  We just want
  *  the escapes to render correctly
@@ -1225,9 +1184,9 @@ SimpleNode Directive() :
     try {
 /*@egen*/
     /*
-     *  note that if we were escaped, that is now handled by EscapedDirective()
+     * note that if we were escaped, that is now handled by 
+     * EscapedDirective()
      */
-  
     t = <WORD> 
     {
         String strDirectiveName = t.image.substring(1);
@@ -1246,7 +1205,8 @@ SimpleNode Directive() :
         }
 
         /*
-         *  set the directive name from here.  No reason for the thing to know about parser tokens
+         * set the directive name from here.  No reason for the thing to know 
+         * about parser tokens
          */
 
         jjtn000.setDirectiveName( strDirectiveName );
@@ -2307,36 +2267,48 @@ void PrimaryExpression()       : {}
    Notes
    -----
  
-    template == the input stream for this parser, contains 'VTL' mixed in with 'schmoo'
+    template == the input stream for this parser, contains 'VTL' 
+    mixed in with 'schmoo'
+    
     VTL == Velocity Template Language : the references, directives, etc
+    
     shmoo == the non-VTL component of a template
+    
     reference == VTL entity that represents data within the context. ex. $foo
+    
     directive == VTL entity that denotes 'action' (#set, #foreach, #if )
-    defined directive (DD) == VTL directive entity that is expressed explicitly w/in this grammar
-    pluggable directive (PD) == VTL directive entity that is defined outside of the grammar.  PD's
-            allow VTL to be easily expandable w/o parser modification.
+    
+    defined directive (DD) == VTL directive entity that is expressed 
+    explicitly w/in this grammar
+    
+    pluggable directive (PD) == VTL directive entity that is defined outside of the 
+    grammar.  PD's allow VTL to be easily expandable w/o parser modification.
  
-    The problem with parsing VTL is that an input stream consists generally of little
-    bits of VTL mixed in with 'other stuff, referred to as 'schmoo'.  Unlike
-    other languages, like C or Java, where the parser can punt whenever it encounters 
-    input that doesn't conform to the grammar, the VTL parser can't do that.  It must simply 
-    output the schmoo and keep going.  
+    The problem with parsing VTL is that an input stream consists generally of 
+    little bits of VTL mixed in with 'other stuff, referred to as 'schmoo'. 
+    Unlike other languages, like C or Java, where the parser can punt whenever 
+    it encounters input that doesn't conform to the grammar, the VTL parser can't do 
+    that. It must simply output the schmoo and keep going.  
  
     There are a few things that we do here :
      - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
      - define for each parser state a set of tokens for each state
-     - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
+     - define the VTL grammar, expressed (mostly) in the productions such as Text(), 
+     SetStatement(), etc.
    
-    It is clear that this expression of the VTL grammer (the contents of this .jjt file) is maturing and
-    evolving as we learn more about how to parse VTL ( and as I learn about parsing...), so in the event 
-    this documentation is in disagreement w/ the source, the source takes precedence. :)
+    It is clear that this expression of the VTL grammar (the contents 
+    of this .jjt file) is maturing and evolving as we learn more about 
+    how to parse VTL ( and as I learn about parsing...), so in the event 
+    this documentation is in disagreement w/ the source, the source 
+    takes precedence. :)
  
     Parser States
     -------------
-    DEFAULT :  This is the base or starting state, and strangely enough, the default state.
+    DEFAULT :  This is the base or starting state, and strangely enough, the 
+    default state.
  
-    PRE_DIRECTIVE : State immediately following '#' before we figure out which defined or pluggable
-        directive (or neither) we are working with.
+    PRE_DIRECTIVE : State immediately following '#' before we figure out which 
+    defined or pluggable directive (or neither) we are working with.
      
     DIRECTIVE : This state is triggered by the a match of a DD or a PD.
 
@@ -2350,7 +2322,8 @@ void PrimaryExpression()       : {}
 
     Escape Sequences
     ----------------
-    The escape processing in VTL is very simple.  The '\' character acts only as an escape when :
+    The escape processing in VTL is very simple.  The '\' character acts 
+    only as an escape when :
     
         1) On or more touch a VTL element.
 
@@ -2358,11 +2331,12 @@ void PrimaryExpression()       : {}
 
         1) It preceeds a reference that is in the context.
 
-        2) It preceeds a defined directive (#set, #if, #end, etc) or a valid pluggable directive, 
-            such as #foreach
+        2) It preceeds a defined directive (#set, #if, #end, etc) or a valid 
+        pluggable directive, such as #foreach
 
-    In all other cases the '\' is just another piece of text.  The purpose of this is to allow the non-VTL
-    parts of a template (the 'schmoo') to not have to be altered for processing by Velocity.
+    In all other cases the '\' is just another piece of text.  The purpose of this 
+    is to allow the non-VTL parts of a template (the 'schmoo') to not have to be 
+    altered for processing by Velocity.
 
     So if in the context $foo and $bar were defined and $woogie was not 
         
@@ -2372,7 +2346,8 @@ void PrimaryExpression()       : {}
 
         $foo  $bar  \$woogie
 
-    Further, you can stack them and they affect left to right, just like convention escape characters in other languages.
+    Further, you can stack them and they affect left to right, just like convention 
+    escape characters in other languages.
 
         \$foo = $foo
         \\$foo = \<foo>
@@ -2381,9 +2356,11 @@ void PrimaryExpression()       : {}
     
     What You Expect
     ---------------
-    The recent versions of the parser are trying to support precise output to support general template use.
-    The directives do not render trailing whitespace and newlines if followed by a newline.  They will render preceeding whitespace.
-    The only exception is #set, which also eats preceeding whitespace.
+    The recent versions of the parser are trying to support precise output to 
+    support general template use. The directives do not render trailing 
+    whitespace and newlines if followed by a newline.  They will render 
+    preceeding whitespace. The only exception is #set, which also eats 
+    preceeding whitespace.
  
     So, with a template :
 
