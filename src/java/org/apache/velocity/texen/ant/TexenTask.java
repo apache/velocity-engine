@@ -78,9 +78,8 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.21 2001/03/23 18:10:03 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.22 2001/04/30 13:33:28 geirm Exp $
  */
-
 public class TexenTask extends Task
 {
     /**
@@ -109,28 +108,32 @@ public class TexenTask extends Task
     protected String outputFile;
     
     /**
+     * <p>
      * These are properties that are fed into the
      * initial context from a properties file. This
      * is simply a convenient way to set some values
      * that you wish to make available in the context.
-     *
-     * These values are not critical, like the template path or
+     * </p>
+     * <p>
+     * These values are not critical, like the template path
      * or output path, but allow a convenient way to
      * set a value that may be specific to a particular
      * generation task.
-     *
+     * </p>
+     * <p>
      * For example, if you are generating scripts to allow
      * user to automatically create a database, then
-     * you might want the $databaseName to be placed
+     * you might want the <code>$databaseName</code> 
+     * to be placed
      * in the initial context so that it is available
      * in a script that might look something like the
      * following:
-     *
+     * <code><pre>
      * #!bin/sh
      * 
      * echo y | mysqladmin create $databaseName
-     *
-     * The value of $databaseName isn't critical to
+     * </pre></code>
+     * The value of <code>$databaseName</code> isn't critical to
      * output, and you obviously don't want to change
      * the ant task to simply take a database name.
      * So initial context values can be set with
@@ -139,7 +142,7 @@ public class TexenTask extends Task
     protected Configuration contextProperties;
 
     /**
-     * Get the control template for the
+     * [REQUIRED] Set the control template for the
      * generating process.
      */
     public void setControlTemplate (String controlTemplate)
@@ -157,7 +160,7 @@ public class TexenTask extends Task
     }
 
     /**
-     * Set the path where Velocity will look
+     * [REQUIRED] Set the path where Velocity will look
      * for templates using the file template
      * loader.
      */
@@ -185,7 +188,7 @@ public class TexenTask extends Task
     }        
 
     /**
-     * Set the output directory. It will be
+     * [REQUIRED] Set the output directory. It will be
      * created if it doesn't exist.
      */
     public void setOutputDirectory(File outputDirectory)
@@ -209,7 +212,7 @@ public class TexenTask extends Task
     }        
 
     /**
-     * Set the output file for the
+     * [REQUIRED] Set the output file for the
      * generation process.
      */
     public void setOutputFile(String outputFile)
@@ -246,7 +249,7 @@ public class TexenTask extends Task
     }
 
     /**
-     * Set the context properties that will be
+     * Get the context properties that will be
      * fed into the initial context be the
      * generating process starts.
      */
@@ -261,7 +264,7 @@ public class TexenTask extends Task
     }
     
     /**
-     * Execute the input script with WM
+     * Execute the input script with Velocity
      */
     public void execute () throws BuildException
     {
