@@ -64,9 +64,9 @@
     then Velocity will call its .toString() method to resolve the 
     object into a String.
     </p>
- </s1>
+    </s1>
 
-<s1 title="Conditionals">
+    <s1 title="Conditionals">
 
     <s1 title="If / ElseIf / Else Conditionals">
     <p>
