@@ -338,6 +338,17 @@
     <antcall target="forumdemo" />
 
   </target>
+
+  <target name="examples-clean-all" depends="examples-clean-anakia">
+    <delete>
+      <fileset dir="${example.dir}" includes="**/*.class"/>
+    </delete>
+  </target>
+
+  <target name="examples-clean-anakia">
+    <delete dir="${example.dir}/anakia/docs"/>
+  </target>
+
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
@@ -366,7 +377,7 @@
   <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
-  <target name="dist" depends="test-clean,jar,javadocs">
+  <target name="dist" depends="examples-clean-anakia,test-clean,jar,javadocs">
         
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
@@ -406,12 +417,20 @@
         <include name="**"/>
       </fileset>
     </copy>
-    
-    <chmod file="${dist.dir}/examples/test.sh" perm="+x"/>
 
     <copy 
-      file="${build.dir}/${project}.jar" 
-      tofile="${dist.dir}/${project}.jar"
+      file="../LICENSE" 
+      tofile="${dist.dir}/LICENSE"
+    />
+
+    <copy 
+      file="../README.txt" 
+      tofile="${dist.dir}/README.txt"
+    />
+    
+    <copy 
+      file="${build.dir}/${final.name}.jar" 
+      tofile="${dist.dir}/${final.name}.jar"
     />
     
     <jar 
@@ -428,11 +447,9 @@
   <!-- Cleans up the build directory                                       -->
   <!-- =================================================================== -->
   <target name="clean">
-        
-        <delete dir="${build.dir}"/>
-    
+      <delete dir="${build.dir}"/>
   </target>
-
+  
   <!-- =================================================================== -->
   <!-- Make HTML version of Velocity documentation                         -->
   <!-- =================================================================== -->
