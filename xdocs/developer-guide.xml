@@ -45,12 +45,17 @@ the VelocityServlet support baseclass.</li>
 jar contains utility code, specifically Anakia, Texen, and the WebMacro template conversion utility.</li>
 <li> <code>jar-servlet</code> builds a utility Velocity jar in the <code>bin</code> directory, called 'velocity-servlet-X.jar'. This
 jar contains utility code for servlet programmers.</li>
+<li> <code>examples</code> builds the example code in the example programs found in the <code>examples</code> directory. 
+This build target will also build the forumdemo example project.</li>
+<li> <code>forumdemo</code> builds the example webapplication in the <code>examples/forumdemo</code> directory.</li>
 <li> <code>docs</code> builds these docs in the <code>docs</code> directory</li>
 <li> <code>javadocs</code> builds the Javadoc class documentation in the <code>docs/apidocs</code> directory</li>
 <li> <code>test</code> (after jar) will test Velocity against it's testbed suite of test routines </li>
 </ul></li>
 <li> While not required, testing the build is a good idea.  Use the <code>test</code> target mentioned above.</li>
 <li> That's it!  Velocity is ready to be used.  Put the jar into your classpath, or into other appropriate places (such as the lib directory of your webapp if using with servlets)</li>
+<li> If you want to play with the examples, which is highly recommended when getting started, use build the examples via 
+<code>./build-velocity.sh examples</code> or <code>build-velocity.bat examples</code>.</li>
 </ol>
 </p>
 </s1>
@@ -61,7 +66,11 @@ There are quite a few resources and examples available to the programmer, and we
 
 <ul>
 <li> source code : <code>src/java/...</code> : all the source code to the Velocity project</li>
-<li> general examples : <code>examples</code> : a set of general examples, showing how Velocity is used in both a general application as well as in a servlet. </li>
+<li> application example 1 : <code>examples/app_example1</code> : a simple example showing how to use Velocity in an application
+program. </li>
+<li> application example 2 : <code>examples/app_example2</code> : a simple example showing how to use Velocity in an application
+program using the Velocity application utility class. </li>
+<li> servlet example : <code>examples/servlet_example1</code> : a simple example showing how to use Velocity in a servlet. </li>
 <li> Anakia application : <code>examples/anakia</code> :  example application showing how to use Velocity for creating 
 stylesheet renderings of xml data </li>
 <li> Forumdemo web app : <code>examples/forumdemo</code> : working example of a simple servlet-based forum application </li>
@@ -69,6 +78,9 @@ stylesheet renderings of xml data </li>
 <li> API documentation : <code>docs/apidocs</code> : the generated Javadoc documentation for the Velocity project</li>
 <li> templates : <code>test/templates</code> : a large collection of template examples in our testbed directory, these are a 
 great source of useage examples of VTL, the Velocity Template Language </li>
+<li> context example : <code>examples/context_example</code> : two examples showing how the Velocity context can be extended.  For 
+advanced users.</li>
+
 </ul>
 
 All directory references above are relative to the distribution root directory.
@@ -201,7 +213,8 @@ This feature has many uses, the most common so far is providing layered data acc
 <p>
 As mentioned before, the Velocity context mechanism is also extendable, but beyond the current scope of this guide.
 If you are interested, please see the classes in the package
-org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the examples
+org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the 
+<code>examples/context_example</code>
 directory in the distribution which show alternate implementations, including [a goofy] one 
 that uses a database as the backing storage. 
 </p>
