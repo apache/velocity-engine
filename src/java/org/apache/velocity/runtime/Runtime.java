@@ -201,7 +201,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.75 2000/12/19 17:31:39 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.76 2000/12/19 18:07:45 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -562,6 +562,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void setSourceProperty(String key, String value)
     {
+        info ("   ** Resource Loader Property Override : " + key + " = " + value);
         ResourceManager.setSourceProperty(key, value);
     }
 
