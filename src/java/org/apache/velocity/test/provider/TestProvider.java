@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.15 2001/03/05 11:48:06 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.16 2001/04/20 04:32:16 geirm Exp $
  */
 public class TestProvider
 {
@@ -364,5 +364,20 @@ public class TestProvider
         return key;
     }        
 
+    public String getFoo()
+        throws Exception
+    {
+        throw new Exception("From getFoo()");
+    }
+
+    public String getThrow()
+        throws Exception
+    {
+        throw new Exception("From getThrow()");
+    }
 }
+
+
+
+
 
