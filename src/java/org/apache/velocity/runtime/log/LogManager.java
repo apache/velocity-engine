@@ -54,6 +54,7 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
+import org.apache.velocity.runtime.Runtime;
 
 /**
  * LogManager.java
@@ -63,19 +64,60 @@ package org.apache.velocity.runtime.log;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: LogManager.java,v 1.3 2001/03/12 07:19:53 jon Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: LogManager.java,v 1.4 2001/03/19 05:18:29 geirm Exp $
  */
 public class LogManager
 {
     /**
-     * This class should be fixed to get its log system from
-     * a properties file.
+     *  Creates a new logging system.  Uses the property
+     *  RUNTIME_LOG_LOGSYSTEM_CLASS as the class to create.
+     *  Note that the class created has to do its own
+     *  initialization - there is no init() method called/
      */
-    public static LogSystem createLogSystem(String logFile)
+    public static LogSystem createLogSystem()
         throws Exception
     {
-        LogSystem ls = new AvalonLogSystem();
-        ls.init(logFile);
-        return ls;
+        /*
+         *  if a logSystem was set as a configuation value, use that
+         */
+        
+        Object o = Runtime.getProperty( Runtime.RUNTIME_LOG_LOGSYSTEM );
+
+        if ( o instanceof LogSystem)
+        {
+            return (LogSystem) o;
+        }
+  
+        /*
+         *  otherwise, see if a class was specified
+         */
+
+        String claz = (String) Runtime.getProperty( Runtime.RUNTIME_LOG_LOGSYSTEM_CLASS );
+        
+        if (claz != null || claz.length() > 0 )
+        {
+            o = Class.forName( claz ).newInstance();
+
+            if (o instanceof LogSystem)
+            {
+                return (LogSystem) o;
+            }
+            else
+            {
+                Runtime.error("The specifid logger class " + claz + " isn't a valid LogSystem\n");
+            }
+        }
+      
+        /*
+         *  if the above failed, then 
+         *  make an Avalon log system
+         */
+        
+        AvalonLogSystem als = new AvalonLogSystem();
+        
+        return als;
+        
     }
 }
+
