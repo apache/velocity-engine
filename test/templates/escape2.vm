@@ -108,6 +108,12 @@ And more...
 
 #$foo1
 \#$foo1
+#${foo1}
+\#$${foo1}
 #set($foo1 = "C0C0C0")
 #$foo1
 \#$foo1
+#${foo1}
+\#$${foo1}
+#\$${foo1}
+
