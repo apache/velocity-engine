@@ -67,11 +67,11 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  know as this was a good idea... 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: PrimordialLogSystem.java,v 1.2 2001/09/24 21:25:30 geirm Exp $
+ * @version $Id: PrimordialLogSystem.java,v 1.3 2002/08/09 00:58:01 dlr Exp $
  */
 public class PrimordialLogSystem implements LogSystem
 {
-    private  Vector pendingMessages = new Vector();    
+    private Vector pendingMessages = new Vector();    
     private RuntimeServices rsvc = null;
 
     /**
@@ -84,6 +84,7 @@ public class PrimordialLogSystem implements LogSystem
     public void init( RuntimeServices rs )
         throws Exception
     {
+        rsvc = rs;
     }
     
     /**
