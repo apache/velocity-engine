@@ -107,7 +107,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.15 2001/04/27 15:21:08 geirm Exp $
+ * @version $Id: Velocity.java,v 1.16 2001/04/27 22:12:40 dlr Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -560,21 +560,6 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean templateExists( String templateName )
     {
-        String loader = Runtime.getLoaderNameForResource( templateName );
-       
-        if ( loader  != null)
-        {
-            return true;
-        }
-
-        return false;
+        return (Runtime.getLoaderNameForResource(templateName) != null);
     }
 } 
-
-
-
-
-
-
-
-
