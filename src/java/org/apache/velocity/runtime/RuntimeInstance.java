@@ -144,7 +144,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.13 2002/01/03 12:40:23 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.14 2002/02/05 04:15:43 dlr Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -288,8 +288,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void setDefaultProperties()
     {
-        //ClassLoader classLoader = Runtime.class.getClassLoader();
-        
         ClassLoader classLoader = this.getClass().getClassLoader();
 
         try
