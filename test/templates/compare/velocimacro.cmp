@@ -28,5 +28,14 @@ Therefore it should still function normally :
 >hello!<
 ><
 
+We should be able to use argless VMs (and directives....)
+
+Hello! I have no args!
+
+
+And there was a bug where I wasn't getting the params right for the use-instance :
+
+
+Arg :>$jdom.getRootElement().getChild("properties").getChild("author").getTextTrim()<
 
 - Another fine Velocity Production -
