@@ -65,12 +65,14 @@ import org.apache.velocity.io.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
+
 /**
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.7 2000/11/28 04:33:22 geirm Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Test.java,v 1.8 2000/11/30 05:24:56 geirm Exp $
  */
 public class Test
 {
@@ -82,13 +84,25 @@ public class Test
     public Test(String templateFile)
     {
         Writer writer = null;
-        //        JspWriterImpl vw = null;
         TestProvider provider = new TestProvider();
         ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
+  
+        /*
+         *  put this in to test introspection $h.Bar or $h.get("Bar") etc
+         */
         
         h.put("Bar", "this is from a hashtable!");
+       
+        /*
+         *  adding simple vector with strings for testing late introspection stuff
+         */
 
+        Vector v = new Vector();
+
+        v.addElement( new String("hello") );
+        v.addElement( new String("hello2") );
+            
         try
         {
             /*
@@ -152,7 +166,9 @@ public class Test
             context.put("searchResults", provider.getRelSearches());
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
-
+            context.put("vector", v);
+            context.put("mystring", new String());
+ 
             /*
              *  make a writer, and merge the template 'against' the context
              */
