@@ -7,6 +7,7 @@ import org.apache.turbine.services.TurbineBaseService;
 /**
  *
  * @author <a href="mailto:$email">$name</a>
+ * @occupation $occupation
  */
 public class Turbine${baseName}Service extends TurbineBaseService
     implements ${baseName}Service

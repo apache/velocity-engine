@@ -8,6 +8,7 @@ import org.apache.turbine.services.TurbineServices;
  *
  *
  * @author <a href="mailto:$email">$name</a>
+ * @occupation $occupation
  */
 public class Turbine$baseName
 {

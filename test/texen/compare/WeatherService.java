@@ -62,6 +62,7 @@ import org.apache.turbine.services.Service;
 /**
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @occupation somnambulist
  */
 public interface WeatherService extends Service
 {
