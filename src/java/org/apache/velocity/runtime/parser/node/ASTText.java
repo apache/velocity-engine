@@ -40,8 +40,10 @@ public class ASTText extends SimpleNode
  
         text =  getFirstToken().image;
        
-        if (NodeUtils.specialText(getFirstToken()).startsWith("$") )
+        if (NodeUtils.specialText(getFirstToken()).startsWith("$")) 
             text = "$" + text;
+        else if ( NodeUtils.specialText(getFirstToken()).startsWith("#") )
+            text = "#" + text;
         
         return data;
     }
