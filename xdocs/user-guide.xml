@@ -404,7 +404,7 @@
     $customer.getAddress()
     $purchase.getTotal()
     $page.setTitle("My Home Page")
-    $person.setAttributes("Strange", "Weird", "Excited")
+    $person.setAttributes(["Strange", "Weird", "Excited"])
     ]]></source>
  </p>  
 
@@ -445,7 +445,7 @@
  
  <p>
     <source><![CDATA[
-    $sun.getPlanet("Earth", "Mars", "Neptune") 
+    $sun.getPlanet(["Earth", "Mars", "Neptune"]) 
     ## Can't pass a parameter list with $sun.Planets
 
     $sisyphus.pushRock()
@@ -764,30 +764,45 @@
     </p>
     
     <p>
-      An #elseif or #else element can be used with an #if element.
+      An #elseif or #else element can be used with an #if element. Note that 
+      the Velocity Templating Engine will stop at the first expression that is
+      found to be true. In the following example, suppose that $foo has a 
+      value of 15 and $bar has a value of 6.
     </p>
 
     <p>
     <source><![CDATA[
-    #if ($foo)
-        <strong>Velocity Rocks!</strong>
-    #elseif ($bar)
-        <strong>Velocity Rocks Again!</strong>
+    #if ($foo < 10)
+        <strong>Go North</strong>
+    #elseif ($foo > 10)
+        <strong>Go East</strong>
+    #elseif ($bar = 6)
+        <strong>Go South</strong>
     #else
-        <strong>Velocity Still Rocks!</strong>
+        <strong>Go West</strong>
     #end
     ]]></source>
     </p>
     
     <p>
-    In this example, if $foo is false, then the output will be
-    <strong>Velocity Still Rocks!</strong> 
+    In this example, $foo is greater than or equal to 10, so the Velocity
+    Templating Engine makes the output of the if-ifelse-ifelse-else-end
+    statement <strong>Go East</strong>. If $foo had a value of 10 and $bar
+    had a value of 6.1, then $foo is neither greater than 10 nor equal to 
+    10, and $bar is not equal to 6. All if and elseif statements are false,
+    so the output is <strong>Go West</strong>. 
     </p>
 
     <p>
-      Logical operators are not yet available in Velocity. This functionality is 
-      expected to be added soon. An unexplained example of a logical operator is 
-      shown below.
+    <strong>Logical Operators</strong>
+    </p>
+    
+    <p>
+      Logical operators are not yet available in Velocity, but 
+      this functionality is expected to be added soon. There will be
+      two kinds of logical operators: logical AND and 
+      logical OR. Below is an example of an if statement using 
+      logical AND.
     </p>
 
     <p>
@@ -797,6 +812,45 @@
       #end
       ]]></source>
     </p>
+    
+    <p>
+      The if statement will only evaluate to true if both $foo and 
+      $bar are true. If $foo is false, the expression will evaluate
+      to false; $bar will not be evaluated. If $foo is true, the
+      Velocity Templating Engine will then check the value of $bar;
+      if $bar is true, then the entire expression is
+      true and <strong>Velocity Rocks!</strong> becomes the output.
+      If $bar is false, then there will be no output; the entire
+      expression is false.
+    </p>
+    
+    <p>
+      Logical OR operators work the same way, except only one of
+      the references need evaluate to true in order for the entire
+      expression to be considered true. Consider the following
+      example.
+    </p>
+    
+    <p>
+      <source><![CDATA[
+      #if ($foo || $bar)
+         <strong>Velocity Rocks Again!</strong>
+      #end
+      ]]></source>
+    </p>
+      
+    <p>
+      If $foo is true, the Velocity Templating Engine has no 
+      need to look at $bar; whether $bar is true or false, the
+      expression will be true, and <strong>Velocity Rocks 
+      Again!</strong> will be output. If $foo is false, however,
+      $bar must be checked. In this case, if $bar is also false, 
+      the expression evaluates to false and there is no output.
+      On the other hand, if $bar is true, then the entire 
+      expression is true, and the output is <strong>Velocity Rocks 
+      Again!</strong>
+    </p>
+    
  </s1>
 
  <s1 title="Loops">
