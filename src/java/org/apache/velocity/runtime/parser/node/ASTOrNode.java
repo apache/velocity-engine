@@ -60,13 +60,13 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTOrNode.java,v 1.2 2000/12/28 17:23:14 geirm Exp $ 
+ * @version $Id: ASTOrNode.java,v 1.3 2001/01/03 05:27:37 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 
 public class ASTOrNode extends SimpleNode
 {
@@ -94,7 +94,7 @@ public class ASTOrNode extends SimpleNode
      *      null || null -> false
      *      left || right ->  left || right
      */
-    public boolean evaluate(Context context)
+    public boolean evaluate( InternalContextAdapter context)
     {
         Node left = jjtGetChild(0);
         Node right = jjtGetChild(1);
@@ -116,3 +116,8 @@ public class ASTOrNode extends SimpleNode
         return false;
     }
 }
+
+
+
+
+
