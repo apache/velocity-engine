@@ -41,17 +41,131 @@ the user's guide to this document
 <p>
     <strong>Variables</strong>
     <br/>
+    Variables are references that consist of a leading "$" character
+    followed by a VTL <em>Identifier</em>. A VTL <em>Identifier</em> must start with
+    an alphabetic character (a .. z or A .. Z), the rest of the
+    characters must be of the following types: an alphabetic character,
+    a numeric character (0 .. 9), a hyphen character ("-"), 
+    or an underscore character ("_"). These are examples of valid
+    variable references in the VTL:
+</p>
+
+<p>
+    <source><![CDATA[
+    $mudSlinger
+    $mud-slinger
+    $mud_slinger
+    $mudSlinger1
+    ]]></source>
 </p>
 
 <p>
     <strong>Properties</strong>
     <br/>
+    Properties are references that consist of a leading "$"
+    character followed a VTL <em>Identifier</em>, followed by
+    of dot character (".") then another VTL <em>Identifier</em>. 
+    These are examples of valid property references in the VTL:
+</p>
+
+<p>
+    <source><![CDATA[
+    $customer.Address
+    $purchase.Total
+    ]]></source>
 </p>
 
 <p>
     <strong>Methods</strong>
     <br/>
+    Methods are references that consist of a leading "$"
+    character followed a VTL <em>Identifier</em>, followed
+    by a VTL <em>Method Body</em>. A VTL <em>Method Body</em>
+    consists of a VTL <em>Identifier</em> followed by an
+    left parenthesis character ("("), followed by an optional parameter
+    list, followed by right parenthesis character (")").
+    These are examples of valid method references in the
+    VTL:
 </p>
+
+<p>
+    <source><![CDATA[
+    $customer.getAddress()
+    $purchase.getTotal()
+    $page.setTitle("My Home Page")
+    $person.setAttributes("Strange", "Weird", "Excited")
+    ]]></source>
+</p>
+
+<p>
+    Now you may have noticed that the first two examples
+    $customer.getAddress() and $purchase.getTotal() look very
+    similiar to the first two example Properties $customer.Address
+    and $purchase.Total. If you guessed that these examples must
+    be related some in some fashion you are correct! VTL Properties
+    are simply a shorthand for notation for VTL Methods. Using the
+    Property $customer.Address would have the exact same effect as
+    using the Method $customer.getAddress(). It is generally preferable
+    to use a Property when available. The main difference between Properties
+    and Methods is that you can specify a parameter list to a Method.
+</p>
+
+<p>
+    <strong>Formal Reference Notation</strong>
+    <br/>
+    In the examples listed above the shorthand notation for
+    references was used, but there is a formal notation that
+    looks like the following:
+</p>
+
+<p>
+    <source><![CDATA[
+    ${mudSlinger}
+    ${customer.Address}
+    ${purchase.getTotal()}
+    ]]></source>
+</p>
+
+<p>
+    In almost all cases you will use the shorthand notation
+    for references. But there are some cases where the formal
+    notation is required for correct processing. Say you were
+    constructing a sentence on the fly where $vice was to be
+    used as the base word in the noun of a sentence. Say you
+    wanted to allow someone to choose the base word and produce
+    one of the two following results: "Jack is a pyromaniac." or
+    "Jack is a kleptomaniac.". You might have the following in
+    a VTL template:
+</p>
+
+<p>
+    <source><![CDATA[
+    Jack is a $vicemaniac.
+    ]]></source>
+</p>
+
+<p>
+    But as you might have guessed this will confuse Velocity
+    because Velocity can't tell that $vice is the Identifer
+    that you mean to use. It will assume that $vicemaniac
+    is the Identifier and try to use that to find an appropriate
+    value. You can get around this problem by using the formal
+    notation for a reference:
+</p>
+
+<p>
+    <source><![CDATA[
+    Jack is a ${vice}maniac.
+    ]]></source>
+</p>
+
+<p>
+    Now Velocity knows that you want to use $vice as your
+    Identifier and not $vicemaniac. The formal notation usually
+    comes in handy when you have references directly ajacent
+    to text in your templates.
+</p>
+
 
 </s1>
 
