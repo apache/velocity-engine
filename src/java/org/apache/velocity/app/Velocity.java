@@ -96,7 +96,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.6 2001/03/15 04:46:32 geirm Exp $
+ * @version $Id: Velocity.java,v 1.7 2001/03/16 05:04:37 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -392,5 +392,31 @@ public class Velocity implements RuntimeConstants
         }
 
         return false;
+    }
+
+
+    /**
+     *   Determines if a template is accessable via the currently 
+     *   configured resource loaders.
+     *   <br><br>
+     *   The assumption is that the caller will use it at some
+     *   point so that the current implementation, while 
+     *   displaying lazyness and sloth, isn't entirely 
+     *   unreasonable.
+     *
+     *   @param templateName  name of the temlpate to search for
+     *   @return true if found, false otherwise
+     */
+    public static boolean templateExists( String templateName )
+    {
+        try
+        {
+            Template t = Runtime.getTemplate( templateName );
+            return true;
+        }
+        catch( Exception e )
+        {
+            return false;
+        }
     }
 } 
