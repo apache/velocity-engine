@@ -119,6 +119,6 @@ public class ASTLENode extends SimpleNode
             return false;
         }
 
-        return ((Integer) left).intValue() <=  ((Integer) right).intValue() ;
+        return ((Integer) left).intValue() <=  ((Integer) right).intValue();
     }
 }
