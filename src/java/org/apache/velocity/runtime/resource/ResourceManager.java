@@ -81,7 +81,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.27 2001/05/11 04:00:29 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.28 2001/05/15 13:26:26 geirm Exp $
  */
 public class ResourceManager
 {
@@ -94,6 +94,11 @@ public class ResourceManager
      * A static content resource.
      */
     public static final int RESOURCE_CONTENT = 2;
+
+    /**
+     * token used to identify the loader internally
+     */
+    private static final String RESOURCE_LOADER_IDENTIFIER = "_RESOURCE_LOADER_IDENTIFIER_";
 
     /**
      * Hashtable used to store templates that have been
@@ -153,6 +158,15 @@ public class ResourceManager
             ExtendedProperties configuration = (ExtendedProperties) sourceInitializerList.get(i);
             String loaderClass = configuration.getString("class");
 
+            if ( loaderClass == null)
+            {
+                Runtime.error(  "Unable to find '"
+                                + configuration.getString(RESOURCE_LOADER_IDENTIFIER)
+                                + ".resource.loader.class' specification in configuation."
+                                + " This is a critical value.  Please adjust configuration.");
+                continue;
+            }
+
             resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
             resourceLoader.commonInit(configuration);
             resourceLoader.init(configuration);
@@ -193,6 +207,14 @@ public class ResourceManager
 
             ExtendedProperties loaderConfiguration =
                 Runtime.getConfiguration().subset(loaderID);
+
+            /*
+             *  add the loader name token to the initializer if we need it
+             *  for reference later. We can't count on the user to fill
+             *  in the 'name' field
+             */
+
+            loaderConfiguration.setProperty( RESOURCE_LOADER_IDENTIFIER, resourceLoaderNames.get(i));
 
             /*
              * Add resources to the list of resource loader
