@@ -60,7 +60,7 @@ import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTFalse extends SimpleNode
 {
-    private static Boolean value = new Boolean( false );
+    private static Boolean value = Boolean.FALSE;
 
     public ASTFalse(int id)
     {
