@@ -139,7 +139,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.19 2003/09/01 18:57:24 dlr Exp $
+ * @version $Id: RuntimeInstance.java,v 1.20 2003/11/03 19:58:27 dlr Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -710,16 +710,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void initializeParserPool()
     {
-        int numParsers = getInt( PARSER_POOL_SIZE, NUMBER_OF_PARSERS);
+        int numParsers = getInt(PARSER_POOL_SIZE, NUMBER_OF_PARSERS);
 
-        parserPool = new SimplePool( numParsers);
+        parserPool = new SimplePool(numParsers);
 
-        for (int i=0; i < numParsers ;i++ )
+        for (int i = 0; i < numParsers; i++)
         {
-            parserPool.put (createNewParser());
+            parserPool.put(createNewParser());
         }
 
-        info ("Created: " + numParsers + " parsers.");
+        info("Created '" + numParsers + "' parsers.");
     }
 
     /**
