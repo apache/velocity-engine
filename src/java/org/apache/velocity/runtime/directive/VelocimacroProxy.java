@@ -56,18 +56,13 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.io.ByteArrayInputStream;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import java.util.StringTokenizer;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
-import org.apache.velocity.context.Context;
 
 import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -85,7 +80,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.26 2001/11/13 14:47:32 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.27 2003/05/04 17:18:38 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {

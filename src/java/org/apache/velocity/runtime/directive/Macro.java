@@ -63,7 +63,6 @@ import java.util.ArrayList;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.node.NodeUtils;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -87,7 +86,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.15 2002/03/25 00:45:36 geirm Exp $
+ * @version $Id: Macro.java,v 1.16 2003/05/04 17:18:38 geirm Exp $
  */
 public class Macro extends Directive
 {

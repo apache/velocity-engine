@@ -57,31 +57,19 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
-import java.lang.reflect.Method;
-
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Vector;
 
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.util.ArrayIterator;
-import org.apache.velocity.util.EnumerationIterator;
 
-import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-import org.apache.velocity.util.introspection.Introspector;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.Info;
 
 /**
@@ -90,7 +78,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.41 2002/04/21 21:00:56 geirm Exp $
+ * @version $Id: Foreach.java,v 1.42 2003/05/04 17:18:38 geirm Exp $
  */
 public class Foreach extends Directive
 {

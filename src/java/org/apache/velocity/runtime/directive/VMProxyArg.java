@@ -54,18 +54,14 @@ package org.apache.velocity.runtime.directive;
  * <http://www.apache.org/>.
  */
 
-import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.io.StringReader;
 import java.io.BufferedReader;
 
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ASTReference;
-import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
@@ -115,7 +111,7 @@ import org.apache.velocity.VelocityContext;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.12 2002/03/26 15:14:53 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.13 2003/05/04 17:18:38 geirm Exp $ 
  */
 public class VMProxyArg
 {

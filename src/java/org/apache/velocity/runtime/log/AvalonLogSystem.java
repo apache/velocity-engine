@@ -56,15 +56,11 @@ package org.apache.velocity.runtime.log;
 
 import java.io.File;
 
-import java.net.URL;
-
 import org.apache.log.Priority;
 import org.apache.log.Logger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.output.io.FileTarget;
-
-import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -74,7 +70,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.11 2001/11/17 12:02:52 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.12 2003/05/04 17:18:38 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
