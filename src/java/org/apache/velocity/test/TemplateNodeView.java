@@ -65,17 +65,30 @@ import org.apache.velocity.runtime.visitor.NodeViewMode;
 
 /**
  * Simple class for dumping the AST for a template.
+ * Good for debugging and writing new directives.
  */
 public class TemplateNodeView
 {
-    /** Template processor */
-    //private JavaCCProcessor processor;
+    /** 
+     * Root of the AST node structure that results from
+     * parsing a template.
+     */
     private SimpleNode document;
+    
+    /**
+     * Visitor used to traverse the AST node structure
+     * and produce a visual representation of the
+     * node structure. Very good for debugging and
+     * writing new directives.
+     */
     private NodeViewMode visitor;
 
-    // So now, after a template is constructed all the
-    // initial processing is done.
-
+    /**
+     * Default constructor: sets up the Velocity
+     * Runtime, creates the visitor for traversing
+     * the node structure and then produces the
+     * visual representation by the visitation.
+     */
     public TemplateNodeView(String template)
     {
         try
@@ -94,6 +107,7 @@ public class TemplateNodeView
         }
     }
 
+    /** For testing */
     public static void main(String args[])
     {
         TemplateNodeView v = new TemplateNodeView(args[0]);
