@@ -62,13 +62,9 @@ import java.util.Hashtable;
  * document is created by processing a template against
  * the contents of the context. The context may include
  * an valid object derived from Object. These objects
- * are stored in a Hashtable. The context also stores
- * parameters. These are meant to be points of instruction
- * for back end programmers. If a particular parameters
- * has a value of "a" do "b", if "x" do "y" type behaviour.
- *
+ * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.1 2000/09/30 17:04:21 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.2 2000/10/12 14:28:14 jvanzyl Exp $
  */
 public class Context
 {
@@ -78,17 +74,11 @@ public class Context
     protected Hashtable context;
 
     /**
-     * TODO
-     */
-    protected Hashtable params;
-
-    /**
      * Constructs the context under which to execute the templating engine.
      */
     public Context()
     {
         context = new Hashtable();
-        params = new Hashtable();
     }        
 
     /**
@@ -133,27 +123,5 @@ public class Context
     public Object remove(Object key)
     {
         return context.remove(key);
-    }        
-
-    /**
-     * TODO
-     *
-     * @param key   TODO
-     * @param value TODO
-     * @return      TODO
-     */
-    public void putParam(String key, String value)
-    {
-        params.put(key, value);
-    }        
-
-    /**
-     * Returns the context parameters.
-     *
-     * @return The context parameters.
-     */
-    public Hashtable getParams()
-    {
-        return params;
     }        
 }
