@@ -15,10 +15,13 @@ directories for information that is specific to their contents.
 
 bin/        This is a temporary build directory.
 build/      This is where the build scripts live.
+contrib/    The home for source code which is not officially maintained.
+convert/    The WebMacro to Velocity conversion program.
 docs/       This is where the documentation lives.
 examples/   This is where the examples live.
 src/        This is where all of the source code to Velocity lives.
 test/       This is where all of the tests live.
+whiteboard/ The place for developer experimentation (unmaintained).
 xdocs/      This is the .xml files for building the .html files
             related to the website and documentation.
             
