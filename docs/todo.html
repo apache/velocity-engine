@@ -48,18 +48,6 @@ The Todo list that follows is roughly in order of importance.
     </P>
 
     <P align="justify">
-    <B>JUnit Test Suite</B>
-    <BR>
-        A JUnit test suite would allow Velocity developers to
-        aggressively add, refactor, and optimize code. We need
-        a comprehensive test suite so that we can
-        be assured changes in the code base have no adverse
-        effects for users. <A href="mailto:dlr@collab.net">Daniel L. Rall</A>
-        has started us off with some code so you may want to contact
-        him if you are interested in working on a JUnit test suite.
-    </P>
-
-    <P align="justify">
     <B>Directive Interface</B>
     <BR>
         Right now there is a very thin interface for directives, but
@@ -79,14 +67,6 @@ The Todo list that follows is roughly in order of importance.
         make that process efficient; how to stamp items in
         the context with expiry durations so that items can
         be cached and how this might work.
-    </P>
-
-    <P align="justify">
-    <B>Sample Applications</B>
-    <BR>
-        Any type of sample application would be useful to
-        help new developers get acquainted with
-        Velocity. Any suggestions are welcome.
     </P>
 
     <P align="justify">
@@ -113,17 +93,6 @@ The Todo list that follows is roughly in order of importance.
     </P>
     
     <P align="justify">
-    <B>Template Loader System</B>
-    <BR>
-        The template loader system is functional but could probably use an
-        overhaul. There is currently a double template instantiation
-        problem. It is not causing any serious problems, but it
-        should be corrected. We could utilize some
-        object caching/pooling code from Turbine, or JServ, or the
-        Avalon Server Framework.
-    </P>
-
-    <P align="justify">
     <B>Caching</B>
     <BR>
         It would be good to have a discussion about how objects
@@ -144,18 +113,6 @@ The Todo list that follows is roughly in order of importance.
         of some sort? The groundwork has be laid for a flexible
         caching system in Velocity, but this discussion would be
         one of usage and policy.
-    </P>
-
-    <P align="justify">
-    <B>Parser Pool</B>
-    <BR>
-        It would be good to create a pool of parsers that could
-        be utilized by the Runtime. Right now there is only a single
-        parser and the parsing is synchronized. The parsing doesn't
-        happen all that often in production, but a small pool of
-        parsers might alleviate any potential bottlenecks. Again,
-        object caching/pooling code could be borrowed from Turbine,
-        JServ, or the Avalon Server Framework.
     </P>
 
     <P align="justify">
@@ -228,16 +185,6 @@ The Todo list that follows is roughly in order of importance.
         hooked into various designer tools like DreamWeaver.
     </P>
     
-    <P align="justify">
-    <B>Extended Properties</B>
-    <BR>
-        There are classes that are present in JServ, Turbine and Cocoon
-        that allow a more flexible properties mechanism. It allows properties
-        files to be 'included', and allows the concatentation of the values
-        of multiply defined properties. These classes are very good and
-        should be integrated into Velocity.
-    </P>
-
     <P align="justify">
     <B>Compiler</B>
     <BR>
