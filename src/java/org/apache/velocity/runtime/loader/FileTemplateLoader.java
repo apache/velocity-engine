@@ -70,7 +70,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.4 $
+ * $Revision: 1.5 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -123,10 +123,7 @@ public class FileTemplateLoader extends TemplateLoader
                     //remove from cache
                     ct.setFile( null );
                     ct.setTemplate( null );
-                    synchronized( cache )
-                    {
-                        cache.remove( name );
-                    }
+                    cache.remove( name );
                 }
                     
             }
@@ -144,10 +141,7 @@ public class FileTemplateLoader extends TemplateLoader
                 CachedTemplate cacheit = new CachedTemplate( file );
                 cacheit.setTemplate( template );
                 cacheit.setInterval( checkInterval );
-                synchronized( cache )
-                {
-                    cache.put( name, cacheit );
-                }
+                cache.put( name, cacheit );
             }
             return template;
         }
