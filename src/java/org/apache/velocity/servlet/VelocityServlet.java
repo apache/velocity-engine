@@ -77,6 +77,8 @@ import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.io.*;
 
+import org.apache.velocity.util.*;
+
 /**
  * Base class which simplifies the use of Velocity with Servlets.
  * Extend this class, implement the <code>handleRequest()</code> method, 
@@ -98,7 +100,8 @@ import org.apache.velocity.io.*;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.15 2000/11/07 23:13:52 jon Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * $Id: VelocityServlet.java,v 1.16 2000/11/12 17:59:25 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -136,8 +139,9 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Cache of writers
      */
-    private static Stack writerStack = new Stack();
-    
+   
+    private static SimplePool writerPool = new SimplePool(40);
+   
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
      * container on loading.
@@ -241,20 +245,15 @@ public abstract class VelocityServlet extends HttpServlet
             if ( template == null )
                 throw new Exception ("Cannot find the template!" );
             
-            try
-            {
-                vw = (JspWriterImpl) writerStack.pop();
-            }
-            catch (Exception e)
-            {
-            }
+          
+            vw = (JspWriterImpl) writerPool.get();
+          
             if (vw == null)
                 vw = new JspWriterImpl(new OutputStreamWriter(output, encoding), 4*1024, true);
             else
                 vw.recycle(new OutputStreamWriter(output, encoding));
+           
             template.merge( context, vw);
-
-            //Writer vw = new BufferedWriter(new OutputStreamWriter(output));
         }
         catch (Exception e)
         {
@@ -267,8 +266,8 @@ public abstract class VelocityServlet extends HttpServlet
             {
                 if (vw != null)
                 {
-                    writerStack.push(vw);
                     vw.flush();
+                    writerPool.put(vw);
                     output.close();
                 }                
             }
