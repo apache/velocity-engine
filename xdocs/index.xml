@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.2 Released">
+<section name="Velocity v1.3 Release Candidate 1 Released">
 
  <p>
    <table>
@@ -18,19 +18,17 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Version 1.2 of the
+   Version 1.3-rc1 of the
    Velocity Template Engine is now available.
-   Thanks to all in the Velocity community who made
-   this release a success.
+   Thanks to all in the Velocity community!
    </td>
    </tr>
    </table>
  </p>
 
  <p>
-   Combining contributions from throughout the
-   Velocity community, this version offers many new enhancements,
-   features and fixes over version 1.1.
+   This release candidate offers many new enhancements,
+   features and fixes over version 1.2.
  </p>
  <p>
    Major enhancements include :
@@ -38,29 +36,21 @@
 
  <ul>
    <li>
-      Application programmers now can instantiate separate, independent
-      instances of the Velocity Template Engine or continue to use the
-      traditional singleton model.
+     Automatic detection of log4j or logkit as the default logger.  It's your
+     choice - just put either into the classpath.
    </li>
    <li>
-      Major improvements to Anakia and Texen.
+     Application Attributes allow your applications to interact with custom
+     components such as loggers and resource loaders.
    </li>
    <li>
-      The Velocimacro system can be configured to reload changed
-      VM libraries automatically when the macro definitions change.
+     The Resource Manager and Resource Cache are now pluggable.
    </li>
  </ul>
  <p>
    Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
-</p>
-
-<p>
- <b>Note:</b> This release now requires
- <a href="http://jakarta.apache.org/ant/">Ant 1.4</a>
- to build the source and/or use the testbed.
- As before, <i>using Velocity</i> does not require Ant.
 </p>
 
 </section>
