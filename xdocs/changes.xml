@@ -79,6 +79,19 @@ Fix for bugs 8517, 6955 : anything ...#set... was confusing the parser (gmj)
 
 </subsection>
 
+<subsection name="1.3">
+<p>
+This section describes changes to the VEL_1_3_BRANCH after the
+1.3 release. This was released as 1.3.1-rc1 on July 22, 2002.
+</p>
+
+<ul>
+<li>
+  Fixed primitive argument introspection problem. (gmj)
+</li>
+</ul>
+</subsection>
+
 <subsection name="1.3-rc1">
 <p>
 This section describes changes to the VEL_1_3_BRANCH after the

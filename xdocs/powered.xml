@@ -257,6 +257,19 @@
     </td>
    </tr>
 
+   <tr>
+    <td>
+     <a href="http://www.rollerweblogger.org/">Roller Weblogger</a>
+    </td>
+    <td>
+       Roller is server-based weblogging software - a web application -
+       that is designed to support multiple simultaneous weblog users and
+       visitors.
+    </td>
+   </tr>
+
+
+
  </table>
 
  </section>
@@ -543,7 +556,7 @@
 
    <tr>
     <td>
-     <a href="http://jpublish.sourceforge.net/">JPublish</a>
+     <a href=" http://www.jpublish.org/">JPublish</a>
     </td>
     <td>
      JPublish is a web publishing framework which merges the Velocity template engine
