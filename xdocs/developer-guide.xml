@@ -1550,6 +1550,39 @@ And, assuming you have a directory <code>/opt/templates</code> and the template
 If you try this and have a problem, be sure to look at the velocity.log for
 information - the error messages are pretty good for figuring out what is wrong.
 </p>
+
+<p>
+If you need to place objects into the Velocity properties then you cannot use
+the Velocity.init(Properties p) method.  Instead you should create a new instance
+of the <code>org.apache.commons.collections.ExtendedProperties</code> class, copy
+all properties from an existing Properties object into the ExtendedProperties and
+then add new properties with your objects to the ExtendedProperties object.
+</p>
+
+<source><![CDATA[
+...
+
+    VelocityEngine velocityEngine = new VelocityEngine();
+    ExtendedProperties eprops = new ExtendedProperties();
+
+    // if you already have a Properties object do this
+    eprops.putAll(props);
+
+    // Now set the property with your object instance
+    eprops.setProperty("name", object);
+
+    ...
+    velocityEngine.setExtendedProperties(eprops);
+    velocityEngine.init();
+    ...
+]]>
+</source>
+
+<p>
+You may want to also consider using the Application Attributes feature described
+in the following section.
+</p>
+
 </section>
 
 <section name="Application Attributes">
