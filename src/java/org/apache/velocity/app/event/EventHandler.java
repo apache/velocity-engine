@@ -1,4 +1,5 @@
 package org.apache.velocity.app.event;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -57,7 +58,7 @@ package org.apache.velocity.app.event;
  *  Base interface for all event handlers
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandler.java,v 1.1 2001/05/20 19:48:55 geirm Exp $
+ * @version $Id: EventHandler.java,v 1.2 2003/07/09 18:51:10 dlr Exp $
  */
 public interface  EventHandler
 {
