@@ -99,7 +99,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.20 2001/04/28 18:58:40 geirm Exp $
+ * @version $Id: Include.java,v 1.20.2.1 2001/06/28 19:17:15 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -227,8 +227,21 @@ public class Include extends Directive
         {
             /*
              *  get the resource, and assume that we use the encoding of the current template
+             *  the 'current resource' can be null if we are processing a stream....
              */
-            resource = Runtime.getContent(arg, current.getEncoding());
+
+            String encoding = null;
+
+            if ( current != null)
+            {
+                encoding = current.getEncoding();
+            }
+            else
+            {
+                encoding = (String) Runtime.getProperty( Runtime.INPUT_ENCODING);
+            }
+
+            resource = Runtime.getContent(arg, encoding);
         }
         catch (Exception e)
         {
