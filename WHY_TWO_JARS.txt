@@ -3,7 +3,7 @@ WHY ARE THERE TWO JARS?  WHAT'S THE DIFFERENCE?
 Continuing what we started with the 1.2 release,
 we are including two jars with the distribution.
 
-velocity-1.3.jar
+velocity-1.3.1.jar
 ----------------
   This jar does not include any external dependencies that Velocity
   depends on.  It does include the core Velocity Template engine,
@@ -21,7 +21,7 @@ velocity-1.3.jar
 
   The can also be found at respective project sites.
 
-velocity-dep-1.3.jar
+velocity-dep-1.3.1.jar
 --------------------
   This is a Velocity jar that includes all dependencies that 
   were included with previous distribution jars.  It is included
