@@ -111,7 +111,7 @@ import org.apache.velocity.VelocityContext;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.13 2003/05/04 17:18:38 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.14 2003/10/29 11:29:39 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -287,19 +287,19 @@ public class VMProxyArg
              */
 
             Object retObject = null;
-            
-            if ( type == ParserTreeConstants.JJTREFERENCE ) 
-            {                
+
+            if ( type == ParserTreeConstants.JJTREFERENCE )
+            {
                 /*
                  *  two cases :  scalar reference ($foo) or multi-level ($foo.bar....)
                  */
-                
+
                 if ( numTreeChildren == 0)
-                {      
+                {
                     /*
                      *  if I am a single-level reference, can I not get get it out of my context?
                      */
-                
+
                     retObject = context.get( singleLevelRef );
                 }
                 else
@@ -311,13 +311,17 @@ public class VMProxyArg
                     retObject = nodeTree.execute( null, context);
                 }
             }
+            else if (type == ParserTreeConstants.JJTMAP)
+            {
+                retObject = nodeTree.value(context);
+            }
             else if( type == ParserTreeConstants.JJTOBJECTARRAY )
             {
                 retObject = nodeTree.value( context );
             }
             else if ( type == ParserTreeConstants.JJTINTEGERRANGE)
             {
-                retObject = nodeTree.value( context );    
+                retObject = nodeTree.value( context );
             }
             else if( type == ParserTreeConstants.JJTTRUE )
             {
@@ -340,12 +344,12 @@ public class VMProxyArg
                 /*
                  *  this really shouldn't happen.  text is just a thowaway arg for #foreach()
                  */
-                           
-                try 
+
+                try
                 {
                     StringWriter writer =new StringWriter();
                     nodeTree.render( context, writer );
-                    
+
                     retObject = writer;
                 }
                 catch (Exception e )
@@ -361,7 +365,7 @@ public class VMProxyArg
             {
                 rsvc.error("Unsupported VM arg type : VM arg = " + callerReference +" type = " + type + "( VMProxyArg.getObject() )");
             }
-            
+
             return retObject;
         }
         catch( MethodInvocationException mie )
@@ -391,6 +395,7 @@ public class VMProxyArg
         case ParserTreeConstants.JJTINTEGERRANGE :
         case ParserTreeConstants.JJTREFERENCE :
         case ParserTreeConstants.JJTOBJECTARRAY :
+        case ParserTreeConstants.JJTMAP :
         case ParserTreeConstants.JJTSTRINGLITERAL :
         case ParserTreeConstants.JJTTEXT :
             {
