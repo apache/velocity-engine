@@ -4,7 +4,7 @@
 
 This template is used for Velocity regression testing.
 If you alter this template make sure you change the
-corresponding comparison file so that the regression 
+corresponding comparison file so that the regression
 test doesn't fail incorrectly.
 
 *#
@@ -35,3 +35,9 @@ We can now comment after the inline set :
 
 #set( $foo = 1 ) ## and this is a set statement
 
+
+## here is a Nathan Bubna bug :
+
+$bar##
+#set($foo = 'foo!' )
+$foo
