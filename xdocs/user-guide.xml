@@ -508,7 +508,7 @@
     constructing a sentence on the fly where <variable>$vice</variable> was to be
     used as the base word in the noun of a sentence. The goal is to allow someone 
     to choose the base word and produce one of the two following results: "Jack is 
-    a pyromaniac." or "Jack is a kleptomaniac.". Using the shorthand notation would
+    a pyromaniac." or "Jack is a kleptomaniac.". Using the shorthand notation
     would be inadequate for this task. Consider the following example: 
  </p>
  
@@ -541,7 +541,7 @@
  <p>
     <strong>Quiet Reference Notation</strong>
     <br/>
-    When Velocity encounters a reference that is undefined,
+    When Velocity encounters an undefined reference,
     its normal behavior is to output the image
     of the reference. For example, suppose the following
     reference appears as part of a VTL template.
@@ -1038,7 +1038,7 @@
     <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the 
     statement <vtldirective>#parse (foo.vm)</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
     statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
-    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>.properties</filename> allows users 
+    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>velocity.properties</filename> allows users 
     to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
     template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
     <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
@@ -1152,7 +1152,7 @@
 
     <p>
     Velocimacros can be defined <em>inline</em> in a Velocity template, meaning that it is 
-    unavailable to other Velocity templates on the same web site. Definig a Velocimacro
+    unavailable to other Velocity templates on the same web site. Defining a Velocimacro
     such that it can be shared by all templates has obvious advantages: it reduces the 
     need to redefine the Velocimacro on numerous templates, saving work and reducing the 
     chance of error, and ensures that a single change to a macro  
@@ -1172,7 +1172,7 @@
     </p>
     
     <p>
-    <code>velocimacro.library.local</code> - Addin this line to the <filename>velocity.properties</filename> 
+    <code>velocimacro.library.local</code> - Adding this line to the <filename>velocity.properties</filename> 
     file allows the template designer to define a local Velocimacros
     template library. Velocity users can use the local template library to define their 
     own Velocimacros and keep these in a file other than the global defaults.
@@ -1253,38 +1253,67 @@
 
   <p>
   Extra care should be taken when escaping VTL directives that contain multiple script 
-  elements in a single directive (such as in an if-else-end statements).
+  elements in a single directive (such as in an if-else-end statements). 
+  Here is a typical VTL if-statement:  
   </p>
 
   <p>
   <source><![CDATA[
-  ## Here is a typical VTL if-statement:  
   #if( $jazz )
   Vyacheslav Ganelin
   #end
-  ## If $jazz is true / not null, this renders as: Vyacheslav Ganelin
-  ## If $jazz is false / null, there is no output
+  ]]></source>
+  </p>
 
-  ## Script elements can be escaped, as shown:
+  <p>
+  If <variable>$jazz</variable> is true, the output is "Vyacheslav 
+  Ganelin"; if <variable>$jazz</variable> is false, there is no 
+  output. Escaping script elements alters the output. Consider the 
+  following case:
+  </p>
+
+  <p>
+  <source><![CDATA[
   \#if( $jazz ) 
   Vyacheslav Ganelin
   \#end
-  ## This renders as: #if( $jazz ) Vyacheslav Ganelin #end
+  ]]></source>
+  </p>
 
-  ## A backslash can precede script elements that are legitimately escaped:
+  <p>  
+  Whether <variable>$jazz</variable> is true or false, the output will be 
+  "#if( $jazz ) Vyacheslav Ganelin #end"; in fact, because
+  all script elements are escaped the truth of 
+  <variable>$jazz</variable> is never checked. Suppose backslashes precede 
+  script elements that are legitimately escaped:
+  </p>
+
+  <p>
+  <source><![CDATA[
   \\#if( $jazz ) 
   Vyacheslav Ganelin
   \\#end
-  ## If $jazz is true / not null, this renders as: / Vyacheslav Ganelin /
-  ## If $jazz is false / null, there is no output.
+  ]]></source>
+  </p>
 
-  ## Things break if script elements are not properly escaped.
+  <p>
+  In this case, if <variable>$jazz</variable> is true, the output is 
+  "/ Vyacheslav Ganelin /". If <variable>$jazz</variable> is false, 
+  there is no output. Note that things start to break if script elements 
+  are not properly escaped.
+  </p>
+
+  <p>
+  <source><![CDATA[
   \\\#if( $jazz )
   Vyacheslave Ganelin
   \\#end
-  ## Here the #if is escaped, but there is an #end remaining.
-  ## Having too many endings will cause a parsing error.
   ]]></source>
+  </p>
+
+  <p>
+  Here the <vtl>#if</vtl> is escaped, but there is an <vtl>#end</vtl>
+  remaining; having too many endings will cause a parsing error.
   </p>
 
  </s1>
