@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.11 2001/01/03 05:27:04 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.12 2001/01/13 16:44:57 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -78,6 +78,7 @@ public class ASTSetDirective extends SimpleNode
     private Node right;
     private ASTReference left;
     boolean bDeprecated = true;
+    boolean blather = false;
     String lit = "";
 
     public ASTSetDirective(int id)
@@ -109,6 +110,8 @@ public class ASTSetDirective extends SimpleNode
 
         right = getRightHandSide();
         left = getLeftHandSide();
+
+        blather = Runtime.getBoolean(Runtime.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
 
         /*
          *   yechy but quick : so we can warn users they are using what will be 
@@ -153,7 +156,8 @@ public class ASTSetDirective extends SimpleNode
 
         if ( value  == null)
         {
-            Runtime.error("RHS of #set statement is null. Context will not be modified. " 
+            if(blather)
+                Runtime.error("RHS of #set statement is null. Context will not be modified. " 
                           + context.getCurrentTemplateName() + " [line " + getLine() 
                           + ", column " + getColumn() + "]");
 
