@@ -70,7 +70,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.6 $
+ * $Revision: 1.7 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -87,7 +87,7 @@ public class FileTemplateLoader extends TemplateLoader
         templatepath = Runtime.getString(
             Runtime.TEMPLATE_PATH);
         
-        Runtime.info("Template loader path: " + templatepath );
+        Runtime.info("Template loader path: " + new File(templatepath).getAbsolutePath() );
         
         useCache = Runtime.getBoolean(
             Runtime.TEMPLATE_CACHE );
