@@ -149,26 +149,42 @@ public class ASTReference extends SimpleNode
         else if (t.image.equals("${"))
         {
             // ${provider.Title}
-            nullString = t.next.image;   
+            nullString = literal();
             return t.next.image;
         }            
         else
         {
             // $provider.Title
-            nullString = t.image;
+            nullString = literal();
             return t.image.substring(1);
         }            
+    }
+
+    /**
+     * Return the literal string representation
+     * of a reference. Used when a reference has
+     * a null value.
+     */
+    public String literal()
+    {
+        Token t = getFirstToken();
+        StringBuffer sb = new StringBuffer(t.image);
+        
+        while(t.next != null && t.next.last == false)
+        {
+            t = t.next;
+            sb.append(t.image);
+        }
+        sb.append(getLastToken().image);
+        
+        return sb.toString();
     }
 
     public Object getVariableValue(Context context, String variable)
     {
         if (context.containsKey(variable))
-        {
             return context.get(variable);
-        }            
         else
-        {
             return null;
-        }            
     }
 }

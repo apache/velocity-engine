@@ -7,6 +7,7 @@ package org.apache.velocity.runtime.parser;
 
 public class Token
 {
+    public boolean last = false;
 
     /**
      * An integer that describes the kind of this token.  This numbering
@@ -79,5 +80,4 @@ public class Token
                 return new Token();
         }
     }
-
 }

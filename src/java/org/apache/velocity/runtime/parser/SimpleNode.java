@@ -32,11 +32,6 @@ public class SimpleNode implements Node
         parser = p;
     }
 
-    /* Added */
-    public void interpret()
-    {
-    }
-
     public void jjtOpen()
     {
         first = parser.getToken(1); // added
@@ -45,6 +40,9 @@ public class SimpleNode implements Node
     public void jjtClose()
     {
         last = parser.getToken(0); // added
+        
+        if (id == ParserTreeConstants.JJTREFERENCE)
+            last.last = true;
     }
 
     public void setFirstToken(Token t)
