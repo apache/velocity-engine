@@ -107,7 +107,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.14 2001/04/23 12:01:13 geirm Exp $
+ * @version $Id: Velocity.java,v 1.15 2001/04/27 15:21:08 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -524,35 +524,57 @@ public class Velocity implements RuntimeConstants
         return Runtime.getTemplate( name );
     }
 
+    /**
+     *  Returns a <code>Template</code> from the Velocity
+     *  resource management system.
+     *
+     * @param name The file name of the desired template.
+     * @param encoding The character encoding to use for the template.
+     * @return     The template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
+     */
     public static Template getTemplate(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
         return Runtime.getTemplate( name, encoding );
     }
 
-
     /**
      *   Determines if a template is accessable via the currently 
      *   configured resource loaders.
      *   <br><br>
-     *   The assumption is that the caller will use it at some
-     *   point so that the current implementation, while 
-     *   displaying lazyness and sloth, isn't entirely 
-     *   unreasonable.
+     *   Note that the current implementation will <b>not</b>
+     *   change the state of the system in any real way - so this
+     *   cannot be used to pre-load the resource cache, as the 
+     *   previous implementation did as a side-effect. 
+     *   <br><br>
+     *   The previous implementation exhibited extreme lazyness and
+     *   sloth, and the author has been flogged.
      *
      *   @param templateName  name of the temlpate to search for
      *   @return true if found, false otherwise
      */
     public static boolean templateExists( String templateName )
     {
-        try
+        String loader = Runtime.getLoaderNameForResource( templateName );
+       
+        if ( loader  != null)
         {
-            Template t = Runtime.getTemplate( templateName );
             return true;
         }
-        catch( Exception e )
-        {
-            return false;
-        }
+
+        return false;
     }
 } 
+
+
+
+
+
+
+
+
