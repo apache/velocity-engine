@@ -83,7 +83,8 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.14 2000/11/16 01:43:16 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Template.java,v 1.15 2000/12/04 02:10:18 geirm Exp $
  */
 public class Template
 {
@@ -173,6 +174,16 @@ public class Template
     {
         return document;
     }        
+
+    /**
+     *  initializes the document.  init() is not longer 
+     *  dependant upon context.
+     */
+    public void initDocument()
+        throws Exception
+    {
+        document.init( null, null);
+    }
 
     /**
      * Is it time to check to see if the template
@@ -268,17 +279,6 @@ public class Template
     public void merge(Context context, Writer writer)
         throws IOException, Exception
     {
-        synchronized(this)
-        {
-            if (!initialized)
-            {
-                Context initContext = (Context) context.clone();
-                document.init(initContext, null);
-                initialized = true;
-                initContext = null;
-            }
-        }                
-        
         document.render(context, writer);
     }
 }
