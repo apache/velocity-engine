@@ -64,7 +64,7 @@ refer to some of these reference URL's:
 <li><a href="http://www.webmacro.org/tutorial/mvc.html" target="reference">Webmacro MVC</a></li>
 <li><a href="http://www.javaworld.com/jw-01-2001/jw-0119-freemarker.html" target="reference">Freemarker MVC</a></li>
 <li><a href="http://javaworld.com/javaworld/jw-12-1999/jw-12-ssj-jspmvc.html" target="reference">Model 2</a></li>
-<li><a href="http://java.apache.org/turbine/pullmodel.html" target="reference">The Pull Model</a></li>
+<li><a href="http://jakarta.apache.org/turbine/turbine-2/pullmodel.html" target="reference">The Pull Model</a></li>
 </ul>
 
 </section>
