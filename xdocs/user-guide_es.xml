@@ -750,9 +750,9 @@ $foo.getBar()
 ## el lo mismo que
 $foo.Bar
 
-$data.getUser("jon")
+$data.setUser("jon")
 ## es lo mismo que
-$data.User("jon")
+#set( $data.User = "jon" )
 
 $data.getRequest().getServerName()
 ## es lo mismo que
