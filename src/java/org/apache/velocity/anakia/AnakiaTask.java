@@ -23,6 +23,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import java.util.StringTokenizer;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 import org.apache.commons.collections.ExtendedProperties;
 
@@ -63,19 +66,16 @@ import org.apache.velocity.VelocityContext;
 public class AnakiaTask extends MatchingTask
 {
     /** <code>{@link SAXBuilder}</code> instance to use */
-    private SAXBuilder builder;
+    SAXBuilder builder;
 
     /** the destination directory */
     private File destDir = null;
     
     /** the base directory */
-    private File baseDir = null;
+    File baseDir = null;
 
     /** the style= attribute */
     private String style = null;
-    
-    /** the File to the style file */
-    private File styleFile = null;
     
     /** last modified of the style sheet */
     private long styleSheetLastModified = 0;
@@ -103,6 +103,9 @@ public class AnakiaTask extends MatchingTask
 
     /** the VelocityEngine instance to use */
     private VelocityEngine ve = new VelocityEngine();
+
+    /** the Velocity subcontexts */
+    private List contexts = new LinkedList();
 
     /**
      * Constructor creates the SAXBuilder.
@@ -208,7 +211,6 @@ public class AnakiaTask extends MatchingTask
     {
         DirectoryScanner scanner;
         String[]         list;
-        String[]         dirs;
 
         if (baseDir == null)
         {
@@ -299,15 +301,15 @@ public class AnakiaTask extends MatchingTask
         list = scanner.getIncludedFiles();
         for (int i = 0;i < list.length; ++i)
         {
-            process( baseDir, list[i], destDir, projectDocument );
+            process(list[i], projectDocument );        
         }
+        
     }    
     
     /**
      * Process an XML file using Velocity
      */
-    private void process(File baseDir, String xmlFile, File destDir, 
-                         Document projectDocument)
+    private void process(String xmlFile, Document projectDocument)
         throws BuildException
     {
         File   outFile=null;
@@ -326,7 +328,8 @@ public class AnakiaTask extends MatchingTask
             if (lastModifiedCheck == false || 
                     (inFile.lastModified() > outFile.lastModified() ||
                     styleSheetLastModified > outFile.lastModified() ||
-                    projectFileLastModified > outFile.lastModified()))
+                    projectFileLastModified > outFile.lastModified() ||
+                    userContextsModifed(outFile.lastModified())))
             {
                 ensureDirectoryFor( outFile );
 
@@ -363,18 +366,35 @@ public class AnakiaTask extends MatchingTask
                 context.put ("escape", new Escape() );
                 context.put ("date", new java.util.Date() );
 
-                // only put this into the context if it exists.
+                /**
+                 * only put this into the context if it exists.
+                 */
                 if (projectDocument != null)
                 {
                     context.put ("project", projectDocument.getRootElement());
                 }
                 
-                // Process the VSL template with the context and write out
-                // the result as the outFile.
+                /**
+                 *  Add the user subcontexts to the to context
+                 */ 
+                for (Iterator iter = contexts.iterator(); iter.hasNext();) 
+                {
+                    Context subContext = (Context) iter.next();
+                    context.put(subContext.getName(), subContext
+                            .getContextDocument().getRootElement());
+                }
+                
+                /**
+                 * Process the VSL template with the context and write out
+                 * the result as the outFile.
+                 */
                 writer = new BufferedWriter(new OutputStreamWriter(
                                             new FileOutputStream(outFile),
                                                 encoding));
-                // get the template to process
+
+                /**
+                 * get the template to process
+                 */
                 Template template = ve.getTemplate(style);
                 template.merge(context, writer);
 
@@ -407,11 +427,9 @@ public class AnakiaTask extends MatchingTask
             {
                 e.printStackTrace();
             }
-//            log("Failed to process " + inFile, Project.MSG_INFO);
         }
         catch (Throwable e)
         {
-//            log("Failed to process " + inFile, Project.MSG_INFO);
             if (outFile != null)
             {
                 outFile.delete();
@@ -456,10 +474,8 @@ public class AnakiaTask extends MatchingTask
         {
             return StringUtils.chop(sb.toString(), 1);
         }
-        else
-        {
-            return ".";
-        }
+
+        return ".";
     }
     
     /**
@@ -477,4 +493,112 @@ public class AnakiaTask extends MatchingTask
             }
         }
     }
+
+
+    /**
+     * Check to see if user context is modified.
+     */
+    private boolean userContextsModifed(long lastModified) 
+    {
+        for (Iterator iter = contexts.iterator(); iter.hasNext();) {
+            AnakiaTask.Context ctx = (AnakiaTask.Context) iter.next();
+            if(ctx.getLastModified() > lastModified) 
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Create a new context.
+     */
+    public Context createContext() 
+    {
+        Context context = new Context();
+        contexts.add(context);
+        return context;        
+    }
+        
+    
+    /**
+     * A context implementation that loads all values from an XML file.
+     */
+    public class Context 
+    {
+        
+        private String name;
+        private Document contextDoc;
+        private File contextFile;
+        
+        /**
+         * Public constructor.
+         */
+        public Context() 
+        {
+        }
+        
+        /**
+         * Get the name of the context.
+         */
+        public String getName() 
+        {
+            return name;
+        }
+
+        /**
+         * Set the name of the context. 
+         * 
+         * @throws IllegalArgumentException if a reserved word is used as a 
+         * name, specifically any of "relativePath", "treeWalk", "xpath",
+         * "escape", "date", or "project"
+         */
+        public void setName(String name) 
+        {
+            if (name.equals("relativePath") || 
+                    name.equals("treeWalk") || 
+                    name.equals("xpath") || 
+                    name.equals("escape") || 
+                    name.equals("date") ||
+                    name.equals("project")) {
+                    
+                    throw new IllegalArgumentException("Context name '" + name
+                            + "' is reserved by Anakia");
+                }
+            
+            this.name = name;
+        }
+    
+        /**
+         * Build the context based on a file path.
+         */
+        public void setFile(String file) 
+        {
+            contextFile = new File(baseDir, file);
+            
+            try 
+            {
+                contextDoc = builder.build(contextFile);
+            } catch (Exception e) {
+                throw new BuildException(e);
+            }
+        }
+    
+        /**
+         * Retrieve the time the source file was last modified.
+         */
+        public long getLastModified() 
+        {
+            return contextFile.lastModified();
+        }
+        
+        /**
+         * Retrieve the context document object.
+         */
+        public Document getContextDocument() 
+        {
+            return contextDoc;
+        }
+    }
+
 }    

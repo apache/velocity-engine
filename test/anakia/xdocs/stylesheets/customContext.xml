@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Jakarta Site" href="http://jakarta.apache.org/">
+    <body>
+        <menu name="Other Context">
+            <item name="Front Page OC" href="/index.html"/>
+        </menu>
+        <menu name="Other About">
+            <item name="About OC" href="/about/index.html"/>
+        </menu>
+    </body>
+</project>
