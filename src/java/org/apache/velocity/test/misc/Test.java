@@ -54,17 +54,15 @@ package org.apache.velocity.test.misc;
  * <http://www.apache.org/>.
  */
 
-import java.io.FileWriter;
-import java.io.FileOutputStream;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import org.apache.velocity.io.FastWriter;
-
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 
+import org.apache.velocity.io.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 
@@ -73,7 +71,7 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.1 2000/10/25 00:15:30 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.2 2000/11/03 23:26:52 jon Exp $
  */
 public class Test
 {
@@ -88,8 +86,10 @@ public class Test
         try
         {
             Runtime.init("velocity.properties");
+            if (templateFile == null)
+                templateFile = "examples/example.vm";
             Template template = Runtime.getTemplate(templateFile);
-            
+
             Context context = new Context();
             context.put("provider", provider);
             context.put("name", "jason");
@@ -101,17 +101,17 @@ public class Test
             context.put("searchResults", provider.getRelSearches());
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
-            
-            FastWriter fw = new FastWriter(
-                System.out, Runtime.getString(
-                    Runtime.TEMPLATE_ENCODING));
 
-            fw.setAsciiHack(Runtime.getBoolean(
-                Runtime.TEMPLATE_ASCIIHACK));
-
-            template.merge(context, fw);
-            fw.flush();
-            fw.close();
+            // create the output buffer
+            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
+                new DefaultCharToByteBuffer(new DefaultByteBuffer(), Runtime.getString(
+                    Runtime.TEMPLATE_ENCODING)));
+            CharToByteBufferWriter buffer = new CharToByteBufferWriter (ictbb);
+            template.merge(context, buffer);
+            // write the buffer to the output stream
+            ictbb.writeTo(System.out);
+            ictbb.reset(); // calling this doesn't really have an effect
+            buffer.close();
         }
         catch( Exception e )
         {
@@ -121,6 +121,10 @@ public class Test
 
     public static void main(String[] args)
     {
-        Test t = new Test(args[0]);
+        Test t;
+        if (args.length > 0)
+            t = new Test(args[0]);
+        else
+            t = new Test(null);
     }
 }

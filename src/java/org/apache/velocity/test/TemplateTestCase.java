@@ -64,7 +64,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.io.FastWriter;
+import org.apache.velocity.io.*;
 import org.apache.velocity.util.StringUtils;
 
 
@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.14 2000/10/31 04:44:11 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.15 2000/11/03 23:26:51 jon Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -107,11 +107,6 @@ public class TemplateTestCase extends RuntimeTestCase
      * array.vm and array.cmp).
      */
     protected String baseFileName;
-
-    /**
-     * The writer used to output evaluated templates.
-     */
-    private FastWriter writer;
 
     private TestProvider provider;
     private ArrayList al;
@@ -162,9 +157,29 @@ public class TemplateTestCase extends RuntimeTestCase
             Template template = Runtime.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
             assureResultsDirectoryExists();
-            template.merge(context, getWriter(new FileOutputStream
-                (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT))));
-            closeWriter();
+
+            // get the file to write to
+            FileOutputStream fos = 
+                new FileOutputStream (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT));
+
+            // create the streams
+            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
+                new DefaultCharToByteBuffer(new DefaultByteBuffer(), Runtime.getString(
+                    Runtime.TEMPLATE_ENCODING)));
+            // create the writer
+            CharToByteBufferWriter buffer = new CharToByteBufferWriter (ictbb);
+
+            // process the template
+            template.merge(context, buffer);
+
+            // write the output to the file
+            ictbb.writeTo(fos);
+            
+            // close the buffer
+            buffer.close();
+
+            // close the file
+            fos.close();
             
             if (!isMatch())
             {
@@ -255,43 +270,5 @@ public class TemplateTestCase extends RuntimeTestCase
     protected void tearDown () throws Exception
     {
         // No op.
-    }
-
-    /**
-     * Returns a <code>FastWriter</code> instance.
-     *
-     * @param out The output stream for the writer to write to.  If 
-     *            <code>null</code>, defaults to <code>System.out</code>.
-     * @return    The writer.
-     */
-    protected Writer getWriter (OutputStream out)
-        throws UnsupportedEncodingException, IOException
-    {
-        if (writer == null)
-        {
-            if (out == null)
-            {
-                out = System.out;
-            }
-
-            writer = new FastWriter
-                (out, Runtime.getString(Runtime.TEMPLATE_ENCODING));
-            writer.setAsciiHack
-                (Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK));
-        }
-        return writer;
-    }
-
-    /**
-     * Closes the writer (if it has been opened).
-     */
-    protected void closeWriter ()
-        throws IOException
-    {
-        if (writer != null)
-        {
-            writer.flush();
-            writer.close();
-        }
     }
 }
