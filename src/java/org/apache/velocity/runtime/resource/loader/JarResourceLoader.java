@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.resource.loader;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -55,15 +55,12 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.InputStream;
-//import java.io.FileInputStream;
-//import java.io.BufferedInputStream;
-//import java.io.FileNotFoundException;
-//import java.io.ByteArrayInputStream;
 import java.io.IOException;
+
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-//import java.util.ArrayList;
+
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.JarEntry;
@@ -82,9 +79,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 /**
  * ResourceLoader to load templates from multiple Jar files.
  * 
- * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.6 $
+ * @version $Id: JarResourceLoader.java,v 1.7 2001/03/20 00:55:04 jon Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
