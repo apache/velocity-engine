@@ -4,7 +4,7 @@ REM --------------------------------------------
 REM No need to edit anything past here
 REM --------------------------------------------
 set _BUILDFILE=%BUILDFILE%
-set BUILDFILE=build-velocity.xml
+set BUILDFILE=build.xml
 
 :final
 
