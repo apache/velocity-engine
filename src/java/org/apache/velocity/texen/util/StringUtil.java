@@ -129,7 +129,7 @@ public class StringUtil extends BaseUtil
         int size = list.length;
         
         for (int i = 0; i < size; i++)
-            if (list[i].toString().length() > 0)
+            if ((list[i] != null) && (list[i].toString().length() > 0))
                 return false;
         
         return true;
