@@ -3304,6 +3304,18 @@ final void MoreLexicalActions()
          jjimageLen = 0;
         if (! inComment)
         {
+            /*
+             *  We can have the situation where #if($foo)$foo#end.  We need to transition out of 
+             *  REFERENCE before going to DIRECTIVE.  I don't really like this, but I can't think of
+             *  a legal way you are going into DIRECTIVE while in REFERENCE.  -gmj
+             */
+
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
             inDirective = true;
 
             if ( bDebugPrint_ )
