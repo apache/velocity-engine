@@ -122,4 +122,13 @@ public class ASTGENode extends SimpleNode
         return ( (Integer) left).intValue() >=  ((Integer) right).intValue(); 
      
     }
+
+    public Object value(InternalContextAdapter context)
+        throws MethodInvocationException
+    {
+        boolean val = evaluate(context);
+
+        return val ? Boolean.TRUE : Boolean.FALSE;
+    }
+
 }
