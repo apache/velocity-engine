@@ -62,7 +62,8 @@ import java.util.Map;
 import org.apache.velocity.Context;
 import org.apache.velocity.util.ClassUtils;
 
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.parser.ParserVisitor;
+import org.apache.velocity.runtime.parser.node.*;
 
 /**
  * This is the base class for all visitors.
