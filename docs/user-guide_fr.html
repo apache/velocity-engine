@@ -16,13 +16,13 @@
             <meta name="email" value="jvanzyl@zenplex.com">
                                         <meta name="author" value="John Castura">
             <meta name="email" value="jcastura@kw.igs.net">
-                                        <meta name="author" value="Juha Kilpi">
-            <meta name="email" value="juha@dwebs.com">
+                                        <meta name="author" value="Jean-François El Fouly">
+            <meta name="email" value="jean-francois.elfouly@wanadoo.fr">
             
            
                                     
                         
-            <title>Velocity - Velocity käyttäjän opas</title>
+            <title>Velocity - Guide de l'utilisateur Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -136,68 +136,66 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Sisällys"><strong>Sisällys</strong></a>
+          <a name="Table des Matières"><strong>Table des Matières</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <ol>
-<li><a href="#Tietoja tästä oppaasta">Tietoja tästä oppaasta</a></li>
-<li><a href="#Mikä on Velocity?">Mikä on Velocity?</a></li>
-<li><a href="#Miten voin käyttää Velocityä?">Miten voin käyttää Velocityä?</a>
-    <ol>
-        <li><a href="#Kurakauppa esimerkki">Kurakauppa esimerkki</a></li>
-    </ol>
+<li><a href="#A propos de ce document">A propos de ce document</a></li>
+<li><a href="#Velocity, qu'est-ce que c'est?">Velocity, qu'est-ce que c'est?</a></li>
+<li><a href="#Qu'est-ce que Velocity peut faire pour moi?">Qu'est-ce que Velocity peut faire pour moi?</a>
+  <ol>
+    <li><a href="#L'exemple de MudStore">L'exemple de MudStore</a></li>
+  </ol>
 </li>
-<li><a href="#Velocity Template Language (VTL): Johdanto">Velocity
-Template Language (VTL): Johdanto</a></li> 
-<li><a href="#Hei Velocity Maailma!">Hei Velocity Maailma!</a></li>
-<li><a href="#Kommentit">Kommentit</a></li>
-<li><a href="#Viittaukset">Viittaukset</a>
-    <ol>
-        <li><a href="#Muuttujat">Muuttujat</a></li>
-        <li><a href="#Ominaisuudet">Ominaisuudet</a></li>
-        <li><a href="#Metodit">Metodit</a></li>
-    </ol>
+<li><a href="#Introduction au Velocity Template Language (VTL)">Introduction au Velocity Template Language (VTL)</a></li>
+<li><a href="#Hello Velocity World!">Hello Velocity World!</a></li>
+<li><a href="#Les commentaires">Les commentaires</a></li>
+<li><a href="#Les références">Les références</a>
+  <ol>
+    <li><a href="#Variables">Variables</a></li>
+    <li><a href="#Propriétés">Propriétés</a></li>
+    <li><a href="#Méthodes">Méthodes</a></li>
+  </ol>
 </li>
-<li><a href="#Muodollinen merkintä">Muodollinen viittausten merkintä</a></li>
-<li><a href="#Hiljainen viittausten merkintä">Hiljainen viittausten merkintä</a></li>
-<li><a href="#Kirjaimellisesti">Kirjaimellisesti</a>
-    <ol>
-        <li><a href="#Dollari">Dollari</a></li>
-        <li><a href="#VTL viittausten suojaaminen">VTL viittausten suojaaminen</a></li>
-    </ol>
+<li><a href="#Notation formelle des références">Notation formelle des références</a></li>
+<li><a href="#Notation silencieuse des références">Notation silencieuse des références</a></li>
+<li><a href="#Sortie littérale">Sortie littérale</a>
+  <ol>
+    <li><a href="#Devise">Devise</a></li>
+    <li><a href="#Echapper des références VTL valides">Echapper des références VTL valides</a></li>
+  </ol>
 </li>
-<li><a href="#Kirjainkoon muutos">Kirjainkoon muutos</a></li>
-<li><a href="#Ohjeet">Ohjeet</a>
-    <ol>
-        <li><a href="#Set">Set</a></li>
-        <li><a href="#Tekstivakiot">Tekstivakiot</a></li>
-        <li><a href="#If-Else ehtolauseet">If-Else ehtolauseet</a>
-            <ol>
-                <li><a href="#Relaatio- ja loogiset operaattorit">Relaatio- ja loogiset
-                operaattorit</a></li>
-            </ol>
-        </li>
-        <li><a href="#Silmukat">Foreach silmukat</a></li>
-        <li><a href="#Include">Include</a></li>
-        <li><a href="#Parse">Parse</a></li>
-        <li><a href="#Stop">Stop</a></li>
-        <li><a href="#Velocimakrot">Velocimakrot</a></li>
-    </ol>
+<li><a href="#Substitution de cas">Substitution de cas</a></li>
+<li><a href="#Directives">Directives</a>
+  <ol>
+    <li><a href="#Set">Set</a></li>
+    <li><a href="#Chaînes de caractères littérales">Chaînes de caractères littérales</a></li>
+    <li><a href="#Conditions">Conditions</a>
+      <ol>
+        <li><a href="#Opérateurs relationnels et logiques">Opérateurs relationnels et logiques</a></li>
+      </ol>
+    </li>
+    <li><a href="#Boucles">Boucles</a></li>
+    <li><a href="#Include">Include</a></li>
+    <li><a href="#Parse">Parse</a></li>
+    <li><a href="#Stop">Stop</a></li>
+    <li><a href="#Velocimacros">Velocimacros</a></li>
+  </ol>
 </li>
-<li><a href="#VTL ohjeiden suojaaminen">VTL ohjeiden suojaaminen</a></li>
-<li><a href="#VTL: Muotoilu">VTL: Muotoilu</a></li>
-<li><a href="#Muita ominaisuuksia ja sekalaista">Muita ominaisuuksia ja sekalaista</a>
-    <ol>
-        <li><a href="#Matematiikka">Matematiikka</a></li>
-        <li><a href="#Vaihteluväli (Range Operator)">Vaihteluväli (Range Operator)</a></li>
-        <li><a href="#Edistyneet kysymykset: Suojaaminen ja         !">Edistyneet kysymykset: Suojaaminen ja !</a></li>
-        <li><a href="#Yleistä Velocimakroista">Yleistä Velocimakroista</a></li>
-        <li><a href="#Merkkijonojen yhdistäminen">Merkkijonojen yhdistäminen</a></li>
-    </ol>
+<li><a href="#Echappement des directives VTL">Echappement des directives VTL</a></li>
+<li><a href="#VTL: Questions de format">VTL: Questions de format</a></li>
+<li><a href="#Autres caractéristiques et sujets divers">Autres caractéristiques et sujets divers</a>
+  <ol>
+    <li><a href="#Math">Math</a></li>
+    <li><a href="#Opérateur de portée (range)">Opérateur de portée (range)</a></li>
+    <li><a href="#Questions pointues: Echappement et !">Questions pointues: Echappement et !</a></li>
+    <li><a href="#Compléments divers sur les Velocimacros">Compléments divers sur les Velocimacros</a></li>
+    <li><a href="#Concaténation de chaînes">Concaténation de chaînes</a></li>
+  </ol>
 </li>
-<li><a href="#Palaute">Palaute</a></li>
+<li><a href="#Donnez votre avis">Donnez votre avis</a></li>
 </ol>
                             </blockquote>
         </p>
@@ -207,24 +205,19 @@ Template Language (VTL): Johdanto</a></li>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Tietoja tästä oppaasta"><strong>Tietoja tästä oppaasta</strong></a>
+          <a name="A propos de ce document"><strong>A propos de ce document</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Velocity käyttäjän opas on tarkoitettu sivusuunnittelijoille ja
-    sisällöntuottajille avuksi tutustuttaessa Velocityyn ja sen
-    yksinkertaiseen mutta tehokkaaseen skriptikieleen, Velocity
-    Template Language:en (VTL). Useat tämän oppaan esimerkeistä
-    käsittelevät Velocityn käyttämistä dynaamisen sisällön
-    lisäämiseksi web sivuille, mutta kaikki VTL esimerkit toimivat
-    HTML sivujen lisäksi yhtä hyvin myös muiden sivujen ja sivupohjien
-    kanssa.
- </p>
-                                                <p>
-    Kiitos että valitsit Velocityn!
- </p>
+    Le Guide de l'utilisateur Velocity a pour but d'aider les concepteurs de page et les fournisseurs de contenu à se
+    familiariser avec Velocity et avec la syntaxe de son langage de script, simple mais puissant, le Velocity Template
+    Language (VTL). Beaucoup d'exemples dans ce guide concernent l'utilisation de Velocity pour l'inclusion de contenu
+    dynamique dans des sites web, mais tous les exemples du VTL pourraient aussi bien s'appliquer à d'autres pages ou
+    gabarits.
+  </p>
+                                                <p>Merci de choisir Velocity!</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -233,35 +226,29 @@ Template Language (VTL): Johdanto</a></li>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Mikä on Velocity?"><strong>Mikä on Velocity?</strong></a>
+          <a name="Velocity, qu'est-ce que c'est?"><strong>Velocity, qu'est-ce que c'est?</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Velocity on javapohjainen sivumoottori (template engine). Sen
-    avulla sivusuunnittelijat voivat viitata java -koodissa
-    määriteltyihin metodeihin. Sivusuunnittelijat voivat työskennellä
-    java ohjelmoijien kanssa samanaikaisesti käyttäen
-    Malli-Näkymä-Ohjain (Model-View-Controller, MVC)
-    suunnittelumallia. MVC mallissa sivusuunnittelijat voivat
-    keskittyä täysin luomaan hyvin suunniteltua sivustoa, ja
-    ohjelmoijat voivat keskittyä koodaamaan ykkösluokan
-    koodia. Velocity erottaa java -koodin web sivuista, tehden
-    sivustosta pitkällä aikavälillä helpommin ylläpidettävän ja
-    antamalla varteenotettavan vaihtoehdon <a href="http://java.sun.com/products/jsp/">JSP</a>:lle (Java Server
-    Pages) ja <a href="http://www.php.net/">PHP</a>:lle.
- </p>
+    Velocity est un moteur de substitution, basé sur Java. Il permet aux concepteurs de pages web de faire référence
+    à des méthodes définies dans du code Java. Les concepteurs de pages peuvent travailler en équipe avec des
+    programmeurs Java pour développer des sites web dans l'architecture MVC (Modèle-Vue-Contrôleur), ce qui signifie
+    que les infographistes peuvent se concentrer sur la création d'un site au désign attractif et les programmeurs
+    peuvent se consacrer entièrement à l'écriture de code de qualité. Velocity sépare le code Java des pages web,
+    ce qui rend le site plus facile à maintenir dans le long terme et fournit une alternative réaliste aux
+    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a> (JSPs) ou à
+    <a href="http://www.php.net/">PHP</a>.
+  </p>
                                                 <p>
-    Velocityä voidaan käyttää web sivujen, SQL:n, PostScriptin ja
-    muunlaisten tulosteiden tuottamiseen sivupohjista (template). Sitä
-    voidaan käyttää joko itsenäisenä työkaluna lähdekoodin ja
-    raporttien luomiseen, tai muihin järjestelmiin integroituna
-    komponenttina. Velocity tarjoaa sivupohjaratkaisun <a href="http://java.apache.org/turbine/">Turbine</a> web
-    sovelluskehykselle. Yhdessä Velocity ja Turbine tarjoavat
-    sivupohjaratkaisun jonka avulla web sovelluksia voidaan kehittää
-    todellisen MVC -mallin mukaisesti.
- </p>
+    Velocity peut être utilisé pour générer des pages web, du SQL, du Postcript et tout ce qui peut être généré à partir
+    d'un gabarit. Vous pouvez l'utiliser comme un utilitaire indépendant pour générer du code source ou des états
+    imprimés, ou bien comme un composant intégré dans d'autres systèmes. A terme, Velocity fournira les services
+    d'inclusion pour le framework d'applications web <a href="http://java.apache.org/turbine/">Turbine</a>.
+    Velocity et Turbine fournissent un service d'inclusion qui permettra de développer des applications web dans une
+    véritable architecture MVC.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -270,7 +257,7 @@ Template Language (VTL): Johdanto</a></li>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Miten voin käyttää Velocityä?"><strong>Miten voin käyttää Velocityä?</strong></a>
+          <a name="Qu'est-ce que Velocity peut faire pour moi?"><strong>Qu'est-ce que Velocity peut faire pour moi?</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -278,48 +265,15 @@ Template Language (VTL): Johdanto</a></li>
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Kurakauppa esimerkki"><strong>Kurakauppa esimerkki</strong></a>
+          <a name="L'exemple de MudStore"><strong>L'exemple de MudStore</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-    Oletetaan että olet kuraa myyvän onlinekaupan
-    sivusuunnittelija. Kutsumme kauppaa "Kurakauppa
-    Online":ksi. Kauppa käy hyvin. Asiakkaat tilaavat vaihtelevia
-    määriä eri kuratyyppejä. He pääsevät tutkimaan tekemiään tilauksia
-    sekä tekemään uusia ostoja kirjautumalla sivullesi käyttäen
-    käyttäjätunnustaan ja salasanaansa. Tällä hetkellä suosittu
-    Terracotta -kura on alennusmyynnissä. Pieni osa asiakkaistasi
-    ostaa säännöllisesti Kirkkaanpunaista Kuraa, joka myös on
-    alennusmyynnissä, mutta pienemmän suosionsa vuoksi yleensä
-    mainittu sivulla hieman syrjässä. Tiedot kustakin asiakkaasta
-    talletetaan tietokantaan, joten eräänä päivänä herää kysymys;
-    Miksipä emme käyttäisi Velocityä kohdentamaan erikoistarjouksia
-    kurasta asiakkaille jotka ovat kiinnostuneita juuri tuosta
-    kuratyypistä?
-   </p>
-                                                <p>
-    Velocityn avulla verkkosivut on helppo personoida kävijöidesi
-    mukaan. Kurakauppa Onlinen sivusuunnittelijana haluat tehdä sivun
-    jonka asiakas näkee kirjauduttuaan järjestelmään.
-   </p>
-                                                <p>
-    Tapaat yrityksesi ohjelmoijat ja sovitte, että muuttuja
-    <em>$asiakas</em> pitää sisällään tiedot parhaillaan kirjautuneena
-    olevasta asiakkaasta. Muuttujassa <em>$kuratTarjouksessa</em> ovat
-    tiedot kuratyypeistä jotka ovat parhaillaan
-    erikoistarjouksessa. <em>$tarjous</em> objektissa on metodeja
-    jotka auttavat mainostamisessa. Tällä kertaa keskitymme vain
-    näihin kolmeen viittaukseen. Muista, että sinun ei tarvitse
-    huolehtia siitä kuinka ohjelmoijat hakevat tarvittavat tiedot
-    tietokannasta, sinun tarvitsee tietää vain että se toimii. Näin
-    pääset tekemään omaa työtäsi ja ohjelmoijat pääsevät tekemään
-    omaansa.
-   </p>
-                                                <p>
-    Voisit lisätä seuraavat VTL lauseen sivulle:
-   </p>
+                                    <p>Supposons que vous soyez un concepteur de pages pour une boutique en ligne spécialisée dans la vente de terre cuite. Appelons-la "The Online Mud Store". Les affaires marchent fort. Les clients passent commande pour différents types et diverses quantités de terre cuite. Ils s'identifient sur votre site avec un nom d'utilisateur et un mot de passe, ce qui leur permet de suivre leurs commandes et d'en passer de nouvelles. Pour l'instant, vous vendez de la glaise Terracotta, un produit qui marche bien. Quelques-uns de vos clients achètent régulièrement de la glaise Bright Red, que vous vendez aussi, bien sûr, mais qui n'a pas autant la cote et qui se trouve d'habitude reléguée dans les marges de vos pages. Les informations relatives à chaque client sont suivies dans votre base de données, et donc un jour la question se pose: pourquoi ne pas utiliser Velocity pour proposer des offres spéciales à une clientèle ciblée, celle qui est la plus intéressée à un type de marchandise?</p>
+                                                <p>Avec Velocity, il est très facile de personnaliser les pages web pour certains visiteurs. En tant que concepteur de pages du MudRoom, vous voulez maintenant réaliser la page d'accueil que verra votre client après s'être identifié sur votre site. </p>
+                                                <p>Vous tenez une réunion avec les ingénieurs développement de votre entreprise, et tout le monde s'accorde sur le fait que <em>$customer</em> contiendra les informations relatives au client qui s'est connecté et <em>$mudsOnSpecial</em> tous les types de terre disponibles à la vente en ce moment. L'objet <em>$flogger</em> contient différentes méthodes pour aider à la promotion de certains produits. Pour la tâche qui nous concerne, occupons-nous seulement de ces trois références. Rappelez-vous que vous n'avez pas à vous soucier de la manière dont les développeurs vont extraire les informations nécessaires de la base de données, vous supposez seulement que ça fonctionne -- ce qui vous permet de vous occuper de votre part du boulot et les développeurs de la leur.</p>
+                                                <p>Vous pouvez inclure l'instruction VTL suivante dans votre page web:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -332,19 +286,20 @@ Template Language (VTL): Johdanto</a></li>
       <td bgcolor="#ffffff"><pre>
 &lt;HTML&gt;
 &lt;BODY&gt;
-Hei $asiakas.Nimi!
+Hello $customer.Name!
 &lt;table&gt;
-#foreach( $kura in $kuratTarjouksessa )
-   #if ( $asiakas.onOstanut($kura) )
+#foreach( $mud in $mudsOnSpecial )
+   #if ( $customer.hasPurchased($mud) )
       &lt;tr&gt;
         &lt;td&gt;
-          $tarjous.haePromo( $kura )
+          $flogger.getPromo( $mud )
         &lt;/td&gt;
       &lt;/tr&gt;
    #end
 #end
 &lt;/table&gt;
-</pre></td>
+
+    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -354,24 +309,8 @@ Hei $asiakas.Nimi!
     </tr>
     </table>
     </div>
-                                                <p>
-    <em>foreach</em> lauseen toiminta kuvataan yksityiskohtaisemmin
-    jäljempänä; tärkeää tässä on tämän lyhyen skriptin tekemä vaikutus
-    sivullesi. Kun Kirkkaanpunainen Kura on alennusmyynnissä ja sitä
-    joskus aiemmin ostanut asiakas kirjautuu sisään, asiakas näkee
-    ilmoituksen alennuksesta parhaalla mahdollisella paikalla. Jos
-    toinen, Terracottakuraa ostanut asiakas kirjautuu järjestelmään,
-    ilmoitus Terracottakuran alennusmyynnistä näkyy hänelle
-    ensimmäisenä. Velocity on joustava ja sen käytössä vain
-    mielikuvituksesi on rajana.
-   </p>
-                                                <p>
-    VTL hakemistossa on kuvattu Velocityn kaikki elementit jotka
-    yhdessä antavat käyttöösi tehokkaan ja joustavan työkalun jota
-    tarvitset luodaksesi web sivuistasi dynaamisen. Pääset
-    hyödyntämään Velocityn voimaa jatkuvasti paremmin sitä mukaa kun
-    opit käyttämään näitä elementtejä.
-   </p>
+                                                <p>Les détails précis de l'instruction <em>foreach</em> seront décrits un peu plus loin; ce qui compte pour l'instant, c'est l'impact que peut avoir ce petit script sur votre site web. Quand un client qui apprécie habituellement la glaise BrightRed se connecte, et que ce produit est en vente, c'est ce qu'il verra en premier lieu. Si un client qui a acheté beaucoup de Terracotta se connecte, c'est la vente de Terracotta qui sera affichée en tête et au centre. La flexibilité de Velocity est très grande, limitée seulement par votre créativité.</p>
+                                                <p>Dans le manuel de référence du VTL, vous trouverez la documentation de beaucoup d'autres éléments de Velocity, qui ensemble vous donnent la puissance et la souplesse dont vous avez besoin pour faire de votre site web une <em>présence</em> sur le web. Lorsque vous deviendrez de plus en plus familiers avec ces éléments, vous mettrez à votre service toute la puissance de Velocity.</p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -384,26 +323,13 @@ Hei $asiakas.Nimi!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity Template Language (VTL): Johdanto"><strong>Velocity Template Language (VTL): Johdanto</strong></a>
+          <a name="Introduction au Velocity Template Language (VTL)"><strong>Introduction au Velocity Template Language (VTL)</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-    Velocityn sivunkuvauskieli (Velocity Template Language, VTL)
-    tarjoaa helpon ja yksinkertaisen keinon liittää dynaamista
-    sisältöä web sivulle. Dynaamisen sisällön käyttäminen pitäisi
-    onnistua nopeasti jopa sellaiselta sivusuunnittelijalta jolla on
-    ohjelmointikokemusta vain vähän, tai ei ollenkaan.
- </p>
-                                                <p>
-     VTL käyttää <em>viittauksia</em> dynaamisen aineiston lisäämiseen
-     verkkosivulle. Muuttujat ovat yhdentyyppisiä
-     viittauksia. Muuttujat voivat viitata johonkin java -koodissa
-     määriteltyyn, tai niiden arvo voidaan määrittää web -sivulla
-     annetun VTL <em>lauseen</em> avulla. Seuraavassa on esimerkki VTL
-     lauseesta joka voidaan lisätä HTML -dokumenttiin:
- </p>
+                                    <p>Le Velocity Template Language (VTL) a été conçu pour inclure du contenu dynamique dans une page web de la manière la plus facile, la plus simple et la plus propre. Même un infographiste avec peu ou pas de bagage en programmation sera rapidement capable d'utiliser le VTL pour incorporer du contenu dynamique dans un site web.</p>
+                                                <p>VTL utilise des <em>références</em> pour embarquer du contenu dynamique dans un site web, et une variable est un type de référence. Une variable fait référence à quelque chose qui est défini dans le code Java, ou elle peut prendre sa valeur d'une <em>instruction</em> VTL dans la page web. Voici un exemple d'instruction VTL</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -426,39 +352,31 @@ Hei $asiakas.Nimi!
     </table>
     </div>
                                                 <p>
-    Kuten kaikki VTL lauseet (statement), tämäkin lause alkaa <em>#</em>
-    merkillä ja sisältää ohjeen (directive): <em>set</em>. Kun verkkosivun
-    käyttäjä hakee sivun Velocity etsii sivupohjastasi kaikki
-    <em>#</em> -merkit. Sitten se tulkitsee mitkä niistä merkitsevät
-    VTL lausetta, ja mitkä <em>#</em> merkeistä ovat osa sivujesi
-    normaalia HTML -koodia, eivätkä kuulu VTL -koodiin.
- </p>
+    Cette instruction VTL -- comme toutes les instructions VTL d'ailleurs -- commence par le caractère <em>#</em> et
+    contient une directive <em>set</em>. Quand un visiteur demande votre page web, le moteur de substitution Velocity
+    (Velocity Templating Engine) recherche dans votre page tous les caractères <em>#</em>, détermine lesquels marquent le
+    début d'instructions VTL, et quels caractères <em>#</em> n'ont rien à voir avec le VTL.
+  </p>
                                                 <p>
-    <em>#</em> merkkiä seuraa ohje, <em>set</em>. <em>set</em> ohjeen
-    jälkeen tulee suluissa ilmaus (expression), -- yhtälö joka määrittää
-    <em>arvon</em> <em>muuttujalle</em>. Muuttuja on ilmaistu
-    vasemmalla ja arvo oikealla puolella. Nämä on erotettu <em>=</em>
-    merkillä.
- </p>
+    Le caractère <em>#</em>est suivi d'une directive, <em>set</em>. La directive <em>set</em>utilise une expression
+    (entre parenthèses) -- une équation qui assigne une <em>valeur</em>à une <em>variable</em>. La variable est écrite
+    à gauche et sa valeur à droite; les deux sont séparés par un caractère <em>=</em>.
+  </p>
                                                 <p>
-    Yllä olevassa esimerkissä muuttuja on <em>$a</em> ja arvo on
-    <em>Velocity</em>. Kaikkien viittausten tapaan tämäkin muuttuja
-    alkaa <em>$</em> merkillä. Arvot ovat aina lainausmerkkien
-    sisällä; Velocityssä muuttujien datatyypeistä ei tule
-    sekaannuksia, koska vain merkkijonoja (string) voi antaa
-    muuttujien arvoksi.
- </p>
+    Dans l'exemple ci-dessus, la variable est <em>$a</em>et la valeur est <em>Velocity</em>. Cette variable, comme toutes
+    les références, commence par le caractère <em>$</em>. Les valeurs sont toujours entourées d'apostrophes;
+    dans Velocity, il n'y a jamais de confusion possible entre les types de données puisque seules des chaînes de
+    caractères (informations de type texte) peuvent être passées à des variables.
+  </p>
                                                 <p>
-    Seuraava nyrkkisääntö voi auttaa ymmärtämään Velocityn toimintaa:
-    <strong>Viittaukset alkavat <em>$</em> merkillä ja niitä käytetään
-    jonkin hakemiseen. Ohjeet alkavat <em>#</em> merkillä ja niitä
-    käytetään jonkin suorittamiseen.</strong>
- </p>
+    Le truc suivant peut être utile pour mieux comprendre comment Velocity fonctionne :<strong>Les références commencent
+    par <em>$</em> et sont utilisées pour récupérer quelque chose. Les directives commencent par <em>#</em>et sont
+    utilisées pour faire quelque chose.</strong>
+  </p>
                                                 <p>
-     Yllä olevassa esimerkissä <em>#set</em> -ohjetta käytetään arvon
-     määrittämiseksi muuttujaan. Muuttujaa <em>$a</em> voidaan tämän
-     jälkeen käyttää sivupohjassa tulostamaan "Velocity".
- </p>
+    Dans l'exemple ci-dessus, <em>#set</em>est utilisé pour assigner une valeur à une variable. La variable, <em>$a</em>,
+    peut alors être utilisée dans le gabarit pour produire "Velocity".
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -467,17 +385,15 @@ Hei $asiakas.Nimi!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Hei Velocity Maailma!"><strong>Hei Velocity Maailma!</strong></a>
+          <a name="Hello Velocity World!"><strong>Hello Velocity World!</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Kun muuttujalle on määritelty arvo, voidaan siihen viitata missä
-    tahansa paikassa HTML dokumenttia. Seuraavassa esimerkissä
-    muuttujalle <em>$foo</em> määritellään arvo. Myöhemmin muuttujaan
-    viitataan.
- </p>
+    Une fois qu'une valeur a été assignée à une variable, vous pouvez faire référence à cette variable n'importe où dans
+    votre document HTML. Dans l'exemple suivant, une valeur est assignée à <em>$foo</em> et référencée plus loin.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -491,9 +407,9 @@ Hei $asiakas.Nimi!
 &lt;html&gt;
 &lt;body&gt;
 #set( $foo = &quot;Velocity&quot; )
-Hei $foo Maailma!
+Hello $foo World!
 &lt;/body&gt;
-&lt;html&gt;
+&lt;/html&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -504,14 +420,12 @@ Hei $foo Maailma!
     </tr>
     </table>
     </div>
+                                                <p>Le résultat est une page web où s'imprime "Hello Velocity World!".</p>
                                                 <p>
-    Tuloksena on web sivu jossa lukee "Hei Velocity Maailma!".
- </p>
-                                                <p>
-    Jotta VTL lauseet olisivat helpommin luettavissa on suositeltavaa
-    aloittaa jokainen lause uudelta riviltä, vaikkakaan tämä ei ole
-    pakollista. <em>set</em> ohjeeseen palaamme tarkemmin myöhemmin.
- </p>
+    Pour rendre les instructions contenant des directives VTL plus lisibles, nous vous encourageons à débuter chaque
+    instruction VTL sur une nouvelle ligne -- mais vous n'êtes pas obligé de procéder ainsi. La directive <em>set</em>
+    sera revue avec davantage de détails plus loin.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -520,18 +434,16 @@ Hei $foo Maailma!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Kommentit"><strong>Kommentit</strong></a>
+          <a name="Les commentaires"><strong>Les commentaires</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Kommenttien avulla sivulle voidaan lisätä aputekstejä jotka eivät
-    tule näkymään sivun tulosteessa. Voit käyttää kommentteja
-    muistuttaaksesi itseäsi jostakin tai selittääksesi muille mitä VTL
-    komennot tekevät, tai mihin tahansa muuhun tarkoitukseen. Alla on
-    esimerkki kommentin käytöstä.
- </p>
+    Les commentaires permettent d'inclure du texte descriptif qui ne sera pas reporté dans la sortie du moteur
+    d'inclusion. Les commentaires sont une manière utile de se rappeler et d'expliquer à d'autres ce que font les
+    instructions VTL, ou à toute autre fin utile. Voici un exemple de commentaire en VTL.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -542,7 +454,7 @@ Hei $foo Maailma!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## Tämä on rivin pituinen kommentti.
+## Ceci est un commentaire d'une seule ligne.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -554,12 +466,10 @@ Hei $foo Maailma!
     </table>
     </div>
                                                 <p>
-    Yhden rivin pituinen kommentti alkaa <em>##</em> merkeillä ja
-    loppuu kyseisen rivin lopussa. Jos aiot kirjoittaa usean rivin
-    mittaisen kommentin, ei sinun tarvitse kirjoittaa useita yhden
-    rivin kommentteja. Usean rivin kommentit alkavat <em>#*</em>
-    merkeillä ja loppuvat <em>*#</em> merkkeihin.
- </p>
+    Un commentaire d'une ligne commence par <em>##</em> et se termine à la fin de la ligne. Si vous voulez écrire
+    quelques lignes de commentaires, pas besoin de multiplier ces commentaires d'une ligne. Les commentaires multi-lignes,
+    qui commencent par <em>#*</em> et se terminent par <em>*#</em>, sont là pour ce cas de figure.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -570,18 +480,16 @@ Hei $foo Maailma!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Tämä teksti on kommenttimerkkien ulkopuolella.
-Käyttäjät näkevät tämän tekstin.
+Ceci est du texte à l'extérieur du commentaire multi-lignes. Les visiteurs du site peuvent le voir.
 
 #*
- Monirivinen kommentti alkaa tästä. Käyttäjät eivät näe tätä tekstiä
- koska Velocityn sivumoottori ei näytä kommenttimerkkien sisällä
- olevaa tekstiä tulosteessaan.
+  Ici commence donc un commentaire de plusieurs lignes.
+  Les visiteurs du site ne le verront pas, parce que le
+  moteur de substitution de Velocity
+  (Velocity Templating Engine) l'ignore.
 *#
 
-Tämä teksti on jälleen kommenttimerkkien ulkopuolella; se on
-näkyvissä.
-
+Ce texte-ci est à l'extérieur du commentaire: il est visible.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -592,10 +500,7 @@ näkyvissä.
     </tr>
     </table>
     </div>
-                                                <p>
-    Tässä on muutamia esimerkkejä yksi- ja monirivisten kommenttien
-    toiminnan selvittämiseksi:
- </p>
+                                                <p>Voici quelques exemples pour clarifier la manière dont les commentaires d'une et plusieurs lignes fonctionnent:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -606,13 +511,14 @@ näkyvissä.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Tämä teksti on näkyvissä. ## Tämä teksti ei ole.
-Tämä teksti on näkyvissä.
-Tämä teksti on näkyvissä. #* Tämä teksti on osa monirivistä kommenttia
-eikä siksi ole näkyvissä. Tämä teksti ei edelleenkään ole näkyvissä
-koska se on kommenttimerkkien sisällä. *# Tämä teksti on
-kommenttimerkkien ulkopuolella, joten se on näkyvissä.
-## Tämä teksti ei ole näkyvissä.
+Ce texte est visible. ## Ce texte ne l'est pas.
+Ce texte est visible.
+Ce texte est visible. #* Ce texte, qui fait partie d'un commentaire
+de plusieurs lignes, n'est pas visible. Ce texte n'est pas visible;
+il faut aussi partie du commentaire multi-lignes.
+Ce texte n'est toujours pas visible. *# Ce texte est à l'extérieur
+du commentaire, il est donc visible.
+## Ce texte n'est pas visible.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -624,10 +530,9 @@ kommenttimerkkien ulkopuolella, joten se on näkyvissä.
     </table>
     </div>
                                                 <p>
-    On olemassa vielä kolmaskin kommenttityyppi; VTL kommenttilohko,
-    jota voidaan käyttää mm. dokumentin tekijä- ja versiotietojen
-    tallettamiseen
- </p>
+    Il y a un troisième type de commentaires, le bloc de commentaires VTL, que vous pouvez utiliser pour écrire des
+    informations telles que l'auteur du document ou la version.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -639,10 +544,9 @@ kommenttimerkkien ulkopuolella, joten se on näkyvissä.
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #**
-Tämä on VTL kommenttilohko. Lohkoa
-voidaan käyttää esimerkiksi dokumentin
-tekijä- ja versiotietojen
-tallettamiseen:
+Ceci est un bloc de commentaires VTL, qui
+peut être utilisé pour inscrire des informations
+telles que l'auteur ou la version du document.
 @author
 @version 5
 *#
@@ -664,45 +568,37 @@ tallettamiseen:
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Viittaukset"><strong>Viittaukset</strong></a>
+          <a name="Les références"><strong>Les références</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    VTL:ssä on kolme erityyppistä viittausta: muuttujat, ominaisuudet
-    ja metodit. VTL:ää käyttävänä sivusuunnittelijana sinun, ja
-    javapuolta koodaavien ohjelmoijien on sovittava viittausten
-    nimistä, jotta voit käyttää niitä sivupohjissasi.
- </p>
+    Il y a trois types de références en VTL: les variables, les propriétés et les méthodes. En tant que concepteur
+    utilisant le VTL, vous et vos ingénieurs devez vous mettre d'accord sur les noms des références, de manière à pouvoir
+    les utiliser correctement dans vos gabarits de pages.
+  </p>
                                                 <p>
-    Kaikkea viittauksissa olevaa ja niihin määriteltävää tietoa
-    käsitellään tekstityyppisenä. Jos on esimerkiksi määritelty
-    objekti <em>$foo</em> (Integer objekti), Velocity kutsuu objektin
-    <code>.toString()</code> metodia objektin arvon muuntamiseksi
-    tekstityyppiseksi.
- </p>
+    Tout ce qui entre et sort d'une référence est traité comme un objet chaîne de caractères. S'il y a un objet qui
+    représente <em>$foo</em>(un objet Integer par exemple), Velocity appellera sa méthode <code>.toString()</code>
+    pour convertir l'objet en String.
+  </p>
                                                 <p>
- <a name="Muuttujat"><strong>Muuttujat</strong></a>
- <br />
-
-    Muuttujan lyhyt merkintätapa koostuu ensimmäisenä olevasta "$"
-    merkistä, jonka jälkeen tulee VTL <em>tunniste</em>. VTL
-    tunnisteen on alettava aakkosnumeerisella merkillä (a..z tai
-    A..Z). Muuttujan loput merkit ovat rajoitettu seuraaviin:
-
- </p>
-                                                <p> 
-   <ul>
-     <li>aakkoset (a .. z, A .. Z)</li>
-     <li>numerot (0 .. 9)</li>
-     <li>viiva ("-")</li>
-     <li>alaviiva ("_")</li>
-   </ul>
- </p>
+    <a name="Variables"><strong>Variables</strong></a>
+    <br />
+    La notation abrégée pour une variable consiste en un caractère "$" initial suivi d'un <em>Identificateur</em>VTL.
+    Un identificateur VTL doit commencer par une lettre (a .. z ou A .. Z). Le reste des caractères est limité aux types
+    suivants:
+  </p>
                                                 <p>
-    Seuraavassa muutamia esimerkkejä toimivista muuttujaviittauksista:
- </p>
+    <ul>
+      <li>lettre (a .. z, A .. Z)</li>
+      <li>chiffre (0 .. 9)</li>
+      <li>tiret ("-")</li>
+      <li>trait de soulignement ("_")</li>
+    </ul>
+  </p>
+                                                <p>Voici quelques exemples de références valides en VTL: </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -714,10 +610,10 @@ tallettamiseen:
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 $foo
-$kuraLinko
-$kura-linko
-$kura_linko
-$kuraLinko1
+$mudSlinger
+$mud-slinger
+$mud_slinger
+$mudSlinger1
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -729,13 +625,11 @@ $kuraLinko1
     </table>
     </div>
                                                 <p>
-    Kun VTL viittaa muuttujaan, kuten <em>$foo</em>, muuttuja voi
-    saada arvonsa joko sivupohjassa olevalta <em>set</em> ohjeelta,
-    tai java -koodista. Jos esimerkiksi javamuuttujalla <em>$foo</em>
-    on arvo <em>bar</em> silloin kun sivupohjaa haetaan, <em>bar</em>
-    korvaa kaikki <em>$foo</em> muuttujan esiintymiskohdat web
-    sivulla. Toisaalta jos sivulle lisätään lause
- </p>
+    Lorsque VTL référence une variable, telle que <em>$foo</em>, la variable peut prendre sa valeur soit d'une directive
+    <em>set</em> dans le gabarit, soit d'un programme Java. Par exemple, si la variable Java <em>$foo</em> a la valeur
+    <em>bar</em> à la ligne à laquelle il est fait appel au gabarit, <em>bar</em> remplace toutes les instances de
+    <em>$foo</em> dans la page web. Autrement, si j'inclus l'instruction
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -757,20 +651,13 @@ $kuraLinko1
     </tr>
     </table>
     </div>
+                                                <p>la sortie sera la même pour toutes les instances de <em>$foo</em> qui suivent cette directive.</p>
                                                 <p>
-    Sivun tuloste on sama kaikilla <em>$foo</em> muuttujan
-    esiintymiskohdille jotka tulevat tämän lauseen jälkeen.
- </p>
-                                                <p>
- <a name="Ominaisuudet"><strong>Ominaisuudet</strong></a>
- <br />
-
-    Toinen VTL:n viittaustyyppi ovat ominaisuudet joilla on oma
-    tunnusomainen muotonsa. Lyhyt merkintätapa muodostuu ensimmäisenä
-    olevasta <em>$</em> merkistä, jonka jälkeen tulee VTL tunniste,
-    jota seuraa piste (".") ja toinen VTL tunniste. Seuraavassa on
-    esimerkkejä toimivista ominaisuusviittauksista:
- </p>
+    <a name="Propriétés"><strong>Propriétés</strong></a>
+    <br />Les propriétés sont la seconde espèce de références en VTL et elles ont un format qui les distingue.
+    La notation abrégée consiste en un caractère <em>$</em> initial suivi d'un identifiant VTL, suivi d'un point (".")
+    et d'un autre identifiant VTL. Quelques exemples de références valides de propriétés en VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -781,8 +668,8 @@ $kuraLinko1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-$asiakas.Osoite
-$ostos.Summa
+$customer.Address
+$purchase.Total
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -794,31 +681,21 @@ $ostos.Summa
     </table>
     </div>
                                                 <p>
-    Käsittelemme ensimmäisen esimerkin <em>$asiakas.Osoite</em>
-    tarkemmin. Viittauksella voi olla kaksi merkitystä. Se saattaa
-    tarkoittaa; hae <em>asiakas</em> nimisestä hashtable taulukosta
-    arvo joka on liitetty avaimelle <em>Osoite</em>. Toisaalta
-    <em>$asiakas.Osoite</em> voi myös viitata metodiin (käsittelemme
-    metodeihin viittaavat viittaukset seuraavassa kappaleessa);
-    <em>$asiakas.Osoite</em> saattaa olla lyhennetty muoto
-    viittauksesta <em>$asiakas.getOsoite()</em>. Velocity tulkitsee
-    sivua haettaessa kumpaa näistä vaihtoehdoista tarkoitetaan, ja
-    palauttaa vastaavan arvon.
- </p>
+    Prenons le premier exemple, <em>$customer.Address</em>. Cette expression peut avoir deux significations.
+    Elle peut signifier: "Regarde dans la table de hachage identifiée par <em>customer</em> et renvoie la valeur associée
+    à la clé <em>Address</em>. Mais <em>$customer.Address</em> peut aussi faire référence à une méthode (les références
+    qui désignent des méthodes seront discutées dans la section suivante); <em>$customer.Address</em> pourrait être
+    une manière abrégée d'écrire <em>$customer.getAddress()</em>. Quand quelqu'un demande votre page, Velocity va
+    déterminer laquelle de ces deux possibilités a un sens, et retournera la valeur appropriée.
+  </p>
                                                 <p>
- <a name="Metodit"><strong>Metodit</strong></a>
- <br />
-
-    Metodit ovat määritelty java -koodissa ja niiden avulla voidaan
-    suorittaa jokin toimenpide; esimerkiksi laskutoimitus tai jonkin
-    päätöksen tekeminen. Metodit ovat viittauksia jotka muodostuvat
-    aloittavasta "$" merkistä, jota seuraa VTL tunniste, jonka jälkeen
-    tulee VTL <em>Metodirunko</em>. VTL Metodirunko koostuu VTL
-    tunnisteesta jota seuraa vasen sulkumerkki "(", jota seuraa
-    valinnainen parametrilista, jota seuraa oikeanpuoleinen
-    sulkumerkki ")". Seuraavassa on esimerkkejä toimivista
-    metodiviittauksista:
- </p>
+    <a name="Méthodes"><strong>Méthodes</strong></a>
+    <br />Une méthode est définie dans le code Java et peut faire quelque chose d'utile, comme effectuer un calcul ou
+    prendre une décision. Les méthodes sont des références qui consistent en un caractère "$" initial, suivi d'un
+    identifiant VTL, suivi d'un <em>corps de méthode</em>. Un corps de méthode VTL consiste en un identifiant VTL
+    suivi du caractère parenthèse ouvrante ("("), éventuellement suivi d'une liste de paramètres, suivi du caractère
+    parenthèse fermante (")"). Quelques exemples de références de méthodes valides en VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -829,10 +706,10 @@ $ostos.Summa
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-$asiakas.getOsoite()
-$ostos.getSumma()
-$sivu.setOtsake( &quot;Minun kotisivuni&quot; )
-$henkilo.setOminaisuudet( [&quot;Outo&quot;, &quot;Kummallinen&quot;, &quot;Innostunut&quot;] )
+$customer.getAddress()
+$purchase.getTotal()
+$page.setTitle( &quot;My Home Page&quot; )
+$person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;] )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -844,27 +721,20 @@ $henkilo.setOminaisuudet( [&quot;Outo&quot;, &quot;Kummallinen&quot;, &quot;Inno
     </table>
     </div>
                                                 <p>
-    Metodirungossa esiintyvä get tarkoittaa "hae" ja set "aseta".
- </p>
+    Les deux premiers exemples -- <em>$customer.getAddress()</em> et 
+    <em>$purchase.getTotal()</em> -- peuvent avoir l'air semblables à ceux utilisés dans la section précédente,
+    consacrée aux Propriétés, <em>$customer.Address</em> et
+    <em>$purchase.Total</em>. Si vous avez deviné que ces exemples sont liés entre eux d'une manière ou d'une autre,
+    vous avez raison!
+  </p>
                                                 <p>
-    Kaksi ensimmäistä esimerkkiä -- <em>$asiakas.getOsoite()</em> ja
-    <em>$ostos.getSumma()</em> -- näyttävät samanlaisilta kuin
-    Ominaisuudet -osiossa aiemmin; <em>$asiakas.Osoite</em> ja
-    <em>$ostos.Summa</em>. Jos arvasit että näillä esimerkeillä on
-    jotakin yhteyttä toisiinsa, olit oikeassa!
- </p>
-                                                <p>
-    VTL ominaisuuksia voidaan käyttää lyhyempinä muotoina VTL
-    metodeista. Ominaisuudella <em>$asiakas.Osoite</em> on täysin sama
-    vaikutus kuin käyttämällä metodia
-    <em>$asikas.getOsoite()</em>. Yleisesti ottaen ominaisuuksien
-    käyttö on suositeltavaa silloin kuin se vain on
-    mahdollista. Suurin ero ominaisuuksien ja metodien välillä on se,
-    että metodeille voi antaa parametreja.
- </p>
-                                                <p>
-    Seuraavien metodien kanssa voidaan käyttää lyhyttä muotoa:
- </p>
+    Les propriétés VTL peuvent être utilisées comme une notation abrégée pour des méthodes VTL.
+    La propriété <em>$customer.Address</em> a exactement le même effet que l'utilisation de la méthode
+    <em>$customer.getAddress()</em>. Il est généralement préférable d'utiliser une propriété lorsqu'il y en a une
+    de disponible. La principale différence entre les Propriétés et les Méthodes est que pour les méthodes, on peut
+    spécifier une liste de paramètres.
+  </p>
+                                                <p>La notation abrégée peut être utilisée pour les méthodes suivantes</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -875,9 +745,9 @@ $henkilo.setOminaisuudet( [&quot;Outo&quot;, &quot;Kummallinen&quot;, &quot;Inno
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-$aurinko.getPlaneetat()
-$mato.getMulta()
-$albumi.getValokuva()
+$sun.getPlanets()
+$annelid.getDirt()
+$album.getPhoto()
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -889,10 +759,10 @@ $albumi.getValokuva()
     </table>
     </div>
                                                 <p>
-    Näiden metodien voisimme olettaa palauttavan auringolle kuuluvien
-    planeettojen nimet, syöttävän matomme, tai hakevan valokuvan
-    albumista. Seuraavissa metodeissa toimii vain pitkä muoto:
- </p>
+    On s'attend logiquement à ce que ces méthodes retournent les noms des planètes qui tournent autour du soleil,
+    qu'elles nourissent notre ver de terre ou prennent une photo dans un album. Il n'y a que la notation longue
+    qui fonctionne pour les méthodes suivantes:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -903,14 +773,14 @@ $albumi.getValokuva()
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-$aurinko.getPlaneetat( [&quot;Maa&quot;, &quot;Mars&quot;, &quot;Neptunus&quot;] )
-## lyhyessä muodossa $sun.Planets ei voida antaa parametreja
+$sun.getPlanet( [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;] )
+## On ne peut pas passer une liste de paramètres avec $sun.Planets
 
 $sisyphus.pushRock()
-## Velocity olettaa että tarkoitan $sisyphus.getRock()
+## Velocity suppose que je veux dire $sisyphus.getRock()
 
-$kirja.setOtsake( &quot;Catalonian kotisivu&quot; )
-## Parametrilistaa ei voida antaa
+$book.setTitle( &quot;Homage to Catalonia&quot; )
+## On ne peut pas passer une liste de paramètres
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -922,13 +792,10 @@ $kirja.setOtsake( &quot;Catalonian kotisivu&quot; )
     </table>
     </div>
                                                 <p>
-    <a name="Muodollinen viittausten merkintä"><strong>Muodollinen viittausten merkintä</strong></a>
-    <br />
-
-    Edellisissä esimerkeissä käytettiin viittauksille lyhyttä
-    merkintätapaa. Viittauksille on olemassa myös muodollinen
-    merkintätapa, jota käytetään seuraavissa esimerkeissä:
- </p>
+    <a name="Notation formelle des références"><strong>Notation formelle des références</strong></a>
+    <br />Dans les exemples ci-dessus, nous avons utilisé la notation abrégée pour les références, mais il y a aussi
+    une notation formelle pour les références, illustrée ci-dessous:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -939,9 +806,9 @@ $kirja.setOtsake( &quot;Catalonian kotisivu&quot; )
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-${kuraLinko}
-${asiakas.Osoite}
-${osto.getSumma()}
+${mudSlinger}
+${customer.Address}
+${purchase.getTotal()}
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -953,19 +820,16 @@ ${osto.getSumma()}
     </table>
     </div>
                                                 <p>
-    Voit käyttää lyhyttä muotoa viittauksiin lähes aina, mutta
-    joissain tapauksissa muodollista viittausta tarvitaan virheettömän
-    toiminnan turvaamiseksi.
- </p>
+    Dans presque tous les cas, vous utiliserez pour les références la notation abrégée, mais dans certains cas
+    la notation formelle est requise pour une exécution correcte.
+  </p>
                                                 <p>
-    Oletetaan että olet luomassa lausetta jonka sisältö riippuu
-    muuttujasta. Muuttujaa <em>$pahe</em> käytetään pohjana luotaessa
-    muuttujasta riippuvaista sanaa. Tarkoituksena on sallia käyttäjän
-    valita pohjasana ja tuottaa toinen seuraavista tuloksista: "Juha
-    on pyromaani." tai "Juha on kleptomaani.". Tässä tapauksessa
-    lyhyen viittausmuodon käyttäminen ei toimisi. Tutki seuraavaa
-    esimerkkiä:
- </p>
+    Supposons que vous soyez en train de construire dynamiquement une phrase dans laquelle <em>$vice</em> doit être
+    utilisé comme base pour la construction d'un nom de la phrase. Le but est de permettre à quelqu'un de choisir le mot
+    de base et de produire l'un des deux résultats suivants:
+    "Jacques est pyromane" ou "Jacques est cleptomane".
+    L'utilisation de la notation abrégée ne convient pas pour cette tâche. Considérons en effet l'exemple suivant:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -976,7 +840,7 @@ ${osto.getSumma()}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Juha on $pahemaani.
+Jacques est un $vicemane.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -988,12 +852,10 @@ Juha on $pahemaani.
     </table>
     </div>
                                                 <p>
-    Velocity olettaa että tarkoitat muuttujaa <em>$pahemaani</em>,
-    vaikka käytettävä muuttuja oli <em>$pahe</em>. Koska Velocity ei
-    löydä arvoa muuttujalle <em>$pahemaani</em>, se palauttaa
-    <em>$pahemaani</em>. Tämä ongelma voidaan ratkaista käyttämällä
-    muodollista viittausta.
- </p>
+    La syntaxe est ici ambiguë, et Velocity suppose que <em>$vicemane</em>, et non <em>$vice</em>, est l'identifiant
+    que vous pensiez utiliser. Ne trouvant pas de valeur pour <em>$vicemane</em>, il renverra <em>$vicemane</em>.
+    L'utilisation de la notation formelle peut résoudre ce problème.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1004,7 +866,7 @@ Juha on $pahemaani.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Juha on ${pahe}maani.
+Jacques est un ${vice}mane.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1016,17 +878,14 @@ Juha on ${pahe}maani.
     </table>
     </div>
                                                 <p>
-    Nyt Velocity ymmärtää että haluttu viittaus on <em>$pahe</em>, ei
-    <em>$pahemaani</em>. Muodollinen viittausten merkintä on usein
-    hyödyllinen silloin kun viittaukset ovat kiinni muussa tekstissä.
- </p>
+    Cette fois Velocity sait que <em>$vice</em>, et non <em>$vicemane</em>, est la référence. La notation formelle est
+    souvent utile quand les références sont directement adjacentes à du texte au sein d'un gabarit.
+  </p>
                                                 <p>
-    <a name="Hiljainen viittausten merkintä"><strong>Hiljainen viittausten merkintä</strong></a>
-    <br />
-    Kun Velocityltä haetaan viittaus jolle ei ole määritelty arvoa,
-    palauttaa se normaalisti viittauksen tekstinä. Oletetaan
-    esimerkiksi että seuraavat viittaukset ovat osa VTL sivupohjaa:
- </p>
+    <a name="Notation silencieuse des références"><strong>Notation silencieuse des références</strong></a>
+    <br />Lorsque Velocity rencontre une référence non définie, son comportement normal est de produire une image de la
+    référence. Par exemple, supposons que la référence suivante apparaisse dans un gabarit VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1049,14 +908,11 @@ Juha on ${pahe}maani.
     </table>
     </div>
                                                 <p>
-    Kun lomake latautuu ensimmäisen kerran muuttujaviittauksella
-    <em>$email</em> ei ole arvoa. Oletuksena Velocity täyttää
-    lomakkeen tekstillä "$email". Haluaisit kuitenkin kenttään
-    mieluummin tyhjän arvon. Käyttämällä hiljaista viittausten
-    merkintää voidaan Velocityn normaali toiminta estää;
-    <em>$email</em> koodin sijaan käytät viittausta
-    <em>$!email</em>. Yllä oleva koodi näyttäisi siis seuraavalta:
- </p>
+    Quand le formulaire est chargé pour la première fois, la variable référencée par <em>$email</em> n'a pas de valeur,
+    mais vous préfèreriez un champ de texte vide à la valeur "$email". L'utilisation de la notation silencieuse contourne
+    le comportement normal de Velocity; au lieu d'utiliser <em>$email</em> dans le code VTL, utilisez <em>$!email</em>.
+    L'exemple précédent ressemblerait donc à ceci:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1079,14 +935,10 @@ Juha on ${pahe}maani.
     </table>
     </div>
                                                 <p>
-    Kun lomake latautuu ensimmäisen kerran eikä muuttujalla
-    <em>$email</em> ole arvoa, tulostetaankin kenttään tyhjä teksti
-    "$email" tekstin sijaan.
- </p>
-                                                <p>
-    Muodollista ja hiljaista muuttujien merkintää voidaan käyttää myös
-    yhdessä;
- </p>
+    A présent, quand le formulaire est chargé pour la première fois et que <em>$email</em> n'a toujours pas de valeur,
+    une chaîne vide sera produite au lieu de "$email".
+  </p>
+                                                <p>La notation formelle et la notation silencieuse peuvent être utilisées ensemble, comme illustré ci-dessous.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1116,35 +968,27 @@ Juha on ${pahe}maani.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Kirjaimellisesti"><strong>Kirjaimellisesti</strong></a>
+          <a name="Sortie littérale"><strong>Sortie littérale</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    VTL käyttää erikoismerkkejä kuten <em>$</em> ja <em>#</em> omassa
-    toiminnassaan, joten näiden merkkien käyttö sivupohjassa vaatii
-    erityistä huolellisuutta. Tässä kappaleessa käsittelemme
-    <em>$</em> merkin suojaamisen (escape).
+    VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
+    quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
+    du caractère <em>$</em>.
   </p>
                                                 <p>
-    <a name="Dollari"><strong>Dollari</strong></a>
-    <br />
-
-    Seuraavassa lauseessa dollarimerkin käytössä ei ole ongelmaa:
-    "Ostin markkinoilta säkin perunoita hintaan $2.50!". Kuten
-    mainittu, VTL tunniste alkaa aina aakkosmerkillä, joten merkintää
-    $2.50 ei ole vaaraa sekoittaa viittaukseksi.
+    <a name="Devise"><strong>Devise</strong></a>
+    <br />Il n'y a pas de problème particulier à écrire "J'ai acheté un sac de 2 kg de patates au marché de la ferme
+    pour seulement $2.50!". Comme dit plus haut, un identifiant VTL commence toujours par une lettre, majuscule ou
+    minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
   </p>
                                                 <p>
-    <a name="VTL viittausten suojaaminen"><strong>VTL viittausten suojaaminen</strong></a>
-    <br />
-
-    Ongelmatilanne saattaa syntyä silloin, kun Velocity ei osaa
-    päätellä tarkoitetaanko dollarinmerkillä merkkiä itseään, vai
-    viittausta. Erikoismerkkien <em>suojaaminen</em> on paras keino
-    käsitellä VTL erikoismerkkejä sivupohjissa. Suojaamiseen käytetään
-    kenoviivaa ( <em>\</em> ).
+    <a name="Echapper des références VTL valides"><strong>Echapper des références VTL valides</strong></a>
+    <br />Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
+    caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
+    fait en utilisant le caractère backslash (<em>\</em>).
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1169,17 +1013,14 @@ $email
     </table>
     </div>
                                                 <p>
-    Kun Velocity käsittelee <em>$email</em> viittauksen
-    sivupohjassasi, se etsii löytyykö sen nimiselle muuttujalle
-    arvoa. Tässä tapauksessa tuloste tulee olemaan <em>foo</em>, koska
-    <em>$email</em> on määritelty. Jos <em>$email</em> muuttujaa ei
-    olisi määritelty tulisi tulosteeksi <em>$email</em>.
+    Lorsque Velocity rencontre une référence à <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
+    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est défini. Si <em>$email</em>
+    n'était pas défini, la sortie serait <em>$email</em>.
   </p>
                                                 <p>
-    Oletetaan että <em>$email</em> on määritelty (sillä on esimerkiksi
-    arvo <em>foo</em>), ja että haluat muuttujan arvon sijaan tulostaa
-    sen nimen <em>$email</em>. Tämä saavuttamiseksi on useita keinoja,
-    joista helpoin on suojausmerkin käyttäminen.
+    Supposons que <em>$email</em> soit défini (par exemple, cette référence a la valeur <em>foo</em>)
+    et que vous vouliez produire <em>$email</em>. Il y a différentes manières de le faire, mais la plus simple est
+    d'utiliser le caractère d'échappement.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1191,7 +1032,7 @@ $email
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## Seuraava rivi määrittelee muuttujan $email tässä sivupohjassa:
+## La ligne qui suit définit $email dans ce gabarit:
 #set( $email = &quot;foo&quot; )
 $email
 \$email
@@ -1207,9 +1048,7 @@ $email
     </tr>
     </table>
     </div>
-                                                <p>
-     tulosteeksi tulee
-  </p>
+                                                <p>sera rendu comme:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1222,8 +1061,8 @@ $email
       <td bgcolor="#ffffff"><pre>
 foo
 $email
+\foo
 \$email
-\\$email
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1235,11 +1074,9 @@ $email
     </table>
     </div>
                                                 <p>
-     Huomaa <em>$</em> merkin eteen liitetty <em>\</em>
-     merkki. Suojausmerkit tulkitaan vasemmalta oikealle, joten
-     <em>\\\$email</em> tulostuu <em>\\$email</em>. Vertaa näitä
-     esimerkkejä tulosteeseen joka saadaan kun <em>$email</em>
-     muuttujaa ei ole määritelty.
+    Notez que le caractère <em>\</em> s'applique au <em>$</em> à partir de la gauche. Cette règle d'application
+    à partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
+    à ce qui se passe lorsque <em>$email</em> n'est pas défini.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1265,9 +1102,7 @@ $email
     </tr>
     </table>
     </div>
-                                                <p>
-     tulosteeksi tulee
-  </p>
+                                                <p>sera rendu comme:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1293,10 +1128,8 @@ $email
     </table>
     </div>
                                                 <p>
-     Huomaa kuinka Velocity käsittelee eri tavalla viittaukset joiden
-     arvo on määritelty niistä joita ei ole määritelty. Seuraavassa on
-     set ohje joka asettaa <em>$foo</em> muuttujalle arvon
-     <em>gibbous</em>.
+    Remarquez comment Velocity traite les références définies différemment de celles qui n'ont pas été définies.
+    Voici par exemple une directive set qui donne à <em>$foo</em> la valeur <em>gibbous</em>.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1309,7 +1142,7 @@ $email
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #set( $foo = &quot;gibbous&quot; )
-$kuu = $foo
+$moon = $foo
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1321,14 +1154,10 @@ $kuu = $foo
     </table>
     </div>
                                                 <p>
-    Tulosteeksi tulee: <em>$kuu = gibbous</em> -- missä <em>$kuu</em>
-    tulostetaan muuttujan nimenä, koska sen arvoa ei ole määritelty ja
-    <em>gibbous</em> tulostetaan muuttujan <em>$foo</em> arvona.
+    La sortie sera: <em>$moon = gibbous</em> -- où <em>$moon</em> est rendu littéralement puisqu'il n'est pas défini,
+    alors que <em>gibbous</em> est rendu au lieu de <em>$foo</em>.
   </p>
-                                                <p>
-     Myös VTL ohjeiden suojaaminen on mahdollista; tämä kuvataan
-     tarkemmin Ohjeet -kappaleessa.
-  </p>
+                                                <p>Il est aussi possible d'échapper les directives VTL; ceci est décrit plus en détail dans la section Directives.</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1337,17 +1166,16 @@ $kuu = $foo
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Kirjainkoon muutos"><strong>Kirjainkoon muutos</strong></a>
+          <a name="Substitution de cas"><strong>Substitution de cas</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Kun nyt olet tutustunut viittauksiin, voit alkaa käyttämään niitä
-    tehokkaasti omissa sivupohjissasi. Viittaukset Velocityssä
-    käyttävät hyväkseen joitakin java kielen perusperiaatteita, joiden
-    käyttö helpottaa sivusuunnittelijoiden työtä. Esimerkiksi:
-    </p>
+    Maintenant que les références vous sont familières, vous pouvez commencer à les mettre en pratique dans vos propres
+    gabarits. Les références, dans Velocity, tirent avantage de certains principes Java que les concepteurs de gabarits
+    vont trouver commodes. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1361,18 +1189,18 @@ $kuu = $foo
 $foo
 
 $foo.getBar()
-## on sama kuin
+## est équivalent à
 $foo.Bar
 
-$data.getKayttaja(&quot;juha&quot;)
-## on sama kuin
-$data.Kayttaja(&quot;juha&quot;)
+$data.getUser(&quot;jon&quot;)
+## est équivalent à
+$data.User(&quot;jon&quot;)
 
-$data.getPyynto().getPalvelinNimi()
-## on sama kuin
-$data.Pyynto.PalvelinNimi
-## on sama kuin
-${data.Pyynto.PalvelinNimi}
+$data.getRequest().getServerName()
+## est équivalent à
+$data.Request.ServerName
+## est équivalent à
+${data.Request.ServerName}
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1384,35 +1212,24 @@ ${data.Pyynto.PalvelinNimi}
     </table>
     </div>
                                                 <p>
-    Nämä esimerkit havainnollistavat viittauksen vaihtoehtoisia
-    merkitsemistapoja. Velocity käyttää hyväkseen javan introspection
-    ja bean -ominaisuuksia objektien sekä niiden metodien
-    viittausnimiä ratkaistaessa. Viittauksia voidaan lisätä lähes
-    mihin kohtaan tahansa sivupojassa.
-    </p>
+    Ces exemples illustrent différentes manières d'utiliser les mêmes références. Velocity tire parti de l'introspection
+    Java et des caractéristiques des beans pour résoudre les noms de référence en objets du contexte et aussi en leurs
+    méthodes. Il est possible d'inclure et d'évaluer des références à peu près partout dans votre gabarit.
+  </p>
                                                 <p>
-    Velocity on tehty Sun Microsystemsin määrittelemän Bean
-    määrityksen mukaiseksi, ja on tästä syystä pieni-iso-eroava
-    (ts. pienet ja isot kirjaimet käsitellään eri
-    merkkeinä). Velocityn kehittäjät ovat tehneet parhaansa jotta
-    mahdolliset kirjoitusvirheet voitaisiin korjata
-    automaattisesti. Kun sivupohjassa viitataan metodiin
-    <em>getFoo()</em> koodilla <code>$bar.foo</code>, Velocity
-    kokeilee ensin viittausta <code>$getfoo</code>. Jos tämä ei tuota
-    tulosta, seuraavaksi yritetään viittausta
-    <code>$getFoo</code>. Samalla tavalla, kun sivupohjassa viitataan
-    muuttujaan <code>$bar.Foo</code>, ensin yritetään viittausta
-    <em>$getFoo()</em> ja sitten <em>getfoo()</em>.
-    </p>
+    Velocity utilise comme modèles les spécifications des Beans telles qu'elles ont été définies par Sun Microsystems;
+    il est donc sensible à la casse (majuscules/minuscules); les développeurs se sont toutefois battus pour intercepter
+    et corriger les erreurs des utilisateurs chaque fois que c'est possible. Lorsque la méthode <em>getFoo()</em> est
+    référencée dans un gabarit par <code>$bar.foo</code>, Velocity essayera d'abord <code>$getfoo</code>. Si ceci échoue,
+    Velocity essayera <code>$getFoo</code>. De même, si un gabarit fait référence à <code>$bar.Foo</code>,
+    Velocity essayera d'abord <em>$getFoo()</em> et ensuite <em>getfoo()</em>.
+  </p>
                                                 <p>
-    Huomaa: <em>Viittauksia ilmentymämuuttujiin (instance variables)
-    ei ratkaista.</em> Vain viittaukset JavaBeanin mukaisiin
-    haku/asetus (getter/setter) metodeihin ratkaistaan (toisin sanoen
-    <code>$foo.Name</code> ratkaistaan Foo -luokan
-    <code>getName()</code> ilmentymämetodiin (instance method), mutta
-    ei luokan Foo julkiseen (public) <code>Name</code>
-    ilmentymämuuttujaan).
-    </p>
+    Note: <em>Dans un gabarit, les références à des variables d'instance ne sont pas résolues.</em> Il n'y a que les
+    références équivalentes aux attributs des accesseurs (getter / setter) des JavaBeans qui sont résolues
+    (autrement dit <code>$foo.Name</code> est résolu par l'appel de la méthode d'instance <code>getName()</code>
+    de la classe Foo, mais pas en une variable d'instance publique <code>Name</code> de cette classe Foo).
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1421,25 +1238,23 @@ ${data.Pyynto.PalvelinNimi}
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Ohjeet"><strong>Ohjeet</strong></a>
+          <a name="Directives"><strong>Directives</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    <em>Ohjeet</em> ovat helppokäyttöisiä skriptielementtejä joita
-    voidaan käyttää web sivun tulosteen manipuloimiseen. Viittausten
-    avulla sivupohjien suunnittelijat voivat tuottaa web sivuille
-    dynaamista sisältöä, kun taas ohjeet antavat mahdollisuuden
-    määritellä sivuston ulkoasun ja sisällön.
- </p>
+    Les références permettent aux concepteurs de pages de générer du contenu dynamique pour des sites web alors que les
+    <em>directives</em> -- des éléments de script, faciles à utiliser, qui peuvent être mis en oeuvre pour manipuler de
+    manière créative la sortie d'un code Java -- permet aux concepteurs de vraiment prendre en charge l'apparence et le
+    contenu du site web.
+  </p>
                                                 <a name="Set"><strong>#set</strong></a>
                                                 <p>
-    <em>#set</em> ohjetta käytetään arvon määrittämiseksi
-    viittaukselle. Arvo voidaan määrittää joko muuttujaviittaukselle
-    tai ominaisuusviittaukselle. Määritys tehdään suluissa, kuten
-    seuraavassa esimerkissä:
- </p>
+    La directive <em>#set</em> s'utilise pour donner une valeur à une référence. Une valeur peut être assignée soit à une
+    référence de type variable, soit à une référence de type propriété, et ceci toujours entre parenthèses, comme montré
+    ici:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1450,8 +1265,8 @@ ${data.Pyynto.PalvelinNimi}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $kadellinen = &quot;apina&quot; )
-#set( $asiakas.Kayttaytyminen = $kadellinen )
+#set( $primate = &quot;monkey&quot; )
+#set( $customer.Behavior = $primate )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1463,23 +1278,20 @@ ${data.Pyynto.PalvelinNimi}
     </table>
     </div>
                                                 <p>
-    Määrityksen vasemman puolen (left hand side, LHS) tulee olla
-    muuttuja- tai ominaisuusviittaus. Oikea puoli (right hand side,
-    RHS) voi olla jokin seuraavista tyypeistä:
- </p>
+    Le côté gauche (left hand side -- LHS) de l'assignation doit être une référence variable ou propriété. Le membre de
+    droite (right hand side -- RHS) peut être de l'un des types suivants:
+  </p>
                                                 <p>
     <ul>
-        <li>Muuttujaviittaus</li>
-        <li>Tekstivakio</li>
-        <li>Ominaisuusviittaus</li>
-        <li>Metodiviittaus</li>
-        <li>Numeerinen vakio</li>
-        <li>ArrayList taulukko</li>
+      <li>Une référence (variable)</li>
+      <li>Une chaîne de caractères littérale</li>
+      <li>Une référence (propriété)</li>
+      <li>Une référence à une méthode</li>
+      <li>Un nombre littéral</li>
+      <li>Une ArrayList</li>
     </ul>
- </p>
-                                                <p>
-    Seuraavassa esimerkit kustakin mainitusta tyypistä:
- </p>
+  </p>
+                                                <p>Les exemples suivants montrent chacun des types susmentionnés:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1490,12 +1302,12 @@ ${data.Pyynto.PalvelinNimi}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $apina = $bill ) ## muuttujaviittaus
-#set( $apina.Ystava = &quot;monica&quot; ) ## tekstivakio
-#set( $apina.Syytos = $valkoinentalo.vuoto ) ## ominaisuusviittaus
-#set( $apina.Suunnitelma = $spindoctor.weave($web) ) ## metodiviittaus
-#set( $apina.Numero = 123 ) ## numeerinen vakio
-#set( $apina.Sano = [&quot;Ei&quot;, $minun, &quot;vikani&quot;] ) ## taulukko
+#set( $monkey = $bill ) ## référence (variable)
+#set( $monkey.Friend = &quot;monica&quot; ) ## chaîne de caractères littérale
+#set( $monkey.Blame = $whitehouse.Leak ) ## référence (propriété)
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## référence à une méthode
+#set( $monkey.Number = 123 ) ## nombre littéral
+#set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ## ArrayList
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1507,15 +1319,11 @@ ${data.Pyynto.PalvelinNimi}
     </table>
     </div>
                                                 <p>
-   HUOMAA: Viimeisessä esimerkissä [..] operaattorilla määritetyt
-   elementit ovat käytettävissä ArrayList -luokan metodien
-   avulla. Voisit siis esimerkiksi viitata taulukon ensimmäiseen
-   elementtiin koodilla $apina.Sano.get(0).
- </p>
-                                                <p>
-    Oikeanpuoleinen arvo (RHS) voi olla myös yksinkertainen
-    matemaattinen operaatio:
- </p>
+    NOTE: Dans le dernier exemple, les éléments définis avec l'opérateur [..] sont accessibles en utilisant les méthodes
+    définies dans la classe ArrayList. Ainsi, par exemple, on peut accéder au premier élément en écrivant
+    $monkey.Say.get(0)
+  </p>
+                                                <p>Le membre de droite peut aussi être une expression arithmétique simple:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1526,10 +1334,10 @@ ${data.Pyynto.PalvelinNimi}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $arvo = $foo + 1 )
-#set( $arvo = $bar - 1 )
-#set( $arvo = $foo * $bar )
-#set( $arvo = $foo / $bar )
+#set( $value = $foo + 1 )
+#set( $value = $bar - 1 )
+#set( $value = $foo * $bar )
+#set( $value = $foo / $bar )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1541,12 +1349,10 @@ ${data.Pyynto.PalvelinNimi}
     </table>
     </div>
                                                 <p>
-    Jos määrityksen oikeanpuoleinen ominaisuus- tai metodiviittaus on
-    arvoa <em>null</em>, sitä <b>ei</b> anneta vasemman puolen
-    arvoksi. Tätä keinoa ei voida käyttää olemassa olevan viittauksen
-    poistamiseen. Tämä saattaa olla hämäävää Velocityn uusille
-    käyttäjille. Esimerkiksi:
- </p>
+    Si le membre de droite est une référence à une méthode ou à une propriété dont la valeur est <em>null</em>, il ne
+    sera <b>pas</b> affecté au membre de gauche. Il n'est pas possible d'enlever une référence existante du contexte
+    par ce biais-là. Ceci peut troubler les débutants en Velocity. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1557,11 +1363,11 @@ ${data.Pyynto.PalvelinNimi}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $tulos = $kysely.kriteeri(&quot;nimi&quot;) )
-Ensimmäisen kyselyn tulos on $tulos
+#set( $result = $query.criteria(&quot;name&quot;) )
+Le résultat de la première requête est $result
 
-#set( $tulos = $kysely.kriteeri(&quot;osoite&quot;) )
-Toisen kyselyn tulos on $tulos
+#set( $result = $query.criteria(&quot;address&quot;) )
+Le résultat de la seconde requête est $result
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1573,10 +1379,9 @@ Toisen kyselyn tulos on $tulos
     </table>
     </div>
                                                 <p>
-     Jos <em>$kysely.kriteeri("nimi")</em> palauttaa merkkijonon
-     "pete", ja <em>$kysely.kriteeri("osoite")</em> palauttaa arvon
-     <em>null</em>, on esimerkin tuloste seuraava:
- </p>
+     Si <em>$query.criteria("name")</em> renvoie la chaîne "bill", et que  <em>$query.criteria("address")</em> renvoie
+     <em>null</em>, le code VTL ci-dessus sera rendu de la manière suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1587,9 +1392,9 @@ Toisen kyselyn tulos on $tulos
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Ensimmäisen kyselyn tulos on pete
+Le résultat de la première requête est bill
 
-Toisen kyselyn tulos on pete
+Le résultat de la seconde requête est bill
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1601,12 +1406,10 @@ Toisen kyselyn tulos on pete
     </table>
     </div>
                                                 <p>
-     Tällä on vaara hämätä aloittelijoita jotka muodostavat
-     <em>#foreach</em> silmukoita joissa yritetään asettaa
-     <em>#set</em> ohjeella viittausta ominaisuus- tai
-     metodiviittauksella, ja sen jälkeen testataan tuota viittausta
-     <em>#if</em> ohjeella. Esimerkiksi:
- </p>
+    Ceci induit en confusion les nouveaux venus, qui construisent des boucles <em>#foreach</em> qui tentent de faire
+    un <em>#set</em> sur une référence à partir d'une référence à une propriété ou une méthode et testent immédiatement
+    cette référence avec une directive <em>#if</em>. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1617,15 +1420,14 @@ Toisen kyselyn tulos on pete
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+#set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
 
-#set( $kriteerit = [&quot;nimi&quot;, &quot;osoite&quot;] )
+#foreach( $criterion in $criteria )
 
-#foreach( $kriteeri in $kriteerit )
+    #set( $result = $query.criteria($criterion) )
 
-    #set( $tulos = $kysely.kriteerit($kriteeri) )
-
-    #if( $tulos )
-        Kysely onnistui
+    #if( $result )
+        Query was successful
     #end
 
 #end
@@ -1640,19 +1442,15 @@ Toisen kyselyn tulos on pete
     </table>
     </div>
                                                 <p>
-     Yllä olevassa esimerkissä ei kannata luottaa <em>$tulos</em>
-     muuttujan vertaamiseen kyselyn onnistumisen selville
-     saamiseksi. Kun <em>$tulos</em> on asetettu <em>#set</em>
-     ohjeella (lisatty kontekstiin), sitä ei voida asettaa
-     <em>null</em>:iksi (poistaa kontekstista). <em>#if</em> ja
-     <em>#foreach</em> ohjeet käsitellään tarkemmin myöhemmin tässä
-     dokumentissa.
- </p>
+    Dans l'exemple ci-dessus, il ne serait pas avisé de se reposer sur l'évaluation de <em>$result</em> pour déterminer
+    si une requête a été couronnée de succès. Une fois que <em>$result</em> a reçu une valeur par un <em>#set</em>
+    (et a donc été ajouté au contexte), il ne peut pas recevoir la valeur <em>null</em> (et se trouver ainsi enlevé du
+    contexte). Les détails des directives <em>#if</em> et <em>#foreach</em> sont traités plus loin dans ce document.
+  </p>
                                                 <p>
-   Yksi ratkaisu ongelmaan olisi asettaa <em>$tulos</em> etukäteen
-   arvoon <em>false</em> (epätosi). Tämän jälkeen jos kutsu
-   <em>$kysely.kriteeri()</em> epäonnistuu, voit tarkastaa arvon.
- </p>
+    Une solution à ce problème serait de pré-positionner <em>$result</em> à <em>false</em>. Si l'appel à
+    <em>$query.criteria()</em> échoue, il est possible de faire la vérification.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1663,16 +1461,15 @@ Toisen kyselyn tulos on pete
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
+#set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
 
-#set( $kriteerit = [&quot;nimi&quot;, &quot;osoite&quot;] )
+#foreach( $criterion in $criteria )
 
-#foreach( $kriteeri in $kriteeri )
+    #set( $result = false )
+    #set( $result = $query.criteria($criterion) )
 
-    #set( $tulos = false )
-    #set( $tulos = $kysely.kriteerit($kriteeri) )
-
-    #if( $tulos )
-        Kysely onnistui
+    #if( $result )
+        La requête a abouti correctement
     #end
 
 #end
@@ -1686,16 +1483,12 @@ Toisen kyselyn tulos on pete
     </tr>
     </table>
     </div>
+                                                <p>Contrairement à d'autres directives Velocity, la directive <em>#set</em> n'a pas d'instruction <em>#end</em>.</p>
+                                                <a name="Chaînes de caractères littérales"><strong>Chaînes de caractères littérales</strong></a>
                                                 <p>
-    Muutamista muista Velocityn ohjeista poiketen, <em>#set</em> ohje
-    ei käytä <em>#end</em> lausetta.
- </p>
-                                                <a name="Tekstivakiot"><strong>Tekstivakiot</strong></a>
-                                                <p>
-    <em>#set</em> ohjetta käytettäessä lainausmerkkeihin (" ")
-    suljettu teksti tulkitaan ja tulostetaan kuten seuraavasta
-    esimerkistä käy ilmi:
- </p>
+    Lorsque vous utilisez la directive <em>#set</em>, les chaînes de caractères littérales délimitées par des guillements
+    sont interprétées et rendues de la manière suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1706,10 +1499,10 @@ Toisen kyselyn tulos on pete
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $hakemistoJuuri = &quot;www&quot; )
-#set( $sivupohjaNimi = &quot;index.vm&quot; )
-#set( $sivupohja = &quot;$hakemistoJuuri/$sivupohjaNimi&quot; )
-$sivupohja
+#set( $directoryRoot = &quot;www&quot; )
+#set( $templateName = &quot;index.vm&quot; )
+#set( $template = &quot;$directoryRoot/$templateName&quot; )
+$template
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1720,9 +1513,7 @@ $sivupohja
     </tr>
     </table>
     </div>
-                                                <p>
-  Tulosteeksi tulee
- </p>
+                                                <p>La sortie produite sera</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1744,9 +1535,7 @@ www/index.vm
     </tr>
     </table>
     </div>
-                                                <p>
-    Jos teksti on suljettu hipsuihin (' '), sitä ei tulkita:
- </p>
+                                                <p>Toutefois, lorsque la chaîne de caractères littérale est délimitée par des apostrophes, elle n'est pas interprétée.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1771,6 +1560,7 @@ $blargh
     </tr>
     </table>
     </div>
+                                                <p>Ce qui est rendu de la manière suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1794,12 +1584,10 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Tulkitsemattoman tekstin tulostaminen hipsumerkkien sisällä
-    olevavasta tekstistä on oletuksena käytössä
-    Velocityssä. Oletusarvo voidaan muuttaa vaihtamalla
-    <code>velocity.properties</code> siten että
-    <code>stringliterals.interpolate=false</code>.
- </p>
+    Cette caractéristique d'utilisation des apostrophes pour rendre du texte non interprété est le comportement par défaut
+    de Velocity. Ce comportement peut être changé en éditant le fichier <code>velocity.properties</code> et en y écrivant
+    l'entrée: <code>stringliterals.interpolate=false</code>.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1808,17 +1596,16 @@ $blargh
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="If-Else ehtolauseet"><strong>If-Else ehtolauseet</strong></a>
+          <a name="Conditions"><strong>Conditions</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <strong>If / ElseIf / Else</strong>
                                                 <p>
-       <em>#if</em> ohjeen avulla voidaan teksti sisällyttää web
-       sivulle sillä ehdolla että if lauseen arvo on
-       tosi. Esimerkiksi:
-    </p>
+    La directive <em>#if</em> de Velocity permet à du texte d'être inclus à la génération d'une page web seulement si la
+    condition qui suit l'instruction if est vérifiée. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1843,30 +1630,23 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Muuttuja <em>$foo</em> testataan jotta nähdään onko se tosi,
-      joka tapahtuu kahdessa eri tapauksessa: (i) <em>$foo</em> on
-      boolean arvo (tosi/epätosi) jolla on tosi -arvo, tai (ii) arvo
-      on eri kuin null (eli muuttuja ei ole tyhjä). <em>#if</em> ja
-      <em>#end</em> lauseiden väliin jäävä sisältö tulostetaan mikäli
-      testimuuttuja on tosi. Esimerkkitapauksessamme, jos muuttujalla
-      <em>$foo</em> on null arvo, tai jos se on boolean epätosi, on
-      testimuuttuja epätosi, eikä tulostetta tule lainkaan.
-    </p>
+    La variable <em>$foo</em> est évaluée pour déterminer si elle vaut true, ce qui se produit dans l'une des deux cas
+    suivants; (i) <em>$foo</em> est une variable booléenne (true/false) dont la valeur est vrai (true), ou (ii) la valeur
+    de <em>$foo</em> est différente de null. On se rappelle que le contexte de Velocity ne contient que des Objets,
+    et donc lorsqu'on dit un booléen, il sera représenté comme un objet de la classe Boolean contenant la valeur logique
+    appropriée.
+  </p>
                                                 <p>
-      <em>#if</em> ja <em>#end</em> lauseiden välissä oleva teksti
-      tulee tulosteeksi mikäli ehto on tosi. Tässä tapauksessa jos
-      <em>$foo</em> on tosi, tulosteeksi tulee:
-      "Velocity!". Toisaalta, mikäli <em>$foo</em> on epätosi, on myös
-      ehtolause epätosi eikä tulostetta tule.
-    </p>
+    Ce qui est contenu entre l'instruction <em>#if</em> et l'instruction <em>#end</em> sera produit en sortie si la
+    condition est évaluée comme vraie. Dans l'exemple précédent, si <em>$foo</em> est true, la sortie sera: "Velocity!".
+    A l'inverse, si <em>$foo</em> a la valeur null, ou si c'est un booléen de valeur false, l'instruction est évaluée
+    comme fausse, et il n'y a pas de sortie produite.
+  </p>
                                                 <p>
-      <em>#elseif</em> tai <em>#else</em> elementtejä voidaan käyttää
-      <em>#if</em> elementin kanssa. Huomaa, että Velocityn
-      sivumoottori lopettaa ensimmäisen tosiarvon saaneen
-      testimuuttujan kohdalla. Oletetaan seuraavassa esimerkissä että
-      muuttujalla <em>$foo</em> on arvo 15 ja muuttujalla
-      <em>$bar</em> on arvo 6.
-    </p>
+    Un élément <em>#elseif</em> ou <em>#else</em> peut être utilisé dans la directive <em>#if</em>.
+    Notez que le moteur Velocity (Velocity Template Engine) s'arrêtera à la première expression évaluée comme vraie.
+    Dans l'exemple suivant, supposons que  <em>$foo</em> vaut 15 et que <em>$bar</em> vaut 6.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1878,13 +1658,13 @@ $blargh
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #if( $foo &lt; 10 )
-    &lt;strong&gt;Mene pohjoiseen&lt;/strong&gt;
+    &lt;strong&gt;Go North&lt;/strong&gt;
 #elseif( $foo == 10 )
-    &lt;strong&gt;Mene itään&lt;/strong&gt;
+    &lt;strong&gt;Go East&lt;/strong&gt;
 #elseif( $bar == 6 )
-    &lt;strong&gt;Mene etelään&lt;/strong&gt;
+    &lt;strong&gt;Go South&lt;/strong&gt;
 #else
-    &lt;strong&gt;Mene länteen&lt;/strong&gt;
+    &lt;strong&gt;Go West&lt;/strong&gt;
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1896,27 +1676,17 @@ $blargh
     </tr>
     </table>
     </div>
-                                                <p>Tässä esimerkissä <em>$foo</em> on suurempi kuin 10, joten
-    kaksi ensimmäistä vertailua eivät ole tosia. Seuraavaksi muuttujaa
-    <em>$bar</em> verrataan lukuun 6, joka on tosi, joten tulosteeksi
-    tulee <strong>Mene etelään</strong>.
-    </p>
                                                 <p>
-    Huomaa, että nykyisellään Velocityn numeeriset vertailut on
-    rajoitettu Integer (kokonais-) lukuihin. Kaikki muut arvot
-    tulkitaan <em>epätosi</em>ksi. Ainoa poikkeus tähän on vastaavuus
-    '==', jolloin Velocity vaatii että objektit vertailun kummallakin
-    puolella ovat <em>samaa</em> luokkaa.
-    </p>
+    Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premières comparaisons échouent. Ensuite,
+    <em>$bar</em> est comparé à 6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
+  </p>
                                                 <p>
-    <a name="Relaatio- ja loogiset operaattorit"><strong>Relaatio- ja
-    loogiset operaattorit</strong></a>
-    </p>
-                                                <p>
-    Velocity käyttää vastaavuusoperaattoria muuttujien välisten
-    suhteiden tulkitsemiseen. Seuraavassa on yksinkertainen esimerkki
-    vastaavuusoperaattorin käytöstä.
-    </p>
+    Notez que pour l'instant, dans Velocity, les comparaisons numériques sont restreintes aux comparaisons d'entiers
+    (Integers) -- tout le reste sera évalué comme faux. La seule exception est l'égalité '==': dans ce cas Velocity teste
+    si les objets de chaque côté de '==' sont de la <em>même classe</em>.
+  </p>
+                                                <p><a name="Opérateurs logiques et relationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
+                                                <p>Velocity utilise l'opérateur d'équivalence pour déterminer les relations entre des variables. Voici un exemple simple pour illustrer la manière d'utiliser l'opérateur d'équivalence.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1927,13 +1697,13 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set ($foo = &quot;deoksiribonukleiinihappo&quot;)
-#set ($bar = &quot;ribonukleiinihappo&quot;)
+#set ($foo = &quot;deoxyribonucleic acid&quot;)
+#set ($bar = &quot;ribonucleic acid&quot;)
 
 #if ($foo == $bar)
-  Muuttujat eivät selvästikään ole samanlaiset. Joten...
+  Dans ce cas, il est clair qu'ils ne sont pas équivalents. Donc...
 #else
-  Vastaavuusvertaus on epätosi, ja tämä teksti tulee tulosteeksi.
+  Ils ne sont pas équivalents et c'est ceci qui sera produit en sortie.
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1946,10 +1716,10 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Velocity tukee myös loogisia AND ja OR
-      operaattoreita. Lisätietoja löydät dokumentista <a href="vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
-      esimerkkilause joka käyttää loogista AND:iä.
-    </p>
+    Velocity a aussi des opérateurs ET, OU et NON. Pour plus d'informations, référez-vous au
+    <a href="vtl-reference-guide.html">VTL Reference Guide</a> (en anglais).
+    Ci-dessous, quelques exemples illustrent l'utilisation des opérateurs logiques ET, OU et NON.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1960,11 +1730,10 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-## looginen AND
+##ET logique
 
 #if( $foo &amp;&amp; $bar )
-   &lt;strong&gt; Tämä JA tuo&lt;/strong&gt;
+   &lt;strong&gt; Ceci ET cela.&lt;/strong&gt;
 #end
 
 </pre></td>
@@ -1978,20 +1747,17 @@ $blargh
     </table>
     </div>
                                                 <p>
-      If lause on tosi vain mikäli sekä <em>$foo</em> että
-      <em>$bar</em> ovat tosia. Jos <em>$foo</em> on epätosi, tulee
-      lauseesta epätosi eikä <em>$bar</em> muuttujaa tarvitse edes
-      testata. Jos <em>$foo</em> on tosi, testataan sen jälkeen
-      muuttujan <em>$bar</em> arvo; jos myös <em>$bar</em> on tosi,
-      silloin koko ilmaus on tosi ja <strong>Tämä JA tuo</strong>
-      tulee tulosteeksi. Jos <em>$bar</em> on epätosi, silloin koko
-      ilmaus on epätosi eikä tulostetta tule.
-    </p>
+    La directive <em>#if()</em> ne sera évaluée comme <em>true</em> que si <em>$foo</em> et <em>$bar</em> sont
+    <em>true</em> tous les deux. Si <em>$foo</em> est <em>false</em>, l'expression sera globalement évaluée comme
+    <em>false</em> et <em>$bar</em> ne sera pas évalué. Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity testera
+    la valeur de <em>$bar</em>; si <em>$bar</em> vaut <em>true</em>, alors l'expression dans son entièreté vaut
+    <em>true</em> et la sortie <strong>Ceci ET cela</strong> est produite. Si <em>$bar</em> est <em>false</em>,
+    alors il n'y aura pas de sortie produite puisque l'expression entière est fausse.
+  </p>
                                                 <p>
-      Looginen OR operaattori toimii samaan tapaan, paitsi että vain
-      toisen viittauksen pitää olla tosi jotta koko ilmaus olisi
-      tosi. Katso seuraavaa esimerkkiä.
-    </p>
+    Les opérateurs logiques OU fonctionnent de la même manière, si ce n'est qu'une seule des références doit être évaluée
+    à <em>true</em> pour que l'expression entière soit considérée comme vraie. Voyez l'exemple suivant:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2002,11 +1768,10 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-## looginen OR
+##OU logique
 
 #if( $foo || $bar )
-    &lt;strong&gt;Tämä TAI tuo&lt;/strong&gt;
+    &lt;strong&gt;Ceci OU cela&lt;/strong&gt;
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2019,19 +1784,14 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Jos <em>$foo</em> on tosi, ei <em>$bar</em> muuttujaa tarvitse
-      edes testata. Oli <em>$bar</em> sitten tosi tai epätosi, koko
-      lauseke on tosi, ja <strong>Tämä TAI tuo</strong> on
-      tulosteena. Toisaalta mikäli <em>$foo</em> on epätosi, on
-      muuttujan <em>$bar</em> arvo testattava. Jos tässä tapauksessa
-      myös <em>$bar</em> on epätosi, koko ilmauksesta tulee epätosi
-      eikä tulostetta tule. Jos <em>$bar</em> on tosi, silloin koko
-      ilmauksesta tulee tosi, ja tulosteena on <strong>Tämä TAI
-      tuo</strong>.
-    </p>
-                                                <p>
-    Loogisella EI (NOT) operaattorilla on vain yksi argumentti :
-    </p>
+    Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity n'a pas besoin d'évaluer <em>$bar</em>; que <em>$bar</em>
+    soit vrai ou faux ne change rien à l'affaire, l'expression sera vraie, et <strong>Ceci OU cela</strong> sera produit
+    en sortie. Mais si <em>$foo</em> est false, la valeur de <em>$bar</em> doit être vérifiée.
+    Dans ce cas, si <em>$bar</em> est faux lui aussi, l'expression sera fausse et il n'y aura pas de sortie produite.
+    Sinon, si <em>$bar</em> est vrai, alors l'expression entière est vraie, et la sortie est
+    <strong>Ceci OU cela</strong>.
+  </p>
+                                                <p>Avec l'opérateur logique NON, il n'y a qu'un seul argument :</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2042,13 +1802,11 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-## looginen NOT
+##NON logique
 
 #if( !$foo )
-  &lt;strong&gt;EI tuota&lt;/strong&gt;
+  &lt;strong&gt;PAS ça&lt;/strong&gt;
 #end
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2060,12 +1818,12 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Jos <em>$foo</em> on tosi, silloin <em>!$foo</em> on epätosi, eikä
-    tulostetta tämän vuoksi tule. Mikäli <em>$foo</em> on epätosi,
-    silloin <em>!$foo</em> on tosi ja <strong>EI tuota</strong> on
-    tulosteena. Älä sekoita tätä merkintää <em>hiljaiseen viittaukseen
-    $!foo</em> joka tarkoittaa jotakin aivan muuta.
-    </p>
+    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est évalué comme <em>false</em>, 
+    et il n'y a pas de sortie. Si <em>$foo</em> est <em>false</em>, alors <em>!$foo</em> est évalué à <em>true</em>
+    et <strong>PAS ça</strong> est produit en sortie. Attention à ne pas confondre ceci avec la
+    <em>référence silencieuse $!foo</em> que nous avons déjà rencontrée et qui représente quelque chose de complètement
+    différent.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2074,15 +1832,13 @@ $blargh
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Silmukat"><strong>Silmukat</strong></a>
+          <a name="Boucles"><strong>Boucles</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>Foreach silmukat</strong>
-                                                <p>
-      <em>#foreach</em> mahdollistaa silmukoiden tekemisen. Esimerkiksi:
-    </p>
+                                    <strong>Boucle Foreach</strong>
+                                                <p>L'élément <em>#foreach</em> permet d'itérer. Par exemple:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2094,8 +1850,8 @@ $blargh
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 &lt;ul&gt;
-#foreach( $tuote in $kaikkiTuotteet )
-    &lt;li&gt;$tuote&lt;/li&gt;
+#foreach( $product in $allProducts )
+    &lt;li&gt;$product&lt;/li&gt;
 #end
 &lt;/ul&gt;
 </pre></td>
@@ -2109,24 +1865,19 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Tämä <em>#foreach</em> silmukka käy läpi yksi kerrallaan kaikki
-    <em>$kaikkiTuotteet</em> listassa olevat tuotteet. Jokaisella
-    kierroksella seuraavan tuotteen arvo kopioidaan
-    <em>$kaikkiTuotteet</em> listasta muuttujaan <em>$tuote</em>.
-    </p>
+    Cette boucle <em>#foreach</em> parcourt un à un tous les produits (cibles) de la liste <em>$allProducts</em> (objet).
+    A chaque passage dans la boucle, une valeur de <em>$allProducts</em> est placée dans la variable <em>$product</em>.
+  </p>
                                                 <p>
-    <em>$kaikkiTuotteet</em> lista on tyyppiä Vector, Hashtable tai
-    Array. <em>$tuote</em> muuttujaan kopioitu arvo on java objekti
-    (Object), joten siihen voidaan myös viitata objektina. Jos
-    esimerkiksi <em>$tuote</em> muuttuja olisi tyyppiä Tuote, sen nimi
-    voitaisiin hakea viittaamalla <em>$tuote.Name</em> metodiin
-    (ts. <em>$Tuote.getName()</em>.
-    </p>
+    Le contenu de la variable <em>$allProducts</em> est un vecteur (Vector), une table de hachage (Hashtable)
+    ou un tableau (Array). La valeur assignée à <em>$product</em> est un objet Java, et peut être référencée en tant
+    que telle par une variable. Par exemple, si <em>$product</em> est en effet une classe Product en Java,
+    son nom peut être récupéré en référençant la méthode <em>$product.Name</em> (c'est-à-dire <em>$Product.getName()</em>).
+  </p>
                                                 <p>
-    Oletetaan että <em>$kaikkiTuotteet</em> on tyyppiä Hashtable. Jos
-    haluat hakea Hashtablen avainarvot sekä niihin liittyvät objektit,
-    voit käyttää seuraavanlaista koodia:
-    </p>
+    Supposons que <em>$allProducts</em> soit une Hashtable. Si vous voulez retrouver les valeurs des clés et les objets
+    de la Hashtable, vous pouvez utiliser un bout de code comme celui-ci:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2138,8 +1889,8 @@ $blargh
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 &lt;ul&gt;
-#foreach( $avain in $kaikkiTuotteet.keySet() )
-    &lt;li&gt;Avain: $avain -&gt; Arvo: $kaikkiTuotteet.get($avain)&lt;/li&gt;
+#foreach( $key in $allProducts.keySet() )
+    &lt;li&gt;Key: $key -&gt; Value: $allProducts.get($key)&lt;/li&gt;
 #end
 &lt;/ul&gt;
 </pre></td>
@@ -2153,9 +1904,8 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Velocityllä on helppo keino silmukkalaskurin käyttämiseen. Voit
-    käyttää laskuria esimerkiksi seuraavasti:
-    </p>
+    Velocity fournit un moyen simple de connaître le compteur de boucle, de sorte qu'on puisse faire quelque chose comme:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2167,8 +1917,8 @@ $blargh
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 &lt;table&gt;
-#foreach( $asiakas in $asiakasLista )
-    &lt;tr&gt;&lt;td&gt;$velocityCount&lt;/td&gt;&lt;td&gt;$asiakas.Nimi&lt;/td&gt;&lt;/tr&gt;
+#foreach( $customer in $customerList )
+    &lt;tr&gt;&lt;td&gt;$velocityCount&lt;/td&gt;&lt;td&gt;$customer.Name&lt;/td&gt;&lt;/tr&gt;
 #end
 &lt;/table&gt;
 </pre></td>
@@ -2182,13 +1932,11 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Silmukkalaskurin oletusnimi on $velocityCount ja se määritetään
-    velocity.properties tiedostossa. Oletuksena laskuri alkaa arvosta
-    1, mutta aloitusarvo voidaan määrittää olemaan joko 1 tai 0
-    <code>velocity.properties</code>
-    tiedostossa. <code>velocity.properties</code> tiedoston
-    silmukkalaskuriosio näyttää tältä:
-    </p>
+    Le nom par défaut de la variable/référence du compteur de bouche est spécifié dans le fichier
+    <code>velocity.properties</code>. Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
+    dans le fichier <code>velocity.properties</code>. Voici à quoi ressemble la section Propriétés du compteur de boucle
+    dans le fichier <code>velocity.properties</code>:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2199,11 +1947,13 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-# Silmukkalaskurin oletusnimi
-counter.name = velocityCount
+# Default name of the loop counter
+# variable reference.
+directive.foreach.counter.name = velocityCount
 
-# Silmukkalaskurin aloitusarvo
-counter.initial.value = 1
+# Default starting value of the loop
+# counter variable reference.
+directive.foreach.counter.initial.value = 1
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2228,14 +1978,11 @@ counter.initial.value = 1
       <tr><td>
         <blockquote>
                                     <p>
-    <em>#include</em> elementin avulla sivusuunnittelija voi hakea
-    paikallisesta tiedostojärjestelmästä tiedoston, jonka sisältö
-    lisätään sivun siihen kohtaan jossa <em>#include</em> määritys
-    tehtiin. Tiedoston sisältö liitetään sellaisenaan eikä sitä siis
-    käytetä Velocityn sivumoottorin kautta. Turvallisuussyistä
-    haettava tiedosto voi sijaita vain TEMPLATE_ROOT vakion
-    määrittämän hakemiston alla.
-    </p>
+    L'élément de script <em>#include</em> permet au concepteur de gabarits d'importer un fichier local, qui est alors
+    inséré à l'endroit où la directive <em>#include</em> est définie. Le contenu du fichier n'est pas rendu en passant
+    par le moteur de substitution. Pour des raisons de sécurité, le fichier à inclure ne peut se trouver que sous
+    TEMPLATE_ROOT.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2246,7 +1993,7 @@ counter.initial.value = 1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#include( &quot;yksi.txt&quot; )
+#include( &quot;one.txt&quot; )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2258,10 +2005,9 @@ counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    Tiedosto johon <em>#include</em> ohje viittaa on
-    lainausmerkeissä. Jos halutaan sisällyttää useampia kuin yksi
-    tiedosto, tiedostonimet tulee erotella toisistaan pilkuilla.
-    </p>
+    Le fichier auquel la directive <em>#include</em> fait référence est inclus entre des guillemets.
+    Si plusieurs fichiers doivent être inclus, leurs noms doivent être séparés par des virgules.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2272,7 +2018,7 @@ counter.initial.value = 1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#include( &quot;yksi.gif&quot;,&quot;kaksi.txt&quot;,&quot;kolme.htm&quot; )
+#include( &quot;one.gif&quot;,&quot;two.txt&quot;,&quot;three.htm&quot; )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2284,13 +2030,11 @@ counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    Sisällytettävään tiedoston ei ole pakko viitata nimen perusteella;
-    itse asiassa usein on parempi käyttää muuttujaa tiedostonimen
-    asemesta. Tämä on hyödyllistä esimerkiksi silloin kun sivun
-    ulkoasu riippuu sivupyynnön aikana päätettävästä
-    ehdosta. Seuraavassa on esimerkki jossa käytetään sekä
-    tiedostonimeä että muuttujaa.
-    </p>
+    Le fichier à inclure ne doit pas nécessairement être appelé par son nom; en fait, il est souvent préférable
+    d'utiliser une variable plutôt qu'un nom de fichier. Ce qui peut être utile pour cibler ce qui est produit en
+    fonction de critères déterminés au moment où la page est demandée. Voici un exemple qui utilise à la fois un nom
+    de fichier et une variable.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2301,7 +2045,7 @@ counter.initial.value = 1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#include( &quot;terveiset.txt&quot;, $sesonkivarasto )
+#include( &quot;greetings.txt&quot;, $seasonalstock )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2326,10 +2070,9 @@ counter.initial.value = 1
       <tr><td>
         <blockquote>
                                     <p>
-    <em>#parse</em> elementin avulla sivusuunnittelija voi sisällyttää
-    paikallisesta levyjärjestelmästä tiedostoja jotka sisältävät VTL
-    elementtejä. Velocity tulkitsee VTL komennot ja tulostaa tuloksen.
-    </p>
+    L'élément de script <em>#parse</em> permet au concepteur de gabarits d'importer un fichier local contenant du VTL.
+    Velocity va alors interpréter le VTL et rendre le gabarit spécifié.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2340,7 +2083,7 @@ counter.initial.value = 1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#parse( &quot;mina.vm&quot; )
+#parse( &quot;me.vm&quot; )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2352,23 +2095,19 @@ counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    <em>#include</em> ohjeen tapaan <em>#parse</em> voi ottaa
-    parametrikseen nimen lisäksi myös muuttujan. Kaikkien sivupohjien
-    joihin <em>#parse</em> ohjeella viitataan tulee sijaita
-    TEMPLATE_ROOT vakion määrittämän hakemiston
-    alla. <em>#include</em> ohjeesta poiketen <em>#parse</em> voi
-    ottaa vain yhden argumentin.
-    </p>
+    Comme la directive <em>#include</em>, <em>#parse</em> peut prendre en argument une variable plutôt qu'un nom
+    de gabarit. Tous les gabarits auxquels il est fait référence par <em>#parse</em> doivent se trouver
+    sous TEMPLATE_ROOT. Contrairement à la directive <em>#include</em>, <em>#parse</em> ne peut prendre qu'un seul
+    argument.
+  </p>
                                                 <p>
-    VTL sivupohjissa voi olla <em>#parse</em> ohjeita jotka viittaavat
-    sivupohjiin joissa niissäkin on <em>#parse</em>
-    ohjeita. <code>velocity.properties</code> tiedostossa oleva rivi
-    <em>parse_directive.maxdepth</em> määrittää sen kuinka monta
-    peräkkäistä <em>#parse</em> viittausta voidaan tehdä. Mikäli
-    <em>parse_directive.maxdepth</em> määritys puuttuu, käytetään
-    oletusarvoa 10. Rekursiivisuus on sallittu. Jos esimerkiksi
-    sivupohja <code>dofoo.vm</code> sisältää seuraavat rivit:
-    </p>
+    Les gabarits VTL peuvent contenir des instructions <em>#parse</em> faisant référence à des gabarits qui à leur tour
+    contiennent des <em>#parse</em>. Par défaut à 10, la ligne <em>parse_directive.maxdepth</em> du fichier
+    <code>velocity.properties</code> permet aux utilisateurs de personnaliser le nombre de références <em>#parse</em>
+    que l'on peut rencontrer dans un gabarit. (Note: Si la propriété <em>parse_directive.maxdepth</em> est absente du
+    fichier <code>velocity.properties</code>, Velocité positionne cette valeur par défaut à 10).
+    La récursion est permise; par exemple si le gabarit <code>dofoo.vm</code> contient les lignes suivantes:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2379,10 +2118,10 @@ counter.initial.value = 1
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Laske alaspäin.
-#set( $laskuri = 8 )
+Count down.
+#set( $count = 8 )
 #parse( &quot;parsefoo.vm&quot; )
-Kaikki valmista: dofoo.vm!
+All done with dofoo.vm!
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2393,10 +2132,7 @@ Kaikki valmista: dofoo.vm!
     </tr>
     </table>
     </div>
-                                                <p>
-    Koodi viittaisi sivupohjaan <code>parsefoo.vm</code>, jossa
-    puolestaan voisi olla seuraavat VTL komennot:
-    </p>
+                                                <p>Il fait référence au gabarit <code>parsefoo.vm</code>, qui peut contenir le VTL suivant:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2407,12 +2143,12 @@ Kaikki valmista: dofoo.vm!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-$laskuri
-#set( $laskuri = $laskuri - 1 )
-#if( $laskuri &gt; 0 )
+$count
+#set( $count = $count - 1 )
+#if( $count &gt; 0 )
     #parse( &quot;parsefoo.vm&quot; )
 #else
-    Kaikki valmista: parsefoo.vm!
+    All done with parsefoo.vm!
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2425,13 +2161,10 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Kun "Laske alaspäin." on näytetty, Velocity lataa ja siirtää
-    kontrollin sivupohjalle <code>parsefoo.vm</code>, joka laskee alas
-    luvusta 8. Kun laskuri saavuttaa arvon 0, tulostetaan "Kaikki
-    valmista: parsefoo.vm!". Tämän jälkeen Velocity palaa sivupohjaan
-    <code>dofoo.vm</code> ja tulostaa "Kaikki valmista: dofoo.vm!"
-    tekstin.
-    </p>
+    Après que "Count down." soit affiché, Velocity passe par <code>parsefoo.vm</code>, comptant à rebours à partir de 8.
+    Lorsque le compte à rebours atteint 0, il affiche le message "All done with parsefoo.vm!".
+    A ce stade, Velocity va retourner à <code>dofoo.vm</code> et produire le message "All done with dofoo.vm!".
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2446,10 +2179,9 @@ $laskuri
       <tr><td>
         <blockquote>
                                     <p>
-    <em>#stop</em> elementin avulla sivupohjan suunnittelija voi
-    pysäyttää sivun tulkitsemisen. Tämä on hyödyllistä sivupohjan
-    virheidenetsinnän aikana.
-    </p>
+    L'élément de script <em>#stop</em> permet au concepteur de gabarits d'arrêter l'exécution du moteur de substitution.
+    Cette directive peut être utile pour le débogage.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2479,20 +2211,17 @@ $laskuri
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocimakrot"><strong>Velocimakrot</strong></a>
+          <a name="Velocimacros"><strong>Velocimacros</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    <em>#macro</em> elementin avulla sivupohjan suunnittelija voi
-    määrittää toistuvasti käytetyn VTL sivupohjan osan. Velocimakrot
-    ovat erittäin käyttökelpoisia sekä monimutkaisissa, että
-    yksinkertaisissa tehtävissä. Seuraava Velocimakro toimii
-    johdantona Velocimakroihin. Se on luotu kirjoitettavan tekstin
-    määrän vähentämiseksi, sekä kirjoitusvirheiden määrän
-    minimoimiseksi.
-    </p>
+    L'élément de script <em>#macro</em> permet aux concepteurs de définir un segment répétable d'un gabarit VTL.
+    Les "Velocimacros" sont très utiles dans un grand nombre de scénarios, simples ou complexes.
+    Une Velocimacro, écrite dans le seul but de s'économiser un peu de frappe et de minimiser les fautes,
+    servira d'introduction au concept de Velocimacro.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2517,9 +2246,9 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Esimerkissä määriteltiin Velocimakro nimeltään <em>d</em>, ja sitä
-    voidaan kutsua muiden VTL ohjeiden tapaan:
-    </p>
+    La Velocimacro définie dans cet exemple est <em>d</em>; elle peut être appelée d'une manière semblable à toute autre
+    directive VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2541,18 +2270,13 @@ $laskuri
     </tr>
     </table>
     </div>
+                                                <p>Lorsque ce gabarit est appelé, Velocity remplace <em>#d()</em> par une ligne contenant une cellule de données vide.</p>
                                                 <p>
-    Kun tätä sivupohjaa haetaan, Velocity korvaa ohjeen <em>#d()</em>
-    rivillä joka sisältää yhden tyhjän solun.
-    </p>
-                                                <p>
-    Velocimakro voi ottaa kuinka monta parametria tahansa -- tai ei
-    yhtään parametria, kuten ensimmäisessä esimerkissämme -- mutta kun
-    Velocimakroa kutsutaan, tulee kutsussa olla täsmälleen yhtä monta
-    parametria kuin makroa määriteltäessä. Useimmat Velocimakrot ovat
-    hieman monimutkaisempia kuin edellinen esimerkki. Seuraavassa on
-    Velocimakro joka ottaa kaksi argumenttia; värin ja listan.
-    </p>
+    Une Velocimacro peut prendre n'importe quel nombre d'arguments -- même zéro, comme on l'a vu dans l'exemple --
+    mais lorsque la macro est appelée, elle doit l'être avec le même nombre d'arguments que dans la définition.
+    Beaucoup de Velocimacros sont plus sophistiquées que celle définie ci-dessus; voici une Velocimacro qui prend deux
+    arguments, une couleur et un tableau.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2563,9 +2287,9 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#macro( taulurivit $vari $jokulista )
-#foreach( $jotain in $jokulista )
-    &lt;tr&gt;&lt;td bgcolor=$vari&gt;$jotain&lt;/td&gt;&lt;/tr&gt;
+#macro( tablerows $color $somelist )
+#foreach( $something in $somelist )
+    &lt;tr&gt;&lt;td bgcolor=$color&gt;$something&lt;/td&gt;&lt;/tr&gt;
 #end
 #end
 </pre></td>
@@ -2579,18 +2303,15 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Tässä esimerkissä määriteltiin Velocimakro <em>taulurivit</em>
-    joka ottaa kaksi parametria. Ensimmäinen parametri on
-    <em>$vari</em> ja toinen <em>$jokulista</em>.
-    </p>
+    La Velocimacro définie dans cet exemple, <em>tablerows</em>, prend deux arguments. Le premier argument prend la place
+    de <em>$color</em> et le second argument prend la place de <em>$somelist</em>.
+  </p>
                                                 <p>
-    Velocimakroon voidaan kirjoittaa mitä tahansa koodia jota voidaan
-    käyttää muuallakin VTL sivupohjassa. <em>taulurivit</em>
-    Velocimakro on <em>foreach</em> lause. <em>taulurivit</em>
-    Velocimakrossa on kaksi <em>#end</em> lausetta; ensimmäinen kuuluu
-    <em>#foreach</em> lauseelle, jälkimmäinen päättää Velocimakron
-    määrityksen.
-    </p>
+    Tout ce qui peut être mis dans un gabarit VTL peut aussi trouver place dans le corps d'une Velocimacro.
+    La Velocimacro <em>tablerows</em> contient une instruction <em>foreach</em>. On remarquera qu'il y a deux
+    instructions <em>#end</em> dans la définition de la Velocimacro <em>#tablerows</em>; la première termine
+    le <em>#foreach</em>, la seconde termine la définition de la Velocimacro.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2601,10 +2322,10 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $suuretjarvet = [&quot;Superior&quot;,&quot;Michigan&quot;,&quot;Huron&quot;,&quot;Erie&quot;,&quot;Ontario&quot;] )
-#set( $vari = &quot;blue&quot; )
+#set( $greatlakes = [&quot;Superior&quot;,&quot;Michigan&quot;,&quot;Huron&quot;,&quot;Erie&quot;,&quot;Ontario&quot;] )
+#set( $color = &quot;blue&quot; )
 &lt;table&gt;
-    #taulurivit( $vari $suuretjarvet )
+    #tablerows( $color $greatlakes )
 &lt;/table&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2617,10 +2338,9 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Huomaa että <em>$suuretjarvet</em> on makron parametrin
-    <em>$jokulista</em> arvona. Kun Velocimakroa <em>#taulurivit</em>
-    tässä tapauksessa kutsutaan, on tuloksena seuraavaa:
-    </p>
+    Notez que  <em>$greatlakes</em> prend la place de <em>$somelist</em>. Quand la Velocimacro <em>#tablerows</em>
+    est appelée dans ce contexte, la sortie suivante est produite:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2649,24 +2369,19 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Velocimakroja voidaan määrittää <em>inline</em>, eli Velocity
-    sivupohjassa itsessään, jolloin ko. makro ei ole käytettävissä
-    muissa sivupohjissa. Velocimakron määrittäminen siten että se on
-    kaikkien sivupohjien käytössä on hyödyllistä; samaa makroa ei
-    tarvitse määrittää erikseen jokaisessa sivupohjassa jossa sitä
-    tarvitaan, jolloin työmäärä ja virheiden mahdollisuus
-    vähenee. Lisäksi makroon tehty muutos vaikuttaa heti kaikkiin
-    sivupohjiin joissa se on käytössä.
-    </p>
+    Les Velocimacros peuvent être définies <i>inline</i> dans un gabarit Velocity; elles ne sont pas disponibles dans
+    ce cas pour d'autres gabarits Velocity sur le même site web. Définir une Velocimacro pour qu'elle puisse être partagée
+    par tous les gabarits a des avantages évidents: cela réduit le besoin de redéfinir la Velocimacro dans de nombreux
+    gabarits, cela économise du travail et réduit les occasions de se tromper, cela assure qu'un chagement fait une seule
+    fois dans une macro est aussitôt disponible dans tous les gabarits.
+  </p>
                                                 <p>
-    Oletetaan että Velocityssä on määriteltynä Velocimakro
-    <em>#tablerows($vari $lista)</em>. Tätä makroa voitaisiin käyttää
-    missä tahansa sivupohjassa. Sitä voitaisiin käyttää useaan kertaan
-    ja moneen eri käyttötarkoitukseen. Sieniasioita käsittelevässä
-    sivupohjassa <code>sieni.vm</code>, <em>#tablerows</em>
-    Velocimakroa voitaisiin käyttää listaamaan tyypillisen sienen
-    osat:
-    </p>
+    Si la Velocimacro <em>#tablerows($color $list)</em> avait été définie dans une bibliothèque de gabarits Velocimacros,
+    cette macro aurait pu être utilisée dans n'importe lequel des gabarits usuels. Elle pourrait être utilisée de
+    nombreuses fois et dans des buts différents. Dans le gabarit <code>mushroom.vm</code> consacré à toute espèce de
+    champignons, la Velocimacro <em>#tablerows</em> pourrait être appelée pour donner la liste des parties
+    d'un champignon typique.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2677,10 +2392,10 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $osat = [&quot;volva&quot;,&quot;stipe&quot;,&quot;annulus&quot;,&quot;gills&quot;,&quot;pileus&quot;] )
+#set( $parts = [&quot;volva&quot;,&quot;stipe&quot;,&quot;annulus&quot;,&quot;gills&quot;,&quot;pileus&quot;] )
 #set( $cellbgcol = &quot;#CC00FF&quot; )
 &lt;table&gt;
-#tablerows( $cellbgcol $osat )
+#tablerows( $cellbgcol $parts )
 &lt;/table&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2693,11 +2408,10 @@ $laskuri
     </table>
     </div>
                                                 <p>
-    Kun Velocity luo sivun sivupohjasta <code>sieni.vm</code>, se
-    etsii Velocimakron <em>#tablerows</em> sivupohjakirjastosta (joka
-    on määritelty <code>velocity.properties</code> tiedostossa) ja
-    tuottaa seuraavan tulosteen:
-    </p>
+    Lors de l'exécution d'une requête pour <code>mushroom.vm</code>, Velocity trouverait la Velocimacro
+    <em>#tablerows</em> dans la bibliothèque de gabarits (définie dans le fichier <code>velocity.properties</code>)
+    et produirait la sortie suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2725,43 +2439,23 @@ $laskuri
     </tr>
     </table>
     </div>
-                                                <strong>Velocimakron argumentit</strong>
-                                                <p>
-   Velocimakrot voivat ottaa argumenteiksi mitä tahansa seuraavista
-   VTL elementeistä:
-  </p>
+                                                <strong>Arguments d'une Velocimacro</strong>
+                                                <p>Les Velocimacros peuvent prendre comme argument tout élément VTL parmi les suivants:</p>
                                                 <ul>
-    <li> 
-      Viittaus : mitä tahansa '$' merkillä alkavaa
-    </li>
-    <li> 
-      Tekstivakio : esimerkiksi "$foo" tai 'hei'
-    </li>
-    <li> 
-      Numerovakio : 1, 2 jne
-    </li>
-    <li> 
-      Numeroväli : [ 1..2] tai [$foo .. $bar]
-    </li>
-    <li> 
-      ObjectArray : [ "a", "b", "c"]
-    </li>
-    <li> 
-       boolean arvo true (tosi)
-    </li>
-    <li> 
-       boolean arvo false (epätosi)
-    </li>
+    <li>Référence: tout ce qui commence par '$'</li>
+    <li>Chaîne de caractères littérale: quelque chose comme "$foo" ou 'hello'</li>
+    <li>Nombre littéral:  1, 2 etc</li>
+    <li>Intervalle d'entiers (IntegerRange) : [ 1..2] ou [$foo .. $bar]</li>
+    <li>ObjectArray : [ "a", "b", "c"]</li>
+    <li>Valeur booléenne true</li>
+    <li>Valeur booléenne false</li>
   </ul>
                                                 <p>
-     Kun siirrät viittauksia argumentteina Velocimakroille, huomaa,
-     että viittaukset siirretään 'nimen mukaan' ('by name'). Tämä
-     tarkoittaa sitä, että viittausten arvo 'haetaan' Velocimakrossa
-     itsessään. Tämän ominaisuuden avulla voit siirtää viittauksia
-     jotka ovat metodikutsuja, ja näin ko. metodeja kutsutaan
-     Velocimakrossa. Esimerkiksi kun Velocimakroa kutsutaan
-     seuraavasti:
-   </p>
+    Lorsqu'on passe des références comme arguments à des Velocimacros, notez que ces références sont passées "par nom".
+    Ce qui veut dire que leur valeur est "générée" à chaque utilisation à l'intérieur d'une Velocimacro.
+    Cette particularité vous permet de passer des références contenant des appels de méthodes et que la méthode soit
+    appelée à chaque fois. Par exemple, en appelant la Velocimacro suivante comme indiqué:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2772,11 +2466,11 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-     #macro( kutsu $a )
+     #macro( callme $a )
          $a $a $a
      #end
 
-     #kutsu( $foo.bar() )
+     #callme( $foo.bar() )
    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2787,23 +2481,17 @@ $laskuri
     </tr>
     </table>
     </div>
+                                                <p>le résultat est que la méthode bar() de la référence $foo est appelée trois fois.</p>
                                                 <p>
-       tuloksena viittauksen $foo metodia bar() kutsutaan 3 kertaa.
-    </p>
+    A première vue, cette particularité est surprenante mais si vous considérez la raison d'être originelle des
+    Velocimacros (éliminer la duplication par couper/coller de VTL d'usage courant), ça a bien sûr un sens.
+    Cela vous permet de faire des choses étonnantes telles que passer à la Velocimacro des objets ayant un état,
+    comme un objet qui génère des couleurs en séquences répétées pour colorer les lignes d'un tableau.
+  </p>
                                                 <p>
-       Ensi katsomalta tämä ominaisuus saattaa vaikuttaa yllättävältä,
-       mutta kun otat huomioon Velocimakrojen alkuperäisen
-       tarkoituksen -- usein käytettyjen VTL komentojen leikkaa-liimaa
-       kopioimisen vähentäminen -- ominaisuus on perusteltu. Sen
-       avulla voit esimerkiksi siirtää Velocimakroon argumenttina
-       tilansa muistavia (stateful) objekteja, kuten objektin joka
-       generoi värejä peräkkäisessä järjestyksessä taulukon rivien
-       värien määrittämiseksi.
-    </p>
-                                                <p>
-       Jos sinun tarvitsee kiertää tämä ominaisuus, voit hakea arvon
-       metodista uudeksi viittaukseksi, ja antaa sen argumentiksi:
-    </p>
+    Si vous éprouvez le besoin de contourner ce comportement, vous pouvez toujours assigner la valeur reçue de la méthode
+    à une nouvelle référence et passer cette référence:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2814,9 +2502,9 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-     #set( $uusiarvo = $foo.bar() )
-     #kutsu( $uusiarvo )
-   </pre></td>
+     #set( $myval = $foo.bar() )
+     #callme( $myval )
+  </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2826,89 +2514,65 @@ $laskuri
     </tr>
     </table>
     </div>
-                                                <strong>Velocimakro ominaisuudet</strong>
+                                                <strong>Propriétés des Velocimacros</strong>
                                                 <p>
-    <code>velocity.properties</code> tiedostossa on useita rivejä
-    joiden avulla Velocimakrojen toimintaa voidaan muuttaa
-    joustavasti. Huomaa että nämä arvot on dokumentoitu myös <a href="http://jakarta.apache.org/velocity/developer-guide.html">Kehittäjän
-    oppaassa</a>.
-    </p>
+    Plusieurs entrées du fichier <code>velocity.properties</code> permettent une implémentation flexible des Velocimacros.
+    Ces lignes sont commentées en détail dans le <a href="developer-guide.html">Developer Guide</a> (en anglais).
+  </p>
                                                 <p>
-    <code>velocimacro.library</code> - Pilkulla eroteltu lista
-    Velocimakro sivupohjakirjastoja. Oletuksena Velocity etsii yhtä
-    kirjastoa: <em>VM_global_lib.vm</em>. Velocimakro kirjastoja
-    etsitään määritellystä sivupohjahakemistosta.
-    </p>
+    <code>velocimacro.library</code> - Une liste (délimitée par des virgules, de toutes les bibliothèques de gabarits
+    Velocimacro. Par défaut, Velocity ne recherche qu'une bibliothèque: <em>VM_global_library.vm</em>.
+    Le chemin de gabarits donné ici est utilisé pour trouver les bibliothèques de Velocimacros.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline</code> - Tämä
-    ominaisuus päättää voidaanko Velocimakroja määrittää tavallisissa
-    sivupohjissa. Ominaisuus voi saada arvon true (tosi) tai false
-    (epätosi). Oletuksena on tosi, jolloin sivusuunnittelijat voivat
-    määrittää Velocimakroja suoraan omissa sivupohjissaan.
-    </p>
+    <code>velocimacro.permissions.allow.inline</code> - Cette propriété, qui peut prendre les valeurs true ou false,
+    détermine si les Velocimacros peuvent être définies dans des gabarits ordinaires.
+    La valeur par défaut, true, permet aux concepteurs de gabarits de définir des Velocimacros dans les gabarits eux-mêmes.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline.to.replace.global</code>
-
-    - Tämän ominaisuuden avulla voidaan määrittää voivatko
-    sivupohjassa määritellyt Velocimakrot korvata yleisesti
-    määritellyt, <code>velocimacro.library</code> ominaisuuden kautta
-    ladatut Velocimakrot. Ominaisuus voi saada arvon true tai
-    false. Oletuksena <code>false</code>, epätosi, jolloin
-    sivupohjassa määritellyt Velocimakrot eivät voi korvata
-    sivupohjakirjastoista ladattuja makroja.
-    </p>
+    <code>velocimacro.permissions.allow.inline.to.replace.global</code> - Les valeurs possibles sont true ou false,
+    pour cette propriété qui permet à l'utilisateur de spécifier si une Velocimacro définie en ligne dans un gabarit
+    peut remplacer un gabarit défini globalement, celui qui a été défini au démarrage par la propriété
+    <code>velocimacro.library</code>. La valeur par défaut, <code>false</code>, empêche les Velocimacros défines
+    <i>inline</i> dans un gabarit de remplacer  celles qui sont définies dans les bibliothèques de gabarits chargées
+    au démarrage.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline.local.scope</code> -
-    Mahdolliset arvot ovat true tai false, oletuksena false. Tämä
-    ominaisuus päättää ovatko sivupohjassa määritetyt Velocimakrot
-    'näkyviä' ainoastaan siinä sivupohjassa jossa ne on
-    määritelty. Toisin sanoen kun tämä ominaisuus on asetettu arvoon
-    true (tosi), sivupohja voi määrittää inline Velocimakroja jotka
-    ovat käytettävissä vain sivupohjasta joka ne määritti. Tämän
-    ominaisuuden avulla voidaan aikaansaada erikoisia vaikutuksia; jos
-    yleisesti määritelty Velocimakro kutsuu toista yleisesti
-    määriteltyä makroa, tämän ominaisuuden avulla sivupohja voi
-    määrittää oman toteutuksensa jälkimmäisestä makrosta, jota
-    ensimmäinen makro kutsuu. Sivupohjan paikallista makroa käytetään
-    vain kun ensimmäistä makroa kutsutaan ko. sivupohjasta. Uusi makro
-    ei vaikuta muihin sivupohjiin.
-    </p>
+    <code>velocimacro.permissions.allow.inline.local.scope</code> - Cette propriété, qui peut prendre les valeurs true
+    ou false (false par défaut), contrôle si les Velocimacros définies <i>inline</i> ont leur visibilité limitée au
+    gabarit qui les définit. En d'autres mots, avec cette propriété définie à true, un gabarit peut définir des
+    Velocimacros <i>inline</i> qui ne seront utilisables que par le gabarit qui les définit. Vous pouvez utiliser
+    cette possibilité pour concocter quelques artifices amusants: si une VM globale appelle une autre VM globale,
+    définie <i>inline</i>, un gabarit peut définir une implémentation "privée" de la seconde VM, qui sera appellée
+    par la première VM quand celle-ci est appelée elle-même dans le gabarit. Aucun autre gabarit n'est affecté.
+  </p>
                                                 <p>
-    <code>velocimacro.context.localscope</code> - Mahdolliset arvot
-    ovat true tai false, oletuksena false. Kun ominaisuuden arvoksi on
-    asetettu tosi, Velocimakroissa #set() ohjeella tehdyt muutokset
-    ovat 'paikallisia' eivätkä vaikuta pysyvästi muuttujien sisältöön.
-    </p>
+    <code>velocimacro.context.localscope</code> - Cette propriété peut valoir true ou false, la valeur par défaut est
+    false. Quand elle vaut true, toute modification du contexte via #set() à l'intérieur d'une Velocimacro est considérée
+    'locale' à cette Velocimacro et n'affectera pas le contexte de façon permanente.
+  </p>
                                                 <p>
-    <code>velocimacro.library.autoreload</code> - Tämä ominaisuus
-    ohjaa Velocimakrokirjaston automaattista uudelleenlatausta. Kun
-    ominaisuus on asetettu arvoon <code>true</code> kutsutun
-    Velocimakron koodi tutkitaan mahdollisten muutosten varalta, ja se
-    ladataan uudelleen mikäli tarpeellista. Näin voit muuttaa ja
-    testata Velocimakrokirjastoa ilman että sinun tarvitsee käynnistää
-    uudelleen sovellustasi tai sovellusalustaa, aivan kuten voit tehdä
-    normaalien sivupohjienkin kanssa. Tämä asetus toimii vain kun
-    resurssilataajien välimuisti on pois päältä (<i>off</i>,
-    esim. <code>file.resource.loader.cache = false</code>). Tämä
-    ominaisuus on tarkoitettu käytettäväksi vain sovelluksen
-    kehitysvaiheessa, ei tuotantokäyttöön.
-    </p>
-                                                <strong>Velocimakro Trivia</strong>
+    <code>velocimacro.library.autoreload</code> - Cette propriété contrôle le chargement automatique de la bibliothèque
+    de Velocimacro. La valeur par défaut est <code>false</code>. Quand elle est positionnée à <code>true</code>
+    la bibliothèque source appelée pour une Velocimacro sera vérifiée pour voir si elle a changé et sera rechargée
+    si nécessaire. Ceci vous permet de modifier et de tester des bibliothèques de Velocimacro sans avoir à redémarrer
+    votre application ou votre moteur de servlets, exactement comme vous pouvez le faire pour des gabarits ordinaires.
+    Ce mode ne fonctionne que quand le cache est désactivé dans les  <i>resource loaders</i>
+    (par exemple <code>file.resource.loader.cache = false</code>). Cette possibilité a été conçue pour le développement,
+    pas pour la production.
+  </p>
+                                                <strong>Autres remarques sur les Velocimacros</strong>
                                                 <p>
-    Nykyisellään Velocimakrot tulee olla määriteltyinä ennen kuin
-    niitä käytetään sivupohjissa. Tämä tarkoittaa sitä että #macro()
-    määritystesi tulee sijaita ennen rivejä joissa käytät Velocimakroja.
-    </p>
+    A ce stade, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
+    Cela signifie que vos déclarations #macro() doivent précéder l'usage des Velocimacros.
+  </p>
                                                 <p>
-    Tämä on tärkeää muistaa jos yrität käyttää ohjetta #parse()
-    sivupohjaan jossa on inline #macro() ohjeita. Koska #parse()
-    suoritetaan ajon aikana, ja parseri päättää ajon aikana onko
-    sivupohjassa oleva Velocimakrolta näyttävä elementti Velocimakro,
-    ei Velocimakrojen #parse():aminen toimi niin kuin
-    olettaisi. Ongelma voidaan välttää helposti käyttämällä
-    <code>velocimacro.library</code> toimintoa jonka avulla Velocity
-    lataa Velocimakrosi käynnistyksen yhteydessä.
-    </p>
+    Il est important de s'en souvenir si l'on essaye d'interpréter (#parse()) un gabarit contenant des directives #macro()
+    <i>inline</i>. Puisque l'interprétation se fait au moment de l'exécution, et que l'interpréteur décide au moment de
+    l'interprétation si, dans un gabarit, un élément qui a l'air d'une VM en est vraiment une, #parse()-er un ensemble de
+    déclarations de VM ne produira pas le résultat escompté. Pour contourner ce problème potentiel, on peut utiliser la
+    propriété <code>velocimacro.library</code> pour que Velocity charge vos VMs au démarrage.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2917,14 +2581,14 @@ $laskuri
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="VTL ohjeiden suojaaminen"><strong>VTL ohjeiden suojaaminen</strong></a>
+          <a name="Echappement des directives VTL"><strong>Echappement des directives VTL</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    VTL ohjeet voidaan suojata kenoviivalla ("\") samalla tavalla kuin
-    VTL viittauksetkin.
+    Les directives VTL peuvent être échappées avec le caractère barre de fraction inversée ("\"), de la même manière que
+    les références VTL valides.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2936,13 +2600,13 @@ $laskuri
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## #include( &quot;a.txt&quot; ) tulostuu &lt;tiedoston a.txt sisältö&gt;
+## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
 #include( &quot;a.txt&quot; )
 
-## \#include( &quot;a.txt&quot; ) tulostuu \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
 \#include( &quot;a.txt&quot; )
 
-## \\#include ( &quot;a.txt&quot; ) tulostuu \&lt;tiedoston a.txt sisältö&gt;
+## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
 \\#include ( &quot;a.txt&quot; )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -2955,9 +2619,9 @@ $laskuri
     </table>
     </div>
                                                 <p>
-  Eritystä tarkkaavaisuutta tarvitaan tapauksissa joissa suojataan VTL
-  ohjeita jotka sisältävät useita skriptielementtejä samassa ohjeessa
-  (kuten if-else-end lause). Seuraavassa on tyypillinen VTL if-lause:
+    Il faut prendre des précautions particulières lorsqu'on échappe des directives VTL qui contiennent plusieurs éléments
+    de script en une seule directive (comme dans le cas d'une instruction conditionnelle if-else-end).
+    Voici un exemple typique d'instruction VTL if:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2982,9 +2646,7 @@ $laskuri
     </tr>
     </table>
     </div>
-                                                <p>
-  Jos <em>$jazz</em> on tosi (true), tuloste on
-  </p>
+                                                <p>Si <em>$jazz</em> est vrai, la sortie produite est:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3007,9 +2669,8 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Jos <em>$jazz</em> on epätosi (false), tulostetta ei
-  tule. Skriptielementtien suojaaminen muuttaa tulostetta. Katso
-  seuraavaa esimerkkiä:
+    Si <em>$jazz</em>, il n'y a pas de sortie produite. Echapper des éléments de script modifie la sortie.
+    Considérons le cas suivant:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3034,10 +2695,7 @@ Vyacheslav Ganelin
     </tr>
     </table>
     </div>
-                                                <p>
-  Riippumatta siitä onko <em>$jazz</em> tosi vai epätosi, tuloste on
-  aina:
-  </p>
+                                                <p>Que <em>$jazz</em> soit vrai ou faux, la sortie sera:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3051,7 +2709,7 @@ Vyacheslav Ganelin
  #if($ jazz )
      Vyacheslav Ganelin
  #end
- </pre></td>
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -3062,9 +2720,9 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Itse asiassa koska kaikki skriptielementit on suojattu,
-  <em>$jazz</em> muuttujan totuusarvoa ei edes tutkita. Oletetaan että
-  kenoviiva edeltää skriptielementtejä jotka on suojattu:
+    En fait, puisque tous les éléments de script sont échappés, <em>$jazz</em> n'est jamais évalué en vue d'en connaître
+    la valeur logique. Supposons que les barres de fraction inverses précèdent les éléments de script qui sont
+    légitimement échappés:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3089,9 +2747,7 @@ Vyacheslav Ganelin
     </tr>
     </table>
     </div>
-                                                <p>
-  Mikäli <em>$jazz</em> on tässä tapauksessa tosi, tuloste on:
-  </p>
+                                                <p>Dans ce cas, si <em>$jazz</em> est vrai, la sortie est</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3115,18 +2771,15 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Tämän ymmärtämiseksi huomaa, että <code>#if( arg )</code> rivillä
-  olevaa rivinvaihtoa (return) ei kopioida tulosteeseen. Tämän vuoksi
-  <code>#if()</code> lauseen runko ('Vyacheslav Ganelin') on '\\'
-  merkinnästä saadun ensimmäisen '\' merkin kanssa samalla
-  rivillä. Jälkimmäinen '\' merkki on toisella rivillä kuin teksti,
-  koska tekstin lopussa on rivinvaihto ja jälkimmäinen '\\'
-  merkinnästä saatu '\' merkki on ennen <code>#end</code> ohjetta,
-  joten merkki kuuluu edelleen <code>#if()</code> lauseen runkoon.
+    Pour comprendre, notons que le  <code>#if( arg ) </code>, lorsqu'il est terminé par un retour à la ligne, omettra
+    ce retour à la ligne de la sortie produite. Donc, le corps du bloc <code>#if()</code> suit la première barre '\',
+    rendue par le '\\' qui précède <code>#if()</code>. Le dernier \ est sur une ligne différente du texte qui précède
+    parce qu'il y a un retour chariot après 'Ganelin', et donc le \\ final, qui précède le <code>#end</code> fait partie
+    du corps du bloc.
   </p>
                                                 <p>
-  Jos <em>$jazz</em> on epätosi, ei tulostetta tule. Huomaa että
-  ongelmia tulee mikäli skriptielementtejä ei ole suojattu oikein.
+    Si <em>$jazz</em> est faux, il n'y a pas de sortie produite. Notons que les choses vont commencer à mal se passer
+    si des éléments de script ne sont pas échappés correctement.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3152,9 +2805,8 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Esimerkissä <em>#if</em> on suojattu, mutta <em>#end</em> elementti
-  on edelleen käytössä. Liian monta lopetuselementtiä sivupohjassa
-  aiheuttaa virheen sivua luotaessa.
+    Ici le <em>#if</em> est échappé, mais il y a un <em>#end</em> qui reste là, et trop de terminaisons vont causer
+    une erreur dans l'interprétation.
   </p>
                             </blockquote>
         </p>
@@ -3164,15 +2816,15 @@ Vyacheslav Ganelin
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="VTL: Muotoilu"><strong>VTL: Muotoilu</strong></a>
+          <a name="VTL: Questions de format"><strong>VTL: Questions de format</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Vaikka tässä ohjeessa oleva VTL on usein muotoiltu rivivaihdoin ja
-    välilyönnein, alla oleva VTL
-    </p>
+    Bien que le VTL soit souvent montré dans ce guide de l'utilisateur avec des sauts de ligne et des espaces,
+    le VTL ci-dessous:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3198,9 +2850,9 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-    on yhtä toimiva kuin seuraava kodinpätkä jonka Geir Magnusson
-    Jr. lähetti Velocityn käyttäjien postituslistalle:
-    </p>
+    est tout aussi valide que le bout de code suivant, posté par Geir Magnusson Jr. à la liste de diffusion Velocity
+    (pour illustrer un point sans rapport avec notre sujet):
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3222,10 +2874,7 @@ Send me #set($foo = [&quot;$10 and &quot;,&quot;a cake&quot;])#foreach($a in $fo
     </tr>
     </table>
     </div>
-                                                <p>
-    Velocity syö ylimääräiset välilyönnit. Edellinen koodinpätkä
-    voitaisiin kirjoittaa seuraavasti:
-    </p>
+                                                <p>Velocity digère les blancs inutiles. La directive qui précède peut donc s'écrire de la manière suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3252,9 +2901,7 @@ please.
     </tr>
     </table>
     </div>
-                                                <p>
-    tai
-    </p>
+                                                <p>ou encore:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3279,9 +2926,7 @@ Send me
     </tr>
     </table>
     </div>
-                                                <p>
-    Kussakin tapauksessa tulos on sama.
-    </p>
+                                                <p>Dans tous les cas, la sortie sera identique.</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -3290,7 +2935,7 @@ Send me
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Muita ominaisuuksia ja sekalaista"><strong>Muita ominaisuuksia ja sekalaista</strong></a>
+          <a name="Autres caractéristiques et sujets divers"><strong>Autres caractéristiques et sujets divers</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3298,17 +2943,16 @@ Send me
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Matematiikka"><strong>Matematiikka</strong></a>
+          <a name="Math"><strong>Math</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Velocitylla on muutamia sisäänrakennettuja matemaattisia
-    funktioita joita voidaan käyttää sivupohjissa <em>#set</em> ohjeen
-    kanssa. Seuraavat yhtälöt ovat esimerkkejä yhteen-, vähennys-,
-    kerto- sekä jakolaskuista.
-  </p>
+      Velocity a quelques fonctions mathématiques intégrées, fonctions que l'on peut utiliser dans les gabarits
+      avec la directive <em>set</em>. Les équations suivantes sont des exemples d'addition, soustraction, multiplication
+      et division respectivement:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3334,9 +2978,9 @@ Send me
     </table>
     </div>
                                                 <p>
-    Jako-operaation tapauksessa tulos on kokonaisluku. Jakojäännös
-    saadaan käyttöön jäännösoperandilla (<em>%</em>).
-  </p>
+      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut 
+      être obtenu en utilisant l'opérateur modulo (<em>%</em>).
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3359,97 +3003,9 @@ Send me
     </table>
     </div>
                                                 <p>
-    Matemaattisia funktioita käytettäessä Velocityssä vain
-    kokonaisluvut (...-2, -1, 0, 1, 2...) ovat sallittuja;
-    ei-kokonaislukuja käytettäessä asia kirjataan lokiin ja tulokseksi
-    palautetaan tyhjä arvo (null).
-  </p>
-                                                <p>
-    Velocityllä on sisäänrakennettu keino nollalla jakamisen
-    käsittelemiseen. Seuraavassa esimerkissä:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-#set( $foo = 5 )
-#set( $bar = $foo - 5 )
-#set( $uhoh = $foo / $bar )
-$uhoh
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    Viittaukseen <em>$uhoh</em> asetetaan tulos operaatiosta viisi
-    jaettuna nollalla. Kun Velocity näyttää tämän sivupohjan, tuloste
-    on:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-$uhoh
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    Suunnittelijoiden on otettava huomioon myös, että <em>#set</em>
-    tuottaa merkkijonoja, jotka on muunnettava kokonaisluvuiksi jotta
-    niitä voidaan käyttää vaihteluväliä määritettäessä (range
-    operator). Seuraavassa esimerkki tällaisesta muunnoksesta:
-  </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-#set($a = &quot;7&quot;)
-#set($b = $int.valueOf($a) + 10)
-$b
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    Tuloksena on <em>17</em>.
-  </p>
+      Seuls les entiers  (...-2, -1, 0, 1, 2...) sont admis comme opérandes des équations mathématiques en Velocity;
+      lorsqu'un non-entier est rencontré, cela est signalé et null sera renvoyé dans la sortie produite.
+    </p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3457,16 +3013,16 @@ $b
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Vaihteluväli (Range Operator)"><strong>Vaihteluväli (Range Operator)</strong></a>
+          <a name="Opérateur d'intervalle (range)"><strong>Opérateur d'intervalle (range)</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Vaihteluväliä voidaan käyttää <em>#set</em> ja <em>#foreach</em>
-    lauseiden yhteydessä. Vaihteluväli tuottaa kokonaislukuja
-    sisältäviä oliotaulukoita seuraavalla tavalla:
-  </p>
+      L'opérateur d'intervalle peut être utilisé en conjonction avec les instructions <em>#set</em> et
+      <em>#foreach</em>. C'est assez commode pour produire un tableau d'objets contenant des entiers;
+      l'opérateur d'intervalle est construit comme ceci:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3489,11 +3045,10 @@ $b
     </table>
     </div>
                                                 <p>
-    Sekä <em>n</em> että <em>m</em> pitää olla tai niiden tulee
-    tuottaa kokonaislukuja. Mikäli <em>m</em> on pienempi kuin
-    <em>n</em> lasketaan vaihteluvälin luvut alaspäin. Seuraavassa
-    esimerkkejä vaihteluvälin käytöstä:
-  </p>
+      <em>n</em> et <em>m</em> doivent tous deux être ou renvoyer des entiers. Que <em>m</em> soit plus grand ou plus
+      petit que <em>n</em> importe peu, si cela se produit le tableau décompte. Voici quelques exemples de l'opérateur
+      de portée:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3504,23 +3059,23 @@ $b
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Ensimmäinen esimerkki:
+Premier exemple:
 #foreach( $foo in [1..5] )
 $foo
 #end
 
-Toinen esimerkki:
+Second exemple:
 #foreach( $bar in [2..-2] )
 $bar
 #end
 
-Kolmas esimerkki:
+Troisième exemple:
 #set( $arr = [0..1] )
 #foreach( $i in $arr )
 $i
 #end
 
-Neljäs esimerkki:
+Quatrième exemple:
 [1..3]
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -3532,9 +3087,7 @@ Neljäs esimerkki:
     </tr>
     </table>
     </div>
-                                                <p>
-    Tuottaa seuraavan tulosteen:
-  </p>
+                                                <p>Produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3545,16 +3098,16 @@ Neljäs esimerkki:
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Ensimmäinen esimerkki:
+Premier exemple:
 1 2 3 4 5
 
-Toinen esimerkki:
+Second exemple:
 2 1 0 -1 -2
 
-Kolmas esimerkki:
+Troisième exemple:
 0 1
 
-Neljäs esimerkki:
+Quatrième exemple:
 [1..3]
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -3567,15 +3120,13 @@ Neljäs esimerkki:
     </table>
     </div>
                                                 <p>
-    Huomaa että vaihteluvälioperaattori tuottaa taulukon vain kun sitä
-    käytetään <em>#set</em> tai <em>#foreach</em> ohjeiden kanssa,
-    kuten neljännestä esimerkistä käy selville.
-  </p>
+      Il est à noter que l'opérateur d'intervalle ne produit le tableau qu'utilisé en conjonction avec les directives
+      <em>#set</em> et <em>#foreach</em>, comme démontré dans le quatrième exemple.
+    </p>
                                                 <p>
-    Vaihteluvälioperaattori on erityisen käyttökelpoinen kun halutaan
-    tehdä verkkosivun taulukko standardikokoiseksi, mutta joissain
-    tapauksissa taulukon täyttämiseksi ei ole riittävästi dataa.
-  </p>
+      Les concepteurs de pages web soucieux de construire des tables de taille standard, mais dans lequelles il n'y a
+      pas assez de données pour remplir la table, trouveront cet opérateur d'intervalle particulièrement utile.
+    </p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3583,17 +3134,17 @@ Neljäs esimerkki:
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Edistyneet kysymykset: Suojaaminen ja !"><strong>Edistyneet kysymykset: Suojaaminen ja !</strong></a>
+          <a name="Questions pointues: Echappement et !"><strong>Questions pointues: Echappement et !</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Kun viittaus hiljennetään <em>!</em> merkillä ja <em>!</em> merkkiä
-    edeltää suojausmerkki <em>\</em> käsitellään viittaus erityisellä
-    tavalla. Huomaa erot normaalin suojauksen ja tilanteen jossa
-    <em>\</em> edeltää <em>!</em> merkkiä, välillä.
-  </p>
+      Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère 
+      <em>!</em> est précédé par un caractère d'échappement <em>\</em>, la référence est traitée de manière particulière.
+      A noter: les différences entre l'échappement ordinaire et le cas particulier où <em>\</em> précède <em>!</em>
+      comme ici:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3619,9 +3170,7 @@ $\\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-   Tulosteena on:
-  </p>
+                                                <p>Ceci produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3646,10 +3195,7 @@ $\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-   Vertaa tätä normaaliin suojaukseen, jossa <em>\</em> on <em>$</em>
-   merkin edellä:
-  </p>
+                                                <p>A comparer avec l'échappement ordinaire, où <em>\</em> précède <em>$</em>:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3674,9 +3220,7 @@ $\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-    Tulosteena on:
-  </p>
+                                                <p>Ce qui produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3708,33 +3252,27 @@ $\\!foo
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Yleistä Velocimakroista"><strong>Yleistä Velocimakroista</strong></a>
+          <a name="Compléments divers sur les Velocimacros"><strong>Compléments divers sur les Velocimacros</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-Tämä osio on Velocimakroaiheinen mini-FAQ. Osio muuttuu ajan myötä,
-joten uutta tietoa hakevien kannattanee palata sivulle aika ajoin.
-</p>
+      Cette section est une mini-FAQ sur différents sujets relatifs aux Velocimacros.
+      Cette section évoluera au fil du temps, et cela vaudra donc la peine d'y revenir occasionnellement pour y
+      chercher de nouvelles informations.
+    </p>
+                                                <p>Note: tout au long de cette section, 'Velocimacro' sera habituellement abrégé en 'VM'.</p>
+                                                <strong>Puis-je utiliser une directive ou une autre VM comme argument d'une VM?</strong>
+                                                <p>Exemple : <code>#center( #bold("hello") )</code></p>
                                                 <p>
-Huom! : Tässä osiossa 'Velocimakro':ihin viitataan usein lyhenteellä
-'VM'.
-</p>
-                                                <strong>Voinko käyttää ohjetta tai toista VM:a argumenttina
-VM:oon?</strong>
+      Non. Une directive n'est pas un argument valide d'une directive, et en pratique, pour l'essentiel,
+      une VM est une directive.
+    </p>
                                                 <p>
-Esimerkki : <code>#center( #bold("hello") )</code>
-</p>
-                                                <p>
-Et. Ohje ei ole sallittu argumentti ohjeelle, ja VM on
-käytännöllisesti katsoen ohje.
-</p>
-                                                <p>
-<i>Kuitenkin...</i>, voit kiertää rajoituksen. Yksinkertainen ratkaisu
-on käyttää hyväksi sitä että lainausmerkeissä (") oleva teksti
-tulkitaan. Tämä ansiosta voit tehdä seuraavasti:
-</p>
+      <i>Pourtant...</i>, il y a des choses que vous pouvez faire. Une solution, simple, est de tirer avantage du fait
+      que l'apostrophe (") restitue son contenu. Vous pouvez donc écrire quelque chose comme
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3757,9 +3295,7 @@ tulkitaan. Tämä ansiosta voit tehdä seuraavasti:
     </tr>
     </table>
     </div>
-                                                <p>
-Voit myös säästää rivin...
-</p>
+                                                <p>Vous pouvez même vous épargner une étape...</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3782,11 +3318,10 @@ Voit myös säästää rivin...
     </table>
     </div>
                                                 <p>
-Huomaa että jälkimmäisessä esimerkissä parametri käsitellään VM:n
-<i>sisällä</i>, ei kutsun tasolla. Toisin sanoen VM:lle annettu
-parametri siirretään kokonaisuudessaan ja käsitellään VM:ssa johon se
-siirrettiin. Tämän ansiosta voit tehdä esimerkiksi seuraavaa:
-</p>
+      Mais il est à noter, dans ce dernier exemple, que l'argument est évalué <i>à l'intérieur</i> de la VM, pas au niveau
+      de l'appel. En d'autres termes, l'argument passé à la VM est passé dans son intégralité et évalué dans la VM à
+      laquelle il a été passé. Ceci permet d'écrire des choses comme:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3797,7 +3332,6 @@ siirrettiin. Tämän ansiosta voit tehdä esimerkiksi seuraavaa:
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 #macro( inner $foo )
   inner : $foo
 #end
@@ -3809,7 +3343,6 @@ siirrettiin. Tämän ansiosta voit tehdä esimerkiksi seuraavaa:
 
 #set($bar = 'calltimelala')
 #outer( &quot;#inner($bar)&quot; )
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3820,9 +3353,7 @@ siirrettiin. Tämän ansiosta voit tehdä esimerkiksi seuraavaa:
     </tr>
     </table>
     </div>
-                                                <p>
-Tulosteeksi tulee
-</p>
+                                                <p>La sortie produite est</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3845,15 +3376,13 @@ Outer : inner : outerlala
     </table>
     </div>
                                                 <p>
-koska parametrin "#inner($bar)" tulkitseminen tapahtuu lauseen
-#outer() sisällä, käytetään muuttujan $bar arvoa joka asetettiin
-#outer VM:ssa.
-</p>
+      puisque l'évaluation de "#inner($bar)" se produit à l'intérieur de  #outer(), et c'est donc la valeur $bar
+      positionnée à l'intérieur de  #outer() qui est utilisée.
+    </p>
                                                 <p>
-Tämä on tarkoituksellinen ja tarkkaan vaalittu ominaisuus - parametrit
-siirretään 'nimen mukaan' ('by name') VM:oon, jotta voit siirtää
-VM:oon tilansa muistavia (stateful) viittauksia kuten
-</p>
+      Ceci est tout à fait intentionnel, et c'est une caractéristique jalousement gardée - les arguments sont passés
+      'par nom' aux VM, de sorte qu'on puisse passer aux VM un genre de "références avec état" telles que
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3864,12 +3393,12 @@ VM:oon tilansa muistavia (stateful) viittauksia kuten
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#macro( foo $vari )
-  &lt;tr bgcolor=$vari&gt;&lt;td&gt;Hei&lt;/td&gt;&lt;/tr&gt;
-  &lt;tr bgcolor=$vari&gt;&lt;td&gt;Siellä&lt;/td&gt;&lt;/tr&gt;
+#macro( foo $color )
+  &lt;tr bgcolor=$color&gt;&lt;td&gt;Hi&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr bgcolor=$color&gt;&lt;td&gt;There&lt;/td&gt;&lt;/tr&gt;
 #end
 
-#foo( $bar.rivinVari() )
+#foo( $bar.rowColor() )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3881,9 +3410,9 @@ VM:oon tilansa muistavia (stateful) viittauksia kuten
     </table>
     </div>
                                                 <p>
-jossa rivinVari() metodia kutsutaan toistuvasti, ei vain kerran. Sen
-välttämiseksi kutsu metodia VM:n ulkopuolelta ja siirrä arvo VM:oon.
-</p>
+      et appeler rowColor() plusieurs fois, plutôt qu'une fois. Pour éviter cela, il faut appeler la méthode hors de la VM
+      et passer la valeur à la VM.
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3894,8 +3423,8 @@ välttämiseksi kutsu metodia VM:n ulkopuolelta ja siirrä arvo VM:oon.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set($vari = $bar.rivinVari())
-#foo( $vari )
+#set($color = $bar.rowColor())
+#foo( $color )
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3906,50 +3435,31 @@ välttämiseksi kutsu metodia VM:n ulkopuolelta ja siirrä arvo VM:oon.
     </tr>
     </table>
     </div>
-                                                <strong>Voinko rekisteröidä Velocimakroja #parse() :n kautta?
-</strong>
+                                                <strong>Peut-on enregistrer des Velocimacros avec #parse() ?</strong>
                                                 <p>
-    Nykyisellään Velocimakrot tulee olla määriteltyinä ennen
-    ensimmäistä käyttöä. Tämä tarkoittaa sitä että #macro()
-    määritystesi tulisi tulla ennen kuin käytät Velocimakroja.
+      Pour l'instant, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
+      Ce qui signifie que les déclarations #macro() doivent précéder l'usage des Velocimacros.
     </p>
                                                 <p>
-    Tämä on tärkeää muistaa jos yrität käyttää ohjetta #parse()
-    sivupohjaan jossa on inline #macro() ohjeita. Koska #parse()
-    suoritetaan ajon aikana, ja parseri päättää ajon aikana onko
-    sivupohjassa oleva Velocimakrolta näyttävä elementti Velocimakro,
-    ei Velocimakrojen #parse():aminen toimi niin kuin
-    olettaisi. Ongelma voidaan välttää helposti käyttämällä
-    <code>velocimacro.library</code> toimintoa jonka avulla Velocity
-    lataa Velocimakrosi käynnistyksen yhteydessä.
+      Il est important de s'en souvenir si l'on essaye d'interpréter avec #parse() un gabarit qui contient des directives
+      #macro() définies <i>inline</i>. Puisque le #parse() a lieu au moment de l'exécution, et que l'interpréteur décide
+      à ce moment si quelque chose qui ressemble syntaxiquement à une VM dans le gabarit en est vraiment une au moment de
+      l'interprétation, #parse()-r un ensemble de déclarations de VM ne fonctionnera pas comme on pourrait le prévoir.
+      Pour contourner ce comportement, il suffit d'utiliser <code>velocimacro.library</code> pour que Velocity charge
+      vos VM's au démarrage.
     </p>
-                                                <strong>Mitä tarkoittaa Velocimakrojen automaattinen
-uudelleenlataus?</strong>
+                                                <strong>Qu'est-ce que le <i>Velocimacro Autoreloading</i>?</strong>
+                                                <p>Il existe une propriété, conçue pour le <i>développement</i>, pas pour la production:</p>
+                                                <p><code>velocimacro.library.autoreload</code></p>
+                                                <p>dont la valeur par défaut est <i>false</i>. Lorsque cette propriété est positionnée à <i>true</i>, en même temps que</p>
+                                                <p><code>&lt;type&gt;.resource.loader.cache = false</code></p>
                                                 <p>
-   On olemassa asetus joka on tarkoitettu käytettäväksi järjestelmän
-   <i>kehityksen</i> aikana, ei käytössä olevassa järjestelmässä :
-  </p>
-                                                <p>
-  <code>velocimacro.library.autoreload</code>
-  </p>
-                                                <p>
-   joka on oletuksena pois käytöstä (false). Kun ominaisuus on
-   asetettu käyttöön (true) <em>yhdessä</em> asetuksen
-   </p>
-                                                <p>
-   <code>&lt;type&gt;.resource.loader.cache = false</code>
-   </p>
-                                                <p>
-    kanssa (jossa &lt;type&gt; on resurssilataajan nimi jota käytät,
-    kuten 'file'), silloin Velocity lataa automaattisesti
-    Velocitymakroihin tekemäsi muutokset silloin kun teet niitä, joten
-    sinun ei tarvitse käynnistää uudelleen sovellusalustaa (tai
-    ohjelmaa) tai turvautua johonkin muuhun kikkaan saadaksesi
-    muuttuneet Velocitymakrosi käyttöön.
+      (où &lt;type&gt; est le nom du chargeur de ressources que vous utilisez, par exemple 'file'), le moteur Velocity va
+      automatiquement prendre en compte les changements apportés à vos fichiers de bibliothèques Velocimacro, au fur et à
+      mesure que vous les modifiez, de sorte que vous n'ayez pas à arrêter le moteur de servlet (ou l'application) ou avoir
+      recours à tout autre subterfuge de ce genre pour recharger vos Velocimacros.
     </p>
-                                                <p>
-    Yksinkertainen konfiguraatio saattaisi näyttää seuraavalta:
-    </p>
+                                                <p>Voici à quoi peut ressembler un ensemble simple de propriétés.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3973,9 +3483,7 @@ uudelleenlataus?</strong>
     </tr>
     </table>
     </div>
-                                                <p>
-    Älä käytä näitä asetuksia tuotantokäytössä.
-    </p>
+                                                <p>Ne gardez pas cette configuration en production.</p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3983,25 +3491,20 @@ uudelleenlataus?</strong>
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Merkkijonojen yhdistäminen"><strong>Merkkijonojen yhdistäminen</strong></a>
+          <a name="Concaténation de chaînes"><strong>Concaténation de chaînes</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Yleinen kehittäjien kysymä kysymys on <i>Kuinka yhdistän
-    merkkijonoja? Onko olemassa Javan '+' operaattoria vastaavaa
-    toimintoa?</i>.
-   </p>
+      Une question habituelle parmi les développeurs est:
+      <i>Comment concaténer des chaînes de caractères? Y a-t'il quelque chose de semblable à l'opérateur '+' en Java?</i>.
+    </p>
                                                 <p>
-    Viittausten liittämiseksi yhteen VTL:ssa, sinun tarvitsee vain
-    'laittaa ne yhteen'. Konteksti jossa yhdistät viittaukset
-    vaikuttaa tuloksiin, joten esimerkit ovat paikallaan.
-   </p>
-                                                <p>
-    Normaalissa tapauksessa (jolloin sekoitat muuttujat sivupohjan
-    muuhun sisältöön) :
-   </p>
+      Pour concaténer des références en VTL, il suffit de les 'mettre ensemble'. Le contexte dans lequel vous voulez les
+      assembler ainsi a une certaine importance, il faut donc illustrer notre propos par quelques exemples.
+    </p>
+                                                <p>Dans le flux habituel d'un gabarit (lorsqu'on mélange les références avec du contenu ordinaire):</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -4012,10 +3515,10 @@ uudelleenlataus?</strong>
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-       #set( $koko = &quot;Big&quot; )
-       #set( $nimi = &quot;Ben&quot; )
+       #set( $size = &quot;Big&quot; )
+       #set( $name = &quot;Ben&quot; )
 
-      Kello on $iso$nimi.
+      Cette horloge sonne comme $size$name.
    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -4027,41 +3530,8 @@ uudelleenlataus?</strong>
     </table>
     </div>
                                                 <p>
-     tulosteena on 'Kello on BigBen'. Hieman mielenkiintoisemmassa
-     tapauksessa, kuten silloin kun haluat liittää merkkijonot
-     siirrettäväksi parametrina metodille, tai asettaaksesi uuden
-     viittauksen, tee seuraavasti:
-   </p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-      #set( $koko = &quot;Big&quot; )
-      #set( $nimi = &quot;Ben&quot; )
-
-      #set($kello = &quot;$koko$nimi&quot; )
-
-      Kello on $kello.
-    </pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-     Josta tulee sama tuloste. Viimeisenä esimerkkinä, kun haluat
-     sekoittaa 'staattisia' merkkijonoja viittauksiin, saatat joutua
-     käyttämään 'muodollista viittausten merkintää' :
+      produira 'Cette horloge sonne comme BigBen'. Pour prendre des exemples plus intéressants, lorsqu'on veut concaténer
+      des chaînes pour les passer à une méthode ou les assigner à une nouvelle référence, il suffit d'écrire:
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -4073,12 +3543,12 @@ uudelleenlataus?</strong>
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-      #set( $koko = &quot;Big&quot; )
-      #set( $nimi = &quot;Ben&quot; )
+      #set( $size = &quot;Big&quot; )
+      #set( $name = &quot;Ben&quot; )
 
-      #set($kello = &quot;${koko}Tall$nimi&quot; )
+      #set($clock = &quot;$size$name&quot; )
 
-      Kello on $kello.
+      Cette horloge sonne comme $clock.
     </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -4090,10 +3560,39 @@ uudelleenlataus?</strong>
     </table>
     </div>
                                                 <p>
-      Nyt tuloste on 'Kello on BigTallBen'. Muodollista viittausten
-      merkintää käytetään, jotta parseri tietäisi että tarkoitat
-      viittauksellasi muuttujaa '$size' eikä '$sizeTall', jota se
-      käyttäisi mikäli et olisi käyttänyt '{}' merkkejä.
+      Ce qui produit le même résultat. Dernier exemple, lorsqu'on veut mélanger des chaînes "statiques" avec des
+      références, il peut être nécessaire d'utiliser les "références formelles" rencontrées plus haut:
+    </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+      #set( $size = &quot;Big&quot; )
+      #set( $name = &quot;Ben&quot; )
+
+      #set($clock = &quot;${size}Tall$name&quot; )
+
+      Cette horloge sonne comme $clock.
+    </pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+      Et maintenant le résultat produit est 'Cette horloge sonne comme BigTallBen'.
+      La notation formelle est requise pour que l'interpréteur comprenne que l'on souhaite utiliser '$size' et non
+      '$sizeTall', ce qui serait le cas si les accolades n'étaient pas présentes.
     </p>
                             </blockquote>
       </td></tr>
@@ -4107,15 +3606,16 @@ uudelleenlataus?</strong>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Palaute"><strong>Palaute</strong></a>
+          <a name="Donnez votre avis"><strong>Donnez votre avis</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Mikäli löydät tästä ohjeesta virheitä tai haluat antaa ohjetta
-    koskevaa palautetta, ole hyvä ja lähetä sähköpostia <a href="mailto:velocity-user@jakarta.apache.org">Velocity
-    käyttäjälistalle</a>.  Kiitos!
+    Si vous rencontrez des erreurs dans le manuel (autres que des erreurs de traduction), ou si vous voulez faire part de
+    votre avis sur le Guide de l'utilisateur Velocity,
+    envoyez un mail à la <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
+    Merci!
   </p>
                             </blockquote>
         </p>

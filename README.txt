@@ -40,7 +40,7 @@ directory.
 PLEASE NOTE : Starting with the 1.2 release, we include two jars 
  with the distribution.
 
-1) velocity-1.3.jar : The Velocity jar that does not include
+1) velocity-1.3.1.jar : The Velocity jar that does not include
 any external dependencies needed by Velocity, such as the 
 jakarta-commons-collection classes, Jakarta Avalon Logkit, or 
 Jakarta ORO. We do this to allow you to use whatever version of
@@ -48,11 +48,11 @@ collections, logkit, etc that you wish w/o fear of collision.
 These jars are included in the distribution, in
 the build/lib directory, or at the respective project sites.
 
-2) velocity-dep-1.3.jar : This is a Velocity jar that includes
+2) velocity-dep-1.3.1.jar : This is a Velocity jar that includes
 all dependencies that were included with previous distribution
 jars.  It is intended as a convenience to allow you to drop
-this 1.3 distribution in place of existing 1.1 or 1.2-dep
- distributions.
+this 1.3.1 distribution in place of existing 1.1, 1.2-dep
+1.3.1-dep distributions.
 
 Please see the developers guide for more information.
 
@@ -86,7 +86,7 @@ ant jar-dep
 This will build a complete Velocity jar with dependencies included, and it can
 be found in the /bin directory as
 
-velocity-dep-1.3.jar
+velocity-dep-1.3.1.jar
 
 TRYING THE EXAMPLES
 -------------------

@@ -12,14 +12,13 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-                                                    <meta name="author" value="
-     DVSL Documentation Team">
-            <meta name="email" value="velocity-dev@jakarta.apache.org">
+                                                    <meta name="author" value="Velocity Documentation Team">
+            <meta name="email" value="geirm@apache.org">
             
            
                                     
                         
-            <title>Velocity - Apache Software License</title>
+            <title>Velocity - Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -133,87 +132,118 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Apache Software License"><strong>Apache Software License</strong></a>
+          <a name="Older Velocity News"><strong>Older Velocity News</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                        <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-/*
- * ====================================================================
- * 
- * The Apache Software License, Version 1.1
- *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights 
- * reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- *
- * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowledgement:  
- *       &quot;This product includes software developed by the 
- *        Apache Software Foundation (http://www.apache.org/).&quot;
- *    Alternately, this acknowledgement may appear in the software itself,
- *    if and wherever such third-party acknowledgements normally appear.
- *
- * 4. The names &quot;The Jakarta Project&quot;, &quot;Velocity&quot;, and &quot;Apache Software
- *    Foundation&quot; must not be used to endorse or promote products derived
- *    from this software without prior written permission. For written 
- *    permission, please contact apache@apache.org.
- *
- * 5. Products derived from this software may not be called &quot;Apache&quot;,
- *    &quot;Velocity&quot; nor may &quot;Apache&quot; appear in their names without prior 
- *    written permission of the Apache Group.
- *
- * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
- * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- * ====================================================================
- *
- * This software consists of voluntary contributions made by many
- * individuals on behalf of the Apache Software Foundation.  For more
- * information on the Apache Software Foundation, please see
- * &lt;http://www.apache.org/&gt;.
- *
- */ 
- </pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
+                                    <p>
+<strong>Hey, Maybe We're On The Right Track After All...</strong>
+<blockquote>
+Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP
+implementation.  As they say on their site :
+<blockquote>
+<i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
+</i>
+</blockquote>
+
+We do think that this is a step in the right direction for JSPs, making the page content easier to
+write and maintain.
+<br />
+<br />
+However, we want to emphasize to users that this isn't the same thing as using
+Velocity - this is a small subset of the Velocity syntax which
+was reimplemented in Resin.
+<br />
+<br />
+ Velocity is much more than an alternative syntax to the scriptlets and
+tags found in JSPs - it's a full-featured templating engine, fully portable to any
+J2EE servlet container, that offers many advanges over JSPs in the J2EE
+web application environment.  It also an excellent templating tool
+for other kinds of applications written in Java.
+<br />
+<br />
+So if you are interested in portable alternatives to JSP, we strongly
+encourage you look deeper into what Velocity has to offer.
+<br />
+<br />
+And if you must use JSPs and want to incorporate Velocity into your
+current or new JSP-based web applications, take a look at our
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full
+power of Velocity in your JSPs.
+</blockquote>
+</p>
+                                                <p>
+<strong>Velocidoc Released</strong>
+<blockquote>
+<a href="http://velocidoc.sourceforge.net/intro.html">
+Velocidoc</a>, a Velocimacro documentation tool modeled after
+Javadoc, is now available.  Use Javadoc-style comments in your
+Velocimacro libraries, and use Velocidoc to generate HTML
+documentation.
+</blockquote>
+</p>
+                                                <p>
+<strong>New Apache Site Generated with Anakia</strong>
+<blockquote>
+The new web site of the
+<a href="http://www.apache.org">Apache Software Foundation</a>
+is now generated using
+<a href="anakia.html">Anakia</a>,
+the Velocity-based XML transformation tool.
+Take a look.
+</blockquote>
+</p>
+                                                <p>
+<strong>Need To Mix JSP and Velocity?</strong>
+<blockquote>
+Take a look at a new contribution, a
+<a href="veltag.html">Velocity taglib</a> that lets you
+use Velocity right in your JSPs.
+</blockquote>
+</p>
+                                                <p>
+<strong>4 published articles covering Velocity</strong>
+</p>
+                                                <blockquote>
+<a href="http://www.webtechniques.com/archives/2001/09/serv/">Getting Up
+to Speed with Velocity</a> is a really well written article by Jim
+Jagielski about the merits of using a tool like Velocity.
+</blockquote>
+                                                <blockquote>
+Many people believe that Velocity can only be used in the context of web
+applications. This excellent <a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0727-templates.html">JavaWorld
+article</a> by Leon Messerschmidt shows that the design of Velocity is
+such that it can be used in a myriad of applications.
+</blockquote>
+                                                <blockquote>
+The Java Developer Journal recently <a href="http://www.sys-con.com/java/articlea.cfm?id=1080">published</a> an
+edited version of the <a href="./ymtd/ymtd.html">YMTD article</a> by Jon
+Stevens as the cover story for their July edition.
+</blockquote>
+                                                <blockquote>
+  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out
+  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here</a>.  Thanks Sun!
+</blockquote>
+                                                <p>
+<strong> 4 Products/Projects Now Depend on Velocity </strong>
+</p>
+                                                <blockquote>
+Gentleware, Xadra and Vamp have built products which depend on Velocity.
+J/Top, a server monitoring project, also uses Velocity for email output
+formatting.
+We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
+</blockquote>
+                                                <p>
+<strong> 5 Web Frameworks Now Support Velocity </strong>
+</p>
+                                                <blockquote>
+Turbine, JPublish, Melati, Maverick and WebWork
+all support Velocity.
+We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
+</blockquote>
                             </blockquote>
         </p>
       </td></tr>

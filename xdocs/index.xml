@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 
 <document>
 
@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.2 Released">
+<section name="Velocity v1.3.1 Released">
 
  <p>
    <table>
@@ -18,54 +18,71 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Version 1.2 of the
-   Velocity Template Engine is now available.
-   Thanks to all in the Velocity community who made
-   this release a success.
+   Version 1.3.1 of the Velocity Template Engine is
+   available.  (2003-03-31)
    </td>
    </tr>
    </table>
  </p>
 
- <p>
-   Combining contributions from throughout the
-   Velocity community, this version offers many new enhancements,
-   features and fixes over version 1.1.
- </p>
- <p>
-   Major enhancements include :
- </p>
-
- <ul>
-   <li>
-      Application programmers now can instantiate separate, independent
-      instances of the Velocity Template Engine or continue to use the
-      traditional singleton model.
-   </li>
-   <li>
-      Major improvements to Anakia and Texen.
-   </li>
-   <li>
-      The Velocimacro system can be configured to reload changed
-      VM libraries automatically when the macro definitions change.
-   </li>
- </ul>
- <p>
-   Minor enhancements are too numerous to mention. Please see the
-   <a href="changes.html">change log
-   </a> for details.
-</p>
-
-<p>
- <b>Note:</b> This release now requires
- <a href="http://jakarta.apache.org/ant/">Ant 1.4</a>
- to build the source and/or use the testbed.
- As before, <i>using Velocity</i> does not require Ant.
-</p>
-
 </section>
 
 <section name="Velocity News">
+
+<p>
+<strong>User's Guide Now Available in French</strong>
+<blockquote>
+Thanks to the translation contributed by
+Jean-Francois El Fouly, the Velocity project can now
+offer the <a href="user-guide_fr.html">User's Guide</a> in French.  Thanks!
+(<i>2002-06-17</i>)
+</blockquote>
+</p>
+
+<p>
+<strong>New Release : Maverick</strong>
+<blockquote>
+Another new  release in the Velocity 'powered-by' family -
+The <a href="http://mav.sourceforge.net/">Maverick</a>
+team is happy to announce the version 2.1 release of the
+Maverick MVC Framework.
+(<i>2002-06-12</i>)
+</blockquote>
+</p>
+
+<p>
+<strong>User's Guide Now Available in Spanish</strong>
+<blockquote>
+Thanks to the translation contributed by
+Juan Pablo Morales Olaya, the Velocity project can now
+offer the <a href="user-guide_es.html">User's Guide</a> in Spanish.  Thanks!
+(<i>2002-06-06</i>)
+</blockquote>
+</p>
+
+<p>
+<strong>New Release : vDoclet</strong>
+<blockquote>
+Another new milestone release in the Velocity 'powered-by' family :
+<ul>
+<li><a href="http://vdoclet.sourceforge.net/">vDoclet 20020422</a></li>
+</ul>
+Check it out!(<i>2002-06-06</i>)
+</blockquote>
+</p>
+
+<p>
+<strong>New Releases : Turbine, WebWork and JPublish</strong>
+<blockquote>
+A few new releases in the Velocity family :
+<ul>
+<li><a href="http://jakarta.apache.org/turbine/">Turbine 2.2-b1</a></li>
+<li><a href="http://sourceforge.net/projects/webwork/">WebWork 1.0</a></li>
+<li><a href="http://www.jpublish.org/">JPublish 0.9</a></li>
+</ul>
+Check 'em out!(<i>2002-03-23</i>)
+</blockquote>
+</p>
 
 <p>
 <strong>JeeWiz : The Enterprise System Builder</strong>
@@ -197,12 +214,20 @@ it</a> out. <i>(2001-12-09)</i>
 <section name="Where do I get releases?">
 
 <p>
-   The current release version is version 1.2
+   The current release version is version 1.3, but there is a known bug.  Using
+   the 1.3.1 release candidate is suggested.  The fix was minor, and is being
+   released as a release candidate for a short period for final validation by
+   users.
 </p>
 
 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
-formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
+formats, and is found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.3/">here</a>.
+</p>
+
+<p>
+The release candidate distribution is available in both <code>tar.gz</code> and <code>zip</code>
+formats, and is found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.3/">here</a>.
 </p>
 
 </section>
