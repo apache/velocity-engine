@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.42 2000/12/19 13:35:20 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.43 2000/12/21 03:53:39 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -2246,33 +2246,33 @@ void MultiplicativeExpression()       : {}
 
 void UnaryExpression()       : {}
 {
-    <LOGICAL_NOT>/*@bgen(jjtree) #NotNode( 1) */
-                   {
-                     ASTNotNode jjtn001 = new ASTNotNode(this, JJTNOTNODE);
-                     boolean jjtc001 = true;
-                     jjtree.openNodeScope(jjtn001);
-                   }
-                   try {
+     LOOKAHEAD(2)  [<WHITESPACE>]  <LOGICAL_NOT>/*@bgen(jjtree) #NotNode( 1) */
+                                                  {
+                                                    ASTNotNode jjtn001 = new ASTNotNode(this, JJTNOTNODE);
+                                                    boolean jjtc001 = true;
+                                                    jjtree.openNodeScope(jjtn001);
+                                                  }
+                                                  try {
 /*@egen*/  UnaryExpression()/*@bgen(jjtree)*/
-                   } catch (Throwable jjte001) {
-                     if (jjtc001) {
-                       jjtree.clearNodeScope(jjtn001);
-                       jjtc001 = false;
-                     } else {
-                       jjtree.popNode();
-                     }
-                     if (jjte001 instanceof RuntimeException) {
-                       throw (RuntimeException)jjte001;
-                     }
-                     if (jjte001 instanceof ParseException) {
-                       throw (ParseException)jjte001;
-                     }
-                     throw (Error)jjte001;
-                   } finally {
-                     if (jjtc001) {
-                       jjtree.closeNodeScope(jjtn001,  1);
-                     }
-                   }
+                                                  } catch (Throwable jjte001) {
+                                                    if (jjtc001) {
+                                                      jjtree.clearNodeScope(jjtn001);
+                                                      jjtc001 = false;
+                                                    } else {
+                                                      jjtree.popNode();
+                                                    }
+                                                    if (jjte001 instanceof RuntimeException) {
+                                                      throw (RuntimeException)jjte001;
+                                                    }
+                                                    if (jjte001 instanceof ParseException) {
+                                                      throw (ParseException)jjte001;
+                                                    }
+                                                    throw (Error)jjte001;
+                                                  } finally {
+                                                    if (jjtc001) {
+                                                      jjtree.closeNodeScope(jjtn001,  1);
+                                                    }
+                                                  }
 /*@egen*/
 |   PrimaryExpression() 
 }
