@@ -87,7 +87,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.6 2000/11/23 00:16:22 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.7 2000/11/23 13:54:58 werken Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -302,6 +302,7 @@ public class AnakiaTask extends MatchingTask
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", new XMLOutputter());
                 context.put ("relativePath", getRelativePath(xmlFile));
+                context.put ("xpath", new XPathTool() );
                                 
                 // only put this into the context if it exists.
                 if (projectDocument != null)
