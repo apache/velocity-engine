@@ -74,7 +74,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
  *  Tests event handling
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.2 2001/05/20 19:49:29 geirm Exp $
+ * @version $Id: EventHandlingTestCase.java,v 1.3 2001/05/20 21:14:32 geirm Exp $
  */
 public class EventHandlingTestCase extends TestCase implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,
@@ -316,9 +316,9 @@ public class EventHandlingTestCase extends TestCase implements ReferenceInsertio
      *  a log message.  This method gives the application
      *  a chance to 'vote' on msg generation
      */
-    public boolean nullSetLogMessage( String reference )
+    public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
-        if (reference.equals("$settest"))
+        if (lhs.equals("$settest"))
             return false;
         
         return true;
