@@ -66,6 +66,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.InternalContextAdapterImpl;
 
 
 /**
@@ -89,7 +90,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.21 2001/01/08 15:46:54 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.22 2001/01/13 16:53:10 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -148,7 +149,7 @@ public class Template extends Resource
          *  send an empty InternalContextAdapter down into the AST to initialize it
          */
         
-        InternalContextAdapter ica = new InternalContextAdapter(  new VelocityContext() );
+        InternalContextAdapterImpl ica = new InternalContextAdapterImpl(  new VelocityContext() );
 
         ica.setCurrentTemplateName( name );
         
@@ -175,7 +176,7 @@ public class Template extends Resource
              *  into the rendering engine.  Set the template name and render()
              */
 
-            InternalContextAdapter ica = new InternalContextAdapter( context );
+            InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
 
             ica.setCurrentTemplateName( name );
 
