@@ -62,8 +62,6 @@
                 </ul>
             <p><strong>Community</strong></p>
         <ul>
-                    <li>    <a href="./powered.html">Powered By Velocity</a>
-</li>
                     <li>    <a href="http://jakarta.apache.org/site/getinvolved.html">Get Involved</a>
 </li>
                     <li>    <a href="http://jakarta.apache.org/site/mail.html">Mailing Lists</a>
@@ -126,6 +124,25 @@
                                     <p>
   This section describes changes to the main branch after the 1.1 release.
 </p>
+                                                <ul>
+  <li>
+     Fix to AbstractContext to 'roll forward' EventCartridges to ensure that
+     the last one added is available at render time.  (gmj)
+  </li>
+  <li>
+    Small changes to developer docs re jar-src target and docs target. (gmj)
+  </li>
+  <li>
+    Small changes to AND and OR nodes to support the legal but wacky use like
+    #set( $foo = ($woog || $bar ) ). (gmj)
+  </li>
+  <li>
+    Major change to Parser char stream - no longer using the stock, javacc generated
+    ASCII 8-bit char stream but rather a Unicode 'custom' char stream.  This solves
+    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the 
+    low-order byte. (gmj)
+  </li>
+</ul>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
