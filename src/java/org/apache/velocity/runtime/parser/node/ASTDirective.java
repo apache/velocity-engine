@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.14 2001/02/05 04:34:44 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.15 2001/02/14 22:24:05 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -116,6 +116,8 @@ public class ASTDirective extends SimpleNode
                 .getClass().newInstance();
     
             directive.init(context,this);
+
+            directive.setLocation( getLine(), getColumn() );
         }          
         else if (Runtime.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
         {
@@ -126,6 +128,8 @@ public class ASTDirective extends SimpleNode
             isDirective = true;
             directive = (Directive) Runtime.getVelocimacro( directiveName,  context.getCurrentTemplateName() );
             directive.init( context, this );
+
+            directive.setLocation( getLine(), getColumn() );
         } 
         else
         {
