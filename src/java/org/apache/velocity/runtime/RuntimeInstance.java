@@ -139,7 +139,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.18 2003/05/04 17:14:36 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.19 2003/09/01 18:57:24 dlr Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -348,12 +348,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void setDefaultProperties()
     {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-
         try
         {
-            InputStream inputStream = classLoader
-                .getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
+            InputStream inputStream = getClass()
+                .getResourceAsStream('/' + DEFAULT_RUNTIME_PROPERTIES);
             
             configuration.load( inputStream );
             
@@ -633,11 +631,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * that we should initialize.
          */
 
-        //        ClassLoader classLoader = Runtime.class.getClassLoader();
-        ClassLoader classLoader = this.getClass().getClassLoader();
-
-        InputStream inputStream = classLoader
-            .getResourceAsStream(DEFAULT_RUNTIME_DIRECTIVES);
+        InputStream inputStream =
+            getClass().getResourceAsStream('/' + DEFAULT_RUNTIME_DIRECTIVES);
     
         if (inputStream == null)
             throw new Exception("Error loading directive.properties! " +
