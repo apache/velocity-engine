@@ -480,7 +480,7 @@
     
  <p>
     Suppose you were
-    constructing a sentence on the fly where $vice was to be
+    constructing a sentence on the fly where <variable>$vice</variable> was to be
     used as the base word in the noun of a sentence. Suppose you
     wanted to allow someone to choose the base word and produce
     one of the two following results: "Jack is a pyromaniac." or
@@ -884,15 +884,56 @@
     local file, which is then inserted into the location where the <vtldirective>#include</vtldirective> 
     directive is defined. The contents of the file are not rendered through 
     the template engine.
+    For security reasons, the file to be included may only be under TEMPLATE_ROOT.
     </p>
     
     <p>
     <source><![CDATA[
-    #include /path/to/file.vm
+    #include ("one.txt")
     ]]></source>
     </p>
+
+    <p>
+    The file to which the <vtldirective>#include</vtldirective> directive refers is enclosed in quotes. If more than one file will be included, they should be separated by commas.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #include ("one.gif","two.txt","three.htm")
+    ]]></source>
+    </p>
+
+    <p>
+    The file being included need not be referenced by name; in fact, it is often preferable to use a variable instead of a filename. This could be useful for targetting output according to criteria determined when the page request is submitted. Here is an example showing both a filename and a variable.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #include ("greetings.txt",$seasonalstock)
+    ]]></source>
+    </p>
+
  </s1>
 
+ <s1 title="Parse">
+    <p>
+    The <vtldirective>#parse</vtldirective> script element allows the template designer to import a 
+    local file that contains VTL. Velocity will parse the VTL and render the template specified.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #parse ("me.vm")
+    ]]></source>
+    </p>
+
+    <p>
+    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> will only take a single argument. 
+    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the statement <vtldirective>#parse (foo.vm)</vtldirective>.
+    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>.properties</filename> allows users to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single template. 
+    </p>    
+
+ </s1>
 
 
  <s1 title="Stop">
@@ -908,7 +949,7 @@
     </p>    
  </s1>
 
- <s1 title="Macro">
+ <s1 title="Velocimacros">
     <p>
     With the <vtldirective>#macro</vtldirective> script element, the template designer can define a 
     timesaving macro. 
@@ -950,3 +991,8 @@
 
 </body>
 </document>
+
+
+
+
+
