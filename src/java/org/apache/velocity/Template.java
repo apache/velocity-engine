@@ -90,7 +90,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.31 2001/03/20 01:11:35 geirm Exp $
+ * @version $Id: Template.java,v 1.32 2001/03/20 17:14:00 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -124,6 +124,7 @@ public class Template extends Resource
     {
         data = null;
         InputStream is = null;
+        errorCondition = null;
 
         /*
          *  first, try to get the stream from the loader
