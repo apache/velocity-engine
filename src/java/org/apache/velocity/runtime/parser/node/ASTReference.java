@@ -78,7 +78,8 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.23 2001/03/19 18:53:52 geirm Exp $ 
+ * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
+ * @version $Id: ASTReference.java,v 1.24 2001/04/18 20:28:11 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -215,9 +216,18 @@ public class ASTReference extends SimpleNode
         if ( escaped )
         {
             if ( value == null )
-                writer.write( NodeUtils.specialText(getFirstToken()) + prefix + "\\" +  nullString );
+            {
+                writer.write( NodeUtils.specialText(getFirstToken()));
+                writer.write( prefix );
+                writer.write( "\\" );
+                writer.write( nullString );
+            }
             else
-                writer.write( NodeUtils.specialText(getFirstToken()) + prefix + nullString );
+            {
+                writer.write( NodeUtils.specialText(getFirstToken()) );
+                writer.write( prefix );
+                writer.write( nullString );
+            }
         
             return true;
         }
@@ -231,15 +241,24 @@ public class ASTReference extends SimpleNode
             /* 
              *  write prefix twice, because it's shmoo, so the \ don't escape each other...
              */
-
-            writer.write(NodeUtils.specialText(getFirstToken()) + prefix + prefix + nullString);
             
-            if (referenceType != QUIET_REFERENCE && Runtime.getBoolean( RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+            writer.write( NodeUtils.specialText(getFirstToken()) );
+            writer.write( prefix );
+            writer.write( prefix );
+            writer.write( nullString );
+
+            if (referenceType != QUIET_REFERENCE 
+                 && Runtime.getBoolean( 
+                     RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+            {
                 Runtime.warn(new ReferenceException("reference : template = " + context.getCurrentTemplateName(), this));
+            }
         }                    
         else
         {
-            writer.write(NodeUtils.specialText(getFirstToken()) + prefix + value.toString());
+            writer.write( NodeUtils.specialText(getFirstToken()) );
+            writer.write( prefix );
+            writer.write( value.toString() );
         }                    
     
         return true;
