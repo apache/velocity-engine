@@ -1548,8 +1548,14 @@ $count
 ]]></source>
 
   <p>
-  If <em>$jazz</em> is true, the output is <em>Vyacheslav Ganelin</em>; if
-  <em>$jazz</em> is false, there is no output. Escaping script elements
+  If <em>$jazz</em> is true, the output is 
+  </p>
+<source><![CDATA[
+Vyacheslav Ganelin
+]]></source>
+   
+  <p>
+  If <em>$jazz</em> is false, there is no output. Escaping script elements
   alters the output. Consider the following case:
   </p>
 
@@ -1560,9 +1566,19 @@ $count
 ]]></source>
 
   <p>
-  Whether <em>$jazz</em> is true or false, the output will be "#if(
-  $jazz ) Vyacheslav Ganelin #end"; in fact, because all script elements
-  are escaped the truth of <em>$jazz</em> is never checked. Suppose
+  Whether <em>$jazz</em> is true or false, the output will be 
+  </p>
+  
+ <source><![CDATA[
+ #if($ jazz ) 
+     Vyacheslav Ganelin 
+ #end
+ ]]></source>
+ 
+  <p>
+  In fact, because all script elements
+  are escaped, <em>$jazz</em> is never evaluated for it's boolean value. 
+  Suppose
   backslashes precede script elements that are legitimately escaped:
   </p>
 
@@ -1573,8 +1589,28 @@ $count
 ]]></source>
 
   <p>
-  In this case, if <em>$jazz</em> is true, the output is <em>\ Vyacheslav
-  Ganelin \</em>. If <em>$jazz</em> is false, there is no output. Note that
+  In this case, if <em>$jazz</em> is true, the output is 
+  </p>
+  
+<source><![CDATA[
+\ Vyacheslav Ganelin 
+\
+]]></source>
+
+  <p>
+  To understand this, note that the <code>#if( arg ) </code> when
+  ended by a newline (return) will omit the newline from the output.
+  Therefore, the body of the <code>#if()</code>
+  block follows the first '\', rendered
+  from the '\\' preceeding the <code>#if()</code>.
+   The last \ is on a different
+  line than the text beacsue there is a newline after 'Ganelin', so 
+  the final \\, preceeding the <code>#end</code> is part of the 
+  body of the block.
+  </p>
+  
+  <p> 
+  If <em>$jazz</em> is false, there is no output. Note that
   things start to break if script elements are not properly escaped.
   </p>
 
