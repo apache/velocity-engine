@@ -1,0 +1,10 @@
+#set($foo = "geir")
+#set($lala = $bar)
+#set($woogie = $bar)
+#set($dod = $bar)
+
+$foo
+
+$lala
+$gloppy
+$woogie
