@@ -58,11 +58,10 @@ import java.io.File;
 
 import java.net.URL;
 
-import org.apache.log.Category;
 import org.apache.log.Formatter;
 import org.apache.log.Priority;
 import org.apache.log.Logger;
-import org.apache.log.LogKit;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.output.FileOutputLogTarget;
 
@@ -75,7 +74,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.4 2001/04/08 21:58:29 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.5 2001/05/06 19:45:47 jon Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -121,16 +120,6 @@ public class AvalonLogSystem implements LogSystem
     public void init(String logFile)
         throws Exception
     {
-        String targetName = "velocity";
-        String priority = "DEBUG";
-                
-        Category category = LogKit.createCategory( 
-            targetName, LogKit.getPriorityForName( priority ) );
-        
-        /*
-         * Just create a FileOutputLogTarget, this is taken
-         * from the SAR deployer in Avalon.
-         */
         FileOutputLogTarget target = new FileOutputLogTarget();
         File logFileLocation = new File (logFile);
         
@@ -139,15 +128,10 @@ public class AvalonLogSystem implements LogSystem
         target.setFilename( logPath );
         target.setFormatter(new VelocityFormatter());
         target.setFormat("%{time} %{message}\\n%{throwable}" );
-        
-        LogTarget logTargets[] = null;
                 
-        if ( null != target ) 
-        {
-            logTargets = new LogTarget[] { target };
-        }            
-                
-        logger = LogKit.createLogger( category, logTargets );
+        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "velocity" );
+        logger.setPriority( Priority.DEBUG );
+        logger.setLogTargets( new LogTarget[] { target } );
     }
     
     /**
