@@ -20,7 +20,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.28 2000/11/08 02:44:59 jon Exp $ 
+ * @version $Id: Parser.java,v 1.29 2000/11/08 02:52:17 jon Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -65,7 +65,13 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             ReInit(stream);
             sn = process();
         }
-        catch (Exception e )
+        catch (ParseException pe)
+        {
+            Runtime.error ("Parser Exception: " + StringUtils.stackTrace(pe));
+            throw new ParseException (pe.currentToken, 
+                pe.expectedTokenSequences, pe.tokenImage);
+        }
+        catch (Exception e)
         {
             Runtime.error ("Parser Error: " + StringUtils.stackTrace(e));
         }
