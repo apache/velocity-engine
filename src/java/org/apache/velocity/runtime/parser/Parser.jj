@@ -112,7 +112,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.63 2001/08/07 21:57:28 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.64 2001/08/13 13:58:03 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -1283,6 +1283,7 @@ SimpleNode Directive() :
 /*@egen*/
     Token t = null;
     Directive d;
+    int directiveType;
     boolean doItNow = false;
 }
 {/*@bgen(jjtree) Directive */
@@ -1322,14 +1323,24 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
+            //d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
 
-            if (d == null) 
+            if ( !rsvc.isVelocimacro( directiveName, currentTemplateName ) ) 
             {   
                 token_source.stateStackPop();
                 token_source.inDirective = false;
                 return jjtn000;
-            }         
+            }    
+
+            /*
+             *  Currently, all VMs are LINE directives
+             */
+
+            directiveType = Directive.LINE; 
+        }
+        else
+        {
+            directiveType = d.getType();
         }
 
         /*
@@ -1345,7 +1356,7 @@ SimpleNode Directive() :
 
     [<WHITESPACE>] <LPAREN> (  DirectiveArg()  )* <RPAREN>
     {
-        if (d.getType() == Directive.LINE)
+        if ( directiveType  == Directive.LINE)
             return jjtn000;
     }/*@bgen(jjtree) Block */
     {
@@ -1398,7 +1409,6 @@ SimpleNode Directive() :
       
         if ( doItNow )  
         {
-            // Macro m = new Macro(  );
             Macro.processAndRegister( rsvc, jjtn000, currentTemplateName );
         }
 
