@@ -2006,6 +2006,47 @@ invoke the method outside of the VM, and pass the value into the VM.
     </p>
 
 
+<strong>What is Velocimacro Autoreloading?</strong>
+
+  <p>
+   There is a property, meant to be used in <i>development</i>, 
+   not production :
+  </p>
+  
+  <p>
+  <code>velocimacro.library.autoreload</code>
+  </p>
+
+   <p>
+   which defaults to false.  When set to true <em>along with</em>
+   </p>
+   
+   <p>
+   <code>&lt;type&gt;.resource.loader.cache = false</code>
+   </p>
+    
+    <p>
+    (where &lt;type&gt; is the name of the resource loader that you
+    are using, such as 'file') then the Velocity engine will automatically
+    reload changes to your Velocimacro library files when you make them, 
+    so you do not have to dump the servlet engine (or application) or do 
+    other tricks to have your Velocimacros reloaded.
+    </p>
+
+    <p>
+    Here is what a simple set of configuration properties would look like.
+    </p>
+
+    <source><![CDATA[
+    file.resource.loader.path = templates
+    file.resource.loader.cache = false
+    velocimacro.library.autoreload = true
+    ]]></source>
+
+    <p>
+    Don't keep this on in production.
+    </p>
+
 </subsection>
 
 </section>

@@ -1902,6 +1902,18 @@ Velocimacro.
 </p>
 
 <p>
+<code>velocimacro.library.autoreload = false</code><br/>
+Controls Velocimacro library autoloading.  When set to <code>true</code>
+the source Velocimacro library for an invoked Velocimacro will be checked
+for changes, and reloaded if necessary.  This allows you to change and 
+test Velocimacro libraries without having to restart your application or
+servlet container, just like you can with regular templates.
+This mode only works when caching is <i>off</i>
+in the resource loaders (e.g. <code>file.resource.loader.cache = false</code> ).
+This feature is intended for development, not for production.
+</p>
+
+<p>
 <strong>String Interpolation</strong>
 </p>
 
