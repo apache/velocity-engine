@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.9 2000/11/19 23:16:07 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.10 2000/12/04 02:05:32 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -105,6 +105,10 @@ public class ASTDirective extends SimpleNode
     
     public Object init(Context context, Object data) throws Exception
     {
+        /*
+         *  only do things that are not context dependant
+         */
+
         if (parser.isDirective( strDirectiveName_ ))
         {
             isDirective = true;
@@ -184,6 +188,7 @@ public class ASTDirective extends SimpleNode
         iParseDepth_ = i;
     }
 }
+
 
 
 
