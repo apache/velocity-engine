@@ -56,10 +56,6 @@ package org.apache.velocity.anakia;
 
 import java.util.List;
 
-import org.apache.velocity.runtime.RuntimeSingleton;
-
-import com.werken.xpath.XPath;
-
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -106,7 +102,7 @@ import org.jdom.Element;
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: XPathTool.java,v 1.12 2001/08/08 04:30:47 jon Exp $
+ * @version $Id: XPathTool.java,v 1.13 2003/05/03 23:15:36 geirm Exp $
  */
 public class XPathTool
 {

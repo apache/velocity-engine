@@ -58,9 +58,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 
 /**
  * This class allows you to walk a tree of JDOM Element objects.
@@ -73,7 +71,7 @@ import org.jdom.JDOMException;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: TreeWalker.java,v 1.5 2001/08/08 04:30:47 jon Exp $
+ * @version $Id: TreeWalker.java,v 1.6 2003/05/03 23:15:36 geirm Exp $
  */
 public class TreeWalker
 {
