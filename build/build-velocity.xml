@@ -122,11 +122,31 @@
         <include name="**/*.java"/>
       </fileset>
     </copy>
-  
+
+    <!--  chose a class that's from j2ee.jar -->
+    <available  classname="javax.sql.DataSource"
+       property="J2EE.present">
+       <classpath refid = "classpath"/> 
+     </available>
+
   </target>
 
+  <target name="J2EE-error" depends="prepare"  unless="J2EE.present">
+        <echo>
+           ********************************************************
+           **
+           **  J2EE has not been found and is needed for the target
+           **  you have chosen
+           **
+           **  Since CLASSPATH is an evil idea, just link or drop
+           **  a copy of your j2ee.jar into build/lib directory.
+           **
+           *********************************************************
+        </echo>
+    </target>
+
   <!-- =================================================================== -->
-  <!-- Compiles the source directory                                       -->
+  <!-- Compiles the source directory w/o the j2ee dependent files          -->
   <!-- =================================================================== -->
   <target name="compile" depends="prepare">
       
@@ -136,9 +156,40 @@
       deprecation="${deprecation}"
       optimize="${optimize}">
 
+      <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.java"/>
+      
       <classpath refid="classpath"/>
     </javac>
             
+    <antcall target="compile-copy"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory w/o the j2ee dependent files          -->
+  <!-- =================================================================== -->
+  <target name="compile-j2ee" depends="prepare, J2EE-error" if="J2EE.present">
+      
+    <javac srcdir="${build.src}"
+      destdir="${build.dest}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      optimize="${optimize}">
+      
+      <classpath refid="classpath"/>
+    </javac>
+            
+   <antcall target="compile-copy"/>
+
+  </target>
+
+
+  <!-- ====================================================================== -->
+  <!-- copies post-compile target files to the right place.  (This target     -->
+  <!-- created to prevent compile and compile-j2ee from repeating code...     -->
+  <!-- ====================================================================== -->
+
+  <target name="compile-copy">
+
     <copy todir="${build.dest}/org/apache/velocity">
       <fileset dir="${src.java.dir}/org/apache/velocity">
         <include name="**/*.class"/>
@@ -150,8 +201,7 @@
         <include name="*"/>
       </fileset>
     </copy>
-            
- 
+
     <copy 
       file="${src.java.dir}/${default.texen.properties}"
       tofile="${build.dest}/${default.texen.properties}"
@@ -159,6 +209,7 @@
 
   </target>
    
+
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
@@ -169,7 +220,29 @@
 
     <delete dir="${build.dest}/meta-inf"/>
 
-    <jar jarfile="${build.dir}/${project}-${version}.jar"
+    <jar jarfile="${build.dir}/${project}-${version}.jar">
+
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
+      </fileset>
+     
+    </jar>
+  
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory and creates a .jar file of all        -->
+  <!--  source AND code that requires j2ee (DBResourceLoader, for ex)      -->
+  <!-- =================================================================== -->
+  <target name="jar-j2ee" depends="compile-j2ee" if="J2EE.present">
+        
+    <unzip src="${log.jar}" dest="${build.dest}"/>
+    <unzip src="${oro.jar}" dest="${build.dest}"/>
+
+    <delete dir="${build.dest}/meta-inf"/>
+
+    <jar jarfile="${build.dir}/${project}-j2ee-${version}.jar"
       basedir="${build.dest}"
       excludes="**/package.html"
     />
@@ -194,6 +267,7 @@
         <exclude name="org/apache/velocity/servlet/**"/>
         <exclude name="org/apache/velocity/texen/**"/>
         <exclude name="org/apache/velocity/test/**"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -214,6 +288,7 @@
         <include name="org/apache/velocity/anakia/**"/>
         <include name="org/apache/velocity/convert/**"/>
         <include name="org/apache/velocity/texen/**"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
       </fileset>
     </jar>
   
@@ -232,6 +307,7 @@
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <include name="org/apache/velocity/servlet/**"/>
+        <exclude  name="org/apache/velocity/runtime/resource/loader/DBResourceLoader.class"/>
       </fileset>
     </jar>
   
