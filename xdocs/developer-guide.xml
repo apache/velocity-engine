@@ -30,6 +30,14 @@
 </li>
 
 <li>
+<a href="developer-guide.html#To Singleton Or Not To Singleton...">To Singleton Or Not To Singleton...</a>
+<ul>
+  <li><a href="developer-guide.html#Singleton">Singleton Model</a></li>
+  <li><a href="developer-guide.html#Separate">Separate Instance</a></li>
+</ul>
+</li>
+
+<li>
 <a href="developer-guide.html#The Context">The Context</a>
 <ul>
 <li><a href="developer-guide.html#The Basics">The Basics</a></li>
@@ -396,6 +404,85 @@ as well as general applications, and we discuss the tools we provide to make
 things easier. In each case, though, the above sequence is what is happening
 either explicitly, or behind the scenes.
 </p>
+
+
+</section>
+
+<section name="To Singleton Or Not To Singleton...">
+
+<p>
+As of Velocity 1.2 and later, developers now have two options
+for using the Velocity engine, the singleton model and the separate instance
+model.  The same core Velocity code is used for both approaches - they are 
+provided to make Velocity easier to integrated into your Java application.
+</p>
+
+
+<p>
+<a name="Singleton"><strong>Singleton Model</strong></a>
+</p>
+
+<p>
+   This is the legacy pattern, where there is only one instance of the Velocity
+   engine in the JVM that is shared by all.  This is very convenient as it 
+   allows localized configuration and sharing of resources.  For example, this
+   is a very appropriate model for use in a Servlet 2.2+ compliant web application
+   as each web application can have it's own instance of Velocity, allowing 
+   that web application's servlet to share resources like templates, a logger, etc.
+   The singleton is accessable via the <code>org.apache.velocity.app.Velocity</code>
+   class, and and example of use :
+</p>
+<source><![CDATA[
+
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.Template;
+    
+...
+   
+Velocity.setProperty( Velocity.RUNTIME_LOG_LOGSYSTEM, this);
+Velocity.init();
+
+...
+
+Template t = Velocity.getTemplate("foo.vm");
+]]></source>
+
+<p>
+<a name="Separate"><strong>Separate Instance</strong></a>
+</p>
+
+<p>
+   New in version 1.2, the separate instance allows you to create, configure
+   and use as many instances of Velocity as you wish in the same JVM.  This
+   is useful when you wish to support separate configurations, such as template
+   directories, loggers, etc in the same application.  To use separate 
+   instances, use the <code>org.apache.velocity.app.VelocityEngine</code>
+   class.  An example, which parallels the above singleton example, looks
+   like :
+</p>
+
+<source><![CDATA[
+
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.Template;
+    
+...
+      
+VelocityEngine ve = new VelocityEngine();
+ve.setProperty( VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this);
+ve.init();
+
+...
+
+Template t = ve.getTemplate("foo.vm");
+]]></source>
+
+<p>
+As you can see, this is very simple and straightforward.  Except for some simple
+syntax changes, using Velocity as a singleton or as separate instances requires
+no changes to the high-level structure of your application or templates.
+</p>
+
 </section>
 
 <section name="The Context">
@@ -1530,6 +1617,18 @@ These produce a large amount of log output.
 Property to turn off the log output when a reference isn't valid.  
 Good thing to turn of in production, but very valuable
 for debugging.
+</p>
+
+<p>
+<code>runtime.log.logsystem.avalon.logger = <i>name</i> </code><br/>
+Allows user to specify an existing logger <i>name</i>
+in the Avalon hierarchy 
+without having to wrap with a LogSystem interface.  <b>Note:</b> 
+You must also specify
+<code>runtime.log.logsystem.class = 
+org.apache.velocity.runtime.log.AvalonLogSystem</code> as the default
+logsystem may change.  There is <b>no</b> guarantee that the Avalon
+log system will remain the default log system.
 </p>
 
 <p>
