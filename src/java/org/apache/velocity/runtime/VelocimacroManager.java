@@ -67,7 +67,7 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.3 2000/12/11 03:20:15 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.4 2000/12/12 02:04:36 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime;
@@ -236,7 +236,7 @@ public class VelocimacroManager
     {
         Hashtable h = (Hashtable)  namespaceHash.get( namespace );
 
-        if ( h == null)               
+        if (h == null && addIfNew)               
             h = addNamespace( namespace );
   
         return h;
@@ -250,16 +250,25 @@ public class VelocimacroManager
      */
     private Hashtable addNamespace( String namespace )
     {
-        /*
-         *  if we already have it, don't blow it away
-         */
-
-        if( namespaceHash.get( namespace ) != null )
-            return null;
-        
         Hashtable h = new Hashtable();
+        Object oh;
 
-        namespaceHash.put( namespace, h );
+        if ((oh = namespaceHash.put( namespace, h )) != null)
+        {
+          /*
+           * There was already an entry on the table, restore it!
+           * This condition should never occur, given the code
+           * and the fact that this method is private.
+           * But just in case, this way of testing for it is much
+           * more efficient than testing before hand using get().
+           */
+          namespaceHash.put( namespace, oh );
+          /*
+           * Should't we be returning the old entry (oh)?
+           * The previous code was just returning null in this case.
+           */
+          return null;
+        }
         
         return h;
     }
