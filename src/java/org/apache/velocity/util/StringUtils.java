@@ -54,8 +54,7 @@ package org.apache.velocity.util;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 import java.util.Hashtable;
 import java.util.StringTokenizer;
@@ -69,7 +68,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.2 2000/10/24 23:34:41 jvanzyl Exp $
+ *  @version $Id: StringUtils.java,v 1.3 2000/11/08 02:29:06 jon Exp $
  */
 public class StringUtils
 {
@@ -243,5 +242,28 @@ public class StringUtils
             return buf.toString();
         }
         return line;
+    }
+    
+    /**
+     * Returns the output of printStackTrace as a String.
+     *
+     * @param e A Throwable.
+     * @return A String.
+     */
+    public static final String stackTrace(Throwable e)
+    {
+        String foo = null;
+        try
+        {
+            // And show the Error Screen.
+            ByteArrayOutputStream ostr = new ByteArrayOutputStream();
+            e.printStackTrace( new PrintWriter(ostr,true) );
+            foo = ostr.toString();
+        }
+        catch (Exception f)
+        {
+            // Do nothing.
+        }
+        return foo;
     }
 }
