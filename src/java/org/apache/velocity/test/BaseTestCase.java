@@ -66,7 +66,7 @@ import org.apache.oro.text.perl.Perl5Util;
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.12 2003/05/04 17:46:35 geirm Exp $
+ * @version $Id: BaseTestCase.java,v 1.13 2003/10/26 10:16:10 geirm Exp $
  */
 public class BaseTestCase extends TestCase
 {
@@ -133,7 +133,7 @@ public class BaseTestCase extends TestCase
      */
     protected String normalizeNewlines (String source)
     {
-        return perl.substitute("s/\r[\n]/\n/g", source);
+        return perl.substitute("s/\r[\r]?[\n]/\n/g", source);
     }
 
     /**
