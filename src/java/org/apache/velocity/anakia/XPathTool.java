@@ -88,10 +88,25 @@ import org.jdom.Element;
  *   $title.getValue()
  * #end
  * </pre>
+ * <p>
+ * In newer Anakia builds, this class is obsoleted in favor of calling
+ * <code>selectNodes()</code> on the element directly:
+ * <pre>
+ * #set $authors = $root.selectNodes("document/author")
+ * #foreach ($author in $authors)
+ *   $author.getValue() 
+ * #end
+ * #set $chapterTitles = $root.selectNodes("document/chapter/@title")
+ * #foreach ($title in $chapterTitles)
+ *   $title.getValue()
+ * #end
+ * </pre>
+ * <p>
  *  
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: XPathTool.java,v 1.11 2001/08/07 22:30:15 geirm Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: XPathTool.java,v 1.12 2001/08/08 04:30:47 jon Exp $
  */
 public class XPathTool
 {
@@ -113,12 +128,11 @@ public class XPathTool
      *
      * @return A list of selected nodes
      */
-    public List applyTo(String xpathSpec,
+    public NodeList applyTo(String xpathSpec,
                         Document doc)
     {
         //RuntimeSingleton.info("XPathTool::applyTo(String, Document)");
-        XPath xpath = new XPath( xpathSpec );
-        return xpath.applyTo( doc );
+        return new NodeList(XPathCache.getXPath(xpathSpec).applyTo( doc ), false);
     }
 
     /**
@@ -129,12 +143,11 @@ public class XPathTool
      *
      * @return A list of selected nodes
      */
-    public List applyTo(String xpathSpec,
+    public NodeList applyTo(String xpathSpec,
                         Element elem)
     {
         //RuntimeSingleton.info("XPathTool::applyTo(String, Element)");
-        XPath xpath = new XPath(xpathSpec);
-        return xpath.applyTo( elem );
+        return new NodeList(XPathCache.getXPath(xpathSpec).applyTo( elem ), false);
     }
 
     /**
@@ -145,12 +158,11 @@ public class XPathTool
      *
      * @return A list of selected nodes
      */
-    public List applyTo(String xpathSpec,
+    public NodeList applyTo(String xpathSpec,
                         List nodeSet)
     {
         //RuntimeSingleton.info("XPathTool::applyTo(String, List)");
-        XPath xpath = new XPath(xpathSpec);
-        return xpath.applyTo( nodeSet );
+        return new NodeList(XPathCache.getXPath(xpathSpec).applyTo( nodeSet ), false);
     }
 }
 

@@ -93,7 +93,8 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.30 2001/08/07 22:30:15 geirm Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: AnakiaTask.java,v 1.31 2001/08/08 04:30:47 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -140,6 +141,7 @@ public class AnakiaTask extends MatchingTask
     /** the file to get the velocity properties file */
     private File velocityPropertiesFile = null;
 
+    /** the VelocityEngine instance to use */
     private VelocityEngine ve = new VelocityEngine();
 
     /**
@@ -148,6 +150,7 @@ public class AnakiaTask extends MatchingTask
     public AnakiaTask()
     {
         builder = new SAXBuilder(DEFAULT_SAX_DRIVER_CLASS);
+        builder.setFactory(new AnakiaJDOMFactory());
     }
 
     /**
@@ -213,7 +216,6 @@ public class AnakiaTask extends MatchingTask
              throw new BuildException(ioe);
          }
      }
-
 
     /**
      * Allow people to set the path to the velocity.properties file
@@ -285,7 +287,9 @@ public class AnakiaTask extends MatchingTask
         {
             projectFile = new File(baseDir, projectAttribute);
             if (projectFile.exists())
+            {
                 projectFileLastModified = projectFile.lastModified();
+            }
             else
             {
                 log ("Project file is defined, but could not be located: " + 
@@ -293,7 +297,8 @@ public class AnakiaTask extends MatchingTask
                 projectFile = null;
             }
         }
-        
+
+        Document projectDocument = null;
         try
         {
             if ( velocityPropertiesFile.exists() )
@@ -304,13 +309,17 @@ public class AnakiaTask extends MatchingTask
             {
                 ve.setProperty( RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                     templatePath);
-                
                 ve.init();
             }
 
             // get the last modification of the VSL stylesheet
             styleSheetLastModified = ve.getTemplate( style ).getLastModified();
-           
+
+            // Build the Project file document
+            if (projectFile != null)
+            {
+                projectDocument = builder.build(projectFile);
+            }
         }
         catch (Exception e)
         {
@@ -325,14 +334,15 @@ public class AnakiaTask extends MatchingTask
         list = scanner.getIncludedFiles();
         for (int i = 0;i < list.length; ++i)
         {
-            process( baseDir, list[i], destDir );
+            process( baseDir, list[i], destDir, projectDocument );
         }
     }    
     
     /**
      * Process an XML file using Velocity
      */
-    private void process(File baseDir, String xmlFile, File destDir)
+    private void process(File baseDir, String xmlFile, File destDir, 
+                         Document projectDocument)
         throws BuildException
     {
         File   outFile=null;
@@ -360,13 +370,7 @@ public class AnakiaTask extends MatchingTask
 
                 // Build the JDOM Document
                 Document root = builder.build(inFile);
-                // Build the Project file document
-                // FIXME: this should happen in the execute method since
-                // it really only needs to be done once
-                Document projectDocument = null;
-                if (projectFile != null)
-                    projectDocument = builder.build(projectFile);
-    
+
                 // Shove things into the Context
                 VelocityContext context = new VelocityContext();
 
@@ -394,8 +398,10 @@ public class AnakiaTask extends MatchingTask
 
                 // only put this into the context if it exists.
                 if (projectDocument != null)
+                {
                     context.put ("project", projectDocument.getRootElement());
-
+                }
+                
                 // Process the VSL template with the context and write out
                 // the result as the outFile.
                 writer = new BufferedWriter(new OutputStreamWriter(
@@ -439,7 +445,10 @@ public class AnakiaTask extends MatchingTask
         catch (Throwable e)
         {
 //            log("Failed to process " + inFile, Project.MSG_INFO);
-            if (outFile != null ) outFile.delete();
+            if (outFile != null)
+            {
+                outFile.delete();
+            }
             e.printStackTrace();
         }        
         finally
@@ -475,10 +484,15 @@ public class AnakiaTask extends MatchingTask
         {
             sb.append ("../");
         }
+
         if (sb.toString().length() > 0)
+        {
             return StringUtils.chop(sb.toString(), 1);
+        }
         else
-            return ".";    
+        {
+            return ".";
+        }
     }
     
     /**
