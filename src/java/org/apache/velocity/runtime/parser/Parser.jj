@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.53 2001/01/29 06:07:14 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.54 2001/02/07 17:27:33 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -2324,8 +2324,8 @@ void PrimaryExpression()       : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
-  | LOOKAHEAD(4) IntegerRange()
-  | ObjectArray()
+  | LOOKAHEAD(3) ObjectArray()
+  | IntegerRange()
   | True()
   | False()
   | <LPAREN>  Expression()  <RPAREN>
