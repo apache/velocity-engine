@@ -437,6 +437,12 @@
       </fileset>
     </copy>
 
+    <copy todir="${dist.dir}/xdocs">
+      <fileset dir="../xdocs">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
     <copy 
       file="../LICENSE.txt" 
       tofile="${dist.dir}/LICENSE.txt"
