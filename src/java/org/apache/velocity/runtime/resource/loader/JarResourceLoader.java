@@ -53,7 +53,8 @@ import org.apache.commons.collections.ExtendedProperties;
  *  org.apache.velocity.test.MultiLoaderTestCase class
  * </p>
  * 
- * @version $Id: JarResourceLoader.java,v 1.17 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Id: JarResourceLoader.java,v 1.18 2004/03/19 17:13:37 dlr Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {

@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2000-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,8 @@ import java.io.Writer;
 /**
  *  Represents all comments...
  *
- *  @version $Id: ASTComment.java,v 1.6 2004/02/27 18:43:17 dlr Exp $
+ *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ *  @version $Id: ASTComment.java,v 1.7 2004/03/19 17:13:36 dlr Exp $
  */
 public class ASTComment extends SimpleNode
 {

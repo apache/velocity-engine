@@ -1,7 +1,7 @@
 package org.apache.velocity.util;
 
 /*
- * Copyright 2002-2004 The Apache Software Foundation.
+ * Copyright 1999-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,9 @@ import java.lang.reflect.Array;
  *  next() method.
  *  </p>
  *
- * @version $Id: ArrayIterator.java,v 1.7 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: ArrayIterator.java,v 1.8 2004/03/19 17:13:40 dlr Exp $
  */
 public class ArrayIterator implements Iterator
 {

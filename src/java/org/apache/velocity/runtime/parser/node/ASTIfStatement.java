@@ -22,7 +22,9 @@ package org.apache.velocity.runtime.parser.node;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @version $Id: ASTIfStatement.java,v 1.10 2004/02/27 18:43:17 dlr Exp $ 
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ASTIfStatement.java,v 1.11 2004/03/19 17:13:36 dlr Exp $ 
 */
 
 

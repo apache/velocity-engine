@@ -20,7 +20,8 @@ package org.apache.velocity.exception;
  *  Base class for Velocity exceptions thrown to the 
  *  application layer.
  *
- * @version $Id: VelocityException.java,v 1.3 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
+ * @version $Id: VelocityException.java,v 1.4 2004/03/19 17:13:34 dlr Exp $
  */
 public class VelocityException extends Exception
 {

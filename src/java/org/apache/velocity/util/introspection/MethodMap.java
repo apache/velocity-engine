@@ -29,7 +29,12 @@ import java.lang.reflect.Method;
 
 /**
  *
- * @version $Id: MethodMap.java,v 1.16 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
+ * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: MethodMap.java,v 1.17 2004/03/19 17:13:40 dlr Exp $
  */
 public class MethodMap
 {

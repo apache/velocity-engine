@@ -27,7 +27,8 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  Jeroen C. van Gelderen.  If this isn't correct, let me
  *  know as this was a good idea... 
  *
- * @version $Id: PrimordialLogSystem.java,v 1.5 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: PrimordialLogSystem.java,v 1.6 2004/03/19 17:13:35 dlr Exp $
  */
 public class PrimordialLogSystem implements LogSystem
 {

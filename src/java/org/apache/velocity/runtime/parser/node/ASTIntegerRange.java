@@ -24,7 +24,8 @@ package org.apache.velocity.runtime.parser.node;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @version $Id: ASTIntegerRange.java,v 1.5 2004/02/27 18:43:17 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ASTIntegerRange.java,v 1.6 2004/03/19 17:13:36 dlr Exp $ 
 */
 
 import java.util.ArrayList;

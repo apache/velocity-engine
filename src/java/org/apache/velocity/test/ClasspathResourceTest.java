@@ -29,7 +29,9 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 /**
  * Load templates from the Classpath.
  *
- * @version $Id: ClasspathResourceTest.java,v 1.10 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Id: ClasspathResourceTest.java,v 1.11 2004/03/19 17:13:38 dlr Exp $
  */
 public class ClasspathResourceTest extends BaseTestCase
 {

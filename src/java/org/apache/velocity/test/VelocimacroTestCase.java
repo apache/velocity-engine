@@ -37,7 +37,8 @@ import junit.framework.TestCase;
 /**
  * This class tests strange Velocimacro issues.
  *
- * @version $Id: VelocimacroTestCase.java,v 1.2 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: VelocimacroTestCase.java,v 1.3 2004/03/19 17:13:38 dlr Exp $
  */
 public class VelocimacroTestCase extends TestCase 
 {

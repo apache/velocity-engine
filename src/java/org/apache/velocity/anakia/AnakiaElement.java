@@ -27,7 +27,8 @@ import java.util.List;
  * outputs the XML serialized form of the element. This way it acts in much the
  * same way as a single-element {@link NodeList} would.
  *
- * @version $Id: AnakiaElement.java,v 1.4 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: AnakiaElement.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
  */
 public class AnakiaElement extends Element
 {

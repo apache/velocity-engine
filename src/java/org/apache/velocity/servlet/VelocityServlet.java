@@ -77,16 +77,18 @@ import org.apache.velocity.exception.MethodInvocationException;
  * <li> error() : error handling
  * </ul>
  * <br>
- * If you put a String with key "contentType" object into the context within either your
- * servlet or within your template, then that will be used to override
+ * If you put a contentType object into the context within either your
+ * serlvet or within your template, then that will be used to override
  * the default content type specified in the properties file.
  *
- * @deprecated This servlet has been replaced by VelocityViewServlet,
- * available from the Velocity-Tools sub-project.  VelocityViewServlet
- * provides support for quick, clean MVC web development.
- * VelocityServlet will be removed in a future version of Velocity.
+ * "contentType" - The value for the Content-Type: header
  *
- * $Id: VelocityServlet.java,v 1.55 2004/02/27 18:43:19 dlr Exp $
+ * @author Dave Bryson
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
+ * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
+ * $Id: VelocityServlet.java,v 1.56 2004/03/19 17:13:38 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -243,8 +245,6 @@ public abstract class VelocityServlet extends HttpServlet
      *          to initialize the Velocity runtime.
      *  @throws FileNotFoundException if a specified file is not found.
      *  @throws IOException I/O problem accessing the specified file, if specified.
-     * @deprecated Use VelocityViewServlet from the Velocity Tools
-     * library instead.
      */
     protected Properties loadConfiguration(ServletConfig config)
         throws IOException, FileNotFoundException
@@ -488,16 +488,16 @@ public abstract class VelocityServlet extends HttpServlet
         {
             // Append the character encoding which we'd like to use.
             String encoding = chooseCharacterEncoding(request);
-            //RuntimeSingleton.debug("Chose output encoding of '" +
-            //                       encoding + '\'');
+            //System.out.println("Chose output encoding of '" +
+            //                   encoding + '\'');
             if (!DEFAULT_OUTPUT_ENCODING.equalsIgnoreCase(encoding))
             {
                 contentType += "; charset=" + encoding;
             }
         }
         response.setContentType(contentType);
-        //RuntimeSingleton.debug("Response Content-Type set to '" +
-        //                       contentType + '\'');
+        //System.out.println("Response Content-Type set to '" +
+        //                   contentType + '\'');
     }
 
     /**

@@ -24,6 +24,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * Base class for directives which do input operations
  * (e.g. <code>#include()</code>, <code>#parse()</code>, etc.).
  *
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @since 1.4
  */
 public abstract class InputBase extends Directive

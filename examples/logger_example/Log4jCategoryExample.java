@@ -25,7 +25,8 @@ import org.apache.log4j.BasicConfigurator;
  *  Simple example class to show how to use an existing Log4j Categeory
  *  as the Velocity logging target.
  *
- * @version $Id: Log4jCategoryExample.java,v 1.2 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: Log4jCategoryExample.java,v 1.3 2004/03/19 17:13:32 dlr Exp $
  */
 public class Log4jCategoryExample
 {

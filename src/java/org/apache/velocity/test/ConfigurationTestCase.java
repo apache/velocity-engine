@@ -26,7 +26,8 @@ import org.apache.velocity.runtime.configuration.Configuration;
 /**
  * Tests for the Configuration class.
  *
- * @version $Id: ConfigurationTestCase.java,v 1.6 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: ConfigurationTestCase.java,v 1.7 2004/03/19 17:13:38 dlr Exp $
  *
  * @deprecated Will be removed when Configuration class is removed
  */

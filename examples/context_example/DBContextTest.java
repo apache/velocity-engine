@@ -33,7 +33,8 @@ import org.apache.velocity.runtime.Runtime;
  *  tests the DBContext example by putting a string and a hashtable
  *  into the context and then rendering a simple template with it.
  *
- * @version $Id: DBContextTest.java,v 1.2 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: DBContextTest.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
  */
 
 public class DBContextTest

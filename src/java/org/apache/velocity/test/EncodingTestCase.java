@@ -39,7 +39,8 @@ import junit.framework.TestCase;
  *  Thanks to Kent Johnson for the example input file.
  *
  *
- * @version $Id: EncodingTestCase.java,v 1.5 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: EncodingTestCase.java,v 1.6 2004/03/19 17:13:38 dlr Exp $
  */
 public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
 {

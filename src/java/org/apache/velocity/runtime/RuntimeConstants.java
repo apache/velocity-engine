@@ -21,7 +21,10 @@ package org.apache.velocity.runtime;
  * velocity.properties file so that they can be referenced as a constant
  * within Java code.
  *
- * @version $Id: RuntimeConstants.java,v 1.37 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: RuntimeConstants.java,v 1.38 2004/03/19 17:13:34 dlr Exp $
  */
 public interface RuntimeConstants
 {
@@ -90,6 +93,78 @@ public interface RuntimeConstants
     public final static String ERROR_PREFIX = " [error] ";
     public final static String UNKNOWN_PREFIX = " [unknown] ";
 
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_PATTERN = 
+        "runtime.log.logsystem.log4j.pattern";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_FILE_SIZE = 
+        "runtime.log.logsystem.log4j.file.size";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_FILE_BACKUPS = 
+        "runtime.log.logsystem.log4j.file.backups";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_SYSLOGD_HOST = 
+        "runtime.log.logsystem.log4j.syslogd.host";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_SYSLOGD_FACILITY = 
+        "runtime.log.logsystem.log4j.syslogd.facility";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_REMOTE_HOST = 
+        "runtime.log.logsystem.log4j.remote.host";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_REMOTE_PORT = 
+        "runtime.log.logsystem.log4j.remote.port";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_SERVER = 
+        "runtime.log.logsystem.log4j.email.server";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_FROM = 
+        "runtime.log.logsystem.log4j.email.from";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_TO = 
+        "runtime.log.logsystem.log4j.email.to";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_SUBJECT = 
+        "runtime.log.logsystem.log4j.email.subject";
+
+    /**
+     * Log4J configuration
+     */
+    public final static String LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE = 
+        "runtime.log.logsystem.log4j.email.buffer.size";
+
     /*
      * ----------------------------------------------------------------------
      * D I R E C T I V E  C O N F I G U R A T I O N
@@ -141,24 +216,11 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
      
-    public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
-
-    /**
-     * The <code>resource.manager.cache.class</code> property
-     * specifies the name of the {@link
-     * org.apache.velocity.runtime.resource.ResourceCache}
-     * implementation to use.
-     */
-    public static String RESOURCE_MANAGER_CACHE_CLASS =
+     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
+     
+     public static String RESOURCE_MANAGER_CACHE_CLASS =
                 "resource.manager.cache.class";
-
-    /**
-     * The <code>resource.manager.cache.size</code> property specifies
-     * the cache upper bound (if relevant).
-     */
-    public static String RESOURCE_MANAGER_DEFAULTCACHE_SIZE =
-                "resource.manager.defaultcache.size";
-
+                
     /*
      * ----------------------------------------------------------------------
      * R E S O U R C E  L O A D E R  C O N F I G U R A T I O N

@@ -38,7 +38,8 @@ import org.apache.velocity.context.Context;
  *   custom logger as well to check the log message stream
  *   when testing the NullSetEventHandler
  *
- * @version $Id: EventExample.java,v 1.4 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: EventExample.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
  */
 
 public class EventExample implements ReferenceInsertionEventHandler, 

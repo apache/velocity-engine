@@ -36,7 +36,8 @@ import java.util.ArrayList;
  *  Implementation of Uberspect to provide the default introspective
  *  functionality of Velocity
  *
- * @version $Id: UberspectImpl.java,v 1.4 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: UberspectImpl.java,v 1.5 2004/03/19 17:13:40 dlr Exp $
  */
 public class UberspectImpl implements Uberspect, UberspectLoggable
 {
@@ -72,11 +73,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     }
 
     /**
-     *  To support iterative objects used in a <code>#foreach()</code>
-     *  loop.
-     *
-     * @param obj The iterative object.
-     * @param i Info about the object's location.
+     *  To support iteratives - #foreach()
      */
     public Iterator getIterator(Object obj, Info i)
             throws Exception
@@ -95,26 +92,34 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
         else if (obj instanceof Iterator)
         {
-            rlog.debug("The iterative object in the #foreach() loop at " +
-                       i + " is of type java.util.Iterator.  Because " +
-                       "it is not resettable, if used in more than once it " +
-                       "may lead to unexpected results.");
+            rlog.warn ("Warning! The iterative "
+                          + " is an Iterator in the #foreach() loop at ["
+                          + i.getLine() + "," + i.getColumn() + "]"
+                          + " in template " + i.getTemplateName()
+                          + ". Because it's not resetable,"
+                          + " if used in more than once, this may lead to"
+                          + " unexpected results.");
 
             return ((Iterator) obj);
         }
         else if (obj instanceof Enumeration)
         {
-            rlog.debug("The iterative object in the #foreach() loop at " +
-                       i + " is of type java.util.Enumeration.  Because " +
-                       "it is not resettable, if used in more than once it " +
-                       "may lead to unexpected results.");
+            rlog.warn ("Warning! The iterative "
+                          + " is an Enumeration in the #foreach() loop at ["
+                          + i.getLine() + "," + i.getColumn() + "]"
+                          + " in template " + i.getTemplateName()
+                          + ". Because it's not resetable,"
+                          + " if used in more than once, this may lead to"
+                          + " unexpected results.");
 
             return new EnumerationIterator((Enumeration) obj);
         }
 
         /*  we have no clue what this is  */
-        rlog.warn("Could not determine type of iterator in " +
-                  "#foreach loop at " + i);
+        rlog.warn ("Could not determine type of iterator in "
+                      +  "#foreach loop "
+                      + " at [" + i.getLine() + "," + i.getColumn() + "]"
+                      + " in template " + i.getTemplateName() );
 
         return null;
     }
@@ -154,7 +159,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *  if that didn't work, look for get("foo")
          */
 
-        if (!executor.isAlive())
+        if (executor.isAlive() == false)
         {
             executor = new GetExecutor(rlog, introspector, claz, identifier);
         }
@@ -163,10 +168,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *  finally, look for boolean isFoo()
          */
 
-        if (!executor.isAlive())
+        if( executor.isAlive() == false)
         {
-            executor = new BooleanPropertyExecutor(rlog, introspector, claz,
-                                                   identifier);
+            executor = new BooleanPropertyExecutor(rlog, introspector, claz, identifier);
         }
 
         return (executor != null) ? new VelGetterImpl(executor) : null;
@@ -175,8 +179,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      * Property setter
      */
-    public VelPropertySet getPropertySet(Object obj, String identifier,
-                                         Object arg, Info i)
+    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
             throws Exception
     {
         Class claz = obj.getClass();
@@ -308,6 +311,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return ae.getMethod().getName();
         }
+
     }
 
     public class VelSetterImpl implements VelPropertySet
@@ -357,5 +361,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return vm.getMethodName();
         }
+
     }
 }

@@ -23,7 +23,8 @@ import org.apache.velocity.app.VelocityEngine;
  *  setup and init(), but that should produce
  *  enough output...
  *
- *  @version $Id: Test.java,v 1.2 2004/02/27 18:43:12 dlr Exp $
+ *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
+ *  @version $Id: Test.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
  */
 public class Test
 {

@@ -22,8 +22,9 @@ import java.util.*;
 /**
  * The actual message in the forum.
  * 
- * @version $Revision: 1.2 $
- * $Id: Message.java,v 1.2 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:daveb@minceda-data.com">Dave Bryson</a>
+ * @version $Revision: 1.3 $
+ * $Id: Message.java,v 1.3 2004/03/19 17:13:32 dlr Exp $
  */
 public class Message
 {

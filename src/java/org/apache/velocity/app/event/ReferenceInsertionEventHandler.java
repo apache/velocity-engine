@@ -21,7 +21,8 @@ package org.apache.velocity.app.event;
  *
  *  Please return an Object that will toString() nicely :)
  *
- * @version $Id: ReferenceInsertionEventHandler.java,v 1.3 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ReferenceInsertionEventHandler.java,v 1.4 2004/03/19 17:13:33 dlr Exp $
  */
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {

@@ -29,7 +29,9 @@ import org.apache.commons.collections.ExtendedProperties;
  *  copy of the ConfigurationTestCase, which will disappear when
  *  the Configuration class does
  *
- * @version $Id: CommonsExtPropTestCase.java,v 1.3 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: CommonsExtPropTestCase.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
  */
 public class CommonsExtPropTestCase extends BaseTestCase
 {

@@ -27,7 +27,9 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * method that is in introspected. This is the superclass
  * for the GetExecutor and PropertyExecutor.
  *
- * @version $Id: AbstractExecutor.java,v 1.13 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: AbstractExecutor.java,v 1.14 2004/03/19 17:13:36 dlr Exp $
  */
 public abstract class AbstractExecutor
 {

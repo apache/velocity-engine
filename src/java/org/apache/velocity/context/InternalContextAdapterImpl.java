@@ -52,7 +52,8 @@ import org.apache.velocity.runtime.resource.Resource;
  *  depending upon application.
  * 
  *
- * @version $Id: InternalContextAdapterImpl.java,v 1.9 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: InternalContextAdapterImpl.java,v 1.10 2004/03/19 17:13:33 dlr Exp $
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {

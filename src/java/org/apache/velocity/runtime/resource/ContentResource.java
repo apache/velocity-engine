@@ -29,7 +29,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Also of interest is Velocity's {@link org.apache.velocity.Template}
  * <code>Resource</code>.
  *
- * @version $Id: ContentResource.java,v 1.11 2004/02/27 18:43:18 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ContentResource.java,v 1.12 2004/03/19 17:13:37 dlr Exp $
  */
 public class ContentResource extends Resource
 {

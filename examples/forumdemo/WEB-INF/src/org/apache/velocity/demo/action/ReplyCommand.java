@@ -32,8 +32,9 @@ import org.apache.velocity.demo.om.*;
  * It simply adds the parent message ID to the
  * reply from and the subject.
  * 
- * @version $Revision: 1.3 $
- * $Id: ReplyCommand.java,v 1.3 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Revision: 1.4 $
+ * $Id: ReplyCommand.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
  */
 public class ReplyCommand extends Command
 {

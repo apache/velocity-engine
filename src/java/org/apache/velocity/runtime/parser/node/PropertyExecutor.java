@@ -1,5 +1,4 @@
 package org.apache.velocity.runtime.parser.node;
-
 /*
  * Copyright 2000-2004 The Apache Software Foundation.
  *
@@ -17,7 +16,9 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.lang.reflect.InvocationTargetException;
+
 import org.apache.velocity.util.introspection.Introspector;
+
 import org.apache.velocity.runtime.RuntimeLogger;
 
 /**

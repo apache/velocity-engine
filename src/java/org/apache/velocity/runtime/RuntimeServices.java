@@ -44,7 +44,8 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  *  Currently implemented by RuntimeInstance.
  * 
- * @version $Id: RuntimeServices.java,v 1.8 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
+ * @version $Id: RuntimeServices.java,v 1.9 2004/03/19 17:13:34 dlr Exp $
  */
 public interface RuntimeServices extends RuntimeLogger
 {

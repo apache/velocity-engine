@@ -28,7 +28,8 @@ import java.io.StringWriter;
  *  More specific parser tests where just templating
  *  isn't enough.
  *
- * @version $Id: ParserTestCase.java,v 1.2 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: ParserTestCase.java,v 1.3 2004/03/19 17:13:38 dlr Exp $
  */
 public class ParserTestCase extends TestCase
 {

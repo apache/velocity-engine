@@ -30,7 +30,9 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * Implementation of a Avalon logger.
  *
- * @version $Id: AvalonLogSystem.java,v 1.13 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: AvalonLogSystem.java,v 1.14 2004/03/19 17:13:35 dlr Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {

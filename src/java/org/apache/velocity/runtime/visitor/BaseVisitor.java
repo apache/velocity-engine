@@ -27,7 +27,9 @@ import org.apache.velocity.runtime.parser.node.*;
  * For each AST node, this class will provide
  * a bare-bones method for traversal.
  *
- * @version $Id: BaseVisitor.java,v 1.13 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: BaseVisitor.java,v 1.14 2004/03/19 17:13:38 dlr Exp $
  */
 public abstract class BaseVisitor implements ParserVisitor
 {

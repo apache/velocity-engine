@@ -29,7 +29,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  This operator requires that the LHS and RHS are both of the
  *  same Class.
  *
- *  @version $Id: ASTEQNode.java,v 1.10 2004/02/27 18:43:17 dlr Exp $
+ *  @version $Id: ASTEQNode.java,v 1.11 2004/03/19 17:13:36 dlr Exp $
  */
 public class ASTEQNode extends SimpleNode
 {

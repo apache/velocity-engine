@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,8 @@ import org.apache.velocity.context.Context;
  *
  *   This is unsupported, example code.
  *
- * @version $Id: TreeMapContext.java,v 1.2 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: TreeMapContext.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
  */
 
 public class TreeMapContext extends AbstractContext

@@ -22,7 +22,9 @@ import org.apache.velocity.context.Context;
 /**
  *  'Package' of event handlers...
  *
- * @version $Id: EventCartridge.java,v 1.4 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
+ * @version $Id: EventCartridge.java,v 1.5 2004/03/19 17:13:33 dlr Exp $
  */
 public class EventCartridge implements ReferenceInsertionEventHandler,
                                        NullSetEventHandler,

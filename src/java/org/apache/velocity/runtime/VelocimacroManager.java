@@ -39,7 +39,9 @@ import org.apache.velocity.context.InternalContextAdapter;
  * Thanks to <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
  * for some ideas incorporated here.
  *
- * @version $Id: VelocimacroManager.java,v 1.18 2004/02/27 18:43:15 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
+ * @version $Id: VelocimacroManager.java,v 1.19 2004/03/19 17:13:34 dlr Exp $ 
  */
 public class VelocimacroManager
 {

@@ -23,6 +23,7 @@ package org.apache.velocity.test.provider;
  *  and that comes before isProperty
  *  in the search pattern
  *
+ *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  */
 public class BoolObj
 {

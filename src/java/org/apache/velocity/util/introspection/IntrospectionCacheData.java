@@ -20,7 +20,8 @@ package org.apache.velocity.util.introspection;
  *  Holds information for node-local context data introspection
  *  information.
  *
- * @version $Id: IntrospectionCacheData.java,v 1.4 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: IntrospectionCacheData.java,v 1.5 2004/03/19 17:13:40 dlr Exp $
  */
 public class IntrospectionCacheData
 {

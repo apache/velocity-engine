@@ -21,7 +21,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 /**
  * Exception thrown when a bad reference is found.
  *
- * @version $Id: ReferenceException.java,v 1.6 2004/02/27 18:43:16 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ReferenceException.java,v 1.7 2004/03/19 17:13:35 dlr Exp $ 
  */
 public class ReferenceException extends Exception
 {

@@ -26,7 +26,8 @@ import org.apache.velocity.runtime.parser.node.ASTReference;
  *  to preserve the 'render literal if null' behavior w/o making
  *  the VMProxy stuff more complicated than it is already.
  *
- * @version $Id: VMReferenceMungeVisitor.java,v 1.3 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: VMReferenceMungeVisitor.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
  */ 
 public class VMReferenceMungeVisitor extends BaseVisitor
 {

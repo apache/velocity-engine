@@ -29,7 +29,8 @@ import org.apache.velocity.runtime.parser.Parser;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @version $Id: ASTEscape.java,v 1.7 2004/02/27 18:43:17 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ASTEscape.java,v 1.8 2004/03/19 17:13:36 dlr Exp $ 
  */
 public class ASTEscape extends SimpleNode 
 {

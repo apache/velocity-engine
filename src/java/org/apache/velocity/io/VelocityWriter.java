@@ -23,7 +23,10 @@ import java.io.Writer;
  * Implementation of a fast Writer. It was originally taken from JspWriter
  * and modified to have less syncronization going on.
  *
- * @version $Id: VelocityWriter.java,v 1.10 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author Anil K. Vijendran
+ * @version $Id: VelocityWriter.java,v 1.11 2004/03/19 17:13:34 dlr Exp $
  */
 public final class VelocityWriter extends Writer
 {
@@ -60,7 +63,7 @@ public final class VelocityWriter extends Writer
      * Create a buffered character-output stream that uses a default-sized
      * output buffer.
      *
-     * @param  writer  Writer to wrap around
+     * @param  response  A Servlet Response
      */
     public VelocityWriter(Writer writer)
     {
@@ -95,7 +98,7 @@ public final class VelocityWriter extends Writer
      * Create a new buffered character-output stream that uses an output
      * buffer of the given size.
      *
-     * @param  writer  Writer to wrap around
+     * @param  response A Servlet Response
      * @param  sz   	Output-buffer size, a positive integer
      *
      * @exception  IllegalArgumentException  If sz is <= 0
@@ -313,17 +316,14 @@ public final class VelocityWriter extends Writer
      */
     public final void write(String s) throws IOException
     {
-        if (s != null)
-        {
-        	write(s, 0, s.length());
-        }
+    	write(s, 0, s.length());
     }
 
     /**
      * resets this class so that it can be reused
      *
      */
-    public final void recycle(Writer writer)
+    public final void recycle( Writer writer)
     {
         this.writer = writer;
         flushed = false;

@@ -19,7 +19,8 @@ package org.apache.velocity.runtime;
 /**
  * Interface for internal runtime logging services that are needed by the
  *
- * @version $Id: RuntimeLogger.java,v 1.2 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magusson Jr.</a>
+ * @version $Id: RuntimeLogger.java,v 1.3 2004/03/19 17:13:34 dlr Exp $
  */
 public interface RuntimeLogger
 {

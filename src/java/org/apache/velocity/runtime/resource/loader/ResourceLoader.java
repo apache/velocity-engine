@@ -30,7 +30,9 @@ import org.apache.commons.collections.ExtendedProperties;
  * This is abstract class the all text resource loaders should
  * extend.
  * 
- * @version $Id: ResourceLoader.java,v 1.15 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ResourceLoader.java,v 1.16 2004/03/19 17:13:37 dlr Exp $
  */
 public abstract class ResourceLoader
 {

@@ -21,7 +21,8 @@ package org.apache.velocity.anakia;
  * "borrowed" from the JDOM code. I also added in escaping
  * of the " -> &amp;quot; character.
  *
- * @version $Id: Escape.java,v 1.5 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: Escape.java,v 1.6 2004/03/19 17:13:32 dlr Exp $
  */
 public class Escape
 {

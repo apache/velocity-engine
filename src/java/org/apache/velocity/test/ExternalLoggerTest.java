@@ -26,7 +26,8 @@ import junit.framework.TestCase;
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
- * @version $Id: ExternalLoggerTest.java,v 1.5 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ExternalLoggerTest.java,v 1.6 2004/03/19 17:13:38 dlr Exp $
  */
 public class ExternalLoggerTest extends TestCase implements LogSystem
 {

@@ -19,7 +19,8 @@ package org.apache.velocity.context;
 /**
  *  interface for internal context wrapping functionality
  *  
- *  @version $Id: InternalWrapperContext.java,v 1.3 2004/02/27 18:43:14 dlr Exp $ 
+ *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ *  @version $Id: InternalWrapperContext.java,v 1.4 2004/03/19 17:13:33 dlr Exp $ 
  */
 public interface InternalWrapperContext
 {

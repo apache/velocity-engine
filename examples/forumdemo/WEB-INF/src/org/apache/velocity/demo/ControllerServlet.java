@@ -47,8 +47,9 @@ import org.apache.velocity.demo.action.*;
  * Main entry point into the forum application.
  * All requests are made to this servlet.
  * 
- * @version $Revision: 1.5 $
- * $Id: ControllerServlet.java,v 1.5 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Revision: 1.6 $
+ * $Id: ControllerServlet.java,v 1.6 2004/03/19 17:13:32 dlr Exp $
  */
 public class ControllerServlet extends VelocityServlet
 {

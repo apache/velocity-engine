@@ -39,7 +39,9 @@ import java.lang.reflect.InvocationTargetException;
  *  primary two are   thread safety, to remove any context-derived
  *  information from class member  variables.
  *
- * @version $Id: ASTIdentifier.java,v 1.20 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ASTIdentifier.java,v 1.21 2004/03/19 17:13:36 dlr Exp $
  */
 public class ASTIdentifier extends SimpleNode
 {

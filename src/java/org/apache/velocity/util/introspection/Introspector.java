@@ -48,7 +48,11 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *
  * This mapping is performed for all the methods in a class
  * and stored for 
- * @version $Id: Introspector.java,v 1.22 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
+ * @version $Id: Introspector.java,v 1.23 2004/03/19 17:13:40 dlr Exp $
  */
 public class Introspector extends IntrospectorBase
 {

@@ -25,7 +25,8 @@ import java.util.WeakHashMap;
  * {@link AnakiaElement} to minimize XPath parsing in their 
  * <code>selectNodes()</code> methods.
  *
- * @version $Id: XPathCache.java,v 1.2 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: XPathCache.java,v 1.3 2004/03/19 17:13:32 dlr Exp $
  */
 class XPathCache
 {

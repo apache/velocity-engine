@@ -30,8 +30,9 @@ import org.apache.velocity.demo.om.*;
 /**
  * View a specific message and it's replies
  * 
- * @version $Revision: 1.3 $
- * $Id: ViewCommand.java,v 1.3 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Revision: 1.4 $
+ * $Id: ViewCommand.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
  */
 public class ViewCommand extends Command
 {

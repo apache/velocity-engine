@@ -27,8 +27,9 @@ import org.apache.velocity.context.Context;
 /**
  * Base class for commands
  * 
- * @version $Revision: 1.3 $
- * $Id: Command.java,v 1.3 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
+ * @version $Revision: 1.4 $
+ * $Id: Command.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
  */
 public abstract class Command
 {

@@ -25,7 +25,8 @@ import junit.framework.TestCase;
  * This is a test case for Texen. Simply executes a simple
  * generative task and compares the output.
  *
- * @version $Id: TexenTestCase.java,v 1.7 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: TexenTestCase.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
  */
 public class TexenTestCase extends BaseTestCase
 {

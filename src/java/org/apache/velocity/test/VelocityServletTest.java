@@ -1,7 +1,7 @@
 package org.apache.velocity.test;
 
 /*
- * Copyright 2002-2004 The Apache Software Foundation.
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -31,16 +30,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.servlet.VelocityServlet;
 
 import junit.framework.TestCase;
 
-
 /**
  * Tests our VelocityServlet implementation.
  *
+ * @author <a href="mailto:dlr@apache.org">Daniel Rall</a>
  */
 public class VelocityServletTest extends TestCase
 {
@@ -146,11 +146,6 @@ public class VelocityServletTest extends TestCase
             return this;
         }
 
-        public String getServletContextName()
-        {
-            return "VelocityTestContext";
-        }
-
         public String getInitParameter(String ignored)
         {
             return null;
@@ -167,11 +162,6 @@ public class VelocityServletTest extends TestCase
         }
 
         public String getMimeType(String ignored)
-        {
-            return null;
-        }
-
-        public Set getResourcePaths(String string)
         {
             return null;
         }
@@ -256,10 +246,6 @@ public class VelocityServletTest extends TestCase
         // ---- ServletResponse implementation -----------------------------
 
         public void flushBuffer() throws IOException
-        {
-        }
-
-        public void resetBuffer()
         {
         }
 
