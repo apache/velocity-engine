@@ -60,9 +60,19 @@ package org.apache.velocity.app.event;
  *  Please return an Object that will toString() nicely :)
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ReferenceInsertionEventHandler.java,v 1.1 2001/05/20 19:48:56 geirm Exp $
+ * @version $Id: ReferenceInsertionEventHandler.java,v 1.2 2002/02/15 23:37:52 dlr Exp $
  */
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {
+    /**
+     * A call-back which is executed during Velocity merge before a
+     * reference value is inserted into the output stream.
+     *
+     * @param reference Reference from template about to be inserted.
+     * @param value Value about to be inserted (after its
+     * <code>toString()</code> method is called).
+     * @return Object on which <code>toString()</code> should be
+     * called for output.
+     */
     public Object referenceInsert( String reference, Object value  );
 }
