@@ -105,11 +105,8 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * in order to get Velocity to perform.
  *
  * The Runtime will also cooperate with external
- * systems like Turbine. Normally the Runtime will
- * be fully initialized from a properties file, but
- * certain phases of initialization can be delayed
- * if vital pieces of information are provided by
- * an external system.
+ * systems like Turbine. Runtime properties can
+ * set and then the Runtime is initialized.
  *
  * Turbine for example knows where the templates
  * are to be loaded from, and where the velocity
@@ -119,8 +116,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * the code might look something like the following:
  *
  * <pre>
- * Runtime.setProperties(defaultTurbineVelocityProps);
- * Runtime.setSourceProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
+ * Runtime.setProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
  * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
  * Runtime.init();
  * </pre>
@@ -130,50 +126,20 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * -----------------------------------------------------------------------
  * Runtime.init()
  * 
- * If Runtime.init() is called by itself without any previous calls
- * to Runtime.setProperties(props) or Runtime.setDefaultProperties(props)
- * then the default velocity properties file will be loaded and
- * the velocity runtime will be initialized.
+ * If Runtime.init() is called by itself the Runtime will
+ * initialize with a set of default values.
  * -----------------------------------------------------------------------
- * Runtime.init(properties)
+ * Runtime.init(String/Properties)
  *
  * In this case the default velocity properties are layed down
  * first to provide a solid base, then any properties provided
  * in the given properties object will override the corresponding
  * default property.
  * -----------------------------------------------------------------------
- * Runtime.setProperties(properties) 
- * [ Runtime.setProperty() || Runtime.setSourceProperty() ]
- * Runtime.init()
- *
- * In this case the client app has decided to set its own default
- * properties file. So what happens is that the default velocity
- * properties are laid down first, then the properties file
- * specified by the client app is laid down on top of that
- * overriding any of the defaults, then any calls to setProperty()
- * or setSourceProperty() will override those.
- *
- * Turbine uses this method with its TurbineVelocityService. If
- * you would like to see an example of this method of initialization
- * look at org.apache.turbine.services.velocity.TurbineVelocityService.
- * -----------------------------------------------------------------------
- * Runtime.setDefaultProperties()
- * [ Runtime.setProperty || Runtime.setSourceProperty() ]
- * Runtime.init()
- *
- * In this case the client app is going to use the default
- * velocity properties file and change a few things before
- * initializing the velocity runtime.
- *
- * If you want to see an example of this, look at the Velocity
- * testbed. The org.apache.velocity.test.VelocityTestSuite class
- * uses this method: using all the defaults except for the file
- * template path.
- * -----------------------------------------------------------------------
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.93 2001/03/12 07:20:11 jon Exp $
+ * @version $Id: Runtime.java,v 1.94 2001/03/14 21:50:27 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -206,7 +172,7 @@ public class Runtime implements RuntimeConstants
      * These are the properties that are laid down over top
      * of the default properties when requested.
      */
-    private static Properties overridingProperties = null;
+    private static Configuration overridingProperties = null;
 
     /**
      * The logging systems initialization may be defered if
@@ -289,129 +255,11 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Initializes the Velocity Runtime with
-     * properties object.
-     *
-     * @param Properties velocity properties object
-     * @throws Exception
-     */
-    public synchronized static void init( Properties props )
-        throws Exception
-    {
-        if( initialized == false )
-        {
-            overridingProperties = props;
-            init();
-        }
-    }
-
-    /**
-     * Initializes the Velocity Runtime with
-     * a properties file retrieved using propertiesFile
-     *
-     * @param String name of properties file
-     * @throws Exception
-     */
-    public synchronized static void init( String props )
-        throws Exception
-    {
-        if (initialized == false)
-        {
-            setProperties(props);
-            init();
-        }
-    }
-
-    /**
-     * Allow an external mechanism to set the properties for
-     * Velocity Runtime. This is being use right now by Turbine.
-     * There is a standard velocity properties file that is
-     * employed by Turbine/Velocity apps, but certain properties
-     * like the location of log file, and the template path
-     * must be set by Turbine because the location of the
-     * log file, and the template path are based on
-     * the location of the context root.
-     *
-     * So common properties can be set with a standard properties
-     * file, then certain properties can be changed before
-     * the Velocity Runtime is initialized.
-     *
-     * @param String name of properties file
-     * @throws Exception
-     */
-    public synchronized static void setProperties(String propertiesFileName) 
-        throws Exception
-    {
-        /*
-         * Set the default properties because client apps are
-         * using the:
-         *
-         * 1) Runtime.setProperties();
-         * 2) Runtime.setProperty() | Runtime.setSourceProperty()
-         * 3) Runtime.init();
-         *
-         * Sequence and the default props have to be present
-         * in order for 2) to work.
-         */
-        setDefaultProperties();
-        
-        Properties p = new Properties();        
-        
-        /*
-         * if we were passed properties, try loading propertiesFile as a 
-         * straight file first, if that fails, then try and use the classpath
-         */
-        if (propertiesFileName != null && !propertiesFileName.equals(""))
-        {
-            File file = new File(propertiesFileName);
-            
-            try
-            {
-                if( file.exists() )
-                {
-                    FileInputStream is = new FileInputStream( file );
-                    p.load(is);
-                }
-                else
-                {
-                    info ("Override Properties : " + file.getPath() + 
-                        " not found. Looking in classpath.");
-                    
-                    /*
-                     *  lets try the classpath
-                     */
-                    ClassLoader classLoader = Runtime.class.getClassLoader();
-                    
-                    InputStream inputStream = classLoader
-                        .getResourceAsStream( propertiesFileName );
-                    
-                    if (inputStream!= null)
-                    {
-                        p.load(inputStream);
-                    }
-                    else
-                    {
-                        info ("Override Properties : " + propertiesFileName + 
-                            " not found in classpath.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                error("Exception finding properties  " + 
-                    propertiesFileName + " : " + ex);
-            }
-        }
-    
-        overridingProperties = p;
-    }
-
-    /**
      * Initializes the Velocity Runtime with properties file.
      * The properties file may be in the file system proper,
      * or the properties file may be in the classpath.
      */
-    public static void setDefaultProperties()
+    private static void setDefaultProperties()
     {
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
@@ -437,16 +285,20 @@ public class Runtime implements RuntimeConstants
      * @param String property key
      * @param String property value
      */
-    public static void setProperty(String key, String value)
+    public static void setProperty(String key, Object value)
     {
         if (overridingProperties == null)
         {
-            overridingProperties = new Properties();
+            overridingProperties = new Configuration();
         }            
             
         overridingProperties.setProperty( key, value );
     }        
 
+    public static void addProperty(String key, String value)
+    {
+    }
+    
     /**
      * Initialize Velocity properties, if the default
      * properties have not been laid down first then
@@ -468,15 +320,33 @@ public class Runtime implements RuntimeConstants
     
         if( overridingProperties != null)
         {        
-            /* Override each default property specified */
-            for (Enumeration e = overridingProperties.keys(); e.hasMoreElements() ; ) 
-            {
-                String s = (String) e.nextElement();
-                configuration.setOverridingProperty( s, overridingProperties.getProperty(s) );
-                info ("   ** Property Override : " + s + " = " + 
-                    overridingProperties.getProperty(s));
-            }
+            configuration.combine(overridingProperties);
         }
+    }
+    
+    /**
+     * Initialize the Velocity Runtime with a Properties
+     * object.
+     *
+     * @param Properties
+     */
+    public static void init(Properties p) throws Exception
+    {
+        overridingProperties = Configuration.convertProperties(p);
+        init();
+    }
+    
+    /**
+     * Initialize the Velocity Runtime with the name of
+     * Configuration object.
+     *
+     * @param Properties
+     */
+    public static void init(String configurationFile)
+        throws Exception
+    {
+        overridingProperties = new Configuration(configurationFile);
+        init();
     }
 
     /**
@@ -596,25 +466,6 @@ public class Runtime implements RuntimeConstants
                     + directiveClass);    
             }
         }
-    }
-
-    /**
-     * Allow clients of Velocity to set a template stream
-     * source property before the template source streams
-     * are initialized. This would for example allow clients
-     * to set the template path that would be used by the
-     * file template stream source. Right now these properties
-     * have to be set before the template stream source is
-     * initialized. Maybe we should allow these properties
-     * to be changed on the fly.
-     *
-     * @param String resource loader property key
-     * @param String resource loader property value
-     */
-    public static void setSourceProperty(String key, String value)
-    {
-        info ("   ** !!! Resource Loader Property Override : " + key + " = " + value);
-        ResourceManager.setSourceProperty(key, value);
     }
 
     /**
