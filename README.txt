@@ -16,18 +16,25 @@ docs/       This is where the documentation lives.
 examples/   This is where the examples live.
 src/        This is where all of the source code to Velocity lives.
 
+REQUIREMENTS
+------------
+
+The Java 2 SDK is required to build Velocity.
+
 BUILDING VELOCITY
 -----------------
 
-In order to get started with Velocity, you must build it first. 
-
-To build Velocity, simply cd into the build/ directory and type:
+In order to get started with Velocity, you must first build it. To do so, cd into the 
+build/ directory and execute the platform-specific build script.
 
 Unix:
 ./build-velocity.sh
 
 Win32:
-.\build-velocity.bat
+build-velocity.bat
+
+This will create a bin/ directory containing the Velocity .jar file. Be sure to
+update your classpath to include Velocity's .jar file.
 
 TRYING THE EXAMPLE
 ------------------
