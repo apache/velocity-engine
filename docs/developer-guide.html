@@ -459,7 +459,6 @@ In code, this looks like
       <td bgcolor="#ffffff"><pre>
 import java.io.StringWriter;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 
@@ -473,7 +472,7 @@ Template template = null;
 
 try
 {
-   template = Runtime.getTemplate(&quot;mytemplate.vm&quot;);
+   template = Velocity.getTemplate(&quot;mytemplate.vm&quot;);
 }
 catch( ResourceNotFoundException rnfe )
 {
@@ -1628,7 +1627,7 @@ Currently, there are 3 events that can be handled, and all are found in the
 <code>org.apache.velocity.context</code> package. [note : they don't belong there ]
 </p>
                                                 <p>
-<i><code>org.apache.velocity.context.NullSetEventHandler</code></i>
+<i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
 
 <blockquote>
 When a #set() results in a null assignment, this is normally 
@@ -1643,7 +1642,7 @@ public interface NullSetEventHandler extends EventHandler
 </pre>
 </blockquote>
 
-<i><code>org.apache.velocity.context.ReferenceInsertionEventHandler</code></i>
+<i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
 <blockquote>
 A <code>ReferenceInsertionEventHandler</code> allows the 
 developer to intercept each write of a reference ($foo) value to the output 
@@ -1656,7 +1655,7 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
 </pre>
 </blockquote>
 
-<i><code>org.apache.velocity.context.MethodExceptionEventHandler</code></i>
+<i><code>org.apache.velocity.app.event.MethodExceptionEventHandler</code></i>
 <blockquote>
 When a user-supplied method throws an exception, the
 <code>MethodExceptionEventHandler</code> is invoked with the Class, method name
@@ -1691,10 +1690,10 @@ example was taken from <code>org.apache.velocity.test.misc.Test</code>.
 
  ...
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.ReferenceInsertionEventHandler;
-import org.apache.velocity.context.MethodExceptionEventHandler;
-import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.NullSetEventHandler;
 
  ...
 
