@@ -80,9 +80,10 @@ import org.apache.velocity.io.FastWriter;
  * 
  * This class puts some things into the context object that you should
  * be aware of:
- *
+ * <pre>
  * "req" - The HttpServletRequest object
  * "res" - The HttpServletResponse object
+ * </pre>
  *
  * If you put a contentType object into the context within either your
  * serlvet or within your template, then that will be used to override
@@ -92,20 +93,22 @@ import org.apache.velocity.io.FastWriter;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.7 2000/10/15 21:17:22 jon Exp $
+ * $Id: VelocityServlet.java,v 1.8 2000/10/15 22:57:04 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
     /**
-     * The name for the request object in the context
+     * The HTTP request object context key.
      */
     public static final String REQUEST = "req";
+
     /**
-     * The name for the response object in the context
+     * The HTTP response object context key.
      */
     public static final String RESPONSE = "res";
+
     /**
-     * The name for the contentType object in the context
+     * The HTTP content type context key.
      */
     public static final String CONTENT_TYPE = "contentType";
     
@@ -121,9 +124,10 @@ public abstract class VelocityServlet extends HttpServlet
     private static boolean asciiHack = true;
 
     /**
-     * get the default contentType
+     * The default content type.
      */
-    private static String defaultContentType = Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
+    private static String defaultContentType = 
+        Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
 
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
@@ -155,7 +159,8 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handles GET
      */
-    public final void doGet( HttpServletRequest request, HttpServletResponse response )
+    public final void doGet( HttpServletRequest request, 
+                             HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -165,7 +170,7 @@ public abstract class VelocityServlet extends HttpServlet
      * Handle a POST
      */
     public final void doPost( HttpServletRequest request, 
-                        HttpServletResponse response )
+                              HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -236,7 +241,8 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Retrieves the requested template.
      *
-     * @param name The file name of the template to retrieve relative to template.path
+     * @param name The file name of the template to retrieve relative to the 
+     *             <code>template.path</code> property.
      * @return     The requested template.
      */
     public Template getTemplate( String name )
