@@ -56,12 +56,14 @@ package org.apache.velocity;
 
 import java.util.TreeMap;
 import java.io.Serializable;
+import org.apache.velocity.context.AbstractContext;
+import org.apache.velocity.context.Context;
 
 /**
  *   Example context impl that uses a HashMap
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TreeMapContext.java,v 1.1 2000/12/29 19:21:28 geirm Exp $
+ * @version $Id: TreeMapContext.java,v 1.2 2000/12/30 23:46:19 geirm Exp $
  */
 
 public class TreeMapContext extends AbstractContext

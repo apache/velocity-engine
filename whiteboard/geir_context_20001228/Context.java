@@ -1,4 +1,4 @@
-package org.apache.velocity;
+package org.apache.velocity.context;
 
 /*
  * The Apache Software License, Version 1.1
@@ -58,7 +58,6 @@ import java.util.Hashtable;
 import java.io.Serializable;
 
 import org.apache.velocity.util.ArrayIterator;
-import org.apache.velocity.InternalContext;
 
 /**
  * This class provides the storage location for all dynamic
@@ -69,7 +68,7 @@ import org.apache.velocity.InternalContext;
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.2 2000/12/30 14:42:00 geirm Exp $
+ * @version $Id: Context.java,v 1.3 2000/12/30 23:46:18 geirm Exp $
  */
 public interface Context
 {
