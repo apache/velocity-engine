@@ -17,19 +17,36 @@
 <p>
     This document provides developers with simple documentation for getting
     started with Velocity. For information about the overall structure of
-    Velocity, please refer to the <a href="design.html">Design Document</a>.
+    Velocity, please refer to the <link href="design.html">Design</link> document.
 </p>
 
 <p>
     Instructions for downloading and installing Velocity can be found on the
-    <a href="install.html">INSTALL</a> document.
+    <link href="install.html">Install</link> document.
 </p>    
 
+<s1 title="View Detailed API Documentation">
+
 <p>    
-    If you would like to view the detailed API documentation, run 
-    "build-velocity.sh|bat javadocs" from the "build" directory. 
-    This will create a full set of Velocity API docs in 
-    the "docs/apidocs" directory. 
+    If you are working on Unix/Linux and would like to create a full set 
+    of detailed API documentation for Velocity, go to the "build" directory
+    and run the following script.
+    
+    <source><![CDATA[
+    
+    ./build-velocity.sh
+    
+    ]]></source>
+    
+    If you are working on Windows, the following command will have the same 
+    effect.
+    
+    <source><![CDATA[
+    
+    build-velocity.bat
+    
+    ]]></source>
+     
 </p>
 
 </s1>
