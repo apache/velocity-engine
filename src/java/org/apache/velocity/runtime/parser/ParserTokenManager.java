@@ -415,6 +415,9 @@ private final void jjCheckNAddStates(int start)
    jjCheckNAdd(jjnextStates[start + 1]);
 }
 static final long[] jjbitVec0 = {
+   0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
+};
+static final long[] jjbitVec2 = {
    0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
 };
 private final int jjMoveNfa_0(int startState, int curPos)
@@ -699,6 +702,9 @@ private final int jjMoveNfa_0(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -706,15 +712,15 @@ private final int jjMoveNfa_0(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 6:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                case 11:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      jjAddStates(3, 5);
                   break;
                case 22:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      jjAddStates(0, 2);
                   break;
                default : break;
@@ -892,6 +898,9 @@ private final int jjMoveNfa_6(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -899,7 +908,7 @@ private final int jjMoveNfa_6(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -1395,6 +1404,9 @@ private final int jjMoveNfa_4(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -1402,7 +1414,7 @@ private final int jjMoveNfa_4(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -1699,6 +1711,9 @@ private final int jjMoveNfa_3(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -1707,14 +1722,14 @@ private final int jjMoveNfa_3(int startState, int curPos)
             {
                case 11:
                case 5:
-                  if ((jjbitVec0[i2] & l2) == 0L)
+                  if (!jjCanMove_0(hiByte, i1, i2, l1, l2))
                      break;
                   if (kind > 18)
                      kind = 18;
                   jjCheckNAdd(5);
                   break;
                case 13:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -1892,6 +1907,9 @@ private final int jjMoveNfa_7(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -1899,7 +1917,7 @@ private final int jjMoveNfa_7(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -2092,6 +2110,9 @@ private final int jjMoveNfa_8(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -2099,7 +2120,7 @@ private final int jjMoveNfa_8(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -2415,6 +2436,9 @@ private final int jjMoveNfa_5(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -2422,7 +2446,7 @@ private final int jjMoveNfa_5(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -2861,6 +2885,9 @@ private final int jjMoveNfa_1(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -2868,15 +2895,15 @@ private final int jjMoveNfa_1(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                case 6:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      jjAddStates(65, 67);
                   break;
                case 17:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      jjAddStates(62, 64);
                   break;
                default : break;
@@ -3194,6 +3221,9 @@ private final int jjMoveNfa_2(int startState, int curPos)
       }
       else
       {
+         int hiByte = (int)(curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          MatchLoop: do
@@ -3201,7 +3231,7 @@ private final int jjMoveNfa_2(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 1:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 13)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2) && kind > 13)
                      kind = 13;
                   break;
                default : break;
@@ -3229,6 +3259,18 @@ static final int[] jjnextStates = {
    21, 6, 7, 8, 6, 11, 7, 8, 14, 15, 29, 30, 31, 32, 9, 10, 
    12, 14, 15, 33, 34, 
 };
+private static final boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2)
+{
+   switch(hiByte)
+   {
+      case 0:
+         return ((jjbitVec2[i2] & l2) != 0L);
+      default : 
+         if ((jjbitVec0[i1] & l1) != 0L)
+            return true;
+         return false;
+   }
+}
 public static final String[] jjstrLiteralImages = {
 null, null, null, null, null, null, null, null, null, null, null, null, null, 
 null, null, null, null, null, null, null, null, null, null, null, null, null, null, 
@@ -3263,25 +3305,23 @@ static final long[] jjtoSpecial = {
 static final long[] jjtoMore = {
    0x40fc00L, 
 };
-private ASCII_CharStream input_stream;
+private CharStream input_stream;
 private final int[] jjrounds = new int[42];
 private final int[] jjstateSet = new int[84];
 StringBuffer image;
 int jjimageLen;
 int lengthOfMatch;
 protected char curChar;
-public ParserTokenManager(ASCII_CharStream stream)
+public ParserTokenManager(CharStream stream)
 {
-   if (ASCII_CharStream.staticFlag)
-      throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
    input_stream = stream;
 }
-public ParserTokenManager(ASCII_CharStream stream, int lexState)
+public ParserTokenManager(CharStream stream, int lexState)
 {
    this(stream);
    SwitchTo(lexState);
 }
-public void ReInit(ASCII_CharStream stream)
+public void ReInit(CharStream stream)
 {
    jjmatchedPos = jjnewStateCnt = 0;
    curLexState = defaultLexState;
@@ -3295,7 +3335,7 @@ private final void ReInitRounds()
    for (i = 42; i-- > 0;)
       jjrounds[i] = 0x80000000;
 }
-public void ReInit(ASCII_CharStream stream, int lexState)
+public void ReInit(CharStream stream, int lexState)
 {
    ReInit(stream);
    SwitchTo(lexState);
@@ -3506,7 +3546,7 @@ final void SkipLexicalActions(Token matchedToken)
          if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          * push every terminator character back into the stream  
          */
@@ -3524,7 +3564,7 @@ final void SkipLexicalActions(Token matchedToken)
          if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         if ( debugPrint )
             System.out.print("DIRECTIVE_TERM :");
 
@@ -3545,7 +3585,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         if (! inComment)
         {
@@ -3573,7 +3613,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         if (! inComment)
         {
@@ -3601,7 +3641,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         if (!inComment)
         {
@@ -3614,7 +3654,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         input_stream.backup(1);
         inComment = true;
@@ -3625,7 +3665,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         inComment=true;
         stateStackPush();
@@ -3635,7 +3675,7 @@ final void MoreLexicalActions()
          if (image == null)
               image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen)));
+            image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
         if (! inComment)
         {
@@ -3673,7 +3713,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         if (!inComment)
             lparen++;
 
@@ -3689,14 +3729,14 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
        RPARENHandler();
          break;
       case 7 :
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          * need to simply switch back to REFERENCE, not drop down the stack
          * because we can (infinitely) chain, ala 
@@ -3709,7 +3749,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         if (! inComment)
         {
             inDirective = true;
@@ -3726,7 +3766,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
      inComment = false;
      stateStackPop();
          break;
@@ -3734,7 +3774,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
     inComment = false;
     stateStackPop();
          break;
@@ -3742,7 +3782,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
     inComment = false;
     stateStackPop();
          break;
@@ -3750,7 +3790,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
          *      don't forget to account for the beloved yet wierd #set
@@ -3764,7 +3804,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         if ( debugPrint )
             System.out.println(" NEWLINE :");
 
@@ -3780,7 +3820,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         inDirective = false;
         stateStackPop();
          break;
@@ -3788,21 +3828,21 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         SwitchTo(DIRECTIVE);
          break;
       case 45 :
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         SwitchTo(DIRECTIVE);
          break;
       case 46 :
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         inDirective = false;
         stateStackPop();
          break;
@@ -3810,7 +3850,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         matchedToken.kind = EOF;
         fileDepth = 0;
          break;
@@ -3818,7 +3858,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          * check to see if we are in set
          *    ex.  #set $foo = $foo + 3
@@ -3834,7 +3874,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         /*
          * push the alpha char back into the stream so the following identifier 
          * is complete
@@ -3857,7 +3897,7 @@ final void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
          else
-            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+            image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
         stateStackPop();
          break;
       default : 
