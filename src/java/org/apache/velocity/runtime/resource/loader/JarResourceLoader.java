@@ -55,17 +55,7 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.InputStream;
-import java.io.IOException;
 
-import java.net.JarURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.Map;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -102,7 +92,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.15 2002/01/02 09:03:17 dlr Exp $
+ * @version $Id: JarResourceLoader.java,v 1.16 2003/05/04 17:37:41 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {

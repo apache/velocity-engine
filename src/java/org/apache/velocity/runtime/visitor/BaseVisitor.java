@@ -55,9 +55,6 @@ package org.apache.velocity.runtime.visitor;
  */
 
 import java.io.Writer;
-import java.io.IOException;
-
-import java.util.Map;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
@@ -70,7 +67,7 @@ import org.apache.velocity.runtime.parser.node.*;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: BaseVisitor.java,v 1.11 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: BaseVisitor.java,v 1.12 2003/05/04 17:37:42 geirm Exp $
  */
 public abstract class BaseVisitor implements ParserVisitor
 {
