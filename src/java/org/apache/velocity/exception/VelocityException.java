@@ -55,19 +55,15 @@ package org.apache.velocity.exception;
  */
 
 /**
- *  Application-level exception thrown when a resource of any type
- *  has a syntax or other error which prevents it from being parsed.
- *  <br>
- *  When this resource is thrown, a best effort will be made to have
- *  useful information in the exception's message.  For complete 
- *  information, consult the runtime log.
+ *  Base class for Velocity exceptions thrown to the 
+ *  application layer.
  *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseErrorException.java,v 1.2 2001/03/27 02:06:40 geirm Exp $
+ * @author <a href="kdowney@amberarcher.com">Kyle F. Downey</a>
+ * @version $Id: VelocityException.java,v 1.1 2001/03/27 02:06:40 geirm Exp $
  */
-public class ParseErrorException extends VelocityException
+public class VelocityException extends Exception
 {
-    public ParseErrorException(String exceptionMessage )
+    public VelocityException(String exceptionMessage )
     {
         super(exceptionMessage);
     }       
