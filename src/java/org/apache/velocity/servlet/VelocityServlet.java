@@ -128,7 +128,8 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.29 2001/04/04 10:42:39 geirm Exp $
+ * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
+ * $Id: VelocityServlet.java,v 1.30 2001/04/12 11:37:59 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -281,7 +282,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handles GET - calls doRequest()
      */
-    public final void doGet( HttpServletRequest request, HttpServletResponse response )
+    public void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -290,7 +291,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handle a POST request - calls doRequest()
      */
-    public final void doPost( HttpServletRequest request, HttpServletResponse response )
+    public void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -302,7 +303,7 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param request  HttpServletRequest object containing client request
      *  @param response HttpServletResponse object for the response
      */
-    private void doRequest(HttpServletRequest request, HttpServletResponse response )
+    protected void doRequest(HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
     {
         try
@@ -323,7 +324,7 @@ public abstract class VelocityServlet extends HttpServlet
              *  let someone handle the request
              */
 
-            Template template = handleRequest(context);        
+            Template template = handleRequest( request, response, context );        
 
             /*
              *  bail if we can't find the template
@@ -331,7 +332,7 @@ public abstract class VelocityServlet extends HttpServlet
 
             if ( template == null )
             {
-                throw new Exception ("Cannot find the template!" );
+                return;
             }
 
             /*
@@ -494,13 +495,61 @@ public abstract class VelocityServlet extends HttpServlet
      * calling the <code>getTemplate()</code> method to produce your return 
      * value.
      * <br><br>
+     * In the event of a problem, you may handle the request directly
+     * and return <code>null</code> or throw a more meaningful exception
+     * for the error handler to catch.
+     *
+     *  @param request servlet request from client 
+     *  @param response servlet reponse 
+     *  @param ctx The context to add your data to.
+     *  @return    The template to merge with your context or null, indicating
+     *    that you handled the processing.
+     */
+    protected Template handleRequest( HttpServletRequest request, HttpServletResponse response, Context ctx ) 
+        throws Exception
+    {
+        /*
+         * invoke handleRequest
+         */
+
+        Template t =  handleRequest( ctx );
+
+        /*
+         *  if it returns null, this is the 'old' deprecated 
+         *  way, and we want to mimic the behavior for a little 
+         *  while anyway
+         */
+
+        if (t == null)
+        {
+            throw new Exception ("handleRequest(Context) returned null - no template selected!" );
+        }
+
+        return t;
+    }
+
+    /**
+     * Implement this method to add your application data to the context, 
+     * calling the <code>getTemplate()</code> method to produce your return 
+     * value.
+     * <br><br>
      * In the event of a problem, you may simple return <code>null</code>
      * or throw a more meaningful exception.
+     *
+     * @deprecated Use
+     * {@link handleRequest( HttpServletRequest request, 
+     * HttpServletResponse response, Context ctx )}
      *
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
      */
-    protected abstract Template handleRequest( Context ctx ) throws Exception;
+    protected Template handleRequest( Context ctx ) 
+        throws Exception
+    {
+        throw new Exception ("You must override VelocityServlet.handleRequest( Context) "
+                             + " or VelocityServlet.handleRequest( HttpServletRequest, "
+                             + " HttpServletResponse, Context)" );
+    }
  
     /**
      * Invoked when there is an error thrown in any part of doRequest() processing.
