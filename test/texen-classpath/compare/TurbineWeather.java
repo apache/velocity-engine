@@ -17,11 +17,13 @@ package org.apache.turbine.services.weather;
  */
 
 
+
 import org.apache.turbine.services.TurbineServices;
 
 /**
  *
  *
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  */
 public class TurbineWeather
 {
