@@ -69,6 +69,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletResponse;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
@@ -100,7 +101,7 @@ import org.apache.velocity.VelocityContext;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.20 2001/01/03 05:28:51 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.21 2001/02/12 02:58:28 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -165,11 +166,15 @@ public abstract class VelocityServlet extends HttpServlet
          * if this will break other servlet engines, but it probably
          * shouldn't since WAR files are the future anyways.
          */
+        
         if ( propsFile != null )
         {
             String realPath = getServletContext().getRealPath(propsFile);
+        
             if ( realPath != null )
+            {
                 propsFile = realPath;
+            }
         }
 
         try
@@ -188,78 +193,101 @@ public abstract class VelocityServlet extends HttpServlet
     }
     
     /**
-     * Handles GET
+     * Handles GET - calls doRequest()
      */
-    public final void doGet( HttpServletRequest request, 
-                             HttpServletResponse response )
+    public final void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
     }
 
     /**
-     * Handle a POST
+     * Handle a POST request - calls doRequest()
      */
-    public final void doPost( HttpServletRequest request, 
-                              HttpServletResponse response )
+    public final void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
     }
 
     /**
-     * Process the request.
+     *   Handles all requests 
+     *
+     *  @param request  HttpServletRequest object containing client request
+     *  @param response HttpServletResponse object for the response
      */
-    private void doRequest(HttpServletRequest request, 
-                           HttpServletResponse response )
+    private void doRequest(HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
     {
+        try
+        {
+            /*
+             *  first, get a context
+             */
+
+            Context context = createContext( request, response );
+            
+            /*
+             *   set the content type 
+             */
+
+            setContentType( request, response );
+
+            /*
+             *  let someone handle the request
+             */
+
+            Template template = handleRequest(context);        
+
+            /*
+             *  bail if we can't find the template
+             */
+
+            if ( template == null )
+            {
+                throw new Exception ("Cannot find the template!" );
+            }
+
+            /*
+             *  now merge it
+             */
+
+            mergeTemplate( template, context, response );
+        }
+        catch (Exception e)
+        {
+            error ( response, e.getMessage());
+        }
+    }
+
+    /**
+     *  merges the template with the context.  Only override this if you really, really
+     *  really need to. (And don't call us with questions if it breaks :)
+     *
+     *  @param template template object returned by the handleRequest() method
+     *  @param context  context created by the createContext() method
+     *  @param response servlet reponse (use this to get the output stream or Writer
+     */
+    protected void mergeTemplate( Template template, Context context, HttpServletResponse response )
+        throws Exception
+    {
         ServletOutputStream output = response.getOutputStream();
-        String contentType = null;
         VelocityWriter vw = null;
         
         try
         {
-            // create a new context
-            VelocityContext context = new VelocityContext();
-            
-            // put the request/response objects into the context
-            context.put (REQUEST, request);
-            context.put (RESPONSE, response);
-
-             // check for a content type in the context    
-            if (context.containsKey(CONTENT_TYPE))
-            {
-                contentType = (String) context.get (CONTENT_TYPE);
-            }
-            else
-            {
-                contentType = defaultContentType;
-            }
-            // set the content type
-            response.setContentType(contentType);
-
-            // call whomever extends this class and implements this method
-            Template template = handleRequest(context);        
-            // could not find the template
-            if ( template == null )
-                throw new Exception ("Cannot find the template!" );
-            
-          
             vw = (VelocityWriter) writerPool.get();
-          
+            
             if (vw == null)
-                vw = new VelocityWriter(
-                    new OutputStreamWriter(output, encoding), 4*1024, true);
+            {
+                vw = new VelocityWriter( new OutputStreamWriter(output, encoding), 4*1024, true);
+            }
             else
+            {
                 vw.recycle(new OutputStreamWriter(output, encoding));
+            }
            
             template.merge( context, vw);
-        }
-        catch (Exception e)
-        {
-            // display error messages
-            error (output, e.getMessage());
         }
         finally
         {
@@ -278,12 +306,62 @@ public abstract class VelocityServlet extends HttpServlet
             }
         }
     }
-    
+
+    /**
+     *  Sets the content type of the response.  This is available to be overriden
+     *  by a derived class.
+     *
+     *  The default implementation is :
+     *
+     *     response.setContentType( defaultContentType );
+     * 
+     *  where defaultContentType is set to the value of the default.contentType
+     *  property, or "text/html" if that is not set.
+     *
+     *  @param request servlet request from client
+     *  @param response servlet reponse to client
+     */
+    protected void setContentType( HttpServletRequest request, HttpServletResponse response )
+    {
+        response.setContentType( defaultContentType );
+    }
+
+    /**
+     *  returns a context suitable to pass to the handleRequest() method
+     *
+     *  Default implementation will create a VelocityContext object,
+     *   put the HttpServletRequest and HttpServletResponse
+     *  into the context accessable via the keys VelocityServlet.REQUEST and
+     *  VelocityServlet.RESPONSE, respectively.
+     *
+     *  @param request servlet request from client
+     *  @param response servlet reponse to client
+     *
+     *  @return context
+     */
+    protected Context createContext(HttpServletRequest request,  HttpServletResponse response )
+    {
+        /*
+         *   create a new context
+         */
+
+        VelocityContext context = new VelocityContext();
+        
+        /*
+         *   put the request/response objects into the context
+         */
+           
+        context.put( REQUEST, request );
+        context.put( RESPONSE, response );
+
+        return context;
+    }
+
     /**
      * Retrieves the requested template.
      *
      * @param name The file name of the template to retrieve relative to the 
-     *             <code>template.path</code> property.
+     *             template root.
      * @return     The requested template.
      */
     public Template getTemplate( String name )
@@ -305,7 +383,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Send an error message to the client.
      */
-    private final void error( ServletOutputStream out, String message )
+    private final void error( ServletResponse response, String message )
         throws ServletException, IOException
     {
         StringBuffer html = new StringBuffer();
@@ -315,7 +393,7 @@ public abstract class VelocityServlet extends HttpServlet
         html.append(message);
         html.append("</body>");
         html.append("</html>");
-        out.print( html.toString() );
+        response.getOutputStream().print( html.toString() );
     }
 }
 
