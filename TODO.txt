@@ -5,14 +5,6 @@ No blockers.
 
 +------------- Not Critical For Release -------------+
 
-o Drop use of Log4J Category class
-
-  PLAN: Replace with org.apache.log4j.Logger.
-
-  STATUS:
-  [DLR] I will implement this for 1.5 (has open Bugzilla issue).
-
-
 o Control Caching Resource Usage
 
   Change resource caching to limit cache size and expire
