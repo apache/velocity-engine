@@ -79,7 +79,15 @@ by Will. (gmj)
 Fix to bug #7697, suggested by Will.  Fixes problem with single line comment
 embedded in a multi-line comment. (gmj)
 </li>
-</ul>
+<li>
+    Change for bug #24338 and partial for #17803, allowing newlines in
+    directives. (gmj)
+</li>
+<li>
+    Change to finish request #17803, allowing '+' as a string concat. We'll have
+    to see how the community likes it. (gmj)
+</li>
+    </ul>
 
 </subsection>
 
