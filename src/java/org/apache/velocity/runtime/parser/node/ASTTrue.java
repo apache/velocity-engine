@@ -59,6 +59,8 @@ import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTTrue extends SimpleNode
 {
+    private Boolean value = new Boolean(true);
+
     public ASTTrue(int id)
     {
         super(id);
@@ -82,6 +84,6 @@ public class ASTTrue extends SimpleNode
 
     public Object value(InternalContextAdapter context)
     {
-        return new Boolean(true);
+        return value;
     }        
 }

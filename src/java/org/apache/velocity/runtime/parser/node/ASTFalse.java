@@ -60,6 +60,8 @@ import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTFalse extends SimpleNode
 {
+    private Boolean value = new Boolean( false );
+
     public ASTFalse(int id)
     {
         super(id);
@@ -83,6 +85,6 @@ public class ASTFalse extends SimpleNode
 
     public Object value( InternalContextAdapter context)
     {
-        return new Boolean(false);
+        return value;
     }        
 }
