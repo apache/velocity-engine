@@ -58,7 +58,7 @@ import java.io.Writer;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.8 2000/12/20 07:38:16 jvanzyl Exp $
+ * @version $Id: Macro.java,v 1.9 2001/01/03 05:28:33 geirm Exp $
  */
 public class Macro extends Directive
 {
@@ -108,7 +108,7 @@ public class Macro extends Directive
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException 
     {
         /*
@@ -118,7 +118,7 @@ public class Macro extends Directive
         return true;
     }
  
-    public void init(Context context, Node node) 
+    public void init( InternalContextAdapter context, Node node) 
        throws Exception
     {
         /*

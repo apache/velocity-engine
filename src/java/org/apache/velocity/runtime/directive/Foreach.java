@@ -65,7 +65,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
 
@@ -85,7 +85,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.29 2000/12/20 07:31:40 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.30 2001/01/03 05:28:33 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -155,7 +155,8 @@ public class Foreach extends Directive
      *  simple init - init the tree and get the elementKey from
      *  the AST
      */
-    public void init(Context context, Node node) throws Exception
+    public void init( InternalContextAdapter context, Node node) 
+        throws Exception
     {
         super.init( context, node );
 
@@ -174,7 +175,7 @@ public class Foreach extends Directive
      *  @param node   AST node
      *  @return Iterator to do the dataset
      */
-    private Iterator getIterator( Context context, Node node )
+    private Iterator getIterator( InternalContextAdapter context, Node node )
     {
         /*
          *  get our list object, and punt if it's null.
@@ -276,7 +277,7 @@ public class Foreach extends Directive
     /**
      *  renders the #foreach() block
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {        
         /*

@@ -56,7 +56,7 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.*;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.1 2000/12/19 08:23:39 jvanzyl Exp $
+ * @version $Id: Literal.java,v 1.2 2001/01/03 05:28:33 geirm Exp $
  */
 public class Literal extends Directive
 {
@@ -93,7 +93,7 @@ public class Literal extends Directive
      * Store the literal rendition of a node using
      * the Node.literal().
      */
-    public void init(Context context, Node node) throws Exception
+    public void init( InternalContextAdapter context, Node node) throws Exception
     {
         literalText = node.jjtGetChild(0).literal();
     }    
@@ -102,7 +102,7 @@ public class Literal extends Directive
      * Throw the literal rendition of the block between
      * #literal()/#end into the writer.
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
         writer.write(literalText);

@@ -59,7 +59,7 @@ import java.io.IOException;
 
 import java.util.Map;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.*;
 
@@ -71,17 +71,17 @@ import org.apache.velocity.runtime.parser.node.*;
 public abstract class BaseVisitor implements ParserVisitor
 {
     /** Context used during traversal */
-    protected Context context;
+    protected InternalContextAdapter context;
     
     /** Writer used as the output sink */
     protected Writer writer;
     
-    public void setWriter(Writer writer)
+    public void setWriter( Writer writer )
     {
         this.writer = writer;
     }        
 
-    public void setContext(Context context)
+    public void setContext( InternalContextAdapter context)
     {
         this.context = context;
     }

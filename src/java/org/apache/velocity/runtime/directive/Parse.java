@@ -57,7 +57,8 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -83,7 +84,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.12 2000/12/20 07:40:00 jvanzyl Exp $
+ * @version $Id: Parse.java,v 1.13 2001/01/03 05:28:33 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -112,7 +113,7 @@ public class Parse extends Directive
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
         /*

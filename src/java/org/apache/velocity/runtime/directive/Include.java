@@ -57,7 +57,7 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -95,7 +95,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.13 2000/12/20 07:34:21 jvanzyl Exp $
+ * @version $Id: Include.java,v 1.14 2001/01/03 05:28:33 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -120,7 +120,7 @@ public class Include extends Directive
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
      */
-    public boolean render(Context context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
         /*
@@ -161,7 +161,7 @@ public class Include extends Directive
      *  @param writer output Writer
      *  @return boolean success or failure.  failures are logged
      */
-    private boolean renderOutput( Node node, Context context, Writer writer )
+    private boolean renderOutput( Node node, InternalContextAdapter context, Writer writer )
        throws IOException
     {
         String arg = "";
