@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.8 2000/11/12 06:41:33 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.9 2000/11/19 23:16:07 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -76,6 +76,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.Runtime;
 
 public class ASTDirective extends SimpleNode
 {
@@ -111,11 +112,24 @@ public class ASTDirective extends SimpleNode
             directive = (Directive) parser.getDirective( strDirectiveName_ )
                 .getClass().newInstance();
             
+            /*
+             *  we need to treat #parse differently, alas
+             */
             if (strDirectiveName_.equals("parse"))
                 ( (Parse) directive).setParseDepth( iParseDepth_ );
-
+            
             directive.init(context,this);
-        }            
+        }          
+        else if (Runtime.isVelocimacro( strDirectiveName_  )) 
+        {
+            /*
+             *  we seem to be a Velocimacro.
+             */
+
+            isDirective = true;
+            directive = (Directive) Runtime.getVelocimacro( strDirectiveName_ );
+            directive.init( context, this );
+        } 
         else
         {
             isDirective = false;
