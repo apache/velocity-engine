@@ -433,7 +433,21 @@ the context, and used in more than one #foreach(), subsequent #foreach()
 blocks after the first will fail, as the Iterator doesn't reset.
 </li>
 
+<li> <code>java.util.Enumeration</code> USE WITH CAUTION : Like
+<code>java.util.Iterator</code>, this is currently 
+supported only provisionally - the issue of concern is the 
+'non-resettablity' of the Enumeration.  If a 'naked' Enumeration
+is placed into the context, and used in more than one #foreach(), 
+subsequent #foreach() blocks after the first will fail, 
+as the Enumeration doesn't reset.  
+</li>
+
 </ul>
+
+In the case of the <code>Iterator</code> and <code>Enumeration</code>, it is
+recommended that they are placed in the context only when it cannot be avoided,
+and you should let Velocity find the appropriate reusable iterative interface when 
+that is sufficient and possible.
 </p>
 
 <p>
