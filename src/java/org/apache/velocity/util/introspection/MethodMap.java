@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: MethodMap.java,v 1.6 2000/11/10 03:27:39 jvanzyl Exp $
+ * @version $Id: MethodMap.java,v 1.7 2000/12/07 17:39:36 jvanzyl Exp $
  */
 
 public class MethodMap
@@ -124,7 +124,22 @@ public class MethodMap
                     if (j >= parameterTypes.length)
                         return method;
 
-                    if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
+                    Class c = parameterTypes[j];
+                    Object p = params[j];
+                    if ( c.isPrimitive() )
+                    {
+                        try
+                        {
+                            if ( c != p.getClass().getField("TYPE").get(p) )
+                                break;
+                        } 
+                        catch (Exception ex) 
+                        {
+                            break; // p is not a primitive derivate
+                        }
+                    }
+                    else if ( (p != null) &&
+                              !c.isAssignableFrom( p.getClass() ) )
                         break;
                 }
             }
