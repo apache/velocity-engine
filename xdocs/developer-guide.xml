@@ -66,6 +66,10 @@
 </li>
 
 <li>
+  <a href="developer-guide.html#Application Attributes">Application Attributes</a>
+</li>
+
+<li>
 <a href="developer-guide.html#EventCartridge and Event Handlers">EventCartridge and Event Handlers</a>
 </li>
 
@@ -89,7 +93,13 @@
 <a href="developer-guide.html#Configuring Resource Loaders">Configuring the Resource Loaders (template loaders)</a>
 <ul>
   <li>
+    <a href="developer-guide.html#Resource Loaders">Resource Loaders</a>
+  </li>
+  <li>
     <a href="developer-guide.html#Configuration Examples">Configuration Examples</a>
+  </li>
+  <li>
+    <a href="developer-guide.html#Resource Manager and Cache">Pluggable Resource Manager and Resource Cache</a>
   </li>
  </ul>
 </li>
@@ -1542,6 +1552,57 @@ information - the error messages are pretty good for figuring out what is wrong.
 </p>
 </section>
 
+<section name="Application Attributes">
+<p>
+<i>Application Attributes</i> are name-value pairs that can be associated with
+a RuntimeInstance (either via the <code>VelocityEngine</code> or
+the <code>Velocity</code> singleton) and accessed from any part of the Velocity
+engine that has access to the RuntimeInstance.
+</p>
+
+<p>
+This feature was designed for applications that need to communicate between
+the application layer and custom parts of the Velocity engine, such as
+loggers, resource loaders, resource managers, etc.
+</p>
+
+<p>
+The Application Attribute API is very simple.  From the application layer, there
+is a method of the <code>VelocityEngine</code> and the <code>Velocity</code>
+classes :
+</p>
+
+<source>
+<![CDATA[
+    public void setApplicationAttribute( Object key, Object value );
+]]>
+</source>
+
+<p>
+through which an application can store on Object under an application (or
+internal component) specified key.  There are no restrictions on the key
+or the value.  The value for a key may be set at any time - it is not required
+that this be set before init() is called.
+</p>
+
+<p>
+Internal components can access the key-value pairs if they have access to the
+object via the <code>RuntimeServices</code> interface, using the method
+</p>
+
+<source>
+<![CDATA[
+    public Object getApplicationAttribute( Object key );
+]]>
+</source>
+
+<p>
+Note that internal components cannot set the value of the key, just get it.
+if the internal component must communicate information to the application layer,
+it must do so via the Object passed as the value.
+</p>
+</section>
+
 <section name="EventCartridge and Event Handlers">
 
 <p>
@@ -2225,6 +2286,8 @@ public class MyClass implements LogSystem
 
 <section name="Configuring Resource Loaders">
 
+<a name="Resource Loaders"><strong>Resource Loaders</strong></a>
+
 <p>
 One of the fundamental and important parts about Velocity is the resource
 management system and the resource loaders.  They are referred to as 'resources'
@@ -2458,6 +2521,59 @@ of the function.
 <p>
 Note that while all three require very little configuration information
 for proper operation, the ClasspathResourceLoader is the simplest.
+</p>
+
+
+<a name="Resource Manager and Cache"></a>
+<strong>Pluggable Resource Manager and Resource Cache</strong>
+
+<p>
+The Resource Manager is the main part of the resource (template and static content)
+management system, and is responsible for taking application requests for
+templates, finding them in the available resource loaders, and then optionally
+caching the parsed template.  The Resource Cache is the mechanism that the
+Resource Manager uses to cache templates for quick reuse. While the default
+versions of these two facilities are suitable for most
+applications, for advanced users  it now is possible
+to replace the default resource manager
+and resource cache with custom implementations.
+</p>
+
+<p>
+A resource manager implementation must implement the
+<code>org.apache.velocity.runtime.resource.ResourceManager</code> interface.
+A description of the requirements of a resource manager is out of scope for
+this document.  Implementors are encouraged to review the default implementation.
+To configure Velocity to load the replacement implementation, use the
+configuration key :
+</p>
+
+<source><![CDATA[
+resource.manager.class
+]]></source>
+
+<p>
+This key is also defined as a contstant
+<code>RuntimeConstants.RESOURCE_MANAGER_CLASS</code>
+</p>
+
+<p>
+A resource cache implementation must implement the
+<code>org.apache.velocity.runtime.resource.ResourceCache</code> interface
+As with the resource manager, a description of the requirements of a
+resource manager is out of scope for
+this document.  Implementors are encouraged to review the default implementation.
+To configure Velocity to load the replacement implementation, use the
+configuration key :
+</p>
+
+<source><![CDATA[
+resource.manager.cache.class
+]]></source>
+
+<p>
+This key is also defined as a contstant
+<code>RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS</code>
 </p>
 
 </section>
