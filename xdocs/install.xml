@@ -50,9 +50,9 @@ jakarta-velocity
 <p>
 To make building Velocity easy and consistant, we have provided scripts
 to build Velocity for both Unix and Windows.  We use a Jakarta project
-called <a href='http://jakarta.apache.org/ant/'>Ant</a> to perform the
-build process and provide Ant with the distribution,  so no external
-build utilities are required.
+called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.3 or
+higher to perform the build process. We assume that you have followed
+Ant's installation instructions and have it properly installed.
 </p>
 
 <p>
@@ -64,23 +64,12 @@ All directory references will be relative to 'jakarta-velocity'.
 </p>
 
 <p>
-On Unix, change to the <filename>build</filename> directory (<code>cd
-build</code>).  Then, build the Velocity jar via the build.sh
-script :
+Change to the <filename>build</filename> directory (<code>cd
+build</code>). Then, to build the jar file, simply type:
 </p>
 
 <source><![CDATA[
-./build.sh
-]]></source>
-
-<p>
-On Windows,  change to the <filename>build</filename> directory
-(<code>cd build</code>).  Then, build the Velocity jar via the
-build.bat script :
-</p>
-
-<source><![CDATA[
-build.bat 
+ant
 ]]></source>
 
 <p>
@@ -104,7 +93,7 @@ CVS snapshot while a developer was checking things in.)
 <p>
 If the problems persist, do not hesitate to ask the Velocity community
 via our mail lists. They can be found <a
-href='http://jakarta.apache.org/site/mail.html'>here</a>. Please read
+href="http://jakarta.apache.org/site/mail.html">here</a>. Please read
 and understand the the guidelines for participating in any Jakarta mail
 list.
 </p>
@@ -124,9 +113,7 @@ To run the test suite, simply use the build target
 <filename>test</filename> when you build :
 </p>
 <source><![CDATA[
-Unix : ./build.sh test
-
-Windows : build.bat test
+ant test
 ]]></source>
 
 <p>
@@ -163,4 +150,3 @@ Velocity.
 
 </body>
 </document>
-
