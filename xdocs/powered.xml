@@ -27,9 +27,9 @@
 
  <table>
    <tr>
-    <td>URL</td>
-    <td>Type</td>
-    <td>Created By</td>
+    <td><b>URL</b></td>
+    <td><b>Description</b></td>
+    <td><b>Created By</b></td>
    </tr>
 
    <tr>
@@ -79,6 +79,19 @@
     </td>
     <td>
      <a href="http://www.espial.com">Espial</a>
+    </td>
+   </tr>
+
+ <tr>
+    <td>
+     <a href="http://www.adeptra.com">www.adeptra.com</a>
+    </td>
+    <td>
+     Adeptra is a venture-backed private company that provides
+     2-way alterting solutions for personal electronic devices.
+    </td>
+    <td>
+     <a href="http://www.adeptra.com">Adeptra Inc.</a>
     </td>
    </tr>
 
