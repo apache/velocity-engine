@@ -28,23 +28,33 @@ REQUIREMENTS
 The Java 2 SDK is required to build Velocity.
 
 For users that wish to use Log4J as the logging
-system, version 1.1 of Log4J is required.
+system, version 1.1 or newer of Log4J is required.
 
 BUILDING VELOCITY
 -----------------
 
 In order to get started with Velocity, you may want to build it.  If 
 you are working with an offical Velocity release package, you will find
-the Velocity jar in the top level directory.
+two Velocity jars in the top level directory.
 
-Note that starting with the version 1.2 release, this Velocity jar 
-does *NOT* contain any classes from external packages that it 
-depends on.
+PLEASE NOTE : Starting with the 1.2 release, we include two jars 
+ with the distribution :
 
-Specifically, these are the Jakarta commons-collections, 
-Jakarta ORO, and Jakarta Avalon Logkit.  These jars are included 
-in the distribution in build/lib, and further information can be 
-found in the developers guide.
+1) velocity-1.2.jar : The Velocity jar that does not include
+any external dependencies needed by Velocity, such as the 
+jakarta-commons-collection classes, Jakarta Avalon Logkit, or 
+Jakarta ORO. We do this to allow you to use whatever version of
+collections, logkit, etc that you wish w/o fear of collision.
+These jars are included in the distribution, in
+the build/lib directory, or at the respective project sites.
+
+2) velocity-dep-1.2.jar : This is a Velocity jar that includes
+all dependencies that were included with previous distribution
+jars.  It is intended as a convenience to allow you to drop
+this 1.2 distribution in place of existing 1.1 distributions.
+
+Please see the developers guide for more information.
+
 
 Building Velocity is easy.  All components necessary to build Velocity are
 included, except for the Java 2 SDK and the fabulous Ant build tool
