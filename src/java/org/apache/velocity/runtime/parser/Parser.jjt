@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.21 2000/11/05 16:28:18 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.22 2000/11/05 19:20:19 geirm Exp $ 
 */
 public class Parser
 {
@@ -477,12 +477,15 @@ TOKEN:
 }
 
 /* 
- *  we never will see a ) in anything but DIRECTIVE and REFMOD2.  Each have their own
+ *  we never will see a ')' in anything but DIRECTIVE and REFMOD2.  Each have their own
  */
 <DIRECTIVE>
 TOKEN:
 {
-   <RPAREN: ")" ((" ")* ( "\n" | "\r" | "\r\n" ))?>
+    /*
+     *  We will eat any whitespace upto and including a newline for directives
+     */
+    <RPAREN: ")" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ))?>
     {
        RPARENHandler();
     }    
@@ -538,6 +541,30 @@ TOKEN:
 |    <ESCAPE_STOP_DIRECTIVE: "\\#stop">
      { matchedToken.image = "#stop"; }
 
+}
+
+
+/*
+ *  needed because #set is so wacky in it's desired behavior.  We want set to eat any preceeding whitespace
+ *  so it is invisible in formatting. (As it should be.)  If this works well, I am going to chuck the whole MORE:
+ *  token abomination. 
+ */
+TOKEN:
+{
+   <SET_DIRECTIVE: (" "|"\t")* "#set" >
+    { 
+        if (! inComment)
+        {
+            inDirective = true;
+
+            if ( bDebugPrint_ )
+                System.out.print("#set :  going to " + DIRECTIVE );
+            
+            stateStackPush();
+            inSet = true; 
+            SwitchTo(DIRECTIVE);
+        }
+   }
 }
 
 <*>
@@ -750,7 +777,7 @@ TOKEN :
 <PRE_DIRECTIVE> 
 TOKEN :
 {
-    <END: "end" ( "\n" | "\r" | "\r\n" )?> 
+    <END: "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? > 
     { 
         inDirective = false; 
         stateStackPop();
@@ -778,11 +805,11 @@ TOKEN :
         stateStackPop();
     } 
 
-|   <SET_DIRECTIVE: "set" >
-    { 
-        inSet = true; 
-        SwitchTo(DIRECTIVE);
-    }
+//|   <SET_DIRECTIVE: (" "|"\t")* "set" >
+//    { 
+//        inSet = true; 
+//        SwitchTo(DIRECTIVE);
+//    }
 
 |   <STOP_DIRECTIVE: "stop">
     {
@@ -1150,7 +1177,7 @@ void ElseIfStatement() : {}
 
 void SetDirective() : {}
 {
-   ( <SET_DIRECTIVE> Expression() [<NEWLINE>] )
+   (<SET_DIRECTIVE> Expression() [<NEWLINE>] )
 }    
 
 /**
@@ -1336,9 +1363,11 @@ void PrimaryExpression() #void : {}
     What You Expect
     ---------------
     The recent versions of the parser are trying to support precise output to support general template use.
-    So the #set statment no longer renders to a \n in the output, nor do the control statements.  So if you
-    had a template
-    
+    The directives do not render trailing whitespace and newlines if followed by a newline.  They will render preceeding whitespace.
+    The only exception is #set, which also eats preceeding whitespace.
+ 
+    So, with a template :
+
         ------
         #set $foo="foo"
         #if($foo)
@@ -1351,7 +1380,6 @@ void PrimaryExpression() #void : {}
         ------
         $foo = foo
         ------
-
 
 */
  
