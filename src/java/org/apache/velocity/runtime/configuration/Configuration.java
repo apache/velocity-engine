@@ -136,7 +136,8 @@ import java.util.*;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Configuration.java,v 1.12 2001/03/14 21:48:37 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Configuration.java,v 1.13 2001/03/17 05:08:40 geirm Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -436,6 +437,36 @@ public class Configuration extends Hashtable
         }
     }
 
+    /**
+     *  Gets a property from the configuration.
+     *
+     *  @param key property to retrieve
+     *  @return value as object. Will return user value if exists,
+     *          if not then default value if exists, otherwise null
+     */
+    public Object getProperty( String key)
+    {
+        /*
+         *  first, try to get from the 'user value' store
+         */
+        Object o = this.get(key);
+
+        if ( o == null)
+        {
+            /*
+             *  if there isn't a value there, get it from the
+             *  defaults if we have them
+             */
+            
+            if (defaults != null)
+            {
+                o = defaults.get(key);
+            }
+        }
+
+        return o;
+    }
+    
     /**
      * Set a property taking into consideration
      * duplicate keys.
