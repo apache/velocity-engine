@@ -153,7 +153,8 @@ import java.util.Vector;
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Configuration.java,v 1.17 2001/03/20 17:19:24 geirm Exp $
+ * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @version $Id: Configuration.java,v 1.18 2001/03/20 20:29:41 geirm Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -472,6 +473,19 @@ public class Configuration extends Hashtable
     public void setProperty(String key, Object token)
     {
         Object o = this.get(key);
+
+        /*
+         *  $$$ GMJ
+         *  FIXME : post 1.0 release, we need to not assume
+         *  that a scalar is a String - it can be an Object
+         *  so we should make a little vector-like class
+         *  say, Foo that wraps (not extends Vector),
+         *  so we can do things like
+         *  if ( !( o instanceof Foo) )
+         *  so we know it's our 'vector' container
+         *
+         *  This applies throughout
+         */
         
         if (o instanceof String)
         {
@@ -508,7 +522,13 @@ public class Configuration extends Hashtable
                 while (tokenizer.hasMoreTokens())
                 {
                     String value = tokenizer.nextToken();
-                    setProperty(key,value);
+                    
+                    /*
+                     * we know this is a string, so make sure it
+                     * just goes in rather than risking vectorization
+                     * if it contains an escaped comma
+                     */
+                    setStringProperty(key,value);
                 }
             }
             else
@@ -537,6 +557,61 @@ public class Configuration extends Hashtable
                  */
                 put(key, token);
             }                
+        }
+    }
+
+
+    /**
+     *  Sets a string property w/o checking for commas - used
+     *  internally when a property has been broken up into
+     *  strings that could contain escaped commas to prevent
+     *  the inadvertant vectorization.
+     *
+     *  Thanks to Leon Messerschmidt for this one.
+     *
+     */
+    private  void setStringProperty(String key, String token)
+    {
+        Object o = this.get(key);
+
+        /*
+         *  $$$ GMJ
+         *  FIXME : post 1.0 release, we need to not assume
+         *  that a scalar is a String - it can be an Object
+         *  so we should make a little vector-like class
+         *  say, Foo that wraps (not extends Vector),
+         *  so we can do things like
+         *  if ( !( o instanceof Foo) )
+         *  so we know it's our 'vector' container
+         *
+         *  This applies throughout
+         */
+
+        /*
+         *  do the usual thing - if we have a value and 
+         *  it's scalar, make a vector, otherwise add
+         *  to the vector
+         */
+ 
+        if (o instanceof String)
+        {
+            Vector v = new Vector(2);
+            v.addElement(o);
+            v.addElement(token);
+            put(key, v);
+        }
+        else if (o instanceof Vector)
+        {
+            ((Vector) o).addElement(token);
+        }
+        else
+        {
+            if( !containsKey( key ) )
+            {
+                keysAsListed.add(key);
+            }
+
+            put( key, token);
         }
     }
 
