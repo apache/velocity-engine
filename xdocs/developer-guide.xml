@@ -2063,6 +2063,20 @@ exceptional condition.  If you see a log message, please
 increment this property.
 </p>
 
+<p>
+<strong>Pluggable Introspection</strong>
+</p>
+
+<p>
+<code>runtime.introspector.uberspect =
+org.apache.velocity.util.introspection.UberspectImpl</code>
+<br/>
+This property sets the 'Uberspector', the introspection package that
+handles all introspection strategies for Velocity.  The default works just
+fine, so only replace if you have something really interesting and special
+to do.
+</p>
+
 </section>
 
 <section name="Configuring the Log System">
