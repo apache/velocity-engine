@@ -60,16 +60,17 @@ package org.apache.velocity.util;
 import java.util.*;
 
 /**
-    A stopwatch class. Measures real time in milliseconds.
-*/
+ * A stopwatch class. Measures real time in milliseconds.
+ */
 public class Timer
 {
-    Date        startTime;
-    double  seconds;
-    double  totalSeconds;
+    Date startTime;
+    double seconds;
+    double totalSeconds;
 
-    /**
-        Creates a new timer. The timer does not start running until start is called.
+   /**
+    * Creates a new timer. The timer does not start running until 
+    * start is called.
     */
     public Timer()
     {
@@ -77,26 +78,28 @@ public class Timer
     }
 
     /**
-        Returns the time between start and stop. If the timer is running, it returns
-        the time since start was called.
-    */
+     * Returns the time between start and stop. If the timer is 
+     * running, it returns the time since start was called.
+     */
     public double getSeconds()
     {
         return seconds + calcTime();
     }
 
     /**
-        Returns the total time spent running since the timer was created. Useful for
-        aggregating several invocations of start & stop.
-    */
+     * Returns the total time spent running since the timer was 
+     * created. Useful for aggregating several invocations 
+     * of start & stop.
+     */
     public double getTotalSeconds()
     {
         return totalSeconds + calcTime();
     }
 
     /**
-        Resets the timer. Both seconds and total seconds are cleared.
-    */
+     * Resets the timer. Both seconds and total seconds 
+     * are cleared.
+     */
     public void reset()
     {
         startTime = null;
@@ -105,8 +108,8 @@ public class Timer
     }
 
     /**
-        Starts the timer.
-    */
+     * Starts the timer.
+     */
     public void start()
     {
         if (timerRunning())
@@ -115,8 +118,8 @@ public class Timer
     }
 
     /**
-        Stops the timer.
-    */
+     * Stops the timer.
+     */
     public void stop()
     {
         if (!timerRunning())
@@ -127,13 +130,17 @@ public class Timer
     }
 
     /**
-        Returns true if the timer is running.
-    */
+     * Returns true if the timer is running.
+     */
     public boolean timerRunning()
     {
         return (startTime != null);
     }
-
+    
+    /**
+     * Return the duration the timer has run, value
+     * is returned in seconds.
+     */
     double calcTime()
     {
         if (!timerRunning())
