@@ -164,7 +164,7 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.27 2001/05/01 02:36:12 dlr Exp $
+ * @version $Id: Configuration.java,v 1.28 2001/05/01 07:05:39 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -276,13 +276,18 @@ public class Configuration extends Hashtable
     class PropertiesTokenizer extends StringTokenizer
     {
         /**
+         * The property delimeter used while parsing (a comma).
+         */
+        static final String DELIMETER = ",";
+
+        /**
          * Constructor.
          *
          * @param string A String.
          */
         public PropertiesTokenizer(String string)
         {
-            super(string, ",");
+            super(string, DELIMETER);
         }
 
         /**
@@ -310,7 +315,7 @@ public class Configuration extends Hashtable
                 if (token.endsWith("\\"))
                 {
                     buffer.append(token.substring(0, token.length() - 1));
-                    buffer.append(",");
+                    buffer.append(DELIMETER);
                 }
                 else
                 {
@@ -513,7 +518,6 @@ public class Configuration extends Hashtable
              *  if there isn't a value there, get it from the
              *  defaults if we have them
              */
-            
             if (defaults != null)
             {
                 o = defaults.get(key);
@@ -587,7 +591,8 @@ public class Configuration extends Hashtable
              * like that cannot parse multiple same key
              * values.
              */
-            if (token instanceof String && ((String)token).indexOf(",") > 0)
+            if (token instanceof String &&
+                ((String)token).indexOf(PropertiesTokenizer.DELIMETER) > 0)
             {
                 PropertiesTokenizer tokenizer = 
                     new PropertiesTokenizer((String)token);
