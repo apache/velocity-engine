@@ -84,7 +84,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.15 2000/12/04 02:10:18 geirm Exp $
+ * @version $Id: Template.java,v 1.16 2000/12/05 05:10:01 geirm Exp $
  */
 public class Template
 {
@@ -279,6 +279,7 @@ public class Template
     public void merge(Context context, Writer writer)
         throws IOException, Exception
     {
+        context.setCurrentTemplateName( name );
         document.render(context, writer);
     }
 }
