@@ -1,15 +1,15 @@
 package org.apache.velocity.util;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/SimplePool.java,v 1.2 2001/03/31 05:25:22 geirm Exp $
- * $Revision: 1.2 $
- * $Date: 2001/03/31 05:25:22 $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/SimplePool.java,v 1.3 2003/10/27 12:35:17 geirm Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/10/27 12:35:17 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ package org.apache.velocity.util;
  * @author Gal Shachor
  * @author Costin
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: SimplePool.java,v 1.2 2001/03/31 05:25:22 geirm Exp $
+ * @version $Id: SimplePool.java,v 1.3 2003/10/27 12:35:17 geirm Exp $
  */
 public final class SimplePool  
 {
@@ -105,13 +105,13 @@ public final class SimplePool
     {
         int idx=-1;
      
-        synchronized( this ) 
+        synchronized(this)
         {
             /*
              *  if we aren't full
              */
 
-            if( current < max - 1 )
+            if (current < max - 1)
             {
                 /*
                  *  then increment the 
@@ -120,7 +120,7 @@ public final class SimplePool
                 idx = ++current;
             }
 
-            if( idx >= 0 ) 
+            if (idx >= 0)
             {
                 pool[idx] = o;
             }
@@ -130,11 +130,9 @@ public final class SimplePool
     /**
      * Get an object from the pool, null if the pool is empty.
      */
-    public  Object get() 
+    public Object get()
     {
-        int idx = -1;
-        
-        synchronized( this ) 
+        synchronized(this)
         {
             /*
              *  if we have any in the pool
@@ -142,22 +140,15 @@ public final class SimplePool
             if( current >= 0 )
             {
                 /*
-                 *  take one out, so to speak -
-                 *  separate the two operations
-                 *  to make it clear that you
-                 *  don't want idx = --current; :)
+                 *  remove the current one
                  */
 
-                idx = current;
+                Object o = pool[current];
+                pool[current] = null;
+
                 current--;
-               
-                /*
-                 *  and since current was >= 0
-                 *  to get in here, idx must be as well
-                 *  so save the if() opration
-                 */
 
-                return pool[idx];
+                return o;
             }
         }
         
@@ -169,5 +160,15 @@ public final class SimplePool
     public int getMax() 
     {
         return max;
+    }
+
+    /**
+     *   for testing purposes, so we can examine the pool
+     * 
+     * @return
+     */
+    Object[] getPool()
+    {
+        return pool;
     }
 }
