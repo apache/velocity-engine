@@ -34,6 +34,11 @@ This document tracks the changes in Velocity between releases.
          Fixed nullpointer problem in cache refresh in ResourceManager 
 	 (reported by Ilkka Priha) (gmj)
     </li>
+    <li>
+         VelocityServlet now respects the 'default.contentType' property again.
+	 That must have fallen out during the 'request process' rework in VelServlet. 
+	 (reported by csterg@aias.gr) (gmj)
+    </li>
 </ul>
 </subsection>
 
