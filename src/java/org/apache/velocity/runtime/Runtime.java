@@ -160,7 +160,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.54 2000/11/27 04:28:54 geirm Exp $
+ * @version $Id: Runtime.java,v 1.55 2000/11/27 05:00:50 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -262,6 +262,35 @@ public class Runtime implements RuntimeConstants
     /**
      * Initializes the Velocity Runtime.
      */
+
+    public synchronized static void init( Properties p )
+        throws Exception
+    {
+        if (initializedPublic)
+            return;
+        
+        /*
+         *  set the default properties
+         */
+
+        setDefaultProperties();
+
+        /*
+         *  now add the new ones from the calling app
+         */
+        
+        if (p != null)
+            addPropertiesFromProperties( p );
+        
+        /*
+         *  now call init to do the real work
+         */
+
+        init();
+
+        initializedPublic = true; 
+    }
+
     public synchronized static void init(String propertiesFileName)
         throws Exception
     {
@@ -346,6 +375,21 @@ public class Runtime implements RuntimeConstants
             
         info ("Override Properties : " + sourceName );
             
+        return addPropertiesFromProperties( p );
+    }
+
+    /**
+     *  adds / replaces properties in VelocityResources from a properties object. 
+     */
+    private static boolean addPropertiesFromProperties( Properties p )
+        throws Exception
+    {
+        if( p == null)
+            return false;
+        /*
+         *   iterate them out
+         */
+
         for (Enumeration e = p.keys(); e.hasMoreElements() ; ) 
         {
             String s = (String) e.nextElement();
