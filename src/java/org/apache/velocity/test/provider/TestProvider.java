@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.2 2000/11/01 18:23:24 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.3 2000/11/01 19:35:22 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -88,6 +88,16 @@ public class TestProvider
         
         h.put("RelatedLinks", al);
 
+        return h;
+    }        
+
+    public Hashtable getHashtable()
+    {
+        Hashtable h = new Hashtable();
+        h.put("key0", "value0");
+        h.put("key1", "value1");
+        h.put("key2", "value2");
+        
         return h;
     }        
 
