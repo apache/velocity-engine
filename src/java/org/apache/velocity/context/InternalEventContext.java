@@ -59,16 +59,12 @@ package org.apache.velocity.context;
 import org.apache.velocity.app.event.EventCartridge;
 
 /**
- *  interface to encapsulate the 'stuff' for internal operation of velocity.  
- *  We use the context as a thread-safe storage : we take advantage of the
- *  fact that it's a visitor  of sorts  to all nodes (that matter) of the 
- *  AST during init() and render().
- *
- *  Currently, it carries the template name for namespace
- *  support, as well as node-local context data introspection caching.
+ *  Interface for event support.  Note that this is a public internal
+ *  interface, as it is something that will be accessed from outside 
+ *  of the .context package.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalEventContext.java,v 1.1 2001/05/20 19:52:43 geirm Exp $
+ *  @version $Id: InternalEventContext.java,v 1.2 2001/05/20 19:54:11 geirm Exp $
  */
 public interface InternalEventContext
 {
