@@ -65,9 +65,9 @@ import org.jdom.CDATA;
  * This class extends XMLOutputter in order to provide
  * a way to walk an Element tree into a String.
  *
- * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @author <a href="rubys@us.ibm.com">Sam Ruby</a>
- * @version $Id: OutputWrapper.java,v 1.4 2001/03/18 22:42:51 jon Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
+ * @version $Id: OutputWrapper.java,v 1.5 2001/03/20 00:47:44 jon Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {

@@ -69,8 +69,8 @@ import org.jdom.JDOMException;
  * execution. You can then use a #foreach in Velocity to walk
  * over the Vector and visit each Element node.
  *
- * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TreeWalker.java,v 1.3 2001/03/05 11:44:35 jvanzyl Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: TreeWalker.java,v 1.4 2001/03/20 00:47:44 jon Exp $
  */
 public class TreeWalker
 {
