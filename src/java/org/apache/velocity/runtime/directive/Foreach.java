@@ -21,10 +21,15 @@ import java.io.IOException;
 
 import java.util.Iterator;
 
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.app.event.EventCartridge;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.Context;
+
+import org.apache.velocity.runtime.resource.Resource;
+
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -35,6 +40,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -42,10 +48,201 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.48 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public class Foreach extends Directive
 {
+    /**
+     * A special context to use when the foreach iterator returns a null.  This
+     * is required since the standard context may not support nulls.
+     * All puts and gets are passed through, except for the foreach iterator key.
+     */
+    protected class NullHolderContext implements InternalContextAdapter
+    {
+        private InternalContextAdapter  innerContext = null;
+        private String   loopVariableKey = "";
+        private boolean  active = true;
+        
+        /**
+         * Create the context as a wrapper to be used within the foreach
+         * @param key the reference used in the foreach
+         * @param context the parent context
+         */
+        private NullHolderContext( String key, InternalContextAdapter context )
+        {
+           innerContext = context;
+           if( key != null )
+               loopVariableKey = key;
+        }
+        
+        /**
+         * Get an object from the context, or null if the key is equal to the loop variable
+         * @see org.apache.velocity.context.InternalContextAdapter#get(java.lang.String)
+         */
+        public Object get( String key )
+        {
+            return ( active && loopVariableKey.equals(key) )
+                ? null
+                : innerContext.get(key);
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#put(java.lang.String key, java.lang.Object value)
+         */
+        public Object put( String key, Object value )
+        {
+            if( loopVariableKey.equals(key) && (value == null) )
+            {
+                active = true;
+            }
+
+            return innerContext.put( key, value );
+        }
+        
+        /**
+         * Does the context contain the key
+         * @see org.apache.velocity.context.InternalContextAdapter#containsKey(java.lang.Object key)
+         */
+        public boolean containsKey( Object key )
+        {
+            return innerContext.containsKey(key);
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getKeys()
+         */
+        public Object[] getKeys()
+        {
+           return innerContext.getKeys();
+        }
+        
+        /**
+         * Remove an object from the context
+         * @see org.apache.velocity.context.InternalContextAdapter#remove(java.lang.Object key)
+         */
+        public Object remove(Object key)
+        {
+           if( loopVariableKey.equals(key) )
+           {
+             active = false;
+           }
+           return innerContext.remove(key);
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#pushCurrentTemplateName(java.lang.String s)
+         */
+        public void pushCurrentTemplateName(String s) 
+        {
+            innerContext.pushCurrentTemplateName(s);
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#popCurrentTemplateName()
+         */
+        public void popCurrentTemplateName()
+        {
+            innerContext.popCurrentTemplateName();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getCurrentTemplateName()
+         */
+        public String getCurrentTemplateName() 
+        {
+            return innerContext.getCurrentTemplateName();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getTemplateNameStack()
+         */
+        public Object[] getTemplateNameStack() 
+        {
+            return innerContext.getTemplateNameStack();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#icacheGet(java.lang.Object key)
+         */
+        public IntrospectionCacheData icacheGet(Object key)
+        {
+            return innerContext.icacheGet(key);
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#icachePut(java.lang.Object key, org.apache.velocity.util.introspection.IntrospectionCacheData o)
+         */
+        public void icachePut(Object key, IntrospectionCacheData o)
+        {
+            innerContext.icachePut(key,o);
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#setCurrentResource(org.apache.velocity.runtime.resource.Resource r)
+         */
+        public void setCurrentResource( Resource r )
+        {
+            innerContext.setCurrentResource(r);
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getCurrentResource()
+         */
+        public Resource getCurrentResource()
+        {
+            return innerContext.getCurrentResource();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getBaseContext()
+         */
+        public InternalContextAdapter getBaseContext() 
+        {
+            return innerContext.getBaseContext();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getInternalUserContext()
+         */
+        public Context getInternalUserContext()
+        {
+            return innerContext.getInternalUserContext();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#attachEventCartridge(org.apache.velocity.app.event.EventCartridge ec)
+         */
+        public EventCartridge attachEventCartridge(EventCartridge ec)
+        {
+            return innerContext.attachEventCartridge(ec);
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getEventCartridge()
+         */
+        public EventCartridge getEventCartridge() 
+        {
+            return innerContext.getEventCartridge();
+        }
+        
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getAllowRendering()
+         */
+        public boolean getAllowRendering()
+        {
+            return innerContext.getAllowRendering();
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#setAllowRendering(boolean v)
+         */
+        public void setAllowRendering(boolean v)
+        {
+            innerContext.setAllowRendering(v);
+        }
+
+    }
+
     /**
      * Return name of this directive.
      */
@@ -174,11 +371,35 @@ public class Foreach extends Directive
         Object o = context.get(elementKey);
         Object ctr = context.get( counterName);
 
+        /**
+         * Instantiate the null holder context if a null value
+         * is returned by the foreach iterator.  Only one instance is 
+         * created - it's reused for every null value.
+         */
+        NullHolderContext nullHolderContext = null;
+        
         while (i.hasNext())
         {
             context.put( counterName , new Integer(counter));
-            context.put(elementKey,i.next());
-            node.jjtGetChild(3).render(context, writer);
+            Object value = i.next();
+            context.put(elementKey, value);
+
+            /**
+             * If the value is null, use the special null holder context
+             */
+            if( value == null )
+            {
+                if( nullHolderContext == null )
+                {
+                    // lazy instantiation
+                    nullHolderContext = new NullHolderContext(elementKey, context);
+                }
+                node.jjtGetChild(3).render(nullHolderContext, writer);
+            }
+            else
+            {
+                node.jjtGetChild(3).render(context, writer);
+            }
             counter++;
         }
 
