@@ -52,7 +52,7 @@
     </menu>
     <menu name="Site Translations">
         <item name="English"                 href="http://jakarta.apache.org/velocity/"/>
-        <item name="Japanese"                href="http://www.ingrid.org/jajakarta/velocity/velocity-1.2-rc2/docs-ja/index.html"/>
+        <item name="Japanese"                href="http://www.jajakarta.org/velocity/"/>
     </menu>
     </body>
 </project>
