@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.43 2000/12/19 13:34:40 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.44 2000/12/21 03:53:21 geirm Exp $ 
 */
 public class Parser
 {
@@ -1382,7 +1382,7 @@ void MultiplicativeExpression() #void : {}
 
 void UnaryExpression() #void : {}
 {
-    <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
+     LOOKAHEAD(2)  [<WHITESPACE>]  <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
 |   PrimaryExpression() 
 }
 
