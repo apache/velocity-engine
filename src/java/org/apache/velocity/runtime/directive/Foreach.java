@@ -43,12 +43,6 @@ public class Foreach extends Directive
         // element is so that we don't have to do it
         // everytime the node is traversed.
         
-        if (listObject == null)
-        {
-            System.out.println("dude you're fucked!");
-            System.out.println(node.jjtGetChild(2).getFirstToken().image);
-        }         
-        
         if (listObject instanceof Object[])
         {
             node.setInfo(ARRAY);
@@ -89,7 +83,6 @@ public class Foreach extends Directive
                     node.jjtGetChild(3).render(context, writer);
                 }
                 context.remove(elementKey);
-                
                 break;
             
             case ITERATOR:

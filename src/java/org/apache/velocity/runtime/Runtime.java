@@ -145,7 +145,7 @@ public class Runtime
     public static void initializeLogger() throws
         MalformedURLException
     {
-        if (!getString(TEMPLATE_PATH).equals("system"))
+        if (!getString(RUNTIME_LOG).equals("system"))
         {
             // Initialize the logger.
             logger = LogKit.createLogger("velocity", 
