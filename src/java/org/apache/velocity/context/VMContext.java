@@ -59,6 +59,7 @@ import java.util.HashMap;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.directive.VMProxyArg;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.runtime.resource.Resource;
 
 /**
  *  This is a special, internal-use-only context implementation to be
@@ -68,11 +69,11 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  in the put() and get() methods.
  *
  *  Further, this context also supports the 'VM local context' mode, where
- *  any get() or put() of references taht aren't args to the VM are considered
+ *  any get() or put() of references that aren't args to the VM are considered
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.5 2001/04/20 04:31:30 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.6 2001/04/22 18:29:37 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -309,6 +310,17 @@ public class VMContext implements InternalContextAdapter
     public EventCartridge getEventCartridge()
     {
         return innerContext.getEventCartridge();
+    }
+
+
+    public void setCurrentResource( Resource r )
+    {
+        innerContext.setCurrentResource( r );
+    }
+
+    public Resource getCurrentResource()
+    {
+        return innerContext.getCurrentResource();
     }
 }
 

@@ -88,7 +88,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.6 2001/04/22 18:18:44 geirm Exp $
+ * @version $Id: InternalContextAdapterImpl.java,v 1.7 2001/04/22 18:29:37 geirm Exp $
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
@@ -98,7 +98,6 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /** the ICB we are wrapping.  We may need to make one */
     InternalHousekeepingContext icb = null;
 
-    Resource currentResource = null;
 
     /**
      *  CTOR takes a Context and wraps it, delegating all 'data' calls 
@@ -145,12 +144,12 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     public void setCurrentResource( Resource r )
     {
-        currentResource = r;
+        icb.setCurrentResource(r);
     }
 
     public Resource getCurrentResource()
     {
-        return currentResource;
+        return icb.getCurrentResource();
     }
 
     /* --- InternalContext interface methods --- */
