@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.71 2000/12/17 22:10:57 jon Exp $
+ * @version $Id: Runtime.java,v 1.72 2000/12/18 01:07:27 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -191,6 +191,12 @@ public class Runtime implements RuntimeConstants
     private static boolean initialized;
     private static boolean initializedPublic = false;
 
+    /**
+     * whether or not the setDefaultProperties() method has been 
+     * called or not
+     */
+    private static boolean defaultPropertiesInit = false;
+    
     /**
      * The logging systems initialization may be defered if
      * it is to be initialized by an external system. There
@@ -391,7 +397,7 @@ public class Runtime implements RuntimeConstants
                 initializeParserPool();
                 initializeGlobalCache();
                 initializeIncludePaths();
-        
+
                 /*
                  *  initialize the VM Factory.  It will use the properties 
                  * accessable from Runtime, so keep this here at the end.
@@ -424,7 +430,7 @@ public class Runtime implements RuntimeConstants
      * file, then certain properties can be changed before
      * the Velocity Runtime is initialized.
      */
-    public static void setProperties(String propertiesFileName) 
+    public synchronized static void setProperties(String propertiesFileName) 
         throws Exception
     {
         /*
@@ -461,13 +467,17 @@ public class Runtime implements RuntimeConstants
      * The properties file may be in the file system proper,
      * or the properties file may be in the classpath.
      */
-
     public static void setDefaultProperties()
     {
         setDefaultProperties( true );
     }
 
-    private  static void setDefaultProperties( boolean doAssoc)
+    /**
+     * Initializes the Velocity Runtime with properties file.
+     * The properties file may be in the file system proper,
+     * or the properties file may be in the classpath.
+     */
+    private static void setDefaultProperties( boolean doAssoc )
     {
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
@@ -481,6 +491,9 @@ public class Runtime implements RuntimeConstants
             }
 
             info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+            
+            // we have been executed
+            defaultPropertiesInit = true;
         }
         catch (IOException ioe)
         {
@@ -573,6 +586,9 @@ public class Runtime implements RuntimeConstants
      */
     private static void assembleSourceInitializers()
     {
+        if (!defaultPropertiesInit)
+            setDefaultProperties(false);
+
         sourceInitializerList = new ArrayList();
         sourceInitializerMap = new Hashtable();
         
@@ -697,6 +713,11 @@ public class Runtime implements RuntimeConstants
      */
     public static void setSourceProperty(String key, String value)
     {
+        if(!sourceInitializersAssembled)
+        {
+            assembleSourceInitializers();
+        }
+    
         String publicName = key.substring(0, key.indexOf("."));
         String property = key.substring(key.indexOf(".") + 1);
         ((Map)sourceInitializerMap.get(publicName.toLowerCase())).put(property, value);
