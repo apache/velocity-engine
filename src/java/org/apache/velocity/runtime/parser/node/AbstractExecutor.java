@@ -58,12 +58,30 @@ import java.lang.reflect.Method;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
+/**
+ * Abstract class that is used to execute an arbitrary
+ * method that is in introspected. This is the superclass
+ * for the GetExecutor and PropertyExecutor.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: AbstractExecutor.java,v 1.4 2001/01/06 22:14:05 jvanzyl Exp $
+ */
 public abstract class AbstractExecutor
 {
+    /**
+     * Method to be executed.
+     */
     protected Method method = null;
     
+    /**
+     * Execute method against context.
+     */
     public abstract Object execute(Object o, InternalContextAdapter context);
 
+    /**
+     * Tell whether the executor is alive by looking
+     * at the value of the method.
+     */
     public boolean isAlive()
     {
         if (method != null)
