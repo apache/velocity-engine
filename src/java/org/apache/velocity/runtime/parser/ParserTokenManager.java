@@ -1743,7 +1743,7 @@ private final int jjMoveNfa_0(int startState, int curPos)
             {
                case 3:
                case 11:
-                  if ((0x7fffffe00000000L & l) == 0L)
+                  if ((0x7fffffe07fffffeL & l) == 0L)
                      break;
                   if (kind > 48)
                      kind = 48;
@@ -2778,6 +2778,16 @@ final void TokenLexicalActions(Token matchedToken)
             image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
         matchedToken.kind = EOF;
         fileDepth = 0;
+         break;
+      case 46 :
+        if (image == null)
+            image = new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+         else
+            image.append(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));
+        //!!! fixed <bcolor="#333333"/>
+        // needs to be more thorough.
+        if (lparen == 0)
+            SwitchTo(DEFAULT);
          break;
       case 54 :
         if (image == null)
