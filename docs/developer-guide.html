@@ -2036,7 +2036,8 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   similar to the FileResourceLoader, except that you have the convenience of bundling
   your templates into jars.  The properties are identical, except for
   <code>jar.resource.loader.path</code>, where you provide the full location of 
-  the jar(s) you wish to load resources from.
+  the jar(s) you wish to load resources from.  To specify a jar for the loader.path
+  you use the standard JAR URL syntax of <code>java.net.JarURLConnection</code>.
 </li>
 <li>
   <b>ClasspathResourceLoader :</b> This loader gets resources from the classloader.  While the 
@@ -2238,12 +2239,14 @@ file.resource.loader.modificationCheckInterval = 10
     </table>
     </div>
                                                 <p>
-<b>Dual Loader Configuration :</b>  This configuration sets up 
-two loaders at the same time, the FileResourceLoaderm, and 
-the ClasspathResourceLoader. The loaders are set-up such that the 
-FileResourceLoader is consulted first, and then the 
-ClasspathResourceLoader.  This would allow you to qickly 
-drop a template into the file template are to replace on of the
+<b>Multiple Loader Configuration :</b>  This configuration sets up 
+three loaders at the same time, the FileResourceLoader, 
+the ClasspathResourceLoader, and the JarResourceLoader.
+ The loaders are set-up such that the 
+FileResourceLoader is consulted first, then the 
+ClasspathResourceLoader, and finally the JarResourceLoader.
+This would allow you to qickly 
+drop a template into the file template area to replace on of the
 templates found in the classpath (usually via a jar) without
 having to rebuild the jar.
 </p>
@@ -2257,16 +2260,38 @@ having to rebuild the jar.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-resource.loader = file, class
+
+# specify three resource loaders to use
+
+resource.loader = file, class, jar
+
+#
+# for the loader we call 'file', set the FileResourceLoader as the
+# class to use, turn off caching, and use 3 directories for templates
+#
 
 file.resource.loader.description = Velocity File Resource Loader
 file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader
-file.resource.loader.path = .
+file.resource.loader.path = templatedirectory1, anotherdirectory, foo/bar
 file.resource.loader.cache = false
 file.resource.loader.modificationCheckInterval = 0
 
+#
+#  for the loader we call 'class', use the ClasspathResourceLoader
+#
+
 class.resource.loader.description = Velocity Classpath Resource Loader
 class.resource.loader.class = org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+
+#
+# and finally, for the loader we call 'jar', use the JarResourceLoader
+# and specify two jars to load from
+#
+
+jar.resource.loader.description = Velocity Jar  Resource Loader
+jar.resource.loader.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
+jar.resource.loader.path = jar:file:/myjarplace/myjar.jar, jar:file:/myjarplace/myjar2.jar
+
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2278,7 +2303,14 @@ class.resource.loader.class = org.apache.velocity.runtime.resource.loader.Classp
     </table>
     </div>
                                                 <p>
-Note that the ClasspathResourceLoader doesn't require much configuration.
+Node that the three names 'file', 'class', and 'jar' are merely for your convenience and 
+sanity.  They can be anything you want - they are just used to associate a set of 
+properties together.  However, it is recommended that you use names that give some hint
+of the function.
+</p>
+                                                <p>
+Note that while all three require very little configuration information
+for proper operation, the ClasspathResourceLoader is the simplest.
 </p>
                             </blockquote>
       </td></tr>
