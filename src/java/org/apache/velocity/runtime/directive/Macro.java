@@ -70,7 +70,7 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.4 2000/12/05 05:07:39 geirm Exp $
+ * @version $Id: Macro.java,v 1.5 2000/12/06 05:59:21 geirm Exp $
  */
 
 package org.apache.velocity.runtime.directive;
@@ -136,7 +136,7 @@ public class Macro extends Directive
      *  VelocimacroProxy objects, and if not currently used, adds it
      *  to the macro Factory
      */ 
-    public void processAndRegister( Node node)
+    public void processAndRegister( Node node, String strSourceTemplate )
         throws IOException
     {
         String strError = "";
@@ -201,12 +201,29 @@ public class Macro extends Directive
 
         int iMacroArgs = strArgs.length - 1;
 
-        boolean bRet = Runtime.addVelocimacro( strArgs[0], strMacro, strArgs, strMacroArray, tmArgIndexMap );
+        boolean bRet = Runtime.addVelocimacro( strArgs[0], strMacro, strArgs, strMacroArray, tmArgIndexMap, strSourceTemplate );
  
+        /*
+         *  lets make nicey-nicey output
+         */
+
+        String s = "#" +  strArgs[0];
+        s += "(";
+
+        for( int i=1; i < strArgs.length; i++)
+        {
+            s += " ";
+            s += strArgs[i];
+        }
+        s += " ) : source = ";
+        s += strSourceTemplate;
+
         if (bRet)
-            Runtime.info("Velocimacro : added new VM " +  strArgs[0] + "," +  iMacroArgs );
+        {          
+            Runtime.info( "Velocimacro : added new VM : " + s );
+        }
         else
-           Runtime.warn("Velocimacro : VM addition rejected : " +  strArgs[0] + " Check VM permissions and defaults."  );
+           Runtime.warn("Velocimacro : VM addition rejected : " + s + " Check VM permissions and defaults."  );
         
         return;
     }
