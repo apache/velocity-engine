@@ -28,6 +28,7 @@
         <item name="Developer's Guide"      href="/developer-guide.html"/>
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
         <item name="Specification"          href="/specification.html"/>
+        <item name="Velocity API Javadoc"   href="/api/index.html"/>
     </menu>
     <menu name="Comparisons">
         <item name="YMTD"                   href="/ymtd/ymtd.html"/>
