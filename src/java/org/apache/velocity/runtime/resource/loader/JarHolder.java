@@ -55,18 +55,14 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.InputStream;
-import java.io.IOException;
 import java.net.JarURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.Hashtable;
 
-import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 
@@ -74,7 +70,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * A small wrapper around a Jar
  *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarHolder.java,v 1.7 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: JarHolder.java,v 1.8 2003/05/04 17:37:41 geirm Exp $
  */
 public class JarHolder
 {

@@ -60,7 +60,6 @@ import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 
-import java.util.Map;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -76,7 +75,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * A loader for templates stored on the file system.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.18 2002/12/30 19:54:52 jon Exp $
+ * @version $Id: FileResourceLoader.java,v 1.19 2003/05/04 17:37:41 geirm Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {

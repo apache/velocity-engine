@@ -55,10 +55,8 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.InputStream;
-import java.util.Map;
 
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -72,7 +70,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * 
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceLoader.java,v 1.13 2002/02/12 17:48:44 dlr Exp $
+ * @version $Id: ResourceLoader.java,v 1.14 2003/05/04 17:37:41 geirm Exp $
  */
 public abstract class ResourceLoader
 {
