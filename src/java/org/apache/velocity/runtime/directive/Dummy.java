@@ -59,7 +59,7 @@ import java.io.IOException;
 
 import org.apache.velocity.Context;
 
-import org.apache.velocity.runtime.parser.Node;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * A dummy directive used for testing purposes.
@@ -73,9 +73,10 @@ public class Dummy extends Directive
     {
     }
     
-    public void render(Context context, Writer writer, Node node)
+    public boolean render(Context context, Writer writer, Node node)
         throws IOException
     {
+        return true;
     }
 
 }
