@@ -13,20 +13,20 @@
 #if ($foo)
 #begin
     convert me!
-#end
+#end  
 #else
 #begin
     convert me too!
 #end    
 
-#if ($foo)
-{
+#if ($nested) {
+  #if ($foo)
+  {  
     convert me!
-}    
-#else
-{
+  } #else {
     convert me too!
-}    
+  }
+}
 
 $_leadingUnderscore
 
