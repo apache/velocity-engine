@@ -76,7 +76,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * A loader for templates stored on the file system.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.16 2002/10/10 17:19:32 dlr Exp $
+ * @version $Id: FileResourceLoader.java,v 1.17 2002/10/10 18:09:10 dlr Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -124,48 +124,44 @@ public class FileResourceLoader extends ResourceLoader
     public synchronized InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
-        String template = null;
-        int size = paths.size();
+        /*
+         * Make sure we have a valid templateName.
+         */
+        if (templateName == null || templateName.length() == 0)
+        {
+            /*
+             * If we don't get a properly formed templateName then
+             * there's not much we can do. So we'll forget about
+             * trying to search any more paths for the template.
+             */
+            throw new ResourceNotFoundException(
+                "Need to specify a file name or file path!");
+        }
 
+        String template = StringUtils.normalizePath(templateName);
+        if ( template == null || template.length() == 0 )
+        {
+            String msg = "File resource error : argument " + template + 
+                " contains .. and may be trying to access " + 
+                "content outside of template root.  Rejected.";
+
+            rsvc.error( "FileResourceLoader : " + msg );
+      
+            throw new ResourceNotFoundException ( msg );
+        }
+
+        /*
+         *  if a / leads off, then just nip that :)
+         */
+        if (template.startsWith("/"))
+        {
+            template = template.substring(1);
+        }
+
+        int size = paths.size();
         for (int i = 0; i < size; i++)
         {
             String path = (String) paths.get(i);
-        
-            /*
-             * Make sure we have a valid templateName.
-             */
-            if (templateName == null || templateName.length() == 0)
-            {
-                /*
-                 * If we don't get a properly formed templateName
-                 * then there's not much we can do. So
-                 * we'll forget about trying to search
-                 * any more paths for the template.
-                 */
-                throw new ResourceNotFoundException(
-                    "Need to specify a file name or file path!");
-            }
-
-            template = StringUtils.normalizePath(templateName);
-            if ( template == null || template.length() == 0 )
-            {
-                String msg = "File resource error : argument " + template + 
-                    " contains .. and may be trying to access " + 
-                    "content outside of template root.  Rejected.";
-
-                rsvc.error( "FileResourceLoader : " + msg );
-      
-                throw new ResourceNotFoundException ( msg );
-            }
-
-            /*
-             *  if a / leads off, then just nip that :)
-             */
-            if ( template.startsWith("/") )
-            {
-                template = template.substring(1);
-            }
-
             InputStream inputStream = findTemplate(path, template);
             
             if (inputStream != null)
