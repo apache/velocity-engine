@@ -77,7 +77,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: ResourceManager.java,v 1.16 2001/03/14 22:07:46 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.17 2001/03/15 04:39:28 geirm Exp $
  */
 public class ResourceManager
 {
@@ -318,15 +318,20 @@ public class ResourceManager
                     Runtime.info("Attempting to find " + resourceName + 
                         " with " + resourceLoader.getClassName());
                     
-                    /*
-                     *  read how old the resource is _before_
-                     *  processing (=>reading) it
-                     */
-
-                    howOldItWas = resourceLoader.getLastModified( resource );
-
+ 
                     if (resource.process())
+                    {
+                        /*
+                         *  FIXME  (gmj)
+                         *  moved in here - technically still a problem - but the resource needs to be 
+                         *  processed before the loader can figure it out due to to the new 
+                         *  multi-path support - will revisit and fix
+                         */
+
+                        howOldItWas = resourceLoader.getLastModified( resource );
                         break;
+                    }
+
                 }
                 
                 /*
@@ -334,9 +339,9 @@ public class ResourceManager
                  */
                 if (resource.getData() == null)
                     throw new ResourceNotFoundException("Can't find " + resourceName + "!");
-                
+
                 resource.setLastModified( howOldItWas );
-                
+                 
                 resource.setModificationCheckInterval(
                     resourceLoader.getModificationCheckInterval());
                 
