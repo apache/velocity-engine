@@ -952,23 +952,23 @@ $blargh
 <source><![CDATA[
 #if( $foo < 10 )
     <strong>Go North</strong>
-#elseif( $foo > 10 )
+#elseif( $foo == 10 )
     <strong>Go East</strong>
-#elseif( $bar = 6 )
+#elseif( $bar == 6 )
     <strong>Go South</strong>
 #else
     <strong>Go West</strong>
 #end
 ]]></source>
 
+    <p>In this example, <em>$foo</em> is greater than 10, so the first
+    two comparisons fail.  Next <em>$bar</em> is compared to 6, which is
+    true, so the output is <strong>Go South</strong>.
+    </p>
+
     <p>
-    In this example, <em>$foo</em> is greater than or equal to 10, so
-    the Velocity Templating Engine makes the output of the if statement
-    <strong>Go East</strong>. If <em>$foo</em> had a value of 10 and
-    <em>$bar</em> had a value of 6.1, then <em>$foo</em> is neither
-    greater than 10 nor equal to 10, and <em>$bar</em> is not equal to
-    6. All if and elseif statements are false, so the output is
-    <strong>Go West</strong>.
+    Please note that currently, Velocity's numeric comparisons are contrained 
+    to Integers - anything else will evaluate to <em>false</em>.
     </p>
 
     <p>
