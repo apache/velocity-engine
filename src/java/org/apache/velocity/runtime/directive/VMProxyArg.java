@@ -109,7 +109,7 @@ import org.apache.velocity.util.StringUtils;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.2 2001/01/14 14:57:57 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.3 2001/01/24 17:04:42 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -379,7 +379,7 @@ public class VMProxyArg
        }
        else
        {
-           Runtime.error(" VMProxyArg.getObject() : unsupported type : (" + callerReference +") " + nodeTree.getType() );
+           Runtime.error("Unsupported VM arg type : VM arg = " + callerReference +" type = " + type + "( VMProxyArg.getObject() )");
        }
         
        return retObject;
@@ -470,11 +470,25 @@ public class VMProxyArg
                 staticObject = new Integer(callerReference);
                 break;
             }
+
+      case ParserTreeConstants.JJTWORD :
+          {
+              /*
+               *  this is technically an error...
+               */
+
+              Runtime.error("Unsupported arg type : " + callerReference
+                            + "  You most likely intended to call a VM with a string literal, so enclose with ' or \" characters. (VMProxyArg.setup())");
+              constant = true;
+              staticObject = new String( callerReference );
+
+              break;
+          }
  
         default :
             {
-                 Runtime.error(" VMProxyArg.setup() : unsupported type : (" 
-                                    + callerReference +") " + nodeTree.getType() + " : " + nodeTree );
+                 Runtime.error(" VMProxyArg.setup() : unsupported type : " 
+                                    + callerReference  );
             }
         }
     }
