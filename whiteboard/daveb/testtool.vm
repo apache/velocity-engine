@@ -1,0 +1,7 @@
+This is the tool test
+
+$test
+
+Tool 1: $toolone.sayHello()
+
+Tool 2: $tooltwo.sayHello()
