@@ -1,0 +1,40 @@
+Fri Mar 02 17:42:17 CST 2001   [info] Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : runtime.log = velocity.log
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.description = Velocity Jar Resource Loader
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : external.init = false
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : counter.initial.value = 1
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.modificationCheckInterval = 2
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : counter.name = velocityCount
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : include.output.errormsg.start = <!-- include error : 
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.cache = false
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : default.contentType = text/html
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.public.name = Jar
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : template.encoding = 8859_1
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : resource.loader.1.resource.path = jar:file:test.jar!/
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : include.output.errormsg.end = see error log -->
+Fri Mar 02 17:42:17 CST 2001   [info]    ** Property Override : parse_directive.maxdepth = 10
+Fri Mar 02 17:42:17 CST 2001   [info] Log file being used is: /dave/JavaApache/jakarta-velocity/whiteboard/daveb/dajarred/velocity.log
+Fri Mar 02 17:42:17 CST 2001   [info] Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.JarResourceLoader
+Fri Mar 02 17:42:17 CST 2001   [info] Resources Loaded From: jar:file:test.jar!/
+Fri Mar 02 17:42:17 CST 2001   [info] JarResourceLoader Initialized.
+Fri Mar 02 17:42:17 CST 2001   [info] Loaded Pluggable Directive: org.apache.velocity.runtime.directive.Literal
+Fri Mar 02 17:42:17 CST 2001   [info] Loaded Pluggable Directive: org.apache.velocity.runtime.directive.Macro
+Fri Mar 02 17:42:17 CST 2001   [info] Loaded Pluggable Directive: org.apache.velocity.runtime.directive.Parse
+Fri Mar 02 17:42:17 CST 2001   [info] Loaded Pluggable Directive: org.apache.velocity.runtime.directive.Include
+Fri Mar 02 17:42:17 CST 2001   [info] Loaded Pluggable Directive: org.apache.velocity.runtime.directive.Foreach
+Fri Mar 02 17:42:18 CST 2001   [info] Created: 20 parsers.
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : initialization starting.
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : adding VMs from global VM library template : VM_global_library.vm
+Fri Mar 02 17:42:18 CST 2001   [info] Attempting to find VM_global_library.vm with org.apache.velocity.runtime.resource.loader.JarResourceLoader
+Fri Mar 02 17:42:18 CST 2001  [error] Resource Not Found
+Fri Mar 02 17:42:18 CST 2001  [error] ResourceManager.getResource() exception: org.apache.velocity.exception.ResourceNotFoundException: Unknown resource error for resource VM_global_library.vm
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : error using global VM library template VM_global_library.vm : org.apache.velocity.exception.ResourceNotFoundException: Unknown resource error for resource VM_global_library.vm
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : no local VM library template used.
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : allowInline = true : VMs can be defined inline in templates
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : messages on  : VM system will output logging messages
+Fri Mar 02 17:42:18 CST 2001   [info] Velocimacro : initialization complete.
+Fri Mar 02 17:42:18 CST 2001   [info] Velocity successfully started.
+Fri Mar 02 17:42:18 CST 2001   [info] Attempting to find /example/test1.vm with org.apache.velocity.runtime.resource.loader.JarResourceLoader
