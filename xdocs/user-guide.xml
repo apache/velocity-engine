@@ -15,52 +15,58 @@
 <ol>
 <li><a href="#About this Guide">About this Guide</a></li>
 <li><a href="#What is Velocity?">What is Velocity?</a></li>
-<li><a href="#What can Velocity do for me?">What can Velocity do for me?</a></li>
+<li><a href="#What can Velocity do for me?">What can Velocity do for me?</a>
     <ol>
         <li><a href="#The Mud Store Example">The Mud Store example</a></li>
     </ol>
+</li>
 <li><a href="#Velocity Template Language (VTL): An
 Introduction">Velocity Template Language (VTL): An Introduction</a></li>
 <li><a href="#Hello Velocity World!">Hello Velocity World!</a></li>
 <li><a href="#Comments">Comments</a></li>
-<li><a href="#References">References</a></li>
+<li><a href="#References">References</a>
     <ol>
         <li><a href="#Variables">Variables</a></li>
         <li><a href="#Properties">Properties</a></li>
         <li><a href="#Methods">Methods</a></li>
     </ol>
+</li>
 <li><a href="#Formal Reference Notation">Formal Reference Notation</a></li>
 <li><a href="#Quiet Reference Notation">Quiet Reference Notation</a></li>
-<li><a href="#Getting literal">Getting literal</a></li>
+<li><a href="#Getting literal">Getting literal</a>
     <ol>
         <li><a href="#Currency">Currency</a></li>
         <li><a href="#Escaping Valid VTL References">Escaping Valid VTL References</a></li>
     </ol>
+</li>
 <li><a href="#Case Substitution">Case Substitution</a></li>
-<li><a href="#Directives">Directives</a></li>
+<li><a href="#Directives">Directives</a>
     <ol>
         <li><a href="#Set">Set</a></li>
         <li><a href="#String Literals">String Literals</a></li>
-        <li><a href="#Conditionals">If-Else Statements</a></li>
-        <ol>
-            <li><a href="#Relational and Logical Operators">Relational and Logical
-            Operators</a></li>
-        </ol>
+        <li><a href="#Conditionals">If-Else Statements</a>
+            <ol>
+                <li><a href="#Relational and Logical Operators">Relational and Logical
+                Operators</a></li>
+            </ol>
+        </li>
         <li><a href="#Loops">Foreach Loops</a></li>
         <li><a href="#Include">Include</a></li>
         <li><a href="#Parse">Parse</a></li>
         <li><a href="#Stop">Stop</a></li>
         <li><a href="#Velocimacros">Velocimacros</a></li>
     </ol>
+</li>
 <li><a href="#Escaping VTL Directives">Escaping VTL Directives</a></li>
 <li><a href="#VTL: Formatting Issues">VTL: Formatting Issues</a></li>
-<li><a href="#Other Features">Other Features</a></li>
+<li><a href="#Other Features">Other Features</a>
     <ol>
         <li><a href="#Math">Math</a></li>
         <li><a href="#Range Operator">Range Operator</a></li>
         <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
         !</a></li>
     </ol>
+</li>
 <li><a href="#Feedback">Feedback</a></li>
 </ol>
 
