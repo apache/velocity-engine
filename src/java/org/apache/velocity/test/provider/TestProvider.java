@@ -62,12 +62,13 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.11 2001/01/13 16:51:59 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.12 2001/01/21 20:53:14 geirm Exp $
  */
 public class TestProvider
 {
     String title = "lunatic";
     boolean state;
+    public static String PUB_STAT_STRING = "Public Static String";
 
     int stateint = 0;
 
