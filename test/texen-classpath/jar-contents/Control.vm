@@ -9,3 +9,5 @@ $generator.parse("ServiceStaticHelper.vm",$sourceFile)
 
 #set ( $sourceFile = "Test.txt" )
 $generator.parse("Test.vm",$sourceFile)
+
+#set ( $dbprops = $properties.load("test.props") )
