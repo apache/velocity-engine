@@ -42,7 +42,7 @@ import org.apache.velocity.app.VelocityEngine;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class Generator
 {
@@ -50,12 +50,12 @@ public class Generator
      * Where the texen output will placed.
      */
     public static final String OUTPUT_PATH = "output.path";
-    
+
     /**
      * Where the velocity templates live.
      */
     public static final String TEMPLATE_PATH = "template.path";
-    
+
     /**
      * Default properties file used for controlling the
      * tools placed in the context.
@@ -67,7 +67,7 @@ public class Generator
      * Default properties used by texen.
      */
     private Properties props = new Properties();
-    
+
     /**
      * Context used for generating the texen output.
      */
@@ -99,7 +99,7 @@ public class Generator
      * (templates).
      */
     protected String inputEncoding;
-    
+
     /**
      * Velocity engine.
      */
@@ -122,14 +122,14 @@ public class Generator
     {
         return instance;
     }
-    
+
     /**
      * Set the velocity engine.
      */
     public void setVelocityEngine(VelocityEngine ve)
     {
         this.ve = ve;
-    }        
+    }
 
     /**
      * Create a new generator object with properties loaded from
@@ -166,7 +166,7 @@ public class Generator
             setDefaultProps();
         }
     }
-    
+
     /**
      * Create a new Generator object with a given property
      * set. The property set will be duplicated.
@@ -177,7 +177,7 @@ public class Generator
     {
         this.props = (Properties)props.clone();
     }
-    
+
     /**
      * Set default properties.
      */
@@ -191,7 +191,7 @@ public class Generator
             {
                 inputStream = classLoader.getResourceAsStream(
                     DEFAULT_TEXEN_PROPERTIES);
-            
+
                 props.load( inputStream );
             }
             finally
@@ -207,7 +207,7 @@ public class Generator
             System.err.println("Cannot get default properties!");
         }
     }
-    
+
     /**
      * Set the template path, where Texen will look
      * for Velocity templates.
@@ -278,7 +278,7 @@ public class Generator
         if (encoding == null || encoding.length() == 0 || encoding.equals("8859-1") || encoding.equals("8859_1")) {
             writer = new FileWriter(path);
         }
-        else 
+        else
         {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), encoding));
         }
@@ -309,13 +309,13 @@ public class Generator
      *
      * @param String input template
      * @param String output file
-     */ 
-    public String parse (String inputTemplate, String outputFile) 
+     */
+    public String parse (String inputTemplate, String outputFile)
         throws Exception
     {
         return parse(inputTemplate, outputFile, null, null);
     }
-    
+
     /**
      * Parse an input and write the output to an output file.  If the
      * output file parameter is null or an empty string the result is
@@ -349,9 +349,9 @@ public class Generator
      * @param String id for object to be placed in the control context
      * @param String object to be placed in the context
      * @return String generated output from velocity
-     */ 
-    public String parse (String inputTemplate, 
-                         String intputEncoding,
+     */
+    public String parse (String inputTemplate,
+                         String inputEncoding,
                          String outputFile,
                          String outputEncoding,
                          String objectID,
@@ -361,10 +361,10 @@ public class Generator
         if (objectID != null && object != null)
         {
             controlContext.put(objectID, object);
-        }            
-        
+        }
+
         Template template = getTemplate(inputTemplate, inputEncoding != null ? inputEncoding : this.inputEncoding);
-        
+
         if (outputFile == null || outputFile.equals(""))
         {
             StringWriter sw = new StringWriter();
@@ -374,7 +374,7 @@ public class Generator
         else
         {
             Writer writer = null;
-            
+
             if (writers.get(outputFile) == null)
             {
                 /*
@@ -385,7 +385,7 @@ public class Generator
                             getOutputPath() + File.separator + outputFile,
                             outputEncoding != null ? outputEncoding : this.outputEncoding
                          );
-                    
+
                 /*
                  * Place the file writer in our collection
                  * of file writers.
@@ -395,14 +395,14 @@ public class Generator
             else
             {
                 writer = (Writer) writers.get(outputFile);
-            }                
-            
+            }
+
             VelocityContext vc = new VelocityContext( controlContext );
             template.merge (vc,writer);
 
             // commented because it is closed in shutdown();
             //fw.close();
-            
+
             return "";
         }
     }
@@ -425,7 +425,7 @@ public class Generator
         Template template = getTemplate(controlTemplate, inputEncoding);
         StringWriter sw = new StringWriter();
         template.merge (controlContext,sw);
-        
+
         return sw.toString();
     }
 
@@ -437,14 +437,14 @@ public class Generator
      *
      * @param Hashtable objects to place in the control context
      * @return Context context filled with objects
-     */ 
+     */
     protected Context getContext (Hashtable objs)
     {
         fillContextHash (controlContext,objs);
         return controlContext;
     }
 
-    /** 
+    /**
      * Add all the contents of a Hashtable to the context.
      *
      * @param Context context to fill with objects
@@ -470,7 +470,7 @@ public class Generator
         context.put ("generator", instance);
         context.put ("outputDirectory", getOutputPath());
     }
-    
+
     /**
      * Add objects to the context from the current properties.
      *
@@ -481,17 +481,17 @@ public class Generator
     protected void fillContextProperties (Context context)
     {
         Enumeration enumeration = props.propertyNames();
-        
+
         while (enumeration.hasMoreElements())
         {
             String nm = (String) enumeration.nextElement();
             if (nm.startsWith ("context.objects."))
             {
-                
+
                 String contextObj = props.getProperty (nm);
                 int colon = nm.lastIndexOf ('.');
                 String contextName = nm.substring (colon+1);
-                
+
                 try
                 {
                     Class cls = Class.forName (contextObj);
@@ -515,11 +515,11 @@ public class Generator
     public void shutdown()
     {
         Iterator iterator = writers.values().iterator();
-        
+
         while(iterator.hasNext())
         {
             Writer writer = (Writer) iterator.next();
-                        
+
             try
             {
                 writer.flush();
