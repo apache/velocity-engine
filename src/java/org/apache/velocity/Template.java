@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * template.merge(context, writer);
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.2 2000/10/09 15:09:10 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.3 2000/10/09 20:13:43 jvanzyl Exp $
  */
 public class Template
 {
@@ -121,7 +121,6 @@ public class Template
     {
         try
         {
-            System.out.println("initializing!");
             document.init(context, null);
             initialized = true;
         }
