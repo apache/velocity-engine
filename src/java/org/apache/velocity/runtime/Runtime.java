@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.25 2000/10/22 21:17:34 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.26 2000/10/23 18:27:48 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -228,7 +228,21 @@ public class Runtime
      */
     public synchronized static void init() throws Exception
     {
-        Properties properties = new Properties();
+        if (properties == null)
+            setDefaultProperties();
+        
+        init(properties);
+    }
+    
+    /**
+     * Get the default properties for the Velocity Runtime.
+     * This would allow the retrieval and modification of
+     * the base properties before initializing the Velocity
+     * Runtime.
+     */
+    public static void setDefaultProperties()
+    {
+        properties = new Properties();
         ClassLoader classLoader = Runtime.class.getClassLoader();
         
         try
@@ -240,10 +254,8 @@ public class Runtime
         }
         catch (IOException ioe)
         {
-            System.err.println("Cannot initialize Velocity Runtime!");
+            System.err.println("Cannot get Velocity Runtime default properties!");
         }
-        
-        init(properties);
     }
 
     /**
