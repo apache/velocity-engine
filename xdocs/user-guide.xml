@@ -759,7 +759,7 @@
     <br/>
     The <vtldirective>#set</vtldirective> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
-    reference or a property reference:
+    reference or a property reference, and this occurs in brackets, as demonstrated:
  </p>
  
  <p>
@@ -817,17 +817,66 @@
  </p>
 
  <p>
-    Unlike some directive that will be discussed below, the <vtldirective>set</vtldirective> directive 
-    does not have a <vtldirective>#end</vtldirective> statement. The <vtldirective>set</vtldirective> statement <em>must</em> 
-    end with a newline character (obtained by pressing Enter); it cannot be used inline.
+    Unlike some of the other Velocity directives, the <vtldirective>#set</vtldirective> directive 
+    does not have an <vtldirective>#end</vtldirective> statement. Instead, the left bracket marks
+    the beginning and the right bracket marks the end of an assignment.
  </p>
 
  <p>
-    The <vtldirective>set</vtldirective> does not currently require that brackets 
-    enclose the accompanying expression, but this won't be the case for long. To help users to
+    <strong>String Literals</strong>
+ </p>
+
+ <p>
+    When using the <vtldirective>#set</vtldirective> directive, string literals that are enclosed
+    in double quote characters will be parsed and rendered, as shown:
+ </p>
+
+ <p>  
+    <source><![CDATA[
+      #set( $directoryRoot = "www" )  
+      #set( $templateName = "index.vm" )
+      #set( $template = "$directoryRoot/$templateName" )
+      $template
+
+      #*
+      The output will be:   www/index.vm
+      *#
+    ]]></source>    
+ </p>
+
+ <p>
+    However, when the string literal is enclosed in single quote characters, it will not be parsed: 
+ </p>
+
+ <p>  
+    <source><![CDATA[
+    #set( $foo = "bar" )
+    $foo
+    #set( $blargh = '$foo' )
+    $blargh
+
+    #*
+    This renders as:
+    bar
+    $foo
+    *#
+    ]]></source>    
+ </p>
+
+ <p>
+    By default, this feature of using single quotes to render unparsed text is available in Velocity.
+    This default can be changed by editing <filename>velocity.properties</filename> such that
+    <code>stringliterals.interpolate=false</code>.
+ </p>
+
+ <p>
+    <em>Note:</em> Although the <vtldirective>set</vtldirective> does not currently require that brackets 
+    enclose the accompanying expression, this won't be the case for long. To help users to
     update their templates to use brackets with the <vtldirective>set</vtldirective> directive,
     Velocity will generate warnings in the runtime log when a <vtldirective>set</vtldirective> is
-    used without brackets.
+    used without brackets. Note also that any <vtldirective>#set</vtldirective> statement used without
+    brackets cannot be used inline; the assignment <em>must</em> be terminated by an end of line character
+    (obtained by pressing the Enter key).
  </p>
 
 
