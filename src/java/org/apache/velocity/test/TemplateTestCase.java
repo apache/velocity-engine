@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.13 2000/10/26 22:24:43 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.14 2000/10/31 04:44:11 geirm Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -149,6 +149,7 @@ public class TemplateTestCase extends RuntimeTestCase
         context.put("search", provider.getSearch());
         context.put("relatedSearches", provider.getRelSearches());
         context.put("searchResults", provider.getRelSearches());
+        context.put("stringarray", provider.getArray());
     }
 
     /**
