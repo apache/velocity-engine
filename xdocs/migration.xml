@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Migration To Velocity</title>
+  <subtitle>Migration To Velocity</subtitle>
+  <authors>
+   <person name="Jason van Zyl" email="jvanzyl@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Converting Templates">
+
+<p>
+    We have tried to make using your existing templates with
+    Velocity as simple as possible. Right now we only have a WebMacro
+    to Velocity template converter, but we hope to have a
+    Tea to Velocity template converter, and a FreeMarker to Velocity
+    template converter.
+</p> 
+
+<p>
+    There is a script in the convert directory  called
+    convert-wm.sh that can convert a single WebMacro template
+    to a Velocity template, or convert an entire directory
+    structure of WebMacro templates to Velocity templates.
+    To use the script simply provide the template, or directory
+    of templates to convert:
+</p>
+
+<p>
+    <source><![CDATA[
+    ./convert-wm.sh template.wm
+    
+    or
+    
+    ./convert-wm.sh <directory structure of templates>
+    ]]></source>
+</p>
+
+</s1>
+
+</body>
+</document>
