@@ -12,8 +12,10 @@ As always, the if you have any questions :
 app_example1 
 ------------
 This simple example shows how to use the Velocity Template Engine
-in a standalone program.  It should be pre-compiled for you. Run it using the example
-template provided (example.vm):
+in a standalone program.  To build this example, see the instructions
+in the examples/README.txt file.
+
+Run it using the example template provided (example.vm):
 
   ./example.sh
 
