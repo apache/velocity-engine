@@ -182,8 +182,13 @@
 </li>
 
 <li>
+<a href="developer-guide.html#encoding">Template Encoding for Internationalization</a>
+</li>
+
+<li>
 <a href="developer-guide.html#velxml">Velocity and XML</a>
 </li>
+
 <li>
 <a href="developer-guide.html#summary">Summary</a>
 </li>
@@ -364,6 +369,18 @@ Some great sources are :
     servlet example : <code>examples/servlet_example1</code> : a simple example
     showing how to use Velocity in a servlet.
   </li>
+  <li>
+    logger example : <code>examples/logger_example</code> : a simple example
+    showing how to create a custom logging class and register it with
+    Velocity to receive all log messages.
+  </li>
+  <li>
+    XML example : <code>examples/xmlapp_example</code> : a simple example
+    showing how to use JDOM to read and access XML document data from
+    within a Velocity template.  It also includes a demonstration of 
+    a recursive Velocimacro that walks the document tree.
+  </li>
+
   <li>
     Anakia application : <code>examples/anakia</code> : example application
     showing how to use Velocity for creating stylesheet renderings of xml data
@@ -910,8 +927,45 @@ this</a>.
                                                 <p>
 The basic technique of using Velocity in a servlet environment is very simple.
 In a nutshell, all you must do is extend the provided VelocityServlet base class 
-and implement a single method handleRequest().  That's really all that is 
+and implement a single method, <code>handleRequest()</code>.  That's really all that is 
 required to use Velocity in your servlet development.
+</p>
+                                                <p>
+As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
+
+<br />
+<br />
+
+<i><code>public Template handleRequest( Context )</code></i>
+  
+<blockquote>
+  This is the older of the two methods.  This method requires that 
+  you return a valid Template object.  If not valid, or <code>null</code>,
+  this is considered an error condition, and will result in the 
+  <a href="developer-guide.html#error()"><code>error()</code></a> error handling method being called.  You may 
+  override the <code>error()</code> if you wish.  If returning a <code>null</code>
+  is something you expect to do (for example, you will want to redirect
+  requests) it is recommended that you use the newer method, listed next.
+</blockquote>
+  <br />
+ 
+<i><code>public Template handleRequest( HttpServletRequest, HttpServletResponse, Context )</code></i>
+
+<blockquote>
+   This is the newer of the two <code>handleRequest()</code> methods.  
+   The difference with this method is that the <code>HttpServletRequest</code>
+   and <code>HttpServletResponse</code> objects are passed to you as arguments
+   to the method, as well as in the <code>Context</code>.  The other difference
+   is that this method can return <code>null</code> to indicate that all
+   processing has been handled by the method, and that Velocity should do
+   nothing further than call 
+   <a href="developer-guide.html#requestCleanup()"><code>requestCleanup()</code></a>.  
+   This is extremely
+   useful is you wish to redirect the request, for example.
+</blockquote>
+
+As always, please refer to the Javadoc API documentation for the definitive and
+latest notes.
 </p>
                                                 <p>
 The following code is similar to the
@@ -929,7 +983,9 @@ SampleServlet.java class included in the distribution in the examples directory.
       <td bgcolor="#ffffff"><pre>
 public class SampleServlet extends VelocityServlet
 {
-    public Template handleRequest( Context context )
+    public Template handleRequest( HttpServletRequest request, 
+                                   HttpServletResponse response, 
+                                   Context context )
     {
 
         String p1 = &quot;Jakarta&quot;;
@@ -979,19 +1035,85 @@ to the basic code pattern we mentioned at the beginning of this guide.
 We take the context, add our application data, and return a template.
 </p>
                                                 <p>
-For advanced users,  the VelocityServlet base class allows you to override 
-parts of the handling of the request processing.  The following methods may 
-be overridden. 
+The default <code>Context</code> object that is passed into the
+<code>handleRequest()</code> methods contains both the current
+<code>HttpServletRequest</code> and <code>HttpServletResponse</code>
+objects.  They are placed in the context using the the constants
+<code>VelocityServlet.REQUEST</code> (value = 'req') and 
+<code>VelocityServlet.RESPONSE</code> (value = 'res')
+respectively.  To access and use these objects in your Java code :
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
 
-<ul>
-  <li> <code> Properties loadConfiguration(ServletConfig config )</code><br />
-       Allows you to override the normal configuration mechanism and add or 
-       alter the configuation properties.  This is useful for overriding or 
-       augmenting template and log paths, to set the absolute path into the 
-       webapp root at runtime.
-  </li>
-  <li> <code>Context createContext(HttpServletRequest request,  
-  HttpServletResponse response )</code><br />
+    public Template handleRequest(  Context context )
+    {
+        HttpServletRequest request =  (HttpServletRequest) context.get( REQUEST );
+        HttpServletResponse response =  (HttpServletResponse) context.get( RESPONSE );
+    
+       ...
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+and in your templates :
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+   #set($name = $req.getParameter('name') )
+
+
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+For more advanced uses,  the VelocityServlet base class allows you to override 
+parts of the handling of the request processing.  The following methods may 
+be overridden :
+<br />
+<br />
+
+<i><code> Properties loadConfiguration( ServletConfig )</code></i>
+<blockquote>
+  Allows you to override the normal configuration mechanism and add or 
+  alter the configuation properties.  This is useful for overriding or 
+  augmenting template and log paths, to set the absolute path into the 
+  webapp root at runtime.
+</blockquote>
+
+<i><a name="createContext()" /><code>Context createContext(HttpServletRequest, HttpServletResponse )</code></i>
+<blockquote>
   Allows you to create the Context object yourself. This allows more advanced 
   techniques, such as chaining or pre-loading with tools or data.  The default 
   implementation simply returns a VelocityContext object with the request 
@@ -1001,34 +1123,39 @@ be overridden.
   and repsponse objects normally, accessing methods of either from the 
   template.  Just note that they aren't specifically javax.servlet.XXXX 
   classes, if that is important to you.
-  </li>
-  <li> <code>void setContentType( HttpServletRequest request, 
-  HttpServletResponse response )</code>
+</blockquote>
+
+<i><code>void setContentType( HttpServletRequest,HttpServletResponse )</code></i>
+<blockquote>
   Allows you to examine the request and set the content type yourself, 
   depending on the request or client.  The default implementation sets 
   the content type to be that either specified in the  velocity.properties, 
   if any, or the default, "text/html" if not specified in the properties.
-  </li>
-  <li> <code>void mergeTemplate( Template template, Context context, 
-  HttpServletResponse response )</code>
+</blockquote>
+
+<i><code>void mergeTemplate( Template, Context, HttpServletResponse )</code></i>
+<blockquote>
   Allows you to produce the output stream.  The VelocityServlet uses 
   a pool of very efficient Writer classes, so this would usually be 
   overridden in special situations.
-  </li>
-  <li> <code>void requestCleanup( HttpServletRequest request, 
-  HttpServletResponse response, Context context )</code>
+</blockquote>
+
+<i><a name="requestCleanup()" /><code>void requestCleanup( HttpServletRequest, 
+  HttpServletResponse , Context )</code></i>
+<blockquote>
   Allows you to do any cleanup or resource reclamation at the end of 
   the request processing.  The default does nothing.
-  </li>
-  <li> <code>protected void error( HttpServletRequest request, 
-  HttpServletResponse response, Exception cause )</code><br />
+</blockquote>
+
+<i><a name="error()" /><code>protected void error( HttpServletRequest, 
+  HttpServletResponse, Exception  )</code></i>
+<blockquote>
   Error handler that is called an exception occurrs in request processing.  
   Default implementation will 
   send a simple HTML message with stacktrace and exception information 
   back to the user.  Override for custom client messages and more 
   advanced problem handling.
-   </li>
-</ul>
+</blockquote>
 
 For further information, please see the Javadoc 
 <a href="apidocs/index.html">API documentation</a>.
@@ -2311,6 +2438,48 @@ of the function.
                                                 <p>
 Note that while all three require very little configuration information
 for proper operation, the ClasspathResourceLoader is the simplest.
+</p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Template Encoding for Internationalization"><strong>Template Encoding for Internationalization</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="encoding" />
+                                                <p>
+Velocity allows you to specify the character encoding of your
+template resources on a template by template basis.  The normal resource
+API's have been extended to take the encoding as an argument :
+</p>
+                                                <p>
+<code>org.apache.velocity.servlet.VelocityServlet</code> : <br />
+<blockquote>
+  <i><code> public Template getTemplate( String template, String encoding )</code></i>
+</blockquote>
+</p>
+                                                <p>
+<code>org.apache.velocity.app.Velocity</code> : <br />
+<blockquote>
+  <i><code>public static Template getTemplate(String name, String encoding)</code></i>
+  <br />
+  <br />
+  <i><code>public static boolean mergeTemplate( String templateName, String encoding, Context context, Writer writer )</code></i>
+  <br />
+  <i><code> </code></i>
+</blockquote>
+</p>
+                                                <p>
+The value for the <i>encoding</i> argument is the conventional encoding specification 
+supported by your JVM, for example "UTF-8" or "ISO-8859-1".
+</p>
+                                                <p>
+Note that this applies only to the encoding of the template itself - the output
+encoding is an application specific issue.
 </p>
                             </blockquote>
       </td></tr>
