@@ -4,7 +4,10 @@ Velocity
 
 Welcome to Velocity. Velocity is a general purpose template engine
 written in Java. For more information about Velocity, please look at the
-HTML documentation in the docs/ directory.
+HTML documentation in the docs/ directory, as well as the Velocity
+web site
+
+  http://jakarta.apache.org/velocity/index.html
 
 Here is a description of what each of the top level directories
 contains. Please consult the documentation in each of the lower level
@@ -27,24 +30,34 @@ The Java 2 SDK is required to build Velocity.
 BUILDING VELOCITY
 -----------------
 
-In order to get started with Velocity, you must first build it. To do
-so, cd into the build/ directory and execute the platform-specific build
-script.
+In order to get started with Velocity, you may want to build it.  If 
+you are working with an offical Velocity release package, you will find
+the Velocity jar in the top level directory.
+
+Building Velocity is easy.  All components necessary to build Velocity are
+included, except for the Java 2 SDK.
+
+To build Velocity, change directory into the build/ directory and 
+execute the platform-specific build script.
 
 Unix:
-./build-velocity.sh
+./build.sh
 
 Win32:
-build-velocity.bat
+build.bat
 
 This will create a bin/ directory containing the Velocity .jar file. Be
-sure to update your classpath to include Velocity's .jar file.
+sure to update your classpath to include xVelocity's .jar file.
 
-TRYING THE EXAMPLE
-------------------
+TRYING THE EXAMPLES
+-------------------
 
-After building Velocity cd into the examples/ directory and run test.sh.
-This will generate a file named output which is the result of the
-test.wm input.
+After building Velocity, you can also buld the examples that are included
+with the Velocity distribution.  These examples show how to use Velocity
+in your Java applications and Servlets.  There also are examples of
+how to use Anakia, a XML transformation engine and an example of a servlet-
+based forum application.
+
+For more information, please see the README.txt in the examples/ directory.
 
 -The Velocity Team
