@@ -77,7 +77,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.20 2001/01/18 04:38:35 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.21 2001/02/15 12:30:23 geirm Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -140,7 +140,9 @@ public class TemplateTestCase extends RuntimeTestCase
         provider = new TestProvider();
         al = provider.getCustomers();
         h = new Hashtable();
+
         h.put("Bar", "this is from a hashtable!");
+        h.put("Foo", "this is from a hashtable too!");
 
         /*
          *  lets set up a vector of objects to test late introspection. See ASTMethod.java
@@ -171,6 +173,19 @@ public class TemplateTestCase extends RuntimeTestCase
         context1.put("searchResults", provider.getRelSearches());
         context2.put("stringarray", provider.getArray());
         context.put("vector", vec );
+
+        /*
+         *  we want to make sure we test all types of iterative objects
+         *  in #foreach()
+         */
+
+        Object[] oarr = { "a","b","c","d" } ;
+
+        context.put( "collection", vec );
+        context2.put("iterator", vec.iterator());
+        context1.put("map", h );
+        context.put("obarr", oarr );
+
     }
 
     /**
