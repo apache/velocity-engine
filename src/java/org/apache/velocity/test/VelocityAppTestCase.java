@@ -64,8 +64,8 @@ import java.util.Vector;
 import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.app.Velocity;
@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: VelocityAppTestCase.java,v 1.1 2001/03/12 01:25:50 jon Exp $
+ * @version $Id: VelocityAppTestCase.java,v 1.2 2001/03/14 22:05:23 jvanzyl Exp $
  */
 public class VelocityAppTestCase extends TestCase implements TemplateTestBase
 {
@@ -88,19 +88,20 @@ public class VelocityAppTestCase extends TestCase implements TemplateTestBase
     public VelocityAppTestCase()
     {
         super("VelocityAppTestCase");
+
         try
         {
-	        Runtime.setDefaultProperties();
-	        Runtime.setSourceProperty(
-	            Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-	        Runtime.init();
-	    }
-	    catch (Exception e)
-	    {
+            Velocity.setProperty(
+	           Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+	        
+            Velocity.init();
+        }
+        catch (Exception e)
+        {
             System.err.println("Cannot setup VelocityAppTestCase!");
             e.printStackTrace();
             System.exit(1);
-	    }
+        }
     }
 
     public static junit.framework.Test suite()

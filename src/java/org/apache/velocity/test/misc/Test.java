@@ -86,7 +86,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.19 2001/03/12 02:01:32 jon Exp $
+ * @version $Id: Test.java,v 1.20 2001/03/14 22:05:33 jvanzyl Exp $
  */
 public class Test
 {
@@ -121,49 +121,27 @@ public class Test
         try
         {
             /*
-             *  this is another way to do properties when initializing Runtime.
-             *  make a Properties 
-             */
-
-            Properties p = new Properties();
-
-            /*
-             *  now, if you want to, load it from a file (or whatever)
-             */
-            
-            try
-            {
-                FileInputStream fis =  new FileInputStream( 
-                    new File("velocity.properties" ));
-            
-                if( fis != null)
-                    p.load( fis );
-            }
-            catch (Exception ex)
-            {
-                /* no worries. no file... */
-            }
-
-            /*
              *  add some individual properties if you wish
              */
 
-            p.setProperty(Runtime.RUNTIME_LOG_ERROR_STACKTRACE, "true");
-            p.setProperty(Runtime.RUNTIME_LOG_WARN_STACKTRACE, "true");
-            p.setProperty(Runtime.RUNTIME_LOG_INFO_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_ERROR_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_WARN_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_INFO_STACKTRACE, "true");
             
             /*
              *  and now call init
              */
 
-            Runtime.init(p);
+            Velocity.init();
 
             /*
              *  now, do what we want to do.  First, get the Template
              */
 
             if (templateFile == null)
+            {
                 templateFile = "examples/example.vm";
+            }                
          
             Template template = null;
 

@@ -61,7 +61,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.app.Velocity;
 
 import junit.framework.TestSuite;
 
@@ -72,7 +72,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestSuite.java,v 1.4 2001/03/12 03:33:22 jon Exp $
+ * @version $Id: TemplateTestSuite.java,v 1.5 2001/03/14 22:05:22 jvanzyl Exp $
  */
 public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {
@@ -85,16 +85,14 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
     {
         try
         {
-            Runtime.setDefaultProperties();
-            Runtime.setSourceProperty(
-                Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+            Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
             
-            Properties p = new Properties();
-            p.setProperty(Runtime.RUNTIME_LOG_ERROR_STACKTRACE, "true");
-            p.setProperty(Runtime.RUNTIME_LOG_WARN_STACKTRACE, "true");
-            p.setProperty(Runtime.RUNTIME_LOG_INFO_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_ERROR_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_WARN_STACKTRACE, "true");
+            Velocity.setProperty(Velocity.RUNTIME_LOG_INFO_STACKTRACE, "true");
 
-            Runtime.init(p);
+            Velocity.init();
             
             testProperties = new Properties();
             testProperties.load(new FileInputStream(TEST_CASE_PROPERTIES));

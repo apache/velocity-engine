@@ -64,9 +64,9 @@ import java.util.Properties;
 import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.test.provider.TestProvider;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.8 2001/03/13 00:10:17 dlr Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.9 2001/03/14 22:05:19 jvanzyl Exp $
  */
 public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
 {
@@ -97,18 +97,16 @@ public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
              *  changed
              */
 
-            Properties p = new Properties();
-
-            p.setProperty( 
-                RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
+            Velocity.setProperty( 
+                Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
             
-            p.setProperty( 
-                RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
+            Velocity.setProperty( 
+                Velocity.VM_PERM_INLINE_LOCAL, "true");
 
-            p.setProperty( 
-                "resource.loader.1.resource.path", FILE_RESOURCE_LOADER_PATH);
+            Velocity.setProperty( 
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
             
-            Runtime.init(p);    
+            Velocity.init();    
         }
         catch (Exception e)
         {
