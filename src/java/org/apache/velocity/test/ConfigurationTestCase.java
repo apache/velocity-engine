@@ -70,7 +70,9 @@ import junit.framework.TestCase;
  * Tests for the Configuration class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ConfigurationTestCase.java,v 1.3 2001/03/20 19:13:12 geirm Exp $
+ * @version $Id: ConfigurationTestCase.java,v 1.4 2001/05/20 20:29:48 geirm Exp $
+ *
+ * @deprecated Will be removed when Configuration class is removed
  */
 public class ConfigurationTestCase extends BaseTestCase
 {
@@ -126,7 +128,7 @@ public class ConfigurationTestCase extends BaseTestCase
             message(result, "Testing retrieval of CSV values ...");
             showVector(result, c.getVector("resource.loader"));            
 
-            message(result, "Testing Configuration.subset(prefix).getKeys() ...");
+            message(result, "Testing subset(prefix).getKeys() ...");
             Configuration subset = c.subset("file.resource.loader");
             showIterator(result, subset.getKeys());
 
