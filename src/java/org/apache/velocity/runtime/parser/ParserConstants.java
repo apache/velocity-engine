@@ -50,16 +50,17 @@ public interface ParserConstants {
   int DIGIT = 48;
   int NUMBER_LITERAL = 49;
   int LETTER = 50;
-  int WORD = 51;
-  int ALPHA_CHAR = 52;
-  int ALPHANUM_CHAR = 53;
-  int IDENTIFIER_CHAR = 54;
-  int IDENTIFIER = 55;
-  int DOT = 56;
-  int LCURLY = 57;
-  int RCURLY = 58;
-  int REFERENCE_TERMINATOR = 59;
-  int DIRECTIVE_TERMINATOR = 60;
+  int DIRECTIVE_CHAR = 51;
+  int WORD = 52;
+  int ALPHA_CHAR = 53;
+  int ALPHANUM_CHAR = 54;
+  int IDENTIFIER_CHAR = 55;
+  int IDENTIFIER = 56;
+  int DOT = 57;
+  int LCURLY = 58;
+  int RCURLY = 59;
+  int REFERENCE_TERMINATOR = 60;
+  int DIRECTIVE_TERMINATOR = 61;
 
   int DIRECTIVE = 0;
   int REFMOD2 = 1;
@@ -123,6 +124,7 @@ public interface ParserConstants {
     "<DIGIT>",
     "<NUMBER_LITERAL>",
     "<LETTER>",
+    "<DIRECTIVE_CHAR>",
     "<WORD>",
     "<ALPHA_CHAR>",
     "<ALPHANUM_CHAR>",
