@@ -489,6 +489,17 @@
     </td>
    </tr>
 
+    <tr>
+    <td>
+     <a href="http://dione.zcu.cz/~toman40/ActionServlet">ActionServlet</a>
+    </td>
+    <td>
+    ActionServlet provides an easy mapping of user actions (HTTP requests)
+    to methods of Java components together with automatic conversion of
+    HTTP parameters to the values of Java types.
+    </td>
+   </tr>
+
   </table>
  </section>
 
