@@ -262,6 +262,23 @@
     </td>
    </tr>
 
+  <tr>
+    <td>
+     <a href="http://www.freebok.net/">www.freebok.net</a>
+    </td>
+    <td>
+      Freebok.net is a free guestbook service that uses Velocity 
+      templates for the site. More importantly the guestbook users 
+      have the option to create their own Velocity templates to 
+      render the layout of their guestbook.
+    </td>
+    <td>
+     <a href="http://www.freebok.net/">Freebok.net</a>
+    </td>
+   </tr>
+   
+
+
   </table>
  </section>
 
