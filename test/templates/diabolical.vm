@@ -51,3 +51,9 @@ $-$-$-$-
 
 $tstrings.chop($generator.parse("sql/mysql/columns", "", "table", $tbl),1)
 $provider.chop("stringy",1)
+
+#set $foo = "foo" 
+#if ($foo.length()>0)$foo#end 
+#set $bar = "bar" 
+#if ($bar.length()>0)$bar#end 
+
