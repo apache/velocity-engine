@@ -35,12 +35,27 @@ o Log4j for Logging
         centralized system as needed. In other words, instead of logging
         to a separate log file, we should be able to have Turbine init
         Velocity and then have Turbine hand it a LoggingSystem to use.
+           [GMJ] I assume what you meant was that with a nice
+                logging interface, Turbine can write an adapter around
+                it's logging system, so that it is compatible with 
+                what Velocity requires so you can just hand velocity
+                a 'TurbineVelocityLogAdapter' that implements
+                Velocity.LoggingSystemIfc (so to speak) :)  And instead
+                of depending on Class.forName() it would be great to be 
+		able to hand Vel a living instance, so the client app could
+                do all the configuration it needs to, and give it to Vel
+                like any other config val : setProperty( 'logger', mylogger);
 
         Note: Implementing Log4J might become somewhat difficult if we 
         want to support all of its features because it will add a lot
         of configuration options to the vel.props file. For instance,
         the ability to log to a console + syslog + file all at the same
         time.
+           [GMJ] a solution there would be to offer a nice adapter to 
+              log4j for people to use (use the one we use internally)
+              so for that kind of 'advanced' use they would config log4j
+              themselves, wrap in the adapter, and hand that to Vel.
+              No muss, no fuss, and no endless config options.
 
   [GMJ] +1 on log4j - and I think a simple Interface here and now
         would go a long way. Nothing too fancy - just let people
