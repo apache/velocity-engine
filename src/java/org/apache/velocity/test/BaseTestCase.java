@@ -63,40 +63,8 @@ import org.apache.velocity.runtime.Runtime;
  * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.2 2000/10/22 22:08:31 dlr Exp $
+ * @version $Id: BaseTestCase.java,v 1.3 2000/10/25 23:16:51 dlr Exp $
  */
 public abstract class BaseTestCase extends TestCase
 {
-    /**
-     * The properties file name of the application.
-     */
-    private static final String PROPS_FILE_NAME = "velocity.properties";
-
-    /**
-     * Creates a new instance.
-     */
-    public BaseTestCase (String name)
-    {
-        super(name);
-
-        try
-        {
-            Runtime.init(PROPS_FILE_NAME);
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
-    }
-
-    /**
-     * Get the containing <code>TestSuite</code>.  This is always 
-     * <code>VelocityTestSuite</code>.
-     *
-     * @return The <code>TestSuite</code> to run.
-     */
-    public static junit.framework.Test suite ()
-    {
-        return new VelocityTestSuite();
-    }
 }
