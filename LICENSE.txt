@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-velocity/Attic/LICENSE,v 1.2 2001/03/05 00:29:24 jon Exp $
- * $Revision: 1.2 $
- * $Date: 2001/03/05 00:29:24 $
+ * $Header: /home/cvs/jakarta-velocity/LICENSE.txt,v 1.1 2001/03/19 03:02:16 jon Exp $
+ * $Revision: 1.1 $
+ * $Date: 2001/03/19 03:02:16 $
  *
  * ====================================================================
  * 
