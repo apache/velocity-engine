@@ -24,6 +24,8 @@ import java.io.Writer;
 
 import java.util.StringTokenizer;
 
+import org.apache.commons.collections.ExtendedProperties;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -56,7 +58,7 @@ import org.apache.velocity.VelocityContext;
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaTask.java,v 1.38 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -261,14 +263,19 @@ public class AnakiaTask extends MatchingTask
         {
             if ( velocityPropertiesFile.exists() )
             {
-                ve.init(velocityPropertiesFile.getAbsolutePath());
+                String file = velocityPropertiesFile.getAbsolutePath();
+                ExtendedProperties config = new ExtendedProperties(file);
+                ve.setExtendedProperties(config);
             }
-            else if (templatePath != null && templatePath.length() > 0)
+
+            // override the templatePath if it exists
+            if (templatePath != null && templatePath.length() > 0)
             {
                 ve.setProperty( RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                     templatePath);
-                ve.init();
             }
+
+            ve.init();
 
             // get the last modification of the VSL stylesheet
             styleSheetLastModified = ve.getTemplate( style ).getLastModified();
