@@ -5,21 +5,6 @@ No blockers.
 
 +------------- Not Critical For Release -------------+
 
-o Control Caching Resource Usage
-
-  Change resource caching to limit cache size and expire
-  least-recently-used.  This is needed to prevent Vel from
-  sucking up RAM uncontrollably for content-centric or 
-  other sites that may use #include() or #parse() 
-  extensively.
-
-  PLAN:
-  Fix code using org.apache.commons.collections.LRUMap class.
-
-  STATUS:
-  [GMJ] Punt for next release.
-  [DLR] I will implement this for 1.5.
-
 
 o Specification Files
   PLAN:
