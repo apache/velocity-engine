@@ -116,6 +116,9 @@
   <li>
     <a href="developer-guide.html#ResinExample">Caucho Technology's Resin</a>
   </li>
+  <li>
+    <a href="developer-guide.html#WebLogic">BEA WebLogic</a>
+  </li>
  </ul>
 </li>
 
@@ -2797,6 +2800,15 @@ Velocity.
 engines.  Please use the resources provided by the servlet engine provider.
 </p>
 
+<p>
+<a name="WebLogic"><strong>BEA WebLogic</strong></a>
+</p>
+
+<p>
+Paw Dybdahl &lt;pdy@csg.csc.dk&gt; contributed <a href="velocity_and_weblogic.html">this</a>
+description of using Velocity with WebLogic, as well as some good general suggestions and
+examples for working with servlets.
+</p>
 </section>
 
 </body>
