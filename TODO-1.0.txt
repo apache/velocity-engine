@@ -55,6 +55,10 @@ o Getting a mailing list archive working, or at least have
   What is wrong with mail-archive.com?
   http://www.mail-archive.com/index.php3?hunt=velocity
 
+  Michael Salmon <ms@collab.net> will be setting up Eyebrowse for all of
+  apache.org in the next few weeks.  If we want to set it up before
+  that, he says we should feel free to send him questions via email.
+
   STATUS:
   [JSS] Done
 
