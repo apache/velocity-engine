@@ -85,10 +85,26 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.24 2000/11/27 18:19:12 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.25 2000/11/27 23:57:37 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
+    /**
+     * Name of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be named
+     * and initialized.
+     */
+    public String DIRECTIVE_NAME = "foreach";
+    
+    /**
+     * Type of this directive. Reflection is used
+     * in the Runtime to grab the value of this
+     * field so that the directive can be typed
+     * and initialized.
+     */
+    public int DIRECTIVE_TYPE = BLOCK;
+
     /**
      * Flag to indicate that the list object being used
      * in an array.
@@ -142,23 +158,6 @@ public class Foreach extends Directive
      */
     private String elementKey;
     
-    /**
-     * Return the name of this directive to
-     * the Runtime.
-     */
-    public String getName() 
-    { 
-        return "foreach"; 
-    }
-    
-    /**
-     * Return the type of this directive.
-     */
-    public int getType() 
-    { 
-        return BLOCK; 
-    }
-
     public void init(Context context, Node node) throws Exception
     {
         Object sampleElement = null;
