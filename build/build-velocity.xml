@@ -2,7 +2,7 @@
 
 <!-- Build file for Velocity -->
 
-<project name="Velocity" default="prepare" basedir=".">
+<project name="Velocity" default="jar" basedir=".">
 
     <property name="Name" value="Velocity"/>
     <property name="version" value="0.7"/>
