@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.13 2000/12/10 04:54:50 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.14 2000/12/11 04:11:33 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -82,22 +82,22 @@ import org.apache.velocity.util.StringUtils;
 
 public class VelocimacroProxy extends Directive
 {
-    private String strMacroName_ = "";
-    private String strMacro_ = "";
-    private String[] strArgArray_ = null;
-    private String[] strMacroArray_ = null;
-    private TreeMap  tmArgIndexMap_ = null;
-    private SimpleNode nodeTree_ = null;
-    private int iNumArgs_ = 0;
+    private String macroName = "";
+    private String macroBody = "";
+    private String[] argArray = null;
+    private String[] macroArray = null;
+    private TreeMap  argIndexMap = null;
+    private SimpleNode nodeTree = null;
+    private int numMacroArgs = 0;
 
-    private boolean bInit_ = false;
+    private boolean init = false;
 
     /**
      * Return name of this Velocimacro.
      */
     public String getName() 
     { 
-        return  strMacroName_; 
+        return  macroName; 
     }
     
     /**
@@ -112,24 +112,24 @@ public class VelocimacroProxy extends Directive
     /**
      *   sets the directive name of this VM
      */
-    public void setName( String strName )
+    public void setName( String name )
     {
-        strMacroName_ = strName;
+        macroName = name;
     }
    
     /**
      *  sets the array of arguments specified in the macro definition
      */
-    public void setArgArray( String [] strArray )
+    public void setArgArray( String [] arr )
     {
-        strArgArray_ = strArray;
+        argArray = arr;
 
         /*
          *  get the arg count from the arg array.  remember that the arg array 
          *  has the macro name as it's 0th element
          */
 
-        iNumArgs_ = strArgArray_.length - 1;
+        numMacroArgs = argArray.length - 1;
     }
 
     /**
@@ -137,7 +137,7 @@ public class VelocimacroProxy extends Directive
      */
     public int getNumArgs()
     {
-        return iNumArgs_;
+        return numMacroArgs;
     }
 
     /**
@@ -145,28 +145,28 @@ public class VelocimacroProxy extends Directive
      *   Currently, this isn't used in init or render, but keeping it around if
      *   someone needs it later.
      */
-    public void setMacroArray( String [] strArray )
+    public void setMacroArray( String [] arr )
     {
-        strMacroArray_ = strArray;
+        macroArray = arr;
     }
 
     /**
-     *   sets the ArgIndexMap, a map of indexes of macro arg locations in the macro string
+     *   sets the argIndexMap, a map of indexes of macro arg locations in the macro string
      *   to the argument index.  Makes patching the macro really easy.
      */
     public void setArgIndexMap( TreeMap tm)
     {
-        tmArgIndexMap_ = tm;
+        argIndexMap = tm;
     }
 
     /**
-     *   Sets the orignal macro body.  This is simply the cat of the strMacroArray, but the 
+     *   Sets the orignal macro body.  This is simply the cat of the macroArray, but the 
      *   Macro object creates this once during parsing, and everyone shares it.
      *   Note : it must not be modified.
      */
-    public void setMacrobody( String strMacro )
+    public void setMacrobody( String mb )
     {
-        strMacro_ = strMacro;
+        macroBody = mb;
     }
 
     /**
@@ -177,7 +177,7 @@ public class VelocimacroProxy extends Directive
     {
         try 
         {
-            if (nodeTree_ != null)
+            if (nodeTree != null)
             {
                 /*
                  *  to allow recursive VMs, we want to init them at render time, not init time
@@ -186,23 +186,23 @@ public class VelocimacroProxy extends Directive
                  *  need a context here to carry the template name down through the init
                  */
 
-                if (!bInit_)
+                if (!init)
                 {
                     Context c = new Context();
                     c.setCurrentTemplateName( context.getCurrentTemplateName() );
                         
-                    nodeTree_.init( c ,null);
-                    bInit_ = true;
+                    nodeTree.init( c ,null);
+                    init = true;
                 }
 
-                nodeTree_.render(context, writer );
+                nodeTree.render(context, writer );
             }
             else
-                Runtime.error( "VM error : " + strMacroName_ + ". Null AST");
+                Runtime.error( "VM error : " + macroName + ". Null AST");
         } 
         catch ( Exception e ) 
         {
-            Runtime.error("VelocimacroProxy.render() : exception VM = #" + strMacroName_ + 
+            Runtime.error("VelocimacroProxy.render() : exception VM = #" + macroName + 
             "() : "  + StringUtils.stackTrace(e));
         }
 
@@ -229,7 +229,7 @@ public class VelocimacroProxy extends Directive
         
         if ( getNumArgs() != i ) 
         {
-            Runtime.error("VM #" + strMacroName_ + ": error : too few arguments to macro. Wanted " 
+            Runtime.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
                          + getNumArgs() + " got " + i + "  -->");
             return;
         }
@@ -238,13 +238,13 @@ public class VelocimacroProxy extends Directive
          *  get the argument list to the instance use of the VM
          */
 
-        String strCallingArgs[] = getArgArray( node );
+        String callingArgs[] = getArgArray( node );
          
         /*
          *  now, expand our macro out to a string patched with the instance arguments
          */
        
-        expandAndParse( strCallingArgs );
+        expandAndParse( callingArgs );
 
         return;
     }
@@ -255,9 +255,9 @@ public class VelocimacroProxy extends Directive
      *
      * @param strCallingArgs array of reference literals
      */
-    public void expandAndParse( String strCallingArgs[] )
+    public void expandAndParse( String callingArgs[] )
     {
-        StringBuffer strExpanded = expandMacroArray( strCallingArgs );
+        StringBuffer expanded = expandMacroArray( callingArgs );
         
         /*
          *  ok. I have the expanded macro.
@@ -272,12 +272,12 @@ public class VelocimacroProxy extends Directive
 
             //System.out.println("Expanded : " + strExpanded.toString() );
 
-            ByteArrayInputStream  inStream = new ByteArrayInputStream( strExpanded.toString().getBytes() );
-            nodeTree_ = Runtime.parse( inStream, "VM:"+strMacroName_ );
+            ByteArrayInputStream  inStream = new ByteArrayInputStream( expanded.toString().getBytes() );
+            nodeTree = Runtime.parse( inStream, "VM:" + macroName );
         } 
         catch ( Exception e ) 
         {
-            Runtime.error("VelocimacroProxy.init() : exception " + strMacroName_ + 
+            Runtime.error("VelocimacroProxy.init() : exception " + macroName + 
             " : "  + StringUtils.stackTrace(e));
         }
 
@@ -293,9 +293,9 @@ public class VelocimacroProxy extends Directive
      */
     private String[] getArgArray( Node node )
     {
-        int iNumArgs = node.jjtGetNumChildren();
+        int numArgs = node.jjtGetNumChildren();
         
-        String strArgs[] = new String[ iNumArgs ];
+        String args[] = new String[ numArgs ];
 		
         /*
          *  eat the args
@@ -305,9 +305,9 @@ public class VelocimacroProxy extends Directive
         Token t = null;
         Token tLast = null;
     
-        while( i <  iNumArgs ) 
+        while( i <  numArgs ) 
         {
-           strArgs[i] = "";
+           args[i] = "";
 
             /*
              *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched 
@@ -316,7 +316,7 @@ public class VelocimacroProxy extends Directive
 
             if ( node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
-                strArgs[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
+                args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
             }
             else
             {
@@ -329,7 +329,7 @@ public class VelocimacroProxy extends Directive
  
                 while( t != tLast ) 
                     {
-                        strArgs[i] += t.image;
+                        args[i] += t.image;
                         t = t.next;
                     }
 
@@ -337,12 +337,12 @@ public class VelocimacroProxy extends Directive
                  *  don't forget the last one... :)
                  */
 
-                strArgs[i] += t.image;
+                args[i] += t.image;
             }
             i++;
          }
 
-        return strArgs;
+        return args;
     }
    
   
@@ -351,7 +351,7 @@ public class VelocimacroProxy extends Directive
      *   the pre-created arg index map to run through and patch
      *   with our args
      */
-    private StringBuffer expandMacroArray( String [] strCallingArgs )
+    private StringBuffer expandMacroArray( String [] callingArgs )
     {
         /*
          *  build the output string by running through the map in sorted order and construct
@@ -359,32 +359,32 @@ public class VelocimacroProxy extends Directive
          *  elements are specific to the orignal macro body..
          */
 
-        Set set = tmArgIndexMap_.keySet();
+        Set set = argIndexMap.keySet();
         Iterator it = set.iterator();
-        StringBuffer sbNew = new StringBuffer();
-        int iLoc = 0;
+        StringBuffer sb = new StringBuffer();
+        int loc = 0;
 
         while( it.hasNext() )
         {
-            Integer iIndex = (Integer) it.next();
-            int iWhich = ((Integer) tmArgIndexMap_.get( iIndex )).intValue();
+            Integer index = (Integer) it.next();
+            int which = ((Integer) argIndexMap.get( index )).intValue();
 
-            int iIndexInt = iIndex.intValue();
+            int indexInt = index.intValue();
 
             //System.out.println( sbNew + ":" + strCallingArgs[iWhich-1]);
 
-            sbNew.append( strMacro_.substring( iLoc, iIndexInt ));
-            sbNew.append( strCallingArgs[iWhich - 1] );
-            iLoc = iIndexInt + strArgArray_[iWhich].length();
+            sb.append( macroBody.substring( loc, indexInt ));
+            sb.append( callingArgs[which - 1] );
+            loc = indexInt + argArray[which].length();
         }
  
         /*
          *  and finish off the string
          */
 
-        sbNew.append( strMacro_.substring( iLoc ) );
+        sb.append( macroBody.substring( loc ) );
 
-        return sbNew;
+        return sb;
     }
 }
 
