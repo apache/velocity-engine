@@ -20,25 +20,26 @@ public interface ParserTreeConstants
   public int JJTFALSE = 13;
   public int JJTTEXT = 14;
   public int JJTIFSTATEMENT = 15;
-  public int JJTELSESTATEMENT = 16;
-  public int JJTELSEIFSTATEMENT = 17;
-  public int JJTSETDIRECTIVE = 18;
-  public int JJTEXPRESSION = 19;
-  public int JJTASSIGNMENT = 20;
-  public int JJTORNODE = 21;
-  public int JJTANDNODE = 22;
-  public int JJTEQNODE = 23;
-  public int JJTNENODE = 24;
-  public int JJTLTNODE = 25;
-  public int JJTGTNODE = 26;
-  public int JJTLENODE = 27;
-  public int JJTGENODE = 28;
-  public int JJTADDNODE = 29;
-  public int JJTSUBTRACTNODE = 30;
-  public int JJTMULNODE = 31;
-  public int JJTDIVNODE = 32;
-  public int JJTMODNODE = 33;
-  public int JJTNOTNODE = 34;
+  public int JJTENDSTATEMENT = 16;
+  public int JJTELSESTATEMENT = 17;
+  public int JJTELSEIFSTATEMENT = 18;
+  public int JJTSETDIRECTIVE = 19;
+  public int JJTEXPRESSION = 20;
+  public int JJTASSIGNMENT = 21;
+  public int JJTORNODE = 22;
+  public int JJTANDNODE = 23;
+  public int JJTEQNODE = 24;
+  public int JJTNENODE = 25;
+  public int JJTLTNODE = 26;
+  public int JJTGTNODE = 27;
+  public int JJTLENODE = 28;
+  public int JJTGENODE = 29;
+  public int JJTADDNODE = 30;
+  public int JJTSUBTRACTNODE = 31;
+  public int JJTMULNODE = 32;
+  public int JJTDIVNODE = 33;
+  public int JJTMODNODE = 34;
+  public int JJTNOTNODE = 35;
 
 
   public String[] jjtNodeName = {
@@ -58,6 +59,7 @@ public interface ParserTreeConstants
     "False",
     "Text",
     "IfStatement",
+    "EndStatement",
     "ElseStatement",
     "ElseIfStatement",
     "SetDirective",
