@@ -28,7 +28,12 @@
   }
 }
 
+ #set $action= $permission.getAction();
+   $resource.getDescription();: $resource.getPattern();
+
 $_leadingUnderscore
+
+#set $entries = $host.getAuditLog($acl, $itemsPerPage, $filter)
 
 This is an explicitly terminated $statement;.
 
