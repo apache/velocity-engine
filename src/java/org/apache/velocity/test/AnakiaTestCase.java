@@ -70,7 +70,7 @@ import junit.framework.TestCase;
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.1 2001/03/12 04:46:46 jon Exp $
+ * @version $Id: AnakiaTestCase.java,v 1.2 2001/03/19 06:47:15 jon Exp $
  */
 public class AnakiaTestCase extends TestCase
 {
@@ -100,7 +100,9 @@ public class AnakiaTestCase extends TestCase
     }
 
     /**
-     * Runs the test.
+     * Runs the test. This is empty on purpose because the
+     * code to do the Anakia output is in the .xml file that runs
+     * this test.
      */
     public void runTest ()
     {
