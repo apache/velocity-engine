@@ -62,6 +62,7 @@ import java.util.Properties;
  * Usually this class is only used from a Velocity context.
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @version $Id: PropertiesUtil.java,v 1.6 2001/03/20 01:39:33 jon Exp $ 
  */
 public class PropertiesUtil
 {

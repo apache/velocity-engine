@@ -67,8 +67,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * This is abstract class the all text resource loaders should
  * extend.
  * 
- * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.7 2001/03/20 00:55:04 jon Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: ResourceLoader.java,v 1.8 2001/03/20 01:39:30 jon Exp $
  */
 public abstract class ResourceLoader
 {
