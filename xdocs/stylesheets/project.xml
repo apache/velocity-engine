@@ -17,7 +17,7 @@
         <item name="Coding Standards"       href="/code-standards.html"/>
         <item name="License"                href="/license.html"/>
         <item name="TODO"                   href="/todo.html"/>
-        <item name="Report Issues"          href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Velocity"/>        
+        <item name="Report Issues"          href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Velocity"/>
     </menu>
     <menu name="Community">
         <item name="Powered By Velocity"    href="/powered.html"/>
@@ -32,19 +32,20 @@
         <item name="Specification"          href="/specification.html"/>
         <item name="Javadoc"                href="/api/index.html"/>
     </menu>
+    <menu name="Tools">
+        <item name="Tool Subproject"        href="/toolsubproject.html"/>
+        <item name="Anakia : XML->doc tool" href="/anakia.html"/>
+        <item name="Texen : text generation"                  href="/texen.html"/>
+        <item name="DVSL : XML xformation"                   href="/dvsl/index.html"/>
+        <item name="Veltag : JSP taglib"    href="/veltag.html"/>
+        <item name="Migration to Velocity"  href="/migration.html"/>
+        <item name="Editors and IDEs"       href="/devtools.html"/>
+    </menu>
     <menu name="Comparisons">
         <item name="YMTD"                   href="/ymtd/ymtd.html"/>
         <item name="VM/WM Differences"      href="/differences.html"/>
         <item name="JSP vs. Velocity"       href="/casestudy1.html"/>
         <item name="XMLC vs. Velocity"      href="/casestudy2.html"/>
-    </menu>
-    <menu name="Tools">
-        <item name="Anakia"                 href="/anakia.html"/>
-        <item name="Texen"                  href="/texen.html"/>
-        <item name="DVSL"                   href="/dvsl/index.html"/>
-        <item name="Migration to Velocity"  href="/migration.html"/>
-        <item name="Editors and IDEs"       href="/devtools.html"/>
-        <item name="IT Manager wants JSP?"  href="/veltag.html"/>
     </menu>
     <menu name="Site Translations">
         <item name="English"                 href="http://jakarta.apache.org/velocity/"/>
