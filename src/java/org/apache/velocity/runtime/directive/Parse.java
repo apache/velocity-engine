@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.directive;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,15 +54,13 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.runtime.directive;
+import java.io.IOException;
+import java.io.Writer;
 
-import java.io.*;
-
-import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.visitor.ParseDirectiveVisitor;
@@ -83,7 +83,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.11 2000/12/19 05:32:05 jvanzyl Exp $
+ * @version $Id: Parse.java,v 1.12 2000/12/20 07:40:00 jvanzyl Exp $
  */
 public class Parse extends Directive
 {
