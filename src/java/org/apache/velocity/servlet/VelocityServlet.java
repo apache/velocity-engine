@@ -84,8 +84,6 @@ import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 
-import org.apache.velocity.app.HttpServletRequestWrap;
-import org.apache.velocity.app.HttpServletResponseWrap;
 import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -129,7 +127,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.40 2001/08/07 22:26:46 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.41 2001/09/11 18:05:47 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -477,8 +475,8 @@ public abstract class VelocityServlet extends HttpServlet
          *   problems 
          */
            
-        context.put( REQUEST, new HttpServletRequestWrap( request ) );
-        context.put( RESPONSE, new HttpServletResponseWrap( response ) );
+        context.put( REQUEST,  request );
+        context.put( RESPONSE, response );
 
         return context;
     }
