@@ -9,7 +9,53 @@
 
 <body>
 
+<section name="Contents">
+<a name='contents'></a>
+<p>
+<ol>
+
+<li>
+<a href='developer-guide.html#intro'>Introduction and Getting Started</a>
+</li>
+
+<li>
+<a href='developer-guide.html#resources'>Resources</a>
+</li>
+
+<li>
+<a href='developer-guide.html#howvelworks'>How Velocity Works</a>
+</li>
+
+<li>
+<a href='developer-guide.html#context'>The Context</a>
+</li>
+
+<li>
+<a href='developer-guide.html#servlets'>Using Velocity in Servlets</a>
+</li>
+
+<li>
+<a href='developer-guide.html#general'>Using Velocity in General Applications</a>
+</li>
+
+<li>
+<a href='developer-guide.html#config'>Configuration Keys and Values</a>
+</li>
+
+<li>
+<a href='developer-guide.html#logging'>Configuring the Log System</a>
+</li>
+
+<li>
+<a href='developer-guide.html#summary'>Summary</a>
+</li>
+
+</ol>
+</p>
+</section>
+
 <section name="Introduction">
+<a name='intro'></a>
 <p>
 Velocity is a Java-based template engine, a simple and powerful development tool
 that allows you to easily create and render documents that format and present
@@ -133,6 +179,7 @@ root of the Velocity distribution tree.
 </section>
 
 <section name="Resources">
+<a name='resources'></a>
 <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
@@ -188,6 +235,7 @@ All directory references above are relative to the distribution root directory.
 </section>
 
 <section name="How Velocity Works">
+<a name='howvelworks'></a>
 <strong>or 'The Fundamental Pattern'</strong>
 <p>
 When using Velocity in an application program or in a servlet (or anywhere, actually), you will generally do the following :
@@ -247,6 +295,8 @@ either explicitly, or behind the scenes.
 </section>
 
 <section name="The Context">
+<a name='context'></a>
+
 <strong>The Basics</strong>
 <p>
 The concept of the 'context' is central to Velocity, and is a common technique
@@ -411,6 +461,8 @@ Please note that these examples are unsupported and are there for demonstration/
 
 
 <section name="Using Velocity In Servlets">
+<a name='servlets'></a>
+
 <strong>Programming</strong>
 <p>
 The most common use of Velocity is in the area of Java Servlet programming for the WWW.  There are many reasons why Velocity is
@@ -546,6 +598,8 @@ This deployment method will ensure that different web applications will not be s
 </section>
 
 <section name="Using Velocity In General Applications">
+<a name='general'></a>
+
 <p>
 As Velocity was designed to be a general-use tool, it is just as useful in general application programs as it is servlets.
 In general, you can use the same programming pattern discussed at the beginning of this guide, but there are a few utility methods
@@ -768,6 +822,8 @@ information - the error messages are pretty good for figuring out what is wrong.
 </section>
 
 <section name="Velocity Configuration Keys and Values">
+<a name='config'></a>
+
 <p>
 Velocity's runtime configuration is controlled by a set of configuration keys listed below.  Generally, these keys will have
 values that consist of either a String, or a comma-separated list of Strings, referred to as a CSV for comma-separated values.
@@ -794,11 +850,26 @@ to the right of the '=' sign.
 </p>
 
 <strong>Runtime Log</strong>
+
 <p>
 <code>runtime.log = velocity.log</code><br/>
 Full path and name of log file for error, warning,
 and informational messages.  The location, if not absolute, is relative to the 'current directory'.
 </p>
+
+<p>
+<code>runtime.log.logsystem</code><br/>
+This property has no default value.  It is used to give Velocity an instantiated instance of a logging class
+that supports the interface <code>org.apache.velocity.runtime.log.LogSystem.</code>, which allows
+the combination of Velocity log messages with your other application log messages.  Please see the 
+section <a href='developer-guide.html#logging'>Configuring the Log System</a> for more information.
+</p>
+
+<p>
+<code>runtime.log.logsystem.class = org.apache.velocity.runtime.log.AvalonLogSystem</code><br/>
+Class to be used for the Velocity-instantiated log system.
+</p>
+
 
 <p>
 <code>runtime.log.error.stacktrace = false</code><br/>
@@ -946,8 +1017,50 @@ Controls interpolation mechanism of VTL String Literals.  Note that a VTL String
 </p>
 </section>
 
-<section name="Summary">
+<section name="Configuring the Log System">
+<a name='logging'></a>
+<p>
+Velocity has a few nice logging features to allow both simplicity and flexibility. Without any extra configuration,
+Velocity will setup a file-based logger that will output all logging messages to a file called <code>velocity.log</code> 
+in the 'current directory' where Velocity was initialized.   For more advanced users, you may integrate your current
+logging facilities with Velocity to have all log messages sent to your logger.
+</p>
 
+<p>
+Your options :
+
+<ul>
+
+<li>
+<b>Default Configuration</b><br/>
+By default, Velocity will create a file-based logger in the current directory.
+</li>
+
+<li>
+<b>Custom Standalone Logger</b><br/>
+You can create a custom logging class - you simply must implement the interface <code>org.apache.velocity.runtime.log.LogSystem</code>
+and then simply set the configuration property <code>runtime.log.logsystem.class</code> with the classname, and velocity
+will create an instance of that class at init time.  You may specify the classname as you specify any other properties. See 
+the information on the <a href='developer-guide.html#general'>Velocity helper class</a> as well as the 
+<a href='developer-guide.html#config'>configuration keys and values.</a>
+</li>
+
+<li>
+<b>Integrated Logging</b><br/>
+You can integrate Velocity's logging capabilities with your applications existing logging system, simply by implementing the
+<code>org.apache.velocity.runtime.log.LogSystem</code> interface.  Then, pass an instance of your logging class to Velocity
+via the <code>runtime.log.logsystem</code> configuration key before calling init(), and Velocity will log messages to your
+applications logger. See the information on the <a href='developer-guide.html#general'>Velocity helper class</a> as well as the 
+<a href='developer-guide.html#config'>configuration keys and values.</a>
+</li>
+</ul>
+</p>
+
+</section>
+
+
+<section name="Summary">
+<a name='summary'></a>
 <p>
 We hope this brief guide was a helpful introduction to using Velocity in your Java projects, and thank you for you interest
 in Velocity.  We welcome any and all comments
