@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.65 2000/12/05 05:06:58 geirm Exp $
+ * @version $Id: Runtime.java,v 1.66 2000/12/06 05:58:02 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -1061,9 +1061,10 @@ public class Runtime implements RuntimeConstants
      * @param tmArgIndexMap  Indexes to the args in the macro body string
      * @return boolean  True if added, false if rejected for some reason (either parameters or permission settings) 
      */
-    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], String strMacroArray[], TreeMap tmArgIndexMap )
+    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], 
+                                          String strMacroArray[], TreeMap tmArgIndexMap, String strSourceTemplate )
     {    
-        return vmFactory_.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap);
+        return vmFactory_.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap, strSourceTemplate);
     }
 
     /**
