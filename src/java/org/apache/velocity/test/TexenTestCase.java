@@ -64,7 +64,7 @@ import junit.framework.TestCase;
  * generative task and compares the output.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TexenTestCase.java,v 1.5 2001/08/29 01:56:43 jvanzyl Exp $
+ * @version $Id: TexenTestCase.java,v 1.6 2001/08/30 14:10:17 jvanzyl Exp $
  */
 public class TexenTestCase extends BaseTestCase
 {
@@ -111,6 +111,7 @@ public class TexenTestCase extends BaseTestCase
             if (!isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeather","java","java") ||
                 !isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeatherService","java","java") ||
                 !isMatch(RESULTS_DIR,COMPARE_DIR,"WeatherService","java","java") ||
+                !isMatch(RESULTS_DIR,COMPARE_DIR,"book","txt","txt") ||
                 !isMatch(RESULTS_DIR,COMPARE_DIR,"Test","txt","txt"))
             {
                 fail("Output is incorrect!");
