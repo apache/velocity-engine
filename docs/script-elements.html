@@ -1,0 +1,286 @@
+<HTML><HEAD><SCRIPT language="JavaScript" src="resources/script.js" type="text/javascript"></SCRIPT><TITLE>Velocity Script Elements</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+
+<P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="script-elements.html">Script Elements</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
+</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+
+ 
+
+ 
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Script Elements</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    There are several different types of Script Elements within Velocity. The 
+    overall purpose of these elements is described in the <A href="design.html">Design Document</A>. The following elements are currently
+    defined within Velocity and also explained in detail below. All of the elements are
+    prefixed with a #. For example, #if, #foreach, #set.
+    </P>
+    <BLOCKQUOTE><UL>
+        <LI><B>Variables</B></LI>
+        <LI><B>Conditionals</B>:
+            <BLOCKQUOTE><UL>
+                <LI>If / Else</LI>
+            </UL></BLOCKQUOTE>
+        </LI>
+        <LI><B>Loops</B>:
+            <BLOCKQUOTE><UL>
+                <LI>Foreach</LI>
+                <LI>While (Not Yet Implemented)</LI>
+            </UL></BLOCKQUOTE>
+        </LI>
+        <LI><B>Parse</B></LI>
+        <LI><B>Include</B></LI>
+        <LI><B>Param</B></LI>
+        <LI><B>Set</B></LI>
+        <LI><B>Comment</B></LI>
+        <LI><B>Stop</B></LI>
+    </UL></BLOCKQUOTE>
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    Variables are referenced in a similar fashion to the way that they are in 
+    Perl (ie: they use a $), but they also take advantage of some Java 
+    principles that are easy for template designers to work with. For example:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    $foo
+    $foo.getBar() or $foo.Bar
+    $data.getUser(&quot;jon&quot;) or $data.User(&quot;jon&quot;)
+    $data.getRequest().getServerName() or $data.Request.ServerName</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    As you can see in a couple of the examples above there are alternative uses 
+    for the same variables. Velocity takes advantage of Java's introspection and 
+    bean features to resolve the variable names to both objects in the Context 
+    as well as the objects methods. It is possible to embed the variables almost
+    anywhere in your template and have them be evaluated.
+    </P>
+    
+    <P align="justify">
+    Everything coming to and from the variables is treated as a String object. 
+    If you have an object that is representing $foo such as an Integer object, 
+    then Velocity will call its .toString() method in order to resolve the 
+    object into a String.
+    </P>
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>If / Else Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #if statement in Velocity allows you to conditionally include the text 
+    within the brackets. For example:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #if ($foo)
+    {
+        &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
+    }</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    The variable $foo is evaluated to see if it is a boolean or not null and the 
+    content within the brackets is what is output if the evaluation is true. As 
+    you can see, this has the advantage over other systems because you do not 
+    need to wrap your HTML code within an out.println(), therefore enabling you 
+    to develop a more MVC solution. Of course there are other solutions to 
+    out.println() within JSP, but they are just as ugly as out.println().
+    </P>
+    
+    <P align="justify">
+    Another example is that you can include #else elements with your #if element.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #if ($foo)
+    {
+        &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
+    }
+    #else
+    {
+        &lt;strong&gt;Velocity Still Rocks!&lt;/strong&gt;
+    }</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    Note: In the current version of Velocity, it is not possible to do something like what
+    is shown below. We will be adding this functionality quickly though.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #if ($foo &amp;&amp; $bar)
+    {
+        &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
+    }</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    If you would like to emulate the functionality of #elseif, then you can do 
+    so by using nested #if statements. As you would expect, nesting elements 
+    works for all of the elements to an infinite level of nesting. For example, 
+    you can nest a #foreach within a #if. We will be considering in the future 
+    of adding a #elseif to simplify things.
+    </P>    
+    </FONT></TD></TR></TABLE></DIV><BR>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Loops</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Foreach Loop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #foreach element allows you to create loops. For example:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;ul&gt;
+    #foreach $product in $allProducts
+    {
+        &lt;li&gt;$product&lt;/li&gt;
+    }
+    &lt;/ul&gt;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    The #foreach loop causes the $allProducts list to be looped over for all 
+    of the elements in the list. Each time through the loop, the value from
+    $allProducts is placed into the $product variable.
+    </P>
+    
+    <P align="justify">
+    The contents of the $allProducts variable is either a Vector, Hashtable or 
+    Array. Thus, the value that is assigned to the $product variable is a Java
+    Object and can be referenced from the variable as so. For example, if $product
+    was really a Product class in Java, you could get the name of the Product
+    by referencing the $product.Name method (ie: Product.getName()).
+    </P>
+    </FONT></TD></TR></TABLE></DIV><BR>
+</FONT></TD></TR></TABLE></DIV><BR>    
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Parse</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #parse script element allows you to import a local file and have it 
+    parsed through the Velocity template engine and inserted into the location 
+    where the #parse directive is defined. The current Context is applied to the 
+    variables that are embedded within the template.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #parse /path/to/file.vm
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Include</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #include script element allows you to import a local file that is 
+    inserted into the location where the #include directive is defined. The 
+    contents of the file are not rendered through the template engine.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #include /path/to/file.vm
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Param</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #param script element allows the template designer to set items
+    in the context that are static and do not change over the life of the
+    template.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #param $date = &quot;May 24, 1973&quot;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    One difference between Velocity and WebMacro is that the left hand side
+    variable must be prefixed with a $. We felt that this is more appropriate
+    for the script element language because you are effectively setting a 
+    variable and the references to variables should be consistent.
+    </P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Set</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #set script element allows the template designer to set variables within
+    the Context.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set $name = &quot;Fred&quot;
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    One difference between Velocity and WebMacro is that the left hand side
+    variable must be prefixed with a $. We felt that this is more appropriate
+    for the script element language because you are effectively setting a 
+    variable and the references to variables should be consistent.
+    </P>
+    
+    <P align="justify">
+    Currently, the above example is the only thing that is supported. We will
+    eventually be suporting the full range of WebMacro functionality here.
+    </P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Comment</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The ## script element allows the template designer to write comments in
+    templates that are not placed into the output of the template engine.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    ## this is a comment
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    A current problem with Velocity is that the space that comments occupy
+    is not removed from the template. The newlines should be removed. This
+    will be fixed shortly.
+    </P>
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Stop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The #stop script element allows the template designer to stop the execution
+    of the template engine and return. This is useful for debugging purposes.
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #stop
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>    
+</FONT></TD></TR></TABLE></DIV><BR>
+
+ 
+ </TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
+              Copyright &copy; 2000 The Apache Software Foundation.
+              All Rights Reserved.
+            </I></FONT></TD></TR></TABLE></BODY></HTML>

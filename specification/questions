@@ -1,0 +1,60 @@
+A collection of questions to be answered before
+a final specification can be drafted:
+
+-------------------------------------------------------
+
+1. Should the last element of an iterator be
+   available after the block is complete:
+   
+   #foreach $element in $list
+   {
+       $element
+   }
+   
+   Is $element available here or not.
+   
+   Right now in velocity if $element is defined
+   before the #foreach it is saved and restored
+   after the #foreach. The value of $element is
+   not available after the #foreach block.
+
+-------------------------------------------------------
+
+2. How should expressions in #if/#elseif be
+   evaluated?
+   
+   #if ($variable)
+   {
+       do something.
+   }
+   
+   Strictly to boolean values. Right now in
+   velocity if $variable is defined an a
+   Boolean object then true/false applies.
+   If $variable is defined and is not a Boolean
+   object then the expression is true.
+
+-------------------------------------------------------
+
+3. How are null values to be handled?
+
+   For example if a reference appears
+   in a template:
+   
+   $foo
+   
+   $bar.Name
+   
+   And it has a null value. Does it appear
+   as a literal? Not at all? Or some sort
+   of message.
+   
+   Or should it be configurable?
+
+   Responses:
+   
+   <Daniel L. Rall>
+   If configurable, I propose a NullHandler interface with a default
+   implementation that logs the null (minimally!) and puts nothing in the
+   output.
+

@@ -1,0 +1,5 @@
+#set $foo = [$this, $that, $foo.Bar, [$this, "this"] ]
+
+$string.concat([$this, $that, $the.Other])
+
+this is some text.

@@ -1,0 +1,2 @@
+#set $value = 5
+$value

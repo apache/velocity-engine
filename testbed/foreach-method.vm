@@ -1,0 +1,5 @@
+Foreach with a method.
+
+#foreach $provider in $provider.getCustomers()
+    This is $provider.
+#end

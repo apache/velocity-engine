@@ -1,0 +1,75 @@
+<HTML><HEAD><SCRIPT language="JavaScript" src="resources/script.js" type="text/javascript"></SCRIPT><TITLE>Velocity Design</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+
+<P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="script-elements.html">Script Elements</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
+</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+
+ 
+
+ 
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Design</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+ <P align="justify">
+    Velocity is a Java based template engine. It can be used as a
+    stand-alone utility for generating source code, HTML, reports,
+    or it can be combined with other systems to provide template
+    services. One such example is the planned marriage of Velocity
+    with the <A href="http://java.apache.org/turbine">Turbine</A>
+    web application framework. Velocity will be tightly integrated with Turbine
+    to provide a template service that will enable a true MVC model 
+    by which web applications may be developed.
+ </P>
+ 
+ <P align="justify">
+    The original concept for Velocity was borrowed from WebMacro. We are 
+    gratious for the amount of development and design work that went into 
+    WebMacro.
+ </P>
+
+ <P align="justify">
+    The fundamental design of Velocity is around the idea that there are a few 
+    useful script elements that you embed within your HTML code that work in 
+    conjunction with a Context object that is populated in your Java code. The 
+    purpose of the Context object is to provide a &quot;hook&quot; from your 
+    Java code to your Velocity code. Essentially a Context object is simply a 
+    Hashtable which provides get and set methods for retrieving and setting 
+    objects by name within the Context. These script elements provide enough 
+    basic functionality to allow you to retrieve objects from the Context and 
+    put them into your page as text values with some degree of control over 
+    looping (for each) and conditional statements (if/else). 
+ </P>
+
+ <P align="justify">
+    For people who are not familiar with MVC style of development, at first 
+    glance, it will appear as though Velocity is missing a large set of 
+    functionality. It turns out that this is actually the strength of Velocity. 
+    For example, unlike JSP, there is no way to embed Java code within your page 
+    and the script elements provide little more than basic looping and 
+    conditional statements. Another example is the PHP model where every single 
+    feature is implemented with another function. So, how is this better than 
+    the alternatives? The answer is that by using Velocity, you are enforcing a 
+    MVC style of development which defines that your Java code  and your HTML 
+    template code should be separate. This style of development sometimes takes 
+    slightly longer (especially if you are new to MVC), but results in much more 
+    maintainable code over the long term (believe us, we have been doing this 
+    for a long time now). It also provides an abstraction that prevents page 
+    designers from messing with software engineer's Java code. In other words, 
+    it provides an enforcement of a contract that defines what roles people play 
+    in the development process.
+ </P>
+    
+</FONT></TD></TR></TABLE></DIV><BR>
+
+
+</TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
+              Copyright &copy; 2000 The Apache Software Foundation.
+              All Rights Reserved.
+            </I></FONT></TD></TR></TABLE></BODY></HTML>

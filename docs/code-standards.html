@@ -1,0 +1,125 @@
+<HTML><HEAD><SCRIPT language="JavaScript" src="resources/script.js" type="text/javascript"></SCRIPT><TITLE>Coding Standards</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+
+<P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="script-elements.html">Script Elements</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
+</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+
+ 
+
+
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Coding Standards</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    This document describes a list of coding conventions that are required
+    for code submissions to the project. By default, the coding conventions
+    for most Open Source Projects should follow the existing coding conventions
+    in the code that you are working on. For example, if the bracket is on
+    the same line as the if statement, then you should write all your code
+    to have that convention.<B></B>
+</P>
+
+<P align="justify">
+    <B>If you commit code that does not follow these conventions and you
+    are caught, you are responsible for also fixing your own code.</B>
+</P>
+
+<P align="justify">
+    Below is a list of coding conventions that are specific to Turbine,
+    everything else not specificially mentioned here should follow the official
+    <A href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
+    Java Coding Conventions</A>.
+</P>
+
+<P align="justify">
+1. Brackets should begin and end on a new line. Examples:
+</P>
+
+<P align="justify">
+<DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+
+if ( foo )
+{
+    // code here
+}    
+
+try
+{
+    // code here
+}
+catch (Exception bar)
+{
+    // code here
+}
+finally
+{
+    // code here
+}    
+
+while ( true )
+{
+    // code here
+}    
+</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+2. It is <B>OK</B> to have spaces between the parens or not. The preference
+is to not include the extra spaces. For example, both of these are ok:
+</P>
+
+<P align="justify">
+<DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+
+if (foo)
+
+or
+
+if ( foo )
+</PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+3. 4 spaces. <B>NO</B> tabs. Period. We understand that a lot of you like
+to use tabs, but the fact of the matter is that in a distributed development
+enviroment, when the cvs commit messages get sent to a mailing list, they
+are almost impossible to read if you use tabs.
+</P>
+
+<P align="justify">
+In Emacs-speak, this translates to the following command:
+
+(setq-default tab-width 4 indent-tabs-mode nil)
+</P>
+
+<P align="justify">
+4. Unix linefeeds for all .java source code files. Other platform specific
+files should have the platform specific linefeeds.
+</P>
+
+<P align="justify">
+5. Javadoc <B>MUST</B> exist on all your methods. Also, if you are working
+on existing code and there currently isn't a javadoc for that method/class/variable
+or whatever, then you should contribute and add it. This will improve the
+project as a whole.
+</P>
+
+<P align="justify">
+6. The Jakarta Apache/Velocity License <B>MUST</B> be placed at the top
+of each and every file.
+</P>
+
+</FONT></TD></TR></TABLE></DIV><BR>
+
+
+</TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
+              Copyright &copy; 2000 The Apache Software Foundation.
+              All Rights Reserved.
+            </I></FONT></TD></TR></TABLE></BODY></HTML>

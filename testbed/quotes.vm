@@ -1,0 +1,5 @@
+#set $this = "that"
+
+#if (true)
+    "what is $this"
+#end    

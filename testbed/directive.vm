@@ -1,0 +1,26 @@
+this is a dynamic directive!
+
+#block $foo to $bar
+
+    monkey
+
+    #foreach $element in $list
+        go baby $element
+    #end        
+
+#end
+
+
+#line $foo $bar
+
+#line $wonder
+
+#block $foo inthe $bar
+
+    run this block
+    
+#end    
+
+#while ($foo > 1)
+    do this
+#end    
