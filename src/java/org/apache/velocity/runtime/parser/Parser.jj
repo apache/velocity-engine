@@ -106,7 +106,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.30 2000/11/19 23:28:49 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.31 2000/11/21 02:30:00 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -634,6 +634,18 @@ MORE :
     { 
         if (! inComment)
         {
+            /*
+             *  We can have the situation where #if($foo)$foo#end.  We need to transition out of 
+             *  REFERENCE before going to DIRECTIVE.  I don't really like this, but I can't think of
+             *  a legal way you are going into DIRECTIVE while in REFERENCE.  -gmj
+             */
+
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
             inDirective = true;
 
             if ( bDebugPrint_ )
