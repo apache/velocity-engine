@@ -128,6 +128,23 @@
     access to inner classes and public interfaces on default
     or private facades. (gmj)
   </li>
+  <li>
+    Added new autoreload feature for VM system - VM global libraries
+    will be automatically reloaded on use.  See 'Configuration' section
+    of developers guide for more info. (gmj)
+  </li>
+  <li>
+    Logging changes : moved prefix out of RuntimeInstance into logger 
+    impl to support better log4j users who don't need it. Changed 
+    ExternalLoggerTest to support that as well as sep runtime instance.
+    Needed to support log4j adapter contrib from Jeroen C. van Gelderen.
+    Also, LogSystem.init() now can throw an Exception. (gmj)
+   </li>
+   <li> 
+    Also added AvalonLogSystem switch to allow user to simply
+    specify by name a logger from the existing hierarchy.  Thanks to 
+    Carsten Ziegeler.  (gmj)
+  </li>
 </ul>
 </subsection>
 
