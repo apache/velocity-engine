@@ -126,7 +126,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.51 2003/08/31 18:09:58 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.52 2003/08/31 21:26:52 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -521,7 +521,7 @@ public abstract class VelocityServlet extends HttpServlet
     {
         String contentType = defaultContentType;
         int index = contentType.lastIndexOf(';') + 1;
-        if (0 <= index || (index < contentType.length() &&
+        if (index <= 0 || (index < contentType.length() &&
                            contentType.indexOf("charset", index) == -1))
         {
             // Append the character encoding which we'd like to use.
