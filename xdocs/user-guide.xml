@@ -675,8 +675,8 @@ $email
 <source><![CDATA[
 foo
 $email
+\foo
 \$email
-\\$email
 ]]></source>
 
   <p>
