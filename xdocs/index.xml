@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.3 Release Candidate 1 Released">
+<section name="Velocity v1.3 Released">
 
  <p>
    <table>
@@ -18,7 +18,7 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Version 1.3-rc1 of the
+   Version 1.3 of the
    Velocity Template Engine is now available.
    Thanks to all in the Velocity community!
    </td>
@@ -26,10 +26,6 @@
    </table>
  </p>
 
- <p>
-   This release candidate offers many new enhancements,
-   features and fixes over version 1.2.
- </p>
  <p>
    Major enhancements include :
  </p>
@@ -51,7 +47,10 @@
    Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
-</p>
+ </p>
+ <p>
+ Apologies to the community for the wait... (<i>2002-07-07</i>)
+ </p>
 
 </section>
 
@@ -65,7 +64,7 @@ Jean-Francois El Fouly, the Velocity project can now
 offer the <a href="user-guide_fr.html">User's Guide</a> in French.  Thanks!
 (<i>2002-06-17</i>)
 </blockquote>
-</p> 
+</p>
 
 <p>
 <strong>New Release : Maverick</strong>
