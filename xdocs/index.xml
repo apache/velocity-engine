@@ -120,15 +120,17 @@ the Struts framework.
  </p>
 
  <p>
-    Velocity's capabilities reach well beyond the realm of web sites; for
-    example, it can generate SQL and PostScript and XML (see <a
-    href="./anakia.html">Anakia</a> for more information on XML transformations)
-    from templates.  It can be used either as a standalone utility for
-    generating source code and reports, or as an integrated component of other
-    systems.  Velocity also provides template services for the
-    <a href="http://jakarta.apache.org/turbine/">Turbine</a> web application
-    framework. Velocity+Turbine  provides a template service that allows
-    web applications to be developed according to a true MVC model.
+    Velocity's capabilities reach well beyond the realm of the web;
+    for example, it can be used to generate SQL and PostScript and XML
+    (see <a href="./anakia.html">Anakia</a> for more information on
+    XML transformations) from templates.  It can be used either as a
+    standalone utility for generating source code and reports, or as
+    an integrated component of other systems.  For instance, Velocity
+    provides template services for the <a
+    href="http://jakarta.apache.org/turbine/">Turbine</a> web
+    application framework, together providing a view engine
+    facilitating development of web applications according to a true
+    MVC model.
  </p>
 
  </section>
