@@ -68,7 +68,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.12 2001/03/19 18:13:43 jon Exp $ 
+ * @version $Id: ASTMethod.java,v 1.13 2001/03/24 04:16:40 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -263,7 +263,10 @@ public class ASTMethod extends SimpleNode
              */
 
             throw  new MethodInvocationException( 
-                "Invocation of method threw exception.", 
+                "Invocation of method '" 
+                + methodName + "' in  " + o.getClass() 
+                + " threw exception " 
+                + ite.getTargetException().getClass(), 
                 ite.getTargetException(), methodName );
         }
         catch( Exception e )
