@@ -164,7 +164,7 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.25 2001/05/01 02:29:19 dlr Exp $
+ * @version $Id: Configuration.java,v 1.26 2001/05/01 02:30:20 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -1068,7 +1068,9 @@ public class Configuration extends Hashtable
 
         String[] tokens = new String[vector.size()];
         for (int i = 0; i < tokens.length; i++)
-        tokens[i] = (String)vector.elementAt(i);
+        {
+            tokens[i] = (String)vector.elementAt(i);
+        }
 
         return tokens;
     }
