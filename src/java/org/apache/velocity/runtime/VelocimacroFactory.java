@@ -67,7 +67,7 @@ import java.util.Vector;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.12 2001/03/20 01:11:15 jon Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.13 2001/07/30 11:05:12 geirm Exp $ 
  */
 public class VelocimacroFactory
 {
@@ -129,20 +129,27 @@ public class VelocimacroFactory
                  {
                      String lib = (String) v.elementAt(i);
                  
-                     try 
+                     /*
+                      * only if it's a non-empty string do we bother
+                      */
+
+                     if (lib != null && !lib.equals(""))
                      {
-                         logVMMessageInfo("Velocimacro : adding VMs from " +
-                                          "VM library template : " + lib  );
-                    
-                         Template template = Runtime.getTemplate( lib );   
-                         
-                         logVMMessageInfo("Velocimacro :  VM library template " +
-                                          "macro registration complete." );
-                     } 
-                     catch (Exception e)
-                     {
-                         logVMMessageInfo("Velocimacro : error using  VM " +
-                                          "library template " + lib + " : " + e );
+                         try 
+                         {
+                             logVMMessageInfo("Velocimacro : adding VMs from " +
+                                              "VM library template : " + lib  );
+                             
+                             Template template = Runtime.getTemplate( lib );   
+                             
+                             logVMMessageInfo("Velocimacro :  VM library template " +
+                                              "macro registration complete." );
+                         } 
+                         catch (Exception e)
+                         {
+                             logVMMessageInfo("Velocimacro : error using  VM " +
+                                              "library template " + lib + " : " + e );
+                         }
                      }
                  }
              }
