@@ -365,11 +365,9 @@
      </td>
      </tr>
 
-     http://vpp.sourceforge.net./
-
      <tr>
      <td>
-      <a href="http://vpp.sourceforge.net./">VPP - File Pre-processor</a>
+      <a href="http://vpp.sourceforge.net/">VPP - File Pre-processor</a>
      </td>
      <td>
      VPP provides general file preprocessing support based on the
@@ -380,6 +378,14 @@
      </td>
      </tr>
 
+     <tr>
+     <td>
+      <a href="http://sourceforge.net/projects/strutsgenerator/">Struts Generator</a>
+     </td>
+     <td>
+     Web application generator, based on the Struts framework.
+     </td>
+     </tr>
 
  </table>
 
@@ -625,9 +631,6 @@
       <a href="http://www.tbjug.org/">Tampa Bay Java User Group</a>
       </td>
      </tr>
-
-
-     http://www.emocorp.com/
 
      <tr>
       <td>
