@@ -87,8 +87,7 @@ o Codify the testing harness
   [JSS] Lets just move the testing into its own build.xml file
         which can be called from a the main build.xml file
   
-  STATUS:
-  [daveb] Working it.
+  STATUS: [daveb] DONE
   
 o Speed testing suite
 
