@@ -1,3 +1,5 @@
+package org.apache.velocity;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,8 +54,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity;
-
 import java.util.Hashtable;
 import java.io.Serializable;
 
@@ -68,9 +68,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  support, as well as node-local context data introspection caching.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContext.java,v 1.1 2000/12/12 23:41:36 geirm Exp $
+ * @version $Id: InternalContext.java,v 1.2 2000/12/20 06:11:29 jvanzyl Exp $
  */
-
 public class InternalContext implements Serializable
 {
     /**
