@@ -14,6 +14,8 @@
                                                     <meta name="author" value="Jon S. Stevens">
             <meta name="email" value="jon@latchkey.com">
             
+           
+                                    
             <title>Velocity - Velocity Changes</title>
         </head>
 
@@ -269,7 +271,21 @@ This section describes changes to the man branch after the
    <li>
      Update servlet1 example to use the 'new' handleRequest() (gmj)
    </li>
-
+   <li>
+     Added support for ${user.home}/build.properties to Ant build
+     file. (dlr)
+   </li>
+   <li>
+     VelocityServlet subclasses may now use a web.xml context
+     parameter as the default value for the path to their
+     velocity.properties file. (dlr)
+   </li>
+   <li>
+     Added patch from Sylwester Lachiewicz (matrix@plusnet.pl)
+     to bring the javadoc up to date re the properties example,
+     and he also added examples for the DataSource configuration as well as the
+     syntax needed to create a compatible table. (gmj)
+   </li>
 
 </ul>
                             </blockquote>
@@ -1012,6 +1028,12 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
         </body>
     </html>
 <!-- end the processing -->
+
+
+
+
+
+
 
 
 
