@@ -77,8 +77,8 @@ import org.apache.commons.collections.ExtendedProperties;
  * Currently it only supports a  single path to templates.
  * That'll change once we decide how we want to do configuration
  * 
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.13 2001/08/07 21:58:18 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: FileResourceLoader.java,v 1.14 2001/10/22 03:53:26 jon Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {

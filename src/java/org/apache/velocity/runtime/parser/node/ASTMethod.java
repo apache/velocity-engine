@@ -82,9 +82,9 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
  *  Please look at the Parser.jjt file which is
  *  what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.20 2001/09/09 21:49:11 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.21 2001/10/22 03:53:24 jon Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {

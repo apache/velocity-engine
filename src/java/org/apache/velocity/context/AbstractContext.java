@@ -84,8 +84,8 @@ import org.apache.velocity.context.InternalContextBase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.7 2001/08/30 20:58:27 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: AbstractContext.java,v 1.8 2001/10/22 03:53:23 jon Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 

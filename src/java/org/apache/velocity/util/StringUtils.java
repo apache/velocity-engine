@@ -73,9 +73,9 @@ import java.util.StringTokenizer;
  * methods will soon be moved into the turbine
  * string utilities class.
  *
- *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.14 2001/08/23 01:35:43 dlr Exp $
+ *  @version $Id: StringUtils.java,v 1.15 2001/10/22 03:53:27 jon Exp $
  */
 public class StringUtils
 {

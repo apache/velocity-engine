@@ -162,11 +162,11 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.32 2001/08/15 20:42:51 dlr Exp $
+ * @version $Id: Configuration.java,v 1.33 2001/10/22 03:53:23 jon Exp $
  *
  * @deprecated As of version 1.1, please use ExtendedProperties from
  * the Jakarta Commons Collections component.

@@ -67,9 +67,9 @@ import java.util.ArrayList;
  * This class is a simple demonstration of how the Velocity Template Engine
  * can be used in a standalone application.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.2 2001/03/04 21:32:27 daveb Exp $
+ * @version $Id: Example.java,v 1.3 2001/10/22 03:53:28 jon Exp $
  */
 
 public class Example

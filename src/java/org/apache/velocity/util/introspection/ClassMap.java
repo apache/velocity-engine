@@ -66,11 +66,11 @@ import java.lang.reflect.Modifier;
  * Keys {@link java.lang.Method} objects by a concatenation of the
  * method name and the names of classes that make up the parameters.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.13 2001/09/10 10:36:09 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.14 2001/10/22 03:53:27 jon Exp $
  */
 public class ClassMap
 {

@@ -138,10 +138,10 @@ import org.apache.commons.collections.ExtendedProperties;
  * -----------------------------------------------------------------------
  * </pre>
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.112 2001/08/07 21:59:19 geirm Exp $
+ * @version $Id: Runtime.java,v 1.113 2001/10/22 03:53:23 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {

@@ -60,8 +60,8 @@ import de.fub.bytecode.Constants;
 /**
  * The start of a velocity template compiler. Incomplete.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Compiler.java,v 1.4 2001/03/20 01:11:19 jon Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Compiler.java,v 1.5 2001/10/22 03:53:23 jon Exp $
  */
 public class Compiler implements InstructionConstants
 {

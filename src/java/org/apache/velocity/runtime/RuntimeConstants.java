@@ -61,8 +61,8 @@ package org.apache.velocity.runtime;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.29 2001/08/31 09:39:43 geirm Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: RuntimeConstants.java,v 1.30 2001/10/22 03:53:23 jon Exp $
  */
 public interface RuntimeConstants
 {

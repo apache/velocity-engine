@@ -110,9 +110,9 @@ import org.apache.velocity.util.StringUtils;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.64 2001/08/13 13:58:03 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.65 2001/10/22 03:53:24 jon Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/

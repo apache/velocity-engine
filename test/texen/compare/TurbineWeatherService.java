@@ -61,7 +61,7 @@ import org.apache.turbine.services.TurbineBaseService;
 
 /**
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @occupation somnambulist
  */
 public class TurbineWeatherService extends TurbineBaseService

@@ -85,11 +85,11 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * This mapping is performed for all the methods in a class
  * and stored for 
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.16 2001/09/26 11:19:04 geirm Exp $
+ * @version $Id: Introspector.java,v 1.17 2001/10/22 03:53:27 jon Exp $
  */
 public class Introspector
 {

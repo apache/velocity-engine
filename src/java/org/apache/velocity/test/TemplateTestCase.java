@@ -96,10 +96,10 @@ import junit.framework.TestCase;
  * Runtime isn't initialized more then once :-)
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.31 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.32 2001/10/22 03:53:26 jon Exp $
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {

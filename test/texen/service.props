@@ -1,7 +1,7 @@
 baseName=Weather
 package=org.apache.turbine.services.weather
 name=Jason van Zyl
-email=jvanzyl@periapt.com
+email=jvanzyl@apache.org
 
 ## The contents of the file license.txt
 ## will be available in the context

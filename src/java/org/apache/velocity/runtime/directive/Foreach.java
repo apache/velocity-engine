@@ -87,9 +87,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * Foreach directive used for moving through arrays,
  * or objects that provide an Iterator.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.38 2001/09/07 05:03:49 geirm Exp $
+ * @version $Id: Foreach.java,v 1.39 2001/10/22 03:53:24 jon Exp $
  */
 public class Foreach extends Directive
 {

@@ -63,11 +63,11 @@ import java.lang.reflect.Method;
 
 /**
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.10 2001/08/11 19:04:21 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.11 2001/10/22 03:53:27 jon Exp $
  */
 
 public class MethodMap

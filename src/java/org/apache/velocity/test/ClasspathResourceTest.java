@@ -75,9 +75,9 @@ import junit.framework.TestCase;
 /**
  * Load templates from the Classpath.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.7 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.8 2001/10/22 03:53:26 jon Exp $
  */
 public class ClasspathResourceTest extends BaseTestCase
 {

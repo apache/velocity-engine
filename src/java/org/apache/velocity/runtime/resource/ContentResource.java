@@ -63,9 +63,9 @@ import java.io.InputStreamReader;
  * may have been retrieved from any number of possible
  * sources.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.5 2001/08/07 21:58:18 geirm Exp $
+ * @version $Id: ContentResource.java,v 1.6 2001/10/22 03:53:25 jon Exp $
  */
 public class ContentResource extends Resource
 {

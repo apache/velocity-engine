@@ -69,9 +69,9 @@ import org.apache.tools.ant.DirectoryScanner;
  * see the website documentation for more information on how to use
  * this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.19 2001/07/10 19:19:27 geirm Exp $ 
+ * @version $Id: WebMacro.java,v 1.20 2001/10/22 03:53:23 jon Exp $ 
  */
 public class WebMacro
 {

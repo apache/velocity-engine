@@ -71,9 +71,9 @@ import org.apache.velocity.app.event.EventCartridge;
 /**
  * Node for the #set directive
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.19 2001/08/07 21:56:30 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.20 2001/10/22 03:53:25 jon Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {

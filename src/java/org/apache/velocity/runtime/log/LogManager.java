@@ -64,10 +64,10 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Right now, it is hard coded with a single Logging System. Eventually
  * we will have more LoggingSystems.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.7 2001/10/15 23:27:51 geirm Exp $
+ * @version $Id: LogManager.java,v 1.8 2001/10/22 03:53:24 jon Exp $
  */
 public class LogManager
 {
