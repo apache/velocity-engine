@@ -86,7 +86,7 @@ import org.apache.velocity.util.StringUtils;
     <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.9 2000/11/26 06:52:22 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.10 2000/11/27 01:06:59 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -303,6 +303,7 @@ public class AnakiaTask extends MatchingTask
                 context.put ("relativePath", getRelativePath(xmlFile));
                 context.put ("treeWalk", new TreeWalker());
                 context.put ("xpath", new XPathTool() );
+                context.put ("escape", new Escape() );
                 
                 // only put this into the context if it exists.
                 if (projectDocument != null)
