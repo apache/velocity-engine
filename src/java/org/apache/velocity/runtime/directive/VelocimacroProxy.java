@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.2 2000/11/19 23:50:34 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.3 2000/11/22 02:18:40 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -75,6 +75,7 @@ import java.util.Iterator;
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 public class VelocimacroProxy extends  Directive
@@ -208,6 +209,8 @@ public class VelocimacroProxy extends  Directive
              *  take the patched macro code, and render() and init()
              */
 
+            //System.out.println("Expanded : " + strExpanded.toString() );
+
             ByteArrayInputStream  inStream = new ByteArrayInputStream( strExpanded.toString().getBytes() );
             nodeTree_ = Runtime.parse( inStream );
             nodeTree_.init( context, null );
@@ -239,12 +242,24 @@ public class VelocimacroProxy extends  Directive
          */
     
         int i = 0;
+        Token t = null;
+        Token tLast = null;
     
         while( i <  iNumArgs ) 
         {
-            strArgs[i] = node.jjtGetChild(i).getFirstToken().image;
+            t = node.jjtGetChild(i).getFirstToken();
+            tLast = node.jjtGetChild(i).getLastToken();
+            strArgs[i] = "";
+
+            while( t != tLast ) 
+            {
+                strArgs[i] += t.image;
+                t = t.next;
+            }
+            
+            strArgs[i] += t.image;
             i++;
-        }
+         }
 	      
         return strArgs;
     }
@@ -274,6 +289,8 @@ public class VelocimacroProxy extends  Directive
             int iWhich = ((Integer) tmArgIndexMap_.get( iIndex )).intValue();
 
             int iIndexInt = iIndex.intValue();
+
+            //System.out.println( sbNew + ":" + strCallingArgs[iWhich-1]);
 
             sbNew.append( strMacro_.substring( iLoc, iIndexInt ));
             sbNew.append( strCallingArgs[iWhich - 1] );
