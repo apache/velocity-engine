@@ -23,6 +23,28 @@
   <!-- =================================================================== -->
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
+  <target name="test-clean">
+    <!-- 
+         Hack to prevent Ant from complaining about missing directories.
+         This is fixed in Ant >1.3, but we are using Ant 1.3 now.
+    -->
+    <mkdir dir="${test.home}/anakia/results"/>
+    <mkdir dir="${test.home}/configuration/results"/>
+    <mkdir dir="${test.home}/cpload/results"/>
+    <mkdir dir="${test.home}/multi/results"/>
+    <mkdir dir="${test.home}/templates/results"/>
+    <mkdir dir="${test.home}/texen/results"/>
+    <!--
+         Delete the results directories
+    -->
+    <delete dir="${test.home}/anakia/results" quiet="true"/>
+    <delete dir="${test.home}/configuration/results" quiet="true"/>
+    <delete dir="${test.home}/cpload/results" quiet="true"/>
+    <delete dir="${test.home}/multi/results" quiet="true"/>
+    <delete dir="${test.home}/templates/results" quiet="true"/>
+    <delete dir="${test.home}/texen/results" quiet="true"/>
+  </target>
+
   <target name="test-all" depends="
                                    test-template,
                                    test-velocityapp,
@@ -151,13 +173,6 @@
     </java>
   </target>
 
-  <target name="test-clean">
-    <mkdir dir="${test.home}/templates/results"/>
-    <delete quiet="true" includeEmptyDirs="true" 
-            dir="${test.home}/templates/results"/>
-    <delete dir="${test.home}/anakia/results" quiet="true"/>
-  </target>
-  
   <target name="test-externallogger">
     <echo message="Running external logger tests..."/>
 
