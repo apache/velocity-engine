@@ -79,13 +79,13 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EncodingTestCase.java,v 1.1 2001/04/14 02:54:04 geirm Exp $
+ * @version $Id: EncodingTestCase.java,v 1.1.2.1 2001/06/02 21:25:48 geirm Exp $
  */
 public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
 {
     public EncodingTestCase()
     {
-        super("ContextSafetyTestCase");
+        super("EncodingSafetyTestCase");
         
         try
         {
@@ -125,8 +125,12 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
              *  get the template and the output
              */
 
-            Template template = Runtime.getTemplate(
-                getFileName(null, "encodingtest", TMPL_FILE_EXT));
+            /*
+             *  Chinese and spanish
+             */
+
+            Template template = Velocity.getTemplate(
+                getFileName(null, "encodingtest", TMPL_FILE_EXT), "UTF-8");
 
             FileOutputStream fos = 
                 new FileOutputStream (
@@ -141,8 +145,78 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
             if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest",
                     RESULT_FILE_EXT,CMP_FILE_EXT) )
             {
-                fail("Output incorrect.");
+                fail("Output 1 incorrect.");
             }
+
+            /*
+             *  a 'high-byte' chinese example from Michael Zhou
+             */
+
+            template = Velocity.getTemplate( 
+                  getFileName( null, "encodingtest2", TMPL_FILE_EXT), "UTF-8");
+
+            fos = 
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "encodingtest2", RESULT_FILE_EXT));
+
+            writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+           
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
+            
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest2",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output 2 incorrect.");
+            }
+
+            /*
+             *  a 'high-byte' chinese from Ilkka
+             */
+
+            template = Velocity.getTemplate( 
+                  getFileName( null, "encodingtest3", TMPL_FILE_EXT), "GBK");
+
+            fos = 
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "encodingtest3", RESULT_FILE_EXT));
+
+            writer = new BufferedWriter(new OutputStreamWriter(fos, "GBK"));
+           
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
+            
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest3",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output 3 incorrect.");
+            }
+
+            /*
+             *  Russian example from Vitaly Repetenko
+             */
+
+            template = Velocity.getTemplate( 
+                  getFileName( null, "encodingtest_KOI8-R", TMPL_FILE_EXT), "KOI8-R");
+
+            fos = 
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "encodingtest_KOI8-R", RESULT_FILE_EXT));
+
+            writer = new BufferedWriter(new OutputStreamWriter(fos, "KOI8-R"));
+           
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
+            
+            if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest_KOI8-R",
+                    RESULT_FILE_EXT,CMP_FILE_EXT) )
+            {
+                fail("Output 4 incorrect.");
+            }
+
         }
         catch (Exception e)
         {
@@ -150,3 +224,6 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
         }
     }
 }
+
+
+
