@@ -254,6 +254,14 @@ public class Runtime
     {
         if (!getString(RUNTIME_LOG).equals("system"))
         {
+            // Let's look at the log file entry and
+            // correct it if it is not a property 
+            // fomratted URL.
+            String logFile = getString(RUNTIME_LOG);
+            
+            if (! logFile.startsWith("file"))
+                logFile = "file://" + logFile;
+            
             // Initialize the logger.
             logger = LogKit.createLogger("velocity", 
                 getString(RUNTIME_LOG), "DEBUG");
