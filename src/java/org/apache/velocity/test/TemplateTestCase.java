@@ -65,12 +65,15 @@ import org.apache.velocity.Template;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.FastWriter;
+import org.apache.velocity.util.StringUtils;
+
 
 /**
  * Easily add test cases which evaluate templates and check their output.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: TemplateTestCase.java,v 1.6 2000/10/23 22:19:37 dlr Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: TemplateTestCase.java,v 1.7 2000/10/24 01:43:33 jvanzyl Exp $
  */
 public class TemplateTestCase extends BaseTestCase
 {
@@ -93,6 +96,11 @@ public class TemplateTestCase extends BaseTestCase
      * Results relative to the build directory.
      */
     private static final String RESULT_DIR = "../test/templates/results/";
+
+    /**
+     * Results relative to the build directory.
+     */
+    private static final String COMPARE_DIR = "../test/templates/compare/";
 
     /**
      * The base file name of the template and comparison file (i.e. array for 
@@ -158,6 +166,8 @@ public class TemplateTestCase extends BaseTestCase
                 new FileOutputStream(
                     RESULT_DIR + baseFileName + "." + RESULT_FILE_EXT)));
             
+            closeWriter();
+            
             if (!isMatch())
             {
                 fail("Processed template did not match expected output");
@@ -203,8 +213,13 @@ public class TemplateTestCase extends BaseTestCase
      */
     protected boolean isMatch () throws Exception
     {
-        // TODO: Implement matching.
-        return true;
+        String result = StringUtils.fileContentsToString(
+            RESULT_DIR + baseFileName + "." + RESULT_FILE_EXT);
+            
+        String compare = StringUtils.fileContentsToString(
+            COMPARE_DIR + baseFileName + "." + CMP_FILE_EXT);
+
+        return result.equals(compare);
     }
 
     /**
@@ -212,6 +227,7 @@ public class TemplateTestCase extends BaseTestCase
      */
     protected void tearDown ()
     {
+        /*
         try
         {
             closeWriter();
@@ -220,6 +236,7 @@ public class TemplateTestCase extends BaseTestCase
         {
             fail(e.getMessage());
         }
+        */
     }
 
     /**
