@@ -38,7 +38,7 @@
                 
                 <tr>
                     <!-- LEFT SIDE NAVIGATION -->
-                    <td valign="top" nowrap="true">
+                    <td width="20%" valign="top" nowrap="true">
                                 <p><strong>About</strong></p>
         <ul>
                     <li>    <a href="./index.html">Overview</a>
@@ -103,14 +103,13 @@
 </li>
                 </ul>
                         </td>
-                    <td align="left" valign="top">
+                    <td width="80%" align="left" valign="top">
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
           <a name="Table of Contents"><strong>Table of Contents</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <ol>
@@ -180,7 +179,6 @@
           <a name="About this Guide"><strong>About this Guide</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -205,7 +203,6 @@
           <a name="What is Velocity?"><strong>What is Velocity?</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -241,7 +238,6 @@
           <a name="What can Velocity do for me?"><strong>What can Velocity do for me?</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
@@ -250,7 +246,6 @@
           <a name="The Mud Store Example"><strong>The Mud Store Example</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -355,7 +350,6 @@ Hello $customer.Name!
           <a name="Velocity Template Language (VTL): An Introduction"><strong>Velocity Template Language (VTL): An Introduction</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -439,7 +433,6 @@ Hello $customer.Name!
           <a name="Hello Velocity World!"><strong>Hello Velocity World!</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -493,7 +486,6 @@ Hello $foo World!
           <a name="Comments"><strong>Comments</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -636,7 +628,6 @@ information:
           <a name="References"><strong>References</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -1074,7 +1065,6 @@ Jack is a ${vice}maniac.
           <a name="Getting literal"><strong>Getting literal</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -1290,7 +1280,6 @@ $moon = $foo
           <a name="Case Substitution"><strong>Case Substitution</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -1370,7 +1359,6 @@ ${data.Request.ServerName}
           <a name="Directives"><strong>Directives</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -1612,7 +1600,6 @@ $blargh
           <a name="Conditionals"><strong>Conditionals</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <strong>If / ElseIf / Else</strong>
@@ -1674,9 +1661,9 @@ $blargh
       <td bgcolor="#ffffff"><pre>
 #if( $foo &lt; 10 )
     &lt;strong&gt;Go North&lt;/strong&gt;
-#elseif( $foo &gt; 10 )
+#elseif( $foo == 10 )
     &lt;strong&gt;Go East&lt;/strong&gt;
-#elseif( $bar = 6 )
+#elseif( $bar == 6 )
     &lt;strong&gt;Go South&lt;/strong&gt;
 #else
     &lt;strong&gt;Go West&lt;/strong&gt;
@@ -1691,14 +1678,13 @@ $blargh
     </tr>
     </table>
     </div>
+                                                <p>In this example, <em>$foo</em> is greater than 10, so the first
+    two comparisons fail.  Next <em>$bar</em> is compared to 6, which is
+    true, so the output is <strong>Go South</strong>.
+    </p>
                                                 <p>
-    In this example, <em>$foo</em> is greater than or equal to 10, so
-    the Velocity Templating Engine makes the output of the if statement
-    <strong>Go East</strong>. If <em>$foo</em> had a value of 10 and
-    <em>$bar</em> had a value of 6.1, then <em>$foo</em> is neither
-    greater than 10 nor equal to 10, and <em>$bar</em> is not equal to
-    6. All if and elseif statements are false, so the output is
-    <strong>Go West</strong>.
+    Please note that currently, Velocity's numeric comparisons are contrained 
+    to Integers - anything else will evaluate to <em>false</em>.
     </p>
                                                 <p>
     <a name="Relational and Logical Operators"><strong>Relational and Logical Operators</strong></a>
@@ -1824,7 +1810,6 @@ $blargh
           <a name="Loops"><strong>Loops</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <strong>Foreach Loop</strong>
@@ -1975,7 +1960,6 @@ counter.initial.value = 1
           <a name="Include"><strong>Include</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2071,7 +2055,6 @@ counter.initial.value = 1
           <a name="Parse"><strong>Parse</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2191,7 +2174,6 @@ $count
           <a name="Stop"><strong>Stop</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2231,7 +2213,6 @@ $count
           <a name="Velocimacros"><strong>Velocimacros</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2649,7 +2630,6 @@ $count
           <a name="Escaping VTL Directives"><strong>Escaping VTL Directives</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2812,7 +2792,6 @@ $count
           <a name="VTL: Formatting Issues"><strong>VTL: Formatting Issues</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -2940,7 +2919,6 @@ Send me
           <a name="Other Features"><strong>Other Features</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
@@ -2949,7 +2927,6 @@ Send me
           <a name="Math"><strong>Math</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -3107,7 +3084,6 @@ $b
           <a name="Range Operator"><strong>Range Operator</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -3235,7 +3211,6 @@ Fourth example:
           <a name="Advanced Issues: Escaping and !"><strong>Advanced Issues: Escaping and !</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
@@ -3367,7 +3342,6 @@ $\\!foo
           <a name="Feedback"><strong>Feedback</strong></a>
         </font>
       </td></tr>
-      <tr><td><br/></td></tr>
       <tr><td>
         <blockquote>
                                     <p>
