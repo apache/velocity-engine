@@ -16,7 +16,7 @@
   <property name="example.dir" value="../examples"/>
 
   <property name="src.java.dir" value="../src/java"/>
-  <property name="javadoc.destdir" value="../docs/apidocs"/>
+  <property name="javadoc.destdir" value="../docs/api"/>
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
