@@ -71,38 +71,29 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.12 2001/05/08 05:39:36 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.13 2001/05/11 19:49:34 dlr Exp $ 
  */
 public class WebMacro
 {
-    /** Name of the original webmacro template */
-    protected String orignalTemplate;
-    
-    /** Regular expression tool */
-    protected Perl5Util perl;
-    
-    /** Path separator property */
-    protected String pathSeparator = File.separator;
-    
-    protected final static String VM_EXT = ".vm";
-    protected final static String WM_EXT = ".wm";
+    protected static final String VM_EXT = ".vm";
+    protected static final String WM_EXT = ".wm";
 
     /**
-     * The regexes to use for substition. The regexes come
-     * in pairs. The first is the string to match, the
-     * second is the substitution to make.
+     * The regexes to use for line by line substition. The regexes
+     * come in pairs. The first is the string to match, the second is
+     * the substitution to make.
      */
-    protected String[] res =
+    protected static String[] perLineREs =
     {
         // Make #if directive match the Velocity directive style.
         "#if\\s*[(]\\s*(.*\\S)\\s*[)]\\s*(#begin|{)[ \\t]?",
         "#if( $1 )",
 
         // Remove the WM #end #else #begin usage.
-        "[ \\t]?(#end|})\\s*#else\\s*(#begin|{)[ \\t]?(\\w)",
-        "#else#**#$3", // avoid touching a followup word with embedded comment
-        "[ \\t]?(#end|})\\s*#else\\s*(#begin|{)[ \\t]?",
-        "#else",
+        "[ \\t]?(#end|})(\\s*)#else\\s*(#begin|{)[ \\t]?(\\w)",
+        "$2#else#**#$4", // avoid touching followup word with embedded comment
+        "[ \\t]?(#end|})(\\s*)#else\\s*(#begin|{)[ \\t]?",
+        "$2#else",
 
         // Convert WM style #foreach to Velocity directive style.
         "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$[^\\s#]+)\\s*(#begin|{)[ \\t]?",
@@ -116,7 +107,7 @@ public class WebMacro
         "\n#end",
 
         // Convert WM style #set to Velocity directive style.
-        "#set\\s+(\\$[^\\s=]+)\\s*=\\s*(.*\\S)[ \\t]*",
+        "#set\\s+(\\$[^\\s=]+)\\s*=\\s*([\\S]+)[ \\t]*",
         "#set( $1 = $2 )",
         "(##[# \\t\\w]*)\\)", // fix comments included at end of line
         ")$1",
@@ -177,7 +168,9 @@ public class WebMacro
             String[] files = ds.getIncludedFiles();
             
             for (int i = 0; i < files.length; i++)
+            {
                 writeTemplate(files[i], basedir, newBasedir);
+            }
         }
         else
         {
@@ -193,7 +186,9 @@ public class WebMacro
                                   String newBasedir)
     {
         if (file.indexOf(WM_EXT) < 0)
+        {
             return false;
+        }
     
         System.out.println("Converting " + file + "...");
         
@@ -210,16 +205,17 @@ public class WebMacro
         }            
         else
         {
-            template = basedir + pathSeparator + file;
+            template = basedir + File.separator + file;
             templateDir = newBasedir + extractPath(file);
 
             outputDirectory = new File(templateDir);
                 
             if (! outputDirectory.exists())
+            {
                 outputDirectory.mkdirs();
+            }
                 
-            newTemplate = newBasedir + pathSeparator + 
-                convertName(file);
+            newTemplate = newBasedir + File.separator + convertName(file);
         }            
         
         String convertedTemplate = convertTemplate(template);
@@ -244,9 +240,9 @@ public class WebMacro
      */
     private final String extractPath(String file)
     {
-        int lastSepPos = file.lastIndexOf(pathSeparator);
+        int lastSepPos = file.lastIndexOf(File.separator);
         return (lastSepPos == -1 ? "" :
-                pathSeparator + file.substring(0, lastSepPos));
+                File.separator + file.substring(0, lastSepPos));
     }
 
     /**
@@ -255,9 +251,13 @@ public class WebMacro
     private String convertName(String name)
     {
         if (name.indexOf(WM_EXT) > 0)
+        {
             return name.substring(0, name.indexOf(WM_EXT)) + VM_EXT;
+        }
         else
+        {
             return name;
+        }
     }
 
     /**
@@ -274,23 +274,35 @@ public class WebMacro
      */
     public String convertTemplate(String template)
     {
-        orignalTemplate = StringUtils.fileContentsToString(template);
+        String contents = StringUtils.fileContentsToString(template);
 
-        // overcome current velocity 0.71 limitation
-        if ( !orignalTemplate.endsWith("\n") )
-          orignalTemplate += "\n";
-
-        perl = new Perl5Util();
-        for (int i = 0; i < res.length; i += 2)
+        // Overcome Velocity 0.71 limitation.
+        // HELP: Is this still necessary?
+        if (!contents.endsWith("\n"))
         {
-            while (perl.match("/" + res[i] + "/", orignalTemplate))
+            contents += "\n";
+        }
+
+        Perl5Util perl = new Perl5Util();
+        String re;
+        for (int i = 0; i < perLineREs.length; i += 2)
+        {
+            re = makeSubstRE(i);
+            while (perl.match('/' + perLineREs[i] + '/', contents))
             {
-                orignalTemplate = perl.substitute(
-                    "s/" + res[i] + "/" + res[i+1] + "/g", orignalTemplate);
+                contents = perl.substitute(re, contents);
             }
         }
 
-        return orignalTemplate;
+        return contents;
+    }
+
+    /**
+     * Makes a Perl 5 regular expression for use by ORO.
+     */
+    private final String makeSubstRE(int i)
+    {
+        return ("s/" + perLineREs[i] + '/' + perLineREs[i + 1] + "/g");
     }
 
     /**
@@ -298,10 +310,14 @@ public class WebMacro
      */
     public static void main(String[] args)
     {
-        if (args.length < 1)
+        if (args.length > 0)
+        {
+            WebMacro converter = new WebMacro();
+            converter.convert(args[0]);
+        }
+        else
+        {
             usage();
-
-        WebMacro converter = new WebMacro();
-        converter.convert(args[0]);
+        }
     }
 }
