@@ -51,3 +51,15 @@ And now, for something completely different :
 #set $code = "#if(false) True #else False #end"
 
 $code
+
+Now, non interpolated stringlits :
+
+#set($a = "$code")
+#set($b = '$code')
+#set($c = '$!$\!code')
+
+$a
+$b
+$c
+
+-- end --

@@ -29,3 +29,12 @@ And now, for something completely different :
 
 
  False 
+
+Now, non interpolated stringlits :
+
+
+ False 
+$code
+$!$\!code
+
+-- end --
