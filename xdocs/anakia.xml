@@ -261,11 +261,23 @@
         </tr>
         <tr>
             <td>$xmlout</td>
-            <td>This contains an instance of the JDOM XMLOutputter()
-            object. This allows you to easily create String output out
-            of your JDOM element objects. $xmlout.outputString(Element).
-            Again, please look at the examples for more information on
-            how to use this object.</td>
+            <td>This contains an class which extends the instance of the
+            JDOM XMLOutputter() object. This allows you to easily create
+            String output out of your JDOM element objects.
+            $xmlout.outputString(Element). Again, please look at the
+            examples for more information on how to use this
+            object.</td>
+        </tr>
+        <tr>
+            <td>$xmlout.outputString(Element, true)</td>
+            <td>This contains an class which extends the instance of the
+            JDOM XMLOutputter() object. The difference between this
+            .outputString() and the one in XMLOutputter is that it will
+            output all of the Elements <strong>within</strong> the
+            passed in Element. So, if you pass in a &lt;td&gt; Element, 
+            you will get everything inside the &lt;td&gt; &lt;/td&gt;, but
+            not the actual &lt;td&gt; &lt;/td&gt;.
+            </td>
         </tr>
         <tr>
             <td>$treeWalk.allElements($element)</td>
