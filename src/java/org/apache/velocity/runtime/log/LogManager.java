@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
+ * @version $Id: LogManager.java,v 1.6.2.1 2001/10/16 00:07:06 geirm Exp $
  */
 public class LogManager
 {
@@ -99,7 +99,7 @@ public class LogManager
         String claz = (String) rsvc.getProperty( 
             RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
         
-        if (claz != null || claz.length() > 0 )
+        if (claz != null && claz.length() > 0 )
         {
             o = Class.forName( claz ).newInstance();
 

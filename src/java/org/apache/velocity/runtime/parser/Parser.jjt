@@ -108,8 +108,6 @@ options
      */
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
-
-
 }    
 
 PARSER_BEGIN(Parser)
@@ -134,9 +132,9 @@ import org.apache.velocity.util.StringUtils;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.66 2001/08/13 13:57:42 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.66.2.1 2001/11/08 02:41:29 geirm Exp $ 
 */
 public class Parser
 {
@@ -692,7 +690,7 @@ MORE :
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
@@ -1028,7 +1026,7 @@ void Statement() #void : {}
 {
     IfStatement()
 |   StopStatement()
-|   Reference()
+|   LOOKAHEAD(2) Reference()
 |   Comment()
 |   SetDirective()
 |   EscapedDirective()
@@ -1330,12 +1328,21 @@ void Method() : {}
 
 void Reference() : {}
 { 
-    // This should be changed to Indentifier() now. Make
-    // it easier to walk the AST.
-    [<LCURLY>]
-    <IDENTIFIER>
-    [<RCURLY>]
-    (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) [<RCURLY>] )*
+    /*
+     *  A reference is either ${<FOO>} or  $<FOO>
+     */
+     
+      ( 
+         <IDENTIFIER> 
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+      )
+      |      
+      ( 
+         <LCURLY> 
+         <IDENTIFIER>  
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+         <RCURLY>
+      )
 }
 
 void True() : {}
@@ -1362,6 +1369,8 @@ void Text() : {}
 |   <NUMBER_LITERAL>
 |   <STRING_LITERAL>
 |   <ESCAPE>
+|   <LCURLY>
+|   <RCURLY>
 }
 
 /* -----------------------------------------------------------------------

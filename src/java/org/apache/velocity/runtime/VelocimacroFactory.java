@@ -69,7 +69,7 @@ import java.util.HashMap;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.15 2001/08/13 13:58:34 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.15.2.1 2001/11/08 03:45:34 geirm Exp $ 
  */
 public class VelocimacroFactory
 {
@@ -138,7 +138,6 @@ public class VelocimacroFactory
          *  can use an unsynchronized hashmap
          */
         libModMap = new HashMap();
-
         vmManager = new VelocimacroManager( rsvc );
     }
 
@@ -217,7 +216,10 @@ public class VelocimacroFactory
                               *  this is how the Resource manager works
                               */
 
-                             libModMap.put( lib, template );
+                             Twonk twonk = new Twonk();
+                             twonk.template = template;
+                             twonk.modificationTime = template.getLastModified();
+                             libModMap.put( lib, twonk );                         
                          } 
                          catch (Exception e)
                          {
@@ -547,10 +549,12 @@ public class VelocimacroFactory
                          *  get the template from our map
                          */
 
-                        Template template = (Template) libModMap.get(lib );
-
-                        if (template != null)
+                        Twonk tw = (Twonk) libModMap.get( lib );
+                        
+                        if ( tw != null)
                         {
+                            Template template = tw.template;
+                            
                             /*
                              *  now, compare the last modified time of the resource
                              *  with the last modified time of the template
@@ -558,17 +562,39 @@ public class VelocimacroFactory
                              *  be ok.
                              */
 
-                            long tt = template.getLastModified();
+                            long tt = tw.modificationTime;
                             long ft = template.getResourceLoader().getLastModified( template );
 
                             if ( ft > tt )
                             {
                                 logVMMessageInfo("Velocimacro : autoload reload for VMs from " +
                                                  "VM library template : " + lib  );
-
+             
+                                /*
+                                 *  when there are VMs in a library that invoke each other,
+                                 *  there are calls into getVelocimacro() from the init() 
+                                 *  process of the VM directive.  To stop the infinite loop
+                                 *  we save the current time reported by the resource loader
+                                 *  and then be honest when the reload is complete
+                                 */
+                                 
+                                tw.modificationTime = ft;
+                                                                       
                                 template = rsvc.getTemplate( lib );
-                                libModMap.put( lib, template );
-                            }
+ 
+                                /*
+                                 * and now we be honest
+                                 */
+
+                                tw.template = template;
+                                tw.modificationTime = template.getLastModified();
+
+                                /*
+                                 *  note that we don't need to put this twonk back 
+                                 *  into the map, as we can just use the same reference
+                                 *  and this block is synchronized
+                                 */                                  
+                             }
                          } 
                     }
                     catch (Exception e)
@@ -669,6 +695,19 @@ public class VelocimacroFactory
         return autoReloadLibrary;
     }
 
+    /**
+     * small continer class to hold the duple
+     * of a template and modification time.
+     * We keep the modification time so we can 
+     * 'override' it on a reload to prevent
+     * recursive reload due to inter-calling
+     * VMs in a library
+     */
+    private class Twonk
+    {
+        public Template template;
+        public long modificationTime;
+    }
 }
 
 

@@ -65,6 +65,7 @@ Introduction">Velocity Template Language (VTL): An Introduction</a></li>
         <li><a href="#Range Operator">Range Operator</a></li>
         <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
         !</a></li>
+        <li><a href="#Velocimacro Miscellany">Velocimacro Miscellany</a></li>
     </ol>
 </li>
 <li><a href="#Feedback">Feedback</a></li>
@@ -858,9 +859,7 @@ ${data.Request.ServerName}
 
  <p>
     Unlike some of the other Velocity directives, the <em>#set</em>
-    directive does not have an <em>#end</em> statement. Instead, the
-    left bracket marks the beginning and the right bracket marks the end
-    of an assignment.
+    directive does not have an <em>#end</em> statement.
  </p>
 
 <a name="String Literals"><strong>String Literals</strong></a>
@@ -994,8 +993,7 @@ $blargh
 ]]></source>
 
     <p>
-      Two kinds of logical operators, logical AND and logical OR, are 
-      expected to be added to Velocity soon. Below is an example of an 
+      Velocity has logical AND and OR operators as well.  Below is an example of an 
       if statement using logical AND.
     </p>
 
@@ -1013,7 +1011,7 @@ $blargh
       Engine will then check the value of <em>$bar</em>; if
       <em>$bar</em> is true, then the entire expression is true and
       <strong>Velocity Rocks!</strong> becomes the output. If
-      <em>$bar</em> is false, then there will be no output; the entire
+      <em>$bar</em> is false, then there will be no output as the entire
       expression is false.
     </p>
 
@@ -1550,8 +1548,14 @@ $count
 ]]></source>
 
   <p>
-  If <em>$jazz</em> is true, the output is <em>Vyacheslav Ganelin</em>; if
-  <em>$jazz</em> is false, there is no output. Escaping script elements
+  If <em>$jazz</em> is true, the output is 
+  </p>
+<source><![CDATA[
+Vyacheslav Ganelin
+]]></source>
+   
+  <p>
+  If <em>$jazz</em> is false, there is no output. Escaping script elements
   alters the output. Consider the following case:
   </p>
 
@@ -1562,9 +1566,19 @@ $count
 ]]></source>
 
   <p>
-  Whether <em>$jazz</em> is true or false, the output will be "#if(
-  $jazz ) Vyacheslav Ganelin #end"; in fact, because all script elements
-  are escaped the truth of <em>$jazz</em> is never checked. Suppose
+  Whether <em>$jazz</em> is true or false, the output will be 
+  </p>
+  
+ <source><![CDATA[
+ #if($ jazz ) 
+     Vyacheslav Ganelin 
+ #end
+ ]]></source>
+ 
+  <p>
+  In fact, because all script elements
+  are escaped, <em>$jazz</em> is never evaluated for it's boolean value. 
+  Suppose
   backslashes precede script elements that are legitimately escaped:
   </p>
 
@@ -1575,8 +1589,28 @@ $count
 ]]></source>
 
   <p>
-  In this case, if <em>$jazz</em> is true, the output is <em>\ Vyacheslav
-  Ganelin \</em>. If <em>$jazz</em> is false, there is no output. Note that
+  In this case, if <em>$jazz</em> is true, the output is 
+  </p>
+  
+<source><![CDATA[
+\ Vyacheslav Ganelin 
+\
+]]></source>
+
+  <p>
+  To understand this, note that the <code>#if( arg ) </code> when
+  ended by a newline (return) will omit the newline from the output.
+  Therefore, the body of the <code>#if()</code>
+  block follows the first '\', rendered
+  from the '\\' preceeding the <code>#if()</code>.
+   The last \ is on a different
+  line than the text beacsue there is a newline after 'Ganelin', so 
+  the final \\, preceeding the <code>#end</code> is part of the 
+  body of the block.
+  </p>
+  
+  <p> 
+  If <em>$jazz</em> is false, there is no output. Note that
   things start to break if script elements are not properly escaped.
   </p>
 
@@ -1848,6 +1882,173 @@ $\\!foo
 
  </subsection>
 
+<subsection name="Velocimacro Miscellany">
+
+<p>
+This section is a mini-FAQ on topics relating to Velocimacros.  This
+section will change over time, so it's worth checking for new information
+from time to time.
+</p>
+
+<p>
+Note : Throughout this section, 'Velocimacro' will commonly be abbreviated
+as 'VM'.
+</p>
+
+<strong>Can I use a directive or another VM as an argument to a VM?</strong>
+
+<p>
+Example : <code>#center( #bold("hello") )</code>
+</p>
+
+<p>
+No.  A directive isn't a valid argument to a directive, and for most practical 
+purposes, a VM is a directive.
+</p>
+
+<p>
+<i>However...</i>, there are things you can do. One easy solution is to take
+advantage of the fact that 'doublequote' (") renders it's contents. So you
+could do something like
+</p>
+
+<source><![CDATA[
+#set($stuff = "#bold('hello')" )
+#center( $stuff )
+]]></source>
+
+<p>
+You can save a step...
+</p>
+
+<source><![CDATA[
+#center( "#bold( 'hello' )" )
+]]></source>
+
+<p>
+Please note that in the latter exmaple the arg 
+is evaluated <i>inside</i> the VM, not at the 
+calling level.  In other words, the argument to 
+the VM is passed in in its entirety and evaluated within the VM
+it was passed into. This allows you to do things like :
+</p>
+
+<source><![CDATA[
+
+#macro( inner $foo )
+  inner : $foo
+#end
+
+#macro( outer $foo )
+   #set($bar = "outerlala")
+   outer : $foo
+#end
+
+#set($bar = 'calltimelala')
+#outer( "#inner($bar)" )
+
+]]></source>
+
+<p>
+Where the output is
+</p>
+
+<source><![CDATA[
+Outer : inner : outerlala
+]]></source>
+
+<p>
+because the evaluation of the "#inner($bar)" happens inside #outer(), so the
+$bar value set inside #outer() is the one that's used.
+</p>
+
+<p>
+This is an intentional and jealously guarded feature - args are passed 'by
+name' into VMs, so you can hand VMs things like stateful references such as
+</p>
+
+<source><![CDATA[
+#macro( foo $color )
+  <tr bgcolor=$color><td>Hi</td></tr>
+  <tr bgcolor=$color><td>There</td></tr>
+#end
+
+#foo( $bar.rowColor() )
+]]></source>
+
+<p>
+And have rowColor() called repeatedly, rather than just once.  To avoid that, 
+invoke the method outside of the VM, and pass the value into the VM.
+</p>
+
+<source><![CDATA[
+#set($color = $bar.rowColor())
+#foo( $color )
+]]></source>
+
+
+<strong>Can I register Velocimacros via #parse() ? </strong>
+
+    <p>
+    Currently, Velocimacros must be defined before they are first 
+    used in a template.  This means that your #macro() declarations 
+    should come before using the Velocimacros.
+    </p>
+
+    <p>
+    This is important to remember if you try to #parse() 
+    a template containing inline #macro() directives.  Because
+    the #parse() happens at runtime, and the parser decides if
+    a VM-looking element in the template is a VM at parsetime, 
+    #parse()-ing a set of VM declarations won't work as expected.
+    To get around this, simply use the <code>velocimacro.library</code>
+    facility to have Velocity load your VMs at startup.
+    </p>
+
+
+<strong>What is Velocimacro Autoreloading?</strong>
+
+  <p>
+   There is a property, meant to be used in <i>development</i>, 
+   not production :
+  </p>
+  
+  <p>
+  <code>velocimacro.library.autoreload</code>
+  </p>
+
+   <p>
+   which defaults to false.  When set to true <em>along with</em>
+   </p>
+   
+   <p>
+   <code>&lt;type&gt;.resource.loader.cache = false</code>
+   </p>
+    
+    <p>
+    (where &lt;type&gt; is the name of the resource loader that you
+    are using, such as 'file') then the Velocity engine will automatically
+    reload changes to your Velocimacro library files when you make them, 
+    so you do not have to dump the servlet engine (or application) or do 
+    other tricks to have your Velocimacros reloaded.
+    </p>
+
+    <p>
+    Here is what a simple set of configuration properties would look like.
+    </p>
+
+    <source><![CDATA[
+    file.resource.loader.path = templates
+    file.resource.loader.cache = false
+    velocimacro.library.autoreload = true
+    ]]></source>
+
+    <p>
+    Don't keep this on in production.
+    </p>
+
+</subsection>
+
 </section>
 
 <section name="Feedback">
@@ -1855,7 +2056,8 @@ $\\!foo
   <p>
     If you encounter any mistakes in this manual or have 
     other feedback related to the Velocity User Guide, please 
-    email <a href="mailto:jcastura@apache.org">John Castura</a>. 
+    email the 
+    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>. 
     Thanks!
   </p>
 

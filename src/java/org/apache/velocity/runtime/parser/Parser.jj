@@ -84,8 +84,6 @@ options
      */
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
-
-
 }    
 
 PARSER_BEGIN(Parser)
@@ -110,9 +108,9 @@ import org.apache.velocity.util.StringUtils;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.64 2001/08/13 13:58:03 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.64.2.1 2001/11/08 02:41:56 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -671,7 +669,7 @@ MORE :
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
@@ -1038,7 +1036,7 @@ void Statement()       : {}
 {
     IfStatement()
 |   StopStatement()
-|   Reference()
+|   LOOKAHEAD(2) Reference()
 |   Comment()
 |   SetDirective()
 |   EscapedDirective()
@@ -1574,33 +1572,42 @@ void Reference() : {/*@bgen(jjtree) Reference */
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
 {/*@bgen(jjtree) Reference */
-    try {
+      try {
 /*@egen*/ 
-    // This should be changed to Indentifier() now. Make
-    // it easier to walk the AST.
-    [<LCURLY>]
-    <IDENTIFIER>
-    [<RCURLY>]
-    (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) [<RCURLY>] )*/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
+    /*
+     *  A reference is either ${<FOO>} or  $<FOO>
+     */
+     
+      ( 
+         <IDENTIFIER> 
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+      )
+      |      
+      ( 
+         <LCURLY> 
+         <IDENTIFIER>  
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+         <RCURLY>
+      )/*@bgen(jjtree)*/
+      } catch (Throwable jjte000) {
+        if (jjtc000) {
+          jjtree.clearNodeScope(jjtn000);
+          jjtc000 = false;
+        } else {
+          jjtree.popNode();
+        }
+        if (jjte000 instanceof RuntimeException) {
+          throw (RuntimeException)jjte000;
+        }
+        if (jjte000 instanceof ParseException) {
+          throw (ParseException)jjte000;
+        }
+        throw (Error)jjte000;
+      } finally {
+        if (jjtc000) {
+          jjtree.closeNodeScope(jjtn000, true);
+        }
       }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
 /*@egen*/
 }
 
@@ -1657,7 +1664,9 @@ void Text() : {/*@bgen(jjtree) Text */
 |   <LPAREN>
 |   <NUMBER_LITERAL>
 |   <STRING_LITERAL>
-|   <ESCAPE>/*@bgen(jjtree)*/
+|   <ESCAPE>
+|   <LCURLY>
+|   <RCURLY>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);

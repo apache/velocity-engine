@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.2-dev"/>
+  <property name="version" value="1.2-rc3"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -33,7 +33,7 @@
   <property name="docs.dest" value="../docs"/>
   <property name="docs.src" value="../xdocs"/>
     
-  <property name="log.jar" value="lib/logkit-1.0b5.jar"/>
+  <property name="log.jar" value="lib/logkit-1.0.jar"/>
   <property name="jdom.jar" value="lib/jdom-b6.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="servlet.jar" value="lib/servlet.jar"/>
@@ -95,21 +95,22 @@
   **  compile        prepare             compiles non-J2EE source
   **  compile-J2EE   prepare, J2EE-error compiles J2EE source
   **  compile-copy                       move non-J2EE classes out of the way.
-  **  jar            compile             prepares {project}-{version} jar file
-  **  jar-nodep      compile             Same as 'jar', but without Oro and Logkit
-  **                                     dependencies.
+  **  jar            compile             prepares {project}-{version} jar file. Note
+  **                                     that nothing except Velocity code is included
+  **                                     dependencies are separate.
+  **  jar-dep        compile             Same as 'jar', but includes Oro and Logkit
+  **                                     dependencies for convenience.
   **  jar-J2EE       compile-J2EE        prepares jar including J2EE
-  **  jar-J2EE-nodep compile-J2EE        same as 'jar-J2EE', but withouth Oro and
-  **                                     Logkit dependencies.
+  **  jar-J2EE-dep   compile-J2EE        same as 'jar-J2EE', but with Oro and
+  **                                     Logkit dependencies for convenience
   **  jar-core       compile             prepares jar with only core classes
   **  jar-util       compile             prepares jar with only util classes
   **  jar-servlet    compile             prepares jar with only servlet classes
   **  jar-src                            prepares jar of source
   **  examples       jar                 compiles examples and calls forumdemo
-  **  examples-clean-anakia             cleans anakia example
-  **  examples-clean-forumdemo          cleans forum demo
-  **  examples-clean-all
-  **                 examples-clean-anakia, examples-clean-forumdemo
+  **  examples-clean-anakia              cleans anakia example
+  **  examples-clean-forumdemo           cleans forum demo
+  **  examples-clean-all                 cleans the anakia/forumdemo examples
   **  javadocs       prepare             build javadocs
   **  javadocs-clean                     delete javadocs
   **  test           compile             runs JUnit tests
@@ -256,16 +257,17 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Compiles the source directory and creates a .jar file               -->
+  <!-- Compiles the source directory and creates a .jar filem              -->
+  <!-- including the Oro and logkit dependencies for convenience           -->
   <!-- =================================================================== -->
-  <target name="jar" depends="compile, collections-support">
-        
+  <target name="jar-dep" depends="compile, collections-support">
+         
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
  
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
-    <jar jarfile="${build.dir}/${project}-${version}.jar">
+    <jar jarfile="${build.dir}/${project}-dep-${version}.jar">
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -278,11 +280,11 @@
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
-  <!-- that has no built-in dependencies on Oro or Logkit                  -->
+  <!-- that has no included dependencies                                   -->
   <!-- =================================================================== -->
-  <target name="jar-nodep" depends="compile">
+  <target name="jar" depends="compile">
          
-    <jar jarfile="${build.dir}/${project}-${version}-nodep.jar">
+    <jar jarfile="${build.dir}/${project}-${version}.jar">
 
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -296,15 +298,16 @@
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file of all        -->
   <!--  source AND code that requires J2EE (ex. DataSourceResourceLoader)  -->
+  <!--  including Oro and LogKit for convenience                           -->
   <!-- =================================================================== -->
-  <target name="jar-J2EE" depends="compile-J2EE, collections-support" if="J2EE.present">
+  <target name="jar-J2EE-dep" depends="compile-J2EE, collections-support" if="J2EE.present">
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
 
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
-    <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar"
+    <jar jarfile="${build.dir}/${project}-J2EE-dep-${version}.jar"
       basedir="${build.dest}"
       excludes="**/package.html"
     />
@@ -316,9 +319,9 @@
   <!-- source AND code that requires J2EE (ex. DataSourceResourceLoader)  -->
   <!-- but without built-in dependencies on Oro or Logkit                  -->
   <!-- =================================================================== -->
-  <target name="jar-J2EE-nodep" depends="compile-J2EE" if="J2EE.present">
+  <target name="jar-J2EE" depends="compile-J2EE" if="J2EE.present">
         
-    <jar jarfile="${build.dir}/${project}-J2EE-${version}-nodep.jar"
+    <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar"
       basedir="${build.dest}"
       excludes="**/package.html"
     />
@@ -328,12 +331,8 @@
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
-  <target name="jar-core" depends="compile, collections-support">
+  <target name="jar-core" depends="compile">
         
-    <unzip src="${log.jar}" dest="${build.dest}"/>
-
-    <delete dir="${build.dest}/meta-inf" quiet="true"/>
-
     <jar compress="true" jarfile="${build.dir}/${project}-core-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -354,10 +353,6 @@
   <!-- =================================================================== -->
   <target name="jar-util" depends="compile">
         
-    <unzip src="${log.jar}" dest="${build.dest}"/>
-
-    <delete dir="${build.dest}/meta-inf" quiet="true"/>
-
     <jar jarfile="${build.dir}/${project}-util-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -375,10 +370,6 @@
   <!-- =================================================================== -->
   <target name="jar-servlet" depends="compile">
         
-    <unzip src="${log.jar}" dest="${build.dest}"/>
-
-    <delete dir="${build.dest}/meta-inf" quiet="true"/>
-
     <jar jarfile="${build.dir}/${project}-servlet-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>

@@ -94,14 +94,10 @@ import org.apache.velocity.VelocityContext;
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaTask.java,v 1.31 2001/08/08 04:30:47 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.31.2.1 2001/10/16 10:52:32 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
-    /** Default SAX Driver class to use */
-    private static final String DEFAULT_SAX_DRIVER_CLASS =
-        "org.apache.xerces.parsers.SAXParser";
-
     /** <code>{@link SAXBuilder}</code> instance to use */
     private SAXBuilder builder;
 
@@ -149,7 +145,7 @@ public class AnakiaTask extends MatchingTask
      */
     public AnakiaTask()
     {
-        builder = new SAXBuilder(DEFAULT_SAX_DRIVER_CLASS);
+        builder = new SAXBuilder();
         builder.setFactory(new AnakiaJDOMFactory());
     }
 

@@ -158,6 +158,8 @@ public class ParserTokenManager implements ParserConstants
             }
         }
     }
+  public  java.io.PrintStream debugStream = System.out;
+  public  void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
 private final int jjStopStringLiteralDfa_0(int pos, long active0)
 {
    switch (pos)
@@ -3694,7 +3696,7 @@ final void MoreLexicalActions()
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
