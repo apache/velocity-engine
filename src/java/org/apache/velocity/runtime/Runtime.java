@@ -158,7 +158,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.51 2000/11/19 23:21:49 geirm Exp $
+ * @version $Id: Runtime.java,v 1.52 2000/11/26 08:17:13 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -257,30 +257,9 @@ public class Runtime implements RuntimeConstants
     private static boolean sourceInitializersAssembled = false;
 
     /**
-     * Get the default properties for the Velocity Runtime.
-     * This would allow the retrieval and modification of
-     * the base properties before initializing the Velocity
-     * Runtime.
-     */
-    public static void setDefaultProperties()
-    {
-        ClassLoader classLoader = Runtime.class.getClassLoader();
-        try
-        {
-            InputStream inputStream = classLoader.getResourceAsStream(
-                DEFAULT_RUNTIME_PROPERTIES);
-            VelocityResources.setPropertiesInputStream( inputStream );
-            assembleSourceInitializers();
-            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getAbsolutePath());
-        }
-        catch (IOException ioe)
-        {
-            System.err.println("Cannot get Velocity Runtime default properties!");
-        }
-    }
-
-    /**
-     * Initializes the Velocity Runtime.
+     * Initializes the Velocity Runtime with properties file.
+     * The properties file may be in the file system proper,
+     * or the properties file may be in the classpath.
      */
     public synchronized static void init(String propertiesFileName)
         throws Exception
@@ -313,15 +292,67 @@ public class Runtime implements RuntimeConstants
         }
 
         init();
-
-        /*
-         *  initialize the VM Factory.  It will use the properties accessable from Runtime,
-         *  so keep this here at the end
-         */
-        vmFactory_.initVelocimacro();
+    }
+    
+    /*
+     * This is the primary initialization method in the Velocity
+     * Runtime. The systems that are setup/initialized here are
+     * as follows:
+     * 
+     * <ul>
+     *   <li>Logging System</li>
+     *   <li>Template Sources</li>
+     *   <li>Parser Pool</li>
+     *   <li>Global Cache</li>
+     *   <li>Static Content Include System</li>
+     *   <li>Velocimacro System</li>
+     * </ul>
+     */
+    public synchronized static void init()
+        throws Exception
+    {
+        if (! initialized)
+        {
+            try
+            {
+                initializeLogger();
+                initializeTemplateLoader();           
+                initializeParserPool();
+                initializeGlobalCache();
+                initializeIncludePaths();
         
+                /*
+                 *  initialize the VM Factory.  It will use the properties 
+                 * accessable from Runtime, so keep this here at the end.
+                 */
+                vmFactory_.initVelocimacro();
+                
+                info("Velocity successfully started.");
+                
+                initialized = true;
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+        }
     }
 
+    /**
+     * Allow an external mechanism to set the properties for
+     * Velocity Runtime. This is being use right now by Turbine.
+     * There is a standard velocity properties file that is
+     * employed by Turbine/Velocity apps, but certain properties
+     * like the location of log file, and the template path
+     * must be set by Turbine because the location of the
+     * log file, and the template path are based on
+     * the location of the context root.
+     *
+     * So common properties can be set with a standard properties
+     * file, then certain properties can be changed before
+     * the Velocity Runtime is initialized.
+     */
     public static void setProperties(String propertiesFileName) throws Exception
     {
         /*
@@ -351,28 +382,26 @@ public class Runtime implements RuntimeConstants
         }
     }
 
-    public synchronized static void init()
-        throws Exception
+    /**
+     * Get the default properties for the Velocity Runtime.
+     * This would allow the retrieval and modification of
+     * the base properties before initializing the Velocity
+     * Runtime.
+     */
+    public static void setDefaultProperties()
     {
-        if (! initialized)
+        ClassLoader classLoader = Runtime.class.getClassLoader();
+        try
         {
-            try
-            {
-                initializeLogger();
-                initializeTemplateLoader();           
-                initializeParserPool();
-                initializeGlobalCache();
-                initializeIncludePaths();
-                
-                info("Velocity successfully started.");
-                
-                initialized = true;
-            }
-            catch (Exception e)
-            {
-                System.out.println(e);
-                e.printStackTrace();
-            }
+            InputStream inputStream = classLoader.getResourceAsStream(
+                DEFAULT_RUNTIME_PROPERTIES);
+            VelocityResources.setPropertiesInputStream( inputStream );
+            assembleSourceInitializers();
+            info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getAbsolutePath());
+        }
+        catch (IOException ioe)
+        {
+            System.err.println("Cannot get Velocity Runtime default properties!");
         }
     }
 
