@@ -54,49 +54,95 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
+import java.io.*;
+
 import junit.framework.*;
 
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.io.FastWriter;
 
 /**
  * Base functionality to be extended by all Apache Velocity test cases.  Test 
  * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.2 2000/10/22 22:08:31 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.1 2000/10/22 22:08:56 dlr Exp $
  */
-public abstract class BaseTestCase extends TestCase
+public abstract class TemplateTestCase extends BaseTestCase
 {
     /**
-     * The properties file name of the application.
+     * The writer used to output evaluated templates.
      */
-    private static final String PROPS_FILE_NAME = "velocity.properties";
+    private FastWriter writer;
 
     /**
      * Creates a new instance.
      */
-    public BaseTestCase (String name)
+    public TemplateTestCase (String name)
     {
         super(name);
+    }
 
+    /**
+     * Get the containing <code>TestSuite</code>.
+     *
+     * @return The <code>TestSuite</code> to run.
+     */
+    public static junit.framework.Test suite ()
+    {
+        return BaseTestCase.suite();
+    }
+
+    /**
+     * Performs cleanup activities for this test case.
+     */
+    protected void tearDown ()
+    {
         try
         {
-            Runtime.init(PROPS_FILE_NAME);
+            closeWriter();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             fail(e.getMessage());
         }
     }
 
     /**
-     * Get the containing <code>TestSuite</code>.  This is always 
-     * <code>VelocityTestSuite</code>.
+     * Returns a <code>FastWriter</code> instance.
      *
-     * @return The <code>TestSuite</code> to run.
+     * @param out The output stream for the writer to write to.  If 
+     *            <code>null</code>, defaults to <code>System.out</code>.
+     * @return    The writer.
      */
-    public static junit.framework.Test suite ()
+    protected Writer getWriter (OutputStream out)
+        throws UnsupportedEncodingException, IOException
     {
-        return new VelocityTestSuite();
+        if (writer == null)
+        {
+            if (out == null)
+            {
+                out = System.out;
+            }
+
+            writer = new FastWriter
+                (out, Runtime.getString(Runtime.TEMPLATE_ENCODING));
+            writer.setAsciiHack
+                (Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK));
+        }
+        return writer;
+    }
+
+    /**
+     * Closes the writer (if it has been opened).
+     */
+    protected void closeWriter ()
+        throws IOException
+    {
+        if (writer != null)
+        {
+            writer.flush();
+            writer.close();
+        }
     }
 }

@@ -69,9 +69,9 @@ import org.apache.velocity.test.provider.TestProvider;
  * Automated test case for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.3 2000/10/22 16:00:02 jvanzyl Exp $
+ * @version $Id: VelocityTest.java,v 1.4 2000/10/22 22:08:31 dlr Exp $
  */
-public class VelocityTest extends BaseTestCase
+public class VelocityTest extends TemplateTestCase
 {
     /**
      * The name of the test case's template file.
@@ -101,7 +101,7 @@ public class VelocityTest extends BaseTestCase
      */
     public static junit.framework.Test suite ()
     {
-        return BaseTestCase.suite();
+        return TemplateTestCase.suite();
     }
 
     /**
