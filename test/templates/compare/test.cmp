@@ -36,7 +36,8 @@ $foo<  => bar<
 \$foo-  => $foo-
 \$fooo+ => $fooo+
 \$foo-x => $foo-x
-$foo$  => bar
+$foo$  => bar$
+
 
 
 jon
