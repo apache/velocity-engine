@@ -52,6 +52,9 @@
         -->
         <property name="velocity.test" value="org.apache.velocity.test.VelocityTest"/>
         
+        <property name="default.properties" 
+            value="org/apache/velocity/runtime/defaults/velocity.properties"/>
+        
         <taskdef name="fop" classname="Fop"/>
         <taskdef name="xslt" classname="Xslt"/>
         
@@ -68,7 +71,9 @@
         <mkdir dir="${build.dest}"/>
         <mkdir dir="${build.src}"/>
 
-        <copydir src="${src.java.dir}" dest="${build.src}" includes="**/*.java"/>
+        <copydir src="${src.java.dir}" dest="${build.src}" 
+            includes="**/*.java"
+        />
     </target>
 
     <!-- =================================================================== -->
@@ -82,14 +87,17 @@
             deprecation="${deprecation}"
             optimize="${optimize}"/>
             
-            <!-- hack for test viewing -->
-            
             <copydir 
                 src="${src.java.dir}/org/apache/velocity"
                 dest="${build.dest}/org/apache/velocity"
-                includes="test*"
+                includes="**/*.class"
             />                
-    
+            
+            <copyfile
+                src="${src.java.dir}/${default.properties}"
+                dest="${build.dest}/${default.properties}"
+            />                
+
             <chmod file="${build.dest}/org/apache/velocity/test.sh" perm="+x"/>
             
     </target>
