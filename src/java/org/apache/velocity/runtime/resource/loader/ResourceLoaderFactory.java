@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.resource.loader;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -61,7 +61,7 @@ import org.apache.velocity.util.StringUtils;
  * Factory to grab a template loader.
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoaderFactory.java,v 1.2 2001/03/05 11:47:06 jvanzyl Exp $
+ * $Id: ResourceLoaderFactory.java,v 1.3 2001/03/20 00:55:05 jon Exp $
  */
 public class ResourceLoaderFactory
 {

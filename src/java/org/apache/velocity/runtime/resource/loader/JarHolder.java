@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.resource.loader;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -72,9 +72,10 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
-
+ * A small wrapper around a Jar
+ *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.3 $
+ * @version $Id: JarHolder.java,v 1.4 2001/03/20 00:55:04 jon Exp $
  */
 public class JarHolder
 {

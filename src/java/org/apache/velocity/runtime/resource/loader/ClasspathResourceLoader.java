@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.resource.loader;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -53,7 +53,7 @@ package org.apache.velocity.runtime.resource.loader;
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-
+ 
 import java.io.InputStream;
 
 import org.apache.velocity.runtime.Runtime;
@@ -104,7 +104,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.1 2001/03/05 02:59:28 geirm Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.2 2001/03/20 00:55:03 jon Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {

@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.resource.loader;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -68,7 +68,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * extend.
  * 
  * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.6 2001/03/05 11:47:04 jvanzyl Exp $
+ * $Id: ResourceLoader.java,v 1.7 2001/03/20 00:55:04 jon Exp $
  */
 public abstract class ResourceLoader
 {
