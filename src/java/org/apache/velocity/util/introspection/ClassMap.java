@@ -70,7 +70,7 @@ import java.lang.reflect.Modifier;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.19 2001/12/05 21:23:31 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.20 2002/03/14 22:16:18 geirm Exp $
  */
 public class ClassMap
 {
@@ -272,10 +272,14 @@ public class ClassMap
 
         for (int j = 0; j < params.length; j++)
         {
-            if (params[j] == null)
-                params[j] = OBJECT;
+            Object arg = params[j];
 
-            methodKey.append(params[j].getClass().getName());            
+            if (arg == null)
+            {
+                arg = OBJECT;
+            }
+
+            methodKey.append(arg.getClass().getName());
         }
         
         return methodKey.toString();
