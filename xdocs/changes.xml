@@ -20,6 +20,13 @@
 Changes to version 1.0
 </p>
 
+<ul>
+  <li> 
+    Small fix to ASTGENode.java to catch NPE if LHS or RHS is null or not int or 
+    Integer. (gmj)
+   </li>
+</ul>
+
 </subsection>
 <subsection name="1.0b3">
 <p>
