@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.17 2000/12/19 13:34:58 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.18 2001/01/03 05:27:37 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -74,7 +74,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.lang.reflect.Method;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
@@ -110,7 +111,7 @@ public class ASTReference extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public Object init(Context context, Object data) throws Exception
+    public Object init( InternalContextAdapter context, Object data) throws Exception
     {
         /*
          *  init our children
@@ -135,7 +136,7 @@ public class ASTReference extends SimpleNode
      *   @param o   unused Object parameter
      *   @param context context used to generate value
      */
-    public Object execute(Object o, Context context)
+    public Object execute(Object o, InternalContextAdapter context)
     {   
         /*
          *  get the root object from the context
@@ -166,7 +167,7 @@ public class ASTReference extends SimpleNode
      *  @param context  context of data to use in getting value
      *  @param writer   writer to render to
      */
-    public boolean render(Context context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
         Object value = execute(null, context);
@@ -217,7 +218,7 @@ public class ASTReference extends SimpleNode
      *
      *   @param context context to compute value with
      */
-    public boolean evaluate(Context context)
+    public boolean evaluate( InternalContextAdapter context)
     {
         Object value = execute(null, context);
         
@@ -234,12 +235,12 @@ public class ASTReference extends SimpleNode
             return true;
     }
 
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         return ( computableReference ? execute(null, context) : null );
     }
 
-    public boolean setValue(Context context, Object value)
+    public boolean setValue( InternalContextAdapter context, Object value)
     {
         /*
          *  The rootOfIntrospection is the object we will

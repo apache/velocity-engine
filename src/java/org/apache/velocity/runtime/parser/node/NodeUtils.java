@@ -54,7 +54,8 @@
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
 
 /**
@@ -62,7 +63,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.8 2000/11/28 03:05:11 jvanzyl Exp $
+ * @version $Id: NodeUtils.java,v 1.9 2001/01/03 05:27:38 geirm Exp $
  */
 public class NodeUtils
 {
