@@ -17,7 +17,7 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.1 2000/11/03 14:42:00 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.2 2000/11/03 14:44:22 jvanzyl Exp $ 
  */
 public class Generator
 {
