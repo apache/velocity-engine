@@ -75,7 +75,7 @@ import org.apache.velocity.context.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.2 2001/04/09 01:03:27 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.3 2001/04/11 12:59:42 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
@@ -148,15 +148,7 @@ public class ASTSetDirective extends SimpleNode
 
                 if (ec != null)
                 {
-                    NullSetEventHandler[] nseh = ec.getNullSetEventHandlerArray();
-                    
-                    for(int i = 0; i < nseh.length; i++)
-                    {
-                        if( ! nseh[i].nullSetLogMessage( left.literal() ))
-                        {
-                            doit = false;
-                        }
-                    }
+		    doit = ec.nullSetLogMessage( left.literal() );
                 }
 
                 if (doit)

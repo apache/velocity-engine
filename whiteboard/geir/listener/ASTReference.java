@@ -82,7 +82,7 @@ import org.apache.velocity.context.NullReferenceEventHandler;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.2 2001/04/09 01:03:26 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.3 2001/04/11 12:59:42 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -238,12 +238,7 @@ public class ASTReference extends SimpleNode
             
             if (ec != null)
             {
-                NullReferenceEventHandler[] rieh = ec.getNullReferenceHandlerArray();
-                
-                for(int i = 0; i < rieh.length; i++)
-                {
-                    localNullstring = rieh[i].nullReferenceRender( localNullstring );
-                }
+               localNullstring = ec.nullReferenceRender( localNullstring );
             }
            
             /* 
@@ -262,13 +257,8 @@ public class ASTReference extends SimpleNode
             
             if (ec != null)
             {
-                ReferenceInsertionEventHandler[] rieh = ec.getReferenceInsertionHandlerArray();
-             
-                for(int i = 0; i < rieh.length; i++)
-                {
-                    val =  rieh[i].referenceInsert( nullString, val );
-                }
-            }
+		val =  ec.referenceInsert( nullString, val );
+	    }
             
             String s = NodeUtils.specialText(getFirstToken()) + prefix + val.toString();
             
