@@ -55,14 +55,21 @@ package org.apache.velocity.app.event;
  */
 
 /**
- *  Called when the RHS of a #set() is null
- *
- *  Please return what you want rendered into the output stream.
+ *  Event handler : lets an app approve / veto
+ *  writing a log message when RHS of #set() is null.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NullSetEventHandler.java,v 1.1 2001/05/20 19:48:56 geirm Exp $
+ * @version $Id: NullSetEventHandler.java,v 1.2 2001/05/20 21:09:04 geirm Exp $
  */
 public interface NullSetEventHandler extends EventHandler
 {
-    public boolean nullSetLogMessage( String reference );
+    /**
+     *  Called when the RHS of a #set() is null, which will result
+     *  in a null LHS.
+     *
+     *  @param lhs  reference literal of left-hand-side of set statement
+     *  @param rhs  reference literal of right-hand-side of set statement
+     *  @return true if log message should be written, false otherwise
+     */
+    public boolean shouldLogOnNullSet( String lhs, String rhs );
 }
