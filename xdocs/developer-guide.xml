@@ -1294,7 +1294,7 @@ The EventCartridge is a class in which you register your event handlers, and the
 EventCartridge acts as the delivery agent from which the Velocity engine will
 access the event handlers at merge time if needed.
 Currently, there are 3 events that can be handled, and all are found in the 
-<code>org.apache.velocity.context</code> package. [note : they don't belong there ]
+<code>org.apache.velocity.app.event</code> package.
 </p>
 
 <p>
@@ -1308,7 +1308,7 @@ logging of this condition.
 <pre>
 public interface NullSetEventHandler extends EventHandler
 {
-    public boolean nullSetLogMessage( String reference );
+    public boolean shouldLogOnNullSet( String lhs, String rhs );
 }   
 </pre>
 </blockquote>
@@ -1366,30 +1366,63 @@ import org.apache.velocity.app.event.NullSetEventHandler;
                              NullSetEventHandler,
                              MethodExceptionEventHandler
 {
- ...
-     /*
-      *  now, it's assumed that Test implements the correct methods to 
-      *  support the event handler interfaces.  So to use them, first
-      *  make a new cartridge
-      */
-      EventCartridge ec = new EventCartridge();
+    public void myTest()
+    {
+        ....
+
+        /*
+         *  now, it's assumed that Test implements the correct methods to 
+         *  support the event handler interfaces.  So to use them, first
+         *  make a new cartridge
+         */
+        EventCartridge ec = new EventCartridge();
          
-      /*
-       * then register this class as it contains the handlers 
-       */
-       ec.addEventHandler(this);
+        /*
+         * then register this class as it contains the handlers 
+         */
+        ec.addEventHandler(this);
            
-      /*
-       * and then finally let it attach itself to the context
-       */
-       ec.attachToContext( context );
+        /*
+         * and then finally let it attach itself to the context
+         */
+        ec.attachToContext( context );
 
-      /*
-       * now merge your template with the context as you normally
-       * do
-       */
-...
+        /*
+         * now merge your template with the context as you normally
+         * do
+         */
+          
+        ....
 
+    }
+      
+    /*
+     *  and now the implementations of the event handlers
+     */
+
+    public Object referenceInsert( String reference, Object value  )
+    {
+        /*  do something with it */
+        return value;
+    }
+
+    public boolean shouldLogOnNullSet( String lhs, String rhs )
+    {
+        if ( /* whatever rule */ )
+            return false;
+        
+        return true;
+    }
+
+    public Object methodException( Class claz, String method, Exception e )
+         throws Exception
+    {
+        if ( /* whatever rule */ )
+           return "I should have thrown";
+
+        throw e;
+    }
+}
 ]]></source>
 
 </section>
