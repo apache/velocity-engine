@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Velocity"
-        href="http://jakarta.apache.org/velocity">
+        href="http://jakarta.apache.org/velocity/">
 
     <title>Velocity</title>
-    <logo href="images/logo.gif">Velocity</logo>
+    <logo href="/images/logo.gif">Velocity</logo>
 
     <body>
     <menu name="About">
@@ -20,6 +20,9 @@
         <item name="User's Guide"           href="/user-guide.html"/>
         <item name="Developer's Guide"      href="/developer-guide.html"/>
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
+    </menu>
+    <menu name="Comparisons">
+        <item name="YMTD"                   href="/ymtd.html"/>
         <item name="VM/WM Differences"      href="/differences.html"/>
     </menu>
     <menu name="Tools">
