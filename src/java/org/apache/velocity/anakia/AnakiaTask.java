@@ -75,8 +75,8 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.VelocityContext;
@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.29 2001/04/14 02:57:39 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.30 2001/08/07 22:30:15 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -139,6 +139,8 @@ public class AnakiaTask extends MatchingTask
 
     /** the file to get the velocity properties file */
     private File velocityPropertiesFile = null;
+
+    private VelocityEngine ve = new VelocityEngine();
 
     /**
      * Constructor creates the SAXBuilder.
@@ -296,18 +298,18 @@ public class AnakiaTask extends MatchingTask
         {
             if ( velocityPropertiesFile.exists() )
             {
-                Velocity.init(velocityPropertiesFile.getAbsolutePath());
+                ve.init(velocityPropertiesFile.getAbsolutePath());
             }
             else if (templatePath != null && templatePath.length() > 0)
             {
-                Velocity.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH,
+                ve.setProperty( RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                     templatePath);
                 
-                Velocity.init();
+                ve.init();
             }
 
             // get the last modification of the VSL stylesheet
-            styleSheetLastModified = Runtime.getTemplate( style ).getLastModified();
+            styleSheetLastModified = ve.getTemplate( style ).getLastModified();
            
         }
         catch (Exception e)
@@ -372,8 +374,7 @@ public class AnakiaTask extends MatchingTask
                  *  get the property TEMPLATE_ENCODING
                  *  we know it's a string...
                  */
-                String encoding = (String) Velocity
-                    .getProperty( Runtime.OUTPUT_ENCODING );
+                String encoding = (String) ve.getProperty( RuntimeConstants.OUTPUT_ENCODING );
                 if (encoding == null || encoding.length() == 0 
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
@@ -401,7 +402,7 @@ public class AnakiaTask extends MatchingTask
                                             new FileOutputStream(outFile),
                                                 encoding));
                 // get the template to process
-                Template template = Runtime.getTemplate(style);
+                Template template = ve.getTemplate(style);
                 template.merge(context, writer);
 
                 log("Output: " + outFile, Project.MSG_INFO );
