@@ -225,7 +225,7 @@
 <source><![CDATA[
 <table>
 #foreach( $customer in $customerList )
-    <tr><td>$velocityCounter</td><td>$customer.Name</td></tr>
+    <tr><td>$velocityCount</td><td>$customer.Name</td></tr>
 #end
 </table>
 ]]></source>
