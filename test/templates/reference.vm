@@ -78,3 +78,9 @@ $b${c}.java
 ${b}${c}.java
 
 
+More tests :
+
+$provider.title
+$$provider.title
+#$provider.title
+
