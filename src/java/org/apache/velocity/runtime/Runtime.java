@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.69 2000/12/17 21:54:42 jon Exp $
+ * @version $Id: Runtime.java,v 1.70 2000/12/17 22:05:42 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -236,7 +236,6 @@ public class Runtime implements RuntimeConstants
     /**
      * Initializes the Velocity Runtime.
      */
-
     public synchronized static void init( Properties p )
         throws Exception
     {
@@ -246,20 +245,17 @@ public class Runtime implements RuntimeConstants
         /*
          *  set the default properties, and don't call assembleSourceInitializers()
          */
-
         setDefaultProperties( false);
 
         /*
          *  now add the new ones from the calling app
          */
-        
         if (p != null)
             addPropertiesFromProperties( p );
         
         /*
          *  now call init to do the real work
          */
-
         init();
 
         initializedPublic = true; 
@@ -271,7 +267,6 @@ public class Runtime implements RuntimeConstants
         /*
          *  if we have been initialized fully, don't do it again
          */
-
         if (initializedPublic)
             return;
 
@@ -281,18 +276,15 @@ public class Runtime implements RuntimeConstants
          *  then load the local properties to layover the default ones.  This should make
          *  life easy for users.
          */
-        
         setDefaultProperties( false );
                          
         /*
          * if we were passed propertis, try loading propertiesFile as a straight file first,
          * if that fails, then try and use the classpath
          */
-        
         if (propertiesFileName != null && !propertiesFileName.equals(""))
         {
             File file = new File(propertiesFileName);
-
             try
             {
                 if( file.exists() )
@@ -307,14 +299,17 @@ public class Runtime implements RuntimeConstants
                     /*
                      *  lets try the classpath
                      */
-                    
                     ClassLoader classLoader = Runtime.class.getClassLoader();
                     InputStream inputStream = classLoader.getResourceAsStream( propertiesFileName );
                     
                     if (inputStream!= null)
+                    {
                         addPropertiesFromStream( inputStream, propertiesFileName );
+                    }
                     else
+                    {
                         info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -326,9 +321,7 @@ public class Runtime implements RuntimeConstants
         /*
          *  now call init to do the real work
          */
-
         init();
-
         initializedPublic = true; 
     }
 
@@ -343,7 +336,6 @@ public class Runtime implements RuntimeConstants
         /*
          *  lets load the properties, and then iterate them out
          */
-
         Properties p = new Properties();
         p.load(  is );
             
@@ -363,14 +355,12 @@ public class Runtime implements RuntimeConstants
         /*
          *   iterate them out
          */
-
         for (Enumeration e = p.keys(); e.hasMoreElements() ; ) 
         {
             String s = (String) e.nextElement();
             VelocityResources.setProperty( s, p.getProperty(s) );
             info ("   ** Property Override : " + s + " = " + p.getProperty(s));
         }
-           
         return true;
     }
     
@@ -460,7 +450,9 @@ public class Runtime implements RuntimeConstants
                 info ("Properties File: " + new File(propertiesFileName).getAbsolutePath());
             }
             else
+            {
                 throw new Exception("Cannot find " + propertiesFileName + "!");
+            }
         }
     }
 
@@ -484,7 +476,9 @@ public class Runtime implements RuntimeConstants
             VelocityResources.setPropertiesInputStream( inputStream );
 
             if (doAssoc)
+            {
                 assembleSourceInitializers();
+            }
 
             info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
         }
@@ -536,9 +530,10 @@ public class Runtime implements RuntimeConstants
              *  iterate and log each individual message...
              */
             for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
+            {
                 logger.info( (String) e.nextElement());
+            }
         }
-
         Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
@@ -553,7 +548,9 @@ public class Runtime implements RuntimeConstants
     private static void initializeTemplateLoader() throws Exception
     {
         if(!sourceInitializersAssembled)
+        {
             assembleSourceInitializers();
+        }
             
         templateLoaders = new ArrayList();
             
@@ -585,7 +582,9 @@ public class Runtime implements RuntimeConstants
             Enumeration e = VelocityResources.getKeys(loaderID);
             
             if (!e.hasMoreElements())
+            {
                 continue;
+            }
             
             Hashtable sourceInitializer = new Hashtable();
             
@@ -605,11 +604,11 @@ public class Runtime implements RuntimeConstants
                  * template.loader.1.template.path and the translated
                  * name would be used to set the property.
                  */
-                
                 if (property.equals("public.name"))
+                {
                     sourceInitializerMap.put(value, sourceInitializer);
+                }
             }    
-            
             sourceInitializerList.add(sourceInitializer);
             sourceInitializersAssembled = true;
         }
@@ -654,7 +653,6 @@ public class Runtime implements RuntimeConstants
          * are all class names for example:
          *
          * org.apache.velocity.runtime.directive.Foreach
-         *
          */
         Enumeration directiveClasses = directiveProperties.elements();
         
@@ -745,8 +743,9 @@ public class Runtime implements RuntimeConstants
             return AST;
         }
         else
+        {
             error("Runtime : ran out of parsers!");
-
+        }
         return null;
     }
     
@@ -763,11 +762,17 @@ public class Runtime implements RuntimeConstants
         globalCache = new Hashtable();
     }
     
+    /**
+     * These are the paths used by #include
+     */
     private static void initializeIncludePaths()
     {
         includePaths = VelocityResources.getStringArray(INCLUDE_PATHS);
     }
 
+    /**
+     * These are the paths used by #include
+     */
     public static String[] getIncludePaths()
     {
         return includePaths;
@@ -817,7 +822,6 @@ public class Runtime implements RuntimeConstants
         Template t= null;
         TemplateLoader tl = null;
         
-        
         /* 
          * Check to see if the template was placed in the cache.
          * If it was placed in the cache then we will use
@@ -838,7 +842,6 @@ public class Runtime implements RuntimeConstants
              * the input stream and parse it to make a new
              * AST for the template.
              */
-            
             if (t.requiresChecking() && tl.isSourceModified(t))
             {
                 try
@@ -870,7 +873,6 @@ public class Runtime implements RuntimeConstants
                  * which one gives us a stream that we can use to
                  * make a template with.
                  */
-                
                 for (int i = 0; i < templateLoaders.size(); i++)
                 {
                     tl = (TemplateLoader) templateLoaders.get(i);
@@ -888,7 +890,9 @@ public class Runtime implements RuntimeConstants
                  * Return null if we can't find a template.
                  */
                 if (is == null)
+                {
                     throw new Exception("Can't find " + template + "!");
+                }
                 
                 t.setLastModified(tl.getLastModified(t));
                 t.setModificationCheckInterval(tl.getModificationCheckInterval());
@@ -903,9 +907,10 @@ public class Runtime implements RuntimeConstants
                  * Place the template in the cache if the template
                  * loader says to.
                  */
-                
                 if (tl.useCache())
+                {
                     globalCache.put(template, t);
+                }
             }
             catch (Exception e)
             {
@@ -915,22 +920,36 @@ public class Runtime implements RuntimeConstants
         return t;
     }
 
+    /**
+     * Handle logging
+     */
     private static void log(String message)
     {
         if (logger != null)
+        {
             logger.info(message);
+        }
         else
+        {
             pendingMessages.addElement(message);
+        }
     }
 
-    /** Log a warning message */
+    /**
+     * Log a warning message
+     */
     public static void warn(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false) && (message instanceof Throwable || message instanceof Exception) )
+        if ( getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false) &&
+            (message instanceof Throwable || message instanceof Exception) )
+        {
             out = StringUtils.stackTrace((Throwable)message);
+        }
         else
+        {
             out = message.toString();    
+        }
         log(WARN + out);
     }
     
@@ -938,31 +957,50 @@ public class Runtime implements RuntimeConstants
     public static void info(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_INFO_STACKTRACE, false) && ( message instanceof Throwable || message instanceof Exception) )
+        if ( getBoolean(RUNTIME_LOG_INFO_STACKTRACE, false) &&
+            ( message instanceof Throwable || message instanceof Exception) )
+        {
             out = StringUtils.stackTrace((Throwable)message);
+        }
         else
+        {
             out = message.toString();    
+        }
         log(INFO + out);
     }
     
-    /** Log an error message */
+    /**
+     * Log an error message
+     */
     public static void error(Object message)
     {
         String out = null;
-        if ( getBoolean(RUNTIME_LOG_ERROR_STACKTRACE, false) && ( message instanceof Throwable || message instanceof Exception ) )
+        if ( getBoolean(RUNTIME_LOG_ERROR_STACKTRACE, false) &&
+            ( message instanceof Throwable || message instanceof Exception ) )
+        {
             out = StringUtils.stackTrace((Throwable)message);
+        }
         else
+        {
             out = message.toString();    
+        }
         log(ERROR + out);
     }
     
-    /** Log a debug message */
+    /**
+     * Log a debug message
+     */
     public static void debug(Object message)
     {
         if (DEBUG_ON)
+        {
             log(DEBUG + message.toString());
+        }
     }
 
+    /**
+     * Why does Runtime have a main?
+     */
     public static void main(String[] args) throws Exception
     {
         System.out.println(StringUtils.fileToURL(args[0]));
@@ -1002,9 +1040,11 @@ public class Runtime implements RuntimeConstants
      * @return boolean  True if added, false if rejected for some reason (either parameters or permission settings) 
      */
     public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], 
-                                          String strMacroArray[], TreeMap tmArgIndexMap, String strSourceTemplate )
+                                          String strMacroArray[], TreeMap tmArgIndexMap, 
+                                          String strSourceTemplate )
     {    
-        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap, strSourceTemplate);
+        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, 
+                                          tmArgIndexMap, strSourceTemplate);
     }
 
     /**
@@ -1075,5 +1115,3 @@ public class Runtime implements RuntimeConstants
         return VelocityResources.getBoolean( strKey, def );
     }
 }
-
-
