@@ -50,8 +50,8 @@ To use :
 That's all there is to it.
 
 
-Building
---------
+Building the Jar
+----------------
 
 Building the code is easy :
 
@@ -64,3 +64,29 @@ Building the code is easy :
    build.xml.  Your call...
 
 3) type "ant jar" at the prompt, and it should build.
+
+
+Configuration of a Struts webapp
+--------------------------------
+My experience with Struts is limited - the following may be completely wrong .
+
+1) in WEB-INF/web.xml, add the VelServlet template handling servlet :
+
+  <servlet>
+    <servlet-name>vel</servlet-name>
+    <servlet-class>org.apache.velocity.struts.VelServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+  </servlet>
+
+  the load-on-startup can be whatever you need it to be.  There are no loading
+  dependencies.
+
+2) in the same file, WEB-INF/web.xml, map all Velocity templates to be 
+   handled by the VelServlet
+
+  <servlet-mapping>
+    <servlet-name>vel</servlet-name>
+    <url-pattern>*.vm</url-pattern>
+  </servlet-mapping>
+
+
