@@ -146,7 +146,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.39 2000/11/12 16:21:35 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.40 2000/11/12 17:58:20 geirm Exp $
  */
 public class Runtime
 {
@@ -211,6 +211,8 @@ public class Runtime
     
     //private static Parser parser = null;
     
+       private static  Object stupidObject = null;
+
     /**
       * Number of parsers to create
       */
@@ -274,6 +276,9 @@ public class Runtime
             // Do Default
             setDefaultProperties();
         }
+
+        stupidObject = new Object();
+
         init();
     }
 
@@ -429,14 +434,16 @@ public class Runtime
         SimpleNode AST = null;
         Parser parser = (Parser) parserPool.get();
         
-        synchronized(parser)
+        if (parser != null)
         {
             AST = parser.parse(inputStream);
+            parserPool.put(parser);
+            return AST;
         }
-        
-        parserPool.put(parser);
-        
-        return AST;
+        else
+            error("Runtime : ran out of parsers!");
+
+        return null;
     }
     
     /**
