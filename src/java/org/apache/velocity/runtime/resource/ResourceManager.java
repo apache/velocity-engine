@@ -78,7 +78,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.22 2001/04/07 08:50:36 dlr Exp $
+ * @version $Id: ResourceManager.java,v 1.23 2001/04/18 20:29:24 geirm Exp $
  */
 public class ResourceManager
 {
@@ -217,9 +217,7 @@ public class ResourceManager
      */
     public static Resource getResource(String resourceName, int resourceType)
         throws ResourceNotFoundException, ParseErrorException, Exception
-    {
-        Resource resource = null;
-        
+    {        
         /* 
          * Check to see if the resource was placed in the cache.
          * If it was placed in the cache then we will use
@@ -227,10 +225,10 @@ public class ResourceManager
          * will load it.
          */
         
-        if (globalCache.containsKey(resourceName))
-        {
-            resource = (Resource) globalCache.get(resourceName);
+        Resource resource = (Resource) globalCache.get(resourceName);
 
+        if( resource != null)
+        {
             /* 
              * The resource knows whether it needs to be checked
              * or not, and the resource's loader can check to
