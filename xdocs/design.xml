@@ -20,23 +20,24 @@
     or it can be combined with other systems to provide template
     services. Velocity will be tightly integrated with the 
     <link href="http://java.apache.org/turbine">Turbine</link>
-    web application framework to provide a template service that will 
-    enable a true MVC model by which web applications may be developed.
+    web application framework. Together, Velocity and Turbine
+    provide a template service by which web applications may be
+    developed according to a true MVC model.
  </p>
  
  <p>
     Velocity has a myriad of potential uses--generating SQL from XML schemas, 
     creating postscript output from XML files, generating Java source
     code for Java files--but it is expected to be most widely used 
-    by web developers looking for a better alternative to 
+    by web developers looking for a superior alternative to 
     <link href="http://www.php.org/">PHP</link> and 
     <link href="http://java.sun.org/products/jsp/">Java 
     Server Pages</link> (JSPs). 
  </p>    
 
  <p>    
-    Velocity allows web page designers to embed simple 
-    and useful script elements in their web pages. These script elements work 
+    Velocity allows web page designers to embed simple yet powerful script 
+    elements in their web pages. These script elements work 
     in conjunction with a Context object, which is defined in Java code. 
     A context object--essentially a Hashtable that provides get and set 
     methods for retrieving and setting objects by name within the Context
@@ -68,10 +69,10 @@
  </p>
 
  <p>    
-    The concept for Velocity was borrowed from 
-    <link href="http://www.webmacro.org/">WebMacro</link>, 
-    and those involved in the Velocity project acknowledge and appreciate 
-    the development and design work that went into the WebMacro project.
+    Velocity's concept was borrowed from 
+    <link href="http://www.webmacro.org/">WebMacro</link>. Those involved in 
+    the Velocity project acknowledge and appreciate the development and design 
+    work that went into the WebMacro project.
  </p>
  
 </s1>

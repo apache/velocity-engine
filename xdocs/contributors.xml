@@ -16,18 +16,20 @@
 
 <p>
     The people listed below have made significant contributions to Velocity by
-    working long and hard to make quality software for the rest of the world to use. 
+    working long and hard to make quality software for the rest of the world to 
+    use. 
 </p>
 
 <p>
-    If you would like to become a contributor, please see the document titled 
-    todo.html to find areas where you can contribute. If there is nothing in there 
-    that suits your interest, but you still have ideas, please feel free to suggest 
-    them on the mailing list.
+    If you would like to contribute to Velocity, please see the 
+    <a href="todo.html">to do</a> list to find areas where you can contribute. 
+    If there is nothing in there that suits your interest, but you still have 
+    ideas, please feel free to suggest them on the mailing list.
 </p>
 
 <p>
-    We are following a certification scheme like the one that is outlined here:
+    Velocity follows a certification scheme similar to the one that is outlined 
+    on 
     <link href="http://www.advogato.org/certs.html">http://www.advogato.org/certs.html</link>. 
     Names on this list are ordered from first contributor at the top to the most recent contributor
     at the bottom.
