@@ -122,7 +122,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.24 2001/03/12 04:03:59 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.25 2001/03/13 03:52:06 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -140,6 +140,11 @@ public abstract class VelocityServlet extends HttpServlet
      * The HTTP content type context key.
      */
     public static final String CONTENT_TYPE = "contentType";
+
+    /**
+     *  The default content type for the response
+     */
+    public static final String DEFAULT_CONTENT_TYPE = "text/html";
     
     /**
      * The encoding to use when generating outputing.
@@ -188,8 +193,7 @@ public abstract class VelocityServlet extends HttpServlet
   
             Runtime.init( props );
             
-            defaultContentType = 
-                Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
+            defaultContentType = DEFAULT_CONTENT_TYPE;
             
             encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING, "8859_1");
         }
