@@ -64,90 +64,113 @@ import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.RuntimeServices;
 
+import org.apache.velocity.util.introspection.Introspector;
+
 /**
  * Returned the value of object property when executed.
  */
 public class PropertyExecutor extends AbstractExecutor
 {
+    /*
+     *  just so we can have a safety comparison in the
+     *  loop in the CTOR
+     */
+    private final static int MAX = 3;
+
     private String methodUsed = null;
 
-    public PropertyExecutor( RuntimeServices r, Class c, String property)
+    public PropertyExecutor( RuntimeServices r, Class clazz, String property)
     {
         rsvc = r;
         
         /*
-         * Not using the Introspector here because
-         * it can't deal with methods that have
-         * no arguments! That needs to be fixed.
+         *  this is gross and linear, but it keeps it straightforward.
          */
-        
+
         try
         {
-            methodUsed = "get" + property;
-            
-            Object[] params = {  };
-            method = rsvc.getIntrospector().getMethod( c, methodUsed, params);
-           
-            if (method == null)
-            {
-                throw new NoSuchMethodException();
-            }
-            
-        }
-        catch (NoSuchMethodException nsme)
-        {
-            /*
-             *  ok, to be more bean-spec-like, 
-             *  let try with the first letter of the property
-             *  altered to the other case (upper <-> lower)
-             *
-             *  I am not thrilled about this - this is an inverted
-             *  interpretation of the bean spec : the bean spec really
-             *  talks about the *other* direction, defining the property
-             *  that is related to a get<id>()  set<id>() pair.  We are going
-             *  the other way, I believe.  
-             *
-             *  Taking an uppercase to a lower is getting even further afield
-             *  I think, but symmetric and what people may expect.
-             */
+            char c;
+            StringBuffer sb;
 
-            StringBuffer sb = new StringBuffer( "get" );
+            Object[] params = {  };
+            Introspector introspector = rsvc.getIntrospector();
+            
+            /*
+             *  start with getFoo
+             */
+            sb = new StringBuffer( "get" );
             sb.append( property );
 
-            if(  Character.isLowerCase( sb.charAt(3)))
+            c = sb.charAt(3);
+
+            if(  Character.isLowerCase(c) )
             {
-                sb.setCharAt( 3 ,  Character.toUpperCase( sb.charAt( 3 ) ) );
-            }
-            else
-            {
-                sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
+                sb.setCharAt( 3 ,  Character.toUpperCase(c) );
             }
 
-            try
+            methodUsed = sb.toString();
+
+            method = introspector.getMethod( clazz, methodUsed, params);
+             
+            if (method != null)
+                return;
+               
+            /*
+             *  now look for a boolean isFoo
+             */
+            
+            sb = new StringBuffer( "is" );
+            sb.append( property );
+
+            c = sb.charAt(2);
+
+            if(  Character.isLowerCase(c) )
             {
-                methodUsed = sb.toString();
-                               
-                Object[] params = {  };
-                method = rsvc.getIntrospector().getMethod( c, methodUsed, params);
-                
-                if (method == null)
-                {
-                    throw new NoSuchMethodException();
-                }
+                sb.setCharAt( 2 ,  Character.toUpperCase(c) );
             }
-            catch ( NoSuchMethodException nsme2 )
+
+            methodUsed = sb.toString();
+            method = introspector.getMethod( clazz, methodUsed, params);
+
+            if (method != null)
             {
+                /*
+                 *  now, this has to return a boolean
+                 */
+
+                if ( method.getReturnType() == Boolean.TYPE )
+                    return;
+
+                method = null;
             }
-            catch(Exception e )
+
+            /*
+             *  now the convenience, getfoo
+             */
+         
+            sb = new StringBuffer( "get" );
+            sb.append( property );
+
+            c = sb.charAt(3);
+
+            if(  Character.isUpperCase(c) )
             {
+                sb.setCharAt( 3 ,  Character.toLowerCase(c) );
             }
+
+            methodUsed = sb.toString();
+            method = introspector.getMethod( clazz, methodUsed, params);
+
+            if ( method != null)
+                return; 
+            
         }
-        catch(Exception e )
+        catch( Exception e )
         {
+            rsvc.error("PROGRAMMER ERROR : PropertyExector() : " + e );
         }
     }
-    
-
+   
     /**
      * Execute method against context.
      */
