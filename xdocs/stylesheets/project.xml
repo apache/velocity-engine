@@ -28,6 +28,7 @@
     <menu name="Docs">
         <item name="User's Guide (English)" href="/user-guide.html"/>
         <item name="User's Guide (Finnish)" href="/user-guide_fi.html"/>
+        <item name="User's Guide (French)"  href="/user-guide_fr.html"/>
         <item name="User's Guide (Spanish)" href="/user-guide_es.html"/>
         <item name="Developer's Guide"      href="/developer-guide.html"/>
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
