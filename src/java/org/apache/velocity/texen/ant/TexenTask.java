@@ -59,12 +59,13 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.FileOutputStream;
+import java.io.Writer;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.velocity.VelocityContext;
@@ -82,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.36 2001/11/03 18:30:14 dlr Exp $
+ * @version $Id: TexenTask.java,v 1.37 2001/12/06 07:46:47 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -121,6 +122,17 @@ public class TexenTask
      */
     protected String outputFile;
     
+    /**
+     * This is the encoding for the output file(s).
+     */
+    protected String outputEncoding;
+
+    /**
+     * This is the encoding for the input file(s)
+     * (templates).
+     */
+    protected String inputEncoding;
+
     /**
      * <p>
      * These are properties that are fed into the
@@ -252,6 +264,22 @@ public class TexenTask
     }
     
     /**
+     * Set the output encoding.
+     */
+    public void setOutputEncoding(String outputEncoding)
+    {
+        this.outputEncoding = outputEncoding;
+    }
+
+    /**
+     * Set the input (template) encoding.
+     */
+    public void setInputEncoding(String inputEncoding)
+    {
+        this.inputEncoding = inputEncoding;
+    }
+
+    /**
      * Get the output file for the
      * generation process.
      */
@@ -285,6 +313,7 @@ public class TexenTask
                 // resolve relative path from basedir and leave
                 // absolute path untouched.
                 File fullPath = project.resolveFile(sources[i]);
+                log("Using contextProperties file: " + fullPath);
                 source.load(new FileInputStream(fullPath));
             }
             catch (Exception e)
@@ -425,7 +454,9 @@ public class TexenTask
             // Create the text generator.
             Generator generator = Generator.getInstance();
             generator.setOutputPath(outputDirectory);
-            
+            generator.setInputEncoding(inputEncoding);
+            generator.setOutputEncoding(outputEncoding);
+
             if (templatePath != null)
             {
                 generator.setTemplatePath(templatePath);
@@ -441,7 +472,7 @@ public class TexenTask
             
             String path = outputDirectory + File.separator + outputFile;
             log("Generating to file " + path, project.MSG_INFO);
-            FileWriter writer = new FileWriter(path);
+            Writer writer = generator.getWriter(path, outputEncoding);
             
             // The generator and the output path should
             // be placed in the init context here and
