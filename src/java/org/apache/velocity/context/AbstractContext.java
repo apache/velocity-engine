@@ -85,7 +85,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.5 2001/05/22 11:39:21 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.6 2001/08/07 22:22:20 geirm Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 
@@ -199,16 +199,10 @@ public abstract class AbstractContext extends InternalContextBase
 
         if (key == null)
         {
-            org.apache.velocity.runtime.Runtime.error (
-                "Context.put() : Context key was null! Value was : " + value);
-            
             return null;
         }
         else if (value == null)
         {
-            org.apache.velocity.runtime.Runtime.error (
-                "Context.put() : Context value was null! Key was: " + key);
-            
             return null;
         }
         
@@ -233,8 +227,7 @@ public abstract class AbstractContext extends InternalContextBase
 
         if (key == null)
         {
-            org.apache.velocity.runtime.Runtime.debug (
-                "Context.get() : Context key was null!");
+            return null;
         }
 
         /*
@@ -263,8 +256,7 @@ public abstract class AbstractContext extends InternalContextBase
     {
         if (key == null)
         {
-            org.apache.velocity.runtime.Runtime.debug (
-                "Context.containsKey() : Context key was null!");
+            return false;
         }
 
         return internalContainsKey(key);
@@ -291,8 +283,7 @@ public abstract class AbstractContext extends InternalContextBase
     {
         if (key == null)
         {
-            org.apache.velocity.runtime.Runtime.debug (
-                "Context.remove() : Context key was null!");
+            return null;
         }
 
         return internalRemove(key);
