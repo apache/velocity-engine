@@ -4,8 +4,10 @@ package org.apache.velocity.runtime.parser;
 import java.io.*;
 import java.util.*;
 
+import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * This class is responsible for parsing a Velocity
@@ -18,14 +20,15 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.26 2000/11/07 21:33:52 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.27 2000/11/08 02:32:14 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
-  protected JJTParserState jjtree = new JJTParserState();
+  protected JJTParserState jjtree = new JJTParserState();/**
+     *  This Hashtable contains a list of all of the dynamic directives.
+     */
+    private Hashtable directives = new Hashtable(0);
 
-    Hashtable directives;
-
-    /* This was added to allow the parser to be associated
+    /** This was added to allow the parser to be associated
      * with a particular syntax. JavaCC doesn't generate
      * a constructor without parameters. The normal constructor
      * takes a single argument which an InputStream. But in
@@ -39,7 +42,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         this(new ByteArrayInputStream("\n".getBytes()));
     }
 
-    /* This was also added to allow parsers to be dynamically
+    /** This was also added to allow parsers to be dynamically
      * loadable.
      * 
      * Taken from the generated constructor in Parser.java.
@@ -55,33 +58,39 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
      */
     public SimpleNode parse(InputStream stream) throws ParseException
     {
-        token_source.clearStateVars();
-        ReInit(stream);
-        return process();
-
-        /*
-         * leave the following. Useful for debugging the parser.  thx - geir
-         */
-
-       //SimpleNode n = null;
-       //
-       // try {
-       //     n = process();
-       // } catch (Exception e ) { System.out.println( e ); }   
-       //  
-       // return n;
+        SimpleNode sn = null;
+        try
+        {
+            token_source.clearStateVars();
+            ReInit(stream);
+            n = process();
+        }
+        catch (Exception e )
+        {
+            Runtime.error ("Parser Error: " + StringUtils.stackTrace(e));
+        }
+        return sn;
     }
-
+    /**
+     *  This method sets the directives Hashtable
+     */
     public void setDirectives(Hashtable directives)
     {
         this.directives = directives;
     }
 
+    /**
+     *  This method gets the directives Hashtable
+     */
     public Directive getDirective(String directive)
     {
         return (Directive) directives.get(directive);
     }
 
+    /**
+     *  This method finds out of the directive exists in the directives 
+     *  Hashtable.
+     */
     public boolean isDirective(String directive)
     {
         if (directives.containsKey(directive))
@@ -1818,45 +1827,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return retval;
   }
 
-  final private boolean jj_3R_62() {
-    if (jj_scan_token(LOGICAL_NOT_EQUALS)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_57()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_57() {
-    if (jj_3R_59()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_60()) { jj_scanpos = xsp; break; }
-      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    }
-    return false;
-  }
-
-  final private boolean jj_3R_61() {
-    if (jj_scan_token(LOGICAL_EQUALS)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    if (jj_3R_57()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_58() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_61()) {
-    jj_scanpos = xsp;
-    if (jj_3R_62()) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   final private boolean jj_3R_56() {
     if (jj_scan_token(COMMA)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2400,6 +2370,45 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_62() {
+    if (jj_scan_token(LOGICAL_NOT_EQUALS)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_57()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_57() {
+    if (jj_3R_59()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_60()) { jj_scanpos = xsp; break; }
+      if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    }
+    return false;
+  }
+
+  final private boolean jj_3R_61() {
+    if (jj_scan_token(LOGICAL_EQUALS)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    if (jj_3R_57()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_58() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_61()) {
+    jj_scanpos = xsp;
+    if (jj_3R_62()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     } else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }

@@ -2,8 +2,10 @@
 package org.apache.velocity.runtime.parser;
 import java.io.*;
 import java.util.*;
+import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.util.StringUtils;
 
 public class ParserTokenManager implements ParserConstants
 {
