@@ -70,7 +70,7 @@ import org.apache.velocity.runtime.parser.node.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: BaseVisitor.java,v 1.9 2001/03/20 01:11:34 jon Exp $
+ * @version $Id: BaseVisitor.java,v 1.10 2001/06/19 03:31:28 geirm Exp $
  */
 public abstract class BaseVisitor implements ParserVisitor
 {
@@ -289,6 +289,12 @@ public abstract class BaseVisitor implements ParserVisitor
     }
     
     public Object visit(ASTSetDirective node, Object data)
+    { 
+        data = node.childrenAccept(this, data);   
+        return data;
+    }
+    
+    public Object visit(ASTDirective node, Object data)
     { 
         data = node.childrenAccept(this, data);   
         return data;
