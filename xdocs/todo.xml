@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Velocity Todo</title>
+  <subtitle>Velocity Todo</subtitle>
+  <authors>
+   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Todo">
+
+<p>
+This is an informal document describing what needs to
+be done in the Velocity code base, and the 
+Velocity documentation.
+</p>
+
+<p>
+If you need more detailed help, please send mail to the mailing list 
+(velocity-dev@jakarta.apache.org) and ask your specific questions there.
+</p>
+
+</s1>
+
+<s1 title="The List">
+
+- parser pool
+- encoding caching, best methods
+- compiler look at JavaClass, compiler in DynamicJava
+- integrating the extended properties
+- pluggins
+- context tools, how to have long lived tools
+  in the context.
+- interface for directives, right now it's
+  pretty raw
+- tutorial application
+- clean up the syntax dumper
+- syntax checker
+- how to integrate into an IDE
+- rework template loader
+- how the context should work, what it should be Map
+- caching, how it should work content managers
+  in the templates or specified in the context, or
+  external mechanism to specifiy cache parameters
+  say a content manager. top 10 list example.
+- user guide
+- developer guide
+- reference guild
+- API for the runtime so it can be stable until 1.0
+- anticipator: sample requests build up a pool of responses
+- create full JUnit test bed
+- sample applications
+- moving webmacro utilities in turbine into velocity
+  code base
+- action event code for turbine  
+- pluggin system. putting tools in jar files that can
+  be picked up by velocity when it starts up.
+
+expand this.
+
+<ul>
+    <li>Evaluate the pros/cons and feasibility of having a bootstrap process 
+        that encompasses the steps required to download/build dependent 
+        modules.
+
+        <ul>PROS:
+            <li>Removes the JAXP installation requirement, because Turbine 
+                already includes Xerces 1.1.3.</li>
+        </ul>
+        <ul>CONS:
+            <li>Our bootstrap build would have to manage any classpath-mangling
+                required by the dependent modules' build scripts.</li>
+        </ul>
+
+        <p>Owner: None</p>
+    </li>
+</ul>
+
+</s1>
+
+</body>
+</document>
