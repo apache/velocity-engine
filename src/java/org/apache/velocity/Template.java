@@ -87,7 +87,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.23 2001/02/05 04:31:06 geirm Exp $
+ * @version $Id: Template.java,v 1.24 2001/02/06 05:11:16 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -143,23 +143,30 @@ public class Template extends Resource
         
         InternalContextAdapterImpl ica = new InternalContextAdapterImpl(  new VelocityContext() );
 
-        /*
-         *  put the current template name on the stack
-         */
+        try
+        {
+            /*
+             *  put the current template name on the stack
+             */
 
-        ica.pushCurrentTemplateName( name );
+            ica.pushCurrentTemplateName( name );
+            
+            /*
+             *  init the AST
+             */
 
-        /*
-         *  init the AST
-         */
+            ((SimpleNode)data).init( ica, null);
+        }
+        finally
+        {
+            /*  
+             *  in case something blows up...
+             *  pull it off for completeness
+             */
 
-        ((SimpleNode)data).init( ica, null);
+            ica.popCurrentTemplateName();
+        }
 
-        /*
-         *  pull it off for completeness
-         */
-
-        ica.popCurrentTemplateName();
     }
 
     /**
@@ -184,11 +191,20 @@ public class Template extends Resource
 
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
 
-            ica.pushCurrentTemplateName( name );
+            try
+            {
+                ica.pushCurrentTemplateName( name );
 
-            ( (SimpleNode) data ).render( ica, writer);
+                ( (SimpleNode) data ).render( ica, writer);
+            }
+            finally
+            {
+                /*
+                 *  lets make sure that we always clean up the context 
+                 */
 
-            ica.popCurrentTemplateName();
+                ica.popCurrentTemplateName();
+            }
         }
         else
             Runtime.error("Template.merge() failure. The document is null, " + 
