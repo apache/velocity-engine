@@ -112,7 +112,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.60 2001/06/29 23:32:49 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.61 2001/07/14 13:23:13 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -195,6 +195,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
             Runtime.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken, 
                 pe.expectedTokenSequences, pe.tokenImage);
+        }
+        catch (TokenMgrError tme) 
+        {
+            throw new ParseException("Lexical error: " + tme.toString());
         }
         catch (Exception e)
         {
