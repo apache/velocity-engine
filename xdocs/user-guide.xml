@@ -1035,8 +1035,8 @@
     refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
     <vtldirective>#parse</vtldirective> will only take a single argument. 
     Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive 
-    <vtldirective>#parse (foo.vm)</vtldirective>, nor can it reference any other template which contains the 
-    statement <vtldirective>#parse (foo.vm)</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
+    <vtldirective>#parse( foo.vm )</vtldirective>, nor can it reference any other template which contains the 
+    statement <vtldirective>#parse( foo.vm )</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
     statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
     set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>velocity.properties</filename> allows users 
     to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
@@ -1354,7 +1354,7 @@
     <p>
     <source><![CDATA[
     Send me
-    #set( $foo = [#10 and ","a cake"] )
+    #set( $foo = ["$10 and ","a cake"] )
     #foreach( $a in $foo )
     $a
     #end
@@ -1369,7 +1369,7 @@
     <p>
     <source><![CDATA[
     Send me
-    #set($foo       = [#10 and ","a cake"])
+    #set($foo       = ["$10 and ","a cake"])
                      #foreach           ($a in $foo )$a
             #end please.
     ]]></source>
@@ -1382,6 +1382,52 @@
  </s1>
 
 </s1>
+
+<s1 title="Advanced Features">
+
+  <s1 title="Math">
+  
+  <p>
+    Velocity has a handful of built-in mathematical functions that can be used
+    in templates with the <vtldirective>set</vtldirective> directive. The following
+    equations are examples of addition, subtraction, multiplication and division, 
+    respectively:
+  </p>
+
+  <p>    
+    <source><![CDATA[
+      #set( $foo = $bar + 3 )
+      #set( $foo = $bar - 4 )
+      #set( $foo = $bar * 6 )
+      #set( $foo = $bar / 2 )
+    ]]></source>
+  </p>
+
+  <p>
+    When a division operation is performed, the result will be an integer. Any remainder
+    can be obtained by using the remainder (<vtl>%</vtl>) operand.
+  </p>
+
+  <p>
+    <source><![CDATA[
+      #set( $foo = $bar % 5 )
+    ]]></source>
+  </p>
+
+  <p>
+    Only integers (...-2, -1, 0, 1, 2...) are permissible when performing 
+    mathematical equations in Velocity; when a non-integer is used, it is
+    logged and a null will be returned as the output.
+  </p>
+
+  <p>
+    
+  </p>
+
+  </s1>
+
+</s1>
+
 
 
 </body>
