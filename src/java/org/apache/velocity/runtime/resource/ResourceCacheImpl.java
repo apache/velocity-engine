@@ -55,6 +55,7 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Iterator;
 import org.apache.velocity.runtime.RuntimeServices;
 
@@ -63,12 +64,21 @@ import org.apache.velocity.runtime.RuntimeServices;
  * ResourceManager.
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: ResourceCacheImpl.java,v 1.1 2001/11/06 03:20:07 geirm Exp $
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @version $Id: ResourceCacheImpl.java,v 1.2 2002/02/12 19:08:06 dlr Exp $
  */
 public class ResourceCacheImpl implements ResourceCache
 {
-    private Hashtable cache = new Hashtable();
-    private RuntimeServices rsvc = null;
+    /**
+     * Cache storage, assumed to be thread-safe.
+     */
+    protected Map cache = new Hashtable();
+
+    /**
+     * Runtime services, generally initialized by the
+     * <code>initialize()</code> method.
+     */
+    protected RuntimeServices rsvc = null;
     
     public void initialize( RuntimeServices rs )
     {
