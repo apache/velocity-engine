@@ -56,6 +56,7 @@ package org.apache.velocity.runtime.loader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.BufferedInputStream;
 
 import java.util.Hashtable;
 
@@ -69,7 +70,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.3 $
+ * $Revision: 1.4 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -135,8 +136,8 @@ public class FileTemplateLoader extends TemplateLoader
            
         if ( file.canRead() )
         {
-            Template template = new Template(
-                new FileInputStream(file.getAbsolutePath()));
+            Template template = new Template(new BufferedInputStream(
+                new FileInputStream(file.getAbsolutePath())));
             
             if ( useCache )
             {
