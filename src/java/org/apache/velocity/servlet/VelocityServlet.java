@@ -79,6 +79,9 @@ import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+
 /**
  * Base class which simplifies the use of Velocity with Servlets.
  * Extend this class, implement the <code>handleRequest()</code> method, 
@@ -101,7 +104,7 @@ import org.apache.velocity.VelocityContext;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.21 2001/02/12 02:58:28 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.22 2001/02/26 04:51:23 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -253,11 +256,31 @@ public abstract class VelocityServlet extends HttpServlet
              */
 
             mergeTemplate( template, context, response );
+
+            /*
+             *  call cleanup routine to let a derived class do some cleanup
+             */
+
+            requestCleanup( request, response, context );
         }
         catch (Exception e)
         {
             error ( response, e.getMessage());
         }
+    }
+
+    /**
+     *  cleanup routine called at the end of the request processing sequence
+     *  allows a derived class to do resource cleanup or other end of 
+     *  process cycle tasks
+     *
+     *  @param request servlet request from client 
+     *  @param response servlet reponse 
+     *  @param context  context created by the createContext() method
+     */
+    protected void requestCleanup( HttpServletRequest request, HttpServletResponse response, Context context )
+    {
+        return;
     }
 
     /**
@@ -363,9 +386,14 @@ public abstract class VelocityServlet extends HttpServlet
      * @param name The file name of the template to retrieve relative to the 
      *             template root.
      * @return     The requested template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate( String name )
-        throws Exception
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
         return Runtime.getTemplate(name);
     }
