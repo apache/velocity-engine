@@ -135,8 +135,8 @@
     </p>
 
     <ul>
-      <li>Variable reference: #set( $monkey = "bill" )</li>
-      <li>String literal: #set( $monkey.Friend = "monica" )</li>
+      <li>Variable reference: #set( $monkey = $bill )</li>
+      <li>String literal: #set( $monkey.Friend = 'monica' )</li>
       <li>Property reference: #set( $monkey.Blame = $whitehouse.Leak
       )</li>
       <li>Method reference: #set( $monkey.Plan = $spindoctor.weave($web)
