@@ -175,6 +175,19 @@ root of the Velocity distribution tree.
         includes everything you need.
       </li>
       <li>
+        <b><code>jar-nodeps</code></b> builds the complete Velocity jar in
+        the <code>bin</code> directory, without including necessary 
+        support for logging from the 
+        <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
+        Avalon Logkit</a> package, or the necesary support for WebMacro
+        template conversion using the 
+        <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
+        package. If you use this
+        target, and you wish to use the built-in logging or template conversion,
+        you must include the appropriate jars in your CLASSPATH or
+        webapp's WEB-INF/lib.
+       </li>
+       <li>
         <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
         <code>bin</code> directory, called 'velocity-core-X.jar'. This jar
         contains the core Velocity functionality, and doesn't include example
@@ -193,14 +206,20 @@ root of the Velocity distribution tree.
         contains utility code for servlet programmers.
       </li>
       <li>
-        <b><code>jar-j2ee</code></b> builds a complete jar, like the 'jar' target,
+        <b><code>jar-J2EE</code></b> builds a complete jar, like the 'jar' target,
         that includes any components that require J2EE support. Currently, this
         includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
         As usual, it is placed in the  <code>bin</code> directory, called
-        'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
+        'velocity-J2EE-X.jar'. NOTE : if you wish to use this build target, you
         must place (or link) a copy of j2ee.jar into the build/lib directory.
         We do not provide it as part of the distribution. A good source is
         http://java.sun.com/
+      </li>
+      <li>
+        <b><code>jar-J2EE-nodeps</code></b> build a complete jar with J2EE support
+        but omits including logging support from the Jakarta Avalon Logkit and 
+        regexp support fromt the Jakarta ORO package. See the notes on the
+        <code>jar-nodeps</code> target, above.
       </li>
       <li>
         <b><code>examples</code></b> builds the example code in the example programs
