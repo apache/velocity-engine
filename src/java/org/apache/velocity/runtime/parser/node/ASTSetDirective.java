@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.7 2000/11/11 22:40:05 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.8 2000/12/04 02:03:59 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -76,8 +76,7 @@ public class ASTSetDirective extends SimpleNode
 {
     private Node right;
     private ASTReference left;
-    private Object value;
-    
+
     public ASTSetDirective(int id)
     {
         super(id);
@@ -88,7 +87,6 @@ public class ASTSetDirective extends SimpleNode
         super(p, id);
     }
 
-
     /** Accept the visitor. **/
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
@@ -96,18 +94,7 @@ public class ASTSetDirective extends SimpleNode
     }
 
     /**
-     *  This specfically addresses a special case :
-     *  
-     *  #set $foo = [ "a","b"]
-     *  #foreach( $i in $foo)
-     *     $i
-     *  #end
-     *  
-     *  Otherwise, the rest is done in render()
-     *
-     *  We may want to revisit this. This is due to Foreach.init()'s requirement that the references
-     *  be present in the context, and Foreach.init() is called before set.render().
-     *  Or move all of the render() code in here...
+     *  simple init.  We can get the RHS and LHS as the the tree structure is static
      */
     public Object init(Context context, Object data) throws Exception
     {
@@ -117,62 +104,39 @@ public class ASTSetDirective extends SimpleNode
 
         super.init( context, data );
 
-        /**
-         * We need to place all RHS objects into the context
-         * so that subsequent introspection is performed
-         * correctly.
-         *
-         * #set $bar = "bar"
-         * $provider.concat("foo", $bar)
-         *
-         * will not be introspected correctly if $bar
-         * is not place in the context.
-         *
-         * The same type of problem occurs with the
-         * following:
-         *
-         * #set $list = ["one", "two", "three" ]
-         * #foreach ($element in $list)
-         *     $element
-         * #end
-         *
-         * If $list is not placed in the context then
-         * the introspection phase of the #foreach will
-         * not occur as expected.
-         *
-         * The basic deal is that objects that are #set
-         * must be placed in the context during the initialization
-         * phase in order for subsequent VTL to be introspected
-         * correctly.
-         */
-         
         right = getRightHandSide();
-        value = right.value(context);
-        
-        if ( value != null)
-        {
-            left = getLeftHandSide();
-           
-            if (left != null && left.jjtGetNumChildren() == 0)
-                context.put(left.getFirstToken().image.substring(1), value);
-        }           
-     
+        left = getLeftHandSide();
+ 
         return data;
     }        
 
+    /**
+     *   puts the value of the RHS into the context under the key of the LHS
+     */
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-        right = getRightHandSide();
+        /*
+         *  get the RHS node, and it's value
+         */
 
-        if (right.value(context) == null)
+        Object value = right.value(context);
+
+        /*
+         * it's an error if we don't have a value of some sort
+         */
+
+        if ( value  == null)
         {
             Runtime.error(new ReferenceException("#set", right));
             return false;
         }                
 
-        value = right.value(context);
-        left = getLeftHandSide();
+        /*
+         *  if the LHS is simple, just punch the value into the context
+         *  otherwise, use the setValue() method do to it.
+         *  Maybe we should always use setValue()
+         */
         
         if (left.jjtGetNumChildren() == 0)
             context.put(left.getFirstToken().image.substring(1), value);
@@ -182,11 +146,17 @@ public class ASTSetDirective extends SimpleNode
         return true;
     }
 
+    /**
+     *  returns the ASTReference that is the LHS of the set statememt
+     */
     private ASTReference getLeftHandSide()
     {
         return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
     }
 
+    /**
+     *  returns the RHS Node of the set statement
+     */
     private Node getRightHandSide()
     {
         return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
