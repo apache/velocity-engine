@@ -85,7 +85,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.1 2000/11/22 05:54:03 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.2 2000/11/22 06:56:34 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -105,13 +105,16 @@ public class AnakiaTask extends MatchingTask
     private String style = null;
     /** the File to the style file */
     private File styleFile = null;
+    /** the projectFile= attribute */
+    private String projectAttribute = null;
     /** the File for the project.xml file */
     private File projectFile = null;
 
+    /** last modified of the style sheet */
+    private long styleSheetLastModified = 0;
+
     /** the default output extension is .html */
     private String extension = ".html";
-    /** the last modified timestamp for the style sheet */
-    private long styleSheetLastModified = 0;
 
     /**
         Constructor creates the SAXBuilder.
@@ -154,9 +157,9 @@ public class AnakiaTask extends MatchingTask
     /**
         Allow people to set the path to the project.xml file
     */
-    public void setProjectFile(String projectFile)
+    public void setProjectFile(String projectAttribute)
     {
-        this.projectFile = new File(projectFile);
+        this.projectAttribute = projectAttribute;
     }
 
     /**
@@ -177,7 +180,7 @@ public class AnakiaTask extends MatchingTask
             String msg = "destdir attribute must be set!";
             throw new BuildException(msg);
         }
-        if (projectFile == null) 
+        if (projectAttribute == null) 
         {
             throw new BuildException("projectFile attribute must be set!");
         }
@@ -188,15 +191,15 @@ public class AnakiaTask extends MatchingTask
          
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
-        // get the last modification of the VSL stylesheet
-        styleFile = new File( baseDir, style );
-        styleSheetLastModified = styleFile.lastModified();
-        log("Using: " + styleFile.getAbsolutePath(), Project.MSG_INFO);
-
+        // projectFile relative to baseDir
+        projectFile = new File(baseDir, projectAttribute);
+        
         try
         {
             // initialize Velocity
-            Runtime.init(new File(baseDir,"velocity.properties").getAbsolutePath());
+            Runtime.init(new File("velocity.properties").getAbsolutePath());
+            // get the last modification of the VSL stylesheet
+            styleSheetLastModified = Runtime.getTemplate(style).getLastModified();
         }
         catch (Exception e)
         {
@@ -229,6 +232,7 @@ public class AnakiaTask extends MatchingTask
             inFile = new File(baseDir,xmlFile);
             // the output file relative to basedir
             outFile = new File(destDir,xmlFile.substring(0,xmlFile.lastIndexOf('.'))+extension);
+
             // only process files that have changed
             if (inFile.lastModified() > outFile.lastModified() ||
                     styleSheetLastModified > outFile.lastModified())
