@@ -41,3 +41,5 @@ $tstrings.chop($generator.parse("sql/mysql/columns", "", "table", $tbl),1)
 string
 
 foobar
+
+#0F
