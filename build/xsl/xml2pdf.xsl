@@ -64,7 +64,7 @@ TBD: - The faq doesn't show in the content
                 font-family="serif" 
                 line-height="14pt" >
             
-                FOP documentation - p. 
+                Velocity User's Guide - pg 
             
                 <fo:page-number/>
             </fo:block>

@@ -12,6 +12,7 @@ ANT=${LIB}/ant.jar
 ANTXML=${LIB}/xml.jar
 XERCES=${LIB}/xerces-1.1.3.jar
 SERVLET=${LIB}/servlet.jar
+ORO=${LIB}/oro.jar
 
 # Libs needed for runtime.
 LOG=${LIB}/log.jar
@@ -45,7 +46,9 @@ if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CLASSPATH=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
+CLASSPATH=${CLASSPATH}:${ANT}:${ANTXML}:${XERCES}:${XALAN}
+CLASSPATH=${CLASSPATH}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
+CLASSPATH=${CLASSPATH}:${SERVLET}:${JUNIT}:${ORO}
 
 # convert the unix path to windows
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then

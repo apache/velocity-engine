@@ -24,6 +24,7 @@ set ANT=%LIB%\ant.jar
 set ANTXML=%LIB%\xml.jar
 set XERCES=%LIB%\xerces-1.1.3.jar
 set SERVLET=%LIB%\servlet.jar
+set ORO=%LIB%\oro.jar
 
 set LOG=%LIB%\log.jar
 set JAVACLASS=%LIB%\JavaClass.jar
@@ -61,7 +62,7 @@ if exist %JAVA_HOME%\lib\tools.jar set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\too
 
 echo Now building %TARGET%...
 
-set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%;%SERVLET%;%JUNIT%
+set CP=%CLASSPATH%;%TOOLS%;%ANT%;%ANTXML%;%XERCES%;%XALAN%;%SB%;%LOG%;%FOP%;%LIB%;%W3C%;%JAVACLASS%;%SERVLET%;%JUNIT%;%ORO%
 
 echo Classpath: %CP%
 echo JAVA_HOME: %JAVA_HOME%
