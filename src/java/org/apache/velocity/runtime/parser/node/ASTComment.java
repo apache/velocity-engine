@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,10 +55,26 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
 
-public class ASTComment extends SimpleNode 
+import java.io.IOException;
+import java.io.Writer;
+
+/**
+ *  Represents all comments...
+ *
+ *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ *  @version $Id: ASTComment.java,v 1.4 2002/03/25 00:28:29 geirm Exp $
+ */
+public class ASTComment extends SimpleNode
 {
-    public ASTComment(int id) 
+    private char[] carr;
+
+    public ASTComment(int id)
     {
         super(id);
     }
@@ -73,4 +89,36 @@ public class ASTComment extends SimpleNode
     {
         return visitor.visit(this, data);
     }
+
+    /**
+     *  We need to make sure we catch any of the dreaded MORE tokens.
+     */
+    public Object init(InternalContextAdapter context, Object data)
+            throws Exception
+    {
+        Token t = getFirstToken();
+
+        int loc1 = t.image.indexOf("##");
+        int loc2 = t.image.indexOf("#*");
+
+        if (loc1 == -1 && loc2 == -1)
+        {
+            carr = "".toCharArray();
+        }
+        else
+        {
+            carr = t.image.substring(0, (loc1 == -1) ? loc2 : loc1).toCharArray();
+        }
+
+        return data;
+    }
+
+    public boolean render( InternalContextAdapter context, Writer writer)
+        throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
+    {
+        writer.write(carr);
+
+        return true;
+    }
+
 }
