@@ -69,7 +69,7 @@ import org.apache.velocity.InternalContext;
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.12 2000/12/18 20:06:55 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.13 2000/12/18 20:14:09 jon Exp $
  */
 public class Context extends InternalContext implements Cloneable
 {
@@ -94,7 +94,21 @@ public class Context extends InternalContext implements Cloneable
      */
     public void put(String key, Object value)
     {
-        context.put(key, value);
+        try
+        {
+            context.put(key, value);
+        }
+        catch (NullPointerException npe)
+        {
+            if (key == null)
+            {
+                org.apache.velocity.runtime.Runtime.error ("Context key was null! Value was: " + value);
+            }
+            else if (value == null)
+            {
+                org.apache.velocity.runtime.Runtime.error ("Context value was null! Key was: " + key);
+            }
+        }
     }
 
     /**
@@ -105,6 +119,10 @@ public class Context extends InternalContext implements Cloneable
      */
     public Object get(String key)
     {
+        if (key == null)
+        {
+            org.apache.velocity.runtime.Runtime.debug ("Context key was null!");
+        }
         return context.get(key);
     }        
 
@@ -116,6 +134,10 @@ public class Context extends InternalContext implements Cloneable
      */
     public boolean containsKey(Object key)
     {
+        if (key == null)
+        {
+            org.apache.velocity.runtime.Runtime.debug ("Context key was null!");
+        }
         return context.containsKey(key);
     }        
 
@@ -136,13 +158,19 @@ public class Context extends InternalContext implements Cloneable
      */
     public Object remove(Object key)
     {
+        if (key == null)
+        {
+            org.apache.velocity.runtime.Runtime.debug ("Context key was null!");
+        }
         return context.remove(key);
     }        
-
+    /**
+     * Clones this context object
+     * @return Object an instance of this Context
+     */
     public Object clone()
     {
         Context clone = null;
-        
         try
         {
             clone = (Context) super.clone();
@@ -151,12 +179,6 @@ public class Context extends InternalContext implements Cloneable
         catch (CloneNotSupportedException cnse)
         {
         }
-        
         return clone;
     }
 }
-
-
-
-
-
