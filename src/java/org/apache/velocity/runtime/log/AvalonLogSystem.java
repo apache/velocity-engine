@@ -74,7 +74,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.7 2001/08/09 15:47:15 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.8 2001/08/20 11:09:21 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -155,22 +155,27 @@ public class AvalonLogSystem implements LogSystem
      */
     public void logVelocityMessage(int level, String message)
     {
+        /*
+         *  based on level, call teh right logger method
+         *  and prefix with the appropos prefix
+         */
+
         switch (level) 
         {
             case LogSystem.WARN_ID:
-                logger.warn( message );
+                logger.warn( RuntimeConstants.WARN_PREFIX + message );
                 break;
             case LogSystem.INFO_ID:
-                logger.info(message);
+                logger.info( RuntimeConstants.INFO_PREFIX + message);
                 break;
             case LogSystem.DEBUG_ID:
-                logger.debug(message);
+                logger.debug( RuntimeConstants.DEBUG_PREFIX + message);
                 break;
             case LogSystem.ERROR_ID:
-                logger.error(message);
+                logger.error(RuntimeConstants.ERROR_PREFIX + message);
                 break;
             default:
-                logger.info(message);
+                logger.info( message);
                 break;
         }
     }
