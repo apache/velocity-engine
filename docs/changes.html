@@ -158,6 +158,19 @@ This section describes changes to the main branch after the
 </p>
                                                 <ul>
 <li>
+Added support for dynamic selection of output character encoding to
+VelocityServlet.  By default, the selected encoding is the value of
+the output.encoding Velocity property, but can be made dynamic by
+overriding the new chooseCharacterEncoding() method. (dlr)
+</li>
+<li>
+Bill Boland pointed out that VelocityServlet's pooling of
+VelocityWriter was preventing the underlying OutputStreamWriter from
+being garbage collected.  This was fixed by clearing the
+VelocityWriter's reference to its internal OutputStreamWriter to allow
+the latter to be GC'd while VelocityWriter is pooled. (#18951)
+</li>
+<li>
 Deprecated org.apache.velocity.runtime.Runtime in favor of the
 RuntimeInstance and RuntimeSingleton classes. (dlr)
 </li>
