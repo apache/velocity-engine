@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.Runtime;
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.3 2001/03/19 12:11:10 geirm Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.4 2001/07/28 12:46:31 geirm Exp $
  */
 public class Log4JLogSystem implements LogSystem
 {
@@ -159,7 +159,7 @@ public class Log4JLogSystem implements LogSystem
         /* finding file size */
         if (fileSize > -1)
         {
-            ((RollingFileAppender)appender).setMaxFileSize(fileSize);
+            ((RollingFileAppender)appender).setMaximumFileSize(fileSize);
         }
         logger.addAppender(appender);
     }
@@ -239,12 +239,13 @@ public class Log4JLogSystem implements LogSystem
         }
 
         SMTPAppender appender = new SMTPAppender();
-        
-        appender.setOption(SMTPAppender.SMTP_HOST_OPTION, smtpHost);
-        appender.setOption(SMTPAppender.FROM_OPTION, emailFrom);
-        appender.setOption(SMTPAppender.TO_OPTION, emailTo);
-        appender.setOption(SMTPAppender.SUBJECT_OPTION, emailSubject);
-        appender.setOption(SMTPAppender.BUFFER_SIZE_OPTION, bufferSize);
+       
+        appender.setSMTPHost( smtpHost );
+        appender.setFrom( emailFrom );
+        appender.setTo( emailTo );
+        appender.setSubject( emailSubject );
+
+        appender.setBufferSize( Integer.parseInt(bufferSize) );
         
         appender.setLayout(layout);
         appender.activateOptions();
