@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.directive;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,6 +54,16 @@
  * <http://www.apache.org/>.
  */
 
+import java.io.Writer;
+import java.io.IOException;
+import java.util.TreeMap;
+
+import org.apache.velocity.Context;
+
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  *   Macro.java
@@ -70,22 +82,8 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.7 2000/12/11 03:47:09 geirm Exp $
+ * @version $Id: Macro.java,v 1.8 2000/12/20 07:38:16 jvanzyl Exp $
  */
-
-package org.apache.velocity.runtime.directive;
-
-import java.io.Writer;
-import java.io.IOException;
-import java.util.TreeMap;
-
-import org.apache.velocity.Context;
-
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
-
 public class Macro extends Directive
 {
     private static  boolean debugMode = false;
@@ -124,8 +122,9 @@ public class Macro extends Directive
        throws Exception
     {
         /*
-         *  again, don't do squat.  We want the AST of the macro block to hang off of this
-         *  but we don't want to init it... it's useless...
+         * again, don't do squat.  We want the AST of the macro 
+         * block to hang off of this but we don't want to 
+         * init it... it's useless...
          */
      
         return;
@@ -163,7 +162,9 @@ public class Macro extends Directive
              *  define a block
              */
             
-            Runtime.error("#macro error : Velocimacro must have name as 1st argument to #macro()");
+            Runtime.error("#macro error : Velocimacro must have name as 1st " + 
+                "argument to #macro()");
+            
             return;
         }
 
@@ -191,31 +192,37 @@ public class Macro extends Directive
         String macroBody = temp.toString();    
     
         /*
-         *  now, using the macro body string and the arg list, index all the tokens in the arglist
+         * now, using the macro body string and the arg list, index 
+         * all the tokens in the arglist
          */
 
         TreeMap argIndexMap = getArgIndexMap( macroBody, argArray );
 
         /*
-         *  now, try to add it.  The Factory controls permissions, so just give it a whack...
+         * now, try to add it.  The Factory controls permissions, 
+         * so just give it a whack...
          */
 
-        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody, argArray, macroArray, argIndexMap, sourceTemplate );
+        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody, 
+            argArray, macroArray, argIndexMap, sourceTemplate );
 
         return;
     }
 
     /**
-     *   using the macro body and the arg list, creates a TreeMap of the indices of the args in the body
-     *   Makes for fast and efficient patching at runtime
+     * using the macro body and the arg list, creates a TreeMap 
+     * of the indices of the args in the body Makes for fast 
+     * and efficient patching at runtime
      */
     private TreeMap getArgIndexMap( String macroBody, String argArray[] )
     {
         TreeMap tm = new TreeMap();
  
         /*
-         *  run through the buffer for each paramter, and remember where they go.  We have to do this 
-         *  all at once to avoid confusing later replacement attempts with the activity of earlier ones
+         *  run through the buffer for each paramter, and remember 
+         * where they go.  We have to do this  all at once to 
+         * avoid confusing later replacement attempts with the 
+         * activity of earlier ones
          */
 
         for (int i=1; i<argArray.length; i++)
@@ -297,7 +304,9 @@ public class Macro extends Directive
          */
 
         int count = 0;
-
+        
+        //! Should this use the node.literal() ?
+        
         while( t != null && t != tLast ) 
         {
             count++;
