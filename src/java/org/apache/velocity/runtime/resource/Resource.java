@@ -75,7 +75,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.9 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: Resource.java,v 1.10 2002/10/10 17:49:53 dlr Exp $
  */
 public abstract class Resource
 {
@@ -142,6 +142,13 @@ public abstract class Resource
      * to be done by a resource. In the case of a template
      * the actual parsing of the input stream needs to be
      * performed.
+     *
+     * @return Whether the resource could be processed successfully.
+     * For a {@link org.apache.velocity.Template} or {@link
+     * org.apache.velocity.runtime.resource.ContentResource}, this
+     * indicates whether the resource could be read.
+     * @exception ResourceNotFoundException Similar in semantics as
+     * returning <code>false</code>.
      */
     public abstract boolean process() 
         throws ResourceNotFoundException, ParseErrorException, Exception;
