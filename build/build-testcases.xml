@@ -30,7 +30,8 @@
                                    test-inlinevmscope,
                                    test-multi,
                                    test-cpload,
-                                   test-contextsafety
+                                   test-contextsafety,
+                                   test-anakia
                                    "/>
 
   <target name="test-template">
@@ -114,6 +115,20 @@
 
   <target name="test-anakia">
     <echo message="Running Anakia tests..."/>
+    
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </taskdef>
+    <anakia basedir="../test/anakia/xdocs" destdir="../test/anakia/results"
+            extension=".html" style="./site.vsl"
+            projectFile="./stylesheets/project.xml"
+            excludes="**/stylesheets/**"
+            includes="**/*.xml"
+            templatePath="../test/anakia/xdocs/stylesheets"
+            lastModifiedCheck="false">
+    </anakia>
 
     <java classname="${velocity.test.runner}" fork="yes">
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
@@ -127,6 +142,7 @@
     <delete>
       <fileset dir="${test.home}/templates/results" includes="**/*.res"/>
     </delete>
+    <delete dir="${test.home}/anakia/results"/>
   </target>
 
 </project>
