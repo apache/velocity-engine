@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.60 2001/05/30 05:54:48 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.61 2001/06/12 03:18:05 geirm Exp $ 
 */
 public class Parser
 {
@@ -190,15 +190,6 @@ public class Parser
         SimpleNode sn = null;
         
         currentTemplateName = templateName;
-
-        /*
-         *  clearing the VM namespace for this template
-         *  the VM factory / manager will determine if this 
-         *  is appropose, but I think this is the place to indicate
-         *  that it should be done.
-         */
-
-        Runtime.dumpVMNamespace( currentTemplateName );
 
         try
         {
