@@ -78,3 +78,9 @@ And more...
 \#elseif(true)
 	there
 \#end
+
+
+#$foo1
+\#$foo1
+#C0C0C0
+\#C0C0C0
