@@ -6,7 +6,7 @@ As always, the if you have any questions :
 
 1) Make sure you followed any directions :)  (did you build everything?)
 2) Review documentation included in this package, or online at
-      http://jakarta.apache.org/velocity
+      http://jakarta.apache.org/velocity/index.html
 3) Ask on the velocity-user list.  This is a great source of support information.
    To join, read http://jakarta.apache.org/site/mail.html and then follow the 
    link at the bottom to join the lists.
@@ -16,8 +16,8 @@ To build these examples easily, you can just use the build script provided in th
 distribution.  In the build directory (contained in the root directory of the
 distribution) :
 
-Under unix    :   ./build-velocity.sh examples   
-Under windows :   build-velocity.bat examples
+Under unix    :   ./build.sh examples   
+Under windows :   build.bat examples
 
 Velocity Examples
 =================
@@ -65,4 +65,5 @@ facility with Velocity.
 Thanks for using Velocity!
 
 - the Velocity team
+
 
