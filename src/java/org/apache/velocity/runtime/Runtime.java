@@ -74,44 +74,131 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.runtime.directive.Foreach;
-//import org.apache.velocity.runtime.directive.Set;
 import org.apache.velocity.runtime.directive.Dummy;
 
+/**
+ * This is the Runtime system for Velocity. It is the
+ * single access point for all functionality in Velocity.
+ * It adheres to the mediator pattern and is the only
+ * structure that developers need to be familiar with
+ * in order to get Velocity to perform.
+ *
+ * Runtime.init(properties);
+ *
+ * Template template = Runtime.getTemplate("template.vm");
+ *
+ * Runtime.warn(message);
+ * Runtime.info(message);
+ * Runtime.error(message);
+ * Runtime.debug(message);
+ *
+ * The Runtime will also cooperate with external
+ * systems like Turbine. Normally the Runtime will
+ * be fully initialized from a properties file, but
+ * certain phases of initialization can be delayed
+ * if vital pieces of information are provided by
+ * an external system.
+ *
+ * Turbine for example knows where the templates
+ * are to be loaded from, and where the velocity
+ * log file should be placed.
+ *
+ * In order for this to happen the velocity.properties
+ * file must look something like the following:
+ *
+ * runtime.log = system
+ * template.path = system
+ *
+ * Having these properties set to 'system' lets the
+ * Velocity Runtime know that an external system
+ * will set these properties and initialized 
+ * the appropriates sub systems when these properties
+ * are set.
+ *
+ * So in the case of Velocity cooperating with Turbine
+ * the code might look something like the following:
+ *
+ * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
+ * Runtime.initializeLogger();
+ *
+ * Runtime.setProperty(Runtime.TEMPLATE_PATH, pathToTemplates);
+ * Runtime.initializeTemplateLoader();
+ *
+ * It is simply a matter of setting the appropriate property
+ * an initializing the matching sub system.
+ */
 public class Runtime
 {
     /** Location of the log file */
     public static final String RUNTIME_LOG = "runtime.log";
+    
     /** Location of templates */
     public static final String TEMPLATE_PATH = "template.path";
+    
     /** Template loader to be used */
     public static final String TEMPLATE_LOADER = "template.loader";
+    
     /** Specify template caching true/false */
     public static final String TEMPLATE_CACHE = "template.cache";
+    
     /** Template processor to use. A processor is associated
       * with a parser generator tool, and its utilities
       * used for parsing.
       */
     public static final String TEMPLATE_PROCESSOR = "template.processor";
+    
     /** The encoding to use for the template */
     public static final String TEMPLATE_ENCODING = "template.encoding";
+    
     /** Enable the speed up provided by FastWriter */
     public static final String TEMPLATE_ASCIIHACK = "template.asciihack";
+    
     /** How often to check for modified templates. */
     public static final String TEMPLATE_MOD_CHECK_INTERVAL = 
         "template.modificationCheckInterval";
 
+    /** Prefix for warning messages */
     private final static String WARN  = "  [warn] ";
+    
+    /** Prefix for info messages */
     private final static String INFO  = "  [info] ";
+    
+    /**  Prefix for debug messages */
     private final static String DEBUG = " [debug] ";
+    
+    /** Prefix for error messages */
     private final static String ERROR = " [error] ";
 
+    /** TemplateLoader used by the Runtime */
     private static TemplateLoader templateLoader;
+    
+    /** Turn Runtime debugging on with this field */
     private final static boolean DEBUG_ON = true;
+    
+    /** The Runtime logger */
     private static Logger logger;
+    
+    /** 
+      * The Runtime parser. This has to be changed to
+      * a pool of parsers!
+      */
     private static Parser parser;
+    
+    /** Indicate whether the Runtime has been fully initialized */
     private static boolean initialized;
+    
+    /**
+     * The logging systems initialization may be defered if
+     * it is to be initialized by an external system. There
+     * may be messages that need to be stored until the
+     * logger is instantiated. They will be stored here
+     * until the logger is alive.
+     */
     private static StringBuffer pendingMessages = new StringBuffer();
 
+    /**
+     * Initializes the Velocity Runtime.
+     */
     public synchronized static void init(String properties)
         throws Exception
     {
@@ -137,11 +224,18 @@ public class Runtime
         }
     }
 
+    /**
+     * Allows an external system to set a property in
+     * the Velocity Runtime.
+     */
     public static void setProperty(String key, String value)
     {
         Configuration.setProperty(key, value);
     }        
 
+    /**
+     * Initialize the Velocity logging system.
+     */
     public static void initializeLogger() throws
         MalformedURLException
     {
@@ -181,7 +275,11 @@ public class Runtime
             templateLoader.init();
         }            
     }
-
+    
+    /**
+     * Initializes the Velocity parser pool.
+     * This still needs to be implemented.
+     */
     private static void initializeParserPool()
     {
         // put this in a method and make a pool of
@@ -193,13 +291,19 @@ public class Runtime
         parser.setDirectives(directives);
     }
 
-    // Used by the template class.
+    /**
+     * Parse the input stream and return the root of
+     * AST node structure.
+     */
     public synchronized static SimpleNode parse(InputStream inputStream)
         throws Exception
     {
         return parser.parse(inputStream);
     }
-
+    
+    /**
+     * Get a template via the TemplateLoader.
+     */
     public static Template getTemplate(String template)
     {
         try
@@ -213,19 +317,21 @@ public class Runtime
         }            
     }
 
-    // Runtime properties methods
-
+    /**
+     * Get a boolean property.
+     */
     public static boolean getBoolean(String property)
     {
         return Configuration.getBoolean(property);    
     }
 
+    /**
+     * Get a string property.
+     */
     public static String getString(String property)
     {
         return Configuration.getString(property);    
     }
-
-    // Runtime logging methods.
 
     private static void log(String message)
     {
@@ -235,21 +341,25 @@ public class Runtime
             pendingMessages.append(message);
     }
 
+    /** Log a warning message */
     public static void warn(Object message)
     {
         log(WARN + message.toString());
     }
     
+    /** Log an info message */
     public static void info(Object message)
     {
         log(INFO + message.toString());
     }
     
+    /** Log an error message */
     public static void error(Object message)
     {
         log(ERROR + message.toString());
     }
     
+    /** Log a debug message */
     public static void debug(Object message)
     {
         if (DEBUG_ON)
