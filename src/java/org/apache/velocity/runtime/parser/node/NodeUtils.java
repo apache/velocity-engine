@@ -62,7 +62,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.5 2000/11/28 00:55:41 jvanzyl Exp $
+ * @version $Id: NodeUtils.java,v 1.6 2000/11/28 02:29:12 jvanzyl Exp $
  */
 public class NodeUtils
 {
@@ -108,7 +108,7 @@ public class NodeUtils
      * be transformed into "candy.jpg" before
      * the method is executed.
      */
-    public String interpolate(String argStr, Context vars)
+    public static String interpolate(String argStr, Context vars)
     {
         StringBuffer argBuf = new StringBuffer();
 
@@ -133,10 +133,10 @@ public class NodeUtils
                     {
                         String value = (String) vars.get(nameBuf.toString());
 
-                        if (value != null)
-                        {
+                        if (value == null)
+                            argBuf.append("$").append(nameBuf.toString());
+                        else
                             argBuf.append(value);
-                        }
                     }
                     break;
 

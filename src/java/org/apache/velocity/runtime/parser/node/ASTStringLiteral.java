@@ -25,6 +25,13 @@ public class ASTStringLiteral extends SimpleNode
 
     public Object value(Context context)
     {
-        return getFirstToken().image.substring(1, getFirstToken().image.length() - 1);
+        /*
+         * This will remove the quotes and then interpolate
+         * any variables from the context into the
+         * the string.
+         */
+        return NodeUtils.interpolate(
+            getFirstToken().image.substring(
+                1, getFirstToken().image.length() - 1), context);
     }
 }
