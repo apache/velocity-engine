@@ -7,12 +7,15 @@ TARGET=${1}
 
 #-------------------------------------------------------------------
 
-ANT=lib/ant.jar
-ANTXML=lib/xml.jar
-XERCES=lib/xerces-1.1.3.jar
-XALAN=lib/xalan_1_1_D01.jar
-SB=lib/stylebook-1.0-b2.jar
-LOG=lib/log.jar
+LIB=lib
+ANT=${LIB}/ant.jar
+ANTXML=${LIB}/xml.jar
+XERCES=${LIB}/xerces-1.1.3.jar
+XALAN=${LIB}/xalan_1_1_D01.jar
+SB=${LIB}/stylebook-1.0-b2.jar
+LOG=${LIB}/log.jar
+FOP=${LIB}/fop.jar
+W3C=${LIB}/w3c.jar
 
 #--------------------------------------------
 # No need to edit anything past here
@@ -28,7 +31,7 @@ if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}
+CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}
 
 echo "Now building ${TARGET}..."
 
