@@ -32,7 +32,8 @@
                                    test-cpload,
                                    test-contextsafety,
                                    test-anakia,
-                                   test-configuration
+                                   test-configuration,
+                                   test-externallogger
                                    "/>
 
   <target name="test-template">
@@ -154,6 +155,17 @@
             dir="${test.home}/templates/results"/>
     <delete dir="${test.home}/anakia/results" quiet="true"/>
   </target>
+  
+  <target name="test-externallogger">
+    <echo message="Running external logger tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.ExternalLoggerTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
 
 </project>
 
