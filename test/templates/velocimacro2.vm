@@ -50,3 +50,13 @@ test doesn't fail incorrectly.
 
 #foo2( ${foo} )
 
+#macro( poundthis $truth )
+  #if ($truth )
+    <td align=center class=v10><b>#</b></td>        
+    <td align=center class=v10><b> # </b></td>
+    <td align=center class=v10><b>\#</b></td>
+  #end
+#end
+
+#poundthis( true )
+
