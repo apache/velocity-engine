@@ -54,16 +54,16 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import junit.framework.*;
-
 import org.apache.velocity.runtime.Runtime;
+
+import junit.framework.TestCase;
 
 /**
  * Base functionality to be extended by all Apache Velocity test cases.  Test 
  * case implementations are used to automatate testing via JUnit.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.4 2000/10/25 23:25:54 dlr Exp $
+ * @version $Id: BaseTestCase.java,v 1.5 2000/12/20 06:51:47 jvanzyl Exp $
  */
 public abstract class BaseTestCase extends TestCase
 {
