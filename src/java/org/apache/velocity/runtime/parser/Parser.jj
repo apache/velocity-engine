@@ -2,7 +2,7 @@
 /*@egen*//*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.55 2001/03/01 03:31:26 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.56 2001/04/14 02:51:16 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -113,6 +113,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
      */
     String currentTemplateName = "";
 
+    /**
+     *  encoding for the input stream. 
+     */
+    private String inputEncoding = "ISO-8859-1";
+
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -123,6 +128,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
     public Parser()
     {
         this(new ByteArrayInputStream("\n".getBytes()));
+
+        /*
+         * get the encoding property.  Default is ISO latin
+         */
+        inputEncoding = Runtime.getString( Runtime.INPUT_ENCODING, "ISO-8859-1");
     }
 
     /** 
@@ -150,10 +160,29 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 
         Runtime.dumpVMNamespace( currentTemplateName );
 
+        /*
+         *  wrap in a reader so users can control the encoding
+         *  of the template
+         */
+
+        BufferedReader br  = null;
+
+        try
+        {
+             br = new BufferedReader( new InputStreamReader( stream, inputEncoding ) );
+        }
+        catch( UnsupportedEncodingException  uce )
+        {   
+            String msg = "Parser Exception: Unsupported input encoding : " + inputEncoding 
+                + " for template " + templateName;
+            Runtime.error( msg );
+            throw new ParseException( msg );
+        }
+
         try
         {
             token_source.clearStateVars();
-            ReInit(stream);
+            ReInit(br);
             sn = process();
         }
         catch (ParseException pe)

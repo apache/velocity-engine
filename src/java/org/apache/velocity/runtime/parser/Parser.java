@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.57 2001/03/01 03:31:26 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.58 2001/04/14 02:51:16 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -34,6 +34,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
      */
     String currentTemplateName = "";
 
+    /**
+     *  encoding for the input stream. 
+     */
+    private String inputEncoding = "ISO-8859-1";
+
     /** 
      * This constructor was added to allow the re-use of parsers.
      * The normal constructor takes a single argument which 
@@ -44,6 +49,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     public Parser()
     {
         this(new ByteArrayInputStream("\n".getBytes()));
+
+        /*
+         * get the encoding property.  Default is ISO latin
+         */
+        inputEncoding = Runtime.getString( Runtime.INPUT_ENCODING, "ISO-8859-1");
     }
 
     /** 
@@ -71,10 +81,29 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
         Runtime.dumpVMNamespace( currentTemplateName );
 
+        /*
+         *  wrap in a reader so users can control the encoding
+         *  of the template
+         */
+
+        BufferedReader br  = null;
+
+        try
+        {
+             br = new BufferedReader( new InputStreamReader( stream, inputEncoding ) );
+        }
+        catch( UnsupportedEncodingException  uce )
+        {
+            String msg = "Parser Exception: Unsupported input encoding : " + inputEncoding
+                + " for template " + templateName;
+            Runtime.error( msg );
+            throw new ParseException( msg );
+        }
+
         try
         {
             token_source.clearStateVars();
-            ReInit(stream);
+            ReInit(br);
             sn = process();
         }
         catch (ParseException pe)
@@ -2202,18 +2231,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return retval;
   }
 
-  final private boolean jj_3_5() {
-    if (jj_scan_token(WHITESPACE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_66() {
-    if (jj_scan_token(RCURLY)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
   final private boolean jj_3R_19() {
     if (jj_3R_32()) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
@@ -2488,6 +2505,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
+  final private boolean jj_3R_55() {
+    if (jj_scan_token(WHITESPACE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
   final private boolean jj_3R_21() {
     Token xsp;
     xsp = jj_scanpos;
@@ -2520,12 +2543,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     xsp = jj_scanpos;
     if (jj_3R_42()) jj_scanpos = xsp;
     else if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
-    return false;
-  }
-
-  final private boolean jj_3R_55() {
-    if (jj_scan_token(WHITESPACE)) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
 
@@ -2940,6 +2957,18 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
   final private boolean jj_3R_63() {
     if (jj_3R_67()) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3_5() {
+    if (jj_scan_token(WHITESPACE)) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
+    return false;
+  }
+
+  final private boolean jj_3R_66() {
+    if (jj_scan_token(RCURLY)) return true;
     if (jj_la == 0 && jj_scanpos == jj_lastpos) return false;
     return false;
   }
