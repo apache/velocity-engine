@@ -16,7 +16,7 @@
 
  <p>
     Velocity is a Java-based template engine. It permits web page designers 
-    to use simple yet powerful template language that reference methods
+    to use simple yet powerful template language to reference objects
     defined in Java code. Web designers can work in parallel with Java 
     programmers to develop web sites according to the Model-View-Controller 
     (MVC) model, meaning that web page designers can focus solely on creating 
