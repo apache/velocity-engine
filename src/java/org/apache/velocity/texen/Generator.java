@@ -73,14 +73,14 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 
 /**
  * A text/code generator class
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.19 2001/12/06 07:46:47 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.20 2002/07/24 22:42:51 jvanzyl Exp $ 
  */
 public class Generator
 {
@@ -137,6 +137,11 @@ public class Generator
      * (templates).
      */
     protected String inputEncoding;
+    
+    /**
+     * Velocity engine.
+     */
+    protected VelocityEngine ve;
 
     /**
      * Default constructor.
@@ -156,6 +161,14 @@ public class Generator
         return instance;
     }
     
+    /**
+     * Set the velocity engine.
+     */
+    public void setVelocityEngine(VelocityEngine ve)
+    {
+        this.ve = ve;
+    }        
+
     /**
      * Create a new generator object with properties loaded from
      * a file.  If the file does not exist or any other exception
@@ -208,7 +221,7 @@ public class Generator
      */
     protected void setDefaultProps()
     {
-        ClassLoader classLoader = Velocity.class.getClassLoader();
+        ClassLoader classLoader = VelocityEngine.class.getClassLoader();
         try
         {
             InputStream inputStream = null;
@@ -318,10 +331,10 @@ public class Generator
     public Template getTemplate(String templateName, String encoding) throws Exception {
         Template template;
         if (encoding == null || encoding.length() == 0 || encoding.equals("8859-1") || encoding.equals("8859_1")) {
-            template = Velocity.getTemplate(templateName);
+            template = ve.getTemplate(templateName);
         }
         else {
-            template = Velocity.getTemplate(templateName, encoding);
+            template = ve.getTemplate(templateName, encoding);
         }
         return template;
     }
