@@ -36,6 +36,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
+
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -374,6 +375,16 @@ public class AnakiaTask extends MatchingTask
                 for (Iterator iter = contexts.iterator(); iter.hasNext();) 
                 {
                     Context subContext = (Context) iter.next();
+                    if (subContext == null)
+                    {
+                        throw new BuildException("Found an undefined SubContext!");
+                    }
+
+                    if (subContext.getContextDocument() == null)
+                    {
+                        throw new BuildException("Could not build a subContext for " + subContext.getName());
+                    }
+
                     context.put(subContext.getName(), subContext
                             .getContextDocument().getRootElement());
                 }
@@ -523,8 +534,8 @@ public class AnakiaTask extends MatchingTask
     {
         
         private String name;
-        private Document contextDoc;
-        private File contextFile;
+        private Document contextDoc = null;
+        private String file;
         
         /**
          * Public constructor.
@@ -570,16 +581,7 @@ public class AnakiaTask extends MatchingTask
          */
         public void setFile(String file) 
         {
-            contextFile = new File(baseDir, file);
-            
-            try 
-            {
-                contextDoc = builder.build(contextFile);
-            } 
-            catch (Exception e) 
-            {
-                throw new BuildException(e);
-            }
+            this.file = file;
         }
     
         /**
@@ -587,7 +589,7 @@ public class AnakiaTask extends MatchingTask
          */
         public long getLastModified() 
         {
-            return contextFile.lastModified();
+            return new File(baseDir, file).lastModified();
         }
         
         /**
@@ -595,6 +597,19 @@ public class AnakiaTask extends MatchingTask
          */
         public Document getContextDocument() 
         {
+            if (contextDoc == null)
+            {
+                File contextFile = new File(baseDir, file);
+                
+                try 
+                {
+                    contextDoc = builder.build(contextFile);
+                } 
+                catch (Exception e) 
+                {
+                    throw new BuildException(e);
+                }
+            }
             return contextDoc;
         }
     }
