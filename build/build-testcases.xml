@@ -139,9 +139,9 @@
   </target>
   
   <target name="test-clean">
-    <delete quiet="true">
-      <fileset dir="${test.home}/templates/results" includes="**/*.res"/>
-    </delete>
+    <mkdir dir="${test.home}/templates/results"/>
+    <delete quiet="true" includeEmptyDirs="true" 
+            dir="${test.home}/templates/results"/>
     <delete dir="${test.home}/anakia/results" quiet="true"/>
   </target>
 
