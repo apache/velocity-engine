@@ -54,6 +54,7 @@ package org.apache.velocity.texen.ant;
  * <http://www.apache.org/>.
  */
 
+import java.util.StringTokenizer;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -79,19 +80,21 @@ import org.apache.commons.collections.ExtendedProperties;
 /**
  * An ant task for generating output by using Velocity
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.32 2001/09/26 21:40:42 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.32.2.1 2001/11/08 04:05:57 geirm Exp $
  */
 public class TexenTask 
     extends Task
 {
     /**
-     * This message (telling users to consult the log) is appended to
-     * rethrown exception messages.
+     * This message fragment (telling users to consult the log or
+     * invoke ant with the -debug flag) is appended to rethrown
+     * exception messages.
      */
-    private final static String MSG_CONSULT_LOG = 
-        ". For more information consult the velocity log.";
+    private final static String ERR_MSG_FRAGMENT = 
+        ". For more information consult the velocity log, or invoke ant " +
+        "with the -debug flag.";
     
     /**
      * This is the control template that governs the output.
@@ -159,6 +162,11 @@ public class TexenTask
     protected boolean useClasspath;
 
     /**
+     * Path separator.
+     */
+    private String fileSeparator = System.getProperty("file.separator");
+
+    /**
      * [REQUIRED] Set the control template for the
      * generating process.
      */
@@ -182,16 +190,22 @@ public class TexenTask
      * loader.
      */
     
-    public void setTemplatePath(File templatePath)
+    public void setTemplatePath(String templatePath) throws Exception
     {
-         try 
-         {
-             this.templatePath = templatePath.getCanonicalPath();
-         } 
-         catch (java.io.IOException ioe) 
-         {
-             throw new BuildException(ioe);
-         }
+        StringBuffer resolvedPath = new StringBuffer();
+        StringTokenizer st = new StringTokenizer(templatePath, ",");
+        while ( st.hasMoreTokens() )
+        {
+            // resolve relative path from basedir and leave
+            // absolute path untouched.
+            File fullPath = project.resolveFile(st.nextToken());
+            resolvedPath.append(fullPath.getCanonicalPath());
+            if ( st.hasMoreTokens() )
+            {
+                resolvedPath.append(",");
+            }
+        }
+         this.templatePath = resolvedPath.toString();
      }
 
     /**
@@ -268,7 +282,10 @@ public class TexenTask
             
             try
             {
-                source.load(new FileInputStream(sources[i]));
+                // resolve relative path from basedir and leave
+                // absolute path untouched.
+                File fullPath = project.resolveFile(sources[i]);
+                source.load(new FileInputStream(fullPath));
             }
             catch (Exception e)
             {
@@ -348,7 +365,6 @@ public class TexenTask
     public void execute () 
         throws BuildException
     {
-
         // Make sure the template path is set.
         if (templatePath == null && useClasspath == false)
         {
@@ -380,12 +396,14 @@ public class TexenTask
             // Setup the Velocity Runtime.
             if (templatePath != null)
             {
+            	log("Using templatePath: " + templatePath, project.MSG_VERBOSE);
                 Velocity.setProperty(
                     Velocity.FILE_RESOURCE_LOADER_PATH, templatePath);
             }
             
             if (useClasspath)
             {
+            	log("Using classpath");
                 Velocity.addProperty(
                     Velocity.RESOURCE_LOADER, "classpath");
             
@@ -411,7 +429,7 @@ public class TexenTask
             if (templatePath != null)
             {
                 generator.setTemplatePath(templatePath);
-            }                
+            }
             
             // Make sure the output directory exists, if it doesn't
             // then create it.
@@ -419,10 +437,10 @@ public class TexenTask
             if (! file.exists())
             {
                 file.mkdirs();
-            }                
+            }
             
             String path = outputDirectory + File.separator + outputFile;
-            System.out.println(path);
+            log("Generating to file " + path, project.MSG_INFO);
             FileWriter writer = new FileWriter(path);
             
             // The generator and the output path should
@@ -504,6 +522,7 @@ public class TexenTask
             writer.flush();
             writer.close();
             generator.shutdown();
+            cleanup();
         }
         catch( BuildException e)
         {
@@ -513,20 +532,20 @@ public class TexenTask
         {
             throw new BuildException(
                 "Exception thrown by '" + e.getReferenceName() + "." + 
-                    e.getMethodName() +"'" + MSG_CONSULT_LOG,
+                    e.getMethodName() +"'" + ERR_MSG_FRAGMENT,
                         e.getWrappedThrowable());
         }       
         catch( ParseErrorException e )
         {
-            throw new BuildException("Velocity syntax error" + MSG_CONSULT_LOG ,e);
+            throw new BuildException("Velocity syntax error" + ERR_MSG_FRAGMENT ,e);
         }        
         catch( ResourceNotFoundException e )
         {
-            throw new BuildException("Resource not found" + MSG_CONSULT_LOG,e);
+            throw new BuildException("Resource not found" + ERR_MSG_FRAGMENT,e);
         }
         catch( Exception e )
         {
-            throw new BuildException("Generation failed" + MSG_CONSULT_LOG ,e);
+            throw new BuildException("Generation failed" + ERR_MSG_FRAGMENT ,e);
         }
     }
 
@@ -551,5 +570,18 @@ public class TexenTask
         throws Exception
     {
         context.put("now", new Date().toString());
+    }
+
+    /**
+     * A hook method called at the end of {@link #execute()} which can
+     * be overridden to perform any necessary cleanup activities (such
+     * as the release of database connections, etc.).  By default,
+     * does nothing.
+     *
+     * @exception Exception Problem cleaning up.
+     */
+    protected void cleanup()
+        throws Exception
+    {
     }
 }
