@@ -78,6 +78,10 @@ This section describes changes to the man branch after the
      cleanup activities without overriding
      <code>execute()</code>. (dlr)
    </li>
+   <li>
+     ResourceManager and ResourceCache are now pluggable.
+     Default implementations work as they always did. (gmj)
+   </li>
 </ul>
 
 </subsection>
