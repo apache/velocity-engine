@@ -26,7 +26,7 @@ are caught, you are responsible for also fixing your own code.</strong>
 </p>
 
 <p>
-Below is a list of coding conventions that are specific to Turbine,
+Below is a list of coding conventions that are specific to Velocity,
 everything else not specificially mentioned here should follow the official
 <a href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
 Java Coding Conventions</a>.
