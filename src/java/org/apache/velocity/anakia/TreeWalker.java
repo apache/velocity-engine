@@ -1,4 +1,3 @@
-
 package org.apache.velocity.anakia;
 
 /*
@@ -55,90 +54,60 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
-// XPath Stuff
-import com.werken.xpath.XPath;
-
 // JDK Stuff
-import java.util.List;
+import java.util.*;
 
 // JDOM Stuff
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
-   This class adds an entrypoint into XPath functionality,
-   for Anakia.
-   <p>
-   All methods take a string XPath specification, along with
-   a context, and produces a resulting NodeSet (java.util.List).
-   <p>
-   To use it in Velocity, do this:
-   <p>
-   <code>
-   #set $authors = $xpath.applyTo("document/author", $root)
-   #foreach ($author in $authors)
-    $author.getValue() // At time of writting this could be wrong; what is NodeSet?
-   #end
-   </code>
-   
-    @author <a href="bob@werken.com">bob mcwhirter</a>
+    This class allows you to walk a tree of JDOM Element objects.
+    It first walks the tree itself starting at the Element passed 
+    into allElements() and stores each node of the tree 
+    in a Vector which allElements() returns as a result of its
+    execution. You can then use a #foreach in Velocity to walk
+    over the Vector and visit each Element node.
+
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: XPathTool.java,v 1.4 2000/11/26 06:52:22 jon Exp $
+    @version $Id: TreeWalker.java,v 1.1 2000/11/26 06:52:22 jon Exp $
 */
-
-public class XPathTool
+public class TreeWalker
 {
+    /** the cache of Element objects */
+    private Vector theElements = null;
+    
     /**
-       Constructor does nothing, as this is mostly
-       just objectified static methods
+        Empty constructor
     */
-    public XPathTool()
+    public TreeWalker()
     {
-        // intentionally left blank
+        // Left blank
     }
-
     /**
-       Apply an XPath to a JDOM Document
-
-       @param xpathSpec The XPath to apply
-       @param doc The Document context
-
-       @return A nodest
+        Creates a new Vector and walks the Element tree.
+        
+        @param Element the starting Element node
+        @return Vector a vector of Element nodes
     */
-    public List applyTo(String xpathSpec,
-                        Document doc)
+    public Vector allElements(Element e)
     {
-        XPath xpath = new XPath( xpathSpec );
-        return xpath.applyTo( doc );
+        theElements = new Vector();
+        treeWalk (e);
+        return this.theElements;
     }
-
     /**
-       Apply an XPath to a JDOM Element
-
-       @param xpathSpec The XPath to apply
-       @param doc The Element context
-
-       @return A nodest
+        A recursive method to walk the Element tree.
+        @param Element the current Element
     */
-    public List applyTo(String xpathSpec,
-                        Element elem)
+    private final void treeWalk(Element e)
     {
-        XPath xpath = new XPath(xpathSpec);
-        return xpath.applyTo( elem );
+        for (Iterator i=e.getChildren().iterator(); i.hasNext(); )
+        {
+            Element child = (Element)i.next();
+            theElements.add(child);
+            treeWalk(child);
+        }            
     }
-
-    /**
-       Apply an XPath to a nodeset
-
-       @param xpathSpec The XPath to apply
-       @param doc The nodeset context
-
-       @return A nodest
-    */
-    public List applyTo(String xpathSpec,
-                        List nodeSet)
-    {
-        XPath xpath = new XPath(xpathSpec);
-        return xpath.applyTo( nodeSet );
-    }
-}
+}    
