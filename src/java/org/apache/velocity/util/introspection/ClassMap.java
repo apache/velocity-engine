@@ -65,8 +65,12 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.5 2000/11/06 02:04:50 jvanzyl Exp $
+ * @version $Id: ClassMap.java,v 1.6 2000/11/09 22:54:46 jvanzyl Exp $
  */
+
+// TODO: public boolean (String[] list)
+//       how to convert this so that it can be used
+//       in VTL.
 
 public class ClassMap
 {
@@ -186,11 +190,13 @@ public class ClassMap
             {
                 if (parameterTypes[j].equals(Integer.TYPE))
                     methodKey.append("java.lang.Integer");
+                else if (parameterTypes[j].equals(Boolean.TYPE))
+                    methodKey.append("java.lang.Boolean");
             }                
             else
                 methodKey.append(parameterTypes[j].getName());
         }            
-
+        
         return methodKey.toString();
     }
 
