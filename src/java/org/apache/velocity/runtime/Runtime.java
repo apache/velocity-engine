@@ -169,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.83 2001/01/12 20:24:40 dlr Exp $
+ * @version $Id: Runtime.java,v 1.84 2001/01/13 16:37:34 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -558,6 +558,8 @@ public class Runtime implements RuntimeConstants
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
         
+        //System.out.println(" Runtime.parse() : parsing " + strTemplateName );
+
         if (parser != null)
         {
             try
@@ -765,18 +767,13 @@ public class Runtime implements RuntimeConstants
      * @param strName  Name of velocimacro 
      * @param strMacro  String form of macro body
      * @param strArgArray  Array of strings, containing the #macro() arguments.  the 0th is the name.
-     * @param strMacroArray  The macro body as an array of strings.  Basically, the tokenized literal  representation
-     * @param tmArgIndexMap  Indexes to the args in the macro body string
      * @return boolean  True if added, false if rejected for some reason (either parameters or permission settings) 
      */
-    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], 
-                                          String strMacroArray[], TreeMap tmArgIndexMap, 
-                                          String strSourceTemplate )
+    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[],  String strSourceTemplate )
     {    
-        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, 
-                                          tmArgIndexMap, strSourceTemplate);
+        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strSourceTemplate );
     }
-
+ 
     /**
      *  Checks to see if a VM exists
      *
