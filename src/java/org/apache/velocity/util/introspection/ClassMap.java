@@ -64,26 +64,27 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.2 2000/11/01 18:31:35 jvanzyl Exp $
+ * @version $Id: ClassMap.java,v 1.3 2000/11/01 20:45:30 werken Exp $
  */
 
 public class ClassMap
 {
+    static final private class CacheMiss { }
+    
+    static final private CacheMiss CACHE_MISS = new CacheMiss();
+
     /** 
      * Class passed into the constructor used to as
      * the basis for the Method map.
      */
+
     private Class clazz;
+
     /**
-     * Map of methods that can be accessed directly
-     * with a method key.
+     * Cache of Methods, or CACHE_MISS, keyed by method
+     * name and actual arguments used to find it.
      */
-    private Map directHits = new Hashtable();
-    /**
-     * Map of nulls that represent methodKeys that
-     * will never return a valid method.
-     */
-    private Map directMisses = new Hashtable();
+    private Map methodCache = new Hashtable();
 
     private MethodMap methodMap = new MethodMap();
 
@@ -93,42 +94,52 @@ public class ClassMap
     public ClassMap(Class clazz)
     {
         this.clazz = clazz;
-        populateDirectHits();
+        populateMethodCache();
     }
     
     /**
      * Find a Method using the methodKey
-     * provided. First try a direct hit, if
-     * that doesn't work then we have to do some
-     * work to find out if we can return a Method
-     * or not. Will implement this ASAP. If we
-     * find a valid Method then we can generate
-     * a methodKey and add it to the
-     * directHits Map.
+     * provided.
+     *
+     * Look in the methodMap for an entry.  If found,
+     * it'll either be a CACHE_MISS, in which case we
+     * simply give up, or it'll be a Method, in which
+     * case, we return it.
+     *
+     * If nothing is found, then we must actually go
+     * and introspect the method from the MethodMap.
      */
     public Method findMethod(String name, Object[] params)
     {
         String methodKey = makeMethodKey(name, params);
-        
-        if (directMisses.containsKey(methodKey))
-            return null;
-            
-        if (directHits.containsKey(methodKey))
-            return (Method) directHits.get(methodKey);
-        else
+
+        Object cacheEntry = methodCache.get( methodKey );
+
+        if (cacheEntry == CACHE_MISS)
         {
-            Method method = methodMap.find(name, params);
+            return null;
+        }
+
+        if (cacheEntry == null)
+        {
+            cacheEntry = methodMap.find( name,
+                                         params );
             
-            if (method == null)
-                directMisses.put(methodKey, "");
+            if ( cacheEntry == null )
+            {
+                methodCache.put( methodKey,
+                                 CACHE_MISS );
+            }
             else
             {
-                directHits.put(methodKey, method);
-                return method;
-            }                
+                methodCache.put( methodKey,
+                                 cacheEntry );
+            }
         }
-                    
-        return null;
+
+        // Yes, this might just be null.
+        
+        return (Method) cacheEntry;
     }
     
     /**
@@ -136,7 +147,7 @@ public class ClassMap
      * are taken from all the public methods
      * that our class provides.
      */
-    private void populateDirectHits()
+    private void populateMethodCache()
     {
         Method[] methods = clazz.getMethods();
         StringBuffer methodKey;
@@ -146,7 +157,7 @@ public class ClassMap
             if (Modifier.isPublic(methods[i].getModifiers()))
             {
                 methodMap.add(methods[i]);
-                directHits.put(makeMethodKey(methods[i]), methods[i]);
+                methodCache.put(makeMethodKey(methods[i]), methods[i]);
             }
         }            
     }

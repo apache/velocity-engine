@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: MethodMap.java,v 1.2 2000/11/01 18:31:37 jvanzyl Exp $
+ * @version $Id: MethodMap.java,v 1.3 2000/11/01 20:45:31 werken Exp $
  */
 
 public class MethodMap
@@ -90,29 +90,43 @@ public class MethodMap
     public Method find(String methodName, Object[] params)
     {
         List methodList = (List) methodByNameMap.get(methodName);
-
+        
         if (methodList == null)
-            return null;
-
-        for (int i = 0; i < methodList.size(); i++)
         {
-            Method method = (Method) methodList.get(i);
-            Class[] parameterTypes = method.getParameterTypes();
+            return null;
+        }
+
+        Class[] parameterTypes = null;
+        Method  method = null;
+
+        int     i = 0;
+        int     numMethods = methodList.size();
+        
+        while ( (method == null) && ( i < numMethods ) )
+        {
+            method = (Method) methodList.get(i);
+            parameterTypes = method.getParameterTypes();
             
             // The methods we are trying to compare must
             // the same number of arguments.
-            if (parameterTypes.length != params.length)
-                continue;
-            
-            // Make sure the given parameter is a valid
-            // subclass of the method parameter in question.
-            for (int j = 0; j < parameterTypes.length; j++)
-                if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
-                    break;
-        
-            return method;
+
+            if (parameterTypes.length == params.length)
+            {
+                // Make sure the given parameter is a valid
+                // subclass of the method parameter in question.
+
+                for (int j = 0; j < parameterTypes.length; j++)
+                {
+                    if (!parameterTypes[j].isAssignableFrom(params[j].getClass()))
+                    {
+                        method = null;
+                        break;
+                    }
+                }
+            }
+            ++i;
         }
 
-        return null;
+        return method;
     }
 }
