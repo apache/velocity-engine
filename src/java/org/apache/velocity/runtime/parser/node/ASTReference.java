@@ -41,12 +41,6 @@ public class ASTReference extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public void jjtClose()
-    {
-        super.jjtClose();
-        last.last = true;
-    }
-
     public Object init(Context context, Object data) throws Exception
     {
         rootString = getRoot();
@@ -247,36 +241,6 @@ public class ASTReference extends SimpleNode
             nullString = literal();
             return t.image.substring(1);
         }            
-    }
-
-    /**
-     * Return the literal string representation
-     * of a reference. Used when a reference has
-     * a null value.
-     *
-     * For a variable reference like $foo this isn't
-     * working. hmmm.
-     */
-    public String literal()
-    {
-        Token t = getFirstToken();
-        StringBuffer sb = new StringBuffer(t.image);
-        
-        // Check to see if there are any children. If
-        // there aren't then we can return with the first
-        // token becasue it's a shorthand variable reference
-        // like $foo.
-        if (children == null && referenceType == NORMAL_REFERENCE)
-            return sb.toString();
-        
-        while(t.next != null && t.next.last == false)
-        {
-            t = t.next;
-            sb.append(t.image);
-        }
-        sb.append(getLastToken().image);
-        
-        return sb.toString();
     }
 
     public Object getVariableValue(Context context, String variable)
