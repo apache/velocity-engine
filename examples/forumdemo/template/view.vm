@@ -1,0 +1,111 @@
+<html>
+ <head>
+  <title>the blab</title>
+  <link REL="stylesheet" TYPE="text/css" HREF="../images/forum.css">
+ </head>
+ <body>
+   <img src="../images/blabheader.gif" width="350" height="58">
+   <br>
+   <b>
+   <a href="/forumdemo/index.html">Home</a>&nbsp;|&nbsp;<a href="/forumdemo/post.html">Post a message</a>&nbsp;|&nbsp;
+   <a href="/forumdemo/servlet/forum?action=list">View messages</a>
+   </b> 
+   <hr>
+   <form action="/forumdemo/servlet/forum" method="POST">
+    <input type="hidden" name="id" value="$id">
+    <input type="hidden" name="subject" value="$message.getSubject()">
+    <input type="hidden" name="action" value="reply">
+    <input type="Submit" name="Submit" value=" Add a Reply ">
+   </form>
+  <table border="0" cellspacing="0" cellpadding="1">
+   <tr>
+    <td bgcolor="#000000">  
+     <table border="0" cellspacing="0" cellpadding="5">
+      <tr>
+        <td bgcolor="#eeeeee" align="right">
+          <b>Subject:</b>
+        </td>
+        <td bgcolor="#eeeeee" align="left">
+          $message.getSubject()
+        </td>
+        <td bgcolor="#eeeeee" align="right">
+          <b>Posted:</b>
+        </td>
+        <td bgcolor="#eeeeee" align="left">
+          $message.getSubmitted()
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#eeeeee" align="right">
+          <b>Name:</b>
+        </td>
+        <td bgcolor="#eeeeee" align="left">
+          $message.getName()
+        </td>
+        <td bgcolor="#eeeeee" align="right">
+          <b>Email:</b>
+        </td>
+        <td bgcolor="#eeeeee" align="left">
+          $message.getEmail()
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" align="left" colspan="4">
+         <hr>
+          $message.getContents()
+        </td>
+      </tr>   
+     </table>
+    </td>
+   </tr>
+</table>      
+    <hr>
+    <b>Replies:</b>
+    <br>
+
+    #if( $hasReplies )
+      #foreach ($reply in $replies)
+  <table border="0" cellspacing="0" cellpadding="1">
+   <tr>
+    <td bgcolor="#000000"> 
+      <table border="0" cellspacing="0" cellpadding="5">
+        <tr>
+         <td bgcolor="#eeeeee" align="right">
+           <b>Name:</b>
+         </td>
+         <td bgcolor="#eeeeee" align="left">
+          $reply.getName()
+        </td>
+         <td bgcolor="#eeeeee" align="right">
+           <b>Email:</b>
+         </td>
+         <td bgcolor="#eeeeee" align="left">
+          $reply.getEmail()
+        </td>
+       </tr>
+       <tr>
+        <td bgcolor="#eeeeee" align="right">
+          <b>Posted:</b>
+        </td>
+        <td bgcolor="#eeeeee" align="left" colspan="3">
+          $reply.getSubmitted()
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" align="left" colspan="4">
+        <hr>
+          $reply.getContents()
+        </td>
+      </tr>   
+     </table>
+    </td>
+   </tr>
+  </table>   
+    <br>
+     #end
+   #end
+   
+  </body> 
+</html>
+
+
