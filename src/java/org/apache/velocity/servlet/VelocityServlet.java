@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.36 2001/05/14 19:45:19 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.37 2001/05/16 22:49:38 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -501,6 +501,27 @@ public abstract class VelocityServlet extends HttpServlet
         return Runtime.getTemplate(name);
     }
     
+    /**
+     * Retrieves the requested template with the specified
+     * character encoding.
+     *
+     * @param name The file name of the template to retrieve relative to the 
+     *             template root.
+     * @param encoding the character encoding of the template
+     *
+     * @return     The requested template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
+     */
+    public Template getTemplate( String name, String encoding )
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {
+        return Runtime.getTemplate( name, encoding );
+    }
+
     /**
      * Implement this method to add your application data to the context, 
      * calling the <code>getTemplate()</code> method to produce your return 
