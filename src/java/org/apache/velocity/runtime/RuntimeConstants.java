@@ -200,31 +200,6 @@ public interface RuntimeConstants
      */
 
     /** 
-     * Prefix for warning messages.
-     */
-    final static String WARN  = "  [warn] ";
-    
-    /** 
-     * Prefix for info messages.
-     */
-    final static String INFO  = "  [info] ";
-    
-    /** 
-     * Prefix for debug messages.
-     */
-    final static String DEBUG = " [debug] ";
-    
-    /** 
-     * Prefix for error messages.
-     */
-    final static String ERROR = " [error] ";
-
-    /** 
-     * Turn Runtime debugging on with this field.
-     */
-    final static boolean DEBUG_ON = true;
-
-    /** 
      * Default Runtime properties.
      */
     final static String DEFAULT_RUNTIME_PROPERTIES = 
