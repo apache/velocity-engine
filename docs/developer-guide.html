@@ -195,6 +195,9 @@
 <a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a>
  <ul>
   <li>
+    <a href="developer-guide.html#Using Log4j With Existing Category">Using Log4j With Existing Category</a>
+  </li>
+  <li>
     <a href="developer-guide.html#Simple Example of a Custom Logger">Simple Example of a Custom Logger</a>
   </li>
  </ul>
@@ -287,7 +290,7 @@ root of the Velocity distribution tree.
     information, go <a href="index.html">here</a>.
   </li>
   <li>
-    If you don't have <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a>, 
+    If you don't have <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a>,
     the Java build tool already installed, please do so.  It is required for
     building Velocity, although not required for <i>using</i> Velocity.
   </li>
@@ -301,27 +304,27 @@ root of the Velocity distribution tree.
       <li>
         <b><code>jar</code></b> builds the complete Velocity jar in the
         <code>bin</code> directory.  This jar will be called 'velocity-X.jar',
-        where 'X' is the current version number. This jar does not include 
+        where 'X' is the current version number. This jar does not include
         necessary dependencies for Velocity.  If you use this
         target, you must get the Collections component jar from Jakarta Commons and add
-        to your CLASSPATH (or WEB-INF/lib). 
+        to your CLASSPATH (or WEB-INF/lib).
         If you wish to use the built-in logging or template conversion,
         you must include the appropriate jars in your CLASSPATH or
         webapp's WEB-INF/lib.
         For convenience, you can use the <code>jar-dep</code> target to build
-        a jar with ORO, Logkit and Commons Collections included.        
+        a jar with ORO, Logkit and Commons Collections included.
       </li>
       <li>
         <b><code>jar-dep</code></b> builds the complete Velocity jar in
-        the <code>bin</code> directory, including necessary 
-        support for logging from the 
+        the <code>bin</code> directory, including necessary
+        support for logging from the
         <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
         Avalon Logkit</a> package, critical configuration support from the
         <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
         and the necesary support for WebMacro
-        template conversion using the 
+        template conversion using the
         <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
-        package. 
+        package.
        </li>
        <li>
         <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
@@ -357,7 +360,7 @@ root of the Velocity distribution tree.
       </li>
       <li>
         <b><code>jar-J2EE-dep</code></b> build a complete jar with J2EE support
-        and includes logging support from the Jakarta Avalon Logkit and 
+        and includes logging support from the Jakarta Avalon Logkit and
         regexp support fromt the Jakarta ORO package. See the notes on the
         <code>jar-dep</code> target, above.
       </li>
@@ -372,14 +375,14 @@ root of the Velocity distribution tree.
       </li>
       <li>
         <b><code>docs</code></b> builds these docs in the <code>docs</code> directory
-        using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.  
+        using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.
         Allowing you to use
         Velocity templates in place of stylesheets
         - give it a try!  <i>Note: This target requires that the jakarta-site2 project
         is located as a peer directory to the jakarta-velocity distribution directory.
         Please see the note in the build.xml file for this target for further information.</i>
       </li>
-      <li>  
+      <li>
         <b><code>jar-src</code></b> bundles all the Velocity source code into a single
         jar, placed in the <code>bin</code> directory.
       </li>
@@ -391,7 +394,7 @@ root of the Velocity distribution tree.
         <b><code>test</code></b> (after jar) will test Velocity against it's testbed
         suite of test routines
       </li>
-      <li>  
+      <li>
         <b><code>help</code></b> lists the build targets that are available.
       </li>
     </ul>
@@ -415,9 +418,9 @@ root of the Velocity distribution tree.
                                                 <strong>Dependencies</strong>
                                                 <p>
 Velocity uses elements of the Java 2 API such as collections, and therefore
-building requires the Java 2 Standard Edition SDK (Software Development Kit).   
+building requires the Java 2 Standard Edition SDK (Software Development Kit).
 To run Velocity, the Java 2 Standard Edition RTE (Run Time Environment)
-is required (or you can use the SDK, of course).  
+is required (or you can use the SDK, of course).
 </p>
                                                 <p>
 Velocity also is dependent upon a few packages for general functionality.  They
@@ -432,12 +435,12 @@ default build target, you must add the dependencies to your classpath.
 </li>
 <li>
   <a href="http://jakarta.apache.org/avalon/logkit/index.html">
-  <b>Jakarta Avalon Logkit</b></a> - optional, but very common.  
+  <b>Jakarta Avalon Logkit</b></a> - optional, but very common.
   Needed if using the default file-based logging in Velocity.
 </li>
 <li>
   <a href="http://jakarta.apache.org/oro/index.html"><b>Jakarta ORO</b></a>
-   - optional.  Needed when using the 
+   - optional.  Needed when using the
    <code>org.apache.velocity.convert.WebMacro</code> template conversion
    utility.
  </li>
@@ -495,7 +498,7 @@ Some great sources are :
   <li>
     XML example : <code>examples/xmlapp_example</code> : a simple example
     showing how to use JDOM to read and access XML document data from
-    within a Velocity template.  It also includes a demonstration of 
+    within a Velocity template.  It also includes a demonstration of
     a recursive Velocimacro that walks the document tree.
   </li>
  <li>
@@ -548,7 +551,7 @@ All directory references above are relative to the distribution root directory.
 <a name="The Fundamental Pattern"><strong>'The Fundamental Pattern'</strong></a>
 </p>
                                                 <p>
-When using Velocity in an application program or in a servlet 
+When using Velocity in an application program or in a servlet
 (or anywhere, actually), you will generally do the following :
 </p>
                                                 <ol>
@@ -561,7 +564,7 @@ When using Velocity in an application program or in a servlet
 <li>'Merge' the template and your data to produce the ouput.</li>
 </ol>
                                                 <p>
-In code, using the singleton pattern via the 
+In code, using the singleton pattern via the
 <code>org.apache.velocity.app.Velocity</code> class,
 this looks like
 </p>
@@ -651,7 +654,7 @@ either explicitly, or behind the scenes.
                                     <p>
 As of Velocity 1.2 and later, developers now have two options
 for using the Velocity engine, the singleton model and the separate instance
-model.  The same core Velocity code is used for both approaches, which are 
+model.  The same core Velocity code is used for both approaches, which are
 provided to make Velocity easier to integrate into your Java application.
 </p>
                                                 <p>
@@ -659,11 +662,11 @@ provided to make Velocity easier to integrate into your Java application.
 </p>
                                                 <p>
    This is the legacy pattern, where there is only one instance of the Velocity
-   engine in the JVM (or web application, depending) that is shared by all. 
-   This is very convenient as it 
+   engine in the JVM (or web application, depending) that is shared by all.
+   This is very convenient as it
    allows localized configuration and sharing of resources.  For example, this
    is a very appropriate model for use in a Servlet 2.2+ compliant web application
-   as each web application can have it's own instance of Velocity, allowing 
+   as each web application can have it's own instance of Velocity, allowing
    that web application's servlet to share resources like templates, a logger, etc.
    The singleton is accessable via the <code>org.apache.velocity.app.Velocity</code>
    class, and and example of use :
@@ -681,20 +684,20 @@ provided to make Velocity easier to integrate into your Java application.
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.Template;
-    
+
 ...
 
 /*
- *  Configure the engine - as an example, we are using 
+ *  Configure the engine - as an example, we are using
  *  ourselves as the logger - see logging examples
  */
-    
+
 Velocity.setProperty( Velocity.RUNTIME_LOG_LOGSYSTEM, this);
 
 /*
  *  now initialize the engine
  */
- 
+
 Velocity.init();
 
 ...
@@ -711,11 +714,11 @@ Template t = Velocity.getTemplate(&quot;foo.vm&quot;);
     </table>
     </div>
                                                 <p>
-Please note that the Singleton model is used in the 
+Please note that the Singleton model is used in the
 <code>org.apache.velocity.servlet.VelocityServlet</code> base class,
 a utility class provided with the distribution to make writing servlets
-easier.  While extending this class is the most common and convenient 
-way to write servlets using Velocity, you are free to not use this 
+easier.  While extending this class is the most common and convenient
+way to write servlets using Velocity, you are free to not use this
 class if you needs require something different.
 </p>
                                                 <p>
@@ -723,10 +726,10 @@ class if you needs require something different.
 </p>
                                                 <p>
    New in version 1.2, the separate instance allows you to create, configure
-   and use as many instances of Velocity as you wish in the same JVM 
+   and use as many instances of Velocity as you wish in the same JVM
    (or web application.)  This
    is useful when you wish to support separate configurations, such as template
-   directories, loggers, etc in the same application.  To use separate 
+   directories, loggers, etc in the same application.  To use separate
    instances, use the <code>org.apache.velocity.app.VelocityEngine</code>
    class.  An example, which parallels the above singleton example, looks
    like :
@@ -744,12 +747,12 @@ class if you needs require something different.
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.Template;
-    
+
 ...
 
 /*
  *  create a new instance of the engine
- */      
+ */
 
 VelocityEngine ve = new VelocityEngine();
 
@@ -763,7 +766,7 @@ ve.setProperty( VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this);
 /*
  *  initialize the engine
  */
- 
+
 ve.init();
 
 ...
@@ -786,18 +789,18 @@ no changes to the high-level structure of your application or templates.
 </p>
                                                 <p>
 As a programmer, the classes you should use to interact with the Velocity
-internals are the <code>org.apache.velocity.app.Velocity</code> class if 
+internals are the <code>org.apache.velocity.app.Velocity</code> class if
 using the singleton model, or <code>org.apache.velocity.app.VelocityEngine</code>
 if using the non-singleton model ('separate instance').
 </p>
                                                 <p>
 At no time should an application use the internal <code>Runtime, RuntimeConstants,
 RuntimeSingleton or RuntimeInstance</code> classes in the
-<code>org.apache.velocity.runtime</code> package, as these are intended for 
-internal use only and may change over time.  As mentioned above, 
+<code>org.apache.velocity.runtime</code> package, as these are intended for
+internal use only and may change over time.  As mentioned above,
 the classes you should use
-are located in the <code>org.apache.velocity.app</code> package, and are the 
-<code>Velocity</code> and <code>VelocityEngine</code> classes.  If anything is 
+are located in the <code>org.apache.velocity.app</code> package, and are the
+<code>Velocity</code> and <code>VelocityEngine</code> classes.  If anything is
 missing or needed from those classes, do not hesitate to suggest changes - these
 classes are intended for the application developer.
 </p>
@@ -842,7 +845,7 @@ need to extend or create your own context implementation.
 </p>
                                                 <p>
 Using VelocityContext is as simple as using a normal Java Hashtable class.
-While the interface contains other useful methods, the two main methods you 
+While the interface contains other useful methods, the two main methods you
 will use are
 </p>
                                                     <div align="left">
@@ -889,51 +892,51 @@ in the VTL <code>#foreach()</code> directive.
 </p>
                                                 <ul>
 
-<li> <code>Object [] </code>  Regular object array, not much needs to be said 
+<li> <code>Object [] </code>  Regular object array, not much needs to be said
 here. Velocity will internally wrap your array in a class that provides an
-Iterator interface,  but that shouldn't concern you as the programmer, or the 
+Iterator interface,  but that shouldn't concern you as the programmer, or the
 template author.
 </li>
 
-<li> <code>java.util.Collection</code>  Velocity will use the  
-<code>iterator()</code> method to get an Iterator to use in the loop, 
-so if you are implementing a Collection interface on your object, please 
+<li> <code>java.util.Collection</code>  Velocity will use the
+<code>iterator()</code> method to get an Iterator to use in the loop,
+so if you are implementing a Collection interface on your object, please
 ensure that <code>iterator()</code> returns a working  Iterator.
 </li>
 
-<li> <code>java.util.Map </code> Here, Velocity depends upon the 
-<code>values()</code> method of the interface to get a <code>Collection</code> 
-interface, on which <code>iterator()</code> is called to retrieve an Iterator 
+<li> <code>java.util.Map </code> Here, Velocity depends upon the
+<code>values()</code> method of the interface to get a <code>Collection</code>
+interface, on which <code>iterator()</code> is called to retrieve an Iterator
 for the loop.
 </li>
 
-<li> <code>java.util.Iterator</code> USE WITH CAUTION : This is currently 
-supported only provisionally - the issue of concern is the 
+<li> <code>java.util.Iterator</code> USE WITH CAUTION : This is currently
+supported only provisionally - the issue of concern is the
 'non-resettablity' of the Iterator.  If a 'naked' Iterator is placed into
-the context, and used in more than one #foreach(), subsequent #foreach() 
+the context, and used in more than one #foreach(), subsequent #foreach()
 blocks after the first will fail, as the Iterator doesn't reset.
 </li>
 
 <li> <code>java.util.Enumeration</code> USE WITH CAUTION : Like
-<code>java.util.Iterator</code>, this is currently 
-supported only provisionally - the issue of concern is the 
+<code>java.util.Iterator</code>, this is currently
+supported only provisionally - the issue of concern is the
 'non-resettablity' of the Enumeration.  If a 'naked' Enumeration
-is placed into the context, and used in more than one #foreach(), 
-subsequent #foreach() blocks after the first will fail, 
-as the Enumeration doesn't reset.  
+is placed into the context, and used in more than one #foreach(),
+subsequent #foreach() blocks after the first will fail,
+as the Enumeration doesn't reset.
 </li>
 
 </ul>
                                                 <p>
 In the case of the <code>Iterator</code> and <code>Enumeration</code>, it is
 recommended that they are placed in the context only when it cannot be avoided,
-and you should let Velocity find the appropriate reusable iterative interface when 
+and you should let Velocity find the appropriate reusable iterative interface when
 that is sufficient and possible.
 </p>
                                                 <p>
-There are good reasons to use the <code>java.util.Iterator</code> interface 
-directly (large data sets via JDBC, for example), but if it can be 
-avoided, it might be better to use something else. By 'directly' , we meant 
+There are good reasons to use the <code>java.util.Iterator</code> interface
+directly (large data sets via JDBC, for example), but if it can be
+avoided, it might be better to use something else. By 'directly' , we meant
 doing something like:
 </p>
                                                     <div align="left">
@@ -987,27 +990,27 @@ context.put(&quot;words&quot;, v );
     </table>
     </div>
                                                 <p>
-then all would be fine: Velocity would figure out that Vector implement 
-Collection (via List), and therefore will find the <code>iterator()</code> 
-method, and use that to get a 'fresh' Iterator for its use each time 
-it needs to.  With just a plain Iterator (the first snippet above...), 
-once velocity has used it in a <code>#foreach()</code>, Velocity has 
-no way of getting a new one to use for the next <code>#foreach()</code> 
+then all would be fine: Velocity would figure out that Vector implement
+Collection (via List), and therefore will find the <code>iterator()</code>
+method, and use that to get a 'fresh' Iterator for its use each time
+it needs to.  With just a plain Iterator (the first snippet above...),
+once velocity has used it in a <code>#foreach()</code>, Velocity has
+no way of getting a new one to use for the next <code>#foreach()</code>
 it is used in.  The result is no output from any subsequent
 <code>#foreach()</code> blocks using that reference.
 </p>
                                                 <p>
-This above isn't meant to give the impression that iterating over 
-collections in Velocity is something that requires great care and 
-thought.  Rather, the opposite is true, in general.  Just be 
+This above isn't meant to give the impression that iterating over
+collections in Velocity is something that requires great care and
+thought.  Rather, the opposite is true, in general.  Just be
 careful when you place an Iterator into the context.
 </p>
                                                 <a name="Context Chaining"><strong>Context Chaining</strong></a>
                                                 <p>
-An innovative feature of Velocity's context design is the concept 
-of <i>context chaining</i>. Also sometimes referred to as 
-<i>context wrapping</i>, this advanced feature allows you to connect 
-separate contexts together in a manner that makes it appear as one 
+An innovative feature of Velocity's context design is the concept
+of <i>context chaining</i>. Also sometimes referred to as
+<i>context wrapping</i>, this advanced feature allows you to connect
+separate contexts together in a manner that makes it appear as one
 'contiguous' context to the template.
 </p>
                                                 <p>
@@ -1046,21 +1049,21 @@ template.merge( context2, writer );
     </table>
     </div>
                                                 <p>
-In the code above, we have set up context2 such that it <i>chains</i> 
-context1.  This means that in the template, you can access any of 
-the items that were put into either of the two VelocityContext objects, 
-as long as there is no duplication of the keys used to add objects.  
-If that is the case, as it is above for the key 'duplicate', the object 
-stored in the nearest context in the chain will be available.  In this 
-example above, the object returned would 
+In the code above, we have set up context2 such that it <i>chains</i>
+context1.  This means that in the template, you can access any of
+the items that were put into either of the two VelocityContext objects,
+as long as there is no duplication of the keys used to add objects.
+If that is the case, as it is above for the key 'duplicate', the object
+stored in the nearest context in the chain will be available.  In this
+example above, the object returned would
 be the string "I am in context2".
 </p>
                                                 <p>
-Note that this duplication, or 'covering', of a context item does not in 
-any way harm or alter the covered object.  So in the example above, the 
-string "I am in context1" is alive and well, still accessable via 
-context1.get("duplicate").  But in the example above, the value of the 
-reference '$duplicate' in the template would be 'I am in context2', 
+Note that this duplication, or 'covering', of a context item does not in
+any way harm or alter the covered object.  So in the example above, the
+string "I am in context1" is alive and well, still accessable via
+context1.get("duplicate").  But in the example above, the value of the
+reference '$duplicate' in the template would be 'I am in context2',
 and the template has no access to the covered string 'I am in context1'.
 </p>
                                                 <p>
@@ -1068,30 +1071,30 @@ Note also that you have to be careful when you are relying on the template
 to add information to a context that you will examine later after the
 rendering.  The changes to the context via <code>#set()</code> statements
 in a template will affect only the outer context.  So make sure that you
-don't discard the outer context, expecting the data from the template to 
+don't discard the outer context, expecting the data from the template to
 have been placed onto the inner one.
 </p>
                                                 <p>
-This feature has many uses, the most common so far is providing layered 
+This feature has many uses, the most common so far is providing layered
 data access and toolsets.
 </p>
                                                 <p>
-As mentioned before, the Velocity context mechanism is also extendable, 
-but beyond the current scope of this guide. If you are interested, 
+As mentioned before, the Velocity context mechanism is also extendable,
+but beyond the current scope of this guide. If you are interested,
 please see the classes in the package <code>org.apache.velocity.context</code>
-to see how the provided contexts are put together.  Futher, there are a few 
-examples in the <code>examples/context_example</code> directory in the 
+to see how the provided contexts are put together.  Futher, there are a few
+examples in the <code>examples/context_example</code> directory in the
 distribution which show alternate implementations, including [a goofy] one
 that uses a database as the backing storage.
 </p>
                                                 <p>
-Please note that these examples are unsupported and are there for 
+Please note that these examples are unsupported and are there for
 demonstration/educational purposes only.
 </p>
                                                 <a name="Objects Created in the Template"><strong>Objects Created in the
 Template</strong></a>
                                                 <p>
- There are two common situations where the Java code must deal with objects 
+ There are two common situations where the Java code must deal with objects
  created at runtime in the template :
 </p>
                                                 <p>
@@ -1155,7 +1158,7 @@ things to know:
     <li>
     The VTL RangeOperator  [ 1..10 ]  and  ObjectArray ["a","b"] are
     <code>java.util.ArrayList</code> objects when placed in the context
-    or passed to methods.   Therefore, your methods that are designed to 
+    or passed to methods.   Therefore, your methods that are designed to
     accept arrays created in the template should be written with this
     in mind.
     </li>
@@ -1163,15 +1166,15 @@ things to know:
     Numbers will be Integers in the context, and strings will be, of course, Strings.
     </li>
     <li>
-    Velocity will properly 'narrow' args to method calls, so calling 
-    <code>setFoo( int i )</code> with an int placed into the 
+    Velocity will properly 'narrow' args to method calls, so calling
+    <code>setFoo( int i )</code> with an int placed into the
     context via <code>#set()</code> will work fine.
     </li>
   </ul>
                                                 <a name="Other Context Issues"><strong>Other Context Issues</strong></a>
                                                 <p>
-One of the features provided by the VelocityContext 
-(or any Context derived from AbstractContext) is 
+One of the features provided by the VelocityContext
+(or any Context derived from AbstractContext) is
 node specific introspection caching.  Generally, you as a the developer
 don't need to worry about this when using the VelocityContext
 as your context.  However, there is currently one
@@ -1199,25 +1202,25 @@ It is possible that your VelocityContext will appear to 'leak' memory
 (it is really just gathering more introspection information.)  What
 happens is that it accumulates template node introspection information
 for each template it visits, and as template caching is off, it appears
-to the VelocityContext that it is visiting a new template each time. 
+to the VelocityContext that it is visiting a new template each time.
 Hence it gathers more introspection information and grows. It is highly
 recommended that you do one or more of the following :
 </p>
                                                 <ul>
 <li>Create a new VelocityContext for each excursion
 down through the template render process.   This will prevent the accumulation
-of introspection cache data.  For the case where you want to reuse the 
+of introspection cache data.  For the case where you want to reuse the
 VelocityContext because it's populated with data or objects,
  you can simply wrap the populated
-VelocityContext in another, and the 'outer' one will accumulate the 
+VelocityContext in another, and the 'outer' one will accumulate the
 introspection information, which you will just discard.  Ex.
 <code>VelocityContext useThis = new VelocityContext( populatedVC );</code>
 This works because the outer context will store the introspection
 cache data, and get any requested data from the inner context (as it is empty.)
-Be careful though - if your template places data into the context and it's 
+Be careful though - if your template places data into the context and it's
 expected that it will be used in the subsequent iterations, you will need to do
 one of the other fixes, as any template #set() statements will be stored in
-the outermost context. See the discussion in 
+the outermost context. See the discussion in
 <a href="developer-guide.html#Context Chaining">Context chaining</a> for more
 information.
 </li>
@@ -1230,7 +1233,7 @@ resulting in a performance improvement.
 </li>
 
 <li>
-Reuse the Template object for the duration of the loop iterations. 
+Reuse the Template object for the duration of the loop iterations.
 Then you won't be forcing Velocity, if the cache is turned off, to
 reread and reparse the same template over and over, so the VelocityContext
 won't gather new introspection information each time.
@@ -1251,18 +1254,18 @@ won't gather new introspection information each time.
         <blockquote>
                                     <a name="Servlet Programming"><strong>Servlet Programming</strong></a>
                                                 <p>
-The most common use of Velocity is in the area of Java Servlet programming 
-for the WWW.   There are many reasons why Velocity is well suited for this 
-task, one of the primary ones is Velocity's enforcement of the 
-separation of the presentation (or view) layer from the 
-code layer.  There are many resources on this subject, including 
+The most common use of Velocity is in the area of Java Servlet programming
+for the WWW.   There are many reasons why Velocity is well suited for this
+task, one of the primary ones is Velocity's enforcement of the
+separation of the presentation (or view) layer from the
+code layer.  There are many resources on this subject, including
 <a href="http://www.javaworld.com/javaworld/jw-12-1999/jw-12-ssj-jspmvc.html">
 this</a>.
 </p>
                                                 <p>
 The basic technique of using Velocity in a servlet environment is very simple.
-In a nutshell, all you must do is extend the provided VelocityServlet base class 
-and implement a single method, <code>handleRequest()</code>.  That's really all that is 
+In a nutshell, all you must do is extend the provided VelocityServlet base class
+and implement a single method, <code>handleRequest()</code>.  That's really all that is
 required to use Velocity in your servlet development.
 </p>
                                                 <p>
@@ -1272,7 +1275,7 @@ As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
 <br />
 
 <i><code>public Template handleRequest( Context )</code></i>
-  
+
 <blockquote>
   This is the older of the two methods.  This method requires that you
   return a valid Template object.  If not valid, or <code>null</code>,
@@ -1284,7 +1287,7 @@ As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
   next.
 </blockquote>
   <br />
- 
+
 <i><code>public Template handleRequest( HttpServletRequest, HttpServletResponse, Context )</code></i>
 
 <blockquote>
@@ -1296,7 +1299,7 @@ As of Velocity 1.1, there are two <code>handleRequest()</code> methods :
    other difference is that this method can return <code>null</code> to
    indicate that all processing has been handled by the method, and that
    Velocity should do nothing further than call
-   <a href="developer-guide.html#requestCleanup()"><code>requestCleanup()</code></a>.  
+   <a href="developer-guide.html#requestCleanup()"><code>requestCleanup()</code></a>.
    This is extremely useful is you wish to redirect the request, for
    example.
 </blockquote>
@@ -1320,8 +1323,8 @@ in the distribution in the examples directory.
       <td bgcolor="#ffffff"><pre>
 public class SampleServlet extends VelocityServlet
 {
-    public Template handleRequest( HttpServletRequest request, 
-                                   HttpServletResponse response, 
+    public Template handleRequest( HttpServletRequest request,
+                                   HttpServletResponse response,
                                    Context context )
     {
 
@@ -1343,7 +1346,7 @@ public class SampleServlet extends VelocityServlet
         catch( ResourceNotFoundException rnfe )
         {
           // couldn't find the template
-        } 
+        }
         catch( ParseErrorException pee )
         {
           // syntax error : problem parsing the template
@@ -1365,9 +1368,9 @@ public class SampleServlet extends VelocityServlet
     </table>
     </div>
                                                 <p>
-Look familiar?  With the exception of creating the context object, which is 
-done for you by the VelocityServlet base class, and  the  merge() step 
-which is also done for you by the VelocityServlet base class, it's identical 
+Look familiar?  With the exception of creating the context object, which is
+done for you by the VelocityServlet base class, and  the  merge() step
+which is also done for you by the VelocityServlet base class, it's identical
 to the basic code pattern we mentioned at the beginning of this guide.
 We take the context, add our application data, and return a template.
 </p>
@@ -1376,7 +1379,7 @@ The default <code>Context</code> object that is passed into the
 <code>handleRequest()</code> methods contains both the current
 <code>HttpServletRequest</code> and <code>HttpServletResponse</code>
 objects.  They are placed in the context using the the constants
-<code>VelocityServlet.REQUEST</code> (value = 'req') and 
+<code>VelocityServlet.REQUEST</code> (value = 'req') and
 <code>VelocityServlet.RESPONSE</code> (value = 'res')
 respectively.  To access and use these objects in your Java code :
 </p>
@@ -1431,31 +1434,31 @@ and in your templates:
     </table>
     </div>
                                                 <p>
-For more advanced uses,  the VelocityServlet base class allows you to override 
-parts of the handling of the request processing.  The following methods may 
+For more advanced uses,  the VelocityServlet base class allows you to override
+parts of the handling of the request processing.  The following methods may
 be overridden :
 <br />
 <br />
 
 <i><code> Properties loadConfiguration( ServletConfig )</code></i>
 <blockquote>
-  Allows you to override the normal configuration mechanism and add or 
-  alter the configuation properties.  This is useful for overriding or 
-  augmenting template and log paths, to set the absolute path into the 
+  Allows you to override the normal configuration mechanism and add or
+  alter the configuation properties.  This is useful for overriding or
+  augmenting template and log paths, to set the absolute path into the
   webapp root at runtime.
 </blockquote>
 
 <i><a name="createContext()">
 <code>Context createContext(HttpServletRequest, HttpServletResponse )</code></a></i>
 <blockquote>
-  Allows you to create the Context object yourself. This allows more advanced 
-  techniques, such as chaining or pre-loading with tools or data.  The default 
-  implementation simply returns a VelocityContext object with the request 
-  and response objects placed inside.  The request and response objects are 
-  wrapped in simple wrapper classes to avoid introspection problems that may 
-  occurr in some servlet container implementations.  You can use the request 
-  and repsponse objects normally, accessing methods of either from the 
-  template.  Just note that they aren't specifically javax.servlet.XXXX 
+  Allows you to create the Context object yourself. This allows more advanced
+  techniques, such as chaining or pre-loading with tools or data.  The default
+  implementation simply returns a VelocityContext object with the request
+  and response objects placed inside.  The request and response objects are
+  wrapped in simple wrapper classes to avoid introspection problems that may
+  occurr in some servlet container implementations.  You can use the request
+  and repsponse objects normally, accessing methods of either from the
+  template.  Just note that they aren't specifically javax.servlet.XXXX
   classes, if that is important to you.
 </blockquote>
 
@@ -1463,7 +1466,7 @@ be overridden :
 <blockquote>
   Allows you to examine the request and set the content type yourself,
   depending on the request or client.  The default implementation sets
-  the content type to be that either specified in the 
+  the content type to be that either specified in the
   velocity.properties, if any, or the default, "text/html" if not
   specified in the properties.
 </blockquote>
@@ -1475,14 +1478,14 @@ be overridden :
   overridden in special situations.
 </blockquote>
 
-<i><a name="requestCleanup()"><code>void requestCleanup( HttpServletRequest, 
+<i><a name="requestCleanup()"><code>void requestCleanup( HttpServletRequest,
   HttpServletResponse , Context )</code></a></i>
 <blockquote>
   Allows you to do any cleanup or resource reclamation at the end of the
   request processing.  The default does nothing.
 </blockquote>
 
-<i><a name="error()"><code>protected void error( HttpServletRequest, 
+<i><a name="error()"><code>protected void error( HttpServletRequest,
   HttpServletResponse, Exception )</code></a></i>
 <blockquote>
   Error handler that is called an exception occurrs in request
@@ -1491,15 +1494,15 @@ be overridden :
   for custom client messages and more advanced problem handling.
 </blockquote>
 
-For further information, please see the Javadoc 
+For further information, please see the Javadoc
 <a href="apidocs/index.html">API documentation</a>.
 </p>
                                                 <a name="Deployment"><strong>Deployment</strong></a>
                                                 <p>
-When you deploy your Velocity-based servlets, you will certainly want to 
-ensure that your properties file is used to configure the Velocity runtime.  
-Under Tomcat, one way to accomplish this is by placing your velocity.properties 
-file into the root directory of your web app (webapps/appname ) and then 
+When you deploy your Velocity-based servlets, you will certainly want to
+ensure that your properties file is used to configure the Velocity runtime.
+Under Tomcat, one way to accomplish this is by placing your velocity.properties
+file into the root directory of your web app (webapps/appname ) and then
 add the following to your WEB-INF/web.xml file :
 </p>
                                                     <div align="left">
@@ -1531,20 +1534,20 @@ add the following to your WEB-INF/web.xml file :
     </table>
     </div>
                                                 <p>
-Assuming all is right, this will ensure that when MyServlet is loaded, 
+Assuming all is right, this will ensure that when MyServlet is loaded,
 it will use the velocity.properties file to initialize itself
 rather than relying on it's internal defaults.
 </p>
                                                 <p>
-Note that Velocity uses a singleton model for it's central core Runtime 
+Note that Velocity uses a singleton model for it's central core Runtime
 class, so it is a very good idea to put the velocity-XX.jar
-into the WEB-INF/lib directory in all web applications that use 
+into the WEB-INF/lib directory in all web applications that use
 Velocity to ensure that the web app classloader is
-managing your Runtime instance, rather than putting it in the CLASSPATH 
+managing your Runtime instance, rather than putting it in the CLASSPATH
 or the top level lib directory of the servlet runner.
 </p>
                                                 <p>
-This deployment method will ensure that different web applications will 
+This deployment method will ensure that different web applications will
 not be subject to Velocity configuration conflicts.
 </p>
                             </blockquote>
@@ -1561,77 +1564,77 @@ not be subject to Velocity configuration conflicts.
       <tr><td>
         <blockquote>
                                     <p>
-As Velocity was designed to be a general-use tool, it is just as useful in 
-general application programs as it is servlets. In general, you can use the 
-same programming pattern discussed at the beginning of this guide, but there 
-are a few utility methods provided for application use, just like we provide 
+As Velocity was designed to be a general-use tool, it is just as useful in
+general application programs as it is servlets. In general, you can use the
+same programming pattern discussed at the beginning of this guide, but there
+are a few utility methods provided for application use, just like we provide
 the VelocityServlet base class for ease of use in servlet programming.
-The only new responsibility you have as the application programmer is to 
+The only new responsibility you have as the application programmer is to
 initialize the Velocity runtime engine, but that is easy.
 </p>
                                                 <a name="The Velocity Helper Class"><strong>The Velocity Helper Class</strong></a>
                                                 <p>
-Velocity contains an application utility class called Velocity 
-( <code>org.apache.velocity.app.Velocity</code> ).  The purpose of this class 
-is to provide the necessary methods required to initialize Velocity, as well as 
-useful utility routines to make life easier in using Velocity. This class is 
-documented  in the project's javadoc, so please look there for definitive 
-details. This documentation is intended to be of a tutorial nature; therefore 
+Velocity contains an application utility class called Velocity
+( <code>org.apache.velocity.app.Velocity</code> ).  The purpose of this class
+is to provide the necessary methods required to initialize Velocity, as well as
+useful utility routines to make life easier in using Velocity. This class is
+documented  in the project's javadoc, so please look there for definitive
+details. This documentation is intended to be of a tutorial nature; therefore
 for compete API information, the Javadoc is the definitive source.
 </p>
                                                 <p>
-The Velocity runtime engine is a singleton instance that provides resource, 
-logging and other services to all Velocity users running in the same JVM.  
-Therefore, the runtime engine is initialized only once.  You can attempt to 
-initialize Velocity more than once, but only the first initialization will 
-apply.  The rest of the attempts will be ignored.  The Velocity utility 
-class currently provides five methods used in configuration of the runtime engine.  
+The Velocity runtime engine is a singleton instance that provides resource,
+logging and other services to all Velocity users running in the same JVM.
+Therefore, the runtime engine is initialized only once.  You can attempt to
+initialize Velocity more than once, but only the first initialization will
+apply.  The rest of the attempts will be ignored.  The Velocity utility
+class currently provides five methods used in configuration of the runtime engine.
 </p>
                                                 <p>
 The five configuration methods are :
 </p>
                                                 <ul>
 
-<li><code>setProperty( String key, Object o )</code><br />  
-Sets the property <code>key</code> with the value <code>o</code>. The value 
-is typically a String, but in special cases can also be a comma-separated 
-list of values (in a single String, ex."foo, bar, woogie") as well as other 
+<li><code>setProperty( String key, Object o )</code><br />
+Sets the property <code>key</code> with the value <code>o</code>. The value
+is typically a String, but in special cases can also be a comma-separated
+list of values (in a single String, ex."foo, bar, woogie") as well as other
 things that will arise.
-</li> 
-
-<li><code>Object getProperty( String key )</code><br /> 
-Returns the value of the property key.  Note that you must be aware of the 
-type of the return value, as they can be things other than Strings. 
 </li>
 
-<li><code>init()</code><br /> 
-Initializes the runtime with the default properties provided in the 
-distribution.(These are listed below in the section pertaining to 
+<li><code>Object getProperty( String key )</code><br />
+Returns the value of the property key.  Note that you must be aware of the
+type of the return value, as they can be things other than Strings.
+</li>
+
+<li><code>init()</code><br />
+Initializes the runtime with the default properties provided in the
+distribution.(These are listed below in the section pertaining to
 properties.)
 </li>
 
-<li><code>init( Properties p )</code><br /> Initialize the runtime with the 
-properties contained in the <code>java.util.Properties</code> object passed 
-as an argument. 
+<li><code>init( Properties p )</code><br /> Initialize the runtime with the
+properties contained in the <code>java.util.Properties</code> object passed
+as an argument.
 </li>
 
-<li><code>init( String filename )</code><br /> initilizes the runtime 
+<li><code>init( String filename )</code><br /> initilizes the runtime
 using the properties found in the properties file filename
 </li>
 
 </ul>
                                                 <p>
-Note that in each case, the default properties will be used as a base 
+Note that in each case, the default properties will be used as a base
 configuration, and any additional properties specified by the application
-will replace individual defaults.  Any default properties not overwritten 
-will remain in effect.  This has the benefit that only the properties 
-you are interested in changing need to be specified, rather 
-than a complete set. 
+will replace individual defaults.  Any default properties not overwritten
+will remain in effect.  This has the benefit that only the properties
+you are interested in changing need to be specified, rather
+than a complete set.
 </p>
                                                 <p>
 Another thing to note is that the <code>init()</code> calls may be called
 more than once without harm in an application.  However, the first call to any
-of the <code>init()</code> functions will configure the engine with the 
+of the <code>init()</code> functions will configure the engine with the
 configuration properties set at that point, and any further configuration
 changes or <code>init()</code> calls will be ignored.
 </p>
@@ -1639,70 +1642,70 @@ changes or <code>init()</code> calls will be ignored.
 The most common approaches to initializing Velocity will be something like :
 </p>
                                                 <ol>
-<li> Setup the configuration values you wish to set in a file in the same 
-format as org/apache/velocity/runtime/defaults/velocity.properties 
-(the default set),  or in a <code>java.util.Properties</code>, and then 
+<li> Setup the configuration values you wish to set in a file in the same
+format as org/apache/velocity/runtime/defaults/velocity.properties
+(the default set),  or in a <code>java.util.Properties</code>, and then
 call either <code>init( filename )</code> or <code>init( Properties )</code>
 </li>
 
-<li> Set the configuration values individually using <code>setProperty()</code> 
-and then call <code>init()</code>.  This method is generally used by more advanced 
-applications that already have their own configuration management system - 
-this allows the application so configure Velocity based upon values it generates 
+<li> Set the configuration values individually using <code>setProperty()</code>
+and then call <code>init()</code>.  This method is generally used by more advanced
+applications that already have their own configuration management system -
+this allows the application so configure Velocity based upon values it generates
 at runtime, for example.
 </li>
 </ol>
                                                 <p>
-Once the runtime is initialized, you can do with it what you wish.. This mostly 
-revolves around rendering templates into an output stream, and the Velocity 
-utility class allows you to do this easily.  Currently, here are the methods 
+Once the runtime is initialized, you can do with it what you wish.. This mostly
+revolves around rendering templates into an output stream, and the Velocity
+utility class allows you to do this easily.  Currently, here are the methods
 and a brief description of what they do :
 </p>
                                                 <ul>
   <li>
-     <code> evaluate( Context context,  Writer out, String logTag, 
+     <code> evaluate( Context context,  Writer out, String logTag,
      String instring )</code><br />
-     <code>evaluate( Context context, Writer writer, String logTag, 
+     <code>evaluate( Context context, Writer writer, String logTag,
      InputStream instream )</code><br />
-     These methods will render the input, in either the form of String or 
-     InputStream to an output Writer, using a Context that you provide.  
-     This is a very convenienient method to use for token replacement of 
+     These methods will render the input, in either the form of String or
+     InputStream to an output Writer, using a Context that you provide.
+     This is a very convenienient method to use for token replacement of
      strings, or if you keep 'templates' of VTL-containing content in a
-     place like a database or other non-file storage, or simply generate such 
+     place like a database or other non-file storage, or simply generate such
      dynamically.
   </li>
- 
+
   <li>
-    <code>invokeVelocimacro( String vmName, String namespace, String params[], 
+    <code>invokeVelocimacro( String vmName, String namespace, String params[],
     Context context, Writer writer )</code><br />
-    Allows direct access to Velocimacros.  This can also be accomplished 
-    via the <code>evaluate()</code> method above  if you wish.  Here you 
-    simply name the vm you wish to be called, create an array of args to the VM, 
-    a Context of data, and Writer for the output.  Note that the VM args 
-    must be the 'keys' of the data objects in the Context, rather than 
+    Allows direct access to Velocimacros.  This can also be accomplished
+    via the <code>evaluate()</code> method above  if you wish.  Here you
+    simply name the vm you wish to be called, create an array of args to the VM,
+    a Context of data, and Writer for the output.  Note that the VM args
+    must be the 'keys' of the data objects in the Context, rather than
     literal data to be used as the arg.  This will probably change.
   </li>
 
   <li>
     <code>mergeTemplate( String templateName, Context context, Writer writer )
     </code><br />
-    Convenient access to the normal template handling and rendering services 
-    of Velocity.  This method will take care of getting and rendering the 
-    template.  It will take advantage of loading the template according 
-    to the properties setting for the file resource loader, and therefore 
-    provides the advantage of file and parsed template caching that Velocity 
+    Convenient access to the normal template handling and rendering services
+    of Velocity.  This method will take care of getting and rendering the
+    template.  It will take advantage of loading the template according
+    to the properties setting for the file resource loader, and therefore
+    provides the advantage of file and parsed template caching that Velocity
     offers.  This is the most efficient way to access templates,
     and is recommended unless you have special needs.
   </li>
 
   <li>
     <code> boolean templateExists( String name ) </code><br />
-    Determines if a template <code>name</code> is able to be found by 
+    Determines if a template <code>name</code> is able to be found by
     the currently configured resource loaders.
   </li>
 </ul>
                                                 <p>
-Once we know about these basic helpers, it is easy to write Java program 
+Once we know about these basic helpers, it is easy to write Java program
 that uses Velocity.  Here it is:
 </p>
                                                     <div align="left">
@@ -1760,9 +1763,9 @@ public class Example2
     </table>
     </div>
                                                 <p>
-When we run this program, and have the template <code> testtemplate.vm</code> 
-in the same directory as our program (because we used the default 
-configuration properties, and the defaul place to load templates 
+When we run this program, and have the template <code> testtemplate.vm</code>
+in the same directory as our program (because we used the default
+configuration properties, and the defaul place to load templates
 from is the current directory...), our output should be :
 </p>
                                                     <div align="left">
@@ -1813,29 +1816,29 @@ Hi!  This $name from the $project project.
     </table>
     </div>
                                                 <p>
-That's all there is to it!  Note that we didn't have to use both 
+That's all there is to it!  Note that we didn't have to use both
 <code>mergeTemplate()</code> and <code>evaluate()</code> in our
-program.  They are both included there for demonstration purposes.  
+program.  They are both included there for demonstration purposes.
 You will probably use only one of the methods, but depending
 on you application requirements,  you are free to do what you wish.
 </p>
                                                 <p>
-This appears to be a little different from the 'fundamental pattern' 
-that was mentioned at the beginning of this guide, but it really is the 
-same thing.  First, you are making a context and filling it with 
-the data needed.  Where this examples differs is that in the part of 
-the above example where <code>mergeTemplate()</code> is used, 
-<code>mergeTemplate()</code> is doing the work of getting the template 
-and merging it for you, using the lower-level calls in the Runtime class.  
-In the second example, you are making your template dynamically via the 
+This appears to be a little different from the 'fundamental pattern'
+that was mentioned at the beginning of this guide, but it really is the
+same thing.  First, you are making a context and filling it with
+the data needed.  Where this examples differs is that in the part of
+the above example where <code>mergeTemplate()</code> is used,
+<code>mergeTemplate()</code> is doing the work of getting the template
+and merging it for you, using the lower-level calls in the Runtime class.
+In the second example, you are making your template dynamically via the
 String, so that is analgous to the 'choose template' part of the process,
-and the <code>evaluate()</code> method does the merging for you using 
+and the <code>evaluate()</code> method does the merging for you using
 lower level calls.
 </p>
                                                 <p>
-So the example above sticks to the same simply pattern of using the Velocity 
+So the example above sticks to the same simply pattern of using the Velocity
 template engine, but the utility functions do some of
-the repeated drudge work, or allow you other options for your 
+the repeated drudge work, or allow you other options for your
 template content other than template files.
 </p>
                                                 <a name="Exceptions"><strong>Exceptions</strong></a>
@@ -1853,13 +1856,13 @@ was requested.
 
 <li>
 <code>ParseErrorException</code><br />
-Thrown when a VTL syntax error is found when parsing a resource (template).  
+Thrown when a VTL syntax error is found when parsing a resource (template).
 </li>
 
 <li>
 <code>MethodInvocationException</code><br />
 Thrown when a method of object in the context thrown an exception during
-render time.  This exception wraps the thrown exception and propogates it 
+render time.  This exception wraps the thrown exception and propogates it
 to the application.  This allows you to handle problems in your own objects
 at runtime.
 </li>
@@ -1870,20 +1873,20 @@ see the Javadoc API documentation.
 </p>
                                                 <a name="Miscellaneous Details"><strong>Miscellaneous Details</strong></a>
                                                 <p>
-While the above example used the default properties, setting your own 
-properties is very simple. All you have to do is make a properties file 
-somewhere and pass the name of that file to the <code>init(String)</code> 
-method of the Velocity utility class, or make a 
-<code>java.util.Properties</code> object, add the desired properties and 
+While the above example used the default properties, setting your own
+properties is very simple. All you have to do is make a properties file
+somewhere and pass the name of that file to the <code>init(String)</code>
+method of the Velocity utility class, or make a
+<code>java.util.Properties</code> object, add the desired properties and
 values, and pass that to the <code>init(Properties)</code> method.
-The latter method is convenient, because you can either fill it directly 
-from a separate properties file via the <code>load()</code>  method, or even 
-better, you can fill it dynamically from your own application / framework's 
-property set at runtime.  This gives you the freedom to combine all of the 
+The latter method is convenient, because you can either fill it directly
+from a separate properties file via the <code>load()</code>  method, or even
+better, you can fill it dynamically from your own application / framework's
+property set at runtime.  This gives you the freedom to combine all of the
 properties for your app into one properties file.
 </p>
                                                 <p>
-If we wanted to use a different directory than the current directory to 
+If we wanted to use a different directory than the current directory to
 load our template from, we could do something like this :
 </p>
                                                     <div align="left">
@@ -1923,8 +1926,8 @@ public static void main( String args[] )
     </table>
     </div>
                                                 <p>
-And, assuming you have a directory <code>/opt/templates</code> and the template 
-<code>testtemplate.vm</code> is in there, then things would work just fine.  
+And, assuming you have a directory <code>/opt/templates</code> and the template
+<code>testtemplate.vm</code> is in there, then things would work just fine.
 If you try this and have a problem, be sure to look at the velocity.log for
 information - the error messages are pretty good for figuring out what is wrong.
 </p>
@@ -1946,30 +1949,30 @@ Starting in version 1.1, a fine-grain event handling system was added to Velocit
 The EventCartridge is a class in which you register your event handlers, and then the
 EventCartridge acts as the delivery agent from which the Velocity engine will
 access the event handlers at merge time if needed.
-Currently, there are 3 events that can be handled, and all are found in the 
+Currently, there are 3 events that can be handled, and all are found in the
 <code>org.apache.velocity.app.event</code> package.
 </p>
                                                 <p>
 <i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
 
 <blockquote>
-When a #set() results in a null assignment, this is normally 
-logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
+When a #set() results in a null assignment, this is normally
+logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the
 logging of this condition.
 <br />
 <pre>
 public interface NullSetEventHandler extends EventHandler
 {
     public boolean shouldLogOnNullSet( String lhs, String rhs );
-}   
+}
 </pre>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
 <blockquote>
-A <code>ReferenceInsertionEventHandler</code> allows the 
-developer to intercept each write of a reference ($foo) value to the output 
-stream and modify that output. 
+A <code>ReferenceInsertionEventHandler</code> allows the
+developer to intercept each write of a reference ($foo) value to the output
+stream and modify that output.
 <pre>
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {
@@ -1983,8 +1986,8 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
 When a user-supplied method throws an exception, the
 <code>MethodExceptionEventHandler</code> is invoked with the Class, method name
 and thrown Exception.  The handler can either return a valid Object to be used
-as the return value of the method call, or throw the passed-in or new Exception, 
-which will be wrapped and propogated to the user as a 
+as the return value of the method call, or throw the passed-in or new Exception,
+which will be wrapped and propogated to the user as a
 <code>MethodInvocationException</code>
 <pre>
 public interface MethodExceptionEventHandler extends EventHandler
@@ -2021,7 +2024,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
  ...
 
-public class Test implements ReferenceInsertionEventHandler, 
+public class Test implements ReferenceInsertionEventHandler,
                              NullSetEventHandler,
                              MethodExceptionEventHandler
 {
@@ -2030,17 +2033,17 @@ public class Test implements ReferenceInsertionEventHandler,
         ....
 
         /*
-         *  now, it's assumed that Test implements the correct methods to 
+         *  now, it's assumed that Test implements the correct methods to
          *  support the event handler interfaces.  So to use them, first
          *  make a new cartridge
          */
         EventCartridge ec = new EventCartridge();
-         
+
         /*
-         * then register this class as it contains the handlers 
+         * then register this class as it contains the handlers
          */
         ec.addEventHandler(this);
-           
+
         /*
          * and then finally let it attach itself to the context
          */
@@ -2053,7 +2056,7 @@ public class Test implements ReferenceInsertionEventHandler,
 
         ....
     }
-      
+
     /*
      *  and now the implementations of the event handlers
      */
@@ -2067,7 +2070,7 @@ public class Test implements ReferenceInsertionEventHandler,
     {
         if ( /* whatever rule */ )
             return false;
-        
+
         return true;
     }
 
@@ -2104,24 +2107,24 @@ public class Test implements ReferenceInsertionEventHandler,
       <tr><td>
         <blockquote>
                                     <p>
-Velocity's runtime configuration is controlled by a set of configuration keys 
-listed below.  Generally, these keys will have values that consist of either a 
-String, or a comma-separated list of Strings, referred to as a CSV for 
+Velocity's runtime configuration is controlled by a set of configuration keys
+listed below.  Generally, these keys will have values that consist of either a
+String, or a comma-separated list of Strings, referred to as a CSV for
 comma-separated values.
 </p>
                                                 <p>
 There is a set of default values contained in Velocity's jar, found in
-/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that 
-Velocity uses as it's configuration baseline.  
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that
+Velocity uses as it's configuration baseline.
 This ensures that Velocity will always have a 'correct' value
 for it's configuration keys at startup, although it may not be what you want.
 </p>
                                                 <p>
-Any values specified before init() time will replace the  default values.  
-Therefore, you only have toconfigure velocity with the values for the keys 
+Any values specified before init() time will replace the  default values.
+Therefore, you only have toconfigure velocity with the values for the keys
 that you need to change, and not worry about the rest.  Further, as we add more
-features and configuration capability, you don't have to change your 
-configuration files to suit - the Velocity engine will always have default 
+features and configuration capability, you don't have to change your
+configuration files to suit - the Velocity engine will always have default
 values.
 </p>
                                                 <p>
@@ -2129,7 +2132,7 @@ Please sees the section above <a href="developer-guide.html#Using Velocity In Ge
 Applications</b></a> for discussion on the configuration API.
 </p>
                                                 <p>
-Below are listed the configuration keys that control Velocity's behavior.  
+Below are listed the configuration keys that control Velocity's behavior.
 Organized by category, each key is listed with it's current default value
 to the right of the '=' sign.
 </p>
@@ -2144,16 +2147,16 @@ relative to the 'current directory'.
 </p>
                                                 <p>
 <code>runtime.log.logsystem</code><br />
-This property has no default value.  It is used to give Velocity an 
-instantiated instance of a logging class that supports the interface 
+This property has no default value.  It is used to give Velocity an
+instantiated instance of a logging class that supports the interface
 <code>org.apache.velocity.runtime.log.LogSystem.</code>, which allows
-the combination of Velocity log messages with your other application 
-log messages.  Please see the section 
-<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a> 
+the combination of Velocity log messages with your other application
+log messages.  Please see the section
+<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a>
 for more information.
 </p>
                                                 <p>
-<code>runtime.log.logsystem.class = 
+<code>runtime.log.logsystem.class =
 org.apache.velocity.runtime.log.AvalonLogSystem</code><br />
 Class to be used for the Velocity-instantiated log system.
 </p>
@@ -2161,22 +2164,22 @@ Class to be used for the Velocity-instantiated log system.
 <code>runtime.log.error.stacktrace = false</code><br />
 <code>runtime.log.warn.stacktrace = false</code><br />
 <code>runtime.log.info.stacktrace = false</code><br />
-Turns on stacktracing for the three error categories.  
+Turns on stacktracing for the three error categories.
 These produce a large amount of log output.
 </p>
                                                 <p>
 <code>runtime.log.invalid.references = true </code><br />
-Property to turn off the log output when a reference isn't valid.  
+Property to turn off the log output when a reference isn't valid.
 Good thing to turn of in production, but very valuable
 for debugging.
 </p>
                                                 <p>
 <code>runtime.log.logsystem.avalon.logger = <i>name</i> </code><br />
 Allows user to specify an existing logger <i>name</i>
-in the Avalon hierarchy 
-without having to wrap with a LogSystem interface.  <b>Note:</b> 
+in the Avalon hierarchy
+without having to wrap with a LogSystem interface.  <b>Note:</b>
 You must also specify
-<code>runtime.log.logsystem.class = 
+<code>runtime.log.logsystem.class =
 org.apache.velocity.runtime.log.AvalonLogSystem</code> as the default
 logsystem may change.  There is <b>no</b> guarantee that the Avalon
 log system will remain the default log system.
@@ -2198,7 +2201,7 @@ Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
                                                 <p>
 <code>directive.foreach.counter.name = velocityCount</code><br />
-Used in the #foreach() directive, defines the string to be used as the 
+Used in the #foreach() directive, defines the string to be used as the
 context key for the loop count. A template would access
 the loop count as $velocityCount.
 </p>
@@ -2210,21 +2213,21 @@ Default starting value for the loop counter reference in a #foreach() loop.
 <strong>#include() and #parse() Directive</strong>
 </p>
                                                 <p>
-<code>directive.include.output.errormsg.start 
+<code>directive.include.output.errormsg.start
 = <![CDATA[ <!-- include error : ]]> </code><br />
-<code>directive.include.output.errormsg.end   
+<code>directive.include.output.errormsg.end
 =  <![CDATA[ see error log --> ]]></code><br />
-Defines the beginning and ending tags for an in-stream error message in the 
-case of a problem with the #include() directive. If both the .start and .end 
-tags are defined, an error message will be output to the stream, of the 
+Defines the beginning and ending tags for an in-stream error message in the
+case of a problem with the #include() directive. If both the .start and .end
+tags are defined, an error message will be output to the stream, of the
 form '.start msg .end' where .start and .end refer to the property values.
-Output to the render stream will only occur if both the .start and .end 
+Output to the render stream will only occur if both the .start and .end
 (next) tag are defined.
 </p>
                                                 <p>
 <code>directive.parse.maxdepth = 10</code><br />
-Defines the allowable parse depth for a template. A template may #parse() 
-another template which itself may have a #parse() directive.  This value 
+Defines the allowable parse depth for a template. A template may #parse()
+another template which itself may have a #parse() directive.  This value
 prevents runaway #parse() recursion.
 </p>
                                                 <p>
@@ -2239,54 +2242,54 @@ runtime log.
 </p>
                                                 <p>
 <code>resource.loader = &lt;name&gt; (default = File)</code><br />
-<i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a 
+<i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a
 resource loader to be used.  This public name will then be used
-in the specification of the specific properties for that resource loader.  
-Note that as a multi-valued key, it's possible to pass 
-a value like "file, class" (sans quotes), indicating that following 
+in the specification of the specific properties for that resource loader.
+Note that as a multi-valued key, it's possible to pass
+a value like "file, class" (sans quotes), indicating that following
 will be configuration values for two loaders.
 </p>
                                                 <p>
-<code>&lt;name&gt;.loader.description 
+<code>&lt;name&gt;.loader.description
 = Velocity File Resource Loader</code><br />
 Description string for the given loader.
 </p>
                                                 <p>
-<code>&lt;name&gt;.resource.loader.class 
+<code>&lt;name&gt;.resource.loader.class
 = org.apache.velocity.runtime.resource.loader.FileResourceLoader</code><br />
-Name of implementation class for the loader.  The default loader 
+Name of implementation class for the loader.  The default loader
 is the file loader.
 </p>
                                                 <p>
 <code>&lt;name&gt;.resource.loader.path = .</code><br />
-<i>Multi-valued key.  Will accept CSV for value.</i> Root(s) from which the  
-loader loads templates. Templates may live in  subdirectories of this root.  
-ex. homesite/index.vm   This configuration key applies currently to the 
+<i>Multi-valued key.  Will accept CSV for value.</i> Root(s) from which the
+loader loads templates. Templates may live in  subdirectories of this root.
+ex. homesite/index.vm   This configuration key applies currently to the
 FileResourceLoader and JarResourceLoader.
 </p>
                                                 <p>
 <code>&lt;name&gt;.resource.loader.cache = false</code><br />
-Controls caching of the templates in the loader.  Default is false, to make 
-life easy for development and debugging.  This should be set to true for 
-production deployment.  When 'true', the <code>modificationCheckInterval</code> 
-property applies.  This allows for the efficiency of caching, with the 
-convenience of controlled reloads - useful in a hosted or ISP environment 
-where templates can be modifed frequently and bouncing the application or 
+Controls caching of the templates in the loader.  Default is false, to make
+life easy for development and debugging.  This should be set to true for
+production deployment.  When 'true', the <code>modificationCheckInterval</code>
+property applies.  This allows for the efficiency of caching, with the
+convenience of controlled reloads - useful in a hosted or ISP environment
+where templates can be modifed frequently and bouncing the application or
 servlet engine is not desired or permitted.
 </p>
                                                 <p>
 <code>&lt;name&gt;.resource.loader.modificationCheckInterval = 2</code><br />
-This is the number of seconds between modification checks when caching is 
-turned on.  When this is an integer &gt; 0, this represents the number of 
-seconds between checks to see if the template was modified.  If the 
-template has been modified since last check, then it is reloaded and 
-reparsed.  Otherwise nothing is done.  When &lt;= 0, no modification 
-checks will take place, and assuming that the property <code>cache</code> 
+This is the number of seconds between modification checks when caching is
+turned on.  When this is an integer &gt; 0, this represents the number of
+seconds between checks to see if the template was modified.  If the
+template has been modified since last check, then it is reloaded and
+reparsed.  Otherwise nothing is done.  When &lt;= 0, no modification
+checks will take place, and assuming that the property <code>cache</code>
 (above) is true, once a template is loaded and parsed the first time it is used,
-it will not be checked or reloaded after that until the application or 
+it will not be checked or reloaded after that until the application or
 servlet engine is restarted.
 </p>
-                                                <p> To illustrate, here is an example taken right from the default Velocity 
+                                                <p> To illustrate, here is an example taken right from the default Velocity
 properties, showing how setting up the FileResourceLoader is managed
 </p>
                                                     <div align="left">
@@ -2322,39 +2325,39 @@ file.resource.loader.modificationCheckInterval = 2
                                                 <p>
 <code>velocimacro.library = VM_global_library.vm </code><br />
 <i>Multi-valued key.  Will accept CSV for value.</i>
-Filename(s) of Velocimacro library to be loaded when the Velocity 
+Filename(s) of Velocimacro library to be loaded when the Velocity
 Runtime engine starts.  These Velocimacros are accessable to all
-templates.  The file is assumed to be relative to the root of the 
+templates.  The file is assumed to be relative to the root of the
 file loader resource path.
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline = true</code><br />
-Determines of the definition of new Velocimacros via the #macro() directive 
-in templates is allowed.   The default value is true, meaning any template 
-can define and use new Velocimacros.  Note that depending on other properties, 
+Determines of the definition of new Velocimacros via the #macro() directive
+in templates is allowed.   The default value is true, meaning any template
+can define and use new Velocimacros.  Note that depending on other properties,
 those #macro() statements can replace global definitions.
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline.to.replace.global = false </code><br />
-Controls if a Velocimacro defind 'inline' in a template can replace 
+Controls if a Velocimacro defind 'inline' in a template can replace
 a Velocimacro defined in a library loaded at startup.
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline.local.scope = false</code><br />
-Controls 'private' templates namespaces for Velocimacros.  When true, a #macro() 
-directive in a template  creates a Velocimacro that is accessable only from the 
-defining template.  This means that Velocimacros cannot be shared unless they 
-are in the global or local library loaded at startup. (See above.)  It also means 
+Controls 'private' templates namespaces for Velocimacros.  When true, a #macro()
+directive in a template  creates a Velocimacro that is accessable only from the
+defining template.  This means that Velocimacros cannot be shared unless they
+are in the global or local library loaded at startup. (See above.)  It also means
 that templates cannot interfere with each other.  This property also allows a technique
-where there is a 'default' Velocimacro definition in the global or local library, 
-and a template can 'override' the implementation for use within that template.  
-This occurrs because when this property is true, the template's namespace is 
-searched for a Velocimacro before the global namespace, therefore allowing 
+where there is a 'default' Velocimacro definition in the global or local library,
+and a template can 'override' the implementation for use within that template.
+This occurrs because when this property is true, the template's namespace is
+searched for a Velocimacro before the global namespace, therefore allowing
 the override mechanism.
 </p>
                                                 <p>
 <code>velocimacro.context.localscope = false</code><br />
-Controls whether reference access (set/get) within a Velocimacro will change 
+Controls whether reference access (set/get) within a Velocimacro will change
 the context, or be of local scope in that
 Velocimacro.
 </p>
@@ -2362,7 +2365,7 @@ Velocimacro.
 <code>velocimacro.library.autoreload = false</code><br />
 Controls Velocimacro library autoloading.  When set to <code>true</code>
 the source Velocimacro library for an invoked Velocimacro will be checked
-for changes, and reloaded if necessary.  This allows you to change and 
+for changes, and reloaded if necessary.  This allows you to change and
 test Velocimacro libraries without having to restart your application or
 servlet container, just like you can with regular templates.
 This mode only works when caching is <i>off</i>
@@ -2374,10 +2377,10 @@ This feature is intended for development, not for production.
 </p>
                                                 <p>
 <code>runtime.interpolate.string.literals = true</code><br />
-Controls interpolation mechanism of VTL String Literals.  Note that a VTL 
-StringLiteral is specifically a string using double quotes that is used 
-in a #set() statement, a method call of a reference, a parameter to a VM, 
-or as an argument to a VTL directive in general.  See the VTL reference for 
+Controls interpolation mechanism of VTL String Literals.  Note that a VTL
+StringLiteral is specifically a string using double quotes that is used
+in a #set() statement, a method call of a reference, a parameter to a VM,
+or as an argument to a VTL directive in general.  See the VTL reference for
 further information.
 </p>
                                                 <p>
@@ -2387,12 +2390,12 @@ further information.
 <code>parser.pool.size = 20</code><br />
 This property sets the number of parsers that Velocity will
 create at startup and keep in a pool.  The default of 20 parsers
-should be more than enough for most uses.  In the event 
-that Velocity does run out of parsers, it will indicate 
+should be more than enough for most uses.  In the event
+that Velocity does run out of parsers, it will indicate
 so in the log, and
 dynamically create them as needed.  Note that they will not
-be added to the pool.  This is a slow operation compared to 
-the normal parser pooling, but this is considered an 
+be added to the pool.  This is a slow operation compared to
+the normal parser pooling, but this is considered an
 exceptional condition.  If you see a log message, please
 increment this property.
 </p>
@@ -2410,16 +2413,16 @@ increment this property.
       <tr><td>
         <blockquote>
                                     <p>
-Velocity has a few nice logging features to allow both simplicity and 
-flexibility. Without any extra configuration, Velocity will setup a 
-file-based logger that will output all logging messages to a file 
-called <code>velocity.log</code> in the 'current directory' where 
-Velocity was initialized.   For more advanced users, you may integrate 
-your current logging facilities with Velocity to have all log messages 
+Velocity has a few nice logging features to allow both simplicity and
+flexibility. Without any extra configuration, Velocity will setup a
+file-based logger that will output all logging messages to a file
+called <code>velocity.log</code> in the 'current directory' where
+Velocity was initialized.   For more advanced users, you may integrate
+your current logging facilities with Velocity to have all log messages
 sent to your logger.
 </p>
                                                 <p>
-Starting with version 1.3, Velocity will automatically use either the 
+Starting with version 1.3, Velocity will automatically use either the
 <a href="http://jakarta.apache.org/avalon/logkit/index.html">
 Jakarta Avalon Logkit</a> logger, or the
 <a href="http://jakarta.apache.org/log4j/">Jakarta Log4j</a> logger.
@@ -2427,8 +2430,8 @@ It will do so by using whatever it finds in the current classpath, starting
 first with Logkit.  If Logkit isn't found, it tries Log4j.
 </p>
                                                 <p>
-To utilize this feature, simply use the 'non-dependency' Velocity jar 
-(because Logkit is baked into the jar with dependencies) and place 
+To utilize this feature, simply use the 'non-dependency' Velocity jar
+(because Logkit is baked into the jar with dependencies) and place
 either the logkit or log4j jar in your classpath.
 </p>
                                                 <p>
@@ -2438,56 +2441,147 @@ In general, you have the following logging options :
 
 <li>
 <b>Default Configuration</b><br />
-By default, Velocity will create a file-based logger in the current 
+By default, Velocity will create a file-based logger in the current
 directory.  See the note above regarding automatic detection of
 Logkit or Log4j to use as the default logging system.
 </li>
 
 <li>
+<b>Existing Log4j Category</b><br />
+Starting with version 1.3, Velocity will log it's output to an existing
+Log4j Category setup elsewhere in the application.  To use this feature
+you must
+  <ol>
+    <li>
+    Make sure that the Log4j jar is in your classpath. (You would do this
+    anyway since you are using Log4j in the application using Velocity.)
+    </li>
+    <li>
+    Configure Velocity to use the <code>SimpleLog4jLogSystem</code> class.
+    </li>
+    <li>
+    Specify the name of the existing Category to use via the
+    'runtime.log.logsystem.log4j.category' property.
+    </li>
+  </ol>
+
+This approach replaces and deprecates the older <code>Log4JLogSystem</code>
+class.  To see how this is done in code, see the example below.
+</li>
+
+<li>
 <b>Custom Standalone Logger</b><br />
-You can create a custom logging class - you simply must implement the 
-interface  <code>org.apache.velocity.runtime.log.LogSystem</code> and 
-then simply set the  configuration property 
-<code>runtime.log.logsystem.class</code> with the 
-classname, and Velocity will create an instance of that class at init time.  
-You may specify the classname as you specify any other properties. See 
-the information on the 
+You can create a custom logging class - you simply must implement the
+interface  <code>org.apache.velocity.runtime.log.LogSystem</code> and
+then simply set the  configuration property
+<code>runtime.log.logsystem.class</code> with the
+classname, and Velocity will create an instance of that class at init time.
+You may specify the classname as you specify any other properties. See
+the information on the
 <a href="developer-guide.html#Using Velocity In General Applications">
-Velocity helper class</a> as well as the  
+Velocity helper class</a> as well as the
 <a href="developer-guide.html#Velocity Configuration Keys and Values">
 configuration keys and values.</a>
 Please note that through oversight, the interface to
 <code>org.apache.velocity.runtime.log.LogSystem</code>
 was changed in v1.2 to support the separable instances of the Velocity
-runtime.  If you have an exisiting pre v1.2 custom logger that is going 
-to be instantiated by the Velocity LogManager, you must add the 
+runtime.  If you have an exisiting pre v1.2 custom logger that is going
+to be instantiated by the Velocity LogManager, you must add the
 <code>init( RuntimeServices )</code> method.
 </li>
 
 <li>
 <b>Integrated Logging</b><br />
-You can integrate Velocity's logging capabilities with your applications 
-existing logging system, simply by implementing the 
-<code>org.apache.velocity.runtime.log.LogSystem</code> interface.  Then, 
-pass an instance of your logging class to Velocity via the 
+You can integrate Velocity's logging capabilities with your applications
+existing logging system, simply by implementing the
+<code>org.apache.velocity.runtime.log.LogSystem</code> interface.  Then,
+pass an instance of your logging class to Velocity via the
 <code>runtime.log.logsystem</code> configuration key before
-initializing the Velocity engine, 
-and Velocity will log messages to your applications logger. 
-See the information on the 
-<a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a> 
-as well as the 
+initializing the Velocity engine,
+and Velocity will log messages to your applications logger.
+See the information on the
+<a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a>
+as well as the
 <a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
 </li>
 
 </ul>
+                                                <a name="Using Log4j With Existing Category"><strong>Using Log4j With Existing Category</strong></a>
                                                 <p>
-Making a custom logger class if very simple.  The code below is a 
-simple sketch of how you might do this in your own application.
+Here is an example of how to configure Velocity to log to an existing Log4j
+Category.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+
+import org.apache.log4j.Category;
+import org.apache.log4j.BasicConfigurator;
+
+public class Log4jCategoryExample
+{
+    public static String CATEGORY_NAME = &quot;velexample&quot;;
+
+    public static void main( String args[] )
+        throws Exception
+    {
+        /*
+         *  configure log4j to log to console
+         */
+
+        BasicConfigurator.configure();
+
+        Category log = Category.getInstance( CATEGORY_NAME );
+
+        log.info(&quot;Hello from Log4jCategoryExample - ready to start velocity&quot;);
+
+        /*
+         *  now create a new VelocityEngine instance, and
+         *  configure it to use the category
+         */
+
+        VelocityEngine ve = new VelocityEngine();
+
+        ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+            &quot;org.apache.velocity.runtime.log.SimpleLog4JLogSystem&quot; );
+
+        ve.setProperty(&quot;runtime.log.logsystem.log4j.category&quot;, CATEGORY_NAME);
+
+        ve.init();
+
+        log.info(&quot;this should follow the initialization output from velocity&quot;);
+    }
+}
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Note that the above example can be found in <code>examples/logger_example</code>.
 </p>
                                                 <a name="Simple Example of a Custom Logger"><strong>Simple Example of a Custom Logger</strong></a>
                                                 <p>
-Here is a simple example of how to integrate Velocity's logging system
-into your own application.
+Here is an example of how to use an instantiation of your class that implements
+Velocity's logging system as the logger.  Note that we are not passing the name
+of the class to use, but rather a living, existing instantiation of the class
+to be used.  All that is required is that it support the
+<code>LogSystem</code> interface.
+
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2525,7 +2619,7 @@ public class MyClass implements LogSystem
             /*
              *  do something
              */
-        }             
+        }
     }
 
     /**
@@ -2546,7 +2640,7 @@ public class MyClass implements LogSystem
         /*  do something useful */
     }
 ...
-}            
+}
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2571,22 +2665,22 @@ public class MyClass implements LogSystem
       <tr><td>
         <blockquote>
                                     <p>
-One of the fundamental and important parts about Velocity is the resource 
+One of the fundamental and important parts about Velocity is the resource
 management system and the resource loaders.  They are referred to as 'resources'
-here rather than 'templates' because the resource management system will also 
+here rather than 'templates' because the resource management system will also
 handle non-template reasources, specifically things that are loaded via the
 #include() directive.
 </p>
                                                 <p>
 The resource loader system if very flexible, allowing one or more resource
-loaders to be in operation at the same time.  This allows tremendous 
+loaders to be in operation at the same time.  This allows tremendous
 flexibility in configuration and resource managment, and futher allows you
 to write your own resource loaders for your special needs.
 </p>
                                                 <p>
 There are currently four kinds of resource loaders that are included with Velocity,
 each described below.  Note that in the example configuration properties given,
-a common name for the loader is shown 
+a common name for the loader is shown
 (ex.'file' in <code>file.resource.loader.path</code>). This 'common name'
 may not work for your configuration. Please read the section on
 <a href="developer-guide.html#Velocity Configuration Keys and Values">resource configuration properties</a>
@@ -2595,7 +2689,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 </p>
                                                 <ul>
 <li>
-  <b>FileResourceLoader :</b> This loader gets resources from the filesystem. It's 
+  <b>FileResourceLoader :</b> This loader gets resources from the filesystem. It's
   configuration properties include :
   <ul>
     <li>
@@ -2611,31 +2705,31 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   This is the default loader, and is configured, by default to get templates from the
   'current directory'.  In the case of using Velocity with servlets, this can be a problem
   as you don't want to have to keep your templates in the directory from which you start
-  your servlet engine.  Please see the section on 
+  your servlet engine.  Please see the section on
   <a href="developer-guide.html#Using Velocity In Servlets"> developing servlets with Velocity</a>
    for more information.
 </li>
 <li>
-  <b>JarResourceLoader :</b> This loader gets resource from specific jar files.  It is very 
+  <b>JarResourceLoader :</b> This loader gets resource from specific jar files.  It is very
   similar to the FileResourceLoader, except that you have the convenience of bundling
   your templates into jars.  The properties are identical, except for
-  <code>jar.resource.loader.path</code>, where you provide the full location of 
+  <code>jar.resource.loader.path</code>, where you provide the full location of
   the jar(s) you wish to load resources from.  To specify a jar for the loader.path
   you use the standard JAR URL syntax of <code>java.net.JarURLConnection</code>.
 </li>
 <li>
-  <b>ClasspathResourceLoader :</b> This loader gets resources from the classloader. 
-  In general, this means that the ClasspathResourceLoader will load 
+  <b>ClasspathResourceLoader :</b> This loader gets resources from the classloader.
+  In general, this means that the ClasspathResourceLoader will load
   templates placed in the classpath (in jars, for example)
-  While the 
+  While the
   classpath is a source of great pain and suffering in general, it is a very useful
-  mechanism when working on a Servlet Spec 2.2 (or newer) compliant servlet runner.  
+  mechanism when working on a Servlet Spec 2.2 (or newer) compliant servlet runner.
   <a href="http://jakarta.apache.org/tomcat/">Tomcat</a>
-  is an example of such.  To use this loader effectively, all you must do is 
+  is an example of such.  To use this loader effectively, all you must do is
   jar your templates, and put that jar into the WEB-INF/lib directory of your
   webapp.  There are no configuration options to worry about, nor is the absolute vs.
   relative path an issue, as it is with Jar and File resource loaders.
-  Again, please note that the ClasspathResourceLoader is not only for use with a 
+  Again, please note that the ClasspathResourceLoader is not only for use with a
   servlet container, but can be used in any application context.
 </li>
 
@@ -2652,14 +2746,14 @@ For more information on this loader, please see the javadoc for the class
 </ul>
                                                 <a name="Configuration Examples"><strong>Configuration Examples</strong></a>
                                                 <p>
-Configuring the resource loaders for Velocity is straightforward. 
-The properties that control the are listed in the 
+Configuring the resource loaders for Velocity is straightforward.
+The properties that control the are listed in the
 <a href="developer-guide.html#Configuring Resource Loaders">resource configuration</a>
 section, for further reference.
 </p>
                                                 <p>
-The first step in configuring one or more resource loaders is do 
-'declare' them by name to Velocity.  Use the property 
+The first step in configuring one or more resource loaders is do
+'declare' them by name to Velocity.  Use the property
 <code>resource.loader</code> and list one or more loader names.
 You can use anything you want - these names are used to associate
 configuration properties with a given loader.
@@ -2686,8 +2780,8 @@ resource.loader = file
     </table>
     </div>
                                                 <p>
-That entry declares that we will have a resource loader known as 'file'.  
-The next thing to do is to set the important properties.  The most critical 
+That entry declares that we will have a resource loader known as 'file'.
+The next thing to do is to set the important properties.  The most critical
 is to declare the class to use as the loader :
 </p>
                                                     <div align="left">
@@ -2712,13 +2806,13 @@ file.resource.loader.class = org.apache.velocity.runtime.resource.loader.FileRes
     </table>
     </div>
                                                 <p>
-In this case, we are telling velocity that we are setting up 
+In this case, we are telling velocity that we are setting up
 a resource loadercalled 'file', and are using the class
 <code>
 org.apache.velocity.runtime.resource.loader.FileResourceLoader
 </code>
 to be the class to use.
-The next thing we do is set the properties important 
+The next thing we do is set the properties important
 to this loader.
 </p>
                                                     <div align="left">
@@ -2745,7 +2839,7 @@ file.resource.loader.modificationCheckInterval = 2
     </table>
     </div>
                                                 <p>
-Here, we set a few things.  First, we set the path to find 
+Here, we set a few things.  First, we set the path to find
 the templates to be <code>/opt/templates</code>.  Second, we
 turned caching on, so that after a template or static file
 is read in, it is cached in memory.  And finally, we set
@@ -2822,13 +2916,13 @@ file.resource.loader.modificationCheckInterval = 10
     </table>
     </div>
                                                 <p>
-<b>Multiple Loader Configuration :</b>  This configuration sets up 
-three loaders at the same time, the FileResourceLoader, 
+<b>Multiple Loader Configuration :</b>  This configuration sets up
+three loaders at the same time, the FileResourceLoader,
 the ClasspathResourceLoader, and the JarResourceLoader.
- The loaders are set-up such that the 
-FileResourceLoader is consulted first, then the 
+ The loaders are set-up such that the
+FileResourceLoader is consulted first, then the
 ClasspathResourceLoader, and finally the JarResourceLoader.
-This would allow you to qickly 
+This would allow you to qickly
 drop a template into the file template area to replace on of the
 templates found in the classpath (usually via a jar) without
 having to rebuild the jar.
@@ -2882,8 +2976,8 @@ jar.resource.loader.path = jar:file:/myjarplace/myjar.jar, jar:file:/myjarplace/
     </table>
     </div>
                                                 <p>
-Node that the three names 'file', 'class', and 'jar' are merely for your convenience and 
-sanity.  They can be anything you want - they are just used to associate a set of 
+Node that the three names 'file', 'class', and 'jar' are merely for your convenience and
+sanity.  They can be anything you want - they are just used to associate a set of
 properties together.  However, it is recommended that you use names that give some hint
 of the function.
 </p>
@@ -2927,7 +3021,7 @@ API's have been extended to take the encoding as an argument :
 </blockquote>
 </p>
                                                 <p>
-The value for the <i>encoding</i> argument is the conventional encoding specification 
+The value for the <i>encoding</i> argument is the conventional encoding specification
 supported by your JVM, for example "UTF-8" or "ISO-8859-1".  For the official names
 for character sets, see <a href="http://www.iana.org/assignments/character-sets">here</a>.
 </p>
@@ -2951,14 +3045,14 @@ encoding is an application specific issue.
                                     <p>
 Velocity's flexibility and simple template language makes it an ideal environment
 for working with XML data.  <a href="anakia.html">Anakia</a> is an example of how
-Velocity is used to replace XSL for rendering output from XML.  The Velocity site, 
+Velocity is used to replace XSL for rendering output from XML.  The Velocity site,
 including this documentation, is generated from XML source using Anakia.
 The Jakarta site is also rendered using Anakia.
 </p>
                                                 <p>
 Generally, the pattern for dealing with XML in Velocity is to use something like
 <a href="http://www.jdom.org/">JDOM</a> to process your XML into a data structure with
-convenient Java access.  Then, you produce templates that access data directly 
+convenient Java access.  Then, you produce templates that access data directly
 out of the XML document - directly though the JDOM tree.  For example, start
 with an XML document such as :
 </p>
@@ -3008,7 +3102,7 @@ Now make a little Java program that includes code similar to:
 SAXBuilder builder;
 Document root = null;
 
-try 
+try
 {
     builder = new SAXBuilder(  &quot;org.apache.xerces.parsers.SAXParser&quot; );
     root = builder.build(&quot;test.xml&quot;);
@@ -3047,7 +3141,7 @@ Now, make a regular Velocity template :
       <td bgcolor="#ffffff"><pre>
 &lt;html&gt;
   &lt;body&gt;
-    The document title is 
+    The document title is
     $root.getChild(&quot;document&quot;).getChild(&quot;properties&quot;).getChild(&quot;title&quot;).getText()
   &lt;/body&gt;
 &lt;/html&gt;
@@ -3068,10 +3162,10 @@ examples, but it shows the basics - that you can easily access XML data
 directly from a Velocity template.
 </p>
                                                 <p>
-One real advantage of styling XML data in Velocity is that you have 
+One real advantage of styling XML data in Velocity is that you have
 access to any other object or data that the application provides.  You
 aren't limited to just using the data present in the XML document.
-You may add anything you want to the context to provide additional 
+You may add anything you want to the context to provide additional
 information for your output, or provide tools to help make working
 with the XML data easier.  Bob McWhirter's
 <a href="http://sourceforge.net/projects/werken-xpath/"> Werken Xpath</a>
@@ -3079,7 +3173,7 @@ is one such useful tool - an example of how it is used in Anakia can be
 found in <code>org.apache.velocity.anakia.XPathTool</code>.
 </p>
                                                 <p>
-One issue that arises with XML and Velocity is how to deal with XML 
+One issue that arises with XML and Velocity is how to deal with XML
 entities. One technique is to combine the use of Velocimacros
 when you need to render an entity into the output stream :
 </p>
@@ -3228,13 +3322,13 @@ a separate document.
                                                 <strong>Why Can't I Access Class Members and Constants from VTL?</strong>
                                                 <p>
  The short answer is because we don't introspect for fields.  We don't do that
- because we wish to promote the idea that you hide your raw data in your 
- data objects.  There are two solutions to this issue.  The first is 
+ because we wish to promote the idea that you hide your raw data in your
+ data objects.  There are two solutions to this issue.  The first is
  that you should be writing accessors for data elements you wish to be
  publicly exposed.  That of course won't work for instances where you don't
- have the source, or simply are too lazy.  There is a class for the latter 
+ have the source, or simply are too lazy.  There is a class for the latter
  group, <code>org.apache.velocity.app.FieldMethodizer</code> which introspects
- your class, and exposes the public static fields in a way that allows easy 
+ your class, and exposes the public static fields in a way that allows easy
  access from a template. Suppose you have a class :
  </p>
                                                     <div align="left">
@@ -3250,7 +3344,7 @@ a separate document.
     public class Foo
     {
         public static String PATH_ROOT = &quot;/foo/bar&quot;;
-     
+
         ....
     }
   </pre></td>
@@ -3314,7 +3408,7 @@ a separate document.
     </div>
                                                 <p>
      If you have a crushing need to access public non-static members (or even private
-     if you are so driven), then you would have to exend / modify the 
+     if you are so driven), then you would have to exend / modify the
      <code>FieldMethodizer</code> yourself. (And we still recommend you provide accessors....)
   </p>
                                                 <strong>Where does Velocity look for Templates?</strong>
@@ -3331,7 +3425,7 @@ a separate document.
      (like - "C:\", "D:\", etc).
     </p>
                                                 <p>
-      For more information, see the section on 
+      For more information, see the section on
       <a href="developer-guide.html#Configuring Resource Loaders">
       resource loaders</a> as well as the section on
       <a href="developer-guide.html#Velocity Configuration Keys and Values">
@@ -3382,7 +3476,7 @@ the SampleServlet example working. Note that the sample template <code>sample.vm
 and the servlet code itself, <code>SampleServlet.java</code> are
  found in the <code>examples/servlet_example</code> directory.  Although some servlet
 engines (Resin, for example) will compile the servlet for you, it would be best if
-you compiled the examples first.  To do this, see the section on building Velocity, and 
+you compiled the examples first.  To do this, see the section on building Velocity, and
 use the <code>examples</code> target.
 </p>
                                                 <p>
@@ -3390,8 +3484,8 @@ use the <code>examples</code> target.
 </p>
                                                 <p>
 Setting up under <a href="http://jakarta.apache.org/tomcat/">Jakarta Tomcat</a> is fairly
-straightforward.  The 'webapp' directory is where Tomcat automatically 
-looks for it's 'web applications', so 
+straightforward.  The 'webapp' directory is where Tomcat automatically
+looks for it's 'web applications', so
 this is where we will set things up.
 </p>
                                                 <ol>
@@ -3407,8 +3501,8 @@ this is where we will set things up.
 </li>
 <li>
  Put the Velocity jar into the velexample/WEB-INF/lib directory.  Note that with v1.2
- and newer, you either have to either use the jar from the distribution (or that you 
- build yourself) that contains all the dependencies ( ex. velocity-dep-1.2.jar) or 
+ and newer, you either have to either use the jar from the distribution (or that you
+ build yourself) that contains all the dependencies ( ex. velocity-dep-1.2.jar) or
  you must add the dependency jars yourself to the WEB-INF/lib directory. Please see
  the section "Getting Started" and "Dependencies", above.
 </li>
@@ -3421,10 +3515,10 @@ this is where we will set things up.
  no configuration is needed.
 </li>
 <li>
- At this point, you should be able to start (or restart) Tomcat and access the servlet.  
+ At this point, you should be able to start (or restart) Tomcat and access the servlet.
 </li>
 <li>
-To access the servlet, point your web browser at : 
+To access the servlet, point your web browser at :
 
 <blockquote>
 http://localhost:8080/velexample/servlet/SampleServlet
@@ -3437,7 +3531,7 @@ or if that doesn't work :
 </blockquote>
 </li>
 <li>
- You should see the sample output.  
+ You should see the sample output.
 </li>
 </ol>
                                                 <p>
@@ -3465,7 +3559,7 @@ Tomcat setup section) into the doc/WEB-INF/lib directory.
 Start resin.
 </li>
 <li>
-To access the servlet, point your web browser at : 
+To access the servlet, point your web browser at :
 
 <blockquote>
 http://localhost:8080/servlet/SampleServlet
@@ -3481,9 +3575,9 @@ and you should see the output.
 </li>
 </ol>
                                                 <p>
-Note that this appeared to be a simpler configuration - with the Tomcat example, 
-you set up a complete, new, separate webapp, whereas the Resin instructions 
-don't, although both should provide a sufficient setup to let you play with 
+Note that this appeared to be a simpler configuration - with the Tomcat example,
+you set up a complete, new, separate webapp, whereas the Resin instructions
+don't, although both should provide a sufficient setup to let you play with
 Velocity.
 </p>
                                                 <p>Note that while we wish we could, we can't answer questions about the servlet
