@@ -1,0 +1,36 @@
+<project name="build-site" default="docs" basedir=".">
+
+    <!-- Initialization properties -->
+    <property name="project.name"   value="site"/>
+    <property name="docs.src" value="../xdocs"/>
+    <property name="docs.dest" value="../docs"/>
+
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
+
+    <target name="prepare">
+    </target>
+
+    <target name="docs" depends="prepare">
+        <anakia basedir="${docs.src}" destdir="${docs.dest}/"
+             extension=".html" style="./site.vsl"
+             projectFile="./stylesheets/project.xml"
+             excludes="**/stylesheets/**"
+             includes="**/*.xml">
+        </anakia>
+
+        <copy todir="${docs.dest}/images" filtering="no">
+            <fileset dir="${docs.src}/images">
+                <include name="**/*.gif"/>
+                <include name="**/*.jpeg"/>
+                <include name="**/*.jpg"/>
+            </fileset>
+        </copy>
+        <!-- In case we have CSS someday
+        <copy todir="${docs.dest}" filtering="no">
+            <fileset dir="${docs.src}">
+                <include name="**/*.css"/>
+            </fileset>
+        </copy>
+        -->
+    </target>
+</project>
