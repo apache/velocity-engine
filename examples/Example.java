@@ -54,7 +54,7 @@
 
 
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
 import java.io.*;
@@ -66,7 +66,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.3 2000/11/06 22:19:47 jon Exp $
+ * @version $Id: Example.java,v 1.4 2001/01/03 05:59:11 geirm Exp $
  */
 
 public class Example
@@ -87,7 +87,7 @@ public class Example
              *  references (ex. $list) in the template
              */
 
-            Context context = new Context();
+            VelocityContext context = new VelocityContext();
             context.put("list", getNames());
             
             /*
