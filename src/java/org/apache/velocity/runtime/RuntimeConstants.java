@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.28 2001/08/15 21:51:41 dlr Exp $
+ * @version $Id: RuntimeConstants.java,v 1.29 2001/08/31 09:39:43 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -326,7 +326,7 @@ public interface RuntimeConstants
     public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
 
    /** 
-    * switch for local context in VM : default true 
+    * switch for local context in VM : default false 
     */
     public final static String VM_CONTEXT_LOCALSCOPE = 
         "velocimacro.context.localscope";
