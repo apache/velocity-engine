@@ -66,6 +66,8 @@ import javax.naming.InitialContext;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+
 /**
  * This is a simple template file loader that loads templates
  * from a DataSource instead of plain files.
@@ -91,7 +93,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="Paulo Gaspar <paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.1 2001/02/25 19:54:30 geirm Exp $
+ * @version $Id: DataSourceResourceLoader.java,v 1.2 2001/02/26 03:37:56 geirm Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -140,11 +142,11 @@ public class DataSourceResourceLoader extends ResourceLoader
       *  @return InputStream containing template
       */
      public synchronized InputStream getResourceStream( String name )
-         throws Exception
+         throws ResourceNotFoundException
      {
          if (name == null || name.length() == 0)
          {
-             throw new Exception ("Need to specify a template name!");
+             throw new ResourceNotFoundException ("Need to specify a template name!");
          }
 
          try
@@ -164,9 +166,11 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         Runtime.error(
-                            "DataSourceResourceLoader Error: cannot find resource " 
-                            + name);
+                         String msg = "DataSourceResourceLoader Error: cannot find resource " 
+                             + name;
+                         Runtime.error(msg );
+
+                         throw new ResourceNotFoundException (msg);
                      }
                  }
                  finally
@@ -181,11 +185,15 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch(Exception e)
          {   
-             Runtime.error( 
-                  "DataSourceResourceLoader Error: database problem trying to load resource "
-                     + name + ": " + e.toString() );
+             String msg =  "DataSourceResourceLoader Error: database problem trying to load resource "
+                 + name + ": " + e.toString();
+
+             Runtime.error( msg );
+
+             throw new ResourceNotFoundException (msg);
+                         
          }
-         return null;
+ 
      }
 
     /**
