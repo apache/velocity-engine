@@ -50,12 +50,10 @@ o Specification Directory
   1. Update the bnf and ast files to reflect latest Velocity code.
   2. Make sure that the questions in the questions file 
      are all answered and dealt with.
-  3. Remove files in the specification directory and make them 
-     xdocs instead so that they are more visible to the public.
 
   STATUS:
-  [JSS] I will take care of #3.
-  
+  [NONE]
+
 o Test for Texen
 
   PLAN:
