@@ -296,7 +296,7 @@
   <!-- ================================================================== -->
   <!-- jars the source -->
   <!-- ================================================================== -->
-  <target name="jarsrc"
+  <target name="jar-src"
           depends="prepare"
           description="--> generates the velocity.src.jar file containing source only">
       <jar jarfile="${build.dir}/${final.name}.src.jar"

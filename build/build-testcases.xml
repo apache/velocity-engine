@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- Testcases for Velocity -->
-<project name="main" default="test">
+<project name="main" default="test-all">
 
   <property name="build.dest" value="${build.dir}/classes"/>
   <property name="ant.home" value="."/>
@@ -30,7 +30,7 @@
     value="org.apache.velocity.test.MultipleFileResourcePathTest"
   />
 
-   <property 
+  <property 
     name="cpload.resource.test"
     value="org.apache.velocity.test.ClasspathResourceTest"
   />
@@ -38,7 +38,7 @@
   <!-- =================================================================== -->
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
-  <target name="test" depends="introspect">
+  <target name="test-all" depends="introspect">
     <echo message="Running JUnit template tests for Velocity ..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
@@ -65,7 +65,7 @@
   </target>
 
   <target name="test-inlinevmscope" depends="test-multi">
-    <echo message="Running JUnit Inline VM Scope  tests for Velocity ..."/>
+    <echo message="Running JUnit Inline VM Scope tests for Velocity ..."/>
 
     <java classname="${velocity.test.runner}" fork="yes">
       <arg value="${inlinevmscope.test}"/>
