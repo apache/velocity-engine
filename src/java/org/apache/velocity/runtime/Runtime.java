@@ -146,7 +146,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.38 2000/11/12 06:37:00 geirm Exp $
+ * @version $Id: Runtime.java,v 1.39 2000/11/12 16:21:35 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -207,9 +207,9 @@ public class Runtime
       * The Runtime parser. This has to be changed to
       * a pool of parsers!
       */
-//    private static SimplePool parserPool;
+    private static SimplePool parserPool;
     
-    private static Parser parser = null;
+    //private static Parser parser = null;
     
     /**
       * Number of parsers to create
@@ -396,14 +396,12 @@ public class Runtime
      */
     private static void initializeParserPool()
     {
-        /*
         parserPool = new SimplePool(NUMBER_OF_PARSERS);
         for (int i=0;i<NUMBER_OF_PARSERS ;i++ )
         {
             parserPool.put (createNewParser());
         }
         Runtime.info ("Created: " + NUMBER_OF_PARSERS + " parsers.");
-        */
     }
 
     /**
@@ -428,15 +426,17 @@ public class Runtime
     public static SimpleNode parse(InputStream inputStream)
         throws ParseException
     {
-        if (parser == null)
+        SimpleNode AST = null;
+        Parser parser = (Parser) parserPool.get();
+        
+        synchronized(parser)
         {
-            synchronized(Runtime.class)
-            {
-                if (parser == null)
-                    parser = createNewParser();
-            }
+            AST = parser.parse(inputStream);
         }
-        return parser.parse(inputStream);            
+        
+        parserPool.put(parser);
+        
+        return AST;
     }
     
     /**
