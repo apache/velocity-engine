@@ -1150,7 +1150,7 @@ $count
 ## #include( "a.txt" ) renders as <contents of a.txt>
 #include( "a.txt" )
 
-## \#include( "a.txt" ) renders as \#include( "a.txt" )
+## \#include( "a.txt" ) renders as #include( "a.txt" )
 \#include( "a.txt" )
 
 ## \\#include ( "a.txt" ) renders as \<contents of a.txt>
@@ -1207,8 +1207,19 @@ Vyacheslav Ganelin
     parce qu'il y a un retour chariot après 'Ganelin', et donc le \\ final, qui précède le <code>#end</code> fait partie
     du corps du bloc.
   </p>
+  
+  
   <p>
-    Si <em>$jazz</em> est faux, il n'y a pas de sortie produite. Notons que les choses vont commencer à mal se passer
+  Si <em>$jazz</em> est faux, la sortie est
+  </p>
+
+<source><![CDATA[
+\
+]]></source>
+  
+  
+  <p>
+    Notons que les choses vont commencer à mal se passer
     si des éléments de script ne sont pas échappés correctement.
   </p>
   <source><![CDATA[

@@ -1704,10 +1704,10 @@ VTL válidas.
 </p>
 
 <source><![CDATA[
-## #include( "a.txt" ) se muestra como <contenidos de a.txt>
+## #include( "a.txt" ) se muestra como <contenidos of de a.txt>
 #include( "a.txt" )
 
-## \#include( "a.txt" ) se muestra como \#include( "a.txt" )
+## \#include( "a.txt" ) se muestra como #include( "a.txt" )
 \#include( "a.txt" )
 
 ## \\#include ( "a.txt" ) se muestra como \<contenidos de a.txt>
@@ -1788,8 +1788,17 @@ un retorno después de 'Ganelin', por lo que el \\ final, que precede el
 <code>#end</code> hace parte del cuerpo del bloque.
   </p>
 
+
   <p>
-  Si <em>$jazz</em> es falso, no hay salida. Tenga en cuenta que las
+  Si <em>$jazz</em> es falso, la salida es
+  </p>
+
+<source><![CDATA[
+\
+]]></source>
+
+  <p>
+  Tenga en cuenta que las
   cosas dejan de funcionar si los elementos de script no son escapados
   de manera correcta.
   </p>
