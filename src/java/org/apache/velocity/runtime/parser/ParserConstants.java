@@ -17,39 +17,39 @@ public interface ParserConstants {
   int ESCAPE_ELSEIF_DIRECTIVE = 11;
   int ESCAPE_ELSE_DIRECTIVE = 12;
   int ESCAPE_STOP_DIRECTIVE = 13;
-  int DOLLAR = 14;
-  int DOLLARBANG = 15;
-  int HASH = 19;
-  int ESCAPE = 20;
-  int TEXT = 21;
-  int SINGLE_LINE_COMMENT = 22;
-  int FORMAL_COMMENT = 23;
-  int MULTI_LINE_COMMENT = 24;
-  int STRING_LITERAL = 28;
-  int TRUE = 29;
-  int FALSE = 30;
-  int NEWLINE = 31;
-  int MINUS = 32;
-  int PLUS = 33;
-  int MULTIPLY = 34;
-  int DIVIDE = 35;
-  int MODULUS = 36;
-  int LOGICAL_AND = 37;
-  int LOGICAL_OR = 38;
-  int LOGICAL_LT = 39;
-  int LOGICAL_LE = 40;
-  int LOGICAL_GT = 41;
-  int LOGICAL_GE = 42;
-  int LOGICAL_EQUALS = 43;
-  int LOGICAL_NOT_EQUALS = 44;
-  int LOGICAL_NOT = 45;
-  int EQUALS = 46;
-  int END = 47;
-  int INCLUDE_DIRECTIVE = 48;
-  int IF_DIRECTIVE = 49;
-  int ELSEIF_DIRECTIVE = 50;
-  int ELSE_DIRECTIVE = 51;
-  int SET_DIRECTIVE = 52;
+  int SET_DIRECTIVE = 14;
+  int DOLLAR = 15;
+  int DOLLARBANG = 16;
+  int HASH = 20;
+  int ESCAPE = 21;
+  int TEXT = 22;
+  int SINGLE_LINE_COMMENT = 23;
+  int FORMAL_COMMENT = 24;
+  int MULTI_LINE_COMMENT = 25;
+  int STRING_LITERAL = 29;
+  int TRUE = 30;
+  int FALSE = 31;
+  int NEWLINE = 32;
+  int MINUS = 33;
+  int PLUS = 34;
+  int MULTIPLY = 35;
+  int DIVIDE = 36;
+  int MODULUS = 37;
+  int LOGICAL_AND = 38;
+  int LOGICAL_OR = 39;
+  int LOGICAL_LT = 40;
+  int LOGICAL_LE = 41;
+  int LOGICAL_GT = 42;
+  int LOGICAL_GE = 43;
+  int LOGICAL_EQUALS = 44;
+  int LOGICAL_NOT_EQUALS = 45;
+  int LOGICAL_NOT = 46;
+  int EQUALS = 47;
+  int END = 48;
+  int INCLUDE_DIRECTIVE = 49;
+  int IF_DIRECTIVE = 50;
+  int ELSEIF_DIRECTIVE = 51;
+  int ELSE_DIRECTIVE = 52;
   int STOP_DIRECTIVE = 53;
   int DIGIT = 54;
   int NUMBER_LITERAL = 55;
@@ -90,10 +90,11 @@ public interface ParserConstants {
     "\"\\\\#elseif\"",
     "\"\\\\#else\"",
     "\"\\\\#stop\"",
+    "<SET_DIRECTIVE>",
     "<DOLLAR>",
     "\"$!\"",
     "\"##\"",
-    "<token of kind 17>",
+    "<token of kind 18>",
     "\"#*\"",
     "<HASH>",
     "\"\\\\\"",
@@ -101,7 +102,7 @@ public interface ParserConstants {
     "<SINGLE_LINE_COMMENT>",
     "\"*#\"",
     "\"*#\"",
-    "<token of kind 25>",
+    "<token of kind 26>",
     "\" \"",
     "\"\\t\"",
     "<STRING_LITERAL>",
@@ -128,7 +129,6 @@ public interface ParserConstants {
     "\"if\"",
     "\"elseif\"",
     "\"else\"",
-    "\"set\"",
     "\"stop\"",
     "<DIGIT>",
     "<NUMBER_LITERAL>",
