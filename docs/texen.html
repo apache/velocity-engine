@@ -353,6 +353,277 @@ not so useful in this case). :-)
     See the Torque utility in Turbine for a full working example of
     Texen. A standalone version of Torque is available <a href="http://jakarta.apache.org/builds/jakarta-turbine/release/">here</a>.
 </p>
+                                                <table>
+                        <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Name
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Description
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                templatePath
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <b>[REQUIRED]</b>
+            Set the path where Velocity will look
+            for templates using the file template
+            loader.
+            <b>This is only required if useClasspath is not turned on.</b>
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                useClasspath
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <b>[REQUIRED]</b>
+            Set the use of the classpath in locating templates.
+            true means the classpath will be used.
+            <b>This is only required if templatePath is not set.</b>
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                useResourceLoaderCache
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Optional argument used when useClasspath is turned on.
+            See the <a href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            for details on resource caching.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                resourceLoaderModificationCheckInterval
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Optional argument used when useClasspath is turned on.
+            See the <a href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            for details on resource caching.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                controlTemplate
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <b>[REQUIRED]</b>
+            Set the control template for the
+            generating process.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                outputDirectory
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <b>[REQUIRED]</b>
+            Set the output directory. It will be
+            created if it doesn't exist.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                outputFile
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <b>[REQUIRED]</b>
+            Set the output file for the
+            generation process.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                outputEncoding
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Set the output encoding.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                inputEncoding
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Set the input (template) encoding.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                contextProperties
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Set the context properties that will be
+            fed into the initial context be the
+            generating process starts.
+            <p>
+            We are going to do something special
+            for properties that have a "file.contents"
+            suffix: for these properties will pull
+            in the contents of the file and make
+            them available in the context. So for
+            a line like the following in a properties file:
+            <pre>license.file.contents = license.txt</pre>
+            We will pull in the contents of license.txt
+            and make it available in the context as
+            $license. This should make texen a little
+            more flexible.
+            </p>
+            </font>
+</td>
+            </tr>
+            </table>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Predefined Context Objects"><strong>Predefined Context Objects</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <p>
+        <blockquote>
+                                    <p>
+    The Texen Ant task places several objects into the Context for you.
+</p>
+                                                <table>
+                        <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Name
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Value
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                $generator
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+                This contains the the <a href="api/org/apache/velocity/texen/Generator.html">Generator</a>
+                instance used to output the text files.
+            
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                $outputDirectory
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+                This contains the the value of the outputDirectory property given to the Texen Ant Task.
+            
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                $strings
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+                This contains the an instance of a <a href="http://jakarta.apache.org/commons/lang/apidocs/org/apache/commons/lang/StringUtils.html">StringUtils</a>
+                object.
+            
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                $files
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+                This contains the an instance of a <a href="api/org/apache/velocity/texen/util/FileUtil.html">FileUtil</a>
+                object.
+            
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                $properties
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+                This contains the an instance of a <a href="api/org/apache/velocity/texen/util/PropertiesUtil.html">PropertiesUtil</a>
+                object.
+            
+            </font>
+</td>
+            </tr>
+            </table>
                             </blockquote>
         </p>
       </td></tr>
