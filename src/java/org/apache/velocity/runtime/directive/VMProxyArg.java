@@ -113,7 +113,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.10 2001/09/10 08:56:47 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.11 2002/02/28 05:24:24 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -417,7 +417,7 @@ public class VMProxyArg
 
                     BufferedReader br = new BufferedReader( new StringReader( buff ) );
 
-                    nodeTree = rsvc.parse( br, "VMProxyArg:" + callerReference );
+                    nodeTree = rsvc.parse(br, "VMProxyArg:" + callerReference, true);
 
                     /*
                      *  now, our tree really is the first DirectiveArg(), and only one
