@@ -65,7 +65,7 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: ClassMap.java,v 1.4 2000/11/03 14:37:49 jvanzyl Exp $
+ * @version $Id: ClassMap.java,v 1.5 2000/11/06 02:04:50 jvanzyl Exp $
  */
 
 public class ClassMap
@@ -175,8 +175,22 @@ public class ClassMap
         StringBuffer methodKey = new StringBuffer().append(method.getName());
         
         for (int j = 0; j < parameterTypes.length; j++)
-            methodKey.append(parameterTypes[j].getName());
-        
+        {
+            /*
+             * If the argument type is primitive then we want
+             * to convert our primitive type signature to the 
+             * corresponding Object type so introspection for
+             * methods with primitive types will work correctly.
+             */
+            if (parameterTypes[j].isPrimitive())
+            {
+                if (parameterTypes[j].equals(Integer.TYPE))
+                    methodKey.append("java.lang.Integer");
+            }                
+            else
+                methodKey.append(parameterTypes[j].getName());
+        }            
+
         return methodKey.toString();
     }
 
