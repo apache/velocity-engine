@@ -59,78 +59,13 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * <p>
- * The actions and template data in a JSP page is written using the
- * JspWriter object that is referenced by the implicit variable out which
- * is initialized automatically using methods in the PageContext object.
- * <p>
- * This abstract class emulates some of the functionality found in the
- * java.io.BufferedWriter and java.io.PrintWriter classes,
- * however it differs in that it throws java.io.IOException from the print
- * methods while PrintWriter does not.
- * <p><B>Buffering</B>
- * <p>
- * The initial JspWriter object is associated with the PrintWriter object
- * of the ServletResponse in a way that depends on whether the page is or
- * is not buffered. If the page is not buffered, output written to this
- * JspWriter object will be written through to the PrintWriter directly,
- * which will be created if necessary by invoking the getWriter() method
- * on the response object. But if the page is buffered, the PrintWriter
- * object will not be created until the buffer is flushed and
- * operations like setContentType() are legal. Since this flexibility
- * simplifies programming substantially, buffering is the default for JSP
- * pages.
- * <p>
- * Buffering raises the issue of what to do when the buffer is
- * exceeded. Two approaches can be taken:
- * <ul>
- * <li>
- * Exceeding the buffer is not a fatal error; when the buffer is
- * exceeded, just flush the output.
- * <li>
- * Exceeding the buffer is a fatal error; when the buffer is exceeded,
- * raise an exception.
- * </ul>
- * <p>
- * Both approaches are valid, and thus both are supported in the JSP
- * technology. The behavior of a page is controlled by the autoFlush
- * attribute, which defaults to true. In general, JSP pages that need to
- * be sure that correct and complete data has been sent to their client
- * may want to set autoFlush to false, with a typical case being that
- * where the client is an application itself. On the other hand, JSP
- * pages that send data that is meaningful even when partially
- * constructed may want to set autoFlush to true; such as when the
- * data is sent for immediate display through a browser. Each application
- * will need to consider their specific needs.
- * <p>
- * An alternative considered was to make the buffer size unbounded; but,
- * this had the disadvantage that runaway computations would consume an
- * unbounded amount of resources.
- * <p>
- * The "out" implicit variable of a JSP implementation class is of this type.
- * If the page directive selects autoflush="true" then all the I/O operations
- * on this class shall automatically flush the contents of the buffer if an
- * overflow condition would result if the current operation were performed
- * without a flush. If autoflush="false" then all the I/O operations on this
- * class shall throw an IOException if performing the current operation would
- * result in a buffer overflow condition.
+ * Implementation of a fast Writer. It was originally taken from JspWriter
+ * and modified to have less syncronization going on.
  *
- * @see java.io.Writer
- * @see java.io.BufferedWriter
- * @see java.io.PrintWriter
- *
- * Write text to a character-output stream, buffering characters so as
- * to provide for the efficient writing of single characters, arrays,
- * and strings. 
- *
- * Provide support for discarding for the output that has been 
- * buffered. 
- * 
- * This needs revisiting when the buffering problems in the JSP spec
- * are fixed -akv 
- *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.3 2001/03/05 11:45:04 jvanzyl Exp $
+ * @version $Id: VelocityWriter.java,v 1.4 2001/03/20 01:52:54 jon Exp $
  */
 public final class VelocityWriter extends Writer
 {
@@ -193,7 +128,8 @@ public final class VelocityWriter extends Writer
     /**
      * This method indicates whether the JspWriter is autoFlushing.
      *
-     * @return if this JspWriter is auto flushing or throwing IOExceptions on buffer overflow conditions
+     * @return if this JspWriter is auto flushing or throwing IOExceptions on 
+     *         buffer overflow conditions
      */
     public boolean isAutoFlush() { return autoFlush; }
 
