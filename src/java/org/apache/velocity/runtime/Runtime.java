@@ -153,7 +153,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.48 2000/11/17 00:59:08 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.49 2000/11/17 02:23:23 daveb Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -376,7 +376,7 @@ public class Runtime implements RuntimeConstants
         // Let's look at the log file entry and
         // correct it if it is not a property 
         // fomratted URL.
-        String logFile = getString(RUNTIME_LOG);
+        String logFile = VelocityResources.getString(RUNTIME_LOG);
 
         // Initialize the logger.
         logger = LogKit.createLogger("velocity", 
@@ -708,46 +708,6 @@ public class Runtime implements RuntimeConstants
             }
         }
         return t;
-    }
-
-    /**
-     *  Get an integer property with a default value
-     */
-    public static int getInt( String property, int iDef )
-    {
-        return VelocityResources.getInt( property, iDef );
-    }
-
-    /**
-     *  Get an integer property 
-     */
-    public static int getInt( String property )
-    {
-        return VelocityResources.getInt( property  );
-    }
-
-    /**
-     * Get a boolean property.
-     */
-    public static boolean getBoolean(String property)
-    {
-        return VelocityResources.getBoolean( property );
-    }
-
-    /**
-     * Get a string property.
-     */
-    public static String getString(String property)
-    {
-        return VelocityResources.getString( property );
-    }
-    /**
-     * Get a string property. with a default value
-     */
-    public static String getString(String property, String defaultValue)
-    {
-        String prop = getString( property );
-        return (prop == null ? defaultValue : prop);
     }
 
     private static void log(String message)
