@@ -19,7 +19,7 @@ refuse to use any technology that is not "standard." Digging into the
 reality of this statement reveals that the important correct terminology
 is that JSP is a "Sun Standard Specification" and not strictly a
 "standard." This is important because JSP is really no more "standard"
-than Micro$oft ASP or the PHP Group's PHP product. In other words,
+than Microsoft ASP or the PHP Group's PHP product. In other words,
 whatever tool you happen to be using becomes the "standard."
 </p>
 
@@ -32,6 +32,17 @@ stretch as far as to say that the JSP specification is really a
 proprietary product of Sun!
 </p>
 
+<p>
+It is important to note at this point that the primary author of this
+document (Jon Stevens) is a member of the JSR-053 which defines the
+Servlet and JSP specification's.
+</p>
+
+<p>
+Inside JSR-053, it is clear that not everything is done in the open and
+decisions are made behind closed doors. Of course the participants could
+object, but Sun still is the binding force behind the decisions.
+</p>
 </subsection>
 
 <subsection name="The next point: Complexity">
@@ -70,20 +81,21 @@ pass the tests in order to publicly humiliate them into submission.
 <subsection name="The final point: Velocity">
 
 <p>
-Even though Velocity is lacking a specification document (it is on the
-TODO list and volunteers are welcome to help out) and is not a "Sun
-Specification Standard" (although it probably could be, but would it be
-really worth it?), that should not stop anyone from using it in
-production environments. The reason is that as shown above, the fact of
-the matter is that JSP is no more of a "standard" than anything else.
+Even though Velocity is lacking a formal specification document (it is
+on the TODO list and volunteers are welcome to help out) and is not a
+"Sun Specification Standard", that should not stop anyone from using it
+in production environments. The reason is that, as shown above, is that
+JSP is no more of a "standard" than anything else.
 </p>
 
 <p>
-Velocity is actually a more reliable implementation because there is
-currently only one implementation, the modifications to the code base
+Velocity is actually a more reliable implementation than JSP because
+there is currently only one implementation. Even if there were more
+implementations the modifications to all aspects of the Velocity project
 are discussed in the open (anyone is welcome to participate) and the
 testing suite is strictly maintained.
 </p>
+
 </subsection>
 
 <p>

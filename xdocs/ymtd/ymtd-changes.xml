@@ -19,6 +19,9 @@ list of changes to date (latest changes first in listing):
 
 <p>
 <ul>
+<li>Cleanup of the way that the <a
+href="./ymtd-implementation.html">Implementation</a> page 
+is written in order to clarify the points.</li>
 <li>Minor clarification in the <a
 href="./ymtd-saying-hello.html">Saying Hello</a> example.</li>
 <li>Added the <a href="./ymtd-hosting.html">Hosting</a> page to address
