@@ -82,17 +82,19 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.35 2001/10/24 05:20:55 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.36 2001/11/03 18:30:14 dlr Exp $
  */
 public class TexenTask 
     extends Task
 {
     /**
-     * This message (telling users to consult the log) is appended to
-     * rethrown exception messages.
+     * This message fragment (telling users to consult the log or
+     * invoke ant with the -debug flag) is appended to rethrown
+     * exception messages.
      */
-    private final static String MSG_CONSULT_LOG = 
-        ". For more information consult the velocity log.";
+    private final static String ERR_MSG_FRAGMENT = 
+        ". For more information consult the velocity log, or invoke ant " +
+        "with the -debug flag.";
     
     /**
      * This is the control template that governs the output.
@@ -363,7 +365,6 @@ public class TexenTask
     public void execute () 
         throws BuildException
     {
-
         // Make sure the template path is set.
         if (templatePath == null && useClasspath == false)
         {
@@ -521,6 +522,7 @@ public class TexenTask
             writer.flush();
             writer.close();
             generator.shutdown();
+            cleanup();
         }
         catch( BuildException e)
         {
@@ -530,20 +532,20 @@ public class TexenTask
         {
             throw new BuildException(
                 "Exception thrown by '" + e.getReferenceName() + "." + 
-                    e.getMethodName() +"'" + MSG_CONSULT_LOG,
+                    e.getMethodName() +"'" + ERR_MSG_FRAGMENT,
                         e.getWrappedThrowable());
         }       
         catch( ParseErrorException e )
         {
-            throw new BuildException("Velocity syntax error" + MSG_CONSULT_LOG ,e);
+            throw new BuildException("Velocity syntax error" + ERR_MSG_FRAGMENT ,e);
         }        
         catch( ResourceNotFoundException e )
         {
-            throw new BuildException("Resource not found" + MSG_CONSULT_LOG,e);
+            throw new BuildException("Resource not found" + ERR_MSG_FRAGMENT,e);
         }
         catch( Exception e )
         {
-            throw new BuildException("Generation failed" + MSG_CONSULT_LOG ,e);
+            throw new BuildException("Generation failed" + ERR_MSG_FRAGMENT ,e);
         }
     }
 
@@ -568,5 +570,18 @@ public class TexenTask
         throws Exception
     {
         context.put("now", new Date().toString());
+    }
+
+    /**
+     * A hook method called at the end of {@link #execute()} which can
+     * be overridden to perform any necessary cleanup activities (such
+     * as the release of database connections, etc.).  By default,
+     * does nothing.
+     *
+     * @exception Exception Problem cleaning up.
+     */
+    protected void cleanup()
+        throws Exception
+    {
     }
 }
