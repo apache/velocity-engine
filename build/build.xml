@@ -323,7 +323,8 @@
     <javac srcdir="${example.dir}/app_example1
                   :${example.dir}/app_example2
                   :${example.dir}/servlet_example1
-                  :${example.dir}/context_example"
+                  :${example.dir}/context_example
+                  :${example.dir}/logger_example"
       debug="${debug}"
       deprecation="${deprecation}"
       optimize="${optimize}">
