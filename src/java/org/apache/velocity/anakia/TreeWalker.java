@@ -54,8 +54,9 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -67,16 +68,15 @@ import org.jdom.JDOMException;
  * into allElements() and stores each node of the tree 
  * in a Vector which allElements() returns as a result of its
  * execution. You can then use a #foreach in Velocity to walk
- * over the Vector and visit each Element node.
+ * over the Vector and visit each Element node. However, you can
+ * achieve the same effect by calling <code>element.selectNodes("//*")</code>.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TreeWalker.java,v 1.4 2001/03/20 00:47:44 jon Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: TreeWalker.java,v 1.5 2001/08/08 04:30:47 jon Exp $
  */
 public class TreeWalker
 {
-    /** the cache of Element objects */
-    private Vector theElements = null;
-    
     /**
      * Empty constructor
      */
@@ -91,24 +91,24 @@ public class TreeWalker
      * @param Element the starting Element node
      * @return Vector a vector of Element nodes
      */
-    public Vector allElements(Element e)
+    public NodeList allElements(Element e)
     {
-        theElements = new Vector();
-        treeWalk (e);
-        return this.theElements;
+        ArrayList theElements = new ArrayList();
+        treeWalk (e, theElements);
+        return new NodeList(theElements, false);
     }
     
     /**
      * A recursive method to walk the Element tree.
      * @param Element the current Element
      */
-    private final void treeWalk(Element e)
+    private final void treeWalk(Element e, Collection theElements )
     {
         for (Iterator i=e.getChildren().iterator(); i.hasNext(); )
         {
             Element child = (Element)i.next();
             theElements.add(child);
-            treeWalk(child);
+            treeWalk(child, theElements);
         }            
     }
 }    
