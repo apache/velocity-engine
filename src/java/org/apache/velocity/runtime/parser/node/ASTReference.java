@@ -79,7 +79,7 @@ import org.apache.velocity.runtime.parser.*;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.19 2001/01/18 05:08:18 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.20 2001/02/01 18:22:30 geirm Exp $ 
 */
 
 public class ASTReference extends SimpleNode
@@ -300,12 +300,33 @@ public class ASTReference extends SimpleNode
 
             Class[] params = { value.getClass() };
             Class c = result.getClass();
-            Method m = c.getMethod("set" + identifier, params);
+            Method m = null;
+
+            try
+            {
+                m = c.getMethod("set" + identifier, params);
+            }
+            catch( NoSuchMethodException nsme2)
+            {
+                StringBuffer sb = new StringBuffer( "set" );
+                sb.append( identifier );
+
+                if(  Character.isLowerCase( sb.charAt(3)))
+                {
+                    sb.setCharAt( 3 ,  Character.toUpperCase( sb.charAt( 3 ) ) );
+                }
+                else
+                {
+                    sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
+                }
+
+                m = c.getMethod( sb.toString(), params);
+            }
 
             /*
              *  and if we get here, getMethod() didn't chuck an exception...
              */
-
+            
             Object[] args = { value };
             m.invoke(result, args);
         }
