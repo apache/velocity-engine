@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.9 2000/11/26 03:01:13 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.10 2001/01/06 22:07:40 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -294,23 +294,13 @@ public class TestProvider
         return true;
     }
 
-    /*
-     * This can't have the signature
-    
-    public void setState(boolean state)
-    
-    or dynamically invoking the method
-    doesn't work ... you would have to
-    put a wrapper around a method for a
-    real boolean property that takes a 
-    Boolean object if you wanted this to
-    work. Not really sure how useful it
-    is anyway. Who cares about boolean
-    values you can just set a variable.
-    
-    */
-
-    public void setState(Boolean state)
+    /**
+     * Test the ability of vel to use a get(key)
+     * method for any object type, not just one
+     * that implements the Map interface.
+     */
+    public String get(String key)
     {
+        return key;
     }        
 }
