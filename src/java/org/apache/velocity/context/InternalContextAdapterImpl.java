@@ -3,7 +3,7 @@ package org.apache.velocity.context;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $$
+ * @version $Id: InternalContextAdapterImpl.java,v 1.3 2001/03/05 11:21:42 jvanzyl Exp $
  */
 
 public final class InternalContextAdapterImpl implements InternalContextAdapter

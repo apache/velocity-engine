@@ -1,3 +1,5 @@
+package org.apache.velocity.context;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,8 +54,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.context;
-
 import java.util.HashMap;
 
 import org.apache.velocity.runtime.Runtime;
@@ -72,7 +72,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.3 2001/02/05 04:30:02 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.4 2001/03/05 11:21:45 jvanzyl Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -89,7 +89,8 @@ public class VMContext implements InternalContextAdapter
     InternalContextAdapter wrappedContext = null;
 
     /** support for local context scope feature, where all references are local */
-    static boolean localcontextscope = Runtime.getBoolean(Runtime.VM_CONTEXT_LOCALSCOPE, true);
+    static boolean localcontextscope = 
+        Runtime.getBoolean(Runtime.VM_CONTEXT_LOCALSCOPE, true);
 
     /**
      *  CTOR, wraps an ICA
@@ -165,7 +166,8 @@ public class VMContext implements InternalContextAdapter
             if(localcontextscope)
             {
                 /*
-                 *  if we have localcontextscope mode, then just put in the local context 
+                 *  if we have localcontextscope mode, then just 
+                 *  put in the local context
                  */
 
                 return localcontext.put( key, value );
@@ -217,7 +219,8 @@ public class VMContext implements InternalContextAdapter
             if(localcontextscope)
             {
                 /*
-                 *  if we have localcontextscope mode, then just put in the local context 
+                 * if we have localcontextscope mode, then just 
+                 * put in the local context
                  */
 
                 o =  localcontext.get( key );

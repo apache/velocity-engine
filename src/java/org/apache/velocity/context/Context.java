@@ -3,7 +3,7 @@ package org.apache.velocity.context;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ import org.apache.velocity.util.ArrayIterator;
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: Context.java,v 1.1 2001/01/03 05:16:24 geirm Exp $
+ *  @version $Id: Context.java,v 1.2 2001/03/05 11:21:40 jvanzyl Exp $
  */
 public interface Context
 {
