@@ -454,12 +454,7 @@ private final int jjMoveNfa_0(int startState, int curPos)
                         kind = 52;
                      jjCheckNAdd(31);
                   }
-                  else if ((0x2400L & l) != 0L)
-                  {
-                     if (kind > 30)
-                        kind = 30;
-                  }
-                  else if ((0x100000200L & l) != 0L)
+                  else if ((0x100002600L & l) != 0L)
                   {
                      if (kind > 26)
                         kind = 26;
@@ -484,6 +479,11 @@ private final int jjMoveNfa_0(int startState, int curPos)
                      if (kind > 9)
                         kind = 9;
                      jjCheckNAddStates(6, 8);
+                  }
+                  if ((0x2400L & l) != 0L)
+                  {
+                     if (kind > 30)
+                        kind = 30;
                   }
                   if (curChar == 13)
                      jjstateSet[jjnewStateCnt++] = 28;
@@ -521,7 +521,7 @@ private final int jjMoveNfa_0(int startState, int curPos)
                      jjstateSet[jjnewStateCnt++] = 7;
                   break;
                case 9:
-                  if ((0x100000200L & l) == 0L)
+                  if ((0x100002600L & l) == 0L)
                      break;
                   if (kind > 26)
                      kind = 26;
@@ -2690,7 +2690,7 @@ private final int jjMoveNfa_1(int startState, int curPos)
                         kind = 52;
                      jjCheckNAdd(23);
                   }
-                  else if ((0x100000200L & l) != 0L)
+                  else if ((0x100002600L & l) != 0L)
                   {
                      if (kind > 26)
                         kind = 26;
@@ -2726,7 +2726,7 @@ private final int jjMoveNfa_1(int startState, int curPos)
                      jjstateSet[jjnewStateCnt++] = 0;
                   break;
                case 4:
-                  if ((0x100000200L & l) == 0L)
+                  if ((0x100002600L & l) == 0L)
                      break;
                   if (kind > 26)
                      kind = 26;
