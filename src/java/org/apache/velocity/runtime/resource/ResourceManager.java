@@ -75,7 +75,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.11 2001/03/03 20:49:40 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.12 2001/03/04 00:40:02 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -204,6 +204,8 @@ public class ResourceManager
                 loaderConfiguration.getString("public.name").toLowerCase(), 
                     loaderConfiguration);
         }            
+    
+        resourceLoaderInitializersActive = true;
     }
 
     /**
