@@ -47,7 +47,7 @@ Win32:
 build.bat
 
 This will create a bin/ directory containing the Velocity .jar file. Be
-sure to update your classpath to include xVelocity's .jar file.
+sure to update your classpath to include Velocity's .jar file.
 
 TRYING THE EXAMPLES
 -------------------
