@@ -19,53 +19,53 @@ TBD: - The faq doesn't show in the content
 >
 
 <xsl:template match ="/">
-	<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
-		<!-- defines page layout -->
-		<fo:layout-master-set>
+                <!-- defines page layout -->
+                <fo:layout-master-set>
 
-			<fo:simple-page-master master-name="first"
-										page-height="29.7cm" 
-										page-width="21cm"
-										margin-top="1.5cm" 
-										margin-bottom="2cm" 
-										margin-left="2.5cm" 
-										margin-right="2.5cm">
-				<fo:region-body margin-top="3cm"/>
-				<fo:region-before extent="1.5cm"/>
-				<fo:region-after extent="1.5cm"/>
-			</fo:simple-page-master>
+                        <fo:simple-page-master master-name="first"
+                                                                                page-height="29.7cm" 
+                                                                                page-width="21cm"
+                                                                                margin-top="1.5cm" 
+                                                                                margin-bottom="2cm" 
+                                                                                margin-left="2.5cm" 
+                                                                                margin-right="2.5cm">
+                                <fo:region-body margin-top="3cm"/>
+                                <fo:region-before extent="1.5cm"/>
+                                <fo:region-after extent="1.5cm"/>
+                        </fo:simple-page-master>
 
-			<fo:simple-page-master master-name="rest"
-										page-height="29.7cm" 
-										page-width="21cm"
-										margin-top="1.5cm" 
-										margin-bottom="2cm" 
-										margin-left="2.5cm" 
-										margin-right="2.5cm">
-				<fo:region-body margin-top="2.5cm"/>
-				<fo:region-before extent="1.5cm"/>
-				<fo:region-after extent="1.5cm"/>
-			</fo:simple-page-master>
+                        <fo:simple-page-master master-name="rest"
+                                                                                page-height="29.7cm" 
+                                                                                page-width="21cm"
+                                                                                margin-top="1.5cm" 
+                                                                                margin-bottom="2cm" 
+                                                                                margin-left="2.5cm" 
+                                                                                margin-right="2.5cm">
+                                <fo:region-body margin-top="2.5cm"/>
+                                <fo:region-before extent="1.5cm"/>
+                                <fo:region-after extent="1.5cm"/>
+                        </fo:simple-page-master>
 
-			<fo:page-sequence-master master-name="all">
-				<fo:single-page-master-reference master-name="first"/>
-				<fo:repeatable-page-master-reference master-name="rest"/>
-			</fo:page-sequence-master>
+                        <fo:page-sequence-master master-name="all">
+                                <fo:single-page-master-reference master-name="first"/>
+                                <fo:repeatable-page-master-reference master-name="rest"/>
+                        </fo:page-sequence-master>
 
-		</fo:layout-master-set>
+                </fo:layout-master-set>
 
-		<fo:page-sequence master-name="all">
-			<fo:static-content flow-name="xsl-region-before">
-				<fo:block text-align="end" 
-							font-size="10pt" 
-							font-family="serif" 
-							line-height="14pt" >
-					FOP documentation - p. <fo:page-number/>
-				</fo:block>
-			</fo:static-content> 
+                <fo:page-sequence master-name="all">
+                        <fo:static-content flow-name="xsl-region-before">
+                                <fo:block text-align="end" 
+                                                        font-size="10pt" 
+                                                        font-family="serif" 
+                                                        line-height="14pt" >
+                                        FOP documentation - p. <fo:page-number/>
+                                </fo:block>
+                        </fo:static-content> 
 
-			<fo:flow flow-name="xsl-region-body">
+                        <fo:flow flow-name="xsl-region-body">
 
 
        <fo:block font-size="18pt" 
@@ -119,10 +119,10 @@ TBD: - The faq doesn't show in the content
          </fo:table>
 
 
-			<xsl:apply-templates select="documentation"/> 
-			</fo:flow>
-		</fo:page-sequence>
-	</fo:root>
+                        <xsl:apply-templates select="documentation"/> 
+                        </fo:flow>
+                </fo:page-sequence>
+        </fo:root>
 </xsl:template>
 
 <!-- s1 -->
@@ -249,13 +249,35 @@ TBD: - The faq doesn't show in the content
 </xsl:template>
 
 
-<!-- code -->
+<!-- code 
 <xsl:template match ="*/code">
    <fo:inline font-size="10pt" 
             font-family="Courier">
      <xsl:apply-templates/> 
    </fo:inline>
 </xsl:template>
+-->
+
+<xsl:template match ="*/source">
+   <fo:inline font-size="10pt" 
+            font-family="Courier"
+            white-space-treatment="preserve">
+     <xsl:apply-templates/> 
+   </fo:inline>
+</xsl:template>
+
+<!-- p + source -->
+<xsl:template match ="p[source]">
+   <fo:block font-size="11pt" 
+            font-family="sans-serif" 
+            line-height="12pt"
+            space-after.optimum="0pt"
+            space-before.optimum="0pt"
+            text-align="start">
+     <xsl:apply-templates/> 
+   </fo:block>
+</xsl:template>
+
 
 
 <!-- ul (unordered list) -->
