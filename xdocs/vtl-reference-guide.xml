@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>VTL Reference Guide</title>
+  <subtitle>VTL Refernce Guide</subtitle>
+  <authors>
+   <person name="Jason van Zyl" email="jvanzyl@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<!--
+
+Some of the user's guide info should be moved into
+this reference guide and links should be made from
+the user's guide to this document
+
+-->
+
+<s1 title="About this Guide">
+
+<p>
+    This guide is meant to be the definitive reference for
+    the Velocity Template Language (VTL).
+</p> 
+
+<s1 title="References">
+</s1>
+
+<s1 title="Directives">
+</s1>
+
+
+</body>
+</document>
