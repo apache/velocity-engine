@@ -294,7 +294,7 @@
     />
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.TexenTestCase"/>
+      <arg value="org.apache.velocity.test.TexenClasspathTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
