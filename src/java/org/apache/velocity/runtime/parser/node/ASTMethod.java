@@ -79,7 +79,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.24 2003/05/04 17:24:30 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.25 2004/02/19 18:53:43 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -269,8 +269,10 @@ public class ASTMethod extends SimpleNode
                 {
                     throw new MethodInvocationException( 
                         "Invocation of method '" 
-                        + methodName + "' in  " + o.getClass() 
-                        + " threw exception " 
+                        + methodName + "' in  " + o.getClass()
+                        + " in template " + context.getCurrentTemplateName()
+                        + " at line=" + this.getLine() + " column=" + this.getColumn()
+                        + " threw exception "
                         + e.getClass() + " : " + e.getMessage(), 
                         e, methodName );
                 }
@@ -283,7 +285,9 @@ public class ASTMethod extends SimpleNode
 
                 throw new MethodInvocationException( 
                 "Invocation of method '" 
-                + methodName + "' in  " + o.getClass() 
+                + methodName + "' in  " + o.getClass()
+                + " in template " + context.getCurrentTemplateName()
+                + " at line=" + this.getLine() + " column=" + this.getColumn()
                 + " threw exception " 
                 + ite.getTargetException().getClass() + " : "
                 + ite.getTargetException().getMessage(), 
