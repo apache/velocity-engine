@@ -63,12 +63,46 @@ import org.apache.commons.collections.ExtendedProperties;
  * call init().
  * </p>
  *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityEngine.java,v 1.8 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id: VelocityEngine.java,v 1.9 2004/04/29 23:02:55 geirm Exp $
  */
 public class VelocityEngine implements RuntimeConstants
 {
     private RuntimeInstance ri = new RuntimeInstance();
+
+
+    /**
+     *  Init-less CTOR
+     */
+    public VelocityEngine()
+    {
+        // do nothing
+    }
+
+    /**
+     *  CTOR that invokes an init(String), initializing
+     *  the engine using the properties file specified
+     *
+     * @param propsFilename name of properties file to init with
+     * @throws Exception
+     */
+    public VelocityEngine(String propsFilename)
+        throws Exception
+    {
+        ri.init(propsFilename);
+    }
+
+    /**
+     *  CTOR that invokes an init(String), initializing
+     *  the engine using the Properties specified
+     *
+     * @param p name of properties  to init with
+     * @throws Exception
+     */
+    public VelocityEngine(Properties p)
+        throws Exception
+    {
+        ri.init(p);
+    }
 
     /**
      *  initialize the Velocity runtime engine, using the default 
@@ -87,7 +121,7 @@ public class VelocityEngine implements RuntimeConstants
      *  @param propsFilename file containing properties to use to initialize 
      *         the Velocity runtime
      */
-    public void init( String propsFilename ) 
+    public void init(String propsFilename)
         throws Exception
     {
         ri.init(propsFilename);
@@ -100,17 +134,17 @@ public class VelocityEngine implements RuntimeConstants
      *  @param p  Proprties object containing initialization properties
      *
      */
-    public void init( Properties p )
+    public void init(Properties p)
         throws Exception
     {      
-        ri.init( p ); 
+        ri.init(p);
     }
     
     /**
      * Set a Velocity Runtime property.
      *
-     * @param String key
-     * @param Object value
+     * @param  key
+     * @param  value
      */
     public void setProperty(String key, Object value)
     {
@@ -120,8 +154,8 @@ public class VelocityEngine implements RuntimeConstants
     /**
      * Add a Velocity Runtime property.
      *
-     * @param String key
-     * @param Object value
+     * @param  key
+     * @param  value
      */
     public void addProperty(String key, Object value)
     {
@@ -144,7 +178,7 @@ public class VelocityEngine implements RuntimeConstants
      * the Configuration class and the velocity configuration
      * is a subset of the parent application's configuration.
      *
-     * @param Configuration configuration
+     * @param  configuration
      *
      * @deprecated Use
      *  {@link #setExtendedProperties( ExtendedProperties  ) }
@@ -168,7 +202,7 @@ public class VelocityEngine implements RuntimeConstants
      * the ExtendedProperties class and the velocity configuration
      * is a subset of the parent application's configuration.
      *
-     * @param ExtendedProperties configuration
+     * @param  configuration
      *
      */
     public void setExtendedProperties( ExtendedProperties configuration)
@@ -216,7 +250,7 @@ public class VelocityEngine implements RuntimeConstants
      *  use Velocity as a token replacer.
      *
      *  @param context context to use in rendering input string
-     *  @param out  Writer in which to render the output
+     *  @param writer  Writer in which to render the output
      *  @param logTag  string to be used as the template name for log messages
      *                 in case of error
      *  @param instream input stream containing the VTL to be rendered
@@ -260,7 +294,7 @@ public class VelocityEngine implements RuntimeConstants
      *  use Velocity as a token replacer.
      *
      *  @param context context to use in rendering input string
-     *  @param out  Writer in which to render the output
+     *  @param writer  Writer in which to render the output
      *  @param logTag  string to be used as the template name for log messages
      *                 in case of error
      *  @param reader Reader containing the VTL to be rendered
@@ -270,8 +304,8 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @since Velocity v1.1
      */
-    public boolean evaluate( Context context, Writer writer, 
-                                    String logTag, Reader reader )
+    public boolean evaluate(Context context, Writer writer,
+                                    String logTag, Reader reader)
         throws ParseErrorException, MethodInvocationException, 
         	ResourceNotFoundException,IOException
     {
@@ -279,9 +313,9 @@ public class VelocityEngine implements RuntimeConstants
         
         try
         {
-            nodeTree = ri.parse( reader, logTag );        
+            nodeTree = ri.parse(reader, logTag);
         }
-        catch ( ParseException pex )
+        catch (ParseException pex)
         {
             throw  new ParseErrorException( pex.getMessage() );
         }                
@@ -335,7 +369,7 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @param vmName name of Velocimacro to call
      *  @param logTag string to be used for template name in case of error
-     *  @param params[] args used to invoke Velocimacro. In context key format : 
+     *  @param params args used to invoke Velocimacro. In context key format :
      *                  eg  "foo","bar" (rather than "$foo","$bar")
      *  @param context Context object containing data/objects used for rendering.
      *  @param writer  Writer for output stream
@@ -514,41 +548,41 @@ public class VelocityEngine implements RuntimeConstants
     /**
      * Log a warning message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public void warn(Object message)
     {
-        ri.warn( message );
+        ri.warn(message);
     }
     
     /** 
      * Log an info message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public void info(Object message)
     {
-        ri.info( message );
+        ri.info(message);
     }
     
     /**
      * Log an error message.
      *
-     * @param Object message to log
+     * @param message  message to log
      */
     public void error(Object message)
     {
-        ri.error( message );
+        ri.error(message);
     }
     
     /**
      * Log a debug message.
      *
-     * @param Object message to log
+     * @param  message message to log
      */
     public void debug(Object message)
     {
-        ri.debug( message );
+        ri.debug(message);
     }
 
     /**
@@ -574,7 +608,7 @@ public class VelocityEngine implements RuntimeConstants
      */
      public void setApplicationAttribute( Object key, Object value )
      {
-        ri.setApplicationAttribute( key, value );
+        ri.setApplicationAttribute(key, value);
      }
 } 
 
