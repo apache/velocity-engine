@@ -163,7 +163,7 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.19 2001/03/21 20:19:16 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.20 2001/03/23 17:36:36 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -1143,8 +1143,7 @@ public class Configuration extends Hashtable
      * @exception ClassCastException is thrown if the key maps to an
      * object that is not a Boolean.
      */
-    public boolean getBoolean(String key,
-                              boolean defaultValue)
+    public boolean getBoolean(String key, boolean defaultValue)
     {
         return getBoolean(key, new Boolean(defaultValue)).booleanValue();
     }
@@ -1159,8 +1158,7 @@ public class Configuration extends Hashtable
      * @exception ClassCastException is thrown if the key maps to an
      * object that is not a Boolean.
      */
-    public Boolean getBoolean(String key,
-                              Boolean defaultValue)
+    public Boolean getBoolean(String key, Boolean defaultValue)
     {
     
         Object value = get(key);
@@ -1171,7 +1169,8 @@ public class Configuration extends Hashtable
         }
         else if (value instanceof String)
         {
-            Boolean b = new Boolean((String) value);
+            String s = testBoolean((String)value);
+            Boolean b = new Boolean(s);
             put(key, b);
             return b;
         }
@@ -1190,6 +1189,52 @@ public class Configuration extends Hashtable
         {
             throw new ClassCastException(
                 key + " doesn't map to a Boolean object");
+        }
+    }
+    
+    /**
+     * Test whether the string represent by value maps
+     * to a boolean value or not. We will allow "true",
+     * "on", and "yes" for a true boolean value, and
+     * "false", "off", and "no" for false boolean
+     * values.
+     *
+     * @param String value
+     * @return String
+     */
+    public String testBoolean(String value)
+    {
+        /*
+         * Look at the value, we allow the following
+         * values for true:
+         *
+         * "true", "on", "yes"
+         *
+         * And allow the following values for false:
+         *
+         * "false", "off", "no"
+         *
+         * Case doesn't matter.
+         */
+        String s = ((String)value).toLowerCase();
+    
+        if (s.equals("true") || s.equals("on") || s.equals("yes"))
+        {
+            /*
+             * Map our string to "true".
+             */ 
+            return "true";
+        }
+        else if (s.equals("false") || s.equals("off") || s.equals("no"))
+        {
+            /*
+             * Map our string to "false".
+             */
+            return "false";
+        }
+        else
+        {
+            return null;
         }
     }
 
