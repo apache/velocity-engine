@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -86,7 +86,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.16 2001/03/19 17:13:00 geirm Exp $
+ * @version $Id: Parse.java,v 1.17 2001/03/20 01:11:25 jon Exp $
  */
 public class Parse extends Directive
 {
@@ -113,7 +113,8 @@ public class Parse extends Directive
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, 
+                           Writer writer, Node node)
         throws IOException, MethodInvocationException
     {
         /*
@@ -128,7 +129,6 @@ public class Parse extends Directive
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
-
         Object value =  node.jjtGetChild(0).value( context );
 
         if ( value == null)
@@ -149,7 +149,8 @@ public class Parse extends Directive
 
         Object[] templateStack = context.getTemplateNameStack();
 
-        if ( templateStack.length >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20) )
+        if ( templateStack.length >= 
+                Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20) )
         {
             StringBuffer path = new StringBuffer();
 
@@ -158,14 +159,14 @@ public class Parse extends Directive
                 path.append( " > " + templateStack[i] );
             }
 
-            Runtime.error( "Max recursion depth reached (" + templateStack.length + ")"  + " File stack:" + path );
+            Runtime.error( "Max recursion depth reached (" + 
+                templateStack.length + ")"  + " File stack:" + path );
             return false;
         }
 
         /*
          *  now use the Runtime resource loader to get the template
          */
-
         Template t = null;
 
         try 
@@ -181,7 +182,6 @@ public class Parse extends Directive
         /*
          *  and render it
          */
-
         try
         {
             context.pushCurrentTemplateName(arg);

@@ -67,8 +67,7 @@ import java.util.Vector;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.11 2001/03/17 05:02:03 geirm Exp $ 
- *
+ * @version $Id: VelocimacroFactory.java,v 1.12 2001/03/20 01:11:15 jon Exp $ 
  */
 public class VelocimacroFactory
 {

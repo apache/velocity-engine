@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -60,28 +60,35 @@ import java.util.Stack;
  * Exception for #parse() problems
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseDirectiveException.java,v 1.3 2001/03/05 11:45:49 jvanzyl Exp $
+ * @version $Id: ParseDirectiveException.java,v 1.4 2001/03/20 01:11:27 jon Exp $
  */
-
 public class ParseDirectiveException extends Exception
 {
     private Stack filenameStack = new Stack();
     private String msg = "";
     private int depthCount = 0;
 
-    ParseDirectiveException( String m, int i   )
+    /**
+     * Constructor
+     */
+    ParseDirectiveException( String m, int i )
     {
         msg = m;
         depthCount = i;
     }
 
+    /**
+     * Get a message.
+     */
     public String getMessage()
     {
-        String returnStr  =  "#parse() exception : depth = " + depthCount + " -> " + msg;
+        String returnStr  =  "#parse() exception : depth = " + 
+            depthCount + " -> " + msg;
 
         returnStr += " File stack : ";
 
-        try {
+        try
+        {
             while( !filenameStack.empty())
             {
                 returnStr += (String) filenameStack.pop();
@@ -95,6 +102,9 @@ public class ParseDirectiveException extends Exception
         return returnStr;
     }
 
+    /**
+     * Add a file to the filename stack
+     */
     public void addFile( String s )
     {
         filenameStack.push( s );

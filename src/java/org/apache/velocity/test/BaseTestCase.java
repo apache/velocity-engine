@@ -80,6 +80,7 @@ import junit.framework.TestCase;
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @version $Id: BaseTestCase.java,v 1.9 2001/03/20 01:11:36 jon Exp $
  */
 public class BaseTestCase extends TestCase
 {

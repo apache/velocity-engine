@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.3 2001/03/05 11:45:44 jvanzyl Exp $
+ * @version $Id: Literal.java,v 1.4 2001/03/20 01:11:24 jon Exp $
  */
 public class Literal extends Directive
 {
@@ -93,7 +93,8 @@ public class Literal extends Directive
      * Store the literal rendition of a node using
      * the Node.literal().
      */
-    public void init( InternalContextAdapter context, Node node) throws Exception
+    public void init( InternalContextAdapter context, Node node)
+        throws Exception
     {
         literalText = node.jjtGetChild(0).literal();
     }    
@@ -102,7 +103,8 @@ public class Literal extends Directive
      * Throw the literal rendition of the block between
      * #literal()/#end into the writer.
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public boolean render( InternalContextAdapter context, 
+                           Writer writer, Node node)
         throws IOException
     {
         writer.write(literalText);

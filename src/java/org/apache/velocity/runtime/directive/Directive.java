@@ -65,6 +65,9 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * Base class for all directives used in Velocity.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: Directive.java,v 1.14 2001/03/20 01:11:21 jon Exp $ 
  */
 public abstract class Directive implements DirectiveConstants,Cloneable
 {
@@ -99,7 +102,8 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be initialized.
      */
-    public void init( InternalContextAdapter context, Node node) throws Exception
+    public void init( InternalContextAdapter context, Node node)
+        throws Exception
     {
         int i, k = node.jjtGetNumChildren();
 
@@ -110,6 +114,7 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be rendered 
      */
-    public abstract boolean render( InternalContextAdapter context, Writer writer, Node node)
+    public abstract boolean render( InternalContextAdapter context, 
+                                    Writer writer, Node node )
         throws IOException, MethodInvocationException;
 }   
