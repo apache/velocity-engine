@@ -33,3 +33,14 @@ $thingy.dingy
 $strings.getVillageType($col.Type)
 $strings.getVillageType( $col.Type)
 $strings.getVillageType($col.Type )
+
+-- Note that the \#end
+#foreach($a in  $stringarray)<$a>#end
+
+#"FFFF
+-#-#-#-#-#
+#-#-#-#
+$-$-$-$-
+#FF00FF00
+#'FF
+
