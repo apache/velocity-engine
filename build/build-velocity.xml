@@ -51,16 +51,19 @@
 
         <!-- JUnit Testbed -->
         <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
-        <!-- 
-        <property name="velocity.test.runner"
-            value="junit.swinggui.TestRunner"/>
-        -->
-        <property name="velocity.test"
-            value="org.apache.velocity.test.VelocityTest"/>
-        
+
+        <property name="template.test"
+            value="org.apache.velocity.test.TemplateTestCase"/>
+
+        <property name="introspector.test"
+            value="org.apache.velocity.test.IntrospectorTestCase"/>
+
         <property name="default.properties" 
             value="org/apache/velocity/runtime/defaults/velocity.properties"/>
-        
+
+        <property name="default.texen.properties"
+            value="org/apache/velocity/texen/defaults/texen.properties"/>
+
         <taskdef name="fop" classname="Fop"/>
         <taskdef name="xslt" classname="Xslt"/>
         
@@ -99,6 +102,10 @@
             
             <copy file="${src.java.dir}/${default.properties}"
                 tofile="${build.dest}/${default.properties}"/>
+
+            <copy file="${src.java.dir}/${default.texen.properties}"
+                tofile="${build.dest}/${default.texen.properties}"/>
+
     </target>
   
     <!-- =================================================================== -->
@@ -220,10 +227,25 @@
     <!-- =================================================================== -->
     <target name="test" depends="init">
 
-        <echo message="Running JUnit tests for Velocity ..."/>
+        <echo message="Running JUnit template tests for Velocity ..."/>
 
         <java classname="${velocity.test.runner}">
-            <arg value="${velocity.test}"/>
+            <arg value="${template.test}"/>
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement location="${junit.jar}"/>
+                <pathelement location="${build.dest}"/>
+            </classpath>
+        </java>
+
+    </target>
+
+    <target name="test-introspector" depends="init">
+
+        <echo message="Running JUnit Introspector tests for Velocity ..."/>
+
+        <java classname="${velocity.test.runner}">
+            <arg value="${introspector.test}"/>
             <classpath>
                 <pathelement path="${classpath}"/>
                 <pathelement location="${junit.jar}"/>
