@@ -57,6 +57,8 @@ package org.apache.velocity.test.view;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import org.apache.velocity.runtime.Runtime;
 
@@ -94,7 +96,15 @@ public class TemplateNodeView
         try
         {
             Runtime.init("velocity.properties");
-            document = Runtime.parse(new FileInputStream(template), template);
+
+            InputStreamReader isr = new InputStreamReader(
+                                       new FileInputStream(template),
+                                       Runtime.getString(Runtime.INPUT_ENCODING));
+
+            BufferedReader br = new BufferedReader( isr );
+                                         
+            document = Runtime.parse( br, template);
+
             visitor = new NodeViewMode();
             visitor.setContext(null);
             visitor.setWriter(new PrintWriter(System.out));
