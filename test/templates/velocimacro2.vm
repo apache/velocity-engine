@@ -24,3 +24,27 @@ test doesn't fail incorrectly.
 #foo2( "hi" )
 #foo_two( "hi" )
 
+
+#foo( $notincontext )
+#foo( $notincontext.getThing() )
+
+#macro( tester $a )
+  #if($a)
+    $a :  yes
+  #else
+    $a :  no
+  #end
+#end
+
+##
+## test to see if we can print these
+## as schmoo
+##
+
+#tester( $notincontext )
+#tester( $notincontext.woogie() )
+
+#set($foo = "bar")
+
+#tester($foo)
+
