@@ -59,6 +59,9 @@ import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.StringWriter;
 import java.io.ByteArrayInputStream;
+import java.io.BufferedReader;
+import java.io.StringReader;
+
 import org.apache.velocity.runtime.Runtime;
 
 /**
@@ -66,7 +69,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.9 2001/03/19 18:53:52 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.10 2001/04/22 18:02:32 geirm Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {
@@ -155,18 +158,14 @@ public class ASTStringLiteral extends SimpleNode
 
                 if (nodeTree == null)
                 {
-                   
-                    ByteArrayInputStream inStream 
-                        = new ByteArrayInputStream( 
-                                interpolateimage.getBytes() );
-  
                     /*
                      *  parse the stringlit
                      */
                     
+                    BufferedReader br = new BufferedReader( new StringReader( interpolateimage ));
+
                     nodeTree 
-                        = Runtime.parse( inStream, 
-                                         context.getCurrentTemplateName() );        
+                        = Runtime.parse( br,context.getCurrentTemplateName() );        
                 
                     /*
                      *  init with context. It won't modify anything
