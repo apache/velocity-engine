@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.61 2000/11/28 01:43:02 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.62 2000/11/28 01:46:35 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -702,8 +702,8 @@ public class Runtime implements RuntimeConstants
     
         if (inputStream == null)
             throw new Exception("Error loading directive.properties! " +
-                                "Something is very wrong if this properties " +
-                                "isn't being located. Either your Velocity " +
+                                "Something is very wrong if these properties " +
+                                "aren't being located. Either your Velocity " +
                                 "distribution is incomplete or your Velocity " +
                                 "jar file is corrupted!");
         
