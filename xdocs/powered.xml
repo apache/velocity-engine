@@ -300,7 +300,20 @@
     </td>
    </tr>
    
-
+  <tr>
+    <td>
+     <a href="http://www.studioz.tv/">www.studioz.tv</a>
+    </td>
+    <td>
+     StudioZ is an events space in San Francisco where artists of all
+     types can promote their own events. We use Anakia with a custom
+     style.vsl to generate the entire static website XML->HTML in a
+     matter of seconds.
+    </td>
+    <td>
+     <a href="http://www.whichever.com/">www.whichever.com</a>
+    </td>
+   </tr>
 
   </table>
  </section>
