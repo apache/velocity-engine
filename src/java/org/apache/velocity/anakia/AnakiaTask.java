@@ -70,7 +70,6 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.xml.sax.SAXParseException;
 
 import org.jdom.Document;
-import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
@@ -94,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaTask.java,v 1.33 2001/11/09 00:12:56 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.34 2003/05/03 23:15:36 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {

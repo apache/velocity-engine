@@ -59,7 +59,6 @@ import java.io.StringWriter;
 
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.jdom.CDATA;
 
 /**
  * This class extends XMLOutputter in order to provide
@@ -67,7 +66,7 @@ import org.jdom.CDATA;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
- * @version $Id: OutputWrapper.java,v 1.5 2001/03/20 00:47:44 jon Exp $
+ * @version $Id: OutputWrapper.java,v 1.6 2003/05/03 23:15:36 geirm Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
