@@ -75,6 +75,8 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.commons.collections.ExtendedProperties;
+
 /**
  * This class extends normal Java properties by adding the possibility
  * to use the same key many times concatenating the value strings
@@ -164,10 +166,22 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.30 2001/05/03 17:09:58 dlr Exp $
+ * @version $Id: Configuration.java,v 1.31 2001/05/11 03:59:10 geirm Exp $
+ *
+ *  @deprecated as of 1.1.  Please use ExtendedProperties from the Jakarta Commons
+ *     collections component.
  */
 public class Configuration extends Hashtable
 {
+    // $$$ GMJ : remove post version 1.1
+    // intended to help deprecate this class w/o having to modify 
+    // the jakarta commons collections class which contains
+    // extended properties.  We need this when someone wants to 
+    // configure velocity w/ a Configuration : the strategy is simply
+    // to shadow the Configuration with the EP
+    private ExtendedProperties deprecationCrutch = new ExtendedProperties();
+
+
     /**
      * Default configurations repository.
      */
@@ -549,6 +563,11 @@ public class Configuration extends Hashtable
     //public void setProperty(String key, Object token)
     public void addProperty(String key, Object token)
     {
+
+        // $$$ GMJ : remove after 1.1 release
+        // for deprecation help
+        deprecationCrutch.addProperty( key, token );
+
         Object o = this.get(key);
 
         /*
@@ -786,6 +805,10 @@ public class Configuration extends Hashtable
      */
     public void clearProperty(String key)
     {
+        // $$$ GMJ : remove after 1.1 release
+        // for deprecation help
+        deprecationCrutch.clearProperty( key  );
+
         if (containsKey(key))
         {
             /*
@@ -1838,4 +1861,25 @@ public class Configuration extends Hashtable
     
         return c;
     }
+
+    /**
+     *  <p>
+     *  Routine intended for deprecation period only
+     *  as we switch from using the Configuration
+     *  class in Velocity to the Jakarta Commons
+     *  ExtendedProperties
+     *  </p>
+     *  <p>
+     *  Do not use this for general use. It will disappear
+     * </p>
+     *  @return ExtendedProperties containing data of Configuration
+     *  
+     *  @deprecated Do not use.  For deprecation assistance only.
+     */
+    public ExtendedProperties getExtendedProperties() 
+    {
+        return deprecationCrutch; 
+    }
+
+
 }
