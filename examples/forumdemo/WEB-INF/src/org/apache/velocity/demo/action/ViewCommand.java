@@ -61,7 +61,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // Velocity
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
 
 // Demo
 import org.apache.velocity.demo.om.*;
@@ -70,8 +70,8 @@ import org.apache.velocity.demo.om.*;
  * View a specific message and it's replies
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Revision: 1.1 $
- * $Id: ViewCommand.java,v 1.1 2000/11/03 02:48:49 daveb Exp $
+ * @version $Revision: 1.2 $
+ * $Id: ViewCommand.java,v 1.2 2001/01/03 06:08:06 geirm Exp $
  */
 public class ViewCommand extends Command
 {
