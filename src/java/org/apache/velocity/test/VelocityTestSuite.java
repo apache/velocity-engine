@@ -70,7 +70,7 @@ import org.apache.velocity.runtime.Runtime;
  * Test suite for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTestSuite.java,v 1.3 2000/10/23 06:17:25 dlr Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.4 2000/10/23 16:47:13 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -95,13 +95,13 @@ public class VelocityTestSuite extends TestSuite
         props = new Properties();
         try
         {
-            props.load
-                (new BufferedInputStream(new FileInputStream(PROPS_FILE_NAME)));
+            props.load(new BufferedInputStream
+                (new FileInputStream(PROPS_FILE_NAME)));
         }
         catch (IOException e)
         {
-            // TODO: Need to initialize the Runtime first.
-            Runtime.error(e);
+            System.err.println("Can't load properties: " + e.getMessage());
+            System.exit(1);
         }
 
         // Add test cases here.
