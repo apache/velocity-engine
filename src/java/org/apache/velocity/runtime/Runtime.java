@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.91 2001/03/05 11:45:08 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.92 2001/03/06 19:26:24 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -297,8 +297,11 @@ public class Runtime implements RuntimeConstants
     public synchronized static void init( Properties props )
         throws Exception
     {
-        overridingProperties = props;
-        init();
+        if( initialized == false )
+        {
+            overridingProperties = props;
+            init();
+        }
     }
 
     /**
@@ -311,8 +314,11 @@ public class Runtime implements RuntimeConstants
     public synchronized static void init( String props )
         throws Exception
     {
-        setProperties(props);
-        init();
+        if (initialized == false)
+        {
+            setProperties(props);
+            init();
+        }
     }
 
     /**
