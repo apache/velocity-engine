@@ -74,14 +74,26 @@ import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+
+
 /**
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.22 2001/04/30 13:33:28 geirm Exp $
+ * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
+ * @version $Id: TexenTask.java,v 1.23 2001/05/01 12:54:59 geirm Exp $
  */
 public class TexenTask extends Task
 {
+    /**
+     * This field contains a message.
+     * This message (telling users to consult the log) is appended to rethrown exception messages.
+     */
+    private final static String MSG_CONSULT_LOG= ". For more information consult the velocity log.";
+    
     /**
      * This is the control template that governs the output.
      * It may or may not invoke the services of worker
@@ -265,8 +277,13 @@ public class TexenTask extends Task
     
     /**
      * Execute the input script with Velocity
+     *
+     * @throws BuildException  
+     * BuildExceptions are thrown when required attributes are missing.
+     * Exceptions thrown by Velocity are rethrown as BuildExceptions.
      */
-    public void execute () throws BuildException
+    public void execute () 
+        throws BuildException
     {
         /*
          * Make sure the template path is set.
@@ -430,9 +447,23 @@ public class TexenTask extends Task
             writer.close();
             generator.shutdown();
         }
-        catch (Exception e)
+        catch( MethodInvocationException e )
         {
-            e.printStackTrace();
+            throw new BuildException(
+                "Exception thrown by '" + e.getReferenceName() + "." + e.getMethodName() +"'" + MSG_CONSULT_LOG,
+                e.getWrappedThrowable());
+        }       
+        catch( ParseErrorException e )
+        {
+            throw new BuildException("Velocity syntax error" + MSG_CONSULT_LOG ,e);
+        }        
+        catch( ResourceNotFoundException e )
+        {
+            throw new BuildException("Resource not found" + MSG_CONSULT_LOG,e);
+        }
+        catch( Exception e )
+        {
+            throw new BuildException("Generation failed" + MSG_CONSULT_LOG ,e);
         }
     }
 
