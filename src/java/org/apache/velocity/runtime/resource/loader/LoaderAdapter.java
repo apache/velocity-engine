@@ -63,7 +63,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * to layer additional functionality over the top of an existing
  * loader.
  *
- * @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  */
 public abstract class LoaderAdapter
