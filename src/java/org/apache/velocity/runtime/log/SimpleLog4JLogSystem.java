@@ -56,31 +56,38 @@ package org.apache.velocity.runtime.log;
 
 import java.util.Enumeration;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.Priority;
+import org.apache.log4j.Level;
 import org.apache.log4j.Appender;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- *  Implementation of a simple log4j system that will either
- *  latch onto an existing category, or just do a simple
- *  rolling file log.  Derived from Jon's 'complicated'
- *  version :)
+ * Implementation of a simple log4j system that will either latch onto
+ * an existing category, or just do a simple rolling file log.
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.3 2003/10/22 01:10:31 dlr Exp $
+ * @author <a href="mailto:jon@apache.org>Jon Scott Stevens</a>
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.4 2003/10/22 01:38:10 dlr Exp $
+ * @since Velocity 1.3
  */
 public class SimpleLog4JLogSystem implements LogSystem
 {
     private RuntimeServices rsvc = null;
 
-    /** log4java logging interface */
-    protected Category logger = null;
+    /**
+     * <a href="http://jakarta.apache.org/log4j/">Log4J</a>
+     * logging API.
+     */
+    protected Logger logger = null;
 
+    /**
+     * <a href="http://jakarta.apache.org/log4j/">Log4J</a>
+     * logging API.
+     */
     public SimpleLog4JLogSystem()
     {
     }
@@ -94,14 +101,16 @@ public class SimpleLog4JLogSystem implements LogSystem
          *  the application to make us use an existing logger
          */
 
-        String categoryname =  (String) rsvc.getProperty("runtime.log.logsystem.log4j.category");
+        String loggerName =
+            (String) rsvc.getProperty("runtime.log.logsystem.log4j.category");
 
-        if ( categoryname != null )
+        if (loggerName != null)
         {
-            logger = Category.getInstance( categoryname );
+            logger = Logger.getLogger(loggerName);
         
-            logVelocityMessage( 0,
-                                "SimpleLog4JLogSystem using category '" + categoryname + "'");
+            logVelocityMessage(0,
+                               "SimpleLog4JLogSystem using category '"
+                               + loggerName + '\'');
 
             return;
         }
@@ -140,14 +149,14 @@ public class SimpleLog4JLogSystem implements LogSystem
          *  that might be used...
          */
 
-        logger = Category.getInstance(this.getClass().getName());
+        logger = Logger.getLogger(this.getClass().getName());
         logger.setAdditivity(false);
 
         /*
          * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
-        logger.setPriority(Priority.DEBUG);
+        logger.setLevel(Level.DEBUG);
 
         RollingFileAppender appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
         

@@ -63,20 +63,19 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- * Implementation of a Log4J logger.
+ * <em>Deprecated</em> implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.7 2003/05/04 17:18:38 geirm Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.8 2003/10/22 01:38:10 dlr Exp $
  *
- * @deprecated As of v1.3.  Use
- *  {@link SimpleLog4jLogSystem}
+ * @deprecated As of v1.3.  Use {@link SimpleLog4jLogSystem}.
  */
 public class Log4JLogSystem implements LogSystem
 {
     private RuntimeServices rsvc = null;
 
     /** log4java logging interface */
-    protected Category logger = null;
+    protected Logger logger = null;
 
     /** logging layout */
     protected Layout layout = null;
@@ -127,14 +126,14 @@ public class Log4JLogSystem implements LogSystem
     private void internalInit()
         throws Exception
     {
-        logger = Category.getInstance("");
+        logger = Logger.getLogger("");
         logger.setAdditivity(false);
 
         /*
          * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
-        logger.setPriority(Priority.DEBUG);
+        logger.setLevel(Level.DEBUG);
 
         String pattern = rsvc.getString( RuntimeConstants.LOGSYSTEM_LOG4J_PATTERN );
         
