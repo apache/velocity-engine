@@ -53,6 +53,7 @@
 
   <target name="test-all" depends="
                                    test-template,
+                                   test-absolutefileloader,
                                    test-velocityapp,
                                    test-introspect,
                                    test-introspect2,
@@ -87,6 +88,17 @@
       <classpath refid="classpath"/>
     </java>
    </target>
+   
+   <target name="test-absolutefileloader">
+    <echo message="Running absolute file resource loader test..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes"
+          failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.AbsoluteFileResourceLoaderTest"/>
+      <classpath refid="classpath"/>
+  </java>
+  </target>
+   
 
  <target name="test-eventhandling">
     <echo message="Running Event Handler tests..."/>
