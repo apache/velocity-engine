@@ -102,9 +102,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.24 2002/10/10 16:30:54 dlr Exp $
+ * @version $Id: Include.java,v 1.25 2002/10/10 17:10:30 dlr Exp $
  */
-public class Include extends Directive
+public class Include extends InputBase
 {
     private String outputMsgStart = "";
     private String outputMsgEnd = "";
@@ -227,29 +227,9 @@ public class Include extends Directive
 
         Resource resource = null;
 
-        Resource current = context.getCurrentResource();
-
         try
         {
-            /*
-             *  get the resource, and assume that we use the encoding
-             *  of the current template the 'current resource' can be
-             *  null if we are processing a stream....
-             */
-
-            String encoding = null;
-
-            if ( current != null)
-            {
-                encoding = current.getEncoding();
-            }
-            else
-            {
-                encoding =
-                    (String) rsvc.getProperty(RuntimeConstants.INPUT_ENCODING);
-            }
-
-            resource = rsvc.getContent(arg, encoding);
+            resource = rsvc.getContent(arg, getInputEncoding(context));
         }
         catch ( ResourceNotFoundException rnfe )
         {
