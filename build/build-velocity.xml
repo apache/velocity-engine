@@ -48,9 +48,11 @@
         <!-- JUnit Testbed -->
         <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
         <!-- 
-        <property name="velocity.test.runner" value="junit.swinggui.TestRunner"/>
+        <property name="velocity.test.runner"
+            value="junit.swinggui.TestRunner"/>
         -->
-        <property name="velocity.test" value="org.apache.velocity.test.VelocityTest"/>
+        <property name="velocity.test"
+            value="org.apache.velocity.test.VelocityTest"/>
         
         <property name="default.properties" 
             value="org/apache/velocity/runtime/defaults/velocity.properties"/>
@@ -71,9 +73,9 @@
         <mkdir dir="${build.dest}"/>
         <mkdir dir="${build.src}"/>
 
-        <copydir src="${src.java.dir}" dest="${build.src}" 
-            includes="**/*.java"
-        />
+        <copy todir="${build.src}">
+            <fileset dir="${src.java.dir}" includes="**/*.java"/>
+        </copy>
     </target>
 
     <!-- =================================================================== -->
@@ -87,17 +89,13 @@
             deprecation="${deprecation}"
             optimize="${optimize}"/>
             
-            <copydir 
-                src="${src.java.dir}/org/apache/velocity"
-                dest="${build.dest}/org/apache/velocity"
-                includes="**/*.class"
-            />                
+            <copy todir="${build.dest}/org/apache/velocity">
+                <fileset dir="${src.java.dir}/org/apache/velocity"
+                    includes="**/*.class"/>
+            </copy>
             
-            <copyfile
-                src="${src.java.dir}/${default.properties}"
-                dest="${build.dest}/${default.properties}"
-            />                
-            
+            <copy file="${src.java.dir}/${default.properties}"
+                tofile="${build.dest}/${default.properties}"/>
     </target>
   
     <!-- =================================================================== -->
@@ -138,31 +136,30 @@
     <target name="dist" depends="jar,javadocs">
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/src/java"/>
-        <copydir src="${build.dir}/src/" dest="${dist.dir}/src/java/"/>
-        <copydir src="../docs" dest="${dist.dir}/docs" />
-        <copydir src="../build" dest="${dist.dir}/build"/>
+        <copy file="${build.dir}/src/" todir="${dist.dir}/src/java/"/>
+        <copy file="../docs" todir="${dist.dir}/docs"/>
+        <copy file="../build" todir="${dist.dir}/build"/>
         
-        <copydir src="../examples" dest="${dist.dir}/examples"/>
+        <copy file="../examples" todir="${dist.dir}/examples"/>
         <chmod file="${dist.dir}/examples/test.sh" perm="+x" />
         
-        <copydir src="../testbed" dest="${dist.dir}/testbed"/>
+        <copy file="../testbed" todir="${dist.dir}/testbed"/>
         <chmod file="${dist.dir}/testbed/test.sh" perm="+x" />
         
-        <copyfile src="${build.dir}/${project}.jar" 
-            dest="${dist.dir}/${project}.jar"/>
+        <copy file="${build.dir}/${project}.jar" 
+            tofile="${dist.dir}/${project}.jar"/>
         
         <jar jarfile="../${final.name}.jar" basedir="${dist.root}" 
             excludes="**/package.html"/>
     
-        <deltree dir="${dist.root}"/>
-
+        <delete dir="${dist.root}"/>
     </target>
   
     <!-- =================================================================== -->
     <!-- Cleans up the build directory                                       -->
     <!-- =================================================================== -->
     <target name="clean" depends="init">
-        <deltree dir="${build.dir}"/>
+        <delete dir="${build.dir}"/>
     </target>
 
     <!-- =================================================================== -->
