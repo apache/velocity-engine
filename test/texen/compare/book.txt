@@ -1,0 +1,15 @@
+This is the book of the week:
+
+Props retrieved using new method:
+
+Title: Consilience: The Unity of Knowledge
+Author: Edward O. Wilson
+Publisher: Knopf
+ISBN: 0965058305
+
+Props retrieved using old method:
+
+Title: Consilience: The Unity of Knowledge
+Author: Edward O. Wilson
+Publisher: Knopf
+ISBN: 0965058305
