@@ -54,10 +54,12 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.*;
-import java.util.Properties;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
-import junit.framework.*;
+import java.util.Properties;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
@@ -67,14 +69,14 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
+import junit.framework.TestCase;
 
 /**
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.3 2000/12/19 12:02:25 geirm Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.4 2000/12/20 06:47:38 jvanzyl Exp $
  */
- 
 public class InlineScopeVMTestCase extends TestCase
 {
      /**
@@ -114,10 +116,15 @@ public class InlineScopeVMTestCase extends TestCase
 
             Properties p = new Properties();
 
-            p.setProperty( RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-            p.setProperty( RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
+            p.setProperty( 
+                RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
+            
+            p.setProperty( 
+                RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
 
-            p.setProperty( "resource.loader.1.resource.path"  , "../test/templates");
+            p.setProperty( 
+                "resource.loader.1.resource.path"  , "../test/templates");
+            
             Runtime.init(p);    
         }
         catch (Exception e)
@@ -140,17 +147,23 @@ public class InlineScopeVMTestCase extends TestCase
         try
         {
             /*
-             *  get the template and the output. Do them backwards.  vm_test2 uses a local VM and vm_test1 doesn't
+             * Get the template and the output. Do them backwards. 
+             * vm_test2 uses a local VM and vm_test1 doesn't
              */
 
-            Template template2 = Runtime.getTemplate(getFileName(null, "vm_test2", TMPL_FILE_EXT));
-            Template template1 = Runtime.getTemplate(getFileName(null, "vm_test1", TMPL_FILE_EXT));
+            Template template2 = Runtime.getTemplate(
+                getFileName(null, "vm_test2", TMPL_FILE_EXT));
+            
+            Template template1 = Runtime.getTemplate(
+                getFileName(null, "vm_test1", TMPL_FILE_EXT));
            
             FileOutputStream fos1 = 
-                new FileOutputStream (getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
 
             FileOutputStream fos2 = 
-                new FileOutputStream (getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
+                new FileOutputStream (
+                    getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
