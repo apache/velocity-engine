@@ -65,7 +65,7 @@ import org.jdom.output.XMLOutputter;
  * a way to walk an Element tree into a String.
  *
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: OutputWrapper.java,v 1.1 2001/03/15 02:43:29 jon Exp $
+ * @version $Id: OutputWrapper.java,v 1.2 2001/03/15 04:02:35 jon Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
@@ -95,14 +95,11 @@ public class OutputWrapper extends XMLOutputter
 
         try
         {
-            output (element, buff);
+            outputElementContent(element, buff);
         }
         catch (IOException e)
         {
         }
-        String output = buff.toString();
-        output = output.substring(name.length()+2,output.length());
-        output = output.substring(0, output.length()-(name.length()+3));
-        return output;
+        return buff.toString();
     }
 }
