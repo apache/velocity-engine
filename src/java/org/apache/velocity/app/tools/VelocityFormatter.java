@@ -80,7 +80,7 @@ import org.apache.velocity.context.*;
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
  * @author <a href="dlr@collab.net">Daniel Rall</a>
- * @version $Id: VelocityFormatter.java,v 1.6 2001/08/03 19:50:39 dlr Exp $
+ * @version $Id: VelocityFormatter.java,v 1.7 2001/10/16 23:14:29 dlr Exp $
  */
 public class VelocityFormatter
 {
@@ -417,15 +417,11 @@ public class VelocityFormatter
 
     /**
      * Makes an alternator object that alternates between four values.
-     * HELP: Why is this not public?
      *
      * @see #makeAlternator(String name, String alt1, String alt2)
      */
-    String makeAlternator(String name,
-                          String alt1,
-                          String alt2,
-                          String alt3,
-                          String alt4)
+    public String makeAlternator(String name, String alt1, String alt2,
+                                 String alt3, String alt4)
     {
         String[] alternates = { alt1, alt2, alt3, alt4 };
         context.put(name, new VelocityAlternator(alternates));
@@ -460,7 +456,3 @@ public class VelocityFormatter
         }
     }
 }
-
-
-
-
