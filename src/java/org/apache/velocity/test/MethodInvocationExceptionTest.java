@@ -69,7 +69,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodInvocationExceptionTest.java,v 1.3 2001/03/20 19:13:15 geirm Exp $
+ * @version $Id: MethodInvocationExceptionTest.java,v 1.4 2001/04/18 12:21:24 geirm Exp $
  */
 public class MethodInvocationExceptionTest extends TestCase 
 {
@@ -138,14 +138,76 @@ public class MethodInvocationExceptionTest extends TestCase
         }
         catch( Exception e)
         {
-            fail("Wrong exception thrown");
+            fail("Wrong exception thrown, first test.");
         }
 
+        /*
+         *  second test - to ensure that methods accessed via get+ construction
+         *  also work
+         */
+
+        template = "$woogie.foo boing!";
+
+        try
+        {
+            Velocity. evaluate( vc,  w, "test", template );
+            fail("No exception thrown, second test.");
+        }
+        catch( MethodInvocationException mie )
+        {
+            System.out.println("Caught MIE (good!) :" );
+            System.out.println("  reference = " + mie.getReferenceName() );
+            System.out.println("  method    = " + mie.getMethodName() );
+
+            Throwable t = mie.getWrappedThrowable();
+            System.out.println("  throwable = " + t );
+
+            if( t instanceof Exception)
+            {
+                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+            }
+        }
+        catch( Exception e)
+        {
+            fail("Wrong exception thrown, second test");
+        }
+
+        template = "$woogie.Foo boing!";
+ 
+        try
+        {
+            Velocity. evaluate( vc,  w, "test", template );
+            fail("No exception thrown, third test.");
+        }
+        catch( MethodInvocationException mie )
+        {
+            System.out.println("Caught MIE (good!) :" );
+            System.out.println("  reference = " + mie.getReferenceName() );
+            System.out.println("  method    = " + mie.getMethodName() );
+
+            Throwable t = mie.getWrappedThrowable();
+            System.out.println("  throwable = " + t );
+
+            if( t instanceof Exception)
+            {
+                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+            }
+        }
+        catch( Exception e)
+        {
+            fail("Wrong exception thrown, third test");
+        }
     }
 
     public void doException()
         throws Exception
     {
         throw new NullPointerException();
+    }
+
+    public void getFoo()
+        throws Exception
+    {
+        throw new Exception("Hello from getFoo()" );
     }
 }
