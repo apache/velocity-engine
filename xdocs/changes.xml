@@ -28,6 +28,10 @@ deprecated Category and Priority classes in favor of the corresponding
 and supported Logger and Level.  To update, replace necessary
 references, and Category.getInstance() with Logger.getLogger(). (#19133) (dlr)
 </li>
+<li>
+Removed the long-deprecated Log4JLogSystem.  Never fear,
+SimpleLog4JLogSystem remains. (dlr)
+</li>
 </ul>
 
 </subsection>
