@@ -74,16 +74,22 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.app.FieldMethodizer;
 
 import junit.framework.TestCase;
+import org.apache.oro.text.perl.Perl5Util;
 
 /**
  * Base test case that provides a few utility methods for
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.9 2001/03/20 01:11:36 jon Exp $
+ * @version $Id: BaseTestCase.java,v 1.10 2001/03/23 15:59:17 geirm Exp $
  */
 public class BaseTestCase extends TestCase
 {
+    /**
+     *  used for nomalization of output and compare data
+     */
+    private Perl5Util perl = new Perl5Util();    
+
     /**
      * Default constructor.
      */
@@ -131,11 +137,26 @@ public class BaseTestCase extends TestCase
         }
     }
 
+
     /**
-     * Returns whether the processed template matches the content of the 
-     * provided comparison file.
+     * Normalizes lines to account for platform differences.  Macs use
+     * a single \r, DOS derived operating systems use \r\n, and Unix
+     * uses \n.  Replace each with a single \n.
      *
-     * @return Whether the output matches the contents of the comparison file.
+     * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
+     * @return source with all line terminations changed to Unix style
+     */
+    protected String normalizeNewlines (String source)
+    {
+        return perl.substitute("s/\r[\n]/\n/g", source);
+    }
+
+    /**
+     * Returns whether the processed template matches the 
+     * content of the provided comparison file.
+     *
+     * @return Whether the output matches the contents 
+     *         of the comparison file.
      *
      * @exception Exception Test failure condition.
      */
@@ -152,7 +173,12 @@ public class BaseTestCase extends TestCase
         String compare = StringUtils.fileContentsToString
              (getFileName(compareDir, baseFileName, compareExt));
 
-        return result.equals(compare);
+        /*
+         *  normalize each wrt newline
+         */
+
+        return normalizeNewlines(result).equals( 
+                           normalizeNewlines( compare ) );
     }
 
     /**
