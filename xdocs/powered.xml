@@ -461,6 +461,20 @@
     <td><b>Created By</b></td>
    </tr>
 
+   
+	
+   <tr>
+    <td>
+     <a href="http://www.everyboat.com">www.everyboat.com</a>
+    </td>
+    <td>
+     Every Boat uses Velocity templates to generate static caches of classified
+ads resulting in fast ad retrieval with no database connections required.
+    </td>
+    <td>
+     <a href="http://www.everyboat.com">Every Boat Classifieds</a>
+    </td>
+   </tr>
    <tr>
     <td>
      <a href="http://tambora.zenplex.org">tambora.zenplex.org</a>
@@ -471,8 +485,7 @@
     <td>
      <a href="http://www.zenplex.org">Zenplex</a>
     </td>
-   </tr>
-
+   </tr>  
    <tr>
     <td>
      <a href="http://www.flashcan.com">www.flashcan.com</a>
