@@ -56,9 +56,9 @@
                                    test-configuration,
                                    test-externallogger,
                                    test-methodinvocationexception,   
+                                   test-multiloader,
                                    test-anakia,
-                                   test-texen,
-                                   test-multiloader
+                                   test-texen
                                    "/>
 
   <target name="test-template">
