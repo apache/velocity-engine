@@ -81,4 +81,6 @@ public interface RuntimeConstants
 
     public static final String FILE_TEMPLATE_PATH = "File.template.path";
     public static final String FILE_TEMPLATE_CACHE = "File.template.cache";
+
+    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = "runtime.log.reference.log_invalid";
 }
