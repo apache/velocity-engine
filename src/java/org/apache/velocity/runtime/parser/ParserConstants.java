@@ -4,91 +4,90 @@ package org.apache.velocity.runtime.parser;
 public interface ParserConstants {
 
   int EOF = 0;
-  int ESCAPE_SEQUENCE = 1;
-  int TEXT = 2;
-  int LPAREN = 3;
-  int RPAREN = 4;
-  int LBRACKET = 5;
-  int RBRACKET = 6;
-  int STRING_LITERAL = 7;
-  int DIGIT = 8;
-  int NUMBER_LITERAL = 9;
-  int COMMA = 10;
-  int TRUE = 11;
-  int FALSE = 12;
-  int EQUALS = 13;
-  int DOLLAR = 14;
-  int HASH = 18;
-  int SINGLE_LINE_COMMENT = 19;
-  int FORMAL_COMMENT = 20;
-  int MULTI_LINE_COMMENT = 21;
-  int NEWLINE = 25;
-  int MINUS = 26;
-  int PLUS = 27;
-  int MULTIPLY = 28;
-  int DIVIDE = 29;
-  int MODULUS = 30;
-  int LOGICAL_AND = 31;
-  int LOGICAL_OR = 32;
-  int LOGICAL_LT = 33;
-  int LOGICAL_LE = 34;
-  int LOGICAL_GT = 35;
-  int LOGICAL_GE = 36;
-  int LOGICAL_EQUALS = 37;
-  int LOGICAL_NOT_EQUALS = 38;
-  int LOGICAL_NOT = 39;
-  int END = 40;
-  int INCLUDE_DIRECTIVE = 41;
-  int IF_DIRECTIVE = 42;
-  int ELSEIF_DIRECTIVE = 43;
-  int ELSE_DIRECTIVE = 44;
-  int SET_DIRECTIVE = 45;
-  int STOP_DIRECTIVE = 46;
+  int LBRACKET = 1;
+  int RBRACKET = 2;
+  int COMMA = 3;
+  int LPAREN = 4;
+  int RPAREN = 5;
+  int ESCAPE_SEQUENCE = 6;
+  int TEXT = 7;
+  int DOLLAR = 8;
+  int HASH = 12;
+  int SINGLE_LINE_COMMENT = 13;
+  int FORMAL_COMMENT = 14;
+  int MULTI_LINE_COMMENT = 15;
+  int STRING_LITERAL = 19;
+  int TRUE = 20;
+  int FALSE = 21;
+  int NEWLINE = 22;
+  int MINUS = 23;
+  int PLUS = 24;
+  int MULTIPLY = 25;
+  int DIVIDE = 26;
+  int MODULUS = 27;
+  int LOGICAL_AND = 28;
+  int LOGICAL_OR = 29;
+  int LOGICAL_LT = 30;
+  int LOGICAL_LE = 31;
+  int LOGICAL_GT = 32;
+  int LOGICAL_GE = 33;
+  int LOGICAL_EQUALS = 34;
+  int LOGICAL_NOT_EQUALS = 35;
+  int LOGICAL_NOT = 36;
+  int EQUALS = 37;
+  int END = 38;
+  int INCLUDE_DIRECTIVE = 39;
+  int IF_DIRECTIVE = 40;
+  int ELSEIF_DIRECTIVE = 41;
+  int ELSE_DIRECTIVE = 42;
+  int SET_DIRECTIVE = 43;
+  int STOP_DIRECTIVE = 44;
+  int DIGIT = 45;
+  int NUMBER_LITERAL = 46;
   int LETTER = 47;
   int WORD = 48;
   int ALPHA_CHAR = 49;
   int ALPHANUM_CHAR = 50;
   int IDENTIFIER_CHAR = 51;
   int IDENTIFIER = 52;
-  int DOT = 53;
-  int SHORTHAND = 54;
+  int SHORTHAND = 53;
+  int DOT = 54;
   int LCURLY = 55;
   int RCURLY = 56;
   int REFERENCE_TERMINATOR = 57;
 
-  int DEFAULT = 0;
-  int REFERENCE = 1;
-  int DIRECTIVE = 2;
-  int IN_MULTI_LINE_COMMENT = 3;
-  int IN_FORMAL_COMMENT = 4;
-  int IN_SINGLE_LINE_COMMENT = 5;
+  int DIRECTIVE = 0;
+  int REFMODIFIER = 1;
+  int REFMOD2 = 2;
+  int DEFAULT = 3;
+  int REFERENCE = 4;
+  int IN_MULTI_LINE_COMMENT = 5;
+  int IN_FORMAL_COMMENT = 6;
+  int IN_SINGLE_LINE_COMMENT = 7;
 
   String[] tokenImage = {
     "<EOF>",
-    "<ESCAPE_SEQUENCE>",
-    "<TEXT>",
-    "\"(\"",
-    "\")\"",
     "\"[\"",
     "\"]\"",
-    "<STRING_LITERAL>",
-    "<DIGIT>",
-    "<NUMBER_LITERAL>",
     "\",\"",
-    "\"true\"",
-    "\"false\"",
-    "\"=\"",
+    "\"(\"",
+    "\")\"",
+    "<ESCAPE_SEQUENCE>",
+    "<TEXT>",
     "\"$\"",
     "\"##\"",
-    "<token of kind 16>",
+    "<token of kind 10>",
     "\"#*\"",
     "\"#\"",
     "<SINGLE_LINE_COMMENT>",
     "\"*#\"",
     "\"*#\"",
-    "<token of kind 22>",
+    "<token of kind 16>",
     "\" \"",
     "\"\\t\"",
+    "<STRING_LITERAL>",
+    "\"true\"",
+    "\"false\"",
     "<NEWLINE>",
     "\"-\"",
     "\"+\"",
@@ -104,6 +103,7 @@ public interface ParserConstants {
     "\"==\"",
     "\"!=\"",
     "\"!\"",
+    "\"=\"",
     "\"end\"",
     "\"include\"",
     "\"if\"",
@@ -111,14 +111,16 @@ public interface ParserConstants {
     "\"else\"",
     "\"set\"",
     "\"stop\"",
+    "<DIGIT>",
+    "<NUMBER_LITERAL>",
     "<LETTER>",
     "<WORD>",
     "<ALPHA_CHAR>",
     "<ALPHANUM_CHAR>",
     "<IDENTIFIER_CHAR>",
     "<IDENTIFIER>",
-    "\".\"",
     "\"!\"",
+    "\".\"",
     "\"{\"",
     "\"}\"",
     "<REFERENCE_TERMINATOR>",

@@ -120,7 +120,8 @@ import org.apache.velocity.runtime.directive.Directive;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parser.jjt,v 1.4 2000/10/09 15:06:32 jvanzyl Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Parser.jjt,v 1.5 2000/10/11 14:46:26 jvanzyl Exp $ 
 */
 public class Parser
 {
@@ -158,7 +159,8 @@ public class Parser
      */
     public SimpleNode parse(InputStream stream) throws ParseException
     {
-        ReInit(stream);
+        token_source.clearStateVars();
+        ReInit(stream);  
         return process();
     }        
 
@@ -206,6 +208,12 @@ TOKEN_MGR_DECLS:
 
     private int lparen = 0;
     private int rparen = 0;
+
+    /*
+     * gmj : make sure this is reset before each parse
+     */
+    Stack stateStack = new Stack();
+    public boolean bDebugPrint_ = false;
 
     private boolean inReference;
     public boolean inDirective;
@@ -281,58 +289,183 @@ TOKEN_MGR_DECLS:
             t.specialToken = new_t.specialToken;
         }
     } 
+
+    /**
+     *  pushes the current state onto the 'state stack',
+     *  and maintains the parens counts
+     *  public because we need it in PD & VM handling
+     *
+     *  @return boolean : success.  It can fail if the state machine
+     *     gets messed up.
+     */
+    public boolean stateStackPop()
+    {
+      
+        Hashtable hStack;
+
+        try
+        {
+            hStack = (Hashtable) stateStack.pop();
+        }
+        catch( EmptyStackException e)
+        {
+            lparen=0;
+            SwitchTo(DEFAULT);
+            return false;
+        }
+
+        if( bDebugPrint_ )
+            System.out.println(" stack pop (" + stateStack.size() + ") : lparen=" + ( (Integer) hStack.get("lparen")).intValue() 
+                + " newstate=" +  ( (Integer)  hStack.get("lexstate")).intValue() );
+       
+        lparen = ( (Integer) hStack.get("lparen")).intValue();
+        rparen = ( (Integer) hStack.get("rparen")).intValue();
+        SwitchTo( ( (Integer) hStack.get("lexstate")).intValue() ); 
+    
+        return true;
+    }
+
+    /**
+     *  pops a state off the stack, and restores paren counts
+     *
+     *  @return boolean : success of operation
+     */
+    public boolean stateStackPush()
+    {
+        if( bDebugPrint_ )
+            System.out.println(" (" + stateStack.size() + ") pushing cur state : " + curLexState );
+            
+        Hashtable hStack = new Hashtable();
+        hStack.put("lexstate", new Integer( curLexState ) );
+        hStack.put("lparen", new Integer( lparen ));
+        hStack.put("rparen", new Integer( rparen ));
+        lparen = 0;
+
+        stateStack.push( hStack );
+
+        return true;
+    }
+
+    /**
+     *  Clears all state variables, resets to
+     *  start values, clears stateStack.  Call
+     *  before parsing.
+     *  @return void
+     */   
+    public void clearStateVars()
+    {
+        stateStack.clear();
+        
+        lparen = 0;
+        rparen = 0;
+        inReference = false;
+        inDirective = false;
+        inComment = false;
+        inSet = false;
+        
+        return;
+    }
 } 
 
 /* ------------------------------------------------------------------------
  *
  * Tokens
  *
+ *  Note : we now have another state, REFMODIFIER.  This is sort of a 
+ *  type of REFERENCE state, simply use to use the DIRECTIVE token
+ *  set when we are processing a $foo.bar() construct
+ *
  * ------------------------------------------------------------------------- */
+
+<DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN:
+{ 
+    <LBRACKET: "[">
+|   <RBRACKET: "]">
+}
+
+<DIRECTIVE,REFMOD2>
+TOKEN:
+{
+    <COMMA:",">
+}
+
+
+<DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN:
+{
+    <LPAREN: "(">
+    {
+        if (!inComment)
+            lparen++;
+
+        /*
+         *  if we have seen the dot, then move to REFMOD2 -> Modifier()
+         */
+
+        if (curLexState == REFMODIFIER )
+            SwitchTo( REFMOD2 );
+
+    }
+
+|   <RPAREN: ")">
+    {
+        /*
+         *  Ultimately, we want to drop down to the state below the one that has an open (
+         *  if we hit bottom (DEFAULT), that's fine. It's just text schmoo.
+         *
+         */
+    
+     
+        boolean bClosed = false;
+
+        if (inComment)
+            bClosed = true;
+
+        while( !bClosed) 
+        {
+            /*
+             * look at current state.  If we haven't seen a lparen in this state
+             * then we drop a state, because this lparen clearly closes our state
+             */
+
+            if( lparen > 0)
+            {
+                /*
+                 *  if rparen + 1 == lparen, then this state is closed. Otherwise, increment
+                 *  and keep parsing
+                 */
+
+                 if( lparen == rparen + 1)
+                 {
+                       stateStackPop();
+                 }  
+                else
+                {   
+                    rparen++;
+                }
+                      
+                 bClosed = true;
+            }
+            else
+            {
+                /*
+                 * now, drop a state
+                 */
+        
+                if(!stateStackPop())
+                    break;
+            } 
+        }
+    }    
+}
+
 
 TOKEN :
 {
     <ESCAPE_SEQUENCE: "\\" ~[] >
 |   <TEXT: (~["$", "#", "\\"])+ >
 }    
-
-<REFERENCE,DIRECTIVE>
-TOKEN :
-{
-    <LPAREN: "(" > 
-    { 
-        lparen++;
-    }
-
-|   <RPAREN: ")" > 
-    {
-        rparen++;
-    
-        if (lparen == rparen)
-        {
-            SwitchTo(DEFAULT);
-            inDirective = false;
-        }            
-    }    
-
-|   <LBRACKET: "[">
-|   <RBRACKET: "]">
-
-|   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) >
-    {
-        if (incMode)
-        {
-            matchedToken.image = stripQuotes(image.toString());
-            pushFile(matchedToken.image);
-        }
-        incMode = false;
-    }
-|   <#DIGIT: [ "0"-"9" ] >
-|   <NUMBER_LITERAL: (<DIGIT>)+ >
-|   <COMMA: ",">
-|   <TRUE: "true">
-|   <FALSE: "false">
-|   <EQUALS: "=" >
-}
 
 <*>
 MORE :
@@ -342,26 +475,49 @@ MORE :
         if (! inComment)
         {
             inReference = true;
+
+           if ( bDebugPrint_ )
+                System.out.print( "$  : going to " + REFERENCE );
+
+            stateStackPush();
             SwitchTo(REFERENCE);
         }            
     }
+
 |   "##"
-    { inComment = true; } 
-    : IN_SINGLE_LINE_COMMENT
+   { 
+        inComment = true;
+        stateStackPush();
+        SwitchTo(IN_SINGLE_LINE_COMMENT);
+     }
 
 |   <"#**" ~["#"]> 
-    { input_stream.backup(1); inComment = true; } 
-    : IN_FORMAL_COMMENT
+    { 
+        input_stream.backup(1); 
+        inComment = true; 
+        stateStackPush();
+        SwitchTo( IN_FORMAL_COMMENT);
+        // was : IN_FORMAL_COMMENT
+    } 
     
 |   "#*" 
-    { inComment=true; } 
-    : IN_MULTI_LINE_COMMENT
+    { 
+        inComment=true;
+        stateStackPush();
+        SwitchTo( IN_MULTI_LINE_COMMENT ); 
+    } 
+
 
 |   <HASH : "#"> 
-    { 
+  { 
         if (! inComment)
         {
             inDirective = true;
+
+            if ( bDebugPrint_ )
+                System.out.print("# :  going to " + DIRECTIVE );
+            
+            stateStackPush();
             SwitchTo(DIRECTIVE);
         }
     } 
@@ -377,24 +533,34 @@ MORE :
 TOKEN :
 {
   <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > 
-  { inComment = false; } 
-  : DEFAULT
+  { 
+     inComment = false;
+     stateStackPop();
+    // was :DEFAULT
+  } 
+
 }
 
 <IN_FORMAL_COMMENT>
 TOKEN :
 {
   <FORMAL_COMMENT: "*#" > 
-  { inComment = false; } 
-  : DEFAULT
+  {     
+    inComment = false;
+    stateStackPop();
+    // was :DEFAULT
+  } 
 }
 
 <IN_MULTI_LINE_COMMENT>
 TOKEN :
 {
   <MULTI_LINE_COMMENT: "*#" > 
-  { inComment = false; } 
-  : DEFAULT
+  { 
+    inComment = false; 
+    stateStackPop();
+    // was :DEFAULT
+  } 
 }
 
 <IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
@@ -409,7 +575,7 @@ MORE :
 // 
 // -----------------------------------------------------------------------
 
-<DIRECTIVE> 
+<DIRECTIVE,REFMOD2> 
 SKIP:
 {
     " "
@@ -418,18 +584,41 @@ SKIP:
 //|   "\r"
 }
 
+<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
+TOKEN :
+{
+
+   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) >
+    {
+        if (incMode)
+        {
+            matchedToken.image = stripQuotes(image.toString());
+            pushFile(matchedToken.image);
+        }
+        incMode = false;
+    
+        if (lparen == 0)
+            SwitchTo(DEFAULT);
+    }
+
+|   <TRUE: "true">
+|   <FALSE: "false">
+}
+
 <DIRECTIVE>
 SPECIAL_TOKEN :
 {
     <NEWLINE: "\n" | "\r" | "\r\n" >
     {
         if (inSet)
-        {
-            SwitchTo(DEFAULT);
-            inSet = false;
-            inDirective = false;
+       {
+           if ( bDebugPrint_ )
+                System.out.print(" NEWLINE :");
+            stateStackPop();        
+           inSet = false;
+           inDirective = false;
         }
-    }        
+   }        
 }    
 
 <DIRECTIVE>
@@ -449,6 +638,7 @@ TOKEN :
 |   <LOGICAL_EQUALS: "==">
 |   <LOGICAL_NOT_EQUALS: "!=">
 |   <LOGICAL_NOT: "!">
+|   <EQUALS: "=" >
 }
 
 <DIRECTIVE> 
@@ -457,8 +647,9 @@ TOKEN :
     <END: "end"> 
     { 
         inDirective = false; 
+        stateStackPop();
+        // was :DEFAULT
     } 
-    : DEFAULT
 
 |   <INCLUDE_DIRECTIVE: "include"> 
     { incMode = true; }
@@ -479,6 +670,8 @@ TOKEN :
         fileDepth = 0;
     }
 
+|   <#DIGIT: [ "0"-"9" ] >
+|   <NUMBER_LITERAL: (<DIGIT>)+ >
 |   <#LETTER: [ "a"-"z" ] >
 |   <WORD: (<LETTER>)+ >
 }
@@ -490,36 +683,63 @@ TOKEN :
 // 
 // -----------------------------------------------------------------------
 
-<REFERENCE> 
+<REFERENCE,REFMODIFIER,REFMOD2> 
 TOKEN :
 {
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z"] >
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
-|   <IDENTIFIER: <ALPHA_CHAR> (<IDENTIFIER_CHAR>)* >
-|   <DOT: ".">
+|   <IDENTIFIER:  <ALPHA_CHAR> (<IDENTIFIER_CHAR>)* >
 |   <SHORTHAND: "!">
+|   <DOT: ".">
+    {
+        if ( bDebugPrint_ )
+            System.out.print("DOT : switching to " + REFMODIFIER);
+        SwitchTo(REFMODIFIER);
+    }
 |   <LCURLY: "{">
-|   <RCURLY: "}"> : DEFAULT
+|   <RCURLY: "}">
+    {
+        // was :DEFAULT
+        stateStackPop();
+    }
 }
 
-<REFERENCE> 
+<REFERENCE,REFMODIFIER,REFMOD2> 
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
-    {
-        if (inDirective)
-            SwitchTo(DIRECTIVE);
-        else if (lparen == rparen)
+    {   
+        /*
+         *  These can terminate a reference, but are needed in subsequent states
+         */
+
+        if (image.toString().equals("="))
         {
-            lparen = 0;
-            rparen = 0;
-            inReference = false;
-            
-            SwitchTo(DEFAULT);
+            input_stream.backup(1);
+        } 
+                
+        inReference = false;
+    
+        if ( bDebugPrint_ )
+            System.out.print("REF_TERM :");
+        
+        stateStackPop();
+
+        /*
+         *  I removed LPAREN & RPAREN from REFERENCE;  as there is no LPAREN,RPAREN in REF is there is REFMETHOD
+         */
+        
+        if (curLexState != DEFAULT && ( image.toString().equals(")") 
+                                        || image.toString().equals(",") 
+                                        || image.toString().equals("[") 
+                                        || image.toString().equals("]")
+                                        || image.toString().equals("\n")
+                                        ) )
+        {
+            input_stream.backup(1);
         }
-        else
-            SwitchTo(REFERENCE);
+
     }
 }
 
@@ -554,14 +774,14 @@ SimpleNode process() : {}
 
 void Statement() #void : {}
 {
-    Text()
-|   IfStatement()
+   IfStatement()
 |   IncludeStatement()
 |   StopStatement()
 |   Reference()
 |   Comment()
 |   SetDirective()
 |   Directive()
+|   Text()
 }
 
 void Comment() : {}
@@ -623,7 +843,7 @@ SimpleNode Directive() :
         
         if (d == null)
         {
-            token_source.SwitchTo(DEFAULT);
+            token_source.stateStackPop();
             token_source.inDirective = false;
             return jjtThis;
         }            
@@ -704,7 +924,10 @@ void Text() :
 {
     <TEXT>
 |   <DOT>
+|   <RPAREN>
+|   <LPAREN>
 |   <NUMBER_LITERAL>
+|   <STRING_LITERAL>
 |   t = <ESCAPE_SEQUENCE>
     {
         t.image = t.image.substring(1);
@@ -719,7 +942,7 @@ void Text() :
 
 void IfStatement() : {}
 {
-    <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
+     <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
