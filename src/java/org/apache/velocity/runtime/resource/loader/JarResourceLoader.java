@@ -54,17 +54,16 @@ package org.apache.velocity.runtime.resource.loader;
  * <http://www.apache.org/>.
  */
 
-import java.io.File;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.ByteArrayInputStream;
+//import java.io.FileInputStream;
+//import java.io.BufferedInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.JarEntry;
@@ -80,88 +79,92 @@ import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-
 /**
- * Loader to grab templates from a Jar file.
+ * ResourceLoader to load templates from multiple Jar files.
  * 
- * Adopted from Craig R. McClanahan JarResources.java in Catalina and
- * Jason Van Zyl's FileResourceLoader.java
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.3 $
+ * $Revision: 1.4 $
  */
 public class JarResourceLoader extends ResourceLoader
 {
     /**
-     * The URLConnection to our JAR file.
+     * Maps entries to the parent JAR File
+     * Key = the entry *excluding* plain directories
+     * Value = the JAR URL
      */
-    protected JarURLConnection conn = null;
-
-    /**
-     * The JarFile object associated with our document base.
-     */
-    protected JarFile jarFile = null;
+    private Hashtable entryDirectory = new Hashtable(559);
     
+    /**
+     * Maps JAR URLs to the actual JAR
+     * Key = the JAR URL
+     * Value = the JAR
+     */
+    private Hashtable jarfiles = new Hashtable(89);
+   
+    /**
+     * Called by Velocity to initialize the loader
+     */
     public void init(Configuration configuration)
     {
-        String path = configuration.getString("resource.path");
-        setJarUrl( path );
+        Vector paths = configuration.getVector("resource.path");
         
-        Runtime.info("Resources Loaded From: " +  path);
-        Runtime.info("JarResourceLoader Initialized.");
+        for ( int i=0; i<paths.size(); i++ )
+        {
+            loadJar( (String)paths.elementAt(i) );
+        }
+        
+        Runtime.info("JarResourceLoader initialized...");
+    }
+    
+    private void loadJar( String path )
+    {
+        // Check path information
+        if ( path == null )
+        {
+            Runtime.error("Can not load a JAR - JAR path is null");
+        }
+        if ( !path.startsWith("jar:") )
+        {
+            Runtime.error("JAR path must start with jar: -> see java.net.JarURLConnection for information");
+        }
+        if ( !path.endsWith("!/") )
+        {
+            path += "!/";
+        }
+        
+        // Close the jar if it's already open
+        // this is useful for a reload
+        closeJar( path );
+        
+        // Create a new JarHolder
+        JarHolder temp = new JarHolder( path );
+        // Add it's entries to the entryCollection
+        addEntries( temp.getEntries() );
+        // Add it to the Jar table
+        jarfiles.put( temp.getUrlPath(), temp );
     }
 
     /**
-     * Setup Jar URL 
+     * Closes a Jar file and set its URLConnection 
+     * to null.
      */
-    private void setJarUrl( String jarPath )
+    private void closeJar( String path )
     {
-        // Validate the format of the proposed document root
-        if ( jarPath == null )
+        if ( jarfiles.containsKey(path) )
         {
-            throw new IllegalArgumentException( "JarPath is NULL" );
+            JarHolder theJar = (JarHolder)jarfiles.get(path);
+            theJar.close();
         }
-        if ( !jarPath.startsWith("jar:") )
-        {
-            throw new IllegalArgumentException( "JarPath must start with - jar: - see java.net.JarURLConnection" );
-        }
-        if ( !jarPath.endsWith("!/") )
-        {
-            jarPath += "!/";
-        }
-        // Close any previous JAR that we have opened
-        if ( jarFile != null ) 
-        {
-            try
-            {
-                jarFile.close();
-            }
-            catch (IOException e)
-            {
-                Runtime.error("Error Closing JAR file " +  e);
-            }
-            
-            jarFile = null;
-            conn = null;
-        }
-        
-        // Open a URLConnection to the specified JAR file
-        try
-        {
-            URL url = new URL( jarPath );
-            conn = (JarURLConnection) url.openConnection();
-            conn.setAllowUserInteraction(false);
-            conn.setDoInput(true);
-            conn.setDoOutput(false);
-            conn.connect();
-            jarFile = conn.getJarFile();
-
-            //loop through Jar file and cache entries here
-        } 
-        catch (Exception e)
-        {
-            Runtime.error("Error establishing connection to JAR "+ e);
-        }
+    }
+    
+    /**
+     * Copy all the entries into the entryDirectory
+     * It will overwrite any duplicate keys.
+     */
+    private synchronized void addEntries( Hashtable entries )
+    {
+        entryDirectory.putAll( entries );
     }
     
     /**
@@ -173,17 +176,18 @@ public class JarResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
      */
-    public synchronized InputStream getResourceStream( String name )
+    public synchronized InputStream getResourceStream( String source )
         throws ResourceNotFoundException
     {
-        InputStream result = null;
-        
-        if (name == null || name.length() == 0)
+        InputStream results = null;
+
+        if ( source == null || source.length() == 0)
         {
             throw new ResourceNotFoundException ("Need to a resource!");
         }
         
-        String normalizedPath = StringUtils.normalizePath(name);
+        String normalizedPath = StringUtils.normalizePath( source );
+        
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
             String msg = "File resource error : argument " + normalizedPath + 
@@ -202,35 +206,24 @@ public class JarResourceLoader extends ResourceLoader
         {
             normalizedPath = normalizedPath.substring(1);
         }
-        
-        try 
+    
+        if ( entryDirectory.containsKey( normalizedPath ) )
         {
-            JarEntry entry = jarFile.getJarEntry( normalizedPath );
-            if (entry == null)
-            {
-                Runtime.error("Resource Not Found" );
-            }
-            else
-            {
-                
-                result =  jarFile.getInputStream(entry);
-            }
-        }
-        catch( Exception fnfe )
-        {
-            /*
-             *  log and convert to a general Velocity ResourceNotFoundException
-             */
+            String jarurl  = (String)entryDirectory.get( normalizedPath );
             
-            Runtime.error("FileResourceLoader Error : exception : " + fnfe );
-            throw new ResourceNotFoundException( fnfe.getMessage() );
+            if ( jarfiles.containsKey( jarurl ) )
+            {
+                JarHolder holder = (JarHolder)jarfiles.get( jarurl );
+                results =  holder.getResource( normalizedPath );
+            }
         }
         
-        return result;
+        return results;
     }
-    
-    
-    
+        
+        
+    // TO DO BELOW 
+    // SHOULD BE DELEGATED TO THE JARHOLDER
     public boolean isSourceModified(Resource resource)
     {
         return true;
