@@ -87,4 +87,10 @@ public class ASTNotNode extends SimpleNode
         else
             return true;
     }
+
+    public Object value( InternalContextAdapter context)
+        throws MethodInvocationException
+    {
+        return ( evaluate( context ) ? Boolean.FALSE : Boolean.TRUE ) ;
+            }
 }
