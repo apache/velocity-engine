@@ -69,14 +69,14 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.app.Velocity;
 
 /**
  * A text/code generator class
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.16 2001/06/12 23:48:54 jon Exp $ 
+ * @version $Id: Generator.java,v 1.17 2001/08/07 22:31:50 geirm Exp $ 
  */
 public class Generator
 {
@@ -193,7 +193,7 @@ public class Generator
      */
     protected void setDefaultProps()
     {
-        ClassLoader classLoader = Runtime.class.getClassLoader();
+        ClassLoader classLoader = Velocity.class.getClassLoader();
         try
         {
             InputStream inputStream = null;
@@ -298,7 +298,7 @@ public class Generator
             controlContext.put(objectID, object);
         }            
         
-        Template template = Runtime.getTemplate(inputTemplate);
+        Template template = Velocity.getTemplate(inputTemplate);
         
         if (outputFile == null || outputFile.equals(""))
         {
@@ -355,7 +355,7 @@ public class Generator
         fillContextDefaults(this.controlContext);
         fillContextProperties(this.controlContext);
         
-        Template template = Runtime.getTemplate(controlTemplate);
+        Template template = Velocity.getTemplate(controlTemplate);
         StringWriter sw = new StringWriter();
         template.merge (controlContext,sw);
         
