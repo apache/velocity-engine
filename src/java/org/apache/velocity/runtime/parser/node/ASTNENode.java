@@ -122,4 +122,13 @@ public class ASTNENode extends SimpleNode
             return false;
         }
     }
+
+    public Object value(InternalContextAdapter context)
+        throws MethodInvocationException
+    {
+        boolean val = evaluate(context);
+
+        return val ? Boolean.TRUE : Boolean.FALSE;
+    }
+
 }
