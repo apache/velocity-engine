@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author>
+	<email>velocity-user@jakarta.apache.org</email>
+	<name>
+	   <last>
+		<full>Team</full>
+		<firstinitial>T</firstinitial>
+	   </last>
+	   <first>
+		Velocity
+	   </first>
+	</name>
+    </author>
+    <title>
+        The Jakarta Project
+    </title>
+  </properties>
+
+  <body>
+	I am the body
+  </body>
+</document>
