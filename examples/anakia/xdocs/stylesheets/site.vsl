@@ -1,0 +1,48 @@
+<!-- Content Stylesheet for Site -->
+
+    ## Defined variables
+    #set $bodybg = "#ffffff"
+    #set $bodyfg = "#000000"
+    #set $bodylink = "#525D76"
+    #set $bannerbg = "#525D76"
+    #set $bannerfg = "#ffffff"
+    #set $tablethbg = "#039acc"
+    #set $tabletdbg = "#a0ddf0"
+    
+<!-- start the processing -->
+#document()
+<!-- end the processing -->
+
+## This is where the macro's live
+
+#macro (document)
+    <!-- ====================================================================== -->
+    <!-- Main Page Section -->
+    <!-- ====================================================================== -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+
+            #set $au = $root.getChild("properties").getChild("author").getText()
+            #set $em = $root.getChild("properties").getChild("author").getAttributeValue("email")
+            #metaauthor ( $au $em )
+
+            <title>$root.getChild("properties").getChild("title").getText()</title>
+        </head>
+
+        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">
+            #set $sections = $root.getChild("body").getChildren("section")
+            #foreach ( $sec in $sections )
+                #set $data = $sec.getChildren()
+                #foreach ( $item in $data )
+                    $xmlout.outputString($item)
+                #end
+            #end
+        </body>
+    </html>
+#end
+    
+#macro ( metaauthor $author $email )
+            <meta name="author" value="$author">
+            <meta name="email" value="$email">
+#end
