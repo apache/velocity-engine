@@ -96,11 +96,11 @@
   **  compile-J2EE   prepare, J2EE-error compiles J2EE source
   **  compile-copy                       move non-J2EE classes out of the way.
   **  jar            compile             prepares {project}-{version} jar file
-  **  jar-nodep      compile             Same as 'jar', but without Oro and Logkit
-  **                                     dependencies.
+  **  jar-nodep      compile             Same as 'jar', but without ORO 
+  **                                     and Logkit dependencies.
   **  jar-J2EE       compile-J2EE        prepares jar including J2EE
-  **  jar-J2EE-nodep compile-J2EE        same as 'jar-J2EE', but withouth Oro and
-  **                                     Logkit dependencies.
+  **  jar-J2EE-nodep compile-J2EE        same as 'jar-J2EE', but withouth 
+  **                                     ORO and Logkit dependencies.
   **  jar-core       compile             prepares jar with only core classes
   **  jar-util       compile             prepares jar with only util classes
   **  jar-servlet    compile             prepares jar with only servlet classes
@@ -114,7 +114,7 @@
   **  javadocs-clean                     delete javadocs
   **  test           compile             runs JUnit tests
   **  test-clean                         deletes test results
-  **  clean                              deletes build dir
+  **  clean                              deletes bin and docs/api dir
   ***************************************************************************
     </echo>
   
@@ -643,6 +643,7 @@
   <!-- =================================================================== -->
   <target name="clean">
     <delete dir="${build.dir}" quiet="true"/>
+    <delete dir="${javadoc.destdir}" quiet="true"/>
   </target>
   
   <!-- =================================================================== -->
