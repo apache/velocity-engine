@@ -366,7 +366,7 @@
   <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
-  <target name="dist" depends="jar,javadocs">
+  <target name="dist" depends="test-clean,jar,javadocs">
         
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
@@ -389,8 +389,20 @@
       </fileset>
     </copy>
 
+    <copy todir="${dist.dir}/convert">
+      <fileset dir="../convert">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
     <copy todir="${dist.dir}/examples">
       <fileset dir="../examples">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/test">
+      <fileset dir="../test">
         <include name="**"/>
       </fileset>
     </copy>
@@ -540,8 +552,13 @@
    <target name="test"
             depends="compile"
             description="--> Run the testcases">
-        <ant antfile="build-testcases.xml"/>
-   </target>  
+        <ant antfile="build-testcases.xml" target="test-all"/>
+   </target>
+
+   <target name="test-clean"
+            description="--> Cleanup after the testcases">
+        <ant antfile="build-testcases.xml" target="test-clean"/>
+   </target>
 
   <!-- =================================================================== -->
   <!-- Forum Demo Web App                                                  -->

@@ -5,6 +5,7 @@
 
   <property name="build.dest" value="${build.dir}/classes"/>
   <property name="ant.home" value="."/>
+  <property name="test.home" value="../test"/>
   <property name="junit.jar" value="lib/junit-3.2.jar"/>
 
   <!-- JUnit Testbed properties -->
@@ -114,6 +115,12 @@
         <pathelement location="${build.dest}"/>
       </classpath>
     </java>
+  </target>
+  
+  <target name="test-clean">
+    <delete>
+      <fileset dir="${test.home}/templates/results" includes="**/*.res"/>
+    </delete>
   </target>
 
 </project>
