@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.26 2001/05/20 21:40:40 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.27 2001/08/13 13:58:34 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -295,6 +295,12 @@ public interface RuntimeConstants
     public static final String VM_LIBRARY  = "velocimacro.library";
 
     /** 
+     * switch for autoloading library-sourced VMs (for development) 
+     */
+    public final static String VM_LIBRARY_AUTORELOAD = 
+        "velocimacro.library.autoreload";
+
+    /** 
      * boolean (true/false) default true : allow 
      * inline (in-template) macro definitions 
      */
@@ -324,7 +330,7 @@ public interface RuntimeConstants
     */
     public final static String VM_CONTEXT_LOCALSCOPE = 
         "velocimacro.context.localscope";
-
+    
     /*
      * ----------------------------------------------------------------------
      * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N

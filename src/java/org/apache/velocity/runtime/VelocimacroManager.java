@@ -83,13 +83,14 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.12 2001/08/07 22:06:49 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.13 2001/08/13 13:58:35 geirm Exp $ 
  */
 public class VelocimacroManager
 {
     private RuntimeServices rsvc = null;
-
     private static String GLOBAL_NAMESPACE = "";
+
+    private boolean registerFromLib = false;
 
     /*  hash of namespace hashes */
     private Hashtable namespaceHash = new Hashtable();
@@ -123,6 +124,8 @@ public class VelocimacroManager
     {
         MacroEntry me = new MacroEntry( this, vmName,  macroBody,  argArray,  namespace );
 
+        me.setFromLibrary(registerFromLib);
+    
         if ( usingNamespaces( namespace ) )
         {
             /*
@@ -138,7 +141,19 @@ public class VelocimacroManager
         else
         {
             /*
-             * otherwise, add to global template
+             *  otherwise, add to global template.  First, check if we already have it
+             *  to preserve some of the autoload information
+             */
+
+            MacroEntry exist = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
+            
+            if (exist != null)
+            {
+                me.setFromLibrary( exist.getFromLibrary());
+            }
+
+            /*
+             *  now add it
              */
 
             (getNamespace( GLOBAL_NAMESPACE )).put( vmName, me );
@@ -224,6 +239,12 @@ public class VelocimacroManager
     public void setNamespaceUsage( boolean b )
     {
         namespacesOn = b;
+        return;
+    }
+
+    public void setRegisterFromLib( boolean b )
+    {
+        registerFromLib = b;
         return;
     }
 
@@ -318,6 +339,45 @@ public class VelocimacroManager
         return false;
     }
 
+    public String getLibraryName( String vmName, String namespace )
+    {
+        if ( usingNamespaces( namespace ) )
+        {
+            Hashtable local =  getNamespace( namespace, false );
+         
+            /*
+             *  if we have this macro defined in this namespace, then
+             *  it is masking the global, library-based one, so 
+             *  just return null
+             */
+
+            if ( local != null)
+            {
+                MacroEntry me = (MacroEntry) local.get( vmName );
+               
+                if (me != null)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /*
+         * if we didn't return from there, we need to simply see 
+         * if it's in the global namespace
+         */
+        
+        MacroEntry me = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
+        
+        if (me != null)
+        {
+            return me.getSourceTemplate();
+        }
+ 
+        return null;
+    }
+
+
     /**
      *  wrapper class for holding VM information
      */
@@ -329,6 +389,7 @@ public class VelocimacroManager
         String sourcetemplate;
         SimpleNode nodeTree = null;
         VelocimacroManager manager = null;
+        boolean fromLibrary = false;
 
         MacroEntry(VelocimacroManager vmm, String vmName, String macroBody, String argArray[],  String sourceTemplate)
         {
@@ -339,9 +400,24 @@ public class VelocimacroManager
             this.manager = vmm;
         }
 
+        public void setFromLibrary( boolean b )
+        {
+            fromLibrary = b;
+        }
+        
+        public boolean getFromLibrary()
+        {
+            return fromLibrary;
+        }
+
         public SimpleNode getNodeTree()
         {
             return nodeTree;
+        }
+
+        public String getSourceTemplate()
+        {
+            return sourcetemplate;
         }
 
         VelocimacroProxy createVelocimacro( String namespace )

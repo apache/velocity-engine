@@ -60,6 +60,8 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import java.util.Vector;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *  VelocimacroFactory.java
@@ -67,27 +69,82 @@ import java.util.Vector;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.14 2001/08/07 22:06:49 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.15 2001/08/13 13:58:34 geirm Exp $ 
  */
 public class VelocimacroFactory
 {
+    /**
+     *  runtime services for this instance
+     */
     private RuntimeServices rsvc = null;
 
+    /**
+     *  VMManager : deal with namespace management
+     *  and actually keeps all the VM definitions
+     */
     private VelocimacroManager vmManager = null;
 
+    /**
+     *  determines if replacement of global VMs are allowed
+     *  controlled by  VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL
+     */
     private boolean replaceAllowed = false;
+
+    /**
+     *  controls if new VMs can be added.  Set by
+     *  VM_PERM_ALLOW_INLINE  Note the assumption that only
+     *  through inline defs can this happen.
+     *  additions through autoloaded VMs is allowed
+     */
     private boolean addNewAllowed = true;
+
+    /**
+     *  sets if template-local namespace in used
+     */
     private boolean templateLocal = false;
+
+    /**
+     *  controls log output
+     */
     private boolean blather = false;
 
+    /**
+     *  determines if the libraries are auto-loaded
+     *  when they change
+     */
+    private boolean autoReloadLibrary = false;
+
+    /**
+     *  vector of the library names
+     */
+    private Vector macroLibVec = null;
+
+    /**
+     *  map of the library Template objects
+     *  used for reload determination
+     */
+    private Map libModMap;
+
+    /**
+     *  CTOR : requires a runtime services from now
+     *  on
+     */
     public VelocimacroFactory( RuntimeServices rs )
     {
         this.rsvc = rs;
+
+        /*
+         *  we always access in a synchronized(), so we 
+         *  can use an unsynchronized hashmap
+         */
+        libModMap = new HashMap();
+
         vmManager = new VelocimacroManager( rsvc );
     }
 
     /**
-     *    setup
+     *  initialize the factory - setup all permissions
+     *  load all global libraries.
      */
     public void initVelocimacro()
     {
@@ -119,21 +176,20 @@ public class VelocimacroFactory
              Object libfiles = rsvc.getProperty( RuntimeConstants.VM_LIBRARY );
            
              if( libfiles != null)
-             {
-                 Vector v = new Vector();
-          
+             {         
                  if (libfiles instanceof Vector)
                  {
-                     v = (Vector) libfiles;
+                     macroLibVec = (Vector) libfiles;
                  }
                  else if (libfiles instanceof String)
                  { 
-                     v.addElement( libfiles );
+                     macroLibVec = new Vector();
+                     macroLibVec.addElement( libfiles );
                  }
                  
-                 for( int i = 0; i < v.size(); i++)
+                 for( int i = 0; i < macroLibVec.size(); i++)
                  {
-                     String lib = (String) v.elementAt(i);
+                     String lib = (String) macroLibVec.elementAt(i);
                  
                      /*
                       * only if it's a non-empty string do we bother
@@ -141,21 +197,38 @@ public class VelocimacroFactory
 
                      if (lib != null && !lib.equals(""))
                      {
+                         /*
+                          *  let the VMManager know that the following is coming
+                          *  from libraries - need to know for auto-load
+                          */
+
+                         vmManager.setRegisterFromLib( true );
+
+                         logVMMessageInfo("Velocimacro : adding VMs from " +
+                             "VM library template : " + lib  );
+
                          try 
                          {
-                             logVMMessageInfo("Velocimacro : adding VMs from " +
-                                              "VM library template : " + lib  );
-                             
-                             Template template = rsvc.getTemplate( lib );   
-                             
-                             logVMMessageInfo("Velocimacro :  VM library template " +
-                                              "macro registration complete." );
+                             Template template = rsvc.getTemplate( lib );
+
+                             /*
+                              *  save the template.  This depends on the assumption
+                              *  that the Template object won't change - currently
+                              *  this is how the Resource manager works
+                              */
+
+                             libModMap.put( lib, template );
                          } 
                          catch (Exception e)
                          {
                              logVMMessageInfo("Velocimacro : error using  VM " +
                                               "library template " + lib + " : " + e );
                          }
+
+                         logVMMessageInfo("Velocimacro :  VM library template " +
+                                 "macro registration complete." );
+            
+                         vmManager.setRegisterFromLib( false );
                      }
                  }
              }
@@ -244,7 +317,23 @@ public class VelocimacroFactory
             }
             else
             {
-                rsvc.info("Velocimacro : messages off : VM system will be quiet");
+                logVMMessageInfo("Velocimacro : messages off : VM system will be quiet");
+            }
+
+            /*
+             *  autoload VM libraries
+             */
+            setAutoload( rsvc.getBoolean( RuntimeConstants.VM_LIBRARY_AUTORELOAD, false ));
+        
+            if (getAutoload())
+            {
+                logVMMessageInfo("Velocimacro : autoload on  : VM system " +
+                                 "will automatically reload global library macros");
+            }
+            else
+            {
+                logVMMessageInfo("Velocimacro : autoload off  : VM system " +
+                                 "will not automatically reload global library macros");
             }
 
             rsvc.info("Velocimacro : initialization complete.");
@@ -274,6 +363,79 @@ public class VelocimacroFactory
             return false;
         }
         
+        /*
+         *  see if the current ruleset allows this addition
+         */
+
+        if (!canAddVelocimacro( name, sourceTemplate ))
+        {
+            return false;
+        }
+
+        /*
+         *  seems like all is good.  Lets do it.
+         */
+        synchronized( this ) 
+        {
+            vmManager.addVM( name, macroBody, argArray, sourceTemplate );
+        }
+
+        /*
+         *  if we are to blather, blather...
+         */
+        if ( blather)
+        {
+            String s = "#" +  argArray[0];
+            s += "(";
+        
+            for( int i=1; i < argArray.length; i++)
+            {
+                s += " ";
+                s += argArray[i];
+            }
+
+            s += " ) : source = ";
+            s += sourceTemplate;
+            
+           logVMMessageInfo( "Velocimacro : added new VM : " + s );
+        }
+
+        return true;
+    }
+
+    /**
+     *  determines if a given macro/namespace (name, source) combo is allowed
+     *  to be added
+     *
+     *  @param name Name of VM to add
+     *  @param sourceTemplate Source template that contains the defintion of the VM
+     *  @return true if it is allowed to be added, false otherwise
+     */
+    private boolean canAddVelocimacro( String name, String sourceTemplate)
+    {
+        /*
+         *  short circuit and do it if autoloader is on, and the
+         *  template is one of the library templates
+         */
+        
+        if ( getAutoload() )
+        {
+            /*
+             *  see if this is a library template
+             */
+
+            for( int i = 0; i < macroLibVec.size(); i++)
+            {
+                String lib = (String) macroLibVec.elementAt(i);
+
+                if (lib.equals( sourceTemplate ) )
+                {
+                    return true;
+                }
+            }
+        }
+
+           
         /*
          * maybe the rules should be in manager?  I dunno. It's to manage 
          * the namespace issues first, are we allowed to add VMs at all? 
@@ -307,34 +469,7 @@ public class VelocimacroFactory
                 return false;
             }
         }
-
-        /*
-         *  seems like all is good.  Lets do it.
-         */
-        synchronized( this ) 
-        {
-            vmManager.addVM( name, macroBody, argArray, sourceTemplate );
-        }
-
-        /*
-         *  if we are to blather, blather...
-         */
-        if ( blather)
-        {
-            String s = "#" +  argArray[0];
-            s += "(";
         
-            for( int i=1; i < argArray.length; i++)
-                {
-                    s += " ";
-                    s += argArray[i];
-                }
-            s += " ) : source = ";
-            s += sourceTemplate;
-            
-           logVMMessageInfo( "Velocimacro : added new VM : " + s );
-        }
-
         return true;
     }
 
@@ -380,18 +515,78 @@ public class VelocimacroFactory
      */
     public Directive getVelocimacro( String vmName, String sourceTemplate )
     {
+        VelocimacroProxy vp = null;
+
         synchronized( this ) 
         {
-            if ( isVelocimacro( vmName, sourceTemplate ) ) 
+            /*
+             *  don't ask - do
+             */
+
+            vp = vmManager.get( vmName, sourceTemplate);
+
+            /*
+             *  if this exists, and autoload is on, we need to check
+             *  where this VM came from
+             */
+
+            if ( vp != null && getAutoload() ) 
             {    
-                return  vmManager.get( vmName, sourceTemplate );
+                /*
+                 *  see if this VM came from a library.  Need to pass sourceTemplate
+                 *  in the event namespaces are set, as it could be masked by local
+                 */
+                
+                String lib = vmManager.getLibraryName( vmName, sourceTemplate );
+
+                if (lib != null)
+                {
+                    try 
+                    {
+                        /*
+                         *  get the template from our map
+                         */
+
+                        Template template = (Template) libModMap.get(lib );
+
+                        if (template != null)
+                        {
+                            /*
+                             *  now, compare the last modified time of the resource
+                             *  with the last modified time of the template
+                             *  if the file has changed, then reload. Otherwise, we should
+                             *  be ok.
+                             */
+
+                            long tt = template.getLastModified();
+                            long ft = template.getResourceLoader().getLastModified( template );
+
+                            if ( ft > tt )
+                            {
+                                logVMMessageInfo("Velocimacro : autoload reload for VMs from " +
+                                                 "VM library template : " + lib  );
+
+                                template = rsvc.getTemplate( lib );
+                                libModMap.put( lib, template );
+                            }
+                         } 
+                    }
+                    catch (Exception e)
+                    {
+                        logVMMessageInfo("Velocimacro : error using  VM " +
+                                         "library template " + lib + " : " + e );
+                    }
+
+                    /*
+                     *  and get again
+                     */
+
+                    vp = vmManager.get( vmName, sourceTemplate);
+                }
             }
         }
-
-        /*
-         *  wasn't a VM.  Sorry...
-         */
-        return null;
+        
+        return vp;
     }
 
     /**
@@ -455,6 +650,25 @@ public class VelocimacroFactory
     {
         return blather;
     }
+
+    /**
+     *  set the switch for automatic reloading of
+     *  global library-based VMs
+     */
+    private void setAutoload( boolean b)
+    {
+        autoReloadLibrary = b;
+    }
+    
+    /**
+     *  get the switch for automatic reloading of
+     *  global library-based VMs
+     */
+    private boolean getAutoload()
+    {
+        return autoReloadLibrary;
+    }
+
 }
 
 
