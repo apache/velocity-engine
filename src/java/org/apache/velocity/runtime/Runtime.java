@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.64 2000/12/04 02:09:49 geirm Exp $
+ * @version $Id: Runtime.java,v 1.65 2000/12/05 05:06:58 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -792,7 +792,7 @@ public class Runtime implements RuntimeConstants
      * Parse the input stream and return the root of
      * AST node structure.
      */
-    public static SimpleNode parse(InputStream inputStream)
+    public static SimpleNode parse(InputStream inputStream, String strTemplateName )
         throws ParseException
     {
         SimpleNode AST = null;
@@ -800,7 +800,7 @@ public class Runtime implements RuntimeConstants
         
         if (parser != null)
         {
-            AST = parser.parse(inputStream);
+            AST = parser.parse(inputStream, strTemplateName);
             parserPool.put(parser);
             return AST;
         }
@@ -904,7 +904,7 @@ public class Runtime implements RuntimeConstants
                 try
                 {
                     is = tl.getTemplateStream(template);
-                    t.setDocument(parse(is));
+                    t.setDocument(parse(is, t.getName() ));
                     t.initDocument();
 
                     return t;
@@ -953,7 +953,7 @@ public class Runtime implements RuntimeConstants
                 t.setLastModified(tl.getLastModified(t));
                 t.setModificationCheckInterval(tl.getModificationCheckInterval());
                 t.setTemplateLoader(tl);
-                t.setDocument(parse(is));
+                t.setDocument(parse(is, t.getName() ));
 
                 t.initDocument();
 
