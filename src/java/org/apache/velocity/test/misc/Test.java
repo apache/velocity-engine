@@ -70,7 +70,7 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.4 2000/11/04 04:58:52 jon Exp $
+ * @version $Id: Test.java,v 1.5 2000/11/04 16:20:59 geirm Exp $
  */
 public class Test
 {
@@ -81,8 +81,8 @@ public class Test
 
     public Test(String templateFile)
     {
-//        Writer writer = null;
-        JspWriterImpl vw = null;
+        Writer writer = null;
+        //        JspWriterImpl vw = null;
         TestProvider provider = new TestProvider();
         ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
@@ -108,56 +108,55 @@ public class Test
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
 
-//            writer = new BufferedWriter(new OutputStreamWriter(System.out));
-//            template.merge(context, writer);
-            try
-            {
-                vw = (JspWriterImpl) writerStack.pop();
-            }
-            catch (Exception e)
-            {
-            }
-            if (vw == null)
-                vw = new JspWriterImpl(new OutputStreamWriter(System.out), 4*1024, true);
-            else
-                vw.recycle(new OutputStreamWriter(System.out));
-            template.merge(context, vw);
-            writerStack.push(vw);
+            writer = new BufferedWriter(new OutputStreamWriter(System.out));
+            template.merge(context, writer);
+            writer.flush();
+            writer.close();
 
+            //  gmj 11/04/00 : this goes boom in merge...
+
+            //try
+            //{
+            //    vw = (JspWriterImpl) writerStack.pop();
+            // }
+            //catch (Exception e)
+            // {
+            //    Runtime.error( e );
+            // }
+            //if (vw == null)
+            //    vw = new JspWriterImpl(new OutputStreamWriter(System.out), 4*1024, true);
+            //else
+            //                vw.recycle(new OutputStreamWriter(System.out));
+
+            //template.merge(context, vw);
+ 
+            //writerStack.push(vw);
         }
         catch( Exception e )
         {
             Runtime.error(e);
         }
-        finally
-        {
-            try
-            {
-                if (vw != null)
-                {
-                    vw.flush();
-                }                
-            }
-            catch (Exception e)
-            {
-                // do nothing
-            }
-        }
+        //        finally
+        //{
+        //    try
+        //    {
+        //        if (vw != null)
+        //        {
+        //            vw.flush();
+        //        }                
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        // do nothing
+        //    }
+        // }
     }
 
     public static void main(String[] args)
     {
         Test t;
-        /*
-        if (args.length > 0)
-            t = new Test(args[0]);
-        else
-            t = new Test(null);
-*/
-            t = new Test(null);
-            t = new Test(null);
-            t = new Test(null);
-            t = new Test(null);
-            
+    
+        t = new Test(args[0]);
+   
     }
 }
