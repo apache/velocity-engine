@@ -15,3 +15,18 @@ Foreach with a variable.
     This is $element.
     $velocityCount
 #end
+
+#foreach ($element in $list)
+    -- inner foreach --
+    #foreach ($element in $list)
+        This is $element.
+        $velocityCount
+    #end
+    -- inner foreach --
+
+    -- outer foreach --
+    This is $element.
+    $velocityCount
+    -- outer foreach --
+#end
+
