@@ -209,6 +209,64 @@
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Directives</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<P align="justify">        
+    <B>#set</B>
+    <BR>
+    The #set directive is used for setting the value of
+    a reference. The reference being assigned a value can
+    either be a variable reference or a property reference:
+</P>
+
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    #set $primate = &quot;five assed monkey&quot;
+    #set $customer.Behavior = $primate 
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+    The left hand side (LHS) of the assigment must be
+    a variable reference or a property reference. The
+    right hand side (RHS) can be one of the following:
+</P>
+
+<P align="justify">
+    <BLOCKQUOTE><UL>
+        <LI>Variable reference</LI>
+        <LI>String literal</LI>
+        <LI>Property reference</LI>
+        <LI>Method reference</LI>
+        <LI>Number literal</LI>
+        <LI>Object array</LI>
+    </UL></BLOCKQUOTE>        
+</P>
+
+<P align="justify">
+    Here is an example of showing the use of the
+    above mentioned types:
+</P>    
+
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    #set $monkey = $bill
+    #set $monkey.Sucker = &quot;monica&quot;
+    #set $monkey.Blame = $whitehouse.Leak
+    #set $monkey.Plan = $spindoctor.weave($web)
+    #set $monkey.Accomplice = 666
+    #set $monkey.Say = [&quot;I&quot;, $will, &quot;rise&quot;, $again]
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">        
+    <B>#foreach</B>
+    <BR>
+</P>
+
+<P align="justify">        
+    <B>#if/#elseif/#else</B>
+    <BR>
+</P>
+
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macros</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
