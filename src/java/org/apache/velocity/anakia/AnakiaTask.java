@@ -94,7 +94,7 @@ import org.apache.velocity.VelocityContext;
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaTask.java,v 1.32 2001/10/01 04:06:09 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.33 2001/11/09 00:12:56 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -413,9 +413,9 @@ public class AnakiaTask extends MatchingTask
         catch (JDOMException e)
         {
             if (outFile != null ) outFile.delete();
-            if (e.getRootCause() != null)
+            if (e.getCause() != null)
             {
-                Throwable rootCause = e.getRootCause();
+                Throwable rootCause = e.getCause();
                 if (rootCause instanceof SAXParseException)
                 {
                     System.out.println("");
