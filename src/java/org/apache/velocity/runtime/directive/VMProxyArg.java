@@ -73,7 +73,7 @@ import org.apache.velocity.VelocityContext;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.17 2004/03/20 03:35:50 dlr Exp $ 
+ *  @version $Id$ 
  */
 public class VMProxyArg
 {
@@ -239,7 +239,7 @@ public class VMProxyArg
      *  @return Object value
      *
      */
-    public Object getObject( InternalContextAdapter context )
+    public Object getObject( InternalContextAdapter context ) throws MethodInvocationException
     {        
         try
         {
@@ -341,7 +341,7 @@ public class VMProxyArg
             
             rsvc.error("VMProxyArg.getObject() : method invocation error getting value : " + mie );
             
-            return null;
+            throw mie;
         }
     }
 

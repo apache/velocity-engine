@@ -19,6 +19,7 @@ package org.apache.velocity.context;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -168,7 +169,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return context.put( key , value );
     }
 
-    public Object get(String key)
+    public Object get(String key) throws MethodInvocationException
     {
         return context.get( key );
     }

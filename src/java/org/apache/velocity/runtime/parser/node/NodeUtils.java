@@ -16,6 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.Context;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.*;
 
 /**
@@ -23,7 +24,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.18 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
  */
 public class NodeUtils
 {
@@ -143,7 +144,7 @@ public class NodeUtils
      * be transformed into "candy.jpg" before
      * the method is executed.
      */
-    public static String interpolate(String argStr, Context vars)
+    public static String interpolate(String argStr, Context vars) throws MethodInvocationException
     {
         StringBuffer argBuf = new StringBuffer();
 

@@ -18,19 +18,17 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.log.LogSystem;
-
-import org.apache.velocity.exception.MethodInvocationException;
-
 import junit.framework.TestCase;
+
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodInvocationExceptionTest.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class MethodInvocationExceptionTest extends TestCase 
 {
@@ -185,6 +183,37 @@ public class MethodInvocationExceptionTest extends TestCase
         {
             fail("Wrong exception thrown, set test");
         }
+
+        /**
+         * test that exception is thrown when in parameter to macro
+         */
+        template = "#macro (macro1 $param) $param #end  #macro1($woogie.getFoo())";
+ 
+        try
+        {
+            Velocity. evaluate( vc,  w, "test", template );
+            fail("No exception thrown, set test.");
+        }
+        catch( MethodInvocationException mie )
+        {
+            System.out.println("Caught MIE (good!) :" );
+            System.out.println("  reference = " + mie.getReferenceName() );
+            System.out.println("  method    = " + mie.getMethodName() );
+
+            Throwable t = mie.getWrappedThrowable();
+            System.out.println("  throwable = " + t );
+
+            if( t instanceof Exception)
+            {
+                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+            }
+        }
+        catch( Exception e)
+        {
+            fail("Wrong exception thrown, test of exception within macro parameter");
+        }
+
+    
     }
 
     public void doException()
