@@ -60,6 +60,7 @@ import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 
 public class ASTText extends SimpleNode
 {
@@ -83,21 +84,12 @@ public class ASTText extends SimpleNode
 
     public Object init( InternalContextAdapter context, Object data) throws Exception
     {
-        // text = NodeUtils.specialText(getFirstToken()) +
-        //    getFirstToken().image;
+        Token t = getFirstToken();
+
+        text =  t.image;        
        
-        /*
-         *  there is only one special case we care about now : if the specialToken leads with a $
-         *  Everything else seems to be working right now 
-         */
- 
-        text =  getFirstToken().image;
-       
-        if (NodeUtils.specialText(getFirstToken()).startsWith("$")) 
-            text = "$" + text;
-        else if ( NodeUtils.specialText(getFirstToken()).startsWith("#") )
-            text = "#" + text;
-        
+        text = NodeUtils.specialText( t ) + t.image;
+
         return data;
     }
 

@@ -63,7 +63,7 @@ import org.apache.velocity.runtime.parser.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NodeUtils.java,v 1.9 2001/01/03 05:27:38 geirm Exp $
+ * @version $Id: NodeUtils.java,v 1.10 2001/03/19 01:36:30 geirm Exp $
  */
 public class NodeUtils
 {
@@ -90,7 +90,21 @@ public class NodeUtils
         
         while (tmp_t != null)
         {
-            specialText += tmp_t.image;
+            String st = tmp_t.image;
+
+            StringBuffer sb = new StringBuffer("");
+
+            for(int i = 0; i < st.length(); i++)
+            {
+                char c = st.charAt(i);
+
+                if ( c == '#' || c == '$' )
+                    sb.append( c );
+            }
+            
+            // specialText += tmp_t.image;
+            specialText += sb.toString();
+
             tmp_t = tmp_t.next;
         }            
 
