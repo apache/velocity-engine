@@ -73,11 +73,12 @@ import org.apache.velocity.io.FastWriter;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
- * Simply extend this class, override the handleRequest method
- * and add your data to the context. Then call getTemplate("mytemplate.wm")
+ * Extend this class, implement the <code>handleRequest()</code> method, 
+ * and add your data to the context.  Then call 
+ * <code>getTemplate("myTemplate.wm")</code>.
  * 
  * @author Dave Bryson
- * $Revision: 1.5 $
+ * $Id: VelocityServlet.java,v 1.6 2000/10/15 19:43:50 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -131,7 +132,8 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handle a POST
      */
-    public void doPost( HttpServletRequest request, HttpServletResponse response )
+    public void doPost( HttpServletRequest request, 
+                        HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -140,7 +142,8 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Process the request.
      */
-    private void doRequest(HttpServletRequest request, HttpServletResponse response )
+    private void doRequest(HttpServletRequest request, 
+                           HttpServletResponse response )
          throws ServletException, IOException
     {
         Context context = new Context();
@@ -154,7 +157,8 @@ public abstract class VelocityServlet extends HttpServlet
 
         response.setContentType("text/html");
         
-        FastWriter writer = new FastWriter(response.getOutputStream(), encoding);
+        FastWriter writer = new FastWriter(response.getOutputStream(), 
+                                           encoding);
         writer.setAsciiHack(asciiHack);
         template.merge( context, writer );
         writer.flush();
@@ -174,8 +178,9 @@ public abstract class VelocityServlet extends HttpServlet
     }
     
     /**
-     * Override the method to add your application data to the context, 
-     * then call the <code>getTemplate()</code> method.
+     * Implement this method to add your application data to the context, 
+     * calling the <code>getTemplate()</code> method to produce your return 
+     * value.
      *
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
