@@ -78,19 +78,22 @@ import java.lang.reflect.InvocationTargetException;
  *
  *  mainly used by ASTRefrence
  *
- *  Introspection is now moved to 'just in time' or at render / execution 
- *  time. There are many reasons why this has to be done, but the 
- *  primary two are   thread safety, to remove any context-derived 
+ *  Introspection is now moved to 'just in time' or at render / execution
+ *  time. There are many reasons why this has to be done, but the
+ *  primary two are   thread safety, to remove any context-derived
  *  information from class member  variables.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.17 2002/04/21 20:57:03 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.18 2002/04/21 21:04:44 geirm Exp $
  */
 public class ASTIdentifier extends SimpleNode
 {
     private String identifier = "";
 
+    /**
+     *  This is really immutable after the init, so keep one for this node
+     */
     protected Info uberInfo;
 
     public ASTIdentifier(int id)
@@ -116,7 +119,7 @@ public class ASTIdentifier extends SimpleNode
     public  Object init(InternalContextAdapter context, Object data)
         throws Exception
     {
-        super.init( context, data );
+        super.init(context, data);
 
         identifier = getFirstToken().image;
 
@@ -143,12 +146,12 @@ public class ASTIdentifier extends SimpleNode
              *  first, see if we have this information cached.
              */
 
-            IntrospectionCacheData icd = context.icacheGet( this );
+            IntrospectionCacheData icd = context.icacheGet(this);
 
             /*
-             * if we have the cache data and the class of the object we are 
+             * if we have the cache data and the class of the object we are
              * invoked with is the same as that in the cache, then we must
-             * be allright.  The last 'variable' is the method name, and 
+             * be allright.  The last 'variable' is the method name, and
              * that is fixed in the template :)
              */
 
@@ -159,12 +162,13 @@ public class ASTIdentifier extends SimpleNode
             else
             {
                 /*
-                 *  otherwise, do the introspection, and cache it
+                 *  otherwise, do the introspection, and cache it.  Use the
+                 *  uberspector
                  */
 
                 vg = rsvc.getUberspect().getPropertyGet(o,identifier, uberInfo);
 
-                if (vg != null)
+                if (vg != null && vg.isCacheable())
                 {
                     icd = new IntrospectionCacheData();
                     icd.contextData = c;
@@ -173,10 +177,10 @@ public class ASTIdentifier extends SimpleNode
                 }
             }
         }
-        catch( Exception e)
+        catch(Exception e)
         {
-            rsvc.error("ASTIdentifier.execute() : identifier = " 
-                               + identifier + " : " + e );
+            rsvc.error("ASTIdentifier.execute() : identifier = "
+                               + identifier + " : " + e);
         }
 
         /*
@@ -241,15 +245,16 @@ public class ASTIdentifier extends SimpleNode
 
             }
         }
-        catch( IllegalArgumentException iae )
+        catch(IllegalArgumentException iae)
         {
             return null;
         }
-        catch( Exception e )
+        catch(Exception e)
         {
-            rsvc.error("ASTIdentifier() : exception invoking method for identifier '" 
-                               + identifier + "' in " + o.getClass() + " : "  + e );
-        }            
+            rsvc.error("ASTIdentifier() : exception invoking method "
+                        + "for identifier '" + identifier + "' in "
+                        + o.getClass() + " : " + e);
+        }
 
         return null;
     }
