@@ -72,7 +72,7 @@ import junit.framework.TestCase;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.7 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.8 2001/08/11 18:58:49 geirm Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
@@ -190,7 +190,25 @@ public class IntrospectorTestCase extends BaseTestCase
         
             if (!result.equals(type))
                 failures.add(type + "Method could not be found!");
-            
+
+            // Test untouchable
+
+            Object[] params = {};
+           
+            method = Introspector.getMethod(
+                MethodProvider.class, "untouchable", params);
+
+            if (method != null)
+                failures.add(type + "able to access a private-access method.");      
+
+            // Test really untouchable
+
+            method = Introspector.getMethod(
+                MethodProvider.class, "reallyuntouchable", params);
+
+            if (method != null)
+                failures.add(type + "able to access a default-access method.");      
+
             // There were any failures then show all the
             // errors that occured.
             
@@ -206,11 +224,11 @@ public class IntrospectorTestCase extends BaseTestCase
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            fail( e.toString() );
         }
     }
 
-    static class MethodProvider
+    public static class MethodProvider
     {
         /*
          * Methods with native parameter types.
@@ -223,5 +241,9 @@ public class IntrospectorTestCase extends BaseTestCase
         public String integerMethod (int p) { return "integer"; }
         public String longMethod (long p) { return "long"; }
         public String shortMethod (short p) { return "short"; }
+
+        String untouchable() { return "yech";}
+        private String reallyuntouchable() { return "yech!"; }
+
     }
 }
