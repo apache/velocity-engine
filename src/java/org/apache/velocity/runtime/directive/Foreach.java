@@ -82,6 +82,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -89,7 +90,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.40 2001/10/24 03:06:17 geirm Exp $
+ * @version $Id: Foreach.java,v 1.41 2002/04/21 21:00:56 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -108,38 +109,6 @@ public class Foreach extends Directive
     {
         return BLOCK;
     }        
-
-    private final static int UNKNOWN = -1;
-    
-    /**
-     * Flag to indicate that the list object being used
-     * in an array.
-     */
-    private final static int INFO_ARRAY = 1;
-    
-    /**
-     * Flag to indicate that the list object being used
-     * provides an Iterator.
-     */
-    private final static int INFO_ITERATOR = 2;
-    
-    /**
-     * Flag to indicate that the list object being used
-     * is a Map.
-     */
-    private final static int INFO_MAP = 3;
-
-    /**
-     * Flag to indicate that the list object being used
-     * is a Collection.
-     */
-    private final static int INFO_COLLECTION = 4;
-
-    /**
-     *  Flag to indicate that the list object being used
-     *  is an Enumeration
-     */
-    private final static int INFO_ENUMERATION = 5;
 
     /**
      * The name of the variable to use when placing
@@ -165,15 +134,19 @@ public class Foreach extends Directive
      */
     private String elementKey;
 
-   
+    /**
+     *  immutable, so create in init
+     */
+    protected Info uberInfo;
+
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
      */
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
     {
-        super.init( rs, context, node );
+        super.init(rs, context, node);
 
         counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
         counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
@@ -184,137 +157,20 @@ public class Foreach extends Directive
          */
 
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
-    }
-
-    /**
-     *  returns an Iterator to the collection in the #foreach()
-     *
-     *  @param context  current context
-     *  @param node   AST node
-     *  @return Iterator to do the dataset
-     */
-    private Iterator getIterator( InternalContextAdapter context, Node node )
-        throws MethodInvocationException
-    {
-        /*
-         *  get our list object, and punt if it's null.
-         */
-
-        Object listObject = node.jjtGetChild(2).value(context);
-        
-        if (listObject == null)
-            return null;
 
         /*
-         *  See if we already know what type this is. 
-         *  Use the introspection cache
+         * make an uberinfo - saves new's later on
          */
 
-        int type = UNKNOWN;
-
-        IntrospectionCacheData icd = context.icacheGet( this ); 
-        Class c = listObject.getClass();
-
-        /*
-         *  if we have an entry in the cache, and the Class we have
-         *  cached is the same as the Class of the data object
-         *  then we are ok
-         */
-
-        if ( icd != null && icd.contextData == c )
-        {
-            /* dig the type out of the cata object */
-            type = ((Integer) icd.thingy ).intValue();
-        }
-
-        /* 
-         * If we still don't know what this is, 
-         * figure out what type of object the list
-         * element is, and get the iterator for it
-         */
-
-        if ( type == UNKNOWN )
-        {
-            if ( listObject.getClass().isArray() )
-                type = INFO_ARRAY;
-            else if ( listObject instanceof Collection)
-                type = INFO_COLLECTION;
-            else if ( listObject instanceof Map )
-                type = INFO_MAP;
-            else if ( listObject instanceof Iterator )
-                type = INFO_ITERATOR;
-            else if ( listObject instanceof Enumeration )
-                type = INFO_ENUMERATION;
-
-            /*
-             *  if we did figure it out, cache it
-             */
-
-            if ( type != UNKNOWN )
-            {
-                icd = new IntrospectionCacheData();
-                icd.thingy = new Integer( type );
-                icd.contextData = c;
-                context.icachePut( this, icd );
-            }
-        }
-
-        /*
-         *  now based on the type from either cache or examination...
-         */
-
-        switch( type ) {
-            
-        case INFO_COLLECTION :        
-            return ( (Collection) listObject).iterator();        
-
-        case INFO_ITERATOR :        
-            rsvc.warn ("Warning! The reference " 
-                          + node.jjtGetChild(2).getFirstToken().image
-                          + " is an Iterator in the #foreach() loop at ["
-                          + getLine() + "," + getColumn() + "]"
-                          + " in template " + context.getCurrentTemplateName() 
-                          + ". Because it's not resetable,"
-                          + " if used in more than once, this may lead to" 
-                          + " unexpected results.");
-
-            return ( (Iterator) listObject);       
-
-        case INFO_ENUMERATION : 
-            rsvc.warn ("Warning! The reference " 
-                          + node.jjtGetChild(2).getFirstToken().image
-                          + " is an Enumeration in the #foreach() loop at ["
-                          + getLine() + "," + getColumn() + "]"
-                          + " in template " + context.getCurrentTemplateName() 
-                          + ". Because it's not resetable,"
-                          + " if used in more than once, this may lead to" 
-                          + " unexpected results.");
-            return new EnumerationIterator( (Enumeration)  listObject );       
-
-        case INFO_ARRAY:
-            return new ArrayIterator( listObject );
-
-        case INFO_MAP:          
-            return ( (Map) listObject).values().iterator();
-
-        default:
-        
-            /*  we have no clue what this is  */
-            rsvc.warn ("Could not determine type of iterator in " 
-                          +  "#foreach loop for " 
-                          + node.jjtGetChild(2).getFirstToken().image 
-                          + " at [" + getLine() + "," + getColumn() + "]"
-                          + " in template " + context.getCurrentTemplateName() );            
-
-            return null;
-        }
+        uberInfo = new Info(context.getCurrentTemplateName(),
+                getLine(),getColumn());
     }
 
     /**
      *  renders the #foreach() block
      */
-    public boolean render( InternalContextAdapter context, 
-                           Writer writer, Node node )
+    public boolean render(InternalContextAdapter context,
+                           Writer writer, Node node)
         throws IOException,  MethodInvocationException, ResourceNotFoundException,
         	ParseErrorException
     {        
@@ -322,11 +178,27 @@ public class Foreach extends Directive
          *  do our introspection to see what our collection is
          */
 
-        Iterator i = getIterator( context, node );
-   
-        if ( i == null )
+        Object listObject = node.jjtGetChild(2).value(context);
+
+        if (listObject == null)
+             return false;
+
+        Iterator i = null;
+
+        try
+        {
+            i = rsvc.getUberspect().getIterator(listObject, uberInfo);
+        }
+        catch(Exception ee)
+        {
+            System.out.println(ee);
+        }
+
+        if (i == null)
+        {
             return false;
-        
+        }
+
         int counter = counterInitialValue;
         
         /*
@@ -334,7 +206,7 @@ public class Foreach extends Directive
          *  and the loop counter
          */
 
-        Object o = context.get( elementKey );
+        Object o = context.get(elementKey);
         Object ctr = context.get( counterName);
 
         while (i.hasNext())
@@ -350,13 +222,13 @@ public class Foreach extends Directive
          * if we have one, else just removes
          */
         
-        if( ctr != null)
+        if (ctr != null)
         {
-            context.put( counterName, ctr );
+            context.put(counterName, ctr);
         }
         else
         {
-            context.remove( counterName );
+            context.remove(counterName);
         }
 
 
@@ -367,7 +239,7 @@ public class Foreach extends Directive
 
         if (o != null)
         {
-            context.put( elementKey, o );
+            context.put(elementKey, o);
         }
         else
         {
@@ -376,8 +248,4 @@ public class Foreach extends Directive
 
         return true;
     }
-    
 }
-
-
-
