@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.5 2002/02/05 04:55:17 dlr Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.6 2002/03/25 00:44:00 geirm Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -153,9 +153,7 @@ public class ResourceManagerImpl implements ResourceManager
     protected RuntimeServices rsvc = null;
 
     /**
-     * Initialize the ResourceManager. It is assumed
-     * that assembleSourceInitializers() has been
-     * called before this is run.
+     * Initialize the ResourceManager.
      */
     public void initialize( RuntimeServices rs ) 
         throws Exception

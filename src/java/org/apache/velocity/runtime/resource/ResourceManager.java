@@ -68,7 +68,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.32 2001/11/06 03:22:00 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.33 2002/03/25 00:44:00 geirm Exp $
  */
 public interface ResourceManager
 {
@@ -83,9 +83,7 @@ public interface ResourceManager
     public static final int RESOURCE_CONTENT = 2;
 
     /**
-     * Initialize the ResourceManager. It is assumed
-     * that assembleSourceInitializers() has been
-     * called before this is run.
+     * Initialize the ResourceManager.
      */
     public void initialize( RuntimeServices rs ) throws Exception;
 
