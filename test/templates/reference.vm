@@ -49,3 +49,16 @@ Misc tests :
 
 [$foo.bar]
 
+
+$provider.Title
+$provider.title
+
+#foreach($i in $provider.vector)
+ $i
+#end
+#foreach($i in $provider.Vector)
+ $i
+#end
+
+
+
