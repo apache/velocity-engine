@@ -1335,61 +1335,6 @@ $count
     macro available to more than one template.
     </p>
 
-    <strong>Velocimacro Properties</strong>
-    
-    <p>
-    Several lines in the <code>velocity.properties</code> file allow for
-    flexible implementation of Velocimacros.  Node that these are also
-    documented in the <a href="developer-guide.html">Developer Guide</a>.
-    </p>
-
-    <p>
-    <code>velocimacro.library</code> - A comma-separated list of all 
-    Velocimacro template libraries. By default, Velocity looks for
-    a single library: <em>VM_global_lib.vm</em>. The configured template path
-    is used to find the Velocimacro libraries.
-    </p>
-
-    <p>
-    <code>velocimacro.permissions.allow.inline</code> - This property,
-    which has possible values of true or false, determines whether
-    Velocimacros can be defined in regular templates. The default,
-    true, allows template designers to define Velocimacros in the
-    templates themselves.
-    </p>
-
-    <p>
-    <code>velocimacro.permissions.allow.inline.to.replace.global</code> -
-     With possible values of true or false,
-    this property allows the user to specify if a  Velocimacro defined
-    inline in a template can replace a globally defined template, one 
-    that was loaded on startup via the <code>velocimacro.library</code>
-    property. The default, <code>false</code>, prevents
-    Velocimacros defined inline in a template from replacing those
-    defined in the template libraries loaded at startup.
-    </p>
-
-   <p>
-    <code>velocimacro.permissions.allow.inline.local.scope</code> - This
-    property, with possible values of true or false, defaulting to false,
-    controls if Velocimacros defined inline are 'visible' only to the 
-    defining template.  In other words, with this property set to true,
-    a template can define inline VMs that are usable only by the defining
-    template.  You can use this for fancy VM tricks - if a global VM calls
-    another global VM, with inline scope, a template can define a
-    private implementation of the second VM that will be called by the
-    first VM when invoked by that template.  All other templates
-    are unaffected.
-    </p>
-
-    <p>
-    <code>velocimacro.context.localscope</code> - This property has the
-    possible values true or false, and the default is false.  When true,
-    any modifications to the context via #set() within a Velocimacro
-    are considered 'local' to the Velocimacro, and will not
-    permanently affect the context.
-    </p>
-
     <p>
     Were the <em>#tablerows($color $list)</em> Velocimacro defined in a
     Velocimacros template library, this macro could be used on any of
@@ -1498,6 +1443,75 @@ $count
      #set( $myval = $foo.bar() )
      #callme( $myval )
    ]]></source>
+
+
+    <strong>Velocimacro Properties</strong>
+    
+    <p>
+    Several lines in the <code>velocity.properties</code> file allow for
+    flexible implementation of Velocimacros.  Node that these are also
+    documented in the <a href="developer-guide.html">Developer Guide</a>.
+    </p>
+
+    <p>
+    <code>velocimacro.library</code> - A comma-separated list of all 
+    Velocimacro template libraries. By default, Velocity looks for
+    a single library: <em>VM_global_lib.vm</em>. The configured template path
+    is used to find the Velocimacro libraries.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allow.inline</code> - This property,
+    which has possible values of true or false, determines whether
+    Velocimacros can be defined in regular templates. The default,
+    true, allows template designers to define Velocimacros in the
+    templates themselves.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allow.inline.to.replace.global</code> -
+     With possible values of true or false,
+    this property allows the user to specify if a  Velocimacro defined
+    inline in a template can replace a globally defined template, one 
+    that was loaded on startup via the <code>velocimacro.library</code>
+    property. The default, <code>false</code>, prevents
+    Velocimacros defined inline in a template from replacing those
+    defined in the template libraries loaded at startup.
+    </p>
+
+   <p>
+    <code>velocimacro.permissions.allow.inline.local.scope</code> - This
+    property, with possible values of true or false, defaulting to false,
+    controls if Velocimacros defined inline are 'visible' only to the 
+    defining template.  In other words, with this property set to true,
+    a template can define inline VMs that are usable only by the defining
+    template.  You can use this for fancy VM tricks - if a global VM calls
+    another global VM, with inline scope, a template can define a
+    private implementation of the second VM that will be called by the
+    first VM when invoked by that template.  All other templates
+    are unaffected.
+    </p>
+
+    <p>
+    <code>velocimacro.context.localscope</code> - This property has the
+    possible values true or false, and the default is false.  When true,
+    any modifications to the context via #set() within a Velocimacro
+    are considered 'local' to the Velocimacro, and will not
+    permanently affect the context.
+    </p>
+
+    <p>
+    <code>velocimacro.library.autoreload</code> - This property
+     controls Velocimacro library autoloading. The default value
+    is <code>false</code>.  When set to <code>true</code>
+    the source Velocimacro library for an invoked Velocimacro will be checked
+    for changes, and reloaded if necessary.  This allows you to change and 
+    test Velocimacro libraries without having to restart your application or
+    servlet container, just like you can with regular templates.
+    This mode only works when caching is <i>off</i>
+    in the resource loaders (e.g. <code>file.resource.loader.cache = false</code> ).
+    This feature is intended for development, not for production.
+    </p>
 
     <strong>Velocimacro Trivia</strong>
 

@@ -1578,6 +1578,13 @@ you are interested in changing need to be specified, rather
 than a complete set. 
 </p>
                                                 <p>
+Another thing to note is that the <code>init()</code> calls may be called
+more than once without harm in an application.  However, the first call to any
+of the <code>init()</code> functions will configure the engine with the 
+configuration properties set at that point, and any further configuration
+changes or <code>init()</code> calls will be ignored.
+</p>
+                                                <p>
 The most common approaches to initializing Velocity will be something like :
 </p>
                                                 <ol>
