@@ -1,0 +1,36 @@
+<project name="build-site" default="docs" basedir=".">
+
+    <!-- Initialization properties -->
+    <property name="project.name"   value="site"/>
+    <property name="docs.src" value="../../../xdocs"/>
+    <property name="docs.dest" value="."/>
+
+    <target name="prepare">
+        <available classname="org.apache.velocity.anakia.AnakiaTask" property="AnakiaTask.present"/>
+    </target>
+
+    <target depends="prepare" name="prepare-error" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that 
+            velocity.jar is in your classpath.
+        </echo>
+    </target>
+
+    <target name="docs" depends="prepare-error" if="AnakiaTask.present">
+        <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
+        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop"/>
+	
+	<anakia basedir="${docs.src}" destdir="${docs.dest}/"
+             extension=".fo" style="pdfsite.vsl"
+             includes="**/*.xml"
+             lastModifiedCheck="true">
+        </anakia>
+	
+	<!-- Make big XML doc here -->
+	
+	<fop fofile="index.fo" 
+	    pdffile="index.pdf"
+	/>
+        
+    </target>
+</project>
