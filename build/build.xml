@@ -403,7 +403,7 @@
     <copy todir="${dist.dir}/build">
       <fileset dir="../build">
         <include name="**"/>
-        <exclude name="velocity.log/>
+        <exclude name="velocity.log"/>
       </fileset>
     </copy>
 
