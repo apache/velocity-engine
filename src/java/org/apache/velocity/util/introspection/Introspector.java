@@ -83,7 +83,7 @@ import java.lang.reflect.Modifier;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.4 2000/11/01 18:31:36 jvanzyl Exp $
+ * @version $Id: Introspector.java,v 1.5 2000/11/01 20:45:30 werken Exp $
  */
 
 // isAssignable checks for arguments that are subclasses
@@ -100,15 +100,36 @@ public class Introspector
         // If this is the first time seeing this class
         // then create a method map for this class and
         // store it in Hashtable of class method maps.
-        if (!classMethodMaps.containsKey(c.getName()))
-            classMethodMaps.put(c.getName(), new ClassMap(c));
+        
+        if (!classMethodMaps.containsKey(c))
+        {
+            // Lots of threads might be whizzing through here,
+            // so we do a double-checked lock, which only involves
+            // synchronization when there's a key-miss.  Avoids
+            // doing duplicate work, and constructing objects twice
+            // in particular race conditions
+
+            // Though, some folks say that double-checked-locking
+            // doesn't necessarily work-as-expected in Java on
+            // multi-proc machines.  Doesn't make things worse,
+            // but just doesn't help as much as you'd imagine it
+            // would.  Darn re-ordering of instructions.
+            
+            synchronized (classMethodMaps)
+            {
+                if (!classMethodMaps.containsKey(c))
+                {
+                    classMethodMaps.put(c, new ClassMap(c));
+                }
+            }
+        }
         
         return findMethod(c, name, params);
     }
 
     private static Method findMethod(Class c, String name, Object[] params)
     {
-        ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c.getName());
+        ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c);
         return classMethodMap.findMethod(name, params);
     }
 
@@ -135,13 +156,13 @@ public class Introspector
         Object[] params = 
         { 
             new String(),
-            new String()
+            new StringBuffer()
         };
         
         Object[] args =
         {
             "this",
-            "that"
+            new StringBuffer()
         };            
         
         Test t = new Test();
