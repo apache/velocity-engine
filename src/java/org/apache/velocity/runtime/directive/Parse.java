@@ -72,8 +72,10 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
- * Pluggable directive that handles the #parse() statement in VTL. 
+ * Pluggable directive that handles the <code>#parse()</code>
+ * statement in VTL.
  *
+ * <pre>
  * Notes:
  * -----
  *  1) The parsed source material can only come from somewhere in 
@@ -85,11 +87,12 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *  2) There is a limited parse depth.  It is set as a property 
  *    "parse_directive.maxdepth = 10"  for example.  There is a 20 iteration
  *    safety in the event that the parameter isn't set.
+ * </pre>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.24 2002/10/10 16:47:00 dlr Exp $
+ * @version $Id: Parse.java,v 1.25 2002/10/10 16:47:54 dlr Exp $
  */
 public class Parse extends Directive
 {
