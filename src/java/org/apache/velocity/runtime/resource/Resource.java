@@ -72,7 +72,8 @@ import org.apache.velocity.exception.ParseErrorException;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Resource.java,v 1.4 2001/03/05 11:46:44 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Resource.java,v 1.5 2001/04/22 18:11:20 geirm Exp $
  */
 public abstract class Resource
 {
@@ -111,13 +112,24 @@ public abstract class Resource
      */
     protected long nextCheck = 0;
 
-    /** Resource name */
+    /**
+     *  Name of the resource
+     */
     protected String name;
 
-    /** Resource might require ancillary storage of some kind */
+    /**
+     *  Character encoding of this resource
+     */
+    protected String encoding = Runtime.ENCODING_DEFAULT;
+
+    /** 
+     *  Resource might require ancillary storage of some kind 
+     */
     protected Object data = null;
 
-    /** Default constructor */
+    /** 
+     *  Default constructor 
+     */
     public Resource()
     {
     }
@@ -202,6 +214,25 @@ public abstract class Resource
     {
         return name;
     }        
+
+    /**
+     *  set the encoding of this resource
+     *  for example, "ISO-8859-1"
+     */
+    public void setEncoding( String encoding )
+    {
+        this.encoding = encoding;
+    }
+
+    /**
+     *  get the encoding of this resource
+     *  for example, "ISO-8859-1"
+     */
+    public String getEncoding()
+    {
+        return encoding;
+    }
+
 
     /**
      * Return the lastModifed time of this
