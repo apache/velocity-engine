@@ -263,15 +263,151 @@ This deployment method will ensure that different web applications will not be s
 Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties contained
  in Velocity's jar, found in
 /src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  This ensures that Velocity will always have a 'correct' value
-for it's configuration and startup. 
+for it's configuration and startup, although it may not be what you want. 
 </p>
-<p>  Any properties then specified at init() time will replace the  default values.  This ensures that you only have to
+<p>  Any properties then specified at init() time will replace the  default values.  Therefore, you only have to
 configure velocity with the properties that you need to change, and not worry about the rest.  Further, as we add more 
 features and configuration capability, you don't have to change your configuration files to suit - the Velocity engine will
  always have default values.
 </p>
+
 <p>
-describe properties here
+Below are listed the properties that control Velocity's behavior.  Organized by category, each property is listed with it's current default value 
+to the right of the '=' sign.
+</p>
+
+<strong>Runtime Log</strong>
+<p>
+<code>runtime.log = velocity.log</code><br/>
+ Full path and name of log file for error, warning, 
+and informational messages.  The location, if not absolute, is relative to the 'current directory'.
+</p>
+
+<p>
+<code>runtime.log.error.stacktrace = false</code><br/>
+<code>runtime.log.warn.stacktrace = false</code><br/>
+<code>runtime.log.info.stacktrace = false</code><br/>
+ Turns on stacktracing for the three error categories.  These produce a large 
+amount of log output.
+</p>
+
+<strong>Encoding and Content Type</strong>
+<p>
+<code>template.encoding = 8859_1</code><br/>
+ Encoding scheme to use.  Currently used in VelocityServlet.
+</p>
+
+<p>
+<code>default.contentType = text/html</code><br/>
+Content type, currently used in VelocityServlet.
+</p>
+
+<strong> #foreach() Directive </strong>
+
+<p>
+<code>counter.name = velocityCount</code><br/>
+Used in the #foreach() directive, defines the string to be used as the context key for the loop count. A template would access
+the loop count as $velocityCount.
+</p>
+
+<p>
+<code>counter.initial.value = 1</code><br/>
+Default starting value for the loop counter reference in a #foreach() loop.
+</p>
+
+<strong> #include() and #parse() Directive </strong>
+<p>
+<code>include.output.errormsg.start = <![CDATA[ <!-- include error : ]]> </code><br/>
+<code>include.output.errormsg.end   =  <![CDATA[ see error log --> ]]></code><br/>
+Defines the beginning and ending tags for an in-stream error message in the case of a problem with the #include() directive.
+If both the .start and .end tags are defined, an error message will be output to the stream, of the form '.start msg .end' where .start and .end refer to the property values.  
+Output to the render stream will only occur if both the .start and .end (next) tag are defined. 
+</p>
+<p>
+<code>parse_directive.maxdepth = 10</code><br/>
+Defines the allowable parse depth for a template. A template may #parse() another template which itself may have a #parse() directive.  This value prevents runaway #parse() recursion.
+</p>
+
+<strong> Resource Management </strong>
+<p>
+<code>resource.loader.1.public.name = File</code><br/>
+Pulic name of the file resource loader, to allow application software to alter propertes 
+of a loader by name rather than the 'load number',
+the integer following 'loader'.  This allows the administration of resource loaders to be decoupled from the application uses.
+</p>
+<p>
+<code>resource.loader.1.description = Velocity File Resource Loader</code><br/>
+Description string for the loader.
+</p>
+<p>
+<code>resource.loader.1.class = org.apache.velocity.runtime.resource.loader.FileResourceLoader</code><br/>
+Name of implementation class for the loader.  The default loader is the file loader.
+</p>
+<p>
+<code>resource.loader.1.resource.path = .</code><br/>
+Root from which the file loader loads templates. Templates may live in subdirectories of this root.  ex. homesite/index.vm
+</p>
+<p>
+<code>resource.loader.1.cache = false</code><br/>
+Controls caching of the templates in the loader.  Default is false, to make life easy for development and debugging.  This should
+be set to true for production deployment.
+</p>
+<p>
+<code>resource.loader.1.modificationCheckInterval = 2</code><br/>
+</p>
+
+<strong>Velocimacro</strong>
+
+<p>
+<code>velocimacro.library.global = VM_global_library.vm </code><br/>
+Name of one of two default libraries of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all 
+templates.  The file is assumed to be relative to the root of the file loader resource path.
+</p>
+
+<p>
+<code>velocimacro.library.local = [no default value] </code><br/>
+The 'other' default library of VMs to be loaded when the Velocity Runtime engine starts.  These VMs are accessable to all 
+templates.  The file is assumed to be relative to the root of the file loader resource path.
+</p>
+
+<p>
+<code>velocimacro.permissions.allowInline = true</code><br/>
+Determines of the definition of new VMs via the #macro() directive in templates is allowed.  The default value is true, meaning any
+template can define and use new VMs.  Note that depending on other properties, those #macro() statements can replace global
+definitions.
+</p>
+<p>
+<code>velocimacro.permissions.allowInlineToReplaceGlobal = false </code><br/>
+</p>
+
+<p>
+<code>velocimacro.permissions.allowInlineLocalScope = false</code><br/>
+Controls 'private' templates namespaces for VMs.  When true, a #macro() directive in a template creates a VM that is accessable
+only from the defining template.  This means that VMs cannot be shared unless they are in the global or local library loaded 
+at startup. (See above.)  It also means that templates cannot interfere with each other.  This property also allows a technique
+where there is a 'default' VM definition in the global or local library, and a template can 'override' the implementation for 
+use within that template.  This occurrs because when this property is true, the template's namespace is searched for a VM before
+the global namespace, therefore allowing the override mechanism.
+</p>
+<p>
+<code>velocimacro.context.localscope = false</code><br/>
+Controls whether reference access (set/get) within a Velocimacro will change the context, or be of local scope in that 
+VM.
+</p>
+
+<strong>References</strong>
+
+<p>
+<code>runtime.log.reference.log_invalid = true </code><br/>
+Property to turn off the log output when a reference isn't valid.  Good thing to turn of in production, but very valuable
+for debugging.
+</p>
+
+<strong>String Interpolation</strong>
+
+<p>
+<code>stringliterals.interpolate = true</code><br/>
+Controls interpolation mechanism of VTL String Literals.  Note that a VTL StringLiteral is specifically a string using double quotes that is used in a #set() statement, a method call of a reference, a parameter to a VM, or as an argument to a VTL directive in general.  See the VTL reference for further information.
 </p>
 </s1>
 
