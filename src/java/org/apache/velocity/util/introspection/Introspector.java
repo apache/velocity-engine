@@ -59,6 +59,8 @@ import java.util.Hashtable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.apache.velocity.util.StringUtils;
+
 /**
  * This basic function of this class is to return a Method
  * object for a particular class given the name of a method
@@ -83,7 +85,7 @@ import java.lang.reflect.Modifier;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.7 2000/11/25 00:00:06 jon Exp $
+ * @version $Id: Introspector.java,v 1.8 2000/11/25 18:27:27 jon Exp $
  */
 
 // isAssignable checks for arguments that are subclasses
@@ -97,10 +99,12 @@ public class Introspector
     public static Method getMethod(Class c, String name, Object[] params)
         throws Exception
     {
+        if (c == null)
+            throw new Exception ( "Introspector.getMethod(): Class method key was null: " + name );
+
         // If this is the first time seeing this class
         // then create a method map for this class and
         // store it in Hashtable of class method maps.
-        
         if (!classMethodMaps.containsKey(c))
         {
             // Lots of threads might be whizzing through here,
@@ -114,7 +118,7 @@ public class Introspector
             // multi-proc machines.  Doesn't make things worse,
             // but just doesn't help as much as you'd imagine it
             // would.  Darn re-ordering of instructions.
-            
+        
             synchronized (classMethodMaps)
             {
                 if (!classMethodMaps.containsKey(c))
@@ -123,7 +127,6 @@ public class Introspector
                 }
             }
         }
-        
         return findMethod(c, name, params);
     }
 
