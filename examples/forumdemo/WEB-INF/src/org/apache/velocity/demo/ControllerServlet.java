@@ -60,6 +60,8 @@ import java.util.*;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 
 // Servlet stuff
 import javax.servlet.*;
@@ -85,12 +87,68 @@ import org.apache.velocity.demo.action.*;
  * All requests are made to this servlet.
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Revision: 1.3 $
- * $Id: ControllerServlet.java,v 1.3 2001/05/11 12:07:47 geirm Exp $
+ * @version $Revision: 1.4 $
+ * $Id: ControllerServlet.java,v 1.4 2001/05/19 17:26:35 geirm Exp $
  */
 public class ControllerServlet extends VelocityServlet
 {
     private static String ERR_MSG_TAG = "forumdemo_current_error_msg";
+
+    
+    /**
+     *  lets override the loadConfiguration() so we can do some 
+     *  fancier setup of the template path
+     */
+    protected Properties loadConfiguration(ServletConfig config )
+        throws IOException, FileNotFoundException
+    {
+        String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+        
+        /*
+         *  now convert to an absolute path relative to the webapp root
+         *  This will work in a decently implemented servlet 2.2 
+         *  container like Tomcat.
+         */
+
+        if ( propsFile != null )
+        {
+            String realPath = getServletContext().getRealPath(propsFile);
+        
+            if ( realPath != null )
+            {
+                propsFile = realPath;
+            }
+        }
+        
+       Properties p = new Properties(); 
+       p.load( new FileInputStream(propsFile) );
+      
+
+       /*
+        *  now, lets get the two elements we care about, the 
+        *  template path and the log, and fix those from relative
+        *  to the webapp root, to absolute on the filesystem, which is
+        *  what velocity needs
+        */
+
+       String path = p.getProperty("file.resource.loader.path");
+
+       if (path != null)
+       {
+           path = getServletContext().getRealPath( path );
+           p.setProperty( "file.resource.loader.path", path );
+       }
+        
+       path = p.getProperty("runtime.log");
+
+       if (path != null)
+       {
+           path = getServletContext().getRealPath( path );
+           p.setProperty("runtime.log", path );
+       }
+
+       return p;
+    }
 
     /**
      * VelocityServlet handles most of the Servlet issues.
