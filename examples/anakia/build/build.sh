@@ -14,6 +14,7 @@ CLASSPATH=$CLASSPATH:../../../build/lib/ant-1.2.jar
 CLASSPATH=$CLASSPATH:../../../build/lib/ant-1.2-optional.jar
 CLASSPATH=$CLASSPATH:../../../build/lib/xerces-1.2.1.jar
 CLASSPATH=$CLASSPATH:../../../build/lib/jdom-b5.jar
+CLASSPATH=$CLASSPATH:../../../build/lib/log.jar
 CLASSPATH=$CLASSPATH:../../../bin/velocity-0.5.jar
 CLASSPATH=$CLASSPATH:../../../bin/classes
 
