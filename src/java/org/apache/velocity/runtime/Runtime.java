@@ -88,12 +88,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.loader.TemplateFactory;
 import org.apache.velocity.runtime.loader.TemplateLoader;
 
-import org.apache.velocity.runtime.directive.Foreach;
-import org.apache.velocity.runtime.directive.Dummy;
-import org.apache.velocity.runtime.directive.Include;
-import org.apache.velocity.runtime.directive.Parse;
-import org.apache.velocity.runtime.directive.Macro;
-
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -160,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.58 2000/11/28 00:10:05 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.59 2000/11/28 00:14:27 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -799,15 +793,6 @@ public class Runtime implements RuntimeConstants
     public static Parser createNewParser()
     {
         Parser parser = new Parser();
-        
-        /*
-        Hashtable directives = new Hashtable();
-        directives.put("foreach", new Foreach());
-        directives.put("dummy", new Dummy());
-        directives.put("include", new Include() );
-        directives.put("parse", new Parse() );
-        directives.put("macro", new Macro() );
-        */
         parser.setDirectives(runtimeDirectives);
         return parser;
     }
