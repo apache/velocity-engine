@@ -163,7 +163,7 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.22 2001/03/25 22:57:29 jvanzyl Exp $
+ * @version $Id: Configuration.java,v 1.23 2001/04/09 22:38:39 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -960,7 +960,7 @@ public class Configuration extends Hashtable
         else
         {
             throw new ClassCastException(
-                key + "doesn't map to a String object");
+                key + " doesn't map to a String object");
         }
     }
 
