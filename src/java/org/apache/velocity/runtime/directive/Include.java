@@ -61,6 +61,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Pluggable directive that handles the #include() statement in VTL. 
@@ -93,7 +94,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.10 2000/12/11 03:58:20 geirm Exp $
+ * @version $Id: Include.java,v 1.11 2000/12/11 19:42:12 jon Exp $
  */
 public class Include extends Directive
 {
@@ -142,7 +143,7 @@ public class Include extends Directive
             }
             else
             {
-                Runtime.error( new String("#include() error : invalid argument type : " + n.toString() ) );
+                Runtime.error("#include() error : invalid argument type : " + n.toString());
                 outputErrorToStream( writer, "error with arg " + i + " please see log.");
             }
         }
@@ -161,53 +162,50 @@ public class Include extends Directive
     private boolean renderOutput( Node node, Context context, Writer writer )
        throws IOException
     {
-         String arg = "";
+        String arg = "";
         
         if ( node == null )
         {
-            Runtime.error( new String("#include() error :  null argument") );
+            Runtime.error("#include() error :  null argument");
             return false;
         }
             
         /*
          *  does it have a value?  If you have a null reference, then no.
-         */
-        
+         */        
         Object value = node.value( context );
-        
         if ( value == null)
         {
-            Runtime.error( new String("#include() error :  null argument") );
+            Runtime.error("#include() error :  null argument");
             return false;
         }
 
         /*
          *  get the path
          */
-        
         arg = value.toString();
-            
+
         /*
          *  everything must be under the template root TEMPLATE_PATH
-         */
-        
+         */        
         String[] includePaths = Runtime.getIncludePaths();
         
         /*
          *  for security, we will not accept anything with .. in the path
          */
-        
-        if ( arg.indexOf("..") != -1)
+        arg = StringUtils.normalizePath(arg);
+        if ( arg == null || arg.length() == 0 )
         {
-            Runtime.error( new String("#include() error : argument " + arg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
+            Runtime.error( "#include() error : argument " + arg + 
+                " contains .. and may be trying to access " + 
+                "content outside of template root.  Rejected." );
             return false;
         }
 
         /*
          *  if a / leads off, then just nip that :)
          */
-        
-        if ( arg.startsWith( "/") )
+        if ( arg.startsWith("/") )
             arg = arg.substring(1);
         
         /*
@@ -215,13 +213,10 @@ public class Include extends Directive
          * locations. If we can't even find a trace of existence
          * report the problem and leave.
          */
-
         File file = null;
-        
         for (int i = 0; i < includePaths.length; i++)
         {
-            file = new File(includePaths[i], arg);
-            
+            file = new File(includePaths[i], arg);            
             if (file.exists())
                 break;
             else
@@ -246,12 +241,11 @@ public class Include extends Directive
         }
         catch ( Exception e ) 
         {
-            Runtime.error( new String("#include() : " + e ));
+            Runtime.error("#include() : " + e.toString() );
             return false;
         }
-    
         return true;
-    }    
+    }
 
     /**
      *  Puts a message to the render output stream if ERRORMSG_START / END
@@ -268,7 +262,6 @@ public class Include extends Directive
         {
             writer.write( outputMsgStart + " " + msg + " " + outputMsgEnd );
         }
-
         return;
     }
 }

@@ -83,13 +83,13 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.9 2000/12/11 03:54:27 geirm Exp $
+ * @version $Id: Parse.java,v 1.10 2000/12/11 19:42:13 jon Exp $
  */
 public class Parse extends Directive
 {
-    SimpleNode nodeTree = null;
-    int parseDepth = 1;
-    boolean ready = false;
+    private SimpleNode nodeTree = null;
+    private int parseDepth = 1;
+    private boolean ready = false;
 
     /**
      * Return name of this directive.
@@ -118,55 +118,49 @@ public class Parse extends Directive
         /*
          *  did we get an argument?
          */
-        
         if ( node.jjtGetChild(0) == null)
         {
-            Runtime.error( new String("#parse() error :  null argument") );
+            Runtime.error( "#parse() error :  null argument" );
             return false;
         }
         
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
-        
         Object value =  node.jjtGetChild(0).value( context );
-        
         if ( value == null)
         {
-            Runtime.error( new String("#parse() error :  null argument") );
+            Runtime.error( "#parse() error :  null argument" );
             return  false;
         }
 
         /*
          *  get the path
          */
-        
         String arg = value.toString();
              
         /*
          *  for security, we will not accept anything with .. in the path
          */
-        
-        if ( arg.indexOf("..") != -1)
+        arg = StringUtils.normalizePath(arg);
+        if ( arg == null || arg.length() == 0 )
         {
-            Runtime.error( new String("#parse() error : argument " 
-                                      + arg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
+            Runtime.error( "#parse() error : argument " + arg + 
+                " contains .. and may be trying to access" + 
+                " content outside of template root.  Rejected." );
             return false;
         }
 
         /*
          *  if a / leads off, then just nip that :)
          */
-        
         if ( arg.startsWith( "/") )
             arg = arg.substring(1);
 
         /*
          *  we will put caching here in the future...
          */
-
         Template t = null;
-
         try 
         {
             t = Runtime.getTemplate( arg );   
@@ -219,7 +213,6 @@ public class Parse extends Directive
         /*
          *  see if we have exceeded the configured depth.  If it isn't configured, put a stop at 20 just in case.
          */
-
         if ( parseDepth >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20))
                 throw new ParseDirectiveException("Max recursion depth reached.", parseDepth);
 
