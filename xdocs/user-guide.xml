@@ -108,22 +108,22 @@
     You could embed the following VTL statement in the web page:
    </p>
 
-    <source><![CDATA[
-    <HTML>
-    <BODY>
-    Hello $customer.Name!
-    <table>
-    #foreach( $mud in $mudsOnSpecial )
-       #if ( $customer.hasPurchased($mud) )
-          <tr>
-            <td>
-              $flogger.getPromo( $mud )
-            </td>
-          </tr>
-       #end
-    #end
-    </table>
-    ]]></source>
+<source><![CDATA[
+<HTML>
+<BODY>
+Hello $customer.Name!
+<table>
+#foreach( $mud in $mudsOnSpecial )
+   #if ( $customer.hasPurchased($mud) )
+      <tr>
+        <td>
+          $flogger.getPromo( $mud )
+        </td>
+      </tr>
+   #end
+#end
+</table>
+]]></source>
 
    <p>
     The exact details of the <em>foreach</em> statement will be
@@ -168,9 +168,9 @@
     in an HTML document:
  </p>
 
-  <source><![CDATA[
-    #set( $a = "Velocity" )
-  ]]></source>
+<source><![CDATA[
+#set( $a = "Velocity" )
+]]></source>
 
  <p>
     This VTL statement, like all VTL statements, begins with the
@@ -221,14 +221,14 @@
     value is assigned to <em>$foo</em> and later referenced.
  </p>
 
-  <source><![CDATA[
-  <html>
-  <body>
-  #set( $foo = "Velocity" )
-  Hello $foo World!
-  </body>
-  <html>
-  ]]></source>
+<source><![CDATA[
+<html>
+<body>
+#set( $foo = "Velocity" )
+Hello $foo World!
+</body>
+<html>
+]]></source>
 
  <p>
     The result is a web page that prints "Hello Velocity World!".
@@ -253,9 +253,9 @@
     of a comment in VTL.
  </p>
 
- <source><![CDATA[
- ## This is a single line comment.
- ]]></source>
+<source><![CDATA[
+## This is a single line comment.
+]]></source>
 
  <p>
     A single line comment begins with <em>##</em> and finishes at the
@@ -265,33 +265,33 @@
     available to handle this scenario.
  </p>
 
- <source><![CDATA[
- This is text that is outside the multi-line comment. 
- Online visitors can see it.
+<source><![CDATA[
+This is text that is outside the multi-line comment. 
+Online visitors can see it.
 
- #*
-  Thus begins a multi-line comment. Online visitors won't 
-  see this text because the Velocity Templating Engine will
-  ignore it.
- *#
+#*
+ Thus begins a multi-line comment. Online visitors won't 
+ see this text because the Velocity Templating Engine will
+ ignore it.
+*#
 
- Here is text outside the multi-line comment; it is visible.
- ]]></source>
+Here is text outside the multi-line comment; it is visible.
+]]></source>
 
  <p>
     Here are a few examples to clarify how single line and multi-line
     comments work:
  </p>
 
- <source><![CDATA[
- This text is visible. ## This text is not.
- This text is visible.
- This text is visible. #* This text, as part of a multi-line comment, 
- is not visible. This text is not visible; it is also part of the 
- multi-line comment. This text still not visible. *# This text is outside 
- the comment, so it is visible.
- ## This text is not visible.
- ]]></source>
+<source><![CDATA[
+This text is visible. ## This text is not.
+This text is visible.
+This text is visible. #* This text, as part of a multi-line comment, 
+is not visible. This text is not visible; it is also part of the 
+multi-line comment. This text still not visible. *# This text is outside 
+the comment, so it is visible.
+## This text is not visible.
+]]></source>
 
  <p>
     There is a third type of comment, the VTL comment block, which may
@@ -299,16 +299,16 @@
     versioning information:
  </p>
 
- <source><![CDATA[
- #**
- This is a VTL comment block and
- may be used to store such information
- as the document author and versioning
- information:
- @author
- @version 5
- *#
- ]]></source>
+<source><![CDATA[
+#**
+This is a VTL comment block and
+may be used to store such information
+as the document author and versioning
+information:
+@author
+@version 5
+*#
+]]></source>
 
 </section>
 
@@ -339,13 +339,13 @@
     Here are some examples of valid variable references in the VTL:
  </p>
 
-  <source><![CDATA[
-  $foo
-  $mudSlinger
-  $mud-slinger
-  $mud_slinger
-  $mudSlinger1
-  ]]></source>
+<source><![CDATA[
+$foo
+$mudSlinger
+$mud-slinger
+$mud_slinger
+$mudSlinger1
+]]></source>
 
  <p>
     When VTL references a variable, such as <em>$foo</em>, the variable
@@ -356,9 +356,9 @@
     the web page. Alternatively, if I include the statement
  </p>
 
-  <source><![CDATA[
-  #set( $foo = "bar" )
-  ]]></source>
+<source><![CDATA[
+#set( $foo = "bar" )
+]]></source>
 
  <p>
     The output will be the same for all instances of <em>$foo</em> that
@@ -375,10 +375,10 @@
     of valid property references in the VTL:
  </p>
 
-  <source><![CDATA[
-  $customer.Address
-  $purchase.Total
-  ]]></source>
+<source><![CDATA[
+$customer.Address
+$purchase.Total
+]]></source>
 
  <p>
     Take the first example, <em>$customer.Address</em>. It can have two
@@ -405,12 +405,12 @@
     are examples of valid method references in the VTL:
  </p>
 
-  <source><![CDATA[
-  $customer.getAddress()
-  $purchase.getTotal()
-  $page.setTitle( "My Home Page" )
-  $person.setAttributes( ["Strange", "Weird", "Excited"] )
-  ]]></source>
+<source><![CDATA[
+$customer.getAddress()
+$purchase.getTotal()
+$page.setTitle( "My Home Page" )
+$person.setAttributes( ["Strange", "Weird", "Excited"] )
+]]></source>
 
  <p>
     The first two examples -- <em>$customer.getAddress()</em> and
@@ -433,11 +433,11 @@
     The shorthand notation can be used for the following Methods
  </p>
 
-  <source><![CDATA[
-  $sun.getPlanets()
-  $annelid.getDirt()
-  $album.getPhoto()
-  ]]></source>
+<source><![CDATA[
+$sun.getPlanets()
+$annelid.getDirt()
+$album.getPhoto()
+]]></source>
 
  <p>
     We might expect these methods to return the names of planets
@@ -445,16 +445,16 @@
     an album. Only the long notation works for the following Methods.
  </p>
 
-  <source><![CDATA[
-  $sun.getPlanet( ["Earth", "Mars", "Neptune"] )
-  ## Can't pass a parameter list with $sun.Planets
+<source><![CDATA[
+$sun.getPlanet( ["Earth", "Mars", "Neptune"] )
+## Can't pass a parameter list with $sun.Planets
 
-  $sisyphus.pushRock()
-  ## Velocity assumes I mean $sisyphus.getRock()
+$sisyphus.pushRock()
+## Velocity assumes I mean $sisyphus.getRock()
 
-  $book.setTitle( "Homage to Catalonia" )
-  ## Can't pass a parameter list
-  ]]></source>
+$book.setTitle( "Homage to Catalonia" )
+## Can't pass a parameter list
+]]></source>
 
  <p>
     <strong>Formal Reference Notation</strong>
@@ -464,11 +464,11 @@
     demonstrated below:
  </p>
 
-  <source><![CDATA[
-  ${mudSlinger}
-  ${customer.Address}
-  ${purchase.getTotal()}
-  ]]></source>
+<source><![CDATA[
+${mudSlinger}
+${customer.Address}
+${purchase.getTotal()}
+]]></source>
 
  <p>
     In almost all cases you will use the shorthand notation for
@@ -485,9 +485,9 @@
     inadequate for this task. Consider the following example:
  </p>
 
-  <source><![CDATA[
-  Jack is a $vicemaniac.
-  ]]></source>
+<source><![CDATA[
+Jack is a $vicemaniac.
+]]></source>
 
  <p>
     There is ambiguity here, and Velocity assumes that
@@ -497,9 +497,9 @@
     problem.
  </p>
 
-  <source><![CDATA[
-  Jack is a ${vice}maniac.
-  ]]></source>
+<source><![CDATA[
+Jack is a ${vice}maniac.
+]]></source>
 
  <p>
     Now Velocity knows that <em>$vice</em>, not <em>$vicemaniac</em>, is
@@ -516,9 +516,9 @@
     following reference appears as part of a VTL template.
  </p>
 
-  <source><![CDATA[
-  <input type="text" name="email" value="$email"/>
-  ]]></source>
+<source><![CDATA[
+<input type="text" name="email" value="$email"/>
+]]></source>
 
  <p>
     When the form initially loads, the variable reference
@@ -529,9 +529,9 @@
     above example would look like the following:
  </p>
 
-  <source><![CDATA[
-  <input type="text" name="email" value="$!email"/>
-  ]]></source>
+<source><![CDATA[
+<input type="text" name="email" value="$!email"/>
+]]></source>
 
  <p>
     Now when the form is initially loaded and <em>$email</em> still has
@@ -543,9 +543,9 @@
     demonstrated below.
  </p>
 
-  <source><![CDATA[
-  <input type="text" name="email" value="$!{email}"/>
-  ]]></source>
+<source><![CDATA[
+<input type="text" name="email" value="$!{email}"/>
+]]></source>
 
 </section>
 
@@ -576,10 +576,10 @@
     done using the backslash ("\") character.
   </p>
 
-  <source><![CDATA[
-  #set( $email = "foo" )
-  $email
-  ]]></source>
+<source><![CDATA[
+#set( $email = "foo" )
+$email
+]]></source>
 
   <p>
     If Velocity encounters  a reference in your VTL template to
@@ -595,62 +595,62 @@
     ways of doing this, but the simplest is to use the escape character.
   </p>
 
-  <source><![CDATA[
-  ## The following line defines $email in this template:
-  #set( $email = "foo" )
+<source><![CDATA[
+## The following line defines $email in this template:
+#set( $email = "foo" )
 
-  ## The output of the following line will be $email's value: foo
-  $email
+## The output of the following line will be $email's value: foo
+$email
 
-  ## The output of the following line will be a literal: $email
-  \$email
+## The output of the following line will be a literal: $email
+\$email
 
-  ## The escape character binds from the left. The output of the 
-  ## following line will reflect this in its output: \$email
-  \\$email
+## The escape character binds from the left. The output of the 
+## following line will reflect this in its output: \$email
+\\$email
 
-  ## The bind-from-left rule causes \\\$email to render as \\$email
-  \\\$email
-  ]]></source>
+## The bind-from-left rule causes \\\$email to render as \\$email
+\\\$email
+]]></source>
 
   <p>
      Compare these examples to those in which <em>$email</em> is not
      defined.
   </p>
 
-  <source><![CDATA[
-  ## $email is undefined
+<source><![CDATA[
+## $email is undefined
 
-  ## $email renders as $email
-  $email
+## $email renders as $email
+$email
 
-  ## \$email renders as \$email
-  \$email
+## \$email renders as \$email
+\$email
 
-  ## \\$email renders as \\$email
-  \\$email
+## \\$email renders as \\$email
+\\$email
 
-  ## \\\$email renders as \\\$email
-  \\\$email
-  ]]></source>
+## \\\$email renders as \\\$email
+\\\$email
+]]></source>
 
   <p>
      Notice Velocity handles references that are defined differently
      from those that have not been defined.
   </p>
 
-   <source><![CDATA[
-   ## Here is a set directive that gives $foo the value "gibbous"
-   #set( $foo = "gibbous" )
+<source><![CDATA[
+## Here is a set directive that gives $foo the value "gibbous"
+#set( $foo = "gibbous" )
 
-   ## The escape character is at work in the following line
-   $moon = $foo
-   #*
-   The output will be: $moon = gibbous
-   $moon is output as a literal because it is undefined.
-   The value of $foo is output because it is defined.
-   *#
-   ]]></source>
+## The escape character is at work in the following line
+$moon = $foo
+#*
+  The output will be: $moon = gibbous
+  $moon is output as a literal because it is undefined.
+  The value of $foo is output because it is defined.
+*#
+]]></source>
 
   <p>
      It is also possible to escape VTL directives; this is described in
@@ -668,24 +668,23 @@
     easy to use. For example:
     </p>
 
-  <source><![CDATA[
-  $foo
+<source><![CDATA[
+$foo
 
-  $foo.getBar()
-  ## is the same as
-  $foo.Bar
+$foo.getBar()
+## is the same as
+$foo.Bar
 
-  $data.getUser("jon")
-  ## is the same as
-  $data.User("jon")
+$data.getUser("jon")
+## is the same as
+$data.User("jon")
 
-
-  $data.getRequest().getServerName()
-  ## is the same as
-  $data.Request.ServerName
-  ## is the same as
-  ${data.Request.ServerName}
-  ]]></source>
+$data.getRequest().getServerName()
+## is the same as
+$data.Request.ServerName
+## is the same as
+${data.Request.ServerName}
+]]></source>
 
     <p>
     These examples illustrate alternative uses for the same references.
@@ -715,10 +714,10 @@
     a property reference, and this occurs in brackets, as demonstrated:
  </p>
 
-  <source><![CDATA[
-  #set( $primate = "monkey" )
-  #set( $customer.Behavior = $primate )
-  ]]></source>
+<source><![CDATA[
+#set( $primate = "monkey" )
+#set( $customer.Behavior = $primate )
+]]></source>
 
  <p>
     The left hand side (LHS) of the assignment must be a variable
@@ -741,25 +740,25 @@
     These examples demonstrate each of the aforementioned types:
  </p>
 
-  <source><![CDATA[
-  #set( $monkey = $bill ) ##variable reference
-  #set( $monkey.Friend = "monica" ) ##string literal
-  #set( $monkey.Blame = $whitehouse.Leak ) ##property reference
-  #set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
-  #set( $monkey.Number = 123 ) ##number literal
-  #set( $monkey.Say = ["Not", $my, "fault"] ) ##object array
-  ]]></source>
+<source><![CDATA[
+#set( $monkey = $bill ) ##variable reference
+#set( $monkey.Friend = "monica" ) ##string literal
+#set( $monkey.Blame = $whitehouse.Leak ) ##property reference
+#set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+#set( $monkey.Number = 123 ) ##number literal
+#set( $monkey.Say = ["Not", $my, "fault"] ) ##object array
+]]></source>
 
  <p>
     The RHS can also be a simple arithmetic expression:
  </p>
 
-  <source><![CDATA[
-  #set( $value = $foo + 1 )
-  #set( $value = $bar - 1 )
-  #set( $value = $foo * $bar )
-  #set( $value = $foo / $bar )
-  ]]></source>
+<source><![CDATA[
+#set( $value = $foo + 1 )
+#set( $value = $bar - 1 )
+#set( $value = $foo * $bar )
+#set( $value = $foo / $bar )
+]]></source>
 
  <p>
     Unlike some of the other Velocity directives, the <em>#set</em>
@@ -776,34 +775,34 @@
     shown:
  </p>
 
-    <source><![CDATA[
-    #set( $directoryRoot = "www" )
-    #set( $templateName = "index.vm" )
-    #set( $template = "$directoryRoot/$templateName" )
-    $template
+<source><![CDATA[
+#set( $directoryRoot = "www" )
+#set( $templateName = "index.vm" )
+#set( $template = "$directoryRoot/$templateName" )
+$template
 
-    #*
-    The output will be:   www/index.vm
-    *#
-    ]]></source>
+#*
+  The output will be:   www/index.vm
+*#
+]]></source>
 
  <p>
     However, when the string literal is enclosed in single quote
     characters, it will not be parsed:
  </p>
 
-  <source><![CDATA[
-  #set( $foo = "bar" )
-  $foo
-  #set( $blargh = '$foo' )
-  $blargh
+<source><![CDATA[
+#set( $foo = "bar" )
+$foo
+#set( $blargh = '$foo' )
+$blargh
 
-  #*
+#*
   This renders as:
   bar
   $foo
-  *#
-  ]]></source>
+*#
+]]></source>
 
  <p>
     By default, this feature of using single quotes to render unparsed
@@ -823,11 +822,11 @@
        the if statement is true. For example:
     </p>
 
-    <source><![CDATA[
-    #if( $foo )
-       <strong>Velocity!</strong>
-    #end
-    ]]></source>
+<source><![CDATA[
+#if( $foo )
+   <strong>Velocity!</strong>
+#end
+]]></source>
 
     <p>
       The variable <em>$foo</em> is evaluated to determine whether it is
@@ -849,17 +848,17 @@
       and <em>$bar</em> has a value of 6.
     </p>
 
-  <source><![CDATA[
-  #if( $foo < 10 )
-      <strong>Go North</strong>
-  #elseif( $foo > 10 )
-      <strong>Go East</strong>
-  #elseif( $bar = 6 )
-      <strong>Go South</strong>
-  #else
-      <strong>Go West</strong>
-  #end
-  ]]></source>
+<source><![CDATA[
+#if( $foo < 10 )
+    <strong>Go North</strong>
+#elseif( $foo > 10 )
+    <strong>Go East</strong>
+#elseif( $bar = 6 )
+    <strong>Go South</strong>
+#else
+    <strong>Go West</strong>
+#end
+]]></source>
 
     <p>
     In this example, <em>$foo</em> is greater than or equal to 10, so
@@ -882,16 +881,16 @@
     equivalent operator is used.
     </p>
 
-   <source><![CDATA[
-   #set ($foo = "deoxyribonucleic acid")
-   #set ($bar = "ribonucleic acid")
+<source><![CDATA[
+#set ($foo = "deoxyribonucleic acid")
+#set ($bar = "ribonucleic acid")
 
-   #if ($foo == $bar)
-      In this case it's clear they aren't equivalent. So...
-   #else
-      They are not equivalent and this will be the output.
-   #end
-   ]]></source>
+#if ($foo == $bar)
+   In this case it's clear they aren't equivalent. So...
+#else
+   They are not equivalent and this will be the output.
+#end
+]]></source>
 
     <p>
       Two kinds of logical operators, logical AND and logical OR, are
@@ -899,11 +898,11 @@
       if statement using logical AND.
     </p>
 
-    <source><![CDATA[
-    #if( $foo && $bar )
-       <strong>Velocity Rocks!</strong>
-    #end
-    ]]></source>
+<source><![CDATA[
+#if( $foo && $bar )
+   <strong>Velocity Rocks!</strong>
+#end
+]]></source>
 
     <p>
       The if statement will only evaluate to true if both <em>$foo</em>
@@ -923,11 +922,11 @@
       expression to be considered true. Consider the following example.
     </p>
 
-    <source><![CDATA[
-    #if( $foo || $bar )
-       <strong>Velocity Rocks Again!</strong>
-    #end
-    ]]></source>
+<source><![CDATA[
+#if( $foo || $bar )
+    <strong>Velocity Rocks Again!</strong>
+#end
+]]></source>
 
     <p>
       If <em>$foo</em> is true, the Velocity Templating Engine has no
@@ -949,13 +948,13 @@
       The <em>#foreach</em> element allows for looping. For example:
     </p>
 
-  <source><![CDATA[
-  <ul>
-  #foreach( $product in $allProducts )
-      <li>$product</li>
-  #end
-  </ul>
-  ]]></source>
+<source><![CDATA[
+<ul>
+#foreach( $product in $allProducts )
+    <li>$product</li>
+#end
+</ul>
+]]></source>
 
     <p>
     This <em>#foreach</em> loop causes the <em>$allProducts</em> list
@@ -985,9 +984,9 @@
     the file to be included may only be under TEMPLATE_ROOT.
     </p>
 
-    <source><![CDATA[
-    #include( "one.txt" )
-    ]]></source>
+<source><![CDATA[
+#include( "one.txt" )
+]]></source>
 
     <p>
     The file to which the <em>#include</em> directive refers is enclosed
@@ -995,9 +994,9 @@
     separated by commas.
     </p>
 
-    <source><![CDATA[
-    #include( "one.gif","two.txt","three.htm" )
-    ]]></source>
+<source><![CDATA[
+#include( "one.gif","two.txt","three.htm" )
+]]></source>
 
     <p>
     The file being included need not be referenced by name; in fact, it
@@ -1007,9 +1006,9 @@
     showing both a filename and a variable.
     </p>
 
-    <source><![CDATA[
-    #include( "greetings.txt", $seasonalstock )
-    ]]></source>
+<source><![CDATA[
+#include( "greetings.txt", $seasonalstock )
+]]></source>
 
  </section>
 
@@ -1020,9 +1019,9 @@
     and render the template specified.
     </p>
 
-    <source><![CDATA[
-    #parse( "me.vm" )
-    ]]></source>
+<source><![CDATA[
+#parse( "me.vm" )
+]]></source>
 
     <p>
     Like the <em>#include</em> directive, <em>#parse</em> can take a
@@ -1044,27 +1043,27 @@
     if the template <code>dofoo.vm</code> contains the following lines:
     </p>
 
-    <source><![CDATA[
-    Count down.
-    #set( $count = 8 )
-    #parse( "parsefoo.vm" )
-    All done with dofoo.vm!
-    ]]></source>
+<source><![CDATA[
+Count down.
+#set( $count = 8 )
+#parse( "parsefoo.vm" )
+All done with dofoo.vm!
+]]></source>
 
     <p>
     It would reference the template <code>parsefoo.vm</code>, which
     might contain the following VTL:
     </p>
 
-    <source><![CDATA[
-    $count
-    #set( $count = $count - 1 )
-    #if( $count > 0 )
-      #parse( "parsefoo.vm" )
-    #else
-      All done with parsefoo.vm!
-    #end
-    ]]></source>
+<source><![CDATA[
+$count
+#set( $count = $count - 1 )
+#if( $count > 0 )
+    #parse( "parsefoo.vm" )
+#else
+    All done with parsefoo.vm!
+#end
+]]></source>
 
     <p>
     After "Count down." is displayed, Velocity passes through
@@ -1084,9 +1083,9 @@
     for debugging purposes.
     </p>
 
-    <source><![CDATA[
-    #stop
-    ]]></source>
+<source><![CDATA[
+#stop
+]]></source>
  </section>
 
  <section name="Velocimacros">
@@ -1101,20 +1100,20 @@
     </a>
     </p>
 
-    <source><![CDATA[
-    #macro( d )
-    <tr><td></td></tr>
-    #end
-    ]]></source>
+<source><![CDATA[
+#macro( d )
+<tr><td></td></tr>
+#end
+]]></source>
 
     <p>
     The Velocimacro being defined in this example is <em>d</em>, and it
     can be called in a manner analogous to any other VTL directive:
     </p>
 
-    <source><![CDATA[
-    #d
-    ]]></source>
+<source><![CDATA[
+#d
+]]></source>
 
     <p>
     When this template is called, Velocity would replace <em>#d</em>
@@ -1130,13 +1129,13 @@
     takes two arguments, a color and an array.
     </p>
 
-    <source><![CDATA[
-    #macro( tablerows $color $somelist )
-    #foreach( $something in $somelist )
+<source><![CDATA[
+#macro( tablerows $color $somelist )
+#foreach( $something in $somelist )
     <tr><td bgcolor=$color>$something</td></tr>
-    #end
-    #end
-    ]]></source>
+#end
+#end
+]]></source>
 
     <p>
     The Velocimacro being defined in this example, <em>tablerows</em>,
@@ -1154,13 +1153,13 @@
     definition.
     </p>
 
-    <source><![CDATA[
-    #set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
-    #set( $color = "blue" )
-    <table>
+<source><![CDATA[
+#set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
+#set( $color = "blue" )
+<table>
     #tablerows( $color $greatlakes )
-    </table>
-    ]]></source>
+</table>
+]]></source>
 
     <p>
     Notice that <em>$greatlakes</em> takes the place of
@@ -1168,15 +1167,15 @@
     called in this situation, the following output is generated:
     </p>
 
-    <source><![CDATA[
-    <table>
-        <tr><td bgcolor=blue>Superior</td></tr>
-        <tr><td bgcolor=blue>Michigan</td></tr>
-        <tr><td bgcolor=blue>Huron</td></tr>
-        <tr><td bgcolor=blue>Erie</td></tr>
-        <tr><td bgcolor=blue>Ontario</td></tr>
-    </table>
-    ]]></source>
+<source><![CDATA[
+<table>
+    <tr><td bgcolor="blue">Superior</td></tr>
+    <tr><td bgcolor="blue">Michigan</td></tr>
+    <tr><td bgcolor="blue">Huron</td></tr>
+    <tr><td bgcolor="blue">Erie</td></tr>
+    <tr><td bgcolor="blue">Ontario</td></tr>
+</table>
+]]></source>
 
     <p>
     Velocimacros can be defined <em>inline</em> in a Velocity template,
@@ -1237,12 +1236,13 @@
     invoked to list the parts of a typical mushroom:
     </p>
 
-    <source><![CDATA[
-    #set( $parts = ["volva","stipe","annulus","gills","pileus"] )
-    #set( $cellbgcol = "#CC00FF" )
-    <table>
-    #tablerows( $cellbgcol $parts )
-    ]]></source>
+<source><![CDATA[
+#set( $parts = ["volva","stipe","annulus","gills","pileus"] )
+#set( $cellbgcol = "#CC00FF" )
+<table>
+#tablerows( $cellbgcol $parts )
+</table>
+]]></source>
 
     <p>
     When fulfilling a request for <code>mushroom.vm</code>, Velocity
@@ -1251,15 +1251,16 @@
     generate the following output:
     </p>
 
-    <source><![CDATA[
-    <table>
-        <tr><td bgcolor="#CC00FF">volva</td></tr>
-        <tr><td bgcolor="#CC00FF">stipe</td></tr>
-        <tr><td bgcolor="#CC00FF">annulus</td></tr>
-        <tr><td bgcolor="#CC00FF">gills</td></tr>
-        <tr><td bgcolor="#CC00FF">pileus</td></tr>
-    </table>
-    ]]></source>
+<source><![CDATA[
+<table>
+    <tr><td bgcolor="#CC00FF">volva</td></tr>
+    <tr><td bgcolor="#CC00FF">stipe</td></tr>
+    <tr><td bgcolor="#CC00FF">annulus</td></tr>
+    <tr><td bgcolor="#CC00FF">gills</td></tr>
+    <tr><td bgcolor="#CC00FF">pileus</td></tr>
+</table>
+]]></source>
+
  </section>
 
  <section name="Escaping VTL Directives">
@@ -1269,16 +1270,16 @@
     a manner similar to valid VTL references.
   </p>
 
-  <source><![CDATA[
-  ## #include( "a.txt" ) renders as <contents of a.txt>
-  #include( "a.txt" )
+<source><![CDATA[
+## #include( "a.txt" ) renders as <contents of a.txt>
+#include( "a.txt" )
 
-  ## \#include( "a.txt" ) renders as \#include( "a.txt" )
-  \#include( "a.txt" )
+## \#include( "a.txt" ) renders as \#include( "a.txt" )
+\#include( "a.txt" )
 
-  ## \\#include ( "a.txt" ) renders as \<contents of a.txt>
-  \\#include ( "a.txt" )
-  ]]></source>
+## \\#include ( "a.txt" ) renders as \<contents of a.txt>
+\\#include ( "a.txt" )
+]]></source>
 
   <p>
   Extra care should be taken when escaping VTL directives that contain
@@ -1286,11 +1287,11 @@
   if-else-end statements). Here is a typical VTL if-statement:
   </p>
 
-  <source><![CDATA[
-  #if( $jazz )
-  Vyacheslav Ganelin
-  #end
-  ]]></source>
+<source><![CDATA[
+#if( $jazz )
+    Vyacheslav Ganelin
+#end
+]]></source>
 
   <p>
   If <em>$jazz</em> is true, the output is "Vyacheslav Ganelin"; if
@@ -1298,11 +1299,11 @@
   alters the output. Consider the following case:
   </p>
 
-  <source><![CDATA[
-  \#if( $jazz )
-  Vyacheslav Ganelin
-  \#end
-  ]]></source>
+<source><![CDATA[
+\#if( $jazz )
+    Vyacheslav Ganelin
+\#end
+]]></source>
 
   <p>
   Whether <em>$jazz</em> is true or false, the output will be "#if(
@@ -1311,11 +1312,11 @@
   backslashes precede script elements that are legitimately escaped:
   </p>
 
-  <source><![CDATA[
-  \\#if( $jazz )
-  Vyacheslav Ganelin
-  \\#end
-  ]]></source>
+<source><![CDATA[
+\\#if( $jazz )
+   Vyacheslav Ganelin
+\\#end
+]]></source>
 
   <p>
   In this case, if <em>$jazz</em> is true, the output is "\ Vyacheslav
@@ -1323,11 +1324,11 @@
   things start to break if script elements are not properly escaped.
   </p>
 
-  <source><![CDATA[
-  \\\#if( $jazz )
-  Vyacheslave Ganelin
-  \\#end
-  ]]></source>
+<source><![CDATA[
+\\\#if( $jazz )
+    Vyacheslave Ganelin
+\\#end
+]]></source>
 
   <p>
   Here the <em>#if</em> is escaped, but there is an <em>#end</em>
@@ -1343,12 +1344,12 @@
     whitespaces, the VTL shown below
     </p>
 
-    <source><![CDATA[
-    #set( $imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"] )
-    #foreach( $shogun in $imperial )
+<source><![CDATA[
+#set( $imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"] )
+#foreach( $shogun in $imperial )
     $shogun
-    #end
-    ]]></source>
+#end
+]]></source>
 
     <p>
     is equally valid as the following snippet that Geir Magnusson Jr.
@@ -1356,34 +1357,34 @@
     unrelated point:
     </p>
 
-    <source><![CDATA[
-    Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
-    ]]></source>
+<source><![CDATA[
+Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
+]]></source>
 
     <p>
     Velocity's behaviour is to gobble up excess whitespace. The
     preceding directive can be written as:
     </p>
 
-    <source><![CDATA[
-    Send me
-    #set( $foo = ["$10 and ","a cake"] )
-    #foreach( $a in $foo )
-    $a
-    #end
-    please.
-    ]]></source>
+<source><![CDATA[
+Send me
+#set( $foo = ["$10 and ","a cake"] )
+#foreach( $a in $foo )
+$a
+#end
+please.
+]]></source>
 
     <p>
     or as
     </p>
 
-    <source><![CDATA[
-    Send me
-    #set($foo       = ["$10 and ","a cake"])
-                     #foreach           ($a in $foo )$a
-            #end please.
-    ]]></source>
+<source><![CDATA[
+Send me
+#set($foo       = ["$10 and ","a cake"])
+                 #foreach           ($a in $foo )$a
+         #end please.
+]]></source>
 
     <p>
     In each case the output will be the same.
@@ -1402,12 +1403,12 @@
     division, respectively:
   </p>
 
-    <source><![CDATA[
-    #set( $foo = $bar + 3 )
-    #set( $foo = $bar - 4 )
-    #set( $foo = $bar * 6 )
-    #set( $foo = $bar / 2 )
-    ]]></source>
+<source><![CDATA[
+#set( $foo = $bar + 3 )
+#set( $foo = $bar - 4 )
+#set( $foo = $bar * 6 )
+#set( $foo = $bar / 2 )
+]]></source>
 
   <p>
     When a division operation is performed, the result will be an
@@ -1415,9 +1416,9 @@
     (<em>%</em>) operand.
   </p>
 
-    <source><![CDATA[
-    #set( $foo = $bar % 5 )
-    ]]></source>
+<source><![CDATA[
+#set( $foo = $bar % 5 )
+]]></source>
 
   <p>
     Only integers (...-2, -1, 0, 1, 2...) are permissible when
@@ -1430,21 +1431,21 @@
     following example:
   </p>
 
-    <source><![CDATA[
-    #set( $foo = 5 )
-    #set( $bar = $foo - 5 )
-    #set( $uhoh = $foo / $bar )
-    $uhoh
-    ]]></source>
+<source><![CDATA[
+#set( $foo = 5 )
+#set( $bar = $foo - 5 )
+#set( $uhoh = $foo / $bar )
+$uhoh
+]]></source>
 
   <p>
     The reference <em>$uhoh</em> is assigned the value of five divided
     by zero. When Velocity renders this template, the output will be:
   </p>
 
-    <source><![CDATA[
-    $uhoh
-    ]]></source>
+<source><![CDATA[
+$uhoh
+]]></source>
 
   </subsection>
 
@@ -1457,9 +1458,9 @@
     following construction:
   </p>
 
-    <source><![CDATA[
-    [n..m]
-    ]]></source>
+<source><![CDATA[
+[n..m]
+]]></source>
 
   <p>
     Both <em>n</em> and <em>m</em> must either be or produce integers.
@@ -1468,44 +1469,44 @@
     showing the use of the range operator as provided below:
   </p>
 
-  <source><![CDATA[
-  First example:
-  #foreach( $foo in [1..5] )
-  $foo
-  #end
+<source><![CDATA[
+First example:
+#foreach( $foo in [1..5] )
+$foo
+#end
 
-  Second example:
-  #foreach( $bar in [2..-2] )
-  $bar
-  #end
+Second example:
+#foreach( $bar in [2..-2] )
+$bar
+#end
 
-  Third example:
-  #set( $arr = [0..1] )
-  #foreach( $i in $arr )
-  $i
-  #end
+Third example:
+#set( $arr = [0..1] )
+#foreach( $i in $arr )
+$i
+#end
 
-  Fourth example:
-  [1..3]
-  ]]></source>
+Fourth example:
+[1..3]
+]]></source>
 
   <p>
     Produces the following output:
   </p>
 
-  <source><![CDATA[
-  First example:
-  1 2 3 4 5
+<source><![CDATA[
+First example:
+1 2 3 4 5
 
-  Second example:
-  2 1 0 -1 -2
+Second example:
+2 1 0 -1 -2
 
-  Third example:
-  0 1
+Third example:
+0 1
 
-  Fourth example:
-  [1..3]
-  ]]></source>
+Fourth example:
+[1..3]
+]]></source>
 
   <p>
     Note that the range operator only produces the array when used in
@@ -1531,23 +1532,23 @@
     character, and this case, where is follows it:
   </p>
 
-  <source><![CDATA[
-  #set( $foo = "bar" )
+<source><![CDATA[
+#set( $foo = "bar" )
 
-  # The special case, where "\" precedes "!":
-  $\!foo # This renders as: $!foo
-  $\!{foo} # This renders as: $!{foo}
-  $\\!foo # This renders as: $\!foo
-  $\\\!foo # This renders as: $\\!foo
+# The special case, where "\" precedes "!":
+$\!foo # This renders as: $!foo
+$\!{foo} # This renders as: $!{foo}
+$\\!foo # This renders as: $\!foo
+$\\\!foo # This renders as: $\\!foo
 
-  # Contrast this with regular escaping, where "\" precedes "$":
-  \$foo # This renders as: \#$foo
-  \$!foo # This renders as: \$!foo
-  \$!{foo} # This renders as: \$!{foo}
-  \\$!{foo} # This renders as: \bar
-  ]]></source>
+# Contrast this with regular escaping, where "\" precedes "$":
+\$foo # This renders as: \#$foo
+\$!foo # This renders as: \$!foo
+\$!{foo} # This renders as: \$!{foo}
+\\$!{foo} # This renders as: \bar
+]]></source>
 
-  </subsection>
+ </subsection>
 
 </section>
 

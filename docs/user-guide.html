@@ -221,21 +221,21 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    &lt;HTML&gt;
-    &lt;BODY&gt;
-    Hello $customer.Name!
-    &lt;table&gt;
-    #foreach( $mud in $mudsOnSpecial )
-       #if ( $customer.hasPurchased($mud) )
-          &lt;tr&gt;
-            &lt;td&gt;
-              $flogger.getPromo( $mud )
-            &lt;/td&gt;
-          &lt;/tr&gt;
-       #end
-    #end
-    &lt;/table&gt;
-    </pre></td>
+&lt;HTML&gt;
+&lt;BODY&gt;
+Hello $customer.Name!
+&lt;table&gt;
+#foreach( $mud in $mudsOnSpecial )
+   #if ( $customer.hasPurchased($mud) )
+      &lt;tr&gt;
+        &lt;td&gt;
+          $flogger.getPromo( $mud )
+        &lt;/td&gt;
+      &lt;/tr&gt;
+   #end
+#end
+&lt;/table&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -302,8 +302,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $a = &quot;Velocity&quot; )
-  </pre></td>
+#set( $a = &quot;Velocity&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -373,13 +373,13 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;html&gt;
-  &lt;body&gt;
-  #set( $foo = &quot;Velocity&quot; )
-  Hello $foo World!
-  &lt;/body&gt;
-  &lt;html&gt;
-  </pre></td>
+&lt;html&gt;
+&lt;body&gt;
+#set( $foo = &quot;Velocity&quot; )
+Hello $foo World!
+&lt;/body&gt;
+&lt;html&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -426,8 +426,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- ## This is a single line comment.
- </pre></td>
+## This is a single line comment.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -454,17 +454,17 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- This is text that is outside the multi-line comment. 
- Online visitors can see it.
+This is text that is outside the multi-line comment. 
+Online visitors can see it.
 
- #*
-  Thus begins a multi-line comment. Online visitors won't 
-  see this text because the Velocity Templating Engine will
-  ignore it.
- *#
+#*
+ Thus begins a multi-line comment. Online visitors won't 
+ see this text because the Velocity Templating Engine will
+ ignore it.
+*#
 
- Here is text outside the multi-line comment; it is visible.
- </pre></td>
+Here is text outside the multi-line comment; it is visible.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -488,14 +488,14 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- This text is visible. ## This text is not.
- This text is visible.
- This text is visible. #* This text, as part of a multi-line comment, 
- is not visible. This text is not visible; it is also part of the 
- multi-line comment. This text still not visible. *# This text is outside 
- the comment, so it is visible.
- ## This text is not visible.
- </pre></td>
+This text is visible. ## This text is not.
+This text is visible.
+This text is visible. #* This text, as part of a multi-line comment, 
+is not visible. This text is not visible; it is also part of the 
+multi-line comment. This text still not visible. *# This text is outside 
+the comment, so it is visible.
+## This text is not visible.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -520,15 +520,15 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
- #**
- This is a VTL comment block and
- may be used to store such information
- as the document author and versioning
- information:
- @author
- @version 5
- *#
- </pre></td>
+#**
+This is a VTL comment block and
+may be used to store such information
+as the document author and versioning
+information:
+@author
+@version 5
+*#
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -581,12 +581,12 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $foo
-  $mudSlinger
-  $mud-slinger
-  $mud_slinger
-  $mudSlinger1
-  </pre></td>
+$foo
+$mudSlinger
+$mud-slinger
+$mud_slinger
+$mudSlinger1
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -614,8 +614,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $foo = &quot;bar&quot; )
-  </pre></td>
+#set( $foo = &quot;bar&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -648,9 +648,9 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $customer.Address
-  $purchase.Total
-  </pre></td>
+$customer.Address
+$purchase.Total
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -693,11 +693,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $customer.getAddress()
-  $purchase.getTotal()
-  $page.setTitle( &quot;My Home Page&quot; )
-  $person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;] )
-  </pre></td>
+$customer.getAddress()
+$purchase.getTotal()
+$page.setTitle( &quot;My Home Page&quot; )
+$person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;] )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -735,10 +735,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $sun.getPlanets()
-  $annelid.getDirt()
-  $album.getPhoto()
-  </pre></td>
+$sun.getPlanets()
+$annelid.getDirt()
+$album.getPhoto()
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -763,15 +763,15 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $sun.getPlanet( [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;] )
-  ## Can't pass a parameter list with $sun.Planets
+$sun.getPlanet( [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;] )
+## Can't pass a parameter list with $sun.Planets
 
-  $sisyphus.pushRock()
-  ## Velocity assumes I mean $sisyphus.getRock()
+$sisyphus.pushRock()
+## Velocity assumes I mean $sisyphus.getRock()
 
-  $book.setTitle( &quot;Homage to Catalonia&quot; )
-  ## Can't pass a parameter list
-  </pre></td>
+$book.setTitle( &quot;Homage to Catalonia&quot; )
+## Can't pass a parameter list
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -798,10 +798,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  ${mudSlinger}
-  ${customer.Address}
-  ${purchase.getTotal()}
-  </pre></td>
+${mudSlinger}
+${customer.Address}
+${purchase.getTotal()}
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -834,8 +834,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  Jack is a $vicemaniac.
-  </pre></td>
+Jack is a $vicemaniac.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -862,8 +862,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  Jack is a ${vice}maniac.
-  </pre></td>
+Jack is a ${vice}maniac.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -895,8 +895,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$email&quot;/&gt;
-  </pre></td>
+&lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$email&quot;/&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -924,8 +924,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!email&quot;/&gt;
-  </pre></td>
+&lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!email&quot;/&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -953,8 +953,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!{email}&quot;/&gt;
-  </pre></td>
+&lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!{email}&quot;/&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1007,9 +1007,9 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $email = &quot;foo&quot; )
-  $email
-  </pre></td>
+#set( $email = &quot;foo&quot; )
+$email
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1041,22 +1041,22 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  ## The following line defines $email in this template:
-  #set( $email = &quot;foo&quot; )
+## The following line defines $email in this template:
+#set( $email = &quot;foo&quot; )
 
-  ## The output of the following line will be $email's value: foo
-  $email
+## The output of the following line will be $email's value: foo
+$email
 
-  ## The output of the following line will be a literal: $email
-  \$email
+## The output of the following line will be a literal: $email
+\$email
 
-  ## The escape character binds from the left. The output of the 
-  ## following line will reflect this in its output: \$email
-  \\$email
+## The escape character binds from the left. The output of the 
+## following line will reflect this in its output: \$email
+\\$email
 
-  ## The bind-from-left rule causes \\\$email to render as \\$email
-  \\\$email
-  </pre></td>
+## The bind-from-left rule causes \\\$email to render as \\$email
+\\\$email
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1080,20 +1080,20 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  ## $email is undefined
+## $email is undefined
 
-  ## $email renders as $email
-  $email
+## $email renders as $email
+$email
 
-  ## \$email renders as \$email
-  \$email
+## \$email renders as \$email
+\$email
 
-  ## \\$email renders as \\$email
-  \\$email
+## \\$email renders as \\$email
+\\$email
 
-  ## \\\$email renders as \\\$email
-  \\\$email
-  </pre></td>
+## \\\$email renders as \\\$email
+\\\$email
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1117,17 +1117,17 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-   ## Here is a set directive that gives $foo the value &quot;gibbous&quot;
-   #set( $foo = &quot;gibbous&quot; )
+## Here is a set directive that gives $foo the value &quot;gibbous&quot;
+#set( $foo = &quot;gibbous&quot; )
 
-   ## The escape character is at work in the following line
-   $moon = $foo
-   #*
-   The output will be: $moon = gibbous
-   $moon is output as a literal because it is undefined.
-   The value of $foo is output because it is defined.
-   *#
-   </pre></td>
+## The escape character is at work in the following line
+$moon = $foo
+#*
+  The output will be: $moon = gibbous
+  $moon is output as a literal because it is undefined.
+  The value of $foo is output because it is defined.
+*#
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1168,23 +1168,22 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  $foo
+$foo
 
-  $foo.getBar()
-  ## is the same as
-  $foo.Bar
+$foo.getBar()
+## is the same as
+$foo.Bar
 
-  $data.getUser(&quot;jon&quot;)
-  ## is the same as
-  $data.User(&quot;jon&quot;)
+$data.getUser(&quot;jon&quot;)
+## is the same as
+$data.User(&quot;jon&quot;)
 
-
-  $data.getRequest().getServerName()
-  ## is the same as
-  $data.Request.ServerName
-  ## is the same as
-  ${data.Request.ServerName}
-  </pre></td>
+$data.getRequest().getServerName()
+## is the same as
+$data.Request.ServerName
+## is the same as
+${data.Request.ServerName}
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1235,9 +1234,9 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $primate = &quot;monkey&quot; )
-  #set( $customer.Behavior = $primate )
-  </pre></td>
+#set( $primate = &quot;monkey&quot; )
+#set( $customer.Behavior = $primate )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1275,13 +1274,13 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $monkey = $bill ) ##variable reference
-  #set( $monkey.Friend = &quot;monica&quot; ) ##string literal
-  #set( $monkey.Blame = $whitehouse.Leak ) ##property reference
-  #set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
-  #set( $monkey.Number = 123 ) ##number literal
-  #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ##object array
-  </pre></td>
+#set( $monkey = $bill ) ##variable reference
+#set( $monkey.Friend = &quot;monica&quot; ) ##string literal
+#set( $monkey.Blame = $whitehouse.Leak ) ##property reference
+#set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+#set( $monkey.Number = 123 ) ##number literal
+#set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ##object array
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1304,11 +1303,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $value = $foo + 1 )
-  #set( $value = $bar - 1 )
-  #set( $value = $foo * $bar )
-  #set( $value = $foo / $bar )
-  </pre></td>
+#set( $value = $foo + 1 )
+#set( $value = $bar - 1 )
+#set( $value = $foo * $bar )
+#set( $value = $foo / $bar )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1340,15 +1339,15 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $directoryRoot = &quot;www&quot; )
-    #set( $templateName = &quot;index.vm&quot; )
-    #set( $template = &quot;$directoryRoot/$templateName&quot; )
-    $template
+#set( $directoryRoot = &quot;www&quot; )
+#set( $templateName = &quot;index.vm&quot; )
+#set( $template = &quot;$directoryRoot/$templateName&quot; )
+$template
 
-    #*
-    The output will be:   www/index.vm
-    *#
-    </pre></td>
+#*
+  The output will be:   www/index.vm
+*#
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1372,17 +1371,17 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $foo = &quot;bar&quot; )
-  $foo
-  #set( $blargh = '$foo' )
-  $blargh
+#set( $foo = &quot;bar&quot; )
+$foo
+#set( $blargh = '$foo' )
+$blargh
 
-  #*
+#*
   This renders as:
   bar
   $foo
-  *#
-  </pre></td>
+*#
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1425,10 +1424,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #if( $foo )
-       &lt;strong&gt;Velocity!&lt;/strong&gt;
-    #end
-    </pre></td>
+#if( $foo )
+   &lt;strong&gt;Velocity!&lt;/strong&gt;
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1466,16 +1465,16 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #if( $foo &lt; 10 )
-      &lt;strong&gt;Go North&lt;/strong&gt;
-  #elseif( $foo &gt; 10 )
-      &lt;strong&gt;Go East&lt;/strong&gt;
-  #elseif( $bar = 6 )
-      &lt;strong&gt;Go South&lt;/strong&gt;
-  #else
-      &lt;strong&gt;Go West&lt;/strong&gt;
-  #end
-  </pre></td>
+#if( $foo &lt; 10 )
+    &lt;strong&gt;Go North&lt;/strong&gt;
+#elseif( $foo &gt; 10 )
+    &lt;strong&gt;Go East&lt;/strong&gt;
+#elseif( $bar = 6 )
+    &lt;strong&gt;Go South&lt;/strong&gt;
+#else
+    &lt;strong&gt;Go West&lt;/strong&gt;
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1512,15 +1511,15 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-   #set ($foo = &quot;deoxyribonucleic acid&quot;)
-   #set ($bar = &quot;ribonucleic acid&quot;)
+#set ($foo = &quot;deoxyribonucleic acid&quot;)
+#set ($bar = &quot;ribonucleic acid&quot;)
 
-   #if ($foo == $bar)
-      In this case it's clear they aren't equivalent. So...
-   #else
-      They are not equivalent and this will be the output.
-   #end
-   </pre></td>
+#if ($foo == $bar)
+   In this case it's clear they aren't equivalent. So...
+#else
+   They are not equivalent and this will be the output.
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1545,10 +1544,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #if( $foo &amp;&amp; $bar )
-       &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
-    #end
-    </pre></td>
+#if( $foo &amp;&amp; $bar )
+   &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1584,10 +1583,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #if( $foo || $bar )
-       &lt;strong&gt;Velocity Rocks Again!&lt;/strong&gt;
-    #end
-    </pre></td>
+#if( $foo || $bar )
+    &lt;strong&gt;Velocity Rocks Again!&lt;/strong&gt;
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1633,12 +1632,12 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  &lt;ul&gt;
-  #foreach( $product in $allProducts )
-      &lt;li&gt;$product&lt;/li&gt;
-  #end
-  &lt;/ul&gt;
-  </pre></td>
+&lt;ul&gt;
+#foreach( $product in $allProducts )
+    &lt;li&gt;$product&lt;/li&gt;
+#end
+&lt;/ul&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1690,8 +1689,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #include( &quot;one.txt&quot; )
-    </pre></td>
+#include( &quot;one.txt&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1716,8 +1715,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #include( &quot;one.gif&quot;,&quot;two.txt&quot;,&quot;three.htm&quot; )
-    </pre></td>
+#include( &quot;one.gif&quot;,&quot;two.txt&quot;,&quot;three.htm&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1744,8 +1743,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #include( &quot;greetings.txt&quot;, $seasonalstock )
-    </pre></td>
+#include( &quot;greetings.txt&quot;, $seasonalstock )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1781,8 +1780,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #parse( &quot;me.vm&quot; )
-    </pre></td>
+#parse( &quot;me.vm&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1820,11 +1819,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    Count down.
-    #set( $count = 8 )
-    #parse( &quot;parsefoo.vm&quot; )
-    All done with dofoo.vm!
-    </pre></td>
+Count down.
+#set( $count = 8 )
+#parse( &quot;parsefoo.vm&quot; )
+All done with dofoo.vm!
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1848,14 +1847,14 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    $count
-    #set( $count = $count - 1 )
-    #if( $count &gt; 0 )
-      #parse( &quot;parsefoo.vm&quot; )
-    #else
-      All done with parsefoo.vm!
-    #end
-    </pre></td>
+$count
+#set( $count = $count - 1 )
+#if( $count &gt; 0 )
+    #parse( &quot;parsefoo.vm&quot; )
+#else
+    All done with parsefoo.vm!
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1898,8 +1897,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #stop
-    </pre></td>
+#stop
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1940,10 +1939,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #macro( d )
-    &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-    #end
-    </pre></td>
+#macro( d )
+&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -1967,8 +1966,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #d
-    </pre></td>
+#d
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2000,12 +1999,12 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #macro( tablerows $color $somelist )
-    #foreach( $something in $somelist )
+#macro( tablerows $color $somelist )
+#foreach( $something in $somelist )
     &lt;tr&gt;&lt;td bgcolor=$color&gt;$something&lt;/td&gt;&lt;/tr&gt;
-    #end
-    #end
-    </pre></td>
+#end
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2039,12 +2038,12 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $greatlakes = [&quot;Superior&quot;,&quot;Michigan&quot;,&quot;Huron&quot;,&quot;Erie&quot;,&quot;Ontario&quot;] )
-    #set( $color = &quot;blue&quot; )
-    &lt;table&gt;
+#set( $greatlakes = [&quot;Superior&quot;,&quot;Michigan&quot;,&quot;Huron&quot;,&quot;Erie&quot;,&quot;Ontario&quot;] )
+#set( $color = &quot;blue&quot; )
+&lt;table&gt;
     #tablerows( $color $greatlakes )
-    &lt;/table&gt;
-    </pre></td>
+&lt;/table&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2069,14 +2068,14 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    &lt;table&gt;
-        &lt;tr&gt;&lt;td bgcolor=blue&gt;Superior&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=blue&gt;Michigan&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=blue&gt;Huron&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=blue&gt;Erie&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=blue&gt;Ontario&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-    </pre></td>
+&lt;table&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;blue&quot;&gt;Superior&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;blue&quot;&gt;Michigan&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;blue&quot;&gt;Huron&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;blue&quot;&gt;Erie&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;blue&quot;&gt;Ontario&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2148,11 +2147,12 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $parts = [&quot;volva&quot;,&quot;stipe&quot;,&quot;annulus&quot;,&quot;gills&quot;,&quot;pileus&quot;] )
-    #set( $cellbgcol = &quot;#CC00FF&quot; )
-    &lt;table&gt;
-    #tablerows( $cellbgcol $parts )
-    </pre></td>
+#set( $parts = [&quot;volva&quot;,&quot;stipe&quot;,&quot;annulus&quot;,&quot;gills&quot;,&quot;pileus&quot;] )
+#set( $cellbgcol = &quot;#CC00FF&quot; )
+&lt;table&gt;
+#tablerows( $cellbgcol $parts )
+&lt;/table&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2178,14 +2178,14 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    &lt;table&gt;
-        &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;volva&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;stipe&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;annulus&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;gills&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;pileus&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;
-    </pre></td>
+&lt;table&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;volva&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;stipe&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;annulus&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;gills&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td bgcolor=&quot;#CC00FF&quot;&gt;pileus&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2220,15 +2220,15 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  ## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
-  #include( &quot;a.txt&quot; )
+## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
+#include( &quot;a.txt&quot; )
 
-  ## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
-  \#include( &quot;a.txt&quot; )
+## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
+\#include( &quot;a.txt&quot; )
 
-  ## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
-  \\#include ( &quot;a.txt&quot; )
-  </pre></td>
+## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
+\\#include ( &quot;a.txt&quot; )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2253,10 +2253,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #if( $jazz )
-  Vyacheslav Ganelin
-  #end
-  </pre></td>
+#if( $jazz )
+    Vyacheslav Ganelin
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2281,10 +2281,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  \#if( $jazz )
-  Vyacheslav Ganelin
-  \#end
-  </pre></td>
+\#if( $jazz )
+    Vyacheslav Ganelin
+\#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2310,10 +2310,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  \\#if( $jazz )
-  Vyacheslav Ganelin
-  \\#end
-  </pre></td>
+\\#if( $jazz )
+   Vyacheslav Ganelin
+\\#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2338,10 +2338,10 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  \\\#if( $jazz )
-  Vyacheslave Ganelin
-  \\#end
-  </pre></td>
+\\\#if( $jazz )
+    Vyacheslave Ganelin
+\\#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2380,11 +2380,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $imperial = [&quot;Munetaka&quot;,&quot;Koreyasu&quot;,&quot;Hisakira&quot;,&quot;Morikune&quot;] )
-    #foreach( $shogun in $imperial )
+#set( $imperial = [&quot;Munetaka&quot;,&quot;Koreyasu&quot;,&quot;Hisakira&quot;,&quot;Morikune&quot;] )
+#foreach( $shogun in $imperial )
     $shogun
-    #end
-    </pre></td>
+#end
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2409,8 +2409,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    Send me #set($foo = [&quot;$10 and &quot;,&quot;a cake&quot;])#foreach($a in $foo)$a #end please.
-    </pre></td>
+Send me #set($foo = [&quot;$10 and &quot;,&quot;a cake&quot;])#foreach($a in $foo)$a #end please.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2434,13 +2434,13 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    Send me
-    #set( $foo = [&quot;$10 and &quot;,&quot;a cake&quot;] )
-    #foreach( $a in $foo )
-    $a
-    #end
-    please.
-    </pre></td>
+Send me
+#set( $foo = [&quot;$10 and &quot;,&quot;a cake&quot;] )
+#foreach( $a in $foo )
+$a
+#end
+please.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2463,11 +2463,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    Send me
-    #set($foo       = [&quot;$10 and &quot;,&quot;a cake&quot;])
-                     #foreach           ($a in $foo )$a
-            #end please.
-    </pre></td>
+Send me
+#set($foo       = [&quot;$10 and &quot;,&quot;a cake&quot;])
+                 #foreach           ($a in $foo )$a
+         #end please.
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2515,11 +2515,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $foo = $bar + 3 )
-    #set( $foo = $bar - 4 )
-    #set( $foo = $bar * 6 )
-    #set( $foo = $bar / 2 )
-    </pre></td>
+#set( $foo = $bar + 3 )
+#set( $foo = $bar - 4 )
+#set( $foo = $bar * 6 )
+#set( $foo = $bar / 2 )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2544,8 +2544,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $foo = $bar % 5 )
-    </pre></td>
+#set( $foo = $bar % 5 )
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2574,11 +2574,11 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    #set( $foo = 5 )
-    #set( $bar = $foo - 5 )
-    #set( $uhoh = $foo / $bar )
-    $uhoh
-    </pre></td>
+#set( $foo = 5 )
+#set( $bar = $foo - 5 )
+#set( $uhoh = $foo / $bar )
+$uhoh
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2602,8 +2602,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    $uhoh
-    </pre></td>
+$uhoh
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2640,8 +2640,8 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-    [n..m]
-    </pre></td>
+[n..m]
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2667,25 +2667,25 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  First example:
-  #foreach( $foo in [1..5] )
-  $foo
-  #end
+First example:
+#foreach( $foo in [1..5] )
+$foo
+#end
 
-  Second example:
-  #foreach( $bar in [2..-2] )
-  $bar
-  #end
+Second example:
+#foreach( $bar in [2..-2] )
+$bar
+#end
 
-  Third example:
-  #set( $arr = [0..1] )
-  #foreach( $i in $arr )
-  $i
-  #end
+Third example:
+#set( $arr = [0..1] )
+#foreach( $i in $arr )
+$i
+#end
 
-  Fourth example:
-  [1..3]
-  </pre></td>
+Fourth example:
+[1..3]
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2708,18 +2708,18 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  First example:
-  1 2 3 4 5
+First example:
+1 2 3 4 5
 
-  Second example:
-  2 1 0 -1 -2
+Second example:
+2 1 0 -1 -2
 
-  Third example:
-  0 1
+Third example:
+0 1
 
-  Fourth example:
-  [1..3]
-  </pre></td>
+Fourth example:
+[1..3]
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2767,20 +2767,20 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-  #set( $foo = &quot;bar&quot; )
+#set( $foo = &quot;bar&quot; )
 
-  # The special case, where &quot;\&quot; precedes &quot;!&quot;:
-  $\!foo # This renders as: $!foo
-  $\!{foo} # This renders as: $!{foo}
-  $\\!foo # This renders as: $\!foo
-  $\\\!foo # This renders as: $\\!foo
+# The special case, where &quot;\&quot; precedes &quot;!&quot;:
+$\!foo # This renders as: $!foo
+$\!{foo} # This renders as: $!{foo}
+$\\!foo # This renders as: $\!foo
+$\\\!foo # This renders as: $\\!foo
 
-  # Contrast this with regular escaping, where &quot;\&quot; precedes &quot;$&quot;:
-  \$foo # This renders as: \#$foo
-  \$!foo # This renders as: \$!foo
-  \$!{foo} # This renders as: \$!{foo}
-  \\$!{foo} # This renders as: \bar
-  </pre></td>
+# Contrast this with regular escaping, where &quot;\&quot; precedes &quot;$&quot;:
+\$foo # This renders as: \#$foo
+\$!foo # This renders as: \$!foo
+\$!{foo} # This renders as: \$!{foo}
+\\$!{foo} # This renders as: \bar
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
