@@ -48,6 +48,11 @@ This section describes changes to the man branch after the
      Added constructors to VelocityContext for plug and play
      interoperability with the java.util.Map interface (dlr, gmj)
    </li>
+   <li>
+     Committed Texen patches from Stephane Bailliez 
+     (sbailliez@imediation.com) anticipating review by the Texen
+     aficianados in the Velocity community. (gmj)
+   </li>
 </ul>
 
 </subsection>
