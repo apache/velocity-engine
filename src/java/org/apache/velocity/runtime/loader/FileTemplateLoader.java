@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -104,7 +104,7 @@ public class FileTemplateLoader extends TemplateLoader
      * Fetch the template
      * @return Template
      */
-    public Template getTemplate( String name )
+    public synchronized Template getTemplate( String name )
      throws Exception
     {
         if ( useCache )
@@ -136,8 +136,7 @@ public class FileTemplateLoader extends TemplateLoader
         if ( file.canRead() )
         {
             Template template = new Template(
-                new FileInputStream(file.getAbsolutePath()));//,
-                    //processor );
+                new FileInputStream(file.getAbsolutePath()));
             
             if ( useCache )
             {
@@ -154,7 +153,6 @@ public class FileTemplateLoader extends TemplateLoader
         else
         {
             throw new Exception("Can't load template: " + file.getAbsolutePath());
-            //return null;
         }
     }
 }
