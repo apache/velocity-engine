@@ -9,11 +9,11 @@ public interface ParserConstants {
   int COMMA = 3;
   int LPAREN = 4;
   int RPAREN = 5;
-  int ESCAPE_SEQUENCE = 6;
-  int TEXT = 7;
-  int DOLLAR = 8;
-  int DOLLARBANG = 9;
-  int HASH = 13;
+  int DOLLAR = 6;
+  int DOLLARBANG = 7;
+  int HASH = 11;
+  int ESCAPE_SEQUENCE = 12;
+  int TEXT = 13;
   int SINGLE_LINE_COMMENT = 14;
   int FORMAL_COMMENT = 15;
   int MULTI_LINE_COMMENT = 16;
@@ -59,11 +59,11 @@ public interface ParserConstants {
   int DIRECTIVE = 0;
   int REFMODIFIER = 1;
   int REFMOD2 = 2;
-  int DEFAULT = 3;
-  int REFERENCE = 4;
-  int IN_MULTI_LINE_COMMENT = 5;
-  int IN_FORMAL_COMMENT = 6;
-  int IN_SINGLE_LINE_COMMENT = 7;
+  int REFERENCE = 3;
+  int IN_MULTI_LINE_COMMENT = 4;
+  int IN_FORMAL_COMMENT = 5;
+  int IN_SINGLE_LINE_COMMENT = 6;
+  int DEFAULT = 7;
 
   String[] tokenImage = {
     "<EOF>",
@@ -71,15 +71,15 @@ public interface ParserConstants {
     "\"]\"",
     "\",\"",
     "\"(\"",
-    "\")\"",
-    "<ESCAPE_SEQUENCE>",
-    "<TEXT>",
+    "<RPAREN>",
     "\"$\"",
     "\"$!\"",
     "\"##\"",
-    "<token of kind 11>",
+    "<token of kind 9>",
     "\"#*\"",
     "\"#\"",
+    "<ESCAPE_SEQUENCE>",
+    "<TEXT>",
     "<SINGLE_LINE_COMMENT>",
     "\"*#\"",
     "\"*#\"",
@@ -105,7 +105,7 @@ public interface ParserConstants {
     "\"!=\"",
     "\"!\"",
     "\"=\"",
-    "\"end\"",
+    "<END>",
     "\"include\"",
     "\"if\"",
     "\"elseif\"",
