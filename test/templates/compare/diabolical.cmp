@@ -19,8 +19,8 @@ $thingy.dingy
 "#ffffff"
 
 $strings.getVillageType($col.Type)
-$strings.getVillageType($col.Type)
-$strings.getVillageType($col.Type)
+$strings.getVillageType( $col.Type)
+$strings.getVillageType($col.Type )
 
 
 -#-# Inline loops #-#-
@@ -37,5 +37,5 @@ $-$-$-$-
 #FF00FF00
 #'FF
 
-$tstrings.chop($generator.parse("sql/mysql/columns","","table",$tbl),1)
+$tstrings.chop($generator.parse("sql/mysql/columns", "", "table", $tbl),1)
 string
