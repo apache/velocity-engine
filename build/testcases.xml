@@ -54,6 +54,7 @@
                                    test-template,
                                    test-velocityapp,
                                    test-introspect,
+                                   test-classloaderchange,
                                    test-inlinevmscope,
                                    test-multi,
                                    test-cpload,
@@ -126,6 +127,15 @@
     </java>
   </target>
 
+  <target name="test-classloaderchange">
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+      <arg value="org.apache.velocity.test.ClassloaderChangeTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+  
   <target name="test-inlinevmscope">
     <echo message="Running Inline VM Scope tests..."/>
 
