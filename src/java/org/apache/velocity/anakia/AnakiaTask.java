@@ -87,7 +87,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.5 2000/11/22 21:50:26 jon Exp $
+    @version $Id: AnakiaTask.java,v 1.6 2000/11/23 00:16:22 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -122,6 +122,9 @@ public class AnakiaTask extends MatchingTask
 
     /** the default output extension is .html */
     private String extension = ".html";
+
+    /** the file to get the velocity properties file */
+    private File velocityPropertiesFile = null;
 
     /**
         Constructor creates the SAXBuilder.
@@ -169,6 +172,16 @@ public class AnakiaTask extends MatchingTask
         this.projectAttribute = projectAttribute;
     }
     /**
+        Allow people to set the path to the velocity.properties file
+        This file is found relative to the path where the JVM was run.
+        For example, if build.sh was executed in the ./build directory, 
+        then the path would be relative to this directory.
+    */
+    public void setVelocityPropertiesFile(File velocityPropertiesFile)
+    {
+        this.velocityPropertiesFile = velocityPropertiesFile;
+    }
+    /**
         Turn on/off last modified checking. by default, it is on.
     */
     public void setLastModifiedCheck(String lastmod)
@@ -202,7 +215,14 @@ public class AnakiaTask extends MatchingTask
         {
             throw new BuildException("style attribute must be set!");
         }
-         
+        if (velocityPropertiesFile == null)
+        {
+            velocityPropertiesFile = new File("velocity.properties");
+        }
+        if (!velocityPropertiesFile.exists())
+            throw new BuildException ("Could not locate velocity.properties file: " + 
+                velocityPropertiesFile.getAbsolutePath());
+
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
         // projectFile relative to baseDir
@@ -222,7 +242,7 @@ public class AnakiaTask extends MatchingTask
         try
         {
             // initialize Velocity
-            Runtime.init(new File("velocity.properties").getAbsolutePath());
+            Runtime.init(velocityPropertiesFile.getAbsolutePath());
             // get the last modification of the VSL stylesheet
             styleSheetLastModified = Runtime.getTemplate(style).getLastModified();
         }
