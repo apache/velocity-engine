@@ -197,7 +197,7 @@ is the way \#to \#go.
 
 this = that
 
-I am a $provider.getTitle() .
+I am a $provider.getTitle().
 
 #if ($provider.theAPLRules())
     Yes the APL rules!
