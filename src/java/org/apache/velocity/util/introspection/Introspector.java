@@ -89,31 +89,22 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.18 2001/11/26 16:01:14 geirm Exp $
+ * @version $Id: Introspector.java,v 1.19 2001/12/05 21:23:31 geirm Exp $
  */
-public class Introspector
+public class Introspector extends IntrospectorBase
 {
-    /*
+    /**
      *  define a public string so that it can be looked for
      *  if interested
      */
      
     public final static String CACHEDUMP_MSG = 
         "Introspector : detected classloader change. Dumping cache.";
-    
-    private RuntimeServices rsvc = null;
 
     /**
-     * Holds the method maps for the classes we know about, keyed by
-     * Class object.
-     */ 
-    private final Map classMethodMaps = new HashMap();
-    
-    /**
-     * Holds the qualified class names for the classes
-     * we hold in the classMethodMaps hash
+     *  our engine runtime services
      */
-    private Set cachedClassNames = new HashSet();
+    private RuntimeServices rsvc = null;
 
     /**
      *  Recieves our RuntimeServices object
@@ -132,75 +123,46 @@ public class Introspector
     public Method getMethod(Class c, String name, Object[] params)
         throws Exception
     {
-        if (c == null)
-        {
-            throw new Exception ( 
-                "Introspector.getMethod(): Class method key was null: " + name );
-        }                
+        /*
+         *  just delegate to the base class
+         */
 
-        ClassMap classMap = null;
-        
-        synchronized(classMethodMaps)
+        try
         {
-            classMap = (ClassMap)classMethodMaps.get(c);
-          
-            /*
-             *  if we don't have this, check to see if we have it
-             *  by name.  if so, then we have a classloader change
-             *  so dump our caches.
-             */
-             
-            if (classMap == null)
-            {                
-                if ( cachedClassNames.contains( c.getName() ))
-                {
-                    /*
-                     * we have a map for a class with same name, but not
-                     * this class we are looking at.  This implies a 
-                     * classloader change, so dump
-                     */
-                    clearCache();                    
-                    rsvc.info( CACHEDUMP_MSG );
-                }
-                 
-                classMap = createClassMap(c);
-            }
+            return super.getMethod( c, name, params );
         }
-        
-        return classMap.findMethod(name, params);
-    }
+        catch( MethodMap.AmbiguousException ae )
+        {
+            /*
+             *  whoops.  Ambiguous.  Make a nice log message and return null...
+             */
 
-    /**
-     * Creates a class map for specific class and registers it in the
-     * cache.  Also adds the qualified name to the name->class map
-     * for later Classloader change detection.
-     */
-    private ClassMap createClassMap(Class c)
-    {        
-        ClassMap classMap = new ClassMap( rsvc, c );        
-        classMethodMaps.put(c, classMap);
-        cachedClassNames.add( c.getName() );
+            String msg = "Introspection Error : Ambiguous method invocation "
+                + name + "( ";
 
-        return classMap;
+            for (int i = 0; i < params.length; i++)
+            {
+                if ( i > 0)
+                    msg = msg + ", ";
+                
+                msg = msg + params[i].getClass().getName();
+            }
+            
+            msg = msg + ") for class " + c;
+            
+            rsvc.error( msg );
+        }
+
+        return null;
     }
 
     /**
      * Clears the classmap and classname
-     * caches
+     * caches, and logs that we did so
      */
-    private void clearCache()
+    protected void clearCache()
     {
-        /*
-         *  since we are synchronizing on this
-         *  object, we have to clear it rather than
-         *  just dump it.
-         */            
-        classMethodMaps.clear();
-        
-        /*
-         * for speed, we can just make a new one
-         * and let the old one be GC'd
-         */
-        cachedClassNames = new HashSet();
+        super.clearCache();
+        rsvc.info( CACHEDUMP_MSG );
     }
 }
