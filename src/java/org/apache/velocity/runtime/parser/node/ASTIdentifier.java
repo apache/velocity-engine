@@ -61,6 +61,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import java.lang.reflect.InvocationTargetException;
@@ -79,7 +80,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.11 2001/04/18 12:51:01 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.12 2001/04/18 12:56:46 geirm Exp $ 
  */
 public class ASTIdentifier extends SimpleNode
 {
@@ -194,8 +195,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch( Exception e)
         {
-            e.printStackTrace();
-            System.out.println("ASTIdentifier.execute() : identifier = " 
+            Runtime.error("ASTIdentifier.execute() : identifier = " 
                                + identifier + " : " + e );
         }
 
@@ -221,7 +221,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch( Exception e )
         {
-            System.out.println("ASTIdentifier() : exception invoking method for identifier '" 
+            Runtime.error("ASTIdentifier() : exception invoking method for identifier '" 
                                + identifier + "' in " + o.getClass() + " : "  + e );
         }            
 
