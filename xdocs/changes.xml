@@ -57,6 +57,14 @@ from the Velocity Tools library.  Servlet interaction is more a core
 competency of the Velocity Tools package than of Velocity's
 core. (dlr)
 </li>
+<li>
+Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
+    (#20992)  (gmj)
+</li>
+<li>
+ Parameterized cache and mod time control in TexenTask based on patch from
+ Henning. (gmj)
+</li>
 </ul>
 
 </subsection>

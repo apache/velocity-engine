@@ -181,6 +181,30 @@ use that behavior by setting the
 <code>resource.manager.cache.size</code> for your cache to less than
 1. (dlr)
 </li>
+
+<li>
+Took dan's modified SimpleLog4jLogSystem, and renamed Log4JLogSystem, and
+put back old version of SimpleLog4JLogSystem, as deprecated.  That way
+we can move forward with an up-to-date version that uses Logger, and
+for one release, be backwards compatile for the Category-using log4j
+crowd.  (gmj)
+</li>
+
+<li>
+Deprecated the org.apache.velocity.servlet.VelocityServlet class in
+favor of org.apache.velocity.tools.view.servlet.VelocityViewServlet
+from the Velocity Tools library.  Servlet interaction is more a core
+competency of the Velocity Tools package than of Velocity's
+core. (dlr)
+</li>
+<li>
+Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
+    (#20992)  (gmj)
+</li>
+<li>
+ Parameterized cache and mod time control in TexenTask based on patch from
+ Henning. (gmj)
+</li>
 </ul>
                             </blockquote>
       </td></tr>
