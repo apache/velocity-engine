@@ -172,6 +172,60 @@ Fundamental types like int or float must be wrapped in the appropriate wrapper c
 That's really all there is to basic context operations.  For more information, see the API documentation included in the distribution.
 </p>
 
+
+<strong>Support for Iterative Objects for #foreach()</strong>
+<p>
+As a programmer, you have great freedom in the objects that you put into the context.  But as with most freedoms, this one comes 
+with a little bit of responsibility, so understand what Velocity supports, and any issues that may arise.  Velocity supports 
+serveral types of collection types  suitable for use in the VTL
+<code>#foreach()</code> directive.
+
+<ul>
+<li> <code>Object [] </code>  Regular object array, not much needs to be said here.  Velocity will internally wrap your array
+in a class that provides an Iterator interface, but that shouldn't concern you as the programmer, or the template author.</li>
+<li> <code>java.util.Collection</code>  Velocity will use the  <code>iterator()</code>
+method to get an Iterator to use in the loop, so if you are implementing a Collection interface on your object, please
+ensure that <code>iterator()</code> returns a working Iterator.</li>
+<li> <code>java.util.Map </code> Here, Velocity depends upon the <code>values()</code> method of the interface to get a <code>Collection</code> interface, on which <code>iterator()</code> is called to retrieve an Iterator for the loop.</li>
+<li> <code>java.util.Iterator</code> USE WITH CAUTION : This is currently supported only provisionally - 
+the issue of concern is the 
+'non-resettablity' of the Iterator.  If a 'naked' Iterator is placed into the context, and used in more than one
+#foreach(), subsequent #foreach() blocks after the first will fail, as the Iterator doesn't reset.</li>
+</ul>
+</p>
+
+<p>
+There are good reasons to use the <code>java.util.Iterator</code> interface directly (large data sets via JDBC, for example), but 
+if it can be avoided, it might be better to use something else. By 'directly' , we meant doing something like :
+
+<source><![CDATA[
+  Vector v = new Vector();
+  v.addElement("Hello");
+  v.addElement("There");
+
+  context.put("words", v.iterator() );
+]]></source>
+
+where the Iterator itself is placed into the context.  Instead, if you simply did :
+
+<source><![CDATA[
+ 
+  context.put("words", v );
+]]></source>
+
+then all would be fine : velocity would figure out that Vector implement Collection (via List), and therefore will find the 
+<code>iterator()</code> method, and use that to get a 'fresh' Iterator for its use each time it needs to.  With just a plain
+Iterator (the first snippet above...), once velocity has used it in a <code>#foreach()</code>, Velocity has no way of 
+getting a new one to use for the next <code>#foreach()</code> it is used in.  The result is no output from any subsequent
+<code>#foreach()</code> blocks using that reference.
+</p>
+
+<p>
+This above isn't meant to give the impression that iterating over collections in Velocity is something that requires great care 
+and thought.  Rather, the opposite is true, in general.  Just be careful when you place an Iterator into the context.
+</p>
+
+
 <strong>Context Chaining</strong>
 <p>
 An innovative feature of Velocity's context design is the concept of <i>context chaining</i>.  
@@ -223,6 +277,8 @@ Please note that these examples are unsupported and are there for demonstration/
 </p>
 
 </s1>
+
+
 
 <s1 title="Using Velocity In Servlets">
 <strong>Programming</strong>
