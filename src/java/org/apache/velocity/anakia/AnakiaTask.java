@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.23 2001/03/15 03:12:33 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.24 2001/03/15 04:47:08 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -302,7 +302,9 @@ public class AnakiaTask extends MatchingTask
             
 
             // get the last modification of the VSL stylesheet
-            styleSheetLastModified = Runtime.getTemplate(style).getLastModified();
+
+            styleSheetLastModified = Runtime.getTemplate( style ).getLastModified();
+           
         }
         catch (Exception e)
         {
@@ -360,7 +362,13 @@ public class AnakiaTask extends MatchingTask
 
                 VelocityContext context = new VelocityContext();
 
-                String encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
+                /*
+                 *  get the property TEMPLATE_ENCODING
+                 *  we know it's a string...
+                 */
+
+                String encoding = (String) Velocity.getProperty( Runtime.TEMPLATE_ENCODING );
+
                 if (encoding == null || encoding.length() == 0 
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
