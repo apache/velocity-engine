@@ -7,6 +7,7 @@
   <subtitle>Velocity User Guide</subtitle>
   <authors>
    <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+   <person name="John Castura" email="jcastura@kw.igs.net"/>
   </authors>
  </header>
 
@@ -21,7 +22,19 @@
     Many of the examples in this guide deal with using Velocity to embed 
     dynamic content in web sites, but all VTL examples are equally applicable 
     to other pages and templates.
- </p> 
+ </p>
+
+ <p>
+    This user guide is a work in progress. Although every effort has been made
+    to keep up-to-date with the development of Velocity, 
+    there remain some inconsistencies between the documented and the actual 
+    behaviour of Velocity. If you would like to report a mistake or offer a suggestion,
+    please send email to <link href="mailto:jcastura@apache.org">jcastura@apache.org</link>.
+ </p>
+
+ <p>
+    Thanks for choosing Velocity!
+ </p>
 
 </s1>
 
@@ -982,36 +995,39 @@
     </p>
 
     <p>
-    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments: 
+    A Velocimacro could take any number number of arguments -- even zero arguments, as demonstrated in
+    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of 
+    arguments with which it was defined.
+    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments, 
     a color and an array.
     </p>
 
     <p>
     <source><![CDATA[    
-    #macro (tablerows $color $list)
-    #foreach ($person in $list)
-    <tr><td bgcolor=$color>$person</td></tr>
+    #macro (tablerows $color $somelist)
+    #foreach ($something in $somelist)
+    <tr><td bgcolor=$color>$something</td></tr>
     #end
     #end
     ]]></source>
     </p>
 
     <p>
-    The Velocimacro being defined in this example is <vtl>tablerows</vtl>, and it takes two arguments, <vtl>$color</vtl>
-    and <vtl>$list</vtl>. It could take any number number of arguments -- even zero arguments, as demonstrated in
-    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of 
-    arguments with which it was defined.
+    The Velocimacro being defined in this example, <vtl>tablerows</vtl>, takes two arguments. 
+    The first argument takes the place of <variable>$color</variable>, and the second 
+    argument takes the place of <variable>$somelist</variable>. 
     </p>
 
     <p>
     Anything that can be put into a VTL template can go into the body of a Velocimacro. The <vtl>tablerows</vtl> 
-    Velocimacro is a <vtl>foreach</vtl> statement. There are two <vtl>#end</vtl> statements; the first belongs to the 
+    Velocimacro is a <vtl>foreach</vtl> statement. There are two <vtl>#end</vtl> statements in the definition of 
+    the <vtl>#tablerows</vtl> Velocimacro; the first belongs to the 
     <vtldirective>#foreach</vtldirective>, the second ends the Velocimacro definition. 
     </p>
 
     <p>
     <source><![CDATA[    
-    #set $names = ["Tom","Dick","Harry"]
+    #set $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"]
     #set $color = "blue"
     <table>
     #tablerows ($color $names)
@@ -1020,15 +1036,98 @@
     </p>
 
     <p>
-    When the <vtl>#tablerows</vtl> Velocimacro is called in this situation, the following output is produced: 
+    Notice that <variable>$greatlakes</variable> takes the place of <variable>$somelist</variable>. 
+    When the <vtl>#tablerows</vtl> Velocimacro is called in this situation, the following output is generated: 
     </p>
 
     <p>
     <source><![CDATA[
     <table>             
-        <tr><td bgcolor=blue>Tom</td></tr>
-        <tr><td bgcolor=blue>Dick</td></tr>
-        <tr><td bgcolor=blue>Harry</td></tr>
+        <tr><td bgcolor=blue>Superior</td></tr>
+        <tr><td bgcolor=blue>Michigan</td></tr>
+        <tr><td bgcolor=blue>Huron</td></tr>
+        <tr><td bgcolor=blue>Erie</td></tr>
+        <tr><td bgcolor=blue>Ontario</td></tr>
+    </table>  
+    ]]></source>
+    </p>
+
+    <p>
+    Velocimacros can be defined <em>inline</em> in a Velocity template, meaning that it is 
+    unavailable to other Velocity templates on the same web site. Definig a Velocimacro
+    such that it can be shared by all templates has obvious advantages: it reduces the 
+    need to redefine the Velocimacro on numerous templates, saving work and reducing the 
+    chance of error, and ensures that a single change to a macro  
+    available to more than one template. 
+    </p>
+
+    <p>
+    Several lines in the <filename>velocity.properties</filename> file allow for flexible
+    implementation of Velocimacros:
+    </p>
+
+    <p>
+    <code>velocimacro.library.global</code> - This is the name of the global Velocimacros
+    template library. By default, <code>velocimacro.library.global=VM_global_template.vm</code>.
+    This file, which must be found in the template path, contains useful macros that are
+    shipped with the Velocity distribution.
+    </p>
+    
+    <p>
+    <code>velocimacro.library.local</code> - Addin this line to the <filename>velocity.properties</filename> 
+    file allows the template designer to define a local Velocimacros
+    template library. Velocity users can use the local template library to define their 
+    own Velocimacros and keep these in a file other than the global defaults.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allowInline</code> - This property, which has
+    possible values of true or false, determines whether Velocimacros
+    can be defined in regular templates. The default, false, limits template designers
+    to defining Velocimacros in the global/local templates.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allowInlineToOverride</code> - When Velocimacros can be
+    defined in both global/local template library and in regular templates, it becomes
+    possible for a Velocimacro to be defined more than once. With possible values of
+    true or false, this property allows the user to specify which Velocimacro will
+    take precedence over the other. The default, <code>false</code>, allows Velocimacros
+    defined in the global/local template libraries to take precedence over those defined
+    in regular templates.
+    </p>
+
+    <p>
+    Were the <vtl>#tablerows</vtl> Velocimacro defined in the local Velocimacros template
+    library, this macro could be used on any of the regular templates. It could be used
+    many times and for many different purposes. In the template <filename>mushroom.vm</filename>
+    devoted to all things fungi, the <vtl>#tablerows</vtl> Velocimacro could be invoked 
+    to list the parts of a typical mushroom:
+    </p>
+
+    <p>
+    <source><![CDATA[ 
+    #set $parts = ["volva","stipe","annulus","gills","pileus"]
+    #set $cellbgcol = "#CC00FF"
+    <table>
+    #tablerows ($cellbgcol $parts) 
+    ]]></source>
+    </p>
+    
+    <p>
+    When fulfilling a request for <filename>mushroom.vm</filename>, Velocity would find the
+    <vtl>#tablerows</vtl> Velocimacro in the local template library (defined in the 
+    <filename>velocity.properties</filename> file) and generate the following output:
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    <table>             
+        <tr><td bgcolor=#CC00FF>volva</td></tr>
+        <tr><td bgcolor=#CC00FF>stipe</td></tr>
+        <tr><td bgcolor=#CC00FF>annulus</td></tr>
+        <tr><td bgcolor=#CC00FF>gills</td></tr>
+        <tr><td bgcolor=#CC00FF>pileus</td></tr>
     </table>  
     ]]></source>
     </p>
@@ -1039,6 +1138,7 @@
 
 </body>
 </document>
+
 
 
 
