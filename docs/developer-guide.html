@@ -1887,6 +1887,13 @@ prevents runaway #parse() recursion.
 </p>
                                                 <strong> Resource Management </strong>
                                                 <p>
+<code>resource.manager.logwhenfound = true</code><br />
+Switch to control logging of 'found' messages from resource manager.
+When a resource is found for the first time, the resource name
+and classname of the loader that found it will be noted in the
+runtime log.
+</p>
+                                                <p>
 <code>resource.loader = &lt;name&gt; (default = File)</code><br />
 <i>Multi-valued key.  Will accept CSV for value.</i>  Pulic name of a 
 resource loader to be used.  This public name will then be used
