@@ -54,7 +54,7 @@
 
 import java.io.StringWriter;
 import java.util.Properties;
-import org.apache.velocity.util.Velocity;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 
 /**
@@ -66,7 +66,7 @@ import org.apache.velocity.VelocityContext;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example2.java,v 1.1 2001/02/11 19:55:09 geirm Exp $
+ * @version $Id: Example2.java,v 1.2 2001/02/11 20:51:52 geirm Exp $
  */
 
 public class Example2
