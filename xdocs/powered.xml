@@ -735,6 +735,16 @@ ads resulting in fast ad retrieval with no database connections required.
 
    <tr>
     <td>
+     <a href="http://click.sourceforge.net">Click</a>
+    </td>
+    <td>
+     Click is a J2EE web application framework created for commercial Java developers.  
+	 Highlights include: very easy to learn; event based programming model; high performance.
+    </td>
+   </tr>
+
+   <tr>
+    <td>
      <a href="http://www.melati.org">Melati</a>
     </td>
     <td>
