@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.12 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.13 2002/02/22 20:59:12 geirm Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {
@@ -131,6 +131,24 @@ public class ASTStringLiteral extends SimpleNode
 
         interpolateimage = image + " ";
 
+        if ( interpolate )
+        {
+            /*
+             *  now parse and init the nodeTree
+             */
+
+            BufferedReader br = new BufferedReader( new StringReader( interpolateimage ));
+
+            nodeTree
+                = rsvc.parse( br, context.getCurrentTemplateName() );
+
+            /*
+             *  init with context. It won't modify anything
+             */
+
+            nodeTree.init( context, rsvc );
+        }
+
         return data;
     }
 
@@ -151,29 +169,7 @@ public class ASTStringLiteral extends SimpleNode
         if (interpolate )
         {          
             try
-            {   
-                /*
-                 *  only parse the first time
-                 */
-
-                if (nodeTree == null)
-                {
-                    /*
-                     *  parse the stringlit
-                     */
-                    
-                    BufferedReader br = new BufferedReader( new StringReader( interpolateimage ));
-
-                    nodeTree 
-                        = rsvc.parse( br,context.getCurrentTemplateName() );        
-                
-                    /*
-                     *  init with context. It won't modify anything
-                     */
-
-                    nodeTree.init( context, rsvc );
-                }
-
+            {
                 /*
                  *  now render against the real context
                  */
@@ -192,7 +188,6 @@ public class ASTStringLiteral extends SimpleNode
                  */
 
                 return ret.substring(0, ret.length() - 1 );
-
             }
             catch( Exception e )
             {
