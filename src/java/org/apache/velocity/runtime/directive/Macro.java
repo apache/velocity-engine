@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.node.NodeUtils;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
@@ -85,7 +87,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.14 2001/11/07 12:59:50 geirm Exp $
+ * @version $Id: Macro.java,v 1.15 2002/03/25 00:45:36 geirm Exp $
  */
 public class Macro extends Directive
 {
@@ -111,7 +113,7 @@ public class Macro extends Directive
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
      */
-    public boolean render( InternalContextAdapter context, 
+    public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException 
     {
@@ -122,10 +124,11 @@ public class Macro extends Directive
         return true;
     }
  
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
+    public void init(RuntimeServices rs, InternalContextAdapter context,
+                     Node node)
        throws Exception
     {
-        super.init( rs, context, node );
+        super.init(rs, context, node);
 
         /*
          * again, don't do squat.  We want the AST of the macro 
@@ -144,8 +147,9 @@ public class Macro extends Directive
      *  VelocimacroProxy objects, and if not currently used, adds it
      *  to the macro Factory
      */ 
-    public static  void processAndRegister( RuntimeServices rs,  Node node, String sourceTemplate )
-        throws IOException
+    public static void processAndRegister(RuntimeServices rs,  Node node,
+                                          String sourceTemplate)
+        throws IOException, ParseException
     {
         /*
          *  There must be at least one arg to  #macro,
@@ -169,23 +173,41 @@ public class Macro extends Directive
              */
             
             rs.error("#macro error : Velocimacro must have name as 1st " + 
-                "argument to #macro()");
-            
-            return;
+                "argument to #macro(). #args = " + numArgs);
+
+            throw new MacroParseException("First argument to #macro() must be " +
+                    " macro name.");
+        }
+
+        /*
+         *  lets make sure that the first arg is an ASTWord
+         */
+
+        int firstType = node.jjtGetChild(0).getType();
+
+        if(firstType != ParserTreeConstants.JJTWORD)
+        {
+            Token t = node.jjtGetChild(0).getFirstToken();
+
+            throw new MacroParseException("First argument to #macro() must be a"
+                    + " token without surrounding \' or \", which specifies"
+                    + " the macro name.  Currently it is a "
+                    + ParserTreeConstants.jjtNodeName[firstType]);
+
         }
 
         /*
          *  get the arguments to the use of the VM
          */
 
-        String argArray[] = getArgArray( node );
+        String argArray[] = getArgArray(node);
 	 
         /*
          *   now, try and eat the code block. Pass the root.
          */
         
         List macroArray = 
-            getASTAsStringArray( node.jjtGetChild( numArgs - 1) );
+            getASTAsStringArray(node.jjtGetChild(numArgs - 1));
   
         /*
          *  make a big string out of our macro
@@ -193,18 +215,20 @@ public class Macro extends Directive
   
         StringBuffer temp  = new StringBuffer();
 
-        for( int i=0; i < macroArray.size(); i++)
-            temp.append( macroArray.get(i) );
+        for (int i=0; i < macroArray.size(); i++)
+        {
+            temp.append(macroArray.get(i));
+        }
 
-        String macroBody = temp.toString();    
+        String macroBody = temp.toString();
    
         /*
          * now, try to add it.  The Factory controls permissions, 
          * so just give it a whack...
          */
 
-        boolean bRet = rs.addVelocimacro( argArray[0], macroBody,  
-                        argArray, sourceTemplate );
+        boolean bRet = rs.addVelocimacro(argArray[0], macroBody,
+                        argArray, sourceTemplate);
 
         return;
     }
@@ -214,7 +238,7 @@ public class Macro extends Directive
      *  creates an array containing the literal
      *  strings in the macro arguement
      */
-    private static String[] getArgArray( Node node )
+    private static String[] getArgArray(Node node)
     {
         /*
          *  remember : this includes the block tree
@@ -224,7 +248,7 @@ public class Macro extends Directive
 	
         numArgs--;  // avoid the block tree...
 	
-        String argArray[] = new String[ numArgs ];
+        String argArray[] = new String[numArgs];
 	
         int i = 0;
 	
@@ -232,7 +256,7 @@ public class Macro extends Directive
          *  eat the args
          */
 	
-        while( i <  numArgs ) 
+        while (i < numArgs)
         {
             argArray[i] = node.jjtGetChild(i).getFirstToken().image;
 
@@ -241,24 +265,28 @@ public class Macro extends Directive
              *  saves everyone else from having to do it
              */
 
-            if ( i > 0)
+            if (i > 0)
             {
-                if ( argArray[i].startsWith("$"))
+                if (argArray[i].startsWith("$"))
+                {
                     argArray[i] = argArray[i]
                         .substring(1, argArray[i].length());
+                }
             }
 
             i++;
         }
 	
-        if ( debugMode ) 
+        if (debugMode)
         {
-            System.out.println("Macro.getArgArray() : #args = " + numArgs );
-            System.out.print( argArray[0] + "(" );
+            System.out.println("Macro.getArgArray() : #args = " + numArgs);
+            System.out.print(argArray[0] + "(");
 	    
-            for (  i = 1; i < numArgs; i++) 
-                System.out.print(" " + argArray[i] );
-	    
+            for (i = 1; i < numArgs; i++)
+            {
+                System.out.print(" " + argArray[i]);
+            }
+
             System.out.println(" )");
         }
 	
@@ -268,7 +296,7 @@ public class Macro extends Directive
     /**
      *  Returns an array of the literal rep of the AST
      */
-    private static List getASTAsStringArray( Node rootNode )
+    private static List getASTAsStringArray(Node rootNode)
     {
         /*
          *  this assumes that we are passed in the root 
@@ -287,9 +315,9 @@ public class Macro extends Directive
 
         t = rootNode.getFirstToken();
 
-        while( t != tLast ) 
+        while (t != tLast)
         {
-            list.add( NodeUtils.tokenLiteral( t ) );
+            list.add(NodeUtils.tokenLiteral(t));
             t = t.next;
         }
 
@@ -297,17 +325,8 @@ public class Macro extends Directive
          *  make sure we get the last one...
          */
 
-        list.add( NodeUtils.tokenLiteral( t ) );
+        list.add(NodeUtils.tokenLiteral(t));
 
         return list;
     }
 }
-
-
-
-
-
-
-
-
-
