@@ -16,8 +16,11 @@
             <meta name="email" value="jon@latchkey.com">
             
            
-                                    
-                        
+            
+            
+            
+            
+            
             <title>Velocity - Velocity Changes</title>
         </head>
 
@@ -42,8 +45,6 @@
                     <!-- LEFT SIDE NAVIGATION -->
                     <td width="20%" valign="top" nowrap="true">
                     
-    <!-- to be removed after ApacheCon 2003 ends 20th of November 2003 -->
-    <A HREF="http://apachecon.com/2003/US/index.html"><img border="0" src="http://jakarta.apache.org/images/logos/ac2003-150.gif"/></A>
     <!-- ============================================================ -->
 
                 <p><strong>About</strong></p>
@@ -206,13 +207,18 @@ Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
  Henning. (gmj)
 </li>
 <li>
-    Fix to DatasourceResourceLoader - stop using the old Runtime singleton as
-    would leak a little memory for each instance of VelocityEngine created.
-    Bug #17820, hunted down by Will Glas-Husain. (gmj)
+Fix to DatasourceResourceLoader - stop using the old Runtime singleton as
+would leak a little memory for each instance of VelocityEngine created.
+Bug #17820, hunted down by Will Glas-Husain. (gmj)
 </li>
 <li>
-SimplePool now removes elements from pool on a get(). Fix for #19042 suggested
- by Will. (gmj)
+SimplePool now removes elements from pool on a get(). NOTE : Previously, it left the
+reference to the object in the pool.  Fix for #19042 suggested
+by Will. (gmj)
+</li>
+<li>
+Fix to bug #7697, suggested by Will.  Fixes problem with single line comment
+embedded in a multi-line comment. (gmj)
 </li>
 </ul>
                             </blockquote>
