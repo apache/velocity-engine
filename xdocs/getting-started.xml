@@ -15,19 +15,21 @@
 <s1 title="Getting Started">
 
 <p>
-    The purpose of this document is to define simple documentation on getting
+    This document provides developers with simple documentation for getting
     started with Velocity. For information about the overall structure of
-    Velocity, please refer to the <a href="design.html">Design Document
-    </a>. The composition of this document will be written from the
-    perspective of what you should do in order to start a newly functional system.
+    Velocity, please refer to the <a href="design.html">Design Document</a>.
 </p>
 
 <p>
-    The first thing that you should do is download and install Velocity.
-    This step is documented in the <a href="install.html">INSTALL</a>
-    document, so it will not be covered here. If you would like to view the detailed API documentation
-    run "build-velocity.sh|bat javadocs" from the "build" directory.  
-    This will create a full set of Velocity API docs in the "docs/apidocs" directory. 
+    Instructions for downloading and installing Velocity can be found on the
+    <a href="install.html">INSTALL</a> document.
+</p>    
+
+<p>    
+    If you would like to view the detailed API documentation, run 
+    "build-velocity.sh|bat javadocs" from the "build" directory. 
+    This will create a full set of Velocity API docs in 
+    the "docs/apidocs" directory. 
 </p>
 
 </s1>

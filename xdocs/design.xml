@@ -25,20 +25,31 @@
  </p>
  
  <p>
-    Velocity allows web page designers to embed simple and useful script 
-    elements in HTML code. These script elements work in conjunction with
-    a Context object that is populated in your Java code. A context object--
-    essentially a Hashtable that provides get and set methods for retrieving and setting 
-    objects by name within the Context--provides a &quot;hook&quot; from your 
-    Java code to your Velocity code. These script elements allow a web 
-    designer to retrieve objects from the Context and 
-    put them into a web page as text values. The web designer has some control over 
-    looping (for each) and conditional statements (if/else). 
+    Velocity has a myriad of potential uses--generating SQL from XML schemas, 
+    creating postscript output from XML files, generating Java source
+    code for Java files--but it is expected to be most widely used 
+    by web developers looking for a better alternative to 
+    <link href="http://www.php.org/">PHP</link> and 
+    <link href="http://java.sun.org/products/jsp/">Java 
+    Server Pages</link> (JSPs). 
+ </p>    
+
+ <p>    
+    Velocity allows web page designers to embed simple 
+    and useful script elements in their web pages. These script elements work 
+    in conjunction with a Context object, which is defined in Java code. 
+    A context object--essentially a Hashtable that provides get and set 
+    methods for retrieving and setting objects by name within the Context
+    --provides a &quot;hook&quot; from the Java code to the Velocity script
+    elements. These script elements allow a web designer to retrieve 
+    objects from the Context and insert these into a web page as text 
+    values. The web designer has some control over looping (for each) 
+    and conditional statements (if/else). 
  </p>
  
  <p>
     Velocity enforces a Model-View-Controller (MVC) style of development 
-    by separating Java code from HTML template code. Unlike Java Servlet Pages (JSPs), 
+    by separating Java code from HTML template code. Unlike JSPs, 
     Velocity does not allow Java code to be embedded in pages. Unlike PHP, 
     Velocity does not implement features with other functions. The MVC 
     approach is one of Velocity's great strengths, and allows for more 
@@ -51,14 +62,16 @@
     to MVC, this approach saves time over the long term (believe us, we have 
     been doing this for a long time now). The MVC abstraction prevents web page 
     designers from messing with a software engineer's Java code, and 
-    programmers from unduly influencing the look of web sites. This enforces 
-    a contract that defines what roles people play in the web site development process.   
+    programmers from unduly influencing the look of web sites. Velocity enforces 
+    a contract that defines what roles people play in the web site development 
+    process.   
  </p>
 
  <p>    
-    The concept for Velocity was borrowed from WebMacro, and those involved in 
-    the Velocity project acknowledge and appreciates the development and design 
-    work that went into the WebMacro project.
+    The concept for Velocity was borrowed from 
+    <link href="http://www.webmacro.org/">WebMacro</link>, 
+    and those involved in the Velocity project acknowledge and appreciate 
+    the development and design work that went into the WebMacro project.
  </p>
  
 </s1>

@@ -15,26 +15,21 @@
 <s1 title="Coding Standards">
 
 <p>
-    This document describes coding conventions that are required
-    for code submissions to the Velocity project. 
-    
-</p>
-
-<p>
-    <strong>If you commit code that does not follow the existing conventions and you
-    are caught, you will be responsible for fixing your own code.</strong>
-</p>
-
-<p>
-    Below is a list of coding conventions that are specific to Velocity.
-    Anything not explicitly mentioned here should follow the official
+    Code submissions to the Velocity project must follow the conventions 
+    listed in this document. Velocity developers 
+    are asked to follow coding conventions already present in the code. 
+    For example, if the existing code has the bracket on
+    the same line as the if statement, then all subsequent code
+    should also follow that convention. Anything not 
+    explicitly mentioned in this document should follow the official
     <link href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
     Java Coding Conventions</link>. 
-    As in most Open Source Projects, developers are asked to follow 
-    coding conventions already in use in the code that you are working 
-    on. For example, if the existing code has the bracket on
-    the same line as the if statement, then your code
-    should also follow that convention.
+</p>
+
+<p>
+    <strong>If you are caught commiting code that does not follow 
+    the existing conventions, you will be responsible for fixing 
+    it.</strong>
 </p>
 
 <p>
@@ -70,8 +65,8 @@ while ( true )
 </p>
 
 <p>
-2. Spaces between parentheses are optional. The preference
-is to exclude extra spaces. For example, both of these conventions are acceptable:
+2. Spaces between parentheses are optional. The preference is to exclude 
+extra spaces. For example, both of these conventions are acceptable:
 </p>
 
 <p>
@@ -86,9 +81,9 @@ if ( foo )
 </p>
 
 <p>
-3. 4 spaces. <strong>NO</strong> tabs. Period. Velocity is being developed in a distributed development
-enviroment. The Velocity mailing list receives cvs commit messages 
-that are almost impossible to read if tabs are used.
+3. Four spaces. <strong>NO</strong> tabs. Period. The Velocity 
+mailing list receives cvs commit messages that are almost impossible 
+to read if tabs are used.
 </p>
 
 <p>
@@ -98,20 +93,19 @@ In Emacs-speak, this translates to the following command:
 </p>
 
 <p>
-4. Unix linefeeds for all .java source code files. Only platform-specific
-files (e.g. .bat files for Windows) should have the platform-specific linefeeds.
+4. Use Unix linefeeds for all .java source code files. Only platform-specific
+files (e.g. .bat files for Windows) should contain non-Unix linefeeds.
 </p>
 
 <p>
-5. Javadoc <strong>MUST</strong> exist on all your methods. If you are working
-on existing code and there currently isn't a javadoc for that method/class/variable
-(or whatever), please contribute and add it. This will help to improve the
-Velocity project.
+5. Javadoc <strong>MUST</strong> exist on all your methods. Contributing
+a missing javadoc for any method, class, variable, etc., will be greatly
+appreciated as this will help to improve the Velocity project.
 </p>
 
 <p>
-6. The Jakarta Apache/Velocity License <strong>MUST</strong> be placed at the top
-of each and every file.
+6. The Jakarta Apache/Velocity License <strong>MUST</strong> be placed 
+at the top of every file.
 </p>
 
 </s1>
