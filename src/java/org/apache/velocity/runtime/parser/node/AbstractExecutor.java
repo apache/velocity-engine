@@ -58,10 +58,6 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
@@ -71,7 +67,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: AbstractExecutor.java,v 1.11 2002/04/21 20:57:25 geirm Exp $
+ * @version $Id: AbstractExecutor.java,v 1.12 2003/05/04 17:24:30 geirm Exp $
  */
 public abstract class AbstractExecutor
 {

@@ -53,15 +53,12 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
-import java.lang.reflect.Method;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.util.introspection.Introspector;
 
 import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 
@@ -73,7 +70,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * the case.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: GetExecutor.java,v 1.7 2002/04/21 20:57:25 geirm Exp $
+ * @version $Id: GetExecutor.java,v 1.8 2003/05/04 17:24:30 geirm Exp $
  */
 public class GetExecutor extends AbstractExecutor
 {

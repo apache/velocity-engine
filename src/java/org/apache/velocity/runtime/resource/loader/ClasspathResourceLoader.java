@@ -56,7 +56,6 @@ package org.apache.velocity.runtime.resource.loader;
  
 import java.io.InputStream;
 
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
@@ -106,7 +105,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  work just fine.
  *  
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClasspathResourceLoader.java,v 1.7 2002/03/28 15:16:08 geirm Exp $
+ * @version $Id: ClasspathResourceLoader.java,v 1.8 2003/05/04 17:24:31 geirm Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {

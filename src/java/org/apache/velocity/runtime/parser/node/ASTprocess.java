@@ -54,9 +54,6 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
-import java.io.Writer;
-import java.io.IOException;
-
 import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTprocess extends SimpleNode

@@ -59,7 +59,6 @@ import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.Token;
 
 /**
  * This class is responsible for handling Escapes
@@ -69,7 +68,7 @@ import org.apache.velocity.runtime.parser.Token;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTEscape.java,v 1.5 2002/03/23 13:38:32 geirm Exp $ 
+ * @version $Id: ASTEscape.java,v 1.6 2003/05/04 17:24:30 geirm Exp $ 
  */
 public class ASTEscape extends SimpleNode 
 {

@@ -56,25 +56,20 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.util.Map;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.VelPropertySet;
 import org.apache.velocity.util.introspection.Info;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 
 /**
  * This class is responsible for handling the references in
@@ -87,7 +82,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.48 2002/04/27 18:23:47 geirm Exp $
+ * @version $Id: ASTReference.java,v 1.49 2003/05/04 17:24:30 geirm Exp $
 */
 public class ASTReference extends SimpleNode
 {

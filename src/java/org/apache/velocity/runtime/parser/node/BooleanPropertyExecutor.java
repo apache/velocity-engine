@@ -53,19 +53,9 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.velocity.util.introspection.Introspector;
 
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.context.InternalContextAdapter;
-
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeLogger;
-
-import org.apache.velocity.util.introspection.Introspector;
 
 /**
  *  Handles discovery and valuation of a
@@ -78,7 +68,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *  by is<Property>
  *
  *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
- *  @version $Id: BooleanPropertyExecutor.java,v 1.2 2002/04/21 20:57:25 geirm Exp $
+ *  @version $Id: BooleanPropertyExecutor.java,v 1.3 2003/05/04 17:24:30 geirm Exp $
  */
 public class BooleanPropertyExecutor extends PropertyExecutor
 {

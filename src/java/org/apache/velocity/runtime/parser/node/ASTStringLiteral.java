@@ -58,7 +58,6 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.StringWriter;
-import java.io.ByteArrayInputStream;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
@@ -69,7 +68,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.16 2002/02/28 05:06:08 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.17 2003/05/04 17:24:30 geirm Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {

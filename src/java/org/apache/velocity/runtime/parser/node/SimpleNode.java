@@ -63,9 +63,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 
-import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;

@@ -54,9 +54,6 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
-import java.io.Writer;
-import java.io.IOException;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -68,7 +65,7 @@ import org.apache.velocity.runtime.parser.Parser;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseStatement.java,v 1.7 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTElseStatement.java,v 1.8 2003/05/04 17:24:30 geirm Exp $ 
  */
 public class ASTElseStatement extends SimpleNode
 {
