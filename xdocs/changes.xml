@@ -48,6 +48,11 @@ assignment.  (#7385) (gmj)
 <li>
 Fix problem where VM in stringlit as arg to VM NPE'd.  Whoops.  (gmj)
 </li>
+<li>
+Deprecated <code>Velocity.templateExists(String)</code> in favor of
+the more appropriately named
+<code>Velocity.resourceExists(String)</code>.  (dlr)
+</li>
 </ul>
 
 

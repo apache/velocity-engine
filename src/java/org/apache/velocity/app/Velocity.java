@@ -108,7 +108,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.27 2002/01/03 12:41:19 geirm Exp $
+ * @version $Id: Velocity.java,v 1.28 2002/03/28 01:43:35 dlr Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -534,23 +534,22 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     *   Determines if a template is accessable via the currently
-     *   configured resource loaders.
-     *   <br><br>
-     *   Note that the current implementation will <b>not</b>
-     *   change the state of the system in any real way - so this
-     *   cannot be used to pre-load the resource cache, as the
-     *   previous implementation did as a side-effect.
-     *   <br><br>
-     *   The previous implementation exhibited extreme lazyness and
-     *   sloth, and the author has been flogged.
+     * <p>Determines whether a resource is accessable via the
+     * currently configured resource loaders.  {@link
+     * org.apache.velocity.runtime.resource.Resource} is the generic
+     * description of templates, static content, etc.</p>
      *
-     *   @param templateName  name of the temlpate to search for
-     *   @return true if found, false otherwise
+     * <p>Note that the current implementation will <b>not</b> change
+     * the state of the system in any real way - so this cannot be
+     * used to pre-load the resource cache, as the previous
+     * implementation did as a side-effect.</p>
+     *
+     * @param resourceName The name of the resource to search for.
+     * @return Whether the resource was located.
      */
-    public static boolean templateExists( String templateName )
+    public static boolean resourceExists(String resourceName)
     {
-        return (RuntimeSingleton.getLoaderNameForResource(templateName) != null);
+        return (RuntimeSingleton.getLoaderNameForResource(resourceName) != null);
     }
 
     /**
@@ -618,4 +617,13 @@ public class Velocity implements RuntimeConstants
      {
         RuntimeSingleton.getRuntimeInstance().setApplicationAttribute( key, value);
      }
+
+    /**
+     * @see #resourceExists(String)
+     * @deprecated Use resourceExists(String) instead.
+     */
+    public static boolean templateExists(String resourceName)
+    {
+        return resourceExists(resourceName);
+    }
 }
