@@ -1,3 +1,14 @@
+#*
+
+@test equality.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+
 #set $user = "jason"
 #set $login = false
 #set $count = 5

@@ -1,3 +1,14 @@
+#*
+
+@test sample.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+
 <html>
 <head><title>Sample velocity page</title></head>
 <body bgcolor="#ffffff">
