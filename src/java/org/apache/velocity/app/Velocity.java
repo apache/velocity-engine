@@ -107,7 +107,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.13 2001/04/22 23:02:02 geirm Exp $
+ * @version $Id: Velocity.java,v 1.14 2001/04/23 12:01:13 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -464,12 +464,34 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  Errors 
      *           logged to velocity log.
+     * *  @deprecated Use
+     *  {@link #mergeTemplate( String templateName, String encoding,
+     *                Context context, Writer writer )}
      */
     public static boolean mergeTemplate( String templateName, 
                                          Context context, Writer writer )
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
-        Template template = Runtime.getTemplate(templateName);
+        return mergeTemplate( templateName, Runtime.getString(INPUT_ENCODING,ENCODING_DEFAULT),
+                               context, writer );
+    }
+
+    /**
+     *  merges a template and puts the rendered stream into the writer
+     *
+     *  @param templateName name of template to be used in merge
+     *  @param encoding encoding used in template
+     *  @param context  filled context to be used in merge
+     *  @param  writer  writer to write template into
+     *
+     *  @return true if successful, false otherwise.  Errors 
+     *           logged to velocity log
+     */
+    public static boolean mergeTemplate( String templateName, String encoding,
+                                      Context context, Writer writer )
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+    {
+        Template template = Runtime.getTemplate(templateName, encoding);
         
         if ( template == null )
         {
