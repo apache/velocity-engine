@@ -41,6 +41,8 @@ o UML Diagrams
   STATUS:
   Ilkka Priha has made us a set of XMI files for Velocity,
   I will check them into CVS and we can go from there.
+  [JVZ] I've place the XMI file on the apache website
+  if anyone wants to take a crack at using ArgoUML.
   
 o Getting a mailing list archive working, or at least have
   
