@@ -41,7 +41,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.11 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -610,7 +610,7 @@ public class ResourceManagerImpl implements ResourceManager
                     {
                         is.close();
                     }
-                    catch( IOException ioe)
+                    catch (IOException supressed)
                     {
                     }
                 }
@@ -620,5 +620,3 @@ public class ResourceManagerImpl implements ResourceManager
         return null;
     }
 }
-
-
