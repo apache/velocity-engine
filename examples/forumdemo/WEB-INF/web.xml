@@ -11,5 +11,11 @@
         <param-name>properties</param-name>
         <param-value>/WEB-INF/conf/velocity.properties</param-value>
       </init-param>
-    </servlet> 
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>forum</servlet-name>
+      <url-pattern>>/servlet/forum</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
