@@ -29,3 +29,7 @@ $thingy.dingy
 #FFFFF"
 "#000000">
 "#ffffff"
+
+$strings.getVillageType($col.Type)
+$strings.getVillageType( $col.Type)
+$strings.getVillageType($col.Type )
