@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.10 2000/11/11 22:40:05 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.11 2000/11/27 03:55:58 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -76,6 +76,7 @@ import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
@@ -181,8 +182,8 @@ public class ASTReference extends SimpleNode
 
             writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + strPrefix_ + nullString);
             
-            if (referenceType != QUIET_REFERENCE)
-                Runtime.error(new ReferenceException("reference", this));
+            if (referenceType != QUIET_REFERENCE && Runtime.getBoolean( RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
+                Runtime.warn(new ReferenceException("reference", this));
         }                    
         else
         {
