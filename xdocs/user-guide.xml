@@ -246,9 +246,12 @@ Hello $customer.Name!
  <p>
     In the example above, the variable is <em>$a</em> and the value is
     <em>Velocity</em>. This variable, like all references, begins with
-    the <em>$</em> character. Values are always enclosed in quotes; with
-    Velocity there is no confusion about data types, as only strings
-    (text-based information) may be passed to variables.
+    the <em>$</em> character. String values are always enclosed in quotes, either
+     single or double quotes.  Single quotes will ensure that the quoted value
+     will be assigned to the reference as is.  Double quotes allow you to use
+     velocity references and directives to interpolate, such as "Hello $name",
+     where the <em>$name</em> will be replaced by the current value before
+     that string literal is assigned to the left hand side of the <em>=</em>
  </p>
 
  <p>
