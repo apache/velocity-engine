@@ -66,7 +66,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTOrNode.java,v 1.4 2001/03/19 17:17:53 geirm Exp $ 
+ * @version $Id: ASTOrNode.java,v 1.4.4.1 2001/06/02 15:38:49 geirm Exp $ 
 */
 public class ASTOrNode extends SimpleNode
 {
@@ -87,6 +87,17 @@ public class ASTOrNode extends SimpleNode
     }
 
     /**
+     *  Returns the value of the expression.
+     *  Since the value of the expression is simply the boolean
+     *  result of evaluate(), lets return that.
+     */
+    public Object value(InternalContextAdapter context )
+        throws MethodInvocationException
+    {
+        return new Boolean( evaluate( context ) );
+    }
+
+    /**
      *  the logical or :
      *    the rule :
      *      left || null -> left
@@ -95,7 +106,7 @@ public class ASTOrNode extends SimpleNode
      *      left || right ->  left || right
      */
     public boolean evaluate( InternalContextAdapter context)
-    throws MethodInvocationException
+        throws MethodInvocationException
     {
         Node left = jjtGetChild(0);
         Node right = jjtGetChild(1);
