@@ -64,16 +64,14 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
- * @version $Id: EventCartridge.java,v 1.1 2001/04/20 04:29:28 geirm Exp $
+ * @version $Id: EventCartridge.java,v 1.2 2001/05/17 14:05:26 geirm Exp $
  */
 public class EventCartridge implements ReferenceInsertionEventHandler,
                                        NullSetEventHandler,
-                                       NullReferenceEventHandler,
                                        MethodExceptionEventHandler
 {
     private ReferenceInsertionEventHandler rieh = null;
     private NullSetEventHandler nseh = null;
-    private NullReferenceEventHandler nreh = null;
     private MethodExceptionEventHandler meeh = null;
 
     /**
@@ -98,13 +96,7 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
             rieh = (ReferenceInsertionEventHandler) ev;
             found = true;
         }
-        
-        if ( ev instanceof NullReferenceEventHandler )
-        {
-            nreh = (NullReferenceEventHandler) ev;
-            found = true;
-        }
-
+       
         if ( ev instanceof NullSetEventHandler )
         {
             nseh = (NullSetEventHandler) ev;
@@ -146,12 +138,6 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
         if (ev == nseh) 
         {
             nseh = null;
-            found = true;
-        }
-
-        if (ev == nreh) 
-        {
-            nreh = null;
             found = true;
         }
 
@@ -206,25 +192,6 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
         return nseh.nullSetLogMessage( reference );
     }
     
-    /**
-     *  Implementation of NullReferenceEventHandler method
-     *  <code>nullReferenceRender()</code>.
-     *
-     *  Called during Velocity merge if a reference is null
-     *
-     *  @param reference reference from template about to be inserted
-     *  @return Object to render into output, or null if normal behavior is desired
-     */
-    public Object nullReferenceRender( String reference )
-    {
-        if (nreh == null)
-        {
-            return reference;
-        }
-        
-        return nreh.nullReferenceRender( reference );
-    }
-
     /**
      *  Implementation of MethodExceptionEventHandler  method
      *  <code>methodException()</code>.
