@@ -63,6 +63,7 @@ import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
 
@@ -71,7 +72,7 @@ import org.apache.velocity.runtime.VelocimacroFactory;
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.1 2000/12/10 04:58:15 geirm Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.2 2000/12/10 19:39:06 geirm Exp $
  */
  
 public class InlineScopeVMTestCase extends TestCase
@@ -113,8 +114,11 @@ public class InlineScopeVMTestCase extends TestCase
 
             Properties p = new Properties();
 
-            p.setProperty( VelocimacroFactory.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-            p.setProperty( VelocimacroFactory.VM_PERM_INLINE_LOCAL, "true");
+            p.setProperty( RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
+            p.setProperty( RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
+
+            /* this is a bad hack :) I really don't know that it's loader.1... */
+
             p.setProperty( "template.loader.1.template.path"  , "../test/templates");
             Runtime.init(p);    
         }
