@@ -16,6 +16,8 @@
                                         <meta name="author" value="Velocity Documentation Team">
             <meta name="email" value="geirm@optonline.net">
             
+           
+                                    
             <title>Velocity - Differences: Velocity vs. WebMacro</title>
         </head>
 
@@ -254,12 +256,10 @@ The biggest feature difference between the two are the '<a href="user-guide.html
 as snippets of re-usable data that can contain anything. They are parsed
 just like the data in a #parse() statement would be and you can pass in
 variables that can optionally have scope only within the Velocimacro.
- </p>
-                                                <p>
-Velocimacro's are also helping keep the core #directive set small and
-clean. In other words, WebMacro is adding #directives to the core at an
-increasing rate and we are not. We would rather support optional
-downloads for that "extra" funtionality that can be shared.
+Velocimacro's help keep the core #directive set small and
+clean : you can extend the designers toolkit with libraries of Velocimacros
+rather than adding elements to the syntax or having two write tools that generate
+HTML (or other specific) markup.
 </p>
                                                 <p>
 We hope this helps.  The best way to understand Velocity is to use it,
@@ -286,6 +286,12 @@ and of course nothing beats looking at the source code.
         </body>
     </html>
 <!-- end the processing -->
+
+
+
+
+
+
 
 
 
