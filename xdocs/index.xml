@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.1 Released">
+<section name="Velocity v1.2 Release Candidate 1 Released">
 
  <p>
    <table>
@@ -18,10 +18,11 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Version 1.1 of the 
+   Release candidate 1 of version 1.2 of the 
    Velocity Template Engine is now released.
-   Congratulations and thanks to all participants in the
-   Velocity community.
+   Combining contributions and improvements from throughout the 
+   Velocity community, this version offers many new enhancements
+   features and fixes.
    </td>
    </tr>
    </table>      
@@ -33,14 +34,16 @@
 
  <ul>
    <li> 
-      The new event-handling facility, allowing finer control and interaction with
-      the rendering process.
+      Application programmers now can instantiate separate, independent
+      instances of the Velocity Template Engine or continue to use the 
+      traditional singleton model.
    </li>
    <li> 
-      Internationalization support through full support of template character encoding.
+      Major improvements to Anakia and Texen.
    </li>
    <li> 
-      Optimizations for improved performance.
+      The Velocimacro system can be configured to reload changed
+      VM libraries automatically when the macro definitions change.
    </li>
  </ul>
  <p> 
@@ -52,6 +55,18 @@
 </section>
 
 <section name="Velocity News">
+
+<p>
+<strong>New Apache Site Generated with Anakia</strong>
+<blockquote>
+The new web site of the 
+<a href="http://www.apache.org">Apache Software Foundation</a>
+is now generated using 
+<a href="anakia.html">Anakia</a>,
+the Velocity-based XML transforamtion tool.
+Take a look.
+</blockquote>
+</p>
 
 <p>
 <strong>Need To Mix JSP and Velocity?</strong>
@@ -160,6 +175,11 @@ href="./powered.html">Powered By Velocity</a> page.
 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
 formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.1/">here</a>.
+</p>
+
+<p>
+  The latest release candidate, verion 1.2-rc1 can be found
+  <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.2/">here</a>.
 </p>
 
 </section>
