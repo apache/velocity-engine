@@ -282,12 +282,14 @@ Again, pretty straightforward.
 To use the Velocity taglib, you need to build it, as it is not 
 yet included in the main Velocity jar.  In the Jakarta tradition,
 we made it very easy to build.  The code for the project is 
-located in the contrib section of the distribution under 
+located in the contrib section of the Subversion code repository under 
 <code>/contrib/temporary/veltag</code>.  It is under the 
 temporary directory as it is hoped this package will
 be accepted by the 
 <a href="http://jakarta.apache.org/taglibs/">Jakarta Taglibs</a>
-project.
+project.  See
+<a href="http://www.apache.org/dev/version-control.html">here</a>
+for more about the Subversion code repository.
 </p>
 
 <a name="JJAR build"><strong>The Easy, JJAR Way</strong></a>
