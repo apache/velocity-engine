@@ -144,7 +144,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.14 2002/02/05 04:15:43 dlr Exp $
+ * @version $Id: RuntimeInstance.java,v 1.15 2002/02/12 18:38:00 dlr Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -341,7 +341,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         else
         {
-            overridingProperties.combine(configuration);
+            // Avoid possible ConcurrentModificationException
+            if (overridingProperties != configuration)
+            {
+                overridingProperties.combine(configuration);
+            }
         }
     }
 
