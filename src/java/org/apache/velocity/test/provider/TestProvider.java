@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.6 2000/11/25 16:21:03 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.7 2000/11/25 16:23:36 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -156,7 +156,6 @@ public class TestProvider
         list.add("ArrayList element 3");
         list.add("ArrayList element 4");
 
-        System.out.println("hello");
         return list;
     }
 
