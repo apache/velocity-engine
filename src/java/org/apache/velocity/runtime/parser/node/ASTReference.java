@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTReference.java,v 1.12 2000/12/04 02:02:52 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.13 2000/12/05 05:01:27 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -199,7 +199,7 @@ public class ASTReference extends SimpleNode
             writer.write(NodeUtils.specialText(getFirstToken()) + strPrefix_ + strPrefix_ + nullString);
             
             if (referenceType != QUIET_REFERENCE && Runtime.getBoolean( RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true) )
-                Runtime.warn(new ReferenceException("reference", this));
+                Runtime.warn(new ReferenceException("reference : template = " + context.getCurrentTemplateName(), this));
         }                    
         else
         {
@@ -250,7 +250,7 @@ public class ASTReference extends SimpleNode
         
         if (result == null)
         {
-            Runtime.error(new ReferenceException("#set", this));
+            Runtime.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
             return false;
         }                          
         
@@ -266,7 +266,7 @@ public class ASTReference extends SimpleNode
             
             if (result == null)
             {
-                Runtime.error(new ReferenceException("#set", this));
+                Runtime.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
                 return false;
             }                          
         }            
@@ -290,7 +290,7 @@ public class ASTReference extends SimpleNode
         }
         catch (Exception e)
         {
-            Runtime.error(new ReferenceException("#set", this));
+            Runtime.error(new ReferenceException("reference set : template = " + context.getCurrentTemplateName(), this));
             return false;
         }
         
