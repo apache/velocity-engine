@@ -7,6 +7,7 @@ $name
     $customer.Name
 #end    
 
+
 ## this is a comment.
 
 #if ($customer)
@@ -24,8 +25,6 @@ $100
 
 This is the $foo way.
 
-
-
 #if ($foo)
     This is $bar.
 #elseif ($bar)
@@ -41,7 +40,6 @@ This is the $foo way.
 #else
     This is the else.
 #end
-
 
 
 \#set \$foo = "bar"
@@ -95,7 +93,6 @@ function changeImage(layer,imgName,imgObj)
 #end
 
 <!-- This is an HTML comment -->
-
 
 
 $provider2.Title
@@ -160,37 +157,38 @@ $provider.Title
     This expression is always (true).
 #end
 
+
 Foreach with a variable.
 
-#foreach ($provider in $list)
-    This is $provider.
+#foreach ($element in $list)
+    This is $element.
 #end
+
 
 
 Foreach with an array.
 
 <table>
-#foreach ($provider in $provider.Array)
+#foreach ($element in $provider.Array)
     <tr>
-        <td>This is $provider</td>
+        <td>This is $element</td>
     </tr>        
 #end
 </table>
 
 
-
-#foreach ($provider in $provider.Vector)
-    This is the $provider.
+#foreach ($element in $provider.Vector)
+    This is the $element.
 #end
-
 
 
 Foreach with a method.
 
-#foreach ($provider in $provider.getCustomers())
-    This is $provider.
+#foreach ($element in $provider.getCustomers())
+    This is $element.
 #end
 
+#stop
 
 $10.00
 
@@ -203,7 +201,7 @@ is the way \#to \#go.
 
 this = that
 
-I am a $provider.getTitle().
+I am a $provider.getTitle() .
 
 #if ($provider.theAPLRules())
     Yes the APL rules!
