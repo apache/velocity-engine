@@ -859,6 +859,88 @@ ${data.Request.ServerName}
 ]]></source>
 
  <p>
+    If the RHS is a property or method reference that evaluates to
+    <em>null</em>, it will <b>not</b> be assigned to the LHS.  It is
+    not possible to remove an existing reference from the context via
+    this mechanism.  This can be confusing for
+    newcomers to Velocity.  For example:
+ </p>
+
+<source><![CDATA[
+#set( $result = $query.criteria("name") )
+The result of the first query is $result
+
+#set( $result = $query.criteria("address") )
+The result of the second query is $result
+]]></source>
+
+  <p>
+     If <em>$query.criteria("name")</em> returns the string
+     "bill", and <em>$query.criteria("address")</em> returns
+     <em>null</em>, the above VTL will render as the following:
+ </p>
+
+<source><![CDATA[
+The result of the first query is bill
+
+The result of the second query is bill
+]]></source>
+
+ <p>
+     This tends to confuse newcomers who construct <em>#foreach</em>
+     loops that attempt to <em>#set</em> a reference via a property or
+     method reference, then immediately test that reference with an
+     <em>#if</em> directive.  For example:
+ </p>
+
+<source><![CDATA[
+
+#set( $criteria = ["name", "address"] )
+
+#foreach( $criterion in $criteria )
+
+    #set( $result = $query.criteria($criterion) )
+
+    #if( $result )
+        Query was successful
+    #end
+
+#end
+]]></source>
+
+ <p>
+     In the above example, it would not be wise to rely on the
+     evaluation of <em>$result</em> to determine if a query was
+     successful.  After <em>$result</em> has been <em>#set</em> (added to
+     the context), it cannot be set back to <em>null</em> (removed from
+     the context).  The details of the <em>#if</em> and <em>#foreach</em>
+     directives later in this document.
+ </p>
+
+ <p>
+   One solution to this would be to pre-set <em>$result</em>
+   to <em>false</em>.  Then if the <em>$query.criteria()</em>
+   call fails, you can check.
+ </p>
+
+
+<source><![CDATA[
+
+#set( $criteria = ["name", "address"] )
+
+#foreach( $criterion in $criteria )
+
+    #set( $result = false )
+    #set( $result = $query.criteria($criterion) )
+
+    #if( $result )
+        Query was successful
+    #end
+
+#end
+]]></source>
+
+ <p>
     Unlike some of the other Velocity directives, the <em>#set</em>
     directive does not have an <em>#end</em> statement.
  </p>
@@ -933,7 +1015,15 @@ $blargh
       The variable <em>$foo</em> is evaluated to determine whether it is
       true, which will happen under one of two circumstances: (i)
       <em>$foo</em> is a boolean (true/false) which has a true value, or
-      (ii) the value is not null. The content between the <em>#if</em>
+      (ii) the value is not null.  Remember that the Velocity context only
+      contains Objects, so when we say 'boolean', it will be represented
+      as a Boolean (the class).  This is true even for methods that return
+      <code>boolean</code> - the intrspection infrastructure will return
+      a <code>Boolean</code> of the same logical value.
+    </p>
+
+    <p>
+       The content between the <em>#if</em>
       and the <em>#end</em> statements become the output if the
       evaluation is true. In this case, if <em>$foo</em> is true, the
       output will be: "Velocity!". Conversely, if <em>$foo</em> has a
