@@ -1,0 +1,6 @@
+\A
+
+\#set $foo = "bar"
+#set $foo = "bar"
+
+\$foo => $foo

@@ -1,0 +1,5 @@
+this is a dynamic directive!
+
+#dummy ($foo $bar)
+
+#dummy ($wonder)
