@@ -84,7 +84,7 @@
     has agreed that the variable <pre>$name</pre> will hold the full name of the 
     current customer, <pre>$customermud</pre> will list all
     the mud types that the logged in customer has ever purchased from your store, 
-    that <pre>$specialmud<pre> will be all the types mud on sale at present.
+    that <pre>$specialmud</pre> will be all the types mud on sale at present.
     The <pre>getPromo()</pre> method is used to get promotional information about the
     type of mud that appears in brackets. 
     For the task at hand, let's concern ourselves only with these three 
@@ -212,7 +212,7 @@
  <p>   
     To make your VTL directive statements more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
-    do so. The <pre>set</em> directive will be revisited in greater detail 
+    do so. The <pre>set</pre> directive will be revisited in greater detail 
     later on.
  </p>
 
@@ -305,7 +305,7 @@
     Look in the hashtable identified as <pre>whomever</pre> and return the
     value associated with the key <pre>Address</pre>. This syntax can also 
     be referring to a method (variables that refer to methods will be discussed
-    in the next section); <pre>$whomever.Address<pre> could be an 
+    in the next section); <pre>$whomever.Address</pre> could be an 
     abbreviated way of writing <pre>getAddress("whomever")</pre>. 
     When your page is requested, Velocity will determine which of these 
     two possibilities makes sense, and then return the appropriate value.
@@ -335,6 +335,7 @@
     </p>
     
     </s1>
+    </p>
   </s1>
 
     <s1 title="Conditionals">

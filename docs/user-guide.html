@@ -86,12 +86,12 @@
  
    <P align="justify">
     You meet with software engineers at your company, and everyone
-    has agreed that the variable $customer will hold all the
-    information about the customer currently logged in,
-    that $mudsOnSpecial will be all the types mud on sale at
-    present, and that the
-    $flogger() variable contains methods for promoting
-    particular types of mud.
+    has agreed that the variable $name will hold the full name of the 
+    current customer, $customermud will list all
+    the mud types that the logged in customer has ever purchased from your store, 
+    that $specialmud will be all the types mud on sale at present.
+    The getPromo() method is used to get promotional information about the
+    type of mud that appears in brackets. 
     For the task at hand, let's concern ourselves only with these three 
     variables. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -107,15 +107,14 @@
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;HTML&gt;
     &lt;BODY&gt;
-    Hello $customer.Name!
+    Hello $name!
     &lt;table&gt;
-    #foreach ($mud in $mudsOnSpecial)
-       #if ($customer.hasPurchased($mud))
-          &lt;tr&gt;
-            &lt;td&gt;
-              $flogger.getPromo($mud)
-            &lt;/td&gt;
-          &lt;/tr&gt;
+    #foreach ($customermud in $specialmud)
+       #if ($customermud)
+          &lt;tr&gt;&lt;td&gt;$getPromo($specialmud)&lt;/td&gt;&lt;td&gt;
+       #else
+          &lt;tr&gt;&lt;td&gt;Click &lt;a href=&quot;specials.html#daily&quot;&gt;here&lt;/a&gt; for a list of our
+	  specials!&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
        #end
     #end
     &lt;/table&gt;
@@ -129,8 +128,9 @@
     penchant for Bright Red Mud logs in, and Bright Red Mud
     is on sale, that is what this customer will see, prominently displayed. 
     If another customer with a long history of Terracotta Mud purchases logs in,
-    the notice of a Terracotta Mud sale will be front and center. 
-    The flexibility of Velocity is
+    the notice of a Terracotta Mud sale will be front and center. If a customer
+    is not interested in any of the muds currently on sale, they will be
+    invited to view a list of sale items. The flexibility of Velocity is
     enormous and limited only by your creativity.
    </P>
  
@@ -266,8 +266,7 @@
 
     <P align="justify">
     VTL variables can reference three types of objects: variables, 
-    properties, and methods.
-    </P>
+    properties, and methods. 
     
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     
@@ -329,18 +328,19 @@
     
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $purchase.getTotalPrice()
+    $getTotalPrice(&quot;purchase&quot;)
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
-    In this example, the getTotalPrice() method, defined in the Java code, 
+    In this example, the $getTotalPrice() method, defined in the Java code, 
     will presumably return the total price of a purchase that is being tracked.
     Note that this could also have been written,
     $purchase.TotalPrice.
     </P>
     
     </FONT></TD></TR></TABLE></DIV><BR>
+    </P>
   </FONT></TD></TR></TABLE></DIV><BR>
 
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
