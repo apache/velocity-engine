@@ -22,3 +22,7 @@ files generated from .jjt.
 
 -gmj
 
+
+5) Finally, note that in order to create code that will compile with JDK 1.5,
+you will need to use JavaCC 3.2 or later (replaces variable "enumeration" with "e". (WGH)
+
