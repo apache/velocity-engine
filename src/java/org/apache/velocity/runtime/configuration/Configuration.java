@@ -56,7 +56,6 @@ package org.apache.velocity.runtime.configuration;
  *
  */
 
-// Java stuff.
 import java.io.*;
 import java.util.*;
 
@@ -137,7 +136,7 @@ import java.util.*;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Configuration.java,v 1.11 2001/03/12 04:23:10 geirm Exp $
+ * @version $Id: Configuration.java,v 1.12 2001/03/14 21:48:37 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -425,14 +424,8 @@ public class Configuration extends Hashtable
                         file.canRead())
                         load ( new FileInputStream(file) );
 
-                    PropertiesTokenizer tokenizer =
-                        new PropertiesTokenizer(value);
                     
-                    while (tokenizer.hasMoreTokens())
-                    {
-                        String token = tokenizer.nextToken();
-                        setProperty(key,token);
-                    }
+                    setProperty(key,value);
                 }
             }
         }
@@ -467,7 +460,35 @@ public class Configuration extends Hashtable
         }
         else
         {
-            put(key, token);
+            /*
+             * This is the first time that we have seen
+             * request to place an object in the 
+             * configuration with the key 'key'. So
+             * we just want to place it directly into
+             * the configuration ... but we are going to
+             * make a special exception for String objects
+             * that contain "," characters. We will take
+             * CSV lists and turn the list into a vector of
+             * Strings before placing it in the configuration.
+             * This is a concession for Properties and the
+             * like that cannot parse multiple same key
+             * values.
+             */
+            if (token instanceof String && ((String)token).indexOf(",") > 0)
+            {
+                PropertiesTokenizer tokenizer = 
+                    new PropertiesTokenizer((String)token);
+                    
+                while (tokenizer.hasMoreTokens())
+                {
+                    String value = tokenizer.nextToken();
+                    setProperty(key,value);
+                }
+            }
+            else
+            {
+                put(key, token);
+            }                
         }
     }
 
@@ -620,7 +641,6 @@ public class Configuration extends Hashtable
                 }
                 
                 String newKey = ((String)key).substring(prefix.length() + 1);
-                //c.setProperty(newKey, get(key));
                 c.put(newKey, get(key));
             }
         }
@@ -1509,5 +1529,28 @@ public class Configuration extends Hashtable
             throw new ClassCastException(key +
                                          " doesn't map to a Double object");
         }
+    }
+
+    /**
+     * Convert a standard properties class into a configuration
+     * class.
+     *
+     * @param Properties properties object to convert into
+     *                   a Configuration object.
+     *
+     * @return Configuration configuration created from the
+     *                      properties object.
+     */
+    public static Configuration convertProperties(Properties p)
+    {
+        Configuration c = new Configuration();
+    
+        for (Enumeration e = p.keys(); e.hasMoreElements() ; ) 
+        {
+            String s = (String) e.nextElement();
+            c.setProperty(s, p.getProperty(s));
+        }
+    
+        return c;
     }
 }
