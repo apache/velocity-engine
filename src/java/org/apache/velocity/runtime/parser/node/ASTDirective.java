@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.4 2000/11/03 03:27:28 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.5 2000/11/05 23:19:51 jvanzyl Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -123,7 +123,10 @@ public class ASTDirective extends SimpleNode
         if (parser.isDirective(directiveName))
         {
             isDirective = true;
-            directive = parser.getDirective(directiveName);
+            
+            directive = (Directive) parser.getDirective(directiveName)
+                .getClass().newInstance();
+            
             directive.init(context,this);
         }            
         else
