@@ -113,7 +113,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.7 2001/04/22 18:14:15 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.8 2001/06/19 03:33:30 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -303,34 +303,6 @@ public class VMProxyArg
 
                     retObject = nodeTree.execute( null, context);
                 }
-
-                /*
-                 *  If this resolves to null, we need just the literal representation of it
-                 *  to support the 'cut-and-paste' features of VMs
-                 *
-                 *  There are reasons why people do this, although why they can't solve it
-                 *  with some other method...
-                 *
-                 *  Note that we lose a current feature of VMs, rendering the literal of the 
-                 *  original calling arg.  This needs to be fixed or we live with it.
-                 *
-                 *  below, what we do is technically wrong.  Will revisit.
-                 */
-                
-                if( retObject == null && numTreeChildren > 0)
-                {
-                    try
-                    {
-                        StringWriter writer =  new StringWriter() ;
-                        nodeTree.render( context, writer );
-                        
-                        retObject = writer.toString();
-                    }
-                    catch (Exception e ) 
-                    {
-                        Runtime.error("VMProxyArg.getObject() : error rendering reference : " + e );
-                    }
-                }         
             }
             else if( type == ParserTreeConstants.JJTOBJECTARRAY )
             {
