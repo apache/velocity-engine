@@ -127,7 +127,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.41 2001/09/11 18:05:47 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.42 2001/11/02 12:07:00 geirm Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -191,7 +191,34 @@ public abstract class VelocityServlet extends HttpServlet
         throws ServletException
     {
         super.init( config );
-                
+
+        /*
+         *  do whatever we have to do to init Velocity
+         */                
+        initVelocity( config );
+
+        /*
+         *  we can get these now that velocity is initialized
+         */
+        defaultContentType = RuntimeSingleton.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+        encoding = RuntimeSingleton.getString( RuntimeSingleton.OUTPUT_ENCODING, 
+                        DEFAULT_OUTPUT_ENCODING);
+                        
+        return;
+    }
+
+    /**
+     *  Initializes the Velocity runtime, first calling 
+     *  loadConfiguration(ServletConvig) to get a 
+     *  java.util.Properties of configuration information
+     *  and then calling Velocity.init().  Override this
+     *  to do anything to the environment before the 
+     *  initialization of the singelton takes place, or to 
+     *  initialize the singleton in other ways.
+     */
+    protected void initVelocity( ServletConfig config )
+         throws ServletException
+    {
         try
         {
             /*
@@ -203,17 +230,15 @@ public abstract class VelocityServlet extends HttpServlet
             Properties props = loadConfiguration( config );
   
             Velocity.init( props );
-            
-            defaultContentType = RuntimeSingleton.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-            
-            encoding = RuntimeSingleton.getString( RuntimeSingleton.OUTPUT_ENCODING, DEFAULT_OUTPUT_ENCODING);
         }
         catch( Exception e )
         {
-            throw new ServletException("Error configuring the loader: " + e);
-        }
-    }
-
+            throw new ServletException("Error initializing Velocity: " + e);
+        }   
+        
+        return;
+    }    
+     
     /**
      *  Loads the configuration information and returns that 
      *  information as a Properties, which will be used to 
