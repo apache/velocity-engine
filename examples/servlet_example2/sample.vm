@@ -5,7 +5,7 @@
 
 <h2>Hello from velocity! I am from a file!</h2>
 <i>Here's the list of people</i>
-<table cellspacing="0" cellpadding="5" widht="100%">
+<table cellspacing="0" cellpadding="5" width="100%">
     <tr>
         <td bgcolor="#eeeeee" align="center">
             Names
