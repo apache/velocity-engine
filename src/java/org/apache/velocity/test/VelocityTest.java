@@ -63,11 +63,13 @@ import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 
+import org.apache.velocity.test.provider.TestProvider;
+
 /**
  * Automated test case for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTest.java,v 1.2 2000/10/15 03:21:41 dlr Exp $
+ * @version $Id: VelocityTest.java,v 1.3 2000/10/22 16:00:02 jvanzyl Exp $
  */
 public class VelocityTest extends BaseTestCase
 {
@@ -121,7 +123,6 @@ public class VelocityTest extends BaseTestCase
             context.put("provider", provider);
             context.put("name", "jason");
             context.put("providers", provider.getCustomers2());
-            context.put("provider2", new TestProvider2());        
             context.put("list", al);
             context.put("hashtable", h);
             context.put("search", provider.getSearch());

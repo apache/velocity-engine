@@ -67,12 +67,14 @@ import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.Runtime;
 
+import org.apache.velocity.test.provider.TestProvider;
+
 /**
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.3 2000/10/22 01:27:36 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.4 2000/10/22 16:00:02 jvanzyl Exp $
  */
 public class Test
 {
@@ -94,7 +96,6 @@ public class Test
             context.put("provider", provider);
             context.put("name", "jason");
             context.put("providers", provider.getCustomers2());
-            context.put("provider2", new TestProvider2());        
             context.put("list", al);
             context.put("hashtable", h);
             context.put("search", provider.getSearch());
