@@ -139,7 +139,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.24 2000/10/22 21:05:16 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.25 2000/10/22 21:17:34 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -191,7 +191,11 @@ public class Runtime
     
     /** Turn Runtime debugging on with this field */
     private final static boolean DEBUG_ON = true;
-    
+
+    /** Default Runtime properties */
+    private final static String DEFAULT_RUNTIME_PROPERTIES = 
+        "org/apache/velocity/runtime/defaults/velocity.properties";
+
     /** The Runtime logger */
     private static Logger logger;
     
@@ -224,14 +228,13 @@ public class Runtime
      */
     public synchronized static void init() throws Exception
     {
-        System.out.println("using init()");
         Properties properties = new Properties();
         ClassLoader classLoader = Runtime.class.getClassLoader();
         
         try
         {
             InputStream inputStream = classLoader.getResourceAsStream(
-                "org/apache/velocity/runtime/velocity.properties");
+                DEFAULT_RUNTIME_PROPERTIES);
         
             properties.load(inputStream);
         }
