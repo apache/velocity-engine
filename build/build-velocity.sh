@@ -19,6 +19,9 @@ SERVLET=${LIB}/servlet.jar
 LOG=${LIB}/log.jar
 JAVACLASS=${LIB}/JavaClass.jar
 
+# Lib needed for testing.
+JUNIT=${LIB}/junit-3.2.jar
+
 # Libs needed for docs.
 XALAN=${LIB}/xalan_1_1_D01.jar
 FOP=${LIB}/fop.jar
@@ -39,7 +42,7 @@ if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}
+CP=${CLASSPATH}:${ANT}:${ANTXML}:${ANTLRALL}:${XERCES}:${XALAN}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
 
 echo "Now building ${TARGET}..."
 
