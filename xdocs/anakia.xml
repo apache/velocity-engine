@@ -221,6 +221,14 @@
             </td>
         </tr>
         <tr>
+            <td>$escape.getText($string)</td>
+            <td>This context object will convert HTML Entities in the $string 
+            that is passed into it and it will return the converted String. This 
+            is good for dealing with CDATA. The entities that are converted are: 
+            &quot; -> &amp;quot; | &lt; -> &amp;lt; | &gt; -> &amp;gt; | &amp; -
+            > &amp;amp; </td>
+        </tr>
+        <tr>
             <td>$relativePath</td>
             <td>This contains a String which is the relative path to your
             .xml document from the baseDir that was specified in your 
