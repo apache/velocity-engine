@@ -59,7 +59,7 @@ import org.apache.velocity.runtime.parser.Parser;
 
 public class ASTTrue extends SimpleNode
 {
-    private Boolean value = new Boolean(true);
+    private static Boolean value = new Boolean(true);
 
     public ASTTrue(int id)
     {
