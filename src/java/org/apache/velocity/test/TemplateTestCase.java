@@ -57,6 +57,7 @@ package org.apache.velocity.test;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import junit.framework.*;
 
@@ -73,7 +74,8 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.16 2000/11/04 02:41:57 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: TemplateTestCase.java,v 1.17 2000/11/30 05:25:28 geirm Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -112,7 +114,8 @@ public class TemplateTestCase extends RuntimeTestCase
     private ArrayList al;
     private Hashtable h;
     private Context context;
-    
+    private Vector vec;
+
     /**
      * Creates a new instance.
      *
@@ -134,7 +137,20 @@ public class TemplateTestCase extends RuntimeTestCase
         al = provider.getCustomers();
         h = new Hashtable();
         h.put("Bar", "this is from a hashtable!");
-        
+
+        /*
+         *  lets set up a vector of objects to test late introspection. See ASTMethod.java
+         */
+
+        vec = new Vector();
+
+        vec.addElement( new String("string1"));
+        vec.addElement( new String("string2"));
+
+        /*
+         *  set up the context
+         */
+
         context = new Context();
         context.put("provider", provider);
         context.put("name", "jason");
@@ -145,6 +161,7 @@ public class TemplateTestCase extends RuntimeTestCase
         context.put("relatedSearches", provider.getRelSearches());
         context.put("searchResults", provider.getRelSearches());
         context.put("stringarray", provider.getArray());
+        context.put("vector", vec );
     }
 
     /**
