@@ -1547,7 +1547,7 @@ $count
     <p>
     <code>velocimacro.library</code> - A comma-separated list of all 
     Velocimacro template libraries. By default, Velocity looks for
-    a single library: <em>VM_global_lib.vm</em>. The configured template path
+    a single library: <em>VM_global_library.vm</em>. The configured template path
     is used to find the Velocimacro libraries.
     </p>
 
