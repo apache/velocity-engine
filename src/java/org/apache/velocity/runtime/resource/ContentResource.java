@@ -66,7 +66,8 @@ import org.apache.velocity.runtime.Runtime;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ContentResource.java,v 1.3 2001/03/05 11:46:42 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ContentResource.java,v 1.4 2001/04/22 18:11:20 geirm Exp $
  */
 public class ContentResource extends Resource
 {
@@ -83,7 +84,7 @@ public class ContentResource extends Resource
             StringWriter sw = new StringWriter();
             
             BufferedReader reader = new BufferedReader(
-                new InputStreamReader(resourceLoader.getResourceStream(name)));
+                new InputStreamReader(resourceLoader.getResourceStream(name), encoding));
             
             char buf[] = new char[1024];
             int len = 0;
@@ -92,7 +93,7 @@ public class ContentResource extends Resource
                 sw.write( buf, 0, len );
         
             data = sw.toString();
-            
+           
             return true;
         }
         catch ( Exception e ) 

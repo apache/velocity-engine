@@ -78,7 +78,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.23 2001/04/18 20:29:24 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.24 2001/04/22 18:11:21 geirm Exp $
  */
 public class ResourceManager
 {
@@ -215,7 +215,7 @@ public class ResourceManager
      *          to syntax (or other) error.
      * @throws Exception if a problem in parse
      */
-    public static Resource getResource(String resourceName, int resourceType)
+    public static Resource getResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {        
         /* 
@@ -247,6 +247,21 @@ public class ResourceManager
 
                 if(  resource.isSourceModified() )
                 {
+                    /*
+                     *  now check encoding info.  It's possible that the newly declared
+                     *  encoding is different than the encoding already in the resource
+                     *  this strikes me as bad...
+                     */
+                    
+                    if (!resource.getEncoding().equals( encoding ) )
+                    {
+                        Runtime.error("Declared encoding for template '" + resourceName 
+                                      + "' is different on reload.  Old = '" + resource.getEncoding()
+                                      + "'  New = '" + encoding );
+
+                        resource.setEncoding( encoding );
+                    }
+
                     try
                     {
                         /*
@@ -303,7 +318,8 @@ public class ResourceManager
             try
             {
                 resource = ResourceFactory.getResource(resourceName, resourceType);
-                resource.setName(resourceName);
+                resource.setName( resourceName );
+                resource.setEncoding( encoding );
                 
                 /* 
                  * Now we have to try to find the appropriate
@@ -408,4 +424,14 @@ public class ResourceManager
         }
         return resource;
     }
+
+    /**
+     * @deprecated
+     */
+    public static Resource getResource(String resourceName, int resourceType  )
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {  
+        return getResource( resourceName, resourceType, Runtime.ENCODING_DEFAULT);
+    }
+
 }
