@@ -400,15 +400,10 @@
       </fileset>
     </copy>
 
-    <copy todir="${dist.dir}/docs">
-      <fileset dir="../docs">
-        <include name="**"/>
-      </fileset>
-    </copy>
-
     <copy todir="${dist.dir}/build">
       <fileset dir="../build">
         <include name="**"/>
+        <exclude name="velocity.log/>
       </fileset>
     </copy>
 
@@ -418,8 +413,20 @@
       </fileset>
     </copy>
 
+    <copy todir="${dist.dir}/docs">
+      <fileset dir="../docs">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
     <copy todir="${dist.dir}/examples">
       <fileset dir="../examples">
+        <include name="**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/src">
+      <fileset dir="../src">
         <include name="**"/>
       </fileset>
     </copy>
@@ -452,7 +459,7 @@
   <!-- ================================================================== -->
   <target name="package-jar"
           depends="package"
-          description="--> generates the Turbine distribution as .zip">
+          description="--> generates the .jar file">
       <delete file="../${final.name}.jar" quiet="true"/>
 
       <jar 
@@ -467,7 +474,7 @@
   <!-- ================================================================== -->
   <target name="package-zip"
           depends="package"
-          description="--> generates the Turbine distribution as .zip">
+          description="--> generates the distribution as .zip">
       <delete file="../${final.name}.zip" quiet="true"/>
       <zip zipfile="../${final.name}.zip" basedir="../" 
            includes="**/${final.name}/**"/>
@@ -478,7 +485,7 @@
   <!-- ================================================================== -->
   <target name="package-tgz"
           depends="package"
-          description="--> generates the Turbine distribution as .tar.gz">
+          description="--> generates the distribution as .tar.gz">
       <delete file="../${final.name}.tar" quiet="true"/>
       <delete file="../${final.name}.tar.gz" quiet="true"/>
       <tar tarfile="../${final.name}.tar" basedir="../" 
