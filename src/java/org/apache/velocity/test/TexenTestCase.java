@@ -54,97 +54,54 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.File;
 
-import java.util.Properties;
+import org.apache.velocity.anakia.AnakiaTask;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
 
 import junit.framework.TestCase;
 
 /**
- * Load templates from the Classpath.
+ * This is a test case for Texen. Simply executes a simple
+ * generative task and compares the output.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.3 2001/03/19 06:36:31 jvanzyl Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: TexenTestCase.java,v 1.1 2001/03/19 06:36:31 jvanzyl Exp $
  */
-public class ClasspathResourceTest extends TestCase
+public class TexenTestCase extends TestCase
 {
-     /**
-     * VTL file extension.
+    /**
+     * Directory where comparison output is stored.
      */
-    private static final String TMPL_FILE_EXT = "vm";
+    private static final String COMPARE_DIR = "../test/texen/compare";
+    
+    /**
+     * Directory where results are generated.
+     */
+    private static final String RESULTS_DIR = "../test/texen/results";
 
     /**
-     * Comparison file extension.
+     * Creates a new instance.
+     *
      */
-    private static final String CMP_FILE_EXT = "cmp";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String RESULT_FILE_EXT = "res";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String RESULT_DIR = "../test/cpload/results";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String COMPARE_DIR = "../test/cpload/compare";
-
-    /**
-     * Default constructor.
-     */
-    public ClasspathResourceTest()
+    public TexenTestCase()
     {
-        super("ClasspathResourceTest");
-
-        try
-        {
-            Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
-
-            /*
-             * I don't think I should have to do this, these should
-             * be in the default config file.
-             */
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".class",
-                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
-                    "2");
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup ClasspathResourceTest!");
-            e.printStackTrace();
-            System.exit(1);
-        }            
+        super("TexenTestCase");
     }
 
-    public static junit.framework.Test suite ()
+    public static junit.framework.Test suite()
     {
-        return new ClasspathResourceTest();
+        return new TexenTestCase();
+    }
+
+    /**
+     * Sets up the test.
+     */
+    protected void setUp ()
+    {
     }
 
     /**
@@ -154,45 +111,18 @@ public class ClasspathResourceTest extends TestCase
     {
         try
         {
-            Template template1 = Runtime.getTemplate(
-                getFileName(null, "template/test1", TMPL_FILE_EXT));
-            
-            Template template2 = Runtime.getTemplate(
-                getFileName(null, "template/test2", TMPL_FILE_EXT));
-           
-            FileOutputStream fos1 = 
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "test1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 = 
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "test2", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-            
-            /*
-             *  put the Vector into the context, and merge both
-             */
-
-            VelocityContext context = new VelocityContext();
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-            
-            template2.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            if (!isOutputCorrect())
+            if (!isMatch("TurbineWeather") ||
+                !isMatch("TurbineWeatherService") ||
+                !isMatch("WeatherService"))
             {
-                fail("Output incorrect.");
+                fail("Output is incorrect!");
             }
-        }
-        catch (Exception e)
+        }            
+        catch(Exception e)
         {
-            fail(e.getMessage());
+            /*
+             * do nothing.
+             */
         }
     }
 
@@ -234,21 +164,15 @@ public class ClasspathResourceTest extends TestCase
      *
      * @exception Exception Test failure condition.
      */
-    protected boolean isOutputCorrect() throws Exception
+    protected boolean isMatch (String file) throws Exception
     {
-        String result1 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "test1", RESULT_FILE_EXT));
+        String result = StringUtils.fileContentsToString
+            (getFileName(RESULTS_DIR, file, "java"));
             
-        String compare1 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "test1", CMP_FILE_EXT));
+        String compare = StringUtils.fileContentsToString
+             (getFileName(COMPARE_DIR, file, "java"));
 
-       String result2 = StringUtils.fileContentsToString
-            (getFileName(RESULT_DIR, "test2", RESULT_FILE_EXT));
-            
-        String compare2 = StringUtils.fileContentsToString
-             (getFileName(COMPARE_DIR, "test2", CMP_FILE_EXT));
-
-        return ( result1.equals(compare1) && result2.equals(compare2));
+        return result.equals(compare);
     }
 
     /**
@@ -256,6 +180,6 @@ public class ClasspathResourceTest extends TestCase
      */
     protected void tearDown () throws Exception
     {
-        // No op.
+        /* No op. */
     }
 }
