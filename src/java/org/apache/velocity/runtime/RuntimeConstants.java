@@ -24,7 +24,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.39 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public interface RuntimeConstants
 {
@@ -207,6 +207,11 @@ public interface RuntimeConstants
      * Name of local Velocimacro library template.
      */
     public static final String VM_LIBRARY  = "velocimacro.library";
+
+    /** 
+     * Default Velocimacro library template.
+     */
+    public static final String VM_LIBRARY_DEFAULT  = "VM_global_library.vm";
 
     /** 
      * switch for autoloading library-sourced VMs (for development) 
