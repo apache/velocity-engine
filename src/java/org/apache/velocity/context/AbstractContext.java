@@ -85,7 +85,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.6 2001/08/07 22:22:20 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.7 2001/08/30 20:58:27 dlr Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 
@@ -262,7 +262,7 @@ public abstract class AbstractContext extends InternalContextBase
         return internalContainsKey(key);
     }        
 
-    /*
+    /**
      *  Get all the keys for the values in the context
      *  @return Object[] of keys in the Context. Does not return
      *          keys in chained context.
