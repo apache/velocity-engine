@@ -76,7 +76,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.15 2001/04/02 01:15:18 geirm Exp $ 
+ * @version $Id: Generator.java,v 1.15.4.1 2001/06/16 16:05:17 geirm Exp $ 
  */
 public class Generator
 {
@@ -154,15 +154,18 @@ public class Generator
     {
         try
         {
-            FileInputStream fi = new FileInputStream (propFile);
-            BufferedInputStream bi = new BufferedInputStream (fi);
+            BufferedInputStream bi = null;
             try
             {
+                bi = new BufferedInputStream (new FileInputStream (propFile));
                 props.load (bi);
             }
             finally
             {
-                bi.close();
+                if (bi != null)
+                {
+                    bi.close();
+                }
             }
         }
         catch (Exception e)
@@ -193,10 +196,21 @@ public class Generator
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
         {
-            InputStream inputStream = classLoader.getResourceAsStream(
-                DEFAULT_TEXEN_PROPERTIES);
+            InputStream inputStream = null;
+            try
+            {
+                inputStream = classLoader.getResourceAsStream(
+                    DEFAULT_TEXEN_PROPERTIES);
             
-            props.load( inputStream );
+                props.load( inputStream );
+            }
+            finally
+            {
+                if (inputStream != null)
+                {
+                    inputStream.close();
+                }
+            }
         }
         catch (Exception ioe)
         {
@@ -319,6 +333,7 @@ public class Generator
             VelocityContext vc = new VelocityContext( controlContext );
             template.merge (vc,fileWriter);
 
+            // commented because it is closed in shutdown();
             //fw.close();
             
             return "";
@@ -448,5 +463,7 @@ public class Generator
                 /* do nothing */
             }
         }
+        // clear the file writers cache
+        fileWriters.clear();
     }
 }
