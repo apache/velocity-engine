@@ -46,4 +46,14 @@ Test boolean args :
 
    arg true
       arg false
- - Another fine Velocity Production -
+ 
+Test map args :
+
+
+aval
+bval
+
+avalinline
+bvalinline
+
+- Another fine Velocity Production -
