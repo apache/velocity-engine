@@ -353,6 +353,19 @@
         </td>
      </tr>
 
+     <tr>
+     <td>
+      <a href="http://www.bluetetra.com/xsddoc/index.htm">XSDDoc</a>
+     </td>
+     <td>
+     XSDDoc is a documentation tool that automatically generates
+     detailed reports from XML Schema definitions. XsdDoc transforms plain
+     XML files into cross-referenced and hyperlinked HTML documents for easy
+     website publication and collaboration among developers.
+     </td>
+     </tr>
+
+
  </table>
 
  </section>
@@ -585,8 +598,6 @@
      <a href="http://www.bkfev.de/">Birmakatzenfreunden</a>
     </td>
    </tr>
-
-
 
      <tr>
       <td>
