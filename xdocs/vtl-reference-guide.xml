@@ -13,19 +13,6 @@
 
 <body>
 
-<!--
-
-Some of the user's guide info should be moved into
-this reference guide and links should be made from
-the user's guide to this document
-
-I now envision the user guide to be pedagogical 
-in nature and the VTL guide to be a distillation of VTL for
-expert users and fast learners. I'd like each directive to
-have an identical format. -JC
-
--->
-
 <s1 title="About this Guide">
 
 <p>
@@ -117,6 +104,27 @@ have an identical format. -JC
     <p/>
 
 
+    <li><strong>#if / #ifelse / #else</strong> -  output conditional on truth of statements.</li>
+    <p/>
+    Format:
+    <p/>
+    <strong>#if(</strong> [condition] <strong>)</strong> [output] [ <strong>#elseif( </strong>[condition] <strong>)</strong> [output] ]* [ <strong>#else( </strong>[condition] <strong>)</strong> [output] ] <strong>#end</strong> 
+    <p/>
+    Usage:
+    <br/>
+    <vtl>condition</vtl> - If a boolean, considered true if it has a true false; if not a boolean, considered true if not null. Examples of conditions are listed below:<br/>
+    <ul>
+           <li>Equivalent Operator: #if( $foo == $bar )</li>
+	   <li>Greater Than: #if( $foo > 42 )</li>
+	   <li>Less Than: #if( $foo &lt; 42 )</li>
+	   <li>Greater Than or Equal To: #if( $foo >= 42 )</li>
+	   <li>Less Than or Equal To: #if( $foo &lt;= 42 )</li>
+	   <li>Equals Number: #if( $foo = 42 )</li>
+	   <li>Equals String: #if( $foo = "bar" )</li>
+    </ul>	   
+    <vtl>output</vtl> - May contain VTL. 
+    <p/>
+
     <li><strong>#foreach</strong> - Loops through a list of objects.</li>
     <p/>
     Format:
@@ -152,89 +160,74 @@ have an identical format. -JC
     ]]></source>
 </p>
 
-    <li><strong>#parse</strong> - Imports a local template that is parsed and rendered by Velocity.</li>
+    <li><strong>#include</strong> - Renders local file(s) that are not parsed by Velocity.</li>
+    <p/>
+    Format:
+    <p/>
+    <strong>#include( </strong>arg[, arg2, ... argn]<strong> )</strong> 
+    <p/>
+    <vtl>arg</vtl> - Refers to a valid file under TEMPLATE_ROOT. Can be one of two types:
+    <br/>
+    <ul>
+          <li>String: #include( "disclaimer.txt", "opinion.txt" )</li>
+	  <li>Variable: #include( $foo, $bar )</li>
+    </ul>
+    <p/>
+
+    <li><strong>#parse</strong> - Renders a local template that is parsed by Velocity.</li>
     <p/>
 
     Format:
     <p/>
-    <strong>#parse( "</strong>template.vm<strong>" )</strong>
+    <strong>#parse( </strong>arg<strong> )</strong>
     <p/>
-    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
-    can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
-    refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
-    <vtldirective>#parse</vtldirective> will only take a single argument. 
+    <vtl>arg</vtl> - Refers to a template under TEMPLATE_ROOT. Can be one of two types:
+    <br/>
+    <ul>
+          <li>String: #parse( "lecorbusier.vm" )</li>
+	  <li>Variable: #parse( $foo )</li>
+    </ul>
     <p/>
-    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn 
-    have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> 
-    line of the <filename>velocity.properties</filename> allows users to customize maximum number of 
-    <vtldirective>#parse</vtldirective> referrals that can occur from a single 
-    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
-    <filename>velocity.properties</filename> file, Velocity will set this default to 10.)  
-    Recursion is permitted, for example, if the template <filename>dofoo.vm</filename> contains the following lines:
+    Recursion permitted. See <vtl>parse_directive.maxdepth</vtl> in <filename>velocity.properties</filename> 
+    to change from parse depth. (The default parse depth is 10.)
+    <p/>
 
-    <p>
-    <source><![CDATA[
-    Count down.
-    #set( $count = 8 )
-    #parse( "parsefoo.vm" )
-    All done with dofoo.vm!
-    ]]></source>
-    </p>    
-    
-    <p>
-    It would reference the template <filename>parsefoo.vm</filename>, which might contain the following VTL:
-    </p>
-
-    <p>    
-    <source><![CDATA[
-    $count
-    #set( $count = $count - 1 )
-    #if( $count > 0 )
-      #parse( "parsefoo.vm" )
-    #else
-      All done with parsefoo.vm!
-    #end
-    ]]></source>
-    </p>    
-
-    <p>
-    After "Count down." is displayed, Velocity passes through <filename>parsefoo.vm</filename>, counting down from 8. 
-    When the count reaches 0, it will display the "All done with parsefoo.vm!" message. At this point, Velocity will return to 
-    <filename>dofoo.vm</filename> and output the "All done with dofoo.vm!" message.
-    </p>
-
+    <li><strong>#stop</strong> - Stops the template engine.</li>
+    <p/>
+    Format:
+    <p/>
+    #stop
+    <p/>
+    Usage:
+    <br/>
+    Intended for debugging purposes.
+    <p/>
 
     <li><strong>#macro</strong> - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required.</li>
     <p/>
     Format:
     <p/>   
-    <strong>#macro(</strong> vmname $arg1 [ $arg2, $arg3, ... $argn ] <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
+    <strong>#macro(</strong> vmname $arg1[, $arg2, $arg3, ... $argn ] <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
     <p/>
-    <vtl>vmname</vtl> - The name that will be used to call the VM (<vtl>#vmname</vtl>)<br/>
-    <vtl>$arg1 $arg2 [ ... ]</vtl> - Arguments to the VM. A VM can have any number of argumentss, but the number used at invocation must match the number specified in the definition.<br/>
-    <vtl>[ VM VTL code... ]</vtl> - Any valid VTL code, anything you can put into a template, can be put into a VM.<br/>
-    <p/>
+    <vtl>vmname</vtl> - Name used to call the VM (<vtl>#vmname</vtl>)<br/>
+    <vtl>$arg1 $arg2 [ ... ]</vtl> - Arguments to the VM. There can be any number of argumentss, but the number used at invocation must match the number specified in the definition.<br/>
+    <vtl>[ VM VTL code... ]</vtl> - Any valid VTL code, anything you can put into a template, can be put into a VM.
+   <p/>
 
-   <p>
-   Once defined, the VM is used like any other VTL directive in your template.
-   </p>
+   Once defined, the VM is used like any other VTL directive in a template.
+   <p/>
 
-   <p>
    <source><![CDATA[
    #vmname( $arg1 $arg2 )
    ]]></source>
-   </p>
 
-   <p>
-   VMs can be defined in a 'global library', a 'local library', or
-   'inline' in a template.  Both global library and local libraries can be
-   accessed by any template. The global library contains VMs pre-packaged 
-   with Velocity; the local library allows end users to supplement the 
-   pre-packaged VMs with customized, site-specific VMs. Inline VM
-   definitions are those found in regular 'user' templates, although
-   these can only be used when the <vtl>velocimacro.permissions.allowInline=true</vtl>
-   in the <filename>velocity.properties</filename> file.
-   </p>
+   <p/>
+   VMs can be defined in one of three places:
+   <br/>
+   <i>Global library:</i> VMs pre-packaged with Velocity; available from any template<br/>
+   <i>Local library:</i> customized, user-defined, site-specific VMs; availabe from any template<br/>
+   <i>Inline:</i> found in regular templates, only usable when <vtl>velocimacro.permissions.allowInline=true</vtl> in <filename>velocity.properties</filename>.
+   <p/>
 
 </ul>
 

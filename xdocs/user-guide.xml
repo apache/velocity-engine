@@ -869,16 +869,6 @@
     <code>stringliterals.interpolate=false</code>.
  </p>
 
- <p>
-    <em>Note:</em> Although the <vtldirective>set</vtldirective> does not currently require that brackets 
-    enclose the accompanying expression, this won't be the case for long. To help users to
-    update their templates to use brackets with the <vtldirective>set</vtldirective> directive,
-    Velocity will generate warnings in the runtime log when a <vtldirective>set</vtldirective> is
-    used without brackets. Note also that any <vtldirective>#set</vtldirective> statement used without
-    brackets cannot be used inline; the assignment <em>must</em> be terminated by an end of line character
-    (obtained by pressing the Enter key).
- </p>
-
 
 <s1 title="Conditionals">
 
@@ -939,12 +929,31 @@
     </p>
 
     <p>
-    <strong>Logical Operators</strong>
+    <strong>Relational and Logical Operators</strong>
     </p>
+
+
+    <p>
+    Velocity uses the equivalent operator to determine the relationships between variables. 
+    Here is a simple example to illustrate how the equivalent operator is used.
+    </p> 
     
     <p>
-      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.  Below is an example of an if statement using 
-      logical AND.
+     <source><![CDATA[
+     #set ($foo = "deoxyribonucleic acid")
+     #set ($bar = "ribonucleic acid")
+
+     #if ($foo == $bar)
+        In this case it's clear they don't equate. So...
+     #else
+        They do not equate! And this will be the output.
+     #end
+     ]]></source>
+    </p>
+
+    <p>
+      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.
+      Below is an example of an if statement using logical AND.
     </p>
 
     <p>
@@ -1060,7 +1069,7 @@
 
     <p>
     <source><![CDATA[
-    #include( "greetings.txt",$seasonalstock )
+    #include( "greetings.txt", $seasonalstock )
     ]]></source>
     </p>
 
