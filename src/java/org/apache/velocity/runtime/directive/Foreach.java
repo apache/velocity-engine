@@ -65,13 +65,10 @@ import java.util.Vector;
 import org.apache.velocity.Context;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.ArrayIterator;
 
 import org.apache.velocity.runtime.parser.Node;
 import org.apache.velocity.runtime.parser.Token;
-
-//! TODO: wrap arrays in an iterator so we can
-//        get rid of the array/iterator check just
-//        make everything an iterator.
 
 /**
  * Foreach directive used for moving through arrays,
@@ -79,9 +76,6 @@ import org.apache.velocity.runtime.parser.Token;
  */
 public class Foreach extends Directive
 {
-    public String getName() { return "foreach"; }        
-    public int getType() { return BLOCK; }
-
     private final static int ARRAY = 1;
     private final static int ITERATOR = 2;
     
@@ -95,13 +89,21 @@ public class Foreach extends Directive
     private Object listObject;
     private Object tmp;
     private int iterator;
+
+    public String getName() 
+    { 
+        return "foreach"; 
+    }
     
+    public int getType() 
+    { 
+        return BLOCK; 
+    }
+
     public void init(Context context, Node node) throws Exception
     {
         Object sampleElement = null;
-        
-        elementKey = node.jjtGetChild(0).getFirstToken()
-                        .image.substring(1);
+        elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
         
         // This is a refence node and it needs to
         // be inititialized.
@@ -123,12 +125,11 @@ public class Foreach extends Directive
             node.setInfo(ITERATOR);
             sampleElement = ((Collection) listObject).iterator().next();
         }            
-    
+        
         // This is a little trick so that we can initialize
         // all the blocks in the foreach  properly given
         // that there are references that refer to the
         // elementKey name.
-        
         if (sampleElement != null)
         {
             context.put(elementKey, sampleElement);
@@ -140,41 +141,23 @@ public class Foreach extends Directive
     public void render(Context context, Writer writer, Node node)
         throws IOException
     {
+        Iterator i;
         listObject = node.jjtGetChild(2).value(context);
+
+        if (node.getInfo() == ARRAY)
+            i = new ArrayIterator((Object[]) listObject);
+        else            
+            i = ((Collection) listObject).iterator();
         
-        switch(node.getInfo())
+        iterator = COUNTER_INITIAL_VALUE;
+        while (i.hasNext())
         {
-            case ARRAY:
-                int length = ((Object[]) listObject).length;
-            
-                for (int i = 0; i < length; i++)
-                {
-                    context.put(COUNTER_IDENTIFIER, 
-                        new Integer(i + COUNTER_INITIAL_VALUE));
-                    context.put(elementKey,((Object[])listObject)[i]);
-                    node.jjtGetChild(3).render(context, writer);
-                }
-                context.remove(COUNTER_IDENTIFIER);
-                context.remove(elementKey);
-                break;
-            
-            case ITERATOR:
-                // Maybe this could be optimized with get(index) ?
-                // Check the interface. size() and get(index) might
-                // be faster then using an Iterator.
-                Iterator i = ((Collection) listObject).iterator();
-                
-                iterator = COUNTER_INITIAL_VALUE;
-                while (i.hasNext())
-                {
-                    context.put(COUNTER_IDENTIFIER, new Integer(iterator));
-                    context.put(elementKey,i.next());
-                    node.jjtGetChild(3).render(context, writer);
-                    iterator++;
-                }
-                context.remove(COUNTER_IDENTIFIER);
-                context.remove(elementKey);
-                break;
-        }            
+            context.put(COUNTER_IDENTIFIER, new Integer(iterator));
+            context.put(elementKey,i.next());
+            node.jjtGetChild(3).render(context, writer);
+            iterator++;
+        }
+        context.remove(COUNTER_IDENTIFIER);
+        context.remove(elementKey);
     }
 }
