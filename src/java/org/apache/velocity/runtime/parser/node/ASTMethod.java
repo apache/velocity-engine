@@ -49,9 +49,11 @@ public class ASTMethod extends SimpleNode
         for (int j = 0; j < paramCount; j++)
             params[j] = jjtGetChild(j + 1).value(context);
 
-        //method = Introspector.getMethod((Class) data, methodName, paramCount);
         method = Introspector.getMethod((Class) data, methodName, params);
-
+        
+        if (method == null)
+            return null;
+        
         return method.getReturnType();
     }
     
