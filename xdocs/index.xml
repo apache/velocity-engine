@@ -9,7 +9,7 @@
 
  <body>
 
-<section name="Velocity v1.0 Beta 1 Released">
+<section name="Velocity v1.0 Beta 2 Released">
 
  <p>
    <table>
@@ -18,9 +18,10 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   The Velocity team is proud to announce that the first release
-   candidate, <strong>v1.0 beta 1</strong>, is now released.
-   Congratulations and thanks to all who helped make Velocity a reality.
+   The Velocity team is proud to announce that the second release
+   candidate, <strong>v1.0 beta 2</strong>, is now released, following our
+   successful beta 1.  We plan our v1.0 release on April 2, 2001.
+   Congratulations and thanks to all who are helping make Velocity a reality.
    </td>
    </tr>
    </table>      
@@ -61,8 +62,13 @@
 
 <section name="Where do I get releases?">
 
+<p> 
+   The current release is our second release candidate, v1.0 beta 2.   It is available 
+<a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0b2/">here.</a>
+</p>
+
 <p>
-    The current release is our first release candidate, v1.0 beta 1.  It is available 
+    Our previous release candidate, v1.0 beta 1, is available 
 <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0b1/">here.</a>
 </p>
 
