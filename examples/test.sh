@@ -1,5 +1,10 @@
 echo "Running Example with input file 'example.vm'"
 
-java -cp .:../bin/velocity-0.71.jar Example example.vm  > output
+for i in ../bin/*.jar
+do
+    _VELCP=$VELCP:"$i"
+done
+
+java -cp $_VELCP:. Example example.vm  > output
 
 echo "Output of Example is in the file 'output'"
