@@ -10,8 +10,7 @@
 
 <body>
 
-<section name="About this Guide">
-
+<a name="about"/><section name="About this Guide">
 <p>
     This guide is the reference for the Velocity Template Language
     (VTL). For more information, please also refer to the <a
@@ -20,8 +19,8 @@
 
 </section>
 
-<section name="References">
-  <subsection name="Variables">
+<a name="references" /><section name="References">
+  <a name="variables" /><subsection name="Variables">
     <p>
     Notation:
     </p>
@@ -44,7 +43,7 @@
     </ul>
   </subsection>
 
-  <subsection name="Properties">
+  <a name="properties" /><subsection name="Properties">
     <p>
     Notation:
     </p>
@@ -68,7 +67,7 @@
     </ul>
   </subsection>
 
-  <subsection name="Methods">
+  <a name="methods" /><subsection name="Methods">
     <p>
     Notation:
     </p>
@@ -104,10 +103,11 @@
   use a Property when available. The main difference between Properties
   and Methods is that you can specify a parameter list to a Method.
   </p>
+
 </section>
 
-<section name="Directives">
-  <subsection name="#set - Establishes the value of a reference">
+<a name="directives" /><section name="Directives">
+  <a name="set" /><subsection name="#set - Establishes the value of a reference">
     <p>
     Format:
     </p>
@@ -157,8 +157,8 @@
     </ul>
   </subsection>
 
-  <subsection name="#if / #elseif / #else - output conditional on truth 
-                    of statements">
+  <a name="ifelse" /><subsection name="#if / #elseif / #else - output 
+  conditional on truth of statements">
     <p>
     Format:
     </p>
@@ -195,7 +195,7 @@
     </ul>    
   </subsection>
 
-  <subsection name="#foreach - Loops through a list of objects">
+  <a name="foreach" /><subsection name="#foreach - Loops through a list of objects">
     <p>
     Format:
     </p>
@@ -251,6 +251,7 @@ counter.initial.value = 1
 
   </subsection>
 
+  <a name="include" />
   <subsection name="#include - Renders local file(s) that are not 
                     parsed by Velocity">
     <p>
@@ -275,6 +276,7 @@ counter.initial.value = 1
     </ul>
   </subsection>
 
+  <a name="parse" />
   <subsection name="#parse - Renders a local template that is parsed by 
                     Velocity">
     <p>
@@ -305,6 +307,7 @@ counter.initial.value = 1
     </p>
   </subsection>
 
+  <a name="stop" />
   <subsection name="#stop - Stops the template engine">
     <p>
     Format:
@@ -324,6 +327,7 @@ counter.initial.value = 1
     </p>
   </subsection>
 
+  <a name="velocimacro" />
   <subsection name="#macro - Allows users to define a Velocimacro (VM), 
         a repeated segment of a VTL template, as required">
     <p>
@@ -355,14 +359,12 @@ counter.initial.value = 1
 ]]></source>
 
     <p>
-    VMs can be defined in one of three places:
+    VMs can be defined in one of two places:
     </p>
 
     <ol>
-    <li><i>Global library:</i> VMs pre-packaged with Velocity; available
-    from any template</li>
-    <li><i>Local library:</i> customized, user-defined, site-specific
-    VMs; availabe from any template</li>
+    <li><i>Template library:</i> can be either VMs pre-packaged with
+    Velocity or custom-made, user-defined, site-specific VMs;             available from any template</li>
     <li><i>Inline:</i> found in regular templates, only usable when
     <em>velocimacro.permissions.allowInline=true</em> in
     <code>velocity.properties</code>.</li>
@@ -372,3 +374,5 @@ counter.initial.value = 1
 </section>
 </body>
 </document>
+
+
