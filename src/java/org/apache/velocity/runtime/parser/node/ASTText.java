@@ -86,7 +86,7 @@ public class ASTText extends SimpleNode
     {
         Token t = getFirstToken();
 
-        String text = NodeUtils.specialText( t ) + t.image;
+        String text = NodeUtils.tokenLiteral( t );
         
         ctext = text.toCharArray();
 
