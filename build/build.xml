@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="0.96"/>
+  <property name="version" value="1.0b1"/>
   <property name="project" value="velocity"/>
   <property name="build.compiler" value="classic"/>
     
@@ -497,7 +497,7 @@
   <!-- Packages the distribution with ZIP and TAG-GZIP                    -->
   <!-- ================================================================== -->
   <target name="package-all"
-          depends="package-zip, package-tgz, package-jar"
+          depends="package-zip, package-tgz"
           description="--> generates the .tar.gz and .zip distributions">
   </target>
 
