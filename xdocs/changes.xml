@@ -4,7 +4,7 @@
 
  <properties>
   <title>Velocity Changes</title>
-  <author email="jon@latchkey.com">Jon S. stevens</author>
+  <author email="jon@latchkey.com">Jon S. Stevens</author>
  </properties>
 
 <body>
@@ -12,7 +12,7 @@
 <section name="Velocity Changes">
 
 <p>
-This document tracks the changes in Velocity between releases.
+   This document tracks the changes in Velocity between releases.
 </p>
 
 <subsection name="1.0b3">
@@ -30,8 +30,7 @@ This document tracks the changes in Velocity between releases.
    Released as version 1.0 beta 2 on March 26, 2001
 </p>
 
-<ul>
-    
+<ul> 
     <li>
         Make the distribution have CRLF for all of the text files (JSS).
     </li>
