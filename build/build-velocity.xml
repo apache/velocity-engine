@@ -13,6 +13,8 @@
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.dest" value="${build.dir}/classes"/>
     
+  <property name="example.dir" value="../examples"/>
+
   <property name="src.java.dir" value="../src/java"/>
   <property name="javadoc.destdir" value="../docs/apidocs"/>
   <property name="final.name" value="${project}-${version}"/>
@@ -25,6 +27,7 @@
   <property name="deprecation" value="on"/>
   <property name="log.jar" value="lib/log.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
+  <property name="servlet.jar" value="lib/servlet.jar"/>
     
   <property name="velocity.docs" value="../docs"/>
   <property name="velocity.xdocs" value="../xdocs"/>
@@ -88,7 +91,7 @@
   </path>
 
   <!-- =================================================================== -->
-  <!-- prints the environement                                        -->
+  <!-- prints the environment                                        -->
   <!-- =================================================================== -->
   <target name="env">
     
@@ -155,7 +158,7 @@
     />
 
   </target>
-  
+   
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
@@ -182,7 +185,7 @@
 
     <delete dir="${build.dest}/meta-inf"/>
 
-    <jar jarfile="${build.dir}/${project}-core-${version}.jar">
+    <jar compress="true" jarfile="${build.dir}/${project}-core-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <exclude name="org/apache/oro/**"/>
@@ -234,6 +237,40 @@
   
   </target>
 
+  <!-- =================================================================== -->
+  <!-- Compiles the example code                                           -->
+  <!-- =================================================================== -->
+  <target name="examples" depends="jar">
+        
+     <echo>
+      **************************************************************
+      ** Building the examples :
+      **   examples/appexample1 : application example
+      **   examples/appexample2 : application example
+      **   examples/servletexample1 : servlet example
+      **   examples/context_example : example context implementations
+      **   forumdemo : demonstration webapp
+      **************************************************************
+      </echo>
+
+    <javac srcdir="${example.dir}/app_example1
+                  :${example.dir}/app_example2
+                  :${example.dir}/servlet_example1
+                  :${example.dir}/context_example"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      optimize="${optimize}">
+
+      <classpath>
+        <pathelement location="${build.dest}"/>
+        <pathelement location="${servlet.jar}"/>
+      </classpath>
+      
+    </javac>
+
+    <antcall target="forumdemo" />
+
+  </target>
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
@@ -420,13 +457,15 @@
   <!-- =================================================================== -->
   <!-- Forum Demo Web App                                                  -->
   <!-- =================================================================== -->
-  <target name="builddemo" depends="compile">
+  <target name="forumdemo" depends="compile">
        
     <echo>
       **************************************************
       ** Building the Forum demo ...
       ** Remember to set the PATH in Velocity.properties
       ** once you move the WAR to your Servlet engine.
+      **
+      ** The WAR can be found in the bin directory
       **************************************************
     </echo>
               
@@ -434,16 +473,15 @@
       destdir="${demo.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
-      classpath="${build.dest}"
-      optimize="${optimize}"
-    />
-            
-    <copy todir="${demo.dest}">
-      <fileset dir="${build.dest}">
-        <include name="**/*.class"/>
-      </fileset>
-    </copy>
-            
+      optimize="${optimize}">
+      
+     <classpath>
+        <pathelement location="${build.dest}"/>
+        <pathelement location="${servlet.jar}"/>
+      </classpath>
+ 
+    </javac>
+                     
     <jar
       jarfile="${build.dir}/forumdemo.war"
       basedir="${demo.base}"
