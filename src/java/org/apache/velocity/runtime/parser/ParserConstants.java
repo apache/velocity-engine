@@ -120,7 +120,7 @@ public interface ParserConstants {
     "<ALPHANUM_CHAR>",
     "<IDENTIFIER_CHAR>",
     "<IDENTIFIER>",
-    "\".\"",
+    "<DOT>",
     "\"{\"",
     "\"}\"",
     "<REFERENCE_TERMINATOR>",

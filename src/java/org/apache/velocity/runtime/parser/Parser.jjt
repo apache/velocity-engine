@@ -122,7 +122,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.9 2000/10/28 14:19:54 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.10 2000/10/31 02:45:00 geirm Exp $ 
 */
 public class Parser
 {
@@ -714,11 +714,24 @@ TOKEN :
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
 |   <IDENTIFIER:  <ALPHA_CHAR> (<IDENTIFIER_CHAR>)* >
-|   <DOT: ".">
-    {
-        if ( bDebugPrint_ )
-            System.out.print("DOT : switching to " + REFMODIFIER);
-        SwitchTo(REFMODIFIER);
+|   <DOT: "." <ALPHA_CHAR>> 
+    { 
+        /*
+         * push the alpha char back into the stream so the following identifier is complete
+         */
+
+        input_stream.backup(1); 
+
+        /*
+         *  and munge the <DOT> so we just get a . when we have normal text that looks like a ref.ident
+         */
+
+        matchedToken.image = ".";
+
+        if ( bDebugPrint_ ) 
+            System.out.print("DOT : switching to " + REFMODIFIER); 
+        SwitchTo(REFMODIFIER); 
+
     }
 |   <LCURLY: "{">
 |   <RCURLY: "}">
