@@ -20,9 +20,9 @@
 </p>
 
 <p>
-    Everything required to build Velocity comes with the distribution, which 
-    be obtained via <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> 
-    or <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">downloaded</link>.
+    Everything required to build Velocity comes with the distribution, which can
+    be obtained from <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> 
+    or from the <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly builds</link>.
 </p>
 
 </s1>
@@ -30,7 +30,7 @@
 <s1 title="Compiling">
 
 <p>
-    On Unix/Linux, <code>cd</code> to the <filename>velocity/build</filename> directory and execute the following 
+    On Unix, <code>cd</code> to the <filename>velocity/build</filename> directory and execute the following 
     script:
 </p>    
 
@@ -50,7 +50,7 @@
     Executing this script will create a <filename>bin</filename> directory within the Velocity
     distribution directory. The <filename>bin</filename> directory will contain the compiled class 
     files (inside a <filename>classes</filename> directory) as well as a <filename>velocity.jar</filename> file. 
-    Be sure to update your classpath to include Velocity's .jar file.
+    Be sure to update your classpath to include Velocity's <filename>.jar</filename> file.
 </p>
 
 <p>

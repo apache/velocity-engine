@@ -170,35 +170,45 @@
  
  <p>
     <source><![CDATA[
-    #set $a = "Velocity"
+    #set ($a = "Velocity")
     ]]>
     </source>
  </p>
 
  <p>
-    This VTL statement, like all VTL statements, begins with the <directive>#</directive> 
-    character and contains a directive (<vtldirective>set</vtldirective>. When an online visitor requests 
+    This VTL statement, like all VTL statements, begins with the <vtldirective>#</vtldirective> 
+    character and contains a directive: <vtldirective>set</vtldirective>. When an online visitor requests 
     your web page, the Velocity Templating Engine will search through your web page to 
-    find all <variable>#</variable> characters, then determine which mark the beginning of VTL 
-    statements, and which of the # characters that have nothing to do with VTL.
+    find all <vtl>#</vtl> characters, then determine which mark the beginning of VTL 
+    statements, and which of the <vtl>#</vtl> characters that have nothing to do with VTL.
  </p>
 
  <p>
-    The <vtldirective>#</vtldirective> character is followed by a directive, <vtldirective>set</vtldirective>. The 
-    <variable>set</variable> directive uses an equation to assign a <em>value</em> to 
-    a <em>variable</em>. The variable 
-    is listed on the left hand side and its value on the right hand side; 
-    the two are separated by an 
-    <variable>=</variable> character.
+    The <vtl>#</vtl> character is followed by a directive, 
+    <vtldirective>set</vtldirective>. The <vtldirective>set</vtldirective> directive uses an expression 
+    (enclosed in brackets) -- an equation that assigns a <em>value</em> to a <em>variable</em>. 
+    The variable is listed on the left hand side and its value on the right hand side; 
+    the two are separated by an <vtl>=</vtl> character.
  </p>
  
  <p>
     In the example above, the variable is <variable>$a</variable> and the value is
-    <variable>Velocity</variable>. References <em>always</em> begin with <variable>$</variable>
-    characters; all variables are references, ergo all variables begin
-    with <variable>$</variable> characters.
-    Values are always enclosed in quotes; with Velocity there is no confusion about
-    data types, as only strings (text-based information) may be passed to variables.
+    <variable>Velocity</variable>. This variable, like all references, begins with the
+    <variable>$</variable> character. Values are always enclosed in quotes; with Velocity 
+    there is no confusion about data types, as only strings (text-based information) may 
+    be passed to variables.
+ </p>
+
+ <p>
+    The following rule of thumb may be useful to better understand how Velocity works: 
+    <strong>References begin with <vtl>$</vtl> and are used to get something. Directives begin 
+    with <vtl>#</vtl> and are used to do something.</strong> 
+ </p>
+
+ <p>
+     In the example above, <vtldirective>#set</vtldirective> is used to assign a value to 
+     a variable. The variable, <variable>$a</variable>, can then be used in the template
+     to output "Velocity".
  </p>
 
 </s1>
@@ -311,6 +321,7 @@
 </s1>
 
 
+
 <s1 title="References, revisited">
 
  <p>
@@ -323,7 +334,7 @@
  <p>
     Everything coming to and from a reference is treated as a String object. 
     If there is an object that represents <variable>$foo</variable> (such as an Integer object), 
-    then Velocity will call its .toString() method to resolve the 
+    then Velocity will call its <code>.toString()</code> method to resolve the 
     object into a String.
  </p>
 
@@ -495,11 +506,10 @@
  <p>
     Suppose you were
     constructing a sentence on the fly where <variable>$vice</variable> was to be
-    used as the base word in the noun of a sentence. Suppose you
-    wanted to allow someone to choose the base word and produce
-    one of the two following results: "Jack is a pyromaniac." or
-    "Jack is a kleptomaniac.". Using shorthand notation would
-    produce the following:
+    used as the base word in the noun of a sentence. The goal is to allow someone 
+    to choose the base word and produce one of the two following results: "Jack is 
+    a pyromaniac." or "Jack is a kleptomaniac.". Using the shorthand notation would
+    would be inadequate for this task. Consider the following example: 
  </p>
  
  <p>
@@ -522,9 +532,9 @@
  </p>
  
  <p>
-    Now Velocity knows that <variable>$vice</variable>, not <variable>$vicemaniac</variable>, is your
-    Identifier. Formal notation is often useful when references
-    are directly adjacent to text in your templates.
+    Now Velocity knows that <variable>$vice</variable>, not <variable>$vicemaniac</variable>, is 
+    the reference. Formal notation is often useful when references are directly adjacent to text 
+    in a template.
  </p>
 
 
@@ -548,7 +558,7 @@
     reference <variable>$email</variable> has no value, but you prefer
     a blank text field to one with a value of "$email".
     Using the quiet reference notation circumvents Velocity's
-    normal behavior; instead of using $email in the
+    normal behavior; instead of using <variable>$email</variable> in the
     VTL you would use <variable>$!email</variable>. So the above example
     would look like the following:
  </p>
@@ -754,8 +764,8 @@
  
  <p>
     <source><![CDATA[
-    #set $primate = "monkey"
-    #set $customer.Behavior = $primate
+    #set ($primate = "monkey")
+    #set ($customer.Behavior = $primate)
     ]]></source>
  </p>
  
@@ -784,12 +794,12 @@
  
  <p>
     <source><![CDATA[
-    #set $monkey = $bill ##variable reference
-    #set $monkey.Friend = "monica" ##string literal
-    #set $monkey.Blame = $whitehouse.Leak ##property reference
-    #set $monkey.Plan = $spindoctor.weave($web) ##method reference
-    #set $monkey.Number = 123 ##number literal
-    #set $monkey.Say = ["Not", $my, "fault"] ##object array
+    #set ($monkey = $bill) ##variable reference
+    #set ($monkey.Friend = "monica") ##string literal
+    #set ($monkey.Blame = $whitehouse.Leak) ##property reference
+    #set ($monkey.Plan = $spindoctor.weave($web)) ##method reference
+    #set ($monkey.Number = 123) ##number literal
+    #set ($monkey.Say = ["Not", $my, "fault"]) ##object array
     ]]></source>
  </p>
  
@@ -799,10 +809,10 @@
  
  <p>
     <source><![CDATA[
-    #set $value = $foo + 1
-    #set $value = $bar - 1
-    #set $value = $foo * $bar
-    #set $value = $foo / $bar
+    #set ($value = $foo + 1)
+    #set ($value = $bar - 1)
+    #set ($value = $foo * $bar)
+    #set ($value = $foo / $bar)
     ]]></source>
  </p>
 
@@ -811,6 +821,15 @@
     does not have a <vtldirective>#end</vtldirective> statement. The <vtldirective>set</vtldirective> statement <em>must</em> 
     end with a newline character (obtained by pressing Enter); it cannot be used inline.
  </p>
+
+ <p>
+    The <vtldirective>set</vtldirective> does not currently require that brackets 
+    enclose the accompanying expression, but this won't be the case for long. To help users to
+    update their templates to use brackets with the <vtldirective>set</vtldirective> directive,
+    Velocity will generate warnings in the runtime log when a <vtldirective>set</vtldirective> is
+    used without brackets.
+ </p>
+
 
 <s1 title="Conditionals">
 
@@ -958,6 +977,7 @@
     by referencing the <variable>$product.Name</variable> method (ie: <variable>$Product.getName()</variable>).
     </p>
 
+
  </s1>    
 
  <s1 title="Include">
@@ -1096,8 +1116,8 @@
 
     <p>
     <source><![CDATA[    
-    #set $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"]
-    #set $color = "blue"
+    #set ($greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"])
+    #set ($color = "blue")
     <table>
     #tablerows ($color $names)
     </table>
@@ -1176,8 +1196,8 @@
 
     <p>
     <source><![CDATA[ 
-    #set $parts = ["volva","stipe","annulus","gills","pileus"]
-    #set $cellbgcol = "#CC00FF"
+    #set ($parts = ["volva","stipe","annulus","gills","pileus"])
+    #set ($cellbgcol = "#CC00FF")
     <table>
     #tablerows ($cellbgcol $parts) 
     ]]></source>
@@ -1200,24 +1220,25 @@
     </table>  
     ]]></source>
     </p>
+ </s1>
 
+ <s1 title="Escaping VTL Directives">
+   
   <p>
-    <strong>Escaping VTL Directives</strong>
-    <br/>
     VTL directives can be escaped with the backslash character ("\") in a manner similar 
     to valid VTL references.
   </p>
 
   <p>
   <source><![CDATA[
-  ## #include("a.txt") renders as <contents of a.txt>
-  #include("a.txt")
+  ## #include ("a.txt") renders as <contents of a.txt>
+  #include ("a.txt")
 
-  ## \#include("a.txt") renders as \#include("a.txt")
-  \#include("a.txt")
+  ## \#include ("a.txt") renders as \#include("a.txt")
+  \#include ("a.txt")
 
-  ## \\#include("a.txt") renders as \<contents of a.txt>
-  \\#include("a.txt")
+  ## \\#include ("a.txt") renders as \<contents of a.txt>
+  \\#include ("a.txt")
   ]]></source>
   </p>
 
@@ -1259,7 +1280,38 @@
 
  </s1>
 
+ <s1 title="VTL: Formatting Issues">
+
+    <p>
+    Although VTL in this user guide is often displayed with
+    newlines and whitespaces, the VTL shown below
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #set ($imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"])
+    #foreach ($shogun in $imperial)
+    $shogun
+    #end
+    ]]></source>
+    </p>
+
+    <p>
+    is equally valid as the following snippet that Geir Magnusson Jr.
+    posted to the Velocity user listserve to illustrate a completely
+    unrelated point:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
+    ]]></source>
+    </p>
+
+ </s1>
+
 </s1>
+
 
 </body>
 </document>
