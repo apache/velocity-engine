@@ -11,9 +11,7 @@
 
 <section name="Contents">
 
-<p>
 <ol>
-
 <li>
 <a href="#So You Have To Use JSP...">So You Have To Use JSP...</a>
 <ul>
@@ -50,9 +48,7 @@
 <li>
 <a href="#Configuration">Configuration</a>
 </li>
-
 </ol>
-</p>
 
 </section>
 
@@ -73,7 +69,6 @@ simple as :
 </p>
 
 <source><![CDATA[
-
 <%@ taglib uri="/WEB-INF/veltag.tld" prefix="vel" %>
 
 <html>
@@ -105,8 +100,6 @@ simple as :
     </vel:velocity>
 </body>
 </html>
-
-
 ]]></source>
 
 <p>
@@ -132,6 +125,7 @@ the Velocity template.
 The advantages, then, are found in a JSP-centric environment, where an
 existing application is already written in JSP and you wish to add or
 maintain functionality.  Some things that Velocity provides :
+</p>
 
 <ul>
 <li> 
@@ -170,8 +164,6 @@ maintain functionality.  Some things that Velocity provides :
 </li>
 </ul>
 
-</p>
-
 </section>
 
 <section name="Using The Velocity Taglib">
@@ -202,6 +194,7 @@ The first way, automatic access, is the most convenient.  When an
 object is referenced (via a VTL 'reference'), the scopes are searched
 to find an object with the same id.  The scopes are searched in the 
 order of :
+</p>
 
 <ol>
 <li> page scope </li>
@@ -209,13 +202,13 @@ order of :
 <li> session scope </li>
 <li> application scope </li>
 </ol>
- 
+
+<p> 
 Automatic scope access is enabled by default.  To use 
 automatic scope access, just access the bean by name. For example :
 </p>
 
 <source><![CDATA[
-
 <!-- place a bean in page scope -->
 <jsp:useBean id="mybean"  class="GeirBean" />
 
@@ -260,8 +253,6 @@ two.
   </p>
 
 <source><![CDATA[
-
-
 <jsp:useBean id="beaninrequest" class="GeirBean" scope="request" />
 
 <vel:velocity strictaccess="true">
@@ -300,12 +291,14 @@ project.
 </p>
 
 <a name="JJAR build"><strong>The Easy, JJAR Way</strong></a>
+
 <p>
 The Veltag taglib can be built using a new, <b>experimental</b> 
 jar management tool called <em>JJAR</em>
 (Jakarta Jar Archive &amp; Repository) which makes finding and retrieving the
 dependencies to build the taglib simple.
 </p>
+
 <p>
  <i>Please note that JJAR is 
 currently a work in progress - while every effort will be made to ensure
@@ -315,6 +308,7 @@ do it the regular way, listed below.</i>
 
 <p>
 To build with JJAR :
+</p>
 
 <ol>
 <li> 
@@ -345,8 +339,8 @@ To build with JJAR :
 </li>
 </ol>
 
+<p>
 That's it.  Pretty easy.
-
 </p>
 
 <a name="nonJJAR build"><strong>The JJAR-Is-A-Work-In-Progress Way</strong></a>
@@ -358,6 +352,7 @@ schlepping around finding jars, do the following to build Veltag.
 
 <p>
 To build, you need the following :
+</p>
 
 <ul>
 <li> 
@@ -391,7 +386,6 @@ To build, you need the following :
   for you.
 </li>
 </ul>
-</p>
 </section>
 
 <section name="Configuration">
@@ -407,6 +401,7 @@ the Velocity distribution.
 
 <p>
 To test the Velocity Taglib :
+</p>
 
 <blockquote>
    You need to copy the veltag-XX.jar to the
@@ -429,6 +424,7 @@ To test the Velocity Taglib :
   to your web.xml file, within the &lt;webapp&gt; section.
 </blockquote>
 
+<p>
 If you wish to use the included example JSP, you will also need to compile
 <code>examples/SimpleBean.java</code> and place the resulting 
 <code>SimpleBean.class</code> into the <code>WEB-INF/classes</code>
