@@ -57,6 +57,9 @@ package org.apache.velocity;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.Writer;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
@@ -90,7 +93,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.32 2001/03/20 17:14:00 geirm Exp $
+ * @version $Id: Template.java,v 1.33 2001/04/22 18:22:11 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -156,9 +159,19 @@ public class Template extends Resource
 
             try
             {
-                data = Runtime.parse(is, name);
+                BufferedReader br = new BufferedReader( new InputStreamReader( is, encoding ) );
+ 
+                data = Runtime.parse( br, name);
                 initDocument();
                 return true;
+            }
+            catch( UnsupportedEncodingException  uce )
+            {   
+                String msg = "Template.process : Unsupported input encoding : " + encoding 
+                + " for template " + name;
+
+                errorCondition  = new ParseErrorException( msg );
+                throw errorCondition;
             }
             catch ( ParseException pex )
             {
@@ -279,6 +292,7 @@ public class Template extends Resource
             try
             {
                 ica.pushCurrentTemplateName( name );
+                ica.setCurrentResource( this );
 
                 ( (SimpleNode) data ).render( ica, writer);
             }
@@ -287,8 +301,8 @@ public class Template extends Resource
                 /*
                  *  lets make sure that we always clean up the context 
                  */
-
                 ica.popCurrentTemplateName();
+                ica.setCurrentResource( null );
             }
         }
         else
