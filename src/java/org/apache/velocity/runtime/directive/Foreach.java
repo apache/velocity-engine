@@ -77,6 +77,8 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -87,7 +89,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.37 2001/08/07 21:57:56 geirm Exp $
+ * @version $Id: Foreach.java,v 1.38 2001/09/07 05:03:49 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -313,7 +315,8 @@ public class Foreach extends Directive
      */
     public boolean render( InternalContextAdapter context, 
                            Writer writer, Node node )
-        throws IOException,  MethodInvocationException
+        throws IOException,  MethodInvocationException, ResourceNotFoundException,
+        	ParseErrorException
     {        
         /*
          *  do our introspection to see what our collection is

@@ -68,6 +68,8 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * Pluggable directive that handles the #parse() statement in VTL. 
@@ -87,7 +89,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.21 2001/08/07 21:57:56 geirm Exp $
+ * @version $Id: Parse.java,v 1.22 2001/09/07 05:03:49 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -116,7 +118,7 @@ public class Parse extends Directive
      */
     public boolean render( InternalContextAdapter context, 
                            Writer writer, Node node)
-        throws IOException, MethodInvocationException
+        throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         /*
          *  did we get an argument?
@@ -193,9 +195,31 @@ public class Parse extends Directive
         {
             t = rsvc.getTemplate( arg, encoding );   
         }
-        catch ( Exception e)
+        catch ( ResourceNotFoundException rnfe )
         {
-            rsvc.error("#parse : cannot find " + arg + " template!");
+       		/*
+       		 * the arg wasn't found.  Note it and throw
+       		 */
+       		 
+        	rsvc.error("#parse(): cannot find template '" + arg + "', called from template " 
+        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() + ")" );       	
+        	throw rnfe;
+        }
+        catch ( ParseErrorException pee )
+        {
+        	/*
+        	 * the arg was found, but didn't parse - syntax error
+        	 *  note it and throw
+        	 */
+
+        	rsvc.error("#parse(): syntax error in #parse()-ed template '" + arg + "', called from template " 
+        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() + ")" );    
+        		
+        	throw pee;
+        } 
+        catch ( Exception e)
+        {	
+        	rsvc.error("#parse() : arg = " + arg + ".  Exception : " + e);
             return false;
         }
     
