@@ -68,6 +68,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.Enumeration;
+import java.util.TreeMap;
 
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
@@ -90,6 +91,10 @@ import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
 import org.apache.velocity.runtime.directive.Include;
 import org.apache.velocity.runtime.directive.Parse;
+import org.apache.velocity.runtime.directive.Macro;
+
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.VelocimacroFactory;
 
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
@@ -153,7 +158,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.49 2000/11/17 02:23:23 daveb Exp $
+ * @version $Id: Runtime.java,v 1.50 2000/11/19 23:17:52 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -184,6 +189,13 @@ public class Runtime implements RuntimeConstants
       */
     private static final int NUMBER_OF_PARSERS = 20;
     
+
+    /**
+     *  VelocimacroFactory object to manage VMs
+     */
+
+    private static VelocimacroFactory vmFactory_ = new VelocimacroFactory();
+
     /** A list of paths that we can pull static content from. */
     private static String[] includePaths;
 
@@ -302,6 +314,13 @@ public class Runtime implements RuntimeConstants
         }
 
         init();
+
+        /*
+         *  initialize the VM Factory.  It will use the properties accessable from Runtime,
+         *  so keep this here at the end
+         */
+        vmFactory_.initVelocimacro();
+        
     }
 
     public static void setProperties(String propertiesFileName) throws Exception
@@ -536,6 +555,7 @@ public class Runtime implements RuntimeConstants
         directives.put("dummy", new Dummy());
         directives.put("include", new Include() );
         directives.put("parse", new Parse() );
+        directives.put("macro", new Macro() );
         parser.setDirectives(directives);
         return parser;
     }
@@ -762,4 +782,66 @@ public class Runtime implements RuntimeConstants
     {
         System.out.println(fileToURL(args[0]));
     }
+
+    /**
+     *   String property accessor method with defaultto hide the VelocityResources implementation
+     * @param strKey  property key
+     * @param strDefault  default value to return if key not found in resource manager
+     * @return String  value of key or default 
+     */
+    public static String getString( String strKey, String strDefault)
+    {
+        return VelocityResources.getString(strKey, strDefault);
+    }
+
+    /**
+     *   String property accessor method to hide the VelocityResources implementation
+     * @param strKey  property key
+     * @return String  value of key or null
+     */
+    public static String getString( String strKey)
+    {
+        return VelocityResources.getString(strKey);
+    }
+
+    /**
+     *  returns the appropriate VelocimacroProxy object if strVMname
+     *  is a valid current Velocimacro
+     *
+     * @param strVMName  Name of velocimacro requested
+     * @return VelocimacroProxy 
+     */
+    public static Directive getVelocimacro( String strVMName )
+    {
+        return vmFactory_.getVelocimacro( strVMName );
+    }
+
+   /**
+     *  adds a new Velocimacro.  Usually called by Macro only while parsing
+     *
+     * @param strName  Name of velocimacro 
+     * @param strMacro  String form of macro body
+     * @param strArgArray  Array of strings, containing the #macro() arguments.  the 0th is the name.
+     * @param strMacroArray  The macro body as an array of strings.  Basically, the tokenized literal  representation
+     * @param tmArgIndexMap  Indexes to the args in the macro body string
+     * @return boolean  True if added, false if rejected for some reason (either parameters or permission settings) 
+     */
+    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[], String strMacroArray[], TreeMap tmArgIndexMap )
+    {    
+        return vmFactory_.addVelocimacro(  strName, strMacro,  strArgArray,  strMacroArray, tmArgIndexMap);
+    }
+
+    /**
+     *  Checks to see if a VM exists
+     *
+     * @param strName  Name of velocimacro
+     * @return boolean  True if VM by that name exists, false if not
+     */
+    public static boolean isVelocimacro( String strVMName )
+    {
+        return vmFactory_.isVelocimacro( strVMName );
+    }
+
 }
+
+
