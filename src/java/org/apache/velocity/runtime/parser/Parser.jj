@@ -103,7 +103,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.25 2000/11/06 04:12:58 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.26 2000/11/07 21:33:54 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -328,6 +328,14 @@ TOKEN_MGR_DECLS:
         return;
     }
 
+    /**
+     *  Produces a processed output for an escaped control directive
+     */
+    private String escapedDirective( String strImage, String strDirective )
+    {
+        int iLast = strImage.lastIndexOf("\\");
+        return ( strImage.substring(0,iLast/2) + strDirective); 
+    }
 
     /**
      *  handles the dropdown logic when encountering a RPAREN
@@ -466,25 +474,44 @@ TOKEN:
     /*
      *  We have to do this, because we want these to be a Text node, and
      *  whatever follows to be peer to this text in the tree.
-     *  And we don't want to try an and deal with this w/in the AST.
+     *  
+     *  We need to touch the ASTs for these, because we want an even # of \'s
+     *  to render properly in front of the block
      *
      *  This is really simplistic.  I actually would prefer to find them in
      *  grammatical context, but I am neither smart nor rested, a receipe
      *  for disaster, another long night with Mr. Parser, or both.
      */
 
-     <ESCAPE_SET_DIRECTIVE : "\\#set">   
-     { matchedToken.image = "#set"; }
-|    <ESCAPE_IF_DIRECTIVE : "\\#if">   
-     { matchedToken.image = "#if"; }
-|    <ESCAPE_END_DIRECTIVE : "\\#end">   
-     { matchedToken.image = "#end"; }
-|    <ESCAPE_ELSEIF_DIRECTIVE: "\\#elseif">
-     { matchedToken.image = "#elseif"; }
-|    <ESCAPE_ELSE_DIRECTIVE: "\\#else"> 
-     { matchedToken.image = "#else"; }
-|    <ESCAPE_STOP_DIRECTIVE: "\\#stop">
-     { matchedToken.image = "#stop"; }
+     <ESCAPE_SET_DIRECTIVE : ("\\\\")* "\\#set">   
+     { 
+        matchedToken.image = escapedDirective( matchedToken.image, "#set");
+     }
+
+|    <ESCAPE_IF_DIRECTIVE : ("\\\\")*  "\\#if">   
+     { 
+         matchedToken.image = escapedDirective( matchedToken.image, "#if");
+     }
+
+|    <ESCAPE_END_DIRECTIVE : ("\\\\")* "\\#end">   
+     { 
+        matchedToken.image = escapedDirective( matchedToken.image, "#end");
+     }     
+
+|    <ESCAPE_ELSEIF_DIRECTIVE: ("\\\\")* "\\#elseif">
+     { 
+        matchedToken.image = escapedDirective( matchedToken.image, "#elseif");
+     }
+
+|    <ESCAPE_ELSE_DIRECTIVE: ("\\\\")* "\\#else"> 
+     { 
+        matchedToken.image = escapedDirective( matchedToken.image, "#else");
+     }
+
+|    <ESCAPE_STOP_DIRECTIVE: ("\\\\")* "\\#stop">
+     { 
+        matchedToken.image = escapedDirective( matchedToken.image, "#stop");
+     }
 
 }
 
@@ -496,7 +523,7 @@ TOKEN:
  */
 TOKEN:
 {
-   <SET_DIRECTIVE: (" "|"\t")* "#set" >
+  <SET_DIRECTIVE: (" "|"\t")* ("\\\\")*  "#set" >
     { 
         if (! inComment)
         {
@@ -519,7 +546,7 @@ MORE :
      *   Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
      */
 
-    <DOLLAR: ("\\")? "$"> 
+    <DOLLAR: ("\\")* "$"> 
     { 
         if (! inComment)
         {
@@ -560,7 +587,6 @@ MORE :
         inComment = true; 
         stateStackPush();
         SwitchTo( IN_FORMAL_COMMENT);
-        // was : IN_FORMAL_COMMENT
     } 
     
 |   "#*" 
@@ -570,7 +596,7 @@ MORE :
         SwitchTo( IN_MULTI_LINE_COMMENT ); 
     } 
 
-|   <HASH : ("\\")? "#"> 
+|   <HASH : ("\\")* "#" > 
     { 
         if (! inComment)
         {
@@ -1051,7 +1077,17 @@ SimpleNode Directive() :
 
     t = <WORD>
     {
-        if( t.image.startsWith("\\"))
+        /*
+         *  We need to count the preceeding \'s.  If t starts with an odd number of \'s...
+         */
+
+         int i = 0;
+         int iLen = t.image.length();
+
+         while( i < iLen && t.image.charAt(i) == '\\' )
+            i++;         
+                
+        if( t.image.startsWith("\\") && (i % 2) != 0 )
         {
             token_source.stateStackPop();
             token_source.inDirective = false;
@@ -1059,7 +1095,7 @@ SimpleNode Directive() :
         }
         else
         {
-            d = (Directive) directives.get(t.image.substring(1));
+            d = (Directive) directives.get(t.image.substring(i+1));
         
             if (d == null)
             {
@@ -1114,7 +1150,7 @@ SimpleNode Directive() :
       }
     }
 /*@egen*/ 
-    <END>/*@bgen(jjtree)*/
+    EndStatement()/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
@@ -1380,7 +1416,7 @@ void IfStatement() : {/*@bgen(jjtree) IfStatement */
 /*@egen*/
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
-    <END>/*@bgen(jjtree)*/
+    EndStatement()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1395,6 +1431,23 @@ void IfStatement() : {/*@bgen(jjtree) IfStatement */
         throw (RuntimeException)jjte000;
       }
       throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void EndStatement() : {/*@bgen(jjtree) EndStatement */
+  ASTEndStatement jjtn000 = new ASTEndStatement(this, JJTENDSTATEMENT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) EndStatement */
+    try {
+/*@egen*/
+    <END>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -2133,6 +2186,10 @@ void PrimaryExpression()       : {}
     ----------------
     The escape processing in VTL is very simple.  The '\' character acts only as an escape when :
     
+        1) On or more touch a VTL element.
+
+    A VTL element is either :
+
         1) It preceeds a reference that is in the context.
 
         2) It preceeds a defined directive (#set, #if, #end, etc) or a valid pluggable directive, 
@@ -2148,6 +2205,12 @@ void PrimaryExpression()       : {}
     would output
 
         $foo  $bar  \$woogie
+
+    Further, you can stack them and they affect left to right, just like convention escape characters in other languages.
+
+        \$foo = $foo
+        \\$foo = \<foo>
+        \\\$foo = \$foo
 
     
     What You Expect
