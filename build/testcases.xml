@@ -27,7 +27,7 @@
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
   <target name="test-clean">
-    <!-- 
+    <!--
          Hack to prevent Ant from complaining about missing directories.
          This is fixed in Ant >1.3, but we are using Ant 1.3 now.
     -->
@@ -50,7 +50,7 @@
     <delete dir="${test.home}/texen/results" quiet="true"/>
   </target>
 
-  <target name="test-all" depends="   
+  <target name="test-all" depends="
                                    test-template,
                                    test-velocityapp,
                                    test-introspect,
@@ -63,14 +63,15 @@
                                    test-configuration,
                                    test-commonsextprop,
                                    test-externallogger,
-                                   test-methodinvocationexception,   
+                                   test-methodinvocationexception,
                                    test-multiloader,
                                    test-encoding,
                                    test-eventhandling,
                                    test-velocimacro,
                                    test-anakia,
                                    test-texen,
-                                   test-texen-classpath
+                                   test-texen-classpath,
+                                   test-misc
                                    "/>
 
   <target name="test-template">
@@ -105,7 +106,7 @@
     </java>
    </target>
 
-  <target name="test-velocityapp"> 
+  <target name="test-velocityapp">
     <echo message="Running app.Velocity tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
@@ -116,7 +117,7 @@
     </java>
   </target>
 
-  <target name="test-introspect"> 
+  <target name="test-introspect">
     <echo message="Running Introspector tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
@@ -127,7 +128,7 @@
     </java>
   </target>
 
-  <target name="test-introspect2"> 
+  <target name="test-introspect2">
     <echo message="Running Introspector2 tests..."/>
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
@@ -146,7 +147,7 @@
       </classpath>
     </java>
   </target>
-  
+
   <target name="test-inlinevmscope">
     <echo message="Running Inline VM Scope tests..."/>
 
@@ -195,7 +196,7 @@
 
   <target name="test-anakia">
     <echo message="Running Anakia tests..."/>
-    
+
     <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
       <classpath>
         <path refid="classpath"/>
@@ -259,22 +260,32 @@
     </java>
    </target>
 
+   <target name="test-misc">
+    <echo message="Running misc tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.MiscTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
 
   <!-- ================================================================ -->
   <!-- T E X E N  T E S T                                               -->
   <!-- ================================================================ -->
   <!-- Generate turbine service code via Texen                          -->
   <!-- ================================================================ -->
-  
+
   <target name="test-texen">
-    
+
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
       <classpath>
         <path refid="classpath"/>
       </classpath>
     </taskdef>
-  
-    <texen 
+
+    <texen
       contextProperties="../test/texen/service.props,../test/texen/additional.props"
       controlTemplate="Control.vm"
       outputDirectory="../test/texen/results"
@@ -297,9 +308,9 @@
   <!-- Generate turbine service code via Texen with all the templates   -->
   <!-- and ancillary files in a JAR.                                    -->
   <!-- ================================================================ -->
-  
+
   <target name="test-texen-classpath">
-    
+
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
 	reverseloader="true">
       <classpath>
@@ -307,7 +318,7 @@
         <path refid="classpath"/>
       </classpath>
     </taskdef>
-  
+
     <texen
       useClassPath="true"
       contextProperties="service.props"
