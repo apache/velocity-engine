@@ -74,7 +74,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
  *  Tests event handling
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.3 2001/05/20 21:14:32 geirm Exp $
+ * @version $Id: EventHandlingTestCase.java,v 1.4 2001/06/02 14:48:25 geirm Exp $
  */
 public class EventHandlingTestCase extends TestCase implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,
@@ -119,14 +119,13 @@ public class EventHandlingTestCase extends TestCase implements ReferenceInsertio
      */
     public void runTest ()
     {
+
         /* 
-         *  lets make a Context and add some data
+         *  lets make a Context and add the event cartridge
          */
         
-        VelocityContext context = new VelocityContext();
-        
-        context.put("name", "Velocity");
-        
+        VelocityContext inner = new VelocityContext();
+
         /*
          *  Now make an event cartridge, register all the 
          *  event handlers (at once) and attach it to the
@@ -135,8 +134,17 @@ public class EventHandlingTestCase extends TestCase implements ReferenceInsertio
 
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(this);
-        ec.attachToContext( context );
+        ec.attachToContext( inner );
   
+        /*
+         *  now wrap the event cartridge - we want to make sure that
+         *  we can do this w/o harm
+         */
+
+        VelocityContext context = new VelocityContext( inner );
+
+        context.put("name", "Velocity");
+
         try
         {
             /*
