@@ -1454,6 +1454,31 @@
     logged and a null will be returned as the output.
   </p>
 
+  <p>
+    Velocity has a built-in way of dealing with division by zero. In the following example
+  </p>
+
+  <p>
+    <source><![CDATA[
+    #set( $foo = 5 )
+    #set( $bar = $foo - 5 )
+    #set( $uhoh = $foo / $bar )
+    $uhoh
+    ]]></source>
+  </p>  
+
+  <p>
+    The reference <variable>$uhoh</variable> is assigned the value of five divided by zero.
+    When Velocity renders this template, the output will be:
+  </p>
+
+  <p>
+    <source><![CDATA[
+    $uhoh
+    ]]></source>
+  </p>  
+  
+
   </s1>
 
   <s1 title="Range Operator">
