@@ -66,7 +66,7 @@ import org.apache.velocity.runtime.Runtime;
  * sources.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ContentResource.java,v 1.1 2000/12/19 05:30:05 jvanzyl Exp $
+ * @version $Id: ContentResource.java,v 1.2 2000/12/19 15:33:16 jvanzyl Exp $
  */
 public class ContentResource extends Resource
 {
@@ -97,7 +97,7 @@ public class ContentResource extends Resource
         }
         catch ( Exception e ) 
         {
-            Runtime.error("#include() : " + e.toString() );
+            Runtime.error("Cannot process content resource : " + e.toString() );
             return false;
         }
     }
