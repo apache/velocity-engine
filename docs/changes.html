@@ -207,6 +207,19 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
     removed NullReferenceEventHandler
     as redundant. (gmj)
   </li>
+  <li>
+    Moved all event-realated things to o.a.v.app.event package,
+    updated all things that depend upon it,
+    and modified the context stuff to support a public event 
+    interface.  Also renamed the null set method to something
+    more appropos, and added arg to method. (gmj)
+  </li>
+  <li>
+    Added switch to turn off 'resource found' messages in
+    ResourceManager.  Default is on.  Key is
+    'resource.manager.logwhenfound'.  (gmj)
+  </li>
+
 </ul>
                             </blockquote>
       </td></tr>
