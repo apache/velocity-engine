@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.81 2003/12/30 11:47:13 geirm Exp $
+ * @version $Id: Parser.jjt,v 1.82 2003/12/30 12:18:32 geirm Exp $
 */
 public class Parser
 {
@@ -818,7 +818,7 @@ TOKEN :
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
   < STRING_LITERAL:
       ("\""
-        (   (~["\"","\\","\n","\r"])
+        (   (~["\"","\\"])
           | ("\\"
               ( ["n","t","b","r","f","\\","'","\""]
               | ["0"-"7"] ( ["0"-"7"] )?
@@ -831,7 +831,7 @@ TOKEN :
       )
     |
     ("\'"
-        (   (~["\'","\n","\r"])
+        (   (~["\'"])
           | ( "\\" (" ")* "\n")
         )*
         "\'"
