@@ -61,17 +61,38 @@ import java.util.Hashtable;
 
 import java.lang.reflect.Method;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.11 2001/10/22 03:53:27 jon Exp $
+ * @version $Id: MethodMap.java,v 1.12 2001/11/26 16:00:19 geirm Exp $
  */
-
 public class MethodMap
 {
+    protected Class clazz = null;
+    protected RuntimeServices rsvc = null;
+
+    /**
+     *  we need both the class and rsvc for ambiguity
+     *  reporting
+     */
+    public MethodMap( RuntimeServices rsvc, Class c )
+    {
+        this.clazz = c;
+        this.rsvc = rsvc;
+    }
+
+    /**
+     *  hide this...
+     */
+    private MethodMap()
+    {
+    }
+
     /**
      * Keep track of all methods with the same name.
      */
@@ -111,11 +132,22 @@ public class MethodMap
     }
 
     /**
-     * Find a method.
+     *  <p>
+     *  Find a method.  Attempts to find the 
+     *  most appropriate method using the
+     *  sense of 'specificity'.
+     *  </p>
+     * 
+     *  <p>
+     *  This turns out to be a relatively rare case
+     *  where this is needed - however, functionality
+     *  like this is needed.  This may not be the
+     *  optimum approach, but it works.
+     *  </p>
      *
-     * @param String name of method
-     * @param Object[] params
-     * @return Method
+     *  @param String name of method
+     *  @param Object[] params
+     *  @return Method
      */
     public Method find(String methodName, Object[] params)
     {
@@ -131,6 +163,11 @@ public class MethodMap
 
         int numMethods = methodList.size();
         
+        int bestDistance  = -2;
+        Method bestMethod = null;
+        Twonk bestTwonk = null;
+        boolean ambiguous = false;
+        
         for (int i = 0; i < numMethods; i++)
         {
             method = (Method) methodList.get(i);
@@ -143,37 +180,212 @@ public class MethodMap
 
             if (parameterTypes.length == params.length)
             {
-                /* 
-                 * Make sure the given parameter is a valid
-                 * subclass of the method parameter in question.
+                /*
+                 *  use the calling parameters as the baseline
+                 *  and calculate the 'distance' from the parameters
+                 *  to the method args.  This will be useful when
+                 *  determining specificity
                  */
-
-                for (int j = 0; ; j++)
+                 
+                Twonk twonk = calcDistance( params, parameterTypes );
+                
+                if (twonk != null )
                 {
-                    if (j >= parameterTypes.length)
-                        return method;
-
-                    Class c = parameterTypes[j];
-                    Object p = params[j];
-                    if ( c.isPrimitive() )
+                    /*
+                     *  if we don't have anything yet, take it
+                     */
+                     
+                    if ( bestTwonk == null )
                     {
-                        try
+                        bestTwonk = twonk;
+                        bestMethod = method;
+                    }
+                    else
+                    {
+                        /*
+                         * now see which is more specific, this current
+                         * versus what we think of as the best candidate
+                         */
+                         
+                        int val = twonk.moreSpecific( bestTwonk );
+                         
+                        //System.out.println("Val = " + val + " for " + method + " vs " + bestMethod );
+                            
+                        if( val == 0)
                         {
-                            if ( c != p.getClass().getField("TYPE").get(p) )
-                                break;
-                        } 
-                        catch (Exception ex) 
+                            /*
+                             * this means that the parameters 'crossed'
+                             * therefore, it's ambiguous because one is as 
+                             * good as the other
+                             */
+                            ambiguous = true;
+                        }
+                        else if ( val == 1)
                         {
-                            break; // p is not a primitive derivate
+                            /*
+                             *  the current method is clearly more
+                             *  specific than the current best, so
+                             *  we take the current we are testing
+                             *  and clear the ambiguity flag
+                             */
+                            ambiguous = false;
+                            bestTwonk = twonk;
+                            bestMethod = method;
                         }
                     }
-                    else if ( (p != null) &&
-                              !c.isAssignableFrom( p.getClass() ) )
-                        break;
-                }
+                }        
+               
             }
         }
 
-        return null;
+        if ( ambiguous )
+        {    
+            String msg = "MethodMap : Ambiguous method invocation "
+                + methodName + "( ";
+
+            for (int i = 0; i < params.length; i++)
+            {
+                if ( i > 0)
+                    msg = msg + ", ";
+                
+                msg = msg + params[i].getClass().getName();
+            }
+
+            msg = msg + ") for class " + clazz;
+
+            rsvc.error( msg );
+
+            System.out.println( msg );
+
+            return null;
+        }
+           
+        return bestMethod;
+    }
+    
+    private Twonk calcDistance( Object[] set, Class[] base )
+    {
+        if ( set.length != base.length)
+            return null;
+            
+        Twonk twonk = new Twonk( set.length );
+        
+        int distance = 0;
+        
+        for (int i = 0; i < set.length; i++)
+        {
+            /* 
+             * can I get from here to there?
+             */
+             
+            Class setclass = set[i].getClass();
+             
+            if ( !base[i].isAssignableFrom( set[i].getClass() ))
+                return null;
+    
+            /*
+             * ok, I can.  How many steps?
+             */
+           
+            Class c = setclass;
+                      
+            while( c != null)
+            {      
+                /*
+                 * is this a valid step?
+                 */
+                 
+                if ( !base[i].isAssignableFrom( c ) )
+                {      
+                    /*
+                     *  it stopped being assignable - therefore we are looking at
+                     *  an interface as our target, so move back one step
+                     *  from the distance as the stop wasn't valid
+                     */
+                    break;
+                }
+                
+                if(  base[i].equals( c ) )
+                {
+                    /*
+                     *  we are equal, so no need to move forward
+                     */
+                     
+                    break;
+                }
+
+                c = c.getSuperclass();
+                twonk.distance++;
+                twonk.vec[i]++;
+            }
+         }
+                
+        return twonk;
+    }
+    
+    class Twonk
+    {
+        public int distance;
+        public int[] vec;
+        
+        public Twonk( int size )
+        {
+            vec = new int[size];
+        }
+        
+        public int moreSpecific( Twonk other )
+        {
+            if (other.vec.length != vec.length )
+                return -1;
+                
+            boolean low = false;
+            boolean high = false;
+            
+            for (int i = 0; i < vec.length; i++)
+            {
+                if ( vec[i] > other.vec[i])
+                {
+                    high = true;
+                }
+                else if (vec[i] < other.vec[i] )
+                {
+                    low = true;
+                }                    
+            }
+            
+            /*
+             *  this is a 'crossing' - meaning that
+             *  we saw the parameter 'slopes' cross
+             *  this means ambiguity
+             */
+             
+            if (high && low)
+                return 0;
+               
+            /*
+             *  we saw that all args were 'high', meaning
+             *  that the other method is more specific so
+             *  we are less
+             */
+             
+            if( high && !low)
+                return -1;
+                
+            /*
+             *  we saw that all points were lower, therefore
+             *  we are more specific
+             */
+             
+            if( !high && low )
+                return 1;
+            
+            /*
+             *  the remainder, neither high or low
+             *  means we are the same.  This really can't 
+             *  happen, as it implies the same args, right?
+             */
+             
+            return 1;
+        }
     }
 }
