@@ -68,15 +68,16 @@ import org.jdom.input.SAXBuilder;
  * Example to show basic XML handling in a template.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: XMLTest.java,v 1.1 2001/04/10 12:20:15 geirm Exp $
+ * @version $Id: XMLTest.java,v 1.2 2001/04/10 16:51:29 geirm Exp $
  */
 public class XMLTest
 {
     public XMLTest( String templateFile)
-    {            
+    {    
+        Writer writer = null;
+
         try
         {
-            
             /*
              *  and now call init
              */
@@ -115,15 +116,27 @@ public class XMLTest
  
             Template template = Velocity.getTemplate(templateFile);
 
-            Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            template.merge( context , writer);
-
-            writer.flush();
-            writer.close();
+            writer = new BufferedWriter(new OutputStreamWriter(System.out));
+            template.merge( context , writer);  
         }
         catch( Exception e )
         {
            System.out.println("Exception : " + e);
+        }
+        finally
+        {
+            if ( writer != null)
+            {
+                try
+                {
+                    writer.flush();
+                    writer.close();
+                }
+                catch( Exception ee )
+                {
+                    System.out.println("Exception : " + ee );
+                }
+            }
         }
     }
 
