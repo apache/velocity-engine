@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.27 2001/03/20 00:47:43 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.28 2001/03/23 01:01:14 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -199,11 +199,20 @@ public class AnakiaTask extends MatchingTask
      * a Velocity.properties file, therefore using Velocity's defaults
      * only.
      */
-    public void setTemplatePath(String templatePath)
-    {
-        this.templatePath = templatePath;
-    }
     
+    public void setTemplatePath(File templatePath)
+     {
+         try 
+         {
+             this.templatePath = templatePath.getCanonicalPath();
+         } 
+         catch (java.io.IOException ioe) 
+         {
+             throw new BuildException(ioe);
+         }
+     }
+
+
     /**
      * Allow people to set the path to the velocity.properties file
      * This file is found relative to the path where the JVM was run.
