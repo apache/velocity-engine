@@ -62,15 +62,23 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.12 2001/01/21 20:53:14 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.13 2001/01/24 15:00:26 geirm Exp $
  */
 public class TestProvider
 {
     String title = "lunatic";
     boolean state;
+    Object ob = null;
+
     public static String PUB_STAT_STRING = "Public Static String";
 
     int stateint = 0;
+
+
+    public Thing getParameters()
+    {
+        return new Thing();
+    }
 
     public String getName()
     {
@@ -247,6 +255,16 @@ public class TestProvider
         return result;
     }
 
+    public String concat( List o)
+    {
+        String result = "";
+        
+        for (int i = 0; i < o.size(); i++)
+            result += (String) o.get(i) + " ";
+        
+        return result;
+    }
+
     public String parse(String a, Object o, String c, String d)
     {
         return a + o.toString() + c + d;
@@ -337,6 +355,17 @@ public class TestProvider
      */
     public String get(String key)
     {
+        return key;
+    }        
+
+    /**
+     * Test the ability of vel to use a put(key)
+     * method for any object type, not just one
+     * that implements the Map interface.
+     */
+    public String put(String key, Object o)
+    {
+        ob = o;
         return key;
     }        
 
