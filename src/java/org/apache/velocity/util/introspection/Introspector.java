@@ -89,7 +89,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.17 2001/10/22 03:53:27 jon Exp $
+ * @version $Id: Introspector.java,v 1.18 2001/11/26 16:01:14 geirm Exp $
  */
 public class Introspector
 {
@@ -177,7 +177,7 @@ public class Introspector
      */
     private ClassMap createClassMap(Class c)
     {        
-        ClassMap classMap = new ClassMap(c);        
+        ClassMap classMap = new ClassMap( rsvc, c );        
         classMethodMaps.put(c, classMap);
         cachedClassNames.add( c.getName() );
 

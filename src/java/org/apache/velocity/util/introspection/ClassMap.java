@@ -61,6 +61,8 @@ import java.util.Hashtable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  * A cache of introspection information for a specific class instance.
  * Keys {@link java.lang.Method} objects by a concatenation of the
@@ -70,7 +72,7 @@ import java.lang.reflect.Modifier;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.15 2001/11/02 05:09:37 dlr Exp $
+ * @version $Id: ClassMap.java,v 1.16 2001/11/26 16:01:14 geirm Exp $
  */
 public class ClassMap
 {
@@ -91,17 +93,22 @@ public class ClassMap
      */
     private Map methodCache = new Hashtable();
 
-    private MethodMap methodMap = new MethodMap();
+    private MethodMap methodMap = null;
 
     /**
      * Standard constructor
      */
-    public ClassMap(Class clazz)
+    public ClassMap( RuntimeServices rsvc, Class clazz)
     {
         this.clazz = clazz;
+        methodMap = new MethodMap( rsvc, clazz );
         populateMethodCache();
     }
-    
+
+    private ClassMap()
+    {
+    }
+
     /**
      * @return the class object whose methods are cached by this map.
      */
