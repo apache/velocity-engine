@@ -75,7 +75,7 @@ import java.util.StringTokenizer;
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.11 2001/05/02 00:06:31 dlr Exp $
+ *  @version $Id: StringUtils.java,v 1.12 2001/05/09 01:56:52 jon Exp $
  */
 public class StringUtils
 {
@@ -173,9 +173,9 @@ public class StringUtils
 
     /**
      * Chop i characters off the end of a string.
-     * This method is sensitive to the EOL for a
-     * particular platform. The EOL character will
-     * considered a single character.
+     * This method assumes that any EOL characters in String s 
+     * and the platform EOL will be the same.
+     * A 2 character EOL will count as 1 character. 
      *
      * @param string String to chop.
      * @param i Number of characters to chop.
@@ -183,15 +183,45 @@ public class StringUtils
      */
     public static String chop(String s, int i)
     {
-        for (int j = 0; j < i; j++)
+        return chop(s, i, EOL);
+    }
+
+    /**
+     * Chop i characters off the end of a string. 
+     * A 2 character EOL will count as 1 character. 
+     *
+     * @param string String to chop.
+     * @param i Number of characters to chop.
+     * @param eol A String representing the EOL (end of line).
+     * @return String with processed answer.
+     */
+    public static String chop(String s, int i, String eol)
+    {        
+        char[] sa = s.toCharArray();
+        int length = sa.length;
+
+        if ( eol.length() == 2 ) 
         {
-            if (EOL.indexOf(s.substring(s.length() - 1)) > 0 && EOL_LENGTH == 2)
-                s = s.substring(0, s.length() - 2);
-            else
-                s = s.substring(0, s.length() - 1);
-        }            
-    
-        return s;
+            char eol1 = eol.charAt(0);
+            char eol2 = eol.charAt(1);
+            for (; i>0; i--)
+            {
+                if ( sa[length-1] == eol2 && sa[length-2] == eol1 ) 
+                {
+                    length -= 2;
+                }
+                else 
+                {
+                    length--;
+                }
+            }
+        }
+        else
+        {
+            length -= i;
+        }
+
+        return new String(sa, 0, length);
     }
     
     /**
