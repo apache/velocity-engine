@@ -62,6 +62,7 @@ import java.io.Writer;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.Vector;
@@ -78,7 +79,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.10 2001/01/03 05:28:51 geirm Exp $
+ * @version $Id: Test.java,v 1.11 2001/01/18 04:38:37 geirm Exp $
  */
 public class Test
 {
@@ -176,6 +177,8 @@ public class Test
             context.put("stringarray", provider.getArray());
             context.put("vector", v);
             context.put("mystring", new String());
+            context.put("hashmap", new HashMap() );
+
  
             /*
              *  make a writer, and merge the template 'against' the context
