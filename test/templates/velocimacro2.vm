@@ -4,7 +4,7 @@
 
 This template is used for Velocity regression testing.
 If you alter this template make sure you change the
-corresponding comparison file so that the regression 
+corresponding comparison file so that the regression
 test doesn't fail incorrectly.
 
 *#
@@ -52,7 +52,7 @@ test doesn't fail incorrectly.
 
 #macro( poundthis $truth )
   #if ($truth )
-    <td align=center class=v10><b>#</b></td>        
+    <td align=center class=v10><b>#</b></td>
     <td align=center class=v10><b> # </b></td>
     <td align=center class=v10><b>\#</b></td>
   #end
@@ -60,3 +60,11 @@ test doesn't fail incorrectly.
 
 #poundthis( true )
 
+##
+## test for bug reported when stringlit changed to on-init parsing
+##
+
+#macro( blorp $bar ) $bar #end
+#macro( schlorp $i )#blorp( "hi $i" ) #end
+
+#schlorp("victor")
