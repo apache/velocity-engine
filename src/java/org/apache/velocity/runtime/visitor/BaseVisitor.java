@@ -277,4 +277,16 @@ public abstract class BaseVisitor implements ParserVisitor
         data = node.childrenAccept(this, data); 
         return data; 
     }
+
+    public Object visit(ASTWord node, Object data)
+    { 
+        data = node.childrenAccept(this, data);   
+        return data;
+    }
+    
+    public Object visit(ASTSetDirective node, Object data)
+    { 
+        data = node.childrenAccept(this, data);   
+        return data;
+    }
 }
