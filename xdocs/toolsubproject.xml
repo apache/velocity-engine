@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Tools Subproject</title>
+  <author email="geirm@optonline.net">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Overview">
+
+<p>
+The Velocity Tools Subproject is a repository of Java packages
+useful for creating
+applications using the Velocity Template Engine.
+</p>
+
+</section>
+
+<section name="Packages">
+
+    <p>
+    <strong>View</strong>
+    <br/>
+    The <b>View</b> package is a standalone servlet that can be used for
+    template rendering in Web Applications.  The <code>VelocityViewServlet</code>
+    also offers basic tool management, automatically loading a toolset into the
+    context for each request.
+    </p>
+
+    <p>
+    <strong>Struts</strong>
+    <br/>
+    The <b>Struts</b> package is a set of tools, examples and documentation for
+    using the Velocity Template Engine with the
+    <a href="http://jakarta.apache.org/struts/">Jakarta Struts</a>
+    web application framework.  It uses the <b>View</b> package in place of
+    (or along side of) the JspServlet most commonly used in Struts
+    applications.
+    </p>
+
+    <p>
+    <strong>Tools</strong>
+    <br/>
+    When in place, this will be a library of generic tools appropriate for use
+    in the template via the Context.
+    </p>
+
+    <p>
+    <strong>Utilities</strong>
+    <br/>
+    When in place, this will be a library of Velocity-related utilities.
+    </p>
+
+    <p>
+    <strong>Velocimacros</strong>
+    <br/>
+    When in place, this will be a repository of Velocimacros for use in
+    Velocity templates.
+    </p>
+</section>
+
+<section name="CVS Repository">
+
+<p>
+Currently, the code is only available via CVS in the
+<a href="http://cvs.apache.org/viewcvs/jakarta-velocity-tools/">
+jakarta-velocity-tools</a> repository.  You may of course
+access both <a href="http://cvs.apache.org/viewcvs/jakarta-velocity-tools/">
+online</a> as well as with a
+<a href="http://jakarta.apache.org/getinvolved/cvsindex.html">cvs client</a>.
+</p>
+
+</section>
+</body>
+</document>
