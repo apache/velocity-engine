@@ -365,6 +365,21 @@
      </td>
      </tr>
 
+     http://vpp.sourceforge.net./
+
+     <tr>
+     <td>
+      <a href="http://vpp.sourceforge.net./">VPP - File Pre-processor</a>
+     </td>
+     <td>
+     VPP provides general file preprocessing support based on the
+     Velocity Template Engine and Ant . The core funtionality is provided as a
+     filter for use with tasks that supports filter chains.  Also included are
+     replacement tasks for &lt;copy&gt; and &lt;javac&gt; that integrate support
+     for preprocessing.
+     </td>
+     </tr>
+
 
  </table>
 
