@@ -348,6 +348,17 @@
     </td>
    </tr>
 
+    <tr>
+    <td>
+     <a href="http://www.niggle.org/">Niggle</a>
+    </td>
+    <td>
+    Niggle is a java class library that makes it extremely easy 
+    to develop robust, maintainable web applications. 
+    The Niggle framework is designed to alleviate the repetitive, 
+    tedious details typical of those kinds of applications
+    </td>
+   </tr>
 
   </table>
  </section>
