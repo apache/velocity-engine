@@ -11,22 +11,25 @@
 
 <!-- ========== External Dependencies ===================================== -->
 
+ <!-- the jjar repository -->
+
+ <property name="repository"                 value="lib/" />
 
  <!-- The directory containing your servlet jar -->
-  <property name="servlet.home"              value="lib/"/>
+  <property name="servlet.home"              value="${repository}"/>
 
  <!-- The directory containing your servlet jar -->
-  <property name="velocity.home"              value="lib/"/>
+  <property name="velocity.home"              value="${repository}"/>
 
 
 <!-- ========== Derived Values ============================================ -->
 
 
   <!-- The pathname of the "servlet.jar" JAR file -->
-  <property name="servlet.jar"               value="${servlet.home}/servlet.jar"/>
+  <property name="servlet.jar"               value="${servlet.home}/jakarta-servletapi-4.0.jar"/>
 
   <!-- The pathname of the "velocity.jar" JAR file -->
-  <property name="velocity.jar"               value="${velocity.home}/velocity.jar"/>
+  <property name="velocity.jar"               value="${velocity.home}/jakarta-velocity-1.2-dev.jar"/>
 
 
 <!-- ========== Component Declarations ==================================== -->
@@ -73,6 +76,17 @@
     <pathelement location="${velocity.jar}"/>
   </path>
 
+<!-- ========== task defs ================================================ -->
+
+ <!-- define the jjar target -->
+
+  <taskdef name="jjar" 
+      classname="org.apache.commons.jjar.JJARTask">
+    <classpath>
+      <pathelement location="bin/jjar.jar"/>
+    </classpath>
+  </taskdef>
+
 
 <!-- ========== Executable Targets ======================================== -->
 
@@ -101,8 +115,7 @@
   </target>
 
 
-  <target name="compile" depends="static"
-   description="Compile">
+  <target name="compile" depends="static" description="Compile">
     <javac  srcdir="${source.home}/java"
            destdir="${build.home}/classes"
              debug="${compile.debug}"
@@ -113,6 +126,10 @@
     <copy    todir="${build.home}/classes" filtering="on">
       <fileset dir="${source.home}/java" excludes="**/*.java"/>
     </copy>
+  </target>
+
+  <target name="getjars">
+     <jjar package = "veltag" onlydependencies="true" localrepository="${repository}" />
   </target>
 
   <target name="clean"
