@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.13 2001/01/24 15:00:26 geirm Exp $
+ * @version $Id: TestProvider.java,v 1.14 2001/01/24 15:30:09 geirm Exp $
  */
 public class TestProvider
 {
@@ -74,11 +74,6 @@ public class TestProvider
 
     int stateint = 0;
 
-
-    public Thing getParameters()
-    {
-        return new Thing();
-    }
 
     public String getName()
     {
