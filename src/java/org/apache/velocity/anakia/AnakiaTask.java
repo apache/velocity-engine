@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.21 2001/03/14 22:03:19 jvanzyl Exp $
+ * @version $Id: AnakiaTask.java,v 1.22 2001/03/15 02:43:29 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -360,16 +360,18 @@ public class AnakiaTask extends MatchingTask
 
                 VelocityContext context = new VelocityContext();
 
-                XMLOutputter xout = new XMLOutputter();
                 String encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
-                if (encoding == null || encoding.length() == 0)
+                if (encoding == null || encoding.length() == 0 
+                    || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
                     encoding = "ISO-8859-1";
                 }
-                xout.setEncoding (encoding);
+                
+                OutputWrapper ow = new OutputWrapper();
+                ow.setEncoding (encoding);
                 
                 context.put ("root", root.getRootElement());
-                context.put ("xmlout", xout);
+                context.put ("xmlout", ow );
                 context.put ("relativePath", getRelativePath(xmlFile));
                 context.put ("treeWalk", new TreeWalker());
                 context.put ("xpath", new XPathTool() );
