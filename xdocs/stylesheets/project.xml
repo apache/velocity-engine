@@ -17,6 +17,7 @@
         <item name="Coding Standards"       href="/code-standards.html"/>
         <item name="License"                href="/license.html"/>
         <item name="TODO"                   href="/todo.html"/>
+        <item name="Report Issues"          href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Velocity"/>        
     </menu>
     <menu name="Community">
         <item name="Powered By Velocity"    href="/powered.html"/>
