@@ -56,7 +56,7 @@ package org.apache.velocity.context;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
-import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.app.event.EventCartridge;
 
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -68,7 +68,10 @@ import org.apache.velocity.runtime.resource.Resource;
  *  Currently, we have two context interfaces which must be supported :
  *  <ul>
  *  <li> Context : used for application/template data access
- *  <li> InternalContext : used for internal housekeeping and caching
+ *  <li> InternalHousekeepingContext : used for internal housekeeping and caching
+ *  <li> InternalWrapperContext : used for getting root cache context and other
+ *       such.
+ *  <li> InternalEventContext : for event handling.
  *  </ul>
  *
  *  This class implements the two interfaces to ensure that all methods are 
@@ -88,16 +91,33 @@ import org.apache.velocity.runtime.resource.Resource;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.7 2001/04/22 18:29:37 geirm Exp $
+ * @version $Id: InternalContextAdapterImpl.java,v 1.8 2001/05/20 19:44:34 geirm Exp $
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
-    /**  the Context that we are wrapping */
+    /**  
+     *  the user data Context that we are wrapping 
+     */
     Context context = null;
     
-    /** the ICB we are wrapping.  We may need to make one */
+    /** 
+     *  the ICB we are wrapping.  We may need to make one
+     *  if the user data context implementation doesn't
+     *  support one.  The default AbstractContext-derived
+     *  VelocityContext does, and it's recommended that 
+     *  people derive new contexts from AbstractContext
+     *  rather than piecing things together
+     */
     InternalHousekeepingContext icb = null;
 
+    /**
+     *  The InternalEventContext that we are wrapping.  If
+     *  the context passed to us doesn't support it, no
+     *  biggie.  We don't make it for them - since its a 
+     *  user context thing, nothing gained by making one
+     *  for them now
+     */
+    InternalEventContext iec = null;
 
     /**
      *  CTOR takes a Context and wraps it, delegating all 'data' calls 
@@ -118,41 +138,14 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         {
             icb = (InternalHousekeepingContext) context;
         }
+
+        if ( c instanceof InternalEventContext)
+        {
+            iec = ( InternalEventContext) context;
+        }
     }
 
-    public InternalContextAdapterImpl( Context c, boolean avoid )
-    {
-        context = c;
-        icb = (InternalHousekeepingContext) context;
-    }
-
-    public Context getInternalUserContext()
-    {
-        return context;
-    }
-
-    public EventCartridge attachEventCartridge( EventCartridge ec )
-    {
-        return icb.attachEventCartridge( ec );
-    }
-
-    public EventCartridge getEventCartridge()
-    {
-        return icb.getEventCartridge( );
-    }
-
-
-    public void setCurrentResource( Resource r )
-    {
-        icb.setCurrentResource(r);
-    }
-
-    public Resource getCurrentResource()
-    {
-        return icb.getCurrentResource();
-    }
-
-    /* --- InternalContext interface methods --- */
+    /* --- InternalHousekeepingContext interface methods --- */
 
     public void pushCurrentTemplateName( String s )
     {
@@ -184,6 +177,17 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         icb.icachePut( key, o );
     }
 
+   public void setCurrentResource( Resource r )
+    {
+        icb.setCurrentResource(r);
+    }
+
+    public Resource getCurrentResource()
+    {
+        return icb.getCurrentResource();
+    }
+
+
     /* ---  Context interface methods --- */
 
     public Object put(String key, Object value)
@@ -211,9 +215,50 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return context.remove( key );
     }
 
+
+    /* ---- InternalWrapperContext --- */
+
+    /**
+     *  returns the user data context that
+     *  we are wrapping
+     */
+    public Context getInternalUserContext()
+    {
+        return context;
+    }
+
+    /**
+     *  Returns the base context that we are 
+     *  wrapping. Here, its this, but for other thing
+     *  like VM related context contortions, it can
+     *  be something else
+     */
     public InternalContextAdapter getBaseContext()
     {
         return this;
     }
 
+    /* -----  InternalEventContext ---- */
+
+    public EventCartridge attachEventCartridge( EventCartridge ec )
+    {
+        if (iec != null)
+        {
+            return iec.attachEventCartridge( ec );
+        }
+
+        return null;
+    }
+
+    public EventCartridge getEventCartridge()
+    {
+        if ( iec != null)
+        {
+            return iec.getEventCartridge( );
+        }
+
+        return null;
+    }
 }
+
+

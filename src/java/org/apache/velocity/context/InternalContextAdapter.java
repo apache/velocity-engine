@@ -64,10 +64,10 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  I will rename soon :)
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalContextAdapter.java,v 1.3 2001/03/05 11:21:41 jvanzyl Exp $
+ *  @version $Id: InternalContextAdapter.java,v 1.4 2001/05/20 19:44:34 geirm Exp $
  */
 
 public interface InternalContextAdapter 
-    extends InternalHousekeepingContext, Context, InternalWrapperContext
+    extends InternalHousekeepingContext, Context, InternalWrapperContext, InternalEventContext
 {
 }

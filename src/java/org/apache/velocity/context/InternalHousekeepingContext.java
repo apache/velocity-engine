@@ -56,8 +56,6 @@ package org.apache.velocity.context;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
-import org.apache.velocity.context.EventCartridge;
-
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
@@ -71,7 +69,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.5 2001/04/22 18:18:45 geirm Exp $
+ *  @version $Id: InternalHousekeepingContext.java,v 1.6 2001/05/20 19:44:35 geirm Exp $
  */
 interface InternalHousekeepingContext
 {
@@ -118,14 +116,6 @@ interface InternalHousekeepingContext
      *  @param o  IntrospectionCacheData object to place in cache
      */
     void icachePut( Object key, IntrospectionCacheData o );
-
-    /**
-     *  interface for the EventCartridge stuff.  This will be moved
-     *  to a separate interface
-     */
-
-    EventCartridge attachEventCartridge( EventCartridge ec);
-    EventCartridge getEventCartridge();
 
     /**
      *  temporary fix to enable #include() to figure out
