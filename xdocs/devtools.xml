@@ -16,6 +16,25 @@
    Velocity easier and more convenient.
 </p>
 
+<subsection name="Eclipse">
+
+<p>Torsten Juergeleit (tjuergeleit@yahoo.de) has created an <a
+href="http://sourceforge.net/projects/veloedit/">plugin</a> for
+editing templates with the <a
+href="http://www.eclipse.org">Eclipse</a> IDE.</p>
+
+</subsection>
+
+<subsection name="Dreamweaver">
+
+<p>Jason Gill (aka Pete the Chop) created a <a
+href="http://velocity.gilluminate.com/">Dreamweaver Extension</a> that
+gives full Velocity support in the <a
+href="http://www.macromedia.com/software/dreamweaver/">Dreamweaver</a>
+web editor.</p>
+
+</subsection>
+
 <subsection name="IntelliJ IDEA">
 
 <p>
@@ -29,17 +48,6 @@
  here</a> in the Velocity CVS, or can be found in the /contrib/tools directory
  of the source tree.
 </p>
-
-</subsection>
-
-<subsection name="Eclipse">
-
-<p>
- Torsten Juergeleit (tjuergeleit@yahoo.de) has created an
-<a href="http://sourceforge.net/projects/veloedit/">plugin</a>
-for editing templates with the
- <a href="http://www.eclipse.org">Eclipse</a>  IDE.
- </p>
 
 </subsection>
 
@@ -107,14 +115,14 @@ can be found <a href="http://www.textpad.com/add-ons/synu2z.html">here</a>.
 
 <subsection name="Emacs">
 
-<p>
-Brian Leonard (brian@brainslug.org) contributed a minor mode that does
-font-locking (syntax coloring) of VTL in emacs.  As a minor mode, it
-insinuates itself into whatever major mode you're using, so you don't lose
-the major mode's goodness. It can be found
+<p>Brian Leonard (brian@brainslug.org) contributed a minor mode that
+does font-locking (syntax coloring) of VTL in <a
+href="http://xemacs.org/">XEmacs</a> and <a
+href="http://www.gnu.org/software/emacs/emacs.html">GNU Emacs</a>.  As
+a minor mode, it insinuates itself into whatever major mode you're
+using, so you don't lose the major mode's goodness. It can be found
 <a href="http://cvs.apache.org/viewcvs/jakarta-velocity/contrib/tools/emacs/">
-here</a>.
-</p>
+here</a>.</p>
 
 </subsection>
 
