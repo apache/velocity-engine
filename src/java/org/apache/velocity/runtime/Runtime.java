@@ -160,7 +160,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.56 2000/11/27 05:34:42 geirm Exp $
+ * @version $Id: Runtime.java,v 1.57 2000/11/27 17:34:12 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -534,12 +534,16 @@ public class Runtime implements RuntimeConstants
     private static void initializeLogger() throws
         MalformedURLException
     {
-        // Let's look at the log file entry and
-        // correct it if it is not a property 
-        // fomratted URL.
+        /* 
+         * Let's look at the log file entry and
+         * correct it if it is not a property 
+         * fomratted URL.
+         */
         String logFile = VelocityResources.getString(RUNTIME_LOG);
 
-        // Initialize the logger.
+        /*
+         * Initialize the logger.
+         */
         logger = LogKit.createLogger("velocity", 
         fileToURL(logFile), "DEBUG");
                 
@@ -645,12 +649,14 @@ public class Runtime implements RuntimeConstants
                 property = property.substring(loaderID.length() + 1);
                 sourceInitializer.put(property, value);
                 
-                // Make a Map of the public names for the sources
-                // to the sources property identifier so that external
-                // clients can set source properties. For example:
-                // File.template.path would get translated into
-                // template.loader.1.template.path and the translated
-                // name would be used to set the property.
+                /*
+                 * Make a Map of the public names for the sources
+                 * to the sources property identifier so that external
+                 * clients can set source properties. For example:
+                 * File.template.path would get translated into
+                 * template.loader.1.template.path and the translated
+                 * name would be used to set the property.
+                 */
                 
                 if (property.equals("public.name"))
                     sourceInitializerMap.put(value, sourceInitializer);
@@ -778,9 +784,11 @@ public class Runtime implements RuntimeConstants
         }
         catch (Exception e)
         {
-            // This is an ObjectExpiredException, but
-            // I don't want to try the structure of the
-            // caching system to the Runtime.
+            /* 
+             * This is an ObjectExpiredException, but
+             * I don't want to try the structure of the
+             * caching system to the Runtime.
+             */
             return null;            
         }
     }        
@@ -791,29 +799,31 @@ public class Runtime implements RuntimeConstants
     public static Template getTemplate(String template)
         throws Exception
     {
-        // Try the cache first.
-        
         InputStream is = null;
         Template t= null;
         TemplateLoader tl = null;
         
         
-        // Check to see if the template was placed in the cache.
-        // If it was placed in the cache then we will use
-        // the cached version of the template. If not we
-        // will load it.
+        /* 
+         * Check to see if the template was placed in the cache.
+         * If it was placed in the cache then we will use
+         * the cached version of the template. If not we
+         * will load it.
+         */
         
         if (globalCache.containsKey(template))
         {
             t = (Template) globalCache.get(template);
             tl = t.getTemplateLoader();
 
-            // The template knows whether it needs to be checked
-            // or not, and the template's loader can check to
-            // see if the source has been modified. If both
-            // these conditions are true then we must reload
-            // the input stream and parse it to make a new
-            // AST for the template.
+            /* 
+             * The template knows whether it needs to be checked
+             * or not, and the template's loader can check to
+             * see if the source has been modified. If both
+             * these conditions are true then we must reload
+             * the input stream and parse it to make a new
+             * AST for the template.
+             */
             
             if (t.requiresChecking() && tl.isSourceModified(t))
             {
@@ -837,24 +847,30 @@ public class Runtime implements RuntimeConstants
                 t = new Template();
                 t.setName(template);
                 
-                // Now we have to try to find the appropriate
-                // loader for this template. We have to cycle through
-                // the list of available template loaders and see
-                // which one gives us a stream that we can use to
-                // make a template with.
+                /* 
+                 * Now we have to try to find the appropriate
+                 * loader for this template. We have to cycle through
+                 * the list of available template loaders and see
+                 * which one gives us a stream that we can use to
+                 * make a template with.
+                 */
                 
                 for (int i = 0; i < templateLoaders.size(); i++)
                 {
                     tl = (TemplateLoader) templateLoaders.get(i);
                     is = tl.getTemplateStream(template);
                     
-                    // If we get an InputStream then we have found
-                    // our loader.
+                    /*
+                     * If we get an InputStream then we have found
+                     * our loader.
+                     */
                     if (is != null)
                         break;
                 }
                 
-                // Return null if we can't find a template.
+                /*
+                 * Return null if we can't find a template.
+                 */
                 if (is == null)
                     throw new Exception("Can't find " + template + "!");
                 
@@ -864,8 +880,10 @@ public class Runtime implements RuntimeConstants
                 t.setDocument(parse(is));
                 t.touch();
                 
-                // Place the template in the cache if the template
-                // loader says to.
+                /*
+                 * Place the template in the cache if the template
+                 * loader says to.
+                 */
                 
                 if (tl.useCache())
                     globalCache.put(template, t);
@@ -932,7 +950,7 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     *   String property accessor method with defaultto hide the VelocityResources implementation
+     * String property accessor method with defaultto hide the VelocityResources implementation
      * @param strKey  property key
      * @param strDefault  default value to return if key not found in resource manager
      * @return String  value of key or default 
@@ -940,27 +958,6 @@ public class Runtime implements RuntimeConstants
     public static String getString( String strKey, String strDefault)
     {
         return VelocityResources.getString(strKey, strDefault);
-    }
-
-    /**
-     *   String property accessor method to hide the VelocityResources implementation
-     * @param strKey  property key
-     * @return String  value of key or null
-     */
-    public static String getString( String strKey)
-    {
-        return VelocityResources.getString(strKey);
-    }
-
-    /**
-     *  boolean  property accessor method to hide the VelocityResources implementation
-     * @param strKey  property key
-     * @param default default value if property not found
-     * @return boolean  value of key or default value
-     */
-    public static boolean getBoolean( String strKey, boolean def )
-    {
-        return VelocityResources.getBoolean( strKey, def );
     }
 
     /**
@@ -1001,6 +998,48 @@ public class Runtime implements RuntimeConstants
         return vmFactory_.isVelocimacro( strVMName );
     }
 
+    /* --------------------------------------------------------------------
+     * R U N T I M E  A C C E S S O R  M E T H O D S
+     * --------------------------------------------------------------------
+     * These are the getXXX() methods that are a simple wrapper
+     * around the VelocityResources object. This is an attempt
+     * to make a the Velocity Runtime the single access point
+     * for all things Velocity, and allow the Runtime to
+     * adhere as closely as possible the the Mediator pattern
+     * which is the ultimate goal.
+     * --------------------------------------------------------------------
+     */
+
+    /**
+     * String property accessor method to hide the VelocityResources implementation
+     * @param strKey  property key
+     * @return   value of key or null
+     */
+    public static String getString( String strKey)
+    {
+        return VelocityResources.getString( strKey );
+    }
+
+    /**
+     * int property accessor method to hide the VelocityResources implementation
+     * @param strKey  property key
+     * @return int  alue
+     */
+    public static int getInt( String strKey )
+    {
+        return VelocityResources.getInt( strKey );
+    }
+
+    /**
+     * boolean  property accessor method to hide the VelocityResources implementation
+     * @param strKey  property key
+     * @param default default value if property not found
+     * @return boolean  value of key or default value
+     */
+    public static boolean getBoolean( String strKey, boolean def )
+    {
+        return VelocityResources.getBoolean( strKey, def );
+    }
 }
 
 
