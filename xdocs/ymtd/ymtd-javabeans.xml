@@ -14,7 +14,7 @@
 JavaBeans are the way to use Java objects from JSP pages in order to
 follow the MVC design pattern. The point of doing this is to implement
 something similar to the <a
-href="http://jakarta.apache.org/turbine/pullmodel.html">Pull
+href="http://jakarta.apache.org/turbine/turbine-2/pullmodel.html">Pull
 methodology</a>. For example:
 </p>
 
