@@ -78,6 +78,7 @@ import org.apache.velocity.runtime.exception.NodeException;
 import org.apache.velocity.runtime.exception.ReferenceException;
 
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -85,7 +86,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.27 2000/12/04 02:06:52 geirm Exp $
+ * @version $Id: Foreach.java,v 1.28 2000/12/12 23:45:38 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -105,6 +106,8 @@ public class Foreach extends Directive
         return BLOCK;
     }        
 
+    private final static int UNKNOWN = -1;
+    
     /**
      * Flag to indicate that the list object being used
      * in an array.
@@ -122,16 +125,7 @@ public class Foreach extends Directive
      * is a Map.
      */
     private final static int INFO_MAP = 3;
-    
-    /**
-     * Flag to indicate that the list object is
-     * empty. This is perfectly valid, and nothing
-     * will be rendered. When the list object
-     * contains values, then the flag will be
-     * altered and the rendering will occur.
-     */
-    private final static int INFO_EMPTY_LIST_OBJECT = 4;
-    
+  
     /**
      * The name of the variable to use when placing
      * the counter value into the context. Right
@@ -174,73 +168,126 @@ public class Foreach extends Directive
         elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
     }
 
+    /**
+     *  returns an Iterator to the collection in the #foreach()
+     *
+     *  @param context  current context
+     *  @param node   AST node
+     *  @return Iterator to do the dataset
+     */
     private Iterator getIterator( Context context, Node node )
     {
-        Object listObject = null;
-  
         /*
          *  get our list object, and punt if it's null.
          */
 
-        listObject = node.jjtGetChild(2).value(context);
+        Object listObject = node.jjtGetChild(2).value(context);
         
         if (listObject == null)
             return null;
 
+        /*
+         *  See if we already know what type this is. Use the introspection cache
+         */
+
+        int type = UNKNOWN;
+
+        IntrospectionCacheData icd = context.icacheGet( this ); 
+        Class c = listObject.getClass();
+
+        /*
+         *  if we have an entry in the cache, and the Class we have
+         *  cached is the same as the Class of the data object
+         *  then we are ok
+         */
+
+        if ( icd != null && icd.contextData == c )
+        {
+            /* dig the type out of the cata object */
+            type = ((Integer) icd.thingy ).intValue();
+        }
+
         /* 
-         * Figure out what type of object the list
+         * If we still don't know what this is, 
+         * figure out what type of object the list
          * element is, and get the iterator for it
          */
 
-        if (Introspector.implementsMethod(listObject, "iterator"))
+        if ( type == UNKNOWN )
         {
-            if (((Collection) listObject).size() == 0)
-                return null;
+            if (listObject instanceof Object[])
+                type = INFO_ARRAY;
+            else if (Introspector.implementsMethod(listObject, "iterator"))
+                type = INFO_ITERATOR;
+            else if (Introspector.implementsMethod(listObject, "values"))
+                type = INFO_MAP;
 
-            return ((Collection) listObject).iterator();        
+            /*
+             *  if we did figure it out, cache it
+             */
+
+            if ( type != UNKNOWN )
+            {
+                icd = new IntrospectionCacheData();
+                icd.thingy = new Integer( type );
+                icd.contextData = c;
+                context.icachePut( this, icd );
+            }
         }
-        else if (listObject instanceof Object[])
-        {
+
+        /*
+         *  now based on the type from either cache or examination...
+         */
+
+        switch( type ) {
+            
+        case INFO_ITERATOR :
+            
+            if (((Collection) listObject).size() == 0)
+                return null;    
+           
+            return ((Collection) listObject).iterator();        
+            
+        case INFO_ARRAY:
+            
             Object[] arrayObject = ((Object[]) listObject);
             
             if (arrayObject.length == 0)
-                return null;
+                return null; 
             
             return new ArrayIterator( arrayObject );
-        }            
-        else if (Introspector.implementsMethod(listObject, "values"))
-        {
+           
+        case INFO_MAP:          
+
             if (((Map) listObject).size() == 0)
                 return null;
- 
+
             return ((Map) listObject).values().iterator();
-        }
-        else
-        {
-            /*
-             *  we have no clue what this is
-             */
+        
+        default:
+        
+            /*  we have no clue what this is  */
             Runtime.warn ("Could not determine type of iterator for #foreach loop for " +  node.jjtGetChild(2).getFirstToken().image);
             return null;
-        }            
+        }
     }
 
+    /**
+     *  renders the #foreach() block
+     */
     public boolean render(Context context, Writer writer, Node node)
         throws IOException
-    {
-        int counter;
-        Iterator i;
-        
+    {        
         /*
          *  do our introspection to see what our collection is
          */
 
-        i = getIterator( context, node );
+        Iterator i = getIterator( context, node );
    
         if ( i == null)
             return false;
         
-        counter = COUNTER_INITIAL_VALUE;
+        int counter = COUNTER_INITIAL_VALUE;
         
         /*
          *  save the element key if there is one
@@ -270,3 +317,6 @@ public class Foreach extends Directive
     }
 
 }
+
+
+
