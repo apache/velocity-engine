@@ -68,10 +68,12 @@ import java.io.Writer;
  *  Represents all comments...
  *
  *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- *  @version $Id: ASTComment.java,v 1.4 2002/03/25 00:28:29 geirm Exp $
+ *  @version $Id: ASTComment.java,v 1.5 2002/04/02 17:40:32 dlr Exp $
  */
 public class ASTComment extends SimpleNode
 {
+    private static final char[] ZILCH = "".toCharArray();
+
     private char[] carr;
 
     public ASTComment(int id)
@@ -103,7 +105,7 @@ public class ASTComment extends SimpleNode
 
         if (loc1 == -1 && loc2 == -1)
         {
-            carr = "".toCharArray();
+            carr = ZILCH;
         }
         else
         {
