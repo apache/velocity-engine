@@ -73,7 +73,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -125,6 +125,11 @@ public class FileResourceLoader extends ResourceLoader
             return new BufferedInputStream(
                 new FileInputStream(file.getAbsolutePath()));
         }
+        else
+        {
+            Runtime.error("FileResourceLoader Error: cannot find resource " +
+                file.getAbsolutePath());
+        }                
         
         return null;
     }
