@@ -35,6 +35,7 @@
         <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
         <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
         <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
+        <property name="junit.jar" value="lib/junit-3.2.jar"/>
 
         <!-- PDF generation using FOP -->
 
@@ -43,6 +44,14 @@
         <property name="outfile.fo" value="velocity.fo"/>
         <property name="outfile.pdf" value="../docs/velocity.pdf"/>
 
+
+        <!-- JUnit Testbed -->
+        <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
+        <!-- 
+        <property name="velocity.test.runner" value="junit.swinggui.TestRunner"/>
+        -->
+        <property name="velocity.test" value="org.apache.velocity.test.VelocityTest"/>
+        
         <taskdef name="fop" classname="Fop"/>
         <taskdef name="xslt" classname="Xslt"/>
         
@@ -183,6 +192,24 @@
         
         <delete file="${allfiles.xml}"/>
         <delete file="${outfile.fo}"/>
-  </target>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- JUnit Tests for Velocity                                            -->
+    <!-- =================================================================== -->
+    <target name="test" depends="init">
+
+        <echo message="Running JUnit tests for Velocity ..."/>
+
+        <java classname="${velocity.test.runner}">
+            <arg value="${velocity.test}"/>
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement location="${junit.jar}"/>
+                <pathelement location="${build.dest}"/>
+            </classpath>
+        </java>
+
+    </target>
 
 </project>
