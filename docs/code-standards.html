@@ -18,28 +18,26 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Coding Standards</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
 <P align="justify">
-    This document describes a list of coding conventions that are required
-    for code submissions to the project. By default, the coding conventions
-    for most Open Source Projects should follow the existing coding conventions
-    in the code that you are working on. For example, if the bracket is on
-    the same line as the if statement, then you should write all your code
-    to have that convention.<B></B>
-</P>
-
-<P align="justify">
-    <B>If you commit code that does not follow these conventions and you
-    are caught, you are responsible for also fixing your own code.</B>
-</P>
-
-<P align="justify">
-    Below is a list of coding conventions that are specific to Turbine,
-    everything else not specificially mentioned here should follow the official
+    Submissions to the Velocity project must follow the coding conventions 
+    outlined in this document. Velocity developers 
+    are asked to follow coding conventions already present in the code. 
+    (For example, if the existing code has the bracket on
+    the same line as the if statement, then all subsequent code
+    should also follow that convention.) Anything not 
+    explicitly mentioned in this document should adhere to the 
+    official
     <A href="http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html">Sun
-    Java Coding Conventions</A>.
+    Java Coding Conventions</A>. 
 </P>
 
 <P align="justify">
-1. Brackets should begin and end on a new line. Examples:
+    <B>Developers who commit code that does not follow 
+    the coding conventions outlined in this document will be 
+    responsible for fixing their own code.</B>
+</P>
+
+<P align="justify">
+1. Brackets should begin and end on new lines. Examples:
 </P>
 
 <P align="justify">
@@ -71,8 +69,8 @@ while ( true )
 </P>
 
 <P align="justify">
-2. It is <B>OK</B> to have spaces between the parens or not. The preference
-is to not include the extra spaces. For example, both of these are ok:
+2. Spaces between parentheses are optional. The preference is to exclude 
+extra spaces. Both of these conventions are acceptable:
 </P>
 
 <P align="justify">
@@ -87,10 +85,9 @@ if ( foo )
 </P>
 
 <P align="justify">
-3. 4 spaces. <B>NO</B> tabs. Period. We understand that a lot of you like
-to use tabs, but the fact of the matter is that in a distributed development
-enviroment, when the cvs commit messages get sent to a mailing list, they
-are almost impossible to read if you use tabs.
+3. Four spaces. <B>NO</B> tabs. Period. The Velocity 
+mailing list receives cvs commit messages that are almost impossible 
+to read if tabs are used.
 </P>
 
 <P align="justify">
@@ -100,20 +97,19 @@ In Emacs-speak, this translates to the following command:
 </P>
 
 <P align="justify">
-4. Unix linefeeds for all .java source code files. Other platform specific
-files should have the platform specific linefeeds.
+4. Use Unix linefeeds for all .java source code files. Only platform-specific
+files (e.g. .bat files for Windows) should contain non-Unix linefeeds.
 </P>
 
 <P align="justify">
-5. Javadoc <B>MUST</B> exist on all your methods. Also, if you are working
-on existing code and there currently isn't a javadoc for that method/class/variable
-or whatever, then you should contribute and add it. This will improve the
-project as a whole.
+5. Javadoc <B>MUST</B> exist on all methods. Contributing
+a missing javadoc for any method, class, variable, etc., will be greatly
+appreciated as this will help to improve the Velocity project.
 </P>
 
 <P align="justify">
-6. The Jakarta Apache/Velocity License <B>MUST</B> be placed at the top
-of each and every file.
+6. The Jakarta Apache/Velocity License <B>MUST</B> be placed 
+at the top of every file.
 </P>
 
 </FONT></TD></TR></TABLE></DIV><BR>
