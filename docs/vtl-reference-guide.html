@@ -43,7 +43,12 @@
                 <tr>
                     <!-- LEFT SIDE NAVIGATION -->
                     <td width="20%" valign="top" nowrap="true">
-                                <p><strong>About</strong></p>
+                    
+    <!-- to be removed after ApacheCon 2003 ends 20th of November 2003 -->
+    <A HREF="http://apachecon.com/2003/US/index.html"><img border="0" src="http://jakarta.apache.org/images/logos/ac2003-150.gif"/></A>
+    <!-- ============================================================ -->
+
+                <p><strong>About</strong></p>
         <ul>
                     <li>    <a href="./index.html">Overview</a>
 </li>
@@ -576,14 +581,14 @@ counter.initial.value = 1
     Format:
     </p>
                                                 <p>
-    <strong>#macro(</strong> vmname $arg1 [ $arg2 $arg3 ... $argn ]
+    <strong>#macro(</strong> vmname $arg1[, $arg2, $arg3, ... $argn ]
     <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
     </p>
                                                 <ul>
     <li><em>vmname</em> - Name used to call the VM
     (<em>#vmname</em>)</li>
     <li><em>$arg1 $arg2 [ ... ]</em> - Arguments to the VM. There can be
-    any number of arguments, but the number used at invocation must
+    any number of argumentss, but the number used at invocation must
     match the number specified in the definition.</li>
     <li><em>[ VM VTL code... ]</em> - Any valid VTL code, anything you
     can put into a template, can be put into a VM.</li>
