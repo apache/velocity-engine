@@ -97,7 +97,10 @@ To make using w/ XML easier allow alternative logical operators 'and', 'or',
     'lt', 'gt', 'le', 'ge', 'eq'.  (gmj)
 </li>
 <li>
-Allow newlines in strings. (gmj)    
+Allow newlines in strings. (gmj)
+</li>
+<li>
+Tiny fix to VelocityWriter to prevent a NPE if someone passes it a null (gmj)    
 </li>
 </ul>
 
@@ -107,7 +110,7 @@ Allow newlines in strings. (gmj)
 <subsection name="1.4-dev">
 <p>
 This section describes changes to the main branch after the
-1.3 release.  They were released as part of 1.4 rc1 on 
+1.3 release.  They were released as part of 1.4 rc1 on
 Oct-9-2003.
 </p>
 
@@ -193,8 +196,8 @@ Upgraded JDOM to v1.0b9 (gmj)
 
 <subsection name="1.3.1-rc2">
 <p>
-This section desscribes changes to the VEL_1_3_BRANCH after 
-the 1.3.1-rc2 release.  It was released as 1.3.1 on it's own branch, 
+This section desscribes changes to the VEL_1_3_BRANCH after
+the 1.3.1-rc2 release.  It was released as 1.3.1 on it's own branch,
 VEL_1_3_1_BRANCH on March 31, 2003.
 </p>
 </subsection>
