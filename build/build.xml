@@ -31,6 +31,7 @@
   <property name="deprecation" value="off"/>
 
   <property name="docs.dest" value="../docs"/>
+  <property name="docs_print.dest" value="../docs_print"/>
   <property name="docs.src" value="../xdocs"/>
 
   <!-- jars explicitly needed for bulding 'dep jar' -->    
@@ -112,6 +113,8 @@
   **  examples-clean-all                 cleans the anakia/forumdemo examples
   **  javadocs       prepare             build javadocs
   **  javadocs-clean                     delete javadocs
+  **  docs           jar                 Velocity Documentation
+  **  docs_print     jar                 Velocity Documentation (printable)
   **  test           compile             runs JUnit tests
   **  test-clean                         deletes test results
   **  clean                              deletes build dir
@@ -727,6 +730,70 @@
       </copy>
       -->
   </target>
+  <!-- =================================================================== -->
+  <!-- Make printable HTML version of Velocity documentation                         -->
+  <!-- =================================================================== -->
+
+  <target name="docs_print" 
+          depends="jar"
+          description="generates the HTML documentation (printable)"
+          >
+
+      <taskdef name="anakia"
+          classname="org.apache.velocity.anakia.AnakiaTask">
+          
+          <classpath>
+             <pathelement location="${build.dir}/${project}-${version}.jar"/>
+             <path refid="classpath"/>
+          </classpath>
+
+      </taskdef>
+
+      <echo>
+       #######################################################
+       #
+       #  Now using Anakia to transform our XML documentation
+       #  to HTML.
+       #
+       #  Note : this step depends upon having the jakarta-site2
+       #  project located as a peer to the jakarta-velocity
+       #  directory (the directory that holds the Velocity
+       #  distribution.)  That means that jakarta-site2 and
+       #  jakarta-velocity are located in the same subdirectory.
+       #
+       #  Please see :
+       #    http://jakarta.apache.org/site/cvsindex.html
+       #  for more information on obtaining jakarta-site2.
+       #
+       #######################################################
+      </echo>
+
+      <anakia basedir="${docs.src}" destdir="${docs_print.dest}/"
+           extension=".html" style="./site_printable.vsl"
+           projectFile="stylesheets/project.xml"
+           excludes="**/stylesheets/** empty.xml"
+           includes="**/*.xml"
+           lastModifiedCheck="true"
+           templatePath="../../jakarta-site2/xdocs/stylesheets">
+      </anakia>
+
+      <copy todir="${docs_print.dest}/images" filtering="no">
+          <fileset dir="${docs.src}/images">
+              <include name="**/*.gif"/>
+              <include name="**/*.jpeg"/>
+              <include name="**/*.jpg"/>
+          </fileset>
+      </copy>
+  
+      <!-- In case we have CSS someday
+      <copy todir="${docs.dest}" filtering="no">
+          <fileset dir="${docs.src}">
+              <include name="**/*.css"/>
+          </fileset>
+      </copy>
+      -->
+  </target>
+
 
   <!-- =================================================================== -->
   <!-- Make PDF version of Velocity documentation                          -->
