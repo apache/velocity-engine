@@ -2,12 +2,11 @@
 
 Foreach with a variable.
 
-
     This is ArrayList element 1.
-    $velocityCount
+    1
     This is ArrayList element 2.
-    $velocityCount
+    2
     This is ArrayList element 3.
-    $velocityCount
+    3
     This is ArrayList element 4.
-    $velocityCount
+    4
