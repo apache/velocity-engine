@@ -67,10 +67,12 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.13.2.2 2002/07/24 22:03:48 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.13.2.3 2002/07/25 01:35:04 geirm Exp $
  */
 public class MethodMap
 {
+    protected static final Object OBJECT = new Object();
+
     /**
      * Keep track of all methods with the same name.
      */
@@ -237,7 +239,7 @@ public class MethodMap
      */
     private Twonk calcDistance(Object[] set, Class[] base)
     {
-        if ( set.length != base.length)
+        if (set.length != base.length)
             return null;
             
         Twonk twonk = new Twonk(set.length);
@@ -249,16 +251,34 @@ public class MethodMap
             /* 
              * can I get from here to there?
              */
-             
-            Class setclass = set[i].getClass();
-             
-            if (!base[i].isAssignableFrom(setclass))
+
+            Object invocationArg = set[i];
+            Class methodClass = base[i];
+
+            if (invocationArg == null)
+            {
+                invocationArg = OBJECT;
+            }
+
+            Class setclass = invocationArg.getClass();
+
+            if (!methodClass.isAssignableFrom(setclass))
             {
                 /*
-                 * check to see if we are dealing with primitives
+                 * if the arg is null and methodClass isn't primitive then
+                 *  that's ok
                  */
-                if (checkPrimitive(base[i], setclass))
+
+                if (set[i] == null && !methodClass.isPrimitive())
                 {
+                    continue;
+                }
+                else if (checkPrimitive(methodClass, setclass))
+                {
+                    /*
+                     * if we are dealing with primitives and it's ok...
+                     */
+
                     continue;
                 }
                 else
@@ -273,13 +293,13 @@ public class MethodMap
            
             Class c = setclass;
                       
-            while( c != null)
+            while (c != null)
             {      
                 /*
                  * is this a valid step?
                  */
                  
-                if (!base[i].isAssignableFrom(c))
+                if (!methodClass.isAssignableFrom(c))
                 {      
                     /*
                      *  it stopped being assignable - therefore we are looking at
@@ -289,7 +309,7 @@ public class MethodMap
                     break;
                 }
                 
-                if (base[i].equals(c))
+                if (methodClass.equals(c))
                 {
                     /*
                      *  we are equal, so no need to move forward
