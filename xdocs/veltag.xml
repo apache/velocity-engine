@@ -316,7 +316,7 @@ To build with JJAR :
   Jakarta build tool, must be installed.
 </li>
 <li>
-   Get the Velocity distribution from CVS or a nightly snapshot.
+   Get the Velocity distribution from Subversion or a nightly snapshot.
 </li>
 <li>
    Change directory to the <code>/contrib/temporary/veltag</code>

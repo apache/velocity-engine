@@ -23,7 +23,7 @@
         <item name="Powered By Velocity"    href="/powered.html"/>
         <item name="Get Involved"           href="/site/getinvolved.html"/>
         <item name="Mailing Lists"          href="/site/mail.html"/>
-        <item name="CVS Repositories"       href="/site/cvsindex.html"/>
+        <item name="Subversion Repositories" href="http://www.apache.org/dev/version-control.html"/>
     </menu>
     <menu name="Docs">
         <item name="User's Guide (English)" href="/user-guide.html"/>

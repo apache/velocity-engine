@@ -111,10 +111,10 @@ in this essay.
 It is very important to accurately compare these technologies.
 Therefore, a lot of effort has gone into this essay to state things as
 fairly and accurately as possible. Therefore, this entire essay is
-checked into CVS and it is possible for you to provide feedback, but
+checked into Subversion and it is possible for you to provide feedback, but
 also patches that fix any mistakes. In other words, this is a community
 driven document. It is currently stored in the <a
-href="http://jakarta.apache.org/site/cvsindex.html">CVS tree</a> for the
+href="http://www.apache.org/dev/version-control.html">Subversion tree</a> for the
 Velocity project in the xdocs directory.
 </p>
 

@@ -20,7 +20,7 @@ Velocity from its source code.
 <p>
 Everything required to build Velocity comes with the distribution, which
 can be obtained from <a
-href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</a> or
+href="http://www.apache.org/dev/version-control.html">Subversion</a> or
 from the <a
 href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">nightly
 builds</a>.  However, you will need to install Ant, an excellent
@@ -60,7 +60,7 @@ your programmer's toolbox.
 
 <p>
 In each case below, it is assumed that you were successful in getting
-the distribution from CVS or as a nightly build, and with the latter,
+the distribution from Subversion or as a nightly build, and with the latter,
 were successful in unpacking.  Also, it is assumed that you are starting
 in the 'jakarta-velocity' directory, the root of the distribution tree. 
 All directory references will be relative to 'jakarta-velocity'.
@@ -99,9 +99,9 @@ ant javadocs
 <p>
 Velocity should build 'out of the box', independent of your classpath.
 If you get an error building Velocity, try a different nightly build (as
-sometimes we make a mistake and the CVS at the time of the nightly
-snapshot isn't complete) or refresh from CVS (you might have gotten a
-CVS snapshot while a developer was checking things in.)
+sometimes we make a mistake and the Subversion at the time of the nightly
+snapshot isn't complete) or refresh from Subversion (you might have gotten a
+Subversion snapshot while a developer was checking things in.)
 </p>
 
 <p>
