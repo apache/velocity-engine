@@ -72,39 +72,76 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * InjectorVistor, this is part of the planned
  * caching mechanism.
  *
- * Template template = new Template("test.wm");
+ * Template template = Runtime.getTemplate("test.wm");
  * Context context = new Context();
  *
  * context.put("foo", "bar");
  * context.put("customer", new Customer());
  *
- * template.parse();
  * template.merge(context, writer);
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.3 2000/10/09 20:13:43 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.4 2000/10/12 14:24:22 jvanzyl Exp $
  */
 public class Template
 {
-    /** Template processor */
-    //private Processor processor;
+    /**
+     * The root of the AST node structure that results
+     * from parsing a Velocity template. This node
+     * structure can walk itself, or it can be traversed
+     * with a visitor. There are two methods for self
+     * walking: init(), and render(). These are an
+     * attempt to keep multithreading housekeeping
+     * issues to a minimum, so that we don't have to
+     * keep a pool of visitors to init()/render()
+     * the node structure.
+     */
     private SimpleNode document;
+    
+    /**
+     * To keep track of whether this template has been
+     * initialized. We use the document.init(context)
+     * to perform this. The AST walks itself optimizing
+     * nodes creating objects that can be reused during
+     * rendering. For example all reflection metadata
+     * is stored in ASTReference nodes, the Method objects 
+     * are determine in the init() phase and reused 
+     * during rendering.
+     */
     private boolean initialized = false;
 
-    // So now, after a template is constructed all the
-    // initial processing is done.
-
-    //public Template(InputStream inputStream, Processor processor)
+    /**
+     * Default constructor. Given an input stream, an
+     * AST node structure will be produced by the
+     * Velocity Runtime. This AST structure can be
+     * reused until the template changes on disk.
+     */
     public Template(InputStream inputStream) throws Exception
     {
         parse(inputStream);
     }
 
+    /**
+     * Parse a template which is passed in the form
+     * of an InputStream. The Velocity Runtime
+     * produces an AST node structure from the
+     * InputStream.
+     */
     public void parse(InputStream inputStream) throws Exception
     {
         document = Runtime.parse(inputStream);
     }
 
+    /**
+     * The AST node structure is merged with the
+     * context to produce the final output. We
+     * also init() the AST node structure if
+     * it hasn't been already. It might actually
+     * be better to move the init() phase up into
+     * the parse(), but it would require the passing
+     * in of the context. The context is required to
+     * determine the objects being used by reflection.
+     */
     public void merge(Context context, Writer writer)
         throws IOException
     {
@@ -117,6 +154,9 @@ public class Template
         document.render(context, writer);
     }
 
+    /**
+     * Initialize the AST node structure.
+     */
     private void init(Context context)
     {
         try
