@@ -62,25 +62,25 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 
+import org.apache.velocity.runtime.Runtime;
+
 import junit.framework.*;
 
 /**
  * Test suite for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTestSuite.java,v 1.5 2000/10/23 16:50:35 dlr Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: VelocityTestSuite.java,v 1.6 2000/10/23 18:30:06 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
-    /**
-     * The name of the test suite properties file.
+    /** 
+     * Path to test templates relative to the build directory
+     * where the tests will be started from.
      */
-    private static final String PROPS_FILE_NAME = "TestSuite.properties";
-
-    /**
-     * The test suite properties.
-     */
-    private Properties props;
+     private final static String TEST_TEMPLATE_PATH =
+        "../test/templates";
 
     /**
      * Creates an instace of the Apache Velocity test suite.
@@ -89,18 +89,17 @@ public class VelocityTestSuite extends TestSuite
     {
         super("Apache Velocity test suite");
 
-        // Read in properties file.
-        props = new Properties();
         try
         {
-            props.load(new BufferedInputStream
-                (new FileInputStream(PROPS_FILE_NAME)));
+            Runtime.setDefaultProperties();
+            Runtime.setProperty(Runtime.TEMPLATE_PATH, TEST_TEMPLATE_PATH);
+            Runtime.init();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            System.err.println("Can't load properties: " + e.getMessage());
+            System.err.println("Cannot initialize Velocity Runtime!");
             System.exit(1);
-        }
+        }            
 
         // Add test cases here.
         List templateTestCases = getTemplateTestCases();
