@@ -16,9 +16,13 @@
     <p>
     There are several different types of Script Elements within Velocity. The 
     overall purpose of these elements is described in the <link 
-    href="design.html">Design Document</link>. The following elements are currently
-    defined within Velocity and also explained in detail below. All of the elements are
-    prefixed with a #. For example, #if, #foreach, #set.
+    href="design.html">Design Document</link>. 
+    </p>
+    
+    <p>
+    The following elements are currently defined within Velocity and also 
+    explained in detail below. Velocity script elements are prefixed with a #. 
+    For example, #if, #foreach, #set.
     </p>
     <ul>
         <li><strong>Variables</strong></li>
@@ -39,6 +43,7 @@
         <li><strong>Set</strong></li>
         <li><strong>Comment</strong></li>
         <li><strong>Stop</strong></li>
+	<li><strong>Macro</strong></li>
     </ul>
  </s1>
 
@@ -61,14 +66,14 @@
     These examples illustrate alternative uses for the same variables. 
     Velocity takes advantage of Java's introspection and 
     bean features to resolve the variable names to both objects in the Context 
-    as well as the objects methods. It is possible to embed the variables almost
-    anywhere in your template that can then be evaluated.
+    as well as the objects methods. It is possible to embed variables almost
+    anywhere in your template. These variables can be evaluated.
     </p>
     
     <p>
-    Everything coming to and from the variables is treated as a String object. 
-    If you have an object that is representing $foo (such as an Integer object), 
-    then Velocity will call its .toString() method in order to resolve the 
+    Everything coming to and from a variable is treated as a String object. 
+    If there is an object that represents $foo (such as an Integer object), 
+    then Velocity will call its .toString() method to resolve the 
     object into a String.
     </p>
  </s1>
@@ -77,8 +82,9 @@
 
     <s1 title="If / Else Conditionals">
     <p>
-    The #if statement in Velocity allows you to conditionally include the text 
-    within the brackets. For example:
+    The #if statement in Velocity allows for text in the brackets to be 
+    included in the text, on the conditional that the if statement
+    is true. For example:
     </p>
 
     <p>
@@ -94,12 +100,10 @@
     content within the brackets becomes the output if the evaluation is true. 
     Unlike in JSP, Velocity does not force web developers to wrap HTML code 
     within an out.println(), or to delve into ugly workarounds to out.println().
-    This results in a more MVC solution.
     </p>
     
     <p>
-    Another example is that you can include #else elements with your #if 
-    element.
+    An #else element can be used with an #if element.
     </p>
 
     <p>
@@ -113,10 +117,16 @@
         <strong>Velocity Still Rocks!</strong>
     }]]></source>
     </p>
+    
+    <p>
+    In this example, if $foo is false, then the output will be
+    <strong>Velocity Still Rocks!</strong> 
+    </p>
 
     <p>
-    Note: Logical operators, illustrated by an example below, are not yet 
-    available in Velocity. This functionality is expected to be added soon.
+    Note that logical operators are not yet available in Velocity. 
+    This functionality is expected to be added soon. An example of
+    a logical operator is shown below.
     </p>
 
     <p>
@@ -129,10 +139,9 @@
 
     <p>
     Nested #if statements can be used to emulate the functionality of #elseif.
-    Nesting elements 
-    works for all elements to an infinite level of nesting. For example, 
-    you can nest a #foreach within an #if. We will be considering in the future 
-    of adding a #elseif to simplify things.
+    Nesting elements work for all elements to an infinite level of nesting; 
+    for example, a #foreach can be nested within an #if. An #elseif element
+    may be added in the future to simplify things.
     </p>    
     </s1>
 </s1>
@@ -140,13 +149,15 @@
 <s1 title="Loops">
     <s1 title="Foreach Loop">
     <p>
-    The #foreach element allows for looping. For example:
+    The #foreach element allows for looping. The #foreach element is followed
+    by a set of brackets that enclose the target and object to be stepped 
+    through. For example:
     </p>
 
     <p>
     <source><![CDATA[
     <ul>
-    #foreach $product in $allProducts
+    #foreach ($product in $allProducts)
     {
         <li>$product</li>
     }
@@ -155,27 +166,28 @@
     </p>
 
     <p>
-    The #foreach loop causes the $allProducts list to be looped over for all 
-    of the elements in the list. Each time through the loop, the value from
-    $allProducts is placed into the $product variable.
+    This #foreach loop causes the $allProducts list (the object) to be 
+    looped over for all of the products (targets) in the list. Each time 
+    through the loop, the value from $allProducts is placed into the 
+    $product variable.
     </p>
     
     <p>
-    The contents of the $allProducts variable is either a Vector, Hashtable or 
-    Array. The value assigned to the $product variable is a Java
+    The contents of the $allProducts variable is either a Vector, a Hashtable 
+    or an Array. The value assigned to the $product variable is a Java
     Object and can be referenced from a variable as such. For example, if 
-    $product was really a Product class in Java, you could get the name of the 
-    Product by referencing the $product.Name method (ie: Product.getName()).
+    $product was really a Product class in Java, its name could be retrieved
+    by referencing the $product.Name method (ie: Product.getName()).
     </p>
     </s1>
 </s1>    
 
 <s1 title="Parse">
     <p>
-    The #parse script element allows you to import a local file and have it 
-    parsed through the Velocity template engine and inserted into the location 
-    where the #parse directive is defined. The current Context is applied to the 
-    variables that are embedded within the template.
+    The #parse script element allows a local files to be imported and parsed
+    through the Velocity template engine, then inserted into the location 
+    where the #parse directive is defined. The current Context is applied to 
+    the variables that are embedded within the template.
     </p>
     
     <p>
@@ -214,9 +226,9 @@
     </p>
     
     <p>
-    Unlike WebMacro, the variable on the left side of teh #param script element
-    must be prefixed with a $. This provides a consistent syntax for
-    referencing variables.
+    The variable on the left side of the #param script element must be 
+    prefixed with a $. This provides a consistent syntax for referencing 
+    variables in Velocity.
     </p>
 </s1>
 
@@ -233,15 +245,13 @@
     </p>
     
     <p>
-    Unlike WebMacro, when using the #set directive, the variable on the 
-    left side must be prefixed with a $. This provides a consistent 
-    syntax for referencing variables.
+    When using the #set directive, the variable on the left side must be 
+    prefixed with a $. This provides a 
+    consistent syntax for referencing variables in Velocity.
     </p>
     
     <p>
-    Currently, the above examples are the only directives that have been
-    implemented. We will eventually support the full range of WebMacro 
-    functionality.
+    The following script elements have not been implemented.
     </p>
 </s1>
 
@@ -259,8 +269,8 @@
     
     <p>
     A current problem with Velocity is that the space that comments occupy
-    is not removed from the template. The newlines should be removed. This
-    will be fixed shortly.
+    is not removed from the template. The newlines created be these comments
+    will soon be removed.
     </p>
 </s1>
 
@@ -275,6 +285,43 @@
     #stop
     ]]></source>
     </p>    
+</s1>
+
+<s1 title="Macro">
+    <p>
+    With the #macro script element, the template designer can define a 
+    time-saving macro. 
+    </p>    
+    
+    <p>
+    <source><![CDATA[
+    #macro (row $content) <tr><td>$content</td></tr> #end
+    ]]></source>
+    </p>
+    
+    <p>
+    This establishes a macro called "row", which uses HTML tags to
+    put content into its own table data cell in an HTML table. Having 
+    defined the #row macro, the template designer can now call the #row 
+    macro by name.
+    </p>
+    
+    <p>
+    <table>
+    #foreach ($element in $list)
+	#row ($element)
+    #end
+    </table>
+    ]]></source>
+    </p>
+    
+    <p>
+    Here a newly created #row macro is nested inside a #foreach
+    statement. As the #foreach statement loops through each $element
+    target in the $list object, the #row macro will take the value of
+    $element and put it into its table data cell.
+    </p>
+    
 </s1>
 
  </body>

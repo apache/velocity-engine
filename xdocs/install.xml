@@ -52,8 +52,8 @@ build-velocity.bat
 
 <p>
     If you get a compiler error related to one or more packages that could not 
-    be found, ensure the build-velocity script is edited to properly specify 
-    the paths to each of the packages that could not be found.
+    be found, ensure the build-velocity script you are using is edited to 
+    properly specify the paths to each of the packages that could not be found.
 </p>
 
 </s1>

@@ -20,9 +20,9 @@
     or it can be combined with other systems to provide template
     services. Velocity will be tightly integrated with the 
     <link href="http://java.apache.org/turbine/">Turbine</link>
-    web application framework to provide a template service that 
-    will enable a true MVC model by which web applications may be 
-    developed.
+    web application framework. Together, Velocity and Turbine provide 
+    a template service that will allow web applications to be developed 
+    according to a true MVC model.
  </p>    
     
  <p>    
@@ -31,13 +31,12 @@
     (Java Compiler Compiler) using the JJTree extension to create an
     Abstract Syntax Tree (AST). The AST may subsequently be traversed
     (repeatedly if desired) by a tree walker, which
-    is implemented using the visitor design pattern. This allows
-    the parsing logic to be separated from the actions performed
+    is implemented using the visitor design pattern. This allows the 
+    parsing logic to be separated from the actions performed
     on the resultant AST. Two visitors come with Velocity: the first 
-    is a simple implementation that produces a visual tree of the 
-    syntax and nothing more, mostly used for
-    debugging; the second visitor actually generates
-    output from user-defined values and introspection.
+    visitor is produces a visual tree of the syntax and nothing more, 
+    mostly used for debugging, the second actually generates output 
+    from user-defined values and introspection.
  </p>
 
  </s1>
@@ -57,7 +56,7 @@
 <s1 title="Where do I get nightly builds?">
 
 <p>
-    You can find nightly builds
+    Nightly builds of Velocity can be found 
     <link href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">here</link>.
 </p>    
 
@@ -66,23 +65,23 @@
 <s1 title="How do I contribute, give feedback, fix bugs and so on?">
 
 <p>
-    We really need and appreciate any contributions you can give, including
-    documentation help, source code and feedback. Discussion about changes
-    should come in the form of source code and/or very detailed and well thought
-    out constructive feedback.
+    The Velocity project really needs and appreciates any contributions 
+    you can offer, including documentation help, source code and feedback. 
+    Discussion about changes should come in the form of source code and/or 
+    very detailed and considered constructive feedback.
 </p>
 
 <ul>
     <li>
-        We have a complete list of <link href="contributors.html">Active Developers</link>.
+        There is a list of <link href="contributors.html">Active Developers</link>.
         Submit some code and get your name added!</li>
     <li>
-        We have a <link href="http://jakarta.apache.org/getinvolved/mail.html">Velocity mailing
-        list</link> for discussion.</li>
+        Discussion occurs on the <link href="http://jakarta.apache.org/getinvolved/mail.html">Velocity mailing
+        list</link>.</li>
     <li>
         Access to the CVS "<strong>jakarta-velocity</strong>" repository is available both 
         <link href="http://jakarta.apache.org/cvsweb/index.cgi/jakarta-velocity/">online</link>
-        as well as with a <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">cvs client</link>.</li>
+        and with a <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">cvs client</link>.</li>
 </ul>
 
 </s1>
