@@ -92,7 +92,9 @@
 </li>
                     <li>    <a href="./differences.html">VM/WM Differences</a>
 </li>
-                    <li>    <a href="./casestudy1.html">Case Study 1</a>
+                    <li>    <a href="./casestudy1.html">JSP vs. Velocity</a>
+</li>
+                    <li>    <a href="./casestudy2.html">XMLC vs. Velocity</a>
 </li>
                 </ul>
             <p><strong>Tools</strong></p>
@@ -571,7 +573,8 @@ provided to make Velocity easier to integrated into your Java application.
 </p>
                                                 <p>
    This is the legacy pattern, where there is only one instance of the Velocity
-   engine in the JVM that is shared by all.  This is very convenient as it 
+   engine in the JVM (or web application, depending) that is shared by all. 
+   This is very convenient as it 
    allows localized configuration and sharing of resources.  For example, this
    is a very appropriate model for use in a Servlet 2.2+ compliant web application
    as each web application can have it's own instance of Velocity, allowing 
@@ -660,6 +663,23 @@ Template t = ve.getTemplate(&quot;foo.vm&quot;);
 As you can see, this is very simple and straightforward.  Except for some simple
 syntax changes, using Velocity as a singleton or as separate instances requires
 no changes to the high-level structure of your application or templates.
+</p>
+                                                <p>
+As a programmer, the classes you should use to interact with the Velocity
+internals are the <code>org.apache.velocity.app.Velocity</code> class if 
+using the Singlton model, or <code>org.apache.velocity.app.VelocityEngine</code>
+if using the non-singleton model ('separate instance').
+</p>
+                                                <p>
+At no time should an application use the internal <code>Runtime, RuntimeConstants,
+RuntimeSingleton or RuntimeInstance</code> classes in the
+<code>org.apache.velocity.runtime</code> package, as these are intended for 
+internal use only and may change over time.  As mentioned above, 
+the classes you should use
+are located in the <code>org.apache.velocity.app</code> package, and are the 
+<code>Velocity</code> and <code>VelocityEngine</code> classes.  If anything is 
+missing or needed from those classes, do not hesitate to suggest changes - these
+classes are intended for the application developer.
 </p>
                             </blockquote>
         </p>
