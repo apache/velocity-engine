@@ -79,7 +79,7 @@ import org.apache.velocity.context.*;
  * </pre></code>
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
- * @version $Id: VelocityFormatter.java,v 1.4 2001/08/03 19:26:14 dlr Exp $
+ * @version $Id: VelocityFormatter.java,v 1.5 2001/08/03 19:50:01 dlr Exp $
  */
 public class VelocityFormatter
 {
@@ -301,8 +301,8 @@ public class VelocityFormatter
      */
     public class VelocityAlternator
     {
-        String[] alternates = null;
-        int current = 0;
+        protected String[] alternates = null;
+        protected int current = 0;
 
         /**
          * Constructor takes an array of Strings.
@@ -317,7 +317,7 @@ public class VelocityFormatter
         /**
          * Alternates to the next in the list.
          *
-         * @return A String.
+         * @return The current alternate in the sequence.
          */
         public String alternate()
         {
@@ -338,6 +338,37 @@ public class VelocityFormatter
     }
 
     /**
+     * As VelocityAlternator, but calls <code>alternate()</code>
+     * automatically on rendering in a template.
+     */
+    public class VelocityAutoAlternator extends VelocityAlternator
+    {
+        /**
+         * Constructor takes an array of Strings.
+         *
+         * @param alternates A String[].
+         */
+        public VelocityAutoAlternator(String[] alternates)
+        {
+            super(alternates);
+        }
+
+        /**
+         * Returns the current alternate, and automatically alternates
+         * to the next alternate in its sequence (trigged upon
+         * rendering).
+         *
+         * @return The current alternate in the sequence.
+         */
+        public final String toString()
+        {
+            String s = alternates[current];
+            alternate();
+            return s;
+        }
+    }
+
+    /**
      * Makes an alternator object that alternates between two values.
      *
      * <p>Example usage in a Velocity template:
@@ -353,10 +384,10 @@ public class VelocityFormatter
      * &lt;/table&gt;
      * </pre></code>
      *
-     * @param name A String.
-     * @param alt1 A String.
-     * @param alt2 A String.
-     * @return A String.
+     * @param name The name for the alternator int the context.
+     * @param alt1 The first alternate.
+     * @param alt2 The second alternate.
+     * @return The newly created instance.
      */
     public String makeAlternator(String name,
                                  String alt1,
@@ -371,11 +402,7 @@ public class VelocityFormatter
      * Makes an alternator object that alternates between three
      * values.
      *
-     * @param name A String.
-     * @param alt1 A String.
-     * @param alt2 A String.
-     * @param alt3 A String.
-     * @return A String.
+     * @see #makeAlternator(String name, String alt1, String alt2)
      */
     public String makeAlternator(String name,
                                  String alt1,
@@ -389,13 +416,9 @@ public class VelocityFormatter
 
     /**
      * Makes an alternator object that alternates between four values.
+     * HELP: Why is this not public?
      *
-     * @param name A String.
-     * @param alt1 A String.
-     * @param alt2 A String.
-     * @param alt3 A String.
-     * @param alt4 A String.
-     * @return A String.
+     * @see #makeAlternator(String name, String alt1, String alt2)
      */
     String makeAlternator(String name,
                           String alt1,
@@ -405,6 +428,19 @@ public class VelocityFormatter
     {
         String[] alternates = { alt1, alt2, alt3, alt4 };
         context.put(name, new VelocityAlternator(alternates));
+        return "";
+    }
+
+    /**
+     * Makes an alternator object that alternates between two values
+     * automatically.
+     *
+     * @see #makeAlternator(String name, String alt1, String alt2)
+     */
+    public String makeAutoAlternator(String name, String alt1, String alt2)
+    {
+        String[] alternates = { alt1, alt2 };
+        context.put(name, new VelocityAutoAlternator(alternates));
         return "";
     }
 
