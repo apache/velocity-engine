@@ -15,10 +15,12 @@
             <meta name="email" value="jvanzyl@zenplex.com">
                                         <meta name="author" value="John Castura">
             <meta name="email" value="jcastura@kw.igs.net">
+                                        <meta name="author" value="Jean-François El Fouly">
+            <meta name="email" value="jean-francois.elfouly@wanadoo.fr">
             
            
                                     
-            <title>Velocity - Velocity User Guide</title>
+            <title>Velocity - Guide de l'utilisateur Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -132,68 +134,66 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Table of Contents"><strong>Table of Contents</strong></a>
+          <a name="Table des Matières"><strong>Table des Matières</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <ol>
-<li><a href="#About this Guide">About this Guide</a></li>
-<li><a href="#What is Velocity?">What is Velocity?</a></li>
-<li><a href="#What can Velocity do for me?">What can Velocity do for me?</a>
-    <ol>
-        <li><a href="#The Mud Store Example">The Mud Store example</a></li>
-    </ol>
+<li><a href="#A propos de ce document">A propos de ce document</a></li>
+<li><a href="#Velocity, qu'est-ce que c'est?">Velocity, qu'est-ce que c'est?</a></li>
+<li><a href="#Qu'est-ce que Velocity peut faire pour moi?">Qu'est-ce que Velocity peut faire pour moi?</a>
+  <ol>
+    <li><a href="#L'exemple de MudStore">L'exemple de MudStore</a></li>
+  </ol>
 </li>
-<li><a href="#Velocity Template Language (VTL): An Introduction">Velocity Template Language (VTL): An Introduction</a></li>
+<li><a href="#Introduction au Velocity Template Language (VTL)">Introduction au Velocity Template Language (VTL)</a></li>
 <li><a href="#Hello Velocity World!">Hello Velocity World!</a></li>
-<li><a href="#Comments">Comments</a></li>
-<li><a href="#References">References</a>
-    <ol>
-        <li><a href="#Variables">Variables</a></li>
-        <li><a href="#Properties">Properties</a></li>
-        <li><a href="#Methods">Methods</a></li>
-    </ol>
+<li><a href="#Les commentaires">Les commentaires</a></li>
+<li><a href="#Les références">Les références</a>
+  <ol>
+    <li><a href="#Variables">Variables</a></li>
+    <li><a href="#Propriétés">Propriétés</a></li>
+    <li><a href="#Méthodes">Méthodes</a></li>
+  </ol>
 </li>
-<li><a href="#Formal Reference Notation">Formal Reference Notation</a></li>
-<li><a href="#Quiet Reference Notation">Quiet Reference Notation</a></li>
-<li><a href="#Getting literal">Getting literal</a>
-    <ol>
-        <li><a href="#Currency">Currency</a></li>
-        <li><a href="#Escaping Valid VTL References">Escaping Valid VTL References</a></li>
-    </ol>
+<li><a href="#Notation formelle des références">Notation formelle des références</a></li>
+<li><a href="#Notation silencieuse des références">Notation silencieuse des références</a></li>
+<li><a href="#Sortie littérale">Sortie littérale</a>
+  <ol>
+    <li><a href="#Devise">Devise</a></li>
+    <li><a href="#Echapper des références VTL valides">Echapper des références VTL valides</a></li>
+  </ol>
 </li>
-<li><a href="#Case Substitution">Case Substitution</a></li>
+<li><a href="#Substitution de cas">Substitution de cas</a></li>
 <li><a href="#Directives">Directives</a>
-    <ol>
-        <li><a href="#Set">Set</a></li>
-        <li><a href="#String Literals">String Literals</a></li>
-        <li><a href="#Conditionals">If-Else Statements</a>
-            <ol>
-                <li><a href="#Relational and Logical Operators">Relational and Logical
-                Operators</a></li>
-            </ol>
-        </li>
-        <li><a href="#Loops">Foreach Loops</a></li>
-        <li><a href="#Include">Include</a></li>
-        <li><a href="#Parse">Parse</a></li>
-        <li><a href="#Stop">Stop</a></li>
-        <li><a href="#Velocimacros">Velocimacros</a></li>
-    </ol>
+  <ol>
+    <li><a href="#Set">Set</a></li>
+    <li><a href="#Chaînes de caractères littérales">Chaînes de caractères littérales</a></li>
+    <li><a href="#Conditions">Conditions</a>
+      <ol>
+        <li><a href="#Opérateurs relationnels et logiques">Opérateurs relationnels et logiques</a></li>
+      </ol>
+    </li>
+    <li><a href="#Boucles">Boucles</a></li>
+    <li><a href="#Include">Include</a></li>
+    <li><a href="#Parse">Parse</a></li>
+    <li><a href="#Stop">Stop</a></li>
+    <li><a href="#Velocimacros">Velocimacros</a></li>
+  </ol>
 </li>
-<li><a href="#Escaping VTL Directives">Escaping VTL Directives</a></li>
-<li><a href="#VTL: Formatting Issues">VTL: Formatting Issues</a></li>
-<li><a href="#Other Features and Miscellany">Other Features and Miscellany</a>
-    <ol>
-        <li><a href="#Math">Math</a></li>
-        <li><a href="#Range Operator">Range Operator</a></li>
-        <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
-        !</a></li>
-        <li><a href="#Velocimacro Miscellany">Velocimacro Miscellany</a></li>
-        <li><a href="#String Concatenation">String Concatenation</a></li>
-    </ol>
+<li><a href="#Echappement des directives VTL">Echappement des directives VTL</a></li>
+<li><a href="#VTL: Questions de format">VTL: Questions de format</a></li>
+<li><a href="#Autres caractéristiques et sujets divers">Autres caractéristiques et sujets divers</a>
+  <ol>
+    <li><a href="#Math">Math</a></li>
+    <li><a href="#Opérateur de portée (range)">Opérateur de portée (range)</a></li>
+    <li><a href="#Questions pointues: Echappement et !">Questions pointues: Echappement et !</a></li>
+    <li><a href="#Compléments divers sur les Velocimacros">Compléments divers sur les Velocimacros</a></li>
+    <li><a href="#Concaténation de chaînes">Concaténation de chaînes</a></li>
+  </ol>
 </li>
-<li><a href="#Feedback">Feedback</a></li>
+<li><a href="#Donnez votre avis">Donnez votre avis</a></li>
 </ol>
                             </blockquote>
         </p>
@@ -203,22 +203,19 @@
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="About this Guide"><strong>About this Guide</strong></a>
+          <a name="A propos de ce document"><strong>A propos de ce document</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    The Velocity User Guide is intended to help page designers and
-    content providers get acquainted with Velocity and the syntax of its
-    simple yet powerful scripting language, the Velocity Template
-    Language (VTL). Many of the examples in this guide deal with using
-    Velocity to embed dynamic content in web sites, but all VTL examples
-    are equally applicable to other pages and templates.
- </p>
-                                                <p>
-    Thanks for choosing Velocity!
- </p>
+    Le Guide de l'utilisateur Velocity a pour but d'aider les concepteurs de page et les fournisseurs de contenu à se
+    familiariser avec Velocity et avec la syntaxe de son langage de script, simple mais puissant, le Velocity Template
+    Language (VTL). Beaucoup d'exemples dans ce guide concernent l'utilisation de Velocity pour l'inclusion de contenu
+    dynamique dans des sites web, mais tous les exemples du VTL pourraient aussi bien s'appliquer à d'autres pages ou
+    gabarits.
+  </p>
+                                                <p>Merci de choisir Velocity!</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -227,33 +224,29 @@
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="What is Velocity?"><strong>What is Velocity?</strong></a>
+          <a name="Velocity, qu'est-ce que c'est?"><strong>Velocity, qu'est-ce que c'est?</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Velocity is a Java-based template engine. It permits web page
-    designers to reference methods defined in Java code. Web designers
-    can work in parallel with Java programmers to develop web sites
-    according to the Model-View-Controller (MVC) model, meaning that web
-    page designers can focus solely on creating a well-designed site,
-    and programmers can focus solely on writing top-notch code. Velocity
-    separates Java code from the web pages, making the web site more
-    maintainable over the long run and providing a viable alternative to
-    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a>
-    (JSPs) or <a href="http://www.php.net/">PHP</a>.
- </p>
+    Velocity est un moteur de substitution, basé sur Java. Il permet aux concepteurs de pages web de faire référence
+    à des méthodes définies dans du code Java. Les concepteurs de pages peuvent travailler en équipe avec des
+    programmeurs Java pour développer des sites web dans l'architecture MVC (Modèle-Vue-Contrôleur), ce qui signifie
+    que les infographistes peuvent se concentrer sur la création d'un site au désign attractif et les programmeurs
+    peuvent se consacrer entièrement à l'écriture de code de qualité. Velocity sépare le code Java des pages web,
+    ce qui rend le site plus facile à maintenir dans le long terme et fournit une alternative réaliste aux
+    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a> (JSPs) ou à
+    <a href="http://www.php.net/">PHP</a>.
+  </p>
                                                 <p>
-    Velocity can be used to generate web pages, SQL, PostScript and
-    other output from templates. It can be used either as a standalone
-    utility for generating source code and reports, or as an integrated
-    component of other systems. When complete, Velocity will provide
-    template services for the <a href="http://java.apache.org/turbine/">Turbine</a> web application
-    framework. Velocity+Turbine will provide a template service that
-    will allow web applications to be developed according to a true MVC
-    model.
- </p>
+    Velocity peut être utilisé pour générer des pages web, du SQL, du Postcript et tout ce qui peut être généré à partir
+    d'un gabarit. Vous pouvez l'utiliser comme un utilitaire indépendant pour générer du code source ou des états
+    imprimés, ou bien comme un composant intégré dans d'autres systèmes. A terme, Velocity fournira les services
+    d'inclusion pour le framework d'applications web <a href="http://java.apache.org/turbine/">Turbine</a>.
+    Velocity et Turbine fournissent un service d'inclusion qui permettra de développer des applications web dans une
+    véritable architecture MVC.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -262,7 +255,7 @@
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="What can Velocity do for me?"><strong>What can Velocity do for me?</strong></a>
+          <a name="Qu'est-ce que Velocity peut faire pour moi?"><strong>Qu'est-ce que Velocity peut faire pour moi?</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -270,46 +263,15 @@
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="The Mud Store Example"><strong>The Mud Store Example</strong></a>
+          <a name="L'exemple de MudStore"><strong>L'exemple de MudStore</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-    Suppose you are a page designer for an online store that specializes
-    in selling mud. Let's call it "The Online Mud Store". Business is
-    thriving. Customers place orders for various types and quantities of
-    mud. They login to your site using their username and password,
-    which allows them to view their orders and buy more mud. Right now,
-    Terracotta Mud is on sale, which is very popular. A minority of your
-    customers regularly buys Bright Red Mud, which is also on sale,
-    though not as popular and usually relegated to the margin of your
-    web page. Information about each customer is tracked in your
-    database, so one day the question arises, Why not use Velocity to
-    target special deals on mud to the customers who are most interested
-    in those types of mud?
-   </p>
-                                                <p>
-    Velocity makes it easy to customize web pages to your online
-    visitors. As a web site designer at The Mud Room, you want to make
-    the web page that the customer will see after logging into your
-    site.
-   </p>
-                                                <p>
-    You meet with software engineers at your company, and everyone has
-    agreed that <em>$customer</em> will hold information pertaining to
-    the customer currently logged in, that <em>$mudsOnSpecial</em> will
-    be all the types mud on sale at present. The <em>$flogger</em>
-    object contains methods that help with promotion. For the task at
-    hand, let's concern ourselves only with these three references.
-    Remember, you don't need to worry about how the software engineers
-    extract the necessary information from the database, you just need
-    to know that it works. This lets you get on with your job, and lets
-    the software engineers get on with theirs.
-   </p>
-                                                <p>
-    You could embed the following VTL statement in the web page:
-   </p>
+                                    <p>Supposons que vous soyez un concepteur de pages pour une boutique en ligne spécialisée dans la vente de terre cuite. Appelons-la "The Online Mud Store". Les affaires marchent fort. Les clients passent commande pour différents types et diverses quantités de terre cuite. Ils s'identifient sur votre site avec un nom d'utilisateur et un mot de passe, ce qui leur permet de suivre leurs commandes et d'en passer de nouvelles. Pour l'instant, vous vendez de la glaise Terracotta, un produit qui marche bien. Quelques-uns de vos clients achètent régulièrement de la glaise Bright Red, que vous vendez aussi, bien sûr, mais qui n'a pas autant la cote et qui se trouve d'habitude reléguée dans les marges de vos pages. Les informations relatives à chaque client sont suivies dans votre base de données, et donc un jour la question se pose: pourquoi ne pas utiliser Velocity pour proposer des offres spéciales à une clientèle ciblée, celle qui est la plus intéressée à un type de marchandise?</p>
+                                                <p>Avec Velocity, il est très facile de personnaliser les pages web pour certains visiteurs. En tant que concepteur de pages du MudRoom, vous voulez maintenant réaliser la page d'accueil que verra votre client après s'être identifié sur votre site. </p>
+                                                <p>Vous tenez une réunion avec les ingénieurs développement de votre entreprise, et tout le monde s'accorde sur le fait que <em>$customer</em> contiendra les informations relatives au client qui s'est connecté et <em>$mudsOnSpecial</em> tous les types de terre disponibles à la vente en ce moment. L'objet <em>$flogger</em> contient différentes méthodes pour aider à la promotion de certains produits. Pour la tâche qui nous concerne, occupons-nous seulement de ces trois références. Rappelez-vous que vous n'avez pas à vous soucier de la manière dont les développeurs vont extraire les informations nécessaires de la base de données, vous supposez seulement que ça fonctionne -- ce qui vous permet de vous occuper de votre part du boulot et les développeurs de la leur.</p>
+                                                <p>Vous pouvez inclure l'instruction VTL suivante dans votre page web:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -334,7 +296,8 @@ Hello $customer.Name!
    #end
 #end
 &lt;/table&gt;
-</pre></td>
+
+    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -344,24 +307,8 @@ Hello $customer.Name!
     </tr>
     </table>
     </div>
-                                                <p>
-    The exact details of the <em>foreach</em> statement will be
-    described in greater depth shortly; what's important is the impact
-    this short script can have on your web site. When a customer with a
-    penchant for Bright Red Mud logs in, and Bright Red Mud is on sale,
-    that is what this customer will see, prominently displayed. If
-    another customer with a long history of Terracotta Mud purchases
-    logs in, the notice of a Terracotta Mud sale will be front and
-    center. The flexibility of Velocity is enormous and limited only by
-    your creativity.
-   </p>
-                                                <p>
-    Documented in the VTL Reference are the many other Velocity
-    elements, which collectively give you the power and flexibility you
-    need to make your web site a web <em>presence</em>. As you get more
-    familiar with these elements, you will begin to unleash the power of
-    Velocity.
-   </p>
+                                                <p>Les détails précis de l'instruction <em>foreach</em> seront décrits un peu plus loin; ce qui compte pour l'instant, c'est l'impact que peut avoir ce petit script sur votre site web. Quand un client qui apprécie habituellement la glaise BrightRed se connecte, et que ce produit est en vente, c'est ce qu'il verra en premier lieu. Si un client qui a acheté beaucoup de Terracotta se connecte, c'est la vente de Terracotta qui sera affichée en tête et au centre. La flexibilité de Velocity est très grande, limitée seulement par votre créativité.</p>
+                                                <p>Dans le manuel de référence du VTL, vous trouverez la documentation de beaucoup d'autres éléments de Velocity, qui ensemble vous donnent la puissance et la souplesse dont vous avez besoin pour faire de votre site web une <em>présence</em> sur le web. Lorsque vous deviendrez de plus en plus familiers avec ces éléments, vous mettrez à votre service toute la puissance de Velocity.</p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -374,26 +321,13 @@ Hello $customer.Name!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity Template Language (VTL): An Introduction"><strong>Velocity Template Language (VTL): An Introduction</strong></a>
+          <a name="Introduction au Velocity Template Language (VTL)"><strong>Introduction au Velocity Template Language (VTL)</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p>
-    The Velocity Template Language (VTL) is meant to provide the
-    easiest, simplest, and cleanest way to incorporate dynamic content
-    in a web page. Even a web page developer with little or no
-    programming experience should soon be capable of using VTL to
-    incorporate dynamic content in a web site.
- </p>
-                                                <p>
-    VTL uses <em>references</em> to embed dynamic content in a web site,
-    and a variable is one type of reference. Variables are one type of
-    reference that can refer to something defined in the Java code, or
-    it can get its value from a VTL <em>statement</em> in the web page
-    itself. Here is an example of a VTL statement that could be embedded
-    in an HTML document:
- </p>
+                                    <p>Le Velocity Template Language (VTL) a été conçu pour inclure du contenu dynamique dans une page web de la manière la plus facile, la plus simple et la plus propre. Même un infographiste avec peu ou pas de bagage en programmation sera rapidement capable d'utiliser le VTL pour incorporer du contenu dynamique dans un site web.</p>
+                                                <p>VTL utilise des <em>références</em> pour embarquer du contenu dynamique dans un site web, et une variable est un type de référence. Une variable fait référence à quelque chose qui est défini dans le code Java, ou elle peut prendre sa valeur d'une <em>instruction</em> VTL dans la page web. Voici un exemple d'instruction VTL</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -416,39 +350,31 @@ Hello $customer.Name!
     </table>
     </div>
                                                 <p>
-    This VTL statement, like all VTL statements, begins with the
-    <em>#</em> character and contains a directive: <em>set</em>. When an
-    online visitor requests your web page, the Velocity Templating
-    Engine will search through your web page to find all <em>#</em>
-    characters, then determine which mark the beginning of VTL
-    statements, and which of the <em>#</em> characters that have nothing
-    to do with VTL.
- </p>
+    Cette instruction VTL -- comme toutes les instructions VTL d'ailleurs -- commence par le caractère <em>#</em> et
+    contient une directive <em>set</em>. Quand un visiteur demande votre page web, le moteur de substitution Velocity
+    (Velocity Templating Engine) recherche dans votre page tous les caractères <em>#</em>, détermine lesquels marquent le
+    début d'instructions VTL, et quels caractères <em>#</em> n'ont rien à voir avec le VTL.
+  </p>
                                                 <p>
-    The <em>#</em> character is followed by a directive, <em>set</em>.
-    The <em>set</em> directive uses an expression (enclosed in brackets)
-    -- an equation that assigns a <em>value</em> to a <em>variable</em>.
-    The variable is listed on the left hand side and its value on the
-    right hand side; the two are separated by an <em>=</em> character.
- </p>
+    Le caractère <em>#</em>est suivi d'une directive, <em>set</em>. La directive <em>set</em>utilise une expression
+    (entre parenthèses) -- une équation qui assigne une <em>valeur</em>à une <em>variable</em>. La variable est écrite
+    à gauche et sa valeur à droite; les deux sont séparés par un caractère <em>=</em>.
+  </p>
                                                 <p>
-    In the example above, the variable is <em>$a</em> and the value is
-    <em>Velocity</em>. This variable, like all references, begins with
-    the <em>$</em> character. Values are always enclosed in quotes; with
-    Velocity there is no confusion about data types, as only strings
-    (text-based information) may be passed to variables.
- </p>
+    Dans l'exemple ci-dessus, la variable est <em>$a</em>et la valeur est <em>Velocity</em>. Cette variable, comme toutes
+    les références, commence par le caractère <em>$</em>. Les valeurs sont toujours entourées d'apostrophes;
+    dans Velocity, il n'y a jamais de confusion possible entre les types de données puisque seules des chaînes de
+    caractères (informations de type texte) peuvent être passées à des variables.
+  </p>
                                                 <p>
-    The following rule of thumb may be useful to better understand how
-    Velocity works: <strong>References begin with <em>$</em> and are
-    used to get something. Directives begin with <em>#</em> and are used
-    to do something.</strong>
- </p>
+    Le truc suivant peut être utile pour mieux comprendre comment Velocity fonctionne :<strong>Les références commencent
+    par <em>$</em> et sont utilisées pour récupérer quelque chose. Les directives commencent par <em>#</em>et sont
+    utilisées pour faire quelque chose.</strong>
+  </p>
                                                 <p>
-     In the example above, <em>#set</em> is used to assign a value to a
-     variable. The variable, <em>$a</em>, can then be used in the
-     template to output "Velocity".
- </p>
+    Dans l'exemple ci-dessus, <em>#set</em>est utilisé pour assigner une valeur à une variable. La variable, <em>$a</em>,
+    peut alors être utilisée dans le gabarit pour produire "Velocity".
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -463,10 +389,9 @@ Hello $customer.Name!
       <tr><td>
         <blockquote>
                                     <p>
-    Once a value has been assigned to a variable, you can reference the
-    variable anywhere in your HTML document. In the following example, a
-    value is assigned to <em>$foo</em> and later referenced.
- </p>
+    Une fois qu'une valeur a été assignée à une variable, vous pouvez faire référence à cette variable n'importe où dans
+    votre document HTML. Dans l'exemple suivant, une valeur est assignée à <em>$foo</em> et référencée plus loin.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -482,7 +407,7 @@ Hello $customer.Name!
 #set( $foo = &quot;Velocity&quot; )
 Hello $foo World!
 &lt;/body&gt;
-&lt;html&gt;
+&lt;/html&gt;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -493,15 +418,12 @@ Hello $foo World!
     </tr>
     </table>
     </div>
+                                                <p>Le résultat est une page web où s'imprime "Hello Velocity World!".</p>
                                                 <p>
-    The result is a web page that prints "Hello Velocity World!".
- </p>
-                                                <p>
-    To make statements containing VTL directives more readable, we
-    encourage you to start each VTL statement on a new line, although
-    you are not required to do so. The <em>set</em> directive will be
-    revisited in greater detail later on.
- </p>
+    Pour rendre les instructions contenant des directives VTL plus lisibles, nous vous encourageons à débuter chaque
+    instruction VTL sur une nouvelle ligne -- mais vous n'êtes pas obligé de procéder ainsi. La directive <em>set</em>
+    sera revue avec davantage de détails plus loin.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -510,18 +432,16 @@ Hello $foo World!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Comments"><strong>Comments</strong></a>
+          <a name="Les commentaires"><strong>Les commentaires</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Comments allows descriptive text to be included that is not placed
-    into the output of the template engine. Comments are a useful way of
-    reminding yourself and explaining to others what your VTL statements
-    are doing, or any other purpose you find useful. Below is an example
-    of a comment in VTL.
- </p>
+    Les commentaires permettent d'inclure du texte descriptif qui ne sera pas reporté dans la sortie du moteur
+    d'inclusion. Les commentaires sont une manière utile de se rappeler et d'expliquer à d'autres ce que font les
+    instructions VTL, ou à toute autre fin utile. Voici un exemple de commentaire en VTL.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -532,7 +452,7 @@ Hello $foo World!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## This is a single line comment.
+## Ceci est un commentaire d'une seule ligne.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -544,12 +464,10 @@ Hello $foo World!
     </table>
     </div>
                                                 <p>
-    A single line comment begins with <em>##</em> and finishes at the
-    end of the line. If you're going to write a few lines of commentary,
-    there's no need to have numerous single line comments. Multi-line
-    comments, which begin with <em>#*</em> and end with <em>*#</em>, are
-    available to handle this scenario.
- </p>
+    Un commentaire d'une ligne commence par <em>##</em> et se termine à la fin de la ligne. Si vous voulez écrire
+    quelques lignes de commentaires, pas besoin de multiplier ces commentaires d'une ligne. Les commentaires multi-lignes,
+    qui commencent par <em>#*</em> et se terminent par <em>*#</em>, sont là pour ce cas de figure.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -560,16 +478,16 @@ Hello $foo World!
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-This is text that is outside the multi-line comment.
-Online visitors can see it.
+Ceci est du texte à l'extérieur du commentaire multi-lignes. Les visiteurs du site peuvent le voir.
 
 #*
- Thus begins a multi-line comment. Online visitors won't
- see this text because the Velocity Templating Engine will
- ignore it.
+  Ici commence donc un commentaire de plusieurs lignes.
+  Les visiteurs du site ne le verront pas, parce que le
+  moteur de substitution de Velocity
+  (Velocity Templating Engine) l'ignore.
 *#
 
-Here is text outside the multi-line comment; it is visible.
+Ce texte-ci est à l'extérieur du commentaire: il est visible.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -580,10 +498,7 @@ Here is text outside the multi-line comment; it is visible.
     </tr>
     </table>
     </div>
-                                                <p>
-    Here are a few examples to clarify how single line and multi-line
-    comments work:
- </p>
+                                                <p>Voici quelques exemples pour clarifier la manière dont les commentaires d'une et plusieurs lignes fonctionnent:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -594,13 +509,14 @@ Here is text outside the multi-line comment; it is visible.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-This text is visible. ## This text is not.
-This text is visible.
-This text is visible. #* This text, as part of a multi-line comment,
-is not visible. This text is not visible; it is also part of the
-multi-line comment. This text still not visible. *# This text is outside
-the comment, so it is visible.
-## This text is not visible.
+Ce texte est visible. ## Ce texte ne l'est pas.
+Ce texte est visible.
+Ce texte est visible. #* Ce texte, qui fait partie d'un commentaire
+de plusieurs lignes, n'est pas visible. Ce texte n'est pas visible;
+il faut aussi partie du commentaire multi-lignes.
+Ce texte n'est toujours pas visible. *# Ce texte est à l'extérieur
+du commentaire, il est donc visible.
+## Ce texte n'est pas visible.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -612,10 +528,9 @@ the comment, so it is visible.
     </table>
     </div>
                                                 <p>
-    There is a third type of comment, the VTL comment block, which may
-    be used to store such information as the document author and
-    versioning information:
- </p>
+    Il y a un troisième type de commentaires, le bloc de commentaires VTL, que vous pouvez utiliser pour écrire des
+    informations telles que l'auteur du document ou la version.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -627,10 +542,9 @@ the comment, so it is visible.
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #**
-This is a VTL comment block and
-may be used to store such information
-as the document author and versioning
-information:
+Ceci est un bloc de commentaires VTL, qui
+peut être utilisé pour inscrire des informations
+telles que l'auteur ou la version du document.
 @author
 @version 5
 *#
@@ -652,42 +566,37 @@ information:
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="References"><strong>References</strong></a>
+          <a name="Les références"><strong>Les références</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    There are three types of references in the VTL: variables,
-    properties and methods. As a designer using the VTL, you and your
-    engineers must come to an agreement on the specific names of
-    references so you can use them correctly in your templates.
- </p>
+    Il y a trois types de références en VTL: les variables, les propriétés et les méthodes. En tant que concepteur
+    utilisant le VTL, vous et vos ingénieurs devez vous mettre d'accord sur les noms des références, de manière à pouvoir
+    les utiliser correctement dans vos gabarits de pages.
+  </p>
                                                 <p>
-    Everything coming to and from a reference is treated as a String
-    object. If there is an object that represents <em>$foo</em> (such as
-    an Integer object), then Velocity will call its
-    <code>.toString()</code> method to resolve the object into a String.
- </p>
+    Tout ce qui entre et sort d'une référence est traité comme un objet chaîne de caractères. S'il y a un objet qui
+    représente <em>$foo</em>(un objet Integer par exemple), Velocity appellera sa méthode <code>.toString()</code>
+    pour convertir l'objet en String.
+  </p>
                                                 <p>
- <a name="Variables"><strong>Variables</strong></a>
- <br />
-    The shorthand notation of a variable consists of a leading "$"
-    character followed by a VTL <em>Identifier</em>. A VTL Identifier
-    must start with an alphabetic character (a .. z or A .. Z). The rest
-    of the characters are limited to the following types of characters:
- </p>
+    <a name="Variables"><strong>Variables</strong></a>
+    <br />
+    La notation abrégée pour une variable consiste en un caractère "$" initial suivi d'un <em>Identificateur</em>VTL.
+    Un identificateur VTL doit commencer par une lettre (a .. z ou A .. Z). Le reste des caractères est limité aux types
+    suivants:
+  </p>
                                                 <p>
-   <ul>
-     <li>alphabetic (a .. z, A .. Z)</li>
-     <li>numeric (0 .. 9)</li>
-     <li>hyphen ("-")</li>
-     <li>underscore ("_")</li>
-   </ul>
- </p>
-                                                <p>
-    Here are some examples of valid variable references in the VTL:
- </p>
+    <ul>
+      <li>lettre (a .. z, A .. Z)</li>
+      <li>chiffre (0 .. 9)</li>
+      <li>tiret ("-")</li>
+      <li>trait de soulignement ("_")</li>
+    </ul>
+  </p>
+                                                <p>Voici quelques exemples de références valides en VTL: </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -714,13 +623,11 @@ $mudSlinger1
     </table>
     </div>
                                                 <p>
-    When VTL references a variable, such as <em>$foo</em>, the variable
-    can get its value from either a <em>set</em> directive in the
-    template, or from the Java code. For example, if the Java variable
-    <em>$foo</em> has the value <em>bar</em> at the time the template is
-    requested, <em>bar</em> replaces all instances of <em>$foo</em> on
-    the web page. Alternatively, if I include the statement
- </p>
+    Lorsque VTL référence une variable, telle que <em>$foo</em>, la variable peut prendre sa valeur soit d'une directive
+    <em>set</em> dans le gabarit, soit d'un programme Java. Par exemple, si la variable Java <em>$foo</em> a la valeur
+    <em>bar</em> à la ligne à laquelle il est fait appel au gabarit, <em>bar</em> remplace toutes les instances de
+    <em>$foo</em> dans la page web. Autrement, si j'inclus l'instruction
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -742,19 +649,13 @@ $mudSlinger1
     </tr>
     </table>
     </div>
+                                                <p>la sortie sera la même pour toutes les instances de <em>$foo</em> qui suivent cette directive.</p>
                                                 <p>
-    The output will be the same for all instances of <em>$foo</em> that
-    follow this directive.
- </p>
-                                                <p>
- <a name="Properties"><strong>Properties</strong></a>
- <br />
-    The second flavor of VTL references are properties, and properties
-    have a distinctive format. The shorthand notation consists of a
-    leading <em>$</em> character followed a VTL Identifier, followed by
-    a dot character (".") and another VTL Identifier. These are examples
-    of valid property references in the VTL:
- </p>
+    <a name="Propriétés"><strong>Propriétés</strong></a>
+    <br />Les propriétés sont la seconde espèce de références en VTL et elles ont un format qui les distingue.
+    La notation abrégée consiste en un caractère <em>$</em> initial suivi d'un identifiant VTL, suivi d'un point (".")
+    et d'un autre identifiant VTL. Quelques exemples de références valides de propriétés en VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -778,28 +679,21 @@ $purchase.Total
     </table>
     </div>
                                                 <p>
-    Take the first example, <em>$customer.Address</em>. It can have two
-    meanings. It can mean, Look in the hashtable identified as
-    <em>customer</em> and return the value associated with the key
-    <em>Address</em>. But <em>$customer.Address</em> can also be
-    referring to a method (references that refer to methods will be
-    discussed in the next section); <em>$customer.Address</em> could be
-    an abbreviated way of writing <em>$customer.getAddress()</em>. When
-    your page is requested, Velocity will determine which of these two
-    possibilities makes sense, and then return the appropriate value.
- </p>
+    Prenons le premier exemple, <em>$customer.Address</em>. Cette expression peut avoir deux significations.
+    Elle peut signifier: "Regarde dans la table de hachage identifiée par <em>customer</em> et renvoie la valeur associée
+    à la clé <em>Address</em>. Mais <em>$customer.Address</em> peut aussi faire référence à une méthode (les références
+    qui désignent des méthodes seront discutées dans la section suivante); <em>$customer.Address</em> pourrait être
+    une manière abrégée d'écrire <em>$customer.getAddress()</em>. Quand quelqu'un demande votre page, Velocity va
+    déterminer laquelle de ces deux possibilités a un sens, et retournera la valeur appropriée.
+  </p>
                                                 <p>
- <a name="Methods"><strong>Methods</strong></a>
- <br />
-    A method is defined in the Java code and is capable of doing
-    something useful, like running a calculation or arriving at a
-    decision. Methods are references that consist of a leading "$"
-    character followed a VTL Identifier, followed by a VTL <em>Method
-    Body</em>. A VTL Method Body consists of a VTL Identifier followed
-    by an left parenthesis character ("("), followed by an optional
-    parameter list, followed by right parenthesis character (")"). These
-    are examples of valid method references in the VTL:
- </p>
+    <a name="Méthodes"><strong>Méthodes</strong></a>
+    <br />Une méthode est définie dans le code Java et peut faire quelque chose d'utile, comme effectuer un calcul ou
+    prendre une décision. Les méthodes sont des références qui consistent en un caractère "$" initial, suivi d'un
+    identifiant VTL, suivi d'un <em>corps de méthode</em>. Un corps de méthode VTL consiste en un identifiant VTL
+    suivi du caractère parenthèse ouvrante ("("), éventuellement suivi d'une liste de paramètres, suivi du caractère
+    parenthèse fermante (")"). Quelques exemples de références de méthodes valides en VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -825,23 +719,20 @@ $person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&qu
     </table>
     </div>
                                                 <p>
-    The first two examples -- <em>$customer.getAddress()</em> and
-    <em>$purchase.getTotal()</em> -- may look similar to those used in
-    the Properties section above, <em>$customer.Address</em> and
-    <em>$purchase.Total</em>. If you guessed that these examples must be
-    related some in some fashion, you are correct!
- </p>
+    Les deux premiers exemples -- <em>$customer.getAddress()</em> et 
+    <em>$purchase.getTotal()</em> -- peuvent avoir l'air semblables à ceux utilisés dans la section précédente,
+    consacrée aux Propriétés, <em>$customer.Address</em> et
+    <em>$purchase.Total</em>. Si vous avez deviné que ces exemples sont liés entre eux d'une manière ou d'une autre,
+    vous avez raison!
+  </p>
                                                 <p>
-    VTL Properties can be used as a shorthand notation for VTL Methods.
-    The Property <em>$customer.Address</em> has the exact same effect as
-    using the Method <em>$customer.getAddress()</em>. It is generally
-    preferable to use a Property when available. The main difference
-    between Properties and Methods is that you can specify a parameter
-    list to a Method.
- </p>
-                                                <p>
-    The shorthand notation can be used for the following Methods
- </p>
+    Les propriétés VTL peuvent être utilisées comme une notation abrégée pour des méthodes VTL.
+    La propriété <em>$customer.Address</em> a exactement le même effet que l'utilisation de la méthode
+    <em>$customer.getAddress()</em>. Il est généralement préférable d'utiliser une propriété lorsqu'il y en a une
+    de disponible. La principale différence entre les Propriétés et les Méthodes est que pour les méthodes, on peut
+    spécifier une liste de paramètres.
+  </p>
+                                                <p>La notation abrégée peut être utilisée pour les méthodes suivantes</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -866,10 +757,10 @@ $album.getPhoto()
     </table>
     </div>
                                                 <p>
-    We might expect these methods to return the names of planets
-    belonging to the sun, feed our earthworm, or get a photograph from
-    an album. Only the long notation works for the following Methods.
- </p>
+    On s'attend logiquement à ce que ces méthodes retournent les noms des planètes qui tournent autour du soleil,
+    qu'elles nourissent notre ver de terre ou prennent une photo dans un album. Il n'y a que la notation longue
+    qui fonctionne pour les méthodes suivantes:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -881,13 +772,13 @@ $album.getPhoto()
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 $sun.getPlanet( [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;] )
-## Can't pass a parameter list with $sun.Planets
+## On ne peut pas passer une liste de paramètres avec $sun.Planets
 
 $sisyphus.pushRock()
-## Velocity assumes I mean $sisyphus.getRock()
+## Velocity suppose que je veux dire $sisyphus.getRock()
 
 $book.setTitle( &quot;Homage to Catalonia&quot; )
-## Can't pass a parameter list
+## On ne peut pas passer une liste de paramètres
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -899,12 +790,10 @@ $book.setTitle( &quot;Homage to Catalonia&quot; )
     </table>
     </div>
                                                 <p>
-    <a name="Formal Reference Notation"><strong>Formal Reference Notation</strong></a>
-    <br />
-    Shorthand notation for references was used for the examples listed
-    above, but there is also a formal notation for references, which is
-    demonstrated below:
- </p>
+    <a name="Notation formelle des références"><strong>Notation formelle des références</strong></a>
+    <br />Dans les exemples ci-dessus, nous avons utilisé la notation abrégée pour les références, mais il y a aussi
+    une notation formelle pour les références, illustrée ci-dessous:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -929,18 +818,16 @@ ${purchase.getTotal()}
     </table>
     </div>
                                                 <p>
-    In almost all cases you will use the shorthand notation for
-    references, but in some cases the formal notation is required for
-    correct processing.
- </p>
+    Dans presque tous les cas, vous utiliserez pour les références la notation abrégée, mais dans certains cas
+    la notation formelle est requise pour une exécution correcte.
+  </p>
                                                 <p>
-    Suppose you were constructing a sentence on the fly where
-    <em>$vice</em> was to be used as the base word in the noun of a
-    sentence. The goal is to allow someone to choose the base word and
-    produce one of the two following results: "Jack is a pyromaniac." or
-    "Jack is a kleptomaniac.". Using the shorthand notation would be
-    inadequate for this task. Consider the following example:
- </p>
+    Supposons que vous soyez en train de construire dynamiquement une phrase dans laquelle <em>$vice</em> doit être
+    utilisé comme base pour la construction d'un nom de la phrase. Le but est de permettre à quelqu'un de choisir le mot
+    de base et de produire l'un des deux résultats suivants:
+    "Jacques est pyromane" ou "Jacques est cleptomane".
+    L'utilisation de la notation abrégée ne convient pas pour cette tâche. Considérons en effet l'exemple suivant:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -951,7 +838,7 @@ ${purchase.getTotal()}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Jack is a $vicemaniac.
+Jacques est un $vicemane.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -963,12 +850,10 @@ Jack is a $vicemaniac.
     </table>
     </div>
                                                 <p>
-    There is ambiguity here, and Velocity assumes that
-    <em>$vicemaniac</em>, not <em>$vice</em>, is the Identifier that you
-    mean to use. Finding no value for <em>$vicemaniac</em>, it will
-    return <em>$vicemaniac</em>. Using formal notation can resolve this
-    problem.
- </p>
+    La syntaxe est ici ambiguë, et Velocity suppose que <em>$vicemane</em>, et non <em>$vice</em>, est l'identifiant
+    que vous pensiez utiliser. Ne trouvant pas de valeur pour <em>$vicemane</em>, il renverra <em>$vicemane</em>.
+    L'utilisation de la notation formelle peut résoudre ce problème.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -979,7 +864,7 @@ Jack is a $vicemaniac.
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Jack is a ${vice}maniac.
+Jacques est un ${vice}mane.
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -991,17 +876,14 @@ Jack is a ${vice}maniac.
     </table>
     </div>
                                                 <p>
-    Now Velocity knows that <em>$vice</em>, not <em>$vicemaniac</em>, is
-    the reference. Formal notation is often useful when references are
-    directly adjacent to text in a template.
- </p>
+    Cette fois Velocity sait que <em>$vice</em>, et non <em>$vicemane</em>, est la référence. La notation formelle est
+    souvent utile quand les références sont directement adjacentes à du texte au sein d'un gabarit.
+  </p>
                                                 <p>
-    <a name="Quiet Reference Notation"><strong>Quiet Reference Notation</strong></a>
-    <br />
-    When Velocity encounters an undefined reference, its normal behavior
-    is to output the image of the reference. For example, suppose the
-    following reference appears as part of a VTL template.
- </p>
+    <a name="Notation silencieuse des références"><strong>Notation silencieuse des références</strong></a>
+    <br />Lorsque Velocity rencontre une référence non définie, son comportement normal est de produire une image de la
+    référence. Par exemple, supposons que la référence suivante apparaisse dans un gabarit VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1024,13 +906,11 @@ Jack is a ${vice}maniac.
     </table>
     </div>
                                                 <p>
-    When the form initially loads, the variable reference
-    <em>$email</em> has no value, but you prefer a blank text field to
-    one with a value of "$email". Using the quiet reference notation
-    circumvents Velocity's normal behavior; instead of using
-    <em>$email</em> in the VTL you would use <em>$!email</em>. So the
-    above example would look like the following:
- </p>
+    Quand le formulaire est chargé pour la première fois, la variable référencée par <em>$email</em> n'a pas de valeur,
+    mais vous préfèreriez un champ de texte vide à la valeur "$email". L'utilisation de la notation silencieuse contourne
+    le comportement normal de Velocity; au lieu d'utiliser <em>$email</em> dans le code VTL, utilisez <em>$!email</em>.
+    L'exemple précédent ressemblerait donc à ceci:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1053,13 +933,10 @@ Jack is a ${vice}maniac.
     </table>
     </div>
                                                 <p>
-    Now when the form is initially loaded and <em>$email</em> still has
-    no value, an empty string will be output instead of "$email".
- </p>
-                                                <p>
-    Formal and quiet reference notation can be used together, as
-    demonstrated below.
- </p>
+    A présent, quand le formulaire est chargé pour la première fois et que <em>$email</em> n'a toujours pas de valeur,
+    une chaîne vide sera produite au lieu de "$email".
+  </p>
+                                                <p>La notation formelle et la notation silencieuse peuvent être utilisées ensemble, comme illustré ci-dessous.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1089,32 +966,27 @@ Jack is a ${vice}maniac.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Getting literal"><strong>Getting literal</strong></a>
+          <a name="Sortie littérale"><strong>Sortie littérale</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    VTL uses special characters, such as <em>$</em> and <em>#</em>, to
-    do its work, so some added care should be taken where using these
-    characters in your templates. This section deals with escaping the
-    <em>$</em> character.
+    VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
+    quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
+    du caractère <em>$</em>.
   </p>
                                                 <p>
-    <a name="Currency"><strong>Currency</strong></a>
-    <br />
-    There is no problem writing "I bought a 4 lb. sack of potatoes at
-    the farmer's market for only $2.50!" As mentioned, a VTL identifier
-    always begins with an upper- or lowercase letter, so $2.50 would not
-    be mistaken for a reference.
+    <a name="Devise"><strong>Devise</strong></a>
+    <br />Il n'y a pas de problème particulier à écrire "J'ai acheté un sac de 2 kg de patates au marché de la ferme
+    pour seulement $2.50!". Comme dit plus haut, un identifiant VTL commence toujours par une lettre, majuscule ou
+    minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
   </p>
                                                 <p>
-    <a name="Escaping Valid VTL References"><strong>Escaping Valid VTL References</strong></a>
-    <br />
-    Cases may arise where there is the potential for Velocity to get
-    confused. <em>Escaping</em> special characters is the best way to
-    handle VTL's special characters in your templates, and this can be
-    done using the backslash ( <em>\</em> ) character.
+    <a name="Echapper des références VTL valides"><strong>Echapper des références VTL valides</strong></a>
+    <br />Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
+    caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
+    fait en utilisant le caractère backslash (<em>\</em>).
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1139,16 +1011,14 @@ $email
     </table>
     </div>
                                                 <p>
-    If Velocity encounters  a reference in your VTL template to
-    <em>$email</em>, it will search the Context for a corresponding
-    value. Here the output will be <em>foo</em>, because <em>$email</em> is
-    defined. If <em>$email</em> is not defined, the output will be
-    <em>$email</em>.
+    Lorsque Velocity rencontre une référence à <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
+    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est défini. Si <em>$email</em>
+    n'était pas défini, la sortie serait <em>$email</em>.
   </p>
                                                 <p>
-    Suppose that <em>$email</em> is defined (for example, if it has the
-    value <em>foo</em>), and that you want to output <em>$email</em>. There are a few
-    ways of doing this, but the simplest is to use the escape character.
+    Supposons que <em>$email</em> soit défini (par exemple, cette référence a la valeur <em>foo</em>)
+    et que vous vouliez produire <em>$email</em>. Il y a différentes manières de le faire, mais la plus simple est
+    d'utiliser le caractère d'échappement.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1160,7 +1030,7 @@ $email
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-## The following line defines $email in this template:
+## La ligne qui suit définit $email dans ce gabarit:
 #set( $email = &quot;foo&quot; )
 $email
 \$email
@@ -1176,9 +1046,7 @@ $email
     </tr>
     </table>
     </div>
-                                                <p>
-     renders as
-  </p>
+                                                <p>sera rendu comme:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1204,10 +1072,9 @@ $email
     </table>
     </div>
                                                 <p>
-     Note that the <em>\</em> character bind to the <em>$</em>
-     from the left. The bind-from-left rule causes <em>\\\$email</em> to
-     render as <em>\\$email</em>. Compare these examples to those in
-     which <em>$email</em> is not defined.
+    Notez que le caractère <em>\</em> s'applique au <em>$</em> à partir de la gauche. Cette règle d'application
+    à partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
+    à ce qui se passe lorsque <em>$email</em> n'est pas défini.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1233,9 +1100,7 @@ $email
     </tr>
     </table>
     </div>
-                                                <p>
-     renders as
-  </p>
+                                                <p>sera rendu comme:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1261,9 +1126,8 @@ $email
     </table>
     </div>
                                                 <p>
-     Notice Velocity handles references that are defined differently
-     from those that have not been defined. Here is a set directive that
-     gives <em>$foo</em> the value <em>gibbous</em>.
+    Remarquez comment Velocity traite les références définies différemment de celles qui n'ont pas été définies.
+    Voici par exemple une directive set qui donne à <em>$foo</em> la valeur <em>gibbous</em>.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -1288,14 +1152,10 @@ $moon = $foo
     </table>
     </div>
                                                 <p>
-    The output will be: <em>$moon = gibbous</em> -- where <em>$moon</em>
-    is output as a literal because it is undefined and <em>gibbous</em>
-    is output in place of <em>$foo</em>.
+    La sortie sera: <em>$moon = gibbous</em> -- où <em>$moon</em> est rendu littéralement puisqu'il n'est pas défini,
+    alors que <em>gibbous</em> est rendu au lieu de <em>$foo</em>.
   </p>
-                                                <p>
-     It is also possible to escape VTL directives; this is described in
-     more detail in the Directives section.
-  </p>
+                                                <p>Il est aussi possible d'échapper les directives VTL; ceci est décrit plus en détail dans la section Directives.</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1304,17 +1164,16 @@ $moon = $foo
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Case Substitution"><strong>Case Substitution</strong></a>
+          <a name="Substitution de cas"><strong>Substitution de cas</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Now that you are familiar with references, you can begin to apply
-    them effectively in your templates. Velocity references take
-    advantage of some Java principles that template designers will find
-    easy to use. For example:
-    </p>
+    Maintenant que les références vous sont familières, vous pouvez commencer à les mettre en pratique dans vos propres
+    gabarits. Les références, dans Velocity, tirent avantage de certains principes Java que les concepteurs de gabarits
+    vont trouver commodes. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1328,17 +1187,17 @@ $moon = $foo
 $foo
 
 $foo.getBar()
-## is the same as
+## est équivalent à
 $foo.Bar
 
 $data.getUser(&quot;jon&quot;)
-## is the same as
+## est équivalent à
 $data.User(&quot;jon&quot;)
 
 $data.getRequest().getServerName()
-## is the same as
+## est équivalent à
 $data.Request.ServerName
-## is the same as
+## est équivalent à
 ${data.Request.ServerName}
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1351,30 +1210,24 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
-    These examples illustrate alternative uses for the same references.
-    Velocity takes advantage of Java's introspection and bean features
-    to resolve the reference names to both objects in the Context as
-    well as the objects methods. It is possible to embed and evaluate
-    references almost anywhere in your template.
-    </p>
+    Ces exemples illustrent différentes manières d'utiliser les mêmes références. Velocity tire parti de l'introspection
+    Java et des caractéristiques des beans pour résoudre les noms de référence en objets du contexte et aussi en leurs
+    méthodes. Il est possible d'inclure et d'évaluer des références à peu près partout dans votre gabarit.
+  </p>
                                                 <p>
-    Velocity, which is modelled on the Bean specifications defined by
-    Sun Microsystems, is case sensitive; however, its developers have
-    strove to catch and correct user errors wherever possible.
-    When the method <em>getFoo()</em> is referred to in a template
-    by <code>$bar.foo</code>, Velocity will first try <code>$getfoo</code>.
-    If this fails, it will then try <code>$getFoo</code>.
-    Similarly, when a template refers to <code>$bar.Foo</code>, Velocity
-    will try <em>$getFoo()</em> first and then try <em>getfoo()</em>.
-    </p>
+    Velocity utilise comme modèles les spécifications des Beans telles qu'elles ont été définies par Sun Microsystems;
+    il est donc sensible à la casse (majuscules/minuscules); les développeurs se sont toutefois battus pour intercepter
+    et corriger les erreurs des utilisateurs chaque fois que c'est possible. Lorsque la méthode <em>getFoo()</em> est
+    référencée dans un gabarit par <code>$bar.foo</code>, Velocity essayera d'abord <code>$getfoo</code>. Si ceci échoue,
+    Velocity essayera <code>$getFoo</code>. De même, si un gabarit fait référence à <code>$bar.Foo</code>,
+    Velocity essayera d'abord <em>$getFoo()</em> et ensuite <em>getfoo()</em>.
+  </p>
                                                 <p>
-    Note: <em>References to instance variables in a template are not
-    resolved.</em> Only references to the attribute equivalents of
-    JavaBean getter/setter methods are resolved
-    (i.e. <code>$foo.Name</code> does resolve to the class Foo's
-    <code>getName()</code> instance method, but not to a public
-    <code>Name</code> instance variable of Foo).
-    </p>
+    Note: <em>Dans un gabarit, les références à des variables d'instance ne sont pas résolues.</em> Il n'y a que les
+    références équivalentes aux attributs des accesseurs (getter / setter) des JavaBeans qui sont résolues
+    (autrement dit <code>$foo.Name</code> est résolu par l'appel de la méthode d'instance <code>getName()</code>
+    de la classe Foo, mais pas en une variable d'instance publique <code>Name</code> de cette classe Foo).
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1389,18 +1242,17 @@ ${data.Request.ServerName}
       <tr><td>
         <blockquote>
                                     <p>
-    References allow template designers to generate dynamic content for
-    web sites, while <em>directives</em> -- easy to use script elements
-    that can be used to creatively manipulate the output of Java code --
-    permit web designers to truly take charge of the appearance and
-    content of the web site.
- </p>
+    Les références permettent aux concepteurs de pages de générer du contenu dynamique pour des sites web alors que les
+    <em>directives</em> -- des éléments de script, faciles à utiliser, qui peuvent être mis en oeuvre pour manipuler de
+    manière créative la sortie d'un code Java -- permet aux concepteurs de vraiment prendre en charge l'apparence et le
+    contenu du site web.
+  </p>
                                                 <a name="Set"><strong>#set</strong></a>
                                                 <p>
-    The <em>#set</em> directive is used for setting the value of a
-    reference. A value can be assigned to either a variable reference or
-    a property reference, and this occurs in brackets, as demonstrated:
- </p>
+    La directive <em>#set</em> s'utilise pour donner une valeur à une référence. Une valeur peut être assignée soit à une
+    référence de type variable, soit à une référence de type propriété, et ceci toujours entre parenthèses, comme montré
+    ici:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1424,23 +1276,20 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
-    The left hand side (LHS) of the assignment must be a variable
-    reference or a property reference. The right hand side (RHS) can be
-    one of the following types:
- </p>
+    Le côté gauche (left hand side -- LHS) de l'assignation doit être une référence variable ou propriété. Le membre de
+    droite (right hand side -- RHS) peut être de l'un des types suivants:
+  </p>
                                                 <p>
     <ul>
-        <li>Variable reference</li>
-        <li>String literal</li>
-        <li>Property reference</li>
-        <li>Method reference</li>
-        <li>Number literal</li>
-        <li>ArrayList</li>
+      <li>Une référence (variable)</li>
+      <li>Une chaîne de caractères littérale</li>
+      <li>Une référence (propriété)</li>
+      <li>Une référence à une méthode</li>
+      <li>Un nombre littéral</li>
+      <li>Une ArrayList</li>
     </ul>
- </p>
-                                                <p>
-    These examples demonstrate each of the aforementioned types:
- </p>
+  </p>
+                                                <p>Les exemples suivants montrent chacun des types susmentionnés:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1451,11 +1300,11 @@ ${data.Request.ServerName}
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-#set( $monkey = $bill ) ## variable reference
-#set( $monkey.Friend = &quot;monica&quot; ) ## string literal
-#set( $monkey.Blame = $whitehouse.Leak ) ## property reference
-#set( $monkey.Plan = $spindoctor.weave($web) ) ## method reference
-#set( $monkey.Number = 123 ) ##number literal
+#set( $monkey = $bill ) ## référence (variable)
+#set( $monkey.Friend = &quot;monica&quot; ) ## chaîne de caractères littérale
+#set( $monkey.Blame = $whitehouse.Leak ) ## référence (propriété)
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## référence à une méthode
+#set( $monkey.Number = 123 ) ## nombre littéral
 #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ## ArrayList
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1468,14 +1317,11 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
-   NOTE: In the last example the elements defined with the
-   [..] operator are accessible using the methods defined
-   in the ArrayList class. So, for example, you could access
-   the first element above using $monkey.Say.get(0).
- </p>
-                                                <p>
-    The RHS can also be a simple arithmetic expression:
- </p>
+    NOTE: Dans le dernier exemple, les éléments définis avec l'opérateur [..] sont accessibles en utilisant les méthodes
+    définies dans la classe ArrayList. Ainsi, par exemple, on peut accéder au premier élément en écrivant
+    $monkey.Say.get(0)
+  </p>
+                                                <p>Le membre de droite peut aussi être une expression arithmétique simple:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1501,12 +1347,10 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
-    If the RHS is a property or method reference that evaluates to
-    <em>null</em>, it will <b>not</b> be assigned to the LHS.  It is
-    not possible to remove an existing reference from the context via
-    this mechanism.  This can be confusing for
-    newcomers to Velocity.  For example:
- </p>
+    Si le membre de droite est une référence à une méthode ou à une propriété dont la valeur est <em>null</em>, il ne
+    sera <b>pas</b> affecté au membre de gauche. Il n'est pas possible d'enlever une référence existante du contexte
+    par ce biais-là. Ceci peut troubler les débutants en Velocity. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1518,10 +1362,10 @@ ${data.Request.ServerName}
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
 #set( $result = $query.criteria(&quot;name&quot;) )
-The result of the first query is $result
+Le résultat de la première requête est $result
 
 #set( $result = $query.criteria(&quot;address&quot;) )
-The result of the second query is $result
+Le résultat de la seconde requête est $result
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1533,10 +1377,9 @@ The result of the second query is $result
     </table>
     </div>
                                                 <p>
-     If <em>$query.criteria("name")</em> returns the string
-     "bill", and <em>$query.criteria("address")</em> returns
-     <em>null</em>, the above VTL will render as the following:
- </p>
+     Si <em>$query.criteria("name")</em> renvoie la chaîne "bill", et que  <em>$query.criteria("address")</em> renvoie
+     <em>null</em>, le code VTL ci-dessus sera rendu de la manière suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1547,9 +1390,9 @@ The result of the second query is $result
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-The result of the first query is bill
+Le résultat de la première requête est bill
 
-The result of the second query is bill
+Le résultat de la seconde requête est bill
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1561,11 +1404,10 @@ The result of the second query is bill
     </table>
     </div>
                                                 <p>
-     This tends to confuse newcomers who construct <em>#foreach</em>
-     loops that attempt to <em>#set</em> a reference via a property or
-     method reference, then immediately test that reference with an
-     <em>#if</em> directive.  For example:
- </p>
+    Ceci induit en confusion les nouveaux venus, qui construisent des boucles <em>#foreach</em> qui tentent de faire
+    un <em>#set</em> sur une référence à partir d'une référence à une propriété ou une méthode et testent immédiatement
+    cette référence avec une directive <em>#if</em>. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1576,7 +1418,6 @@ The result of the second query is bill
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 #set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
 
 #foreach( $criterion in $criteria )
@@ -1599,18 +1440,15 @@ The result of the second query is bill
     </table>
     </div>
                                                 <p>
-     In the above example, it would not be wise to rely on the
-     evaluation of <em>$result</em> to determine if a query was
-     successful.  After <em>$result</em> has been <em>#set</em> (added to
-     the context), it cannot be set back to <em>null</em> (removed from
-     the context).  The details of the <em>#if</em> and <em>#foreach</em>
-     directives are covered later in this document.
- </p>
+    Dans l'exemple ci-dessus, il ne serait pas avisé de se reposer sur l'évaluation de <em>$result</em> pour déterminer
+    si une requête a été couronnée de succès. Une fois que <em>$result</em> a reçu une valeur par un <em>#set</em>
+    (et a donc été ajouté au contexte), il ne peut pas recevoir la valeur <em>null</em> (et se trouver ainsi enlevé du
+    contexte). Les détails des directives <em>#if</em> et <em>#foreach</em> sont traités plus loin dans ce document.
+  </p>
                                                 <p>
-   One solution to this would be to pre-set <em>$result</em>
-   to <em>false</em>.  Then if the <em>$query.criteria()</em>
-   call fails, you can check.
- </p>
+    Une solution à ce problème serait de pré-positionner <em>$result</em> à <em>false</em>. Si l'appel à
+    <em>$query.criteria()</em> échoue, il est possible de faire la vérification.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1621,7 +1459,6 @@ The result of the second query is bill
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 #set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
 
 #foreach( $criterion in $criteria )
@@ -1630,7 +1467,7 @@ The result of the second query is bill
     #set( $result = $query.criteria($criterion) )
 
     #if( $result )
-        Query was successful
+        La requête a abouti correctement
     #end
 
 #end
@@ -1644,16 +1481,12 @@ The result of the second query is bill
     </tr>
     </table>
     </div>
+                                                <p>Contrairement à d'autres directives Velocity, la directive <em>#set</em> n'a pas d'instruction <em>#end</em>.</p>
+                                                <a name="Chaînes de caractères littérales"><strong>Chaînes de caractères littérales</strong></a>
                                                 <p>
-    Unlike some of the other Velocity directives, the <em>#set</em>
-    directive does not have an <em>#end</em> statement.
- </p>
-                                                <a name="String Literals"><strong>String Literals</strong></a>
-                                                <p>
-    When using the <em>#set</em> directive, string literals that are
-    enclosed in double quote characters will be parsed and rendered, as
-    shown:
- </p>
+    Lorsque vous utilisez la directive <em>#set</em>, les chaînes de caractères littérales délimitées par des guillements
+    sont interprétées et rendues de la manière suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1678,9 +1511,7 @@ $template
     </tr>
     </table>
     </div>
-                                                <p>
-  The output will be
- </p>
+                                                <p>La sortie produite sera</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1702,10 +1533,7 @@ www/index.vm
     </tr>
     </table>
     </div>
-                                                <p>
-    However, when the string literal is enclosed in single quote
-    characters, it will not be parsed:
- </p>
+                                                <p>Toutefois, lorsque la chaîne de caractères littérale est délimitée par des apostrophes, elle n'est pas interprétée.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1730,6 +1558,7 @@ $blargh
     </tr>
     </table>
     </div>
+                                                <p>Ce qui est rendu de la manière suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1753,11 +1582,10 @@ $blargh
     </table>
     </div>
                                                 <p>
-    By default, this feature of using single quotes to render unparsed
-    text is available in Velocity. This default can be changed by
-    editing <code>velocity.properties</code> such that
-    <code>stringliterals.interpolate=false</code>.
- </p>
+    Cette caractéristique d'utilisation des apostrophes pour rendre du texte non interprété est le comportement par défaut
+    de Velocity. Ce comportement peut être changé en éditant le fichier <code>velocity.properties</code> et en y écrivant
+    l'entrée: <code>stringliterals.interpolate=false</code>.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -1766,17 +1594,16 @@ $blargh
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Conditionals"><strong>Conditionals</strong></a>
+          <a name="Conditions"><strong>Conditions</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <strong>If / ElseIf / Else</strong>
                                                 <p>
-       The <em>#if</em> directive in Velocity allows for text to be
-       included when the web page is generated, on the conditional that
-       the if statement is true. For example:
-    </p>
+    La directive <em>#if</em> de Velocity permet à du texte d'être inclus à la génération d'une page web seulement si la
+    condition qui suit l'instruction if est vérifiée. Par exemple:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1801,30 +1628,23 @@ $blargh
     </table>
     </div>
                                                 <p>
-      The variable <em>$foo</em> is evaluated to determine whether it is
-      true, which will happen under one of two circumstances: (i)
-      <em>$foo</em> is a boolean (true/false) which has a true value, or
-      (ii) the value is not null.  Remember that the Velocity context only
-      contains Objects, so when we say 'boolean', it will be represented
-      as a Boolean (the class).  This is true even for methods that return
-      <code>boolean</code> - the introspection infrastructure will return
-      a <code>Boolean</code> of the same logical value.
-    </p>
+    La variable <em>$foo</em> est évaluée pour déterminer si elle vaut true, ce qui se produit dans l'une des deux cas
+    suivants; (i) <em>$foo</em> est une variable booléenne (true/false) dont la valeur est vrai (true), ou (ii) la valeur
+    de <em>$foo</em> est différente de null. On se rappelle que le contexte de Velocity ne contient que des Objets,
+    et donc lorsqu'on dit un booléen, il sera représenté comme un objet de la classe Boolean contenant la valeur logique
+    appropriée.
+  </p>
                                                 <p>
-       The content between the <em>#if</em>
-      and the <em>#end</em> statements become the output if the
-      evaluation is true. In this case, if <em>$foo</em> is true, the
-      output will be: "Velocity!". Conversely, if <em>$foo</em> has a
-      null value, or if it is a boolean false, the statement evaluates
-      as false, and there is no output.
-    </p>
+    Ce qui est contenu entre l'instruction <em>#if</em> et l'instruction <em>#end</em> sera produit en sortie si la
+    condition est évaluée comme vraie. Dans l'exemple précédent, si <em>$foo</em> est true, la sortie sera: "Velocity!".
+    A l'inverse, si <em>$foo</em> a la valeur null, ou si c'est un booléen de valeur false, l'instruction est évaluée
+    comme fausse, et il n'y a pas de sortie produite.
+  </p>
                                                 <p>
-      An <em>#elseif</em> or <em>#else</em> element can be used with an
-      <em>#if</em> element. Note that the Velocity Templating Engine
-      will stop at the first expression that is found to be true. In the
-      following example, suppose that <em>$foo</em> has a value of 15
-      and <em>$bar</em> has a value of 6.
-    </p>
+    Un élément <em>#elseif</em> ou <em>#else</em> peut être utilisé dans la directive <em>#if</em>.
+    Notez que le moteur Velocity (Velocity Template Engine) s'arrêtera à la première expression évaluée comme vraie.
+    Dans l'exemple suivant, supposons que  <em>$foo</em> vaut 15 et que <em>$bar</em> vaut 6.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1854,23 +1674,17 @@ $blargh
     </tr>
     </table>
     </div>
-                                                <p>In this example, <em>$foo</em> is greater than 10, so the first
-    two comparisons fail.  Next <em>$bar</em> is compared to 6, which is
-    true, so the output is <strong>Go South</strong>.
-    </p>
                                                 <p>
-    Please note that currently, Velocity's numeric comparisons are constrained
-    to Integers - anything else will evaluate to <em>false</em>.  The only exception
-    to this is equality '==', where Velocity requires that the objects on each
-    side of the '==' is of the <em>same</em> class.
-    </p>
+    Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premières comparaisons échouent. Ensuite,
+    <em>$bar</em> est comparé à 6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
+  </p>
                                                 <p>
-    <a name="Relational and Logical Operators"><strong>Relational and Logical Operators</strong></a>
-    </p>
-                                                <p>
-    Velocity uses the equivalent operator to determine the relationships between variables.
-    Here is a simple example to illustrate how the equivalent operator is used.
-    </p>
+    Notez que pour l'instant, dans Velocity, les comparaisons numériques sont restreintes aux comparaisons d'entiers
+    (Integers) -- tout le reste sera évalué comme faux. La seule exception est l'égalité '==': dans ce cas Velocity teste
+    si les objets de chaque côté de '==' sont de la <em>même classe</em>.
+  </p>
+                                                <p><a name="Opérateurs logiques et relationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
+                                                <p>Velocity utilise l'opérateur d'équivalence pour déterminer les relations entre des variables. Voici un exemple simple pour illustrer la manière d'utiliser l'opérateur d'équivalence.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1885,9 +1699,9 @@ $blargh
 #set ($bar = &quot;ribonucleic acid&quot;)
 
 #if ($foo == $bar)
-  In this case it's clear they aren't equivalent. So...
+  Dans ce cas, il est clair qu'ils ne sont pas équivalents. Donc...
 #else
-  They are not equivalent and this will be the output.
+  Ils ne sont pas équivalents et c'est ceci qui sera produit en sortie.
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1900,12 +1714,10 @@ $blargh
     </table>
     </div>
                                                 <p>
-      Velocity has logical AND, OR and NOT operators as well.
-      For further information, please see the
-      <a href="vtl-reference-guide.html">VTL Reference Guide</a>
-      Below are examples demonstrating the use of the
-      logical AND, OR and NOT operators.
-    </p>
+    Velocity a aussi des opérateurs ET, OU et NON. Pour plus d'informations, référez-vous au
+    <a href="vtl-reference-guide.html">VTL Reference Guide</a> (en anglais).
+    Ci-dessous, quelques exemples illustrent l'utilisation des opérateurs logiques ET, OU et NON.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1916,11 +1728,10 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-## logical AND
+##ET logique
 
 #if( $foo &amp;&amp; $bar )
-   &lt;strong&gt; This AND that&lt;/strong&gt;
+   &lt;strong&gt; Ceci ET cela.&lt;/strong&gt;
 #end
 
 </pre></td>
@@ -1934,22 +1745,17 @@ $blargh
     </table>
     </div>
                                                 <p>
-      The <em>#if()</em> directive will only evaluate to true
-      if both <em>$foo</em>
-      and <em>$bar</em> are true. If <em>$foo</em> is false, the
-      expression will evaluate to false; <em>$bar</em> will not be
-      evaluated. If <em>$foo</em> is true, the Velocity Templating
-      Engine will then check the value of <em>$bar</em>; if
-      <em>$bar</em> is true, then the entire expression is true and
-      <strong>This AND that</strong> becomes the output. If
-      <em>$bar</em> is false, then there will be no output as the entire
-      expression is false.
-    </p>
+    La directive <em>#if()</em> ne sera évaluée comme <em>true</em> que si <em>$foo</em> et <em>$bar</em> sont
+    <em>true</em> tous les deux. Si <em>$foo</em> est <em>false</em>, l'expression sera globalement évaluée comme
+    <em>false</em> et <em>$bar</em> ne sera pas évalué. Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity testera
+    la valeur de <em>$bar</em>; si <em>$bar</em> vaut <em>true</em>, alors l'expression dans son entièreté vaut
+    <em>true</em> et la sortie <strong>Ceci ET cela</strong> est produite. Si <em>$bar</em> est <em>false</em>,
+    alors il n'y aura pas de sortie produite puisque l'expression entière est fausse.
+  </p>
                                                 <p>
-      Logical OR operators work the same way, except only one of the
-      references need evaluate to true in order for the entire
-      expression to be considered true. Consider the following example.
-    </p>
+    Les opérateurs logiques OU fonctionnent de la même manière, si ce n'est qu'une seule des références doit être évaluée
+    à <em>true</em> pour que l'expression entière soit considérée comme vraie. Voyez l'exemple suivant:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -1960,11 +1766,10 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-## logical OR
+##OU logique
 
 #if( $foo || $bar )
-    &lt;strong&gt;This OR That&lt;/strong&gt;
+    &lt;strong&gt;Ceci OU cela&lt;/strong&gt;
 #end
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -1977,19 +1782,14 @@ $blargh
     </table>
     </div>
                                                 <p>
-      If <em>$foo</em> is true, the Velocity Templating Engine has no
-      need to look at <em>$bar</em>; whether <em>$bar</em> is true or
-      false, the expression will be true, and <strong>This OR That</strong>
-      will be output. If <em>$foo</em> is false,
-      however, <em>$bar</em> must be checked. In this case, if
-      <em>$bar</em> is also false, the expression evaluates to false and
-      there is no output. On the other hand, if <em>$bar</em> is true,
-      then the entire expression is true, and the output is
-      <strong>This OR That</strong>
-    </p>
-                                                <p>
-    With logical NOT operators, there is only one argument :
-    </p>
+    Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity n'a pas besoin d'évaluer <em>$bar</em>; que <em>$bar</em>
+    soit vrai ou faux ne change rien à l'affaire, l'expression sera vraie, et <strong>Ceci OU cela</strong> sera produit
+    en sortie. Mais si <em>$foo</em> est false, la valeur de <em>$bar</em> doit être vérifiée.
+    Dans ce cas, si <em>$bar</em> est faux lui aussi, l'expression sera fausse et il n'y aura pas de sortie produite.
+    Sinon, si <em>$bar</em> est vrai, alors l'expression entière est vraie, et la sortie est
+    <strong>Ceci OU cela</strong>.
+  </p>
+                                                <p>Avec l'opérateur logique NON, il n'y a qu'un seul argument :</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2000,13 +1800,11 @@ $blargh
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
-##logical NOT
+##NON logique
 
 #if( !$foo )
-  &lt;strong&gt;NOT that&lt;/strong&gt;
+  &lt;strong&gt;PAS ça&lt;/strong&gt;
 #end
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -2018,12 +1816,12 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Here, the if <em>$foo</em> is true, then <em>!$foo</em> evaluates to
-    false, and there is no output.  If <em>$foo</em> is false, then
-    <em>!$foo</em> evaluates to true and <strong>NOT that</strong> will be
-    output.  Be careful not to confuse this with the <em>quiet reference $!foo</em>
-    which is something altogether different.
-    </p>
+    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est évalué comme <em>false</em>, 
+    et il n'y a pas de sortie. Si <em>$foo</em> est <em>false</em>, alors <em>!$foo</em> est évalué à <em>true</em>
+    et <strong>PAS ça</strong> est produit en sortie. Attention à ne pas confondre ceci avec la
+    <em>référence silencieuse $!foo</em> que nous avons déjà rencontrée et qui représente quelque chose de complètement
+    différent.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2032,15 +1830,13 @@ $blargh
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Loops"><strong>Loops</strong></a>
+          <a name="Boucles"><strong>Boucles</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <strong>Foreach Loop</strong>
-                                                <p>
-      The <em>#foreach</em> element allows for looping. For example:
-    </p>
+                                    <strong>Boucle Foreach</strong>
+                                                <p>L'élément <em>#foreach</em> permet d'itérer. Par exemple:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2067,24 +1863,19 @@ $blargh
     </table>
     </div>
                                                 <p>
-    This <em>#foreach</em> loop causes the <em>$allProducts</em> list
-    (the object) to be looped over for all of the products (targets) in
-    the list. Each time through the loop, the value from
-    <em>$allProducts</em> is placed into the <em>$product</em> variable.
-    </p>
+    Cette boucle <em>#foreach</em> parcourt un à un tous les produits (cibles) de la liste <em>$allProducts</em> (objet).
+    A chaque passage dans la boucle, une valeur de <em>$allProducts</em> est placée dans la variable <em>$product</em>.
+  </p>
                                                 <p>
-    The contents of the <em>$allProducts</em> variable is a Vector, a
-    Hashtable or an Array. The value assigned to the <em>$product</em>
-    variable is a Java Object and can be referenced from a variable as
-    such. For example, if <em>$product</em> was really a Product class
-    in Java, its name could be retrieved by referencing the
-    <em>$product.Name</em> method (ie: <em>$Product.getName()</em>).
-    </p>
+    Le contenu de la variable <em>$allProducts</em> est un vecteur (Vector), une table de hachage (Hashtable)
+    ou un tableau (Array). La valeur assignée à <em>$product</em> est un objet Java, et peut être référencée en tant
+    que telle par une variable. Par exemple, si <em>$product</em> est en effet une classe Product en Java,
+    son nom peut être récupéré en référençant la méthode <em>$product.Name</em> (c'est-à-dire <em>$Product.getName()</em>).
+  </p>
                                                 <p>
-    Lets say that <em>$allProducts</em> is a Hashtable. If you wanted to
-    retrieve the key values for the Hashtable as well as the objects
-    within the Hashtable, you can use code like this:
-    </p>
+    Supposons que <em>$allProducts</em> soit une Hashtable. Si vous voulez retrouver les valeurs des clés et les objets
+    de la Hashtable, vous pouvez utiliser un bout de code comme celui-ci:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2111,9 +1902,8 @@ $blargh
     </table>
     </div>
                                                 <p>
-    Velocity provides an easy way to get the loop counter so that you
-    can do something like the following:
-    </p>
+    Velocity fournit un moyen simple de connaître le compteur de boucle, de sorte qu'on puisse faire quelque chose comme:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2140,13 +1930,11 @@ $blargh
     </table>
     </div>
                                                 <p>
-    The default name for the loop counter variable reference, which is
-    specified in the velocity.properties file, is $velocityCount. By
-    default the counter starts at 1, but this can be set to either 0 or
-    1 in the <code>velocity.properties</code> file. Here's what the loop
-    counter properties section of the <code>velocity.properties</code>
-    file appears:
-    </p>
+    Le nom par défaut de la variable/référence du compteur de bouche est spécifié dans le fichier
+    <code>velocity.properties</code>. Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
+    dans le fichier <code>velocity.properties</code>. Voici à quoi ressemble la section Propriétés du compteur de boucle
+    dans le fichier <code>velocity.properties</code>:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2188,12 +1976,11 @@ directive.foreach.counter.initial.value = 1
       <tr><td>
         <blockquote>
                                     <p>
-    The <em>#include</em> script element allows the template designer to
-    import a local file, which is then inserted into the location where
-    the <em>#include</em> directive is defined. The contents of the file
-    are not rendered through the template engine. For security reasons,
-    the file to be included may only be under TEMPLATE_ROOT.
-    </p>
+    L'élément de script <em>#include</em> permet au concepteur de gabarits d'importer un fichier local, qui est alors
+    inséré à l'endroit où la directive <em>#include</em> est définie. Le contenu du fichier n'est pas rendu en passant
+    par le moteur de substitution. Pour des raisons de sécurité, le fichier à inclure ne peut se trouver que sous
+    TEMPLATE_ROOT.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2216,10 +2003,9 @@ directive.foreach.counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    The file to which the <em>#include</em> directive refers is enclosed
-    in quotes. If more than one file will be included, they should be
-    separated by commas.
-    </p>
+    Le fichier auquel la directive <em>#include</em> fait référence est inclus entre des guillemets.
+    Si plusieurs fichiers doivent être inclus, leurs noms doivent être séparés par des virgules.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2242,12 +2028,11 @@ directive.foreach.counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    The file being included need not be referenced by name; in fact, it
-    is often preferable to use a variable instead of a filename. This
-    could be useful for targeting output according to criteria
-    determined when the page request is submitted. Here is an example
-    showing both a filename and a variable.
-    </p>
+    Le fichier à inclure ne doit pas nécessairement être appelé par son nom; en fait, il est souvent préférable
+    d'utiliser une variable plutôt qu'un nom de fichier. Ce qui peut être utile pour cibler ce qui est produit en
+    fonction de critères déterminés au moment où la page est demandée. Voici un exemple qui utilise à la fois un nom
+    de fichier et une variable.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2283,10 +2068,9 @@ directive.foreach.counter.initial.value = 1
       <tr><td>
         <blockquote>
                                     <p>
-    The <em>#parse</em> script element allows the template designer to
-    import a local file that contains VTL. Velocity will parse the VTL
-    and render the template specified.
-    </p>
+    L'élément de script <em>#parse</em> permet au concepteur de gabarits d'importer un fichier local contenant du VTL.
+    Velocity va alors interpréter le VTL et rendre le gabarit spécifié.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2309,23 +2093,19 @@ directive.foreach.counter.initial.value = 1
     </table>
     </div>
                                                 <p>
-    Like the <em>#include</em> directive, <em>#parse</em> can take a
-    variable rather than a template. Any templates to which
-    <em>#parse</em> refers must be included under TEMPLATE_ROOT. Unlike
-    the <em>#include</em> directive, <em>#parse</em> will only take a
-    single argument.
-    </p>
+    Comme la directive <em>#include</em>, <em>#parse</em> peut prendre en argument une variable plutôt qu'un nom
+    de gabarit. Tous les gabarits auxquels il est fait référence par <em>#parse</em> doivent se trouver
+    sous TEMPLATE_ROOT. Contrairement à la directive <em>#include</em>, <em>#parse</em> ne peut prendre qu'un seul
+    argument.
+  </p>
                                                 <p>
-    VTL templates can have <em>#parse</em> statements referring to
-    templates that in turn have <em>#parse</em> statements. By default
-    set to 10, the <em>parse_directive.maxdepth</em> line of the
-    <code>velocity.properties</code> allows users to customize maximum
-    number of <em>#parse</em> referrals that can occur from a single
-    template. (Note: If the <em>parse_directive.maxdepth</em> property
-    is absent from the <code>velocity.properties</code> file, Velocity
-    will set this default to 10.) Recursion is permitted, for example,
-    if the template <code>dofoo.vm</code> contains the following lines:
-    </p>
+    Les gabarits VTL peuvent contenir des instructions <em>#parse</em> faisant référence à des gabarits qui à leur tour
+    contiennent des <em>#parse</em>. Par défaut à 10, la ligne <em>parse_directive.maxdepth</em> du fichier
+    <code>velocity.properties</code> permet aux utilisateurs de personnaliser le nombre de références <em>#parse</em>
+    que l'on peut rencontrer dans un gabarit. (Note: Si la propriété <em>parse_directive.maxdepth</em> est absente du
+    fichier <code>velocity.properties</code>, Velocité positionne cette valeur par défaut à 10).
+    La récursion est permise; par exemple si le gabarit <code>dofoo.vm</code> contient les lignes suivantes:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2350,10 +2130,7 @@ All done with dofoo.vm!
     </tr>
     </table>
     </div>
-                                                <p>
-    It would reference the template <code>parsefoo.vm</code>, which
-    might contain the following VTL:
-    </p>
+                                                <p>Il fait référence au gabarit <code>parsefoo.vm</code>, qui peut contenir le VTL suivant:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2382,12 +2159,10 @@ $count
     </table>
     </div>
                                                 <p>
-    After "Count down." is displayed, Velocity passes through
-    <code>parsefoo.vm</code>, counting down from 8. When the count
-    reaches 0, it will display the "All done with parsefoo.vm!" message.
-    At this point, Velocity will return to <code>dofoo.vm</code> and
-    output the "All done with dofoo.vm!" message.
-    </p>
+    Après que "Count down." soit affiché, Velocity passe par <code>parsefoo.vm</code>, comptant à rebours à partir de 8.
+    Lorsque le compte à rebours atteint 0, il affiche le message "All done with parsefoo.vm!".
+    A ce stade, Velocity va retourner à <code>dofoo.vm</code> et produire le message "All done with dofoo.vm!".
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2402,10 +2177,9 @@ $count
       <tr><td>
         <blockquote>
                                     <p>
-    The <em>#stop</em> script element allows the template designer to
-    stop the execution of the template engine and return. This is useful
-    for debugging purposes.
-    </p>
+    L'élément de script <em>#stop</em> permet au concepteur de gabarits d'arrêter l'exécution du moteur de substitution.
+    Cette directive peut être utile pour le débogage.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2441,13 +2215,11 @@ $count
       <tr><td>
         <blockquote>
                                     <p>
-    The <em>#macro</em> script element allows template designers to
-    define a repeated segment of a VTL template. Velocimacros are very
-    useful in a wide range of scenarios both simple and complex. This
-    Velocimacro, created for the sole purpose of saving keystrokes and
-    minimizing typographic errors, provides an introduction to the
-    concept of Velocimacros.
-    </p>
+    L'élément de script <em>#macro</em> permet aux concepteurs de définir un segment répétable d'un gabarit VTL.
+    Les "Velocimacros" sont très utiles dans un grand nombre de scénarios, simples ou complexes.
+    Une Velocimacro, écrite dans le seul but de s'économiser un peu de frappe et de minimiser les fautes,
+    servira d'introduction au concept de Velocimacro.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2472,9 +2244,9 @@ $count
     </table>
     </div>
                                                 <p>
-    The Velocimacro being defined in this example is <em>d</em>, and it
-    can be called in a manner analogous to any other VTL directive:
-    </p>
+    La Velocimacro définie dans cet exemple est <em>d</em>; elle peut être appelée d'une manière semblable à toute autre
+    directive VTL:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2496,18 +2268,13 @@ $count
     </tr>
     </table>
     </div>
+                                                <p>Lorsque ce gabarit est appelé, Velocity remplace <em>#d()</em> par une ligne contenant une cellule de données vide.</p>
                                                 <p>
-    When this template is called, Velocity would replace <em>#d()</em>
-    with a row containing a single, empty data cell.
-    </p>
-                                                <p>
-    A Velocimacro could take any number of arguments -- even zero
-    arguments, as demonstrated in the first example, is an option -- but
-    when the Velocimacro is invoked, it must be called with the same
-    number of arguments with which it was defined. Many Velocimacros are
-    more involved than the one defined above. Here is a Velocimacro that
-    takes two arguments, a color and an array.
-    </p>
+    Une Velocimacro peut prendre n'importe quel nombre d'arguments -- même zéro, comme on l'a vu dans l'exemple --
+    mais lorsque la macro est appelée, elle doit l'être avec le même nombre d'arguments que dans la définition.
+    Beaucoup de Velocimacros sont plus sophistiquées que celle définie ci-dessus; voici une Velocimacro qui prend deux
+    arguments, une couleur et un tableau.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2534,19 +2301,15 @@ $count
     </table>
     </div>
                                                 <p>
-    The Velocimacro being defined in this example, <em>tablerows</em>,
-    takes two arguments. The first argument takes the place of
-    <em>$color</em>, and the second argument takes the place of
-    <em>$somelist</em>.
-    </p>
+    La Velocimacro définie dans cet exemple, <em>tablerows</em>, prend deux arguments. Le premier argument prend la place
+    de <em>$color</em> et le second argument prend la place de <em>$somelist</em>.
+  </p>
                                                 <p>
-    Anything that can be put into a VTL template can go into the body of
-    a Velocimacro. The <em>tablerows</em> Velocimacro is a
-    <em>foreach</em> statement. There are two <em>#end</em> statements
-    in the definition of the <em>#tablerows</em> Velocimacro; the first
-    belongs to the <em>#foreach</em>, the second ends the Velocimacro
-    definition.
-    </p>
+    Tout ce qui peut être mis dans un gabarit VTL peut aussi trouver place dans le corps d'une Velocimacro.
+    La Velocimacro <em>tablerows</em> contient une instruction <em>foreach</em>. On remarquera qu'il y a deux
+    instructions <em>#end</em> dans la définition de la Velocimacro <em>#tablerows</em>; la première termine
+    le <em>#foreach</em>, la seconde termine la définition de la Velocimacro.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2573,10 +2336,9 @@ $count
     </table>
     </div>
                                                 <p>
-    Notice that <em>$greatlakes</em> takes the place of
-    <em>$somelist</em>. When the <em>#tablerows</em> Velocimacro is
-    called in this situation, the following output is generated:
-    </p>
+    Notez que  <em>$greatlakes</em> prend la place de <em>$somelist</em>. Quand la Velocimacro <em>#tablerows</em>
+    est appelée dans ce contexte, la sortie suivante est produite:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2605,22 +2367,19 @@ $count
     </table>
     </div>
                                                 <p>
-    Velocimacros can be defined <em>inline</em> in a Velocity template,
-    meaning that it is unavailable to other Velocity templates on the
-    same web site. Defining a Velocimacro such that it can be shared by
-    all templates has obvious advantages: it reduces the need to
-    redefine the Velocimacro on numerous templates, saving work and
-    reducing the chance of error, and ensures that a single change to a
-    macro available to more than one template.
-    </p>
+    Les Velocimacros peuvent être définies <i>inline</i> dans un gabarit Velocity; elles ne sont pas disponibles dans
+    ce cas pour d'autres gabarits Velocity sur le même site web. Définir une Velocimacro pour qu'elle puisse être partagée
+    par tous les gabarits a des avantages évidents: cela réduit le besoin de redéfinir la Velocimacro dans de nombreux
+    gabarits, cela économise du travail et réduit les occasions de se tromper, cela assure qu'un chagement fait une seule
+    fois dans une macro est aussitôt disponible dans tous les gabarits.
+  </p>
                                                 <p>
-    Were the <em>#tablerows($color $list)</em> Velocimacro defined in a
-    Velocimacros template library, this macro could be used on any of
-    the regular templates. It could be used many times and for many
-    different purposes. In the template <code>mushroom.vm</code> devoted
-    to all things fungi, the <em>#tablerows</em> Velocimacro could be
-    invoked to list the parts of a typical mushroom:
-    </p>
+    Si la Velocimacro <em>#tablerows($color $list)</em> avait été définie dans une bibliothèque de gabarits Velocimacros,
+    cette macro aurait pu être utilisée dans n'importe lequel des gabarits usuels. Elle pourrait être utilisée de
+    nombreuses fois et dans des buts différents. Dans le gabarit <code>mushroom.vm</code> consacré à toute espèce de
+    champignons, la Velocimacro <em>#tablerows</em> pourrait être appelée pour donner la liste des parties
+    d'un champignon typique.
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2647,11 +2406,10 @@ $count
     </table>
     </div>
                                                 <p>
-    When fulfilling a request for <code>mushroom.vm</code>, Velocity
-    would find the <em>#tablerows</em> Velocimacro in the template
-    library (defined in the <code>velocity.properties</code> file) and
-    generate the following output:
-    </p>
+    Lors de l'exécution d'une requête pour <code>mushroom.vm</code>, Velocity trouverait la Velocimacro
+    <em>#tablerows</em> dans la bibliothèque de gabarits (définie dans le fichier <code>velocity.properties</code>)
+    et produirait la sortie suivante:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2679,43 +2437,23 @@ $count
     </tr>
     </table>
     </div>
-                                                <strong>Velocimacro Arguments</strong>
-                                                <p>
-   Velocimacros can take as arguments any of the following
-   VTL elements :
-  </p>
+                                                <strong>Arguments d'une Velocimacro</strong>
+                                                <p>Les Velocimacros peuvent prendre comme argument tout élément VTL parmi les suivants:</p>
                                                 <ul>
-    <li>
-      Reference : anything that starts with '$'
-    </li>
-    <li>
-      String literal : something like "$foo" or 'hello'
-    </li>
-    <li>
-      Number literal : 1, 2 etc
-    </li>
-    <li>
-      IntegerRange : [ 1..2] or [$foo .. $bar]
-    </li>
-    <li>
-      ObjectArray : [ "a", "b", "c"]
-    </li>
-    <li>
-       boolean value true
-    </li>
-    <li>
-       boolean value false
-    </li>
+    <li>Référence: tout ce qui commence par '$'</li>
+    <li>Chaîne de caractères littérale: quelque chose comme "$foo" ou 'hello'</li>
+    <li>Nombre littéral:  1, 2 etc</li>
+    <li>Intervalle d'entiers (IntegerRange) : [ 1..2] ou [$foo .. $bar]</li>
+    <li>ObjectArray : [ "a", "b", "c"]</li>
+    <li>Valeur booléenne true</li>
+    <li>Valeur booléenne false</li>
   </ul>
                                                 <p>
-     When passing references as arguments to Velocimacros,
-     please note that references are passed 'by name'.
-     This means that their value is 'generated' at each
-     use inside the Velocimacro.  This feature allows you
-     to pass references with method calls and have the
-     method called at each use.  For example, when calling
-     the following Velocimacro as shown
-   </p>
+    Lorsqu'on passe des références comme arguments à des Velocimacros, notez que ces références sont passées "par nom".
+    Ce qui veut dire que leur valeur est "générée" à chaque utilisation à l'intérieur d'une Velocimacro.
+    Cette particularité vous permet de passer des références contenant des appels de méthodes et que la méthode soit
+    appelée à chaque fois. Par exemple, en appelant la Velocimacro suivante comme indiqué:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2741,24 +2479,17 @@ $count
     </tr>
     </table>
     </div>
+                                                <p>le résultat est que la méthode bar() de la référence $foo est appelée trois fois.</p>
                                                 <p>
-       results in the method bar() of the reference $foo
-       being called 3 times.
-    </p>
+    A première vue, cette particularité est surprenante mais si vous considérez la raison d'être originelle des
+    Velocimacros (éliminer la duplication par couper/coller de VTL d'usage courant), ça a bien sûr un sens.
+    Cela vous permet de faire des choses étonnantes telles que passer à la Velocimacro des objets ayant un état,
+    comme un objet qui génère des couleurs en séquences répétées pour colorer les lignes d'un tableau.
+  </p>
                                                 <p>
-       At first glance, this feature appears surprising, but
-       when you take into consideration the original motivation
-       behind Velocimacros -- to eliminate cut'n'paste duplication
-       of commonly used VTL -- it makes sense.  It allows you to
-       do things like pass stateful objects, such as an object
-       that generates colors in a repeating sequence for
-       coloring table rows, into the Velocimacro.
-    </p>
-                                                <p>
-       If you need to circumvent this feature, you can always
-       just get the value from the method as a new reference
-       and pass that :
-    </p>
+    Si vous éprouvez le besoin de contourner ce comportement, vous pouvez toujours assigner la valeur reçue de la méthode
+    à une nouvelle référence et passer cette référence:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2771,7 +2502,7 @@ $count
       <td bgcolor="#ffffff"><pre>
      #set( $myval = $foo.bar() )
      #callme( $myval )
-   </pre></td>
+  </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -2781,81 +2512,65 @@ $count
     </tr>
     </table>
     </div>
-                                                <strong>Velocimacro Properties</strong>
+                                                <strong>Propriétés des Velocimacros</strong>
                                                 <p>
-    Several lines in the <code>velocity.properties</code> file allow for
-    flexible implementation of Velocimacros.  Note that these are also
-    documented in the <a href="developer-guide.html">Developer Guide</a>.
-    </p>
+    Plusieurs entrées du fichier <code>velocity.properties</code> permettent une implémentation flexible des Velocimacros.
+    Ces lignes sont commentées en détail dans le <a href="developer-guide.html">Developer Guide</a> (en anglais).
+  </p>
                                                 <p>
-    <code>velocimacro.library</code> - A comma-separated list of all
-    Velocimacro template libraries. By default, Velocity looks for
-    a single library: <em>VM_global_library.vm</em>. The configured template path
-    is used to find the Velocimacro libraries.
-    </p>
+    <code>velocimacro.library</code> - Une liste (délimitée par des virgules, de toutes les bibliothèques de gabarits
+    Velocimacro. Par défaut, Velocity ne recherche qu'une bibliothèque: <em>VM_global_library.vm</em>.
+    Le chemin de gabarits donné ici est utilisé pour trouver les bibliothèques de Velocimacros.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline</code> - This property,
-    which has possible values of true or false, determines whether
-    Velocimacros can be defined in regular templates. The default,
-    true, allows template designers to define Velocimacros in the
-    templates themselves.
-    </p>
+    <code>velocimacro.permissions.allow.inline</code> - Cette propriété, qui peut prendre les valeurs true ou false,
+    détermine si les Velocimacros peuvent être définies dans des gabarits ordinaires.
+    La valeur par défaut, true, permet aux concepteurs de gabarits de définir des Velocimacros dans les gabarits eux-mêmes.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline.to.replace.global</code> -
-     With possible values of true or false,
-    this property allows the user to specify if a  Velocimacro defined
-    inline in a template can replace a globally defined template, one
-    that was loaded on startup via the <code>velocimacro.library</code>
-    property. The default, <code>false</code>, prevents
-    Velocimacros defined inline in a template from replacing those
-    defined in the template libraries loaded at startup.
-    </p>
+    <code>velocimacro.permissions.allow.inline.to.replace.global</code> - Les valeurs possibles sont true ou false,
+    pour cette propriété qui permet à l'utilisateur de spécifier si une Velocimacro définie en ligne dans un gabarit
+    peut remplacer un gabarit défini globalement, celui qui a été défini au démarrage par la propriété
+    <code>velocimacro.library</code>. La valeur par défaut, <code>false</code>, empêche les Velocimacros défines
+    <i>inline</i> dans un gabarit de remplacer  celles qui sont définies dans les bibliothèques de gabarits chargées
+    au démarrage.
+  </p>
                                                 <p>
-    <code>velocimacro.permissions.allow.inline.local.scope</code> - This
-    property, with possible values of true or false, defaulting to false,
-    controls if Velocimacros defined inline are 'visible' only to the
-    defining template.  In other words, with this property set to true,
-    a template can define inline VMs that are usable only by the defining
-    template.  You can use this for fancy VM tricks - if a global VM calls
-    another global VM, with inline scope, a template can define a
-    private implementation of the second VM that will be called by the
-    first VM when invoked by that template.  All other templates
-    are unaffected.
-    </p>
+    <code>velocimacro.permissions.allow.inline.local.scope</code> - Cette propriété, qui peut prendre les valeurs true
+    ou false (false par défaut), contrôle si les Velocimacros définies <i>inline</i> ont leur visibilité limitée au
+    gabarit qui les définit. En d'autres mots, avec cette propriété définie à true, un gabarit peut définir des
+    Velocimacros <i>inline</i> qui ne seront utilisables que par le gabarit qui les définit. Vous pouvez utiliser
+    cette possibilité pour concocter quelques artifices amusants: si une VM globale appelle une autre VM globale,
+    définie <i>inline</i>, un gabarit peut définir une implémentation "privée" de la seconde VM, qui sera appellée
+    par la première VM quand celle-ci est appelée elle-même dans le gabarit. Aucun autre gabarit n'est affecté.
+  </p>
                                                 <p>
-    <code>velocimacro.context.localscope</code> - This property has the
-    possible values true or false, and the default is false.  When true,
-    any modifications to the context via #set() within a Velocimacro
-    are considered 'local' to the Velocimacro, and will not
-    permanently affect the context.
-    </p>
+    <code>velocimacro.context.localscope</code> - Cette propriété peut valoir true ou false, la valeur par défaut est
+    false. Quand elle vaut true, toute modification du contexte via #set() à l'intérieur d'une Velocimacro est considérée
+    'locale' à cette Velocimacro et n'affectera pas le contexte de façon permanente.
+  </p>
                                                 <p>
-    <code>velocimacro.library.autoreload</code> - This property
-     controls Velocimacro library autoloading. The default value
-    is <code>false</code>.  When set to <code>true</code>
-    the source Velocimacro library for an invoked Velocimacro will be checked
-    for changes, and reloaded if necessary.  This allows you to change and
-    test Velocimacro libraries without having to restart your application or
-    servlet container, just like you can with regular templates.
-    This mode only works when caching is <i>off</i>
-    in the resource loaders (e.g. <code>file.resource.loader.cache = false</code> ).
-    This feature is intended for development, not for production.
-    </p>
-                                                <strong>Velocimacro Trivia</strong>
+    <code>velocimacro.library.autoreload</code> - Cette propriété contrôle le chargement automatique de la bibliothèque
+    de Velocimacro. La valeur par défaut est <code>false</code>. Quand elle est positionnée à <code>true</code>
+    la bibliothèque source appelée pour une Velocimacro sera vérifiée pour voir si elle a changé et sera rechargée
+    si nécessaire. Ceci vous permet de modifier et de tester des bibliothèques de Velocimacro sans avoir à redémarrer
+    votre application ou votre moteur de servlets, exactement comme vous pouvez le faire pour des gabarits ordinaires.
+    Ce mode ne fonctionne que quand le cache est désactivé dans les  <i>resource loaders</i>
+    (par exemple <code>file.resource.loader.cache = false</code>). Cette possibilité a été conçue pour le développement,
+    pas pour la production.
+  </p>
+                                                <strong>Autres remarques sur les Velocimacros</strong>
                                                 <p>
-    Currently, Velocimacros must be defined before they are first
-    used in a template.  This means that your #macro() declarations
-    should come before using the Velocimacros.
-    </p>
+    A ce stade, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
+    Cela signifie que vos déclarations #macro() doivent précéder l'usage des Velocimacros.
+  </p>
                                                 <p>
-    This is important to remember if you try to #parse()
-    a template containing inline #macro() directives.  Because
-    the #parse() happens at runtime, and the parser decides if
-    a VM-looking element in the template is a VM at parsetime,
-    #parse()-ing a set of VM declarations won't work as expected.
-    To get around this, simply use the <code>velocimacro.library</code>
-    facility to have Velocity load your VMs at startup.
-    </p>
+    Il est important de s'en souvenir si l'on essaye d'interpréter (#parse()) un gabarit contenant des directives #macro()
+    <i>inline</i>. Puisque l'interprétation se fait au moment de l'exécution, et que l'interpréteur décide au moment de
+    l'interprétation si, dans un gabarit, un élément qui a l'air d'une VM en est vraiment une, #parse()-er un ensemble de
+    déclarations de VM ne produira pas le résultat escompté. Pour contourner ce problème potentiel, on peut utiliser la
+    propriété <code>velocimacro.library</code> pour que Velocity charge vos VMs au démarrage.
+  </p>
                             </blockquote>
         </p>
       </td></tr>
@@ -2864,14 +2579,14 @@ $count
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Escaping VTL Directives"><strong>Escaping VTL Directives</strong></a>
+          <a name="Echappement des directives VTL"><strong>Echappement des directives VTL</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    VTL directives can be escaped with the backslash character ("\") in
-    a manner similar to valid VTL references.
+    Les directives VTL peuvent être échappées avec le caractère barre de fraction inversée ("\"), de la même manière que
+    les références VTL valides.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2902,9 +2617,9 @@ $count
     </table>
     </div>
                                                 <p>
-  Extra care should be taken when escaping VTL directives that contain
-  multiple script elements in a single directive (such as in an
-  if-else-end statements). Here is a typical VTL if-statement:
+    Il faut prendre des précautions particulières lorsqu'on échappe des directives VTL qui contiennent plusieurs éléments
+    de script en une seule directive (comme dans le cas d'une instruction conditionnelle if-else-end).
+    Voici un exemple typique d'instruction VTL if:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2929,9 +2644,7 @@ $count
     </tr>
     </table>
     </div>
-                                                <p>
-  If <em>$jazz</em> is true, the output is
-  </p>
+                                                <p>Si <em>$jazz</em> est vrai, la sortie produite est:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2954,8 +2667,8 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  If <em>$jazz</em> is false, there is no output. Escaping script elements
-  alters the output. Consider the following case:
+    Si <em>$jazz</em>, il n'y a pas de sortie produite. Echapper des éléments de script modifie la sortie.
+    Considérons le cas suivant:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -2980,9 +2693,7 @@ Vyacheslav Ganelin
     </tr>
     </table>
     </div>
-                                                <p>
-  Whether <em>$jazz</em> is true or false, the output will be
-  </p>
+                                                <p>Que <em>$jazz</em> soit vrai ou faux, la sortie sera:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -2996,7 +2707,7 @@ Vyacheslav Ganelin
  #if($ jazz )
      Vyacheslav Ganelin
  #end
- </pre></td>
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -3007,10 +2718,9 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  In fact, because all script elements
-  are escaped, <em>$jazz</em> is never evaluated for it's boolean value.
-  Suppose
-  backslashes precede script elements that are legitimately escaped:
+    En fait, puisque tous les éléments de script sont échappés, <em>$jazz</em> n'est jamais évalué en vue d'en connaître
+    la valeur logique. Supposons que les barres de fraction inverses précèdent les éléments de script qui sont
+    légitimement échappés:
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3035,9 +2745,7 @@ Vyacheslav Ganelin
     </tr>
     </table>
     </div>
-                                                <p>
-  In this case, if <em>$jazz</em> is true, the output is
-  </p>
+                                                <p>Dans ce cas, si <em>$jazz</em> est vrai, la sortie est</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3061,19 +2769,15 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  To understand this, note that the <code>#if( arg ) </code> when
-  ended by a newline (return) will omit the newline from the output.
-  Therefore, the body of the <code>#if()</code>
-  block follows the first '\', rendered
-  from the '\\' preceding the <code>#if()</code>.
-   The last \ is on a different
-  line than the text because there is a newline after 'Ganelin', so
-  the final \\, preceding the <code>#end</code> is part of the
-  body of the block.
+    Pour comprendre, notons que le  <code>#if( arg ) </code>, lorsqu'il est terminé par un retour à la ligne, omettra
+    ce retour à la ligne de la sortie produite. Donc, le corps du bloc <code>#if()</code> suit la première barre '\',
+    rendue par le '\\' qui précède <code>#if()</code>. Le dernier \ est sur une ligne différente du texte qui précède
+    parce qu'il y a un retour chariot après 'Ganelin', et donc le \\ final, qui précède le <code>#end</code> fait partie
+    du corps du bloc.
   </p>
                                                 <p>
-  If <em>$jazz</em> is false, there is no output. Note that
-  things start to break if script elements are not properly escaped.
+    Si <em>$jazz</em> est faux, il n'y a pas de sortie produite. Notons que les choses vont commencer à mal se passer
+    si des éléments de script ne sont pas échappés correctement.
   </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3099,8 +2803,8 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-  Here the <em>#if</em> is escaped, but there is an <em>#end</em>
-  remaining; having too many endings will cause a parsing error.
+    Ici le <em>#if</em> est échappé, mais il y a un <em>#end</em> qui reste là, et trop de terminaisons vont causer
+    une erreur dans l'interprétation.
   </p>
                             </blockquote>
         </p>
@@ -3110,15 +2814,15 @@ Vyacheslav Ganelin
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="VTL: Formatting Issues"><strong>VTL: Formatting Issues</strong></a>
+          <a name="VTL: Questions de format"><strong>VTL: Questions de format</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Although VTL in this user guide is often displayed with newlines and
-    whitespaces, the VTL shown below
-    </p>
+    Bien que le VTL soit souvent montré dans ce guide de l'utilisateur avec des sauts de ligne et des espaces,
+    le VTL ci-dessous:
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3144,10 +2848,9 @@ Vyacheslav Ganelin
     </table>
     </div>
                                                 <p>
-    is equally valid as the following snippet that Geir Magnusson Jr.
-    posted to the Velocity user mailing list to illustrate a completely
-    unrelated point:
-    </p>
+    est tout aussi valide que le bout de code suivant, posté par Geir Magnusson Jr. à la liste de diffusion Velocity
+    (pour illustrer un point sans rapport avec notre sujet):
+  </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3169,10 +2872,7 @@ Send me #set($foo = [&quot;$10 and &quot;,&quot;a cake&quot;])#foreach($a in $fo
     </tr>
     </table>
     </div>
-                                                <p>
-    Velocity's behaviour is to gobble up excess whitespace. The
-    preceding directive can be written as:
-    </p>
+                                                <p>Velocity digère les blancs inutiles. La directive qui précède peut donc s'écrire de la manière suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3199,9 +2899,7 @@ please.
     </tr>
     </table>
     </div>
-                                                <p>
-    or as
-    </p>
+                                                <p>ou encore:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3226,9 +2924,7 @@ Send me
     </tr>
     </table>
     </div>
-                                                <p>
-    In each case the output will be the same.
-    </p>
+                                                <p>Dans tous les cas, la sortie sera identique.</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -3237,7 +2933,7 @@ Send me
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Other Features and Miscellany"><strong>Other Features and Miscellany</strong></a>
+          <a name="Autres caractéristiques et sujets divers"><strong>Autres caractéristiques et sujets divers</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3251,11 +2947,10 @@ Send me
       <tr><td>
         <blockquote>
                                     <p>
-    Velocity has a handful of built-in mathematical functions that can
-    be used in templates with the <em>set</em> directive. The following
-    equations are examples of addition, subtraction, multiplication and
-    division, respectively:
-  </p>
+      Velocity a quelques fonctions mathématiques intégrées, fonctions que l'on peut utiliser dans les gabarits
+      avec la directive <em>set</em>. Les équations suivantes sont des exemples d'addition, soustraction, multiplication
+      et division respectivement:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3281,10 +2976,9 @@ Send me
     </table>
     </div>
                                                 <p>
-    When a division operation is performed, the result will be an
-    integer. Any remainder can be obtained by using the modulus
-    (<em>%</em>) operator.
-  </p>
+      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut 
+      être obtenu en utilisant l'opérateur modulo (<em>%</em>).
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3307,10 +3001,9 @@ Send me
     </table>
     </div>
                                                 <p>
-    Only integers (...-2, -1, 0, 1, 2...) are permissible when
-    performing mathematical equations in Velocity; when a non-integer is
-    used, it is logged and a null will be returned as the output.
-  </p>
+      Seuls les entiers  (...-2, -1, 0, 1, 2...) sont admis comme opérandes des équations mathématiques en Velocity;
+      lorsqu'un non-entier est rencontré, cela est signalé et null sera renvoyé dans la sortie produite.
+    </p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3318,17 +3011,16 @@ Send me
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Range Operator"><strong>Range Operator</strong></a>
+          <a name="Opérateur d'intervalle (range)"><strong>Opérateur d'intervalle (range)</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    The range operator can be used in conjunction with <em>#set</em> and
-    <em>#foreach</em> statements. Useful for its ability to produce an
-    object array containing integers, the range operator has the
-    following construction:
-  </p>
+      L'opérateur d'intervalle peut être utilisé en conjonction avec les instructions <em>#set</em> et
+      <em>#foreach</em>. C'est assez commode pour produire un tableau d'objets contenant des entiers;
+      l'opérateur d'intervalle est construit comme ceci:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3351,11 +3043,10 @@ Send me
     </table>
     </div>
                                                 <p>
-    Both <em>n</em> and <em>m</em> must either be or produce integers.
-    Whether <em>m</em> is greater than or less than <em>n</em> will not
-    matter; in this case the range will simply count down. Examples
-    showing the use of the range operator as provided below:
-  </p>
+      <em>n</em> et <em>m</em> doivent tous deux être ou renvoyer des entiers. Que <em>m</em> soit plus grand ou plus
+      petit que <em>n</em> importe peu, si cela se produit le tableau décompte. Voici quelques exemples de l'opérateur
+      de portée:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3366,23 +3057,23 @@ Send me
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-First example:
+Premier exemple:
 #foreach( $foo in [1..5] )
 $foo
 #end
 
-Second example:
+Second exemple:
 #foreach( $bar in [2..-2] )
 $bar
 #end
 
-Third example:
+Troisième exemple:
 #set( $arr = [0..1] )
 #foreach( $i in $arr )
 $i
 #end
 
-Fourth example:
+Quatrième exemple:
 [1..3]
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -3394,9 +3085,7 @@ Fourth example:
     </tr>
     </table>
     </div>
-                                                <p>
-    Produces the following output:
-  </p>
+                                                <p>Produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3407,16 +3096,16 @@ Fourth example:
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-First example:
+Premier exemple:
 1 2 3 4 5
 
-Second example:
+Second exemple:
 2 1 0 -1 -2
 
-Third example:
+Troisième exemple:
 0 1
 
-Fourth example:
+Quatrième exemple:
 [1..3]
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
@@ -3429,15 +3118,13 @@ Fourth example:
     </table>
     </div>
                                                 <p>
-    Note that the range operator only produces the array when used in
-    conjunction with <em>#set</em> and <em>#foreach</em> directives, as
-    demonstrated in the fourth example.
-  </p>
+      Il est à noter que l'opérateur d'intervalle ne produit le tableau qu'utilisé en conjonction avec les directives
+      <em>#set</em> et <em>#foreach</em>, comme démontré dans le quatrième exemple.
+    </p>
                                                 <p>
-    Web page designers concerned with making tables a standard size, but
-    where some will not have enough data to fill the table, will find
-    the range operator particularly useful.
-  </p>
+      Les concepteurs de pages web soucieux de construire des tables de taille standard, mais dans lequelles il n'y a
+      pas assez de données pour remplir la table, trouveront cet opérateur d'intervalle particulièrement utile.
+    </p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3445,18 +3132,17 @@ Fourth example:
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Advanced Issues: Escaping and !"><strong>Advanced Issues: Escaping and !</strong></a>
+          <a name="Questions pointues: Echappement et !"><strong>Questions pointues: Echappement et !</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    When a reference is silenced with the <em>!</em> character and the
-    <em>!</em> character preceded by an <em>\</em> escape character, the
-    reference is handled in a special way. Note the differences between
-    regular escaping, and the special case where <em>\</em> precedes
-    <em>!</em> follows it:
-  </p>
+      Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère 
+      <em>!</em> est précédé par un caractère d'échappement <em>\</em>, la référence est traitée de manière particulière.
+      A noter: les différences entre l'échappement ordinaire et le cas particulier où <em>\</em> précède <em>!</em>
+      comme ici:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3482,9 +3168,7 @@ $\\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-   This renders as:
-  </p>
+                                                <p>Ceci produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3509,10 +3193,7 @@ $\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-   Contrast this with regular escaping, where <em>\</em> precedes
-   <em>$</em>:
-  </p>
+                                                <p>A comparer avec l'échappement ordinaire, où <em>\</em> précède <em>$</em>:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3537,9 +3218,7 @@ $\\!foo
     </tr>
     </table>
     </div>
-                                                <p>
-    This renders as:
-  </p>
+                                                <p>Ce qui produit la sortie suivante:</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3571,33 +3250,27 @@ $\\!foo
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocimacro Miscellany"><strong>Velocimacro Miscellany</strong></a>
+          <a name="Compléments divers sur les Velocimacros"><strong>Compléments divers sur les Velocimacros</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-This section is a mini-FAQ on topics relating to Velocimacros.  This
-section will change over time, so it's worth checking for new information
-from time to time.
-</p>
+      Cette section est une mini-FAQ sur différents sujets relatifs aux Velocimacros.
+      Cette section évoluera au fil du temps, et cela vaudra donc la peine d'y revenir occasionnellement pour y
+      chercher de nouvelles informations.
+    </p>
+                                                <p>Note: tout au long de cette section, 'Velocimacro' sera habituellement abrégé en 'VM'.</p>
+                                                <strong>Puis-je utiliser une directive ou une autre VM comme argument d'une VM?</strong>
+                                                <p>Exemple : <code>#center( #bold("hello") )</code></p>
                                                 <p>
-Note : Throughout this section, 'Velocimacro' will commonly be abbreviated
-as 'VM'.
-</p>
-                                                <strong>Can I use a directive or another VM as an argument to a VM?</strong>
+      Non. Une directive n'est pas un argument valide d'une directive, et en pratique, pour l'essentiel,
+      une VM est une directive.
+    </p>
                                                 <p>
-Example : <code>#center( #bold("hello") )</code>
-</p>
-                                                <p>
-No.  A directive isn't a valid argument to a directive, and for most practical
-purposes, a VM is a directive.
-</p>
-                                                <p>
-<i>However...</i>, there are things you can do. One easy solution is to take
-advantage of the fact that 'doublequote' (") renders it's contents. So you
-could do something like
-</p>
+      <i>Pourtant...</i>, il y a des choses que vous pouvez faire. Une solution, simple, est de tirer avantage du fait
+      que l'apostrophe (") restitue son contenu. Vous pouvez donc écrire quelque chose comme
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3620,9 +3293,7 @@ could do something like
     </tr>
     </table>
     </div>
-                                                <p>
-You can save a step...
-</p>
+                                                <p>Vous pouvez même vous épargner une étape...</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3645,12 +3316,10 @@ You can save a step...
     </table>
     </div>
                                                 <p>
-Please note that in the latter example the arg
-is evaluated <i>inside</i> the VM, not at the
-calling level.  In other words, the argument to
-the VM is passed in in its entirety and evaluated within the VM
-it was passed into. This allows you to do things like :
-</p>
+      Mais il est à noter, dans ce dernier exemple, que l'argument est évalué <i>à l'intérieur</i> de la VM, pas au niveau
+      de l'appel. En d'autres termes, l'argument passé à la VM est passé dans son intégralité et évalué dans la VM à
+      laquelle il a été passé. Ceci permet d'écrire des choses comme:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3661,7 +3330,6 @@ it was passed into. This allows you to do things like :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-
 #macro( inner $foo )
   inner : $foo
 #end
@@ -3673,7 +3341,6 @@ it was passed into. This allows you to do things like :
 
 #set($bar = 'calltimelala')
 #outer( &quot;#inner($bar)&quot; )
-
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3684,9 +3351,7 @@ it was passed into. This allows you to do things like :
     </tr>
     </table>
     </div>
-                                                <p>
-Where the output is
-</p>
+                                                <p>La sortie produite est</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3709,13 +3374,13 @@ Outer : inner : outerlala
     </table>
     </div>
                                                 <p>
-because the evaluation of the "#inner($bar)" happens inside #outer(), so the
-$bar value set inside #outer() is the one that's used.
-</p>
+      puisque l'évaluation de "#inner($bar)" se produit à l'intérieur de  #outer(), et c'est donc la valeur $bar
+      positionnée à l'intérieur de  #outer() qui est utilisée.
+    </p>
                                                 <p>
-This is an intentional and jealously guarded feature - args are passed 'by
-name' into VMs, so you can hand VMs things like stateful references such as
-</p>
+      Ceci est tout à fait intentionnel, et c'est une caractéristique jalousement gardée - les arguments sont passés
+      'par nom' aux VM, de sorte qu'on puisse passer aux VM un genre de "références avec état" telles que
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3743,9 +3408,9 @@ name' into VMs, so you can hand VMs things like stateful references such as
     </table>
     </div>
                                                 <p>
-And have rowColor() called repeatedly, rather than just once.  To avoid that,
-invoke the method outside of the VM, and pass the value into the VM.
-</p>
+      et appeler rowColor() plusieurs fois, plutôt qu'une fois. Pour éviter cela, il faut appeler la méthode hors de la VM
+      et passer la valeur à la VM.
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3768,45 +3433,31 @@ invoke the method outside of the VM, and pass the value into the VM.
     </tr>
     </table>
     </div>
-                                                <strong>Can I register Velocimacros via #parse() ? </strong>
+                                                <strong>Peut-on enregistrer des Velocimacros avec #parse() ?</strong>
                                                 <p>
-    Currently, Velocimacros must be defined before they are first
-    used in a template.  This means that your #macro() declarations
-    should come before using the Velocimacros.
+      Pour l'instant, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
+      Ce qui signifie que les déclarations #macro() doivent précéder l'usage des Velocimacros.
     </p>
                                                 <p>
-    This is important to remember if you try to #parse()
-    a template containing inline #macro() directives.  Because
-    the #parse() happens at runtime, and the parser decides if
-    a VM-looking element in the template is a VM at parsetime,
-    #parse()-ing a set of VM declarations won't work as expected.
-    To get around this, simply use the <code>velocimacro.library</code>
-    facility to have Velocity load your VMs at startup.
+      Il est important de s'en souvenir si l'on essaye d'interpréter avec #parse() un gabarit qui contient des directives
+      #macro() définies <i>inline</i>. Puisque le #parse() a lieu au moment de l'exécution, et que l'interpréteur décide
+      à ce moment si quelque chose qui ressemble syntaxiquement à une VM dans le gabarit en est vraiment une au moment de
+      l'interprétation, #parse()-r un ensemble de déclarations de VM ne fonctionnera pas comme on pourrait le prévoir.
+      Pour contourner ce comportement, il suffit d'utiliser <code>velocimacro.library</code> pour que Velocity charge
+      vos VM's au démarrage.
     </p>
-                                                <strong>What is Velocimacro Autoreloading?</strong>
+                                                <strong>Qu'est-ce que le <i>Velocimacro Autoreloading</i>?</strong>
+                                                <p>Il existe une propriété, conçue pour le <i>développement</i>, pas pour la production:</p>
+                                                <p><code>velocimacro.library.autoreload</code></p>
+                                                <p>dont la valeur par défaut est <i>false</i>. Lorsque cette propriété est positionnée à <i>true</i>, en même temps que</p>
+                                                <p><code>&lt;type&gt;.resource.loader.cache = false</code></p>
                                                 <p>
-   There is a property, meant to be used in <i>development</i>,
-   not production :
-  </p>
-                                                <p>
-  <code>velocimacro.library.autoreload</code>
-  </p>
-                                                <p>
-   which defaults to false.  When set to true <em>along with</em>
-   </p>
-                                                <p>
-   <code>&lt;type&gt;.resource.loader.cache = false</code>
-   </p>
-                                                <p>
-    (where &lt;type&gt; is the name of the resource loader that you
-    are using, such as 'file') then the Velocity engine will automatically
-    reload changes to your Velocimacro library files when you make them,
-    so you do not have to dump the servlet engine (or application) or do
-    other tricks to have your Velocimacros reloaded.
+      (où &lt;type&gt; est le nom du chargeur de ressources que vous utilisez, par exemple 'file'), le moteur Velocity va
+      automatiquement prendre en compte les changements apportés à vos fichiers de bibliothèques Velocimacro, au fur et à
+      mesure que vous les modifiez, de sorte que vous n'ayez pas à arrêter le moteur de servlet (ou l'application) ou avoir
+      recours à tout autre subterfuge de ce genre pour recharger vos Velocimacros.
     </p>
-                                                <p>
-    Here is what a simple set of configuration properties would look like.
-    </p>
+                                                <p>Voici à quoi peut ressembler un ensemble simple de propriétés.</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3830,9 +3481,7 @@ invoke the method outside of the VM, and pass the value into the VM.
     </tr>
     </table>
     </div>
-                                                <p>
-    Don't keep this on in production.
-    </p>
+                                                <p>Ne gardez pas cette configuration en production.</p>
                             </blockquote>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -3840,26 +3489,20 @@ invoke the method outside of the VM, and pass the value into the VM.
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="String Concatenation"><strong>String Concatenation</strong></a>
+          <a name="Concaténation de chaînes"><strong>Concaténation de chaînes</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    A common question that developers ask is
-    <i>How do I do String concatenation?  Is there any
-    analogue to the '+' operator in Java?</i>.
-   </p>
+      Une question habituelle parmi les développeurs est:
+      <i>Comment concaténer des chaînes de caractères? Y a-t'il quelque chose de semblable à l'opérateur '+' en Java?</i>.
+    </p>
                                                 <p>
-    To do concatenation of references in VTL, you
-    just have to 'put them together'.  The context of
-    where you want to put them together does matter, so
-    we will illustrate with some examples.
-   </p>
-                                                <p>
-    In the regular 'schmoo' of a template (when you are mixing
-    it in with regular content) :
-   </p>
+      Pour concaténer des références en VTL, il suffit de les 'mettre ensemble'. Le contexte dans lequel vous voulez les
+      assembler ainsi a une certaine importance, il faut donc illustrer notre propos par quelques exemples.
+    </p>
+                                                <p>Dans le flux habituel d'un gabarit (lorsqu'on mélange les références avec du contenu ordinaire):</p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3873,7 +3516,7 @@ invoke the method outside of the VM, and pass the value into the VM.
        #set( $size = &quot;Big&quot; )
        #set( $name = &quot;Ben&quot; )
 
-      The clock is $size$name.
+      Cette horloge sonne comme $size$name.
    </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3885,11 +3528,9 @@ invoke the method outside of the VM, and pass the value into the VM.
     </table>
     </div>
                                                 <p>
-     and the output will render as 'The clock is BigBen'.
-     For more interesting cases, such as when you want to concatenate
-     strings to pass to a method, or to set a new reference, just
-     do
-   </p>
+      produira 'Cette horloge sonne comme BigBen'. Pour prendre des exemples plus intéressants, lorsqu'on veut concaténer
+      des chaînes pour les passer à une méthode ou les assigner à une nouvelle référence, il suffit d'écrire:
+    </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
     <tr>
@@ -3905,7 +3546,7 @@ invoke the method outside of the VM, and pass the value into the VM.
 
       #set($clock = &quot;$size$name&quot; )
 
-      The clock is $clock.
+      Cette horloge sonne comme $clock.
     </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3917,9 +3558,8 @@ invoke the method outside of the VM, and pass the value into the VM.
     </table>
     </div>
                                                 <p>
-     Which will result in the same output.  As a final example, when
-     you want to mix in 'static' strings with your references, you may
-     need to use 'formal references' :
+      Ce qui produit le même résultat. Dernier exemple, lorsqu'on veut mélanger des chaînes "statiques" avec des
+      références, il peut être nécessaire d'utiliser les "références formelles" rencontrées plus haut:
     </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -3936,7 +3576,7 @@ invoke the method outside of the VM, and pass the value into the VM.
 
       #set($clock = &quot;${size}Tall$name&quot; )
 
-      The clock is $clock.
+      Cette horloge sonne comme $clock.
     </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -3948,10 +3588,9 @@ invoke the method outside of the VM, and pass the value into the VM.
     </table>
     </div>
                                                 <p>
-      Now the output is 'The clock is BigTallBen'.  The
-      formal notation is needed so the parser knows you
-      mean to use the reference '$size' versus '$sizeTall'
-      which it would if the '{}' weren't there.
+      Et maintenant le résultat produit est 'Cette horloge sonne comme BigTallBen'.
+      La notation formelle est requise pour que l'interpréteur comprenne que l'on souhaite utiliser '$size' et non
+      '$sizeTall', ce qui serait le cas si les accolades n'étaient pas présentes.
     </p>
                             </blockquote>
       </td></tr>
@@ -3965,17 +3604,16 @@ invoke the method outside of the VM, and pass the value into the VM.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Feedback"><strong>Feedback</strong></a>
+          <a name="Donnez votre avis"><strong>Donnez votre avis</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    If you encounter any mistakes in this manual or have
-    other feedback related to the Velocity User Guide, please
-    email the
-    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
-    Thanks!
+    Si vous rencontrez des erreurs dans le manuel (autres que des erreurs de traduction), ou si vous voulez faire part de
+    votre avis sur le Guide de l'utilisateur Velocity,
+    envoyez un mail à la <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
+    Merci!
   </p>
                             </blockquote>
         </p>

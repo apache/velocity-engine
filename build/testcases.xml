@@ -55,6 +55,7 @@
                                    test-velocityapp,
                                    test-introspect,
                                    test-introspect2,
+                                   test-introspect3,
                                    test-classloaderchange,
                                    test-inlinevmscope,
                                    test-multi,
@@ -133,6 +134,17 @@
 
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.IntrospectorTestCase2"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="test-introspect3">
+    <echo message="Running Introspector3 tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.IntrospectorTestCase3"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
