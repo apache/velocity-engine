@@ -65,7 +65,7 @@ One blank line follows
     this is the else statement
 #end
 
--- Third Test : tight tight tight.  Note that \#end eats the \\n, which is NOT what people expect, I think.
+-- Third Test : tight tight tight.  Note that \#end eats the \n, which is NOT what people expect, I think.
 -- one blank line follows
 
 blargh #if(true)This follows blargh#end

@@ -30,12 +30,12 @@ $foo;  => bar;
 $foo.  => bar.
 $foo.. => bar..
 $foo/  => bar/
-$foo"  => bar"
-$foo  => bar\
+$foo"  => $foo"
+$foo\  => bar\
 $foo<  => bar<
-$foo-  => $foo-
-$fooo+ => $fooo+
-$foo-x => $foo-x
+\$foo-  => $foo-
+\$fooo+ => $fooo+
+\$foo-x => $foo-x
 $foo$  => bar
 
 
@@ -148,8 +148,8 @@ $10.00
 
 (this is also great)
 
-This is the #stuff and this
-is the way #to #go.
+This is the \#stuff and this
+is the way \#to \#go.
 
 this = that
 
