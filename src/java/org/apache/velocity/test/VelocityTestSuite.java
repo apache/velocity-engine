@@ -54,16 +54,36 @@ package org.apache.velocity.test;
  * <http://www.apache.org/>.
  */
 
+import java.util.Properties;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+
 import junit.framework.*;
+
+import org.apache.velocity.runtime.Runtime;
 
 /**
  * Test suite for Apache Velocity.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: VelocityTestSuite.java,v 1.2 2000/10/15 03:21:41 dlr Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.3 2000/10/23 06:17:25 dlr Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
+    /**
+     * The name of the test suite properties file.
+     */
+    private static final String PROPS_FILE_NAME = "TestSuite.properties";
+
+    /**
+     * The test suite properties.
+     */
+    private Properties props;
+
     /**
      * Creates an instace of the Apache Velocity test suite.
      */
@@ -71,7 +91,38 @@ public class VelocityTestSuite extends TestSuite
     {
         super("Apache Velocity test suite");
 
+        // Read in properties file.
+        props = new Properties();
+        try
+        {
+            props.load
+                (new BufferedInputStream(new FileInputStream(PROPS_FILE_NAME)));
+        }
+        catch (IOException e)
+        {
+            // TODO: Need to initialize the Runtime first.
+            Runtime.error(e);
+        }
+
         // Add test cases here.
+        List templateTestCases = getTemplateTestCases();
+        for (Iterator iter = templateTestCases.iterator(); iter.hasNext(); )
+        {
+            addTest(new TemplateTestCase((String)iter.next()));
+        }
         addTest(new VelocityTest("Apache Velocity"));
+    }
+
+    /**
+     * Returns a list of the template test cases to run.
+     *
+     * @return A <code>List</code> of <code>String</code> objects naming the 
+     *         test cases.
+     */
+    private List getTemplateTestCases ()
+    {
+        List testCases = new ArrayList();
+        // TODO: Parse the template test cases from the properties file.
+        return testCases;
     }
 }
