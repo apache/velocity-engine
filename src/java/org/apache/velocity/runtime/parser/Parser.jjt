@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.38 2000/12/06 19:49:23 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.39 2000/12/08 03:17:31 geirm Exp $ 
 */
 public class Parser
 {
@@ -1275,11 +1275,17 @@ void ElseIfStatement() : {}
     ( Statement() )+ #Block
 }
 
+/**
+ *  Currently support both types of set :
+ *   #set( expr )
+ *   #set expr
+ */
 void SetDirective() : {}
 {
-   (  <SET_DIRECTIVE>  Expression()  [<NEWLINE>] )
+    <SET_DIRECTIVE>  
+    [ LOOKAHEAD(2) <WHITESPACE> ] 
+    ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )
 }    
-
 
 /**
  * This method corresponds to the #stop
