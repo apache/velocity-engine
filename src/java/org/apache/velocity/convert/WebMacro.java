@@ -71,7 +71,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.14 2001/05/12 02:04:25 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.15 2001/05/12 02:14:41 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -100,13 +100,6 @@ public class WebMacro
         // Convert WM style #foreach to Velocity directive style.
         "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$[^\\s#]+)\\s*(#begin|{)[ \\t]?",
         "#foreach( $1 in $2 )",
-
-        // Change the "}" to #end. Have to get more
-        // sophisticated here. Will assume either {}
-        // and no javascript, or #begin/#end with the
-        // possibility of javascript.
-        "\n}", // assumes that javascript is indented, WMs not!!!
-        "\n#end",
 
         // Convert WM style #set to Velocity directive style.
         "#set\\s+(\\$[^\\s=]+)\\s*=\\s*([\\S]+)[ \\t]*",
