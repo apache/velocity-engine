@@ -16,25 +16,25 @@
 
   <ul>
    <li>
-      The <a href="users-guide.html">User's Guide</a> which provides a good
+      The <a href="user-guide.html">User's Guide</a>, which provides a good
       overview of what Velocity templates are all about.
    </li>
    <li>
-     The <a href="developers-guide.html">Developers Guide</a> which provides
+     The <a href="developer-guide.html">Developer's Guide</a>, which provides
      a good reference and discussion of incorporating Velocity into your Java
      programs and servlets.
    </li>
    <li>
-     The <a href="vtl-reference-guide.html">VTL Reference Guide</a> a reference
+     The <a href="vtl-reference-guide.html">VTL Reference Guide</a>, which is a reference
      guide for VTL, the Velocity Template Language.
    </li>
    <li>
-     The <a href="design.html">Design</a> document provides a high-level overview
+     The <a href="design.html">Design</a> document, which provides a high-level overview
      of the how Velocity works, and why it's important.
     </li>
    </ul>
 
-   And of course, the best place to start is the examples provided with the distribution,
+   And of course, the best place to start is with the examples provided with the distribution,
    and the source code itself, which is included.
 </p>
 
@@ -48,14 +48,14 @@
 <section name="API Documentation">
 
 <p>
-Our API documentation is available <a href="api/index.html"> online </a>, 
+Our API documentation is available <a href="api/index.html">online</a>, 
 as part of the distribution package, and of course, you can generate it
 yourself from the included sources.
 </p>
 <p>
     If you are working on Unix/Linux and would like to create a full set
     of detailed API documentation for Velocity, go to the
-    <code>build</code> directory and run the following script.
+    <code>build</code> directory and run the following script:
 </p>
 
 <source><![CDATA[
