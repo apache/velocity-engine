@@ -105,7 +105,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.12 2001/05/15 14:03:47 geirm Exp $
+ * @version $Id: JarResourceLoader.java,v 1.13 2001/05/15 14:09:19 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -143,8 +143,8 @@ public class JarResourceLoader extends ResourceLoader
             if (paths != null && paths.size() > 0)
             {
                 Runtime.warn("JarResourceLoader : you are using a deprecated configuration"
-                             + " property for the JarResourceLoader -> '<name>.loader.resource.resource.path'."
-                             + " Please change to the conventional '<name>.loader.resource.path'.");
+                             + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
+                             + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
                              
