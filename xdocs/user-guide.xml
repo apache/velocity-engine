@@ -859,9 +859,7 @@ ${data.Request.ServerName}
 
  <p>
     Unlike some of the other Velocity directives, the <em>#set</em>
-    directive does not have an <em>#end</em> statement. Instead, the
-    left bracket marks the beginning and the right bracket marks the end
-    of an assignment.
+    directive does not have an <em>#end</em> statement.
  </p>
 
 <a name="String Literals"><strong>String Literals</strong></a>
@@ -1951,6 +1949,26 @@ invoke the method outside of the VM, and pass the value into the VM.
 #set($color = $bar.rowColor())
 #foo( $color )
 ]]></source>
+
+
+<strong>Can I register Velocimacros via #parse() ? </strong>
+
+    <p>
+    Currently, Velocimacros must be defined before they are first 
+    used in a template.  This means that your #macro() declarations 
+    should come before using the Velocimacros.
+    </p>
+
+    <p>
+    This is important to remember if you try to #parse() 
+    a template containing inline #macro() directives.  Because
+    the #parse() happens at runtime, and the parser decides if
+    a VM-looking element in the template is a VM at parsetime, 
+    #parse()-ing a set of VM declarations won't work as expected.
+    To get around this, simply use the <code>velocimacro.library</code>
+    facility to have Velocity load your VMs at startup.
+    </p>
+
 
 </subsection>
 
