@@ -43,7 +43,7 @@ classpath
 datasource
 
 --------------------------------------------------
-Testing Configuration.subset(prefix).getKeys() ...
+Testing subset(prefix).getKeys() ...
 --------------------------------------------------
 
 class
