@@ -298,3 +298,42 @@ right
 #else
 wrong
 #end
+
+Test to see if we can do logical assignment from any expression
+
+#set($val = (3 == 3))
+#if($val == true)
+right
+#else
+wrong
+#end
+
+#set($val = (1 < 2))
+#if( $val == true)
+right
+#else
+wrong
+#end
+
+
+#set($val = (1 <= 2))
+#if( $val == true)
+right
+#else
+wrong
+#end
+
+
+#set($val = (7 > 2))
+#if( $val == true)
+right
+#else
+wrong
+#end
+
+#set($val = (7 >= 2))
+#if( $val == true)
+right
+#else
+wrong
+#end
