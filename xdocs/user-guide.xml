@@ -3,8 +3,8 @@
 <document>
 
  <header>
-  <title>User's Guide</title>
-  <subtitle>User's Guide</subtitle>
+  <title>Velocity User's Guide</title>
+  <subtitle>Velocity User's Guide</subtitle>
   <authors>
    <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
   </authors>
@@ -15,11 +15,281 @@
 <s1 title="User's Guide">
 
 <p>
-    Place holder for the User's Guide.
+    This guide is meant to provide an easy way for designers
+    to get aquainted with Velocity. Velocity may be used as a
+    stand-alone servlet framework, or may be used in conjuction
+    with another servlet framework like 
+    <link href="http://java.apache.org/turbine/">Turbine</link>,
+    but in both cases a designer will be using the Velocity
+    Template Language (VTL) to incorporate dynamic content
+    into a site design.
 </p>
 
 <p>
+    The VTL is meant to provide the easiest, simplest, and
+    cleanest way to render dynamic content in a page design.
 </p>
+
+</s1>
+
+<s1 title="VTL Reference">
+
+    <s1 title="Variables">
+
+    <p>
+    Velocity references its variables in a fashion similar to Perl (i.e. they 
+    use a $), but takes advantage of some Java principles that template 
+    designers will find easy to use. For example:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    $foo
+    $foo.getBar() or $foo.Bar
+    $data.getUser("jon") or $data.User("jon")
+    $data.getRequest().getServerName() or $data.Request.ServerName]]></source>
+    </p>
+
+    <p>
+    These examples illustrate alternative uses for the same variables. 
+    Velocity takes advantage of Java's introspection and 
+    bean features to resolve the variable names to both objects in the Context 
+    as well as the objects methods. It is possible to embed variables almost
+    anywhere in your template. These variables can be evaluated.
+    </p>
+    
+    <p>
+    Everything coming to and from a variable is treated as a String object. 
+    If there is an object that represents $foo (such as an Integer object), 
+    then Velocity will call its .toString() method to resolve the 
+    object into a String.
+    </p>
+ </s1>
+
+<s1 title="Conditionals">
+
+    <s1 title="If / ElseIf / Else Conditionals">
+    <p>
+    The #if statement in Velocity allows for text in the brackets to be 
+    included in the text, on the conditional that the if statement
+    is true. For example:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #if ($foo)
+        <strong>Velocity Rocks!</strong>
+    #end
+    ]]></source>
+    </p>
+
+    <p>
+    The variable $foo is evaluated to see if it is a boolean or not null; the 
+    content within the brackets becomes the output if the evaluation is true. 
+    Unlike in JSP, Velocity does not force web developers to wrap HTML code 
+    within an out.println(), or to delve into ugly workarounds to out.println().
+    </p>
+    
+    <p>
+    An #elseif or #else element can be used with an #if element.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #if ($foo)
+        <strong>Velocity Rocks!</strong>
+    #elseif($bar)
+        <strong>Velocity Rocks Again!</strong>
+    #else
+        <strong>Velocity Still Rocks!</strong>
+    #end
+    ]]></source>
+    </p>
+    
+    <p>
+    In this example, if $foo is false, then the output will be
+    <strong>Velocity Still Rocks!</strong> 
+    </p>
+
+    <p>
+    Note that logical operators are not yet available in Velocity. 
+    This functionality is expected to be added soon. An example of
+    a logical operator is shown below.
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #if ($foo && $bar)
+        <strong>Velocity Rocks!</strong>
+    #end
+    ]]></source>
+    </p>
+    </s1>
+</s1>
+
+<s1 title="Loops">
+    <s1 title="Foreach Loop">
+    <p>
+    The #foreach element allows for looping. For example:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    <ul>
+    #foreach ($product in $allProducts)
+        <li>$product</li>
+    #end
+    </ul>
+    ]]></source>
+    </p>
+
+    <p>
+    This #foreach loop causes the $allProducts list (the object) to be 
+    looped over for all of the products (targets) in the list. Each time 
+    through the loop, the value from $allProducts is placed into the 
+    $product variable.
+    </p>
+    
+    <p>
+    The contents of the $allProducts variable is either a Vector, a Hashtable 
+    or an Array. The value assigned to the $product variable is a Java
+    Object and can be referenced from a variable as such. For example, if 
+    $product was really a Product class in Java, its name could be retrieved
+    by referencing the $product.Name method (ie: Product.getName()).
+    </p>
+    </s1>
+</s1>    
+
+<s1 title="Include">
+    <p>
+    The #include script element allows the template designer to import a 
+    local file, which is then inserted into the location where the #include 
+    directive is defined. The contents of the file are not rendered through 
+    the template engine.
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    #include /path/to/file.vm
+    ]]></source>
+    </p>
+</s1>
+
+<s1 title="Set">
+    <p>
+    The #set script element allows the template designer to set variables 
+    within the Context.
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    #set $name = "Fred"
+    ]]></source>
+    </p>
+    
+    <p>
+    When using the #set directive, the variable on the left side must be 
+    prefixed with a $. This provides a 
+    consistent syntax for referencing variables in Velocity.
+    </p>
+    
+    <p>
+    The following script elements have not been implemented.
+    </p>
+</s1>
+
+<s1 title="Comments">
+    <p>
+    There are three comment types that allow the template designer to 
+    place descriptive text in templates that is not placed into the
+    output of the template engine.
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    ## this is a line comment
+    ]]></source>
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #*
+    
+    This is a multiline
+    block comment used for
+    longer descriptions.
+    
+    *#
+    ]]></source>
+    </p>
+
+    <p>
+    <source><![CDATA[
+    #** 
+    
+    This is a VelociDoc comment block and
+    may be used to store author and versioning
+    information:
+    
+    @author Designer Dude
+    @version 5
+    
+    *#
+    ]]></source>
+    </p>
+
+</s1>
+
+<s1 title="Stop">
+    <p>
+    The #stop script element allows the template designer to stop the execution
+    of the template engine and return. This is useful for debugging purposes.
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    #stop
+    ]]></source>
+    </p>    
+</s1>
+
+<s1 title="Macro">
+    <p>
+    With the #macro script element, the template designer can define a 
+    time-saving macro. 
+    </p>    
+    
+    <p>
+    <source><![CDATA[
+    #macro (row $content) <tr><td>$content</td></tr> #end
+    ]]></source>
+    </p>
+    
+    <p>
+    This establishes a macro called "row", which uses HTML tags to
+    put content into its own table data cell in an HTML table. Having 
+    defined the #row macro, the template designer can now call the #row 
+    macro by name.
+    </p>
+    
+    <p>
+    <source><![CDATA[
+    <table>
+    #foreach ($element in $list)
+	#row ($element)
+    #end
+    </table>
+    ]]></source>
+    </p>
+    
+    <p>
+    Here a newly created #row macro is nested inside a #foreach
+    statement. As the #foreach statement loops through each $element
+    target in the $list object, the #row macro will take the value of
+    $element and put it into its table data cell.
+    </p>
+    
+</s1>
 
 </s1>
 
