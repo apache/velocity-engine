@@ -74,12 +74,29 @@ import org.apache.velocity.util.StringUtils;
 /**
  * Easily add test cases which evaluate templates and check their output.
  *
+ * NOTE:
+ * This class DOES NOT extend RuntimeTestCase because the VelocityTestSuite
+ * already initializes the Velocity runtime and adds the template
+ * test cases. Having this class extend RuntimeTestCase causes the
+ * Runtime to be initialized twice which is not good. I only discovered
+ * this after a couple hours of wondering why all the properties
+ * being setup were ending up as Vectors. At first I thought it
+ * was a problem with the Configuration class, but the Runtime
+ * was being initialized twice: so the first time the property
+ * is seen it's stored as a String, the second time it's seen
+ * the Configuration class makes a Vector with both Strings.
+ * As a result all the getBoolean(property) calls were failing because
+ * the Configurations class was trying to create a Boolean from
+ * a Vector which doesn't really work that well. I have learned
+ * my lesson and now have to add some code to make sure the
+ * Runtime isn't initialized more then once :-)
+ *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.21 2001/02/15 12:30:23 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.22 2001/03/05 10:33:32 jvanzyl Exp $
  */
-public class TemplateTestCase extends RuntimeTestCase
+public class TemplateTestCase extends BaseTestCase
 {
     /**
      * VTL file extension.

@@ -73,10 +73,16 @@ import org.apache.velocity.util.StringUtils;
  * Tests if we are context safe : can we switch objects in the context
  * and re-merge the template safely.
  *
+ * NOTE:
+ * This class should not extend RuntimeTestCase because this test
+ * is run from the VelocityTestSuite which in effect a runtime
+ * test suite and the test suite initializes the Runtime. Extending
+ * RuntimeTestCase causes the Runtime to be initialized twice.
+ *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.3 2001/01/03 05:28:51 geirm Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.4 2001/03/05 10:33:31 jvanzyl Exp $
  */
-public class ContextSafetyTestCase extends RuntimeTestCase
+public class ContextSafetyTestCase extends BaseTestCase
 {
      /**
      * VTL file extension.
