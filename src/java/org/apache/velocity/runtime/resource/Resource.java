@@ -73,7 +73,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.6 2001/07/16 16:04:03 dlr Exp $
+ * @version $Id: Resource.java,v 1.7 2001/07/28 12:05:50 geirm Exp $
  */
 public abstract class Resource
 {
@@ -99,12 +99,6 @@ public abstract class Resource
      * The file modification time (in milliseconds) for the cached template.
      */
     protected long lastModified = 0;
-
-    /**
-     * The next time the file modification time will be checked (in 
-     * milliseconds).
-     */
-    protected long lastCheck = 0;
 
     /**
      * The next time the file modification time will be checked (in 
@@ -167,28 +161,19 @@ public abstract class Resource
         }
 
         /*
-         *  otherwise, see where we are
+         *  see if we need to check now
          */
 
-        if ( lastCheck >= nextCheck)
-        {
-            return true;
-        }            
-        else
-        {
-            lastCheck = System.currentTimeMillis();
-            return false;
-        }
+        return (System.currentTimeMillis() >= nextCheck );
     }
 
     /**
-     * Touch this template and thereby resetting
-     * the lastCheck, and nextCheck fields.
+     * 'Touch' this template by  resetting
+     * the nextCheck field.
      */
     public void touch()
     {
-        lastCheck = System.currentTimeMillis();
-        nextCheck = lastCheck + ( MILLIS_PER_SECOND *  modificationCheckInterval);
+        nextCheck = System.currentTimeMillis() + ( MILLIS_PER_SECOND *  modificationCheckInterval);
     }
     
     /**
