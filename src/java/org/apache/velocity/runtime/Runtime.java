@@ -201,7 +201,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.77 2000/12/19 21:46:48 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.78 2000/12/19 21:51:02 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -771,14 +771,6 @@ public class Runtime implements RuntimeConstants
         {
             log(DEBUG + message.toString());
         }
-    }
-
-    /**
-     * Why does Runtime have a main?
-     */
-    public static void main(String[] args) throws Exception
-    {
-        System.out.println(StringUtils.fileToURL(args[0]));
     }
 
     /**
