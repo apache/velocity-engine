@@ -141,7 +141,7 @@
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the man branch after the 
+This section describes changes to the man branch after the
 1.2 release.  This is ongoing development.
 </p>
                                                 <ul>
@@ -172,12 +172,12 @@ This section describes changes to the man branch after the
      interoperability with the java.util.Map interface (dlr, gmj)
    </li>
    <li>
-     Committed Texen patches from Stephane Bailliez 
+     Committed Texen patches from Stephane Bailliez
      (sbailliez@imediation.com) anticipating review by the Texen
      aficianados in the Velocity community. (gmj)
    </li>
    <li>
-     Fix problem where local-scope VMs were interfering with 
+     Fix problem where local-scope VMs were interfering with
      VM library autoloading. (gmj)
    </li>
    <li>
@@ -207,7 +207,7 @@ This section describes changes to the man branch after the
    </li>
    <li>
      Added support for allowing user to configure pluggable
-     directives.  We supported it, but offered no way of 
+     directives.  We supported it, but offered no way of
      actually configuring it as such. (gmj)
    </li>
    <li>
@@ -216,9 +216,57 @@ This section describes changes to the man branch after the
      added template test. (gmj)
    </li>
    <li>
-     Deprecation update : AnakiaTask b/c JDOM, default logger 
+     Deprecation update : AnakiaTask b/c JDOM, default logger
      b/c LogKit 1.0. (gmj)
    </li>
+   <li>
+     New simple log4j logger, uses either an existing category if that is
+     passed to it, or just writes to a new file.
+   </li>
+   <li>
+     Log support enhanced to include automatic selection for default file logger
+     using either Jakarta Avalon Logkit or Jakarta Log4j, whichever it finds
+     in the classpath. (gmj)
+   </li>
+   <li>
+     Fix for problem reported by Robert Edgar where a reference-ish entity
+     like \${foo} wouldn't render the preceeding \
+   </li>
+   <li>
+    Support for is&lt;Property&gt;() introspection. (gmj)
+   </li>
+   <li>
+     Added better resolution of method ambiguity based on invocation
+     parameters so we better choose between overloaded methods. (gmj)
+   </li>
+   <li>
+     Patch from Michael McKibben for introspector to fix problem
+     where public interface methods implemented by a private or default
+     class were skipped when resolving access. (gmj)
+   </li>
+   <li>
+     Modified the Introspector and environs to make it independent
+     of Velocity-specific imports for reuse by others. (gmj)
+   </li>
+   <li>
+     Patch from Dan Finkelstein to fix problem when a resource
+     loader in named, but has no defined parameters, resulting in
+     NPE from ResourceManager. (gmj)
+   </li>
+   <li>
+     Adjusted formatting of the default error output from
+     VelocityServlet as suggested by Igor Fedulov. (gmj)
+   </li>
+   <li>
+     Fix for so-called runt reference bug reported by
+     Lukas Zimmermann such that $foo.bar()RUNT had following
+     RUNT treated as a reference. (gmj)
+   </li>
+   <li>
+     Update servlet1 example to use the 'new' handleRequest() (gmj)
+   </li>
+
+
 </ul>
                             </blockquote>
       </td></tr>
@@ -248,7 +296,7 @@ This section describes changes to the man branch after the
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the VEL_1_2_BRANCH after the 
+This section describes changes to the VEL_1_2_BRANCH after the
 1.2-rc3 release. 1.2-rc3 was released on November 7, 2001
 for a quick community check.  It is intended to be the final
 rc for the 1.2 release.
@@ -276,7 +324,7 @@ rc for the 1.2 release.
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the VEL_1_2_BRANCH after the 
+This section describes changes to the VEL_1_2_BRANCH after the
 1.2-rc2 release. 1.2-rc2 was released on October 18, 2001
 as an administrative fix for 1.2-rc1 (files were damaged.)
 </p>
@@ -310,8 +358,8 @@ as an administrative fix for 1.2-rc1 (files were damaged.)
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the VEL_1_2_BRANCH after the 
-1.2-rc1 release. These are updates working towards a rc2 or 
+This section describes changes to the VEL_1_2_BRANCH after the
+1.2-rc1 release. These are updates working towards a rc2 or
 final.
 </p>
                                                 <ul>
@@ -347,7 +395,7 @@ final.
                                     <p>
   This section describes changes to the main branch after the 1.1 release.
   This was then branched as VEL_1_2_BRANCH in CVS and released as v1.2-rc1
-  on September 26, 2001. 
+  on September 26, 2001.
 </p>
                                                 <ul>
   <li>
@@ -364,7 +412,7 @@ final.
   <li>
     Major change to Parser char stream - no longer using the stock, javacc generated
     ASCII 8-bit char stream but rather a Unicode 'custom' char stream.  This solves
-    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the 
+    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the
     low-order byte. (gmj)
   </li>
  <li>
@@ -376,12 +424,12 @@ final.
    Generator.java.  (JSS)
   </li>
   <li>
-     Fix to VM system to prevent dumping of VM namespace when using 
+     Fix to VM system to prevent dumping of VM namespace when using
      namespaces (in local.scope).  (gmj)
   </li>
-  <li> 
+  <li>
      Fix to VM system to have correct 'schmoo'
-     output of a non-reference passed as arg to VM.  Thanks to DLR 
+     output of a non-reference passed as arg to VM.  Thanks to DLR
      and Paulo for flogging this out of me :) (gmj)
   </li>
   <li>
@@ -414,9 +462,9 @@ final.
     of exception more useful when debugging. (gmj)
   </li>
   <li>
-    Small fix to #parse() and #include() 
+    Small fix to #parse() and #include()
     such that when the template/resource was not file based
-    but stream based, there was no 'parent template' encoding to use 
+    but stream based, there was no 'parent template' encoding to use
     for decoding the arg to #parse/#include.  Runtime default is used.
     Thanks to Dan Finkelstein for finding this bug. (gmj)
   </li>
@@ -430,29 +478,29 @@ final.
     jars in build/lib to match. (gmj)
   </li>
   <li>
-    Changed VMFactory to not output scary messages when library is 
+    Changed VMFactory to not output scary messages when library is
     not found or empty string. Suggested by Tal Dayan. (gmj)
   </li>
   <li>
      Added auto alternator functionality to VelocityFormatter. (dlr)
   </li>
-  <li> 
+  <li>
     Modified Velocity to support separate runtime instances and
     added application support class o.a.v.app.VelocityEngine (gmj)
   </li>
   <li>
     Updated junit to v3.7 in build/lib (gmj)
-  </li> 
+  </li>
   <li>
     Checked in patches from Attila Szegedi which improves the XPath
-    support in Anakia. These are fully backwards compatible with 
+    support in Anakia. These are fully backwards compatible with
     previous versions. (jss)
   </li>
   <li>
     Fixed the build/test.sh convenience script to use Ant. (jss)
   </li>
   <li>
-    Intrspector fix using contributions from Attila Szegedi 
+    Intrspector fix using contributions from Attila Szegedi
     (szegedia@freemail.hu) - removes problems associated with
     access to inner classes and public interfaces on default
     or private facades. (gmj)
@@ -463,18 +511,18 @@ final.
     of developers guide for more info. (gmj)
   </li>
   <li>
-    Logging changes : moved prefix out of RuntimeInstance into logger 
-    impl to support better log4j users who don't need it. Changed 
+    Logging changes : moved prefix out of RuntimeInstance into logger
+    impl to support better log4j users who don't need it. Changed
     ExternalLoggerTest to support that as well as sep runtime instance.
     Needed to support log4j adapter contrib from Jeroen C. van Gelderen.
     Also, LogSystem.init() now can throw an Exception. (gmj)
    </li>
-   <li> 
+   <li>
     Also added AvalonLogSystem switch to allow user to simply
-    specify by name a logger from the existing hierarchy.  Thanks to 
+    specify by name a logger from the existing hierarchy.  Thanks to
     Carsten Ziegeler.  (gmj)
    </li>
-   <li> 
+   <li>
     Texen enhancement - allow to use template resources from
     a jar.  (jvz)
    </li>
@@ -502,7 +550,7 @@ final.
    </li>
    <li>
       Texen enhancement - allow multiple properties files to be specified. (jvz)
-   </li> 
+   </li>
 </ul>
                             </blockquote>
       </td></tr>
@@ -517,7 +565,7 @@ final.
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the VEL_1_1_BRANCH after the 
+This section describes changes to the VEL_1_1_BRANCH after the
 1.1-rc2 release.  This was released as v1.1 on June 16, 2001.
 </p>
                                                 <ul>
@@ -557,7 +605,7 @@ release.  This was released as v1.1-rc2 on June 2, 2001.
   <li>
     Major change to Parser char stream - no longer using the stock, javacc generated
     ASCII 8-bit char stream but rather a Unicode 'custom' char stream.  This solves
-    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the 
+    the problems reported with 16 bit characters that unluckily have a 0a or 0d in the
     low-order byte. (gmj)
   </li>
   <li>
@@ -579,20 +627,20 @@ release.  This was released as v1.1-rc2 on June 2, 2001.
         <blockquote>
                                     <p>
 This section describes changes to the main branch after the 1.0.1 release.
-This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 20, 2001. 
+This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 20, 2001.
 </p>
                                                 <ul>
   <li>
     Removed build.sh and build.bat scripts in favor of making people "install" Ant.
   </li>
-  <li> 
+  <li>
     Added Kent's, others and my changes to VelocityServlet. Fundamental change is changing
-    handleRequest() to take a req, resp and ctx args, as well as making returning 
+    handleRequest() to take a req, resp and ctx args, as well as making returning
     <code>null</code> permissible to indicate that request is taken care of. (gmj)
   </li>
   <li>
     Added support for alternate encoding for templates (input sources). It is now
-    controllable by two properties (input and output), and tested with UTF-8. 
+    controllable by two properties (input and output), and tested with UTF-8.
     UTF-8 rocks.  Why are there others?  :)  Also added testcase. (gmj)
   </li>
   <li>
@@ -646,12 +694,12 @@ This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 
   <li>
      Converted from using the Velocity Configuration class (now deprecated) to
      the Jakarta Commons collections component's ExtendedProperties class.
-     (Which came from Velocity and was renamed.)  Should result in no changes 
+     (Which came from Velocity and was renamed.)  Should result in no changes
      other than deprecation of Configuration and one deprecated method in
      o.a.v.app.Velocity. (gmj)
   </li>
   <li>
-     Removed build/build.sh and build/build.bat and build/lib/ant*.jar to 
+     Removed build/build.sh and build/build.bat and build/lib/ant*.jar to
      move to explicit Ant-based build. (jss)
   </li>
   <li>
@@ -662,14 +710,14 @@ This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 
     Updated the regexp in the WM conversion tool. (dlr)
   </li>
   <li>
-    Added EventHandler test case and example, and 
+    Added EventHandler test case and example, and
     removed NullReferenceEventHandler
     as redundant. (gmj)
   </li>
   <li>
     Moved all event-realated things to o.a.v.app.event package,
     updated all things that depend upon it,
-    and modified the context stuff to support a public event 
+    and modified the context stuff to support a public event
     interface.  Also renamed the null set method to something
     more appropos, and added arg to method. (gmj)
   </li>
@@ -699,43 +747,43 @@ Released as v1.0.1-rc1 on April 10, 2001.
 No changes following rc1.  Released as v1.0.1 on April 22, 2001.
 </p>
                                                 <ul>
-  <li> 
-    Small fix to ASTGENode.java to catch NPE if LHS or RHS is null or not 
+  <li>
+    Small fix to ASTGENode.java to catch NPE if LHS or RHS is null or not
     int or Integer. (gmj)
   </li>
   <li>
-    Added examples-clean-forumdemo target to build.xml for cleaning up 
+    Added examples-clean-forumdemo target to build.xml for cleaning up
     after building the forumdemo. (JSS)
   </li>
-  <li> 
-    Small fix to ASTAndNode.java to short circuit if LHS is false, and to 
+  <li>
+    Small fix to ASTAndNode.java to short circuit if LHS is false, and to
     log an error of LHS or RHS is null. (gmj)
   </li>
-  <li> 
+  <li>
     Small fix to ASTGTNode.jave to catch NPE if LHS or RHS is null. (gmj)
   </li>
-  <li> 
+  <li>
     Documentation : changed license instructions in coding-standards.xml (gmj)
   </li>
-  <li> 
-    Added 'throws Exception' to handleRequest() in VelocityServlet.java 
+  <li>
+    Added 'throws Exception' to handleRequest() in VelocityServlet.java
     (suggestion from Christoph Reck)  (gmj)
   </li>
-  <li> 
+  <li>
     Updates to README.txt and examples/README.txt as suggested by Kent Johnson (gmj)
   </li>
-  <li> 
+  <li>
     Added Enumerator as a valid iteration type for #foreach() - added warnings
     to use of same to documentation. (gmj)
   </li>
-  <li> 
+  <li>
     Added panic sqawk in AvalonLogSystem() to also go to stderr. (gmj)
   </li>
-  <li> 
-    Finished all comparison nodes (NPE prevention and good logging) and 
+  <li>
+    Finished all comparison nodes (NPE prevention and good logging) and
     enhanced logical.vm test template to try them all. (gmj)
   </li>
-  <li> 
+  <li>
     Added xmlapp_example to examples, and added to examples build target.
     Was moved from whiteboard. (gmj)
   </li>
@@ -767,12 +815,12 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
    </li>
    <li>
        Added common base class for application-level exceptions in package
-       org.apache.velocity.exception.  Thanks to Kyle Downey for the 
+       org.apache.velocity.exception.  Thanks to Kyle Downey for the
        suggestion.  (gmj)
     </li>
     <li>
        Added javadoc to o.a.v.context.AbstractContext clarifying which
-       of the internalXXX methods are required.  Thanks to 
+       of the internalXXX methods are required.  Thanks to
        Joshua Levy  for the suggestion. (gmj)
     </li>
     <li>
@@ -785,14 +833,14 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
     </li>
     <li>
        Fixed HttpServletRequestWrap.java - getInputStream() wasn't calling
-       the method on the wrapped HttpServletRequest. Thanks to 
+       the method on the wrapped HttpServletRequest. Thanks to
        Shahar Solomianik. (gmj)
     </li>
     <li>
        Removed build.compiler from the build.xml file. (JSS)
     </li>
     <li>
-       Fixed problem found by jon where high concurrency would lead to 
+       Fixed problem found by jon where high concurrency would lead to
        a dry parser pool, which would lead to vast unpleasantness masked
        as resource access errors.  All seems to be better now.  Simple
        fix, so little risk.  (gmj)
@@ -806,16 +854,16 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
        custom logger, and start of work on documenting resource loaders. (gmj)
      </li>
      <li>
-       Removed some debugging gibberish from 
+       Removed some debugging gibberish from
        InternalContextAdapterImpl.java (gmj)
      </li>
      <li>
-       Committed John McNally's Texen patch to texen's Generator.java 
-       to keep from accumulating introspection cache data in iterative 
+       Committed John McNally's Texen patch to texen's Generator.java
+       to keep from accumulating introspection cache data in iterative
        calls to parse() with template caching off. (gmj)
      </li>
      <li>
-       Documentation : added some special-case Context information and a 
+       Documentation : added some special-case Context information and a
        secion on Vel and XML in the developers guide. (gmj)
       </li>
 </ul>
@@ -834,7 +882,7 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
                                     <p>
    Released as version 1.0 beta 2 on March 26, 2001
 </p>
-                                                <ul> 
+                                                <ul>
     <li>
         Make the distribution have CRLF for all of the text files (JSS).
     </li>
@@ -849,28 +897,28 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
          Fixed VMProxy bug when reference arg was null. (#1074) (gmj)
     </li>
     <li>
-         Fixed nullpointer problem in cache refresh in ResourceManager 
+         Fixed nullpointer problem in cache refresh in ResourceManager
 	     (reported by Ilkka Priha) (gmj)
     </li>
     <li>
-         VelocityServlet now respects the 'default.contentType' 
-         property again.  That must have fallen out during the 'request 
+         VelocityServlet now respects the 'default.contentType'
+         property again.  That must have fallen out during the 'request
          process' rework in VelServlet.  (reported by csterg@aias.gr) (gmj)
     </li>
     <li>
-        Changed AnakiaTask and TexenTask to use the canonical 
-        template file path rather than the literal string specified.  
+        Changed AnakiaTask and TexenTask to use the canonical
+        template file path rather than the literal string specified.
         Motivated for ease of gump-tion.  Also added
         failonerror to the testcases.xml for the same reason. (gmj)
     </li>
     <li>
-       Added Sam's suggestion for normalizing \n[\r] when comparing 
+       Added Sam's suggestion for normalizing \n[\r] when comparing
        results to expected results in the testbed via BaseTestCase  (gmj)
     </li>
     <li>
-       Qualified import statments in Generator.java.  Added tests for 
-       automatic boolean mapping in TexenTestCase.java. Added default 
-       boolean mapping to texen for properties used with  the 
+       Qualified import statments in Generator.java.  Added tests for
+       automatic boolean mapping in TexenTestCase.java. Added default
+       boolean mapping to texen for properties used with  the
        contextProperties option.  Allow variants on boolean values in
        Configuration.java, and changes to relevant templates in testbed.
        Added default objects to context in TexenTask.java. (JVZ)
@@ -879,8 +927,8 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
         Documentation changes to Configuration.java (DLR)
      </li>
      <li>
-       Augmented the MethodInvocationException message in ASTMethod to 
-       make the stacktraces more useful - noted from some traffic on 
+       Augmented the MethodInvocationException message in ASTMethod to
+       make the stacktraces more useful - noted from some traffic on
        Turbine list.   (gmj)
      </li>
      <li>
@@ -906,12 +954,12 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
        Added support to the Runtime/Velocity classes for
        addProperty(K,V). (JVZ)
      </li>
-       
+
      <li>
        Added support to Runtime/Velocity classes for setConfiguration.
        (JVZ)
      </li>
-     
+
      <li>
         Confirmed that the build.bat works on Win98 as well as made the
         classpath that the build.bat generates equal to the one that
