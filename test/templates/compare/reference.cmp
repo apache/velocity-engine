@@ -37,6 +37,8 @@ Misc tests :
 [$foo.bar]
 
 
+Test lower case property names 
+
 lunatic
 lunatic
 
@@ -45,5 +47,8 @@ lunatic
  vector element 1
  vector element 2
 
-
+Now test if we can use lowercase for propertes in set
+Was : lunatic
+Now : geir
+Back : lunatic
 

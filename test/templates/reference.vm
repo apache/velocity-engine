@@ -50,6 +50,8 @@ Misc tests :
 [$foo.bar]
 
 
+Test lower case property names 
+
 $provider.Title
 $provider.title
 
@@ -60,5 +62,11 @@ $provider.title
  $i
 #end
 
-
+Now test if we can use lowercase for propertes in set
+#set($oldtitle = $provider.title)
+Was : $oldtitle
+#set($provider.title = "geir")
+Now : $provider.title
+#set($provider.title = $oldtitle)
+Back : $provider.title
 
