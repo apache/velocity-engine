@@ -137,8 +137,8 @@ import org.apache.velocity.runtime.directive.Dummy;
  * an initializing the matching sub system.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @author <a href="mailto:jlb@houseofdistraction.com">Jeff</a>
- * @version $Id: Runtime.java,v 1.20 2000/10/19 22:05:28 jvanzyl Exp $
+ * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
+ * @version $Id: Runtime.java,v 1.21 2000/10/19 22:10:10 jvanzyl Exp $
  */
 public class Runtime
 {
