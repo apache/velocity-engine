@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.87 2001/02/26 03:28:17 geirm Exp $
+ * @version $Id: Runtime.java,v 1.88 2001/03/03 04:45:04 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -260,7 +260,11 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Initializes the Velocity Runtime.
+     * Initializes the Velocity Runtime with
+     * properties object.
+     *
+     * @param Properties velocity properties object
+     * @throws Exception
      */
     public synchronized static void init( Properties props )
         throws Exception
@@ -269,6 +273,13 @@ public class Runtime implements RuntimeConstants
         init();
     }
 
+    /**
+     * Initializes the Velocity Runtime with
+     * a properties file retrieved using propertiesFile
+     *
+     * @param String name of properties file
+     * @throws Exception
+     */
     public synchronized static void init( String props )
         throws Exception
     {
@@ -289,6 +300,9 @@ public class Runtime implements RuntimeConstants
      * So common properties can be set with a standard properties
      * file, then certain properties can be changed before
      * the Velocity Runtime is initialized.
+     *
+     * @param String name of properties file
+     * @throws Exception
      */
     public synchronized static void setProperties(String propertiesFileName) 
         throws Exception
@@ -309,12 +323,13 @@ public class Runtime implements RuntimeConstants
         Properties p = new Properties();        
         
         /*
-         * if we were passed propertis, try loading propertiesFile as a straight file first,
-         * if that fails, then try and use the classpath
+         * if we were passed properties, try loading propertiesFile as a 
+         * straight file first, if that fails, then try and use the classpath
          */
         if (propertiesFileName != null && !propertiesFileName.equals(""))
         {
             File file = new File(propertiesFileName);
+            
             try
             {
                 if( file.exists() )
@@ -324,12 +339,14 @@ public class Runtime implements RuntimeConstants
                 }
                 else
                 {
-                    info ("Override Properties : " + file.getPath() + " not found. Looking in classpath.");
+                    info ("Override Properties : " + file.getPath() + 
+                        " not found. Looking in classpath.");
                     
                     /*
                      *  lets try the classpath
                      */
                     ClassLoader classLoader = Runtime.class.getClassLoader();
+                    
                     InputStream inputStream = classLoader
                         .getResourceAsStream( propertiesFileName );
                     
@@ -339,13 +356,15 @@ public class Runtime implements RuntimeConstants
                     }
                     else
                     {
-                        info ("Override Properties : " + propertiesFileName + " not found in classpath.");
+                        info ("Override Properties : " + propertiesFileName + 
+                            " not found in classpath.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                error("Exception finding properties  " + propertiesFileName + " : " + ex);
+                error("Exception finding properties  " + 
+                    propertiesFileName + " : " + ex);
             }
         }
     
@@ -379,15 +398,28 @@ public class Runtime implements RuntimeConstants
     /**
      * Allows an external system to set a property in
      * the Velocity Runtime.
+     *
+     * @param String property key
+     * @param String property value
      */
     public static void setProperty(String key, String value)
     {
         if (overridingProperties == null)
+        {
             overridingProperties = new Properties();
+        }            
             
         overridingProperties.setProperty( key, value );
     }        
 
+    /**
+     * Initialize Velocity properties, if the default
+     * properties have not been laid down first then
+     * do so. Then proceed to process any overriding
+     * properties. Laying down the default properties
+     * gives a much greater chance of having a
+     * working system.
+     */
     private static void initializeProperties()
     {
         /* 
@@ -395,7 +427,9 @@ public class Runtime implements RuntimeConstants
          * to provide a solid base.
          */
         if (VelocityResources.isInitialized() == false)
+        {
             setDefaultProperties();
+        }            
     
         if( overridingProperties != null)
         {        
@@ -412,6 +446,8 @@ public class Runtime implements RuntimeConstants
 
     /**
      * Initialize the Velocity logging system.
+     *
+     * @throws Exception
      */
     private static void initializeLogger() throws Exception
     {
@@ -437,6 +473,7 @@ public class Runtime implements RuntimeConstants
                 logger.info( (String) e.nextElement());
             }
         }
+        
         Runtime.info("Log file being used is: " + new File(logFile).getAbsolutePath());
     }
 
@@ -446,6 +483,8 @@ public class Runtime implements RuntimeConstants
      * directives to be initialized are listed in
      * the RUNTIME_DEFAULT_DIRECTIVES properties
      * file.
+     *
+     * @throws Exception
      */
     private static void initializeDirectives() throws Exception
     {
@@ -494,7 +533,6 @@ public class Runtime implements RuntimeConstants
                  * properties file that lists the directives is
                  * not visible. It's in a package that isn't 
                  * readily accessible.
-                 *
                  */
                 Class clazz = Class.forName(directiveClass);
                 Directive directive = (Directive) clazz.newInstance();
@@ -520,6 +558,9 @@ public class Runtime implements RuntimeConstants
      * have to be set before the template stream source is
      * initialized. Maybe we should allow these properties
      * to be changed on the fly.
+     *
+     * @param String resource loader property key
+     * @param String resource loader property value
      */
     public static void setSourceProperty(String key, String value)
     {
@@ -542,7 +583,9 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Returns a parser
+     * Returns a JavaCC generated Parser.
+     *
+     * @return Parser javacc generated parser
      */
     public static Parser createNewParser()
     {
@@ -554,20 +597,21 @@ public class Runtime implements RuntimeConstants
     /**
      * Parse the input stream and return the root of
      * AST node structure.
+     *
+     * @param InputStream inputstream retrieved by a resource loader
+     * @param String name of the template being parsed
      */
-    public static SimpleNode parse(InputStream inputStream, String strTemplateName )
+    public static SimpleNode parse(InputStream inputStream, String templateName )
         throws ParseException
     {
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
         
-        //System.out.println(" Runtime.parse() : parsing " + strTemplateName );
-
         if (parser != null)
         {
             try
             {
-                ast = parser.parse(inputStream, strTemplateName);
+                ast = parser.parse(inputStream, templateName);
             }
             finally
             {
@@ -590,44 +634,9 @@ public class Runtime implements RuntimeConstants
      */
     private static void initializeGlobalCache()
     {
-        //globalCache = new GlobalCache();
         globalCache = new Hashtable();
     }
     
-    /**
-     * Set an object in the global cache for
-     * subsequent use.
-     */
-    public static void setCacheObject(String key, Object object)
-    {
-        globalCache.put(key,object);
-    }
-
-    /**
-     * Get an object from the cache.
-     *
-     * Hmm. Getting an object requires catching
-     * an ObjectExpiredException, but how can we do
-     * this without tying ourselves to the to
-     * the caching system?
-     */
-    public static Object getCacheObject(String key)
-    {
-        try
-        {
-            return globalCache.get(key);
-        }
-        catch (Exception e)
-        {
-            /* 
-             * This is an ObjectExpiredException, but
-             * I don't want to try the structure of the
-             * caching system to the Runtime.
-             */
-            return null;            
-        }
-    }        
-
     /**
      * Returns a <code>Template</code> from the resource manager
      *
@@ -663,7 +672,9 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Handle logging
+     * Handle logging.
+     *
+     * @param String message to log
      */
     private static void log(String message)
     {
@@ -686,17 +697,24 @@ public class Runtime implements RuntimeConstants
     private static boolean showStackTrace()
     {
         if (VelocityResources.isInitialized())
+        {
             return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
+        }            
         else
+        {
             return false;
+        }            
     }
 
     /**
-     * Log a warning message
+     * Log a warning message.
+     *
+     * @param Object message to log
      */
     public static void warn(Object message)
     {
         String out = null;
+        
         if ( showStackTrace() &&
             (message instanceof Throwable || message instanceof Exception) )
         {
@@ -706,13 +724,19 @@ public class Runtime implements RuntimeConstants
         {
             out = message.toString();    
         }
+        
         log(WARN + out);
     }
     
-    /** Log an info message */
+    /** 
+     * Log an info message.
+     *
+     * @param Object message to log
+     */
     public static void info(Object message)
     {
         String out = null;
+        
         if ( showStackTrace() &&
             ( message instanceof Throwable || message instanceof Exception) )
         {
@@ -722,15 +746,19 @@ public class Runtime implements RuntimeConstants
         {
             out = message.toString();    
         }
+        
         log(INFO + out);
     }
     
     /**
-     * Log an error message
+     * Log an error message.
+     *
+     * @param Object message to log
      */
     public static void error(Object message)
     {
         String out = null;
+        
         if ( showStackTrace() &&
             ( message instanceof Throwable || message instanceof Exception ) )
         {
@@ -740,11 +768,14 @@ public class Runtime implements RuntimeConstants
         {
             out = message.toString();    
         }
+        
         log(ERROR + out);
     }
     
     /**
-     * Log a debug message
+     * Log a debug message.
+     *
+     * @param Object message to log
      */
     public static void debug(Object message)
     {
@@ -755,59 +786,67 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * String property accessor method with defaultto hide the VelocityResources implementation
-     * @param strKey  property key
-     * @param strDefault  default value to return if key not found in resource manager
+     * String property accessor method with default to hide the
+     * VelocityResources implementation.
+     * 
+     * @param String key property key
+     * @param String defaultValue  default value to return if key not 
+     *               found in resource manager.
      * @return String  value of key or default 
      */
-    public static String getString( String strKey, String strDefault)
+    public static String getString( String key, String defaultValue)
     {
-        return VelocityResources.getString(strKey, strDefault);
+        return VelocityResources.getString(key, defaultValue);
     }
 
     /**
-     *  returns the appropriate VelocimacroProxy object if strVMname
-     *  is a valid current Velocimacro
+     * Returns the appropriate VelocimacroProxy object if strVMname
+     * is a valid current Velocimacro.
      *
-     * @param strVMName  Name of velocimacro requested
-     * @return VelocimacroProxy 
+     * @param String vmName  Name of velocimacro requested
+     * @return String VelocimacroProxy 
      */
-    public static Directive getVelocimacro( String strVMName, String strTemplateName  )
+    public static Directive getVelocimacro( String vmName, String templateName  )
     {
-        return vmFactory.getVelocimacro( strVMName, strTemplateName );
+        return vmFactory.getVelocimacro( vmName, templateName );
     }
 
    /**
-     *  adds a new Velocimacro.  Usually called by Macro only while parsing
+     * Adds a new Velocimacro. Usually called by Macro only while parsing.
      *
-     * @param strName  Name of velocimacro 
-     * @param strMacro  String form of macro body
-     * @param strArgArray  Array of strings, containing the #macro() arguments.  the 0th is the name.
-     * @return boolean  True if added, false if rejected for some reason (either parameters or permission settings) 
+     * @param String name  Name of velocimacro 
+     * @param String macro  String form of macro body
+     * @param String argArray  Array of strings, containing the 
+     *                         #macro() arguments.  the 0th is the name.
+     * @return boolean  True if added, false if rejected for some 
+     *                  reason (either parameters or permission settings) 
      */
-    public static boolean addVelocimacro( String strName, String strMacro, String  strArgArray[],  String strSourceTemplate )
+    public static boolean addVelocimacro( String name, 
+                                          String macro, 
+                                          String argArray[], 
+                                          String sourceTemplate )
     {    
-        return vmFactory.addVelocimacro(  strName, strMacro,  strArgArray,  strSourceTemplate );
+        return vmFactory.addVelocimacro(  name, macro,  argArray,  sourceTemplate );
     }
  
     /**
      *  Checks to see if a VM exists
      *
-     * @param strName  Name of velocimacro
+     * @param name  Name of velocimacro
      * @return boolean  True if VM by that name exists, false if not
      */
-    public static boolean isVelocimacro( String strVMName, String strTemplateName )
+    public static boolean isVelocimacro( String vmName, String templateName )
     {
-        return vmFactory.isVelocimacro( strVMName, strTemplateName );
+        return vmFactory.isVelocimacro( vmName, templateName );
     }
 
     /**
      *  tells the vmFactory to dump the specified namespace.  This is to support
      *  clearing the VM list when in inline-VM-local-scope mode
      */
-    public static boolean dumpVMNamespace( String strNamespace )
+    public static boolean dumpVMNamespace( String namespace )
     {
-        return vmFactory.dumpVMNamespace( strNamespace );
+        return vmFactory.dumpVMNamespace( namespace );
     }
 
     /* --------------------------------------------------------------------
@@ -824,7 +863,7 @@ public class Runtime implements RuntimeConstants
 
     /**
      * String property accessor method to hide the VelocityResources implementation
-     * @param strKey  property key
+     * @param key  property key
      * @return   value of key or null
      */
     public static String getString(String key)
@@ -833,28 +872,37 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * int property accessor method to hide the VelocityResources implementation
-     * @param strKey  property key
-     * @return int  alue
+     * Int property accessor method to hide the VelocityResources implementation.
+     *
+     * @param String key property key
+     * @return int value
      */
-    public static int getInt( String strKey )
+    public static int getInt( String key )
     {
-        return VelocityResources.getInt( strKey );
-    }
-
-    public static int getInt( String strKey, int defaultValue )
-    {
-        return VelocityResources.getInt( strKey, defaultValue );
+        return VelocityResources.getInt( key );
     }
 
     /**
-     * boolean  property accessor method to hide the VelocityResources implementation
-     * @param strKey  property key
-     * @param default default value if property not found
+     * Int property accessor method to hide the VelocityResources implementation.
+     *
+     * @param key  property key
+     * @param int default value
+     * @return int  value
+     */
+    public static int getInt( String key, int defaultValue )
+    {
+        return VelocityResources.getInt( key, defaultValue );
+    }
+
+    /**
+     * Boolean property accessor method to hide the VelocityResources implementation.
+     * 
+     * @param String key  property key
+     * @param boolean default default value if property not found
      * @return boolean  value of key or default value
      */
-    public static boolean getBoolean( String strKey, boolean def )
+    public static boolean getBoolean( String key, boolean def )
     {
-        return VelocityResources.getBoolean( strKey, def );
+        return VelocityResources.getBoolean( key, def );
     }
 }
