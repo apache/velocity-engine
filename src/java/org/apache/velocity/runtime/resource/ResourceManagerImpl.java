@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.1 2001/11/06 03:22:00 geirm Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.2 2001/12/06 23:55:38 geirm Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -279,6 +279,17 @@ public class ResourceManagerImpl implements ResourceManager
 
             ExtendedProperties loaderConfiguration =
                 rsvc.getConfiguration().subset(loaderID);
+
+            /*
+             *  we can't really count on ExtendedProperties to give us an empty set
+             */
+
+            if ( loaderConfiguration == null)
+            {
+                rsvc.warn("ResourceManager : No configuration information for resource loader named '" 
+                          + resourceLoaderNames.get(i) + "'. Skipping.");
+                continue;
+            }
 
             /*
              *  add the loader name token to the initializer if we need it
