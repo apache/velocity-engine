@@ -68,6 +68,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
+import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  * This class is responsible for handling the references in
@@ -79,7 +80,7 @@ import org.apache.velocity.runtime.parser.*;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: ASTReference.java,v 1.21 2001/03/15 19:28:40 jvanzyl Exp $ 
+ * @version $Id: ASTReference.java,v 1.22 2001/03/19 17:16:42 geirm Exp $ 
 */
 
 public class ASTReference extends SimpleNode
@@ -138,6 +139,7 @@ public class ASTReference extends SimpleNode
      *   @param context context used to generate value
      */
     public Object execute(Object o, InternalContextAdapter context)
+        throws MethodInvocationException
     {   
         /*
          *  get the root object from the context
@@ -165,17 +167,34 @@ public class ASTReference extends SimpleNode
 
         int children = jjtGetNumChildren();
         
-        for (int i = 0; i < children; i++)
+        try 
         {
-            result = jjtGetChild(i).execute(result,context);
-            
-            if (result == null)
+            for (int i = 0; i < children; i++)
             {
-                return null;
-            }                
-        }            
-    
-        return result;
+                result = jjtGetChild(i).execute(result,context);
+            
+                if (result == null)
+                {
+                    return null;
+                }         
+            }
+            
+            return result;
+        }
+        catch( MethodInvocationException mie)
+        {
+            /*
+             *  someone tossed their cookies
+             */
+
+            Runtime.error("Method " + mie.getMethodName() + " threw exception for reference $" 
+                          + rootString 
+                          + " in template " + context.getCurrentTemplateName()
+                          + " at " +  " [" + this.getLine() + "," + this.getColumn() + "]");
+
+            mie.setReferenceName( rootString );
+            throw mie;
+        }
     }
 
     /**
@@ -186,7 +205,7 @@ public class ASTReference extends SimpleNode
      *  @param writer   writer to render to
      */
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException
+        throws IOException, MethodInvocationException
     {
         Object value = execute(null, context);
         
@@ -237,6 +256,7 @@ public class ASTReference extends SimpleNode
      *   @param context context to compute value with
      */
     public boolean evaluate( InternalContextAdapter context)
+        throws MethodInvocationException
     {
         Object value = execute(null, context);
         
@@ -254,6 +274,7 @@ public class ASTReference extends SimpleNode
     }
 
     public Object value( InternalContextAdapter context)
+        throws MethodInvocationException
     {
         return ( computableReference ? execute(null, context) : null );
     }
@@ -269,6 +290,7 @@ public class ASTReference extends SimpleNode
      *  @return true if successful, false otherwise
      */
     public boolean setValue( InternalContextAdapter context, Object value)
+      throws MethodInvocationException
     {
         /*
          *  The rootOfIntrospection is the object we will
