@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.50 2000/12/28 16:21:17 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.51 2001/01/06 20:56:13 geirm Exp $ 
 */
 public class Parser
 {
@@ -1058,7 +1058,7 @@ void Word() : {}
  *   Supports the arguments for the Pluggable Directives
  *   We add whitespace in here as a token so the VMs can 
  *   easily reconstruct a macro body from the token stream
- *   @see Directive()
+ *   See Directive()
  */
 void DirectiveArg() #void : {}
 {
