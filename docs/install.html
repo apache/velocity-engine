@@ -16,8 +16,11 @@
             <meta name="email" value="jvanzyl@zenplex.com">
             
            
-                                    
-                        
+            
+            
+            
+            
+            
             <title>Velocity - Velocity Installation</title>
         </head>
 
@@ -338,7 +341,7 @@ ant test
     </table>
     </div>
                                                 <p>
-If all is well, you should see output like :
+If all is well, you should see output similar to :
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -350,24 +353,39 @@ If all is well, you should see output like :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-test:
-Running JUnit template tests for Velocity ...
-Adding TemplateTestCase : arithmetic
-Adding TemplateTestCase : array
-Adding TemplateTestCase : block
-   .
-   .
-   .
-Adding TemplateTestCase : math
-Adding TemplateTestCase : range
-Adding TemplateTestCase : get
-Adding TemplateTestCase : velocimacro2
-Adding TemplateTestCase : foreach-type
-Adding ContextSafetyTestCase.
-......................................
-Time: 2.553
+junittest:
+    [junit] Running org.apache.velocity.util.TestSimplePool
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.025 sec
 
-OK (38 tests)
+test:
+
+test-template:
+     [echo] Running Template tests...
+     [java] Adding TemplateTestCase : arithmetic
+     ...
+     ...
+     ...
+     [java] Adding TemplateTestCase : foreach-introspect
+     [java] Adding TemplateTestCase : settest
+     [java] .......................................
+     [java] Time: 1.999
+
+     [java] OK (39 tests)
+
+
+test-velocityapp:
+     [echo] Running app.Velocity tests...
+     [java] .
+     [java] Time: 0.004
+
+     [java] OK (1 tests)
+
+
+...
+
+BUILD SUCCESSFUL
+Total time: 42 seconds
+
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
