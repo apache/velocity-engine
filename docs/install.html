@@ -14,6 +14,8 @@
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
     <P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
+    <P></P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
 </TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
 
@@ -22,6 +24,11 @@
 
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Installation</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    Velocity runs on a variety of platforms that have installed the Java 2 Virtual Machine.
+    The J2SDK is required for users who want to compile Velocity from its source code.
+</P>
 
 <P align="justify">
     Everything required to build Velocity comes with the distribution, which 
@@ -34,7 +41,7 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Compiling</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
 <P align="justify">
-    On Unix/Linux, sh to the velocity/build directory and execute the following 
+    On Unix/Linux, <CODE><FONT face="courier, monospaced">sh</FONT></CODE> to the <FILENAME>velocity/build</FILENAME> directory and execute the following 
     script:
 </P>    
 
@@ -46,26 +53,20 @@
 </P>
 
 <P align="justify">
-    On Windows, execute the following script in the velocity\build directory:
+    On Windows, executing <CODE><FONT face="courier, monospaced">build-velocity.bat</FONT></CODE>, found in the <FILENAME>velocity\build</FILENAME> directory,
+    will have the same effect.
 </P>
 
 <P align="justify">
-<DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
-
-build-velocity.bat
-</PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    Executing this script will create a &quot;bin&quot; directory within the Velocity
-    distribution directory. The bin directory will contain the compiled class 
-    files (inside a &quot;classes&quot; directory) as well as a &quot;velocity.jar&quot; file. 
+    Executing this script will create a <FILENAME>bin</FILENAME> directory within the Velocity
+    distribution directory. The <FILENAME>bin</FILENAME> directory will contain the compiled class 
+    files (inside a <FILENAME>classes</FILENAME> directory) as well as a <FILENAME>velocity.jar</FILENAME> file. 
     Be sure to update your classpath to include Velocity's .jar file.
 </P>
 
 <P align="justify">
     If you get a compiler error related to one or more packages that could not 
-    be found, ensure the build-velocity script you are using is edited to 
+    be found, ensure the <FILENAME>build-velocity</FILENAME> script you are using is edited to 
     properly specify the paths to each of the packages that could not be found.
 </P>
 
@@ -74,7 +75,7 @@ build-velocity.bat
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Testing Your Installation</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
 <P align="justify">
-    There are testing scripts in the velocity/examples directory.
+    There are testing scripts in the <FILENAME>velocity/examples</FILENAME> directory.
 </P>
 
 </FONT></TD></TR></TABLE></DIV><BR>

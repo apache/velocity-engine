@@ -14,6 +14,8 @@
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
     <P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
+    <P></P>
     <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
 </TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
 
@@ -25,7 +27,7 @@
 
  <P align="justify">
     The Velocity User Guide is intended to help page designers and content 
-    providers get aquainted with Velocity and the syntax of its simple yet 
+    providers get acquainted with Velocity and the syntax of its simple yet 
     powerful scripting language, the Velocity Template Language (VTL). 
     Many of the examples in this guide deal with using Velocity to embed 
     dynamic content in web sites, but all VTL examples are equally applicable 
@@ -73,10 +75,10 @@
     place orders for various types and quantities of mud. They
     login to your site using their username and password, which allows them to 
     view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
-    is very popular. A minority of your customers regularly buy Bright Red 
+    is very popular. A minority of your customers regularly buys Bright Red 
     Mud, which is also on sale, though not as popular and usually relegated 
     to the margin of your web page. Information about each customer is tracked
-    in your database, so it occurs to you one day, Why not use Velocity to target
+    in your database, so one day the question arises, Why not use Velocity to target
     special deals on mud to the customers who are most interested in those types of 
     mud?
    </P>
@@ -89,10 +91,10 @@
  
    <P align="justify">
     You meet with software engineers at your company, and everyone
-    has agreed that $customer will hold information
+    has agreed that <VARIABLE><FONT face="courier, monospaced">$customer</FONT></VARIABLE> will hold information
     pertaining to the customer currently logged in,
-    that $mudsOnSpecial will be all the types mud on sale at present.
-    The $flogger object contains methods that help with promotion.
+    that <VARIABLE><FONT face="courier, monospaced">$mudsOnSpecial</FONT></VARIABLE> will be all the types mud on sale at present.
+    The <VARIABLE><FONT face="courier, monospaced">$flogger</FONT></VARIABLE> object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
     references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -124,7 +126,7 @@
    </P>
  
    <P align="justify">
-    The extact details of the foreach statement will be described
+    The exact details of the <VARIABLE><FONT face="courier, monospaced">foreach</FONT></VARIABLE> statement will be described
     in greater depth shortly; what's important is the impact this short 
     script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
@@ -174,24 +176,24 @@
     This VTL statement, like all VTL statements, begins with the # 
     character and contains a directive (set. When an online visitor requests 
     your web page, the Velocity Templating Engine will search through your web page to 
-    find all # characters, then determine which mark the beginning of VTL 
+    find all <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE> characters, then determine which mark the beginning of VTL 
     statements, and which of the # characters that have nothing to do with VTL.
  </P>
 
  <P align="justify">
-    The # character is followed by a directive, set. The 
-    set directive uses an equation to assign a <I>value</I> to 
+    The <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE> character is followed by a directive, <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE>. The 
+    <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive uses an equation to assign a <I>value</I> to 
     a <I>variable</I>. The variable 
     is listed on the left hand side and its value on the right hand side; 
     the two are separated by an 
-    = character.
+    <VARIABLE><FONT face="courier, monospaced">=</FONT></VARIABLE> character.
  </P>
  
  <P align="justify">
-    In the example above, the variable is $a and the value is
-    Velocity. References <I>always</I> begin with $
+    In the example above, the variable is <VARIABLE><FONT face="courier, monospaced">$a</FONT></VARIABLE> and the value is
+    <VARIABLE><FONT face="courier, monospaced">Velocity</FONT></VARIABLE>. References <I>always</I> begin with <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE>
     characters; all variables are references, ergo all variables begin
-    with $ characters.
+    with <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> characters.
     Values are always enclosed in quotes; with Velocity there is no confusion about
     data types, as only strings (text-based information) may be passed to variables.
  </P>
@@ -203,7 +205,7 @@
  <P align="justify">
     Once a value has been assigned to a variable, you can reference the 
     variable anywhere in your HTML document. In the following example, 
-    a value is assigned to $foo and later referenced.
+    a value is assigned to <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and later referenced.
  </P>
 
  <P align="justify">
@@ -225,7 +227,7 @@
  <P align="justify">   
     To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
-    do so. The set directive will be revisited in greater detail 
+    do so. The <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive will be revisited in greater detail 
     later on.
  </P>
 
@@ -247,10 +249,10 @@
  </P>
  
  <P align="justify">
-    A single line comment begins with ## and finishes at the end of the line.
+    A single line comment begins with <VARIABLE><FONT face="courier, monospaced">##</FONT></VARIABLE> and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multiline comments, which begin with #*
-    and end with *#, are available to handle this scenario.
+    single line comments. Multi-line comments, which begin with <VARIABLE><FONT face="courier, monospaced">#*</FONT></VARIABLE>
+    and end with <VARIABLE><FONT face="courier, monospaced">*#</FONT></VARIABLE>, are available to handle this scenario.
  </P>
  
  <P align="justify">
@@ -277,16 +279,16 @@
  <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
     This text is visible. ## This text is not.
     This text is visible.
-    This text is visible. #* This text, as part of a comment block, is not.
-    This text is not visible; it is also part of the comment block.
-    This text still not visible. *# This text is outside the comment block, so
+    This text is visible. #* This text, as part of a multi-line comment, is not visible.
+    This text is not visible; it is also part of the multi-line comment.
+    This text still not visible. *# This text is outside the comment, so
     it is visible.
     ## This text is not visible.
  </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
-    There is a third type of comment, the VTL comment block, which ma y be used to
+    There is a third type of comment, the VTL comment block, which may be used to
     store such information as the document author and versioning information:
  </P>
  
@@ -317,7 +319,7 @@
 
  <P align="justify">
     Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents $foo (such as an Integer object), 
+    If there is an object that represents <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> (such as an Integer object), 
     then Velocity will call its .toString() method to resolve the 
     object into a String.
  </P>
@@ -344,11 +346,11 @@
  </P>
 
  <P align="justify">
-    When VTL references a variable, such as $foo, the variable can 
-    get its value from either a set directive in the template, or from the
-    Java code. For example, if the Java variable $foo
-    has the value bar at the time the template is requested,
-    bar replaces all instances of $foo on the web 
+    When VTL references a variable, such as <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>, the variable can 
+    get its value from either a <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive in the template, or from the
+    Java code. For example, if the Java variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
+    has the value <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> at the time the template is requested,
+    <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> replaces all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> on the web 
     page. Alternatively, if I include the statement
  </P>
     
@@ -359,7 +361,7 @@
  </P>
     
  <P align="justify">
-    the output will be the same for all instances of $foo
+    the output will be the same for all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
     that follow this directive.
  </P>
   
@@ -367,7 +369,7 @@
  <B>Properties</B>
  <BR>
     The second flavor of VTL references are properties, and properties have
-    a distinctive format. The shorthand notation consists of a leading &quot;$&quot;
+    a distinctive format. The shorthand notation consists of a leading <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE>
     character followed a VTL Identifier, followed by
     a dot character (&quot;.&quot;) and another VTL Identifier.
     These are examples of valid property references in the VTL:
@@ -381,14 +383,14 @@
  </P>   
 
  <P align="justify">
-    Take the first example, $customer.Address. It can 
+    Take the first example, <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>. It can 
     have two meanings. It can mean,
-    Look in the hashtable identified as customer and return the
-    value associated with the key Address. But
-    $customer.Address can also be referring to a method (references 
+    Look in the hashtable identified as <VARIABLE><FONT face="courier, monospaced">customer</FONT></VARIABLE> and return the
+    value associated with the key <VARIABLE><FONT face="courier, monospaced">Address</FONT></VARIABLE>. But
+    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> can also be referring to a method (references 
     that refer to methods will be discussed
-    in the next section); $customer.Address could be an 
-    abbreviated way of writing $customer.getAddress(). 
+    in the next section); <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> could be an 
+    abbreviated way of writing <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. 
     When your page is requested, Velocity will determine which of these 
     two possibilities makes sense, and then return the appropriate value.
  </P>
@@ -419,17 +421,17 @@
 
  <P align="justify">
     The first two examples -- 
-    $customer.getAddress() and $purchase.getTotal() 
+    <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE> and <VARIABLE><FONT face="courier, monospaced">$purchase.getTotal()</FONT></VARIABLE> 
     -- may look similiar to those used in the Properties section above,
-    $customer.Address
-    and $purchase.Total. If you guessed that these examples must
+    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>
+    and <VARIABLE><FONT face="courier, monospaced">$purchase.Total</FONT></VARIABLE>. If you guessed that these examples must
     be related some in some fashion, you are correct! 
  </P>
  
  <P align="justify">
     VTL Properties can be used as a shorthand notation for VTL Methods. The
-    Property $customer.Address has the exact same effect as
-    using the Method $customer.getAddress(). It is generally preferable
+    Property <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> has the exact same effect as
+    using the Method <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
  </P>
@@ -504,9 +506,9 @@
  </P>
  
  <P align="justify">
-    There is ambiguity here, and Velocity assumes that $vicemaniac,
-    not $vice, is the Identifer that you mean to use. Finding no
-    value for $vicemaniac, it will return $vicemaniac.
+    There is ambiguity here, and Velocity assumes that <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>,
+    not <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, is the Identifier that you mean to use. Finding no
+    value for <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, it will return <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>.
     Using formal notation can resolve this problem.
  </P>
  
@@ -517,7 +519,7 @@
  </P>
  
  <P align="justify">
-    Now Velocity knows that $vice, not $vicemaniac, is your
+    Now Velocity knows that <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, not <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, is your
     Identifier. Formal notation is often useful when references
     are directly adjacent to text in your templates.
  </P>
@@ -540,11 +542,11 @@
  
  <P align="justify">
     When the form initially loads, the variable
-    reference $email has no value, but you prefer the
+    reference <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> has no value, but you prefer
     a blank text field to one with a value of &quot;$email&quot;.
     Using the quiet reference notation circumvents Velocity's
     normal behavior; instead of using $email in the
-    VTL you would use $!email. So the above example
+    VTL you would use <VARIABLE><FONT face="courier, monospaced">$!email</FONT></VARIABLE>. So the above example
     would look like the following:
  </P>
  
@@ -556,7 +558,7 @@
  
  <P align="justify">
     Now when the form is initially loaded and
-    $email still has no value, an empty string will
+    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> still has no value, an empty string will
     be output instead of &quot;$email&quot;.
  </P>
 
@@ -576,7 +578,7 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Getting literal</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
   <P align="justify">
-    VTL uses special characters, such as $ and #, to do its work, so some
+    VTL uses special characters, such as <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> and <VARIABLE><FONT face="courier, monospaced">#</FONT></VARIABLE>, to do its work, so some
     added care should be taken where using these characters in your 
     templates.
   </P>
@@ -601,8 +603,8 @@
   
   <P align="justify">
     If Velocity encounters in your VTL template a reference to 
-    $email, it will search for a corresponding value, but
-    when the escape character is used, $email is treated
+    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE>, it will search for a corresponding value, but
+    when the escape character is used, <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is treated
     as ordinary text
   </P>
   
@@ -613,22 +615,11 @@
   </P>
  
   <P align="justify">
-    Velocity treats $ as a literal rather than a special 
-    character, $email as text rather than a reference, 
+    Velocity treats <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> as a literal rather than a special 
+    character, <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> as text rather than a reference, 
     and doesn't even attempt to find a corresponding value.
   </P>
  
-  <P align="justify">
-    And what if -- for instance you are writing documentation for
-    the Windows platform -- and you want to print a backslash character?
-    Just escape one backslash character with another, as shown:
-  </P>
-  
-  <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
-    c:\\winnt\\system32
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-  </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Summary: References</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
@@ -685,7 +676,7 @@
  <P align="justify">
     <B>#set</B>
     <BR>
-    The #set directive is used for setting the value of
+    The <VARIABLE><FONT face="courier, monospaced">#set</FONT></VARIABLE> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference:
  </P>
@@ -698,7 +689,7 @@
  </P>
  
  <P align="justify">
-    The left hand side (LHS) of the assigment must be
+    The left hand side (LHS) of the assignment must be
     a variable reference or a property reference. The
     right hand side (RHS) can be one of the following
     types:
@@ -744,11 +735,17 @@
     </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
+ <P align="justify">
+    Unlike some directive that will be discussed below, the <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> directive 
+    does not have a <VARIABLE><FONT face="courier, monospaced">#end</FONT></VARIABLE> statement. The <VARIABLE><FONT face="courier, monospaced">set</FONT></VARIABLE> statement <I>must</I> 
+    end with a newline character (obtained by pressing Enter); it cannot be used inline.
+ </P>
+
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
     <B>If / ElseIf / Else</B>
     <P align="justify">
-       The #if statement in Velocity allows for text to be 
+       The <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> directive in Velocity allows for text to be 
        included when the web page is generated, on the conditional 
        that the if statement is true. For example:
     </P>
@@ -762,21 +759,21 @@
     </P>
 
     <P align="justify">
-      The variable $foo is evaluated to see if it is true, which will happen 
-      under one of two circumstances: (i) $foo is a boolean (true/false) which 
+      The variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is evaluated to determine whether it is true, which will happen 
+      under one of two circumstances: (i) <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is a boolean (true/false) which 
       has a true value, or (ii) the value is not null. The content between the 
-      #if and the #end statements become the output if 
-      the evaluation is true. In this case, if $foo is true, the
-      output will be: &quot;Velocity!&quot;. Conversely, if $foo has a null 
+      <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> and the <VARIABLE><FONT face="courier, monospaced">#end</FONT></VARIABLE> statements become the output if 
+      the evaluation is true. In this case, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
+      output will be: &quot;Velocity!&quot;. Conversely, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a null 
       value, or if it is a boolean false, the statement evaluates as false, and
       there is no output.
     </P>
     
     <P align="justify">
-      An #elseif or #else element can be used with an #if element. Note that 
+      An <VARIABLE><FONT face="courier, monospaced">#elseif</FONT></VARIABLE> or <VARIABLE><FONT face="courier, monospaced">#else</FONT></VARIABLE> element can be used with an <VARIABLE><FONT face="courier, monospaced">#if</FONT></VARIABLE> element. Note that 
       the Velocity Templating Engine will stop at the first expression that is
-      found to be true. In the following example, suppose that $foo has a 
-      value of 15 and $bar has a value of 6.
+      found to be true. In the following example, suppose that <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a 
+      value of 15 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> has a value of 6.
     </P>
 
     <P align="justify">
@@ -794,11 +791,11 @@
     </P>
     
     <P align="justify">
-    In this example, $foo is greater than or equal to 10, so the Velocity
-    Templating Engine makes the output of the if-ifelse-ifelse-else-end
-    statement <B>Go East</B>. If $foo had a value of 10 and $bar
-    had a value of 6.1, then $foo is neither greater than 10 nor equal to 
-    10, and $bar is not equal to 6. All if and elseif statements are false,
+    In this example, <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is greater than or equal to 10, so the Velocity
+    Templating Engine makes the output of the if 
+    statement <B>Go East</B>. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> had a value of 10 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>
+    had a value of 6.1, then <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is neither greater than 10 nor equal to 
+    10, and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is not equal to 6. All if and elseif statements are false,
     so the output is <B>Go West</B>. 
     </P>
 
@@ -807,10 +804,7 @@
     </P>
     
     <P align="justify">
-      Logical operators are not yet available in Velocity, but 
-      this functionality is expected to be added soon. There will be
-      two kinds of logical operators: logical AND and 
-      logical OR. Below is an example of an if statement using 
+      Two kinds of logical operators, logical AND and logical OR, are expected to be added to Velocity soon.  Below is an example of an if statement using 
       logical AND.
     </P>
 
@@ -823,13 +817,13 @@
     </P>
     
     <P align="justify">
-      The if statement will only evaluate to true if both $foo and 
-      $bar are true. If $foo is false, the expression will evaluate
-      to false; $bar will not be evaluated. If $foo is true, the
-      Velocity Templating Engine will then check the value of $bar;
-      if $bar is true, then the entire expression is
+      The if statement will only evaluate to true if both <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and 
+      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> are true. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, the expression will evaluate
+      to false; <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> will not be evaluated. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
+      Velocity Templating Engine will then check the value of <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>;
+      if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire expression is
       true and <B>Velocity Rocks!</B> becomes the output.
-      If $bar is false, then there will be no output; the entire
+      If <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is false, then there will be no output; the entire
       expression is false.
     </P>
     
@@ -849,13 +843,13 @@
     </P>
       
     <P align="justify">
-      If $foo is true, the Velocity Templating Engine has no 
-      need to look at $bar; whether $bar is true or false, the
+      If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the Velocity Templating Engine has no 
+      need to look at <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>; whether <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true or false, the
       expression will be true, and <B>Velocity Rocks 
-      Again!</B> will be output. If $foo is false, however,
-      $bar must be checked. In this case, if $bar is also false, 
+      Again!</B> will be output. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, however,
+      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> must be checked. In this case, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is also false, 
       the expression evaluates to false and there is no output.
-      On the other hand, if $bar is true, then the entire 
+      On the other hand, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire 
       expression is true, and the output is <B>Velocity Rocks 
       Again!</B>
     </P>
@@ -865,7 +859,7 @@
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Loops</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <B>Foreach Loop</B>
     <P align="justify">
-    The #foreach element allows for looping. For example:
+    The <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> element allows for looping. For example:
     </P>
 
     <P align="justify">
@@ -879,26 +873,26 @@
     </P>
 
     <P align="justify">
-    This #foreach loop causes the $allProducts list (the object) to be 
+    This <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> loop causes the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> list (the object) to be 
     looped over for all of the products (targets) in the list. Each time 
-    through the loop, the value from $allProducts is placed into the 
-    $product variable.
+    through the loop, the value from <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> is placed into the 
+    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable.
     </P>
     
     <P align="justify">
-    The contents of the $allProducts variable is either a Vector, a Hashtable 
-    or an Array. The value assigned to the $product variable is a Java
+    The contents of the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> variable is a Vector, a Hashtable 
+    or an Array. The value assigned to the <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable is a Java
     Object and can be referenced from a variable as such. For example, if 
-    $product was really a Product class in Java, its name could be retrieved
-    by referencing the $product.Name method (ie: Product.getName()).
+    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> was really a Product class in Java, its name could be retrieved
+    by referencing the <VARIABLE><FONT face="courier, monospaced">$product.Name</FONT></VARIABLE> method (ie: <VARIABLE><FONT face="courier, monospaced">$Product.getName()</FONT></VARIABLE>).
     </P>
 
  </FONT></TD></TR></TABLE></DIV><BR>    
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Include</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #include script element allows the template designer to import a 
-    local file, which is then inserted into the location where the #include 
+    The <VARIABLE><FONT face="courier, monospaced">#include</FONT></VARIABLE> script element allows the template designer to import a 
+    local file, which is then inserted into the location where the <VARIABLE><FONT face="courier, monospaced">#include</FONT></VARIABLE> 
     directive is defined. The contents of the file are not rendered through 
     the template engine.
     </P>
@@ -914,7 +908,7 @@
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Stop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #stop script element allows the template designer to stop the execution
+    The <VARIABLE><FONT face="courier, monospaced">#stop</FONT></VARIABLE> script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
     </P>
     
@@ -927,8 +921,8 @@
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macro</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    With the #macro script element, the template designer can define a 
-    time-saving macro. 
+    With the <VARIABLE><FONT face="courier, monospaced">#macro</FONT></VARIABLE> script element, the template designer can define a 
+    timesaving macro. 
     </P>    
     
     <P align="justify">
@@ -940,7 +934,7 @@
     <P align="justify">
     This establishes a macro called &quot;row&quot;, which uses HTML tags to
     put content into its own table data cell in an HTML table. Having 
-    defined the #row macro, the template designer can now call the #row 
+    defined the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro, the template designer can now call the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> 
     macro by name.
     </P>
     
@@ -955,10 +949,10 @@
     </P>
     
     <P align="justify">
-    Here a newly created #row macro is nested inside a #foreach
-    statement. As the #foreach statement loops through each $element
-    target in the $list object, the #row macro will take the value of
-    $element and put it into its table data cell.
+    Here a newly created <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro is nested inside a <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE>
+    statement. As the <VARIABLE><FONT face="courier, monospaced">#foreach</FONT></VARIABLE> statement loops through each <VARIABLE><FONT face="courier, monospaced">$element</FONT></VARIABLE>
+    target in the <VARIABLE><FONT face="courier, monospaced">$list</FONT></VARIABLE> object, the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro will take the value of
+    <VARIABLE><FONT face="courier, monospaced">$element</FONT></VARIABLE> and put it into its table data cell.
     </P>
     
  </FONT></TD></TR></TABLE></DIV><BR>
