@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.5 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.6 2001/03/25 22:56:03 jvanzyl Exp $
  */
 public class ClasspathResourceTest extends BaseTestCase
 {
@@ -124,7 +124,7 @@ public class ClasspathResourceTest extends BaseTestCase
              * be in the default config file.
              */
 
-            Velocity.setProperty(
+            Velocity.addProperty(
                 "classpath." + Velocity.RESOURCE_LOADER + ".class",
                     "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 

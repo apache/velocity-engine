@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.5 2001/03/19 22:38:58 jvanzyl Exp $
+ * @version $Id: MultipleFileResourcePathTest.java,v 1.6 2001/03/25 22:56:03 jvanzyl Exp $
  */
 public class MultipleFileResourcePathTest extends BaseTestCase
 {
@@ -129,10 +129,10 @@ public class MultipleFileResourcePathTest extends BaseTestCase
         {
             assureResultsDirectoryExists(RESULTS_DIR);
 
-            Velocity.setProperty(
+            Velocity.addProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
 
-            Velocity.setProperty(
+            Velocity.addProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
 
             Velocity.init();

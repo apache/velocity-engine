@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: MultiLoaderTestCase.java,v 1.1 2001/03/19 23:47:12 jvanzyl Exp $
+ * @version $Id: MultiLoaderTestCase.java,v 1.2 2001/03/25 22:56:03 jvanzyl Exp $
  */
 public class MultiLoaderTestCase extends BaseTestCase
 {
@@ -132,7 +132,7 @@ public class MultiLoaderTestCase extends BaseTestCase
             Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
             
-            Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+            Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
 
             /*
              * I don't think I should have to do this, these should
