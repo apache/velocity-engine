@@ -45,6 +45,8 @@ the VelocityServlet support baseclass.</li>
 jar contains utility code, specifically Anakia, Texen, and the WebMacro template conversion utility.</li>
 <li> <code>jar-servlet</code> builds a utility Velocity jar in the <code>bin</code> directory, called 'velocity-servlet-X.jar'. This
 jar contains utility code for servlet programmers.</li>
+<li> <code>jar-j2ee</code> builds a complete jar, like the 'jar' target, that includes any components that require J2EE support.  Currently, this includes only org.apache.velocity.runtime.resouce.loader.DBResourceLoader.  As usual, it is placed in the  <code>bin</code> directory, called 'velocity-j2ee-X.jar'.  NOTE : 
+if you wish to use this build target, you must place (or link) a copy of j2ee.jar into the build/lib directory.  We do not provide it as part of the distribution.  A good source is http://java.sun.com/</li>
 <li> <code>examples</code> builds the example code in the example programs found in the <code>examples</code> directory. 
 This build target will also build the forumdemo example project.</li>
 <li> <code>forumdemo</code> builds the example webapplication in the <code>examples/forumdemo</code> directory.</li>
