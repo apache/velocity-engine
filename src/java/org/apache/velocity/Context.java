@@ -66,9 +66,9 @@ import org.apache.velocity.util.ArrayIterator;
  * an valid object derived from Object. These objects
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.4 2000/10/20 02:19:50 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.5 2000/10/31 23:44:52 jvanzyl Exp $
  */
-public class Context
+public class Context implements Cloneable
 {
     /**
      * Random access storage for context data.
@@ -127,4 +127,20 @@ public class Context
     {
         return context.remove(key);
     }        
+
+    public Object clone()
+    {
+        Context clone = null;
+        
+        try
+        {
+            clone = (Context) super.clone();
+            clone.context = (Hashtable) context.clone();
+        }
+        catch (CloneNotSupportedException cnse)
+        {
+        }
+        
+        return clone;
+    }
 }
