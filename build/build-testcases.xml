@@ -31,7 +31,8 @@
                                    test-multi,
                                    test-cpload,
                                    test-contextsafety,
-                                   test-anakia
+                                   test-anakia,
+                                   test-configuration
                                    "/>
 
   <target name="test-template">
@@ -137,7 +138,16 @@
       </classpath>
     </java>
   </target>
-  
+
+  <target name="test-configuration">
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.ConfigurationTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+  </target>
+
   <target name="test-clean">
     <mkdir dir="${test.home}/templates/results"/>
     <delete quiet="true" includeEmptyDirs="true" 
