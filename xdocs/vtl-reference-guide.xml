@@ -208,6 +208,64 @@ the user's guide to this document
 </s1>
 
 <s1 title="Directives">
+<p>        
+    <strong>#set</strong>
+    <br/>
+    The #set directive is used for setting the value of
+    a reference. The reference being assigned a value can
+    either be a variable reference or a property reference:
+</p>
+
+<p>
+    <source><![CDATA[
+    #set $primate = "five assed monkey"
+    #set $customer.Behavior = $primate 
+    ]]></source>
+</p>
+
+<p>
+    The left hand side (LHS) of the assigment must be
+    a variable reference or a property reference. The
+    right hand side (RHS) can be one of the following:
+</p>
+
+<p>
+    <ul>
+        <li>Variable reference</li>
+        <li>String literal</li>
+        <li>Property reference</li>
+        <li>Method reference</li>
+        <li>Number literal</li>
+        <li>Object array</li>
+    </ul>        
+</p>
+
+<p>
+    Here is an example of showing the use of the
+    above mentioned types:
+</p>    
+
+<p>
+    <source><![CDATA[
+    #set $monkey = $bill
+    #set $monkey.Sucker = "monica"
+    #set $monkey.Blame = $whitehouse.Leak
+    #set $monkey.Plan = $spindoctor.weave($web)
+    #set $monkey.Accomplice = 666
+    #set $monkey.Say = ["I", $will, "rise", $again]
+    ]]></source>
+</p>
+
+<p>        
+    <strong>#foreach</strong>
+    <br/>
+</p>
+
+<p>        
+    <strong>#if/#elseif/#else</strong>
+    <br/>
+</p>
+
 </s1>
 
 <s1 title="Macros">
