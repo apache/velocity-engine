@@ -66,8 +66,12 @@ import org.apache.velocity.util.introspection.Introspector;
  * the Java Reflection API to determine the correct
  * signature of the methods used in VTL templates.
  *
+ * This should be split into separate tests for each
+ * of the methods searched for but this is a start
+ * for now.
+ *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.2 2000/11/10 05:15:46 jvanzyl Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.3 2000/11/16 01:51:25 jvanzyl Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
@@ -176,9 +180,9 @@ public class IntrospectorTestCase extends BaseTestCase
             int totalFailures = failures.size();
             if (totalFailures > 0)
             {
-                StringBuffer sb = new StringBuffer("Introspection Errors:\n");
+                StringBuffer sb = new StringBuffer("\nIntrospection Errors:\n");
                 for (int i = 0; i < totalFailures; i++)
-                    sb.append((String) failures.get(i));
+                    sb.append((String) failures.get(i)).append("\n");
             
                 fail(sb.toString());
             }                    
@@ -197,7 +201,9 @@ public class IntrospectorTestCase extends BaseTestCase
       */
     public static junit.framework.Test suite ()
     {
-        return new VelocityTestSuite();
+        TestSuite suite = new TestSuite();
+        suite.addTest(new IntrospectorTestCase("Introspector Tests"));
+        return suite;
     }
 
     static class MethodProvider
@@ -207,10 +213,10 @@ public class IntrospectorTestCase extends BaseTestCase
          */
         public String booleanMethod (boolean p) { return "boolean"; }
         public String byteMethod (byte p) { return "byte"; }
-        public String characterMethod (char p) { return "char"; }
+        public String characterMethod (char p) { return "character"; }
         public String doubleMethod (double p) { return "double"; }
         public String floatMethod (float p) { return "float"; }
-        public String integerMethod (int p) { return "int"; }
+        public String integerMethod (int p) { return "integer"; }
         public String longMethod (long p) { return "long"; }
         public String shortMethod (short p) { return "short"; }
     }
