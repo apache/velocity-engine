@@ -6,10 +6,16 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTSetDirective extends SimpleNode
 {
+    private Node right;
+    private ASTReference left;
+    private Object value;
+    
     public ASTSetDirective(int id)
     {
         super(id);
@@ -27,22 +33,37 @@ public class ASTSetDirective extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
-        Object value = null;
-        Node right = jjtGetChild(0).jjtGetChild(0)
-                        .jjtGetChild(1).jjtGetChild(0);
+        right = getRightHandSide();
+
+        if (right.value(context) == null)
+        {
+            Runtime.error(new ReferenceException(
+                "#set: " + right.literal() + " is not a valid reference."));
+            
+            return false;
+        }                
 
         value = right.value(context);
-        
-        ASTReference left = (ASTReference) jjtGetChild(0)
-                        .jjtGetChild(0).jjtGetChild(0);
+        left = getLeftHandSide();
         
         if (left.jjtGetNumChildren() == 0)
             context.put(left.getFirstToken().image.substring(1), value);
         else
             left.setValue(context, value);
     
+        return true;
+    }
+
+    private ASTReference getLeftHandSide()
+    {
+        return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
+    }
+
+    private Node getRightHandSide()
+    {
+        return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
     }
 }

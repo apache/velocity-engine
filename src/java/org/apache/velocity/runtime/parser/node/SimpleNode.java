@@ -6,6 +6,8 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
 public class SimpleNode implements Node
@@ -15,9 +17,9 @@ public class SimpleNode implements Node
     protected int id;
     protected Parser parser;
     
-    protected  int info; // added
+    protected int info; // added
     public boolean state;
-    
+    protected boolean invalid = false;
     
     /* Added */
     protected Token first, last;
@@ -154,7 +156,16 @@ public class SimpleNode implements Node
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
-            jjtGetChild(i).init(context, data);
+        {
+            try
+            {
+                jjtGetChild(i).init(context, data);
+            }
+            catch (ReferenceException re)
+            {
+                Runtime.error(re);
+            }
+        }            
     
         return data;
     }
@@ -169,13 +180,15 @@ public class SimpleNode implements Node
         return null;
     }        
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
+    
+        return true;
     }
 
     public Object execute(Object o, Context context)
@@ -201,6 +214,16 @@ public class SimpleNode implements Node
     public String literal()
     {
         return first.image;
+    }        
+
+    public void setInvalid()
+    {
+        invalid = true;
+    }        
+
+    public boolean isInvalid()
+    {
+        return invalid;
     }        
 }
 

@@ -54,7 +54,7 @@ public interface Node
     public boolean evaluate(Context context);
     public Object value(Context context);
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException;
 
     public Object execute(Object o, Context context);
@@ -62,5 +62,6 @@ public interface Node
     public int getInfo();
 
     public String literal();
-    
+    public void setInvalid();
+    public boolean isInvalid();
 }

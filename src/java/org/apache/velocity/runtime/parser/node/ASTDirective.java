@@ -50,12 +50,14 @@ public class ASTDirective extends SimpleNode
         return data;
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         if (isDirective)
             directive.render(context, writer, this);
         else
             writer.write(directiveName);
+        
+        return true;
     }
 }

@@ -70,7 +70,7 @@ public class ASTReference extends SimpleNode
         return result;
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         value = execute(null, context);
@@ -83,6 +83,8 @@ public class ASTReference extends SimpleNode
             writer.write(NodeUtils
                 .specialText(getFirstToken()) +
                     value.toString());
+    
+        return true;
     }
 
     public boolean evaluate(Context context)

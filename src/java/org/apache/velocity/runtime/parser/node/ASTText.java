@@ -36,9 +36,10 @@ public class ASTText extends SimpleNode
         return data;
     }
 
-    public void render(Context context, Writer writer)
+    public boolean render(Context context, Writer writer)
         throws IOException
     {
         writer.write(text);
+        return true;
     }    
 }
