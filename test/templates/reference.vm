@@ -70,3 +70,11 @@ Now : $provider.title
 #set($provider.title = $oldtitle)
 Back : $provider.title
 
+Test what was a bug :
+
+#set($b = 'boy')
+#set($c = 'cat')
+$b${c}.java
+${b}${c}.java
+
+
