@@ -69,12 +69,19 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example.java,v 1.1 2001/03/02 23:39:50 daveb Exp $
+ * @version $Id: Example.java,v 1.2 2001/03/04 21:32:27 daveb Exp $
  */
 
 public class Example
 {
-    public Example( String templateFile)
+    VelocityContext context = null;
+    
+    private final static String JAR_RESOURCE_LOADER_PATH1 = "jar:file:test.jar!/";
+
+    private final static String JAR_RESOURCE_LOADER_PATH2 = "jar:file:template.jar!/";
+
+    
+    public Example()
     {
         try
         {
@@ -83,27 +90,37 @@ public class Example
              */
 
             Runtime.init("velocity.properties");
+            //Runtime.setDefaultProperties();
             
+            //Runtime.setSourceProperty(Runtime.JAR_RESOURCE_LOADER_PATH, JAR_RESOURCE_LOADER_PATH1);
+            
+            //Runtime.setSourceProperty(Runtime.JAR_RESOURCE_LOADER_PATH, JAR_RESOURCE_LOADER_PATH2);
+            
+            //Runtime.init();
+
             /*
              *  Make a context object and populate with the data.  This 
              *  is where the Velocity engine gets the data to resolve the
              *  references (ex. $list) in the template
              */
-
-            VelocityContext context = new VelocityContext();
+            
+            context = new VelocityContext();
             context.put("list", getNames());
             
-            /*
-             *  get the Template object.  This is the parsed version of your 
-             *  template input file.  Note that getTemplate() can throw
-             *   ResourceNotFoundException : if it doesn't find the template
-             *   ParseErrorException : if there is something wrong with the VTL
-             *   Exception : if something else goes wrong (this is generally
-             *        indicative of as serious problem...)
-             */
-
+        }
+        catch( Exception e )
+        {
+            Runtime.error("ERROR starting runtime: " + e );
+        }
+    }
+    
+    public void getTemplate( String templateFile)
+    throws Exception{
+        try
+        {
+            
             Template template =  null;
-
+            
             try 
             {
                 template = Runtime.getTemplate(templateFile);
@@ -157,10 +174,37 @@ public class Example
 
     public static void main(String[] args)
     {
-        Example t = new Example("/example/test1.vm");
-                
+        Example ex = new Example();
+        
+        try
+        {
+            say( "Started..." );
+            
+            say("get template from template.jar");
+            ex.getTemplate( "/template/test1.vm" );
+            
+            say("get template from test.jar");
+            ex.getTemplate( "/example/test1.vm" );
+            
+            say("try template from template.jar again");
+            ex.getTemplate( "/template/test2.vm" );
+            
+            say("Try something that doesn't exist");
+            ex.getTemplate( "/example/yomama.vm" );
+        }
+        catch(Exception e )
+        {
+            say("ERROR");
+        }
+    }
+
+    private static void say( String m )
+    {
+        System.out.println(m);
     }
 }
+
+
 
 
 
