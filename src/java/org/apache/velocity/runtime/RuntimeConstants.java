@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.24 2001/04/14 02:52:26 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.25 2001/04/22 18:17:42 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -341,6 +341,8 @@ public interface RuntimeConstants
      *  Encoding for the output stream.  Currently used by Anakia and VelocityServlet
      */
     public static final String OUTPUT_ENCODING = "output.encoding";
+
+    public static final String ENCODING_DEFAULT = "ISO-8859-1";
 
     /*
      * ----------------------------------------------------------------------

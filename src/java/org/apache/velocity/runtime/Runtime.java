@@ -58,8 +58,7 @@ import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.net.MalformedURLException;
+import java.io.Reader;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -142,7 +141,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.107 2001/04/01 02:00:23 jon Exp $
+ * @version $Id: Runtime.java,v 1.108 2001/04/22 18:17:42 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -583,7 +582,7 @@ public class Runtime implements RuntimeConstants
      * @param InputStream inputstream retrieved by a resource loader
      * @param String name of the template being parsed
      */
-    public static SimpleNode parse(InputStream inputStream, String templateName )
+    public static SimpleNode parse( Reader reader, String templateName )
         throws ParseException
     {
         SimpleNode ast = null;
@@ -617,7 +616,7 @@ public class Runtime implements RuntimeConstants
         {
             try
             {
-                ast = parser.parse(inputStream, templateName);
+                ast = parser.parse( reader, templateName );
             }
             finally
             {
@@ -650,7 +649,10 @@ public class Runtime implements RuntimeConstants
     }
     
     /**
-     * Returns a <code>Template</code> from the resource manager
+     * Returns a <code>Template</code> from the resource manager.
+     * This method assumes that the character encoding of the 
+     * template is set by the <code>input.encoding</code>
+     * property.  The default is "ISO-8859-1"
      *
      * @param name The file name of the desired template.
      * @return     The template.
@@ -663,13 +665,32 @@ public class Runtime implements RuntimeConstants
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        return getTemplate( name, Runtime.getString( INPUT_ENCODING, ENCODING_DEFAULT) );
+    }
+
+    /**
+     * Returns a <code>Template</code> from the resource manager
+     *
+     * @param name The  name of the desired template.
+     * @param encoding Character encoding of the template
+     * @return     The template.
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
+     */
+    public static Template getTemplate(String name, String  encoding)
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {
         return (Template) ResourceManager
-            .getResource(name,ResourceManager.RESOURCE_TEMPLATE);
+            .getResource(name,ResourceManager.RESOURCE_TEMPLATE, encoding);
     }
 
     /**
      * Returns a static content resource from the
-     * resource manager.
+     * resource manager.  Uses the current value
+     * if INPUT_ENCODING as the character encoding.
      *
      * @param name Name of content resource to get
      * @return parsed ContentResource object ready for use
@@ -679,8 +700,29 @@ public class Runtime implements RuntimeConstants
     public static ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        /*
+         *  the encoding is irrelvant as we don't do any converstion
+         *  the bytestream should be dumped to the output stream
+         */
+
+        return getContent( name,  Runtime.getString( INPUT_ENCODING, ENCODING_DEFAULT));
+    }
+
+    /**
+     * Returns a static content resource from the
+     * resource manager.
+     *
+     * @param name Name of content resource to get
+     * @param encoding Character encoding to use
+     * @return parsed ContentResource object ready for use
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     */
+    public static ContentResource getContent( String name, String encoding )
+        throws ResourceNotFoundException, ParseErrorException, Exception
+    {
         return (ContentResource) ResourceManager
-            .getResource(name,ResourceManager.RESOURCE_CONTENT);
+            .getResource(name,ResourceManager.RESOURCE_CONTENT, encoding );
     }
 
     /**

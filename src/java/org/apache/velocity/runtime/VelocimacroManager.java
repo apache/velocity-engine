@@ -56,7 +56,9 @@ package org.apache.velocity.runtime;
 
 import java.util.Hashtable;
 import java.util.TreeMap;
-import java.io.ByteArrayInputStream;
+
+import java.io.StringReader;
+import java.io.BufferedReader;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
@@ -82,7 +84,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.9 2001/03/20 01:11:15 jon Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.10 2001/04/22 18:17:41 geirm Exp $ 
  */
 public class VelocimacroManager
 {
@@ -360,9 +362,9 @@ public class VelocimacroManager
         {
             try 
             {
-
-                ByteArrayInputStream  inStream = new ByteArrayInputStream( macrobody.getBytes() );
-                nodeTree = Runtime.parse( inStream, "VM:" + macroname );
+                BufferedReader br = new BufferedReader( new StringReader( macrobody ) );
+ 
+                nodeTree = Runtime.parse( br, "VM:" + macroname );
                 nodeTree.init(ica,null);
             } 
             catch ( Exception e ) 
