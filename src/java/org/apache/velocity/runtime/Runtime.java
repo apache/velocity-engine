@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.89 2001/03/03 20:33:20 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.90 2001/03/04 21:10:26 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -465,7 +465,7 @@ public class Runtime implements RuntimeConstants
             for (Enumeration e = overridingProperties.keys(); e.hasMoreElements() ; ) 
             {
                 String s = (String) e.nextElement();
-                configuration.setProperty( s, overridingProperties.getProperty(s) );
+                configuration.setOverridingProperty( s, overridingProperties.getProperty(s) );
                 info ("   ** Property Override : " + s + " = " + 
                     overridingProperties.getProperty(s));
             }
