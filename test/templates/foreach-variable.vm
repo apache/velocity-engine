@@ -1,0 +1,6 @@
+Foreach with a variable.
+
+#foreach ($element in $list)
+    This is $element.
+    $velocityCount
+#end

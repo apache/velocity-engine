@@ -1,0 +1,23 @@
+#set $foo = 5
+
+#if ($foo > 1)
+    \$foo is greater then 1
+#end    
+
+#if ($foo < 10)
+    \$foo is less than 10
+#end
+
+#if ($foo >= 5)
+    \$foo is great than or equal to 5
+#end
+
+#if ($foo <= 5)
+    \$foo is less than or equal to 5
+#end    
+
+#set $foo = false
+
+#if (!($foo == true))
+    foo is false
+#end    
