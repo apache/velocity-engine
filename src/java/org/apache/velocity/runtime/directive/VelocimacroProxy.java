@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.10 2000/12/02 03:31:32 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.11 2000/12/04 02:08:48 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -192,11 +192,8 @@ public class VelocimacroProxy extends Directive
 
                 if (!bInit_)
                 {
-                    Context ctxt = (Context) context.clone();
-
-                    nodeTree_.init( ctxt, null );
+                    nodeTree_.init( null,null);
                     bInit_ = true;
-                    ctxt = null;
                 }
 
                 nodeTree_.render(context, writer );
@@ -216,7 +213,7 @@ public class VelocimacroProxy extends Directive
     /**
      *   The major meat of VelocimacroProxy, init() checks the # of arguments, patches the
      *   macro body, renders the macro into an AST, and then inits the AST, so it is ready 
-     *   for quick rendering.
+     *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
      */
     public void init(Context context, Node node) 
        throws Exception
