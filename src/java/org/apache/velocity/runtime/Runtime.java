@@ -74,7 +74,8 @@ import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.runtime.directive.Foreach;
-import org.apache.velocity.runtime.directive.Set;
+//import org.apache.velocity.runtime.directive.Set;
+import org.apache.velocity.runtime.directive.Dummy;
 
 public class Runtime
 {
@@ -149,7 +150,8 @@ public class Runtime
             parser = new Parser();
             Hashtable directives = new Hashtable();
             directives.put("foreach", new Foreach());
-            directives.put("set", new Set());
+            //directives.put("set", new Set());
+            directives.put("dummy", new Dummy());
             parser.setDirectives(directives);
 
             info("Velocity successfully started.");

@@ -31,10 +31,9 @@ public class Foreach implements Directive
         // Now we have to iterate over all the child nodes
         // for each in the list, we have to change the
         // context each time the element changes.
-        String elementKey = node.jjtGetChild(0).jjtGetChild(0)
-                                .jjtGetChild(0).getFirstToken()
-                                    .image.substring(1);
-
+        String elementKey = node.jjtGetChild(0).getFirstToken()
+                                .image.substring(1);
+        
         // if there is an object in the context with
         // the same name as the $element save it so
         // we can restore it after the #foreach.
@@ -48,9 +47,8 @@ public class Foreach implements Directive
         if (context.containsKey(elementKey))
             tmp = context.get(elementKey);
 
-        listObject = node.jjtGetChild(0).jjtGetChild(1)
-                        .jjtGetChild(0).value(context);
-
+        listObject = node.jjtGetChild(2).value(context);
+        
         /*!
          * @desc Need to create a ReferenceException here, for
          * example when the listObject is null. This
@@ -65,7 +63,7 @@ public class Foreach implements Directive
             for (int i = 0; i < length; i++)
             {
                 context.put(elementKey,((Object[])listObject)[i]);
-                node.jjtGetChild(1).render(context, writer);
+                node.jjtGetChild(3).render(context, writer);
             }
             context.remove(elementKey);
         }
@@ -79,7 +77,7 @@ public class Foreach implements Directive
             while (i.hasNext())
             {
                 context.put(elementKey,i.next());
-                node.jjtGetChild(1).render(context, writer);
+                node.jjtGetChild(3).render(context, writer);
             }
             context.remove(elementKey);
         }
@@ -90,7 +88,7 @@ public class Foreach implements Directive
             while (e.hasMoreElements())
             {
                 context.put(elementKey,e.nextElement());
-                node.jjtGetChild(1).render(context, writer);
+                node.jjtGetChild(3).render(context, writer);
             }
             context.remove(elementKey);
         }
