@@ -138,13 +138,15 @@ public class DataSourceResourceLoader extends ResourceLoader
          templateColumn  = configuration.getString("resource.templatecolumn");
          timestampColumn = configuration.getString("resource.timestampcolumn");
 
-         if (dataSource != null) {
+         if (dataSource != null) 
+         {
              rsvc.info("Resources Loaded using dataSource instance with table: " + tableName);
              rsvc.info("Resource Loader using columns: " + keyColumn + ", "
                            + templateColumn + " and " + timestampColumn);
              rsvc.info("Resource Loader Initalized.");
 
-         } else if (dataSourceName != null) {
+         } else if (dataSourceName != null) 
+         {
              rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
              rsvc.info("Resource Loader using columns: " + keyColumn + ", "
                            + templateColumn + " and " + timestampColumn);
@@ -161,7 +163,8 @@ public class DataSourceResourceLoader extends ResourceLoader
      * specifying the data source name via properties.
      * @param source
      */
-    public void setDataSource(DataSource source) {
+    public void setDataSource(DataSource source) 
+    {
         dataSource = source;
     }
 
@@ -204,9 +207,12 @@ public class DataSourceResourceLoader extends ResourceLoader
                      if (rs.next())
                      {
                          InputStream ascStream = rs.getAsciiStream(templateColumn);
-                         if (ascStream != null)
+                         if (ascStream != null) 
+                         {
                              return new BufferedInputStream(ascStream);
-                         else {
+                         }
+                         else 
+                         {
                              String msg = "DataSourceResourceLoader Error: cannot find resource "
                                  + name;
                              rsvc.error(msg);

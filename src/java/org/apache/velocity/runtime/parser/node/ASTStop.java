@@ -33,7 +33,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: ASTStop.java,v 1.10 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
  */
 public class ASTStop extends SimpleNode
 {

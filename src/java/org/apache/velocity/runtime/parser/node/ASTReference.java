@@ -213,8 +213,9 @@ public class ASTReference extends SimpleNode
 
         if (referenceType == RUNT)
         {
-            if (context.getAllowRendering()) {
-            writer.write(rootString);
+            if (context.getAllowRendering()) 
+            {
+                writer.write(rootString);
             }
 
             return true;

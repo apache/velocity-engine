@@ -118,10 +118,13 @@ public class ClasspathResourceLoader extends ResourceLoader
         {
             ClassLoader classLoader = Thread.currentThread()
                                         .getContextClassLoader();
-            if (classLoader == null) {
+            if (classLoader == null) 
+            {
                 classLoader = this.getClass().getClassLoader();
                 result = classLoader.getResourceAsStream( name );
-            } else {
+            } 
+            else 
+            {
                 result= classLoader.getResourceAsStream( name );
                 
                 /**
@@ -129,7 +132,8 @@ public class ClasspathResourceLoader extends ResourceLoader
                  * old method when resource is not found.
                  */
                 
-                if (result == null) {
+                if (result == null) 
+                {
                     classLoader = this.getClass().getClassLoader();
                     result = classLoader.getResourceAsStream( name );
                 }
