@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.40 2000/12/10 04:49:33 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.41 2000/12/11 04:26:23 geirm Exp $ 
 */
 public class Parser
 {
@@ -133,7 +133,7 @@ public class Parser
      *  Name of current template we are parsing.  Passed to us in parse()
      */
 
-    String strCurrentTemplateName = "";
+    String currentTemplateName = "";
 
     /** 
      * This constructor was added to allow the re-use of parsers.
@@ -156,11 +156,12 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse(InputStream stream, String strTemplateName ) throws ParseException
+    public SimpleNode parse(InputStream stream, String templateName ) 
+        throws ParseException
     {
         SimpleNode sn = null;
         
-        strCurrentTemplateName = strTemplateName;
+        currentTemplateName = templateName;
 
         /*
          *  clearing the VM namespace for this template
@@ -169,7 +170,7 @@ public class Parser
          *  that it should be done.
          */
 
-        Runtime.dumpVMNamespace( strCurrentTemplateName );
+        Runtime.dumpVMNamespace( currentTemplateName );
 
         try
         {
@@ -179,16 +180,16 @@ public class Parser
         }
         catch (ParseException pe)
         {
-            Runtime.error ("Parser Exception: " + strTemplateName + " : " + StringUtils.stackTrace(pe));
+            Runtime.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken, 
                 pe.expectedTokenSequences, pe.tokenImage);
         }
         catch (Exception e)
         {
-            Runtime.error ("Parser Error: " + strTemplateName + " : " + StringUtils.stackTrace(e));
+            Runtime.error ("Parser Error: " + templateName + " : " + StringUtils.stackTrace(e));
         }
 
-        strCurrentTemplateName = "";
+        currentTemplateName = "";
 
         return sn;
     }        
@@ -242,7 +243,7 @@ public class Parser
         {
            bRecognizedDirective = true;
         }
-        else if (Runtime.isVelocimacro( strDirective.substring(1), strCurrentTemplateName))
+        else if (Runtime.isVelocimacro( strDirective.substring(1), currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -300,7 +301,7 @@ TOKEN_MGR_DECLS:
     private int rparen = 0;
 
     Stack stateStack = new Stack();
-    public boolean bDebugPrint_ = false;
+    public boolean debugPrint = false;
 
     private boolean inReference;
     public boolean inDirective;
@@ -318,11 +319,11 @@ TOKEN_MGR_DECLS:
     public boolean stateStackPop()
     {
       
-        Hashtable hStack;
+        Hashtable h;
 
         try
         {
-            hStack = (Hashtable) stateStack.pop();
+            h = (Hashtable) stateStack.pop();
         }
         catch( EmptyStackException e)
         {
@@ -331,16 +332,16 @@ TOKEN_MGR_DECLS:
             return false;
         }
 
-        if( bDebugPrint_ )
+        if( debugPrint )
             System.out.println(
                 " stack pop (" + stateStack.size() + ") : lparen=" + 
-                    ( (Integer) hStack.get("lparen")).intValue() + 
-                        " newstate=" + ( (Integer) hStack
-                            .get("lexstate")).intValue() );
+                    ( (Integer) h.get("lparen")).intValue() + 
+                        " newstate=" + ( (Integer) h.get("lexstate")).intValue() );
        
-        lparen = ( (Integer) hStack.get("lparen")).intValue();
-        rparen = ( (Integer) hStack.get("rparen")).intValue();
-        SwitchTo( ( (Integer) hStack.get("lexstate")).intValue() ); 
+        lparen = ( (Integer) h.get("lparen")).intValue();
+        rparen = ( (Integer) h.get("rparen")).intValue();
+
+        SwitchTo( ( (Integer) h.get("lexstate")).intValue() ); 
     
         return true;
     }
@@ -352,17 +353,19 @@ TOKEN_MGR_DECLS:
      */
     public boolean stateStackPush()
     {
-        if( bDebugPrint_ )
+        if( debugPrint )
             System.out.println(" (" + stateStack.size() + ") pushing cur state : " + 
                 curLexState );
             
-        Hashtable hStack = new Hashtable();
-        hStack.put("lexstate", new Integer( curLexState ) );
-        hStack.put("lparen", new Integer( lparen ));
-        hStack.put("rparen", new Integer( rparen ));
+        Hashtable h = new Hashtable();
+
+        h.put("lexstate", new Integer( curLexState ) );
+        h.put("lparen", new Integer( lparen ));
+        h.put("rparen", new Integer( rparen ));
+
         lparen = 0;
 
-        stateStack.push( hStack );
+        stateStack.push( h );
 
         return true;
     }
@@ -400,12 +403,12 @@ TOKEN_MGR_DECLS:
          *
          */
    
-        boolean bClosed = false;
+        boolean closed = false;
 
         if (inComment)
-            bClosed = true;
+            closed = true;
 
-        while( !bClosed) 
+        while( !closed ) 
         {
             /*
              * look at current state.  If we haven't seen a lparen 
@@ -429,7 +432,7 @@ TOKEN_MGR_DECLS:
                     rparen++;
                 }
                       
-                 bClosed = true;
+                 closed = true;
             }
             else
             {
@@ -559,7 +562,7 @@ TOKEN:
         {
             inDirective = true;
 
-            if ( bDebugPrint_ )
+            if ( debugPrint )
                 System.out.print("#set :  going to " + DIRECTIVE );
             
             stateStackPush();
@@ -582,7 +585,7 @@ MORE :
         {
             inReference = true;
 
-           if ( bDebugPrint_ )
+           if ( debugPrint )
                 System.out.print( "$  : going to " + REFERENCE );
 
             stateStackPush();
@@ -596,7 +599,7 @@ MORE :
         {
             inReference = true;
 
-           if ( bDebugPrint_ )
+           if ( debugPrint )
                 System.out.print( "$!  : going to " + REFERENCE );
 
             stateStackPush();
@@ -648,7 +651,7 @@ MORE :
 
             inDirective = true;
 
-            if ( bDebugPrint_ )
+            if ( debugPrint )
                 System.out.print("# :  going to " + DIRECTIVE );
             
             stateStackPush();
@@ -745,7 +748,7 @@ TOKEN :
 {
     <NEWLINE: "\n" | "\r" | "\r\n" >
     {
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.println(" NEWLINE :");
 
         stateStackPop();      
@@ -879,7 +882,7 @@ TOKEN :
 
         matchedToken.image = ".";
 
-        if ( bDebugPrint_ ) 
+        if ( debugPrint ) 
             System.out.print("DOT : switching to " + REFMODIFIER); 
         SwitchTo(REFMODIFIER); 
 
@@ -904,7 +907,7 @@ SPECIAL_TOKEN :
       
         inReference = false;
     
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.print("REF_TERM :");
         
         stateStackPop();
@@ -916,7 +919,7 @@ SPECIAL_TOKEN :
 {
     <DIRECTIVE_TERMINATOR: ~[] >
     {
-        if ( bDebugPrint_ )
+        if ( debugPrint )
             System.out.print("DIRECTIVE_TERM :");
  
         input_stream.backup(1); 
@@ -990,13 +993,13 @@ void Escape() : {}
 {   
     {
         Token t = null;
-        int iCount = 0;
-        boolean bControl = false;
+        int count = 0;
+        boolean control = false;
     }
 
    ( LOOKAHEAD(2)  t = <DOUBLE_ESCAPE>
     {
-        iCount++;
+        count++;
     }
    )+
     {
@@ -1009,7 +1012,7 @@ void Escape() : {}
             case ELSEIF_DIRECTIVE :
             case END :
             case STOP_DIRECTIVE :
-                bControl = true;
+                control = true;
                 break;
         }
 
@@ -1018,14 +1021,14 @@ void Escape() : {}
          */ 
 
         if ( isDirective( t.next.image.substring(1)))
-            bControl = true;
-        else if ( Runtime.isVelocimacro( t.next.image.substring(1), strCurrentTemplateName))
-            bControl = true;
+            control = true;
+        else if ( Runtime.isVelocimacro( t.next.image.substring(1), currentTemplateName))
+            control = true;
 
         t.image = "";
         
-        for( int i = 0; i < iCount; i++)
-            t.image += (bControl ? "\\" : "\\\\");
+        for( int i = 0; i < count; i++)
+            t.image += ( control ? "\\" : "\\\\");
     }
 
 }
@@ -1092,7 +1095,7 @@ SimpleNode Directive() :
 {
     Token t = null;
     Directive d;
-    boolean bDoItNow = false;
+    boolean doItNow = false;
 }
 {
     /*
@@ -1101,9 +1104,9 @@ SimpleNode Directive() :
      */
     t = <WORD> 
     {
-        String strDirectiveName = t.image.substring(1);
+        String directiveName = t.image.substring(1);
  
-        d = (Directive) directives.get( strDirectiveName );
+        d = (Directive) directives.get( directiveName );
 
         /*
          *  Velocimacro support : if the directive is macro directive
@@ -1111,9 +1114,9 @@ SimpleNode Directive() :
          *   right then. (So available if used w/in the current template )
          */
 
-        if ( strDirectiveName.equals("macro"))  
+        if ( directiveName.equals("macro"))  
         {
-             bDoItNow = true;
+             doItNow = true;
         }
 
         /*
@@ -1121,7 +1124,7 @@ SimpleNode Directive() :
          * about parser tokens
          */
 
-        jjtThis.setDirectiveName( strDirectiveName );
+        jjtThis.setDirectiveName( directiveName );
 
         if ( d == null) 
         {
@@ -1129,7 +1132,7 @@ SimpleNode Directive() :
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
-            d  =  (Directive) Runtime.getVelocimacro( strDirectiveName, strCurrentTemplateName );
+            d  =  (Directive) Runtime.getVelocimacro( directiveName, currentTemplateName );
 
             if (d == null) 
             {   
@@ -1171,10 +1174,10 @@ SimpleNode Directive() :
          *     we don't have to worry about forward references and such...
          */
       
-        if (bDoItNow)  
+        if ( doItNow )  
         {
             Macro m = new Macro();
-            m.processAndRegister( jjtThis, strCurrentTemplateName );
+            m.processAndRegister( jjtThis, currentTemplateName );
         }
 
         /*
