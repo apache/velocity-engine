@@ -1,5 +1,3 @@
-package org.apache.velocity.runtime.directive;
-
 /*
  * The Apache Software License, Version 1.1
  *
@@ -54,6 +52,8 @@ package org.apache.velocity.runtime.directive;
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.runtime.directive;
+
 import java.io.*;
 
 import org.apache.velocity.runtime.parser.*;
@@ -83,10 +83,14 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Parse.java,v 1.8 2000/12/04 02:07:41 geirm Exp $
+ * @version $Id: Parse.java,v 1.9 2000/12/11 03:54:27 geirm Exp $
  */
 public class Parse extends Directive
 {
+    SimpleNode nodeTree = null;
+    int parseDepth = 1;
+    boolean ready = false;
+
     /**
      * Return name of this directive.
      */
@@ -103,11 +107,6 @@ public class Parse extends Directive
         return LINE;
     }        
     
-    SimpleNode nodeTree_ = null;
-    int iParseDepth_ = 1;
-    boolean bReady_ = false;
-
-
     /**
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
@@ -142,16 +141,16 @@ public class Parse extends Directive
          *  get the path
          */
         
-        String strArg = value.toString();
+        String arg = value.toString();
              
         /*
          *  for security, we will not accept anything with .. in the path
          */
         
-        if ( strArg.indexOf("..") != -1)
+        if ( arg.indexOf("..") != -1)
         {
             Runtime.error( new String("#parse() error : argument " 
-                                      + strArg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
+                                      + arg + " contains .. and may be trying to access content outside of template root.  Rejected.") );
             return false;
         }
 
@@ -159,8 +158,8 @@ public class Parse extends Directive
          *  if a / leads off, then just nip that :)
          */
         
-        if ( strArg.startsWith( "/") )
-            strArg = strArg.substring(1);
+        if ( arg.startsWith( "/") )
+            arg = arg.substring(1);
 
         /*
          *  we will put caching here in the future...
@@ -170,11 +169,11 @@ public class Parse extends Directive
 
         try 
         {
-            t = Runtime.getTemplate(strArg);   
+            t = Runtime.getTemplate( arg );   
         }
         catch ( Exception e)
         {
-            Runtime.error("#parse : cannot find " + strArg + " template!");
+            Runtime.error("#parse : cannot find " + arg + " template!");
         }
     
         if ( t == null )
@@ -182,20 +181,20 @@ public class Parse extends Directive
 
         try
         {        
-            nodeTree_ = t.getDocument();
+            nodeTree = t.getDocument();
             
             ParseDirectiveVisitor v = new ParseDirectiveVisitor();
-            v.setDepth( iParseDepth_ );
+            v.setDepth( parseDepth );
             v.setContext( null );
             v.setWriter( null );
-            nodeTree_.jjtAccept( v, null );
-            nodeTree_.init( context, null );
+            nodeTree.jjtAccept( v, null );
+            nodeTree.init( context, null );
             
-            bReady_ = true;
+            ready = true;
         }
         catch ( ParseDirectiveException pde )
         {
-            pde.addFile( strArg );
+            pde.addFile( arg );
             Runtime.error( "Parse.render() : " + pde );
         }
         catch ( Exception e )
@@ -203,8 +202,8 @@ public class Parse extends Directive
             Runtime.error( "Parse.render() : " + e );
         }
 
-        if (bReady_)
-            nodeTree_.render(context, writer);
+        if ( ready )
+            nodeTree.render( context, writer );
 
         return true;
     }
@@ -215,14 +214,14 @@ public class Parse extends Directive
     public void setParseDepth( int i )
         throws Exception
     {
-        iParseDepth_ = i;
+        parseDepth = i;
 
         /*
          *  see if we have exceeded the configured depth.  If it isn't configured, put a stop at 20 just in case.
          */
 
-        if (iParseDepth_ >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20))
-                throw new ParseDirectiveException("Max recursion depth reached.", iParseDepth_);
+        if ( parseDepth >= Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20))
+                throw new ParseDirectiveException("Max recursion depth reached.", parseDepth);
 
         return;
     }
