@@ -1,7 +1,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,10 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.servlet.*;
-import org.apache.velocity.runtime.*;
+import org.apache.velocity.servlet.VelocityServlet;
+import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -73,10 +72,74 @@ import org.apache.velocity.exception.ParseErrorException;
  * pass them to the template.
  * 
  * @author Dave Bryson
- * $Revision: 1.2 $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: SampleServlet.java,v 1.3 2001/05/08 11:17:22 geirm Exp $
  */
 public class SampleServlet extends VelocityServlet
 {
+    
+    /**
+     *   Called by the VelocityServlet
+     *   init().  We want to set a set of properties
+     *   so that templates will be found in the webapp
+     *   root.  This makes this easier to work with as 
+     *   an example, so a new user doesn't have to worry
+     *   about config issues when first figuring things
+     *   out
+     */
+    protected Properties loadConfiguration(ServletConfig config )
+        throws IOException, FileNotFoundException
+    {
+        Properties p = new Properties();
+
+        /*
+         *  first, we set the template path for the
+         *  FileResourceLoader to the root of the 
+         *  webapp.  This probably won't work under
+         *  in a WAR under WebLogic, but should 
+         *  under tomcat :)
+         */
+
+        String path = config.getServletContext().getRealPath("/");
+
+        if (path == null)
+        {
+            System.out.println(" SampleServlet.loadConfiguration() : unable to " 
+                               + "get the current webapp root.  Using '/'. Please fix.");
+
+            path = "/";
+        }
+
+        p.setProperty( Velocity.FILE_RESOURCE_LOADER_PATH,  path );
+
+        /**
+         *  and the same for the log file
+         */
+
+        p.setProperty( "runtime.log", path + "velocity.log" );
+
+        return p;
+    }
+
+
+    /**
+     *  <p>
+     *  main routine to handle a request.  Called by
+     *  VelocityServlet, your responsibility as programmer
+     *  is to simply return a valid Template
+     *  </p>
+     *  <p>
+     *  Note : this is the deprecated version of handleRequest() and
+     *  is  here for compatibility with Velocity 1.0
+     *  Velocity 1.1 has a new method handleRequest( HttpServletRequest,
+     *   HttpServletResponse, Context)  that allows you to return null.
+     *  </p>
+     *
+     *  @param ctx a Velocity Context object to be filled with
+     *             data.  Will be used for rendering this 
+     *             template
+     *  @return Template to be used for request
+     */   
     public Template handleRequest( Context ctx )
     {        
         /*
