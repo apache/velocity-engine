@@ -113,7 +113,7 @@
     </p>
 
     <p>
-    <strong>#set( $</strong>ref <strong>=</strong> [ <strong>"</strong>,
+    <strong>#</strong> [ <strong>{</strong> ] <strong>set</strong> [ <strong>}</strong> ] <strong> ( $</strong>ref <strong>=</strong> [ <strong>"</strong>,
     <strong>'</strong> ]arg[ <strong>"</strong>, <strong>'</strong> ] )
     </p>
 
@@ -166,10 +166,10 @@
     </p>
 
     <p>
-    <strong>#if(</strong> [condition] <strong>)</strong> [output] [
-    <strong>#elseif( </strong>[condition] <strong>)</strong> [output] ]* [
-    <strong>#else</strong> [output] ]
-    <strong>#end</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>if</strong> [ <strong>}</strong> ] <strong>(</strong> [condition] <strong>)</strong> [output] [
+    <strong>#</strong> [ <strong>{</strong> ] <strong>elseif</strong> [ <strong>}</strong> ] <strong>( </strong>[condition] <strong>)</strong> [output] ]* [
+    <strong>#</strong> [ <strong>{</strong> ] <strong>else</strong> [ <strong>}</strong> ]  [output] ]
+    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ] 
     </p>
 
     <p>
@@ -195,6 +195,7 @@
        <li>Equals Number: #if( $foo == 42 )</li>
        <li>Equals String: #if( $foo == "bar" )</li>
        <li>Boolean NOT: #if( !$foo )</li>
+       <li>using brackets to delimit directive: #if( $foo == $bar)it's true!#{else}it's not!#end</li>
     </ul>
   </subsection>
 
@@ -204,8 +205,9 @@
     </p>
 
     <p>
-    <strong>#foreach(</strong> <em>$ref</em> <strong>in</strong> <em>arg</em>
-    <strong>)</strong> <em>statement</em> <strong>#end</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>foreach</strong> [ <strong>}</strong> ] <strong>(</strong> <em>$ref</em> <strong>in</strong> <em>arg</em>
+    <strong>)</strong> <em>statement</em> 
+    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ] 
     </p>
 
     <p>
@@ -278,7 +280,7 @@ directive.foreach.counter.initial.value = 1
     </p>
 
     <p>
-    <strong>#include( </strong>arg[, arg2, ... argn]<strong> )</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>include</strong> [ <strong>}</strong> ] <strong>( </strong>arg[, arg2, ... argn]<strong> )</strong>
     </p>
 
     <ul>
@@ -302,7 +304,7 @@ directive.foreach.counter.initial.value = 1
     </p>
 
     <p>
-    <strong>#parse(</strong> arg <strong>)</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>parse</strong> [ <strong>}</strong> ] <strong>(</strong> arg <strong>)</strong>
     </p>
 
     <ul>
@@ -331,7 +333,7 @@ directive.foreach.counter.initial.value = 1
     </p>
 
     <p>
-    <strong>#stop</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>stop</strong> [ <strong>}</strong> ] 
     </p>
 
     <p>
@@ -351,8 +353,8 @@ directive.foreach.counter.initial.value = 1
     </p>
 
     <p>
-    <strong>#macro(</strong> vmname $arg1 [ $arg2 $arg3 ... $argn ]
-    <strong>)</strong> [ VM VTL code... ] <strong>#end</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>macro</strong> [ <strong>}</strong> ] <strong>(</strong> vmname $arg1 [ $arg2 $arg3 ... $argn ]
+    <strong>)</strong> [ VM VTL code... ] <strong>#</strong> [ <strong>{</strong> ] <strong>#end</strong> [ <strong>}</strong> ]
     </p>
 
     <ul>

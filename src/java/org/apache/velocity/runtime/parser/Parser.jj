@@ -41,7 +41,7 @@
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
  * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILIT
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
@@ -578,7 +578,7 @@ TOKEN:
  */
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")*  "#set" (" ")* "(">
+  <SET_DIRECTIVE: (" "|"\t")*  ("#set" | "#{set}")  (" ")* "(">
     {
         if (! inComment)
         {
@@ -875,29 +875,32 @@ TOKEN :
 <PRE_DIRECTIVE>
 TOKEN :
 {
-    <END: "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? >
+    <END: ( "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )
+          | ("{end}" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? ) >
     {
         inDirective = false;
         stateStackPop();
     }
 
-|   <IF_DIRECTIVE: "if">
+|   <IF_DIRECTIVE: "if" | "{if}">
     {
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSEIF_DIRECTIVE: "elseif">
+|   <ELSEIF_DIRECTIVE: "elseif" | "{elseif}">
     {
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE: "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )?  >
+|   <ELSE_DIRECTIVE: 
+          ( "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )
+        | ( "{else}" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )  >
      {
         inDirective = false;
         stateStackPop();
     }
 
-|   <STOP_DIRECTIVE: "stop">
+|   <STOP_DIRECTIVE: "stop" | "{stop}" >
     {
         inDirective = false;
         stateStackPop();
@@ -930,8 +933,12 @@ TOKEN:
     <#LETTER: [ "a"-"z", "A" - "Z" ] >
 |   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
 |   <WORD:  ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* >
+|   <BRACKETED_WORD:  "{" ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* "}" >
 
 }
+
+
+
 
 /* -----------------------------------------------------------------------
  *
@@ -1358,13 +1365,24 @@ SimpleNode Directive() :
 {/*@bgen(jjtree) Directive */
     try {
 /*@egen*/
+
     /*
      * note that if we were escaped, that is now handled by
      * EscapedDirective()
      */
-    t = <WORD>
+
+    ((t = <WORD>) | (t = <BRACKETED_WORD>))
+    {    
+        String directiveName;
+        if (t.kind == ParserConstants.BRACKETED_WORD) 
     {
-        String directiveName = t.image.substring(1);
+            
+            directiveName = t.image.substring(2,t.image.length() - 1);
+        } 
+        else
+        {
+            directiveName = t.image.substring(1);
+        }
 
         d = (Directive) directives.get(directiveName);
 
@@ -1422,6 +1440,8 @@ SimpleNode Directive() :
         argPos = 0;
     }
 
+    
+    
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
@@ -1437,7 +1457,7 @@ SimpleNode Directive() :
                         /* if a VM and it's the 0th arg... ok */
                         ;
                     }
-                    else if( t.image.equals("#foreach") && argPos == 1)
+                    else if( (t.image.equals("#foreach") || t.image.equals("#{foreach}") ) && argPos == 1)
                     {
                         /* if a foreach and it's the 2nd arg ok */
                         ;
