@@ -103,6 +103,8 @@
 </li>
                     <li>    <a href="./texen.html">Texen</a>
 </li>
+                    <li>    <a href="./dvsl/index.html">DVSL</a>
+</li>
                     <li>    <a href="./migration.html">Migration to Velocity</a>
 </li>
                     <li>    <a href="./devtools.html">Editors and IDEs</a>
@@ -134,16 +136,16 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32" />
    </td>
    <td>
-   Version 1.2 of the 
+   Version 1.2 of the
    Velocity Template Engine is now available.
    Thanks to all in the Velocity community who made
    this release a success.
    </td>
    </tr>
-   </table>      
+   </table>
  </p>
                                                 <p>
-   Combining contributions from throughout the 
+   Combining contributions from throughout the
    Velocity community, this version offers many new enhancements,
    features and fixes over version 1.1.
  </p>
@@ -151,20 +153,20 @@
    Major enhancements include :
  </p>
                                                 <ul>
-   <li> 
+   <li>
       Application programmers now can instantiate separate, independent
-      instances of the Velocity Template Engine or continue to use the 
+      instances of the Velocity Template Engine or continue to use the
       traditional singleton model.
    </li>
-   <li> 
+   <li>
       Major improvements to Anakia and Texen.
    </li>
-   <li> 
+   <li>
       The Velocimacro system can be configured to reload changed
       VM libraries automatically when the macro definitions change.
    </li>
  </ul>
-                                                <p> 
+                                                <p>
    Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
@@ -172,7 +174,7 @@
                                                 <p>
  <b>Note:</b> This release now requires
  <a href="http://jakarta.apache.org/ant/">Ant 1.4</a>
- to build the source and/or use the testbed. 
+ to build the source and/or use the testbed.
  As before, <i>using Velocity</i> does not require Ant.
 </p>
                             </blockquote>
@@ -189,9 +191,16 @@
       <tr><td>
         <blockquote>
                                     <p>
+ <strong>DVSL XML Transformation Tool Added as Subproject</strong>
+ <blockquote>
+ The DVSL XML transformation tool has been added as a new subproject.
+ Check it out <a href="/dvsl/index.html">here</a>.(<i>2001-12-18</i>)
+ </blockquote>
+</p>
+                                                <p>
   <strong>Velocity mentioned in ZDNet Article (last May)</strong>
 <blockquote>
-  It seems we could be a "can't-live-without-it piece of the 
+  It seems we could be a "can't-live-without-it piece of the
 infrastructure" of tomorrow. Check
 <a href="http://www.zdnet.com/zdnn/stories/news/0,4586,2717910,00.html">
 it</a> out. <i>(2001-12-09)</i>
@@ -208,17 +217,17 @@ it</a> out. <i>(2001-12-09)</i>
                                                 <p>
 <strong>Generate Code with Velocity in Borland's JBuilder </strong>
 <blockquote>
-  <a href="http://community.borland.com/article/0,1410,28086,00.html">Read</a> 
-  about how to use Velocity and Borland's OpenTools API to extend Borland's 
-  JBuilder for template-based Java source code generation. <i>(2001-12-08)</i> 
+  <a href="http://community.borland.com/article/0,1410,28086,00.html">Read</a>
+  about how to use Velocity and Borland's OpenTools API to extend Borland's
+  JBuilder for template-based Java source code generation. <i>(2001-12-08)</i>
 </blockquote>
 </p>
                                                 <p>
 <strong>Hey, Maybe We're On The Right Track After All...</strong>
 <blockquote>
 Give <a href="http://www.caucho.com/products/resin/ref/velocity.xtp">this</a>
-a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a 
-popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP 
+a read.  The latest version of <a href="http://www.caucho.com/">Resin</a>, a
+popular servlet engine, has added what they call a "Velocity-like syntax" to their JSP
 implementation.  As they say on their site :
 <blockquote>
 <i>"The Resin-2.0.3 release allows an alternate JSP expression syntax similar to the Apache Velocity project that many find more maintainable than the JSP pointy brackets. Resin's syntax extension is compatible with the usual JSP features like tag libraries."
@@ -226,11 +235,11 @@ implementation.  As they say on their site :
 </blockquote>
 
 We do think that this is a step in the right direction for JSPs, making the page content easier to
-write and maintain. 
+write and maintain.
 <br />
 <br />
 However, we want to emphasize to users that this isn't the same thing as using
-Velocity - this is a small subset of the Velocity syntax which 
+Velocity - this is a small subset of the Velocity syntax which
 was reimplemented in Resin.
 <br />
 <br />
@@ -241,85 +250,19 @@ web application environment.  It also an excellent templating tool
 for other kinds of applications written in Java.
 <br />
 <br />
-So if you are interested in portable alternatives to JSP, we strongly 
+So if you are interested in portable alternatives to JSP, we strongly
 encourage you look deeper into what Velocity has to offer.
 <br />
 <br />
 And if you must use JSPs and want to incorporate Velocity into your
 current or new JSP-based web applications, take a look at our
-<a href="veltag.html">Veltag</a> JSP taglib which allows the full 
+<a href="veltag.html">Veltag</a> JSP taglib which allows the full
 power of Velocity in your JSPs.
 </blockquote>
 </p>
                                                 <p>
-<strong>Velocidoc Released</strong>
-<blockquote>
-<a href="http://velocidoc.sourceforge.net/intro.html">
-Velocidoc</a>, a Velocimacro documentation tool modeled after
-Javadoc, is now available.  Use Javadoc-style comments in your
-Velocimacro libraries, and use Velocidoc to generate HTML 
-documentation.
-</blockquote>
+<i>Archived articles are <a href="/newshistory.html">here</a></i>.
 </p>
-                                                <p>
-<strong>New Apache Site Generated with Anakia</strong>
-<blockquote>
-The new web site of the 
-<a href="http://www.apache.org">Apache Software Foundation</a>
-is now generated using 
-<a href="anakia.html">Anakia</a>,
-the Velocity-based XML transformation tool.
-Take a look.
-</blockquote>
-</p>
-                                                <p>
-<strong>Need To Mix JSP and Velocity?</strong>
-<blockquote>
-Take a look at a new contribution, a 
-<a href="veltag.html">Velocity taglib</a> that lets you 
-use Velocity right in your JSPs.
-</blockquote>
-</p>
-                                                <p>
-<strong>4 published articles covering Velocity</strong>
-</p>
-                                                <blockquote>
-<a href="http://www.webtechniques.com/archives/2001/09/serv/">Getting Up
-to Speed with Velocity</a> is a really well written article by Jim
-Jagielski about the merits of using a tool like Velocity.
-</blockquote>
-                                                <blockquote>
-Many people believe that Velocity can only be used in the context of web
-applications. This excellent <a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0727-templates.html">JavaWorld
-article</a> by Leon Messerschmidt shows that the design of Velocity is
-such that it can be used in a myriad of applications.
-</blockquote>
-                                                <blockquote>
-The Java Developer Journal recently <a href="http://www.sys-con.com/java/articlea.cfm?id=1080">published</a> an
-edited version of the <a href="./ymtd/ymtd.html">YMTD article</a> by Jon
-Stevens as the cover story for their July edition.
-</blockquote>
-                                                <blockquote>
-  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out 
-  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here</a>.  Thanks Sun!
-</blockquote>
-                                                <p>
-<strong> 4 Products/Projects Now Depend on Velocity </strong>
-</p>
-                                                <blockquote>
-Gentleware, Xadra and Vamp have built products which depend on Velocity.
-J/Top, a server monitoring project, also uses Velocity for email output
-formatting.
-We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
-</blockquote>
-                                                <p>
-<strong> 5 Web Frameworks Now Support Velocity </strong>
-</p>
-                                                <blockquote>
-Turbine, JPublish, Melati, Maverick and WebWork
-all support Velocity. 
-We have listed them on our ever expanding <a href="./powered.html">Powered By Velocity</a> page.
-</blockquote>
                             </blockquote>
         </p>
       </td></tr>
@@ -371,7 +314,7 @@ We have listed them on our ever expanding <a href="./powered.html">Powered By Ve
       </td></tr>
       <tr><td>
         <blockquote>
-                                    <p> 
+                                    <p>
    The current release version is version 1.2
 </p>
                                                 <p>
