@@ -29,6 +29,10 @@ Changes to version 1.0
     Added examples-clean-forumdemo target to build.xml for cleaning up 
     after building the forumdemo. (JSS)
   </li>
+  <li> 
+    Small fix to ASTAndNode.java to short circuit if LHS is false, and to 
+    log an error of LHS or RHS is null. (gmj)
+  </li>
 </ul>
 
 </subsection>
