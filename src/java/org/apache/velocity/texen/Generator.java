@@ -56,16 +56,13 @@ package org.apache.velocity.texen;
  *
  */
 
-// JDK Classes
 import java.io.*;
 import java.util.*;
 
-// Velocity Classes
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 
-// Local Classes
 import org.apache.velocity.texen.util.BaseUtil;
 
 /**
@@ -73,7 +70,7 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.7 2000/12/20 06:22:44 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.8 2000/12/20 06:29:14 jvanzyl Exp $ 
  */
 public class Generator
 {
