@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.resource;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,8 @@ import org.apache.velocity.exception.ParseErrorException;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.14 2001/03/05 11:46:48 jvanzyl Exp $
+ * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
+ * @version $Id: ResourceManager.java,v 1.15 2001/03/12 04:38:36 geirm Exp $
  */
 public class ResourceManager
 {
@@ -260,6 +261,12 @@ public class ResourceManager
                     try
                     {
                         /*
+                         *  read how old the resource is _before_
+                         *  processing (=>reading) it
+                         */
+                        long howOldItWas = resourceLoader.getLastModified( resource );
+
+                        /*
                          *  read in the fresh stream and parse
                          */
 
@@ -270,8 +277,7 @@ public class ResourceManager
                          *  the modification check counters
                          */
                         
-                        resource.setLastModified( 
-                            resourceLoader.getLastModified( resource ));               
+                        resource.setLastModified( howOldItWas );
                     }
                     catch( ResourceNotFoundException rnfe )
                     {
@@ -314,6 +320,7 @@ public class ResourceManager
                 
                 //! Bug this is being run more then once!
                 
+                long howOldItWas = 0;  // Initialize to avoid warnings
                 for (int i = 0; i < resourceLoaders.size(); i++)
                 {
                     resourceLoader = (ResourceLoader) resourceLoaders.get(i);
@@ -322,6 +329,13 @@ public class ResourceManager
                     Runtime.info("Attempting to find " + resourceName + 
                         " with " + resourceLoader.getClassName());
                     
+                    /*
+                     *  read how old the resource is _before_
+                     *  processing (=>reading) it
+                     */
+
+                    howOldItWas = resourceLoader.getLastModified( resource );
+
                     if (resource.process())
                         break;
                 }
@@ -332,7 +346,7 @@ public class ResourceManager
                 if (resource.getData() == null)
                     throw new ResourceNotFoundException("Can't find " + resourceName + "!");
                 
-                resource.setLastModified(resourceLoader.getLastModified(resource));
+                resource.setLastModified( howOldItWas );
                 
                 resource.setModificationCheckInterval(
                     resourceLoader.getModificationCheckInterval());
