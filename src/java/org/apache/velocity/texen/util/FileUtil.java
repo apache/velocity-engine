@@ -61,12 +61,16 @@ import java.io.File;
 /**
  * A general file utility for use in the context
  *
- * @author <a href="mailto:leon@opticode.co.za>Leon Messerschmidt</a>
+ * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  */
 public class FileUtil
 {
     /**
-     * Creates the directory s (and any parent directories needed)
+     * Creates the directory s (and any parent directories needed).
+     *
+     * @param String path/directory to create.
+     * @param String report of path/directory creation.
      */
     static public String mkdir (String s)
     {
@@ -81,7 +85,30 @@ public class FileUtil
         {
             return e.toString();
         }
-
     }
 
+    /**
+     * A method to get a File object.
+     *
+     * @param String path to file object to create.
+     * @return File created file object.
+     */
+    public static File file(String s)
+    {
+        File f = new File(s);
+        return f;
+    }
+    
+    /**
+     * A method to get a File object.
+     *
+     * @param String base path
+     * @param String file name
+     * @return File created file object.
+     */
+    public static File file(String base, String s)
+    {
+        File f = new File(base, s);
+        return f;
+    }
 }
