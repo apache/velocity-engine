@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.5 2000/11/06 04:51:15 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.6 2000/11/25 16:21:03 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -72,6 +72,16 @@ public class TestProvider
     public String getName()
     {
         return "jason";
+    }
+    
+    public List getList()
+    {
+        List list = new ArrayList();
+        list.add("list element 1");
+        list.add("list element 2");
+        list.add("list element 3");
+        
+        return list;
     }
     
     public Hashtable getSearch()
@@ -146,6 +156,7 @@ public class TestProvider
         list.add("ArrayList element 3");
         list.add("ArrayList element 4");
 
+        System.out.println("hello");
         return list;
     }
 
