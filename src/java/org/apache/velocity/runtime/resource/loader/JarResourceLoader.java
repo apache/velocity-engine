@@ -75,7 +75,7 @@ import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.configuration.VelocityResources;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -88,7 +88,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Jason Van Zyl's FileResourceLoader.java
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -102,16 +102,9 @@ public class JarResourceLoader extends ResourceLoader
      */
     protected JarFile jarFile = null;
     
-    /*
-     * This should probably be moved into the super class,
-     * the stand init stuff. For the properties that all
-     * loaders will probably share.
-     * @param initialize the Map of paths to load
-     */
-    public void init(Map initializer)
+    public void init(Configuration configuration)
     {
-        String path = (String) initializer.get("resource.path");
-        
+        String path = configuration.getString("resource.path");
         setJarUrl( path );
         
         Runtime.info("Resources Loaded From: " +  path);

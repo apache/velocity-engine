@@ -94,7 +94,7 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
 
-import org.apache.velocity.runtime.configuration.VelocityResources;
+import org.apache.velocity.runtime.configuration.Configuration;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -172,7 +172,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.88 2001/03/03 04:45:04 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.89 2001/03/03 20:33:20 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -181,18 +181,30 @@ public class Runtime implements RuntimeConstants
      */
     private static VelocimacroFactory vmFactory = new VelocimacroFactory();
 
-    /** The Runtime logger */
+    /** 
+     * The Runtime logger.
+     */
     private static Logger logger;
 
-    /** The caching system used by the Velocity Runtime */
+    /** 
+     * The caching system used by the Velocity Runtime 
+     */
     private static Hashtable globalCache;
     
-    /** The Runtime parser pool */
+    /** 
+     * The Runtime parser pool 
+     */
     private static SimplePool parserPool;
     
-    /** Indicate whether the Runtime has been fully initialized */
+    /** 
+     * Indicate whether the Runtime has been fully initialized.
+     */
     private static boolean initialized;
 
+    /**
+     * These are the properties that are laid down over top
+     * of the default properties when requested.
+     */
     private static Properties overridingProperties = null;
 
     /**
@@ -212,6 +224,22 @@ public class Runtime implements RuntimeConstants
      * to each parser that is created.
      */
     private static Hashtable runtimeDirectives;
+
+    /**
+     * Object that houses the configuration options for
+     * the velocity runtime. The Configuration object allows
+     * the convenient retrieval of a subset of properties.
+     * For example all the properties for a resource loader
+     * can be retrieved from the main Configuration object
+     * using something like the following:
+     *
+     * Configuration loaderConfiguration = 
+     *         configuration.subset(loaderID);
+     *
+     * And a configuration is a lot more convenient to deal
+     * with then conventional properties objects, or Maps.
+     */
+    private static Configuration configuration = new Configuration();
 
     /*
      * This is the primary initialization method in the Velocity
@@ -384,7 +412,7 @@ public class Runtime implements RuntimeConstants
             InputStream inputStream = classLoader
                 .getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
             
-            VelocityResources.setPropertiesInputStream( inputStream );
+            configuration.setPropertiesInputStream( inputStream );
             
             info ("Default Properties File: " + 
                 new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
@@ -426,7 +454,7 @@ public class Runtime implements RuntimeConstants
          * Always lay down the default properties first as
          * to provide a solid base.
          */
-        if (VelocityResources.isInitialized() == false)
+        if (configuration.isInitialized() == false)
         {
             setDefaultProperties();
         }            
@@ -437,7 +465,7 @@ public class Runtime implements RuntimeConstants
             for (Enumeration e = overridingProperties.keys(); e.hasMoreElements() ; ) 
             {
                 String s = (String) e.nextElement();
-                VelocityResources.setProperty( s, overridingProperties.getProperty(s) );
+                configuration.setProperty( s, overridingProperties.getProperty(s) );
                 info ("   ** Property Override : " + s + " = " + 
                     overridingProperties.getProperty(s));
             }
@@ -455,7 +483,7 @@ public class Runtime implements RuntimeConstants
          * Grab the log file entry from the velocity
          * properties file.
          */
-        String logFile = VelocityResources.getString(RUNTIME_LOG);
+        String logFile = configuration.getString(RUNTIME_LOG);
 
         /*
          * Initialize the logger. We will eventually move all
@@ -689,14 +717,14 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     * Added this to check and make sure that the VelocityResources
+     * Added this to check and make sure that the configuration
      * is initialized before trying to get properties from it.
      * This occurs when there are errors during initialization
      * and the default properties have yet to be layed down.
      */
     private static boolean showStackTrace()
     {
-        if (VelocityResources.isInitialized())
+        if (configuration.isInitialized())
         {
             return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
         }            
@@ -787,7 +815,7 @@ public class Runtime implements RuntimeConstants
 
     /**
      * String property accessor method with default to hide the
-     * VelocityResources implementation.
+     * configuration implementation.
      * 
      * @param String key property key
      * @param String defaultValue  default value to return if key not 
@@ -796,7 +824,7 @@ public class Runtime implements RuntimeConstants
      */
     public static String getString( String key, String defaultValue)
     {
-        return VelocityResources.getString(key, defaultValue);
+        return configuration.getString(key, defaultValue);
     }
 
     /**
@@ -853,7 +881,7 @@ public class Runtime implements RuntimeConstants
      * R U N T I M E  A C C E S S O R  M E T H O D S
      * --------------------------------------------------------------------
      * These are the getXXX() methods that are a simple wrapper
-     * around the VelocityResources object. This is an attempt
+     * around the configuration object. This is an attempt
      * to make a the Velocity Runtime the single access point
      * for all things Velocity, and allow the Runtime to
      * adhere as closely as possible the the Mediator pattern
@@ -862,28 +890,28 @@ public class Runtime implements RuntimeConstants
      */
 
     /**
-     * String property accessor method to hide the VelocityResources implementation
+     * String property accessor method to hide the configuration implementation
      * @param key  property key
      * @return   value of key or null
      */
     public static String getString(String key)
     {
-        return VelocityResources.getString( key );
+        return configuration.getString( key );
     }
 
     /**
-     * Int property accessor method to hide the VelocityResources implementation.
+     * Int property accessor method to hide the configuration implementation.
      *
      * @param String key property key
      * @return int value
      */
     public static int getInt( String key )
     {
-        return VelocityResources.getInt( key );
+        return configuration.getInt( key );
     }
 
     /**
-     * Int property accessor method to hide the VelocityResources implementation.
+     * Int property accessor method to hide the configuration implementation.
      *
      * @param key  property key
      * @param int default value
@@ -891,11 +919,11 @@ public class Runtime implements RuntimeConstants
      */
     public static int getInt( String key, int defaultValue )
     {
-        return VelocityResources.getInt( key, defaultValue );
+        return configuration.getInt( key, defaultValue );
     }
 
     /**
-     * Boolean property accessor method to hide the VelocityResources implementation.
+     * Boolean property accessor method to hide the configuration implementation.
      * 
      * @param String key  property key
      * @param boolean default default value if property not found
@@ -903,6 +931,17 @@ public class Runtime implements RuntimeConstants
      */
     public static boolean getBoolean( String key, boolean def )
     {
-        return VelocityResources.getBoolean( key, def );
+        return configuration.getBoolean( key, def );
     }
+
+    /**
+     * Return the velocity runtime configuration object.
+     *
+     * @return Configuration configuration object which houses
+     *                       the velocity runtime properties.
+     */
+    public static Configuration getConfiguration()
+    {
+        return configuration;
+    }        
 }

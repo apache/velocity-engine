@@ -58,6 +58,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.configuration.Configuration;
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -67,7 +68,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * extend.
  * 
  * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.4 2001/02/26 03:33:22 geirm Exp $
+ * $Id: ResourceLoader.java,v 1.5 2001/03/03 20:33:22 jvanzyl Exp $
  */
 public abstract class ResourceLoader
 {
@@ -94,28 +95,25 @@ public abstract class ResourceLoader
      * loaders and must be called to set up common
      * properties shared by all resource loaders
      */
-    public void commonInit(Map initializer)
+    public void commonInit(Configuration configuration)
     {
-        isCachingOn = new Boolean((String)initializer
-            .get("cache")).booleanValue();
-        
-        modificationCheckInterval = Long.parseLong((String)initializer
-            .get("modificationCheckInterval"));
-            
-        className = (String)initializer.get("class");
+        isCachingOn = configuration.getBoolean("cache");
+        modificationCheckInterval = configuration.getLong("modificationCheckInterval");
+        className = configuration.getString("class");
     }
 
     /** 
      * Initialize the template loader with a
-     * Map.
+     * a resources class.
      */
-    public abstract void init(Map initializer);
+    public abstract void init(Configuration configuration);
 
     /** 
      * Get the InputStream that the Runtime will parse
      * to create a template.
      */
-    public abstract InputStream getResourceStream( String source ) throws ResourceNotFoundException;
+    public abstract InputStream getResourceStream( String source ) 
+        throws ResourceNotFoundException;
 
     /**
      * Given a template, check to see if the source of InputStream
