@@ -86,7 +86,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.29 2001/08/29 02:37:27 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.30 2001/08/31 20:18:24 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -260,7 +260,17 @@ public class TexenTask
     {
         contextProperties = new ExtendedProperties();
         
-        if (useClasspath)
+        // Always try to get the context properties resource
+        // from a file first. Templates may be taken from a JAR
+        // file but the context properties resource may be a 
+        // resource in the filesystem. If this fails than attempt
+        // to get the context properties resource from the
+        // classpath.
+        try
+        {
+            contextProperties.load(new FileInputStream(file));
+        }
+        catch (Exception e)
         {
             ClassLoader classLoader = this.getClass().getClassLoader();
             
@@ -270,17 +280,6 @@ public class TexenTask
                 contextProperties.load(inputStream);
             }
             catch (IOException ioe)
-            {
-                contextProperties = null;
-            }
-        }
-        else
-        {
-            try
-            {
-                contextProperties.load(new FileInputStream(file));
-            }
-            catch (Exception e)
             {
                 contextProperties = null;
             }
