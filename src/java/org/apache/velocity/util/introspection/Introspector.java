@@ -62,6 +62,7 @@ import java.util.HashSet;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
  * This basic function of this class is to return a Method
@@ -89,7 +90,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.20 2001/12/05 23:44:56 jvanzyl Exp $
+ * @version $Id: Introspector.java,v 1.21 2002/04/21 18:39:01 geirm Exp $
  */
 public class Introspector extends IntrospectorBase
 {
@@ -104,14 +105,14 @@ public class Introspector extends IntrospectorBase
     /**
      *  our engine runtime services
      */
-    private RuntimeServices rsvc = null;
+    private RuntimeLogger rlog = null;
 
     /**
      *  Recieves our RuntimeServices object
      */
-    public Introspector( RuntimeServices r )
+    public Introspector(RuntimeLogger logger)
     {
-        this.rsvc = r;
+        this.rlog = logger;
     }
    
     /**
@@ -155,7 +156,7 @@ public class Introspector extends IntrospectorBase
             
             msg = msg + ") for class " + c;
             
-            rsvc.error( msg );
+            rlog.error( msg );
         }
 
         return null;
@@ -168,6 +169,6 @@ public class Introspector extends IntrospectorBase
     protected void clearCache()
     {
         super.clearCache();
-        rsvc.info( CACHEDUMP_MSG );
+        rlog.info( CACHEDUMP_MSG );
     }
 }
