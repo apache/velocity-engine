@@ -82,7 +82,6 @@
     <!-- Compiles the source directory                                       -->
     <!-- =================================================================== -->
     <target name="compile" depends="prepare">
-
         <javac srcdir="${build.src}"
             destdir="${build.dest}"
             debug="${debug}"
@@ -109,6 +108,9 @@
         <jar jarfile="${build.dir}/${project}-${version}.jar"
             basedir="${build.dest}"
             excludes="**/package.html"/>
+        <!-- HELP: Ant does not like my use of the jar task's manifest
+             attribute.  It reports "basedir does not exist".
+	    manifest="{build.dest}/META-INF/MANIFEST.MF"/> -->
     </target>
     
     <!-- =================================================================== -->
@@ -136,19 +138,31 @@
     <target name="dist" depends="jar,javadocs">
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/src/java"/>
-        <copy file="${build.dir}/src/" todir="${dist.dir}/src/java/"/>
-        <copy file="../docs" todir="${dist.dir}/docs"/>
-        <copy file="../build" todir="${dist.dir}/build"/>
-        
-        <copy file="../examples" todir="${dist.dir}/examples"/>
-        <chmod file="${dist.dir}/examples/test.sh" perm="+x" />
-        
-        <copy file="../testbed" todir="${dist.dir}/testbed"/>
-        <chmod file="${dist.dir}/testbed/test.sh" perm="+x" />
+
+        <copy todir="${dist.dir}/src/java/">
+            <fileset dir="${build.dir}/src/" includes="**"/>
+        </copy>
+
+        <copy todir="${dist.dir}/docs">
+            <fileset dir="../docs" includes="**"/>
+        </copy>
+
+        <copy todir="${dist.dir}/build">
+            <fileset dir="../build" includes="**"/>
+        </copy>
+
+        <copy todir="${dist.dir}/examples">
+            <fileset dir="../examples" includes="**"/>
+        </copy>
+        <chmod file="${dist.dir}/examples/test.sh" perm="+x"/>
+
+        <copy todir="${dist.dir}/testbed">
+            <fileset dir="../testbed" includes="**"/>
+        </copy>
+        <chmod file="${dist.dir}/testbed/test.sh" perm="+x"/>
         
         <copy file="${build.dir}/${project}.jar" 
             tofile="${dist.dir}/${project}.jar"/>
-        
         <jar jarfile="../${final.name}.jar" basedir="${dist.root}" 
             excludes="**/package.html"/>
     
