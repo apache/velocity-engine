@@ -43,6 +43,11 @@
        Documentation : Clarification of VM properties and added note on
        VM declaration / usage order in user guide. (gmj)
     </li>
+    <li>
+       Fixed HttpServletRequestWrap.java - getInputStream() wasn't calling
+       the method on the wrapped HttpServletRequest. Thanks to 
+       Shahar Solomianik. (gmj)
+    </li>
 </ul>
 
 </subsection>
