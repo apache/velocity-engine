@@ -60,6 +60,7 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.directive.VMProxyArg;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.app.event.EventCartridge;
 
 /**
  *  This is a special, internal-use-only context implementation to be
@@ -73,7 +74,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.6 2001/04/22 18:29:37 geirm Exp $ 
+ *  @version $Id: VMContext.java,v 1.7 2001/05/20 19:44:35 geirm Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {

@@ -60,7 +60,7 @@ import java.io.Serializable;
 
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
-import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
@@ -76,9 +76,9 @@ import org.apache.velocity.runtime.resource.Resource;
  *  is derived from this.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.7 2001/04/22 18:29:37 geirm Exp $
+ * @version $Id: InternalContextBase.java,v 1.8 2001/05/20 19:44:34 geirm Exp $
  */
-class InternalContextBase implements InternalHousekeepingContext,Serializable
+class InternalContextBase implements InternalHousekeepingContext, InternalEventContext,  Serializable
 {
     /**
      *  cache for node/context specific introspection information
@@ -90,7 +90,15 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
      */
     private Stack templateNameStack = new Stack();
 
+    /**
+     *  EventCartridge we are to carry.  Set by application
+     */
     private EventCartridge eventCartridge = null;
+
+    /**
+     *  Current resource - used for carrying encoding and other
+     *  information down into the rendering process
+     */
     private Resource currentResource = null;
 
     /**
@@ -160,6 +168,16 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
         introspectionCache.put( key, o );
     }
 
+    public void setCurrentResource( Resource r )
+    {
+        currentResource = r;
+    }
+
+    public Resource getCurrentResource()
+    {
+        return currentResource;
+    }
+
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
         EventCartridge temp = eventCartridge;
@@ -172,16 +190,6 @@ class InternalContextBase implements InternalHousekeepingContext,Serializable
     public EventCartridge getEventCartridge()
     {
         return eventCartridge;
-    }
-
-    public void setCurrentResource( Resource r )
-    {
-        currentResource = r;
-    }
-
-    public Resource getCurrentResource()
-    {
-        return currentResource;
     }
 }
 
