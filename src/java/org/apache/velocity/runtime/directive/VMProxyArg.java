@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,9 @@ import java.io.StringReader;
 import java.io.BufferedReader;
 
 import org.apache.velocity.context.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ASTReference;
@@ -113,7 +115,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.11 2002/02/28 05:24:24 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.11.2.1 2002/03/28 15:35:33 geirm Exp $ 
  */
 public class VMProxyArg
 {
@@ -435,10 +437,16 @@ public class VMProxyArg
                     }
 
                     /*
-                     *  init.  We can do this as they are only references
+                     *  init.  be a good citizen and give it an ICA
                      */
 
-                    nodeTree.init(null, rsvc);
+                    InternalContextAdapter ica
+                            = new InternalContextAdapterImpl(new VelocityContext());
+
+                    ica.pushCurrentTemplateName("VMProxyArg : "
+                            + ParserTreeConstants.jjtNodeName[type]);
+
+                    nodeTree.init(ica, rsvc);
                 } 
                 catch ( Exception e ) 
                 {

@@ -67,10 +67,12 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.13 2001/11/27 00:40:46 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.13.2.3 2002/07/25 01:35:04 geirm Exp $
  */
 public class MethodMap
 {
+    protected static final Object OBJECT = new Object();
+
     /**
      * Keep track of all methods with the same name.
      */
@@ -85,9 +87,9 @@ public class MethodMap
     {
         String methodName = method.getName();
 
-        List l = (List) methodByNameMap.get( methodName );
+        List l = (List) methodByNameMap.get(methodName);
 
-        if ( l == null)
+        if (l == null)
         {
             l = new ArrayList();
             methodByNameMap.put(methodName, l);
@@ -166,15 +168,15 @@ public class MethodMap
                  *  determining specificity
                  */
                  
-                Twonk twonk = calcDistance( params, parameterTypes );
+                Twonk twonk = calcDistance(params, parameterTypes);
                 
-                if (twonk != null )
+                if (twonk != null)
                 {
                     /*
                      *  if we don't have anything yet, take it
                      */
                      
-                    if ( bestTwonk == null )
+                    if (bestTwonk == null)
                     {
                         bestTwonk = twonk;
                         bestMethod = method;
@@ -186,11 +188,11 @@ public class MethodMap
                          * versus what we think of as the best candidate
                          */
                          
-                        int val = twonk.moreSpecific( bestTwonk );
+                        int val = twonk.moreSpecific(bestTwonk);
                          
                         //System.out.println("Val = " + val + " for " + method + " vs " + bestMethod );
                             
-                        if( val == 0)
+                        if (val == 0)
                         {
                             /*
                              * this means that the parameters 'crossed'
@@ -199,7 +201,7 @@ public class MethodMap
                              */
                             ambiguous = true;
                         }
-                        else if ( val == 1)
+                        else if (val == 1)
                         {
                             /*
                              *  the current method is clearly more
@@ -222,7 +224,7 @@ public class MethodMap
          *  so inform the caller...
          */
 
-        if ( ambiguous )
+        if (ambiguous)
         {    
             throw new AmbiguousException();
         }
@@ -235,12 +237,12 @@ public class MethodMap
      *  steps, between the calling args and the method args.
      *  There still is an issue re interfaces...
      */
-    private Twonk calcDistance( Object[] set, Class[] base )
+    private Twonk calcDistance(Object[] set, Class[] base)
     {
-        if ( set.length != base.length)
+        if (set.length != base.length)
             return null;
             
-        Twonk twonk = new Twonk( set.length );
+        Twonk twonk = new Twonk(set.length);
         
         int distance = 0;
         
@@ -249,25 +251,55 @@ public class MethodMap
             /* 
              * can I get from here to there?
              */
-             
-            Class setclass = set[i].getClass();
-             
-            if ( !base[i].isAssignableFrom( set[i].getClass() ))
-                return null;
-    
+
+            Object invocationArg = set[i];
+            Class methodClass = base[i];
+
+            if (invocationArg == null)
+            {
+                invocationArg = OBJECT;
+            }
+
+            Class setclass = invocationArg.getClass();
+
+            if (!methodClass.isAssignableFrom(setclass))
+            {
+                /*
+                 * if the arg is null and methodClass isn't primitive then
+                 *  that's ok
+                 */
+
+                if (set[i] == null && !methodClass.isPrimitive())
+                {
+                    continue;
+                }
+                else if (checkPrimitive(methodClass, setclass))
+                {
+                    /*
+                     * if we are dealing with primitives and it's ok...
+                     */
+
+                    continue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
             /*
              * ok, I can.  How many steps?
              */
            
             Class c = setclass;
                       
-            while( c != null)
+            while (c != null)
             {      
                 /*
                  * is this a valid step?
                  */
                  
-                if ( !base[i].isAssignableFrom( c ) )
+                if (!methodClass.isAssignableFrom(c))
                 {      
                     /*
                      *  it stopped being assignable - therefore we are looking at
@@ -277,7 +309,7 @@ public class MethodMap
                     break;
                 }
                 
-                if(  base[i].equals( c ) )
+                if (methodClass.equals(c))
                 {
                     /*
                      *  we are equal, so no need to move forward
@@ -293,6 +325,69 @@ public class MethodMap
          }
                 
         return twonk;
+    }
+
+    /**
+     *  check for primitive and widening.  Take from the 1.4 code
+     */
+    private boolean checkPrimitive(Class formal, Class arg)
+    {
+
+        if(formal.isPrimitive())
+        {
+            if(formal == Boolean.TYPE && arg == Boolean.class)
+            {
+                return true;
+            }
+
+            if(formal == Character.TYPE && arg == Character.class)
+            {
+                return true;
+            }
+
+            if(formal == Byte.TYPE && arg == Byte.class)
+            {
+                return true;
+            }
+
+            if(formal == Short.TYPE &&
+                    (arg == Short.class || arg == Byte.class))
+            {
+                return true;
+            }
+
+            if(formal == Integer.TYPE &&
+               (arg == Integer.class || arg == Short.class ||
+                arg == Byte.class))
+            {
+                return true;
+            }
+
+            if(formal == Long.TYPE &&
+               (arg == Long.class || arg == Integer.class ||
+                arg == Short.class || arg == Byte.class))
+            {
+                return true;
+            }
+
+            if(formal == Float.TYPE &&
+               (arg == Float.class || arg == Long.class ||
+                arg == Integer.class || arg == Short.class ||
+                arg == Byte.class))
+            {
+                return true;
+            }
+
+            if(formal == Double.TYPE &&
+               (arg == Double.class || arg == Float.class ||
+                arg == Long.class || arg == Integer.class ||
+                arg == Short.class || arg == Byte.class))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -313,16 +408,18 @@ public class MethodMap
         public int distance;
         public int[] vec;
         
-        public Twonk( int size )
+        public Twonk(int size)
         {
             vec = new int[size];
         }
         
-        public int moreSpecific( Twonk other )
+        public int moreSpecific(Twonk other)
         {
-            if (other.vec.length != vec.length )
+            if (other.vec.length != vec.length)
+            {
                 return -1;
-                
+            }
+
             boolean low = false;
             boolean high = false;
             
@@ -332,7 +429,7 @@ public class MethodMap
                 {
                     high = true;
                 }
-                else if (vec[i] < other.vec[i] )
+                else if (vec[i] < other.vec[i])
                 {
                     low = true;
                 }                    
@@ -343,27 +440,30 @@ public class MethodMap
              *  we saw the parameter 'slopes' cross
              *  this means ambiguity
              */
-             
             if (high && low)
+            {
                 return 0;
-               
+            }
+
             /*
              *  we saw that all args were 'high', meaning
              *  that the other method is more specific so
              *  we are less
              */
-             
-            if( high && !low)
+            if (high && !low)
+            {
                 return -1;
-                
+            }
+
             /*
              *  we saw that all points were lower, therefore
              *  we are more specific
              */
-             
-            if( !high && low )
+            if (!high && low)
+            {
                 return 1;
-            
+            }
+
             /*
              *  the remainder, neither high or low
              *  means we are the same.  This really can't 
