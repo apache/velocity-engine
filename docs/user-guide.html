@@ -174,6 +174,7 @@
         <li><a href="#Range Operator">Range Operator</a></li>
         <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
         !</a></li>
+        <li><a href="#Velocimacro Miscellany">Velocimacro Miscellany</a></li>
     </ol>
 </li>
 <li><a href="#Feedback">Feedback</a></li>
@@ -3342,6 +3343,210 @@ $\\!foo
       </td></tr>
       <tr><td><br/></td></tr>
     </table>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Velocimacro Miscellany"><strong>Velocimacro Miscellany</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+This section is a mini-FAQ on topics relating to Velocimacros.  This
+section will change over time, so it's worth checking for new information
+from time to time.
+</p>
+                                                <p>
+Note : Throughout this section, 'Velocimacro' will commonly be abbreviated
+as 'VM'.
+</p>
+                                                <strong>Can I use a directive or another VM as an argument to a VM?</strong>
+                                                <p>
+Example : <code>#center( #bold("hello") )</code>
+</p>
+                                                <p>
+No.  A directive isn't a valid argument to a directive, and for most practical 
+purposes, a VM is a directive.
+</p>
+                                                <p>
+<i>However...</i>, there are things you can do. One easy solution is to take
+advantage of the fact that 'doublequote' (") renders it's contents. So you
+could do something like
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set($stuff = &quot;#bold('hello')&quot; )
+#center( $stuff )
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+You can save a step...
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#center( &quot;#bold( 'hello' )&quot; )
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Please note that in the latter exmaple the arg 
+is evaluated <i>inside</i> the VM, not at the 
+calling level.  In other words, the argument to 
+the VM is passed in in its entirety and evaluated within the VM
+it was passed into. This allows you to do things like :
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+#macro( inner $foo )
+  inner : $foo
+#end
+
+#macro( outer $foo )
+   #set($bar = &quot;outerlala&quot;)
+   outer : $foo
+#end
+
+#set($bar = 'calltimelala')
+#outer( &quot;#inner($bar)&quot; )
+
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Where the output is
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+Outer : inner : outerlala
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+because the evaluation of the "#inner($bar)" happens inside #outer(), so the
+$bar value set inside #outer() is the one that's used.
+</p>
+                                                <p>
+This is an intentional and jealously guarded feature - args are passed 'by
+name' into VMs, so you can hand VMs things like stateful references such as
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#macro( foo $color )
+  &lt;tr bgcolor=$color&gt;&lt;td&gt;Hi&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr bgcolor=$color&gt;&lt;td&gt;There&lt;/td&gt;&lt;/tr&gt;
+#end
+
+#foo( $bar.rowColor() )
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+And have rowColor() called repeatedly, rather than just once.  To avoid that, 
+invoke the method outside of the VM, and pass the value into the VM.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set($color = $bar.rowColor())
+#foo( $color )
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                            </blockquote>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
                             </blockquote>
         </p>
       </td></tr>
@@ -3358,7 +3563,8 @@ $\\!foo
                                     <p>
     If you encounter any mistakes in this manual or have 
     other feedback related to the Velocity User Guide, please 
-    email <a href="mailto:jcastura@apache.org">John Castura</a>. 
+    email the 
+    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>. 
     Thanks!
   </p>
                             </blockquote>
