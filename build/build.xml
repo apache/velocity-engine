@@ -260,6 +260,7 @@
     <delete>
        <fileset dir="${build.dest}">
           <include name="org/apache/commons/collections/*.class" />
+          <exclude name="org/apache/commons/collections/LRUMap.class" />
           <exclude name="org/apache/commons/collections/ExtendedProperties*.class" />
        </fileset>
     </delete>
