@@ -89,7 +89,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: Introspector.java,v 1.19 2001/12/05 21:23:31 geirm Exp $
+ * @version $Id: Introspector.java,v 1.20 2001/12/05 23:44:56 jvanzyl Exp $
  */
 public class Introspector extends IntrospectorBase
 {
@@ -117,6 +117,11 @@ public class Introspector extends IntrospectorBase
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
+     *
+     * @param c Class in which the method search is taking place
+     * @param name Name of the method being searched for
+     * @param params An array of Objects (not Classes) that describe the
+     *               the parameters
      *
      * @return The desired Method object.
      */
