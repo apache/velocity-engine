@@ -1,3 +1,4 @@
+
 package org.apache.velocity.runtime.directive;
 
 /*
@@ -66,6 +67,7 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * Pluggable directive that handles the #include() statement in VTL. 
@@ -100,7 +102,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.21 2001/08/07 21:57:56 geirm Exp $
+ * @version $Id: Include.java,v 1.22 2001/09/07 18:11:22 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -150,7 +152,7 @@ public class Include extends Directive
      */
     public boolean render(InternalContextAdapter context, 
                            Writer writer, Node node)
-        throws IOException, MethodInvocationException
+        throws IOException, MethodInvocationException, ResourceNotFoundException
     {
         /*
          *  get our arguments and check them
@@ -195,7 +197,7 @@ public class Include extends Directive
      */
     private boolean renderOutput( Node node, InternalContextAdapter context, 
                                   Writer writer )
-        throws IOException, MethodInvocationException
+        throws IOException, MethodInvocationException, ResourceNotFoundException
     {
         String arg = "";
         
@@ -244,9 +246,22 @@ public class Include extends Directive
 
             resource = rsvc.getContent(arg, encoding);
         }
+        catch ( ResourceNotFoundException rnfe )
+        {
+       		/*
+       		 * the arg wasn't found.  Note it and throw
+       		 */
+       		 
+        	rsvc.error("#include(): cannot find resource '" + arg + "', called from template " 
+        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() + ")" );       	
+        	throw rnfe;
+        }
+
         catch (Exception e)
         {
-            rsvc.error("#include : cannot find " + arg + " template");
+        	rsvc.error("#include(): arg = '" + arg + "',  called from template " 
+        		+ context.getCurrentTemplateName() + " at (" + getLine() + ", " + getColumn() 
+        		+ ") : " + e);       	
         }            
         
         if ( resource == null )
