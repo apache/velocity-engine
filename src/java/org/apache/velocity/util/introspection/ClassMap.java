@@ -61,8 +61,6 @@ import java.util.Hashtable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.apache.velocity.runtime.RuntimeServices;
-
 /**
  * A cache of introspection information for a specific class instance.
  * Keys {@link java.lang.Method} objects by a concatenation of the
@@ -72,12 +70,10 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassMap.java,v 1.18 2001/11/27 00:40:46 geirm Exp $
+ * @version $Id: ClassMap.java,v 1.19 2001/12/05 21:23:31 geirm Exp $
  */
 public class ClassMap
 {
-    private RuntimeServices rsvc = null;
-
     private static final class CacheMiss { }
     private static final CacheMiss CACHE_MISS = new CacheMiss();
     private static final Object OBJECT = new Object();
@@ -100,10 +96,9 @@ public class ClassMap
     /**
      * Standard constructor
      */
-    public ClassMap( RuntimeServices rsvc, Class clazz)
+    public ClassMap( Class clazz)
     {
         this.clazz = clazz;
-        this.rsvc = rsvc;
         populateMethodCache();
     }
 
@@ -132,6 +127,7 @@ public class ClassMap
      * and introspect the method from the MethodMap.
      */
     public Method findMethod(String name, Object[] params)
+        throws MethodMap.AmbiguousException
     {
         String methodKey = makeMethodKey(name, params);
         Object cacheEntry = methodCache.get( methodKey );
@@ -150,23 +146,14 @@ public class ClassMap
             }
             catch( MethodMap.AmbiguousException ae )
             {
+                /*
+                 *  that's a miss :)
+                 */
 
-                String msg = "Introspection Error : Ambiguous method invocation "
-                    + name + "( ";
+                methodCache.put( methodKey,
+                                 CACHE_MISS );
 
-                for (int i = 0; i < params.length; i++)
-                {
-                    if ( i > 0)
-                        msg = msg + ", ";
-                    
-                    msg = msg + params[i].getClass().getName();
-                }
-                
-                msg = msg + ") for class " + clazz;
-
-                rsvc.error( msg );
-                
-                cacheEntry = null;
+                throw ae;
             }
 
             if ( cacheEntry == null )
