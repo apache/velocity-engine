@@ -128,13 +128,14 @@ I just wanted to share my findings on Velocity. I use velocity as an
 embedded mail templating system in our application server.
 
 When I began this subproject, I was using JSP as the language for
-generating template output for our application server. It was horrible.
-There were many problems, not to mention the difficulty of embedding a
-servlet engine in the app server that I could communicate with through
-direct method calls instead of over a socket. Specific to the Velocity
-argument was the JSP template versus the VTL template. I'd like to show
-you what my JSP template looked like. Package names have been changed to
-protect the innocent. Here is an example:
+generating template output for our application server. It was
+horrible. There were many problems, not to mention the difficulty of
+embedding a servlet engine in the app server that I could
+communicate with through direct method calls instead of over a
+socket. Specific to the Velocity argument was the JSP template
+versus the VTL template. I'd like to show you what my JSP template
+looked like. Package names have been changed to protect the
+innocent. Here is an example:
 
 ----------------8&lt;---------------
 
@@ -212,8 +213,8 @@ meeting.getParticipation(((MeetingEvent)event).getFromId());
 
 ----------------8&lt;---------------
 
-Seasick yet? Now here is the Velocity template accomplishing the same
-thing as above:
+Seasick yet? Now here is the Velocity template accomplishing the
+same thing as above:
 
 ----------------8&lt;---------------
 
@@ -258,22 +259,24 @@ thing as above:
 
 ----------------8&lt;---------------
 
-I was subsequently able to define that largish foreach loop into a macro
-and shrink it even more, using Velocity's #macro function, so I could do
-this:
+I was subsequently able to define that largish foreach loop into a
+macro and shrink it even more, using Velocity's #macro function, so
+I could do this:
 
 #drawStandardHtmlTranscript ( $meeting )
 
-removing 20 lines of code from each template whilst only adding 2 lines
-(one for #parse and the other for the #drawStandardHtmlTranscript.
+removing 20 lines of code from each template whilst only adding 2
+lines (one for #parse and the other for the
+#drawStandardHtmlTranscript.
 
-The call to the Velocity runtime to finally merge the template consumes
-about 20-50 milleseconds (on a 400 mHz PII Linux system) when I pool the
-contexts (time doubles when I do not). This is great performance, too!
+The call to the Velocity runtime to finally merge the template
+consumes about 20-50 milleseconds (on a 400 mHz PII Linux system)
+when I pool the contexts (time doubles when I do not). This is great
+performance, too!
 
 Last but not least, teaching the web design team to write a template
-took literally 10 minutes from start to finish. They haven't asked me a
-single question since.
+took literally 10 minutes from start to finish. They haven't asked
+me a single question since.
 
 -- 
 Nick Bauman
