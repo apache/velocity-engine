@@ -63,7 +63,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * call init().
  * </p>
  *
- * @version $Id: VelocityEngine.java,v 1.9 2004/04/29 23:02:55 geirm Exp $
+ * @version $Id$
  */
 public class VelocityEngine implements RuntimeConstants
 {
@@ -526,7 +526,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *   Determines if a template is accessable via the currently 
+     *   Determines if a resource is accessable via the currently 
      *   configured resource loaders.
      *   <br><br>
      *   Note that the current implementation will <b>not</b>
@@ -537,12 +537,21 @@ public class VelocityEngine implements RuntimeConstants
      *   The previous implementation exhibited extreme lazyness and
      *   sloth, and the author has been flogged.
      *
-     *   @param templateName  name of the temlpate to search for
+     *   @param resourceName  name of the resource to search for
      *   @return true if found, false otherwise
      */
-    public boolean templateExists( String templateName )
+    public boolean resourceExists(String resourceName)
     {
-        return (ri.getLoaderNameForResource(templateName) != null);
+        return (ri.getLoaderNameForResource(resourceName) != null);
+    }
+
+    /**
+     * @see #resourceExists(String)
+     * @deprecated Use resourceExists(String) instead.
+     */
+    public boolean templateExists(String resourceName)
+    {
+        return resourceExists(resourceName);
     }
     
     /**
