@@ -102,6 +102,13 @@ Allow newlines in strings. (gmj)
 <li>
 Tiny fix to VelocityWriter to prevent a NPE if someone passes it a null (gmj)    
 </li>
+<li>
+    Anakia changes to accomodate finalization of JDOM API.  In AnakiaJDOMFactory,
+    AnakiaTask, and OutputWrapper (gmj)
+</li>
+<li>
+    Added template, line and column info to MIEs thrown by ASTMethod (gmj)
+</li>
 </ul>
 
 </subsection>

@@ -40,8 +40,33 @@
  </p>
 </section>
 
+<section name="Notice : JDOM API Change">
+    <p>
+        As part of their effort to reach v1.0, the JDOM
+        community has made slight modifications to their API.
+        This will affect Velocity users that use the 'Anakia'
+        package.
+    </p>
+
+    <p>
+        Velocity versions 1.4 and older require using a version
+        of JDOM older than beta10rc1.  All new releases of
+        Velocity will use JDOM beta10rc1 and 1.0 when it comes out.
+    </p>
+</section>
+
 <section name="Velocity News">
 
+    <p>
+        <strong>New Article on Velocity</strong>
+        <blockquote>
+        Sing Li discusses how to use Velocity in a standalone application
+        as well as a replacement for JSP in the Struts MVC framework in this
+        <a href="http://www.ibm.com/developerworks/library/j-velocity/">
+        article</a>
+        (<i>2004-02-19</i>)
+        </blockquote>
+    </p>
     <p>
         <strong>ALE uses Velocity</strong>
         <blockquote>
