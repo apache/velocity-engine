@@ -106,7 +106,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.32 2000/11/22 02:17:42 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.33 2000/11/26 18:11:39 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -862,7 +862,7 @@ TOKEN :
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z"] >
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
-|   <IDENTIFIER:  <ALPHA_CHAR> (<IDENTIFIER_CHAR>)* >
+|   <IDENTIFIER:  ( <ALPHA_CHAR> | ["_"]) (<IDENTIFIER_CHAR>)* >
 |   <DOT: "." <ALPHA_CHAR>> 
     { 
         /*

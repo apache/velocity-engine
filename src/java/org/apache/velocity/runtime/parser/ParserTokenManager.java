@@ -2112,7 +2112,7 @@ private final int jjMoveNfa_5(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 5:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
+                  if ((0x7fffffe87fffffeL & l) != 0L)
                   {
                      if (kind > 54)
                         kind = 54;
@@ -2133,12 +2133,6 @@ private final int jjMoveNfa_5(int startState, int curPos)
                   jjAddStates(10, 11);
                   break;
                case 9:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
-                     break;
-                  if (kind > 54)
-                     kind = 54;
-                  jjCheckNAdd(10);
-                  break;
                case 10:
                   if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
@@ -2488,7 +2482,7 @@ private final int jjMoveNfa_2(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 5:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
+                  if ((0x7fffffe87fffffeL & l) != 0L)
                   {
                      if (kind > 54)
                         kind = 54;
@@ -2509,12 +2503,6 @@ private final int jjMoveNfa_2(int startState, int curPos)
                   jjAddStates(12, 13);
                   break;
                case 11:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
-                     break;
-                  if (kind > 54)
-                     kind = 54;
-                  jjCheckNAdd(12);
-                  break;
                case 12:
                   if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
@@ -2836,7 +2824,7 @@ private final int jjMoveNfa_1(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 5:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
+                  if ((0x7fffffe87fffffeL & l) != 0L)
                   {
                      if (kind > 54)
                         kind = 54;
@@ -2857,12 +2845,6 @@ private final int jjMoveNfa_1(int startState, int curPos)
                   jjAddStates(10, 11);
                   break;
                case 9:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
-                     break;
-                  if (kind > 54)
-                     kind = 54;
-                  jjCheckNAdd(10);
-                  break;
                case 10:
                   if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
