@@ -77,7 +77,9 @@ import org.jdom.Element;
    <p>
    The W3C XPath Specification (http://www.w3.org/TR/xpath) refers
    to NodeSets repeatedly, but this implementation simply uses
-   java.util.List to hold all NOdes.
+   java.util.List to hold all Nodes.  A 'Node' is any object in
+   a JDOM object tree, such as an org.jdom.Element, org.jdom.Document,
+   or org.jdom.Attribute.
    <p>
    To use it in Velocity, do this:
    <p>
@@ -86,11 +88,15 @@ import org.jdom.Element;
    #foreach ($author in $authors)
     $author.getValue() 
    #end
+   #set $chapterTitles = $xpath.applyTo("document/chapter/@title", $root)
+   #foreach ($title in $chapterTitles)
+    $title.getValue()
+   #end
    </code>
    
     @author <a href="bob@werken.com">bob mcwhirter</a>
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: XPathTool.java,v 1.5 2000/11/26 12:48:44 werken Exp $
+    @version $Id: XPathTool.java,v 1.6 2000/11/26 12:54:02 werken Exp $
 */
 
 public class XPathTool
