@@ -3,7 +3,7 @@ package org.apache.velocity.test;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -68,12 +69,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.servlet.VelocityServlet;
 
 import junit.framework.TestCase;
+
 
 /**
  * Tests our VelocityServlet implementation.
@@ -209,6 +210,11 @@ public class VelocityServletTest extends TestCase
             return null;
         }
 
+        public Set getResourcePaths(String string)
+        {
+            return null;
+        }
+
         public int getMinorVersion()
         {
             return -1;
@@ -289,6 +295,10 @@ public class VelocityServletTest extends TestCase
         // ---- ServletResponse implementation -----------------------------
 
         public void flushBuffer() throws IOException
+        {
+        }
+
+        public void resetBuffer()
         {
         }
 
