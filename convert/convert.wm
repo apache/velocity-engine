@@ -1,0 +1,31 @@
+## This is a template to convert.
+
+#foreach $this in $that
+#begin
+    This is the text
+#end
+
+#foreach $this in $that
+{
+    This is the text
+}
+
+#if ($foo)
+#begin
+    convert me!
+#end
+#else
+#begin
+    convert me too!
+#end    
+
+#if ($foo)
+{
+    convert me!
+}    
+#else
+{
+    convert me too!
+}    
+
+#parse "whatever.wm"
