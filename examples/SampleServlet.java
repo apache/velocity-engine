@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.*;
  * pass them to the template.
  * 
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class SampleServlet extends VelocityServlet
 {
@@ -91,7 +91,7 @@ public class SampleServlet extends VelocityServlet
         try
         {
             // Get the template
-            outty =  getTemplate("sample.wm");
+            outty =  getTemplate("sample.vm");
         }
         catch( Exception e )
         {
