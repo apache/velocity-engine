@@ -136,7 +136,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.62 2001/06/29 23:31:37 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.63 2001/07/14 13:22:40 geirm Exp $ 
 */
 public class Parser
 {
@@ -216,6 +216,10 @@ public class Parser
             Runtime.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
             throw new ParseException (pe.currentToken, 
                 pe.expectedTokenSequences, pe.tokenImage);
+        }
+        catch (TokenMgrError tme) 
+        {
+            throw new ParseException("Lexical error: " + tme.toString());
         }
         catch (Exception e)
         {
