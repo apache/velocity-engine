@@ -73,12 +73,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
- * This is a simple template file loader.
- * Currently it only supports a  single path to templates.
- * That'll change once we decide how we want to do configuration
- * 
+ * A loader for templates stored on the file system.
+ *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.14 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: FileResourceLoader.java,v 1.15 2002/02/07 06:21:14 dlr Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
