@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.17 2000/11/03 11:34:07 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.18 2000/11/04 15:29:54 geirm Exp $ 
 */
 public class Parser
 {
@@ -476,7 +476,7 @@ TOKEN:
     }
 }
 
-/* $$$ gmj
+/* 
  *  we never will see a ) in anything but DIRECTIVE and REFMOD2.  Each have their own
  */
 <DIRECTIVE>
@@ -496,7 +496,12 @@ TOKEN:
 {
     <REFMOD2_RPAREN: ")">
     {
-       RPARENHandler();
+        /*
+         *  need to simply switch back to REFERENCE, not drop down the stack
+         *  because we can (infinitely) chain, ala $foo.bar().blargh().woogie().doogie()
+         */
+
+        SwitchTo( REFERENCE );
     }    
 }
 
