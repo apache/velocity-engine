@@ -54,53 +54,54 @@ package org.apache.velocity.anakia;
  * <http://www.apache.org/>.
  */
 
-// JDK Stuff
-import java.util.*;
+import java.util.Iterator;
+import java.util.Vector;
 
-// JDOM Stuff
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
-    This class allows you to walk a tree of JDOM Element objects.
-    It first walks the tree itself starting at the Element passed 
-    into allElements() and stores each node of the tree 
-    in a Vector which allElements() returns as a result of its
-    execution. You can then use a #foreach in Velocity to walk
-    over the Vector and visit each Element node.
-
-    @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: TreeWalker.java,v 1.1 2000/11/26 06:52:22 jon Exp $
-*/
+ * This class allows you to walk a tree of JDOM Element objects.
+ * It first walks the tree itself starting at the Element passed 
+ * into allElements() and stores each node of the tree 
+ * in a Vector which allElements() returns as a result of its
+ * execution. You can then use a #foreach in Velocity to walk
+ * over the Vector and visit each Element node.
+ *
+ * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: TreeWalker.java,v 1.2 2000/12/20 07:19:00 jvanzyl Exp $
+ */
 public class TreeWalker
 {
     /** the cache of Element objects */
     private Vector theElements = null;
     
     /**
-        Empty constructor
-    */
+     * Empty constructor
+     */
     public TreeWalker()
     {
         // Left blank
     }
+    
     /**
-        Creates a new Vector and walks the Element tree.
-        
-        @param Element the starting Element node
-        @return Vector a vector of Element nodes
-    */
+     * Creates a new Vector and walks the Element tree.
+     *   
+     * @param Element the starting Element node
+     * @return Vector a vector of Element nodes
+     */
     public Vector allElements(Element e)
     {
         theElements = new Vector();
         treeWalk (e);
         return this.theElements;
     }
+    
     /**
-        A recursive method to walk the Element tree.
-        @param Element the current Element
-    */
+     * A recursive method to walk the Element tree.
+     * @param Element the current Element
+     */
     private final void treeWalk(Element e)
     {
         for (Iterator i=e.getChildren().iterator(); i.hasNext(); )
