@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.63 2000/11/28 04:17:08 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.64 2000/12/04 02:09:49 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -905,6 +905,8 @@ public class Runtime implements RuntimeConstants
                 {
                     is = tl.getTemplateStream(template);
                     t.setDocument(parse(is));
+                    t.initDocument();
+
                     return t;
                 }
                 catch (Exception e)
@@ -952,6 +954,9 @@ public class Runtime implements RuntimeConstants
                 t.setModificationCheckInterval(tl.getModificationCheckInterval());
                 t.setTemplateLoader(tl);
                 t.setDocument(parse(is));
+
+                t.initDocument();
+
                 t.touch();
                 
                 /*
