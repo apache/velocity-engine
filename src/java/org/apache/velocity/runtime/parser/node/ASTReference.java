@@ -84,7 +84,7 @@ import org.apache.velocity.context.NullReferenceEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.30 2001/05/17 13:04:16 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.31 2001/05/17 13:14:27 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -656,15 +656,6 @@ public class ASTReference extends SimpleNode
             }
 
             referenceType = NORMAL_REFERENCE;
-
-
-            //   Token tt = first;
-
-            //           while(tt != null)
-            //  {
-            //      System.out.println("->" + tt.image);
-            //      tt = tt.next;
-            //  }
 
             return img.substring(loc);
         }            
