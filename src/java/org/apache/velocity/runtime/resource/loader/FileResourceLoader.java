@@ -36,8 +36,9 @@ import org.apache.commons.collections.ExtendedProperties;
 /**
  * A loader for templates stored on the file system.
  *
+ * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.23 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -85,6 +86,7 @@ public class FileResourceLoader extends ResourceLoader
     public synchronized InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
+
         /*
          * Make sure we have a valid templateName.
          */
@@ -161,7 +163,7 @@ public class FileResourceLoader extends ResourceLoader
     {
         try 
         {
-            File file = new File( path, template );   
+            File file = getFile(path,template);
         
             if ( file.canRead() )
             {
@@ -206,13 +208,13 @@ public class FileResourceLoader extends ResourceLoader
         for (int i = 0; currentFile == null && i < paths.size(); i++)
         {
             String testPath = (String) paths.get(i);
-            File testFile = new File(testPath, fileName);
+            File testFile = getFile(testPath, fileName);
             if (testFile.canRead())
             {
                 currentFile = testFile;
             }
         }
-        File file = new File(path, fileName);
+        File file = getFile(path, fileName);
         if (currentFile == null || !file.exists())
         {
             /*
@@ -244,7 +246,7 @@ public class FileResourceLoader extends ResourceLoader
     public long getLastModified(Resource resource)
     {
         String path = (String) templatePaths.get(resource.getName());
-        File file = new File(path, resource.getName());
+        File file = getFile(path, resource.getName());
 
         if (file.canRead())
         {
@@ -254,5 +256,21 @@ public class FileResourceLoader extends ResourceLoader
         {
             return 0;
         }            
+    }
+
+
+    /**
+     * Create a File based on either a relative path if given, or absolute path otherwise
+     */
+    private File getFile(String path, String template)
+    {
+        File file = null;
+
+        if( "".equals(path) )
+            file = new File( template );
+        else
+            file = new File ( path, template );
+
+        return file;
     }
 }
