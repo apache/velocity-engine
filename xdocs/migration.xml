@@ -58,7 +58,7 @@
 </p>
 
 <source><![CDATA[
-./convert-wm.sh template.wm
+./convert-wm.sh templates
 ]]></source>
 
 <p>
