@@ -17,13 +17,14 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.StringUtils;
 
 /**
  * Factory to grab a template loader.
  * 
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ResourceLoaderFactory.java,v 1.8 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class ResourceLoaderFactory
 {
@@ -38,8 +39,7 @@ public class ResourceLoaderFactory
         
         try
         {
-            loader = ((ResourceLoader)Class.forName(loaderClassName)
-                .newInstance());
+            loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
             
             rs.info("Resource Loader Instantiated: " + 
                 loader.getClass().getName());

@@ -32,6 +32,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.texen.Generator;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -283,12 +284,11 @@ public class TexenTask
             }
             catch (Exception e)
             {
-                ClassLoader classLoader = this.getClass().getClassLoader();
-
                 try
                 {
-                    InputStream inputStream = classLoader.getResourceAsStream(sources[i]);
-
+                    
+                    InputStream inputStream = ClassUtils.getResourceAsStream(getClass(),sources[i]);
+                    
                     if (inputStream == null)
                     {
                         throw new BuildException("Context properties file " + sources[i] +

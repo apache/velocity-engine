@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.util.ClassUtils;
 
 /**
  * <p>
@@ -53,7 +54,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogManager.java,v 1.12 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class LogManager
 {
@@ -120,7 +121,7 @@ public class LogManager
           
                 try
                 {
-                    o = Class.forName( claz ).newInstance();
+                    o = ClassUtils.getNewInstance( claz );
 
                     if ( o instanceof LogSystem )
                     {

@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.resource.loader;
 import java.io.InputStream;
 
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -101,43 +102,13 @@ public class ClasspathResourceLoader extends ResourceLoader
         }
         
         /**
-         * remove leading slash so path will work with classes in a JAR file
-         */
-        
-        while (name.startsWith("/"))
-        {
-            name = name.substring(1);
-        }
-
-        /**
          * look for resource in thread classloader first (e.g. WEB-INF\lib in 
          * a servlet container) then fall back to the system classloader.
          */
         
         try 
         {
-            ClassLoader classLoader = Thread.currentThread()
-                                        .getContextClassLoader();
-            if (classLoader == null) 
-            {
-                classLoader = this.getClass().getClassLoader();
-                result = classLoader.getResourceAsStream( name );
-            } 
-            else 
-            {
-                result= classLoader.getResourceAsStream( name );
-                
-                /**
-                 * for compatibility with texen / ant tasks, fall back to 
-                 * old method when resource is not found.
-                 */
-                
-                if (result == null) 
-                {
-                    classLoader = this.getClass().getClassLoader();
-                    result = classLoader.getResourceAsStream( name );
-                }
-            }
+            result = ClassUtils.getResourceAsStream( getClass(), name );
         }
         catch( Exception fnfe )
         {

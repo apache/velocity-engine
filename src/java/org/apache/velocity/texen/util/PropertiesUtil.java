@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import org.apache.velocity.texen.Generator;
+import org.apache.velocity.util.ClassUtils;
 
 /**
  * A property utility class for the texen text/code generator
@@ -29,7 +30,7 @@ import org.apache.velocity.texen.Generator;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:sbailliez@apache.org">Stephane Bailliez</a>
- * @version $Id: PropertiesUtil.java,v 1.11 2004/03/19 17:13:39 dlr Exp $ 
+ * @version $Id$ 
  */
 public class PropertiesUtil
 {
@@ -138,7 +139,6 @@ public class PropertiesUtil
     protected Properties loadFromClassPath(String propertiesFile)
     {
         Properties properties = new Properties();
-        ClassLoader classLoader = this.getClass().getClassLoader();
         
         try
         {
@@ -155,7 +155,7 @@ public class PropertiesUtil
                     "$generator.templatePath/".length());
             }
             
-            InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
+            InputStream inputStream = ClassUtils.getResourceAsStream( getClass(), propertiesFile );
             properties.load(inputStream);
         }
         catch (IOException ioe)
