@@ -79,7 +79,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.8 2000/11/23 18:28:47 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.9 2000/11/23 18:33:06 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -241,7 +241,9 @@ public class TexenTask extends Task
         return contextProperties;
     }
 
-    public abstract Context initControlContext();
+    public Context initControlContext
+    {
+    }
     
     /**
      * Execute the input script with WM
