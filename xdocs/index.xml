@@ -61,6 +61,18 @@
 
 <section name="Velocity News">
 
+
+<p>
+<strong>Velocidoc Released</strong>
+<blockquote>
+<a href="http://velocidoc.sourceforge.net/intro.html">
+Velocidoc</a>, a Velocimacro documentation tool modeled after
+Javadoc, is now available.  Use Javadoc-style comments in your
+Velocimacro libraries, and use Velocidoc to generate HTML 
+documentation.
+</blockquote>
+</p>
+
 <p>
 <strong>New Apache Site Generated with Anakia</strong>
 <blockquote>
