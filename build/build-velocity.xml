@@ -569,7 +569,7 @@
   <!-- =================================================================== -->
   <target name="test">
 
-    <echo message="Running JUnit template tests for Velocity ..."/>
+    <echo message="Running JUnit tests for Velocity ..."/>
 
     <java classname="${velocity.test.runner}">
       <arg value="${template.test}"/>
