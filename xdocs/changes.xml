@@ -65,6 +65,10 @@
        Documentation : developers-guide - information/example on making a
        custom logger, and start of work on documenting resource loaders. (gmj)
      </li>
+     <li>
+       Removed some debugging gibberish from 
+       InternalContextAdapterImpl.java (gmj)
+     </li>
 </ul>
 
 </subsection>
