@@ -86,7 +86,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.18 2001/04/22 23:08:42 geirm Exp $
+ * @version $Id: Parse.java,v 1.19 2001/07/03 20:22:06 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -189,7 +189,16 @@ public class Parse extends Directive
         }
         catch ( Exception e )
         {        
-            Runtime.error( "Parse.render() : " + e );
+            /*
+             *  if it's a MIE, it came from the render.... throw it...
+             */
+
+            if ( e instanceof MethodInvocationException)
+            {
+                throw (MethodInvocationException) e;
+            }
+
+            Runtime.error( "Exception rendering #parse( " + arg + " )  : " + e );
             return false;
         }
         finally
