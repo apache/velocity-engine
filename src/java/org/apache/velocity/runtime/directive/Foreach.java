@@ -62,6 +62,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 import org.apache.velocity.Context;
@@ -81,6 +82,7 @@ public class Foreach extends Directive
 {
     private final static int ARRAY = 1;
     private final static int ITERATOR = 2;
+    private final static int MAP = 3;
     
     private final static String COUNTER_IDENTIFIER =
         Runtime.getString(Runtime.COUNTER_NAME);
@@ -144,6 +146,11 @@ public class Foreach extends Directive
             node.setInfo(ITERATOR);
             sampleElement = ((Collection) listObject).iterator().next();
         }
+        else if (implementsMethod(listObject, "values"))
+        {
+            node.setInfo(MAP);
+            sampleElement = ((Map) listObject).values().iterator().next();
+        }
         else
         {
             // If it's not an array or an object that provides
@@ -175,6 +182,8 @@ public class Foreach extends Directive
 
         if (node.getInfo() == ARRAY)
             i = new ArrayIterator((Object[]) listObject);
+        else if (node.getInfo() == MAP)
+            i = ((Map) listObject).values().iterator();
         else            
             i = ((Collection) listObject).iterator();
         
