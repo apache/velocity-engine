@@ -65,7 +65,7 @@ import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
@@ -82,7 +82,7 @@ import junit.framework.TestCase;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.8 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.9 2001/08/07 22:20:28 geirm Exp $
  */
 public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -141,7 +141,7 @@ public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestB
              *  get the template and the output
              */
 
-            Template template = Runtime.getTemplate(
+            Template template = RuntimeSingleton.getTemplate(
                 getFileName(null, "context_safety", TMPL_FILE_EXT));
 
             FileOutputStream fos1 = 

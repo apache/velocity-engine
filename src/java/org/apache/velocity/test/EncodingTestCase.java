@@ -65,7 +65,6 @@ import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
@@ -79,7 +78,7 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EncodingTestCase.java,v 1.3 2001/06/10 21:55:34 geirm Exp $
+ * @version $Id: EncodingTestCase.java,v 1.4 2001/08/07 22:20:28 geirm Exp $
  */
 public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
 {

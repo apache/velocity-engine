@@ -65,7 +65,7 @@ import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.VelocimacroFactory;
@@ -77,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.10 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: InlineScopeVMTestCase.java,v 1.11 2001/08/07 22:20:28 geirm Exp $
  */
 public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -134,10 +134,10 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
              * vm_test2 uses a local VM and vm_test1 doesn't
              */
 
-            Template template2 = Runtime.getTemplate(
+            Template template2 = RuntimeSingleton.getTemplate(
                 getFileName(null, "vm_test2", TMPL_FILE_EXT));
             
-            Template template1 = Runtime.getTemplate(
+            Template template1 = RuntimeSingleton.getTemplate(
                 getFileName(null, "vm_test1", TMPL_FILE_EXT));
            
             FileOutputStream fos1 = 

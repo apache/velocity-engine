@@ -67,7 +67,7 @@ import java.util.Vector;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
@@ -99,7 +99,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.30 2001/04/09 02:36:48 geirm Exp $
+ * @version $Id: TemplateTestCase.java,v 1.31 2001/08/07 22:20:28 geirm Exp $
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -176,7 +176,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context2.put("stringarray", provider.getArray());
         context.put("vector", vec );
         context.put("mystring", new String());
-        context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
+        context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.RuntimeSingleton" ));
         context.put("fmprov", new FieldMethodizer( provider ));
         context.put("Floog", "floogie woogie");
 
@@ -201,7 +201,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
     {
         try
         {
-            Template template = Runtime.getTemplate
+            Template template = RuntimeSingleton.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
             
             assureResultsDirectoryExists(RESULT_DIR);
@@ -228,6 +228,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         }
         catch (Exception e)
         {
+            System.out.println("EXCEPTION : " + e );
+
             fail(e.getMessage());
         }
     }

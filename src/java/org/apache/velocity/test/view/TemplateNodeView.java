@@ -60,7 +60,7 @@ import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 
 import org.apache.velocity.runtime.visitor.NodeViewMode;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -95,15 +95,15 @@ public class TemplateNodeView
     {
         try
         {
-            Runtime.init("velocity.properties");
+            RuntimeSingleton.init("velocity.properties");
 
             InputStreamReader isr = new InputStreamReader(
                                        new FileInputStream(template),
-                                       Runtime.getString(Runtime.INPUT_ENCODING));
+                                       RuntimeSingleton.getString(RuntimeSingleton.INPUT_ENCODING));
 
             BufferedReader br = new BufferedReader( isr );
                                          
-            document = Runtime.parse( br, template);
+            document = RuntimeSingleton.parse( br, template);
 
             visitor = new NodeViewMode();
             visitor.setContext(null);
