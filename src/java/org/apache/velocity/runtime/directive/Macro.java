@@ -48,7 +48,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.18 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class Macro extends Directive
 {
@@ -174,21 +174,19 @@ public class Macro extends Directive
          *  make a big string out of our macro
          */
   
-        StringBuffer temp  = new StringBuffer();
+        StringBuffer macroBody = new StringBuffer();
 
         for (int i=0; i < macroArray.size(); i++)
         {
-            temp.append(macroArray.get(i));
+            macroBody.append(macroArray.get(i));
         }
 
-        String macroBody = temp.toString();
-   
         /*
          * now, try to add it.  The Factory controls permissions, 
          * so just give it a whack...
          */
 
-        boolean bRet = rs.addVelocimacro(argArray[0], macroBody,
+        boolean bRet = rs.addVelocimacro(argArray[0], macroBody.toString(),
                         argArray, sourceTemplate);
 
         return;
