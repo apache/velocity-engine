@@ -84,6 +84,7 @@ import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
 
 import org.apache.velocity.util.*;
+import org.apache.velocity.runtime.configuration.VelocityResources;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -142,7 +143,7 @@ import org.apache.velocity.util.*;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.29 2000/10/27 00:56:18 daveb Exp $
+ * @version $Id: Runtime.java,v 1.30 2000/11/02 13:40:44 geirm Exp $
  */
 public class Runtime
 {
