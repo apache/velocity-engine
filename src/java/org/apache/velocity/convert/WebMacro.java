@@ -70,7 +70,8 @@ import org.apache.tools.ant.DirectoryScanner;
  * this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: WebMacro.java,v 1.11 2001/05/08 03:38:53 dlr Exp $ 
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @version $Id: WebMacro.java,v 1.12 2001/05/08 05:39:36 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -90,8 +91,6 @@ public class WebMacro
      * The regexes to use for substition. The regexes come
      * in pairs. The first is the string to match, the
      * second is the substitution to make.
-     * <p>
-     * TODO: Handle case where $ is escaped, such as <code>\$foo</code>
      */
     protected String[] res =
     {
@@ -143,8 +142,8 @@ public class WebMacro
         "${l$1}",
 
         // Convert explicitly terminated WM statements to VTL syntax.
-        "\\$([^; \\t]+);",
-        "${$1}",
+        "(^|[^\\\\])\\$([\\w]+);",
+        "$1${$2}",
 
         // Change extensions when seen.
         "\\.wm",
