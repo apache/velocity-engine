@@ -64,7 +64,7 @@ options
 
     /** A source file will be generated for each non-terminal */
     MULTI=true;
-    
+
     /**
      * Each node will have access to the parser, I did this so
      * some global information can be shared via the parser. I
@@ -75,14 +75,14 @@ options
      * what not.
      */
     NODE_USES_PARSER=true;
-    
+
     /**
      * The parser must be non-static in order for the
      * above option to work, otherwise the parser value
      * is passed in as null, which isn't all the useful ;)
      */
     STATIC=false;
-    
+
     /**
      * Enables the use of a visitor that each of nodes
      * will accept. This way we can separate the logic
@@ -94,7 +94,7 @@ options
 
     /**
      * Declare that we are accepting unicode input and
-     * that we are using a custom character stream class    
+     * that we are using a custom character stream class
      * Note that the char stream class is really a slightly
      * modified ASCII_CharStream, as it appears we are safe
      * because we only deal with pre-encoding-converted
@@ -108,7 +108,7 @@ options
      */
     DEBUG_PARSER=false;
     DEBUG_TOKEN_MANAGER=false;
-}    
+}
 
 PARSER_BEGIN(Parser)
 
@@ -134,7 +134,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.71 2002/02/22 21:40:22 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.72 2002/03/23 13:38:32 geirm Exp $
 */
 public class Parser
 {
@@ -142,19 +142,19 @@ public class Parser
      *  This Hashtable contains a list of all of the dynamic directives.
      */
     private Hashtable directives = new Hashtable(0);
-  
+
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
      */
     String currentTemplateName = "";
 
-    VelocityCharStream velcharstream = null; 
+    VelocityCharStream velcharstream = null;
 
     private RuntimeServices rsvc = null;
 
-    /** 
+    /**
      * This constructor was added to allow the re-use of parsers.
-     * The normal constructor takes a single argument which 
+     * The normal constructor takes a single argument which
      * an InputStream. This simply creates a re-usable parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
@@ -165,13 +165,13 @@ public class Parser
          * need to call the CTOR first thing.
          */
 
-        this(   new VelocityCharStream( 
+        this(   new VelocityCharStream(
                 new ByteArrayInputStream("\n".getBytes()), 1, 1 ));
 
         /*
          * now setup a VCS for later use
-         */    
-        velcharstream = new VelocityCharStream( 
+         */
+        velcharstream = new VelocityCharStream(
                 new ByteArrayInputStream("\n".getBytes()), 1, 1 );
 
         /*
@@ -180,7 +180,7 @@ public class Parser
         rsvc = rs;
     }
 
-    /** 
+    /**
      * This was also added to allow parsers to be
      * re-usable. Normal JavaCC use entails passing an
      * input stream to the constructor and the parsing
@@ -189,11 +189,11 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse( Reader reader, String templateName ) 
+    public SimpleNode parse( Reader reader, String templateName )
         throws ParseException
     {
         SimpleNode sn = null;
-        
+
         currentTemplateName = templateName;
 
         try
@@ -204,7 +204,7 @@ public class Parser
              *  reinitialize the VelocityCharStream
              *  with the new reader
              */
-            velcharstream.ReInit( reader, 1, 1 );   
+            velcharstream.ReInit( reader, 1, 1 );
 
             /*
              * now reinit the Parser with this CharStream
@@ -219,10 +219,10 @@ public class Parser
         catch (ParseException pe)
         {
             rsvc.error ("Parser Exception: " + templateName + " : " + StringUtils.stackTrace(pe));
-            throw new ParseException (pe.currentToken, 
+            throw new ParseException (pe.currentToken,
                 pe.expectedTokenSequences, pe.tokenImage);
         }
-        catch (TokenMgrError tme) 
+        catch (TokenMgrError tme)
         {
             throw new ParseException("Lexical error: " + tme.toString());
         }
@@ -234,7 +234,7 @@ public class Parser
         currentTemplateName = "";
 
         return sn;
-    }        
+    }
 
     /**
      *  This method sets the directives Hashtable
@@ -253,7 +253,7 @@ public class Parser
     }
 
     /**
-     *  This method finds out of the directive exists in the directives 
+     *  This method finds out of the directive exists in the directives
      *  Hashtable.
      */
     public boolean isDirective(String directive)
@@ -262,11 +262,11 @@ public class Parser
             return true;
         else
             return false;
-    }            
+    }
 
-   
+
     /**
-     * Produces a processed output for an escaped control or 
+     * Produces a processed output for an escaped control or
      * pluggable directive
      */
     private String escapedDirective( String strImage )
@@ -319,8 +319,8 @@ public class Parser
 
 PARSER_END(Parser)
 
-TOKEN_MGR_DECLS: 
-{  
+TOKEN_MGR_DECLS:
+{
     private int fileDepth = 0;
 
     private int lparen = 0;
@@ -359,15 +359,15 @@ TOKEN_MGR_DECLS:
 
         if( debugPrint )
             System.out.println(
-                " stack pop (" + stateStack.size() + ") : lparen=" + 
-                    ( (Integer) h.get("lparen")).intValue() + 
+                " stack pop (" + stateStack.size() + ") : lparen=" +
+                    ( (Integer) h.get("lparen")).intValue() +
                         " newstate=" + ( (Integer) h.get("lexstate")).intValue() );
-       
+
         lparen = ( (Integer) h.get("lparen")).intValue();
         rparen = ( (Integer) h.get("rparen")).intValue();
 
-        SwitchTo( ( (Integer) h.get("lexstate")).intValue() ); 
-    
+        SwitchTo( ( (Integer) h.get("lexstate")).intValue() );
+
         return true;
     }
 
@@ -379,9 +379,9 @@ TOKEN_MGR_DECLS:
     public boolean stateStackPush()
     {
         if( debugPrint )
-            System.out.println(" (" + stateStack.size() + ") pushing cur state : " + 
+            System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
                 curLexState );
-            
+
         Hashtable h = new Hashtable();
 
         h.put("lexstate", new Integer( curLexState ) );
@@ -400,62 +400,62 @@ TOKEN_MGR_DECLS:
      *  start values, clears stateStack.  Call
      *  before parsing.
      *  @return void
-     */   
+     */
     public void clearStateVars()
     {
         stateStack.clear();
-        
+
         lparen = 0;
         rparen = 0;
         inReference = false;
         inDirective = false;
         inComment = false;
         inSet = false;
-        
+
         return;
     }
 
- 
+
     /**
      *  handles the dropdown logic when encountering a RPAREN
      */
     private void RPARENHandler()
     {
         /*
-         *  Ultimately, we want to drop down to the state below 
-         *  the one that has an open (if we hit bottom (DEFAULT), 
+         *  Ultimately, we want to drop down to the state below
+         *  the one that has an open (if we hit bottom (DEFAULT),
          *  that's fine. It's just text schmoo.
          */
-   
+
         boolean closed = false;
 
         if (inComment)
             closed = true;
 
-        while( !closed ) 
+        while( !closed )
         {
             /*
-             * look at current state.  If we haven't seen a lparen 
-             * in this state then we drop a state, because this 
+             * look at current state.  If we haven't seen a lparen
+             * in this state then we drop a state, because this
              * lparen clearly closes our state
              */
 
             if( lparen > 0)
             {
                 /*
-                 *  if rparen + 1 == lparen, then this state is closed. 
+                 *  if rparen + 1 == lparen, then this state is closed.
                  * Otherwise, increment and keep parsing
                  */
 
                  if( lparen == rparen + 1)
                  {
                        stateStackPop();
-                 }  
+                 }
                 else
-                {   
+                {
                     rparen++;
                 }
-                      
+
                  closed = true;
             }
             else
@@ -463,19 +463,19 @@ TOKEN_MGR_DECLS:
                 /*
                  * now, drop a state
                  */
-        
+
                 if(!stateStackPop())
                     break;
-            } 
+            }
         }
     }
-} 
+}
 
 /* ------------------------------------------------------------------------
  *
  * Tokens
  *
- *  Note : we now have another state, REFMODIFIER.  This is sort of a 
+ *  Note : we now have another state, REFMODIFIER.  This is sort of a
  *  type of REFERENCE state, simply use to use the DIRECTIVE token
  *  set when we are processing a $foo.bar() construct
  *
@@ -483,7 +483,7 @@ TOKEN_MGR_DECLS:
 
 <DIRECTIVE,REFMOD2>
 TOKEN:
-{ 
+{
     <LBRACKET: "[">
 |   <RBRACKET: "]">
 |   <COMMA:",">
@@ -505,17 +505,17 @@ TOKEN:
             lparen++;
 
         /*
-         * If in REFERENCE and we have seen the dot, then move 
+         * If in REFERENCE and we have seen the dot, then move
          * to REFMOD2 -> Modifier()
          */
 
         if (curLexState == REFMODIFIER )
-            SwitchTo( REFMOD2 ); 
+            SwitchTo( REFMOD2 );
     }
 }
 
-/* 
- * we never will see a ')' in anything but DIRECTIVE and REFMOD2.  
+/*
+ * we never will see a ')' in anything but DIRECTIVE and REFMOD2.
  * Each have their own
  */
 <DIRECTIVE>
@@ -527,7 +527,7 @@ TOKEN:
     <RPAREN: ")" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ))?>
     {
        RPARENHandler();
-    }    
+    }
 }
 
 
@@ -535,19 +535,19 @@ TOKEN:
 TOKEN:
 {
     /*
-     * in REFMOD2, we don't want to bind the whitespace and \n like we 
+     * in REFMOD2, we don't want to bind the whitespace and \n like we
      * do when closing a directive.
      */
     <REFMOD2_RPAREN: ")">
     {
         /*
          * need to simply switch back to REFERENCE, not drop down the stack
-         * because we can (infinitely) chain, ala 
+         * because we can (infinitely) chain, ala
          * $foo.bar().blargh().woogie().doogie()
          */
 
         SwitchTo( REFERENCE );
-    }    
+    }
 }
 
 /*----------------------------------------------
@@ -560,7 +560,7 @@ TOKEN:
     /*
      *  We have to do this, because we want these to be a Text node, and
      *  whatever follows to be peer to this text in the tree.
-     *  
+     *
      *  We need to touch the ASTs for these, because we want an even # of \'s
      *  to render properly in front of the block
      *
@@ -568,30 +568,30 @@ TOKEN:
      *  grammatical context, but I am neither smart nor rested, a receipe
      *  for disaster, another long night with Mr. Parser, or both.
      */
-    
+
     <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" <WORD> >
 }
 
 
 /*
- * needed because #set is so wacky in it's desired behavior.  We want set 
- * to eat any preceeding whitespace so it is invisible in formatting. 
+ * needed because #set is so wacky in it's desired behavior.  We want set
+ * to eat any preceeding whitespace so it is invisible in formatting.
  * (As it should be.)  If this works well, I am going to chuck the whole MORE:
- * token abomination. 
+ * token abomination.
  */
 TOKEN:
 {
   <SET_DIRECTIVE: (" "|"\t")*  "#set" >
-    { 
+    {
         if (! inComment)
         {
             inDirective = true;
 
             if ( debugPrint )
                 System.out.print("#set :  going to " + DIRECTIVE );
-            
+
             stateStackPush();
-            inSet = true; 
+            inSet = true;
             SwitchTo(DIRECTIVE);
         }
    }
@@ -604,15 +604,15 @@ MORE :
      *   Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
      */
 
-    <DOLLAR: ("\\")* "$"> 
-    { 
+    <DOLLAR: ("\\")* "$">
+    {
         if (! inComment)
         {
             /*
              * if we find ourselves in REFERENCE, we need to pop down
              * to end the previous ref
              */
- 
+
             if (curLexState == REFERENCE)
             {
                 inReference = false;
@@ -626,24 +626,24 @@ MORE :
 
             stateStackPush();
             SwitchTo(REFERENCE);
-        }            
+        }
     }
 
-|   <DOLLARBANG: ("\\")* "$" ("\\")* "!"> 
-    { 
+|   <DOLLARBANG: ("\\")* "$" ("\\")* "!">
+    {
         if (! inComment)
         {
             /*
              * if we find ourselves in REFERENCE, we need to pop down
              * to end the previous ref
              */
-           
+
             if (curLexState == REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
             }
-            
+
             inReference = true;
 
             if ( debugPrint )
@@ -651,11 +651,11 @@ MORE :
 
             stateStackPush();
             SwitchTo(REFERENCE);
-        }            
+        }
     }
 
 |   "##"
-   { 
+   {
         if (!inComment)
         {
             if (curLexState == REFERENCE)
@@ -670,29 +670,29 @@ MORE :
         }
      }
 
-|   <"#**" ~["#"]> 
-    { 
-        input_stream.backup(1); 
-        inComment = true; 
+|   <"#**" ~["#"]>
+    {
+        input_stream.backup(1);
+        inComment = true;
         stateStackPush();
         SwitchTo( IN_FORMAL_COMMENT);
-    } 
-    
-|   "#*" 
-    { 
+    }
+
+|   "#*"
+    {
         inComment=true;
         stateStackPush();
-        SwitchTo( IN_MULTI_LINE_COMMENT ); 
-    } 
+        SwitchTo( IN_MULTI_LINE_COMMENT );
+    }
 
-|   <HASH : "#" > 
-    { 
+|   <HASH : "#" >
+    {
         if (! inComment)
         {
             /*
-             * We can have the situation where #if($foo)$foo#end.  
-             * We need to transition out of REFERENCE before going to DIRECTIVE. 
-             * I don't really like this, but I can't think of a legal way 
+             * We can have the situation where #if($foo)$foo#end.
+             * We need to transition out of REFERENCE before going to DIRECTIVE.
+             * I don't really like this, but I can't think of a legal way
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
@@ -706,54 +706,54 @@ MORE :
 
             if ( debugPrint )
                 System.out.print("# :  going to " + DIRECTIVE );
-            
+
             stateStackPush();
             SwitchTo(PRE_DIRECTIVE);
         }
-    } 
-}   
+    }
+}
 
 TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
-|   <ESCAPE: "\\" >   
+|   <ESCAPE: "\\" >
 |   <TEXT: (~["$", "#", "\\"])+ >
-}    
+}
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *   *_COMMENT Lexical tokens
  *
  *-----------------------------------------------------------------------*/
 <IN_SINGLE_LINE_COMMENT>
 TOKEN :
 {
-  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > 
-  { 
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" >
+  {
      inComment = false;
      stateStackPop();
-  } 
+  }
 
 }
 
 <IN_FORMAL_COMMENT>
 TOKEN :
 {
-  <FORMAL_COMMENT: "*#" > 
-  {     
+  <FORMAL_COMMENT: "*#" >
+  {
     inComment = false;
     stateStackPop();
-  } 
+  }
 }
 
 <IN_MULTI_LINE_COMMENT>
 TOKEN :
 {
-  <MULTI_LINE_COMMENT: "*#" > 
-  { 
-    inComment = false; 
+  <MULTI_LINE_COMMENT: "*#" >
+  {
+    inComment = false;
     stateStackPop();
-  } 
+  }
 }
 
 <IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
@@ -763,9 +763,9 @@ MORE :
 }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  DIRECTIVE Lexical State (some of it, anyway)
- * 
+ *
  * ---------------------------------------------------------------------- */
 
 <DIRECTIVE,REFMOD2>
@@ -799,16 +799,16 @@ TOKEN :
         "\'"
       )
   >
-   
+
     {
         /*
-         *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
+         *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out.
          *      don't forget to account for the beloved yet wierd #set
          *  - finally, if we are in REFMOD2 (remember : $foo.bar( ) then " is ok!
          */
 
          if( curLexState == DIRECTIVE && !inSet && lparen == 0)
-            stateStackPop();    
+            stateStackPop();
     }
 }
 
@@ -827,19 +827,19 @@ TOKEN :
         if ( debugPrint )
             System.out.println(" NEWLINE :");
 
-        stateStackPop();      
-        
+        stateStackPop();
+
         if (inSet)
             inSet = false;
-        
+
         if (inDirective)
             inDirective = false;
-    }        
-}    
+    }
+}
 
 
 <DIRECTIVE>
-TOKEN : 
+TOKEN :
 {
     <MINUS: "-">
 |   <PLUS: "+">
@@ -858,14 +858,14 @@ TOKEN :
 |   <EQUALS: "=" >
 }
 
-<PRE_DIRECTIVE> 
+<PRE_DIRECTIVE>
 TOKEN :
 {
-    <END: "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? > 
-    { 
-        inDirective = false; 
+    <END: "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? >
+    {
+        inDirective = false;
         stateStackPop();
-    } 
+    }
 
 |   <IF_DIRECTIVE: "if">
     {
@@ -877,11 +877,11 @@ TOKEN :
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE: "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )?  > 
-     { 
-        inDirective = false; 
+|   <ELSE_DIRECTIVE: "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )?  >
+     {
+        inDirective = false;
         stateStackPop();
-    } 
+    }
 
 |   <STOP_DIRECTIVE: "stop">
     {
@@ -906,7 +906,7 @@ TOKEN:
         {
             stateStackPop();
         }
-       
+
     }
 }
 
@@ -920,7 +920,7 @@ TOKEN:
 }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  REFERENCE Lexical States
  *
  *  This is more than a single state, because of the  structure of
@@ -930,7 +930,7 @@ TOKEN:
  *  $foo.bar( "arg" )
  *  ^   ^   ^
  *  |   |   |
- *  ----------- >  REFERENCE : state initiated by the '$' character.  Continues 
+ *  ----------- >  REFERENCE : state initiated by the '$' character.  Continues
  *      |   |       until end of the reference, or the . character.
  *      |------ >  REFMODIFIER : state switched to when the <DOT> is encountered.
  *          |       note that this is a switch, not a push. See notes at bottom
@@ -940,32 +940,32 @@ TOKEN:
  *
  * ---------------------------------------------------------------------------- */
 
-<REFERENCE,REFMODIFIER,REFMOD2> 
+<REFERENCE,REFMODIFIER,REFMOD2>
 TOKEN :
 {
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z"] >
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
 |   <IDENTIFIER:  ( <ALPHA_CHAR> | ["_"]) (<IDENTIFIER_CHAR>)* >
-|   <DOT: "." <ALPHA_CHAR>> 
-    { 
+|   <DOT: "." <ALPHA_CHAR>>
+    {
         /*
-         * push the alpha char back into the stream so the following identifier 
+         * push the alpha char back into the stream so the following identifier
          * is complete
          */
 
-        input_stream.backup(1); 
+        input_stream.backup(1);
 
         /*
-         * and munge the <DOT> so we just get a . when we have normal text that 
+         * and munge the <DOT> so we just get a . when we have normal text that
          * looks like a ref.ident
          */
 
         matchedToken.image = ".";
 
-        if ( debugPrint ) 
-            System.out.print("DOT : switching to " + REFMODIFIER); 
-        SwitchTo(REFMODIFIER); 
+        if ( debugPrint )
+            System.out.print("DOT : switching to " + REFMODIFIER);
+        SwitchTo(REFMODIFIER);
 
     }
 |   <LCURLY: "{">
@@ -975,37 +975,37 @@ TOKEN :
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD2> 
+<REFERENCE,REFMODIFIER,REFMOD2>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
-    {   
+    {
         /*
-         * push every terminator character back into the stream  
+         * push every terminator character back into the stream
          */
 
         input_stream.backup(1);
-      
+
         inReference = false;
-    
+
         if ( debugPrint )
             System.out.print("REF_TERM :");
-        
+
         stateStackPop();
     }
 }
 
-<PRE_DIRECTIVE> 
+<PRE_DIRECTIVE>
 SPECIAL_TOKEN :
 {
     <DIRECTIVE_TERMINATOR: ~[] >
     {
         if ( debugPrint )
             System.out.print("DIRECTIVE_TERM :");
- 
-        input_stream.backup(1); 
+
+        input_stream.backup(1);
         inDirective = false;
-        stateStackPop();       
+        stateStackPop();
     }
 }
 
@@ -1049,9 +1049,9 @@ void Statement() #void : {}
  *  the further parsing of the Directive() tree.
  */
 void EscapedDirective() : {}
-{ 
-    {    
-        Token t = null; 
+{
+    {
+        Token t = null;
     }
 
     t = <ESCAPE_DIRECTIVE>
@@ -1071,7 +1071,7 @@ void EscapedDirective() : {}
  *  the escapes to render correctly
  */
 void Escape() : {}
-{   
+{
     {
         Token t = null;
         int count = 0;
@@ -1099,17 +1099,17 @@ void Escape() : {}
 
         /*
          * if that failed, lets lookahead to see if we matched a PD or a VM
-         */ 
+         */
 
         if ( isDirective( t.next.image.substring(1)))
             control = true;
         else if ( rsvc.isVelocimacro( t.next.image.substring(1), currentTemplateName))
             control = true;
 
-        t.image = "";
-        
+        jjtThis.val = "";
+
         for( int i = 0; i < count; i++)
-            t.image += ( control ? "\\" : "\\\\");
+            jjtThis.val += ( control ? "\\" : "\\\\");
     }
 
 }
@@ -1124,12 +1124,12 @@ void Comment() : {}
 void NumberLiteral() : {}
 {
     <NUMBER_LITERAL>
-}    
+}
 
 void StringLiteral() : {}
 {
     <STRING_LITERAL>
-}    
+}
 
 /**
  * This method corresponds to variable
@@ -1143,28 +1143,28 @@ void StringLiteral() : {}
  *
  */
 void Identifier() : {}
-{    
+{
     <IDENTIFIER>
 }
 
 void Word() : {}
 {
     <WORD>
-}    
+}
 
 /**
  *   Supports the arguments for the Pluggable Directives
- *   We add whitespace in here as a token so the VMs can 
+ *   We add whitespace in here as a token so the VMs can
  *   easily reconstruct a macro body from the token stream
  *   See Directive()
  */
 void DirectiveArg() #void : {}
 {
     Reference()
-|   Word()  
+|   Word()
 |   StringLiteral()
 |   NumberLiteral()
-|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()    
+|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1175,7 +1175,7 @@ void DirectiveArg() #void : {}
  *   Supports the Pluggable Directives
  *     #foo( arg+ )
  */
-SimpleNode Directive() : 
+SimpleNode Directive() :
 {
     Token t = null;
     Directive d;
@@ -1184,13 +1184,13 @@ SimpleNode Directive() :
 }
 {
     /*
-     * note that if we were escaped, that is now handled by 
+     * note that if we were escaped, that is now handled by
      * EscapedDirective()
      */
-    t = <WORD> 
+    t = <WORD>
     {
         String directiveName = t.image.substring(1);
- 
+
         d = (Directive) directives.get( directiveName );
 
         /*
@@ -1199,38 +1199,38 @@ SimpleNode Directive() :
          *   right then. (So available if used w/in the current template )
          */
 
-        if ( directiveName.equals("macro"))  
+        if ( directiveName.equals("macro"))
         {
              doItNow = true;
         }
 
         /*
-         * set the directive name from here.  No reason for the thing to know 
+         * set the directive name from here.  No reason for the thing to know
          * about parser tokens
          */
 
         jjtThis.setDirectiveName( directiveName );
 
-        if ( d == null) 
+        if ( d == null)
         {
-            /*      
+            /*
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
             //d  =  (Directive) rsvc.getVelocimacro( directiveName, currentTemplateName );
 
-            if ( !rsvc.isVelocimacro( directiveName, currentTemplateName ) ) 
-            {   
+            if ( !rsvc.isVelocimacro( directiveName, currentTemplateName ) )
+            {
                 token_source.stateStackPop();
                 token_source.inDirective = false;
                 return jjtThis;
-            }    
+            }
 
             /*
              *  Currently, all VMs are LINE directives
              */
 
-            directiveType = Directive.LINE; 
+            directiveType = Directive.LINE;
         }
         else
         {
@@ -1257,19 +1257,19 @@ SimpleNode Directive() :
     /*
      *  and the following block if the PD needs it
      */
-   
-    ( Statement() )+ #Block 
-    <END> 
+
+    ( Statement() )+ #Block
+    <END>
     {
         /*
-         *  VM : if we are processing a #macro directive, we need to 
+         *  VM : if we are processing a #macro directive, we need to
          *     process the block.  In truth, I can just register the name
          *     and do the work later when init-ing.  That would work
          *     as long as things were always defined before use.  This way
          *     we don't have to worry about forward references and such...
          */
-      
-        if ( doItNow )  
+
+        if ( doItNow )
         {
             Macro.processAndRegister( rsvc, jjtThis, currentTemplateName );
         }
@@ -1279,8 +1279,8 @@ SimpleNode Directive() :
          */
 
         return jjtThis;
-    } 
-}    
+    }
+}
 
 void ObjectArray() : {}
 {
@@ -1289,15 +1289,15 @@ void ObjectArray() : {}
 
 /**
  *  supports the [n..m] vector generator for use in
- *  the #foreach() to generate measured ranges w/o 
+ *  the #foreach() to generate measured ranges w/o
  *  needing explicit support from the app/servlet
  */
 void IntegerRange() : {}
 {
-    <LBRACKET> [<WHITESPACE>] 
-    ( Reference() | NumberLiteral()) 
-    [<WHITESPACE>] <DOUBLEDOT> [<WHITESPACE>] 
-    (Reference() | NumberLiteral()) 
+    <LBRACKET> [<WHITESPACE>]
+    ( Reference() | NumberLiteral())
+    [<WHITESPACE>] <DOUBLEDOT> [<WHITESPACE>]
+    (Reference() | NumberLiteral())
     [<WHITESPACE>] <RBRACKET>
 }
 
@@ -1312,7 +1312,7 @@ void Parameter() #void: {}
     [<WHITESPACE>]
     (
         StringLiteral()
-        | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()       
+        | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
         | ObjectArray()
         | True()
         | False()
@@ -1333,20 +1333,20 @@ void Method() : {}
 }
 
 void Reference() : {}
-{ 
+{
     /*
      *  A reference is either ${<FOO>} or  $<FOO>
      */
-     
-      ( 
-         <IDENTIFIER> 
-         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+
+      (
+         <IDENTIFIER>
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))*
       )
-      |      
-      ( 
-         <LCURLY> 
-         <IDENTIFIER>  
-         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))* 
+      |
+      (
+         <LCURLY>
+         <IDENTIFIER>
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))*
          <RCURLY>
       )
 }
@@ -1380,15 +1380,15 @@ void Text() : {}
 }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  Defined Directive Syntax
- * 
+ *
  * ----------------------------------------------------------------------*/
 
 void IfStatement() : {}
 {
     <IF_DIRECTIVE> [<WHITESPACE>] <LPAREN> Expression() <RPAREN>
-    ( Statement() )+ #Block 
+    ( Statement() )+ #Block
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
     <END>
@@ -1397,13 +1397,13 @@ void IfStatement() : {}
 
 void ElseStatement() : {}
 {
-   <ELSE_DIRECTIVE> 
+   <ELSE_DIRECTIVE>
     ( Statement() )+ #Block
 }
 
 void ElseIfStatement() : {}
 {
-    <ELSEIF_DIRECTIVE> [<WHITESPACE>] 
+    <ELSEIF_DIRECTIVE> [<WHITESPACE>]
     <LPAREN> Expression() <RPAREN>
     ( Statement() )+ #Block
 }
@@ -1415,18 +1415,18 @@ void ElseIfStatement() : {}
  */
 void SetDirective() : {}
 {
-    <SET_DIRECTIVE>  
-    [ LOOKAHEAD(2) <WHITESPACE> ] 
+    <SET_DIRECTIVE>
+    [ LOOKAHEAD(2) <WHITESPACE> ]
     ( <LPAREN> Expression() <RPAREN>
-    { 
+    {
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
          */
-    
-        token_source.inSet = false; 
+
+        token_source.inSet = false;
     }
     [<NEWLINE>] )
-}    
+}
 
 /**
  * This method corresponds to the #stop
@@ -1436,14 +1436,14 @@ void SetDirective() : {}
  * purposes.
  */
 void StopStatement() #void: {}
-{    
+{
     <STOP_DIRECTIVE>
 }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  Expression Syntax
- * 
+ *
  * ----------------------------------------------------------------------*/
 
 void Expression() : {}
@@ -1473,20 +1473,20 @@ void ConditionalAndExpression() #void : {}
 void EqualityExpression() #void : {}
 {
     RelationalExpression()
-    (           
+    (
        <LOGICAL_EQUALS> RelationalExpression()     #EQNode(2)
-     | <LOGICAL_NOT_EQUALS> RelationalExpression() #NENode(2)    
+     | <LOGICAL_NOT_EQUALS> RelationalExpression() #NENode(2)
     )*
 }
 
 void RelationalExpression() #void : {}
 {
-    AdditiveExpression() 
+    AdditiveExpression()
     (
         <LOGICAL_LT>  AdditiveExpression() #LTNode(2)
       | <LOGICAL_GT>  AdditiveExpression() #GTNode(2)
       | <LOGICAL_LE>  AdditiveExpression() #LENode(2)
-      | <LOGICAL_GE>  AdditiveExpression() #GENode(2)  
+      | <LOGICAL_GE>  AdditiveExpression() #GENode(2)
     )*
 }
 
@@ -1495,7 +1495,7 @@ void AdditiveExpression() #void : {}
     MultiplicativeExpression()
     (
         <PLUS>  MultiplicativeExpression() #AddNode(2)
-      | <MINUS> MultiplicativeExpression() #SubtractNode(2)    
+      | <MINUS> MultiplicativeExpression() #SubtractNode(2)
     )*
 }
 
@@ -1512,17 +1512,17 @@ void MultiplicativeExpression() #void : {}
 void UnaryExpression() #void : {}
 {
      LOOKAHEAD(2)  [<WHITESPACE>]  <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
-|   PrimaryExpression() 
+|   PrimaryExpression()
 }
 
 void PrimaryExpression() #void : {}
-{  
-    [<WHITESPACE>] 
-    (  
+{
+    [<WHITESPACE>]
+    (
      StringLiteral()
-    | NumberLiteral()    
+    | NumberLiteral()
     | Reference()
-    | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()     
+    | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
     | ObjectArray()
     | True()
     | False()
@@ -1533,53 +1533,53 @@ void PrimaryExpression() #void : {}
 
 
 /* ======================================================================
- 
+
    Notes
    -----
- 
-    template == the input stream for this parser, contains 'VTL' 
+
+    template == the input stream for this parser, contains 'VTL'
     mixed in with 'schmoo'
-    
+
     VTL == Velocity Template Language : the references, directives, etc
-    
+
     shmoo == the non-VTL component of a template
-    
+
     reference == VTL entity that represents data within the context. ex. $foo
-    
+
     directive == VTL entity that denotes 'action' (#set, #foreach, #if )
-    
-    defined directive (DD) == VTL directive entity that is expressed 
+
+    defined directive (DD) == VTL directive entity that is expressed
     explicitly w/in this grammar
-    
-    pluggable directive (PD) == VTL directive entity that is defined outside of the 
+
+    pluggable directive (PD) == VTL directive entity that is defined outside of the
     grammar.  PD's allow VTL to be easily expandable w/o parser modification.
- 
-    The problem with parsing VTL is that an input stream consists generally of 
-    little bits of VTL mixed in with 'other stuff, referred to as 'schmoo'. 
-    Unlike other languages, like C or Java, where the parser can punt whenever 
-    it encounters input that doesn't conform to the grammar, the VTL parser can't do 
-    that. It must simply output the schmoo and keep going.  
- 
+
+    The problem with parsing VTL is that an input stream consists generally of
+    little bits of VTL mixed in with 'other stuff, referred to as 'schmoo'.
+    Unlike other languages, like C or Java, where the parser can punt whenever
+    it encounters input that doesn't conform to the grammar, the VTL parser can't do
+    that. It must simply output the schmoo and keep going.
+
     There are a few things that we do here :
      - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
      - define for each parser state a set of tokens for each state
-     - define the VTL grammar, expressed (mostly) in the productions such as Text(), 
+     - define the VTL grammar, expressed (mostly) in the productions such as Text(),
      SetStatement(), etc.
-   
-    It is clear that this expression of the VTL grammar (the contents 
-    of this .jjt file) is maturing and evolving as we learn more about 
-    how to parse VTL ( and as I learn about parsing...), so in the event 
-    this documentation is in disagreement w/ the source, the source 
+
+    It is clear that this expression of the VTL grammar (the contents
+    of this .jjt file) is maturing and evolving as we learn more about
+    how to parse VTL ( and as I learn about parsing...), so in the event
+    this documentation is in disagreement w/ the source, the source
     takes precedence. :)
- 
+
     Parser States
     -------------
-    DEFAULT :  This is the base or starting state, and strangely enough, the 
+    DEFAULT :  This is the base or starting state, and strangely enough, the
     default state.
- 
-    PRE_DIRECTIVE : State immediately following '#' before we figure out which 
+
+    PRE_DIRECTIVE : State immediately following '#' before we figure out which
     defined or pluggable directive (or neither) we are working with.
-     
+
     DIRECTIVE : This state is triggered by the a match of a DD or a PD.
 
     REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE.
@@ -1587,51 +1587,51 @@ void PrimaryExpression() #void : {}
     REFMODIFIER : Triggered by .<alpha> when in REFERENCE.
 
     REFMOD2 : Triggered by ( when in REFMODIFIER
- 
+
     (cont)
 
     Escape Sequences
     ----------------
-    The escape processing in VTL is very simple.  The '\' character acts 
+    The escape processing in VTL is very simple.  The '\' character acts
     only as an escape when :
-    
+
         1) On or more touch a VTL element.
 
     A VTL element is either :
 
         1) It preceeds a reference that is in the context.
 
-        2) It preceeds a defined directive (#set, #if, #end, etc) or a valid 
+        2) It preceeds a defined directive (#set, #if, #end, etc) or a valid
         pluggable directive, such as #foreach
 
-    In all other cases the '\' is just another piece of text.  The purpose of this 
-    is to allow the non-VTL parts of a template (the 'schmoo') to not have to be 
+    In all other cases the '\' is just another piece of text.  The purpose of this
+    is to allow the non-VTL parts of a template (the 'schmoo') to not have to be
     altered for processing by Velocity.
 
-    So if in the context $foo and $bar were defined and $woogie was not 
-        
+    So if in the context $foo and $bar were defined and $woogie was not
+
         \$foo  \$bar \$woogie
 
     would output
 
         $foo  $bar  \$woogie
 
-    Further, you can stack them and they affect left to right, just like convention 
+    Further, you can stack them and they affect left to right, just like convention
     escape characters in other languages.
 
         \$foo = $foo
         \\$foo = \<foo>
         \\\$foo = \$foo
 
-    
+
     What You Expect
     ---------------
-    The recent versions of the parser are trying to support precise output to 
-    support general template use. The directives do not render trailing 
-    whitespace and newlines if followed by a newline.  They will render 
-    preceeding whitespace. The only exception is #set, which also eats 
+    The recent versions of the parser are trying to support precise output to
+    support general template use. The directives do not render trailing
+    whitespace and newlines if followed by a newline.  They will render
+    preceeding whitespace. The only exception is #set, which also eats
     preceeding whitespace.
- 
+
     So, with a template :
 
         ------
@@ -1648,4 +1648,4 @@ void PrimaryExpression() #void : {}
         ------
 
 */
- 
+

@@ -21,7 +21,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.java,v 1.70 2002/02/22 21:40:38 geirm Exp $ 
+ * @version $Id: Parser.java,v 1.71 2002/03/23 13:38:31 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
@@ -38,9 +38,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
     private RuntimeServices rsvc = null;
 
-    /** 
+    /**
      * This constructor was added to allow the re-use of parsers.
-     * The normal constructor takes a single argument which 
+     * The normal constructor takes a single argument which
      * an InputStream. This simply creates a re-usable parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
@@ -66,7 +66,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         rsvc = rs;
     }
 
-    /** 
+    /**
      * This was also added to allow parsers to be
      * re-usable. Normal JavaCC use entails passing an
      * input stream to the constructor and the parsing
@@ -139,7 +139,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     }
 
     /**
-     *  This method finds out of the directive exists in the directives 
+     *  This method finds out of the directive exists in the directives
      *  Hashtable.
      */
     public boolean isDirective(String directive)
@@ -152,7 +152,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
 
     /**
-     * Produces a processed output for an escaped control or 
+     * Produces a processed output for an escaped control or
      * pluggable directive
      */
     private String escapedDirective( String strImage )
@@ -406,10 +406,10 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         else if ( rsvc.isVelocimacro( t.next.image.substring(1), currentTemplateName))
             control = true;
 
-        t.image = "";
+        jjtn000.val = "";
 
         for( int i = 0; i < count; i++)
-            t.image += ( control ? "\\" : "\\\\");
+            jjtn000.val += ( control ? "\\" : "\\\\");
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
@@ -514,7 +514,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
 /**
  *   Supports the arguments for the Pluggable Directives
- *   We add whitespace in here as a token so the VMs can 
+ *   We add whitespace in here as a token so the VMs can
  *   easily reconstruct a macro body from the token stream
  *   See Directive()
  */
@@ -574,7 +574,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     boolean doItNow = false;
     try {
       /*
-           * note that if we were escaped, that is now handled by 
+           * note that if we were escaped, that is now handled by
            * EscapedDirective()
            */
           t = jj_consume_token(WORD);
@@ -594,7 +594,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
 
         /*
-         * set the directive name from here.  No reason for the thing to know 
+         * set the directive name from here.  No reason for the thing to know
          * about parser tokens
          */
 
@@ -602,7 +602,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
         if ( d == null)
         {
-            /*      
+            /*
              *  if null, then not a real directive, but maybe a Velocimacro
 	         */
 
@@ -720,7 +720,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
         /*
-         *  VM : if we are processing a #macro directive, we need to 
+         *  VM : if we are processing a #macro directive, we need to
          *     process the block.  In truth, I can just register the name
          *     and do the work later when init-ing.  That would work
          *     as long as things were always defined before use.  This way
@@ -818,7 +818,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
 /**
  *  supports the [n..m] vector generator for use in
- *  the #foreach() to generate measured ranges w/o 
+ *  the #foreach() to generate measured ranges w/o
  *  needing explicit support from the app/servlet
  */
   final public void IntegerRange() throws ParseException {
@@ -1194,9 +1194,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  Defined Directive Syntax
- * 
+ *
  * ----------------------------------------------------------------------*/
   final public void IfStatement() throws ParseException {
                       /*@bgen(jjtree) IfStatement */
@@ -1557,9 +1557,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   }
 
 /* -----------------------------------------------------------------------
- * 
+ *
  *  Expression Syntax
- * 
+ *
  * ----------------------------------------------------------------------*/
   final public void Expression() throws ParseException {
                      /*@bgen(jjtree) Expression */
