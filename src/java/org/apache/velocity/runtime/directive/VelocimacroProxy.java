@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.7 2000/11/27 23:57:45 jvanzyl Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.8 2000/11/28 04:16:22 jvanzyl Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -91,8 +91,22 @@ public class VelocimacroProxy extends Directive
 
     private boolean bInit_ = false;
 
-    public String getName() { return  strMacroName_; }
-    public int getType() { return LINE; }
+    /**
+     * Return name of this Velocimacro.
+     */
+    public String getName() 
+    { 
+        return  strMacroName_; 
+    }
+    
+    /**
+     * Velocimacros are always LINE
+     * type directives.
+     */
+    public int getType()
+    { 
+        return LINE; 
+    }
  
     /**
      *   sets the directive name of this VM

@@ -85,25 +85,25 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.25 2000/11/27 23:57:37 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.26 2000/11/28 04:16:21 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
     /**
-     * Name of this directive. Reflection is used
-     * in the Runtime to grab the value of this
-     * field so that the directive can be named
-     * and initialized.
+     * Return name of this directive.
      */
-    public String DIRECTIVE_NAME = "foreach";
+    public String getName()
+    {
+        return "foreach";
+    }        
     
     /**
-     * Type of this directive. Reflection is used
-     * in the Runtime to grab the value of this
-     * field so that the directive can be typed
-     * and initialized.
+     * Return type of this directive.
      */
-    public int DIRECTIVE_TYPE = BLOCK;
+    public int getType()
+    {
+        return BLOCK;
+    }        
 
     /**
      * Flag to indicate that the list object being used

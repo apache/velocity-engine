@@ -70,7 +70,7 @@
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.2 2000/11/27 23:57:39 jvanzyl Exp $
+ * @version $Id: Macro.java,v 1.3 2000/11/28 04:16:22 jvanzyl Exp $
  */
 
 package org.apache.velocity.runtime.directive;
@@ -88,20 +88,20 @@ import org.apache.velocity.runtime.Runtime;
 public class Macro extends Directive
 {
     /**
-     * Name of this directive. Reflection is used
-     * in the Runtime to grab the value of this
-     * field so that the directive can be named
-     * and initialized.
+     * Return name of this directive.
      */
-    public String DIRECTIVE_NAME = "macro";
+    public String getName()
+    {
+        return "macro";
+    }        
     
     /**
-     * Type of this directive. Reflection is used
-     * in the Runtime to grab the value of this
-     * field so that the directive can be typed
-     * and initialized.
+     * Return type of this directive.
      */
-    public int DIRECTIVE_TYPE = BLOCK;
+    public int getType()
+    {
+        return BLOCK;
+    }        
     
     private static  boolean bDebug_ = false;
 
