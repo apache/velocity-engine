@@ -56,11 +56,11 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.util.TreeMap;
 
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.9 2001/01/03 05:28:33 geirm Exp $
+ * @version $Id: Macro.java,v 1.10 2001/01/13 16:40:32 geirm Exp $
  */
 public class Macro extends Directive
 {
@@ -190,59 +190,18 @@ public class Macro extends Directive
             temp.append( macroArray[i] );
 
         String macroBody = temp.toString();    
-    
-        /*
-         * now, using the macro body string and the arg list, index 
-         * all the tokens in the arglist
-         */
-
-        TreeMap argIndexMap = getArgIndexMap( macroBody, argArray );
-
+   
         /*
          * now, try to add it.  The Factory controls permissions, 
          * so just give it a whack...
          */
 
-        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody, 
-            argArray, macroArray, argIndexMap, sourceTemplate );
+        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody,  argArray, sourceTemplate );
 
         return;
     }
 
-    /**
-     * using the macro body and the arg list, creates a TreeMap 
-     * of the indices of the args in the body Makes for fast 
-     * and efficient patching at runtime
-     */
-    private TreeMap getArgIndexMap( String macroBody, String argArray[] )
-    {
-        TreeMap tm = new TreeMap();
- 
-        /*
-         *  run through the buffer for each paramter, and remember 
-         * where they go.  We have to do this  all at once to 
-         * avoid confusing later replacement attempts with the 
-         * activity of earlier ones
-         */
-
-        for (int i=1; i<argArray.length; i++)
-        {
-            /*
-             *  keep going until we don't get any matches
-             */
-
-            int index = 0;
-
-            while( ( index = macroBody.indexOf( argArray[i], index )) != -1 )
-            {
-                tm.put(new Integer( index ), new Integer( i ));
-                index++;
-            }                    
-        }
-
-        return tm;
-    }
-
+  
     /**
      *  creates an array containing the literal
      *  strings in the macro arguement
@@ -268,6 +227,18 @@ public class Macro extends Directive
         while( i <  numArgs ) 
         {
             argArray[i] = node.jjtGetChild(i).getFirstToken().image;
+
+            /*
+             *  trim off the leading $ for the args after the macro name.
+             *  saves everyone else from having to do it
+             */
+
+            if ( i > 0)
+            {
+                if ( argArray[i].startsWith("$"))
+                    argArray[i] = argArray[i].substring(1, argArray[i].length());
+            }
+
             i++;
         }
 	

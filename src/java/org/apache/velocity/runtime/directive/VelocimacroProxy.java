@@ -58,12 +58,13 @@ import java.io.Writer;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.util.StringTokenizer;
-import java.util.Hashtable;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.VMContext;
+import org.apache.velocity.context.Context;
 
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -78,19 +79,21 @@ import org.apache.velocity.util.StringUtils;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.17 2001/01/03 05:28:33 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.18 2001/01/13 16:40:32 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
     private String macroName = "";
     private String macroBody = "";
     private String[] argArray = null;
-    private String[] macroArray = null;
-    private TreeMap  argIndexMap = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
-
+    
     private boolean init = false;
+    private String[] callingArgs;
+    private int[]  callingArgTypes;
+    private HashMap proxyArgHash = new HashMap();
+    private HashMap keyMap = new HashMap();
 
     /**
      * Return name of this Velocimacro.
@@ -128,7 +131,13 @@ public class VelocimacroProxy extends Directive
          *  get the arg count from the arg array.  remember that the arg array 
          *  has the macro name as it's 0th element
          */
+
         numMacroArgs = argArray.length - 1;
+    }
+
+    public void setNodeTree( SimpleNode tree )
+    {
+        nodeTree = tree;
     }
 
     /**
@@ -137,25 +146,6 @@ public class VelocimacroProxy extends Directive
     public int getNumArgs()
     {
         return numMacroArgs;
-    }
-
-    /**
-     *   sets the array of macro elements. (The macro body is an array of token literals..)
-     *   Currently, this isn't used in init or render, but keeping it around if
-     *   someone needs it later.
-     */
-    public void setMacroArray( String [] arr )
-    {
-        macroArray = arr;
-    }
-
-    /**
-     *   sets the argIndexMap, a map of indexes of macro arg locations in the macro string
-     *   to the argument index.  Makes patching the macro really easy.
-     */
-    public void setArgIndexMap( TreeMap tm)
-    {
-        argIndexMap = tm;
     }
 
     /**
@@ -176,20 +166,41 @@ public class VelocimacroProxy extends Directive
     {
         try 
         {
+            /*
+             *  it's possible the tree hasn't been parsed yet, so get 
+             *  the VMManager to parse and init it
+             */
+       
             if (nodeTree != null)
             {
-                /*
-                 *  to allow recursive VMs, we want to init them at render time, not init time
-                 *  or else you wander down the VM calls forever.
-                 *
-                 *  need a context here to carry the template name down through the init
-                 */
-                if (!init)
+                if ( !init )
                 {
-                    nodeTree.init( context ,null);
+                    nodeTree.init(context,null);
                     init = true;
                 }
-                nodeTree.render(context, writer );
+                
+                /*
+                 *  wrap the current context and add the VMProxyArg objects
+                 */
+
+                VMContext vmc = new VMContext( context );
+
+                for( int i = 1; i < argArray.length; i++)
+                {
+                    /*
+                     *  we can do this as VMProxyArgs don't change state. They change
+                     *  the context.
+                     */
+
+                    VMProxyArg arg = (VMProxyArg) proxyArgHash.get( argArray[i] ); 
+                    vmc.addVMProxyArg( arg );
+                }
+         
+                /*
+                 *  now render the VM
+                 */
+
+                nodeTree.render( vmc, writer );               
             }
             else
             {
@@ -216,6 +227,7 @@ public class VelocimacroProxy extends Directive
         /*
          *  how many args did we get?
          */
+       
         int i  = node.jjtGetNumChildren();
         
         /*
@@ -231,50 +243,58 @@ public class VelocimacroProxy extends Directive
         /*
          *  get the argument list to the instance use of the VM
          */
-        String callingArgs[] = getArgArray( node );
-         
+
+         callingArgs = getArgArray( node );
+       
         /*
-         *  now, expand our macro out to a string patched with the instance arguments
+         *  now proxy each arg in the context
          */
-        expandAndParse( callingArgs );
-        return;
+
+         setupMacro( callingArgs, callingArgTypes);
+         return;
+    }
+
+    public boolean setupMacro( String[] callArgs, int[] callArgTypes )
+    {
+        setupProxyArgs( callArgs, callArgTypes );
+        parseTree();
+
+        return true;
     }
 
     /**
-     *  takes an array of calling args, patches the VM and parses it.
-     *  called by init() or callable alone if you know what you are doing.
-     *
-     * @param strCallingArgs array of reference literals
+     *   parses the macro.  We need to do this here, at init time, or else
+     *   the local-scope template feature is hard to get to work :)
      */
-    public void expandAndParse( String callingArgs[] )
+    private void parseTree()
     {
-        StringBuffer expanded = expandMacroArray( callingArgs );
-        
-        /*
-         *  ok. I have the expanded macro.
-         *  now, all I have to do  is let the parser render it
-         */
+        // System.out.println("VMP.parseTree() : " + macroName );
+
         try 
-        {
-            /*
-             *  take the patched macro code, and render() and init()
-             */
-            //System.out.println("Expanded : " + strExpanded.toString() );
-            ByteArrayInputStream  inStream = new ByteArrayInputStream( expanded.toString().getBytes() );
+        {    
+            ByteArrayInputStream  inStream = new ByteArrayInputStream( macroBody.getBytes() );
             nodeTree = Runtime.parse( inStream, "VM:" + macroName );
         } 
         catch ( Exception e ) 
         {
-            Runtime.error("VelocimacroProxy.init() : exception " + macroName + 
-            " : "  + StringUtils.stackTrace(e));
+            Runtime.error("VelocimacroManager.parseTree() : exception " + macroName + 
+                          " : "  + StringUtils.stackTrace(e));
         }
-
-        /*
-         *  we're done.  We have the correct AST
-         */
-        return;
     }
+  
+    private void setupProxyArgs( String[] callArgs, int [] callArgTypes )
+    {
+        /*
+         * for each of the args, make a ProxyArg
+         */
 
+        for( int i = 1; i < argArray.length; i++)
+        {
+            VMProxyArg arg = new VMProxyArg( argArray[i], callArgs[i-1], callArgTypes[i-1] );
+            proxyArgHash.put( argArray[i], arg );
+        }
+    }
+  
     /**
      *   gets the args to the VM from the instance-use AST
      */
@@ -283,7 +303,8 @@ public class VelocimacroProxy extends Directive
         int numArgs = node.jjtGetNumChildren();
         
         String args[] = new String[ numArgs ];
-		
+        callingArgTypes = new int[numArgs];
+
         /*
          *  eat the args
          */
@@ -298,7 +319,11 @@ public class VelocimacroProxy extends Directive
              *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched 
              *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
              */
-            if ( node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
+
+            callingArgTypes[i] = node.jjtGetChild(i).getType();
+ 
+           
+            if (false &&  node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
                 args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
             }
@@ -309,7 +334,7 @@ public class VelocimacroProxy extends Directive
                  */
                 t = node.jjtGetChild(i).getFirstToken();
                 tLast = node.jjtGetChild(i).getLastToken();
- 
+
                 while( t != tLast ) 
                 {
                     args[i] += t.image;
@@ -324,45 +349,6 @@ public class VelocimacroProxy extends Directive
             i++;
          }
         return args;
-    }
-   
-  
-    /**
-     *   expands our macro out given our arg list. Uses
-     *   the pre-created arg index map to run through and patch
-     *   with our args
-     */
-    private StringBuffer expandMacroArray( String [] callingArgs )
-    {
-        /*
-         *  build the output string by running through the map in sorted order and construct
-         *  the new string.  Remember, don't modify the strMacro. Make a new one. The index
-         *  elements are specific to the orignal macro body..
-         */
-        Set set = argIndexMap.keySet();
-        Iterator it = set.iterator();
-        StringBuffer sb = new StringBuffer();
-        int loc = 0;
-
-        while( it.hasNext() )
-        {
-            Integer index = (Integer) it.next();
-            int which = ((Integer) argIndexMap.get( index )).intValue();
-
-            int indexInt = index.intValue();
-
-            //System.out.println( sbNew + ":" + strCallingArgs[iWhich-1]);
-
-            sb.append( macroBody.substring( loc, indexInt ));
-            sb.append( callingArgs[which - 1] );
-            loc = indexInt + argArray[which].length();
-        }
- 
-        /*
-         *  and finish off the string
-         */
-        sb.append( macroBody.substring( loc ) );
-        return sb;
     }
 }
 
