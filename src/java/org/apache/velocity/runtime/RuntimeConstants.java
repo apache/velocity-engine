@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.31 2001/11/06 03:23:05 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.32 2002/04/21 18:36:06 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -394,4 +394,10 @@ public interface RuntimeConstants
     final static int NUMBER_OF_PARSERS = 20;
 
     final static String PARSER_POOL_SIZE = "parser.pool.size";
+
+
+    /**
+     *  key name for uberspector
+     */
+    final static String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 }

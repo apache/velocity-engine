@@ -92,6 +92,7 @@ import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.Uberspect;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -107,9 +108,9 @@ import org.apache.commons.collections.ExtendedProperties;
  *  Currently implemented by RuntimeInstance.
  * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeServices.java,v 1.4 2002/01/03 12:40:23 geirm Exp $
+ * @version $Id: RuntimeServices.java,v 1.5 2002/04/21 18:36:06 geirm Exp $
  */
-public interface RuntimeServices
+public interface RuntimeServices extends RuntimeLogger
 {
 
    /*
@@ -299,34 +300,6 @@ public interface RuntimeServices
      *  @return class name of loader than can provide it
      */
     public String getLoaderNameForResource( String resourceName );
-    
-    /**
-     * Log a warning message.
-     *
-     * @param Object message to log
-     */
-    public void warn(Object message);
-    
-    /** 
-     * Log an info message.
-     *
-     * @param Object message to log
-     */
-    public  void info(Object message);
-    
-    /**
-     * Log an error message.
-     *
-     * @param Object message to log
-     */
-    public void error(Object message);
-    
-    /**
-     * Log a debug message.
-     *
-     * @param Object message to log
-     */
-    public void debug(Object message);
 
     /**
      * String property accessor method with default to hide the
@@ -419,13 +392,13 @@ public interface RuntimeServices
     public ExtendedProperties getConfiguration();
 
     /*
-     *  Return this instance's Introspector
-     */
-    public Introspector getIntrospector();
-    
-    /*
      *  Return the specified applcation attribute
      */
     public Object getApplicationAttribute( Object key );
-    
+
+    public Uberspect getUberspect();
+
+    public Introspector getIntrospector();
+
+
 }

@@ -93,6 +93,9 @@ import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.Uberspect;
+import org.apache.velocity.util.introspection.UberspectImpl;
+import org.apache.velocity.util.introspection.UberspectLoggable;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -144,7 +147,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.15 2002/02/12 18:38:00 dlr Exp $
+ * @version $Id: RuntimeInstance.java,v 1.16 2002/04/21 18:36:06 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -209,16 +212,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  to ensure that each instance is completely separate.
      */
     private Introspector introspector = null;
-    
-    
+
+
     /*
      *  Opaque reference to something specificed by the 
      *  application for use in application supplied/specified
      *  pluggable components
      */
     private Map applicationAttributes = null;
-    
-    
+
+
+    private Uberspect uberSpect;
+
     public RuntimeInstance()
     {
         /*
@@ -268,16 +273,79 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializeResourceManager();
             initializeDirectives();
             initializeParserPool();
-            
+
+            initializeIntrospection();
             /*
              *  initialize the VM Factory.  It will use the properties 
              * accessable from Runtime, so keep this here at the end.
              */
             vmFactory.initVelocimacro();
-            
+
             info("Velocity successfully started.");
             
             initialized = true;
+        }
+    }
+
+
+    /**
+     *  Gets the classname for the Uberspect introspection package and
+     *  instantiates an instance.
+     */
+    private void initializeIntrospection()
+        throws Exception
+    {
+        String rm = getString(RuntimeConstants.UBERSPECT_CLASSNAME);
+
+        if (rm != null && rm.length() > 0)
+        {
+            Object o = null;
+
+            try
+            {
+               o = Class.forName(rm).newInstance();
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+                String err = "The specified class for Uberspect ("
+                    + rm
+                    + ") does not exist (or is not accessible to the current classlaoder.";
+                 error(err);
+                 throw new Exception(err);
+            }
+
+            if (!(o instanceof Uberspect))
+            {
+                String err = "The specified class for Uberspect ("
+                    + rm
+                    + ") does not implement org.apache.velocity.util.introspector.Uberspect."
+                    + " Velocity not initialized correctly.";
+
+                error(err);
+                throw new Exception(err);
+            }
+
+            uberSpect = (Uberspect) o;
+
+            if (uberSpect instanceof UberspectLoggable)
+            {
+                ((UberspectLoggable) uberSpect).setRuntimeLogger(this);
+            }
+
+            uberSpect.init();
+         }
+         else
+         {
+            /*
+             *  someone screwed up.  Lets not fool around...
+             */
+
+            String err = "It appears that no class was specified as the"
+            + " Uberspect.  Please ensure that all configuration"
+            + " information is correct.";
+
+            error(err);
+            throw new Exception(err);
         }
     }
 
@@ -1093,7 +1161,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return introspector;
     }
-    
+
     public Object getApplicationAttribute( Object key)
     {
         return applicationAttributes.get( key );
@@ -1102,6 +1170,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Object setApplicationAttribute( Object key, Object o )
     {
         return applicationAttributes.put( key, o );
+    }
+
+    public Uberspect getUberspect()
+    {
+        return uberSpect;
     }
 
 }
