@@ -53,8 +53,14 @@
 
 <section name="Velocity News">
 <p>
-<strong>3 published articles covering Velocity</strong>
+<strong>4 published articles covering Velocity</strong>
 </p>
+
+<blockquote>
+<a href="http://www.webtechniques.com/archives/2001/09/serv/">Getting Up
+to Speed with Velocity</a> is a really well written article by Jim
+Jagaleski about the merits of using a tool like Velocity.
+</blockquote>
 
 <blockquote>
 Many people believe that Velocity can only be used in the context of web
