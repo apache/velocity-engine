@@ -59,6 +59,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,21 +78,52 @@ import org.apache.velocity.io.FastWriter;
  * and add your data to the context.  Then call 
  * <code>getTemplate("myTemplate.wm")</code>.
  * 
+ * This class puts some things into the context object that you should
+ * be aware of:
+ *
+ * "req" - The HttpServletRequest object
+ * "res" - The HttpServletResponse object
+ *
+ * If you put a contentType object into the context within either your
+ * serlvet or within your template, then that will be used to override
+ * the default content type specified in the properties file.
+ *
+ * "contentType" - The value for the Content-Type: header
+ *
  * @author Dave Bryson
- * $Id: VelocityServlet.java,v 1.6 2000/10/15 19:43:50 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * $Id: VelocityServlet.java,v 1.7 2000/10/15 21:17:22 jon Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
     /**
+     * The name for the request object in the context
+     */
+    public static final String REQUEST = "req";
+    /**
+     * The name for the response object in the context
+     */
+    public static final String RESPONSE = "res";
+    /**
+     * The name for the contentType object in the context
+     */
+    public static final String CONTENT_TYPE = "contentType";
+    
+    /**
      * The encoding to use when generating outputing.
      */
-    private String encoding;
+    private static String encoding = null;
 
     /**
      * Whether to use the <code>FasterWriter</code> hack for faster generation 
      * of ASCII output.
      */
-    private boolean asciiHack;
+    private static boolean asciiHack = true;
+
+    /**
+     * get the default contentType
+     */
+    private static String defaultContentType = Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
 
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
@@ -123,7 +155,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handles GET
      */
-    public void doGet( HttpServletRequest request, HttpServletResponse response )
+    public final void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
@@ -132,13 +164,13 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handle a POST
      */
-    public void doPost( HttpServletRequest request, 
+    public final void doPost( HttpServletRequest request, 
                         HttpServletResponse response )
         throws ServletException, IOException
     {
         doRequest(request, response);
     }
-    
+
     /**
      * Process the request.
      */
@@ -146,29 +178,65 @@ public abstract class VelocityServlet extends HttpServlet
                            HttpServletResponse response )
          throws ServletException, IOException
     {
-        Context context = new Context();
-        Template template = handleRequest(context);
-        
-        if ( template == null )
+        ServletOutputStream output = response.getOutputStream();
+        FastWriter writer = null;
+        String contentType = null;
+        try
         {
-            error(response, "Cannot find template!");
-            return;
+            // create a new context
+            Context context = new Context();
+            // put the request/response objects into the context
+            context.put (REQUEST, request);
+            context.put (RESPONSE, response);
+            // call whomever extends this class and implements this method
+            Template template = handleRequest(context);        
+            // could not find the template
+            if ( template == null )
+                throw new Exception ("Cannot find the template!" );
+            // check for a content type in the context    
+            if (context.containsKey(CONTENT_TYPE))
+                contentType = (String) context.get (CONTENT_TYPE);
+            else
+                contentType = defaultContentType;
+            // set the content type
+            response.setContentType(contentType);
+            // write the data out.
+            writer = new FastWriter(output, encoding);
+            writer.setAsciiHack(asciiHack);
+            template.merge( context, writer );
         }
-
-        response.setContentType("text/html");
-        
-        FastWriter writer = new FastWriter(response.getOutputStream(), 
-                                           encoding);
-        writer.setAsciiHack(asciiHack);
-        template.merge( context, writer );
-        writer.flush();
-        // HELP: Why wouldn't we want to close() the writer as well?
+        catch (Exception e)
+        {
+            // display error messages
+            error (output, e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                // flush and close
+                if (writer != null)
+                {
+                    writer.flush();            
+                    writer.close();                
+                }
+                if (output != null)
+                {
+                    output.flush();
+                    output.close();
+                }                
+            }
+            catch (Exception e)
+            {
+                // do nothing
+            }
+        }
     }
     
     /**
      * Retrieves the requested template.
      *
-     * @param name The file name of the template to retrieve.
+     * @param name The file name of the template to retrieve relative to template.path
      * @return     The requested template.
      */
     public Template getTemplate( String name )
@@ -185,12 +253,12 @@ public abstract class VelocityServlet extends HttpServlet
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
      */
-    public abstract Template handleRequest( Context ctx );
+    protected abstract Template handleRequest( Context ctx );
  
     /**
      * Send an error message to the client.
      */
-    private void error( HttpServletResponse response, String message )
+    private final void error( ServletOutputStream out, String message )
         throws ServletException, IOException
     {
         StringBuffer html = new StringBuffer();
@@ -200,15 +268,6 @@ public abstract class VelocityServlet extends HttpServlet
         html.append(message);
         html.append("</body>");
         html.append("</html>");
-        
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
-        out.println( html.toString() );
+        out.print( html.toString() );
     }
 }
-
-
-
-
-
