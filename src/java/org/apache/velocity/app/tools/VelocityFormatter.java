@@ -79,7 +79,7 @@ import org.apache.velocity.context.*;
  * </pre></code>
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
- * @version $Id: VelocityFormatter.java,v 1.3 2001/08/03 19:22:16 dlr Exp $
+ * @version $Id: VelocityFormatter.java,v 1.4 2001/08/03 19:26:14 dlr Exp $
  */
 public class VelocityFormatter
 {
@@ -344,7 +344,7 @@ public class VelocityFormatter
      *
      * <code><pre>
      * &lt;table&gt;
-     * $formatter.makeAlternator($rowcolor, "#c0c0c0", "#e0e0e0")
+     * $formatter.makeAlternator("rowcolor", "#c0c0c0", "#e0e0e0")
      * #foreach $item in $items
      * #begin
      * &lt;tr&gt;&lt;td bgcolor="$rowcolor"&gt;$item.Name&lt;/td&gt;&lt;/tr&gt;
