@@ -4,21 +4,278 @@
 
  <header>
   <title>Developer's Guide</title>
-  <subtitle>Developer's Guide</subtitle>
+  <subtitle>or How I Learned to Love the Context</subtitle>
   <authors>
-   <person name="Velocity Documentation Team" email="jvanzyl@locus.apache.org"/>
+   <person name="Velocity Documentation Team" email="geirm@apache.org"/>
   </authors>
  </header>
 
 <body>
 
-<s1 title="Developer's Guide">
+<s1 title="Introduction">
+<p>
+Velocity is a Java-based template engine, a simple and powerful development tool that allows you to easily create and render
+'documents' that format and present your data.
+In this document, we hope to give an overview of the basics of development using Velocity, focusing on the two main areas for Velocity usage :
+
+<ul>
+<li> servlet-based WWW development</li>
+<li> general application use</li>
+</ul>
+
+You will see that there is no real difference between these, other than we make servlet development with Velocity very easy
+if you use our provided class VelocityServlet as a base class for your servlet.
+</p>
+</s1>
+
+<s1 title="Resources">
+<p>
+There are quite a few resources and examples available to the programmer, and we recommend that you look at our examples, documentation and even the source code.  They are found in 
+
+<ul>
+<li> source code : /src/java/...</li>
+<li> general examples : /examples </li>
+<li> Anakia application :  example application showing how to use Velocity for creating stylesheet renderings of xml data 
+- /examples/anakia </li>
+<li> Forumdemo web app : working example of a simple servlet-based forum application - /examples/forumdemo</li>
+<li> documentation : /docs</li>
+<li> templates : for the designer, we have a large collection of template examples in our testbed directory - /test/templates</li>
+</ul>
+
+All directory references above are relative to the distribution root directory.
+</p>
+</s1>
+
+<s1 title="The Fundamental Code Pattern">
+<p>
+When using Velocity in an application program or in a servlet (or anywhere, actually), you will generally do the following :
+
+<ol>
+<li>Create a Context object (more on what that is later).</li>
+<li>Add your data objects to the Context.</li>
+<li>Choose a template.</li>
+<li>'Merge' the template and your data to produce the ouput.</li>
+</ol>
+
+In code, this looks like 
+
+<source><![CDATA[
+import java.io.StringWriter;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.runtime.Runtime;
+
+VelocityContext context = new VelocityContext();
+
+context.put( "name", new String("Velocity") );
+
+Template template = null;
+
+try
+{
+   template = Runtime.getTemplate("mytemplate.vm");
+}
+catch( Exception e )
+{}
+
+StringWriter sw = new StringWriter();
+
+template.merge( context, sw );
+
+]]></source>
+</p>
+<p>
+Thats the basic pattern.  It is very simple, isn't it?
+</p>
+</s1>
+
+<s1 title="The Context">
+<strong>The Basics</strong>
+<p>
+The concept of the 'context' is central to Velocity, and is a common technique for moving a container of data around between 
+parts of a system.  The idea is that the context is a 'carrier'
+of data between the Java layer (or you the programmer) and the template layer ( or the designer ).  You as the programmer will 
+gather objects of various types, whatever your application calls for, and place them in the context.  To the designer, these 
+objects, and their methods and properties, will become accessable via template elements called 
+<link href='vtl-reference-guide.html'> references</link>.  Generally, you will work with the designer to determine the data 
+needs for the application, and the 'API' that you are in a way creating as you produce a data set for the designer to access
+in the template.
+</p>
 
 <p>
-    This is still in progress. It will be here soon.
+While Velocity allows you to create your own context classes to support special needs and techniques (like a context that
+accesses an LDAP server directly, for example), a good basic implementation class called VelocityContext is provided for you 
+as part of the distribution.
+</p>
+<p>
+VelocityContext is suitable for all general purpose needs, and we strongly recommended that you use it. Only in exceptional
+and advanced cases will you need to extend or create your own context implementation.  
+</p>
+<p>
+Using VelocityContext is as simple as using a normal Java Hashtable class.  While the interface contains other useful methods, 
+the two main methods you will use are
+
+<source><![CDATA[
+ public Object put(String key, Object value);
+ public Object get(String key);
+]]></source>
+
+Please note that like a Hashtable, the value must be derived from java.lang.Object, and must not be null.  
+Fundamental types like int or float must be wrapped in the appropriate wrapper classes.
+</p>
+<p>
+That's really all there is to basic context operations.  For more information, see the API documentation included in the distribution.
+</p>
+
+<strong>Context Chaining</strong>
+<p>
+An innovative feature of Velocity's context design is the concept of <i>context chaining</i>.  
+Also sometimes referred to as <i>context wrapping</i>, this advanced feature allows you to connect separate contexts together in a
+manner that makes it appear as one 'contiguous' context to the template.
+</p>
+<p>
+This is best illustrated by an example :
+<source><![CDATA[
+ VelocityContext context1 = new VelocityContext();
+ 
+ context1.put("name","Velocity");
+ context1.put("project", "Jakarta");
+ context1.put("duplicate", "I am in context1");
+
+ VelocityContext context2 = new VelocityContext( context1 );
+
+ context2.put("lang", "Java" );
+ context2.put("duplicate", "I am in context2");
+
+ template.merge( context2, writer );
+
+]]></source>
+
+In the code above, we have set up context2 such that it <i>chains</i> context1.  This means that in the template, 
+you can access any of 
+the items that were put into either of the two VelocityContext objects, as long as there is no duplication of the keys
+used to add objects.  If that is the case, as it is above for the key 'duplicate', the object stored in the nearest 
+context in the chain will be available.  In this example above, the object returned would be the string "I am in context2".
+</p>
+<p>
+Note that this duplication, or 'covering', of a context item does not in any way harm or alter the covered object.  So in the example above, the string "I am in context1" is alive and well, still accessable via context1.get("duplicate").  But in the example
+above, the value of the reference '$duplicate' in the template would be 'I am in context2', and the template has no access to 
+the covered string 'I am in context1'.
+</p>
+<p>
+This feature has many uses, the most common so far is providing layered data access and toolsets.
+</p>
+<p>
+As mentioned before, the Velocity context mechanism is also extendable, but beyond the current scope of this document.
+If you are interested, please see the classes in the package
+org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the examples
+directory in the distribution which show alternate implementaions, including [a goofy] one 
+that uses a database as the backing storage. 
+Please note that these examples are unsupported and are there for demonstration/educational purposes only.
 </p>
 
 </s1>
 
+<s1 title="Using Velocity In Servlets">
+<strong>Programming</strong>
+<p>
+The most common use of Velocity is in the are of Java Servlet programming for the WWW.  There are many reasons why Velocity is
+well suited for this task, the primary one is Velocity's enforcement of the separation of the presentation (or view) layer from 
+the code layer.  There are many resources on this subject, including <link href='http://www.javaworld.com/javaworld/jw-12-1999/jw-12-ssj-jspmvc.html'>this</link>.  
+</p>
+<p>
+The basic technique of using Velocity in a servlet environment is very simple.  In a nutshell, all you must do is 
+extend the provided VelocityServlet base class and implement a single method handleRequest().  That's really all that is required 
+to use Velocity in your servlet development.
+</p>
+<p>
+The following code is similar to the 
+SampleServlet.java class included in the distribution in the examples directory.
+
+<source><![CDATA[
+public class SampleServlet extends VelocityServlet
+{
+    public Template handleRequest( Context context )
+    {
+        Template template = null;
+        
+        String p1 = "Jakarta";
+        String p2 = "Velocity";
+        
+        Vector vec = new Vector();
+        vec.addElement( p1 );
+        vec.addElement( p2 );
+
+        context.put("list", vec );
+        
+        try
+        {
+            template =  getTemplate("sample.vm");
+        }
+        catch( Exception e )
+        {}
+
+        return template;
+    }
+}
+]]></source>
+
+</p>
+<p>
+Look familiar?  With the exception of creating the context object, which is done for you by the VelocityServlet base class,
+ and  the  merge() step which is also done for you by the VelocityServlet base class, 
+it's identical to the basic code pattern we mentioned at the beginning of this document.  
+We take the context, add our application data, and return a template. 
+</p>
+<strong>Deployment</strong>
+<p>
+When you deploy your Velocity-based servlets, you will certainly want to ensure that your properties file is used to configure
+the Velocity runtime.  Under Tomcat, one way to accomplish this is by placing your velocity.properties file into the root 
+directory of your web app (webapps/appname ) and then add the following to your WEB-INF/web.xml file :
+<source><![CDATA[
+<servlet>
+  <servlet-name>MyServlet</servlet-name>
+  <servlet-class>com.foo.bar.MyServlet</servlet-class>
+  <init-param>
+      <param-name>properties</param-name>
+      <param-value>velocity.properties</param-value>
+  </init-param>
+</servlet>
+]]></source>
+
+Assuming all is right, this will ensure that when MyServlet is loaded, it will use the velocity.properties file to initialize itself
+rather than relying on it's internal defaults.
+</p>
+<p>
+Note that Velocity uses a singleton model for it's central core Runtime class, so it is a very good idea to put the velocity-XX.jar
+into the WEB-INF/lib directory in all web applications that use Velocity to ensure that the web app classloader is 
+managing your Runtime instance,
+rather than putting it in the CLASSPATH or the top level lib directory of the servlet runner. 
+</p>
+<p>
+This deployment method will ensure that different web applications will not be subject to Velocity configuration conflicts.
+</p>
+</s1>
+
+<s1 title="Velocity Properties">
+<p>
+Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties, found in
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  Any
+properties specified at init() time will replace existing values.  This ensures that Velocity will always have a 'correct' value
+for it's configuration and startup.  These may not be the values you want, of course.
+</p>
+</s1>
+
+<s1 title="Summary">
+
+<p>
+We hope this brief document was a helpful introduction to using Velocity in your Java projects, and thank you for you interest
+in Velocity.  We welcome any and all comments
+you may have about this documentation and the Velocity template engine itself.  
+</p>
+<p>
+Please submit all detailed, thoughtful and constructive feedback through our 
+<link href="http://jakarta.apache.org/getinvolved/mail.html">mail lists</link>.
+</p>
+</s1>
 </body>
 </document>
