@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.71 2003/10/23 13:27:52 geirm Exp $
+ * @version $Id: Parser.jj,v 1.72 2003/10/23 15:53:59 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -487,6 +487,13 @@ TOKEN:
 TOKEN:
 {
   <COLON : ":" >
+}
+
+<DIRECTIVE>
+TOKEN :
+{
+    <LEFT_CURLEY : "{" >
+  | <RIGHT_CURLEY : "}" >
 }
 
 <DIRECTIVE,REFMODIFIER>
@@ -1315,7 +1322,7 @@ int DirectiveArg()       : {}
     {
         return ParserTreeConstants.JJTINTEGERRANGE;
     }
-|   LOOKAHEAD( <LBRACKET> Parameter() <COLON> ) Map()
+|   LOOKAHEAD( <LEFT_CURLEY> Parameter() <COLON> ) Map()
     {
         return ParserTreeConstants.JJTMAP;
     }
@@ -1569,7 +1576,7 @@ void Map() : {/*@bgen(jjtree) Map */
 {/*@bgen(jjtree) Map */
     try {
 /*@egen*/
-    <LBRACKET> [ Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )* ] <RBRACKET>/*@bgen(jjtree)*/
+    <LEFT_CURLEY> [ Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )* ] <RIGHT_CURLEY>/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1675,7 +1682,7 @@ void Parameter()      : {}
     (
         StringLiteral()
         | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-        | LOOKAHEAD( <LBRACKET>  Parameter() <COLON>) Map()
+        | LOOKAHEAD( <LEFT_CURLEY>  Parameter() <COLON>) Map()
         | ObjectArray()
         | True()
         | False()
@@ -2588,7 +2595,7 @@ void PrimaryExpression()       : {}
     | NumberLiteral()
     | Reference()
     | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | NumberLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-    | LOOKAHEAD( <LBRACKET>  Parameter()  <COLON>) Map()
+    | LOOKAHEAD( <LEFT_CURLEY>  Parameter()  <COLON>) Map()
     | ObjectArray()
     | True()
     | False()
