@@ -158,7 +158,10 @@ public class Runtime
     public static final String TEMPLATE_ASCIIHACK = "template.asciihack";
 
     /** Initial counter value in #foreach directives */
-    public static final String INITIAL_COUNTER_VALUE = "initial.counter.value";
+    public static final String COUNTER_NAME = "counter.name";
+    
+    /** Initial counter value in #foreach directives */
+    public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
 
     /** How often to check for modified templates. */
     public static final String TEMPLATE_MOD_CHECK_INTERVAL = 
