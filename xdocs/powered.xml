@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<document>
+ <properties>
+  <title>Velocity powered Websites</title>
+  <author email="jon@latchkey.com">Jon S. Stevens</author>
+ </properties>
+
+ <body>
+
+ <section name="Velocity powered Websites">
+ <p>
+  This is a list of public web sites that are created using Velocity.
+  This, of course, is by no means a complete listing of all of the
+  Velocity powered websites.
+ </p>
+
+ <p>
+ <img src="images/powered-by-logo.gif" alt="Powered By Velocity" width="77" height="32" />
+ </p>
+ 
+ <p>
+  If you want your Velocity powered site listed here, please post a message on
+  the Velocity user
+  <a href="http://jakarta.apache.org/site/mail.html">mailing list</a>.
+ </p>
+
+ <table>
+   <tr>
+    <td>URL</td>
+    <td>Type</td>
+    <td>Created By</td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://tambora.zenplex.org">tambora.zenplex.org</a>
+    </td>
+    <td>
+     Home of an OSS project.
+    </td>
+    <td>
+     <a href="http://www.zenplex.org">Zenplex</a>
+    </td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.flashcan.com">www.flashcan.com</a>
+    </td>
+    <td>
+     An interactive card making game using Velocity, Turbine and
+     Macromedia's Flash5.
+    </td>
+    <td>
+     <a href="http://www.zincroe.com">ZincRoe</a>
+    </td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.tigris.org">www.tigris.org</a>
+    </td>
+    <td>
+     Open source development tool suite.
+    </td>
+    <td>
+     <a href="http://www.collab.net">CollabNet</a>
+    </td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.devicetop.com">www.devicetop.com</a>
+    </td>
+    <td>
+     Devicetop.com is an industry-sponsored online community for
+     developers of Java-based applications for smart Internet devices.
+    </td>
+    <td>
+     <a href="http://www.espial.com">Espial</a>
+    </td>
+   </tr>
+
+  </table>
+ </section>
+
+ </body>
+</document>
