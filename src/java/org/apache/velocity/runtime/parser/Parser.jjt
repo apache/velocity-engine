@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.53 2001/01/29 04:27:11 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.54 2001/01/29 06:05:02 geirm Exp $ 
 */
 public class Parser
 {
@@ -1302,8 +1302,7 @@ void SetDirective() : {}
 {
     <SET_DIRECTIVE>  
     [ LOOKAHEAD(2) <WHITESPACE> ] 
-    ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )
-
+    ( <LPAREN> Expression() <RPAREN>
     { 
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
@@ -1311,6 +1310,7 @@ void SetDirective() : {}
     
         token_source.inSet = false; 
     }
+    [<NEWLINE>] )
 }    
 
 /**
