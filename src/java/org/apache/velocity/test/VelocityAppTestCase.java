@@ -37,7 +37,9 @@ import junit.framework.TestCase;
 /**
  * This class is intended to test the app.Velocity.java class.
  *
- * @version $Id: VelocityAppTestCase.java,v 1.4 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: VelocityAppTestCase.java,v 1.5 2004/03/19 17:13:38 dlr Exp $
  */
 public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBase
 {

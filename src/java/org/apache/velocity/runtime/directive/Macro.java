@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.directive;
 
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2000-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,8 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  This object is used at parse time to mainly process and register the 
  *  macro.  It is used inline in the parser when processing a directive.
  *
- * @version $Id: Macro.java,v 1.17 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Macro.java,v 1.18 2004/03/19 17:13:35 dlr Exp $
  */
 public class Macro extends Directive
 {

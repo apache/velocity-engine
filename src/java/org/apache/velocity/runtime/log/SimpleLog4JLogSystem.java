@@ -28,19 +28,13 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- *  <p><em>This class is deprecated in favor of the new incarnation of
- *  {@link Log4JLogSystem}, which makes use of Log4J's
- *  <code>Logger</code> concept rather than its deprecated
- *  <code>Category</code> concept.</em></p>
- *
  *  Implementation of a simple log4j system that will either
  *  latch onto an existing category, or just do a simple
  *  rolling file log.  Derived from Jon's 'complicated'
  *  version :)
  *
- * @version $Id: SimpleLog4JLogSystem.java,v 1.8 2004/02/27 18:43:17 dlr Exp $
- * @deprecated Use Log4JLogSystem instead for compatibility with
- * modern Log4J versions.
+ * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.9 2004/03/19 17:13:35 dlr Exp $
  */
 public class SimpleLog4JLogSystem implements LogSystem
 {
@@ -67,13 +61,13 @@ public class SimpleLog4JLogSystem implements LogSystem
         if ( categoryname != null )
         {
             logger = Category.getInstance( categoryname );
-
+        
             logVelocityMessage( 0,
                                 "SimpleLog4JLogSystem using category '" + categoryname + "'");
 
             return;
         }
-
+        
         /*
          *  if not, use the file...
          */
@@ -87,12 +81,12 @@ public class SimpleLog4JLogSystem implements LogSystem
         {
             internalInit( logfile );
 
-            logVelocityMessage( 0,
+            logVelocityMessage( 0, 
                 "SimpleLog4JLogSystem initialized using logfile '" + logfile + "'" );
         }
         catch( Exception e )
         {
-            System.out.println(
+            System.out.println( 
                 "PANIC : error configuring SimpleLog4JLogSystem : " + e );
         }
     }
@@ -104,7 +98,7 @@ public class SimpleLog4JLogSystem implements LogSystem
         throws Exception
     {
         /*
-         *  do it by our classname to avoid conflicting with anything else
+         *  do it by our classname to avoid conflicting with anything else 
          *  that might be used...
          */
 
@@ -112,17 +106,17 @@ public class SimpleLog4JLogSystem implements LogSystem
         logger.setAdditivity(false);
 
         /*
-         * Priority is set for DEBUG becouse this implementation checks
+         * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
         logger.setPriority(Priority.DEBUG);
 
         RollingFileAppender appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
-
+        
         appender.setMaxBackupIndex( 1 );
-
+        
         appender.setMaximumFileSize( 100000 );
-
+        
         logger.addAppender(appender);
     }
 
@@ -134,7 +128,7 @@ public class SimpleLog4JLogSystem implements LogSystem
      */
     public void logVelocityMessage(int level, String message)
     {
-        switch (level)
+        switch (level) 
         {
             case LogSystem.WARN_ID:
                 logger.warn( message );

@@ -66,7 +66,8 @@ import org.apache.commons.collections.ExtendedProperties;
  *  I have also tried it with a WAR deployment, and that seemed to
  *  work just fine.
  *  
- * @version $Id: ClasspathResourceLoader.java,v 1.9 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ClasspathResourceLoader.java,v 1.10 2004/03/19 17:13:37 dlr Exp $
  */
 public class ClasspathResourceLoader extends ResourceLoader
 {

@@ -34,7 +34,8 @@ import org.jdom.output.*;
  * method is implemented by delegating to the contained list and wrapping the returned
  * sublist into a <code>NodeList</code>).
  *
- * @version $Id: NodeList.java,v 1.3 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: NodeList.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
  */
 public class NodeList implements List, Cloneable
 {

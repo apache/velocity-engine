@@ -56,7 +56,9 @@ import org.apache.velocity.context.Context;
  * This class the testbed for Velocity. It is used to
  * test all the directives support by Velocity.
  *
- * @version $Id: Test.java,v 1.35 2004/02/27 18:43:20 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Test.java,v 1.36 2004/03/19 17:13:39 dlr Exp $
  */
 public class Test implements ReferenceInsertionEventHandler, 
                              NullSetEventHandler,

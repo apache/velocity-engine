@@ -27,7 +27,8 @@ import org.apache.oro.text.perl.Perl5Util;
  * Base test case that provides a few utility methods for
  * the rest of the tests.
  *
- * @version $Id: BaseTestCase.java,v 1.14 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @version $Id: BaseTestCase.java,v 1.15 2004/03/19 17:13:38 dlr Exp $
  */
 public class BaseTestCase extends TestCase
 {
@@ -89,11 +90,12 @@ public class BaseTestCase extends TestCase
      * a single \r, DOS derived operating systems use \r\n, and Unix
      * uses \n.  Replace each with a single \n.
      *
+     * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
      * @return source with all line terminations changed to Unix style
      */
     protected String normalizeNewlines (String source)
     {
-        return perl.substitute("s/\r[\r]?[\n]/\n/g", source);
+        return perl.substitute("s/\r[\n]/\n/g", source);
     }
 
     /**

@@ -24,7 +24,8 @@ package org.apache.velocity.test.provider;
  * This class need to be greatly extended to
  * be useful :-)
  *
- * @version $Id: Person.java,v 1.6 2004/02/27 18:43:20 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Person.java,v 1.7 2004/03/19 17:13:39 dlr Exp $
  */
 public class Person
 {

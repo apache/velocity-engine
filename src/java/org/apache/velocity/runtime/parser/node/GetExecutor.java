@@ -31,7 +31,8 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * implement the Map interface as was previously
  * the case.
  *
- * @version $Id: GetExecutor.java,v 1.9 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: GetExecutor.java,v 1.10 2004/03/19 17:13:36 dlr Exp $
  */
 public class GetExecutor extends AbstractExecutor
 {

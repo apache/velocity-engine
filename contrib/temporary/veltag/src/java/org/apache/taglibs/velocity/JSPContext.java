@@ -32,7 +32,8 @@ import org.apache.velocity.context.AbstractContext;
  *  page->request->session->application
  *  </p>
  *
- * @version $Id: JSPContext.java,v 1.2 2004/02/27 18:43:12 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: JSPContext.java,v 1.3 2004/03/19 17:13:31 dlr Exp $ 
  */
 public class JSPContext extends AbstractContext
 {

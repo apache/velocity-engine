@@ -27,8 +27,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.parser.node.ASTReference;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -40,7 +38,9 @@ import org.apache.velocity.util.introspection.Info;
  * Foreach directive used for moving through arrays,
  * or objects that provide an Iterator.
  *
- * @version $Id: Foreach.java,v 1.46 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Foreach.java,v 1.47 2004/03/19 17:13:34 dlr Exp $
  */
 public class Foreach extends Directive
 {
@@ -106,20 +106,7 @@ public class Foreach extends Directive
          *  else is context sensitive
          */
 
-        SimpleNode sn = (SimpleNode) node.jjtGetChild(0);
-
-        if (sn instanceof ASTReference)
-        {
-            elementKey = ((ASTReference) sn).getRootString();
-        }
-        else
-        {
-            /*
-             * the default, error-prone way which we'll remove
-             *  TODO : remove if all goes well
-             */
-            elementKey = sn.getFirstToken().image.substring(1);
-        }
+        elementKey = node.jjtGetChild(0).getFirstToken().image.substring(1);
 
         /*
          * make an uberinfo - saves new's later on
@@ -154,7 +141,7 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            rsvc.error("Error getting iterator for #foreach : " + ee.getMessage());
+            System.out.println(ee);
         }
 
         if (i == null)

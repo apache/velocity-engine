@@ -50,7 +50,10 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *      as a final gasp.  After that, there is nothing we can do.
  *  </li>
  *
- * @version $Id: LogManager.java,v 1.11 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: LogManager.java,v 1.12 2004/03/19 17:13:35 dlr Exp $
  */
 public class LogManager
 {

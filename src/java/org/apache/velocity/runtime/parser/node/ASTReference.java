@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2000-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,11 @@ import org.apache.velocity.app.event.EventCartridge;
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
- * @version $Id: ASTReference.java,v 1.50 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
+ * @version $Id: ASTReference.java,v 1.51 2004/03/19 17:13:36 dlr Exp $
 */
 public class ASTReference extends SimpleNode
 {

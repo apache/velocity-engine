@@ -31,7 +31,9 @@ import org.jdom.Element;
  * over the Vector and visit each Element node. However, you can
  * achieve the same effect by calling <code>element.selectNodes("//*")</code>.
  *
- * @version $Id: TreeWalker.java,v 1.7 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: TreeWalker.java,v 1.8 2004/03/19 17:13:32 dlr Exp $
  */
 public class TreeWalker
 {

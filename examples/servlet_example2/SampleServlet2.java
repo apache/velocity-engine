@@ -44,7 +44,9 @@ import org.apache.velocity.exception.ParseErrorException;
  *       the webapp root
  *  </ul>
  * 
- * @version $Id: SampleServlet2.java,v 1.4 2004/02/27 18:43:13 dlr Exp $
+ * @author Dave Bryson
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: SampleServlet2.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
  */
 public class SampleServlet2 extends VelocityServlet
 {

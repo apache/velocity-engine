@@ -29,7 +29,9 @@ import org.apache.velocity.runtime.resource.Resource;
  *  Currently, it carries the template name for namespace
  *  support, as well as node-local context data introspection caching.
  *
- *  @version $Id: InternalHousekeepingContext.java,v 1.7 2004/02/27 18:43:14 dlr Exp $
+ *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ *  @version $Id: InternalHousekeepingContext.java,v 1.8 2004/03/19 17:13:33 dlr Exp $
  */
 interface InternalHousekeepingContext
 {

@@ -40,7 +40,9 @@ import org.apache.velocity.app.VelocityEngine;
 /**
  * A text/code generator class
  *
- * @version $Id: Generator.java,v 1.21 2004/02/27 18:43:20 dlr Exp $ 
+ * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Generator.java,v 1.22 2004/03/19 17:13:39 dlr Exp $ 
  */
 public class Generator
 {

@@ -33,7 +33,8 @@ import junit.framework.TestCase;
  * of the methods searched for but this is a start
  * for now.
  *
- * @version $Id: IntrospectorTestCase.java,v 1.11 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: IntrospectorTestCase.java,v 1.12 2004/03/19 17:13:38 dlr Exp $
  */
 public class IntrospectorTestCase extends BaseTestCase
 {

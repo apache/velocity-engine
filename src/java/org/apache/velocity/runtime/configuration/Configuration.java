@@ -119,7 +119,14 @@ import org.apache.commons.collections.ExtendedProperties;
  * it, go ahead and tune it up!
  *
  *
- * @version $Id: Configuration.java,v 1.35 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
+ * @version $Id: Configuration.java,v 1.36 2004/03/19 17:13:34 dlr Exp $
  *
  * @deprecated As of version 1.1, please use ExtendedProperties from
  * the Jakarta Commons Collections component.

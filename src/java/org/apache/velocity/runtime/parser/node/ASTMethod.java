@@ -39,7 +39,9 @@ import org.apache.velocity.app.event.EventCartridge;
  *  Please look at the Parser.jjt file which is
  *  what controls the generation of this class.
  *
- * @version $Id: ASTMethod.java,v 1.26 2004/02/27 18:43:17 dlr Exp $ 
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ASTMethod.java,v 1.27 2004/03/19 17:13:36 dlr Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -229,10 +231,8 @@ public class ASTMethod extends SimpleNode
                 {
                     throw new MethodInvocationException( 
                         "Invocation of method '" 
-                        + methodName + "' in  " + o.getClass()
-                        + " in template " + context.getCurrentTemplateName()
-                        + " at line=" + this.getLine() + " column=" + this.getColumn()
-                        + " threw exception "
+                        + methodName + "' in  " + o.getClass() 
+                        + " threw exception " 
                         + e.getClass() + " : " + e.getMessage(), 
                         e, methodName );
                 }
@@ -245,9 +245,7 @@ public class ASTMethod extends SimpleNode
 
                 throw new MethodInvocationException( 
                 "Invocation of method '" 
-                + methodName + "' in  " + o.getClass()
-                + " in template " + context.getCurrentTemplateName()
-                + " at line=" + this.getLine() + " column=" + this.getColumn()
+                + methodName + "' in  " + o.getClass() 
                 + " threw exception " 
                 + ite.getTargetException().getClass() + " : "
                 + ite.getTargetException().getMessage(), 

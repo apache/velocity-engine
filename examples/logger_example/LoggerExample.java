@@ -27,7 +27,8 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  all Velocity log messages are funneled back
  *  through it.
  *
- * @version $Id: LoggerExample.java,v 1.3 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: LoggerExample.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
  */
 public class LoggerExample implements LogSystem
 {

@@ -21,7 +21,8 @@ package org.apache.velocity.test;
  * two index.html files together. These are produced as a result of
  * first running Anakia and then running this test.
  *
- * @version $Id: AnakiaTestCase.java,v 1.7 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: AnakiaTestCase.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
  */
 public class AnakiaTestCase extends BaseTestCase
 {

@@ -44,7 +44,10 @@ import org.apache.velocity.context.InternalContextBase;
  *
  *  All thanks to Fedor for the chaining idea.
  *
- * @version $Id: AbstractContext.java,v 1.9 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: AbstractContext.java,v 1.10 2004/03/19 17:13:33 dlr Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 

@@ -77,12 +77,15 @@ import org.apache.commons.collections.ExtendedProperties;
  * -----------------------------------------------------------------------
  * </pre>
  *
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
  *
  * @see org.apache.velocity.runtime.RuntimeInstance
  * @see org.apache.velocity.runtime.RuntimeSingleton
  * @deprecated Use RuntimeInstance or RuntimeSingleton instead.
  *
- * @version $Id: Runtime.java,v 1.117 2004/02/27 18:43:15 dlr Exp $
+ * @version $Id: Runtime.java,v 1.118 2004/03/19 17:13:34 dlr Exp $
  */
 public class Runtime implements RuntimeConstants
 {

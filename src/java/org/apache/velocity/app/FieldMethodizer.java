@@ -53,7 +53,8 @@ import java.util.HashMap;
  *  'constants'.  If you have fields that aren't <code>static</code> it may be better
  *  to handle them by explicitly placing them into the context.
  *
- * @version $Id: FieldMethodizer.java,v 1.4 2004/02/27 18:43:14 dlr Exp $ 
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: FieldMethodizer.java,v 1.5 2004/03/19 17:13:33 dlr Exp $ 
  */
 public class FieldMethodizer
 {

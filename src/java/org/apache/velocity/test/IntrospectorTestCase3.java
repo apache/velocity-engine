@@ -30,7 +30,8 @@ import junit.framework.TestSuite;
 /**
  *  Simple introspector test case for primitive problem found in 1.3
  *
- * @version $Id: IntrospectorTestCase3.java,v 1.3 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: IntrospectorTestCase3.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
  */
 public class IntrospectorTestCase3 extends BaseTestCase
 {

@@ -31,7 +31,8 @@ import junit.framework.TestCase;
  *  tests the ability to find a 'best match'
  *
  *
- * @version $Id: IntrospectorTestCase2.java,v 1.2 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: IntrospectorTestCase2.java,v 1.3 2004/03/19 17:13:38 dlr Exp $
  */
 public class IntrospectorTestCase2 extends BaseTestCase
 {

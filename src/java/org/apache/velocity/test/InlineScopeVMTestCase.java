@@ -37,7 +37,9 @@ import junit.framework.TestCase;
 /**
  * Tests if the VM template-locality is working.
  *
- * @version $Id: InlineScopeVMTestCase.java,v 1.12 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
+ * @version $Id: InlineScopeVMTestCase.java,v 1.13 2004/03/19 17:13:38 dlr Exp $
  */
 public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {

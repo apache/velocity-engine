@@ -29,7 +29,8 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *  get< flip 1st char> get("property") and now followed
  *  by is<Property>
  *
- *  @version $Id: BooleanPropertyExecutor.java,v 1.4 2004/02/27 18:43:17 dlr Exp $
+ *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
+ *  @version $Id: BooleanPropertyExecutor.java,v 1.5 2004/03/19 17:13:36 dlr Exp $
  */
 public class BooleanPropertyExecutor extends PropertyExecutor
 {

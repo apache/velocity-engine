@@ -37,7 +37,9 @@ import org.apache.velocity.context.*;
  * $formatter.limitLen(30, $object.Description)
  * </pre></code>
  * 
- * @version $Id: VelocityFormatter.java,v 1.10 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="sean@somacity.com">Sean Legassick</a>
+ * @author <a href="dlr@collab.net">Daniel Rall</a>
+ * @version $Id: VelocityFormatter.java,v 1.11 2004/03/19 17:13:33 dlr Exp $
  */
 public class VelocityFormatter
 {

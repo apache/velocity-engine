@@ -63,7 +63,8 @@ import org.apache.commons.collections.ExtendedProperties;
  * call init().
  * </p>
  *
- * @version $Id: VelocityEngine.java,v 1.7 2004/02/27 18:43:14 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: VelocityEngine.java,v 1.8 2004/03/19 17:13:33 dlr Exp $
  */
 public class VelocityEngine implements RuntimeConstants
 {

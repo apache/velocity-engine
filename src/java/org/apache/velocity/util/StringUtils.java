@@ -37,7 +37,9 @@ import java.util.Map;
  * methods will soon be moved into the turbine
  * string utilities class.
  *
- *  @version $Id: StringUtils.java,v 1.17 2004/02/27 18:43:21 dlr Exp $
+ *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ *  @version $Id: StringUtils.java,v 1.18 2004/03/19 17:13:40 dlr Exp $
  */
 public class StringUtils
 {

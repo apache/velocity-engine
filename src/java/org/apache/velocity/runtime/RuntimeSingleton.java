@@ -81,10 +81,14 @@ import org.apache.velocity.util.introspection.Uberspect;
  * -----------------------------------------------------------------------
  * </pre>
  *
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
+ * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  *
  * @see org.apache.velocity.runtime.RuntimeInstance
  *
- * @version $Id: RuntimeSingleton.java,v 1.8 2004/02/27 18:43:15 dlr Exp $
+ * @version $Id: RuntimeSingleton.java,v 1.9 2004/03/19 17:13:34 dlr Exp $
  */
 public class RuntimeSingleton implements RuntimeConstants
 {

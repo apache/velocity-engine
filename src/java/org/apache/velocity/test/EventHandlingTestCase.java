@@ -37,7 +37,8 @@ import org.apache.velocity.runtime.RuntimeServices;
 /**
  *  Tests event handling
  *
- * @version $Id: EventHandlingTestCase.java,v 1.6 2004/02/27 18:43:19 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: EventHandlingTestCase.java,v 1.7 2004/03/19 17:13:38 dlr Exp $
  */
 public class EventHandlingTestCase extends TestCase implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,

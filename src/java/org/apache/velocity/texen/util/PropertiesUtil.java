@@ -27,7 +27,9 @@ import org.apache.velocity.texen.Generator;
  * A property utility class for the texen text/code generator
  * Usually this class is only used from a Velocity context.
  *
- * @version $Id: PropertiesUtil.java,v 1.10 2004/02/27 18:43:21 dlr Exp $ 
+ * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
+ * @author <a href="mailto:sbailliez@apache.org">Stephane Bailliez</a>
+ * @version $Id: PropertiesUtil.java,v 1.11 2004/03/19 17:13:39 dlr Exp $ 
  */
 public class PropertiesUtil
 {

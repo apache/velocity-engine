@@ -1,5 +1,7 @@
+package org.apache.velocity.runtime.directive;
+
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -13,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -30,8 +31,8 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.NodeUtils;
 
 /**
- *  
  *
+ *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  */
 public class Delay extends Directive
 {

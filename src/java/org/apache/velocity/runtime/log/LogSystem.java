@@ -21,7 +21,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 /**
  * Base interface that Logging systems need to implement.
  *
- * @version $Id: LogSystem.java,v 1.8 2004/02/27 18:43:17 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: LogSystem.java,v 1.9 2004/03/19 17:13:35 dlr Exp $
  */
 public interface LogSystem
 {

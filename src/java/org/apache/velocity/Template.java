@@ -50,7 +50,9 @@ import org.apache.velocity.exception.MethodInvocationException;
  * template.merge(context, writer);
  * </pre>
  *
- * @version $Id: Template.java,v 1.37 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Template.java,v 1.38 2004/03/19 17:13:32 dlr Exp $
  */
 public class Template extends Resource
 {

@@ -61,7 +61,10 @@ import org.jdom.Element;
  * </pre>
  * <p>
  *  
- * @version $Id: XPathTool.java,v 1.14 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @version $Id: XPathTool.java,v 1.15 2004/03/19 17:13:32 dlr Exp $
  */
 public class XPathTool
 {

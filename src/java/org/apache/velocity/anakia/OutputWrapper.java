@@ -21,13 +21,14 @@ import java.io.StringWriter;
 
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.jdom.output.Format;
 
 /**
  * This class extends XMLOutputter in order to provide
  * a way to walk an Element tree into a String.
  *
- * @version $Id: OutputWrapper.java,v 1.8 2004/02/27 18:43:13 dlr Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
+ * @version $Id: OutputWrapper.java,v 1.9 2004/03/19 17:13:32 dlr Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
@@ -37,12 +38,7 @@ public class OutputWrapper extends XMLOutputter
     public OutputWrapper()
     {
     }
-
-    public OutputWrapper(Format f)
-    {
-        super(f);
-    }
-
+    
     /**
      * This method walks an Element tree into a String. The cool
      * thing about it is that it will strip off the first Element.
@@ -58,6 +54,7 @@ public class OutputWrapper extends XMLOutputter
     public String outputString(Element element, boolean strip)
     {
         StringWriter buff = new StringWriter();
+        String name = element.getName();
 
         try
         {

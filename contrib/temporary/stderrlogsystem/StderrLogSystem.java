@@ -23,7 +23,8 @@ import org.apache.velocity.runtime.log.LogSystem;
 /**
  * Implementation of a Simple logger to output messages to STDERR.
  *
- * @version   $Id: StderrLogSystem.java,v 1.2 2004/02/27 18:43:12 dlr Exp $
+ * @author    <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ * @version   $Id: StderrLogSystem.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
  */
 public class StderrLogSystem implements LogSystem
 {

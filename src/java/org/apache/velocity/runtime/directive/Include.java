@@ -60,7 +60,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *    will simply include all three if valid to output w/o any
  *    special separator.
  *
- * @version $Id: Include.java,v 1.27 2004/02/27 18:43:15 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
+ * @version $Id: Include.java,v 1.28 2004/03/19 17:13:35 dlr Exp $
  */
 public class Include extends InputBase
 {

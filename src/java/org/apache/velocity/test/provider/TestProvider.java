@@ -23,7 +23,8 @@ import java.util.*;
  * are fed into the context that is set before the AST
  * is traversed and dynamic content generated.
  *
- * @version $Id: TestProvider.java,v 1.22 2004/02/27 18:43:20 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: TestProvider.java,v 1.23 2004/03/19 17:13:39 dlr Exp $
  */
 public class TestProvider
 {

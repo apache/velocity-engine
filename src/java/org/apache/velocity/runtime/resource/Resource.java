@@ -29,7 +29,9 @@ import org.apache.velocity.exception.ParseErrorException;
  * may have been retrieved from any number of possible
  * sources.
  *
- * @version $Id: Resource.java,v 1.14 2004/02/27 18:43:18 dlr Exp $
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Resource.java,v 1.15 2004/03/19 17:13:37 dlr Exp $
  */
 public abstract class Resource
 {
@@ -114,7 +116,7 @@ public abstract class Resource
 
     /**
      * Set the modification check interval.
-     * @param modificationCheckInterval The interval (in seconds).
+     * @param interval The interval (in seconds).
      */
     public void setModificationCheckInterval(long modificationCheckInterval)
     {

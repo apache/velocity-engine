@@ -36,7 +36,8 @@ import org.apache.velocity.app.event.EventCartridge;
  *  any get() or put() of references that aren't args to the VM are considered
  *  local to the vm, protecting the global context.
  *  
- *  @version $Id: VMContext.java,v 1.10 2004/02/27 18:43:14 dlr Exp $ 
+ *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ *  @version $Id: VMContext.java,v 1.11 2004/03/19 17:13:33 dlr Exp $ 
  */
 public class VMContext implements InternalContextAdapter
 {

@@ -25,7 +25,8 @@ import java.lang.reflect.Method;
  * 'Federated' introspection/reflection interface to allow the introspection
  *  behavior in Velocity to be customized.
  *
- * @version $Id: Uberspect.java,v 1.2 2004/02/27 18:43:21 dlr Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magusson Jr.</a>
+ * @version $Id: Uberspect.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
  */
 public interface Uberspect
 {

@@ -26,7 +26,8 @@ import javax.servlet.ServletRequest;
  *
  *  Nicht sehr gut.
  *
- * $Id: VelocityBean.java,v 1.2 2004/02/27 18:43:12 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * $Id: VelocityBean.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
  */
 public class VelocityBean
 {

@@ -30,7 +30,8 @@ import org.apache.velocity.exception.MethodInvocationException;
  * class, mergeTemplate() and evaluate().
  *
  *
- * @version $Id: Example2.java,v 1.4 2004/02/27 18:43:12 dlr Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: Example2.java,v 1.5 2004/03/19 17:13:31 dlr Exp $
  */
 
 public class Example2
