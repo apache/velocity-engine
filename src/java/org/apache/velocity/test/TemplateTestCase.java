@@ -72,6 +72,8 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.app.FieldMethodizer;
+
 import junit.framework.TestCase;
 
 /**
@@ -98,7 +100,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.25 2001/03/12 00:39:47 jon Exp $
+ * @version $Id: TemplateTestCase.java,v 1.26 2001/03/12 01:03:23 jon Exp $
  */
 public class TemplateTestCase extends TestCase implements TemplateTestBase
 {
@@ -174,6 +176,10 @@ public class TemplateTestCase extends TestCase implements TemplateTestBase
         context1.put("searchResults", provider.getRelSearches());
         context2.put("stringarray", provider.getArray());
         context.put("vector", vec );
+        context.put("mystring", new String());
+        context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
+        context.put("fmprov", new FieldMethodizer( provider ));
+        context.put("Floog", "floogie woogie");
 
         /*
          *  we want to make sure we test all types of iterative objects
