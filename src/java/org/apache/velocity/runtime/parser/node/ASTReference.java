@@ -69,8 +69,8 @@ import org.apache.velocity.runtime.parser.*;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 
 /**
  * This class is responsible for handling the references in
@@ -83,7 +83,7 @@ import org.apache.velocity.context.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.32 2001/05/17 16:04:23 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.33 2001/05/20 19:50:06 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
