@@ -1,0 +1,17 @@
+#*
+
+@test reference.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+
+#set $_foo = "bar"
+$_foo
+#if ($_foo.equals("bar"))
+   \$_foo equals "bar" : $_foo
+#end
+
