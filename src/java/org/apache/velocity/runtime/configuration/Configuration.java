@@ -68,7 +68,7 @@ import java.util.Properties;
  * 
  * @author Dave Bryson
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: Configuration.java,v 1.2 2000/10/15 21:15:38 jon Exp $
+ * @version $Id: Configuration.java,v 1.3 2000/10/15 22:49:02 dlr Exp $
  */
 public class Configuration
 {
@@ -86,10 +86,10 @@ public class Configuration
      * Set the properties file used.
      * @param String the props file
      */
-    public static void setPropertiesFile( String propsfile )
+    public static void setPropertiesFile( String propsFile )
         throws Exception,IOException
     {
-        fileName=propsfile;
+        fileName = propsFile;
         init();
     }
 
@@ -131,8 +131,7 @@ public class Configuration
      */
     public static String getString( String key )
     {
-        String prop = properties.getProperty( key );
-        return (prop == null ? null : prop);
+        return properties.getProperty( key );
     }
 
     /**
