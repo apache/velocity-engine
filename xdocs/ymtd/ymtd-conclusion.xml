@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Conclusion</title>
+  </properties>
+
+<body>
+
+<section name="Conclusion">
+
+<p>
+We hope that you enjoyed this little excursion into the land of
+alternatives. Every developer and user in the world has their own
+opinion on the "right way" to do things. The goal of this document is
+not to force anyone to believe that the Velocity way is the "Right Way",
+but instead to let people see the differences between the two approaches
+and allow one to develop their own opinions about the tools that are in
+use today.
+</p>
+
+<p>
+You make the decision.
+</p>
+
+<p>
+<strong>[ <a href="ymtd-implementation.html">Implementation</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd.html">Home</a> ]
+</strong></p>
+
+</section>
+
+</body>
+</document>

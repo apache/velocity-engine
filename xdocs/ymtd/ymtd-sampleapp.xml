@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Sample Application</title>
+  </properties>
+
+<body>
+
+<section name="Sample Application">
+
+<source><![CDATA[
+<%-- toolview.jsp --%>
+
+<%
+  String title = "Tool Listing";
+  String deck = "A list of content creation tools";
+  String desc = "Without tools, people are nothing more than animals.";
+%>
+
+<%@ include file="/header.jsp" %>
+
+<%@ page session="false" %>
+<%@ page errorPage="/errorTaker.jsp" %>
+
+<jsp:useBean id="toolbean" class="ToolBean" scope="application">
+  <jsp:setProperty name="toolbean" property="toolsFile"
+                value='<%= application.getInitParameter("toolsFile") %>' />
+</jsp:useBean>
+
+<%
+  Tool[] tools = toolbean.getTools(request.getParameter("state"));
+
+  for (int i = 0; i < tools.length; i++) {
+    Tool tool = tools[i];
+%>
+  <HR SIZE=2 ALIGN=LEFT>
+
+  <H3>
+  <%= tool.name %>
+
+  <% if (tool.isNewWithin(45)) { %>
+    <FONT COLOR="#FF0000"><B> (New!) </B></FONT>
+  <% } else if (tool.isUpdatedWithin(45)) { %>
+    <FONT COLOR="#FF0000"><B> (Updated!) </B></FONT>
+  <% } %>
+
+  </H3>
+  <A HREF="<%= tool.homeURL %>"><%= tool.homeURL %></A><BR>
+
+  <%= tool.comments %>
+
+<% } %>
+
+<%@ include file="/footer.jsp" %>
+]]></source>
+
+<source><![CDATA[
+Because of JSP whitespace preservation rules you must be careful when
+writing if/else statements with scriptlets.  The following code would
+*not* work:
+
+  <% if (tool.isNewWithin(45)) { %>
+    <FONT COLOR=#FF0000><B> (New!) </B></FONT>
+  <% } %>
+  <% else if (tool.isUpdatedWithin(45)) { %>
+    <FONT COLOR=#FF0000><B> (Updated!) </B></FONT>
+  <% } %>
+
+With this code the background servlet would attempt to print a new line
+between the if and else clauses, causing the obscure compile error:
+'else' without 'if'.
+]]></source>
+
+<p>
+Another great Jason quote:
+</p>
+
+<source><![CDATA[
+One thing to watch out for:  On some servers (including Tomcat 3.XXX) if
+you have a bean with a scope of "session" or "application" and you
+change the bean class implementation, you may get a ClassCastException
+on a later request. This exception occurs because the generated servlet
+code has to do a cast on the bean instance as it's retrieved from the
+session or application, and the old bean type stored in the session or
+application doesn't match the new bean type expected.  The simplest
+solution is to restart the server.
+]]></source>
+
+<p>
+It is the belief of the Velocity developers that you should not have to
+specially code your applications to work around issues that are related
+directly to Java.
+</p>
+
+<hr noshade="true" size="1"/>
+
+<p>
+On to the Velocity version...
+</p>
+
+<source><![CDATA[
+## toolview.vm
+
+#set ($title = "Tool Listing")
+#set ($deck = "A list of content creation tools")
+#set ($desc = "Without tools, people are nothing more than animals." )
+
+#parse ("header.vm")
+
+$toolbean.setToolsFile($application.getInitParameter("toolsFile"))
+
+#set ($tools = $toolbean.getTools($request.getParameter("state")))
+
+#foreach ($tool in $tools)
+  <HR SIZE=2 ALIGN=LEFT>
+
+  <H3>
+  $tool.Name
+
+  #if ($tool.isNewWithin(45))
+    <FONT COLOR="#FF0000"><B> (New!) </B></FONT>
+  #elseif (tool.isUpdatedWithin(45))
+    <FONT COLOR="#FF0000"><B> (Updated!) </B></FONT>
+  #end
+  </H3>
+  <A HREF="$tool.homeURL">$tool.homeURL</A><BR>
+
+  $tool.comments
+#end
+
+#parse ("footer.vm")
+]]></source>
+
+<p>
+You make the decision.
+</p>
+
+<p>
+<strong>[ <a href="ymtd-javabeans.html">JavaBeans</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-taglibs.html">Taglibs</a> ]
+</strong></p>
+
+</section>
+
+</body>
+</document>

@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Saying Hello</title>
+  </properties>
+
+<body>
+
+<section name="Saying Hello">
+
+<p>
+Ok, lets start off with some easy examples. These examples really do not
+even touch on the basics of correct design. However, they still make
+good examples because correct design is often harder than showing a
+simple example. We will show better examples further along in this
+essay.
+</p>
+
+<p>
+For the first example, we show that there are two different approaches
+of doing the same exact thing using both JSP and Velocity. This is an
+example of printing out a parameter with JSP:
+</p>
+
+<source><![CDATA[
+<html>
+<head><title>Hello</title></head>
+<body>
+<h1>
+<%
+if (request.getParameter("name") == null) {
+   out.println("Hello World");
+}
+else {
+  out.println("Hello, " + request.getParameter("name"));
+}
+%>
+</h1>
+</body></html>]]></source>
+
+<p>
+This is an example of doing the same thing with Velocity:
+</p>
+
+<source><![CDATA[
+<html>
+<head><title>Hello</title></head>
+<body>
+<h1>
+#if ($request.getParameter("name") == null)
+   Hello World
+#else
+   Hello, $request.getParameter("name")
+#end
+</h1>
+</body></html>]]></source>
+
+<ul>
+<li><a href="./images/hello-jsp.gif" target="newWindow">Hello JSP Screen shot</a></li>
+<li><a href="./images/hello-velocity.gif" target="newWindow">Hello Velocity Screen shot</a></li>
+</ul>
+
+<p>
+<font size="-1">[ These two screen shots demonstrate the idea that one
+cannot easily look at what the code is doing in a browser when using
+JSP. ]</font>
+</p>
+
+<hr noshade="true" size="1"/>
+
+<p>
+The primary difference between the two is the way that output is
+performed. With JSP, one needs to embed "code" within <code>&lt;%
+%&gt;</code> tags and for Velocity, one does not need to do that.
+</p>
+
+<p>
+The benefit (and detriment) of the embedded code is that the JSP code
+within a page will not show up when the file is simply loaded into
+the browser. On the other hand, there might be a case where one may
+desire it to show up (for example, in debugging).
+</p>
+
+<p>
+Another issue with JSP is the fact that even the most basic examples
+start to blow the whole MVC paradigm right out of the water. The reason
+is that embedding HTML code within Java code is a bad design decision
+because it makes it more difficult to modify the look and feel of an
+application at a later date. It also destroys the concept of MVC
+separation where the View (ie: HTML) display of the page is separated
+from the Model and Controller. For example, if just the word "Hello"
+needed to be in bold, we would need to embed <code>&lt;b&gt;
+&lt;/b&gt;</code> tags into the <code>out.println()</code> statement.
+</p>
+
+<p>
+Of course, <i>people in the know</i>, would recommend that we write JSP like
+this:
+</p>
+
+<source><![CDATA[
+<html>
+<head><title>Hello</title></head>
+<body>
+<h1>
+<% if (request.getParameter("name") == null) {  %>
+   Hello World
+<% } else { %>
+  Hello, <% out.println (request.getParameter("name")); } %>
+</h1>
+</body></html>]]></source>
+
+<ul>
+<li><a href="./images/hello-jsp2.gif" target="newWindow">Hello JSP Screen shot</a></li>
+</ul>
+
+<p>
+<font size="-1">[ This is the new JSP screen shot showing the above
+example when loaded directly into the browser. ]</font>
+</p>
+
+<hr noshade="true" size="1"/>
+
+<p>
+The point that needs to be made is that in order to make JSP "pure",
+one really needs to jump through hoops. In other words, it is much
+easier to type the out.println() then to embed the necessary <code>&lt;%
+%&gt;</code> tags everywhere. It is also important to remember to add
+that extra "<code>; }</code>" at the end of the last out.println()
+because JSP will not be able to compile the page (we will get into the
+problems with debugging JSP pages in a later chapter).
+</p>
+
+<p>
+As you can see from the example image, there is now a bit more
+information in the displayed page, except that it is also missing all of
+the logic which was used to build the page. In this simple example, it
+is not very clear why this is beneficial. However, in more complex
+examples (like with a <code>for/foreach</code> loop) it becomes much
+more clear why it can be advantageous to see the logic in the page.
+</p>
+
+<p>
+You make the decision.
+</p>
+
+<p>
+<strong>[ <a href="ymtd.html">Home</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-generation.html">Generation?</a> ]
+</strong></p>
+
+</section>
+
+</body>
+</document>
