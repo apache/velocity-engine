@@ -75,7 +75,7 @@ import java.util.StringTokenizer;
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.13 2001/07/02 03:16:01 geirm Exp $
+ *  @version $Id: StringUtils.java,v 1.14 2001/08/23 01:35:43 dlr Exp $
  */
 public class StringUtils
 {
@@ -131,6 +131,9 @@ public class StringUtils
      *
      * @param data string to remove underscores from.
      * @return String 
+     * @deprecated Use the org.apache.commons.util.StringUtils class
+     * instead.  Using its firstLetterCaps() method in conjunction
+     * with a StringTokenizer will achieve the same result.
      */
     static public String removeUnderScores (String data)
     {
@@ -144,7 +147,7 @@ public class StringUtils
         {
             String element = (String) st.nextElement();
             out.append ( firstLetterCaps(element));
-        }//while
+        }
 
         return out.toString();
     }
