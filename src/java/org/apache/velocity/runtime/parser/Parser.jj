@@ -111,7 +111,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.74 2003/10/29 11:19:15 geirm Exp $
+ * @version $Id: Parser.jj,v 1.75 2003/12/23 13:29:29 geirm Exp $
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -788,7 +788,7 @@ SKIP :
 <DIRECTIVE,REFMOD2>
 TOKEN:
 {
-    <WHITESPACE : ([" ","\t"])+ >
+    <WHITESPACE : ([" ","\t", "\n", "\r"])+ >
 }
 
 <DIRECTIVE,REFMOD2>
