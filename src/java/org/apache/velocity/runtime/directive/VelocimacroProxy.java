@@ -85,7 +85,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.25 2001/08/07 21:57:56 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.26 2001/11/13 14:47:32 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -259,8 +259,10 @@ public class VelocimacroProxy extends Directive
      
         if ( getNumArgs() != i ) 
         {
-            rsvc.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
-                         + getNumArgs() + " got " + i + "  -->");
+            rsvc.error("VM #" + macroName + ": error : too " 
+                       + ( (getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted " 
+                       + getNumArgs() + " got " + i );
+
             return;
         }
 
