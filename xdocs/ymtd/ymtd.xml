@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision</title>
+  </properties>
+
+<body>
+
+<section name="You make the decision.">
+
+<p>
+The title of this essay is called "You make the decision." The point of
+this essay is to explore what it is like to develop a web application
+using a couple popular tools that are available today. In order to do
+this, examples of using these technologies will be shown. This will give
+a nice first person account of what it is like to use these technologies
+on a daily basis.
+</p>
+
+<p>
+The audience of this document is aimed at the people who are looking for
+alternatives to JSP as well as people who are currently using JSP and
+JSP based technologies and may not realize that there are other
+solutions out there that also address the many issues of developing web
+applications.
+</p>
+
+<p>
+<strong>It is possible to navigate through the essay by simply clicking
+on the links at the bottom of each page.</strong> To return to this page
+at any time, click YMTD on the left side navigation.
+</p>
+</section>
+
+<section name="What are we comparing?">
+<p>
+This multi page document will compare usage of Turbine/Velocity and
+Struts/JSP. In both cases, we have a framework of reusable code that
+makes life easier for building web applications by providing the "Model"
+and "Controller" portions of the MVC paradigm (Turbine and Struts).
+There is also a template language that provides the "View" portion (JSP
+and Velocity).
+</p>
+
+<p>
+The design concepts mentioned above that we will be exploring have been
+documented in detail in various locations, for more information, please
+refer to some of these reference URL's:
+</p>
+
+<ul>
+<li><a href="http://www.caucho.com/articles/jsp_templates.xtp" target="reference">Caucho MVC JSP</a></li>
+<li><a href="http://www.nwconnection.com/2000_09/web/" target="reference">Novell Connection MVC JSP</a></li>
+<li><a href="http://developer.novell.com/research/devnotes/1999/december/03/02.htm" target="reference">Novell Connection MVC JSP</a></li>
+<li><a href="http://www.webmacro.org/tutorial/mvc.html" target="reference">Webmacro MVC</a></li>
+<li><a href="http://www.javaworld.com/jw-01-2001/jw-0119-freemarker.html" target="reference">Freemarker MVC</a></li>
+<li><a href="http://javaworld.com/javaworld/jw-12-1999/jw-12-ssj-jspmvc.html" target="reference">Model 2</a></li>
+<li><a href="http://java.apache.org/turbine/pullmodel.html" target="reference">The Pull Model</a></li>
+</ul>
+
+</section>
+
+<section name="Credits">
+<p>
+We would first like to thank the entire <a
+href="../contributors.html">Velocity</a> and <a
+href="/turbine/contributors.html">Turbine</a> teams for creating such
+kick ass products. These groups are a 100% volunteer organization and
+some very talented engineers have come together from around the world to
+help make these products a reality and a success. They deserve a round
+of thanks and appreciation for their hard work and dedication.
+</p>
+
+<p>
+Examples, comments as well as the some of the flow of this document has
+been borrowed with permission from <a
+href="http://www.servlets.com/">Jason Hunter</a>, author of the
+excellent <a href="http://www.oreilly.com/catalog/jservlet2/">O'Reilly
+Java Servlet Programming, 1st and 2nd Edition book</a>. We do hope that
+you purchase his next book when it is released in order to support Java
+Servlets as well as Jason for his hard work.
+</p>
+
+<p>
+Jason's book includes chapters covering JSP, Velocity, and other MVC
+technologies.  We definitely encourage you to read the book to learn JSP
+and Velocity and see how they compare.  What we do here (that Jason
+couldn't do in the book) is put JSP/Struts and Velocity/Turbine on the
+same page together for a direct side-by-side comparison.
+</p>
+
+</section>
+
+<section name="Revisions / Corrections / Additions">
+
+<p>
+It is very important to accurately compare these technologies.
+Therefore, a lot of effort has gone into this essay to state things as
+fairly and accurately as possible. Therefore, this entire essay is
+checked into CVS and it is possible for you to provide feedback, but
+also patches that fix any mistakes. In other words, this is a community
+driven document. It is currently stored in the <a
+href="http://jakarta.apache.org/site/cvsindex.html">CVS tree</a> for the
+Velocity project in the xdocs directory.
+</p>
+
+<p>
+If there are any changes that need to be made to this document, please
+do not hesitate to contact <a href="jon@apache.org">Jon Stevens</a>.
+</p>
+
+<p>
+On to the rest of the essay...
+</p>
+
+<p>
+<strong>[ Next -&gt; <a href="./ymtd-saying-hello.html">Saying Hello</a> ]</strong>
+</p>
+
+</section>
+
+</body>
+</document>

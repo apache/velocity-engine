@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Taglibs</title>
+  </properties>
+
+<body>
+
+<section name="Taglibs">
+<p>
+Taglibs are intended to be the savior for JSP. They are billed as the
+way to allow one to extend JSP so that there is a nice MVC abstraction
+while still adding functionality to the base "language". This is where
+Struts has concentrated a good portion of its efforts by providing a
+nice taglib library for people to use.
+</p>
+
+<p>
+The advantage of using taglibs is that they allow you to extend the
+"language" syntax of JSP to provide the things that are missing from it,
+but are available in Java. In other words, instead of encouraging people
+to embed Java code within their pages, this has been now abstracted to
+encouraging people to embed XML tags in their page. How is this any
+better than what ColdFusion did with their product? JSP is on the
+cutting edge of re-inventing the broken wheel. Yea!
+</p>
+
+<p>
+This is an example that shows how logic would be embedded into your JSP
+page. It is borrowed directly from the Struts documentation.
+</p>
+
+<source><![CDATA[
+<%@ page language="java" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<!-- Is the number guess right? -->
+<logic:equal parameter="number" value="7">
+  You guessed right! You win a high speed blender!
+</logic:equal>
+
+
+<!-- If the number guessed was wrong -->
+<logic:notEqual parameter="number" value="7">
+  <!-- Less Than -->
+  <logic:lessThan parameter="number" value="7">
+         A little higher...
+  </logic:lessThan>
+  <!-- Greater Than -->
+  <logic:greaterThan parameter="number" value="7">
+         A little lower...
+  </logic:greaterThan>
+</logic:notEqual>
+]]></source>
+
+<p>
+The same example using Velocity would be written like this:
+</p>
+
+<source><![CDATA[
+<!-- Is the number guess right? -->
+#if ( $number = 7 )
+  You guessed right! You win a high speed blender!
+#end
+
+<!-- If the number guessed was wrong -->
+#if ( $number != 7 )
+    <!-- Less Than -->
+    #if ( $number < 7 )
+         A little higher...
+    <!-- Greater Than -->
+    #elseif ( $number > 7 )
+         A little lower...
+    #end
+#end
+]]></source>
+
+<p>
+This really falls into a preferences situation. In other words, which
+syntax would someone prefer to use? It seems as though the amount of
+typing required to implement the taglibs approach would be a major
+deciding factor for many people. One reason is that the more typing that
+needs to be done, the more chances for errors. Lets continue with
+another example taken from the Struts documentation:
+</p>
+
+<source><![CDATA[
+<%@ page language="java" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+<%
+java.util.ArrayList list = new java.util.ArrayList();
+  list.add("First");
+  list.add("Second");
+  list.add("Third");
+  list.add("Fourth");
+  list.add("Fifth");
+  pageContext.setAttribute("list", list, PageContext.PAGE_SCOPE);
+%>
+
+<logic:iterate id="myCollectionElement" name="list">
+  Element Value: <bean:write name="myCollectionElement" /><br />
+</logic:iterate>
+]]></source>
+
+<p>
+It is clear from the Struts example above that the whole strict MVC
+model has been broken again because a call to
+<code>java.util.ArrayList</code> and creating an Object is embedding
+Java code within a template. Compound that with the idea that one needs
+to place that <code>ArrayList</code> into the <code>pageContext</code>
+is even more confusing. Not only that but the designer has to remember
+to use a bunch of cryptic code at the top of the file that makes
+references to some taglib document as well as declare a prefix
+attribute. Why do things need to be so overly complicated?
+</p>
+
+<p>
+The same example using Velocity would be written like this:
+</p>
+
+<source><![CDATA[
+#set ( $list = ["First", "Second", "Third", "Fourth", "Fifth"] )
+
+#foreach ( $item in $list )
+  Element Value: $item<br />
+#end
+]]></source>
+
+<p>
+Moving on with examples, we come back to the previous <a
+href="./ymtd-sampleapp.html">sample application</a> provided in Jason
+Hunter's book that was shown before. This time it has been implemented
+entirely within the Struts framework.
+</p>
+
+<source><![CDATA[
+<%-- toolview-tag.jsp --%>
+
+<%@ taglib uri="/WEB-INF/struts.tld" prefix="struts" %>
+
+<%
+  String title = "Tool Listing";
+  String deck = "A list of content creation tools";
+  String desc = "Without tools, people are nothing more than animals.";
+%>
+
+<%@ include file="/header.jsp" %>
+
+<%@ page session="false" %>
+<%@ page errorPage="/errorTaker.jsp" %>
+
+<%-- Fetch the tools array as a request attribute --%>
+<jsp:useBean id="tools" class="Tool[]" scope="request"/>
+
+<struts:iterate id="tool" collection="<%= tools %>">
+  <HR SIZE=2 ALIGN=LEFT>
+
+  <H3>
+  <%-- Automatically HTML-escapes values --%>
+  <struts:property name="tool" property="name" />
+
+  <% if (((Tool)tool).isNewWithin(45)) { %>
+    <FONT COLOR=#FF0000><B> (New!) </B></FONT>
+  <% } else if (((Tool)tool).isUpdatedWithin(45)) { %>
+    <FONT COLOR=#FF0000><B> (Updated!) </B></FONT>
+  <% } %>
+
+  </H3>
+  <A HREF="<struts:property name="tool" property="homeURL"/>">
+           <struts:property name="tool" property="homeURL"/></A><BR>
+
+  <%-- Assume don't want HTML in comments --%>
+  <struts:property name="tool" property="comments" />
+
+</struts:iterate>
+
+<%@ include file="/footer.jsp" %>
+]]></source>
+
+<p>
+At this point, we now have a combination of standard JSP tags as well as
+Struts specific tags. The use of Struts has appeared to clean things up
+significantly with regards to embedded scriptlets. Note that quite a 
+few of JSP's warts are still shining through. Is it as easy to grok
+as the Velocity version?
+</p>
+
+
+<p>
+You make the decision.
+</p>
+
+<p>
+<strong>[ <a href="ymtd-sampleapp.html">Sample App</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-embedded.html">Embedded Usage</a> ]
+</strong></p>
+</section>
+
+</body>
+</document>
+

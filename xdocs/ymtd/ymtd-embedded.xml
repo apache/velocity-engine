@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="jon@latchkey.com">Jon S. Stevens</author>
+    <title>You make the decision - Embedded Usage</title>
+  </properties>
+
+<body>
+
+<section name="Embedded Usage">
+
+<p>
+This is an example of using Velocity within an application.
+</p>
+
+<source><![CDATA[
+    OutputStreamWriter writer = new OutputStreamWriter(output, encoding);
+    Template template = RunTime.getTemplate(filename);
+    template.merge( context, writer );
+]]></source>
+
+<p>
+In other words, the above is translated into:
+</p>
+
+<ol type="1" start="1">
+	<li>Create a Writer.</li>
+	<li>Ask the Velocity RunTime to retrieve the Template.</li>
+	<li>Merge the Context with the Template.</li>
+</ol>
+
+<p>
+Velocity templates can contain *any* type of data. It can be XML, SQL,
+HTML, plain text, internationalized text, anything. The parser is very
+robust in terms of only parsing out what it cares about and ignoring the
+rest. As demonstrated above, it is possible to embed Velocity's template
+engine into any other Java code. The advantage of this is that it
+provides users with a single template system for all sorts of uses.
+</p>
+
+<p>
+For example, in the <a
+href="http://java.sun.com/j2ee/blueprints/sample_application/index.html">PetStore
+example</a> on the J2EE website, there is a JavaBean which sends an
+email confirmation when an order is complete. The unfortunate part about
+this example is that in order to change the contents of the email, one
+needs to edit Java code. Of course this example could have been done
+differently to use a JSP based template as the base format. However, the
+implementation of this is more difficult than simply creating a <a
+href="http://www.working-dogs.com/turbine/cvsweb/index.cgi/turbine/src/java/org/apache/turbine/util/velocity/">Java
+object</a> which resides in the Context that can take as arguments the
+template to render.
+</p>
+
+<p>
+Another example of this is the <a
+href="http://jakarta.apache.org/velocity/texen.html">Texen</a> and <a
+href="http://jakarta.apache.org/velocity/anakia.html">Anakia</a> tools
+that come with Velocity. The advantage again is the ability to use
+Velocity as an embedded tool to produce other useful applications that
+are not bound strictly to a web application. While it is most likely
+possible to do this with the JSP engine, it is significantly more
+difficult to do so.
+</p>
+
+<p>
+You make the decision.
+</p>
+
+<p>
+<strong>[ <a href="ymtd-taglibs.html">Taglibs</a> &lt;- Previous | 
+    Next -&gt; <a href="./ymtd-implementation.html">Implementation</a> ]
+</strong></p>
+
+</section>
+
+</body>
+</document>
