@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.12 2001/01/13 16:44:57 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.13 2001/01/29 06:06:27 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -77,9 +77,7 @@ public class ASTSetDirective extends SimpleNode
 {
     private Node right;
     private ASTReference left;
-    boolean bDeprecated = true;
     boolean blather = false;
-    String lit = "";
 
     public ASTSetDirective(int id)
     {
@@ -112,28 +110,6 @@ public class ASTSetDirective extends SimpleNode
         left = getLeftHandSide();
 
         blather = Runtime.getBoolean(Runtime.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-
-        /*
-         *   yechy but quick : so we can warn users they are using what will be 
-         *  the deprecated version of #set
-         *  If we see a '(', then it is [most likely] the inline kind
-         *
-         */
-        Token t = getFirstToken();
-        Token tLast = getLastToken();
-
-        while( t != null && t != tLast ) 
-        {
-            lit += t;
-
-            if (t.toString().indexOf("(") != -1)
-            {
-                bDeprecated = false;
-                break;
-            }
-
-            t = t.next;
-        }
  
         return data;
     }        
@@ -175,10 +151,6 @@ public class ASTSetDirective extends SimpleNode
         else
             left.setValue(context, value);
     
-        if (bDeprecated)
-            Runtime.warn("Deprecated form of #set directive in " + context.getCurrentTemplateName() 
-                     + " [line "+left.getLine() + "] : " + lit);
-
         return true;
     }
 
