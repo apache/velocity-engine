@@ -8,8 +8,7 @@
  </properties>
 
  <body>
-
-<section name="Velocity v1.3 Released">
+<section name="Velocity v1.3.1-rc1 Available">
 
  <p>
    <table>
@@ -18,47 +17,34 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
    </td>
    <td>
-   Version 1.3 of the
-   Velocity Template Engine is now available.
-   Thanks to all in the Velocity community!
+   Release candidate 1 of version 1.3.1 of the Velocity Template Engine is
+   available.  This is a bugfix to the 1.3 release, fixing a single specific
+   introspection bug. A final version 1.3.1 will follow after validation
+   by users in the community. (2002-07-22)
    </td>
    </tr>
    </table>
  </p>
 
- <p>
-   Major enhancements include :
- </p>
-
- <ul>
-   <li>
-     Automatic detection of log4j or logkit as the default logger.  It's your
-     choice - just put either into the classpath.
-   </li>
-   <li>
-     Application Attributes allow your applications to interact with custom
-     components such as loggers and resource loaders.
-   </li>
-   <li>
-     The Resource Manager and Resource Cache are now pluggable.
-   </li>
-   <li>
-    The User's Guide is now available in Finnish, French, Spanish and
-    English.
-    </li>
- </ul>
- <p>
-   Minor enhancements are too numerous to mention. Please see the
-   <a href="changes.html">change log
-   </a> for details.
- </p>
- <p>
- Apologies to the community for the wait... (<i>2002-07-07</i>)
- </p>
-
 </section>
 
 <section name="Velocity News">
+
+<p>
+<strong>Roller Weblogger Brings it Together</strong>
+<blockquote>
+<i> From the site :</i>
+<a href="http://www.rollerweblogger.org/index.html">Roller</a>
+is server-based weblogging software - a web application - that
+is designed to support multiple simultaneous weblog users and visitors.
+Roller was originally written as an example application for an
+article on open source Java development tools. The article
+describes how the Struts Servlet framework, the Castor JDO persistence engine,
+the XDoclet code generator, and the Velocity template processor
+can be used together to create a full-featured database-driven web application.
+(<i>2002-07-22</i>)
+</blockquote>
+</p>
 
 <p>
 <strong>User's Guide Now Available in French</strong>
@@ -245,7 +231,14 @@ it</a> out. <i>(2001-12-09)</i>
 <section name="Where do I get releases?">
 
 <p>
-   The current release version is version 1.3
+   The current release version is version 1.3.  However, we have a release
+   candidate 1.3.1 available, which fixes a bug.  It is strongly recommended
+   that the 1.3.1-rc is used.
+</p>
+
+<p>
+The fixed release candidate distribution is available in both <code>tar.gz</code> and <code>zip</code>
+formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.3.1/">here</a>.
 </p>
 
 <p>
