@@ -141,14 +141,32 @@
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="1.3-rc1"><strong>1.3-rc1</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+This section describes changes to the VEL_1_3_BRANCH after the
+1.3-rc1 release. These are updates working towards a rc2 or
+final.
+</p>
+                            </blockquote>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#828DA6">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
           <a name="1.3-dev"><strong>1.3-dev</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-This section describes changes to the man branch after the
-1.2 release.  This is ongoing development.
+This section describes changes to the main branch after the
+1.2 release. This was then branched as VEL_1_3_BRANCH in CVS and released
+as v1.3-rc1 on March 14, 2002.
 </p>
                                                 <ul>
   <li>
@@ -286,6 +304,36 @@ This section describes changes to the man branch after the
      to bring the javadoc up to date re the properties example,
      and he also added examples for the DataSource configuration as well as the
      syntax needed to create a compatible table. (gmj)
+   </li>
+   <li>
+     Small fix to enable logical complement #set($foo = !$bar), as reported by
+     Chris Rousseau. (gmj)
+   </li>
+   <li>
+     Doc fixes by many.  Thanks all. (gmj)
+   </li>
+   <li>
+     Fix to StringUtils.chop(). (gmj)
+   </li>
+   <li>
+     Fix to StringLiteral bug found by Stephane Bailliez - in high load situations
+     it was possible to get an NPE if the timing worked out just right.  Also
+     fixed a side-effect found by Victor Salaman. (gmj)
+   </li>
+   <li>
+     Fix to $foo## bug reported by Nathan Bubna. (gmj)
+   </li>
+   <li>
+     Fix to VM bug found by Paulo Gaspar, where when using inline-scope VMs and
+     VM recursion the namespace got dumped at the wrong time, killing the
+     recursion. (gmj)
+   </li>
+   <li>
+     Add class to provide bean-like access to Texen. (jvz)
+   </li>
+   <li>
+     Small introspection side-effect fix suggested by Sven Meier, prevents
+     Obj[] from getting altered in event of null value. (gmj)
    </li>
 
 </ul>
