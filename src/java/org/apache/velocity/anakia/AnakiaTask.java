@@ -90,7 +90,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.12 2001/01/03 05:28:50 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.13 2001/03/04 19:17:47 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -262,6 +262,7 @@ public class AnakiaTask extends MatchingTask
         catch (Exception e)
         {
             log("Error: " + e.toString(), Project.MSG_INFO);
+            throw new BuildException(e);
         }
         
         // find the files/directories
