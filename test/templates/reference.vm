@@ -44,3 +44,8 @@ $\\!foo
 $\\\!foo
 $\\\\!foo
 \\$\!foo
+
+Misc tests :
+
+[$foo.bar]
+
