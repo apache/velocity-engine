@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.32 2002/04/21 18:36:06 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.33 2003/04/29 00:22:07 dlr Exp $
  */
 public interface RuntimeConstants
 {
@@ -389,10 +389,15 @@ public interface RuntimeConstants
         "org/apache/velocity/runtime/defaults/directive.properties";
 
     /**
-      * Number of parsers to create
-      */
+     * The default number of parser instances to create.  Configurable
+     * via the parameter named by the {@link #PARSER_POOL_SIZE}
+     * constant.
+     */
     final static int NUMBER_OF_PARSERS = 20;
 
+    /**
+     * @see #NUMBER_OF_PARSERS
+     */
     final static String PARSER_POOL_SIZE = "parser.pool.size";
 
 
