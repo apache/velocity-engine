@@ -37,7 +37,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *  local to the vm, protecting the global context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMContext.java,v 1.11 2004/03/19 17:13:33 dlr Exp $ 
+ *  @version $Id$ 
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -265,6 +265,16 @@ public class VMContext implements InternalContextAdapter
     public void icachePut( Object key, IntrospectionCacheData o )
     {
         innerContext.icachePut( key, o );
+    }
+
+    public boolean getAllowRendering()
+    {
+       return innerContext.getAllowRendering();
+    }
+
+    public void setAllowRendering(boolean v)
+    {
+        innerContext.setAllowRendering(v);
     }
 
     public EventCartridge attachEventCartridge( EventCartridge ec )

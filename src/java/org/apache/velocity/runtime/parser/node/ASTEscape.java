@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.parser.Parser;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTEscape.java,v 1.8 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ASTEscape extends SimpleNode 
 {
@@ -63,7 +63,9 @@ public class ASTEscape extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
+        if (context.getAllowRendering()) {
         writer.write(ctext);
+        }
         return true;
     }
 }

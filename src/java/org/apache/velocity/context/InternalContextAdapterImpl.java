@@ -53,7 +53,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.10 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
@@ -147,6 +147,17 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     public Resource getCurrentResource()
     {
         return icb.getCurrentResource();
+    }
+
+
+    public boolean getAllowRendering()
+    {
+       return icb.getAllowRendering();
+    }
+
+    public void setAllowRendering(boolean v)
+    {
+        icb.setAllowRendering(v);
     }
 
 

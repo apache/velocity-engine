@@ -38,7 +38,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *  is derived from this.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.10 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 class InternalContextBase implements InternalHousekeepingContext, InternalEventContext,  Serializable
 {
@@ -62,6 +62,11 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  information down into the rendering process
      */
     private Resource currentResource = null;
+
+    /**
+     *  Is rendering allowed?  Defaults to true, can be changed by #stop directive.
+     */
+    private boolean allowRendering = true;
 
     /**
      *  set the current template name on top of stack
@@ -139,6 +144,18 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     {
         return currentResource;
     }
+
+
+     public boolean getAllowRendering()
+     {
+        return allowRendering;
+     }
+
+    public void setAllowRendering(boolean v)
+    {
+        allowRendering = v;
+    }
+
 
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
