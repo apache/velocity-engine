@@ -54,22 +54,97 @@ package org.apache.velocity.runtime.loader;
  * <http://www.apache.org/>.
  */
 
+import java.io.InputStream;
+import java.util.Map;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 
 /**
- * Each loader should implement this class
- * @author Dave Bryson
- * $Revision: 1.2 $
+ * This is abstract class the all template loaders should
+ * extend.
+ * 
+ * @author <a href="mailto:daveb@miceda-data.com>Dave Bryson</a>
+ * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * $Revision: 1.3 $
  */
 public abstract class TemplateLoader
 {
-    /** Initialize the template loader */
-    public abstract void init();
+    /** 
+     * Does this loader want templates produced with it
+     * cached in the Runtime.
+     */
+    protected boolean cache = false;
     
     /**
-     * Fetch the template
-     * @return Template
+     * This property will be passed on to the templates
+     * that are created with this loader.
      */
-    public abstract Template getTemplate( String name ) throws Exception;
+    protected long modificationCheckInterval = 2;
+
+    /** 
+     * Initialize the template loader with a
+     * Map.
+     */
+    public abstract void init(Map initializer);
+
+    /** 
+     * Get the InputStream that the Runtime will parse
+     * to create a template.
+     */
+    public abstract InputStream getTemplateStream( String source ) throws Exception;
+    
+    /**
+     * Given a template, check to see if the source of InputStream
+     * has been modified.
+     */
+    public abstract boolean isSourceModified(Template template);
+    
+    /**
+     * Get the last modified time of the InputStream source
+     * that was used to create the template. We need the template
+     * here because we have to extract the name of the template
+     * in order to locate the InputStream source.
+     */
+    public abstract long getLastModified(Template template);
+
+    /**
+     * Set the caching state. If true, then this loader
+     * would like the Runtime to cache templates that
+     * have been created with InputStreams provided
+     * by this loader.
+     */
+    public void setCacheState(boolean state)
+    {
+        cache = state;
+    }        
+
+    /**
+     * The Runtime uses this to find out whether this
+     * template loader wants the Runtime to cache
+     * templates created with InputStreams provided
+     * by this loader.
+     */
+    public boolean useCache()
+    {
+        return cache;
+    }        
+    
+    /**
+     * Set the interval at which the InputStream source
+     * should be checked for modifications.
+     */
+    public void setModificationCheckInterval(long modificationCheckInterval)
+    {
+        this.modificationCheckInterval = modificationCheckInterval;
+    }
+    
+    /**
+     * Get the interval at which the InputStream source
+     * should be checked for modifications.
+     */
+    public long getModificationCheckInterval()
+    {
+        return modificationCheckInterval;
+    }        
 }
