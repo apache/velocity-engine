@@ -129,7 +129,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.28 2000/11/08 02:52:19 jon Exp $ 
+ * @version $Id: Parser.jjt,v 1.29 2000/11/11 22:39:17 geirm Exp $ 
 */
 public class Parser
 {
@@ -214,6 +214,52 @@ public class Parser
         else
             return false;
     }            
+
+  /**
+     *  Produces a processed output for an escaped control or pluggable directive
+     */
+    private String escapedDirective( String strImage )
+    {
+        int iLast = strImage.lastIndexOf("\\");
+
+        String strDirective = strImage.substring(iLast + 1);
+
+        boolean bRecognizedDirective = false;
+
+        /*
+         *  is this a PD or a control directive?
+         */
+
+        if ( isDirective( strDirective.substring(1)))
+        {
+           bRecognizedDirective = true;
+        }
+        else
+        {
+            /* order for speed? */
+
+            if ( strDirective.substring(1).equals("if")
+                || strDirective.substring(1).equals("end")
+                || strDirective.substring(1).equals("set")
+                || strDirective.substring(1).equals("else")
+                || strDirective.substring(1).equals("elseif")
+                || strDirective.substring(1).equals("stop")
+            )
+            {
+                bRecognizedDirective = true;
+            }
+        }
+
+        /*
+         *  if so, make the proper prefix string (let the escapes do their thing..)
+         *  otherwise, just return what it is..
+         */
+
+        if (bRecognizedDirective)
+            return ( strImage.substring(0,iLast/2) + strDirective);
+        else
+            return ( strImage );
+    }
 }
 
 PARSER_END(Parser)
@@ -364,15 +410,7 @@ TOKEN_MGR_DECLS:
         return;
     }
 
-    /**
-     *  Produces a processed output for an escaped control directive
-     */
-    private String escapedDirective( String strImage, String strDirective )
-    {
-        int iLast = strImage.lastIndexOf("\\");
-        return ( strImage.substring(0,iLast/2) + strDirective); 
-    }
-
+ 
     /**
      *  handles the dropdown logic when encountering a RPAREN
      */
@@ -425,6 +463,7 @@ TOKEN_MGR_DECLS:
             } 
         }
     }
+
 } 
 
 /* ------------------------------------------------------------------------
@@ -518,37 +557,8 @@ TOKEN:
      *  grammatical context, but I am neither smart nor rested, a receipe
      *  for disaster, another long night with Mr. Parser, or both.
      */
-
-     <ESCAPE_SET_DIRECTIVE : ("\\\\")* "\\#set">   
-     { 
-        matchedToken.image = escapedDirective( matchedToken.image, "#set");
-     }
-
-|    <ESCAPE_IF_DIRECTIVE : ("\\\\")*  "\\#if">   
-     { 
-         matchedToken.image = escapedDirective( matchedToken.image, "#if");
-     }
-
-|    <ESCAPE_END_DIRECTIVE : ("\\\\")* "\\#end">   
-     { 
-        matchedToken.image = escapedDirective( matchedToken.image, "#end");
-     }     
-
-|    <ESCAPE_ELSEIF_DIRECTIVE: ("\\\\")* "\\#elseif">
-     { 
-        matchedToken.image = escapedDirective( matchedToken.image, "#elseif");
-     }
-
-|    <ESCAPE_ELSE_DIRECTIVE: ("\\\\")* "\\#else"> 
-     { 
-        matchedToken.image = escapedDirective( matchedToken.image, "#else");
-     }
-
-|    <ESCAPE_STOP_DIRECTIVE: ("\\\\")* "\\#stop">
-     { 
-        matchedToken.image = escapedDirective( matchedToken.image, "#stop");
-     }
-
+    
+    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" <WORD> >
 }
 
 
@@ -559,7 +569,7 @@ TOKEN:
  */
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")* ("\\\\")*  "#set" >
+  <SET_DIRECTIVE: (" "|"\t")*  "#set" >
     { 
         if (! inComment)
         {
@@ -632,7 +642,7 @@ MORE :
         SwitchTo( IN_MULTI_LINE_COMMENT ); 
     } 
 
-|   <HASH : ("\\")* "#" > 
+|   <HASH : "#" > 
     { 
         if (! inComment)
         {
@@ -649,7 +659,8 @@ MORE :
 
 TOKEN :
 {
-    <ESCAPE: "\\">
+    <DOUBLE_ESCAPE : "\\\\">
+|   <ESCAPE: "\\" >   
 |   <TEXT: (~["$", "#", "\\"])+ >
 }    
 
@@ -941,8 +952,81 @@ void Statement() #void : {}
 |   Reference()
 |   Comment()
 |   SetDirective()
+|   EscapedDirective()
+|   Escape()
 |   Directive()
 |   Text()
+}
+
+/**
+ *  used to separate the notion of a valid directive that has been
+ *  escaped, versus something that looks like a directive and
+ *  is just schmoo.  This is important to do as a separate production
+ *  that creates a node, because we want this, in either case, to stop
+ *  the further parsing of the Directive() tree.
+ */
+void EscapedDirective() : {}
+{ 
+    {    
+        Token t = null; 
+    }
+
+    t = <ESCAPE_DIRECTIVE>
+    {
+        /*
+         *  churn and burn..
+         */
+        t.image = escapedDirective( t.image );
+    }
+}
+
+/**
+ *  Used to catch and process escape sequences in grammatical constructs
+ *  as escapes outside of VTL are just characters.  Right now we hav both
+ *  this and the EscapeDirective() construction because in the EscapeDirective()
+ *  case, we want to suck in the #<directive> and here we don't.  We just want
+ *  the escapes to render correctly
+ */
+void Escape() : {}
+{   
+    {
+        Token t = null;
+        int iCount = 0;
+        boolean bControl = false;
+    }
+
+   ( LOOKAHEAD(2)  t = <DOUBLE_ESCAPE>
+    {
+        iCount++;
+    }
+   )+
+    {
+        /*
+         * first, check to see if we have a control directive
+         */
+        switch(t.next.kind ) {
+            case IF_DIRECTIVE :
+            case ELSE_DIRECTIVE :
+            case ELSEIF_DIRECTIVE :
+            case END :
+            case STOP_DIRECTIVE :
+                bControl = true;
+                break;
+        }
+
+        /*
+         * if that failed, lets lookahead to see if we matched a PD
+         */ 
+
+        if ( isDirective( t.next.image.substring(1)))
+            bControl = true;
+        
+        t.image = "";
+        
+        for( int i = 0; i < iCount; i++)
+            t.image += (bControl ? "\\" : "\\\\");
+    }
+
 }
 
 void Comment() : {}
@@ -1002,56 +1086,43 @@ void DirectiveArg() #void : {}
  */
 SimpleNode Directive() : 
 {
-    Token t;
+    Token t = null;
     Directive d;
 }
 {
     /*
-     *  There are two things we do here :
-     *  1) If the first char is a \, then this has been escaped, so don't 
-     *     continue.  We will take care of the rest in ASTDirective.java
-     *  2) Get the directive identifier and check to see if this is a directive.
-     *     Note that because '#' is a <MORE> token, the identifier is preceeded by the '#'
+     *  note that if we were escaped, that is now handled by EscapedDirective()
      */
-
-    t = <WORD>
+  
+    t = <WORD> 
     {
+        d = (Directive) directives.get(t.image.substring(1));
+
         /*
-         *  We need to count the preceeding \'s.  If t starts with an odd number of \'s...
+         *  set the directive name from here.  No reason for the thing to know about parser tokens
          */
 
-         int i = 0;
-         int iLen = t.image.length();
+        jjtThis.setDirectiveName( t.image.substring(1) );
 
-         while( i < iLen && t.image.charAt(i) == '\\' )
-            i++;         
-                
-        if( t.image.startsWith("\\") && (i % 2) != 0 )
+        if (d == null)
         {
             token_source.stateStackPop();
             token_source.inDirective = false;
-            return jjtThis;            
-        }
-        else
-        {
-            d = (Directive) directives.get(t.image.substring(i+1));
-        
-            if (d == null)
-            {
-                token_source.stateStackPop();
-                token_source.inDirective = false;
-                return jjtThis;
-            }
-        }            
+            return jjtThis;
+        }         
+    
+        /*
+         *  now, switch us out of PRE_DIRECTIVE
+         */
 
-        token_source.SwitchTo( DIRECTIVE );
+        token_source.SwitchTo(DIRECTIVE);
     }
 
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
 
-    <LPAREN> (DirectiveArg())+ <RPAREN>
+    <LPAREN> ( DirectiveArg() )+ <RPAREN>
     {
         if (d.getType() == Directive.LINE)
             return jjtThis;
@@ -1060,9 +1131,9 @@ SimpleNode Directive() :
     /*
      *  and the following block if the PD needs it
      */
-    
+   
     ( Statement() )+ #Block 
-    EndStatement()
+    <END> 
     {
         return jjtThis;
     } 
@@ -1095,7 +1166,7 @@ void Parameter() #void: {}
  */
 void Method() : {}
 {
-    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>
+   Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>
 }
 
 void Reference() : {}
@@ -1123,25 +1194,15 @@ void False() : {}
  * all non-grammar text to pass through
  * unscathed.
  */
-void Text() : 
-{
-    Token t;
-}
+void Text() : {}
 {
     <TEXT>
-|   <NEWLINE>  
 |   <DOT>
 |   <RPAREN>
 |   <LPAREN>
 |   <NUMBER_LITERAL>
 |   <STRING_LITERAL>
 |   <ESCAPE>
-|   <ESCAPE_SET_DIRECTIVE>
-|   <ESCAPE_IF_DIRECTIVE>
-|   <ESCAPE_END_DIRECTIVE>   
-|   <ESCAPE_ELSEIF_DIRECTIVE>
-|   <ESCAPE_ELSE_DIRECTIVE> 
-|   <ESCAPE_STOP_DIRECTIVE>
 }
 
 /* -----------------------------------------------------------------------
@@ -1153,20 +1214,16 @@ void Text() :
 void IfStatement() : {}
 {
     <IF_DIRECTIVE> <LPAREN> Expression() <RPAREN>
-    ( Statement() )+ #Block
+    ( Statement() )+ #Block 
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
-    EndStatement()
-}
-
-void EndStatement() : {}
-{
     <END>
+
 }
 
 void ElseStatement() : {}
 {
-    <ELSE_DIRECTIVE> 
+   <ELSE_DIRECTIVE> 
     ( Statement() )+ #Block
 }
 
@@ -1179,7 +1236,7 @@ void ElseIfStatement() : {}
 
 void SetDirective() : {}
 {
-   (<SET_DIRECTIVE> Expression() [<NEWLINE>] )
+   (  <SET_DIRECTIVE>  Expression()  [<NEWLINE>] )
 }    
 
 
