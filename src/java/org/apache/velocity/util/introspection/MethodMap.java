@@ -66,7 +66,8 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: MethodMap.java,v 1.9 2001/03/05 11:48:51 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: MethodMap.java,v 1.10 2001/08/11 19:04:21 geirm Exp $
  */
 
 public class MethodMap
@@ -84,13 +85,18 @@ public class MethodMap
     public void add(Method method)
     {
         String methodName = method.getName();
-        
-        if (!methodByNameMap.containsKey(methodName))
+
+        List l = (List) methodByNameMap.get( methodName );
+
+        if ( l == null)
         {
-            methodByNameMap.put(methodName, new ArrayList());
+            l = new ArrayList();
+            methodByNameMap.put(methodName, l);
         }            
 
-        ((List) methodByNameMap.get(methodName)).add(method);
+        l.add(method);
+
+        return;
     }
     
     /**
