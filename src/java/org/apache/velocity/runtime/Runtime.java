@@ -174,7 +174,7 @@ public class Runtime
     }        
 
     // Used by the template class.
-    public static SimpleNode parse(InputStream inputStream)
+    public synchronized static SimpleNode parse(InputStream inputStream)
         throws Exception
     {
         return parser.parse(inputStream);
