@@ -281,7 +281,7 @@
     
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
       <classpath>
-        <pathelement location="./test.jar"/>
+        <pathelement location="../test/texen-classpath/test.jar"/>
         <path refid="classpath"/>
       </classpath>
     </taskdef>
