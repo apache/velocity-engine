@@ -14,22 +14,22 @@
 <p>
     Texen is a general purpose text generating utility. It is capable of
     producing almost any sort of text output. Driven by Ant, essentially
-    an <a href="http://jakarta.apache.org/ant/">Ant</a>
-    Task, Texen uses a control template, an optional set of worker templates,
-    and control context to govern the generated output. Although TexenTask
-    can be used directly, it is usually subclassed to initialize your control
+    an <a href="http://jakarta.apache.org/ant/">Ant</a> Task, Texen uses
+    a control template, an optional set of worker templates, and control
+    context to govern the generated output. Although TexenTask can be
+    used directly, it is usually subclassed to initialize your control
     context before generating any output.
 </p>
 
 <p>
-    Texen was created to deal with the source generating
-    requirements of the Turbine web application framework. The
-    <a href="http://java.apache.org/turbine/torque.html">Torque</a>
-    utility in <a href="http://java.apache.org/turbine/">Turbine</a>,
-    which is a subclass of the TexenTask, is responsible
-    for generating the SQL, and the Object-Relational mapping sources
-    for a Turbine project. This is only one example; you can use
-    Texen to generate almost any sort of text output!
+    Texen was created to deal with the source generating requirements of
+    the Turbine web application framework. The <a
+    href="http://java.apache.org/turbine/torque.html">Torque</a> utility
+    in <a href="http://java.apache.org/turbine/">Turbine</a>, which is a
+    subclass of the TexenTask, is responsible for generating the SQL,
+    and the Object-Relational mapping sources for a Turbine project.
+    This is only one example; you can use Texen to generate almost any
+    sort of text output!
 </p>
 
 </section>
@@ -37,8 +37,8 @@
 <section name="The TexenTask">
 
 <p>
-    This trivial example, which shows how to use Texen from an Ant build.xml,
-    is intended to illustrate how the Texen mechanism works.
+    This trivial example, which shows how to use Texen from an Ant
+    build.xml, is intended to illustrate how the Texen mechanism works.
 </p>
 
 <p>
@@ -46,7 +46,6 @@
 </p>
 
 <source><![CDATA[
-
 <project name="HtmlGenerator" default="main" basedir=".">
 
   <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"/>
@@ -76,7 +75,6 @@
   </target>
 
 </project>
-
 ]]></source>
 
 <p>
@@ -101,14 +99,13 @@ page generator!
     $generator.parse("HtmlTemplate.vm", $outputFile, "planet", $planet)
 
 #end
-
 ]]></source>
 
 <p>
 <em>Worker Template</em>
 </p>
-<source><![CDATA[
 
+<source><![CDATA[
 #*
 
 file: HtmlTemplate.vm
@@ -133,21 +130,19 @@ not so useful in this case). :-)
 
   </body>
 </html>
-
 ]]></source>
 
 <p>
-    Texen produces three html pages: Earth.html,
-    Mars.html, and Venus.html. To do something
-    more useful, you would subclass the TexenTask, place some objects
-    in the control context, and use the information placed in the
-    control context to generate useful output.
+    Texen produces three html pages: Earth.html, Mars.html, and
+    Venus.html. To do something more useful, you would subclass the
+    TexenTask, place some objects in the control context, and use the
+    information placed in the control context to generate useful output.
 </p>
 
 <p>
-    See the Torque utility in Turbine for a full working example of Texen.
-    A standalone version of Torque is available
-    <a href="http://java.apache.org/turbine/tdk/">here</a>.
+    See the Torque utility in Turbine for a full working example of
+    Texen. A standalone version of Torque is available <a
+    href="http://java.apache.org/turbine/tdk/">here</a>.
 </p>
 
 </section>

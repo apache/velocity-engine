@@ -12,14 +12,15 @@
 <section name="Converting Templates">
 
 <p>
-    Legacy documents are the bane of any software migration. The Velocity
-    Team has tried to ensure that existing templates can be converted
-    for use within Velocity in as painless a manner as possible.
+    Legacy documents are the bane of any software migration. The
+    Velocity Team has tried to ensure that existing templates can be
+    converted for use within Velocity in as painless a manner as
+    possible.
 </p>
 
 <p>
-    Currently there is only a WebMacro to Velocity template converter, but
-    there are plans for a Tea to Velocity template converter, and a
+    Currently there is only a WebMacro to Velocity template converter,
+    but there are plans for a Tea to Velocity template converter, and a
     FreeMarker to Velocity template converter.
 </p>
 
@@ -28,15 +29,15 @@
 <section name="WebMacro to Velocity Template Converter">
 
 <p>
-    The <filename>convert-wm.sh</filename> script in the <filename>convert</filename> directory
-    converts a single WebMacro template (<filename>*.wm</filename>) to a Velocity
-    template (<filename>*.vm</filename>), or converts an entire directory structure
-    of WebMacro templates to Velocity templates.
+    The <code>convert-wm.sh</code> script in the <code>convert</code>
+    directory converts a single WebMacro template (<code>*.wm</code>) to
+    a Velocity template (<code>*.vm</code>), or converts an entire
+    directory structure of WebMacro templates to Velocity templates.
 </p>
 
 <p>
-    The <filename>convert-wm.sh</filename> script can convert a single
-    WebMacro template to a Velocity template.
+    The <code>convert-wm.sh</code> script can convert a single WebMacro
+    template to a Velocity template.
 </p>
 
 <source><![CDATA[
@@ -45,23 +46,24 @@
 
 <p>
     This will produce a single Velocity template named
-    <filename>template.vm</filename> from the WebMacro template <filename>template.wm</filename>.
-    The original WebMacro template will be preserved.
+    <code>template.vm</code> from the WebMacro template
+    <code>template.wm</code>. The original WebMacro template will be
+    preserved.
 </p>
 
 <p>
     To convert an entire directory structure of WebMacro templates using
-    the <filename>convert-wm.sh</filename> script, simply include the directory
+    the <code>convert-wm.sh</code> script, simply include the directory
     name instead of the template name, as indicated below.
 </p>
 
-    <source><![CDATA[
-    ./convert-wm.sh template.wm
-    ]]></source>
+<source><![CDATA[
+./convert-wm.sh template.wm
+]]></source>
 
 <p>
-    This will produce a directory structure of templates
-    named <filename>templates.vm</filename>. The original WebMacro templates will be
+    This will produce a directory structure of templates named
+    <code>templates.vm</code>. The original WebMacro templates will be
     preserved during the conversion process.
 </p>
 </section>
