@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  know as this was a good idea... 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: PrimordialLogSystem.java,v 1.1 2001/09/24 17:03:43 geirm Exp $
+ * @version $Id: PrimordialLogSystem.java,v 1.2 2001/09/24 21:25:30 geirm Exp $
  */
 public class PrimordialLogSystem implements LogSystem
 {
@@ -95,10 +95,13 @@ public class PrimordialLogSystem implements LogSystem
      */
     public void logVelocityMessage(int level, String message)
     {
-        Object[] data = new Object[2];
-        data[0] = new Integer(level);
-        data[1] = message;
-        pendingMessages.addElement(data);
+        synchronized( this )
+        {
+            Object[] data = new Object[2];
+            data[0] = new Integer(level);
+            data[1] = message;
+            pendingMessages.addElement(data);
+        }
     }
     
     /**
@@ -106,16 +109,20 @@ public class PrimordialLogSystem implements LogSystem
      */
     public void dumpLogMessages( LogSystem newLogger )
     {
-        if ( !pendingMessages.isEmpty())
+        synchronized( this )
         {
-            /*
-             *  iterate and log each individual message...
-             */
-            for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
+            if ( !pendingMessages.isEmpty())
             {
-                Object[] data = (Object[]) e.nextElement();
-                newLogger.logVelocityMessage(((Integer) data[0]).intValue(), (String) data[1]);
-            }
-        }    
+                /*
+                 *  iterate and log each individual message...
+                 */
+            
+                for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
+                {
+                    Object[] data = (Object[]) e.nextElement();
+                    newLogger.logVelocityMessage(((Integer) data[0]).intValue(), (String) data[1]);
+                }
+            }    
+        }
     }    
 }
