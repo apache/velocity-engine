@@ -58,7 +58,7 @@
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.3 2000/12/10 04:52:51 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.4 2000/12/10 19:37:05 geirm Exp $ 
  *
  */
 
@@ -70,6 +70,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.VelocimacroManager;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 public class VelocimacroFactory
 {
@@ -78,22 +79,8 @@ public class VelocimacroFactory
     private boolean bReplaceAllowed_ = false;
     private boolean bAddNewAllowed_ = true;
     private boolean bTemplateLocal_ = false;
+    private boolean bBlather_ = false;
 
-    /** name of global Velocimacro library template */
-    private static String GLOBAL_LIBRARY = "velocimacro.library.global";
-
-    /** name of local Velocimacro library template */
-    private static String LOCAL_LIBRARY  = "velocimacro.library.local";
-
-    /** boolean (true/false) default true : allow inline (in-template) macro definitions */
-    private static String VM_PERM_ALLOW_INLINE  = "velocimacro.permissions.allowInline";
-
-    /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing */
-    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = "velocimacro.permissions.allowInlineToReplaceGlobal";
-    
-    /** switch for forcing inline macros to be local */
-    public final static String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allowInlineLocalScope";
-    
     /**
      *    setup
      */
@@ -105,11 +92,14 @@ public class VelocimacroFactory
 
         synchronized( this )
         {
+            Runtime.info("Velocimacro : initialization starting.");
+ 
             /*
              *   allow replacements while we add the libraries, if exist
              */
             
             setReplacementPermission( true );
+            setBlather( true );
 
             /*
              *  add all library macros to the global namespace
@@ -123,31 +113,31 @@ public class VelocimacroFactory
              *  VM's  are added during the parse phase
              */
             
-            String strLib = Runtime.getString( GLOBAL_LIBRARY, "");
+            String strLib = Runtime.getString( RuntimeConstants.VM_GLOBAL_LIBRARY, "");
             
             if (  !strLib.equals("") ) 
             {
                 try {
-                    Runtime.info("Adding VMs from global VM library template : " + strLib );
+                    Runtime.info("Velocimacro : adding VMs from global VM library template : " + strLib );
                     Template template = Runtime.getTemplate( strLib );   
-                    Runtime.info("Global VM library template macro registration complete." );
+                    Runtime.info("Velocimacro : global VM library template macro registration complete." );
                  } catch (Exception e) {
-                    Runtime.info("Error using global VM library template "+ strLib + " : " + e );
+                    Runtime.info("Velocimacro : error using global VM library template "+ strLib + " : " + e );
                 }
             }
             else
                 Runtime.info("Velocimacro : no global VM library template used.");
 
-            strLib = Runtime.getString( LOCAL_LIBRARY, "");
+            strLib = Runtime.getString(  RuntimeConstants.VM_LOCAL_LIBRARY, "");
             
             if ( !strLib.equals("") ) 
             {
                 try {
-                    Runtime.info("Adding VMs from local VM library template : " + strLib );
+                    Runtime.info("Velocimacro : adding VMs from local VM library template : " + strLib );
                     Template template = Runtime.getTemplate(strLib);
-                    Runtime.info("Local VM library template macro registration complete.");
+                    Runtime.info("Velocimacro : local VM library template macro registration complete.");
                 } catch ( Exception e ) {
-                    Runtime.info("Error using local VM library template "+ strLib + " : " + e );
+                    Runtime.info("Velocimacro : error using local VM library template "+ strLib + " : " + e );
                 }
             }
             else
@@ -166,9 +156,8 @@ public class VelocimacroFactory
              */
             
             setAddMacroPermission( true );
-            
-            
-            if ( !Runtime.getBoolean( VM_PERM_ALLOW_INLINE, true) )
+                        
+            if ( !Runtime.getBoolean(  RuntimeConstants.VM_PERM_ALLOW_INLINE, true) )
             {
                 setAddMacroPermission( false );
                 Runtime.info("Velocimacro : allowInline = false : VMs can not be defined inline in templates");
@@ -185,7 +174,7 @@ public class VelocimacroFactory
             
             setReplacementPermission( false );
             
-            if ( Runtime.getBoolean( VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
+            if ( Runtime.getBoolean(  RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
             {
                 setReplacementPermission( true );
                 Runtime.info("Velocimacro : allowInlineToOverride = true : VMs defined inline may replace previous VM definitions");
@@ -200,17 +189,33 @@ public class VelocimacroFactory
            
             vmManager_.setNamespaceUsage( true );
 
-            if (Runtime.getBoolean(  VM_PERM_INLINE_LOCAL, false ))
-            {
-                setTemplateLocal( true );
+            /*
+             *  template-local inline VM mode : default is off
+             */
+
+            setTemplateLocalInline( Runtime.getBoolean(RuntimeConstants.VM_PERM_INLINE_LOCAL, false) );
+        
+            if ( getTemplateLocalInline() )
                 Runtime.info("Velocimacro : allowInlineLocal = true : VMs defined inline will be local to their defining template only.");
-            }
             else
                 Runtime.info("Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.");
  
-        }
+            vmManager_.setTemplateLocalInlineVM( getTemplateLocalInline() );
 
-        Runtime.info("Velocimacro initialized.");
+            /*
+             *  general message switch.  default is on
+             */
+
+            setBlather( Runtime.getBoolean( RuntimeConstants.VM_MESSAGES_ON, true ));
+        
+            if (getBlather())
+                Runtime.info("Velocimacro : messages on  : VM system will output information messages");
+            else
+                Runtime.info("Velocimacro : messages off : VM system will be quiet");
+
+            Runtime.info("Velocimacro : initialization complete.");
+        }
+    
         return;
     }
 
@@ -227,7 +232,10 @@ public class VelocimacroFactory
          */
         
         if ( strName == null || strMacro == null | strArgArray == null || strMacroArray == null || tmArgIndexMap == null )
+        {
+            logVMMessage("Velocimacro : VM addition rejected : programmer error : arg null"  );
             return false;
+        }
         
         /*
          *  maybe the rules should be in manager?  I dunno. It's to manage the namespace issues
@@ -236,7 +244,10 @@ public class VelocimacroFactory
          */
 
         if ( !bAddNewAllowed_ )
+        {
+            logVMMessage("Velocimacro : VM addition rejected : " + strName + " : inline VMs not allowed."  );
             return false;
+        }
 
         /*
          *  are they local in scope?  Then it is ok to add.
@@ -254,7 +265,10 @@ public class VelocimacroFactory
              */
             
             if ( isVelocimacro( strName, strSourceTemplate ) && !bReplaceAllowed_ )
+            {
+                logVMMessage("Velocimacro : VM addition rejected : " + strName + " : inline not allowed to replace existing VM"  );
                 return false;
+            }
         }
 
         /*
@@ -266,7 +280,36 @@ public class VelocimacroFactory
             vmManager_.addVM( strName, strMacro, strArgArray, strMacroArray, tmArgIndexMap, strSourceTemplate );
         }
 
+        /*
+         *  if we are to blather, blather...
+         */
+
+        if (bBlather_)
+        {
+            String s = "#" +  strArgArray[0];
+            s += "(";
+        
+            for( int i=1; i < strArgArray.length; i++)
+                {
+                    s += " ";
+                    s += strArgArray[i];
+                }
+            s += " ) : source = ";
+            s += strSourceTemplate;
+            
+           logVMMessage( "Velocimacro : added new VM : " + s );
+        }
+
         return true;
+    }
+
+    /**
+     *  localization of the logging logic
+     */
+    private void logVMMessage( String s )
+    {
+        if (bBlather_)
+            Runtime.info( s );
     }
 
     /**
@@ -323,9 +366,14 @@ public class VelocimacroFactory
      *  we need it here for gating purposes in addVM
      *  eventually, I will slide this all into the manager, maybe.
      */   
-    private void setTemplateLocal( boolean b )
+    private void setTemplateLocalInline( boolean b )
     {
         bTemplateLocal_ = b;
+    }
+
+    private boolean getTemplateLocalInline()
+    {
+        return bTemplateLocal_;
     }
 
     /**
@@ -351,6 +399,18 @@ public class VelocimacroFactory
         return b;
     }
 
+    /**
+     *  set output message mode 
+     */
+    private void setBlather( boolean b )
+    {
+        bBlather_ = b;
+    }
+
+    private boolean getBlather()
+    {
+        return bBlather_;
+    }
 }
 
 
