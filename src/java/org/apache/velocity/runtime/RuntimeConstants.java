@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.35 2003/10/22 10:50:42 geirm Exp $
+ * @version $Id: RuntimeConstants.java,v 1.36 2003/10/23 13:50:55 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -197,8 +197,8 @@ public interface RuntimeConstants
      * The <code>resource.manager.cache.size</code> property specifies
      * the cache upper bound (if relevant).
      */
-    public static String RESOURCE_MANAGER_CACHE_SIZE =
-                "resource.manager.cache.size";
+    public static String RESOURCE_MANAGER_DEFAULTCACHE_SIZE =
+                "resource.manager.defaultcache.size";
 
     /*
      * ----------------------------------------------------------------------

@@ -75,7 +75,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: ResourceCacheImpl.java,v 1.3 2003/10/22 03:00:46 dlr Exp $
+ * @version $Id: ResourceCacheImpl.java,v 1.4 2003/10/23 13:50:55 geirm Exp $
  */
 public class ResourceCacheImpl implements ResourceCache
 {
@@ -95,7 +95,7 @@ public class ResourceCacheImpl implements ResourceCache
         rsvc = rs;
 
         int maxSize =
-            rsvc.getInt(RuntimeConstants.RESOURCE_MANAGER_CACHE_SIZE, 89);
+            rsvc.getInt(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, 89);
         if (maxSize > 0)
         {
             // Create a whole new Map here to avoid hanging on to a
