@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.7 2000/10/24 01:43:33 jvanzyl Exp $
+ * @version $Id: TemplateTestCase.java,v 1.8 2000/10/24 02:03:37 dlr Exp $
  */
 public class TemplateTestCase extends BaseTestCase
 {
@@ -95,12 +95,12 @@ public class TemplateTestCase extends BaseTestCase
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULT_DIR = "../test/templates/results/";
+    private static final String RESULT_DIR = "../test/templates/results";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String COMPARE_DIR = "../test/templates/compare/";
+    private static final String COMPARE_DIR = "../test/templates/compare";
 
     /**
      * The base file name of the template and comparison file (i.e. array for 
@@ -158,14 +158,10 @@ public class TemplateTestCase extends BaseTestCase
     {
         try
         {
-            StringBuffer buf = new StringBuffer();
-            buf.append(baseFileName).append('.').append(TMPL_FILE_EXT);
-            Template template = Runtime.getTemplate(buf.toString());
-
-            template.merge(context, getWriter(
-                new FileOutputStream(
-                    RESULT_DIR + baseFileName + "." + RESULT_FILE_EXT)));
-            
+            Template template = Runtime.getTemplate
+                (getFileName(null, baseFileName, TMPL_FILE_EXT));
+            template.merge(context, getWriter(new FileOutputStream
+                (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT))));
             closeWriter();
             
             if (!isMatch())
@@ -177,6 +173,22 @@ public class TemplateTestCase extends BaseTestCase
         {
             fail(e.getMessage());
         }
+    }
+
+    /**
+     * Concatnates the file name parts together appropriately.
+     *
+     * @return The full path to the file.
+     */
+    private String getFileName (String dir, String base, String ext)
+    {
+        StringBuffer buf = new StringBuffer();
+        if (dir != null)
+        {
+            buf.append(dir).append('/');
+        }
+        buf.append(base).append('.').append(ext);
+        return buf.toString();
     }
 
     /**
@@ -213,11 +225,11 @@ public class TemplateTestCase extends BaseTestCase
      */
     protected boolean isMatch () throws Exception
     {
-        String result = StringUtils.fileContentsToString(
-            RESULT_DIR + baseFileName + "." + RESULT_FILE_EXT);
+        String result = StringUtils.fileContentsToString
+            (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT));
             
-        String compare = StringUtils.fileContentsToString(
-            COMPARE_DIR + baseFileName + "." + CMP_FILE_EXT);
+        String compare = StringUtils.fileContentsToString
+             (getFileName(COMPARE_DIR, baseFileName, CMP_FILE_EXT));
 
         return result.equals(compare);
     }
@@ -225,18 +237,9 @@ public class TemplateTestCase extends BaseTestCase
     /**
      * Performs cleanup activities for this test case.
      */
-    protected void tearDown ()
+    protected void tearDown () throws Exception
     {
-        /*
-        try
-        {
-            closeWriter();
-        }
-        catch (IOException e)
-        {
-            fail(e.getMessage());
-        }
-        */
+        // No op.
     }
 
     /**
