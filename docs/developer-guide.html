@@ -156,6 +156,10 @@
 </li>
 
 <li>
+<a href="developer-guide.html#eventcartridge">EventCartridge and Event Handlers</a>
+</li>
+
+<li>
 <a href="developer-guide.html#config">Configuration Keys and Values</a>
 </li>
 
@@ -1465,6 +1469,120 @@ And, assuming you have a directory <code>/opt/templates</code> and the template
 If you try this and have a problem, be sure to look at the velocity.log for
 information - the error messages are pretty good for figuring out what is wrong.
 </p>
+                            </blockquote>
+      </td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="EventCartridge and Event Handlers"><strong>EventCartridge and Event Handlers</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <a name="eventcartridge" />
+                                                <p>
+Starting in version 1.1, a fine-grain event handling system was added to Velocity.
+The EventCartridge is a class in which you register your event handlers, and then the
+EventCartridge acts as the delivery agent from which the Velocity engine will
+access the event handlers at merge time if needed.
+Currently, there are 4 events that can be handled, and all are found in the 
+<code>org.apache.velocity.context</code> package. [note : they don't belong there ]
+
+<ol>
+<li>
+   Null #set() : when a #set() results in a null assignment, this is normally 
+   logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the 
+   logging of this condition.
+</li>
+
+<li>
+   Reference Insertion : a <code>ReferenceInsertionEventHandler</code> allows the 
+   developer to intercept each write of a reference ($foo) value to the output 
+   stream and modify that output. 
+</li>
+
+<li>
+   Null Reference :  When a reference is null, normally this results in a literal 
+   representation of the reference going to the output.  The
+   <code>NullReferenceEventHandler</code> is called with the reference literal,
+   and allows you to modify the output to the stream.
+</li>
+
+<li>
+  Method Exception : When a user-supplied method throws an exception, the
+  <code>MethodExceptionEventHandler</code> is invoked with the Class, method name
+  and thrown Exception.  The handler can either return a valid Object to be used
+as the return value of the method call, or throw the passed-in or new Exception, 
+  which will be wrapped and propogated to the user as a 
+  <code>MethodInvocationException</code>
+</li>
+</ol>
+</p>
+                                                <strong>Using the EventCartridge</strong>
+                                                <p>
+Using the EventCartridge is fairly straightforward.  The following abbreviated
+example was taken from <code>org.apache.velocity.test.misc.Test</code>.
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+ ...
+
+import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.context.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.MethodExceptionEventHandler;
+import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.context.NullReferenceEventHandler;
+
+ ...
+
+ public class Test implements ReferenceInsertionEventHandler, 
+                             NullSetEventHandler,NullReferenceEventHandler,
+                             MethodExceptionEventHandler
+{
+ ...
+     /*
+      *  now, it's assumed that Test implements the correct methods to 
+      *  support the event handler interfaces.  So to use them, first
+      *  make a new cartridge
+      */
+      EventCartridge ec = new EventCartridge();
+         
+      /*
+       * then register this class as it contains the handlers 
+       */
+       ec.addEventHandler(this);
+           
+      /*
+       * and then finally let it attach itself to the context
+       */
+       ec.attachToContext( context );
+
+      /*
+       * now merge your template with the context as you normally
+       * do
+       */
+...
+
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
                             </blockquote>
       </td></tr>
     </table>
