@@ -168,8 +168,10 @@ This feature has many uses, the most common so far is providing layered data acc
 As mentioned before, the Velocity context mechanism is also extendable, but beyond the current scope of this guide.
 If you are interested, please see the classes in the package
 org.apache.velocity.context to see how the provided contexts are put together.  Futher, there are a few examples in the examples
-directory in the distribution which show alternate implementaions, including [a goofy] one 
+directory in the distribution which show alternate implementations, including [a goofy] one 
 that uses a database as the backing storage. 
+</p>
+<p>
 Please note that these examples are unsupported and are there for demonstration/educational purposes only.
 </p>
 
@@ -178,8 +180,8 @@ Please note that these examples are unsupported and are there for demonstration/
 <s1 title="Using Velocity In Servlets">
 <strong>Programming</strong>
 <p>
-The most common use of Velocity is in the are of Java Servlet programming for the WWW.  There are many reasons why Velocity is
-well suited for this task, the primary one is Velocity's enforcement of the separation of the presentation (or view) layer from 
+The most common use of Velocity is in the area of Java Servlet programming for the WWW.  There are many reasons why Velocity is
+well suited for this task, one of the primary ones is Velocity's enforcement of the separation of the presentation (or view) layer from 
 the code layer.  There are many resources on this subject, including <link href='http://www.javaworld.com/javaworld/jw-12-1999/jw-12-ssj-jspmvc.html'>this</link>.  
 </p>
 <p>
@@ -259,9 +261,14 @@ This deployment method will ensure that different web applications will not be s
 <s1 title="Velocity Properties">
 <p>
 Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties, found in
-/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  Any
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.
+</p>
+<p>  Any
 properties specified at init() time will replace existing values.  This ensures that Velocity will always have a 'correct' value
 for it's configuration and startup.  These may not be the values you want, of course.
+</p>
+<p>
+describe properties here
 </p>
 </s1>
 
