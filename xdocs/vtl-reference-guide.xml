@@ -79,7 +79,7 @@
       <strong>.</strong>[ <strong>a..z</strong>, <strong>A..Z</strong> ][
       <strong>a..z</strong>, <strong>A..Z</strong>, <strong>0..9</strong>,
       <strong>-</strong>, <strong>_</strong> ]*<strong>(</strong> [
-      <i>opional parameter list...</i> ] <strong>)</strong> [
+      <i>optional parameter list...</i> ] <strong>)</strong> [
       <strong> } </strong>]
     </p>
 
