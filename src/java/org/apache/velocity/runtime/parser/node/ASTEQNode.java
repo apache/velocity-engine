@@ -2,7 +2,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,7 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -57,7 +57,15 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.Runtime;
 
+/**
+ *  Handles the equivalence operator
+ *
+ *    <arg1>  == <arg2>
+ *
+ *  @version $Id: ASTEQNode.java,v 1.3 2001/03/05 23:27:10 geirm Exp $
+ */
 public class ASTEQNode extends SimpleNode
 {
     public ASTEQNode(int id)
@@ -76,21 +84,82 @@ public class ASTEQNode extends SimpleNode
         return visitor.visit(this, data);
     }
 
+    /**
+     *   calculates the value of the expression
+     *
+     *  Currently, the equivalences
+     *  <ul>
+     *  <li>  Boolean == Boolean
+     *  <li>  Integer == Integer
+     *  <li> String == String
+     *  </ul>
+     *  are supported.
+     *
+     *  @param context  internal context used to evaluate the LHS and RHS
+     *  @return true if equivalent, false if not equivalent,
+     *          false if not compatible arguments, or false
+     *          if either LHS or RHS is null
+     */
     public boolean evaluate( InternalContextAdapter context)
     {
-        if (jjtGetChild(0).value(context) instanceof Boolean &&
-            ((Boolean)jjtGetChild(0).value(context)).booleanValue() ==
-            ((Boolean)jjtGetChild(1).value(context)).booleanValue())
-            return true;
-        else if (jjtGetChild(0).value(context) instanceof Integer &&
-            ((Integer)jjtGetChild(0).value(context)).intValue() ==
-            ((Integer)jjtGetChild(1).value(context)).intValue())
-            return true;
-        else if (jjtGetChild(0).value(context) instanceof String &&
-            jjtGetChild(0).value(context).toString()
-            .equals(jjtGetChild(1).value(context).toString()))
-            return true;
-        else
+        Object left = jjtGetChild(0).value(context);
+        Object right = jjtGetChild(1).value(context);
+
+        /*
+         *  they could be null if they are references and not in the context
+         */
+
+        if (left == null || right == null)
+        {
+            Runtime.error( ( left == null ? "Left" : "Right" ) 
+                           + " side of equality operator "
+                           + " has null value."
+                           + " If a reference, it may not be in the context."
+                           + " Operation not possible. "
+                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + ", column " + getColumn() + "]");
             return false;
+        }
+
+        /*
+         *  ok, we have real args.  We could 'getClass()' to test,  but is this 
+         *  just as fast?
+         */
+
+        if ( left instanceof Boolean )
+        {
+            if (right instanceof Boolean)
+            {
+                return ( (Boolean) left ).booleanValue() ==
+                    ( (Boolean) right ).booleanValue();
+            }
+        }
+        else if ( left instanceof Integer )
+        {
+            if ( right instanceof Integer )
+            {
+                return ( (Integer) left).intValue() == 
+                    ( (Integer) right).intValue() ;
+            }
+        }
+        else if ( left instanceof String )
+        {
+            if ( right instanceof String )
+            {
+                return left.toString().equals( right );
+            }
+        }
+
+        /*
+         *  made it this far - we have a problem
+         */
+
+        Runtime.error("ASTEQNode : Error in evaluation of == expression in template "
+                     + context.getCurrentTemplateName() + " at "
+                     + "[" + getLine() + "," + getColumn() + "]." 
+                     + " Both arguments must be the same, and Boolean, Integer or String."
+                     + " Currently left is " + left.getClass() + " right -> " + right.getClass());
+
+        return false;    
     }
 }
