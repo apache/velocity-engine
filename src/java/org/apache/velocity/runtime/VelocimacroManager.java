@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -67,17 +69,15 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.4 2000/12/12 02:04:36 geirm Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.5 2000/12/20 06:09:02 jvanzyl Exp $ 
  */
-
-package org.apache.velocity.runtime;
 
 import java.util.Hashtable;
 import java.util.TreeMap;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
-import org.apache.velocity.Template;
 
 public class VelocimacroManager
 {
@@ -86,7 +86,10 @@ public class VelocimacroManager
     /*  hash of namespace hashes */
     private Hashtable namespaceHash = new Hashtable();
 
-    /*  big switch for namespaces.  If true, then properties control usage. If false, no. */
+    /* 
+     * big switch for namespaces.  If true, then properties control 
+     * usage. If false, no. 
+     */
     private boolean namespacesOn = true;
     private boolean  inlineLocalMode = false;
 
@@ -106,10 +109,12 @@ public class VelocimacroManager
      *  adds a VM definition to the cache
      * @return boolean if all went ok
      */
-    public boolean addVM(String vmName, String macroBody, String argArray[],String macroArray[], 
-                         TreeMap argIndexMap, String namespace )
+    public boolean addVM(String vmName, String macroBody, String argArray[],
+                         String macroArray[], TreeMap argIndexMap, 
+                         String namespace )
     {
-        MacroEntry me = new MacroEntry( vmName,  macroBody,  argArray, macroArray, argIndexMap, namespace );
+        MacroEntry me = new MacroEntry( vmName,  macroBody,  argArray, macroArray, 
+            argIndexMap, namespace );
 
         if ( usingNamespaces( namespace ) )
         {
@@ -136,7 +141,8 @@ public class VelocimacroManager
     }
 
     /**
-     *  gets a new living VelocimacroProxy object by the name / source template duple
+     * gets a new living VelocimacroProxy object by the 
+     * name / source template duple
      */
     public VelocimacroProxy get( String vmName, String namespace )
     {
@@ -158,7 +164,8 @@ public class VelocimacroManager
         }
 
         /*
-         *  if we didn't return from there, we need to simply see if it's in the global namespace
+         * if we didn't return from there, we need to simply see 
+         * if it's in the global namespace
          */
         
         MacroEntry me = (MacroEntry) (getNamespace( GLOBAL_NAMESPACE )).get( vmName );
@@ -170,11 +177,12 @@ public class VelocimacroManager
     }
 
     /**
-     *  removes the VMs and the namespace from the manager.  Used when a template is reloaded
-     *  to avoid accumulating drek
+     * Removes the VMs and the namespace from the manager.
+     * Used when a template is reloaded to avoid 
+     * accumulating drek
      *
-     *  @param namespace namespace to dump
-     *  @return boolean representing success
+     * @param namespace namespace to dump
+     * @return boolean representing success
      */
     public boolean dumpNamespace( String namespace )
     {
