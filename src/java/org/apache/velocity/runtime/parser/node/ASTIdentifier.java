@@ -71,7 +71,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.7 2001/02/05 00:44:57 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.8 2001/03/15 19:28:37 jvanzyl Exp $ 
  */
 package org.apache.velocity.runtime.parser.node;
 
@@ -200,8 +200,12 @@ public class ASTIdentifier extends SimpleNode
         }
 
         if (executor != null)
+        {
             return executor.execute(o, context);
+        }            
         else
+        {
             return null;
+        }            
     }
 }
