@@ -68,8 +68,8 @@
    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>The Mud Store Example</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
    <P align="justify">
-    Suppose you have an online store that specializes in selling mud. Let's call
-    it &quot;The Online Mud Store&quot;. Business is thriving. Your customers 
+    Suppose you are a page designer for an online store that specializes in selling mud. 
+    Let's call it &quot;The Online Mud Store&quot;. Business is thriving. Customers 
     place orders for various types and quantities of mud. They
     login to your site using their username and password, which allows them to 
     view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
@@ -89,12 +89,12 @@
  
    <P align="justify">
     You meet with software engineers at your company, and everyone
-    has agreed that the variable $customer will hold information
+    has agreed that $customer will hold information
     pertaining to the customer currently logged in,
     that $mudsOnSpecial will be all the types mud on sale at present.
     The $flogger object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
-    variables. Remember, you don't need to worry about how the software 
+    references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
     to know that it works. This lets you get on with your job, and lets the
     software engineers get on with theirs.
@@ -126,7 +126,7 @@
    <P align="justify">
     The extact details of the foreach statement will be described
     in greater depth shortly; what's important is the impact this short 
-    script will have on your web site. When a customer with a 
+    script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
     is on sale, that is what this customer will see, prominently displayed. 
     If another customer with a long history of Terracotta Mud purchases logs in,
@@ -137,10 +137,10 @@
    </FONT></TD></TR></TABLE></DIV><BR>
 
    <P align="justify">
-    VTL has many other elements documented in the VTL Reference, which collectively 
-    give you the power and flexibility you need to make your web site a web
-    <I>presence</I>. As you get more familiar with these elements, you will begin to unleash the power
-    of Velocity.
+    Documented in the VTL Reference are the many other Velocity elements, which 
+    collectively give you the power and flexibility you need to make your web site a web
+    <I>presence</I>. As you get more familiar with these elements, you will begin to 
+    unleash the power of Velocity.
    </P>
 
  </FONT></TD></TR></TABLE></DIV><BR>
@@ -156,9 +156,11 @@
  </P>
 
  <P align="justify">
-    VTL uses <I>statements</I> to embed dynamic content in a web site. Statements 
-    are made up of <I>elements</I>. Here is an example of a VTL statement
-    embedded in an HTML document:
+    VTL uses <I>references</I> to embed dynamic content in a web site, and a variable 
+    is one type of reference. Variables are one type of reference that can refer to 
+    something defined in the Java code, or it can get its value from a VTL 
+    <I>statement</I> in the web page itself. Here is an example of a VTL statement 
+    that could be embedded in an HTML document:
  </P>
  
  <P align="justify">
@@ -169,28 +171,34 @@
  </P>
 
  <P align="justify">
-    This VTL statement, like all VTL statements that contain directives, begins 
-    with the # character. When an online visitor requests 
-    your web page, the 
-    Velocity Templating Engine will search through your web page to find all
-    # characters, then determine which mark the beginning of VTL 
+    This VTL statement, like all VTL statements, begins with the # 
+    character and contains a directive (set. When an online visitor requests 
+    your web page, the Velocity Templating Engine will search through your web page to 
+    find all # characters, then determine which mark the beginning of VTL 
     statements, and which of the # characters that have nothing to do with VTL.
  </P>
 
  <P align="justify">
-    The # character is followed by a directive,
-    set. The set directive works in conjunction with other
-    script elements to assign a <I>value</I> to a <I>variable</I>. The variable 
-    is listed on the left and its value on the right; the two are separated by an 
+    The # character is followed by a directive, set. The 
+    set directive uses an equation to assign a <I>value</I> to 
+    a <I>variable</I>. The variable 
+    is listed on the left hand side and its value on the right hand side; 
+    the two are separated by an 
     = character.
  </P>
  
  <P align="justify">
     In the example above, the variable is $a and the value is
-    Velocity. Variables <I>always</I> begin with $ characters. 
+    Velocity. References <I>always</I> begin with $
+    characters; all variables are references, ergo all variables begin
+    with $ characters.
     Values are always enclosed in quotes; with Velocity there is no confusion about
     data types, as only strings (text-based information) may be passed to variables.
  </P>
+
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Hello Velocity World!</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
  <P align="justify">
     Once a value has been assigned to a variable, you can reference the 
@@ -215,26 +223,326 @@
  </P>
 
  <P align="justify">   
-    To make your VTL directive statements more readable, we encourage you to 
+    To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
     do so. The set directive will be revisited in greater detail 
     later on.
  </P>
 
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Comments</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+ 
  <P align="justify">
-    The set example is useful for demonstrating the syntax of a simple VTL 
-    statement, but not very exciting for revealing the capabilities of Velocity.
+    Adding comments to your VTL are a useful way of reminding yourself and 
+    explaining to others what your VTL statements are doing, or any other 
+    purpose you find useful. Below is an example of a comment in VTL.
+ </P>
+ 
+ <P align="justify">
+ <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    ## This is a single line comment.
+ </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+ 
+ <P align="justify">
+    A single line comment begins with ## and finishes at the end of the line.
+    If you're going to write a few lines of commentary, there's no need to have numerous
+    single line comments. Multiline comments, which begin with #*
+    and end with *#, are available to handle this scenario.
+ </P>
+ 
+ <P align="justify">
+ <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+
+    This is text that is outside the comment block. Online visitors can see it.
+
+    #*
+    Thus begins a multi-line comment. Online visitors won't see this text because 
+    the Velocity Templating Engine will ignore it.
+    *#
+    
+    Here is text outside the comment block; it is visible. 
+    
+ </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+
+ <P align="justify">
+    Here's a few examples to clarify how single line and multi-line comments 
+    work:
+ </P>
+
+ <P align="justify">
+ <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    This text is visible. ## This text is not.
+    This text is visible.
+    This text is visible. #* This text, as part of a comment block, is not.
+    This text is not visible; it is also part of the comment block.
+    This text still not visible. *# This text is outside the comment block, so
+    it is visible.
+    ## This text is not visible.
+ </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+ 
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>References, revisited</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+ <P align="justify">
+    There are three types of references in the VTL: variables, properties
+    and methods. As a designer using the VTL, you and your engineers must
+    come to an agreement on the specific names of references so
+    you can use them correctly in your templates.
+ </P>
+
+ <P align="justify">
+    Everything coming to and from a reference is treated as a String object. 
+    If there is an object that represents $foo (such as an Integer object), 
+    then Velocity will call its .toString() method to resolve the 
+    object into a String.
+ </P>
+
+ <P align="justify">
+ <B>Variables</B>
+ <BR>
+    The shorthand notation of a variable consists of a leading &quot;$&quot; character
+    followed by a VTL <I>Identifier</I>. A VTL Identifier must 
+    start with an alphabetic character (a .. z or A .. Z); the rest of the
+    characters are limited to the following types of characters: alphabetic,
+    numeric (0 .. 9), hyphen (&quot;-&quot;), and underscore (&quot;_&quot;). 
+    Here are some examples of valid variable references in the VTL: 
+ </P>
+
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    $foo
+    $mudSlinger
+    $mud-slinger
+    $mud_slinger
+    $mudSlinger1
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+
+ <P align="justify">
+    When VTL references a variable, such as $foo, the variable can 
+    get its value from either a set directive in the template, or from the
+    Java code. For example, if the Java variable $foo
+    has the value bar at the time the template is requested,
+    bar replaces all instances of $foo on the web 
+    page. Alternatively, if I include the statement
+ </P>
+    
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    #set $foo = &quot;bar&quot;
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+    
+ <P align="justify">
+    the output will be the same for all instances of $foo
+    that follow this directive.
+ </P>
+  
+ <P align="justify">
+ <B>Properties</B>
+ <BR>
+    The second flavor of VTL references are properties, and properties have
+    a distinctive format. The shorthand notation consists of a leading &quot;$&quot;
+    character followed a VTL Identifier, followed by
+    a dot character (&quot;.&quot;) and another VTL Identifier.
+    These are examples of valid property references in the VTL:
+ </P>
+ 
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    $customer.Address
+    $purchase.Total
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>   
+
+ <P align="justify">
+    Take the first example, $customer.Address. It can 
+    have two meanings. It can mean,
+    Look in the hashtable identified as customer and return the
+    value associated with the key Address. But
+    $customer.Address can also be referring to a method (references 
+    that refer to methods will be discussed
+    in the next section); $customer.Address could be an 
+    abbreviated way of writing $customer.getAddress(). 
+    When your page is requested, Velocity will determine which of these 
+    two possibilities makes sense, and then return the appropriate value.
+ </P>
+
+ <P align="justify">
+ <B>Methods</B>
+ <BR>
+    A method is defined in the Java code and is capable of doing something
+    useful, like running a calculation or arriving at a decision.
+    Methods are references that consist of a leading &quot;$&quot;
+    character followed a VTL Identifier, followed
+    by a VTL <I>Method Body</I>. A VTL Method Body
+    consists of a VTL Identifier followed by an
+    left parenthesis character (&quot;(&quot;), followed by an optional parameter
+    list, followed by right parenthesis character (&quot;)&quot;).
+    These are examples of valid method references in the
+    VTL:
+ </P>
+ 
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    $customer.getAddress()
+    $purchase.getTotal()
+    $page.setTitle(&quot;My Home Page&quot;)
+    $person.setAttributes(&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;)
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>  
+
+ <P align="justify">
+    The first two examples -- 
+    $customer.getAddress() and $purchase.getTotal() 
+    -- may look similiar to those used in the Properties section above,
+    $customer.Address
+    and $purchase.Total. If you guessed that these examples must
+    be related some in some fashion, you are correct! 
+ </P>
+ 
+ <P align="justify">
+    VTL Properties can be used as a shorthand notation for VTL Methods. The
+    Property $customer.Address has the exact same effect as
+    using the Method $customer.getAddress(). It is generally preferable
+    to use a Property when available. The main difference between Properties
+    and Methods is that you can specify a parameter list to a Method.
+ </P>
+
+ <P align="justify">
+    The shorthand notation can be used for the following Methods
+ </P>
+
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    $sun.getPlanets()
+    $annelid.getDirt()
+    $album.getPhoto()
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+ </P>
+ 
+ <P align="justify">
+    We might expect these methods to return the names of planets belonging to 
+    the sun, feed our earthworm, or get a photograph from an album. Only the 
+    long notation works for the following Methods.
+ </P>
+ 
+ <P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    $sun.getPlanets(&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;) 
+    ## Can't pass a parameter list with $sun.Planets
+
+    $annelid.digestDirt 
+    ## $annelid.Segments assumes I mean $annelid.getSegements() 
+    
+    $book.getChapter(&quot;1&quot;, &quot;4&quot;, &quot;11&quot;)
+    ## Can't pass a parameter list with $book.Chapter
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
 
- </FONT></TD></TR></TABLE></DIV><BR>
+<P align="justify">
+    <B>Formal Reference Notation</B>
+    <BR>
+    In the examples listed above the shorthand notation for
+    references was used, but there is a formal notation that
+    looks like the following:
+</P>
+ 
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    ${mudSlinger}
+    ${customer.Address}
+    ${purchase.getTotal()}
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+ 
+<P align="justify">
+    In almost all cases you will use the shorthand notation
+    for references, but in some cases the formal
+    notation is required for correct processing. Suppose you were
+    constructing a sentence on the fly where $vice was to be
+    used as the base word in the noun of a sentence. Say you
+    wanted to allow someone to choose the base word and produce
+    one of the two following results: &quot;Jack is a pyromaniac.&quot; or
+    &quot;Jack is a kleptomaniac.&quot;. You might attempt to use the following in
+    a VTL template:
+</P>
+ 
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    Jack is a $vicemaniac.
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+ 
+<P align="justify">
+    Velocity can't tell that $vice is the Identifer
+    that you mean to use; it will assume that $vicemaniac
+    is the Identifier and try to use that to find an appropriate
+    value. You can get around this problem by using the formal
+    notation for this reference:
+</P>
+ 
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    Jack is a ${vice}maniac.
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+ 
+<P align="justify">
+    Now Velocity knows that $vice, not $vicemaniac, is your
+    Identifier. The formal notation usually
+    comes in handy when you have references directly adjacent
+    to text in your templates.
+</P>
 
- <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>VTL Reference</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    <B>Quiet Reference Notation</B>
+    <BR>
+    When Velocity encounters a reference that is undefined,
+    its normal behavior is to output the image
+    of the reference. For example, if you have
+    the following VTL as part of an HTML page:
+</P>
+ 
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$email&quot;/&gt;
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+ 
+<P align="justify">
+    When the form initially loads the variable
+    reference $email has no value, but you prefer the
+    a blank text field to one with a value of &quot;$email&quot;.
+    Using the quiet reference notation can circumvent Velocity's
+    normal behavior; instead of using $email in the
+    VTL you would use $!email. So the above example
+    would look like the following:
+</P>
+ 
+<P align="justify">
+    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+    &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;$!email&quot;/&gt;
+    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+ 
+<P align="justify">
+    Now when the form is initially loaded and
+    $email still has no value, an empty string will
+    be output instead of &quot;$email&quot;.
+</P>
+
+ <B>Summary: References</B>
     
     <P align="justify">
-    Velocity references its variables in a fashion similar to 
-    <A href="http://www.perl.com">Perl</A> (i.e. they 
-    use a $), but takes advantage of some Java principles that 
+    Velocity references take advantage of some Java principles that 
     template designers will find easy to use. For example:
     </P>
 
@@ -248,102 +556,18 @@
     </P>
 
     <P align="justify">
-    These examples illustrate alternative uses for the same variables. 
+    These examples illustrate alternative uses for the same references. 
     Velocity takes advantage of Java's introspection and 
-    bean features to resolve the variable names to both objects in the Context 
+    bean features to resolve the reference names to both objects in the Context 
     as well as the objects methods. It is possible to embed and evaluate 
-    variables almost anywhere in your template.
+    references almost anywhere in your template.
     </P>
     
-    <P align="justify">
-    Everything coming to and from a variable is treated as a String object. 
-    If there is an object that represents $foo (such as an Integer object), 
-    then Velocity will call its .toString() method to resolve the 
-    object into a String.
-    </P>
+ </FONT></TD></TR></TABLE></DIV><BR>
 
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Directives</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">  
 
-    <P align="justify">
-    VTL variables can reference three types of objects: variables, 
-    properties, and methods. 
-    
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Variables</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
-    
-    <P align="justify">
-    A VTL variable, such as $foo, can get its value from 
-    either a set directive in the template, or from the
-    Java code. For example, if the Java variable $foo
-    has the value bar at the time the template is requested,
-    bar replaces all instances of $foo on the web 
-    page. Alternatively, if I include the statement
-    </P>
-    
-    <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
-    #set $foo = &quot;bar&quot;
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>
-    
-    <P align="justify">
-    the output will be the same for all instances of $foo
-    that follow this directive.
-    </P>
-    
-    </FONT></TD></TR></TABLE></DIV><BR>
-    
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Properties</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
-    
-    <P align="justify">
-    The second flavour of VTL variable references properties, and it has
-    a distinctive format:
-    </P>
-    
-    <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
-    $whomever.Address
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>
-    
-    <P align="justify">
-    Here, $whomever.Address can have two meanings. It can mean,
-    Look in the hashtable identified as whomever and return the
-    value associated with the key Address. This syntax can also 
-    be referring to a method (variables that refer to methods will be discussed
-    in the next section); $whomever.Address could be an 
-    abbreviated way of writing getAddress(&quot;whomever&quot;). 
-    When your page is requested, Velocity will determine which of these 
-    two possibilities makes sense, and then return the appropriate value.
-    </P>
-    
-    </FONT></TD></TR></TABLE></DIV><BR>
-    
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Methods</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
-    
-    <P align="justify">
-    A method is defined in the Java code and is capable of doing something
-    useful, like running a calculation or arriving at a decision. VTL 
-    variables that refer to Java methods have the following format:
-    </P>
-    
-    <P align="justify">
-    <DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
-    $purchase.getTotalPrice()
-    </PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>
-    
-    <P align="justify">
-    In this example, the getTotalPrice() method, defined in the Java code, 
-    will presumably return the total price of a purchase that is being tracked.
-    Note that this could also have been written,
-    $purchase.TotalPrice.
-    </P>
-    
-    </FONT></TD></TR></TABLE></DIV><BR>
-    </P>
-  </FONT></TD></TR></TABLE></DIV><BR>
-
-    <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
     <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>If / ElseIf / Else Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">

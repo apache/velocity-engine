@@ -60,8 +60,8 @@
    <s1 title="The Mud Store Example">
 
    <p>
-    Suppose you have an online store that specializes in selling mud. Let's call
-    it "The Online Mud Store". Business is thriving. Your customers 
+    Suppose you are a page designer for an online store that specializes in selling mud. 
+    Let's call it "The Online Mud Store". Business is thriving. Customers 
     place orders for various types and quantities of mud. They
     login to your site using their username and password, which allows them to 
     view their orders and buy more mud. Right now, Terracotta Mud is on sale, which
@@ -81,12 +81,12 @@
  
    <p>
     You meet with software engineers at your company, and everyone
-    has agreed that the variable <pre>$customer</pre> will hold information
+    has agreed that <pre>$customer</pre> will hold information
     pertaining to the customer currently logged in,
     that <pre>$mudsOnSpecial</pre> will be all the types mud on sale at present.
     The <pre>$flogger</pre> object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
-    variables. Remember, you don't need to worry about how the software 
+    references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
     to know that it works. This lets you get on with your job, and lets the
     software engineers get on with theirs.
@@ -95,7 +95,7 @@
    <p>
     You could embed the following VTL statement in the web page:
    </p>
-
+ 
    <p>
     <source><![CDATA[
     <HTML>
@@ -118,7 +118,7 @@
    <p>
     The extact details of the <pre>foreach</pre> statement will be described
     in greater depth shortly; what's important is the impact this short 
-    script will have on your web site. When a customer with a 
+    script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
     is on sale, that is what this customer will see, prominently displayed. 
     If another customer with a long history of Terracotta Mud purchases logs in,
@@ -129,10 +129,10 @@
    </s1>
 
    <p>
-    VTL has many other elements documented in the VTL Reference, which collectively 
-    give you the power and flexibility you need to make your web site a web
-    <em>presence</em>. As you get more familiar with these elements, you will begin to unleash the power
-    of Velocity.
+    Documented in the VTL Reference are the many other Velocity elements, which 
+    collectively give you the power and flexibility you need to make your web site a web
+    <em>presence</em>. As you get more familiar with these elements, you will begin to 
+    unleash the power of Velocity.
    </p>
 
  </s1>
@@ -148,9 +148,11 @@
  </p>
 
  <p>
-    VTL uses <em>statements</em> to embed dynamic content in a web site. Statements 
-    are made up of <em>elements</em>. Here is an example of a VTL statement
-    embedded in an HTML document:
+    VTL uses <em>references</em> to embed dynamic content in a web site, and a variable 
+    is one type of reference. Variables are one type of reference that can refer to 
+    something defined in the Java code, or it can get its value from a VTL 
+    <em>statement</em> in the web page itself. Here is an example of a VTL statement 
+    that could be embedded in an HTML document:
  </p>
  
  <p>
@@ -161,28 +163,34 @@
  </p>
 
  <p>
-    This VTL statement, like all VTL statements that contain directives, begins 
-    with the <pre>#</pre> character. When an online visitor requests 
-    your web page, the 
-    Velocity Templating Engine will search through your web page to find all
-    <pre>#</pre> characters, then determine which mark the beginning of VTL 
+    This VTL statement, like all VTL statements, begins with the <pre>#</pre> 
+    character and contains a directive (<pre>set</pre>. When an online visitor requests 
+    your web page, the Velocity Templating Engine will search through your web page to 
+    find all <pre>#</pre> characters, then determine which mark the beginning of VTL 
     statements, and which of the # characters that have nothing to do with VTL.
  </p>
 
  <p>
-    The <pre>#</pre> character is followed by a directive,
-    <pre>set</pre>. The <pre>set</pre> directive works in conjunction with other
-    script elements to assign a <em>value</em> to a <em>variable</em>. The variable 
-    is listed on the left and its value on the right; the two are separated by an 
+    The <pre>#</pre> character is followed by a directive, <pre>set</pre>. The 
+    <pre>set</pre> directive uses an equation to assign a <em>value</em> to 
+    a <em>variable</em>. The variable 
+    is listed on the left hand side and its value on the right hand side; 
+    the two are separated by an 
     <pre>=</pre> character.
  </p>
  
  <p>
     In the example above, the variable is <pre>$a</pre> and the value is
-    <pre>Velocity</pre>. Variables <em>always</em> begin with <pre>$</pre> characters. 
+    <pre>Velocity</pre>. References <em>always</em> begin with <pre>$</pre>
+    characters; all variables are references, ergo all variables begin
+    with <pre>$</pre> characters.
     Values are always enclosed in quotes; with Velocity there is no confusion about
     data types, as only strings (text-based information) may be passed to variables.
  </p>
+
+ </s1>
+
+ <s1 title="Hello Velocity World!">
 
  <p>
     Once a value has been assigned to a variable, you can reference the 
@@ -207,21 +215,323 @@
  </p>
 
  <p>   
-    To make your VTL directive statements more readable, we encourage you to 
+    To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
     do so. The <pre>set</pre> directive will be revisited in greater detail 
     later on.
  </p>
 
+ </s1>
+
+ <s1 title="Comments">
+ 
  <p>
-    The <pre>set</pre> example is useful for demonstrating the syntax of a simple VTL 
-    statement, but not very exciting for revealing the capabilities of Velocity.
+    Adding comments to your VTL are a useful way of reminding yourself and 
+    explaining to others what your VTL statements are doing, or any other 
+    purpose you find useful. Below is an example of a comment in VTL.
+ </p>
+ 
+ <p>
+ <source><![CDATA[
+    ## This is a single line comment.
+ ]]></source>
+ </p>
+ 
+ <p>
+    A single line comment begins with <pre>##</pre> and finishes at the end of the line.
+    If you're going to write a few lines of commentary, there's no need to have numerous
+    single line comments. Multiline comments, which begin with <pre>#*</pre>
+    and end with <pre>*#</pre>, are available to handle this scenario.
+ </p>
+ 
+ <p>
+ <source><![CDATA[
+
+    This is text that is outside the comment block. Online visitors can see it.
+
+    #*
+    Thus begins a multi-line comment. Online visitors won't see this text because 
+    the Velocity Templating Engine will ignore it.
+    *#
+    
+    Here is text outside the comment block; it is visible. 
+    
+ ]]></source>
+ </p>
+
+ <p>
+    Here's a few examples to clarify how single line and multi-line comments 
+    work:
+ </p>
+
+ <p>
+ <source><![CDATA[
+    This text is visible. ## This text is not.
+    This text is visible.
+    This text is visible. #* This text, as part of a comment block, is not.
+    This text is not visible; it is also part of the comment block.
+    This text still not visible. *# This text is outside the comment block, so
+    it is visible.
+    ## This text is not visible.
+ ]]></source>
+ </p>
+ 
+</s1>
+
+<s1 title="References, revisited">
+
+ <p>
+    There are three types of references in the VTL: variables, properties
+    and methods. As a designer using the VTL, you and your engineers must
+    come to an agreement on the specific names of references so
+    you can use them correctly in your templates.
+ </p>
+
+ <p>
+    Everything coming to and from a reference is treated as a String object. 
+    If there is an object that represents $foo (such as an Integer object), 
+    then Velocity will call its .toString() method to resolve the 
+    object into a String.
+ </p>
+
+ <p>
+ <strong>Variables</strong>
+ <br/>
+    The shorthand notation of a variable consists of a leading "$" character
+    followed by a VTL <em>Identifier</em>. A VTL Identifier must 
+    start with an alphabetic character (a .. z or A .. Z); the rest of the
+    characters are limited to the following types of characters: alphabetic,
+    numeric (0 .. 9), hyphen ("-"), and underscore ("_"). 
+    Here are some examples of valid variable references in the VTL: 
+ </p>
+
+ <p>
+    <source><![CDATA[
+    $foo
+    $mudSlinger
+    $mud-slinger
+    $mud_slinger
+    $mudSlinger1
+    ]]></source>
+ </p>
+
+ <p>
+    When VTL references a variable, such as <pre>$foo</pre>, the variable can 
+    get its value from either a <pre>set</pre> directive in the template, or from the
+    Java code. For example, if the Java variable <pre>$foo</pre>
+    has the value <pre>bar</pre> at the time the template is requested,
+    <pre>bar</pre> replaces all instances of <pre>$foo</pre> on the web 
+    page. Alternatively, if I include the statement
+ </p>
+    
+ <p>
+    <source><![CDATA[
+    #set $foo = "bar"
+    ]]></source>
+ </p>
+    
+ <p>
+    the output will be the same for all instances of <pre>$foo</pre>
+    that follow this directive.
+ </p>
+  
+ <p>
+ <strong>Properties</strong>
+ <br/>
+    The second flavor of VTL references are properties, and properties have
+    a distinctive format. The shorthand notation consists of a leading "$"
+    character followed a VTL Identifier, followed by
+    a dot character (".") and another VTL Identifier.
+    These are examples of valid property references in the VTL:
+ </p>
+ 
+ <p>
+    <source><![CDATA[
+    $customer.Address
+    $purchase.Total
+    ]]></source>
+ </p>   
+
+ <p>
+    Take the first example, <pre>$customer.Address</pre>. It can 
+    have two meanings. It can mean,
+    Look in the hashtable identified as <pre>customer</pre> and return the
+    value associated with the key <pre>Address</pre>. But
+    <pre>$customer.Address</pre> can also be referring to a method (references 
+    that refer to methods will be discussed
+    in the next section); <pre>$customer.Address</pre> could be an 
+    abbreviated way of writing <pre>$customer.getAddress()</pre>. 
+    When your page is requested, Velocity will determine which of these 
+    two possibilities makes sense, and then return the appropriate value.
+ </p>
+
+ <p>
+ <strong>Methods</strong>
+ <br/>
+    A method is defined in the Java code and is capable of doing something
+    useful, like running a calculation or arriving at a decision.
+    Methods are references that consist of a leading "$"
+    character followed a VTL Identifier, followed
+    by a VTL <em>Method Body</em>. A VTL Method Body
+    consists of a VTL Identifier followed by an
+    left parenthesis character ("("), followed by an optional parameter
+    list, followed by right parenthesis character (")").
+    These are examples of valid method references in the
+    VTL:
+ </p>
+ 
+ <p>
+    <source><![CDATA[
+    $customer.getAddress()
+    $purchase.getTotal()
+    $page.setTitle("My Home Page")
+    $person.setAttributes("Strange", "Weird", "Excited")
+    ]]></source>
+ </p>  
+
+ <p>
+    The first two examples -- 
+    <pre>$customer.getAddress()</pre> and <pre>$purchase.getTotal()</pre> 
+    -- may look similiar to those used in the Properties section above,
+    <pre>$customer.Address</pre>
+    and <pre>$purchase.Total</pre>. If you guessed that these examples must
+    be related some in some fashion, you are correct! 
+ </p>
+ 
+ <p>
+    VTL Properties can be used as a shorthand notation for VTL Methods. The
+    Property $customer.Address has the exact same effect as
+    using the Method $customer.getAddress(). It is generally preferable
+    to use a Property when available. The main difference between Properties
+    and Methods is that you can specify a parameter list to a Method.
+ </p>
+
+ <p>
+    The shorthand notation can be used for the following Methods
+ </p>
+
+ <p>
+    <source><![CDATA[
+    $sun.getPlanets()
+    $annelid.getDirt()
+    $album.getPhoto()
+    ]]></source>
+ </p>
+ 
+ <p>
+    We might expect these methods to return the names of planets belonging to 
+    the sun, feed our earthworm, or get a photograph from an album. Only the 
+    long notation works for the following Methods.
+ </p>
+ 
+ <p>
+    <source><![CDATA[
+    $sun.getPlanets("Earth", "Mars", "Neptune") 
+    ## Can't pass a parameter list with $sun.Planets
+
+    $annelid.digestDirt 
+    ## $annelid.Segments assumes I mean $annelid.getSegements() 
+    
+    $book.getChapter("1", "4", "11")
+    ## Can't pass a parameter list with $book.Chapter
+    ]]></source>
  </p>
 
 
- </s1>
+<p>
+    <strong>Formal Reference Notation</strong>
+    <br/>
+    In the examples listed above the shorthand notation for
+    references was used, but there is a formal notation that
+    looks like the following:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    ${mudSlinger}
+    ${customer.Address}
+    ${purchase.getTotal()}
+    ]]></source>
+</p>
+ 
+<p>
+    In almost all cases you will use the shorthand notation
+    for references, but in some cases the formal
+    notation is required for correct processing. Suppose you were
+    constructing a sentence on the fly where $vice was to be
+    used as the base word in the noun of a sentence. Say you
+    wanted to allow someone to choose the base word and produce
+    one of the two following results: "Jack is a pyromaniac." or
+    "Jack is a kleptomaniac.". You might attempt to use the following in
+    a VTL template:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    Jack is a $vicemaniac.
+    ]]></source>
+</p>
+ 
+<p>
+    Velocity can't tell that $vice is the Identifer
+    that you mean to use; it will assume that $vicemaniac
+    is the Identifier and try to use that to find an appropriate
+    value. You can get around this problem by using the formal
+    notation for this reference:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    Jack is a ${vice}maniac.
+    ]]></source>
+</p>
+ 
+<p>
+    Now Velocity knows that $vice, not $vicemaniac, is your
+    Identifier. The formal notation usually
+    comes in handy when you have references directly adjacent
+    to text in your templates.
+</p>
 
- <s1 title="VTL Reference">
+
+<p>
+    <strong>Quiet Reference Notation</strong>
+    <br/>
+    When Velocity encounters a reference that is undefined,
+    its normal behavior is to output the image
+    of the reference. For example, if you have
+    the following VTL as part of an HTML page:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    <input type="text" name="email" value="$email"/>
+    ]]></source>
+</p>
+ 
+<p>
+    When the form initially loads the variable
+    reference $email has no value, but you prefer the
+    a blank text field to one with a value of "$email".
+    Using the quiet reference notation can circumvent Velocity's
+    normal behavior; instead of using $email in the
+    VTL you would use $!email. So the above example
+    would look like the following:
+</p>
+ 
+<p>
+    <source><![CDATA[
+    <input type="text" name="email" value="$!email"/>
+    ]]></source>
+</p>
+ 
+<p>
+    Now when the form is initially loaded and
+    $email still has no value, an empty string will
+    be output instead of "$email".
+</p>
+
+ <strong>Summary: References</strong>
     
     <p>
     Velocity references take advantage of some Java principles that 
@@ -245,93 +555,11 @@
     references almost anywhere in your template.
     </p>
     
-    <p>
-    Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents $foo (such as an Integer object), 
-    then Velocity will call its .toString() method to resolve the 
-    object into a String.
-    </p>
+ </s1>
 
-    <p>
-    There are three types of references in the VTL: variables, 
-    properties, and methods. 
-    
-    <s1 title="Variables">
-    
-    <p>
-    When VTL references a variable, such as <pre>$foo</pre>, the variable can 
-    get its value from either a <pre>set</pre> directive in the template, or from the
-    Java code. For example, if the Java variable <pre>$foo</pre>
-    has the value <pre>bar</pre> at the time the template is requested,
-    <pre>bar</pre> replaces all instances of <pre>$foo</pre> on the web 
-    page. Alternatively, if I include the statement
-    </p>
-    
-    <p>
-    <source><![CDATA[
-    #set $foo = "bar"
-    ]]></source>
-    </p>
-    
-    <p>
-    the output will be the same for all instances of <pre>$foo</pre>
-    that follow this directive.
-    </p>
-    
-    </s1>
-    
-    <s1 title="Properties">
-    
-    <p>
-    The second flavour of VTL references are properties, and properties have
-    a distinctive format:
-    </p>
-    
-    <p>
-    <source><![CDATA[
-    $whomever.Address
-    ]]></source>
-    </p>
-    
-    <p>
-    Here, <pre>$whomever.Address</pre> can have two meanings. It can mean,
-    Look in the hashtable identified as <pre>whomever</pre> and return the
-    value associated with the key <pre>Address</pre>. This syntax can also 
-    be referring to a method (variables that refer to methods will be discussed
-    in the next section); <pre>$whomever.Address</pre> could be an 
-    abbreviated way of writing <pre>getAddress("whomever")</pre>. 
-    When your page is requested, Velocity will determine which of these 
-    two possibilities makes sense, and then return the appropriate value.
-    </p>
-    
-    </s1>
-    
-    <s1 title="Methods">
-    
-    <p>
-    A method is defined in the Java code and is capable of doing something
-    useful, like running a calculation or arriving at a decision. VTL 
-    variables that refer to Java methods have the following format:
-    </p>
-    
-    <p>
-    <source><![CDATA[
-    $purchase.getTotalPrice()
-    ]]></source>
-    </p>
-    
-    <p>
-    In this example, the getTotalPrice() method, defined in the Java code, 
-    will presumably return the total price of a purchase that is being tracked.
-    Note that this could also have been written,
-    <pre>$purchase.TotalPrice</pre>.
-    </p>
-    
-    </s1>
-    </p>
-  </s1>
+<s1 title="Directives">  
 
-    <s1 title="Conditionals">
+<s1 title="Conditionals">
 
     <s1 title="If / ElseIf / Else Conditionals">
     <p>
@@ -542,7 +770,7 @@
     <source><![CDATA[
     <table>
     #foreach ($element in $list)
-        #row ($element)
+	#row ($element)
     #end
     </table>
     ]]></source>
@@ -556,8 +784,8 @@
     </p>
     
 </s1>
-<!--
+
 </s1>
--->
+
 </body>
 </document>

@@ -36,6 +36,7 @@ The Todo list that follows is roughly in order of importance.
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>The List</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
+    <P align="justify">
     <B>Runtime API</B>
     <BR>
         The Velocity Runtime is the single access point for all
@@ -43,8 +44,9 @@ The Todo list that follows is roughly in order of importance.
         Runtime should be defined so that in the span between
         the 0.5 Milestone release and a 1.0 release, the Runtime
         API changes as little as possible.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>JUnit Test Suite</B>
     <BR>
         A JUnit test suite would allow Velocity developers to
@@ -54,8 +56,9 @@ The Todo list that follows is roughly in order of importance.
         effects for users. <A href="mailto:dlr@collab.net">Daniel L. Rall</A>
         has started us off with some code so you may want to contact
         him if you are interested in working on a JUnit test suite.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Directive Interface</B>
     <BR>
         Right now there is a very thin interface for directives, but
@@ -63,8 +66,9 @@ The Todo list that follows is roughly in order of importance.
         interface is not intended to be used outside core Velocity
         developers (it is not intended to be a public API), but it
         probably makes sense to shield directive creators from JavaCC.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Context</B>
     <BR>
         The Velocity Context class is still fairly primitive. It
@@ -74,15 +78,17 @@ The Todo list that follows is roughly in order of importance.
         make that process efficient; how to stamp items in
         the context with expiry durations so that items can
         be cached and how this might work.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Sample Applications</B>
     <BR>
         Any type of sample application would be useful to
         help new developers get acquainted with
         Velocity. Any suggestions are welcome.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>User's Guide</B>
     <BR>
         This would be a guide for designers who would
@@ -92,8 +98,9 @@ The Todo list that follows is roughly in order of importance.
         of the VTL syntax. <A href="mailto:jvanzyl@periapt.com">Jason van Zyl</A>
         has started work on this with John Castura, but any and all
         suggestions are welcome.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Developer Guide</B>
     <BR>
         This would be a guide for developers who would use
@@ -102,8 +109,9 @@ The Todo list that follows is roughly in order of importance.
         <A href="mailto:jvanzyl@periapt.com">Jason van Zyl</A> is
         currently working on this guide, but any and all suggestions
         are welcome.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Template Loader System</B>
     <BR>
         The template loader system is functional but could probably use an
@@ -112,15 +120,16 @@ The Todo list that follows is roughly in order of importance.
         should be corrected. We could utilize some
         object caching/pooling code from Turbine, or JServ, or the
         Avalon Server Framework.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Caching</B>
     <BR>
         It would be good to have a discussion about how objects
         in the context should be cached, how the caching
         should be specified, and who should control the
         caching: the designer, by specifying something in the template; 
-	the developer,
+        the developer,
         by placing expiry times on objects placed in the context;
         or a third party, such as a content manager. For example,
         say an array consisting of a top 10 list of books is
@@ -134,8 +143,9 @@ The Todo list that follows is roughly in order of importance.
         of some sort? The groundwork has be laid for a flexible
         caching system in Velocity, but this discussion would be
         one of usage and policy.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Parser Pool</B>
     <BR>
         It would be good to create a pool of parsers that could
@@ -145,15 +155,17 @@ The Todo list that follows is roughly in order of importance.
         parsers might alleviate any potential bottlenecks. Again,
         object caching/pooling code could be borrowed from Turbine,
         JServ, or the Avalon Server Framework.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>UML Overview</B>
     <BR>
         It would great to include a set of comprehensive
         UML diagrams that describe Velocity. This would 
         allow new developers to get up to speed quickly.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Velocity Profiling</B>
     <BR>
         If someone is handy with one of the standard profilers,
@@ -164,14 +176,16 @@ The Todo list that follows is roughly in order of importance.
         to have a configuration of a setup for a common profiler
         so that anyone who wanted to do some profiling could do
         so in a consistent manner.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Encoding Caching</B>
     <BR>
         What would this entail? And how could we implement an
         efficient encoding caching mechanism.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Plugins</B>
     <BR>
         It would be good to allow plugins in the form of JAR files
@@ -182,15 +196,17 @@ The Todo list that follows is roughly in order of importance.
         a template. It might be good to package this sort of utility
         in a JAR file so that there are no dependencies in the
         Velocity build for a specific utility.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Context Tools</B>
     <BR>
         What kind of tools might be good to add to Velocity? There
         are several utilties that have been created in Turbine that
         might be good to move over to the Velocity code base.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Syntax Dumper</B>
     <BR>
         Right now there is a primitive syntax dumper in the Velocity
@@ -200,16 +216,18 @@ The Todo list that follows is roughly in order of importance.
         the AST node types. It would be good to tailor dump methods
         for particular AST node types so that the structure produced
         is a little clearer.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Syntax Checker</B>
     <BR>
         It would be good to have a standard syntax checker, something
         that would find all syntax errors and report them to the
         designer in some intelligible format. This tool could be
         hooked into various designer tools like DreamWeaver.
-    <P align="justify"></P>
+    </P>
     
+    <P align="justify">
     <B>Extended Properties</B>
     <BR>
         There are classes that are present in JServ, Turbine and Cocoon
@@ -217,22 +235,25 @@ The Todo list that follows is roughly in order of importance.
         files to be 'included', and allows the concatentation of the values
         of multiply defined properties. These classes are very good and
         should be integrated into Velocity.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Compiler</B>
     <BR>
         It would be great to have a template compiler. There is a great
         utility called JavaClass that provides a very clean and simple way
         to create class files, and there is also some byte code generating
         code present in the DynamicJava package that could be utilized.
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>IDE Integration</B>
     <BR>
         How could Velocity be integrated into standard IDEs like
         JBuilder and VisualAge?
-    <P align="justify"></P>
+    </P>
 
+    <P align="justify">
     <B>Scripting Language Integration</B>
     <BR>
         This is something that has been discussed on the Turbine
@@ -243,7 +264,7 @@ The Todo list that follows is roughly in order of importance.
         an entire servlet solution with Velocity. As most of these
         scripting solutions provide a compiler, performance would still
         remain at an acceptable level.
-    <P align="justify"></P>
+    </P>
 
     
 
