@@ -213,7 +213,10 @@ public class ASTReference extends SimpleNode
 
         if (referenceType == RUNT)
         {
+            if (context.getAllowRendering()) {
             writer.write(rootString);
+            }
+
             return true;
         }
 
@@ -229,14 +232,18 @@ public class ASTReference extends SimpleNode
         {
             if (value == null)
             {
-                writer.write(escPrefix);
-                writer.write("\\");
-                writer.write(nullString);
+                if (context.getAllowRendering()) {
+                    writer.write(escPrefix);
+                    writer.write("\\");
+                    writer.write(nullString);
+                }
             }
             else
             {
-                writer.write(escPrefix);
-                writer.write(nullString);
+                if (context.getAllowRendering()) {
+                    writer.write(escPrefix);
+                    writer.write(nullString);
+                }
             }
 
             return true;
@@ -265,10 +272,12 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's schmoo, so the \ don't escape each other...
              */
 
-            writer.write(escPrefix);
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            writer.write(nullString);
+            if (context.getAllowRendering()) {
+                writer.write(escPrefix);
+                writer.write(escPrefix);
+                writer.write(morePrefix);
+                writer.write(nullString);
+            }
 
             if (referenceType != QUIET_REFERENCE
                 && rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,
@@ -286,9 +295,11 @@ public class ASTReference extends SimpleNode
              *  non-null processing
              */
 
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            writer.write(value.toString());
+            if (context.getAllowRendering()) {
+                writer.write(escPrefix);
+                writer.write(morePrefix);
+                writer.write(value.toString());
+            }
 
             return true;
         }

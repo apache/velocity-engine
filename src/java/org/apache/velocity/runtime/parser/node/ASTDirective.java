@@ -39,7 +39,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.25 2004/03/20 03:35:51 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ASTDirective extends SimpleNode
 {
@@ -117,8 +117,10 @@ public class ASTDirective extends SimpleNode
         }
         else
         {
+            if (context.getAllowRendering()) {
             writer.write( "#");
             writer.write( directiveName );
+        }
         }
 
         return true;

@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- *  @version $Id: InternalHousekeepingContext.java,v 1.8 2004/03/19 17:13:33 dlr Exp $
+ *  @version $Id$
  */
 interface InternalHousekeepingContext
 {
@@ -88,4 +88,18 @@ interface InternalHousekeepingContext
     void setCurrentResource( Resource r );
     
     
+    /**
+     * Checks to see if rendering should be allowed.  Defaults to true but will
+     * return false after a #stop directive.
+     *
+     * @return true if rendering is allowed, false if no rendering should occur
+     */
+     boolean getAllowRendering();
+
+    /**
+     * Set whether rendering is allowed.  Defaults to true but is set to
+     * false after a #stop directive.
+     */
+     void setAllowRendering(boolean v);
+
 }

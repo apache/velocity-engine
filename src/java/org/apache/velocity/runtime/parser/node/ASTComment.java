@@ -30,7 +30,7 @@ import java.io.Writer;
  *  Represents all comments...
  *
  *  @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- *  @version $Id: ASTComment.java,v 1.7 2004/03/19 17:13:36 dlr Exp $
+ *  @version $Id$
  */
 public class ASTComment extends SimpleNode
 {
@@ -80,6 +80,8 @@ public class ASTComment extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
+
+        if (context.getAllowRendering())
         writer.write(carr);
 
         return true;

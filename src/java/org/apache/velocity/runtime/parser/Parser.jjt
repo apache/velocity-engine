@@ -920,8 +920,8 @@ TOKEN :
 
 |   <STOP_DIRECTIVE: "stop">
     {
-        matchedToken.kind = EOF;
-        fileDepth = 0;
+        inDirective = false;
+        stateStackPop();
     }
 }
 
@@ -1566,7 +1566,7 @@ void SetDirective() : {}
  * is useful for end-user debugging
  * purposes.
  */
-void StopStatement() #void: {}
+void StopStatement() #Stop(0): {}
 {
     <STOP_DIRECTIVE>
 }
