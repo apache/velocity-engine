@@ -30,6 +30,11 @@
        org.apache.velocity.exception.  Thanks to Kyle Downey for the 
        suggestion.  (gmj)
     </li>
+    <li>
+       Added javadoc to o.a.v.context.AbstractContext clarifying which
+       of the internalXXX methods are required.  Thanks to 
+       Joshua Levy  for the suggestion. (gmj)
+    </li>
 </ul>
 
 </subsection>
