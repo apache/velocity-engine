@@ -141,7 +141,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.1 2001/08/07 22:05:52 geirm Exp $
+ * @version $Id: RuntimeInstance.java,v 1.2 2001/08/20 11:09:01 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -813,28 +813,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         String out = "";
      
-        /*
-         * Start with the appropriate prefix
-         */
-        switch( level ) 
-        {
-            case LogSystem.DEBUG_ID :
-                out = DEBUG_PREFIX;
-                break;
-            case LogSystem.INFO_ID :
-                out = INFO_PREFIX;
-                break;
-            case LogSystem.WARN_ID :
-                out = WARN_PREFIX;
-                break;
-            case LogSystem.ERROR_ID : 
-                out = ERROR_PREFIX;
-                break;
-            default :
-                out = UNKNOWN_PREFIX;
-                break;
-        }
-
         /*
          *  now,  see if the logging stacktrace is on
          *  and modify the message to suit
