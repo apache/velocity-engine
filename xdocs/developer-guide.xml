@@ -474,10 +474,19 @@ We take the context, add our application data, and return a template.
 For advanced users,  the VelocityServlet base class allows you to override parts of the handling of the request processing.  The following methods may be overridden. 
 
 <ul>
-  <li> <code>Context createContext(HttpServletRequest request,  HttpServletResponse response )</code>
+  <li> <code> Properties loadConfiguration(ServletConfig config )</code><br/>
+       Allows you to override the normal configuration mechanism and add or alter the configuation properties.  This is
+       useful for overriding or augmenting template and log paths, to set the absolute path into the webapp root
+       at runtime.
+  </li>
+  <li> <code>Context createContext(HttpServletRequest request,  HttpServletResponse response )</code><br/>
     Allows you to create the Context object yourself. This allows more advanced techniques, such as chaining
     or pre-loading with tools or data.  The default implementation simply returns a VelocityContext
-    object with the request and response objects placed inside.
+    object with the request and response objects placed inside.  The request and response objects are wrapped
+    in simple wrapper classes to avoid introspection problems that may occurr in some servlet container 
+    implementations.  You can use the request and repsponse objects normally, accessing methods of either
+    from the template.  Just note that they aren't specifically javax.servlet.XXXX classes, if that is important
+    to you.
   </li>
   <li> <code>void setContentType( HttpServletRequest request, HttpServletResponse response )</code>
     Allows you to examine the request and set the content type yourself, depending on the request or
@@ -492,6 +501,11 @@ For advanced users,  the VelocityServlet base class allows you to override parts
     Allows you to do any cleanup or resource reclamation at the end of the request processing.  The default
     does nothing.
   </li>
+  <li> <code>protected void error( HttpServletRequest request, HttpServletResponse response, Exception cause )</code><br/>
+      Error handler that is called an exception occurrs in request processing.  Default implementation will 
+      send a simple HTML message with stacktrace and exception information back to the user.  Override for
+      custom client messages and more advanced problem handling.
+   </li>
 </ul>
 
 For further information, please see the Javadoc <a href='apidocs/index.html'>API documentation</a>.
@@ -595,21 +609,36 @@ stream, and the Velocity utility class allows you to do this easily.  Currently,
 of what they do :
 
 <ul>
-<li> <code> evaluate( Context context,  Writer out, String logTag, String instring )</code><br/>
-<code>evaluate( Context context, Writer writer, String logTag, InputStream instream )</code><br/>
-These methods will render the input, in either the form of String or InputStream to an output Writer, using a Context that you
-provide.  This is a very convenienient method to use for token replacement of strings, or if you keep 'templates' of VTL-containing
-content in a place like a database or other non-file storage, or simply generate such dynamically.</li>
-<li><code>invokeVelocimacro( String vmName, String namespace, String params[], Context context, Writer writer )</code><br/>
-Allows direct access to Velocimacros.  This can also be accomplished via the <code>evaluate()</code> method above if you wish.  Here
-you simply name the vm you wish to be called, create an array of args to the VM, a Context of data, and Writer for the output.
-Note that the VM args must be the 'keys' of the data objects in the Context, rather than literal data to be used as the arg.  This
-will probably change.</li>
-<li><code>mergeTemplate( String templateName, Context context, Writer writer )</code><br/>
-Convenient access to the normal template handling and rendering services of Velocity.  This method will take care of getting and
-rendering the template.  It will take advantage of loading the template according to the properties setting for the file resource
-loader, and therefore provides the advantage of file and parsed template caching that Velocity offers.  This is the most efficient
-way to access templates, and is recommended unless you have special needs.</li>
+  <li>
+     <code> evaluate( Context context,  Writer out, String logTag, String instring )</code><br/>
+     <code>evaluate( Context context, Writer writer, String logTag, InputStream instream )</code><br/>
+     These methods will render the input, in either the form of String or InputStream to an output Writer, 
+     using a Context that you provide.  This is a very convenienient method to use for token replacement of 
+     strings, or if you keep 'templates' of VTL-containing content in a place like a database or other 
+     non-file storage, or simply generate such dynamically.
+  </li>
+
+  <li>
+    <code>invokeVelocimacro( String vmName, String namespace, String params[], Context context, Writer writer )</code><br/>
+    Allows direct access to Velocimacros.  This can also be accomplished via the <code>evaluate()</code> method above 
+    if you wish.  Here you simply name the vm you wish to be called, create an array of args to the VM, 
+    a Context of data, and Writer for the output.  Note that the VM args must be the 'keys' of the data 
+    objects in the Context, rather than literal data to be used as the arg.  This will probably change.
+  </li>
+
+  <li>
+    <code>mergeTemplate( String templateName, Context context, Writer writer )</code><br/>
+    Convenient access to the normal template handling and rendering services of Velocity.  This method will take 
+    care of getting and rendering the template.  It will take advantage of loading the template according 
+    to the properties setting for the file resource loader, and therefore provides the advantage of file 
+    and parsed template caching that Velocity offers.  This is the most efficient way to access templates,
+     and is recommended unless you have special needs.
+  </li>
+
+  <li>
+    <code> boolean templateExists( String name ) </code><br/>
+    Determines if a template <code>name</code> is able to be found by the currently configured resource loaders.
+  </li>
 </ul>
 </p>
 
@@ -868,7 +897,7 @@ file.resource.loader.path = .
 file.resource.loader.cache = false
 file.resource.loader.modificationCheckInterval = 2
 
-]]></source>
+]]></source> 
 
 
 <strong>Velocimacro</strong>
