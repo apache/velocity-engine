@@ -32,3 +32,10 @@ Using an Iterator
 #foreach($i in $iterator )
   $i 
 #end
+
+
+Using an Enumeration
+
+#foreach($i in $enumerator)
+  $i
+#end
