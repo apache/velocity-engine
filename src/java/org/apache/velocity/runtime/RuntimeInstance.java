@@ -143,7 +143,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeInstance.java,v 1.7 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: RuntimeInstance.java,v 1.8 2001/10/31 02:59:28 geirm Exp $
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 {    
@@ -213,6 +213,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  to ensure that each instance is completely separate.
      */
     private Introspector introspector = null;
+    
+    
+    /*
+     *  Opaque reference to something specificed by the 
+     *  application for use in application supplied/specified
+     *  pluggable components
+     */
+    private Object applicationContext = null;
+    
     
     public RuntimeInstance()
     {
@@ -1015,4 +1024,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return introspector;
     }
+    
+    public Object getApplicationContext()
+    {
+        return applicationContext;
+    }
+
+    public void setApplicationContext( Object o )
+    {
+        applicationContext = o;
+    }
+
 }

@@ -143,7 +143,7 @@ import org.apache.velocity.util.introspection.Introspector;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: RuntimeSingleton.java,v 1.3 2001/10/22 03:53:23 jon Exp $
+ * @version $Id: RuntimeSingleton.java,v 1.4 2001/10/31 02:59:28 geirm Exp $
  */
 public class RuntimeSingleton implements RuntimeConstants
 {
@@ -575,7 +575,7 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getConfiguration();
     }        
     
-    /*
+    /**
      *  Return the Introspector for this RuntimeInstance
      *
      *  @return Introspector object for this runtime instance
@@ -583,5 +583,17 @@ public class RuntimeSingleton implements RuntimeConstants
     public static Introspector getIntrospector()
     {
         return ri.getIntrospector();
+    }
+    
+    /**
+    *  returns the RuntimeInstance object for this singleton
+    *  For internal use only :)
+    *
+    *  @return RuntimeInstance the RuntimeInstance used by this Singleton
+    *                           instance
+    */
+    public static RuntimeInstance getRuntimeInstance()
+    {
+        return ri;
     }
 }
