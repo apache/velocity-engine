@@ -106,11 +106,10 @@ import org.apache.commons.collections.ExtendedProperties;
  * something you feel is necessary to add here, please, send a patch.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
- * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.28 2002/03/28 01:43:35 dlr Exp $
+ * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version $Id: Velocity.java,v 1.29 2002/08/20 23:58:46 dlr Exp $
  */
-
 public class Velocity implements RuntimeConstants
 {
     /**
