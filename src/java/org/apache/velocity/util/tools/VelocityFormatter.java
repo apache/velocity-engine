@@ -63,6 +63,7 @@ import java.lang.reflect.Array;
 
 // Veclocity classes
 import org.apache.velocity.*;
+import org.apache.velocity.context.*;
 
 /**
  * Formatting tool for inserting into the Velocity WebContext.  Can
@@ -78,7 +79,7 @@ import org.apache.velocity.*;
  * </pre></code>
  * 
  * @author <a href="sean@somacity.com">Sean Legassick</a>
- * @version $Id: VelocityFormatter.java,v 1.1 2000/11/01 03:33:21 daveb Exp $
+ * @version $Id: VelocityFormatter.java,v 1.2 2001/01/03 05:28:52 geirm Exp $
  */
 public class VelocityFormatter
 {

@@ -71,7 +71,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 // Velocity Stuff
-import org.apache.velocity.Context;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.texen.Generator;
 
@@ -79,7 +80,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.12 2000/12/20 06:22:44 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.13 2001/01/03 05:28:52 geirm Exp $
  */
 
 public class TexenTask extends Task
@@ -243,7 +244,7 @@ public class TexenTask extends Task
 
     public Context initControlContext()
     {
-        return new Context();
+        return new VelocityContext();
     }
     
     /**

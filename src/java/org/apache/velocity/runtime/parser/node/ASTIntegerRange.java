@@ -61,14 +61,14 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIntegerRange.java,v 1.1 2000/12/28 16:22:00 geirm Exp $ 
+ * @version $Id: ASTIntegerRange.java,v 1.2 2001/01/03 05:25:51 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -97,7 +97,7 @@ public class ASTIntegerRange extends SimpleNode {
      *  @param context  app context used if Left or Right of .. is a ref
      *  @return Object array of Integers
      */
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     { 
         /*
          *  get the two range ends
@@ -114,7 +114,7 @@ public class ASTIntegerRange extends SimpleNode {
         {
             Runtime.error( ( left == null ? "Left" : "Right" ) + " side of range operator [n..m] has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
             return null;
         }
@@ -159,12 +159,12 @@ public class ASTIntegerRange extends SimpleNode {
          *  make the vector and fill it
          */
 
-        Object[] foo = new Object[num];
+        ArrayList foo = new ArrayList();
         int val = l;
 
         for(int i =0; i < num; i++)
         {
-            foo[i] =  new Integer( val );
+            foo.add( new Integer( val ));
             val += delta;
         }
 

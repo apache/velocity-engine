@@ -66,7 +66,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.Vector;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.Runtime;
@@ -78,7 +78,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.9 2000/12/20 06:59:12 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.10 2001/01/03 05:28:51 geirm Exp $
  */
 public class Test
 {
@@ -162,7 +162,8 @@ public class Test
              * now, make a Context object and populate it.
              */
 
-            Context context = new Context();
+            VelocityContext context = new VelocityContext();
+
             context.put("provider", provider);
             context.put("name", "jason");
             context.put("providers", provider.getCustomers2());
@@ -180,8 +181,9 @@ public class Test
              *  make a writer, and merge the template 'against' the context
              */
 
+ 
             writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            template.merge(context, writer);
+            template.merge( context , writer);
 
             writer.flush();
             writer.close();

@@ -61,7 +61,8 @@ import java.io.Writer;
 
 import java.util.Vector;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.VelocityContext;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
@@ -73,7 +74,7 @@ import org.apache.velocity.util.StringUtils;
  * and re-merge the template safely.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.2 2000/12/20 06:50:41 jvanzyl Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.3 2001/01/03 05:28:51 geirm Exp $
  */
 public class ContextSafetyTestCase extends RuntimeTestCase
 {
@@ -129,7 +130,7 @@ public class ContextSafetyTestCase extends RuntimeTestCase
         strArray[1] = "array hello 2";
         strArray[2] = "array hello 3";
        
-        Context context = new Context();
+        VelocityContext context = new VelocityContext();
        
         try
         {

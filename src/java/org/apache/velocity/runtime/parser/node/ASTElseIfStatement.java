@@ -63,7 +63,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.5 2000/12/19 14:41:52 geirm Exp $ 
+ * @version $Id: ASTElseIfStatement.java,v 1.6 2001/01/03 05:25:17 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -71,7 +71,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
 
 public class ASTElseIfStatement extends SimpleNode
@@ -100,7 +100,7 @@ public class ASTElseIfStatement extends SimpleNode
      * where this node was originally asked to evaluate
      * itself.
      */
-    public boolean evaluate (Context context)
+    public boolean evaluate ( InternalContextAdapter context)
     {
         return jjtGetChild(0).evaluate(context);
     }
@@ -108,7 +108,7 @@ public class ASTElseIfStatement extends SimpleNode
     /**
      *  renders the block
      */
-    public boolean render(Context context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
         return jjtGetChild(1).render( context, writer );

@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.10 2000/12/27 14:29:44 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.11 2001/01/03 05:27:04 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -67,10 +67,11 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.exception.ReferenceException;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 
 public class ASTSetDirective extends SimpleNode
 {
@@ -98,7 +99,7 @@ public class ASTSetDirective extends SimpleNode
     /**
      *  simple init.  We can get the RHS and LHS as the the tree structure is static
      */
-    public Object init(Context context, Object data) throws Exception
+    public Object init( InternalContextAdapter context, Object data) throws Exception
     {
         /*
          *  init the tree correctly
@@ -137,7 +138,7 @@ public class ASTSetDirective extends SimpleNode
     /**
      *   puts the value of the RHS into the context under the key of the LHS
      */
-    public boolean render(Context context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
         /*

@@ -62,12 +62,12 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMulNode.java,v 1.2 2000/12/27 14:31:53 geirm Exp $ 
+ * @version $Id: ASTMulNode.java,v 1.3 2001/01/03 05:26:27 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -93,7 +93,7 @@ public class ASTMulNode extends SimpleNode
      *  computes the product of the two args.  Returns null if either arg is null
      *  or if either arg is not an integer
      */
-    public Object value( Context context )
+    public Object value( InternalContextAdapter context )
     {
         /*
          *  get the two args
@@ -124,7 +124,7 @@ public class ASTMulNode extends SimpleNode
             Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
                            + " side of multiplication operation is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return null;
@@ -133,6 +133,7 @@ public class ASTMulNode extends SimpleNode
         return new Integer( ( (Integer) left ).intValue() * (  (Integer) right ).intValue() );
     }
 }
+
 
 
 

@@ -72,10 +72,11 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
-import org.apache.velocity.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
+
+import org.apache.velocity.VelocityContext;
 
 /**
  * The purpose of this Ant Task is to allow you to use 
@@ -89,7 +90,7 @@ import org.apache.velocity.util.StringUtils;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.11 2000/12/20 07:29:09 jvanzyl Exp $
+ * @version $Id: AnakiaTask.java,v 1.12 2001/01/03 05:28:50 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -310,7 +311,9 @@ public class AnakiaTask extends MatchingTask
                     projectDocument = builder.build(projectFile);
     
                 // Shove things into the Context
-                Context context = new Context();
+
+                VelocityContext context = new VelocityContext();
+
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", new XMLOutputter());
                 context.put ("relativePath", getRelativePath(xmlFile));

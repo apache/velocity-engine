@@ -62,12 +62,12 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTModNode.java,v 1.2 2000/12/27 14:31:53 geirm Exp $ 
+ * @version $Id: ASTModNode.java,v 1.3 2001/01/03 05:26:27 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -89,7 +89,7 @@ public class ASTModNode extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public Object value(Context context)
+    public Object value( InternalContextAdapter context)
     {
         /*
          *  get the two args

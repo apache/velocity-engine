@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
@@ -76,7 +76,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: TemplateTestCase.java,v 1.18 2000/12/20 06:36:41 jvanzyl Exp $
+ * @version $Id: TemplateTestCase.java,v 1.19 2001/01/03 05:28:51 geirm Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -114,7 +114,9 @@ public class TemplateTestCase extends RuntimeTestCase
     private TestProvider provider;
     private ArrayList al;
     private Hashtable h;
-    private Context context;
+    private VelocityContext context;
+    private VelocityContext context1;
+    private VelocityContext context2;
     private Vector vec;
 
     /**
@@ -149,19 +151,23 @@ public class TemplateTestCase extends RuntimeTestCase
         vec.addElement( new String("string2"));
 
         /*
-         *  set up the context
+         *  set up 3 chained contexts, and add our data 
+         *  throught the 3 of them.
          */
 
-        context = new Context();
+        context2 = new VelocityContext();
+        context1 = new VelocityContext( context2 );
+        context = new VelocityContext( context1 );
+
         context.put("provider", provider);
-        context.put("name", "jason");
-        context.put("providers", provider.getCustomers2());
+        context1.put("name", "jason");
+        context2.put("providers", provider.getCustomers2());
         context.put("list", al);
-        context.put("hashtable", h);
-        context.put("search", provider.getSearch());
+        context1.put("hashtable", h);
+        context2.put("search", provider.getSearch());
         context.put("relatedSearches", provider.getRelSearches());
-        context.put("searchResults", provider.getRelSearches());
-        context.put("stringarray", provider.getArray());
+        context1.put("searchResults", provider.getRelSearches());
+        context2.put("stringarray", provider.getArray());
         context.put("vector", vec );
     }
 
@@ -185,7 +191,7 @@ public class TemplateTestCase extends RuntimeTestCase
             Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
             /* process the template */
-            template.merge(context, writer);
+            template.merge( context, writer);
 
             /* close the file */
             writer.flush();

@@ -62,7 +62,7 @@
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTEscape.java,v 1.2 2000/12/11 04:36:03 geirm Exp $ 
+ * @version $Id: ASTEscape.java,v 1.3 2001/01/03 05:25:17 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -70,38 +70,40 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.Writer;
 import java.io.IOException;
 
-import org.apache.velocity.Context;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.Parser;
 
-public class ASTEscape extends SimpleNode {
-
+public class ASTEscape extends SimpleNode 
+{
     private String text = "";
   
-    public ASTEscape(int id) {
+    public ASTEscape(int id) 
+    {
         super(id);
     }
     
-    public ASTEscape(Parser p, int id) {
+    public ASTEscape(Parser p, int id) 
+    {
         super(p, id);
     }
 
     /** Accept the visitor. **/
-    public Object jjtAccept(ParserVisitor visitor, Object data) {
+    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    {
         return visitor.visit(this, data);
     }
     
-    public Object init(Context context, Object data) 
+    public Object init( InternalContextAdapter context, Object data) 
         throws Exception
     {
         text =  getFirstToken().image;
         return data;
     }
 
-    public boolean render(Context context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
         writer.write( text );
         return true;
-    }    
-
+    }
 }

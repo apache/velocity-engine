@@ -71,14 +71,14 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIdentifier.java,v 1.4 2000/12/12 23:46:07 geirm Exp $ 
+ * @version $Id: ASTIdentifier.java,v 1.5 2001/01/03 05:25:50 geirm Exp $ 
  */
 package org.apache.velocity.runtime.parser.node;
 
 import java.util.Map;
 import java.lang.reflect.Method;
 
-import org.apache.velocity.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
@@ -107,7 +107,7 @@ public class ASTIdentifier extends SimpleNode
      *  simple init - don't do anything that is context specific.
      *  just get what we need from the AST, which is static.
      */
-    public  Object init(Context context, Object data)
+    public  Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         super.init( context, data );
@@ -152,7 +152,7 @@ public class ASTIdentifier extends SimpleNode
     /**
      *  invokes the method on the object passed in
      */
-    public Object execute(Object o, Context context)
+    public Object execute(Object o, InternalContextAdapter context)
     {
         AbstractExecutor executor = null;
 
