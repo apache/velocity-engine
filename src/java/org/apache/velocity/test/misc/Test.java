@@ -89,7 +89,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.22 2001/03/19 17:31:33 geirm Exp $
+ * @version $Id: Test.java,v 1.23 2001/03/20 19:13:28 geirm Exp $
  */
 public class Test
 {
@@ -199,7 +199,7 @@ public class Test
             }
             catch( ResourceNotFoundException rnfe )
             {
-                System.out.println("Test : Cannot find template " + templateFile );
+                System.out.println("Test : RNFE : Cannot find template " + templateFile );
             }
             catch( ParseErrorException pee )
             {
@@ -244,7 +244,7 @@ public class Test
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
             Velocity.evaluate( context, w, "evaltest",stest );
-            System.out.println("Eval = " + w );
+            //            System.out.println("Eval = " + w );
 
             w = new StringWriter();
             //Velocity.mergeTemplate( "mergethis.vm",  context, w );
