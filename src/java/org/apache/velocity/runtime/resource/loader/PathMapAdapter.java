@@ -91,7 +91,7 @@ public class PathMapAdapter extends LoaderAdapter
     protected Map templatePaths = new Hashtable();
 
     /**
-     * Initializes the loader and list of search paths.
+     * Initializes the loader, separator, and list of search paths.
      */
     public void init(ExtendedProperties configuration)
     {
@@ -100,9 +100,12 @@ public class PathMapAdapter extends LoaderAdapter
         // Initialize parent class "classLoader" instance member.
         super.initLoader(configuration);
 
+        // Initialize file separator text.
         separator = (resourceLoader instanceof FileResourceLoader ?
                      File.separator : "/");
+        separator = configuration.getString("separator", separator);
 
+        // Initialize search paths.
         paths = configuration.getVector("path");
 
         int size = paths.size();
