@@ -210,7 +210,7 @@ root of the Velocity distribution tree.
         that includes any components that require J2EE support. Currently, this
         includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
         As usual, it is placed in the  <code>bin</code> directory, called
-        'velocity-J2EE-X.jar'. NOTE : if you wish to use this build target, you
+        'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
         must place (or link) a copy of j2ee.jar into the build/lib directory.
         We do not provide it as part of the distribution. A good source is
         http://java.sun.com/
