@@ -61,9 +61,10 @@
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseStatement.java,v 1.3 2000/11/11 22:40:04 geirm Exp $ 
-*/
+ * @version $Id: ASTElseStatement.java,v 1.4 2000/12/15 06:55:33 jvanzyl Exp $ 
+ */
 
 package org.apache.velocity.runtime.parser.node;
 
@@ -90,5 +91,14 @@ public class ASTElseStatement extends SimpleNode
     {
         return visitor.visit(this, data);
     }
+    
+    /**
+     * An ASTElseStatement always evaluates to
+     * true. Basically behaves like an #if(true).
+     */
+    public boolean evaluate(Context context)
+    {
+        return true;
+    }        
 }
 

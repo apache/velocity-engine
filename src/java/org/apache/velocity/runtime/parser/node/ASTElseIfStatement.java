@@ -61,8 +61,9 @@
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.3 2000/11/11 22:40:04 geirm Exp $ 
+ * @version $Id: ASTElseIfStatement.java,v 1.4 2000/12/15 06:55:33 jvanzyl Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -89,5 +90,18 @@ public class ASTElseIfStatement extends SimpleNode
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
+    }
+
+    /**
+     * An ASTElseStatement is true if the expression
+     * it contains evaluates to true. Expressions know
+     * how to evaluate themselves, so we do that
+     * here and return the value back to ASTIfStatement
+     * where this node was originally asked to evaluate
+     * itself.
+     */
+    public boolean evaluate (Context context)
+    {
+        return jjtGetChild(0).evaluate(context);
     }
 }

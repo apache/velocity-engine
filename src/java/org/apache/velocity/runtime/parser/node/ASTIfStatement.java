@@ -60,7 +60,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTIfStatement.java,v 1.4 2000/11/11 22:40:04 geirm Exp $ 
+ * @version $Id: ASTIfStatement.java,v 1.5 2000/12/15 06:55:33 jvanzyl Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -89,66 +89,45 @@ public class ASTIfStatement extends SimpleNode
         return visitor.visit(this, data);
     }
     
-  
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-       
-        Object data = null;
-        Node expression;
+        /*
+         * Check if the #if(expression) construct evaluates to true:
+         * if so render and leave immediately because there
+         * is nothing left to do!
+         */
+        if (jjtGetChild(0).evaluate(context))
+        {
+            jjtGetChild(1).render(context, writer);
+            return true;
+        }
+    
+        int totalNodes = jjtGetNumChildren();
+        
+        /*
+         * Now check the remaining nodes left in the
+         * if construct. The nodes are either elseif
+         *  nodes or else nodes. Each of these node
+         * types knows how to evaluate themselves. If
+         * a node evaluates to true then the node will
+         * render itself and this method will return
+         * as there is nothing left to do.
+         */
+        for (int i = 2; i < totalNodes; i++)
+        {
+            if (jjtGetChild(i).evaluate(context))
+            {
+                jjtGetChild(i).render(context, writer);
+                return true;
+            }
+        }
     
         /*
-         *  iterate through the children and eval the first one that we come across
+         * This is reached when an ASTIfStatement
+         * consists of an if/elseif sequence where
+         * none of the nodes evaluate to true.
          */
-
-        boolean bEval = false;
-
-        for( int i = 0; i < jjtGetNumChildren(); i++)
-        {
-            Node child = jjtGetChild(i);
-
-            switch( child.getType() ) {
-
-            case ParserTreeConstants.JJTEXPRESSION :
-                {
-                    /* if the expression evaluates */
-                    if (child.evaluate(context))
-                     {                  
-                         /* render the block following the if */
-                         jjtGetChild(i+1).render(context, writer);
-                         bEval = true;
-                     }
-                    break;
-                }
-
-            case ParserTreeConstants.JJTELSESTATEMENT :
-                {
-                    /* render the block if the if() was false*/
-
-                    if (!bEval)
-                    {
-                        child.jjtGetChild(0).render( context, writer );
-                        bEval = true;
-                    }
-                    break;
-                }
-            case ParserTreeConstants.JJTELSEIFSTATEMENT :
-                {
-                    /* render the block if the if() was false*/
-                    if (!bEval)
-                    {
-                        if ( child.jjtGetChild(0).evaluate( context ) )
-                        {
-                            child.jjtGetChild(1).render(context, writer);
-                            bEval = true;
-                        }
-                    }
-                    break;
-                }
-
-            }  /* end switch */
-        } /* end for */                
-     
         return true;
     }
 
