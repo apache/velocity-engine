@@ -659,36 +659,6 @@
           depends="jar"
           description="generates the HTML documentation"
           >
-<!--
-      <echo>
-       ####################################################################
-       #
-       #  Fetching the latest stylesheet from jakarta-site2
-       #
-       #  NOTE : As this build target is meant for developers, this requires 
-       #    a properly setup CVS.  But you are encouraged to use this to 
-       #    experiment with Anakia - if the fetch fails, it may be because 
-       #    you haven't yet logged into CVS. The way to do it, assuming you
-       #    have a resonable CVS client setup is
-       #
-       #  $ cvs -d :pserver:anoncvs@jakarta.apache.org:/home/cvspublic login
-       #  password: anoncvs
-       #
-       #  and that should solve it.  
-       #
-       #  See http://jakarta.apache.org/site/cvsindex.html for more 
-       #      information, or http://www.cvshome.org/
-       #
-       #  Ant really is the bee's knees. http://jakarta.apache.org/ant/
-       #
-       ######################################################################
-       </echo>
-
-      <cvs cvsRoot=":pserver:anoncvs@jakarta.apache.org:/home/cvspublic"
-          command="checkout -p jakarta-site2/xdocs/stylesheets/site.vsl"
-          output="${docs.src}/stylesheets/site.vsl"
-      />
--->
       <taskdef name="anakia"
           classname="org.apache.velocity.anakia.AnakiaTask">
           
@@ -704,17 +674,7 @@
        #
        #  Now using Anakia to transform our XML documentation
        #  to HTML.
-       #
-       #  Note : this step depends upon having the jakarta-site2
-       #  project located as a peer to the jakarta-velocity
-       #  directory (the directory that holds the Velocity
-       #  distribution.)  That means that jakarta-site2 and
-       #  jakarta-velocity are located in the same subdirectory.
-       #
-       #  Please see :
-       #    http://jakarta.apache.org/site/cvsindex.html
-       #  for more information on obtaining jakarta-site2.
-       #
+        
        #######################################################
       </echo>
 
@@ -724,7 +684,7 @@
            excludes="**/stylesheets/** empty.xml"
            includes="**/*.xml"
            lastModifiedCheck="true"
-           templatePath="../../jakarta-site2/xdocs/stylesheets">
+           templatePath="../xdocs/stylesheets">
       </anakia>
 
       <copy todir="${docs.dest}/images" filtering="no">
@@ -768,16 +728,6 @@
        #  Now using Anakia to transform our XML documentation
        #  to HTML.
        #
-       #  Note : this step depends upon having the jakarta-site2
-       #  project located as a peer to the jakarta-velocity
-       #  directory (the directory that holds the Velocity
-       #  distribution.)  That means that jakarta-site2 and
-       #  jakarta-velocity are located in the same subdirectory.
-       #
-       #  Please see :
-       #    http://jakarta.apache.org/site/cvsindex.html
-       #  for more information on obtaining jakarta-site2.
-       #
        #######################################################
       </echo>
 
@@ -787,7 +737,7 @@
            excludes="**/stylesheets/** empty.xml"
            includes="**/*.xml"
            lastModifiedCheck="true"
-           templatePath="../../jakarta-site2/xdocs/stylesheets">
+	       templatePath="../xdocs/stylesheets">
       </anakia>
 
       <copy todir="${docs_print.dest}/images" filtering="no">
