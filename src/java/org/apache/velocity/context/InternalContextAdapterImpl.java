@@ -84,7 +84,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * 
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextAdapterImpl.java,v 1.3 2001/03/05 11:21:42 jvanzyl Exp $
+ * @version $Id: InternalContextAdapterImpl.java,v 1.4 2001/03/31 20:14:25 geirm Exp $
  */
 
 public final class InternalContextAdapterImpl implements InternalContextAdapter
@@ -108,7 +108,6 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
         if ( !( c instanceof InternalHousekeepingContext ))
         {
-            System.out.println("Woo! no ICB!");
             icb = new InternalContextBase();
         }
         else
