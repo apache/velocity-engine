@@ -58,7 +58,7 @@
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.5 2000/12/10 21:26:29 geirm Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.6 2000/12/11 03:08:02 geirm Exp $ 
  *
  */
 
@@ -74,12 +74,12 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public class VelocimacroFactory
 {
-    private VelocimacroManager vmManager_ = new VelocimacroManager();
+    private VelocimacroManager vmManager = new VelocimacroManager();
 
-    private boolean bReplaceAllowed_ = false;
-    private boolean bAddNewAllowed_ = true;
-    private boolean bTemplateLocal_ = false;
-    private boolean bBlather_ = false;
+    private boolean replaceAllowed = false;
+    private boolean addNewAllowed = true;
+    private boolean templateLocal = false;
+    private boolean blather = false;
 
     /**
      *    setup
@@ -105,7 +105,7 @@ public class VelocimacroFactory
              *  add all library macros to the global namespace
              */
 
-           vmManager_.setNamespaceUsage( false );
+           vmManager.setNamespaceUsage( false );
         
             /*
              *  now, if there is a global or local libraries specified, use them.
@@ -187,7 +187,7 @@ public class VelocimacroFactory
              *  here for gating purposes
              */
            
-            vmManager_.setNamespaceUsage( true );
+            vmManager.setNamespaceUsage( true );
 
             /*
              *  template-local inline VM mode : default is off
@@ -200,7 +200,7 @@ public class VelocimacroFactory
             else
                 Runtime.info("Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.");
  
-            vmManager_.setTemplateLocalInlineVM( getTemplateLocalInline() );
+            vmManager.setTemplateLocalInlineVM( getTemplateLocalInline() );
 
             /*
              *  general message switch.  default is on
@@ -222,8 +222,8 @@ public class VelocimacroFactory
     /**
      *   adds a macro to the factory. 
      */
-    public boolean addVelocimacro( String strName, String strMacro, String strArgArray[], String strMacroArray[], 
-                                   TreeMap tmArgIndexMap, String strSourceTemplate )
+    public boolean addVelocimacro( String name, String macroBody, String argArray[], String macroArray[], 
+                                   TreeMap argIndexMap, String sourceTemplate )
     {
         /*
          *  maybe we should throw an exception, maybe just tell the caller like this...
@@ -231,7 +231,7 @@ public class VelocimacroFactory
          *  I hate this : maybe exceptions are in order here...
          */
         
-        if ( strName == null || strMacro == null | strArgArray == null || strMacroArray == null || tmArgIndexMap == null )
+        if ( name == null || macroBody == null | argArray == null || macroArray == null || argIndexMap == null )
         {
             logVMMessage("Velocimacro : VM addition rejected : programmer error : arg null"  );
             return false;
@@ -243,9 +243,9 @@ public class VelocimacroFactory
          *  first, are we allowed to add VMs at all?  This trumps all.
          */
 
-        if ( !bAddNewAllowed_ )
+        if ( !addNewAllowed )
         {
-            logVMMessage("Velocimacro : VM addition rejected : " + strName + " : inline VMs not allowed."  );
+            logVMMessage("Velocimacro : VM addition rejected : " + name + " : inline VMs not allowed."  );
             return false;
         }
 
@@ -253,7 +253,7 @@ public class VelocimacroFactory
          *  are they local in scope?  Then it is ok to add.
          */
 
-        if (!bTemplateLocal_  )
+        if (!templateLocal  )
         {
             /* 
              * otherwise, if we have it already in global namespace, and they can't replace
@@ -264,9 +264,9 @@ public class VelocimacroFactory
              *  so if we have it, and we aren't allowed to replace, bail
              */
             
-            if ( isVelocimacro( strName, strSourceTemplate ) && !bReplaceAllowed_ )
+            if ( isVelocimacro( name, sourceTemplate ) && !replaceAllowed )
             {
-                logVMMessage("Velocimacro : VM addition rejected : " + strName + " : inline not allowed to replace existing VM"  );
+                logVMMessage("Velocimacro : VM addition rejected : " + name + " : inline not allowed to replace existing VM"  );
                 return false;
             }
         }
@@ -277,25 +277,25 @@ public class VelocimacroFactory
 
         synchronized( this ) 
         {
-            vmManager_.addVM( strName, strMacro, strArgArray, strMacroArray, tmArgIndexMap, strSourceTemplate );
+            vmManager.addVM( name, macroBody, argArray, macroArray, argIndexMap, sourceTemplate );
         }
 
         /*
          *  if we are to blather, blather...
          */
 
-        if (bBlather_)
+        if ( blather)
         {
-            String s = "#" +  strArgArray[0];
+            String s = "#" +  argArray[0];
             s += "(";
         
-            for( int i=1; i < strArgArray.length; i++)
+            for( int i=1; i < argArray.length; i++)
                 {
                     s += " ";
-                    s += strArgArray[i];
+                    s += argArray[i];
                 }
             s += " ) : source = ";
-            s += strSourceTemplate;
+            s += sourceTemplate;
             
            logVMMessage( "Velocimacro : added new VM : " + s );
         }
@@ -308,14 +308,14 @@ public class VelocimacroFactory
      */
     private void logVMMessage( String s )
     {
-        if (bBlather_)
+        if (blather)
             Runtime.info( s );
     }
 
     /**
      *   tells the world if a given directive string is a Velocimacro
      */
-    public boolean isVelocimacro( String vm , String strSourceTemplate )
+    public boolean isVelocimacro( String vm , String sourceTemplate )
     {
         synchronized( this ) 
         {
@@ -323,7 +323,7 @@ public class VelocimacroFactory
              *  first we check the locals to see if we have a local definition for this template
              */
             
-            if (vmManager_.get( vm, strSourceTemplate ) != null)
+            if (vmManager.get( vm, sourceTemplate ) != null)
                 return true;
         }
 
@@ -335,13 +335,13 @@ public class VelocimacroFactory
      *  behave correctly wrt getting the framework to 
      *  dig out the correct # of args
      */
-    public Directive getVelocimacro( String strVMName, String strSourceTemplate )
+    public Directive getVelocimacro( String vmName, String sourceTemplate )
     {
         synchronized( this ) 
         {
-            if ( isVelocimacro( strVMName, strSourceTemplate ) ) 
+            if ( isVelocimacro( vmName, sourceTemplate ) ) 
             {    
-                return  vmManager_.get( strVMName, strSourceTemplate );
+                return  vmManager.get( vmName, sourceTemplate );
             }
         }
 
@@ -355,9 +355,9 @@ public class VelocimacroFactory
     /**
      *  tells the vmManager to dump the specified namespace
      */
-    public boolean dumpVMNamespace( String strNamespace )
+    public boolean dumpVMNamespace( String namespace )
     {
-        return vmManager_.dumpNamespace( strNamespace );
+        return vmManager.dumpNamespace( namespace );
     }
 
     /**
@@ -368,22 +368,22 @@ public class VelocimacroFactory
      */   
     private void setTemplateLocalInline( boolean b )
     {
-        bTemplateLocal_ = b;
+        templateLocal = b;
     }
 
     private boolean getTemplateLocalInline()
     {
-        return bTemplateLocal_;
+        return templateLocal;
     }
 
     /**
      *   sets the permission to add new macros
      */
-    private boolean setAddMacroPermission( boolean bAddNewAllowed )
+    private boolean setAddMacroPermission( boolean arg )
     {
-        boolean b = bAddNewAllowed_;
+        boolean b = addNewAllowed;
         
-        bAddNewAllowed_ = bAddNewAllowed;
+        addNewAllowed = arg;
         return b;
     }
 
@@ -391,11 +391,11 @@ public class VelocimacroFactory
      *    sets the permission for allowing addMacro() calls to 
      *    replace existing VM's
      */
-    private boolean setReplacementPermission( boolean bReplacementAllowed )
+    private boolean setReplacementPermission( boolean arg )
     {
-        boolean b = bReplaceAllowed_;
+        boolean b = replaceAllowed;
         
-        bReplaceAllowed_ = bReplacementAllowed;
+        replaceAllowed = arg;
         return b;
     }
 
@@ -404,12 +404,12 @@ public class VelocimacroFactory
      */
     private void setBlather( boolean b )
     {
-        bBlather_ = b;
+        blather = b;
     }
 
     private boolean getBlather()
     {
-        return bBlather_;
+        return blather;
     }
 }
 
