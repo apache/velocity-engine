@@ -1,15 +1,15 @@
 package org.apache.velocity.util;
 
 /*
- * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/Attic/ArrayEnumerator.java,v 1.1 2000/09/30 17:04:29 jvanzyl Exp $
+ * $Header: /home/cvs/jakarta-velocity/src/java/org/apache/velocity/util/ArrayIterator.java,v 1.1 2000/10/12 14:56:21 jvanzyl Exp $
  * $Revision: 1.1 $
- * $Date: 2000/09/30 17:04:29 $
+ * $Date: 2000/10/12 14:56:21 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999 The Apache Software Foundation.  All rights 
+ * Copyright (c) 1999 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -17,7 +17,7 @@ package org.apache.velocity.util;
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -25,15 +25,15 @@ package org.apache.velocity.util;
  *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:  
- *       "This product includes software developed by the 
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
  * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
- *    from this software without prior written permission. For written 
+ *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
@@ -61,36 +61,44 @@ package org.apache.velocity.util;
  *
  * [Additional notices, if required by prior licensing conditions]
  *
- */ 
+ */
 
-import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 // Added to avoid the conversion of [] to Vector - reduce garbage + cleaner
 // code is similar to VectorEnumeration in java.util.Vector
 
-public class ArrayEnumerator implements Enumeration {
+public class ArrayIterator implements Iterator
+{
 
     Object array[];
     int pos;
-    
-    public ArrayEnumerator( Object array[] ) {
-	this.array=array;
-	pos=0;
-    }
-    
-    public Object nextElement( ) {
-	synchronized( array ) {
-	    if( pos < array.length )
-		return array[ pos ++ ];
-	}
-	throw new NoSuchElementException( "No more elements: " +
-					  pos + " / " + array.length);
-	
+
+    public ArrayIterator(Object array[])
+    {
+        this.array = array;
+        pos = 0;
     }
 
-    public boolean hasMoreElements() {
-	return pos < array.length;
+    public Object next()
+    {
+        synchronized (array)
+        {
+            if (pos < array.length)
+                return array[pos ++];
+        }
+        throw new NoSuchElementException("No more elements: " + pos +
+                " / " + array.length);
+
     }
-    
+
+    public boolean hasNext()
+    {
+        return pos < array.length;
+    }
+
+    public void remove()
+    {
+    }
 }
