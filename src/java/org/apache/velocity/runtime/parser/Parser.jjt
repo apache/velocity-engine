@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.49 2000/12/27 23:48:41 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.50 2000/12/28 16:21:17 geirm Exp $ 
 */
 public class Parser
 {
@@ -443,6 +443,7 @@ TOKEN:
 { 
     <LBRACKET: "[">
 |   <RBRACKET: "]">
+|   <COMMA:",">
 }
 
 <DIRECTIVE>
@@ -451,11 +452,6 @@ TOKEN:
   <DOUBLEDOT : ".." >
 }
 
-<DIRECTIVE,REFMOD2>
-TOKEN:
-{
-    <COMMA:",">
-}
 
 <DIRECTIVE,REFMODIFIER>
 TOKEN:
@@ -1070,6 +1066,7 @@ void DirectiveArg() #void : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
+|   LOOKAHEAD(4) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1181,6 +1178,21 @@ void ObjectArray() : {}
 {
     <LBRACKET> [ Parameter() ( <COMMA> Parameter() )* ] <RBRACKET>
 }
+
+/**
+ *  supports the [n..m] vector generator for use in
+ *  the #foreach() to generate measured ranges w/o 
+ *  needing explicit support from the app/servlet
+ */
+void IntegerRange() : {}
+{
+    <LBRACKET> [<WHITESPACE>] 
+    ( Reference() | NumberLiteral()) 
+    [<WHITESPACE>] <DOUBLEDOT> [<WHITESPACE>] 
+    (Reference() | NumberLiteral()) 
+    [<WHITESPACE>] <RBRACKET>
+}
+
 
 /**
  * This method has yet to be fully implemented
@@ -1382,6 +1394,7 @@ void PrimaryExpression() #void : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
+  | LOOKAHEAD(4) IntegerRange()
   | ObjectArray()
   | True()
   | False()
