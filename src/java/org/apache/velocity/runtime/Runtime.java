@@ -145,7 +145,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.33 2000/11/06 21:11:06 jon Exp $
+ * @version $Id: Runtime.java,v 1.34 2000/11/06 21:44:03 jon Exp $
  */
 public class Runtime
 {
@@ -424,6 +424,8 @@ public class Runtime
         try
         {
             parser = (Parser) parserStack.pop();
+            if (parser == null)
+                parser = createNewParser();
         }
         catch (Exception e)
         {
