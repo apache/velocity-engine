@@ -2,7 +2,7 @@ package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,6 +63,7 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeLogger;
 
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -71,16 +72,20 @@ import org.apache.velocity.util.introspection.Introspector;
  */
 public class PropertyExecutor extends AbstractExecutor
 {
+    protected Introspector introspector = null;
+
     protected String methodUsed = null;
 
-    public PropertyExecutor( RuntimeServices r, Class clazz, String property)
+    public PropertyExecutor(RuntimeLogger r, Introspector ispctr,
+                            Class clazz, String property)
     {
-        rsvc = r;
-        
-        discover( clazz, property );
+        rlog = r;
+        introspector = ispctr;
+
+        discover(clazz, property);
     }
 
-    protected void discover( Class clazz, String property )
+    protected void discover(Class clazz, String property)
     {
         /*
          *  this is gross and linear, but it keeps it straightforward.
@@ -92,19 +97,18 @@ public class PropertyExecutor extends AbstractExecutor
             StringBuffer sb;
 
             Object[] params = {  };
-            Introspector introspector = rsvc.getIntrospector();
-            
+
             /*
              *  start with get<property>
              *  this leaves the property name 
              *  as is...
              */
-            sb = new StringBuffer( "get" );
-            sb.append( property );
+            sb = new StringBuffer("get");
+            sb.append(property);
 
             methodUsed = sb.toString();
 
-            method = introspector.getMethod( clazz, methodUsed, params);
+            method = introspector.getMethod(clazz, methodUsed, params);
              
             if (method != null)
                 return;
@@ -113,93 +117,44 @@ public class PropertyExecutor extends AbstractExecutor
              *  now the convenience, flip the 1st character
              */
          
-            sb = new StringBuffer( "get" );
-            sb.append( property );
+            sb = new StringBuffer("get");
+            sb.append(property);
 
             c = sb.charAt(3);
 
-            if(  Character.isLowerCase( c ) )
+            if (Character.isLowerCase(c))
             {
-                sb.setCharAt( 3 ,  Character.toUpperCase( c ) );
+                sb.setCharAt(3, Character.toUpperCase(c));
             }
             else
             {
-                sb.setCharAt( 3 ,  Character.toLowerCase( c ) );
+                sb.setCharAt(3, Character.toLowerCase(c));
             }
 
             methodUsed = sb.toString();
-            method = introspector.getMethod( clazz, methodUsed, params);
+            method = introspector.getMethod(clazz, methodUsed, params);
 
-            if ( method != null)
+            if (method != null)
                 return; 
             
         }
-        catch( Exception e )
+        catch(Exception e)
         {
-            rsvc.error("PROGRAMMER ERROR : PropertyExector() : " + e );
+            rlog.error("PROGRAMMER ERROR : PropertyExector() : " + e );
         }
     }
-   
+
+
     /**
      * Execute method against context.
      */
-    public Object execute(Object o, InternalContextAdapter context)
-        throws IllegalAccessException,  MethodInvocationException
+    public Object execute(Object o)
+        throws IllegalAccessException,  InvocationTargetException
     {
         if (method == null)
             return null;
-     
-        try 
-        {
-            return method.invoke(o, null);  
-        }
-        catch( InvocationTargetException ite )
-        {
-            EventCartridge ec = context.getEventCartridge();
 
-            /*
-             *  if we have an event cartridge, see if it wants to veto
-             *  also, let non-Exception Throwables go...
-             */
-
-            if ( ec != null && ite.getTargetException() instanceof java.lang.Exception)
-            {
-                try
-                {
-                    return ec.methodException( o.getClass(), methodUsed, (Exception)ite.getTargetException() );
-                }
-                catch( Exception e )
-                {
-                    throw new MethodInvocationException( 
-                      "Invocation of method '" + methodUsed + "'" 
-                      + " in  " + o.getClass() 
-                      + " threw exception " 
-                      + ite.getTargetException().getClass() + " : "
-                      + ite.getTargetException().getMessage(), 
-                      ite.getTargetException(), methodUsed );
-                }
-            }
-            else
-            {
-                /*
-                 * no event cartridge to override. Just throw
-                 */
-
-                throw  new MethodInvocationException( 
-                "Invocation of method '" + methodUsed + "'" 
-                + " in  " + o.getClass() 
-                + " threw exception " 
-                + ite.getTargetException().getClass() + " : "
-                + ite.getTargetException().getMessage(),
-                ite.getTargetException(), methodUsed );
-
-              
-            }
-        }
-        catch( IllegalArgumentException iae )
-        {
-            return null;
-        }
+        return method.invoke(o, null);
     }
 }
 

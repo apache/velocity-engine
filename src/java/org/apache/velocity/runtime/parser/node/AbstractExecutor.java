@@ -62,6 +62,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
  * Abstract class that is used to execute an arbitrary
@@ -69,11 +70,12 @@ import org.apache.velocity.runtime.RuntimeServices;
  * for the GetExecutor and PropertyExecutor.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: AbstractExecutor.java,v 1.10 2001/10/22 03:53:25 jon Exp $
+ * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @version $Id: AbstractExecutor.java,v 1.11 2002/04/21 20:57:25 geirm Exp $
  */
 public abstract class AbstractExecutor
 {
-    protected RuntimeServices rsvc = null;
+    protected RuntimeLogger rlog = null;
     
     /**
      * Method to be executed.
@@ -83,9 +85,9 @@ public abstract class AbstractExecutor
     /**
      * Execute method against context.
      */
-    public abstract Object execute(Object o, InternalContextAdapter context)
-        throws IllegalAccessException, MethodInvocationException;
-  
+     public abstract Object execute(Object o)
+         throws IllegalAccessException, InvocationTargetException;
+
     /**
      * Tell whether the executor is alive by looking
      * at the value of the method.
@@ -93,5 +95,10 @@ public abstract class AbstractExecutor
     public boolean isAlive()
     {
         return (method != null);
-    }            
+    }
+
+    public Method getMethod()
+    {
+        return method;
+    }
 }

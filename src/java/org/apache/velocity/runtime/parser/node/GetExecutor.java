@@ -62,6 +62,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeLogger;
 
 
 /**
@@ -72,7 +73,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * the case.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: GetExecutor.java,v 1.6 2001/10/22 03:53:25 jon Exp $
+ * @version $Id: GetExecutor.java,v 1.7 2002/04/21 20:57:25 geirm Exp $
  */
 public class GetExecutor extends AbstractExecutor
 {
@@ -85,18 +86,30 @@ public class GetExecutor extends AbstractExecutor
     /**
      * Default constructor.
      */
-    public GetExecutor( RuntimeServices r, Class c, String key)
+    public GetExecutor(RuntimeLogger r, Introspector ispect, Class c, String key)
         throws Exception
     {
-        rsvc = r;
+        rlog = r;
         args[0] = key;
-        method = rsvc.getIntrospector().getMethod(c, "get", args);
+        method = ispect.getMethod(c, "get", args);
     }
 
     /**
      * Execute method against context.
      */
-    public Object execute(Object o, InternalContextAdapter context)
+    public Object execute(Object o)
+        throws IllegalAccessException, InvocationTargetException
+    {
+        if (method == null)
+            return null;
+
+        return method.invoke(o, args);
+    }
+
+    /**
+     * Execute method against context.
+     */
+    public Object OLDexecute(Object o, InternalContextAdapter context)
         throws IllegalAccessException, MethodInvocationException
     {
         if (method == null)
@@ -106,7 +119,7 @@ public class GetExecutor extends AbstractExecutor
         {
             return method.invoke(o, args);  
         }
-        catch( InvocationTargetException ite )
+        catch(InvocationTargetException ite)
         {
             /*
              *  the method we invoked threw an exception.
@@ -118,9 +131,9 @@ public class GetExecutor extends AbstractExecutor
                 + " in  " + o.getClass() 
                 + " threw exception " 
                 + ite.getTargetException().getClass(), 
-                ite.getTargetException(), "get" );
+                ite.getTargetException(), "get");
         }
-        catch( IllegalArgumentException iae )
+        catch(IllegalArgumentException iae)
         {
             return null;
         }
