@@ -67,7 +67,7 @@ import org.jdom.CDATA;
  *
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="rubys@us.ibm.com">Sam Ruby</a>
- * @version $Id: OutputWrapper.java,v 1.3 2001/03/15 11:14:46 geirm Exp $
+ * @version $Id: OutputWrapper.java,v 1.4 2001/03/18 22:42:51 jon Exp $
  */
 public class OutputWrapper extends XMLOutputter
 {
@@ -104,14 +104,4 @@ public class OutputWrapper extends XMLOutputter
         }
         return buff.toString();
     }
-
-    /**
-     * Passthru CDATA content uninterpreted
-     */
-    protected void printCDATASection(CDATA cdata, java.io.Writer out,
-                                     int indentLevel) throws IOException
-    {
-        out.write(cdata.getText());
-    }
-
 }
