@@ -98,7 +98,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.17 2001/03/20 01:11:23 jon Exp $
+ * @version $Id: Include.java,v 1.18 2001/04/22 18:14:15 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -196,10 +196,15 @@ public class Include extends Directive
         arg = value.toString();
 
         Resource resource = null;
-        
+
+        Resource current = context.getCurrentResource();
+
         try
         {
-            resource = Runtime.getContent(arg);
+            /*
+             *  get the resource, and assume that we use the encoding of the current template
+             */
+            resource = Runtime.getContent(arg, current.getEncoding());
         }
         catch (Exception e)
         {
