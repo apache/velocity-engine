@@ -20,7 +20,7 @@
             
            
                                     
-            <title>Velocity - Velocity User Guide</title>
+            <title>Velocity - Guía del Usuario de Velocity</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -136,67 +136,67 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Table of Contents"><strong>Table of Contents</strong></a>
+          <a name="Tabla de Contenidos"><strong>Tabla de Contenidos</strong></a>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <ol>
-<li><a href="#About this Guide">Acerca de esta guía</a></li>
-<li><a href="#What is Velocity?">¿Qué es Velocity?</a></li>
-<li><a href="#What can Velocity do for me?">¿Qué puede hacer Velocity por mi?</a>
+	<li><a href="#Acerca de esta guía">Acerca de esta guía</a></li>
+	<li><a href="#¿Qué es Velocity?">¿Qué es Velocity?</a></li>
+	<li><a href="#¿Qué puede hacer Velocity por mi?">¿Qué puede hacer Velocity por mi?</a>
 	<ol>
-		<li><a href="#The Mud Store Example">El Ejemplo de la tienda de
+		<li><a href="#El Ejemplo de la tienda de Lodo">El Ejemplo de la tienda de
 			Lodo</a></li>
 	</ol>
 </li>
-<li><a href="#Velocity Template Language (VTL): An Introduction">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
-<li><a href="#Hello Velocity World!">Hola Mundo Velocity!</a></li>
-<li><a href="#Comments">Comentarios</a></li>
-<li><a href="#References">Referencias</a>
+<li><a href="#El Lenguaje de Plantillas de Velocity (VTL): Una Introducción">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
+<li><a href="#¡Hola Mundo Velocity!">¡Hola Mundo Velocity!</a></li>
+<li><a href="#Comentarios">Comentarios</a></li>
+<li><a href="#Referencias">Referencias</a>
 	<ol>
 		<li><a href="#Variables">Variables</a></li>
-		<li><a href="#Properties">Propiedades</a></li>
-		<li><a href="#Methods">Métodos</a></li>
+		<li><a href="#Propiedades">Propiedades</a></li>
+		<li><a href="#Métodos">Métodos</a></li>
 	</ol>
 </li>
-<li><a href="#Formal Reference Notation">Notación Formal de Referencias</a></li>
-<li><a href="#Quiet Reference Notation">Notación Sileciosa de Referencias</a></li>
-<li><a href="#Getting literal">Literalmente</a>
+<li><a href="#Notación Formal de Referencias">Notación Formal de Referencias</a></li>
+<li><a href="#Notación Sileciosa de Referencias">Notación Sileciosa de Referencias</a></li>
+<li><a href="#Literalmente">Literalmente</a>
 	<ol>
-		<li><a href="#Currency">Dinero</a></li>
-		<li><a href="#Escaping Valid VTL References">Escapando Referencias VTL Válidas</a></li>
+		<li><a href="#Dinero">Dinero</a></li>
+		<li><a href="#Escapando Referencias VTL Válidas">Escapando Referencias VTL Válidas</a></li>
 	</ol>
 </li>
-<li><a href="#Case Substitution">Sustitución de Mayúsculas y Minúsculas</a></li>
-<li><a href="#Directives">Directivas</a>
+<li><a href="#Sustitución de Mayúsculas y Minúsculas">Sustitución de Mayúsculas y Minúsculas</a></li>
+<li><a href="#Directivas">Directivas</a>
 	<ol>
 		<li><a href="#Set">Set</a></li>
-		<li><a href="#String Literals">Cadenas de Caracteres</a></li>
-		<li><a href="#Conditionals">Sentencias If-Else</a>
+		<li><a href="#Cadenas de Caracteres">Cadenas de Caracteres</a></li>
+		<li><a href="#Sentencias If-Else">Sentencias If-Else</a>
 			<ol>
-				<li><a href="#Relational and Logical Operators">Operadores Lógicos y Relacionales</a></li>
+				<li><a href="#Operadores Lógicos y Relacionales">Operadores Lógicos y Relacionales</a></li>
 			</ol>
 		</li>
-		<li><a href="#Loops">Ciclos Foreach</a></li>
+		<li><a href="#Ciclos Foreach">Ciclos Foreach</a></li>
 		<li><a href="#Include">Include</a></li>
 		<li><a href="#Parse">Parse</a></li>
 		<li><a href="#Stop">Stop</a></li>
 		<li><a href="#Velocimacros">Velocimacros</a></li>
 	</ol>
 </li>
-<li><a href="#Escaping VTL Directives">Escapando Directivas VTL</a></li>
-<li><a href="#VTL: Formatting Issues">VTL: Asuntos de Formato</a></li>
-<li><a href="#Other Features and Miscellany">Otras Características y Miscelánea</a>
+<li><a href="#Escapando Directivas VTL">Escapando Directivas VTL</a></li>
+<li><a href="#VTL: Asuntos de Formato">VTL: Asuntos de Formato</a></li>
+<li><a href="#Otras Características y Miscelánea">Otras Características y Miscelánea</a>
 	<ol>
-		<li><a href="#Math">Matemáticas</a></li>
-		<li><a href="#Range Operator">El Operador de Rango</a></li>
-		<li><a href="#Advanced Issues: Escaping and !">Temas Avanzados: Escapando y !</a></li>
-		<li><a href="#Velocimacro Miscellany">Miscelánea de Velocimacro</a></li>
-		<li><a href="#String Concatenation">Concatenación de Cadenas</a></li>
+		<li><a href="#Matemáticas">Matemáticas</a></li>
+		<li><a href="#El Operador de Rango">El Operador de Rango</a></li>
+		<li><a href="#Temas Avanzados: Escapando y !">Temas Avanzados: Escapando y !</a></li>
+		<li><a href="#Miscelánea de Velocimacro">Miscelánea de Velocimacro</a></li>
+		<li><a href="#Concatenación de Cadenas">Concatenación de Cadenas</a></li>
 	</ol>
 </li>
-<li><a href="#Feedback">Retroalimentación</a></li>
+<li><a href="#Retroalimentación">Retroalimentación</a></li>
 </ol>
                             </blockquote>
         </p>
@@ -206,7 +206,7 @@
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="About this Guide"><strong>About this Guide</strong></a>
+          <a name="Acerca de esta guía"><strong>Acerca de esta guía</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -229,7 +229,7 @@ plantillas.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="What is Velocity?"><strong>What is Velocity?</strong></a>
+          <a name="¿Qué es Velocity?"><strong>¿Qué es Velocity?</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -261,7 +261,7 @@ web de acuerdo a un verdadero modelo MVC.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="What can Velocity do for me?"><strong>What can Velocity do for me?</strong></a>
+          <a name="¿Qué puede hacer Velocity por mi?"><strong>¿Qué puede hacer Velocity por mi?</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -269,7 +269,7 @@ web de acuerdo a un verdadero modelo MVC.
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="The Mud Store Example"><strong>The Mud Store Example</strong></a>
+          <a name="El Ejemplo de la tienda de Lodo"><strong>El Ejemplo de la tienda de Lodo</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -371,7 +371,7 @@ de Velocity.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity Template Language (VTL): An Introduction"><strong>Velocity Template Language (VTL): An Introduction</strong></a>
+          <a name="El Lenguaje de Plantillas de Velocity (VTL): Una Introducción"><strong>El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -456,7 +456,7 @@ de Velocity.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Hello Velocity World!"><strong>Hello Velocity World!</strong></a>
+          <a name="¡Hola Mundo Velocity!"><strong>¡Hola Mundo Velocity!</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -480,7 +480,7 @@ de Velocity.
 &lt;html&gt;
 &lt;body&gt;
 #set( $foo = &quot;Velocity&quot; )
-Hola Mundo $foo!
+¡Hola Mundo $foo!
 &lt;/body&gt;
 &lt;html&gt;
 </pre></td>
@@ -494,7 +494,7 @@ Hola Mundo $foo!
     </table>
     </div>
                                                 <p>
- El resultado es una página web que imprime "Hola Mundo Velocity!"
+ El resultado es una página web que imprime "¡Hola Mundo Velocity!"
  </p>
                                                 <p>
  Para hacer los enunciados con directivas VTL más legibles, nosotros le
@@ -510,7 +510,7 @@ Hola Mundo $foo!
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Comments"><strong>Comments</strong></a>
+          <a name="Comentarios"><strong>Comentarios</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -653,7 +653,7 @@ información de versiones:
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="References"><strong>References</strong></a>
+          <a name="Referencias"><strong>Referencias</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -751,7 +751,7 @@ $lanzaLodo1
 	que se encuentren a continuación es esta directiva.
  </p>
                                                 <p>
- <a name="Properties"><strong>Propiedades</strong></a>
+ <a name="Propiedades"><strong>Propiedades</strong></a>
  <br />
  	El segundo sabor de referencias VTL son las propiedades; las
 	propiedades tienen un formato particular. La versión corta se
@@ -794,7 +794,7 @@ $compra.Total
 	luego devolverá el valor apropiado.
  </p>
                                                 <p>
- <a name="Methods"><strong>Methods</strong></a>
+ <a name="Métodos"><strong>Methods</strong></a>
  <br />
  	Un método esta definido dentro del código de Java y es capaz de
 	hacer algo útil, como desarrollar un cálculo o llegar a una
@@ -910,7 +910,7 @@ $libro.setTitulo( &quot;Homenaje a Colombia&quot; )
     </table>
     </div>
                                                 <p>
- <a name="Formal Reference Notation"><strong>Notación Formal de
+ <a name="Notación Formal de Referencias"><strong>Notación Formal de
 		 Referncias</strong></a>
  <br />
  La notación abreviada para referencias fue utilizada en los ejemplos
@@ -1009,7 +1009,7 @@ Juan es un ${vicio}mano.
 	una plantilla.
  </p>
                                                 <p>
- <a name="Quiet Reference Notation"><strong>Notación de Referenias
+ <a name="Notación Sileciosa de Referencias"><strong>Notación de Referenias
 		 Silenciosas</strong></a>
  <br />
  	Cuando Velocity encuentra una referencia indefinida, su
@@ -1105,7 +1105,7 @@ Juan es un ${vicio}mano.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Getting literal"><strong>Getting literal</strong></a>
+          <a name="Literalmente"><strong>Literalmente</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -1117,7 +1117,7 @@ Juan es un ${vicio}mano.
   sección habla de como escapar el caracter <em>$</em>.
   </p>
                                                 <p>
-    <a name="Currency"><strong>Dinero</strong></a>
+    <a name="Dinero"><strong>Dinero</strong></a>
 	<br />
 	No hay ningún problema en escribir "Yo compré un saco de maíz de
 	2 kg. en el mercado de lagranja por sólo $2.50!". Como se mencionó
@@ -1126,7 +1126,7 @@ Juan es un ${vicio}mano.
 	referencia.
   </p>
                                                 <p>
-  <a name="Escaping Valid VTL References"><strong>Escapando Referencias
+  <a name="Escapando Referencias VTL Válidas"><strong>Escapando Referencias
 		  VTL Válidas</strong></a>
   <br />
   Pueden existir casos en donde haya la posibilidad de que Velocity se
@@ -1326,7 +1326,7 @@ en lugar de <em>$foo</em>
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Case Substitution"><strong>Case Substitution</strong></a>
+          <a name="Sustitución de Mayúsculas y Minúsculas"><strong>Sustitución de Mayúsculas y Minúsculas</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -1407,7 +1407,7 @@ referencias casi en cualquier lugar de su plantilla.
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Directives"><strong>Directives</strong></a>
+          <a name="Directivas"><strong>Directivas</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -1674,7 +1674,7 @@ El resultado de la primera consulta en pedro
 	A diferencia de algunas de las otras directivas de Velocity, la
 	directiva <em>#set</em> no tiene un enunciado <em>#end</em>.
  </p>
-                                                <a name="String Literals"><strong>Cadenas de Caracteres</strong></a>
+                                                <a name="Cadenas de Caracteres"><strong>Cadenas de Caracteres</strong></a>
                                                 <p>
  	Cuando se utiliza la directiva <em>#set</em>, los literales de
 	cadena que están encerrados en comillas dobles serán evaluados y
@@ -1794,7 +1794,7 @@ $blarg
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Conditionals"><strong>Conditionals</strong></a>
+          <a name="Sentencias If-Else"><strong>Sentencias If-Else</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -1897,7 +1897,7 @@ $blarg
 	del '==' sean de la <em>misma</em> clase.
     </p>
                                                 <p>
-	<a name="Relational and Logical Operators"><strong>Operadores
+	<a name="Operadores Lógicos y Relacionales"><strong>Operadores
 			Lógicos y Relacionales</strong></a>
     </p>
                                                 <p>
@@ -2065,7 +2065,7 @@ $blarg
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Loops"><strong>Loops</strong></a>
+          <a name="Ciclos Foreach"><strong>Ciclos Foreach</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -2733,7 +2733,7 @@ siguientes elementos de VTL:
   </p>
                                                 <ul>
     <li>
-	Referencia : cualquier coa que comience con '$'
+	Referencia : cualquier cosa que comience con '$'
     </li>
     <li>
 	Cadena de caracteres : algo como "$foo" u 'hola'
@@ -2919,7 +2919,7 @@ siguientes elementos de VTL:
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Escaping VTL Directives"><strong>Escaping VTL Directives</strong></a>
+          <a name="Escapando Directivas VTL"><strong>Escapando Directivas VTL</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3168,7 +3168,7 @@ un retorno después de 'Ganelin', por lo que el \\ final, que precede el
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="VTL: Formatting Issues"><strong>VTL: Formatting Issues</strong></a>
+          <a name="VTL: Asuntos de Formato"><strong>VTL: Asuntos de Formato</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3297,7 +3297,7 @@ En cada caso la salida será la misma
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Other Features and Miscellany"><strong>Other Features and Miscellany</strong></a>
+          <a name="Otras Características y Miscelánea"><strong>Otras Características y Miscelánea</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3305,7 +3305,7 @@ En cada caso la salida será la misma
                                         <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Math"><strong>Math</strong></a>
+          <a name="Matemáticas"><strong>Matemáticas</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3377,7 +3377,7 @@ escribe el dato al log y se retorna null como salida.
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Range Operator"><strong>Range Operator</strong></a>
+          <a name="El Operador de Rango"><strong>El Operador de Rango</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3504,7 +3504,7 @@ llenar la tabla, encontrarán el operador de rango particularmente útil.
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Advanced Issues: Escaping and !"><strong>Advanced Issues: Escaping and !</strong></a>
+          <a name="Temas Avanzados: Escapando y !"><strong>Temas Avanzados: Escapando y !</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3629,7 +3629,7 @@ $\\!foo
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocimacro Miscellany"><strong>Velocimacro Miscellany</strong></a>
+          <a name="Miscelánea de Velocimacro"><strong>Miscelánea de Velocimacro</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -3898,7 +3898,7 @@ Velocimacros.
                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#828DA6">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="String Concatenation"><strong>String Concatenation</strong></a>
+          <a name="Concatenación de Cadenas"><strong>Concatenación de Cadenas</strong></a>
         </font>
       </td></tr>
       <tr><td>
@@ -4022,7 +4022,7 @@ Una pregunta común que los desarrolladores formulan es <i>¿Cómo
                                                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Feedback"><strong>Feedback</strong></a>
+          <a name="Retroalimentación"><strong>Retroalimentación</strong></a>
         </font>
       </td></tr>
       <tr><td>
