@@ -70,22 +70,16 @@ import org.apache.velocity.InternalContextBase;
  * abstract routines that access your preferred storage method.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AbstractContext.java,v 1.2 2000/12/29 22:19:05 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.3 2000/12/30 14:42:00 geirm Exp $
  */
 
-public abstract class AbstractContext implements Context, Serializable
+public abstract class AbstractContext extends InternalContextBase  implements Context, InternalContext,  Serializable
 {
     /**
      *  we handle the context wrapping
      */
     private   Context  innerContext = null;
-    
-    /**
-     *  for Velocity internal use : for introspection caching et al
-     */
-    private   InternalContextBase icb = new InternalContextBase();
-
- 
+  
     /** implement to return a value from the context storage */
     public abstract Object internalGet( String key );
 
@@ -192,7 +186,7 @@ public abstract class AbstractContext implements Context, Serializable
 
     /**
      * Adds a name/value pair to the context.
-     *
+     * 
      * @param key   The name to key the provided value with.
      * @param value The corresponding value.
      */
@@ -279,8 +273,4 @@ public abstract class AbstractContext implements Context, Serializable
         return internalRemove(key);
     }        
 
-    public InternalContext getInternalContext()
-    {
-        return icb;
-    }
 }

@@ -34,9 +34,7 @@ Included
 ---------
 Context.java : basic interface defintion.  It looks exactly like 
 the current Context, for the most part, except that put optionally
-returns the Object it replaces, and the InternalContext crap is 
-gotten as an object by the nodes rather than have the methods 
-implemented by the Context.
+returns the Object it replaces.
 
 AbstractContext.java : abstract class for a usable app-level Context.
 Handles the wrapping/chaining support as well as interfacing with the
@@ -53,8 +51,8 @@ a HashMap for storage.
 TreeMapContext.java : another example of creating a new kind of Context, it uses
 a TreeMap for storage.
 
-[yes, the two above aren't that interesting.  But show how one goes about
-doing it. I'll try for a DBContext later when I have more time]
+DBContext.jata : another [silly] example of a Context implementation that
+serializes objects to and from a database (MySQL in my case...) Flaky, but works.
 
 MultiContextTest.java : the Test program but now uses the three above contexts
 together, wrapped/chained in a chain to demonstrate that it indeed works.
@@ -65,6 +63,15 @@ this to work.  I will check all in if we decide this is the way to go...)
 You can also use this against the testbed - chaining is used within the 
 TemplateTestCase.
 
+Notes
+-----
+12/30/00
+--------
+1) It's snowing!
+2) Jason had a great point - that the internalContext stuff should
+be completely hidden from app level if possible - needed to remove 
+the getInternalContext() accessor method from the Context interface and
+the AbstractContext abstract base class.  So that's done.
 
 geir
 

@@ -57,58 +57,50 @@ package org.apache.velocity;
 import java.util.Hashtable;
 import java.io.Serializable;
 
-import org.apache.velocity.util.ArrayIterator;
-import org.apache.velocity.InternalContext;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
- * This class provides the storage location for all dynamic
- * information that is used to create a document. A final
- * document is created by processing a template against
- * the contents of the context. The context may include
- * an valid object derived from Object. These objects
- * are stored in a Hashtable. 
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ *  class to encapsulate the 'stuff' for internal operation of velocity.  
+ *  We use the context as a thread-safe storage : we take advantage of the
+ *  fact that it's a visitor  of sorts  to all nodes (that matter) of the 
+ *  AST during init() and render().
+ *  Currently, it carries the template name for namespace
+ *  support, as well as node-local context data introspection caching.
+ *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Context.java,v 1.2 2000/12/30 14:42:00 geirm Exp $
+ * @version $Id: InternalContext.java,v 1.1 2000/12/30 14:42:00 geirm Exp $
  */
-public interface Context
+public interface InternalContext
 {
     /**
-     * Adds a name/value pair to the context.
+     *  set the current template name
      *
-     * @param key   The name to key the provided value with.
-     * @param value The corresponding value.
+     *  @param s current template name to set
      */
-    public Object put(String key, Object value);
+    public void setCurrentTemplateName( String s );
+    
+    /**
+     *  get the current template name
+     *
+     *  @return String current template name
+     */
+    public String getCurrentTemplateName();
 
     /**
-     * Gets the value corresponding to the provided key from the context.
+     *  returns an IntrospectionCache Data (@see IntrospectionCacheData)
+     *  object if exists for the key
      *
-     * @param key The name of the desired value.
-     * @return    The value corresponding to the provided key.
+     *  @param key  key to find in cache
+     *  @return cache object
      */
-    public Object get(String key);
- 
+    public IntrospectionCacheData icacheGet( Object key );
+    
     /**
-     * Indicates whether the specified key is in the context.
+     *  places an IntrospectionCache Data (@see IntrospectionCacheData)
+     *  element in the cache for specified key
      *
-     * @param key The key to look for.
-     * @return    Whether the key is in the context.
+     *  @param key  key 
+     *  @param o  IntrospectionCacheData object to place in cache
      */
-    public boolean containsKey(Object key);
-
-    /**
-     * Get all the keys for the values in the context
-     */
-    public Object[] getKeys();
-
-    /**
-     * Removes the value associated with the specified key from the context.
-     *
-     * @param key The name of the value to remove.
-     * @return    The value that the key was mapped to, or <code>null</code> 
-     *            if unmapped.
-     */
-    public Object remove(Object key);
+    public void icachePut( Object key, IntrospectionCacheData o );
 }
-
