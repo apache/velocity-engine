@@ -1,0 +1,18 @@
+#set($foo = 1)
+$foo
+#local( $foo)
+   $foo
+   #set($foo = 2)
+   $foo
+
+   #local($foo)
+     #set($foo = 5)
+     $foo
+   #end
+
+   $foo
+
+#end
+
+$foo
+

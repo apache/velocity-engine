@@ -1,0 +1,23 @@
+#macro(foo $value)
+  $value
+   #if ($value > 0)
+       #set($value = $value - 1)
+       #foo($value)
+   #end
+   $value
+#end
+
+#macro(foofoo $value)
+  $value
+  #local($value)
+   #if ($value > 0)
+       #set($value = $value - 1)
+       #foofoo($value)
+   #end
+   #end
+   $value
+#end
+
+
+#foo(5)
+#foofoo(5)
