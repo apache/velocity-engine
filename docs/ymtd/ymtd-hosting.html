@@ -111,9 +111,9 @@
                                     <p>
 JSP is great for hosted environments (ie: shared development
 environments, ISP's and large companies) where many different kinds of
-people putting pages on the server may not know much more than
-HTML. Part of the reason it is so nice is that with the HTML'ish syntax
-JSP is so easy to learn!
+people are putting pages on the servlet engine may not know much more
+than HTML. Part of the reason it is so nice is that with the HTML'ish
+syntax JSP is so easy to learn!
 </p>
                                                 <p>
 However, if one really looks at that statement in more detail it becomes
@@ -157,21 +157,23 @@ share).
 As soon as all of the memory is gone, every single hosted application
 will start to receive the dreaded "OutOfMemoryError". The reason why
 this is so bad has already been explained <a href="./ymtd-error-handling.html">earlier</a>. Essentially JSP pages
-themselves cannot catch OOME errors and the entire server will suddenly
-become useless, all because of what amounts to a few lines of badly
-written Java code.
+themselves cannot catch OOME errors and the entire servlet engine will
+suddenly become useless, all because of what amounts to a few lines of
+badly written Java code.
 </p>
                                                 <p>
 Remember, it is a bad idea to put Java code into a JSP page. Tell that
-to the 14 year old kid who is being hosted on your ISP's server who
-really does not care that others might be affected by these actions.
+to the 14 year old kid who is being hosted on your ISP's servlet engine
+who really does not care that others might be affected by these actions.
 </p>
                                                 <p>
 Velocity does not have this issue because there is no while loop in the
 Velocity Template Language. The only looping construct in Velocity is a
 #foreach and that loops over an array that has a finite amount of
 elements. It is also possible to disable the #foreach directive and
-limit the amount of recursive nesting that is possible.
+limit the amount of recursive nesting that is possible. Note: it is
+possible to modify Velocity to add a #while directive to the template
+language.
 </p>
                                                 <p>
 There is nothing in JSP or Struts that prevents people from embedding

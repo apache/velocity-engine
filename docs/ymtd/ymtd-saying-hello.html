@@ -199,7 +199,9 @@ JSP. ]</font>
                                                 <p>
 The primary difference between the two is the way that output is
 performed. With JSP, one needs to embed "code" within <code>&lt;%
-%&gt;</code> tags and for Velocity, one does not need to do that.
+%&gt;</code> tags and for Velocity, one does not need to embed "code"
+within tags. One can simply use the Velocity Template Language (VTL)
+directly in any portion of the template.
 </p>
                                                 <p>
 The benefit (and detriment) of the embedded code is that the JSP code
@@ -239,9 +241,45 @@ this:
 &lt;% if (request.getParameter(&quot;name&quot;) == null) %&gt;
           Hello World
 &lt;% else %&gt;
-          Hello, &lt;% request.getParameter(&quot;name&quot;) %&gt;
+          Hello, &lt;% request.getParameter(&quot;name&quot;); %&gt;
 &lt;/h1&gt;
 &lt;/body&gt;&lt;/html&gt;</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+Or with Struts:
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;
+&lt;logic:notPresent parameter=&quot;name&quot;&gt;
+          Hello World
+&lt;/logic:notPresent&gt;
+&lt;logic:present parameter=&quot;name&quot;&gt;
+          &lt;bean:parameter id=&quot;name&quot; name=&quot;name&quot;/&gt;
+          Hello, &lt;bean:write name=&quot;name&quot;/&gt;
+&lt;/logic:present&gt;
+&lt;/h1&gt;
+&lt;/body&gt;&lt;/html&gt;
+</pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
     <tr>
@@ -265,15 +303,16 @@ really needs to jump through hoops. The example above looks very similar
 to the Velocity example. However, one still needs to embed the necessary
 <code>&lt;% %&gt;</code> tags everywhere. More typing == more chances
 for mistakes! There is also a bit of a disconnect as to when the ";"
-needs to be added and when it does not.
+needs to be added and when it does not. With Velocity, the rule is that
+you place a # before a directive and a $ before a member in the Context.
 </p>
                                                 <p>
 As you can see from the example image, there is now a bit more
 information in the displayed page, except that it is also missing all of
-the logic which was used to build the page. In this simple example, it
-is not very clear why this is beneficial. However, in more complex
-examples (like with a <code>for/foreach</code> loop) it becomes much
-more clear why it can be advantageous to see the logic in the page.
+the logic which was used to build the page. If one views the equivalent
+Velocity template directly in the browser, without it being rendered
+first, all of the logic in the template remains visible. The advantage
+is that it is easier to debug problems.
 </p>
                                                 <p>
 You make the decision.

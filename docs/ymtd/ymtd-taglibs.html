@@ -208,6 +208,36 @@ The same example using Velocity would be written like this:
     </table>
     </div>
                                                 <p>
+Of course this could be written even cleaner as:
+</p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#if($number == 7)
+  You guessed right! You win a high speed blender!
+#elseif( $number &lt; 7 )
+  lower
+#else
+  higher
+#end
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
 This really falls into a preferences situation. In other words, which
 syntax would someone prefer to use? It seems as though the amount of
 typing required to implement the taglibs approach would be a major
@@ -391,6 +421,8 @@ known as "directives"):
 #elseif
 #foreach
 #set
+#parse
+#include
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -427,10 +459,10 @@ hope so.
 </p>
                                                 <p>
 One last point to make about using a HTML syntax is that this really
-pigeon holes JSP and Struts into simply being a tool for creating only
-dynamic HTML code. Velocity on the other hand is designed to take as
-input any type of text (Java, SQL, HTML, etc) and output anything as a
-result of running it through its processing engine.
+pigeon holes JSP and Struts into simply being a tool for creating
+dynamic HTML/XML/WML (ie: tag markup) code. Velocity on the other hand
+is designed to take as input any type of text (Java, SQL, HTML, etc) and
+output anything as a result of running it through its processing engine.
 </p>
                                                 <p>
 You make the decision.

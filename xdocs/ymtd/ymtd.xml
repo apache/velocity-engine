@@ -36,12 +36,11 @@ at any time, click YMTD on the left side navigation.
 
 <section name="What are we comparing?">
 <p>
-This multi page document will compare usage of Turbine/Velocity and
-Struts/JSP. In both cases, we have a framework of reusable code that
-makes life easier for building web applications by providing the "Model"
-and "Controller" portions of the MVC paradigm (Turbine and Struts).
-There is also a template language that provides the "View" portion (JSP
-and Velocity).
+This multi page document will compare usage of Velocity and JSP. In both
+cases, we have a framework of reusable code that makes life easier for
+building web applications by providing the "Model" and "Controller"
+portions of the MVC paradigm (Turbine and Struts). There is also a
+template language that provides the "View" portion (JSP and Velocity).
 </p>
 
 <p>
@@ -75,7 +74,7 @@ refer to some of these reference URL's:
 We would first like to thank the entire <a
 href="../contributors.html">Velocity</a> and <a
 href="/turbine/contributors.html">Turbine</a> teams for creating such
-kick ass products. These groups are a 100% volunteer organization and
+great products. These groups are a 100% volunteer organization and
 some very talented engineers have come together from around the world to
 help make these products a reality and a success. They deserve a round
 of thanks and appreciation for their hard work and dedication.
