@@ -92,16 +92,24 @@ import java.util.HashMap;
  *  to handle them by explicitly placing them into the context.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: FieldMethodizer.java,v 1.1 2001/01/21 20:52:48 geirm Exp $ 
+ * @version $Id: FieldMethodizer.java,v 1.2 2001/01/22 00:03:11 jon Exp $ 
  */
 public class FieldMethodizer
 {
     /** Hold the field objects by field name */
-    private HashMap fieldhash = new HashMap();
-    
-    /** The class we are 'methodizing' */
-    Class clas = null;
-    
+    private HashMap fieldHash = new HashMap();
+
+    /** Hold the class objects by field name */
+    private HashMap classHash = new HashMap();
+
+    /**
+     * Allow object to be initialized without any data. You would use
+     * addObject() to add data later.
+     */
+    public FieldMethodizer()
+    {
+    }
+
     /**
      *  Constructor that takes as it's arg the name of the class
      *  to methodize.
@@ -112,8 +120,7 @@ public class FieldMethodizer
     {
         try
         {
-            clas = Class.forName( s );
-            inspect();
+            addObject(s);
         }
         catch( Exception e )
         {
@@ -133,13 +140,30 @@ public class FieldMethodizer
     {
         try
         {
-            clas =  o.getClass();
-            inspect();
+            addObject(o);
         }
         catch( Exception e )
         {
             System.out.println( e );
         }
+    }
+    
+    /**
+     * Add the Name of the class to methodize
+     */
+    public void addObject ( String s )
+        throws Exception
+    {
+        inspect(Class.forName(s));
+    }
+    
+    /**
+     * Add an Object to methodize
+     */
+    public void addObject ( Object o )
+        throws Exception
+    {
+        inspect(o.getClass());
     }
 
     /**
@@ -153,15 +177,13 @@ public class FieldMethodizer
     {
         try 
         {
-            Field f = (Field) fieldhash.get( fieldName );
-	    
+            Field f = (Field) fieldHash.get( fieldName );
             if (f != null)
-                return f.get( clas );
+                return f.get( (Class) classHash.get(fieldName) );
         }
         catch( Exception e )
         {
         }
-	 
         return null;
     }
 
@@ -169,25 +191,20 @@ public class FieldMethodizer
      *  Method that retrieves all public static fields
      *  in the class we are methodizing.
      */
-    private void inspect()
+    private void inspect(Class clas)
     {
         Field[] fields = clas.getFields();
-
         for( int i = 0; i < fields.length; i++)
         {
             /*
              *  only if public and static
              */
-
             int mod = fields[i].getModifiers();
-
             if ( Modifier.isStatic(mod) && Modifier.isPublic(mod) )
             {
-                fieldhash.put(fields[i].getName(), fields[i]);
+                fieldHash.put(fields[i].getName(), fields[i]);
+                classHash.put(fields[i].getName(), clas);
             }
         }
     }
 }
-
-
-
