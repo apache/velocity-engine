@@ -67,7 +67,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: MethodMap.java,v 1.13.2.1 2002/07/14 21:35:05 geirm Exp $
+ * @version $Id: MethodMap.java,v 1.13.2.2 2002/07/24 22:03:48 geirm Exp $
  */
 public class MethodMap
 {
@@ -259,7 +259,7 @@ public class MethodMap
                  */
                 if (checkPrimitive(base[i], setclass))
                 {
-                    break;
+                    continue;
                 }
                 else
                 {
