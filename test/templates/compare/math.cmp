@@ -12,5 +12,9 @@ Multiplication, division, and modulus :
 5 / 0 = $rem4
 5 * 2 = 10
 
+5 * -1 = -5
+5 * -2 = -10
+5 * -2 = -10
+
 And now null nodes to make sure it doesn't throw an NPE :
 
