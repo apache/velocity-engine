@@ -80,7 +80,6 @@
   <!-- =================================================================== -->
   <target name="env">
     
-    <echo message="build.compiler = ${build.compiler}"/>
     <echo message="java.home = ${java.home}"/>
     <echo message="user.home = ${user.home}"/>
     <echo message="java.class.path = ${java.class.path}"/>
