@@ -166,10 +166,10 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.31 2001/05/11 03:59:10 geirm Exp $
+ * @version $Id: Configuration.java,v 1.32 2001/08/15 20:42:51 dlr Exp $
  *
- *  @deprecated as of 1.1.  Please use ExtendedProperties from the Jakarta Commons
- *     collections component.
+ * @deprecated As of version 1.1, please use ExtendedProperties from
+ * the Jakarta Commons Collections component.
  */
 public class Configuration extends Hashtable
 {
