@@ -55,9 +55,14 @@ package org.apache.velocity.test;
  */
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import junit.framework.*;
 
+import org.apache.velocity.Context;
+import org.apache.velocity.Template;
+import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.FastWriter;
 
@@ -65,7 +70,7 @@ import org.apache.velocity.io.FastWriter;
  * Easily add test cases which evaluate templates and check their output.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: TemplateTestCase.java,v 1.3 2000/10/23 00:16:42 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.4 2000/10/23 20:46:00 jvanzyl Exp $
  */
 public class TemplateTestCase extends BaseTestCase
 {
@@ -90,6 +95,11 @@ public class TemplateTestCase extends BaseTestCase
      */
     private FastWriter writer;
 
+    private TestProvider provider;
+    private ArrayList al;
+    private Hashtable h;
+    private Context context;
+    
     /**
      * Creates a new instance.
      *
@@ -100,6 +110,49 @@ public class TemplateTestCase extends BaseTestCase
     {
         super(getTestCaseName(baseFileName));
         this.baseFileName = baseFileName;
+    }
+
+    /**
+     * Sets up the test.
+     */
+    protected void setUp ()
+    {
+        provider = new TestProvider();
+        al = provider.getCustomers();
+        h = new Hashtable();
+        h.put("Bar", "this is from a hashtable!");
+        
+        context = new Context();
+        context.put("provider", provider);
+        context.put("name", "jason");
+        context.put("providers", provider.getCustomers2());
+        context.put("list", al);
+        context.put("hashtable", h);
+        context.put("search", provider.getSearch());
+        context.put("relatedSearches", provider.getRelSearches());
+        context.put("searchResults", provider.getRelSearches());
+    }
+
+    /**
+     * Runs the test.
+     */
+    public void runTest ()
+    {
+        try
+        {
+            System.out.println("Testing " + baseFileName + ".vm");
+            Template template = Runtime.getTemplate(baseFileName + ".vm");
+            template.merge(context, getWriter(System.out));
+            
+            if (!isMatch())
+            {
+                fail("Processed template did not match expected output");
+            }
+        }
+        catch (Exception e)
+        {
+            fail(e.getMessage());
+        }
     }
 
     /**
@@ -138,24 +191,6 @@ public class TemplateTestCase extends BaseTestCase
     {
         // TODO: Implement matching.
         return true;
-    }
-
-    /**
-     * Runs the test.
-     */
-    public void runTest ()
-    {
-        try
-        {
-            if (!isMatch())
-            {
-                fail("Processed template did not match expected output");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
     }
 
     /**

@@ -71,7 +71,7 @@ import junit.framework.*;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: VelocityTestSuite.java,v 1.6 2000/10/23 18:30:06 jvanzyl Exp $
+ * @version $Id: VelocityTestSuite.java,v 1.7 2000/10/23 20:46:00 jvanzyl Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -81,6 +81,11 @@ public class VelocityTestSuite extends TestSuite
      */
      private final static String TEST_TEMPLATE_PATH =
         "../test/templates";
+
+     private final static String TEST_PROPERTIES =
+        "../test/test.properties";
+
+    private Properties testProperties;
 
     /**
      * Creates an instace of the Apache Velocity test suite.
@@ -94,10 +99,13 @@ public class VelocityTestSuite extends TestSuite
             Runtime.setDefaultProperties();
             Runtime.setProperty(Runtime.TEMPLATE_PATH, TEST_TEMPLATE_PATH);
             Runtime.init();
+            
+            testProperties = new Properties();
+            testProperties.load(new FileInputStream(TEST_PROPERTIES));
         }
         catch (Exception e)
         {
-            System.err.println("Cannot initialize Velocity Runtime!");
+            System.err.println("Cannot setup VelocityTestSuite!");
             System.exit(1);
         }            
 
@@ -107,7 +115,6 @@ public class VelocityTestSuite extends TestSuite
         {
             addTest(new TemplateTestCase((String)iter.next()));
         }
-        addTest(new VelocityTest("Apache Velocity"));
     }
 
     /**
@@ -118,8 +125,25 @@ public class VelocityTestSuite extends TestSuite
      */
     private List getTemplateTestCases ()
     {
+        String template;
         List testCases = new ArrayList();
         // TODO: Parse the template test cases from the properties file.
+        // For now I'll place them in here manually.
+        //testCases.add("test");
+        
+        for (int i = 1 ;; i++)
+        {
+            template = testProperties.getProperty(
+                "test.template." + Integer.toString(i));
+            
+            if (template == null)
+                break;
+            
+            System.out.println("Adding " + template);
+            
+            testCases.add(template);
+        }            
+        
         return testCases;
     }
 }
