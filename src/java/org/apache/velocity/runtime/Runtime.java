@@ -145,7 +145,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.36 2000/11/08 02:59:15 jon Exp $
+ * @version $Id: Runtime.java,v 1.37 2000/11/08 03:22:41 jon Exp $
  */
 public class Runtime
 {
@@ -426,13 +426,15 @@ public class Runtime
     public static SimpleNode parse(InputStream inputStream)
         throws ParseException
     {
-        synchronized(parser)
+        if (parser == null)
         {
-            if (parser == null)
-                parser = createNewParser();
-
-            return parser.parse(inputStream);            
-        } 
+            synchronized(Runtime.class)
+            {
+                if (parser == null)
+                    parser = createNewParser();
+            }
+        }
+        return parser.parse(inputStream);            
     }
     
     /**
@@ -486,19 +488,34 @@ public class Runtime
     /** Log a warning message */
     public static void warn(Object message)
     {
-        log(WARN + message.toString());
+        String out = null;
+        if (message instanceof Throwable || message instanceof Exception)
+            out = StringUtils.stackTrace((Throwable)message);
+        else
+            out = message.toString();    
+        log(WARN + out);
     }
     
     /** Log an info message */
     public static void info(Object message)
     {
-        log(INFO + message.toString());
+        String out = null;
+        if (message instanceof Throwable || message instanceof Exception)
+            out = StringUtils.stackTrace((Throwable)message);
+        else
+            out = message.toString();    
+        log(INFO + out);
     }
     
     /** Log an error message */
     public static void error(Object message)
     {
-        log(ERROR + message.toString());
+        String out = null;
+        if (message instanceof Throwable || message instanceof Exception)
+            out = StringUtils.stackTrace((Throwable)message);
+        else
+            out = message.toString();    
+        log(ERROR + out);
     }
     
     /** Log a debug message */
