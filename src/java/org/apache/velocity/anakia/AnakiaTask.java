@@ -75,6 +75,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
 import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 
@@ -92,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.20 2001/03/12 21:45:08 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.21 2001/03/14 22:03:19 jvanzyl Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -287,21 +288,18 @@ public class AnakiaTask extends MatchingTask
         
         try
         {
-            // initialize Velocity
-            if (velocityPropertiesFile == null)
+            if (velocityPropertiesFile != null)
             {
-                Runtime.init();
+                Velocity.init(velocityPropertiesFile.getAbsolutePath());
             }
-            else
+            else if (templatePath != null && templatePath.length() > 0)
             {
-                Runtime.init(velocityPropertiesFile.getAbsolutePath());
-            }
-            // override the templatePath if it exists
-            if (templatePath != null && templatePath.length() > 0)
-            {
-                Runtime.setSourceProperty(Runtime.FILE_RESOURCE_LOADER_PATH,
+                Velocity.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH,
                     templatePath);
+                
+                Velocity.init();
             }
+            
 
             // get the last modification of the VSL stylesheet
             styleSheetLastModified = Runtime.getTemplate(style).getLastModified();
