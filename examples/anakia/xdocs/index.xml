@@ -38,7 +38,7 @@ This is an example template that gets processed.
 
     <section name="section 3">
     
-    <p><a href="./site/index.html">A link to a sub page</a></p>
+    <p><a href="./about/index.html">A link to a sub page</a></p>
 
     </section>
 
