@@ -10,7 +10,7 @@
   <property file=".ant.properties" />
 
   <property name="Name" value="Velocity"/>
-  <property name="version" value="1.2-rc1"/>
+  <property name="version" value="1.2-rc2"/>
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
