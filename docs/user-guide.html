@@ -1447,6 +1447,7 @@ ${data.Request.ServerName}
         <li>Method reference</li>
         <li>Number literal</li>
         <li>ArrayList</li>
+        <li>Map</li>
     </ul>
  </p>
                                                 <p>
@@ -1468,6 +1469,7 @@ ${data.Request.ServerName}
 #set( $monkey.Plan = $spindoctor.weave($web) ) ## method reference
 #set( $monkey.Number = 123 ) ##number literal
 #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ## ArrayList
+#set( $monkey.Map = [&quot;bannana&quot; : &quot;good&quot;, &quot;roast beef&quot; : &quot;bad&quot;]) ## Map
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -1479,11 +1481,19 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
-   NOTE: In the last example the elements defined with the
+   NOTE: For the ArrayList example the elements defined with the
    [..] operator are accessible using the methods defined
    in the ArrayList class. So, for example, you could access
    the first element above using $monkey.Say.get(0).
  </p>
+                                                <p>
+      Similarly, for the Map example, the elements defined within the
+      [..] operator are accessible using the methods defined
+      in the Map class. So, for example, you could access
+      the first element above using $monkey.Map.get("bannana") to return
+      a String 'good', or even $monkey.Map.bannana to return the
+      same value.
+    </p>
                                                 <p>
     The RHS can also be a simple arithmetic expression:
  </p>
