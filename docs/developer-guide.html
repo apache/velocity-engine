@@ -1202,15 +1202,17 @@ file.resource.loader.modificationCheckInterval = 2
     </div>
                                                 <strong>Velocimacro</strong>
                                                 <p>
-<code>velocimacro.global.library = VM_global_library.vm </code><br />
-Filename of Velocimacro library to be loaded when the Velocity Runtime engine starts.  These Velocimacros are accessable to all
+<code>velocimacro.library = VM_global_library.vm </code><br />
+<i>Multi-valued key.  Will accept CSV for value.</i>
+Filename(s) of Velocimacro library to be loaded when the Velocity Runtime engine starts.  
+These Velocimacros are accessable to all
 templates.  The file is assumed to be relative to the root of the file loader resource path.
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline = true</code><br />
-Determines of the definition of new VM1s via the #macro() directive in templates is allowed.  The default value is true, meaning any
-template can define and use new VMs.  Note that depending on other properties, those #macro() statements can replace global
-definitions.
+Determines of the definition of new Velocimacros via the #macro() directive in templates is allowed.  
+The default value is true, meaning any template can define and use new Velocimacros.  Note that 
+depending on other properties, those #macro() statements can replace global definitions.
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline.to.replace.global = false </code><br />
@@ -1218,17 +1220,19 @@ Controls if a Velocimacro defind 'inline' in a template can replace a Velocimacr
 </p>
                                                 <p>
 <code>velocimacro.permissions.allow.inline.local.scope = false</code><br />
-Controls 'private' templates namespaces for VMs.  When true, a #macro() directive in a template creates a VM that is accessable
-only from the defining template.  This means that VMs cannot be shared unless they are in the global or local library loaded
-at startup. (See above.)  It also means that templates cannot interfere with each other.  This property also allows a technique
-where there is a 'default' VM definition in the global or local library, and a template can 'override' the implementation for
-use within that template.  This occurrs because when this property is true, the template's namespace is searched for a VM before
-the global namespace, therefore allowing the override mechanism.
+Controls 'private' templates namespaces for Velocimacros.  When true, a #macro() directive in a template 
+creates a Velocimacro that is accessable only from the defining template.  This means that Velocimacros 
+cannot be shared unless they are in the global or local library loaded at startup. (See above.)  
+It also means that templates cannot interfere with each other.  This property also allows a technique
+where there is a 'default' Velocimacro definition in the global or local library, and a template can 
+'override' the implementation for use within that template.  This occurrs because when this property 
+is true, the template's namespace is searched for a Velocimacro before the global namespace, therefore 
+allowing the override mechanism.
 </p>
                                                 <p>
 <code>velocimacro.context.localscope = false</code><br />
 Controls whether reference access (set/get) within a Velocimacro will change the context, or be of local scope in that
-VM.
+Velocimacro.
 </p>
                                                 <strong>String Interpolation</strong>
                                                 <p>
