@@ -636,7 +636,7 @@
 
   <p>
     <source><![CDATA[
-    ## The following line defines $email in this template
+    ## The following line defines $email in this template:
     #set( $email = "foo" )
 
     ## The output of the following line will be $email's value: foo
@@ -1034,15 +1034,49 @@
     can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
     refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
     <vtldirective>#parse</vtldirective> will only take a single argument. 
-    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive 
-    <vtldirective>#parse( foo.vm )</vtldirective>, nor can it reference any other template which contains the 
-    statement <vtldirective>#parse( foo.vm )</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
-    statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
-    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>velocity.properties</filename> allows users 
-    to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
+    </p>
+
+    <p>
+    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn 
+    have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> 
+    line of the <filename>velocity.properties</filename> allows users to customize maximum number of 
+    <vtldirective>#parse</vtldirective> referrals that can occur from a single 
     template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
-    <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
+    <filename>velocity.properties</filename> file, Velocity will set this default to 10.)  
+    Recursion is permitted, for example, if the template <filename>dofoo.vm</filename> contains the following lines:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    Count down.
+    #set( $count = 8 )
+    #parse( "parsefoo.vm" )
+    All done with dofoo.vm!
+    ]]></source>
     </p>    
+    
+    <p>
+    It would reference the template <filename>parsefoo.vm</filename>, which might contain the following VTL:
+    </p>
+
+    <p>    
+    <source><![CDATA[
+    $count
+    #set( $count = $count - 1 )
+    #if( $count > 0 )
+      #parse( "parsefoo.vm" )
+    #else
+      All done with parsefoo.vm!
+    #end
+    ]]></source>
+    </p>    
+
+    <p>
+    After "Count down." is displayed, Velocity passes through <filename>parsefoo.vm</filename>, counting down from 8. 
+    When the count reaches 0, it will display the "All done with parsefoo.vm!" message. At this point, Velocity will return to 
+    <filename>dofoo.vm</filename> and output the "All done with dofoo.vm!" message.
+    </p>
+
 
  </s1>
 
@@ -1298,7 +1332,7 @@
 
   <p>
   In this case, if <variable>$jazz</variable> is true, the output is 
-  "/ Vyacheslav Ganelin /". If <variable>$jazz</variable> is false, 
+  "\ Vyacheslav Ganelin \". If <variable>$jazz</variable> is false, 
   there is no output. Note that things start to break if script elements 
   are not properly escaped.
   </p>
@@ -1383,7 +1417,7 @@
 
 </s1>
 
-<s1 title="Advanced Features">
+<s1 title="Other Features">
 
   <s1 title="Math">
   
@@ -1420,15 +1454,119 @@
     logged and a null will be returned as the output.
   </p>
 
+  </s1>
+
+  <s1 title="Range Operator">
+
   <p>
-    
+    The range operator can be used in conjunction with <vtldirective>#set</vtldirective>
+    and <vtldirective>#foreach</vtldirective> statements. Useful for its ability to 
+    produce an object array containing integers, the range operator has the following 
+    construction: 
+  </p>
+
+  <p>
+    <source><![CDATA[
+    [n..m]
+    ]]></source>
+  </p>
+
+  <p>
+    Both <vtl>n</vtl> and <vtl>m</vtl> must either be or produce integers. Whether 
+    <vtl>m</vtl> is greater than or less than <vtl>n</vtl> will not matter; in this
+    case the range will simply count down. Examples showing the use of the range
+    operator as provided below:
+  </p>
+
+  <p>
+    <source><![CDATA[
+    First example:
+    #foreach( $foo in [1..5] ) 
+    $foo 
+    #end
+
+    Second example:
+    #foreach( $bar in [2..-2] )
+    $bar
+    #end
+
+    Third example:
+    #set( $arr = [0..1] )
+    #foreach( $i in $arr )
+    $i
+    #end
+
+    Fourth example:
+    [1..3]
+    ]]></source>    
+  </p>
+
+  <p>
+    Produces the following output:
+  </p>
+  
+  <p>
+    <source><![CDATA[
+    First example:
+    1 2 3 4 5
+
+    Second example:
+    2 1 0 -1 -2
+
+    Third example:
+    0 1    
+
+    Fourth example:
+    [1..3]
+    ]]></source>    
+  </p>
+
+  <p>
+    Note that the range operator only produces the array when used in
+    conjunction with <vtldirective>#set</vtldirective>
+    and <vtldirective>#foreach</vtldirective> directives, as demonstrated
+    in the fourth example.
+  </p>
+
+  <p>
+    Web page designers concerned with making tables a standard size, but where
+    some will not have enough data to fill the table, will find the range
+    operator particularly useful.
+  </p>
+
+  </s1>
+
+  <s1 title="Advanced Isseus: Escaping and !">
+
+  <p>
+    When a reference is silenced with the <vtl>!</vtl> character and
+    the <vtl>!</vtl> character preceded by an escape characters ("\"),
+    the reference is handled in a special way. Note the differences 
+    between regular escaping (where the escape character precedes the
+    <vtl>$</vtl> character, and this case, where is follows it:
+  </p>
+
+  <p>
+  <source><![CDATA[
+    #set( $foo = "bar" )
+
+    # The special case, where "\" precedes "!":
+    $\!foo # This renders as: $!foo
+    $\!{foo} # This renders as: $!{foo}
+    $\\!foo # This renders as: $\!foo
+    $\\\!foo # This renders as: $\\!foo
+
+    # Contrast this with regular escaping, where "\" precedes "$":    
+    \$foo # This renders as: \#$foo
+    \$!foo # This renders as: \$!foo
+    \$!{foo} # This renders as: \$!{foo}
+    \\$!{foo} # This renders as: \bar 
+  ]]></source>
   </p>
 
   </s1>
 
 </s1>
-
-
 
 </body>
 </document>
