@@ -73,7 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TemplateTestCase.java,v 1.15 2000/11/03 23:26:51 jon Exp $
+ * @version $Id: TemplateTestCase.java,v 1.16 2000/11/04 02:41:57 jvanzyl Exp $
  */
 public class TemplateTestCase extends RuntimeTestCase
 {
@@ -162,24 +162,14 @@ public class TemplateTestCase extends RuntimeTestCase
             FileOutputStream fos = 
                 new FileOutputStream (getFileName(RESULT_DIR, baseFileName, RESULT_FILE_EXT));
 
-            // create the streams
-            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
-                new DefaultCharToByteBuffer(new DefaultByteBuffer(), Runtime.getString(
-                    Runtime.TEMPLATE_ENCODING)));
-            // create the writer
-            CharToByteBufferWriter buffer = new CharToByteBufferWriter (ictbb);
+            Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
             // process the template
-            template.merge(context, buffer);
-
-            // write the output to the file
-            ictbb.writeTo(fos);
-            
-            // close the buffer
-            buffer.close();
+            template.merge(context, writer);
 
             // close the file
-            fos.close();
+            writer.flush();
+            writer.close();
             
             if (!isMatch())
             {

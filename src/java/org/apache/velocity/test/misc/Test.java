@@ -71,12 +71,13 @@ import org.apache.velocity.test.provider.TestProvider;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.2 2000/11/03 23:26:52 jon Exp $
+ * @version $Id: Test.java,v 1.3 2000/11/04 02:41:57 jvanzyl Exp $
  */
 public class Test
 {
     public Test(String templateFile)
     {
+        Writer writer = null;
         TestProvider provider = new TestProvider();
         ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
@@ -102,16 +103,11 @@ public class Test
             context.put("menu", provider.getMenu());
             context.put("stringarray", provider.getArray());
 
-            // create the output buffer
-            InternedCharToByteBuffer ictbb = new InternedCharToByteBuffer(
-                new DefaultCharToByteBuffer(new DefaultByteBuffer(), Runtime.getString(
-                    Runtime.TEMPLATE_ENCODING)));
-            CharToByteBufferWriter buffer = new CharToByteBufferWriter (ictbb);
-            template.merge(context, buffer);
-            // write the buffer to the output stream
-            ictbb.writeTo(System.out);
-            ictbb.reset(); // calling this doesn't really have an effect
-            buffer.close();
+            writer = new BufferedWriter(new OutputStreamWriter(System.out));
+            template.merge(context, writer);
+
+            writer.flush();
+            writer.close();
         }
         catch( Exception e )
         {
