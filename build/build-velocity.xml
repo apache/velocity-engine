@@ -553,7 +553,17 @@
        #######################################################
        #
        #  Now using Anakia to transform our XML documentation
-       #  to HTML
+       #  to HTML.
+       #
+       #  Note : this step depends upon having the jakarta-site2
+       #  project located as a peer to the jakarta-velocity
+       #  directory (the directory that holds the Velocity
+       #  distribution.)  That means that jakarta-site2 and
+       #  jakarta-velocity are located in the same subdirectory.
+       #
+       #  Please see :
+       #    http://jakarta.apache.org/site/cvsindex.html
+       #  for more information on obtaining jakarta-site2.
        #
        #######################################################
        </echo>
