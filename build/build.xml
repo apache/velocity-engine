@@ -842,7 +842,7 @@
   <!-- =================================================================== -->
   <!-- Forum Demo Web App                                                  -->
   <!-- =================================================================== -->
-  <target name="forumdemo" depends="compile">
+  <target name="forumdemo" depends="compile, jar-dep">
        
     <echo>
       **************************************************
@@ -872,7 +872,7 @@
 
     <copy todir="${demo.lib}">
       <fileset dir="${build.dir}"> 
-        <include name="**/velocity*.jar"/>
+        <include name="**/velocity-dep*.jar"/>
       </fileset>
     </copy>
 
