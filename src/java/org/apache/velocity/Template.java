@@ -59,9 +59,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.runtime.Runtime;
-
 import org.apache.velocity.runtime.parser.SimpleNode;
-import org.apache.velocity.runtime.visitor.BaseVisitor;
 
 /**
  * This class is used for controlling all template
@@ -83,7 +81,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.7 2000/10/20 02:19:51 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.8 2000/10/20 02:38:06 jvanzyl Exp $
  */
 public class Template
 {
