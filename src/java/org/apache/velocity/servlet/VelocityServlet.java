@@ -127,7 +127,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
- * $Id: VelocityServlet.java,v 1.43 2001/12/07 00:01:55 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.44 2002/02/06 23:42:01 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -248,11 +248,11 @@ public abstract class VelocityServlet extends HttpServlet
      *  VelocityServlet.INIT_PROPS_KEY, which should be a file containing
      *  the configuration information.
      *  <br><br>
-     *  To configure your Servlet Spec 2.2 compliant servlet runner to pass this
-     *  to you, put the following in your WEB-INF/web.xml file
+     *  To configure your Servlet Spec 2.2 compliant servlet runner to pass
+     *  this to you, put the following in your WEB-INF/web.xml file
      *  <br>
      *  <pre>
-     *    &lt;servlet &gt;
+     *    &lt;servlet&gt;
      *      &lt;servlet-name&gt; YourServlet &lt/servlet-name&gt;
      *      &lt;servlet-class&gt; your.package.YourServlet &lt;/servlet-class&gt;
      *      &lt;init-param&gt;
@@ -260,6 +260,17 @@ public abstract class VelocityServlet extends HttpServlet
      *         &lt;param-value&gt; velocity.properties &lt;/param-value&gt;
      *      &lt;/init-param&gt;
      *    &lt;/servlet&gt;
+     *   </pre>
+     *
+     * Alternately, if you wish to configure an entire context in this
+     * fashion, you may use the following:
+     *  <br>
+     *  <pre>
+     *    &lt;context-param&gt;
+     *       &lt;param-name&gt; properties &lt;/param-name&gt;
+     *       &lt;param-value&gt; velocity.properties &lt;/param-value&gt;
+     *       &lt;description&gt; Path to Velocity configuration &lt;/description&gt;
+     *    &lt;/context-param&gt;
      *   </pre>
      * 
      *  Derived classes may do the same, or take advantage of this code to do the loading for them via :
@@ -280,6 +291,11 @@ public abstract class VelocityServlet extends HttpServlet
         throws IOException, FileNotFoundException
     {
         String propsFile = config.getInitParameter(INIT_PROPS_KEY);
+        if (propsFile == null || propsFile.length() == 0)
+        {
+            propsFile = config.getServletContext()
+                .getInitParameter(INIT_PROPS_KEY);
+        }
         
         /*
          * This will attempt to find the location of the properties
