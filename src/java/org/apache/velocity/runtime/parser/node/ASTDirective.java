@@ -56,8 +56,15 @@ public class ASTDirective extends SimpleNode
         if (isDirective)
             directive.render(context, writer, this);
         else
-            writer.write(directiveName);
-        
+        {
+            /*
+             *  gmj : must put the # in front, as in the vm file
+             * this would have been something like #directiveName
+             */
+
+            writer.write("#" + directiveName);
+        }
+
         return true;
     }
 }
