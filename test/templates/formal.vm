@@ -34,3 +34,13 @@ $provider.getHashtable().get( "key0")
 $provider.getHashtable().get("key1" )
 $provider.getHashtable().get(   "key2"                 )
 $provider.getHashtable().get("floogie!")
+
+## curly wierdness
+
+{$provider.Title
+$provider.Title}
+{$provider.Title}
+$provider}.Title
+${provider}.Title
+$provider{.Title
+
