@@ -83,7 +83,7 @@ import java.lang.reflect.Modifier;
  * and stored for 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
- * @version $Id: Introspector.java,v 1.5 2000/11/01 20:45:30 werken Exp $
+ * @version $Id: Introspector.java,v 1.6 2000/11/01 21:36:58 jvanzyl Exp $
  */
 
 // isAssignable checks for arguments that are subclasses
@@ -131,43 +131,5 @@ public class Introspector
     {
         ClassMap classMethodMap = (ClassMap) classMethodMaps.get(c);
         return classMethodMap.findMethod(name, params);
-    }
-
-    private static class Test
-    {
-        public void method(String a, String b)
-        {
-            System.out.println("String, String");
-        }
-        
-        public void method(String a, StringBuffer b)
-        {
-            System.out.println("String, StringBuffer");
-        }
-    }
-    
-    public static void main (String[] arg) throws Exception
-    {
-        // The problem to deal with is when the
-        // params types have a null in them. then
-        // you can't tell. Then we could compare
-        // by number of parameters.
-    
-        Object[] params = 
-        { 
-            new String(),
-            new StringBuffer()
-        };
-        
-        Object[] args =
-        {
-            "this",
-            new StringBuffer()
-        };            
-        
-        Test t = new Test();
-        Method m = getMethod(t.getClass(), "method", params);
-        
-        m.invoke(t, args);
     }
 }
