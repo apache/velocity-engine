@@ -263,7 +263,9 @@ catch( Exception )
         </tr>
         <tr>
             <td>$root</td>
-            <td>This contains the JDOM root Element to your .xml document.</td>
+            <td>This contains the JDOM root Element to your .xml document. When
+            this (or any other variable containing an element) are simply
+            placed into template output, their XML form is rendered.</td>
         </tr>
         <tr>
             <td>$project</td>
@@ -293,7 +295,8 @@ catch( Exception )
             String output out of your JDOM element objects.
             $xmlout.outputString(Element). Again, please look at the
             examples for more information on how to use this
-            object.</td>
+            object. NOTE: this object is obsoleted as simply specifying
+            $element will output the XML serialized form of the element.</td>
         </tr>
         <tr>
             <td>$xmlout.outputString(Element, true)</td>
@@ -301,9 +304,11 @@ catch( Exception )
             JDOM XMLOutputter() object. The difference between this
             .outputString() and the one in XMLOutputter is that it will
             output all of the Elements <strong>within</strong> the
-            passed in Element. So, if you pass in a &lt;td&gt; Element, 
+            passed in Element. So, if you pass in a &lt;td&gt; Element,
             you will get everything inside the &lt;td&gt; &lt;/td&gt;, but
-            not the actual &lt;td&gt; &lt;/td&gt;.
+            not the actual &lt;td&gt; &lt;/td&gt;. NOTE: this object is
+            obsoleted as simply specifying $element.content will produce the
+            desired output.
             </td>
         </tr>
         <tr>
@@ -316,7 +321,9 @@ catch( Exception )
             more &quot;ugly&quot; aspects of Anakia, but it does do the
             job and suggestions for improvement are appreciated. This
             context object is still under development and more
-            documentation will follow soon.</td>
+            documentation will follow soon. NOTE: this object is obsolete and
+            is kept for backward compatibility only. You can use
+            $element.selectNodes("//*") to achieve the same effect.</td>
         </tr>
         <tr>
             <td>$xpath.applyTo("document/properties/@title", $root)</td>
@@ -324,11 +331,14 @@ catch( Exception )
                The W3C XPath Specification <a
                href="http://www.w3.org/TR/xpath/">http://www.w3.org/TR/xpath/
                </a> refers to NodeSets repeatedly, but this implementation
-               simply uses java.util.List to hold all Nodes.  A 'Node' is any
+               simply uses java.util.List to hold all Nodes. A 'Node' is any
                object in a JDOM object tree, such as an org.jdom.Element,
                org.jdom.Document, or org.jdom.Attribute. Please see the .vsl
                example file and the org.apache.velocity.anakia.XPathTool javadoc
-               for more information.
+               for more information. NOTE: this object is obsolete and is kept
+               for backward compatibility only. You can use
+               $element.selectNodes("document/properties/@title") to achieve
+               the same effect with a more intuitive syntax.
             </td>
         </tr>
         <tr>
@@ -338,8 +348,19 @@ catch( Exception )
                 the current date/time into a page.
             </td>
         </tr>
-        
     </table>
+<p>
+    All node lists returned from Anakia objects through $element.selectNodes,
+    $element.content, and $element.children, as well as through obsoleted 
+    $treeWalk.allElements and $xpath.applyTo have two special features:
+    <ul>
+        <li>they support the selectNodes method just as a single element does
+        that applies an XPath expression to all nodes in the list, and</li>
+        <li>when inserted into template output by simply specifying $list, they
+        produce the XML fragment consisting of all nodes they contain. This
+        eliminates much of the #foreach code in templates.</li>
+    </ul>
+</p>
 
 </section>
 
@@ -358,7 +379,9 @@ catch( Exception )
 </p>
 <p>
     Further help and assistance was provided by Jason van Zyl and Geir
-    Magnusson Jr. XPath support was added by Bob McWhirter.
+    Magnusson Jr. XPath support was added by Bob McWhirter. The more
+    intuitive syntax achieved through selectNodes() and self-rendering
+    elements and node lists was added by Attila Szegedi.
 </p>
 </section>
 
