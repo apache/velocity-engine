@@ -159,9 +159,12 @@ public class Runtime
 
     /** Initial counter value in #foreach directives */
     public static final String COUNTER_NAME = "counter.name";
-    
+
     /** Initial counter value in #foreach directives */
     public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
+
+    /** Initial counter value in #foreach directives */
+    public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
 
     /** How often to check for modified templates. */
     public static final String TEMPLATE_MOD_CHECK_INTERVAL = 
@@ -341,6 +344,13 @@ public class Runtime
     public static String getString(String property)
     {
         return Configuration.getString(property);    
+    }
+    /**
+     * Get a string property. with a default value
+     */
+    public static String getString(String property, String defaultValue)
+    {
+        return Configuration.getString(property, defaultValue);    
     }
 
     private static void log(String message)
