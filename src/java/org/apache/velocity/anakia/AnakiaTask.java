@@ -71,6 +71,7 @@ import org.xml.sax.SAXParseException;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
+import org.jdom.output.Format;
 import org.jdom.input.SAXBuilder;
 
 import org.apache.velocity.Template;
@@ -93,7 +94,7 @@ import org.apache.velocity.VelocityContext;
  *   
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaTask.java,v 1.34 2003/05/03 23:15:36 geirm Exp $
+ * @version $Id: AnakiaTask.java,v 1.35 2004/02/19 19:22:03 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -380,8 +381,10 @@ public class AnakiaTask extends MatchingTask
                     encoding = "ISO-8859-1";
                 }
 
-                OutputWrapper ow = new OutputWrapper();
-                ow.setEncoding (encoding);
+                Format f = Format.getRawFormat();
+                f.setEncoding(encoding);
+
+                OutputWrapper ow = new OutputWrapper(f);
                 
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", ow );
