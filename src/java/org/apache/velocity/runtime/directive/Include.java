@@ -91,7 +91,8 @@ import org.apache.velocity.runtime.parser.node.Node;
  *    special separator.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Include.java,v 1.2 2000/11/12 06:38:47 geirm Exp $
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: Include.java,v 1.3 2000/11/16 01:55:43 jvanzyl Exp $
  */
 public class Include extends Directive
 {
@@ -186,7 +187,8 @@ public class Include extends Directive
          *  everything must be under the template root TEMPLATE_PATH
          */
         
-        String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
+        //String strTemplatePath = Runtime.getString(Runtime.TEMPLATE_PATH);
+        String[] includePaths = Runtime.getIncludePaths();
         
         /*
          *  for security, we will not accept anything with .. in the path
@@ -209,7 +211,25 @@ public class Include extends Directive
          *  we will put caching here in the future...
          */
 
-        File file = new File(strTemplatePath, strArg);
+        // Try to locate the file in all of the possible
+        // locations. If we can't even find a trace of existence
+        // report the problem and leave.
+        File file = null;
+        for (int i = 0; i < includePaths.length; i++)
+        {
+            file = new File(includePaths[i], strArg);
+            
+            if (file.exists())
+                break;
+            else
+                file = null;
+        }
+    
+        if (file == null)
+        {
+            Runtime.error("#include() : " + strArg + " doesn't exist!");
+            return false;
+        }            
         
         try
         {
@@ -221,12 +241,12 @@ public class Include extends Directive
             while ( ( iLen = reader.read( buf, 0, 1024 )) != -1)
                 writer.write( buf,0,iLen );
         }
-        catch ( FileNotFoundException e ) 
+        catch ( Exception e ) 
         {
             Runtime.error( new String("#include() : " + e ));
             return false;
         }
-
+    
         return true;
     }    
 
