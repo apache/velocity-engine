@@ -56,8 +56,24 @@ package org.apache.velocity.runtime.configuration;
  *
  */
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * This class extends normal Java properties by adding the possibility
@@ -137,7 +153,7 @@ import java.util.*;
  * @author <a href="mailto:daveb@miceda-data">Dave Bryson</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Configuration.java,v 1.13 2001/03/17 05:08:40 geirm Exp $
+ * @version $Id: Configuration.java,v 1.14 2001/03/17 18:59:41 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -154,13 +170,24 @@ public class Configuration extends Hashtable
      */
     protected String file;
 
-    private boolean isInitialized = false;
+    /**
+     * Has this configuration been intialized.
+     */
+    protected boolean isInitialized = false;
 
     /**
      * This is the name of the property that can point to other
      * properties file for including other properties files.
      */
-    private static String include = "include";
+    protected static String include = "include";
+
+    /**
+     * These are the keys in the order they listed
+     * in the configuration file. This is useful when
+     * you wish to perform operations with configuration
+     * information in a particular order.
+     */
+    protected ArrayList keysAsListed = new ArrayList();
 
     /**
      * This class is used to read properties lines.  These lines do
@@ -186,8 +213,7 @@ public class Configuration extends Hashtable
          * @return A String.
          * @exception IOException.
          */
-        public String readProperty()
-            throws IOException
+        public String readProperty() throws IOException
         {
             StringBuffer buffer = new StringBuffer();
 
@@ -312,37 +338,6 @@ public class Configuration extends Hashtable
         {
             defaults = new Configuration(defaultFile);
         }            
-    }
-
-    /**
-     * Load Configuration from a properties file. 
-     *
-     * @param propertiesFileName The file name.
-     * @exception IOException, if there was an I/O problem.
-     */
-    public void setPropertiesFileName(String propertiesFileName)
-        throws IOException
-    {
-        file = propertiesFileName;
-        
-        if ( file == null )
-        {
-            throw new IOException ( "VelocityResources: fileName must not be null!" );
-        }            
-
-        init( new Configuration(file) );
-    }
-
-    /**
-     * Load configuration from the an InputStream.  
-     *
-     * @param properties A Properties object.
-     */
-    public void setPropertiesInputStream( InputStream is ) 
-        throws IOException
-    {
-        load(is);
-        init(null);
     }
 
     /**
@@ -518,6 +513,17 @@ public class Configuration extends Hashtable
             }
             else
             {
+                /*
+                 * We want to keep track of the order the keys
+                 * are parsed, or dynamically entered into
+                 * the configuration. So when we see a key
+                 * for the first time we will place it in
+                 * an ArrayList so that if a client class needs
+                 * to perform operations with configuration
+                 * in a definite order it will be possible.
+                 */
+                keysAsListed.add(key);
+                
                 put(key, token);
             }                
         }
@@ -583,44 +589,40 @@ public class Configuration extends Hashtable
      *
      * Warning: It will overwrite previous entries without warning.
      *
-     * @param hash A Hashtable.
+     * @param Configuration
      */
-    public void combine (Hashtable hash)
+    public void combine (Configuration c)
     {
-        for (Enumeration e = hash.keys() ; e.hasMoreElements() ;)
+        for (Iterator i = c.getKeys() ; i.hasNext() ;)
         {
-            String key = (String) e.nextElement();
-            this.put ( key, hash.get(key) );
+            String key = (String) i.next();
+            clearProperty(key);
+            setProperty( key, c.get(key) );
         }
     }
-
+    
     /**
-     * Set a property making sure that the property
-     * is overriden. We use this in the case where
-     * there is a default property all ready specified
-     * and we don't want a Vector created with the default
-     * and the new value which setProperty(k,v) above
-     * will do. We want to replace the value.
+     * Clear a property in the configuration.
      *
-     * @param String key
-     * @param String value
+     * @param String key to remove along with corresponding value.
      */
-    public void setOverridingProperty(String key, Object token)
+    public void clearProperty(String key)
     {
-        this.put(key, token);
+        if (containsKey(key))
+        {
+            remove(key);
+        }            
     }
-
-    /// methods from Configurations
 
     /**
      * Get the list of the keys contained in the configuration
      * repository.
      *
-     * @return An Enumeration.
+     * @return An Iterator.
      */
-    public Enumeration getKeys()
+    public Iterator getKeys()
     {
-        return keys();
+        return keysAsListed.iterator();
     }
 
     /**
@@ -628,22 +630,23 @@ public class Configuration extends Hashtable
      * repository that match the specified prefix.
      *
      * @param prefix The prefix to test against.
-     * @return An Enumeration of keys that match the prefix.
+     * @return An Iterator of keys that match the prefix.
      */
-    public Enumeration getKeys(String prefix)
+    public Iterator getKeys(String prefix)
     {
-        Enumeration keys = keys();
-        Vector matchingKeys = new Vector();
-        while( keys.hasMoreElements() )
+        Iterator keys = getKeys();
+        ArrayList matchingKeys = new ArrayList();
+        
+        while( keys.hasNext() )
         {
-            Object key = keys.nextElement();
-            if( key instanceof String &&
-                ((String) key).startsWith(prefix) )
+            Object key = keys.next();
+            
+            if( key instanceof String && ((String) key).startsWith(prefix) )
             {
-                matchingKeys.addElement(key);
+                matchingKeys.add(key);
             }
         }
-        return matchingKeys.elements();
+        return matchingKeys.iterator();
     }
 
     /**
@@ -656,23 +659,45 @@ public class Configuration extends Hashtable
     public Configuration subset(String prefix)
     {
         Configuration c = new Configuration();
-        Enumeration keys = keys();
+        Iterator keys = getKeys();
         boolean validSubset = false;
         
-        while( keys.hasMoreElements() )
+        while( keys.hasNext() )
         {
-            Object key = keys.nextElement();
+            Object key = keys.next();
             
-            if( key instanceof String &&
-                ((String) key).startsWith(prefix) )
+            if( key instanceof String && ((String) key).startsWith(prefix) )
             {
                 if (!validSubset)
                 {
                     validSubset = true;
                 }
                 
-                String newKey = ((String)key).substring(prefix.length() + 1);
-                c.put(newKey, get(key));
+                String newKey = null;
+                
+                /*
+                 * Check to make sure that c.subset(prefix) doesn't
+                 * blow up when there is only a single property
+                 * with the key prefix. This is not a useful
+                 * subset but it is a valid subset.
+                 */
+                if ( ((String)key).length() == prefix.length())
+                {
+                    newKey = prefix;
+                }
+                else
+                {
+                    newKey = ((String)key).substring(prefix.length() + 1);
+                }                    
+                
+                /*
+                 * Make sure to use the setProperty() method and not
+                 * just put(). setProperty() takes care of catching
+                 * all the keys in the order they appear in a
+                 * properties files or the order they are set
+                 * dynamically.
+                 */
+                c.setProperty(newKey, get(key));
             }
         }
         
@@ -731,8 +756,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                " doesn't map to a String object");
+            throw new ClassCastException(
+                key + "doesn't map to a String object");
         }
     }
 
@@ -833,9 +858,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a" +
-                                         " String/Vector object");
+            throw new ClassCastException(
+                key + " doesn't map to a String/Vector object");
         }
 
         String[] tokens = new String[vector.size()];
@@ -843,20 +867,6 @@ public class Configuration extends Hashtable
         tokens[i] = (String)vector.elementAt(i);
 
         return tokens;
-    }
-
-    /**
-     * Get a list of strings associated with the given configuration
-     * key.
-     *
-     * @param key The configuration key.
-     * @return The associated Enumeration.
-     * @exception ClassCastException is thrown if the key maps to an
-     * object that is not a Vector.
-     */
-    public Enumeration getList(String key)
-    {
-        return getVector(key, null).elements();
     }
 
     /**
@@ -913,8 +923,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                " doesn't map to a Vector object");
+            throw new ClassCastException(
+                key + " doesn't map to a Vector object");
         }
     }
 
@@ -937,9 +947,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + "doesn't map to an existing object");
         }
     }
 
@@ -997,8 +1006,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                " doesn't map to a Boolean object");
+            throw new ClassCastException(
+                key + " doesn't map to a Boolean object");
         }
     }
 
@@ -1023,9 +1032,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1086,8 +1094,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Byte object");
+            throw new ClassCastException(
+                key + " doesn't map to a Byte object");
         }
     }
 
@@ -1112,9 +1120,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1175,8 +1182,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Short object");
+            throw new ClassCastException(
+                key + " doesn't map to a Short object");
         }
     }
 
@@ -1227,9 +1234,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1290,8 +1296,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Integer object");
+            throw new ClassCastException(
+                key + " doesn't map to a Integer object");
         }
     }
 
@@ -1316,9 +1322,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1379,8 +1384,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Long object");
+            throw new ClassCastException(
+                key + " doesn't map to a Long object");
         }
     }
 
@@ -1405,9 +1410,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1468,8 +1472,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Float object");
+            throw new ClassCastException(
+                key + " doesn't map to a Float object");
         }
     }
 
@@ -1494,9 +1498,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new NoSuchElementException(key +
-                                             " doesn't map to an" +
-                                             " existing object");
+            throw new NoSuchElementException(
+                key + " doesn't map to an existing object");
         }
     }
 
@@ -1557,8 +1560,8 @@ public class Configuration extends Hashtable
         }
         else
         {
-            throw new ClassCastException(key +
-                                         " doesn't map to a Double object");
+            throw new ClassCastException(
+                key + " doesn't map to a Double object");
         }
     }
 
