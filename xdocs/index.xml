@@ -57,6 +57,14 @@
    </a> for details.
 </p>
 
+<p>
+ <b>Note:</b>  Starting with this release candidate, the pre-built jar
+ in the distribution does <i>not</i> include any external dependencies.
+ These dependencies and their sources are listed in the developers guide.
+ You may still build a complete jar with all dependencies using the 'jar-dep'
+ build target.
+</p>
+
 </section>
 
 <section name="Velocity News">
