@@ -70,7 +70,7 @@ import junit.framework.TestCase;
  * first running Anakia and then running this test.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTestCase.java,v 1.2 2001/03/19 06:47:15 jon Exp $
+ * @version $Id: AnakiaTestCase.java,v 1.3 2001/03/19 19:10:33 jon Exp $
  */
 public class AnakiaTestCase extends TestCase
 {
@@ -106,8 +106,25 @@ public class AnakiaTestCase extends TestCase
      */
     public void runTest ()
     {
+        try
+        {
+            if (!isMatch())
+            {
+                fail("Output is incorrect!");
+            }
+            else
+            {
+                System.out.println ("Passed!");
+            }
+        }            
+        catch(Exception e)
+        {
+            /*
+             * do nothing.
+             */
+        }
     }
-
+    
     /**
      * Concatenates the file name parts together appropriately.
      *
