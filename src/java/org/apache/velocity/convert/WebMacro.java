@@ -70,7 +70,7 @@ import org.apache.tools.ant.DirectoryScanner;
  * this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: WebMacro.java,v 1.10 2001/05/08 01:27:21 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.11 2001/05/08 03:38:53 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -86,10 +86,12 @@ public class WebMacro
     protected final static String VM_EXT = ".vm";
     protected final static String WM_EXT = ".wm";
 
-    /*
+    /**
      * The regexes to use for substition. The regexes come
      * in pairs. The first is the string to match, the
      * second is the substitution to make.
+     * <p>
+     * TODO: Handle case where $ is escaped, such as <code>\$foo</code>
      */
     protected String[] res =
     {
@@ -113,7 +115,7 @@ public class WebMacro
         // possibility of javascript.
         "\n}", // assumes that javascript is indented, WMs not!!!
         "\n#end",
-        
+
         // Convert WM style #set to Velocity directive style.
         "#set\\s+(\\$[^\\s=]+)\\s*=\\s*(.*\\S)[ \\t]*",
         "#set( $1 = $2 )",
@@ -128,7 +130,7 @@ public class WebMacro
         "#include\\s+([^\\s#]+)[ \\t]?",
         "#include( $1 )",
 
-        // Convert WM formal reference to VL syntax.
+        // Convert WM formal reference to VTL syntax.
         "\\$\\(([^\\)]+)\\)",
         "${$1}",
         "\\${([^}\\(]+)\\(([^}]+)}\\)", // fix encapsulated brakets: {(})
@@ -139,7 +141,11 @@ public class WebMacro
         "$l_",
         "\\${(_[^}]+)}", // within a formal reference
         "${l$1}",
-            
+
+        // Convert explicitly terminated WM statements to VTL syntax.
+        "\\$([^; \\t]+);",
+        "${$1}",
+
         // Change extensions when seen.
         "\\.wm",
         ".vm"
@@ -149,12 +155,9 @@ public class WebMacro
      * Iterate through the set of find/replace regexes
      * that will convert a given WM template to a VM template
      */
-    public void convert(String args[])
+    public void convert(String target)
     {
-        if (args.length < 1)
-            usage();
-        
-        File file = new File(args[0]);
+        File file = new File(target);
         
         if (!file.exists())
         {
@@ -167,7 +170,7 @@ public class WebMacro
         {
             String basedir = file.getAbsolutePath();
             String newBasedir = basedir + VM_EXT;
-            
+
             DirectoryScanner ds = new DirectoryScanner();
             ds.setBasedir(basedir);
             ds.addDefaultExcludes();
@@ -179,7 +182,7 @@ public class WebMacro
         }
         else
         {
-            writeTemplate(args[0], "", "");
+            writeTemplate(file.getAbsolutePath(), "", "");
         }
     }
 
@@ -261,7 +264,7 @@ public class WebMacro
     /**
      * How to use this little puppy :-)
      */
-    public void usage()
+    private static final void usage()
     {
         System.err.println("Usage: convert-wm <template.wm | directory>");
         System.exit(1);
@@ -284,7 +287,7 @@ public class WebMacro
             while (perl.match("/" + res[i] + "/", orignalTemplate))
             {
                 orignalTemplate = perl.substitute(
-                    "s/" + res[i] + "/" + res[i+1] + "/", orignalTemplate);
+                    "s/" + res[i] + "/" + res[i+1] + "/g", orignalTemplate);
             }
         }
 
@@ -296,7 +299,10 @@ public class WebMacro
      */
     public static void main(String[] args)
     {
+        if (args.length < 1)
+            usage();
+
         WebMacro converter = new WebMacro();
-        converter.convert(args);
+        converter.convert(args[0]);
     }
 }
