@@ -98,10 +98,14 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Include.java,v 1.18 2001/04/22 18:14:15 geirm Exp $
+ * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
+ * @version $Id: Include.java,v 1.19 2001/04/27 15:44:37 geirm Exp $
  */
 public class Include extends Directive
 {
+    private String outputMsgStart = "";
+    private String outputMsgEnd = "";
+
     /**
      * Return name of this directive.
      */
@@ -117,7 +121,27 @@ public class Include extends Directive
     {
         return LINE;
     }        
-    
+
+    /**
+     *  simple init - init the tree and get the elementKey from
+     *  the AST
+     */
+    public void init( InternalContextAdapter context, Node node) 
+        throws Exception
+    {
+        super.init( context, node );
+
+        /*
+         *  get the msg, and add the space so we don't have to
+         *  do it each time
+         */
+        outputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
+        outputMsgStart = outputMsgStart + " ";
+        
+        outputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
+        outputMsgStart = " " + outputMsgStart;   
+    }
+
     /**
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
@@ -225,13 +249,12 @@ public class Include extends Directive
      */
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
-    {
-        String outputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
-        String outputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
-        
+    {        
         if ( outputMsgStart != null  && outputMsgEnd != null)
         {
-            writer.write( outputMsgStart + " " + msg + " " + outputMsgEnd );
+            writer.write(outputMsgStart);
+            writer.write(msg);
+            writer.write(outputMsgEnd);
         }
         return;
     }
