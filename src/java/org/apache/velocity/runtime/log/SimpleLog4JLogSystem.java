@@ -21,8 +21,8 @@ import java.util.Enumeration;
 import org.apache.log4j.Category;
 import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.Priority;
 import org.apache.log4j.Appender;
+import org.apache.log4j.Level;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -39,7 +39,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  version :)
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.10 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.11 2004/05/21 09:39:57 geirm Exp $
  * @deprecated Use Log4JLogSystem instead for compatibility with
  * modern Log4J versions.
  */
@@ -116,7 +116,7 @@ public class SimpleLog4JLogSystem implements LogSystem
          * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
-        logger.setPriority(Priority.DEBUG);
+        logger.setLevel(Level.DEBUG);
 
         RollingFileAppender appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
         
