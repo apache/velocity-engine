@@ -72,12 +72,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.Template;
-
 import org.apache.velocity.runtime.Runtime;
-
-import org.apache.velocity.io.*;
-
-import org.apache.velocity.util.*;
+import org.apache.velocity.io.VelocityWriter;
+import org.apache.velocity.util.SimplePool;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
@@ -101,7 +98,7 @@ import org.apache.velocity.util.*;
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelocityServlet.java,v 1.16 2000/11/12 17:59:25 geirm Exp $
+ * $Id: VelocityServlet.java,v 1.17 2000/11/16 07:07:10 jvanzyl Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -217,7 +214,7 @@ public abstract class VelocityServlet extends HttpServlet
     {
         ServletOutputStream output = response.getOutputStream();
         String contentType = null;
-        JspWriterImpl vw = null;
+        VelocityWriter vw = null;
         
         try
         {
@@ -246,10 +243,10 @@ public abstract class VelocityServlet extends HttpServlet
                 throw new Exception ("Cannot find the template!" );
             
           
-            vw = (JspWriterImpl) writerPool.get();
+            vw = (VelocityWriter) writerPool.get();
           
             if (vw == null)
-                vw = new JspWriterImpl(new OutputStreamWriter(output, encoding), 4*1024, true);
+                vw = new VelocityWriter(new OutputStreamWriter(output, encoding), 4*1024, true);
             else
                 vw.recycle(new OutputStreamWriter(output, encoding));
            
