@@ -60,7 +60,7 @@ import java.io.Writer;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -87,7 +87,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.20 2001/07/23 02:31:09 geirm Exp $
+ * @version $Id: Parse.java,v 1.21 2001/08/07 21:57:56 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -123,7 +123,7 @@ public class Parse extends Directive
          */
         if ( node.jjtGetChild(0) == null)
         {
-            Runtime.error( "#parse() error :  null argument" );
+            rsvc.error( "#parse() error :  null argument" );
             return false;
         }
         
@@ -134,7 +134,7 @@ public class Parse extends Directive
 
         if ( value == null)
         {
-            Runtime.error( "#parse() error :  null argument" );
+            rsvc.error( "#parse() error :  null argument" );
             return  false;
         }
 
@@ -151,7 +151,7 @@ public class Parse extends Directive
         Object[] templateStack = context.getTemplateNameStack();
 
         if ( templateStack.length >= 
-                Runtime.getInt(Runtime.PARSE_DIRECTIVE_MAXDEPTH, 20) )
+                rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 20) )
         {
             StringBuffer path = new StringBuffer();
 
@@ -160,12 +160,12 @@ public class Parse extends Directive
                 path.append( " > " + templateStack[i] );
             }
 
-            Runtime.error( "Max recursion depth reached (" + 
+            rsvc.error( "Max recursion depth reached (" + 
                 templateStack.length + ")"  + " File stack:" + path );
             return false;
         }
 
-       Resource current = context.getCurrentResource();
+        Resource current = context.getCurrentResource();
 
         /*
          *  get the resource, and assume that we use the encoding of the current template
@@ -180,21 +180,22 @@ public class Parse extends Directive
         }
         else
         {
-            encoding = (String) Runtime.getProperty( Runtime.INPUT_ENCODING);
+            encoding = (String) rsvc.getProperty( RuntimeConstants.INPUT_ENCODING);
         }
 
         /*
          *  now use the Runtime resource loader to get the template
          */
+       
         Template t = null;
 
         try 
         {
-            t = Runtime.getTemplate( arg, encoding );   
+            t = rsvc.getTemplate( arg, encoding );   
         }
         catch ( Exception e)
         {
-            Runtime.error("#parse : cannot find " + arg + " template!");
+            rsvc.error("#parse : cannot find " + arg + " template!");
             return false;
         }
     
@@ -217,7 +218,7 @@ public class Parse extends Directive
                 throw (MethodInvocationException) e;
             }
 
-            Runtime.error( "Exception rendering #parse( " + arg + " )  : " + e );
+            rsvc.error( "Exception rendering #parse( " + arg + " )  : " + e );
             return false;
         }
         finally

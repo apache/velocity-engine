@@ -70,11 +70,8 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.resource.Resource;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
-
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
@@ -105,7 +102,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.13 2001/05/15 14:09:19 geirm Exp $
+ * @version $Id: JarResourceLoader.java,v 1.14 2001/08/07 21:58:18 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -128,7 +125,7 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        Runtime.info("JarResourceLoader : initialization starting.");
+        rsvc.info("JarResourceLoader : initialization starting.");
 
         Vector paths = configuration.getVector("path");
 
@@ -142,34 +139,34 @@ public class JarResourceLoader extends ResourceLoader
 
             if (paths != null && paths.size() > 0)
             {
-                Runtime.warn("JarResourceLoader : you are using a deprecated configuration"
+                rsvc.warn("JarResourceLoader : you are using a deprecated configuration"
                              + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
                              + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
                              
-        Runtime.info("JarResourceLoader # of paths : " + paths.size() );
+        rsvc.info("JarResourceLoader # of paths : " + paths.size() );
         
         for ( int i=0; i<paths.size(); i++ )
         {
             loadJar( (String)paths.get(i) );
         }
         
-        Runtime.info("JarResourceLoader : initialization complete.");
+        rsvc.info("JarResourceLoader : initialization complete.");
     }
     
     private void loadJar( String path )
     {
-        Runtime.info("JarResourceLoader : trying to load: " + path);
+        rsvc.info("JarResourceLoader : trying to load: " + path);
 
         // Check path information
         if ( path == null )
         {
-            Runtime.error("JarResourceLoader : can not load JAR - JAR path is null");
+            rsvc.error("JarResourceLoader : can not load JAR - JAR path is null");
         }
         if ( !path.startsWith("jar:") )
         {
-            Runtime.error("JarResourceLoader : JAR path must start with jar: -> " +
+            rsvc.error("JarResourceLoader : JAR path must start with jar: -> " +
                 "see java.net.JarURLConnection for information");
         }
         if ( !path.endsWith("!/") )
@@ -182,7 +179,7 @@ public class JarResourceLoader extends ResourceLoader
         closeJar( path );
         
         // Create a new JarHolder
-        JarHolder temp = new JarHolder( path );
+        JarHolder temp = new JarHolder( rsvc,  path );
         // Add it's entries to the entryCollection
         addEntries( temp.getEntries() );
         // Add it to the Jar table
@@ -238,7 +235,7 @@ public class JarResourceLoader extends ResourceLoader
                 " contains .. and may be trying to access " + 
                 "content outside of template root.  Rejected.";
             
-            Runtime.error( "JarResourceLoader : " + msg );
+            rsvc.error( "JarResourceLoader : " + msg );
             
             throw new ResourceNotFoundException ( msg );
         }

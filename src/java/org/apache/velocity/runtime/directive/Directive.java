@@ -57,6 +57,8 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import java.io.IOException;
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -67,12 +69,14 @@ import org.apache.velocity.exception.MethodInvocationException;
  * Base class for all directives used in Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Directive.java,v 1.14 2001/03/20 01:11:21 jon Exp $ 
+ * @version $Id: Directive.java,v 1.15 2001/08/07 21:57:56 geirm Exp $ 
  */
 public abstract class Directive implements DirectiveConstants,Cloneable
 {
     private int line = 0;
     private int column = 0;
+
+    protected RuntimeServices rsvc = null;
 
     /** Return the name of this directive */
     public abstract String getName();
@@ -102,13 +106,15 @@ public abstract class Directive implements DirectiveConstants,Cloneable
     /**
      * How this directive is to be initialized.
      */
-    public void init( InternalContextAdapter context, Node node)
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
     {
-        int i, k = node.jjtGetNumChildren();
+        rsvc = rs;
 
-        for (i = 0; i < k; i++)
-            node.jjtGetChild(i).init(context, null);
+        //        int i, k = node.jjtGetNumChildren();
+
+        //for (i = 0; i < k; i++)
+        //    node.jjtGetChild(i).init(context, rs);
     }
     
     /**

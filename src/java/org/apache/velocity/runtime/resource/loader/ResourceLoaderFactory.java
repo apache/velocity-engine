@@ -54,14 +54,14 @@ package org.apache.velocity.runtime.resource.loader;
  * <http://www.apache.org/>.
  */
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.StringUtils;
 
 /**
  * Factory to grab a template loader.
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceLoaderFactory.java,v 1.4 2001/03/20 01:39:31 jon Exp $
+ * @version $Id: ResourceLoaderFactory.java,v 1.5 2001/08/07 21:58:18 geirm Exp $
  */
 public class ResourceLoaderFactory
 {
@@ -69,7 +69,7 @@ public class ResourceLoaderFactory
      * Gets the loader specified in the configuration file.
      * @return TemplateLoader
      */
-    public static ResourceLoader getLoader(String loaderClassName)
+    public static ResourceLoader getLoader(RuntimeServices rs, String loaderClassName)
      throws Exception
     {
         ResourceLoader loader = null;
@@ -79,14 +79,14 @@ public class ResourceLoaderFactory
             loader = ((ResourceLoader)Class.forName(loaderClassName)
                 .newInstance());
             
-            Runtime.info("Resource Loader Instantiated: " + 
+            rs.info("Resource Loader Instantiated: " + 
                 loader.getClass().getName());
             
             return loader;
         }
         catch( Exception e)
         {
-            Runtime.error("Problem instantiating the template loader.\n" +
+            rs.error("Problem instantiating the template loader.\n" +
                           "Look at your properties file and make sure the\n" +
                           "name of the template loader is correct. Here is the\n" +
                           "error: " + StringUtils.stackTrace(e));

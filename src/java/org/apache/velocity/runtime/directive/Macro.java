@@ -62,8 +62,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  *   Macro.java
@@ -82,7 +81,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Macro.java,v 1.12 2001/03/20 01:11:24 jon Exp $
+ * @version $Id: Macro.java,v 1.13 2001/08/07 21:57:56 geirm Exp $
  */
 public class Macro extends Directive
 {
@@ -119,9 +118,11 @@ public class Macro extends Directive
         return true;
     }
  
-    public void init( InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
        throws Exception
     {
+        super.init( rs, context, node );
+
         /*
          * again, don't do squat.  We want the AST of the macro 
          * block to hang off of this but we don't want to 
@@ -139,7 +140,7 @@ public class Macro extends Directive
      *  VelocimacroProxy objects, and if not currently used, adds it
      *  to the macro Factory
      */ 
-    public void processAndRegister( Node node, String sourceTemplate )
+    public static  void processAndRegister( RuntimeServices rs,  Node node, String sourceTemplate )
         throws IOException
     {
         /*
@@ -163,7 +164,7 @@ public class Macro extends Directive
              *  define a block
              */
             
-            Runtime.error("#macro error : Velocimacro must have name as 1st " + 
+            rs.error("#macro error : Velocimacro must have name as 1st " + 
                 "argument to #macro()");
             
             return;
@@ -198,7 +199,7 @@ public class Macro extends Directive
          * so just give it a whack...
          */
 
-        boolean bRet = Runtime.addVelocimacro( argArray[0], macroBody,  
+        boolean bRet = rs.addVelocimacro( argArray[0], macroBody,  
                         argArray, sourceTemplate );
 
         return;
@@ -209,7 +210,7 @@ public class Macro extends Directive
      *  creates an array containing the literal
      *  strings in the macro arguement
      */
-    private String[] getArgArray( Node node )
+    private static String[] getArgArray( Node node )
     {
         /*
          *  remember : this includes the block tree
@@ -263,7 +264,7 @@ public class Macro extends Directive
    /**
      *  Returns an array of the literal rep of the AST
      */
-    private String [] getASTAsStringArray( Node rootNode )
+    private static String [] getASTAsStringArray( Node rootNode )
     {
         /*
          *  this assumes that we are passed in the root 

@@ -58,7 +58,8 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
@@ -99,7 +100,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: Include.java,v 1.20 2001/04/28 18:58:40 geirm Exp $
+ * @version $Id: Include.java,v 1.21 2001/08/07 21:57:56 geirm Exp $
  */
 public class Include extends Directive
 {
@@ -126,19 +127,19 @@ public class Include extends Directive
      *  simple init - init the tree and get the elementKey from
      *  the AST
      */
-    public void init( InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
         throws Exception
     {
-        super.init( context, node );
+        super.init( rs, context, node );
 
         /*
          *  get the msg, and add the space so we don't have to
          *  do it each time
          */
-        outputMsgStart = Runtime.getString(Runtime.ERRORMSG_START);
+        outputMsgStart = rsvc.getString(RuntimeConstants.ERRORMSG_START);
         outputMsgStart = outputMsgStart + " ";
         
-        outputMsgEnd = Runtime.getString(Runtime.ERRORMSG_END );
+        outputMsgEnd = rsvc.getString(RuntimeConstants.ERRORMSG_END );
         outputMsgEnd = " " + outputMsgEnd;   
     }
 
@@ -174,7 +175,7 @@ public class Include extends Directive
             }
             else
             {
-                Runtime.error("#include() error : invalid argument type : " 
+                rsvc.error("#include() error : invalid argument type : " 
                     + n.toString());
                 outputErrorToStream( writer, "error with arg " + i 
                     + " please see log.");
@@ -200,7 +201,7 @@ public class Include extends Directive
         
         if ( node == null )
         {
-            Runtime.error("#include() error :  null argument");
+            rsvc.error("#include() error :  null argument");
             return false;
         }
             
@@ -210,7 +211,7 @@ public class Include extends Directive
         Object value = node.value( context );
         if ( value == null)
         {
-            Runtime.error("#include() error :  null argument");
+            rsvc.error("#include() error :  null argument");
             return false;
         }
 
@@ -227,12 +228,25 @@ public class Include extends Directive
         {
             /*
              *  get the resource, and assume that we use the encoding of the current template
+             *  the 'current resource' can be null if we are processing a stream....
              */
-            resource = Runtime.getContent(arg, current.getEncoding());
+
+            String encoding = null;
+
+            if ( current != null)
+            {
+                encoding = current.getEncoding();
+            }
+            else
+            {
+                encoding = (String) rsvc.getProperty( RuntimeConstants.INPUT_ENCODING);
+            }
+
+            resource = rsvc.getContent(arg, encoding);
         }
         catch (Exception e)
         {
-            Runtime.error("#include : cannot find " + arg + " template!");
+            rsvc.error("#include : cannot find " + arg + " template");
         }            
         
         if ( resource == null )

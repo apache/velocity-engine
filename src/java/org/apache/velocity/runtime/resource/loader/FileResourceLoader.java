@@ -65,7 +65,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.Runtime;
+
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -78,7 +78,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * That'll change once we decide how we want to do configuration
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: FileResourceLoader.java,v 1.12 2001/05/11 03:59:41 geirm Exp $
+ * @version $Id: FileResourceLoader.java,v 1.13 2001/08/07 21:58:18 geirm Exp $
  */
 public class FileResourceLoader extends ResourceLoader
 {
@@ -96,7 +96,7 @@ public class FileResourceLoader extends ResourceLoader
 
     public void init( ExtendedProperties configuration)
     {
-        Runtime.info("FileResourceLoader : initialization starting.");
+        rsvc.info("FileResourceLoader : initialization starting.");
         
         paths = configuration.getVector("path");
         
@@ -108,10 +108,10 @@ public class FileResourceLoader extends ResourceLoader
 
         for( int i=0; i < sz; i++)
         {
-            Runtime.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+            rsvc.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
         }
 
-        Runtime.info("FileResourceLoader : initialization complete.");
+        rsvc.info("FileResourceLoader : initialization complete.");
     }
 
     /**
@@ -155,7 +155,7 @@ public class FileResourceLoader extends ResourceLoader
                     " contains .. and may be trying to access " + 
                     "content outside of template root.  Rejected.";
 
-                Runtime.error( "FileResourceLoader : " + msg );
+                rsvc.error( "FileResourceLoader : " + msg );
       
                 throw new ResourceNotFoundException ( msg );
             }
@@ -191,8 +191,7 @@ public class FileResourceLoader extends ResourceLoader
          String msg = "FileResourceLoader Error: cannot find resource " +
           template;
     
-        //Runtime.error(msg);
-        throw new ResourceNotFoundException( msg );
+         throw new ResourceNotFoundException( msg );
     }
     
     /**

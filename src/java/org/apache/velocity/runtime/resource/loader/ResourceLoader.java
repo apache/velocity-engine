@@ -57,7 +57,9 @@ package org.apache.velocity.runtime.resource.loader;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import org.apache.velocity.runtime.resource.Resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -70,7 +72,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceLoader.java,v 1.10 2001/05/11 03:59:42 geirm Exp $
+ * @version $Id: ResourceLoader.java,v 1.11 2001/08/07 21:58:18 geirm Exp $
  */
 public abstract class ResourceLoader
 {
@@ -91,14 +93,18 @@ public abstract class ResourceLoader
      * purposes.
      */
      protected String className = null;
-   
+
+    protected RuntimeServices rsvc = null;
+
     /**
      * This initialization is used by all resource
      * loaders and must be called to set up common
      * properties shared by all resource loaders
      */
-    public void commonInit( ExtendedProperties configuration)
+    public void commonInit( RuntimeServices rs, ExtendedProperties configuration)
     {
+        this.rsvc = rs;
+
         /*
          *  these two properties are not required for all loaders.
          *  For example, for ClasspathLoader, what would cache mean? 
@@ -192,3 +198,4 @@ public abstract class ResourceLoader
         return modificationCheckInterval;
     }        
 }
+

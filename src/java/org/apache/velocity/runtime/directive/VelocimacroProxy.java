@@ -70,7 +70,7 @@ import org.apache.velocity.context.VMContext;
 import org.apache.velocity.context.Context;
 
 import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -85,7 +85,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.24 2001/07/03 19:29:09 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.25 2001/08/07 21:57:56 geirm Exp $ 
  */
 public class VelocimacroProxy extends Directive
 {
@@ -187,7 +187,7 @@ public class VelocimacroProxy extends Directive
             {
                 if ( !init )
                 {
-                    nodeTree.init(context,null);
+                    nodeTree.init( context, rsvc);
                     init = true;
                 }
                 
@@ -195,7 +195,7 @@ public class VelocimacroProxy extends Directive
                  *  wrap the current context and add the VMProxyArg objects
                  */
 
-                VMContext vmc = new VMContext( context );
+                VMContext vmc = new VMContext( context, rsvc );
 
                 for( int i = 1; i < argArray.length; i++)
                 {
@@ -216,7 +216,7 @@ public class VelocimacroProxy extends Directive
             }
             else
             {
-                Runtime.error( "VM error : " + macroName + ". Null AST");
+                rsvc.error( "VM error : " + macroName + ". Null AST");
             }
         } 
         catch ( Exception e ) 
@@ -230,7 +230,7 @@ public class VelocimacroProxy extends Directive
                 throw (MethodInvocationException) e;
             }
 
-            Runtime.error("VelocimacroProxy.render() : exception VM = #" + macroName + 
+            rsvc.error("VelocimacroProxy.render() : exception VM = #" + macroName + 
             "() : "  + StringUtils.stackTrace(e));
         }
 
@@ -242,9 +242,11 @@ public class VelocimacroProxy extends Directive
      *   macro body, renders the macro into an AST, and then inits the AST, so it is ready 
      *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
      */
-    public void init( InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
        throws Exception
     {
+        super.init( rs, context, node );
+
         /*
          *  how many args did we get?
          */
@@ -257,7 +259,7 @@ public class VelocimacroProxy extends Directive
      
         if ( getNumArgs() != i ) 
         {
-            Runtime.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
+            rsvc.error("VM #" + macroName + ": error : too few arguments to macro. Wanted " 
                          + getNumArgs() + " got " + i + "  -->");
             return;
         }
@@ -302,7 +304,7 @@ public class VelocimacroProxy extends Directive
              *  now parse the macro - and don't dump the namespace
              */
 
-            nodeTree = Runtime.parse( br, namespace, false );
+            nodeTree = rsvc.parse( br, namespace, false );
 
             /*
              *  now, to make null references render as proper schmoo
@@ -341,7 +343,7 @@ public class VelocimacroProxy extends Directive
         } 
         catch ( Exception e ) 
         {
-            Runtime.error("VelocimacroManager.parseTree() : exception " + macroName + 
+            rsvc.error("VelocimacroManager.parseTree() : exception " + macroName + 
                           " : "  + StringUtils.stackTrace(e));
         }
     }
@@ -354,7 +356,7 @@ public class VelocimacroProxy extends Directive
 
         for( int i = 1; i < argArray.length; i++)
         {
-            VMProxyArg arg = new VMProxyArg( argArray[i], callArgs[i-1], callArgTypes[i-1] );
+            VMProxyArg arg = new VMProxyArg( rsvc, argArray[i], callArgs[i-1], callArgTypes[i-1] );
             proxyArgHash.put( argArray[i], arg );
         }
     }
