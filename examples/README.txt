@@ -11,13 +11,19 @@ As always, the if you have any questions :
    To join, read http://jakarta.apache.org/site/mail.html and then follow the 
    link at the bottom to join the lists.
 
+These examples are very easy to build, but there is a prerequisite for building
+any Velocity software, a Java based build tool called 'Ant'.  It can be found at
 
-To build these examples easily, you can just use the build script provided in the 
-distribution.  In the build directory (contained in the root directory of the
-distribution) :
+   http://jakarta.apache.org/ant/
 
-Under unix    :   ./build.sh examples   
-Under windows :   build.bat examples
+It's really a great tool.  Once ant is installed and working (it's easy, don't
+worry...), you can build the example suite via :
+
+Change to the /build directory in the Velocity distribution and then type :
+
+  ant examples
+
+This will invoke ant and tell it to build the examples for you.
 
 Velocity Examples
 =================
@@ -66,6 +72,13 @@ xmlapp_example
 --------------
 This is simple example that demonstrates direct access of XML data via 
 Velocity templates, as well as Velocimacro recursion.
+
+event_example
+-------------
+This is a more advanced example, and shows how to use the event handling
+features of Velocity.  This is an advanced topic, so if you are just 
+starting with Velocity, you can come back to it later.
+
 
 Thanks for using Velocity!
 
