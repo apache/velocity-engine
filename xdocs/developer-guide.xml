@@ -114,6 +114,11 @@
 
 <li>
 <a href="developer-guide.html#FAQ (Frequently Asked Questions)">FAQ (Frequently Asked Questions)</a>
+<ul>
+    <li><a href="#FAQ1">Why Can't I Access Class Members and Constants from VTL?</a></li>
+    <li><a href="#FAQ2">Where does Velocity look for Templates?</a></li>
+    <li><a href="#FAQ3">How to I tell Velocity to use my custom directive?</a></li>
+</ul>
 </li>
 
 <li>
@@ -2869,7 +2874,7 @@ by developers using Velocity.  As we get more, we will move this out to
 a separate document.
 </p>
 
-<strong>Why Can't I Access Class Members and Constants from VTL?</strong>
+<a name="FAQ1"><strong>Why Can't I Access Class Members and Constants from VTL?</strong></a>
 
  <p>
  The short answer is because we don't introspect for fields.  We don't do that
@@ -2915,7 +2920,7 @@ a separate document.
      <code>FieldMethodizer</code> yourself. (And we still recommend you provide accessors....)
   </p>
 
-  <strong>Where does Velocity look for Templates?</strong>
+  <a name="FAQ2"><strong>Where does Velocity look for Templates?</strong></a>
 
   <p>
     By default, without any configuration on your part, Velocity will look
@@ -2939,6 +2944,30 @@ a separate document.
       configuration keys, values and defaults</a>.
      </p>
 
+
+    <a name="FAQ3"><strong>How to I tell Velocity to use my custom directive?</strong></a>
+
+    <p>
+        You can extend the functionality of Velocity by writing your own
+        custom directives.  For example, see the <code>LocalDirective</code>
+        in <code>contrib/temporary/LocalDirective</code>.  To get Velocity
+        to load your directive, all you need to do is include the
+        following property in your configuration of the Velocity engine :
+    </p>
+
+    <source>
+        <![CDATA[
+        userdirective = LocalDirective
+        ]]>
+    <source>
+
+     <p>
+        where you would of course replace <i>LocalDirective</i> above with your
+        class name.  Then, ensure that your class is in the classpath, and
+         all should be well.
+     </p>
+    </source>
+    </source>
 </section>
 
 <section name="Summary">
