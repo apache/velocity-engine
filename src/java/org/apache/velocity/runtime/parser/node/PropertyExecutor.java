@@ -57,7 +57,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.InternalContextAdapter;
 
 /**

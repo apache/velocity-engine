@@ -67,8 +67,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.exception.MethodInvocationException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
 
 /**
  *  ASTMethod.java
@@ -84,7 +84,7 @@ import org.apache.velocity.context.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.16 2001/04/23 00:41:37 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.17 2001/05/20 19:50:05 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {

@@ -65,15 +65,15 @@ import org.apache.velocity.runtime.parser.Token;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.context.NullSetEventHandler;
-import org.apache.velocity.context.EventCartridge;
+import org.apache.velocity.app.event.NullSetEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
 
 /**
  * Node for the #set directive
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.16 2001/04/20 04:28:47 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.17 2001/05/20 19:50:06 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {
