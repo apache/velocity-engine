@@ -5,10 +5,10 @@
 
 <table>
     <tr>
-        <td>This is $element and it is the 1 item</td>
+        <td>This is first element and it is the 1 item</td>
     </tr>        
     <tr>
-        <td>This is $element and it is the 2 item</td>
+        <td>This is second element and it is the 2 item</td>
     </tr>        
 </table>
 
