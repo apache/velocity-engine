@@ -78,7 +78,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.43 2003/10/27 12:42:10 geirm Exp $
+ * @version $Id: Foreach.java,v 1.44 2003/10/29 11:43:33 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -179,7 +179,7 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            System.err.println(ee);
+            rsvc.error("Error getting iterator for #foreach : " + ee.getMessage());
         }
 
         if (i == null)
