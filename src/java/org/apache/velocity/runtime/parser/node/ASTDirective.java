@@ -64,7 +64,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTDirective.java,v 1.6 2000/11/07 21:30:52 geirm Exp $ 
+ * @version $Id: ASTDirective.java,v 1.7 2000/11/11 22:40:04 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -79,10 +79,8 @@ import org.apache.velocity.runtime.parser.*;
 public class ASTDirective extends SimpleNode
 {
     private Directive directive;
-    private String directiveName;
+    private String strDirectiveName_ = "";
     private boolean isDirective;
-    private boolean bIsEscaped_ = false;
-    private String strPrefix_ = "";
 
     public ASTDirective(int id)
     {
@@ -103,48 +101,11 @@ public class ASTDirective extends SimpleNode
     
     public Object init(Context context, Object data) throws Exception
     {
-        /*
-         *  first look for the 'escaped' case...
-         */
-
-        bIsEscaped_ = false;
-        isDirective = false;
-
-        directiveName = getFirstToken().image.substring(1);
-
-        if ( getFirstToken().image.startsWith("\\") )
-        {
-            /* 
-             *  count the escapes : even # -> not escaped, odd -> escaped
-             */
-
-            int i = 0;
-            int iLen = getFirstToken().image.length();
-
-            while( i < iLen && getFirstToken().image.charAt(i) == '\\' )
-                i++;
-
-            if ( (i % 2) != 0 )                
-                bIsEscaped_ = true;
-
-            if (i > 0)
-                strPrefix_ = getFirstToken().image.substring(0, i / 2 );
-
-            directiveName = getFirstToken().image.substring(i+1);
- 
-           if (bIsEscaped_)
-                return data;
-         }
-
-        /*
-         *   normal processing 
-         */
-        
-        if (parser.isDirective(directiveName))
+        if (parser.isDirective( strDirectiveName_ ))
         {
             isDirective = true;
             
-            directive = (Directive) parser.getDirective(directiveName)
+            directive = (Directive) parser.getDirective( strDirectiveName_ )
                 .getClass().newInstance();
             
             directive.init(context,this);
@@ -160,54 +121,30 @@ public class ASTDirective extends SimpleNode
     public boolean render(Context context, Writer writer)
         throws IOException
     {
-        
-        /*
-         *  handle the escaped case first
-         */
-
-        if (bIsEscaped_)
-        {
-            /*
-             *  if it is an escaped PD, write it as #foo else
-             *  write it is \#foo
-             */
-
-            if ( parser.isDirective( directiveName ) )
-                writer.write( strPrefix_ + "#" + directiveName );
-            else
-            { 
-                /*
-                 *  do two strPrefix_, because if this is not a directive, it's schmoo, and therefore
-                 *  the \ have no magic binding properties
-                 */
-                writer.write( strPrefix_ + strPrefix_ + "\\#" + directiveName );       
-            }
-
-            return true;
-        }
-
+     
         /*
          *  normal processing
          */
 
         if (isDirective)
-        {
-            if (strPrefix_.length() > 0)
-                writer.write( strPrefix_ );
+        {           
             directive.render(context, writer, this);
-
         }
         else
         {
-            /*
-             *  do two strPrefix_, because if this is not a directive, it's schmoo, and therefore
-             *  the \ have no magic binding properties
-             */
-            writer.write( strPrefix_ + strPrefix_ +  "#" + directiveName);
+            writer.write( "#" +   strDirectiveName_);
         }
 
         return true;
     }
+
+    public void setDirectiveName( String str )
+    {
+        strDirectiveName_ = str;
+        return;
+    }
 }
+
+
 
 
