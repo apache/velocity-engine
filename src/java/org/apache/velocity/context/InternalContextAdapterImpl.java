@@ -16,12 +16,9 @@ package org.apache.velocity.context;
  * limitations under the License.
  */
 
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.exception.MethodInvocationException;
-
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  *  This adapter class is the container for all context types for internal
@@ -169,7 +166,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return context.put( key , value );
     }
 
-    public Object get(String key) throws MethodInvocationException
+    public Object get(String key)
     {
         return context.get( key );
     }

@@ -185,28 +185,19 @@ public class MethodInvocationExceptionTest extends TestCase
         }
 
         /**
-         * test that exception is thrown when in parameter to macro
+         * test that no exception is thrown when in parameter to macro.
+         * This is the way we expect the system to work, but it would be better
+         * to throw an exception.
          */
         template = "#macro (macro1 $param) $param #end  #macro1($woogie.getFoo())";
  
         try
         {
             Velocity. evaluate( vc,  w, "test", template );
-            fail("No exception thrown, set test.");
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
-
-            Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
-
-            if( t instanceof Exception)
-            {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
-            }
+            fail("Shouldn't have thrown exception, macro param test.");
         }
         catch( Exception e)
         {

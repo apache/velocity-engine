@@ -18,10 +18,6 @@ package org.apache.velocity.context;
 
 import java.io.Serializable;
 
-import org.apache.velocity.context.Context;
-import org.apache.velocity.context.InternalContextBase;
-import org.apache.velocity.exception.MethodInvocationException;
-
 /**
  *  This class is the abstract base class for all conventional 
  *  Velocity Context  implementations.  Simply extend this class 
@@ -182,7 +178,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  @return    The value corresponding to the provided key or null if
      *             the key param is null.
      */
-    public Object get(String key) throws MethodInvocationException
+    public Object get(String key)
     {
         /*
          *  punt if key is null
