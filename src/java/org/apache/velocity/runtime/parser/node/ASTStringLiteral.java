@@ -69,7 +69,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.14 2002/02/22 21:46:00 jon Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.15 2002/02/23 10:52:23 geirm Exp $
  */
 public class ASTStringLiteral extends SimpleNode
 {
@@ -139,8 +139,13 @@ public class ASTStringLiteral extends SimpleNode
 
             BufferedReader br = new BufferedReader(new StringReader(interpolateimage));
 
-            nodeTree
-                = rsvc.parse(br, context.getCurrentTemplateName());
+            /*
+             * it's possible to not have an initialization context - or we don't
+             * want to trust the caller - so have a fallback value if so
+             */
+
+            nodeTree  = rsvc.parse(br, (context != null) ?
+                    context.getCurrentTemplateName() : "StringLiteral");
 
             /*
              *  init with context. It won't modify anything
