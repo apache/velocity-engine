@@ -18,6 +18,10 @@ One blank line follows
     this is the if statement.
             this is great (line w/ 4 spaces follows (from in front of the #end) + another blank line)
     
+------------
+True
+-----------
+
 -- Third Test : tight tight tight.  Note that #end eats the \n, which is NOT what people expect, I think.
 -- one blank line follows
 
