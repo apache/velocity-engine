@@ -63,30 +63,31 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.InternalContextAdapter;
 
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeLogger;
 
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
- *  Handles discovery and valuation of a 
+ *  Handles discovery and valuation of a
  *  boolean object property, of the
  *  form public boolean is<property> when executed.
  *
  *  We do this separately as to preserve the current
  *  quasi-broken semantics of get<as is property>
- *  get< flip 1st char> get("property") and now followed 
+ *  get< flip 1st char> get("property") and now followed
  *  by is<Property>
  *
  *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
- *  @version $Id: BooleanPropertyExecutor.java,v 1.1 2001/11/19 13:52:30 geirm Exp $
+ *  @version $Id: BooleanPropertyExecutor.java,v 1.2 2002/04/21 20:57:25 geirm Exp $
  */
 public class BooleanPropertyExecutor extends PropertyExecutor
 {
-    public BooleanPropertyExecutor( RuntimeServices r, Class clazz, String property)
+    public BooleanPropertyExecutor(RuntimeLogger rlog, Introspector is, Class clazz, String property)
     {
-        super( r, clazz, property );
+        super(rlog, is, clazz, property);
     }
 
-    protected void discover( Class clazz, String property )
+    protected void discover(Class clazz, String property)
     {
         try
         {
@@ -94,24 +95,23 @@ public class BooleanPropertyExecutor extends PropertyExecutor
             StringBuffer sb;
 
             Object[] params = {  };
-            Introspector introspector = rsvc.getIntrospector();
-               
+
             /*
              *  now look for a boolean isFoo
              */
-            
-            sb = new StringBuffer( "is" );
-            sb.append( property );
+
+            sb = new StringBuffer("is");
+            sb.append(property);
 
             c = sb.charAt(2);
 
-            if(  Character.isLowerCase(c) )
+            if (Character.isLowerCase(c))
             {
-                sb.setCharAt( 2 ,  Character.toUpperCase(c) );
+                sb.setCharAt(2, Character.toUpperCase(c));
             }
 
             methodUsed = sb.toString();
-            method = introspector.getMethod( clazz, methodUsed, params);
+            method = introspector.getMethod(clazz, methodUsed, params);
 
             if (method != null)
             {
@@ -119,17 +119,15 @@ public class BooleanPropertyExecutor extends PropertyExecutor
                  *  now, this has to return a boolean
                  */
 
-                if ( method.getReturnType() == Boolean.TYPE )
+                if (method.getReturnType() == Boolean.TYPE)
                     return;
 
                 method = null;
             }
         }
-        catch( Exception e )
+        catch(Exception e)
         {
-            rsvc.error("PROGRAMMER ERROR : BooleanPropertyExector() : " + e );
+            rlog.error("PROGRAMMER ERROR : BooleanPropertyExector() : " + e);
         }
     }
 }
-
-
