@@ -54,11 +54,10 @@ package org.apache.velocity.runtime;
  * <http://www.apache.org/>.
  */
 
-import java.util.TreeMap;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  *  VelocimacroFactory.java
@@ -66,7 +65,7 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.7 2000/12/20 05:59:31 jvanzyl Exp $ 
+ * @version $Id: VelocimacroFactory.java,v 1.8 2001/01/13 16:49:59 geirm Exp $ 
  *
  */
 public class VelocimacroFactory
@@ -247,9 +246,7 @@ public class VelocimacroFactory
     /**
      *  adds a macro to the factory. 
      */
-    public boolean addVelocimacro( String name, String macroBody, 
-                                   String argArray[], String macroArray[],
-                                   TreeMap argIndexMap, String sourceTemplate )
+    public boolean addVelocimacro( String name, String macroBody,  String argArray[], String sourceTemplate )
     {
         /*
          * maybe we should throw an exception, maybe just tell 
@@ -258,8 +255,7 @@ public class VelocimacroFactory
          * I hate this : maybe exceptions are in order here...
          */
         
-        if (       name == null ||   macroBody == null || argArray == null || 
-             macroArray == null || argIndexMap == null )
+        if ( name == null ||   macroBody == null || argArray == null || sourceTemplate == null )
         {
             logVMMessage("Velocimacro : VM addition rejected : " +
                 "programmer error : arg null"  );
@@ -310,8 +306,7 @@ public class VelocimacroFactory
 
         synchronized( this ) 
         {
-            vmManager.addVM( name, macroBody, argArray, macroArray, 
-                argIndexMap, sourceTemplate );
+            vmManager.addVM( name, macroBody, argArray, sourceTemplate );
         }
 
         /*
@@ -345,7 +340,7 @@ public class VelocimacroFactory
         if (blather)
             Runtime.info( s );
     }
-
+      
     /**
      *  Tells the world if a given directive string is a Velocimacro
      */
