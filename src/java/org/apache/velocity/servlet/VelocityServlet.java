@@ -71,16 +71,13 @@ import org.apache.velocity.runtime.Runtime;
 
 import org.apache.velocity.io.FastWriter;
 
-//import org.apache.velocity.runtime.TemplateLoader;
-//import org.apache.velocity.runtime.TemplateFactory;
-
 /**
  * Base class to use Velocity with Servlets.
  * Simply extend this class, override the handleRequest method
  * and add your data to the context. Then call getTemplate("mytemplate.wm")
  * 
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -152,6 +149,7 @@ public abstract class VelocityServlet extends HttpServlet
         writer = new FastWriter(response.getOutputStream(), encoding);
         writer.setAsciiHack(asciiHack);
         template.merge( context, writer );
+        writer.flush();
     }
     
     /**

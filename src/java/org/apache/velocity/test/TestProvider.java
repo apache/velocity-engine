@@ -62,7 +62,7 @@ import java.util.*;
  * is traversed and dynamic content generated.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TestProvider.java,v 1.1 2000/09/30 17:04:21 jvanzyl Exp $
+ * @version $Id: TestProvider.java,v 1.2 2000/10/09 15:09:15 jvanzyl Exp $
  */
 public class TestProvider
 {
@@ -138,6 +138,16 @@ public class TestProvider
         return list;
     }
 
+    public Object me()
+    {
+        return this;
+    }        
+
+    public String toString()
+    {
+        return ("test provider");
+    }        
+
     public Vector getVector()
     {
         Vector list = new Vector();
@@ -185,6 +195,16 @@ public class TestProvider
         
         return result;
     }
+
+    public String parse(String a, Object o, String c, String d)
+    {
+        return a + o.toString() + c + d;
+    }
+
+    public String concat(String a, String b)
+    {
+        return a + b;
+    }        
 
     /*
      * This can't have the signature
