@@ -93,7 +93,7 @@ import org.apache.velocity.io.FastWriter;
  *
  * @author Dave Bryson
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * $Id: VelocityServlet.java,v 1.8 2000/10/15 22:57:04 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.9 2000/10/15 23:19:01 jvanzyl Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -126,8 +126,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * The default content type.
      */
-    private static String defaultContentType = 
-        Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
+    private static String defaultContentType;
 
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
@@ -146,6 +145,9 @@ public abstract class VelocityServlet extends HttpServlet
         try
         {
             Runtime.init(propsFile);
+            
+            defaultContentType = 
+                Runtime.getString(Runtime.DEFAULT_CONTENT_TYPE, "text/html");
             
             encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
             asciiHack = Runtime.getBoolean(Runtime.TEMPLATE_ASCIIHACK);
