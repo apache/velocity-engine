@@ -55,8 +55,12 @@ package org.apache.velocity.runtime;
  */
 
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
+import java.util.Properties;
 
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
@@ -70,8 +74,6 @@ import org.apache.velocity.runtime.parser.SimpleNode;
 
 import org.apache.velocity.runtime.loader.TemplateFactory;
 import org.apache.velocity.runtime.loader.TemplateLoader;
-
-import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.Dummy;
@@ -130,6 +132,10 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * It is simply a matter of setting the appropriate property
  * an initializing the matching sub system.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @author <a href="mailto:jlb@houseofdistraction.com">Jeff</a>
+ * @version $Id: Runtime.java,v 1.18 2000/10/19 19:32:43 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -209,17 +215,38 @@ public class Runtime
      */
     private static StringBuffer pendingMessages = new StringBuffer();
 
+    private static Properties properties;
+
     /**
      * Initializes the Velocity Runtime.
      */
-    public synchronized static void init(String properties)
+    public synchronized static void init(String propertiesFileName)
+        throws Exception
+    {
+        Properties properties = new Properties();
+        File file = new File( propertiesFileName );
+        try
+        {
+            if (file.exists()) 
+            {
+                properties.load( new FileInputStream(file) );
+            }
+        }
+        catch(Exception ex) 
+        {
+            throw new Exception( "Cannot load properties file: " + ex );
+        }
+        init( properties );
+    }
+
+    public synchronized static void init(Properties properties)
         throws Exception
     {
         if (! initialized)
         {
             try
             {
-                Configuration.setPropertiesFile(properties);
+                Runtime.properties = properties;
         
                 initializeLogger();
                 initializeTemplateLoader();           
@@ -243,7 +270,7 @@ public class Runtime
      */
     public static void setProperty(String key, String value)
     {
-        Configuration.setProperty(key, value);
+        properties.setProperty(key, value);
     }        
 
     /**
@@ -343,7 +370,8 @@ public class Runtime
      */
     public static boolean getBoolean(String property)
     {
-        return Configuration.getBoolean(property);    
+        String prop = properties.getProperty( property ); 
+        return (prop != null && Boolean.valueOf( prop ).booleanValue());
     }
 
     /**
@@ -351,14 +379,15 @@ public class Runtime
      */
     public static String getString(String property)
     {
-        return Configuration.getString(property);    
+        return properties.getProperty( property );
     }
     /**
      * Get a string property. with a default value
      */
     public static String getString(String property, String defaultValue)
     {
-        return Configuration.getString(property, defaultValue);    
+        String prop = getString( property );
+        return (prop == null ? defaultValue : prop);
     }
 
     private static void log(String message)
