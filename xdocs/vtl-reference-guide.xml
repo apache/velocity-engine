@@ -272,6 +272,64 @@ the user's guide to this document
 <p>        
     <strong>#foreach</strong>
     <br/>
+    The #foreach directive provide a simple way of looping
+    through a list of objects:
+</p>
+
+<p>
+    <source><![CDATA[
+    <table>
+    #foreach ($customer in $customerList)
+        <tr>
+          <td>
+            $customer.Name
+          </td>
+        </tr>
+    #end        
+    ]]></source>
+</p>
+
+<p>
+    Velocity provides an easy way to get the loop
+    counter so that you can do something like the
+    following:
+</p>
+    
+<p>    
+    <source><![CDATA[
+    <table>
+    #foreach ($customer in $customerList)
+        <tr>
+          <td>
+            $velocityCounter
+          </td>
+          <td>
+            $customer.Name
+          </td>
+        </tr>
+    #end        
+    ]]></source>
+</p>
+
+<p>
+    The default name for the loop counter variable
+    reference is $velocityCounter, but you can specify
+    this in the velocity.properties file. You can also
+    specify whether the counter should start at 0 or 1.
+    Here's what the properties look like in the
+    velocity.properties file:
+</p>    
+
+<p>    
+    <source><![CDATA[
+    # Default name of the loop counter
+    # variable refernce.
+    counter.name = velocityCount
+    
+    # Default starting value of the loop
+    # counter variable reference.
+    counter.initial.value = 1
+    ]]></source>
 </p>
 
 <p>        
