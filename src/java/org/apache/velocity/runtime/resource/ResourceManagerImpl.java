@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.3 2002/01/19 00:53:09 dlr Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.4 2002/01/19 01:59:20 dlr Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {
@@ -213,7 +213,7 @@ public class ResourceManagerImpl implements ResourceManager
             {
                 String err = "The specified class for ResourceCache ("
                     + claz    
-                    + ") does not exist (or is not accessible to the current classlaoder.";
+                    + ") does not exist (or is not accessible to the current classlaoder).";
                  rsvc.error( err );
                  
                  o = null;
@@ -224,7 +224,7 @@ public class ResourceManagerImpl implements ResourceManager
                 String err = "The specified class for ResourceCache ("
                     + claz 
                     + ") does not implement org.apache.runtime.resource.ResourceCache."
-                    + " ResourceManager using default ResourceCache implementation.";
+                    + " ResourceManager. Using default ResourceCache implementation.";
                     
                 rsvc.error( err);
                 
