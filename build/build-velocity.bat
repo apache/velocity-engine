@@ -23,6 +23,7 @@ set LIB=lib
 set ANT=%LIB%\ant.jar
 set ANTXML=%LIB%\xml.jar
 set XERCES=%LIB%\xerces-1.1.3.jar
+set SERVLET=%LIB%\servlet.jar
 
 set LOG=%LIB%\log.jar
 set JAVACLASS=%LIB%\JavaClass.jar
