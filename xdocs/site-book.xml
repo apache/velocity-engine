@@ -2,7 +2,7 @@
 
 <book title="Velocity Documentation" copyright="2000 The Apache Software Foundation">
 
-<separator/>
+<section label="About"/>
     <page id="index" label="Overview" source="index.xml"/>
     <page id="getting-started" label="Getting Started" source="getting-started.xml"/>
     <page id="install" label="Install" source="install.xml"/>
@@ -11,12 +11,11 @@
     <page id="code-standards" label="Coding Standards" source="code-standards.xml"/>
     <page id="license" label="License" source="license.xml"/>
     <page id="todo" label="TODO" source="todo.xml"/>
-    <separator/>
+<section label="Guides"/>
     <page id="user-guide" label="User's Guide" source="user-guide.xml"/>
     <page id="developer-guide" label="Developer's Guide" source="developer-guide.xml"/>
     <page id="vtl-reference-guide" label="VTL Reference Guide" source="vtl-reference-guide.xml"/>
-    <separator/>
+<section label="Tools"/>
     <page id="texen" label="Texen" source="texen.xml"/>
-    <separator/>
     <page id="migration" label="Migration To Velocity" source="migration.xml"/>
 </book>
