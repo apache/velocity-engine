@@ -5,27 +5,14 @@
 
 #-------------------------------------------------------------------
 
-LIB=lib
+LIB=./lib
 
 # Libs needed for build.
-ANT=${LIB}/ant.jar
-ANTXML=${LIB}/xml.jar
-XERCES=${LIB}/xerces-1.1.3.jar
-SERVLET=${LIB}/servlet.jar
-ORO=${LIB}/oro.jar
-
-# Libs needed for runtime.
-LOG=${LIB}/log.jar
-JAVACLASS=${LIB}/JavaClass.jar
-
-# Lib needed for testing.
-JUNIT=${LIB}/junit-3.2.jar
-
-# Libs needed for docs.
-XALAN=${LIB}/xalan_1_1_D01.jar
-FOP=${LIB}/fop.jar
-W3C=${LIB}/w3c.jar
-SB=${LIB}/stylebook-1.0-b2.jar
+ANT=${LIB}/ant-1.2.jar
+ANTOPTIONAL=${LIB}/ant-1.2-optional.jar
+XERCES=${LIB}/xerces-1.2.1.jar
+FOP=${LIB}/Fop.class
+XSLT=${LIB}/Xslt.class
 
 #--------------------------------------------
 # No need to edit anything past here
@@ -46,9 +33,8 @@ if test -f ${JAVA_HOME}/lib/tools.jar ; then
     CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib/tools.jar"
 fi
 
-CLASSPATH=${CLASSPATH}:${ANT}:${ANTXML}:${XERCES}:${XALAN}
-CLASSPATH=${CLASSPATH}:${SB}:${LOG}:${FOP}:${LIB}:${W3C}:${JAVACLASS}:${SERVLET}:${JUNIT}
-CLASSPATH=${CLASSPATH}:${SERVLET}:${JUNIT}:${ORO}
+CLASSPATH=${CLASSPATH}:${ANT}:${ANTOPTIONAL}:${XERCES}:${XALAN}
+CLASSPATH=${CLASSPATH}:${FOP}:${XSLT}
 
 # convert the unix path to windows
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
@@ -57,15 +43,8 @@ fi
 
 BUILDFILE=build-velocity.xml
 
+echo $CLASSPATH
+
 ${JAVA_HOME}/bin/java -classpath ${CLASSPATH} \
                        org.apache.tools.ant.Main \
                        -buildfile ${BUILDFILE} "$@"
-
-
-
-
-
-
-
-
-

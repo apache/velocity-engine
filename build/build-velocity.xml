@@ -2,83 +2,90 @@
 
 <!-- Build file for Velocity -->
 
-<project name="Velocity" default="compile" basedir=".">
+<project name="Velocity" default="prepare" basedir=".">
 
-    <target name="init">
-        <property name="Name" value="Velocity"/>
-        <property name="version" value="0.4"/>
-        <property name="project" value="velocity"/>
-        <property name="build.compiler" value="classic"/>
-        
-        <property name="build.dir" value="../bin"/>
-        <property name="build.src" value="${build.dir}/src"/>
-        <property name="build.dest" value="${build.dir}/classes"/>
-        
-        <property name="src.java.dir" value="../src/java"/>
-        <property name="javadoc.destdir" value="../docs/apidocs"/>
-        <property name="final.name" value="${project}-${version}"/>
-        <property name="dist.root" value="../dist"/>
-        <property name="dist.dir" value="${dist.root}/${final.name}"/>
-        <property name="year" value="1999-2000"/>
-        <property name="ant.home" value="."/>
-        <property name="debug" value="on"/>
-        <property name="optimize" value="on"/>
-        <property name="deprecation" value="on"/>
-        <property name="log.jar" value="lib/log.jar"/>
-        <property name="oro.jar" value="lib/oro.jar"/>
-        
-        <property name="velocity.docs" value="../docs"/>
-        <property name="velocity.xdocs" value="../xdocs"/>
-        <property name="velocity.skin" value="../xdocs/skin"/>
-        <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
-        
-        <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
-        <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
-        <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
-        <property name="junit.jar" value="lib/junit-3.2.jar"/>
+    <property name="Name" value="Velocity"/>
+    <property name="version" value="0.5"/>
+    <property name="project" value="velocity"/>
+    <property name="build.compiler" value="classic"/>
+    
+    <property name="build.dir" value="../bin"/>
+    <property name="build.src" value="${build.dir}/src"/>
+    <property name="build.dest" value="${build.dir}/classes"/>
+    
+    <property name="src.java.dir" value="../src/java"/>
+    <property name="javadoc.destdir" value="../docs/apidocs"/>
+    <property name="final.name" value="${project}-${version}"/>
+    <property name="dist.root" value="../dist"/>
+    <property name="dist.dir" value="${dist.root}/${final.name}"/>
+    <property name="year" value="2000"/>
+    <property name="ant.home" value="."/>
+    <property name="debug" value="on"/>
+    <property name="optimize" value="on"/>
+    <property name="deprecation" value="on"/>
+    <property name="log.jar" value="lib/log.jar"/>
+    <property name="oro.jar" value="lib/oro.jar"/>
+    
+    <property name="velocity.docs" value="../docs"/>
+    <property name="velocity.xdocs" value="../xdocs"/>
+    <property name="velocity.skin" value="../xdocs/skin"/>
+    <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
+    
+    <property name="stylebook.jar" value="lib/stylebook-1.0-b2.jar"/>
+    <property name="xerces.jar" value="lib/xerces-1.1.3.jar"/>
+    <property name="xalan.jar" value="lib/xalan_1_1_D01.jar"/>
+    <property name="junit.jar" value="lib/junit-3.2.jar"/>
 
-        <!-- Forum demo build information -->
-        <property name="demo.base" value="../examples/forumdemo"/>
-        <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
-        <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
-                
-         <!-- PDF generation using FOP -->
-        <property name="xdocs.dir" value="../xdocs"/>
-        <property name="allfiles.xml" value="velocity-doc.xml"/>
-        <property name="outfile.fo" value="velocity.fo"/>
-        <property name="outfile.pdf" value="../docs/velocity.pdf"/>
+    <!-- Forum demo build information -->
+    <property name="demo.base" value="../examples/forumdemo"/>
+    <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
+    <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
+            
+     <!-- PDF generation using FOP -->
+    <property name="xdocs.dir" value="../xdocs"/>
+    <property name="allfiles.xml" value="velocity-doc.xml"/>
+    <property name="outfile.fo" value="velocity.fo"/>
+    <property name="outfile.pdf" value="../docs/velocity.pdf"/>
 
 
-        <!-- JUnit Testbed -->
-        <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
+    <!-- JUnit Testbed -->
+    <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
 
-        <property name="template.test"
-            value="org.apache.velocity.test.TemplateTestCase"/>
+    <property name="template.test"
+        value="org.apache.velocity.test.TemplateTestCase"/>
 
-        <property name="introspector.test"
-            value="org.apache.velocity.test.IntrospectorTestCase"/>
+    <property name="introspector.test"
+        value="org.apache.velocity.test.IntrospectorTestCase"/>
 
-        <property name="default.properties" 
-            value="org/apache/velocity/runtime/defaults/velocity.properties"/>
+    <property name="default.properties" 
+        value="org/apache/velocity/runtime/defaults/velocity.properties"/>
 
-        <property name="default.test.properties"
-            value="org/apache/velocity/test/defaults/velocity.properties"/>
+    <property name="default.test.properties"
+        value="org/apache/velocity/test/defaults/velocity.properties"/>
 
-        <property name="default.texen.properties"
-            value="org/apache/velocity/texen/defaults/texen.properties"/>
+    <property name="default.texen.properties"
+        value="org/apache/velocity/texen/defaults/texen.properties"/>
 
-        <taskdef name="fop" classname="Fop"/>
-        <taskdef name="xslt" classname="Xslt"/>
-        
-        <filter token="year" value="${year}"/>
-        <filter token="version" value="${version}"/>
-        <filter token="date" value="${TODAY}"/>        
-    </target>
+<!-- disabled for now == classpath issues
+    <taskdef name="fop" classname="Fop"/>
+    <taskdef name="xslt" classname="Xslt"/>
+    -->
+
+    <!-- Build classpath -->
+    <path id="classpath">
+        <fileset dir="./lib">
+	        <include name="**/*.jar"/>
+        </fileset>
+    </path>
 
     <!-- =================================================================== -->
     <!-- Prepares the build directory                                        -->
     <!-- =================================================================== -->
-    <target name="prepare" depends="init">
+    <target name="prepare">
+        <filter token="year" value="${year}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="date" value="${TODAY}"/>        
+
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.dest}"/>
         <mkdir dir="${build.src}"/>
@@ -96,7 +103,10 @@
             destdir="${build.dest}"
             debug="${debug}"
             deprecation="${deprecation}"
-            optimize="${optimize}"/>
+            optimize="${optimize}">
+
+            <classpath refid="classpath"/>
+        </javac>
             
             <copy todir="${build.dest}/org/apache/velocity">
                 <fileset dir="${src.java.dir}/org/apache/velocity"
@@ -121,13 +131,12 @@
         
         <unzip src="${log.jar}" dest="${build.dest}"/>
         <unzip src="${oro.jar}" dest="${build.dest}"/>
-    
+
+        <delete dir="${build.dest}/meta-inf"/>
+
         <jar jarfile="${build.dir}/${project}-${version}.jar"
             basedir="${build.dest}"
             excludes="**/package.html"/>
-        <!-- HELP: Ant does not like my use of the jar task's manifest
-             attribute.  It reports "basedir does not exist".
-	    manifest="{build.dest}/META-INF/MANIFEST.MF"/> -->
     </target>
     
     <!-- =================================================================== -->
@@ -189,14 +198,14 @@
     <!-- =================================================================== -->
     <!-- Cleans up the build directory                                       -->
     <!-- =================================================================== -->
-    <target name="clean" depends="init">
+    <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
 
     <!-- =================================================================== -->
     <!-- Make HTML version of Velocity documentation                         -->
     <!-- =================================================================== -->
-    <target name="docs" depends="init">
+    <target name="docs">
 
         <java fork="yes" classname="${doc.generator}">
             <arg value="targetDirectory=${velocity.docs}"/>
@@ -215,7 +224,7 @@
     <!-- =================================================================== -->
     <!-- Make PDF version of Velocity documentation                           -->
     <!-- =================================================================== -->
-    <target name="pdf" depends="init">
+<!--    <target name="pdf">
         <xslt infile="../xdocs/site-book.xml" xsltfile="xsl/xml2xml.xsl"
             outfile="${allfiles.xml}" smart="yes"/>
     
@@ -227,11 +236,11 @@
         <delete file="${allfiles.xml}"/>
         <delete file="${outfile.fo}"/>
     </target>
-
+-->
     <!-- =================================================================== -->
     <!-- JUnit Tests for Velocity                                            -->
     <!-- =================================================================== -->
-    <target name="test" depends="init">
+    <target name="test">
 
         <echo message="Running JUnit template tests for Velocity ..."/>
 
@@ -246,7 +255,7 @@
 
     </target>
 
-    <target name="test-introspector" depends="init">
+    <target name="test-introspector">
 
         <echo message="Running JUnit Introspector tests for Velocity ..."/>
 
@@ -290,7 +299,7 @@
     </target>
 
     <!-- Delete the demo files for re-build -->
-    <target name="cleandemo" depends="init">
+    <target name="cleandemo">
         <delete dir="${demo.dest}/org"/>
         <delete file="${build.dir}/forumdemo.war"/>
     </target>
