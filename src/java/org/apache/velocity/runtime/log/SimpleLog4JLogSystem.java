@@ -56,7 +56,7 @@ package org.apache.velocity.runtime.log;
 
 import java.util.Enumeration;
 
-import org.apache.log4j.Logger;
+import org.apache.log4j.Category;
 import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.Priority;
@@ -66,28 +66,21 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- * Implementation of a simple Log4J system that will either latch onto
- * an existing logger, or produce a simple rolling file log.
+ *  Implementation of a simple log4j system that will either
+ *  latch onto an existing category, or just do a simple
+ *  rolling file log.  Derived from Jon's 'complicated'
+ *  version :)
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @author <a href="mailto:jon@apache.org>Jon Scott Stevens</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.2 2003/10/22 01:08:39 dlr Exp $
- * @since Velocity 1.3
+ * @version $Id: SimpleLog4JLogSystem.java,v 1.3 2003/10/22 01:10:31 dlr Exp $
  */
 public class SimpleLog4JLogSystem implements LogSystem
 {
     private RuntimeServices rsvc = null;
 
-    /**
-     * <a href="http://jakarta.apache.org/log4j/">Log4J</a>
-     * logging API.
-     */
-    protected Logger category = null;
+    /** log4java logging interface */
+    protected Category logger = null;
 
-    /**
-     * Constructor used by {@link
-     * org.apache.velocity.runtime.log.LogManager#createLogSystem()}.
-     */
     public SimpleLog4JLogSystem()
     {
     }
@@ -97,19 +90,18 @@ public class SimpleLog4JLogSystem implements LogSystem
         rsvc = rs;
 
         /*
-         *  first see if there is a logger specified and just use that - it allows
+         *  first see if there is a category specified and just use that - it allows
          *  the application to make us use an existing logger
          */
 
-        String loggerName =
-            (String) rsvc.getProperty("runtime.log.logsystem.log4j.category");
+        String categoryname =  (String) rsvc.getProperty("runtime.log.logsystem.log4j.category");
 
-        if ( loggerName != null )
+        if ( categoryname != null )
         {
-            category = Logger.getLogger( loggerName );
+            logger = Category.getInstance( categoryname );
         
             logVelocityMessage( 0,
-                                "SimpleLog4JLogSystem using logger '" + loggerName + "'");
+                                "SimpleLog4JLogSystem using category '" + categoryname + "'");
 
             return;
         }
@@ -148,14 +140,14 @@ public class SimpleLog4JLogSystem implements LogSystem
          *  that might be used...
          */
 
-        category = Logger.getLogger(this.getClass().getName());
-        category.setAdditivity(false);
+        logger = Category.getInstance(this.getClass().getName());
+        logger.setAdditivity(false);
 
         /*
          * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
-        category.setPriority(Priority.DEBUG);
+        logger.setPriority(Priority.DEBUG);
 
         RollingFileAppender appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
         
@@ -163,7 +155,7 @@ public class SimpleLog4JLogSystem implements LogSystem
         
         appender.setMaximumFileSize( 100000 );
         
-        category.addAppender(appender);
+        logger.addAppender(appender);
     }
 
     /**
@@ -177,19 +169,19 @@ public class SimpleLog4JLogSystem implements LogSystem
         switch (level) 
         {
             case LogSystem.WARN_ID:
-                category.warn(message);
+                logger.warn( message );
                 break;
             case LogSystem.INFO_ID:
-                category.info(message);
+                logger.info(message);
                 break;
             case LogSystem.DEBUG_ID:
-                category.debug(message);
+                logger.debug(message);
                 break;
             case LogSystem.ERROR_ID:
-                category.error(message);
+                logger.error(message);
                 break;
             default:
-                category.debug(message);
+                logger.debug(message);
                 break;
         }
     }
@@ -202,13 +194,13 @@ public class SimpleLog4JLogSystem implements LogSystem
         shutdown();
     }
 
-    /** Close all log destinations. */
+    /** Close all destinations*/
     public void shutdown()
     {
-        Enumeration appenders = category.getAllAppenders();
+        Enumeration appenders = logger.getAllAppenders();
         while (appenders.hasMoreElements())
         {
-            Appender appender = (Appender) appenders.nextElement();
+            Appender appender = (Appender)appenders.nextElement();
             appender.close();
         }
     }
