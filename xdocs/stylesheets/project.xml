@@ -26,7 +26,8 @@
         <item name="CVS Repositories"       href="/site/cvsindex.html"/>
     </menu>
     <menu name="Docs">
-        <item name="User's Guide"           href="/user-guide.html"/>
+        <item name="User's Guide (English)" href="/user-guide.html"/>
+        <item name="User's Guide (Finnish)" href="/user-guide_fi.html"/>
         <item name="Developer's Guide"      href="/developer-guide.html"/>
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
         <item name="Specification"          href="/specification.html"/>
