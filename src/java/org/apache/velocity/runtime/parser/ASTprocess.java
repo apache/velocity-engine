@@ -33,5 +33,4 @@ public class ASTprocess extends SimpleNode
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
     }
-
 }

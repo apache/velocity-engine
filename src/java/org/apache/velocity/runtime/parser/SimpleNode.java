@@ -13,8 +13,10 @@ public class SimpleNode implements Node
     protected Node[] children;
     protected int id;
     protected Parser parser;
-
+    
+    protected  int info; // added
     public boolean state;
+    
     
     /* Added */
     protected Token first, last;
@@ -43,33 +45,6 @@ public class SimpleNode implements Node
     public void jjtClose()
     {
         last = parser.getToken(0); // added
-    }
-
-    public boolean evaluate(Context context)
-    {
-        return false;
-    }        
-
-    public Object value(Context context)
-    {
-        return null;
-    }        
-
-    public void process(Node node, Context context, ParserVisitor visitor)
-    {
-    }
-
-    public Object invoke(Object o, Context context) 
-    { return null; }
-
-    public void render(Context context, Writer writer)
-        throws IOException
-    {
-    }
-
-    public int getType()
-    {
-        return id;
     }
 
     public void setFirstToken(Token t)
@@ -108,15 +83,6 @@ public class SimpleNode implements Node
             children = c;
         }
         children[i] = n;
-    }
-
-    // Added by jvz.
-    public void jjtRemoveChild(int i)
-    {
-        Node c[] = new Node[children.length - 1];
-        System.arraycopy(children, 0, c, 0, i - 1);
-        System.arraycopy(children, i + 1, c, i, c.length - i);
-        children = c;
     }
 
     public Node jjtGetChild(int i)
@@ -181,5 +147,55 @@ public class SimpleNode implements Node
             }
         }
     }
+
+    // All additional methods
+
+    public Object init(Context context, Object data) throws Exception
+    {
+        int i, k = jjtGetNumChildren();
+
+        for (i = 0; i < k; i++)
+            jjtGetChild(i).init(context, data);
+    
+        return data;
+    }
+
+    public boolean evaluate(Context context)
+    {
+        return false;
+    }        
+
+    public Object value(Context context)
+    {
+        return null;
+    }        
+
+    public Object invoke(Object o, Context context) 
+    { return null; }
+
+    public void render(Context context, Writer writer)
+        throws IOException
+    {
+    }
+
+    public Object execute(Object o, Context context)
+    {
+        return null;
+    }
+
+    public int getType()
+    {
+        return id;
+    }
+
+    public void setInfo(int info)
+    {
+        this.info = info;
+    }
+    
+    public int getInfo()
+    {
+        return info;
+    }        
 }
 

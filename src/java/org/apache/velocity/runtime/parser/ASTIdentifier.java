@@ -3,12 +3,15 @@
 package org.apache.velocity.runtime.parser;
 
 import java.util.Map;
+import java.lang.reflect.Method;
 
 import org.apache.velocity.Context;
 import org.apache.velocity.util.ClassUtils;
 
 public class ASTIdentifier extends SimpleNode
 {
+    private AbstractExecutor executor;
+    
     public ASTIdentifier(int id)
     {
         super(id);
@@ -23,6 +26,37 @@ public class ASTIdentifier extends SimpleNode
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
+    }
+
+    public Object init(Context context, Object data)
+        throws Exception
+    {
+        String identifier = getFirstToken().image;
+        String method = "get" + identifier;
+
+        //! Now there might just be an error here.
+        //  If there is a typo in the property
+        //  then a MapExecutor is created and
+        //  this needs to be prevented.
+
+        try
+        {
+            executor = new PropertyExecutor();
+            Method m = ((Class)data).getMethod(method,null);
+            executor.setData(m);
+            return m.getReturnType();
+        }
+        catch (NoSuchMethodException nsme)
+        {
+            executor = new MapExecutor();
+            executor.setData(identifier);
+            return Object.class;
+        }
+    }
+
+    public Object execute(Object o, Context context)
+    {
+        return executor.execute(o, context);
     }
 
     public Object invoke(Object result, Context context)
@@ -52,7 +86,7 @@ public class ASTIdentifier extends SimpleNode
         }
         else
             result = newResult;
-    
+        
         return result;
     }
 }

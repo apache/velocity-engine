@@ -6,9 +6,14 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.directive.Directive;
 
 public class ASTDirective extends SimpleNode
 {
+    private Directive directive;
+    private String directiveName;
+    private boolean isDirective;
+    
     public ASTDirective(int id)
     {
         super(id);
@@ -25,15 +30,31 @@ public class ASTDirective extends SimpleNode
     {
         return visitor.visit(this, data);
     }
+    
+    public Object init(Context context, Object data) throws Exception
+    {
+        directiveName = getFirstToken().image.substring(1);
+        
+        if (parser.isDirective(directiveName))
+        {
+            isDirective = true;
+            directive = parser.getDirective(directiveName);
+            directive.init(context,this);
+        }            
+        else
+        {
+            isDirective = false;
+        }            
+    
+        return data;
+    }
 
     public void render(Context context, Writer writer)
         throws IOException
     {
-        String directive = getFirstToken().image.substring(1);
-        
-        if (parser.isDirective(directive))
-            parser.getDirective(directive).render(context, writer, this);
+        if (isDirective)
+            directive.render(context, writer, this);
         else
-            writer.write(getFirstToken().image);
+            writer.write(directiveName);
     }
 }
