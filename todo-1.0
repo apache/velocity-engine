@@ -1,0 +1,90 @@
+o Configuration Cleanup
+  
+  PLAN:
+  We're still debating.
+  
+  STATUS:
+  [JVZ] I will make the changes when we agree.
+
+o Log4j for Logging
+  
+  PLAN:
+  Simply replace the org.apache.log package for now. Just
+  a flat replacement for the features that log4j provides.
+  The logging interface can come later.
+  
+  STATUS:
+  [JVZ] I will do this if we can agree on this.
+  
+o Get a copy of Alexandria for Javadocs
+
+  PLAN:
+  It would be ideal to get a copy of Alexandria running
+  on the apache.org box. But we can do it manually if
+  necessary.
+  
+  STATUS:
+  [JVZ] I have asked on the Alexandria mailing list to
+  to see if someone will look into setting up Alexandria
+  but I have heard anything back yet.
+
+o UML Diagrams
+  
+  PLAN:
+  Use a tool to reverse engineer the code in XMI so we have
+  something to play with in Argo.
+  
+  STATUS:
+  Ilkka Priha has made us a set of XMI files for Velocity,
+  I will check them into CVS and we can go from there.
+  
+o Getting a mailing list archive working, or at least have
+  
+  PLAN:
+  Can we setup Eyebrowse? Would this be too much of a PITA,
+  or would be too tempted to convert it to Velocity :-)
+  If no one has time for this, can we at least place
+  a message at the bottom of messages that go out
+  on the mailing list?
+  
+  STATUS:
+  None
+  
+o Test for Texen
+
+  PLAN:
+  Just add a simple test for Texen to make sure things
+  don't break when changes are made.
+  
+  STATUS:
+  [JVZ] I will add the test for Texen.
+  
+o Test for Anakia
+  
+  PLAN:
+  Just add a simple test for Anakia to make sure things
+  don't break when changes are made.
+  
+  STATUS:
+  None
+  
+o Codify the testing harness
+
+  PLAN:
+  Have a single target that runs the whole set of
+  tests. Right now the main test is the template testing,
+  it would be nice to run all the tests in there.
+  
+  STATUS:
+  None
+  
+o Grinder for Velocity
+
+  PLAN:
+  Create a grinder that will stress velocity and report
+  performance so that anyone interested in trying to
+  improve the speed of Velocity can easily try and
+  use the grinder to check the results.
+  
+  STATUS:
+  None
