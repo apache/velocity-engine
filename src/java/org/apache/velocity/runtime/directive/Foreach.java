@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.directive;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@ package org.apache.velocity.runtime.directive;
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Tomcat", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
@@ -73,8 +73,7 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 
-import org.apache.velocity.runtime.exception.NodeException;
-import org.apache.velocity.runtime.exception.ReferenceException;
+import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -85,7 +84,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.32 2001/03/05 11:45:41 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.33 2001/03/19 17:12:58 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -182,6 +181,7 @@ public class Foreach extends Directive
      *  @return Iterator to do the dataset
      */
     private Iterator getIterator( InternalContextAdapter context, Node node )
+        throws MethodInvocationException
     {
         /*
          *  get our list object, and punt if it's null.
@@ -284,7 +284,7 @@ public class Foreach extends Directive
      *  renders the #foreach() block
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException
+        throws IOException,  MethodInvocationException
     {        
         /*
          *  do our introspection to see what our collection is

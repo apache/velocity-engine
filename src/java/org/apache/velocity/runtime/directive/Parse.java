@@ -66,6 +66,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.velocity.exception.MethodInvocationException;
+
 /**
  * Pluggable directive that handles the #parse() statement in VTL. 
  *
@@ -84,7 +86,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @version $Id: Parse.java,v 1.15 2001/03/05 11:45:48 jvanzyl Exp $
+ * @version $Id: Parse.java,v 1.16 2001/03/19 17:13:00 geirm Exp $
  */
 public class Parse extends Directive
 {
@@ -112,7 +114,7 @@ public class Parse extends Directive
      *  arguments are logged, but render() continues.
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException
+        throws IOException, MethodInvocationException
     {
         /*
          *  did we get an argument?
