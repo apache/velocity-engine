@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.loader.TemplateLoader;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
@@ -82,7 +83,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.13 2000/11/01 18:22:07 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.14 2000/11/16 01:43:16 jvanzyl Exp $
  */
 public class Template
 {
@@ -112,22 +113,147 @@ public class Template
     private boolean initialized = false;
 
     /**
-     * Default constructor. Given an input stream, an
-     * AST node structure will be produced by the
-     * Velocity Runtime. This AST structure can be
-     * reused until the template changes on disk.
+     * The template loader that initially loaded the input
+     * stream for this template, and knows how to check the
+     * source of the input stream for modification.
      */
-    public Template(InputStream inputStream)
+    private TemplateLoader templateLoader;
+
+    /**
+     * The number of milliseconds in a minute, used to calculate the
+     * check interval.
+     */
+    protected static final long MILLIS_PER_MINUTE = 60 * 1000;
+
+    /**
+     * How often the file modification time is checked (in milliseconds).
+     */
+    private long modificationCheckInterval = 0;
+
+    /**
+     * The file modification time (in milliseconds) for the cached template.
+     */
+    private long lastModified = 0;
+
+    /**
+     * The next time the file modification time will be checked (in 
+     * milliseconds).
+     */
+    private long lastCheck = 0;
+
+    /**
+     * The next time the file modification time will be checked (in 
+     * milliseconds).
+     */
+    private long nextCheck = 0;
+
+    /** Template name */
+    private String name;
+
+    /** Default constructor */
+    public Template()
     {
-        try
+    }
+
+    /**
+     * Set the modification check interval.
+     * @param interval The interval (in minutes).
+     */
+    public void setModificationCheckInterval(long modificationCheckInterval)
+    {
+        this.modificationCheckInterval = modificationCheckInterval;
+    }
+    
+    public void setDocument(SimpleNode document)
+    {
+        this.document = document;
+    }        
+
+    public SimpleNode getDocument()
+    {
+        return document;
+    }        
+
+    /**
+     * Is it time to check to see if the template
+     * source has been updated?
+     */
+     public boolean requiresChecking()
+     {
+        if ( lastCheck >= nextCheck)
         {
-            document = Runtime.parse(inputStream);
-        }
-        catch (ParseException pe)
+            return true;
+        }            
+        else
         {
-            Runtime.error(pe);
+            lastCheck = System.currentTimeMillis();
+            return false;
         }
     }
+
+    /**
+     * Touch this template and thereby resetting
+     * the lastCheck, and nextCheck fields.
+     */
+    public void touch()
+    {
+        lastCheck = System.currentTimeMillis();
+        nextCheck = lastCheck + modificationCheckInterval;
+    }
+    
+    /**
+     * Set the name of this template, for example
+     * test.vm.
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }        
+
+    /**
+     * Get the name of this template.
+     */
+    public String getName()
+    {
+        return name;
+    }        
+
+    /**
+     * Return the lastModifed time of this
+     * template.
+     */
+    public long getLastModified()
+    {
+        return lastModified;
+    }        
+    
+    /**
+     * Set the last modified time for this
+     * template.
+     */
+    public void setLastModified(long lastModified)
+    {
+        this.lastModified = lastModified;
+    }        
+
+    /**
+     * Return the template loader that pulled
+     * in the template stream
+     */
+    public TemplateLoader getTemplateLoader()
+    {
+        return templateLoader;
+    }
+    
+    /**
+     * Set the template loader for this template. Set
+     * when the Runtime determines where this template
+     * came from the list of possible sources.
+     */
+    public void setTemplateLoader(TemplateLoader templateLoader)
+    {
+        this.templateLoader = templateLoader;
+    }        
 
     /**
      * The AST node structure is merged with the
