@@ -69,28 +69,65 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.11 2001/02/27 11:22:36 geirm Exp $ 
+ * @version $Id: Generator.java,v 1.12 2001/03/02 20:35:02 jvanzyl Exp $ 
  */
 public class Generator
 {
+    /**
+     * Where the texen output will placed.
+     */
     public static final String OUTPUT_PATH = "output.path";
+    
+    /**
+     * Where the velocity templates live.
+     */
     public static final String TEMPLATE_PATH = "template.path";
     
+    /**
+     * Default properties file used for controlling the
+     * tools placed in the context.
+     */
     private static final String DEFAULT_TEXEN_PROPERTIES =
         "org/apache/velocity/texen/defaults/texen.properties";
 
+    /**
+     * Default properties used by texen.
+     */
     private Properties props = new Properties();
-    private Context controlContext;
     
+    /**
+     * Context used for generating the texen output.
+     */
+    private Context controlContext;
+
+    /**
+     * Keep track of the file writers used for outputting
+     * to files. If we come across a file writer more
+     * then once then the additional output will be
+     * appended to the file instead of overwritting
+     * the contents.
+     */
+    private Hashtable fileWriters = new Hashtable();
+
+    /**
+     * The generator tools used for creating additional
+     * output withing the control template. This could
+     * use some cleaning up.
+     */
     private static Generator instance = new Generator();
 
+    /**
+     * Default constructor.
+     */
     private Generator()
     {
         setDefaultProps();
     }
 
     /**
-     * Create a new generator object with default properties
+     * Create a new generator object with default properties.
+     *
+     * @return Generator generator used in the control context.
      */
     public static Generator getInstance()
     {
@@ -102,6 +139,9 @@ public class Generator
      * a file.  If the file does not exist or any other exception
      * occurs during the reading operation the default properties
      * are used.
+     *
+     * @param String properties used to help populate the control context.
+     * @return Generator generator used in the control context.
      */
     public Generator (String propFile)
     {
@@ -120,23 +160,26 @@ public class Generator
         }
         catch (Exception e)
         {
-            // If something goes wrong we use default properties
+            /*
+             * If something goes wrong we use default properties
+             */
             setDefaultProps();
         }
     }
     
     /**
      * Create a new Generator object with a given property
-     * set.  The property set will be duplicated.
+     * set. The property set will be duplicated.
+     *
+     * @param Properties properties object to help populate the control context.
      */
     public Generator (Properties props)
     {
         this.props = (Properties)props.clone();
     }
     
-    
     /**
-     * Set default properties
+     * Set default properties.
      */
     protected void setDefaultProps()
     {
@@ -157,6 +200,8 @@ public class Generator
     /**
      * Set the template path, where Texen will look
      * for Velocity templates.
+     *
+     * @param String template path for velocity templates.
      */
     public void setTemplatePath(String templatePath)
     {
@@ -165,6 +210,8 @@ public class Generator
 
     /**
      * Get the template path.
+     *
+     * @return String template path for velocity templates.
      */
     public String getTemplatePath()
     {
@@ -174,6 +221,8 @@ public class Generator
     /**
      * Set the output path for the generated
      * output.
+     *
+     * @return String output path for texen output.
      */
     public void setOutputPath(String outputPath)
     {
@@ -183,6 +232,8 @@ public class Generator
     /**
      * Get the output path for the generated
      * output.
+     *
+     * @return String output path for texen output.
      */
     public String getOutputPath()
     {
@@ -193,10 +244,14 @@ public class Generator
      * Parse an input and write the output to an output file.  If the
      * output file parameter is null or an empty string the result is
      * returned as a string object.  Otherwise an empty string is returned.
+     *
+     * @param String input template
+     * @param String output file
      */ 
-    public String parse (String input, String output) throws Exception
+    public String parse (String inputTemplate, String outputFile) 
+        throws Exception
     {
-        return this.parse (input,output,null,null);
+        return parse(inputTemplate, outputFile, null, null);
     }
     
     /**
@@ -204,17 +259,27 @@ public class Generator
      * output file parameter is null or an empty string the result is
      * returned as a string object.  Otherwise an empty string is returned.
      * You can add objects to the context with the objs Hashtable.
+     *
+     * @param String input template
+     * @param String output file
+     * @param String id for object to be placed in the control context
+     * @param String object to be placed in the context
+     * @return String generated output from velocity
      */ 
-    public String parse (String input, String output, String objName, Object obj) 
+    public String parse (String inputTemplate, 
+                         String outputFile, 
+                         String objectID, 
+                         Object object)
         throws Exception
     {
+        if (objectID != null && object != null)
+        {
+            controlContext.put(objectID, object);
+        }            
         
-        if (objName != null && obj != null)
-            controlContext.put(objName, obj);
+        Template template = Runtime.getTemplate(inputTemplate);
         
-        Template template = Runtime.getTemplate(input);
-        
-        if (output == null || output.equals(""))
+        if (outputFile == null || outputFile.equals(""))
         {
             StringWriter sw = new StringWriter();
             template.merge (controlContext,sw);
@@ -222,15 +287,43 @@ public class Generator
         }
         else
         {
-            FileWriter fw = new FileWriter (getOutputPath() +
-                File.separator + output);
-            template.merge (controlContext,fw);
-            fw.close();
+            FileWriter fileWriter = null;
+            
+            if (fileWriters.get(outputFile) == null)
+            {
+                /*
+                 * We have never seen this file before so create
+                 * a new file writer for it.
+                 */
+                fileWriter = new FileWriter(
+                    getOutputPath() + File.separator + outputFile);
+                    
+                /*
+                 * Place the file writer in our collection
+                 * of file writers.
+                 */
+                fileWriters.put(outputFile, fileWriter);                    
+            }
+            else
+            {
+                fileWriter = (FileWriter) fileWriters.get(outputFile);
+            }                
+            
+            template.merge (controlContext,fileWriter);
+            //fw.close();
             
             return "";
         }
     }
 
+    /**
+     * Parse the control template and merge it with the control
+     * context. This is the starting point in texen.
+     *
+     * @param String control template
+     * @param Context control context
+     * @return String generated output
+     */
     public String parse (String controlTemplate, Context controlContext)
         throws Exception
     {
@@ -250,6 +343,9 @@ public class Generator
      * Create a new context and fill it with the elements of the
      * objs Hashtable.  Default objects and objects that comes from
      * the properties of this Generator object is also added.
+     *
+     * @param Hashtable objects to place in the control context
+     * @return Context context filled with objects
      */ 
     protected Context getContext (Hashtable objs)
     {
@@ -258,7 +354,10 @@ public class Generator
     }
 
     /** 
-     * Add all the contents of a Hashtable to the context
+     * Add all the contents of a Hashtable to the context.
+     *
+     * @param Context context to fill with objects
+     * @param Hashtable source of objects
      */
     protected void fillContextHash (Context context, Hashtable objs)
     {
@@ -269,10 +368,11 @@ public class Generator
             context.put (key, objs.get(key));
         }
     }
-    
 
     /**
      * Add properties that will aways be in the context by default
+     *
+     * @param Context control context to fill with default values.
      */
     protected void fillContextDefaults (Context context)
     {
@@ -281,7 +381,11 @@ public class Generator
     }
     
     /**
-     * Add objects to the context from the current properties
+     * Add objects to the context from the current properties.
+     *
+     * @param Context control context to fill with objects
+     *                that are specified in the default.properties
+     *                file
      */
     protected void fillContextProperties (Context context)
     {
@@ -308,6 +412,31 @@ public class Generator
                     e.printStackTrace();
                     //TO DO: Log Something Here
                 }
+            }
+        }
+    }
+
+    /**
+     * Properly shut down the generator, right now
+     * this is simply flushing and closing the file
+     * writers that we have been holding on to.
+     */
+    public void shutdown()
+    {
+        Iterator iterator = fileWriters.values().iterator();
+        
+        while(iterator.hasNext())
+        {
+            FileWriter fileWriter = (FileWriter) iterator.next();
+                        
+            try
+            {
+                fileWriter.flush();
+                fileWriter.close();
+            }
+            catch (Exception e)
+            {
+                /* do nothing */
             }
         }
     }

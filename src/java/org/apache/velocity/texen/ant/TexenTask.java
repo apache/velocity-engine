@@ -79,7 +79,7 @@ import org.apache.velocity.util.StringUtils;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.14 2001/02/27 08:05:20 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.15 2001/03/02 20:35:17 jvanzyl Exp $
  */
 
 public class TexenTask extends Task
@@ -382,6 +382,7 @@ public class TexenTask extends Task
             writer.write(generator.parse(controlTemplate, c));
             writer.flush();
             writer.close();
+            generator.shutdown();
         }
         catch (Exception e)
         {
