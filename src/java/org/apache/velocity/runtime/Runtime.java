@@ -169,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.82 2001/01/12 20:20:38 dlr Exp $
+ * @version $Id: Runtime.java,v 1.83 2001/01/12 20:24:40 dlr Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -568,13 +568,12 @@ public class Runtime implements RuntimeConstants
             {
                 parserPool.put(parser);
             }
-            return ast;
         }
         else
         {
             error("Runtime : ran out of parsers!");
         }
-        return null;
+        return ast;
     }
     
     /**
