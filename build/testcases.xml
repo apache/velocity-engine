@@ -31,10 +31,11 @@
                                    test-multi,
                                    test-cpload,
                                    test-contextsafety,
-                                   test-anakia,
                                    test-configuration,
                                    test-externallogger,
-                                   test-texen
+                                   test-methodinvocationexception,   
+                                   test-anakia,
+                                   test-texen                                    
                                    "/>
 
   <target name="test-template">
@@ -167,6 +168,19 @@
       </classpath>
     </java>
    </target>
+
+
+  <target name="test-methodinvocationexception">
+    <echo message="Running MethodInvocationException tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes">
+      <arg value="org.apache.velocity.test.MethodInvocationExceptionTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
+
 
   <!-- ================================================================ -->
   <!-- T E X E N  T E S T                                               -->
