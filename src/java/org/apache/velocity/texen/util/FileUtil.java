@@ -57,14 +57,13 @@ package org.apache.velocity.texen.util;
  */
 
 import java.io.File;
-//import java.util.*;
 
 /**
  * A general file utility for use in the context
  *
  * @author <a href="mailto:leon@opticode.co.za>Leon Messerschmidt</a>
  */
-public class FileUtil extends BaseUtil
+public class FileUtil
 {
     /**
      * Creates the directory s (and any parent directories needed)
