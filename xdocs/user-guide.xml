@@ -748,9 +748,9 @@ $foo.getBar()
 ## is the same as
 $foo.Bar
 
-$data.getUser("jon")
+$data.setUser("jon")
 ## is the same as
-$data.User("jon")
+#set( $data.User = "jon" )
 
 $data.getRequest().getServerName()
 ## is the same as
