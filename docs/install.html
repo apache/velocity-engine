@@ -166,9 +166,9 @@ jakarta-velocity
                                     <p>
 To make building Velocity easy and consistant, we have provided scripts
 to build Velocity for both Unix and Windows.  We use a Jakarta project
-called <a href="http://jakarta.apache.org/ant/">Ant</a> to perform the
-build process and provide Ant with the distribution,  so no external
-build utilities are required.
+called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.3 or
+higher to perform the build process. We assume that you have followed
+Ant's installation instructions and have it properly installed.
 </p>
                                                 <p>
 In each case below, it is assumed that you were successful in getting
@@ -178,9 +178,8 @@ in the 'jakarta-velocity' directory, the root of the distribution tree.
 All directory references will be relative to 'jakarta-velocity'.
 </p>
                                                 <p>
-On Unix, change to the <filename>build</filename> directory (<code>cd
-build</code>).  Then, build the Velocity jar via the build.sh
-script :
+Change to the <filename>build</filename> directory (<code>cd
+build</code>). Then, to build the jar file, simply type:
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -192,33 +191,7 @@ script :
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-./build.sh
-</pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-On Windows,  change to the <filename>build</filename> directory
-(<code>cd build</code>).  Then, build the Velocity jar via the
-build.bat script :
-</p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-build.bat 
+ant
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -281,9 +254,7 @@ To run the test suite, simply use the build target
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-Unix : ./build.sh test
-
-Windows : build.bat test
+ant test
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
