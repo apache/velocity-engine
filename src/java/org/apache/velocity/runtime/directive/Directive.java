@@ -63,7 +63,7 @@ import org.apache.velocity.runtime.parser.node.Node;
 /**
  * Base class for all directives used in Velocity.
  */
-public abstract class Directive
+public abstract class Directive implements Cloneable
 {
     /** Block directive indicator */
     public static final int BLOCK = 1;

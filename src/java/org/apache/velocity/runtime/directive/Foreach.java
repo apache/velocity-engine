@@ -77,6 +77,9 @@ import org.apache.velocity.runtime.exception.ReferenceException;
 /**
  * Foreach directive used for moving through arrays,
  * or objects that provide an Iterator.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: Foreach.java,v 1.16 2000/11/05 23:25:41 jvanzyl Exp $
  */
 public class Foreach extends Directive
 {
