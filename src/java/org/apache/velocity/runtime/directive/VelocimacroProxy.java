@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.11 2000/12/04 02:08:48 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.12 2000/12/05 05:07:39 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -274,7 +274,7 @@ public class VelocimacroProxy extends Directive
             //System.out.println("Expanded : " + strExpanded.toString() );
 
             ByteArrayInputStream  inStream = new ByteArrayInputStream( strExpanded.toString().getBytes() );
-            nodeTree_ = Runtime.parse( inStream );
+            nodeTree_ = Runtime.parse( inStream, "VM:"+strMacroName_ );
         } 
         catch ( Exception e ) 
         {
