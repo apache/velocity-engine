@@ -52,6 +52,25 @@
  * <http://www.apache.org/>.
  */
 
+/*
+ *  Background
+ *  ----------
+ *
+ *  VTL == Velocity Template Language
+ *
+ *  The problem with parsing VTL is that an input stream consists generally of little
+ *  bits of VTL mixed in with 'other stuff' (hereafter referred to as 'schmoo').  Unlike
+ *  other languages, like C or Java, where the parser can punt whenever it encounters 
+ *  input that doesn't conform to the grammar, the VTL parser can't do that.  
+ *
+ *  There are a few things that we do here :
+ *    - define a set of parser states (DEFAULT, DIRECTIVE, REFERENCE, etc)
+ *    - define for each parser state a set of tokens for each state
+ *    - define the VTL grammar, expressed (mostly) in the productions such as Text(), SetStatement(), etc.
+ *  
+ *   (cont)
+ */
+ 
 options
 {
     /** The default package for this parser kit */
@@ -122,7 +141,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.12 2000/11/01 01:10:34 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.13 2000/11/01 23:13:00 geirm Exp $ 
 */
 public class Parser
 {
