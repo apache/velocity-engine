@@ -65,6 +65,7 @@ Introduction">Velocity Template Language (VTL): An Introduction</a></li>
         <li><a href="#Range Operator">Range Operator</a></li>
         <li><a href="#Advanced Issues: Escaping and !">Advanced Issues: Escaping and
         !</a></li>
+        <li><a href="#Velocimacro Miscellany">Velocimacro Miscellany</a></li>
     </ol>
 </li>
 <li><a href="#Feedback">Feedback</a></li>
@@ -1847,6 +1848,112 @@ $\\!foo
 
  </subsection>
 
+<subsection name="Velocimacro Miscellany">
+
+<p>
+This section is a mini-FAQ on topics relating to Velocimacros.  This
+section will change over time, so it's worth checking for new information
+from time to time.
+</p>
+
+<p>
+Note : Throughout this section, 'Velocimacro' will commonly be abbreviated
+as 'VM'.
+</p>
+
+<strong>Can I use a directive or another VM as an argument to a VM?</strong>
+
+<p>
+Example : <code>#center( #bold("hello") )</code>
+</p>
+
+<p>
+No.  A directive isn't a valid argument to a directive, and for most practical 
+purposes, a VM is a directive.
+</p>
+
+<p>
+<i>However...</i>, there are things you can do. One easy solution is to take
+advantage of the fact that 'doublequote' (") renders it's contents. So you
+could do something like
+</p>
+
+<source><![CDATA[
+#set($stuff = "#bold('hello')" )
+#center( $stuff )
+]]></source>
+
+<p>
+You can save a step...
+</p>
+
+<source><![CDATA[
+#center( "#bold( 'hello' )" )
+]]></source>
+
+<p>
+Please note that in the latter exmaple the arg 
+is evaluated <i>inside</i> the VM, not at the 
+calling level.  In other words, the argument to 
+the VM is passed in in its entirety and evaluated within the VM
+it was passed into. This allows you to do things like :
+</p>
+
+<source><![CDATA[
+
+#macro( inner $foo )
+  inner : $foo
+#end
+
+#macro( outer $foo )
+   #set($bar = "outerlala")
+   outer : $foo
+#end
+
+#set($bar = 'calltimelala')
+#outer( "#inner($bar)" )
+
+]]></source>
+
+<p>
+Where the output is
+</p>
+
+<source><![CDATA[
+Outer : inner : outerlala
+]]></source>
+
+<p>
+because the evaluation of the "#inner($bar)" happens inside #outer(), so the
+$bar value set inside #outer() is the one that's used.
+</p>
+
+<p>
+This is an intentional and jealously guarded feature - args are passed 'by
+name' into VMs, so you can hand VMs things like stateful references such as
+</p>
+
+<source><![CDATA[
+#macro( foo $color )
+  <tr bgcolor=$color><td>Hi</td></tr>
+  <tr bgcolor=$color><td>There</td></tr>
+#end
+
+#foo( $bar.rowColor() )
+]]></source>
+
+<p>
+And have rowColor() called repeatedly, rather than just once.  To avoid that, 
+invoke the method outside of the VM, and pass the value into the VM.
+</p>
+
+<source><![CDATA[
+#set($color = $bar.rowColor())
+#foo( $color )
+]]></source>
+
+</subsection>
+
 </section>
 
 <section name="Feedback">
@@ -1854,7 +1961,8 @@ $\\!foo
   <p>
     If you encounter any mistakes in this manual or have 
     other feedback related to the Velocity User Guide, please 
-    email <a href="mailto:jcastura@apache.org">John Castura</a>. 
+    email the 
+    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>. 
     Thanks!
   </p>
 
