@@ -18,14 +18,14 @@ package org.apache.velocity.anakia;
 
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.jdom.input.DefaultJDOMFactory;
+import org.jdom.DefaultJDOMFactory;
 
 /**
  * A customized JDOMFactory for Anakia that produces {@link AnakiaElement}
  * instances instead of ordinary JDOM {@link Element} instances.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaJDOMFactory.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id: AnakiaJDOMFactory.java,v 1.6 2004/03/20 03:35:50 dlr Exp $
  */
 public class AnakiaJDOMFactory extends DefaultJDOMFactory
 {

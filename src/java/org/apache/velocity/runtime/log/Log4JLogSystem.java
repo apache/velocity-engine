@@ -18,209 +18,122 @@ package org.apache.velocity.runtime.log;
 
 import java.util.Enumeration;
 
-import org.apache.log4j.*;
-import org.apache.log4j.net.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.RollingFileAppender;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.Level;
+import org.apache.log4j.Appender;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- * Implementation of a Log4J logger.
+ * Implementation of a simple log4j system that will either latch onto
+ * an existing category, or just do a simple rolling file log.
  *
- * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.13 2004/03/19 17:13:35 dlr Exp $
+ * Use this one rather than {@link SimpleLog4JLogSystem}; it uses the
+ * modern <code>Logger</code> concept of Log4J, rather than the
+ * deprecated <code>Categeory</code> concept.
  *
- * @deprecated As of v1.3.  Use
- *  {@link SimpleLog4jLogSystem}
+ * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
+ * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
+ * @version $Id: Log4JLogSystem.java,v 1.14 2004/03/20 03:35:50 dlr Exp $
+ * @since Velocity 1.5
  */
 public class Log4JLogSystem implements LogSystem
 {
+    public static final String RUNTIME_LOG_LOG4J_LOGGER =
+            "runtime.log.logsystem.log4j.logger";
+
     private RuntimeServices rsvc = null;
 
-    /** log4java logging interface */
-    protected Category logger = null;
-
-    /** logging layout */
-    protected Layout layout = null;
-
-    /** the runtime.log property value */
-    private String logfile = "";
-    
     /**
-     *  default CTOR.  Initializes itself using the property RUNTIME_LOG
-     *  from the Velocity properties
+     * <a href="http://jakarta.apache.org/log4j/">Log4J</a>
+     * logging API.
+     */
+    protected Logger logger = null;
+
+    /**
+     * <a href="http://jakarta.apache.org/log4j/">Log4J</a>
+     * logging API.
      */
     public Log4JLogSystem()
     {
     }
 
-    public void init( RuntimeServices rs )
+    public void init(RuntimeServices rs)
     {
         rsvc = rs;
 
         /*
-         *  since this is a Velocity-provided logger, we will
-         *  use the Runtime configuration
+         *  first see if there is a category specified and just use that - it allows
+         *  the application to make us use an existing logger
          */
-        logfile = rsvc.getString( RuntimeConstants.RUNTIME_LOG );
+
+        String loggerName =
+            (String) rsvc.getProperty(RUNTIME_LOG_LOG4J_LOGGER);
+
+        if (loggerName != null)
+        {
+            logger = Logger.getLogger(loggerName);
+        
+            logVelocityMessage(0,
+                               "SimpleLog4JLogSystem using logger '"
+                               + loggerName + '\'');
+
+            return;
+        }
+        
+        /*
+         *  if not, use the file...
+         */
+
+        String logfile = rsvc.getString(RuntimeConstants.RUNTIME_LOG);
 
         /*
          *  now init.  If we can't, panic!
          */
         try
         {
-            internalInit();
+            internalInit(logfile);
 
-            logVelocityMessage( 0, 
-                "Log4JLogSystem initialized using logfile " + logfile );
+            logVelocityMessage(0,
+                "Log4JLogSystem initialized using logfile '" + logfile + "'");
         }
-        catch( Exception e )
+        catch(Exception e)
         {
-            System.out.println( 
-                "PANIC : error configuring Log4JLogSystem : " + e );
+            System.out.println(
+                "PANIC : error configuring Log4JLogSystem : " + e);
         }
     }
 
     /**
      *  initializes the log system using the logfile argument
-     *
-     *  @param logFile   file for log messages
      */
-    private void internalInit()
+    private void internalInit(String logfile)
         throws Exception
     {
-        logger = Category.getInstance("");
+        /*
+         *  do it by our classname to avoid conflicting with anything else 
+         *  that might be used...
+         */
+
+        logger = Logger.getLogger(this.getClass().getName());
         logger.setAdditivity(false);
 
         /*
          * Priority is set for DEBUG becouse this implementation checks 
          * log level.
          */
-        logger.setPriority(Priority.DEBUG);
+        logger.setLevel(Level.DEBUG);
 
-        String pattern = rsvc.getString( RuntimeConstants.LOGSYSTEM_LOG4J_PATTERN );
+        RollingFileAppender appender = new RollingFileAppender(
+                new PatternLayout( "%d - %m%n"), logfile, true);
         
-        if (pattern == null || pattern.length() == 0)
-        {
-            pattern = "%d - %m%n";
-        }
+        appender.setMaxBackupIndex(1);
         
-        layout = new PatternLayout(pattern);
-        
-        configureFile();
-        configureRemote();
-        configureSyslog();
-        configureEmail();
-    }
+        appender.setMaximumFileSize(100000);
 
-    /**
-     * Configures the logging to a file.
-     */
-    private void configureFile()
-        throws Exception
-    {
-        int backupFiles = 
-            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_FILE_BACKUPS, 1);
-        int fileSize = 
-            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_FILE_SIZE, 100000);
-        
-        Appender appender = new RollingFileAppender(layout,logfile,true);
-        
-        ((RollingFileAppender)appender).setMaxBackupIndex(backupFiles);
-        
-        /* finding file size */
-        if (fileSize > -1)
-        {
-            ((RollingFileAppender)appender).setMaximumFileSize(fileSize);
-        }
-        logger.addAppender(appender);
-    }
-
-    /**
-     * Configures the logging to a remote server
-     */
-    private void configureRemote()
-        throws Exception
-    {
-        String remoteHost = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_REMOTE_HOST);
-        int remotePort = 
-            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_REMOTE_PORT, 1099);
-        
-        if (remoteHost == null || remoteHost.trim().equals("") || 
-            remotePort <= 0)
-        {
-            return;
-        }
-        
-        Appender appender=new SocketAppender(remoteHost,remotePort);
-        
-        logger.addAppender(appender);
-    }
-
-    /**
-     * Configures the logging to syslogd
-     */
-    private void configureSyslog()
-        throws Exception
-    {
-        String syslogHost = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_SYSLOGD_HOST);
-        String syslogFacility = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_SYSLOGD_FACILITY);
-        
-        if (syslogHost == null || syslogHost.trim().equals("") || 
-            syslogFacility == null )
-        {
-            return;
-        }
-
-        Appender appender = new SyslogAppender();
-        
-        ((SyslogAppender)appender).setLayout(layout);
-        ((SyslogAppender)appender).setSyslogHost(syslogHost);
-        ((SyslogAppender)appender).setFacility(syslogFacility);
-        
-        logger.addAppender(appender);
-    }
-
-    /**
-     * Configures the logging to email
-     */
-    private void configureEmail()
-        throws Exception
-    {
-        String smtpHost = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_SERVER);
-        String emailFrom = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_FROM);
-        String emailTo = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_TO);
-        String emailSubject = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_SUBJECT);
-        String bufferSize = 
-            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE);
-
-        if (smtpHost == null || smtpHost.trim().equals("")
-                || emailFrom == null || smtpHost.trim().equals("")
-                || emailTo == null || emailTo.trim().equals("")
-                || emailSubject == null || emailSubject.trim().equals("")
-                || bufferSize == null || bufferSize.trim().equals("") )
-        {
-            return;
-        }
-
-        SMTPAppender appender = new SMTPAppender();
-       
-        appender.setSMTPHost( smtpHost );
-        appender.setFrom( emailFrom );
-        appender.setTo( emailTo );
-        appender.setSubject( emailSubject );
-
-        appender.setBufferSize( Integer.parseInt(bufferSize) );
-        
-        appender.setLayout(layout);
-        appender.activateOptions();
         logger.addAppender(appender);
     }
 
@@ -235,7 +148,7 @@ public class Log4JLogSystem implements LogSystem
         switch (level) 
         {
             case LogSystem.WARN_ID:
-                logger.warn( message );
+                logger.warn(message);
                 break;
             case LogSystem.INFO_ID:
                 logger.info(message);
@@ -255,7 +168,8 @@ public class Log4JLogSystem implements LogSystem
     /**
      * Also do a shutdown if the object is destroy()'d.
      */
-    protected void finalize() throws Throwable
+    protected void finalize()
+            throws Throwable
     {
         shutdown();
     }

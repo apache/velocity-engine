@@ -15,33 +15,34 @@ public interface ParserTreeConstants
   public int JJTWORD = 8;
   public int JJTDIRECTIVE = 9;
   public int JJTBLOCK = 10;
-  public int JJTOBJECTARRAY = 11;
-  public int JJTINTEGERRANGE = 12;
-  public int JJTMETHOD = 13;
-  public int JJTREFERENCE = 14;
-  public int JJTTRUE = 15;
-  public int JJTFALSE = 16;
-  public int JJTTEXT = 17;
-  public int JJTIFSTATEMENT = 18;
-  public int JJTELSESTATEMENT = 19;
-  public int JJTELSEIFSTATEMENT = 20;
-  public int JJTSETDIRECTIVE = 21;
-  public int JJTEXPRESSION = 22;
-  public int JJTASSIGNMENT = 23;
-  public int JJTORNODE = 24;
-  public int JJTANDNODE = 25;
-  public int JJTEQNODE = 26;
-  public int JJTNENODE = 27;
-  public int JJTLTNODE = 28;
-  public int JJTGTNODE = 29;
-  public int JJTLENODE = 30;
-  public int JJTGENODE = 31;
-  public int JJTADDNODE = 32;
-  public int JJTSUBTRACTNODE = 33;
-  public int JJTMULNODE = 34;
-  public int JJTDIVNODE = 35;
-  public int JJTMODNODE = 36;
-  public int JJTNOTNODE = 37;
+  public int JJTMAP = 11;
+  public int JJTOBJECTARRAY = 12;
+  public int JJTINTEGERRANGE = 13;
+  public int JJTMETHOD = 14;
+  public int JJTREFERENCE = 15;
+  public int JJTTRUE = 16;
+  public int JJTFALSE = 17;
+  public int JJTTEXT = 18;
+  public int JJTIFSTATEMENT = 19;
+  public int JJTELSESTATEMENT = 20;
+  public int JJTELSEIFSTATEMENT = 21;
+  public int JJTSETDIRECTIVE = 22;
+  public int JJTEXPRESSION = 23;
+  public int JJTASSIGNMENT = 24;
+  public int JJTORNODE = 25;
+  public int JJTANDNODE = 26;
+  public int JJTEQNODE = 27;
+  public int JJTNENODE = 28;
+  public int JJTLTNODE = 29;
+  public int JJTGTNODE = 30;
+  public int JJTLENODE = 31;
+  public int JJTGENODE = 32;
+  public int JJTADDNODE = 33;
+  public int JJTSUBTRACTNODE = 34;
+  public int JJTMULNODE = 35;
+  public int JJTDIVNODE = 36;
+  public int JJTMODNODE = 37;
+  public int JJTNOTNODE = 38;
 
 
   public String[] jjtNodeName = {
@@ -56,6 +57,7 @@ public interface ParserTreeConstants
     "Word",
     "Directive",
     "Block",
+    "Map",
     "ObjectArray",
     "IntegerRange",
     "Method",

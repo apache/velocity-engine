@@ -1,26 +1,62 @@
 package org.apache.velocity.texen.ant;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * The Apache Software License, Version 1.1
  *
- * Licensed under the Apache License, Version 2.0 (the "License")
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ *    any, must include the following acknowlegement:
+ *       "This product includes software developed by the
+ *        Apache Software Foundation (http://www.apache.org/)."
+ *    Alternately, this acknowlegement may appear in the software itself,
+ *    if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
+ *    Foundation" must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
+ *    permission, please contact apache@apache.org.
+ *
+ * 5. Products derived from this software may not be called "Apache"
+ *    nor may "Apache" appear in their names without prior written
+ *    permission of the Apache Group.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Apache Software Foundation.  For more
+ * information on the Apache Software Foundation, please see
+ * <http://www.apache.org/>.
  */
 
 import java.util.StringTokenizer;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
 
 import java.io.File;
 import java.io.Writer;
@@ -45,9 +81,9 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.43 2004/03/19 17:13:39 dlr Exp $
+ * @version $Id: TexenTask.java,v 1.44 2004/03/20 03:35:51 dlr Exp $
  */
-public class TexenTask 
+public class TexenTask
     extends Task
 {
     /**
@@ -55,35 +91,35 @@ public class TexenTask
      * invoke ant with the -debug flag) is appended to rethrown
      * exception messages.
      */
-    private final static String ERR_MSG_FRAGMENT = 
+    private final static String ERR_MSG_FRAGMENT =
         ". For more information consult the velocity log, or invoke ant " +
         "with the -debug flag.";
-    
+
     /**
      * This is the control template that governs the output.
      * It may or may not invoke the services of worker
      * templates.
      */
     protected String controlTemplate;
-    
+
     /**
      * This is where Velocity will look for templates
      * using the file template loader.
      */
     protected String templatePath;
-    
+
     /**
      * This is where texen will place all the output
      * that is a product of the generation process.
      */
     protected String outputDirectory;
-    
+
     /**
      * This is the file where the generated text
      * will be placed.
      */
     protected String outputFile;
-    
+
     /**
      * This is the encoding for the output file(s).
      */
@@ -111,14 +147,14 @@ public class TexenTask
      * <p>
      * For example, if you are generating scripts to allow
      * user to automatically create a database, then
-     * you might want the <code>$databaseName</code> 
+     * you might want the <code>$databaseName</code>
      * to be placed
      * in the initial context so that it is available
      * in a script that might look something like the
      * following:
      * <code><pre>
      * #!bin/sh
-     * 
+     *
      * echo y | mysqladmin create $databaseName
      * </pre></code>
      * The value of <code>$databaseName</code> isn't critical to
@@ -136,9 +172,12 @@ public class TexenTask
     protected boolean useClasspath;
 
     /**
-     * Path separator.
+     *   Property which controls whether the resource
+     *   loader will be told to cache.  Default false
      */
-    private String fileSeparator = System.getProperty("file.separator");
+
+    protected String useResourceLoaderCache = "false";
+    protected String resourceLoaderModificationCheckInterval = "2";
 
     /**
      * [REQUIRED] Set the control template for the
@@ -163,7 +202,7 @@ public class TexenTask
      * for templates using the file template
      * loader.
      */
-    
+
     public void setTemplatePath(String templatePath) throws Exception
     {
         StringBuffer resolvedPath = new StringBuffer();
@@ -180,7 +219,7 @@ public class TexenTask
             }
         }
         this.templatePath = resolvedPath.toString();
-        
+
         System.out.println(templatePath);
      }
 
@@ -192,7 +231,7 @@ public class TexenTask
     public String getTemplatePath()
     {
         return templatePath;
-    }        
+    }
 
     /**
      * [REQUIRED] Set the output directory. It will be
@@ -209,14 +248,14 @@ public class TexenTask
             throw new BuildException(ioe);
         }
     }
-      
+
     /**
      * Get the output directory.
      */
     public String getOutputDirectory()
     {
         return outputDirectory;
-    }        
+    }
 
     /**
      * [REQUIRED] Set the output file for the
@@ -226,7 +265,7 @@ public class TexenTask
     {
         this.outputFile = outputFile;
     }
-    
+
     /**
      * Set the output encoding.
      */
@@ -250,7 +289,7 @@ public class TexenTask
     public String getOutputFile()
     {
         return outputFile;
-    }        
+    }
 
     /**
      * Set the context properties that will be
@@ -261,17 +300,17 @@ public class TexenTask
     {
         String[] sources = StringUtils.split(file,",");
         contextProperties = new ExtendedProperties();
-        
+
         // Always try to get the context properties resource
         // from a file first. Templates may be taken from a JAR
-        // file but the context properties resource may be a 
+        // file but the context properties resource may be a
         // resource in the filesystem. If this fails than attempt
         // to get the context properties resource from the
         // classpath.
         for (int i = 0; i < sources.length; i++)
         {
             ExtendedProperties source = new ExtendedProperties();
-            
+
             try
             {
                 // resolve relative path from basedir and leave
@@ -283,11 +322,11 @@ public class TexenTask
             catch (Exception e)
             {
                 ClassLoader classLoader = this.getClass().getClassLoader();
-            
+
                 try
                 {
                     InputStream inputStream = classLoader.getResourceAsStream(sources[i]);
-                
+
                     if (inputStream == null)
                     {
                         throw new BuildException("Context properties file " + sources[i] +
@@ -303,9 +342,9 @@ public class TexenTask
                     source = null;
                 }
             }
-        
+
             Iterator j = source.getKeys();
-            
+
             while (j.hasNext())
             {
                 String name = (String) j.next();
@@ -324,38 +363,47 @@ public class TexenTask
     {
         return contextProperties;
     }
-    
+
     /**
      * Set the use of the classpath in locating templates
      *
-     * @param boolean true means the classpath will be used.
+     * @param useClasspath true means the classpath will be used.
      */
     public void setUseClasspath(boolean useClasspath)
     {
         this.useClasspath = useClasspath;
-    }        
-    
+    }
+
+    public void setUseResourceLoaderCache(String useResourceLoaderCache)
+    {
+        this.useResourceLoaderCache = useResourceLoaderCache;
+    }
+
+    public void setResourceLoaderModificationCheckInterval(String resourceLoaderModificationCheckInterval)
+    {
+        this.resourceLoaderModificationCheckInterval = resourceLoaderModificationCheckInterval;
+    }
     /**
      * Creates a VelocityContext.
      *
      * @return new Context
-     * @throws Exception the execute method will catch 
+     * @throws Exception the execute method will catch
      *         and rethrow as a <code>BuildException</code>
      */
-    public Context initControlContext() 
+    public Context initControlContext()
         throws Exception
     {
         return new VelocityContext();
     }
-    
+
     /**
      * Execute the input script with Velocity
      *
-     * @throws BuildException  
+     * @throws BuildException
      * BuildExceptions are thrown when required attributes are missing.
      * Exceptions thrown by Velocity are rethrown as BuildExceptions.
      */
-    public void execute () 
+    public void execute ()
         throws BuildException
     {
         // Make sure the template path is set.
@@ -364,28 +412,28 @@ public class TexenTask
             throw new BuildException(
                 "The template path needs to be defined if you are not using " +
                 "the classpath for locating templates!");
-        }            
-    
+        }
+
         // Make sure the control template is set.
         if (controlTemplate == null)
         {
             throw new BuildException("The control template needs to be defined!");
-        }            
+        }
 
         // Make sure the output directory is set.
         if (outputDirectory == null)
         {
             throw new BuildException("The output directory needs to be defined!");
-        }            
-        
+        }
+
         // Make sure there is an output file.
         if (outputFile == null)
         {
             throw new BuildException("The output file needs to be defined!");
-        }            
-        
+        }
+
         VelocityEngine ve = new VelocityEngine();
-        
+
         try
         {
             // Setup the Velocity Runtime.
@@ -395,26 +443,26 @@ public class TexenTask
                 ve.setProperty(
                     ve.FILE_RESOURCE_LOADER_PATH, templatePath);
             }
-            
+
             if (useClasspath)
             {
             	log("Using classpath");
                 ve.addProperty(
                     VelocityEngine.RESOURCE_LOADER, "classpath");
-            
+
                 ve.setProperty(
                     "classpath." + VelocityEngine.RESOURCE_LOADER + ".class",
                         "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
                 ve.setProperty(
-                    "classpath." + VelocityEngine.RESOURCE_LOADER + 
-                        ".cache", "false");
+                    "classpath." + VelocityEngine.RESOURCE_LOADER +
+                        ".cache", useResourceLoaderCache);
 
                 ve.setProperty(
-                    "classpath." + VelocityEngine.RESOURCE_LOADER + 
-                        ".modificationCheckInterval", "2");
+                    "classpath." + VelocityEngine.RESOURCE_LOADER +
+                        ".modificationCheckInterval", resourceLoaderModificationCheckInterval);
             }
-            
+
             ve.init();
 
             // Create the text generator.
@@ -428,7 +476,7 @@ public class TexenTask
             {
                 generator.setTemplatePath(templatePath);
             }
-            
+
             // Make sure the output directory exists, if it doesn't
             // then create it.
             File file = new File(outputDirectory);
@@ -436,52 +484,52 @@ public class TexenTask
             {
                 file.mkdirs();
             }
-            
+
             String path = outputDirectory + File.separator + outputFile;
             log("Generating to file " + path, project.MSG_INFO);
             Writer writer = generator.getWriter(path, outputEncoding);
-            
+
             // The generator and the output path should
             // be placed in the init context here and
             // not in the generator class itself.
             Context c = initControlContext();
-            
+
             // Everything in the generator class should be
             // pulled out and placed in here. What the generator
             // class does can probably be added to the Velocity
             // class and the generator class can probably
             // be removed all together.
             populateInitialContext(c);
-            
+
             // Feed all the options into the initial
             // control context so they are available
             // in the control/worker templates.
             if (contextProperties != null)
             {
                 Iterator i = contextProperties.getKeys();
-        
+
                 while (i.hasNext())
                 {
                     String property = (String) i.next();
                     String value = contextProperties.getString(property);
-                    
+
                     // Now lets quickly check to see if what
                     // we have is numeric and try to put it
                     // into the context as an Integer.
                     try
                     {
-                        c.put(property, new Integer(value)); 
+                        c.put(property, new Integer(value));
                     }
                     catch (NumberFormatException nfe)
                     {
                         // Now we will try to place the value into
                         // the context as a boolean value if it
                         // maps to a valid boolean value.
-                        String booleanString = 
+                        String booleanString =
                             contextProperties.testBoolean(value);
-                        
+
                         if (booleanString != null)
-                        {    
+                        {
                             c.put(property, new Boolean(booleanString));
                         }
                         else
@@ -503,19 +551,19 @@ public class TexenTask
                             {
                                 // We need to turn the license file from relative to
                                 // absolute, and let Ant help :)
-                                value = StringUtils.fileContentsToString(   
+                                value = StringUtils.fileContentsToString(
                                     project.resolveFile(value).getCanonicalPath());
-                            
+
                                 property = property.substring(
                                     0, property.indexOf("file.contents") - 1);
                             }
-                        
+
                             c.put(property, value);
                         }
                     }
                 }
             }
-            
+
             writer.write(generator.parse(controlTemplate, c));
             writer.flush();
             writer.close();
@@ -529,14 +577,14 @@ public class TexenTask
         catch( MethodInvocationException e )
         {
             throw new BuildException(
-                "Exception thrown by '" + e.getReferenceName() + "." + 
+                "Exception thrown by '" + e.getReferenceName() + "." +
                     e.getMethodName() +"'" + ERR_MSG_FRAGMENT,
                         e.getWrappedThrowable());
-        }       
+        }
         catch( ParseErrorException e )
         {
             throw new BuildException("Velocity syntax error" + ERR_MSG_FRAGMENT ,e);
-        }        
+        }
         catch( ResourceNotFoundException e )
         {
             throw new BuildException("Resource not found" + ERR_MSG_FRAGMENT,e);
@@ -564,7 +612,7 @@ public class TexenTask
      * #execute()} method will catch and rethrow as a
      * <code>BuildException</code>.
      */
-    protected void populateInitialContext(Context context) 
+    protected void populateInitialContext(Context context)
         throws Exception
     {
         context.put("now", new Date().toString());
