@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.4 2000/11/24 23:35:57 jon Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.5 2000/11/25 15:12:51 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -87,6 +87,8 @@ public class VelocimacroProxy extends  Directive
     private String[] strMacroArray_ = null;
     private TreeMap  tmArgIndexMap_ = null;
     private SimpleNode nodeTree_ = null;
+
+    private boolean bInit_ = false;
 
     public String getName() { return  strMacroName_; }
     public int getType() { return LINE; }
@@ -145,7 +147,29 @@ public class VelocimacroProxy extends  Directive
         try 
         {
             if (nodeTree_ != null)
+            {
+                /*
+                 *  to allow recursive VMs, we want to init them at render time, not init time
+                 *  or else you wander down the VM calls forever.
+                 *
+                 *  need a context clone() here so we don't modify the real context, as we do the
+                 *  actions on stuff for introspection purposes (ex  #set $a = $a - 1...)
+                 *
+                 *  I am not happy about this and performance, but to get jon going again with anakia, 
+                 * this will do for now
+                 */
+
+                if (!bInit_)
+                {
+                    Context ctxt = (Context) context.clone();
+
+                    nodeTree_.init( ctxt, null );
+                    bInit_ = true;
+                    ctxt = null;
+                }
+
                 nodeTree_.render(context, writer );
+            }
             else
                 Runtime.error( "VM error : " + strMacroName_ + ". Null AST");
         } 
@@ -214,7 +238,11 @@ public class VelocimacroProxy extends  Directive
 
             ByteArrayInputStream  inStream = new ByteArrayInputStream( strExpanded.toString().getBytes() );
             nodeTree_ = Runtime.parse( inStream );
-            nodeTree_.init( context, null );
+
+            /*
+             *  moved the init() down to render() to prevent problems with recursive VMs
+             */
+            //            nodeTree_.init( context, null );
         } 
         catch ( Exception e ) 
         {
