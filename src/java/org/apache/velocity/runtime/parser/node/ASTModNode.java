@@ -64,7 +64,7 @@ package org.apache.velocity.runtime.parser.node;
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTModNode.java,v 1.4 2001/03/19 17:17:50 geirm Exp $ 
+ * @version $Id: ASTModNode.java,v 1.5 2001/06/20 04:24:29 geirm Exp $ 
 */
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Runtime;
@@ -106,7 +106,9 @@ public class ASTModNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of modulus operation has null value."
+            Runtime.error( ( left == null ? "Left" : "Right" ) + " side ("
+                           + jjtGetChild( (left == null? 0 : 1) ).literal()
+                           + ") of modulus operation has null value."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
