@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestCase.java,v 1.36 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
@@ -158,6 +158,17 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("obarr", oarr );
         context.put("enumerator", vec.elements());
         context.put("intarr", intarr );
+        
+        /**
+         * Test #foreach() with a list containing nulls
+         */
+        ArrayList nullList = new ArrayList();
+        nullList.add("a");
+        nullList.add("b");
+        nullList.add(null);
+        nullList.add("d");
+        context.put("nullList", nullList);        
+    
     }
 
     /**
