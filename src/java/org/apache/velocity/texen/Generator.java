@@ -17,15 +17,15 @@ import org.apache.velocity.texen.util.BaseUtil;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.4 2000/11/04 02:42:12 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.5 2000/11/16 01:50:42 jvanzyl Exp $ 
  */
 public class Generator
 {
-    public static final String PATH_INPUT = "path.input";
-    public static final String PATH_OUTPUT = "path.output";
-    public static final String CONTEXT_STRINGS = "context.objects.strings";
-    public static final String CONTEXT_FILES = "context.objects.files";
+    public  static final String PATH_OUTPUT = "path.output";
     
+    private static final String DEFAULT_TEXEN_PROPERTIES =
+        "org/apache/velocity/texen/defaults/texen.properties";
+
     private Properties props = new Properties();
     private Context controlContext;
     
@@ -87,10 +87,18 @@ public class Generator
      */
     protected void setDefaultProps()
     {
-        props.setProperty (PATH_INPUT,".");
-        props.setProperty (PATH_OUTPUT,"output/");
-        props.setProperty (CONTEXT_STRINGS,"org.apache.velocity.texen.util.StringUtil");
-        props.setProperty (CONTEXT_FILES,"org.apache.velocity.texen.util.FileUtil");
+        ClassLoader classLoader = Runtime.class.getClassLoader();
+        try
+        {
+            InputStream inputStream = classLoader.getResourceAsStream(
+                DEFAULT_TEXEN_PROPERTIES);
+            
+            props.load( inputStream );
+        }
+        catch (Exception ioe)
+        {
+            System.err.println("Cannot get default properties!");
+        }
     }
         
     /**
@@ -155,8 +163,7 @@ public class Generator
         else
         {
             FileWriter fw = new FileWriter (props.getProperty (PATH_OUTPUT)+
-                                            File.separator +
-                                            output);
+                File.separator + output);
             template.merge (controlContext,fw);
             fw.close();
             
@@ -186,14 +193,7 @@ public class Generator
      */ 
     protected Context getContext (Hashtable objs)
     {
-        //Context context = new Context();
-        
         fillContextHash (controlContext,objs);
-        
-        //fillContextHash (context,objs);
-        //fillContextDefaults (context);
-        //fillContextProperties (context);
-        
         return controlContext;
     }
 
@@ -217,6 +217,7 @@ public class Generator
     protected void fillContextDefaults (Context context)
     {
         context.put ("generator", instance);
+        context.put ("outputDirectory", props.getProperty(PATH_OUTPUT));
     }
     
     /**
@@ -249,8 +250,6 @@ public class Generator
                     //TO DO: Log Something Here
                 }
             }
-            
         }
-        
     }
 }

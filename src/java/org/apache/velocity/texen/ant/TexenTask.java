@@ -59,6 +59,10 @@ package org.apache.velocity.texen.ant;
 import java.util.Map;
 import java.util.Hashtable;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
+
 // Ant Stuff
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -72,7 +76,7 @@ import org.apache.velocity.texen.Generator;
  * An ant task for generating output by using Velocity
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: TexenTask.java,v 1.2 2000/11/03 15:28:39 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.3 2000/11/16 01:50:43 jvanzyl Exp $
  */
 
 public abstract class TexenTask extends Task
@@ -80,6 +84,7 @@ public abstract class TexenTask extends Task
     protected String controlTemplate;
     protected String templatePath;
     protected String outputDirectory;
+    protected String outputFile;
 
     protected Hashtable options = new Hashtable();
 
@@ -116,18 +121,15 @@ public abstract class TexenTask extends Task
         return outputDirectory;
     }        
 
-    public void setOption(String option)
+    public void setOutputFile(String outputFile)
     {
-        String optionName = option.substring(0, option.indexOf(":") - 1);
-        String optionValue = option.substring(option.indexOf(":"));
-        
-        options.put(optionName, optionValue);
+        this.outputFile = outputFile;
     }
-
-    public String getOption(String optionName)
+    
+    public String getOutputFile()
     {
-        return (String) options.get(optionName);
-    }
+        return outputFile;
+    }        
 
     public abstract Context initControlContext();
     
@@ -138,25 +140,45 @@ public abstract class TexenTask extends Task
     {
         // Make sure the template path is set.
         if (templatePath == null)
-            throw new BuildException("The template path needs to be " +
-                                     "defined! Texen can't run.");
+            throw new BuildException("The template path needs to be defined!");
 
         if (controlTemplate == null)
-            throw new BuildException("The control template needs to be " +
-                                     "defined! Texen can't run.");
+            throw new BuildException("The control template needs to be defined!");
+
+        if (outputDirectory == null)
+            throw new BuildException("The output directory needs to be defined!");
+
+        if (outputFile == null)
+            throw new BuildException("The output file needs to be defined!");
 
         try
         {
             // Setup the Velocity Runtime.
             Runtime.setDefaultProperties();
-            Runtime.setProperty(Runtime.TEMPLATE_PATH, templatePath);
+            
+            // This is strictly to allow vel to compile for now.
+            // I need a new way to set what was the template path
+            // now that templates streams can come from anywhere.
+            //!!!Runtime.setProperty(Runtime.TEMPLATE_PATH, templatePath);
             Runtime.init();
-        
+
             // Create the text generator.
             Generator generator = Generator.getInstance();
-            generator.setProperty(Generator.PATH_INPUT,templatePath);
+            generator.setProperty(Generator.PATH_OUTPUT,outputDirectory);
             
-            System.out.println(generator.parse(controlTemplate, initControlContext()));
+            // Make sure the output directory exists, if it doesn't
+            // then create it.
+            File file = new File(outputDirectory);
+            if (! file.exists())
+                file.mkdirs();
+            
+            String path = outputDirectory + File.separator + outputFile;
+            System.out.println(path);
+            FileWriter writer = new FileWriter(path);
+                
+            writer.write(generator.parse(controlTemplate, initControlContext()));
+            writer.flush();
+            writer.close();
         }
         catch (Exception e)
         {
