@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.parser.node;
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2000-2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2000-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,13 +84,12 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.21 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTMethod.java,v 1.21.2.1 2002/05/09 03:17:03 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
     private String methodName = "";
     private int paramCount = 0;
-    private Object [] params;
 
     public ASTMethod(int id)
     {
@@ -112,10 +111,10 @@ public class ASTMethod extends SimpleNode
      *  simple init - init our subtree and get what we can from 
      *  the AST
      */
-    public Object init(  InternalContextAdapter context, Object data)
+    public Object init(InternalContextAdapter context, Object data)
         throws Exception
     {
-        super.init(  context, data );
+        super.init(context, data);
 
         /*
          *  this is about all we can do
@@ -123,8 +122,7 @@ public class ASTMethod extends SimpleNode
 
         methodName = getFirstToken().image;
         paramCount = jjtGetNumChildren() - 1;
-        params = new Object[paramCount];   
-        
+
         return data;
     }
 
@@ -133,7 +131,8 @@ public class ASTMethod extends SimpleNode
      *   Note, as this calls value() on the args if any, this must
      *   only be called at execute() / render() time
      */
-    private Method doIntrospection( InternalContextAdapter context, Class data)
+    private Method doIntrospection(InternalContextAdapter context, Class data,
+                                   Object[] params)
         throws MethodInvocationException, Exception
     {      
         /*
@@ -145,7 +144,7 @@ public class ASTMethod extends SimpleNode
         for (int j = 0; j < paramCount; j++)
             params[j] = jjtGetChild(j + 1).value(context);
  
-        Method m = rsvc.getIntrospector().getMethod( data, methodName, params);
+        Method m = rsvc.getIntrospector().getMethod(data, methodName, params);
 
         return m;
     }
@@ -167,13 +166,15 @@ public class ASTMethod extends SimpleNode
 
         Method method = null;
 
-        try 
+        Object[] params = new Object[paramCount];
+
+        try
         {
             /*
              *   check the cache 
              */
 
-            IntrospectionCacheData icd =  context.icacheGet( this );
+            IntrospectionCacheData icd =  context.icacheGet(this);
             Class c = o.getClass();
 
             /*
@@ -182,7 +183,7 @@ public class ASTMethod extends SimpleNode
              *  safe.
              */
 
-            if ( icd != null && icd.contextData == c )
+            if (icd != null && icd.contextData == c)
             {
                 /*
                  * sadly, we do need recalc the values of the args, as this can 
@@ -205,7 +206,7 @@ public class ASTMethod extends SimpleNode
                  *  cache it
                  */
 
-                method = doIntrospection( context, c );
+                method = doIntrospection(context, c, params);
                 
                 if (method != null)
                 {    
@@ -266,7 +267,7 @@ public class ASTMethod extends SimpleNode
             
             return obj;
         }
-        catch( InvocationTargetException ite )
+        catch(InvocationTargetException ite)
         {
             /*
              *  In the event that the invocation of the method
