@@ -51,12 +51,31 @@
 
 </section>
 
-<section name="Velocity in the News">
+<section name="Velocity News">
 
 <p>
-  The Sun <i>Dot-Com Builder</i> developer information site just did a "Best Practices" product profile on Velocity.  Check it out 
-  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here.</a>  Thanks Sun!
+<strong> 3 Web Frameworks Now Support Velocity </strong>
 </p>
+<blockquote>
+Melati, a tool for building Java-programmed websites backed by a database, 
+now supports Velocity with their recent 0.54 release.  For more information
+visit the <a href="http://www.melati.org/">Melati site.</a>
+</blockquote>
+
+<blockquote>
+Melati joins Jakarta's <a href="http://jakarta.apache.org/turbine/">Turbine</a> project,
+as well as the <a href="http://jpublish.sourceforge.net">JPublish</a> web publishing
+framework in supporting Velocity 'out of the box'.  
+</blockquote>
+
+<p>
+<strong> Sun's <i>Dot-Com Builder</i> Profiles Velocity</strong>
+</p>
+
+<blockquote>
+  The Sun <i>Dot-Com Builder</i> developer information site has a "Best Practices" product profile on Velocity.  Check it out 
+  <a href=" http://dcb.sun.com/practices/profiles/velocity.jsp">here.</a>  Thanks Sun!
+</blockquote>
 
  </section>
  <section name="What is Velocity?">
