@@ -84,7 +84,7 @@ import org.apache.velocity.context.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.15 2001/04/20 04:28:47 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.16 2001/04/23 00:41:37 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {
@@ -134,7 +134,7 @@ public class ASTMethod extends SimpleNode
      *   only be called at execute() / render() time
      */
     private Method doIntrospection( InternalContextAdapter context, Class data)
-        throws Exception
+        throws MethodInvocationException, Exception
     {      
         /*
          *  Now the parameters have to be processed, there
@@ -225,9 +225,23 @@ public class ASTMethod extends SimpleNode
             if (method == null)
                 return null;
         }
+        catch( MethodInvocationException mie )
+        {
+            /*
+             *  this can come from the doIntrospection(), as the arg values
+             *  are evaluated to find the right method signature.  We just
+             *  want to propogate it here, not do anything fancy
+             */
+
+            throw mie;
+        }
         catch( Exception e )
         {
-            Runtime.error("ASTMethod.execute() : exception : " + e );
+            /*
+             *  can come from the doIntropection() also, from Introspector
+             */
+
+            Runtime.error("ASTMethod.execute() : exception from introspection : " + e);
             return null;
         }
 
