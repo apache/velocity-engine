@@ -59,6 +59,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.io.StringWriter;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -70,7 +71,8 @@ import java.util.Vector;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
-import org.apache.velocity.util.FieldMethodizer;
+import org.apache.velocity.app.FieldMethodizer;
+import org.apache.velocity.app.Velocity;
 
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.test.provider.TestProvider;
@@ -81,7 +83,7 @@ import org.apache.velocity.test.provider.TestProvider;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Test.java,v 1.12 2001/01/21 20:54:00 geirm Exp $
+ * @version $Id: Test.java,v 1.13 2001/02/11 21:39:05 geirm Exp $
  */
 public class Test
 {
@@ -181,7 +183,28 @@ public class Test
             context.put("mystring", new String());
             context.put("hashmap", new HashMap() );
             context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
-            context.put("provider", new FieldMethodizer( provider ));
+            context.put("fmprov", new FieldMethodizer( provider ));
+            context.put("Floog", "floogie woogie");
+
+            String stest = " My name is $name -> $Floog";
+            StringWriter w = new StringWriter();
+            Velocity.evaluate( context, w, "evaltest",stest );
+            //System.out.println("Eval = " + w );
+
+            w = new StringWriter();
+            Velocity.mergeTemplate( "mergethis.vm",  context, w );
+            //System.out.println("Merge = " + w );
+
+            w = new StringWriter();
+            Velocity.invokeVelocimacro( "floog", "test", new String[2],  context,  w );
+            //System.out.println("Invoke = " + w );
+
+            Woogie woogie = new Woogie();
+
+            woogie.getMethod();
+
+            context.put("woogie", woogie );
+
  
             /*
              *  make a writer, and merge the template 'against' the context
