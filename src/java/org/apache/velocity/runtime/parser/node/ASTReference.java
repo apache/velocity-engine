@@ -83,7 +83,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.33 2001/05/20 19:50:06 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.34 2001/06/19 03:34:20 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -100,6 +100,8 @@ public class ASTReference extends SimpleNode
     private String  prefix = "";
     private String firstTokenPrefix = "";
     private String identifier = "";
+    
+    private String literal = null;
 
     private int numChildren = 0;
 
@@ -663,6 +665,43 @@ public class ASTReference extends SimpleNode
     public Object getVariableValue(Context context, String variable)
     {
         return context.get(variable);
+    }
+
+
+    /**
+     *  Routine to allow the literal representation to be
+     *  externally overridden.  Used now in the VM system
+     *  to override a reference in a VM tree with the
+     *  literal of the calling arg to make it work nicely
+     *  when calling arg is null.  It seems a bit much, but
+     *  does keep things consistant.
+     *
+     *  Note, you can only set the literal once...
+     *
+     *  @param literal String to render to when null
+     */
+    public void setLiteral( String literal )
+    {
+        /*
+         * do only once
+         */
+
+        if( this.literal == null)
+            this.literal = literal;
+    }
+
+    /**
+     *  Override of the SimpleNode method literal()
+     *  Returns the literal representation of the 
+     *  node.  Should be something like
+     *  $<token>.
+     */
+    public String literal()
+    {
+        if (literal != null)
+            return literal;
+
+        return super.literal();
     }
 }
 
