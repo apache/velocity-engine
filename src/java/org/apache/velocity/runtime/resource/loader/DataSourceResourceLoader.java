@@ -94,7 +94,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="Paulo Gaspar <paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.3 2001/03/03 20:33:22 jvanzyl Exp $
+ * @version $Id: DataSourceResourceLoader.java,v 1.4 2001/03/12 04:17:43 geirm Exp $
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -108,11 +108,11 @@ public class DataSourceResourceLoader extends ResourceLoader
 
      public void init(Configuration configuration)
      {
-         dataSourceName  = configuration.get("resource.datasource");
-         tableName       = configuration.get("resource.table");
-         keyColumn       = configuration.get("resource.keycolumn");
-         templateColumn  = configuration.get("resource.templatecolumn");
-         timestampColumn = configuration.get("resource.timestampcolumn");
+         dataSourceName  = configuration.getString("resource.datasource");
+         tableName       = configuration.getString("resource.table");
+         keyColumn       = configuration.getString("resource.keycolumn");
+         templateColumn  = configuration.getString("resource.templatecolumn");
+         timestampColumn = configuration.getString("resource.timestampcolumn");
          
          Runtime.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
          Runtime.info( "Resource Loader using columns: " + keyColumn + ", "
