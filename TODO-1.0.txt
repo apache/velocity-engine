@@ -1,20 +1,5 @@
 +------------- Critical For Release -------------+
 
-o Get a copy of Alexandria for Javadocs
-
-  PLAN:
-  It would be ideal to get a copy of Alexandria running on the
-  apache.org box. But we can do it manually if necessary.
-  
-  STATUS:
-  [JVZ] I have asked on the Alexandria mailing list to
-  to see if someone will look into setting up Alexandria
-  but I have heard anything back yet.
-  [JSS] For now, lets just use DLR's scripts to generate
-  the javadocs through cron.
-  [GMJ]  Is this critical, or can we just push a snapshot
-       to the server, or generate it there?
-
 o UML Diagrams
   
   PLAN:
