@@ -32,7 +32,20 @@
     Many of the examples in this guide deal with using Velocity to embed 
     dynamic content in web sites, but all VTL examples are equally applicable 
     to other pages and templates.
- </P> 
+ </P>
+
+ <P align="justify">
+    This is an early draft of the user guide. Although every effort has 
+    been made to keep up-to-date with the development of Velocity, 
+    there remain some inconsistencies between the documented and the actual 
+    behaviour of Velocity. To report a mistake or offer a suggestion,
+    please send email to 
+    <A href="mailto:jcastura@apache.org">jcastura@apache.org</A>.
+ </P>
+
+ <P align="justify">
+    Thanks for choosing Velocity!
+ </P>
 
 </FONT></TD></TR></TABLE></DIV><BR>
 
@@ -91,10 +104,10 @@
  
    <P align="justify">
     You meet with software engineers at your company, and everyone
-    has agreed that $customer will hold information
+    has agreed that <VARIABLE><FONT face="courier, monospaced">$customer</FONT></VARIABLE> will hold information
     pertaining to the customer currently logged in,
-    that $mudsOnSpecial will be all the types mud on sale at present.
-    The $flogger object contains methods that help with promotion.
+    that <VARIABLE><FONT face="courier, monospaced">$mudsOnSpecial</FONT></VARIABLE> will be all the types mud on sale at present.
+    The <VARIABLE><FONT face="courier, monospaced">$flogger</FONT></VARIABLE> object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
     references. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -112,11 +125,11 @@
     &lt;BODY&gt;
     Hello $customer.Name!
     &lt;table&gt;
-    #foreach ($mud in $mudsOnSpecial)
-       #if ($customer.hasPurchased($mud))
+    #foreach( $mud in $mudsOnSpecial )
+       #if ( $customer.hasPurchased($mud) )
           &lt;tr&gt;
             &lt;td&gt;
-              $flogger.getPromo($mud)
+              $flogger.getPromo( $mud )
             &lt;/td&gt;
           &lt;/tr&gt;
        #end
@@ -126,7 +139,7 @@
    </P>
  
    <P align="justify">
-    The exact details of the foreach statement will be described
+    The exact details of the <VTLDIRECTIVE><FONT face="courier, monospaced">foreach</FONT></VTLDIRECTIVE> statement will be described
     in greater depth shortly; what's important is the impact this short 
     script can have on your web site. When a customer with a 
     penchant for Bright Red Mud logs in, and Bright Red Mud
@@ -167,35 +180,45 @@
  
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set $a = &quot;Velocity&quot;
+    #set( $a = &quot;Velocity&quot; )
     
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
-    This VTL statement, like all VTL statements, begins with the # 
-    character and contains a directive (set. When an online visitor requests 
+    This VTL statement, like all VTL statements, begins with the <VTLDIRECTIVE><FONT face="courier, monospaced">#</FONT></VTLDIRECTIVE> 
+    character and contains a directive: <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE>. When an online visitor requests 
     your web page, the Velocity Templating Engine will search through your web page to 
-    find all # characters, then determine which mark the beginning of VTL 
-    statements, and which of the # characters that have nothing to do with VTL.
+    find all <VTL><FONT face="courier, monospaced">#</FONT></VTL> characters, then determine which mark the beginning of VTL 
+    statements, and which of the <VTL><FONT face="courier, monospaced">#</FONT></VTL> characters that have nothing to do with VTL.
  </P>
 
  <P align="justify">
-    The # character is followed by a directive, set. The 
-    set directive uses an equation to assign a <I>value</I> to 
-    a <I>variable</I>. The variable 
-    is listed on the left hand side and its value on the right hand side; 
-    the two are separated by an 
-    = character.
+    The <VTL><FONT face="courier, monospaced">#</FONT></VTL> character is followed by a directive, 
+    <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE>. The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive uses an expression 
+    (enclosed in brackets) -- an equation that assigns a <I>value</I> to a <I>variable</I>. 
+    The variable is listed on the left hand side and its value on the right hand side; 
+    the two are separated by an <VTL><FONT face="courier, monospaced">=</FONT></VTL> character.
  </P>
  
  <P align="justify">
-    In the example above, the variable is $a and the value is
-    Velocity. References <I>always</I> begin with $
-    characters; all variables are references, ergo all variables begin
-    with $ characters.
-    Values are always enclosed in quotes; with Velocity there is no confusion about
-    data types, as only strings (text-based information) may be passed to variables.
+    In the example above, the variable is <VARIABLE><FONT face="courier, monospaced">$a</FONT></VARIABLE> and the value is
+    <VARIABLE><FONT face="courier, monospaced">Velocity</FONT></VARIABLE>. This variable, like all references, begins with the
+    <VARIABLE><FONT face="courier, monospaced">$</FONT></VARIABLE> character. Values are always enclosed in quotes; with Velocity 
+    there is no confusion about data types, as only strings (text-based information) may 
+    be passed to variables.
+ </P>
+
+ <P align="justify">
+    The following rule of thumb may be useful to better understand how Velocity works: 
+    <B>References begin with <VTL><FONT face="courier, monospaced">$</FONT></VTL> and are used to get something. Directives begin 
+    with <VTL><FONT face="courier, monospaced">#</FONT></VTL> and are used to do something.</B> 
+ </P>
+
+ <P align="justify">
+     In the example above, <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE> is used to assign a value to 
+     a variable. The variable, <VARIABLE><FONT face="courier, monospaced">$a</FONT></VARIABLE>, can then be used in the template
+     to output &quot;Velocity&quot;.
  </P>
 
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -205,14 +228,14 @@
  <P align="justify">
     Once a value has been assigned to a variable, you can reference the 
     variable anywhere in your HTML document. In the following example, 
-    a value is assigned to $foo and later referenced.
+    a value is assigned to <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and later referenced.
  </P>
 
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;HTML&gt;
     &lt;BODY&gt;
-    #set $foo = &quot;Velocity&quot;
+    #set( $foo = &quot;Velocity&quot; )
     Hello $foo World!
     &lt;/BODY&gt;
     &lt;HTML&gt;
@@ -227,7 +250,7 @@
  <P align="justify">   
     To make statements containing VTL directives more readable, we encourage you to 
     start each VTL statement on a new line, although you are not required to 
-    do so. The set directive will be revisited in greater detail 
+    do so. The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive will be revisited in greater detail 
     later on.
  </P>
 
@@ -249,10 +272,10 @@
  </P>
  
  <P align="justify">
-    A single line comment begins with ## and finishes at the end of the line.
+    A single line comment begins with <VTL><FONT face="courier, monospaced">##</FONT></VTL> and finishes at the end of the line.
     If you're going to write a few lines of commentary, there's no need to have numerous
-    single line comments. Multi-line comments, which begin with #*
-    and end with *#, are available to handle this scenario.
+    single line comments. Multi-line comments, which begin with <VTL><FONT face="courier, monospaced">#*</FONT></VTL>
+    and end with <VTL><FONT face="courier, monospaced">*#</FONT></VTL>, are available to handle this scenario.
  </P>
  
  <P align="justify">
@@ -308,6 +331,7 @@
 </FONT></TD></TR></TABLE></DIV><BR>
 
 
+
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>References, revisited</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
  <P align="justify">
@@ -319,8 +343,8 @@
 
  <P align="justify">
     Everything coming to and from a reference is treated as a String object. 
-    If there is an object that represents $foo (such as an Integer object), 
-    then Velocity will call its .toString() method to resolve the 
+    If there is an object that represents <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> (such as an Integer object), 
+    then Velocity will call its <CODE><FONT face="courier, monospaced">.toString()</FONT></CODE> method to resolve the 
     object into a String.
  </P>
 
@@ -346,22 +370,22 @@
  </P>
 
  <P align="justify">
-    When VTL references a variable, such as $foo, the variable can 
-    get its value from either a set directive in the template, or from the
-    Java code. For example, if the Java variable $foo
-    has the value bar at the time the template is requested,
-    bar replaces all instances of $foo on the web 
+    When VTL references a variable, such as <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>, the variable can 
+    get its value from either a <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive in the template, or from the
+    Java code. For example, if the Java variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
+    has the value <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> at the time the template is requested,
+    <VARIABLE><FONT face="courier, monospaced">bar</FONT></VARIABLE> replaces all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> on the web 
     page. Alternatively, if I include the statement
  </P>
     
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set $foo = &quot;bar&quot;
+    #set( $foo = &quot;bar&quot; )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
     
  <P align="justify">
-    the output will be the same for all instances of $foo
+    the output will be the same for all instances of <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE>
     that follow this directive.
  </P>
   
@@ -369,7 +393,7 @@
  <B>Properties</B>
  <BR>
     The second flavor of VTL references are properties, and properties have
-    a distinctive format. The shorthand notation consists of a leading $
+    a distinctive format. The shorthand notation consists of a leading <VTL><FONT face="courier, monospaced">$</FONT></VTL>
     character followed a VTL Identifier, followed by
     a dot character (&quot;.&quot;) and another VTL Identifier.
     These are examples of valid property references in the VTL:
@@ -383,14 +407,14 @@
  </P>   
 
  <P align="justify">
-    Take the first example, $customer.Address. It can 
+    Take the first example, <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>. It can 
     have two meanings. It can mean,
-    Look in the hashtable identified as customer and return the
-    value associated with the key Address. But
-    $customer.Address can also be referring to a method (references 
+    Look in the hashtable identified as <VARIABLE><FONT face="courier, monospaced">customer</FONT></VARIABLE> and return the
+    value associated with the key <VARIABLE><FONT face="courier, monospaced">Address</FONT></VARIABLE>. But
+    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> can also be referring to a method (references 
     that refer to methods will be discussed
-    in the next section); $customer.Address could be an 
-    abbreviated way of writing $customer.getAddress(). 
+    in the next section); <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> could be an 
+    abbreviated way of writing <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. 
     When your page is requested, Velocity will determine which of these 
     two possibilities makes sense, and then return the appropriate value.
  </P>
@@ -414,24 +438,24 @@
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     $customer.getAddress()
     $purchase.getTotal()
-    $page.setTitle(&quot;My Home Page&quot;)
-    $person.setAttributes([&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;])
+    $page.setTitle( &quot;My Home Page&quot; )
+    $person.setAttributes( [&quot;Strange&quot;, &quot;Weird&quot;, &quot;Excited&quot;] )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>  
 
  <P align="justify">
     The first two examples -- 
-    $customer.getAddress() and $purchase.getTotal() 
+    <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE> and <VARIABLE><FONT face="courier, monospaced">$purchase.getTotal()</FONT></VARIABLE> 
     -- may look similiar to those used in the Properties section above,
-    $customer.Address
-    and $purchase.Total. If you guessed that these examples must
+    <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE>
+    and <VARIABLE><FONT face="courier, monospaced">$purchase.Total</FONT></VARIABLE>. If you guessed that these examples must
     be related some in some fashion, you are correct! 
  </P>
  
  <P align="justify">
     VTL Properties can be used as a shorthand notation for VTL Methods. The
-    Property $customer.Address has the exact same effect as
-    using the Method $customer.getAddress(). It is generally preferable
+    Property <VARIABLE><FONT face="courier, monospaced">$customer.Address</FONT></VARIABLE> has the exact same effect as
+    using the Method <VARIABLE><FONT face="courier, monospaced">$customer.getAddress()</FONT></VARIABLE>. It is generally preferable
     to use a Property when available. The main difference between Properties
     and Methods is that you can specify a parameter list to a Method.
  </P>
@@ -456,13 +480,13 @@
  
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $sun.getPlanet([&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;]) 
+    $sun.getPlanet( [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Neptune&quot;] ) 
     ## Can't pass a parameter list with $sun.Planets
 
     $sisyphus.pushRock()
     ## Velocity assumes I mean $sisyphus.getRock() 
     
-    $book.setTitle(&quot;Homage to Catalonia&quot;)
+    $book.setTitle( &quot;Homage to Catalonia&quot; )
     ## Can't pass a parameter list
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
@@ -491,12 +515,11 @@
     
  <P align="justify">
     Suppose you were
-    constructing a sentence on the fly where $vice was to be
-    used as the base word in the noun of a sentence. Suppose you
-    wanted to allow someone to choose the base word and produce
-    one of the two following results: &quot;Jack is a pyromaniac.&quot; or
-    &quot;Jack is a kleptomaniac.&quot;. Using shorthand notation would
-    produce the following:
+    constructing a sentence on the fly where <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE> was to be
+    used as the base word in the noun of a sentence. The goal is to allow someone 
+    to choose the base word and produce one of the two following results: &quot;Jack is 
+    a pyromaniac.&quot; or &quot;Jack is a kleptomaniac.&quot;. Using the shorthand notation
+    would be inadequate for this task. Consider the following example: 
  </P>
  
  <P align="justify">
@@ -506,9 +529,9 @@
  </P>
  
  <P align="justify">
-    There is ambiguity here, and Velocity assumes that $vicemaniac,
-    not $vice, is the Identifier that you mean to use. Finding no
-    value for $vicemaniac, it will return $vicemaniac.
+    There is ambiguity here, and Velocity assumes that <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>,
+    not <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, is the Identifier that you mean to use. Finding no
+    value for <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, it will return <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>.
     Using formal notation can resolve this problem.
  </P>
  
@@ -519,16 +542,16 @@
  </P>
  
  <P align="justify">
-    Now Velocity knows that $vice, not $vicemaniac, is your
-    Identifier. Formal notation is often useful when references
-    are directly adjacent to text in your templates.
+    Now Velocity knows that <VARIABLE><FONT face="courier, monospaced">$vice</FONT></VARIABLE>, not <VARIABLE><FONT face="courier, monospaced">$vicemaniac</FONT></VARIABLE>, is 
+    the reference. Formal notation is often useful when references are directly adjacent to text 
+    in a template.
  </P>
 
 
  <P align="justify">
     <B>Quiet Reference Notation</B>
     <BR>
-    When Velocity encounters a reference that is undefined,
+    When Velocity encounters an undefined reference,
     its normal behavior is to output the image
     of the reference. For example, suppose the following
     reference appears as part of a VTL template.
@@ -542,11 +565,11 @@
  
  <P align="justify">
     When the form initially loads, the variable
-    reference $email has no value, but you prefer
+    reference <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> has no value, but you prefer
     a blank text field to one with a value of &quot;$email&quot;.
     Using the quiet reference notation circumvents Velocity's
-    normal behavior; instead of using $email in the
-    VTL you would use $!email. So the above example
+    normal behavior; instead of using <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> in the
+    VTL you would use <VARIABLE><FONT face="courier, monospaced">$!email</FONT></VARIABLE>. So the above example
     would look like the following:
  </P>
  
@@ -558,7 +581,7 @@
  
  <P align="justify">
     Now when the form is initially loaded and
-    $email still has no value, an empty string will
+    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> still has no value, an empty string will
     be output instead of &quot;$email&quot;.
  </P>
 
@@ -578,9 +601,9 @@
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Getting literal</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
   <P align="justify">
-    VTL uses special characters, such as $ and #, to do its work, so some
-    added care should be taken where using these characters in your 
-    templates.
+    VTL uses special characters, such as <VTL><FONT face="courier, monospaced">$</FONT></VTL> and <VTL><FONT face="courier, monospaced">#</FONT></VTL>, to do its work, so some
+    added care should be taken where using these characters in your templates. This section deals
+    with escaping the <VTL><FONT face="courier, monospaced">$</FONT></VTL> character.
   </P>
  
   <P align="justify">
@@ -593,31 +616,99 @@
   </P>
   
   <P align="justify">
-    <B>Escaping special characters</B>
+    <B>Escaping Valid VTL References</B>
     <BR>
-    Other cases may arise, however, where there is the potential for Velocity
+    Cases may arise where there is the potential for Velocity
     to get confused. <I>Escaping</I> special characters is the best way
     to handle VTL's special characters in your templates, and this can be
     done using the backslash (&quot;\&quot;) character.
   </P>
-  
-  <P align="justify">
-    If Velocity encounters in your VTL template a reference to 
-    $email, it will search for a corresponding value, but
-    when the escape character is used, $email is treated
-    as ordinary text
-  </P>
-  
+
   <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    \$email
+    #set( $email = &quot;foo&quot; )
+    $email
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+    If Velocity encounters  a reference in your VTL template to 
+    <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE>, it will search the Context for a corresponding 
+    value. Here the output will be &quot;foo&quot;, because <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is defined.
+    If <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is not defined, the output will be &quot;$email&quot;.
+  </P>
+
+  <P align="justify">
+    Suppose that <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is defined (for example, if it has the value
+    &quot;foo&quot;), and that you want to output &quot;$email&quot;. There are a few ways of doing this,
+    but the simplest is to use the escape character.
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    ## The following line defines $email in this template:
+    #set( $email = &quot;foo&quot; )
+
+    ## The output of the following line will be $email's value: foo
+    $email
+
+    ## The output of the following line will be a literal: $email
+    \$email
+
+    ## The escape character binds from the left. The output of the following line will 
+    ## reflect this in its output: \$email
+    \\$email
+
+    ## The bind-from-left rule causes \\\$email to render as \\$email
+    \\\$email
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+     Compare these examples to those in which <VARIABLE><FONT face="courier, monospaced">$email</FONT></VARIABLE> is not defined.
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    ## $email is undefined
+
+    ## $email renders as $email
+    $email
+
+    ## \$email renders as \$email
+    \$email
+    
+    ## \\$email renders as \\$email
+    \\$email
+
+    ## \\\$email renders as \\\$email
+    \\\$email
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+     Notice Velocity handles references that are defined differently from those
+     that have not been defined.
+  </P>
+
+  <P align="justify">
+     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+     ## Here is a set directive that gives $foo the value &quot;gibbous&quot;
+     #set( $foo = &quot;gibbous&quot; )
+
+     ## The escape character is at work in the following line
+     $moon = $foo
+     #*
+     The output will be: $moon = gibbous
+     $moon is output as a literal because it is undefined.
+     The value of $foo is output because it is defined.
+     *#
+     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
   </P>
  
   <P align="justify">
-    Velocity treats $ as a literal rather than a special 
-    character, $email as text rather than a reference, 
-    and doesn't even attempt to find a corresponding value.
+     It is also possible to escape VTL directives; this is described in more detail in
+     the Directives section.
   </P>
  
 </FONT></TD></TR></TABLE></DIV><BR>
@@ -676,15 +767,15 @@
  <P align="justify">
     <B>#set</B>
     <BR>
-    The #set directive is used for setting the value of
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE> directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference:
  </P>
  
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set $primate = &quot;monkey&quot;
-    #set $customer.Behavior = $primate
+    #set( $primate = &quot;monkey&quot; )
+    #set( $customer.Behavior = $primate )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
@@ -713,12 +804,12 @@
  
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set $monkey = $bill ##variable reference
-    #set $monkey.Friend = &quot;monica&quot; ##string literal
-    #set $monkey.Blame = $whitehouse.Leak ##property reference
-    #set $monkey.Plan = $spindoctor.weave($web) ##method reference
-    #set $monkey.Number = 123 ##number literal
-    #set $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ##object array
+    #set( $monkey = $bill ) ##variable reference
+    #set( $monkey.Friend = &quot;monica&quot; ) ##string literal
+    #set( $monkey.Blame = $whitehouse.Leak ) ##property reference
+    #set( $monkey.Plan = $spindoctor.weave($web) ) ##method reference
+    #set( $monkey.Number = 123 ) ##number literal
+    #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] ) ##object array
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
  
@@ -728,61 +819,70 @@
  
  <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set $value = $foo + 1
-    #set $value = $bar - 1
-    #set $value = $foo * $bar
-    #set $value = $foo / $bar
+    #set( $value = $foo + 1 )
+    #set( $value = $bar - 1 )
+    #set( $value = $foo * $bar )
+    #set( $value = $foo / $bar )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
  </P>
 
  <P align="justify">
-    Unlike some directive that will be discussed below, the set directive 
-    does not have a #end statement. The set statement <I>must</I> 
+    Unlike some directive that will be discussed below, the <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive 
+    does not have a <VTLDIRECTIVE><FONT face="courier, monospaced">#end</FONT></VTLDIRECTIVE> statement. The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> statement <I>must</I> 
     end with a newline character (obtained by pressing Enter); it cannot be used inline.
  </P>
+
+ <P align="justify">
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> does not currently require that brackets 
+    enclose the accompanying expression, but this won't be the case for long. To help users to
+    update their templates to use brackets with the <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive,
+    Velocity will generate warnings in the runtime log when a <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> is
+    used without brackets.
+ </P>
+
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Conditionals</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
     <B>If / ElseIf / Else</B>
     <P align="justify">
-       The #if directive in Velocity allows for text to be 
+       The <VTLDIRECTIVE><FONT face="courier, monospaced">#if</FONT></VTLDIRECTIVE> directive in Velocity allows for text to be 
        included when the web page is generated, on the conditional 
        that the if statement is true. For example:
     </P>
 
     <P align="justify">
       <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-      #if ($foo)
+      #if( $foo )
          &lt;strong&gt;Velocity!&lt;/strong&gt;
       #end
       </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
 
     <P align="justify">
-      The variable $foo is evaluated to determine whether it is true, which will happen 
-      under one of two circumstances: (i) $foo is a boolean (true/false) which 
+      The variable <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is evaluated to determine whether it is true, which will happen 
+      under one of two circumstances: (i) <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is a boolean (true/false) which 
       has a true value, or (ii) the value is not null. The content between the 
-      #if and the #end statements become the output if 
-      the evaluation is true. In this case, if $foo is true, the
-      output will be: &quot;Velocity!&quot;. Conversely, if $foo has a null 
+      <VTLDIRECTIVE><FONT face="courier, monospaced">#if</FONT></VTLDIRECTIVE> and the <VTLDIRECTIVE><FONT face="courier, monospaced">#end</FONT></VTLDIRECTIVE> statements become the output if 
+      the evaluation is true. In this case, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
+      output will be: &quot;Velocity!&quot;. Conversely, if <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a null 
       value, or if it is a boolean false, the statement evaluates as false, and
       there is no output.
     </P>
     
     <P align="justify">
-      An #elseif or #else element can be used with an #if element. Note that 
+      An <VTLDIRECTIVE><FONT face="courier, monospaced">#elseif</FONT></VTLDIRECTIVE> or <VTLDIRECTIVE><FONT face="courier, monospaced">#else</FONT></VTLDIRECTIVE> element can be used with an <VTLDIRECTIVE><FONT face="courier, monospaced">#if</FONT></VTLDIRECTIVE> element. Note that 
       the Velocity Templating Engine will stop at the first expression that is
-      found to be true. In the following example, suppose that $foo has a 
-      value of 15 and $bar has a value of 6.
+      found to be true. In the following example, suppose that <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> has a 
+      value of 15 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> has a value of 6.
     </P>
 
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #if ($foo &lt; 10)
+    #if( $foo &lt; 10 )
         &lt;strong&gt;Go North&lt;/strong&gt;
-    #elseif ($foo &gt; 10)
+    #elseif( $foo &gt; 10 )
         &lt;strong&gt;Go East&lt;/strong&gt;
-    #elseif ($bar = 6)
+    #elseif( $bar = 6 )
         &lt;strong&gt;Go South&lt;/strong&gt;
     #else
         &lt;strong&gt;Go West&lt;/strong&gt;
@@ -791,11 +891,11 @@
     </P>
     
     <P align="justify">
-    In this example, $foo is greater than or equal to 10, so the Velocity
+    In this example, <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is greater than or equal to 10, so the Velocity
     Templating Engine makes the output of the if 
-    statement <B>Go East</B>. If $foo had a value of 10 and $bar
-    had a value of 6.1, then $foo is neither greater than 10 nor equal to 
-    10, and $bar is not equal to 6. All if and elseif statements are false,
+    statement <B>Go East</B>. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> had a value of 10 and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>
+    had a value of 6.1, then <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is neither greater than 10 nor equal to 
+    10, and <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is not equal to 6. All if and elseif statements are false,
     so the output is <B>Go West</B>. 
     </P>
 
@@ -810,20 +910,20 @@
 
     <P align="justify">
       <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-      #if ($foo &amp;&amp; $bar)
+      #if( $foo &amp;&amp; $bar )
          &lt;strong&gt;Velocity Rocks!&lt;/strong&gt;
       #end
       </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
     
     <P align="justify">
-      The if statement will only evaluate to true if both $foo and 
-      $bar are true. If $foo is false, the expression will evaluate
-      to false; $bar will not be evaluated. If $foo is true, the
-      Velocity Templating Engine will then check the value of $bar;
-      if $bar is true, then the entire expression is
+      The if statement will only evaluate to true if both <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> and 
+      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> are true. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, the expression will evaluate
+      to false; <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> will not be evaluated. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the
+      Velocity Templating Engine will then check the value of <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>;
+      if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire expression is
       true and <B>Velocity Rocks!</B> becomes the output.
-      If $bar is false, then there will be no output; the entire
+      If <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is false, then there will be no output; the entire
       expression is false.
     </P>
     
@@ -836,20 +936,20 @@
     
     <P align="justify">
       <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-      #if ($foo || $bar)
+      #if( $foo || $bar )
          &lt;strong&gt;Velocity Rocks Again!&lt;/strong&gt;
       #end
       </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
       
     <P align="justify">
-      If $foo is true, the Velocity Templating Engine has no 
-      need to look at $bar; whether $bar is true or false, the
+      If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is true, the Velocity Templating Engine has no 
+      need to look at <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE>; whether <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true or false, the
       expression will be true, and <B>Velocity Rocks 
-      Again!</B> will be output. If $foo is false, however,
-      $bar must be checked. In this case, if $bar is also false, 
+      Again!</B> will be output. If <VARIABLE><FONT face="courier, monospaced">$foo</FONT></VARIABLE> is false, however,
+      <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> must be checked. In this case, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is also false, 
       the expression evaluates to false and there is no output.
-      On the other hand, if $bar is true, then the entire 
+      On the other hand, if <VARIABLE><FONT face="courier, monospaced">$bar</FONT></VARIABLE> is true, then the entire 
       expression is true, and the output is <B>Velocity Rocks 
       Again!</B>
     </P>
@@ -859,13 +959,13 @@
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Loops</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <B>Foreach Loop</B>
     <P align="justify">
-    The #foreach element allows for looping. For example:
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#foreach</FONT></VTLDIRECTIVE> element allows for looping. For example:
     </P>
 
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     &lt;ul&gt;
-    #foreach ($product in $allProducts)
+    #foreach( $product in $allProducts )
         &lt;li&gt;$product&lt;/li&gt;
     #end
     &lt;/ul&gt;
@@ -873,42 +973,127 @@
     </P>
 
     <P align="justify">
-    This #foreach loop causes the $allProducts list (the object) to be 
+    This <VTLDIRECTIVE><FONT face="courier, monospaced">#foreach</FONT></VTLDIRECTIVE> loop causes the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> list (the object) to be 
     looped over for all of the products (targets) in the list. Each time 
-    through the loop, the value from $allProducts is placed into the 
-    $product variable.
+    through the loop, the value from <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> is placed into the 
+    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable.
     </P>
     
     <P align="justify">
-    The contents of the $allProducts variable is a Vector, a Hashtable 
-    or an Array. The value assigned to the $product variable is a Java
+    The contents of the <VARIABLE><FONT face="courier, monospaced">$allProducts</FONT></VARIABLE> variable is a Vector, a Hashtable 
+    or an Array. The value assigned to the <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> variable is a Java
     Object and can be referenced from a variable as such. For example, if 
-    $product was really a Product class in Java, its name could be retrieved
-    by referencing the $product.Name method (ie: $Product.getName()).
+    <VARIABLE><FONT face="courier, monospaced">$product</FONT></VARIABLE> was really a Product class in Java, its name could be retrieved
+    by referencing the <VARIABLE><FONT face="courier, monospaced">$product.Name</FONT></VARIABLE> method (ie: <VARIABLE><FONT face="courier, monospaced">$Product.getName()</FONT></VARIABLE>).
     </P>
+
 
  </FONT></TD></TR></TABLE></DIV><BR>    
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Include</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #include script element allows the template designer to import a 
-    local file, which is then inserted into the location where the #include 
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> script element allows the template designer to import a 
+    local file, which is then inserted into the location where the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> 
     directive is defined. The contents of the file are not rendered through 
     the template engine.
+    For security reasons, the file to be included may only be under TEMPLATE_ROOT.
     </P>
     
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #include /path/to/file.vm
+    #include( &quot;one.txt&quot; )
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
+
+    <P align="justify">
+    The file to which the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> directive refers is enclosed in quotes. If more than one file will be included, they should be separated by commas.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #include( &quot;one.gif&quot;,&quot;two.txt&quot;,&quot;three.htm&quot; )
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    The file being included need not be referenced by name; in fact, it is often preferable to use a variable instead of a filename. This could be useful for targetting output according to criteria determined when the page request is submitted. Here is an example showing both a filename and a variable.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #include( &quot;greetings.txt&quot;,$seasonalstock )
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
  </FONT></TD></TR></TABLE></DIV><BR>
 
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Parse</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+    <P align="justify">
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> script element allows the template designer to import a 
+    local file that contains VTL. Velocity will parse the VTL and render the template specified.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #parse( &quot;me.vm&quot; )
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    Like the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> directive, <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> 
+    can take a variable rather than a template. Any templates to which <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> 
+    refers must be included under TEMPLATE_ROOT. Unlike the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> directive, 
+    <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> will only take a single argument. 
+    </P>
+
+    <P align="justify">
+    VTL templates can have <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> statements referring to templates that in turn 
+    have <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> statements. By default set to 10, the <VTL><FONT face="courier, monospaced">parse_directive.maxdepth</FONT></VTL> 
+    line of the <FILENAME><I>velocity.properties</I></FILENAME> allows users to customize maximum number of 
+    <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> referrals that can occur from a single 
+    template. (Note: If the <VTL><FONT face="courier, monospaced">parse_directive.maxdepth</FONT></VTL> property is absent from the 
+    <FILENAME><I>velocity.properties</I></FILENAME> file, Velocity will set this default to 10.)  
+    Recursion is permitted, for example, if the template <FILENAME><I>dofoo.vm</I></FILENAME> contains the following lines:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    Count down.
+    #set( $count = 8 )
+    #parse( &quot;parsefoo.vm&quot; )
+    All done with dofoo.vm!
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>    
+    
+    <P align="justify">
+    It would reference the template <FILENAME><I>parsefoo.vm</I></FILENAME>, which might contain the following VTL:
+    </P>
+
+    <P align="justify">    
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    $count
+    #set( $count = $count - 1 )
+    #if( $count &gt; 0 )
+      #parse( &quot;parsefoo.vm&quot; )
+    #else
+      All done with parsefoo.vm!
+    #end
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>    
+
+    <P align="justify">
+    After &quot;Count down.&quot; is displayed, Velocity passes through <FILENAME><I>parsefoo.vm</I></FILENAME>, counting down from 8. 
+    When the count reaches 0, it will display the &quot;All done with parsefoo.vm!&quot; message. At this point, Velocity will return to 
+    <FILENAME><I>dofoo.vm</I></FILENAME> and output the &quot;All done with dofoo.vm!&quot; message.
+    </P>
+
+
+ </FONT></TD></TR></TABLE></DIV><BR>
 
 
  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Stop</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    The #stop script element allows the template designer to stop the execution
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#stop</FONT></VTLDIRECTIVE> script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
     </P>
     
@@ -919,43 +1104,477 @@
     </P>    
  </FONT></TD></TR></TABLE></DIV><BR>
 
- <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Macro</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Velocimacros</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
     <P align="justify">
-    With the #macro script element, the template designer can define a 
-    timesaving macro. 
-    </P>    
-    
+    The <VTLDIRECTIVE><FONT face="courier, monospaced">#macro</FONT></VTLDIRECTIVE> script element allows template designers to define a 
+    repeated segment of a VTL template. Velocimacros are very useful in a wide
+    range of scenarios both simple and complex. This Velocimacro, created for the sole purpose of saving 
+    keystrokes and minimizing typographic errors, provides an introduction to the concept of Velocimacros.
+    </P>
+
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #macro (row $content) &lt;tr&gt;&lt;td&gt;$content&lt;/td&gt;&lt;/tr&gt; #end
+    #macro( d )
+    &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+    #end
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
-    
+
     <P align="justify">
-    This establishes a macro called &quot;row&quot;, which uses HTML tags to
-    put content into its own table data cell in an HTML table. Having 
-    defined the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro, the template designer can now call the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> 
-    macro by name.
+    The Velocimacro being defined in this example is <VTL><FONT face="courier, monospaced">d</FONT></VTL>, and it can be called in a manner
+    analogous to any other VTL directive:
     </P>
-    
+
     <P align="justify">
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    &lt;table&gt;
-    #foreach ($element in $list)
-	#row ($element)
+    #d
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    When this template is called, Velocity would replace <VTL><FONT face="courier, monospaced">#d</FONT></VTL> with a row containing a single, 
+    empty data cell. 
+    </P>
+
+    <P align="justify">
+    A Velocimacro could take any number number of arguments -- even zero arguments, as demonstrated in
+    the first example, is an option -- but when the Velocimacro is invoked, it must be called with the same number of 
+    arguments with which it was defined.
+    Many Velocimacros are more involved than the one defined above. Here is a Velocimacro that takes two arguments, 
+    a color and an array.
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>    
+    #macro( tablerows $color $somelist )
+    #foreach( $something in $somelist )
+    &lt;tr&gt;&lt;td bgcolor=$color&gt;$something&lt;/td&gt;&lt;/tr&gt;
     #end
+    #end
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    The Velocimacro being defined in this example, <VTL><FONT face="courier, monospaced">tablerows</FONT></VTL>, takes two arguments. 
+    The first argument takes the place of <VARIABLE><FONT face="courier, monospaced">$color</FONT></VARIABLE>, and the second 
+    argument takes the place of <VARIABLE><FONT face="courier, monospaced">$somelist</FONT></VARIABLE>. 
+    </P>
+
+    <P align="justify">
+    Anything that can be put into a VTL template can go into the body of a Velocimacro. The <VTL><FONT face="courier, monospaced">tablerows</FONT></VTL> 
+    Velocimacro is a <VTL><FONT face="courier, monospaced">foreach</FONT></VTL> statement. There are two <VTL><FONT face="courier, monospaced">#end</FONT></VTL> statements in the definition of 
+    the <VTL><FONT face="courier, monospaced">#tablerows</FONT></VTL> Velocimacro; the first belongs to the 
+    <VTLDIRECTIVE><FONT face="courier, monospaced">#foreach</FONT></VTLDIRECTIVE>, the second ends the Velocimacro definition. 
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>    
+    #set( $greatlakes = [&quot;Superior&quot;,&quot;Michigan&quot;,&quot;Huron&quot;,&quot;Erie&quot;,&quot;Ontario&quot;] )
+    #set( $color = &quot;blue&quot; )
+    &lt;table&gt;
+    #tablerows( $color $names )
     &lt;/table&gt;
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
     </P>
-    
+
     <P align="justify">
-    Here a newly created <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro is nested inside a #foreach
-    statement. As the #foreach statement loops through each $element
-    target in the $list object, the <CODE><FONT face="courier, monospaced">#row</FONT></CODE> macro will take the value of
-    $element and put it into its table data cell.
+    Notice that <VARIABLE><FONT face="courier, monospaced">$greatlakes</FONT></VARIABLE> takes the place of <VARIABLE><FONT face="courier, monospaced">$somelist</FONT></VARIABLE>. 
+    When the <VTL><FONT face="courier, monospaced">#tablerows</FONT></VTL> Velocimacro is called in this situation, the following output is generated: 
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;table&gt;             
+        &lt;tr&gt;&lt;td bgcolor=blue&gt;Superior&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=blue&gt;Michigan&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=blue&gt;Huron&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=blue&gt;Erie&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=blue&gt;Ontario&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;  
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    Velocimacros can be defined <I>inline</I> in a Velocity template, meaning that it is 
+    unavailable to other Velocity templates on the same web site. Defining a Velocimacro
+    such that it can be shared by all templates has obvious advantages: it reduces the 
+    need to redefine the Velocimacro on numerous templates, saving work and reducing the 
+    chance of error, and ensures that a single change to a macro  
+    available to more than one template. 
+    </P>
+
+    <P align="justify">
+    Several lines in the <FILENAME><I>velocity.properties</I></FILENAME> file allow for flexible
+    implementation of Velocimacros:
+    </P>
+
+    <P align="justify">
+    <CODE><FONT face="courier, monospaced">velocimacro.library.global</FONT></CODE> - This is the name of the global Velocimacros
+    template library. By default, <CODE><FONT face="courier, monospaced">velocimacro.library.global=VM_global_template.vm</FONT></CODE>.
+    This file, which must be found in the template path, contains useful macros that are
+    shipped with the Velocity distribution.
     </P>
     
+    <P align="justify">
+    <CODE><FONT face="courier, monospaced">velocimacro.library.local</FONT></CODE> - Adding this line to the <FILENAME><I>velocity.properties</I></FILENAME> 
+    file allows the template designer to define a local Velocimacros
+    template library. Velocity users can use the local template library to define their 
+    own Velocimacros and keep these in a file other than the global defaults.
+    </P>
+
+    <P align="justify">
+    <CODE><FONT face="courier, monospaced">velocimacro.permissions.allowInline</FONT></CODE> - This property, which has
+    possible values of true or false, determines whether Velocimacros
+    can be defined in regular templates. The default, false, limits template designers
+    to defining Velocimacros in the global/local templates.
+    </P>
+
+    <P align="justify">
+    <CODE><FONT face="courier, monospaced">velocimacro.permissions.allowInlineToOverride</FONT></CODE> - When Velocimacros can be
+    defined in both global/local template library and in regular templates, it becomes
+    possible for a Velocimacro to be defined more than once. With possible values of
+    true or false, this property allows the user to specify which Velocimacro will
+    take precedence over the other. The default, <CODE><FONT face="courier, monospaced">false</FONT></CODE>, allows Velocimacros
+    defined in the global/local template libraries to take precedence over those defined
+    in regular templates.
+    </P>
+
+    <P align="justify">
+    Were the <VTL><FONT face="courier, monospaced">#tablerows</FONT></VTL> Velocimacro defined in the local Velocimacros template
+    library, this macro could be used on any of the regular templates. It could be used
+    many times and for many different purposes. In the template <FILENAME><I>mushroom.vm</I></FILENAME>
+    devoted to all things fungi, the <VTL><FONT face="courier, monospaced">#tablerows</FONT></VTL> Velocimacro could be invoked 
+    to list the parts of a typical mushroom:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE> 
+    #set( $parts = [&quot;volva&quot;,&quot;stipe&quot;,&quot;annulus&quot;,&quot;gills&quot;,&quot;pileus&quot;] )
+    #set( $cellbgcol = &quot;#CC00FF&quot; )
+    &lt;table&gt;
+    #tablerows( $cellbgcol $parts ) 
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+    
+    <P align="justify">
+    When fulfilling a request for <FILENAME><I>mushroom.vm</I></FILENAME>, Velocity would find the
+    <VTL><FONT face="courier, monospaced">#tablerows</FONT></VTL> Velocimacro in the local template library (defined in the 
+    <FILENAME><I>velocity.properties</I></FILENAME> file) and generate the following output:
+    </P>
+    
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    &lt;table&gt;             
+        &lt;tr&gt;&lt;td bgcolor=#CC00FF&gt;volva&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=#CC00FF&gt;stipe&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=#CC00FF&gt;annulus&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=#CC00FF&gt;gills&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td bgcolor=#CC00FF&gt;pileus&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;  
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
  </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Escaping VTL Directives</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+   
+  <P align="justify">
+    VTL directives can be escaped with the backslash character (&quot;\&quot;) in a manner similar 
+    to valid VTL references.
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+  ## #include( &quot;a.txt&quot; ) renders as &lt;contents of a.txt&gt;
+  #include( &quot;a.txt&quot; )
+
+  ## \#include( &quot;a.txt&quot; ) renders as \#include( &quot;a.txt&quot; )
+  \#include( &quot;a.txt&quot; )
+
+  ## \\#include ( &quot;a.txt&quot; ) renders as \&lt;contents of a.txt&gt;
+  \\#include ( &quot;a.txt&quot; )
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+  Extra care should be taken when escaping VTL directives that contain multiple script 
+  elements in a single directive (such as in an if-else-end statements). 
+  Here is a typical VTL if-statement:  
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+  #if( $jazz )
+  Vyacheslav Ganelin
+  #end
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+  If <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is true, the output is &quot;Vyacheslav 
+  Ganelin&quot;; if <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is false, there is no 
+  output. Escaping script elements alters the output. Consider the 
+  following case:
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+  \#if( $jazz ) 
+  Vyacheslav Ganelin
+  \#end
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">  
+  Whether <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is true or false, the output will be 
+  &quot;#if( $jazz ) Vyacheslav Ganelin #end&quot;; in fact, because
+  all script elements are escaped the truth of 
+  <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is never checked. Suppose backslashes precede 
+  script elements that are legitimately escaped:
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+  \\#if( $jazz ) 
+  Vyacheslav Ganelin
+  \\#end
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+  In this case, if <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is true, the output is 
+  &quot;\ Vyacheslav Ganelin \&quot;. If <VARIABLE><FONT face="courier, monospaced">$jazz</FONT></VARIABLE> is false, 
+  there is no output. Note that things start to break if script elements 
+  are not properly escaped.
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+  \\\#if( $jazz )
+  Vyacheslave Ganelin
+  \\#end
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+  Here the <VTL><FONT face="courier, monospaced">#if</FONT></VTL> is escaped, but there is an <VTL><FONT face="courier, monospaced">#end</FONT></VTL>
+  remaining; having too many endings will cause a parsing error.
+  </P>
+
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+ <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>VTL: Formatting Issues</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+    <P align="justify">
+    Although VTL in this user guide is often displayed with
+    newlines and whitespaces, the VTL shown below
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set( $imperial = [&quot;Munetaka&quot;,&quot;Koreyasu&quot;,&quot;Hisakira&quot;,&quot;Morikune&quot;] )
+    #foreach( $shogun in $imperial )
+    $shogun
+    #end
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    is equally valid as the following snippet that Geir Magnusson Jr.
+    posted to the Velocity user listserve to illustrate a completely
+    unrelated point:
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    Send me #set($foo = [&quot;$10 and &quot;,&quot;a cake&quot;])#foreach($a in $foo)$a #end please.
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    Velocity's behaviour is to gobble up excess whitespace. The preceding 
+    directive can be written as
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    Send me
+    #set( $foo = [&quot;$10 and &quot;,&quot;a cake&quot;] )
+    #foreach( $a in $foo )
+    $a
+    #end
+    please.
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    or as
+    </P>
+
+    <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    Send me
+    #set($foo       = [&quot;$10 and &quot;,&quot;a cake&quot;])
+                     #foreach           ($a in $foo )$a
+            #end please.
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+    </P>
+
+    <P align="justify">
+    In each case the output will be the same.
+    </P>
+
+ </FONT></TD></TR></TABLE></DIV><BR>
+
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Other Features</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Math</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+  
+  <P align="justify">
+    Velocity has a handful of built-in mathematical functions that can be used
+    in templates with the <VTLDIRECTIVE><FONT face="courier, monospaced">set</FONT></VTLDIRECTIVE> directive. The following
+    equations are examples of addition, subtraction, multiplication and division, 
+    respectively:
+  </P>
+
+  <P align="justify">    
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+      #set( $foo = $bar + 3 )
+      #set( $foo = $bar - 4 )
+      #set( $foo = $bar * 6 )
+      #set( $foo = $bar / 2 )
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+    When a division operation is performed, the result will be an integer. Any remainder
+    can be obtained by using the remainder (<VTL><FONT face="courier, monospaced">%</FONT></VTL>) operand.
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+      #set( $foo = $bar % 5 )
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+    Only integers (...-2, -1, 0, 1, 2...) are permissible when performing 
+    mathematical equations in Velocity; when a non-integer is used, it is
+    logged and a null will be returned as the output.
+  </P>
+
+  </FONT></TD></TR></TABLE></DIV><BR>
+
+  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Range Operator</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+  <P align="justify">
+    The range operator can be used in conjunction with <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE>
+    and <VTLDIRECTIVE><FONT face="courier, monospaced">#foreach</FONT></VTLDIRECTIVE> statements. Useful for its ability to 
+    produce an object array containing integers, the range operator has the following 
+    construction: 
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    [n..m]
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  <P align="justify">
+    Both <VTL><FONT face="courier, monospaced">n</FONT></VTL> and <VTL><FONT face="courier, monospaced">m</FONT></VTL> must either be or produce integers. Whether 
+    <VTL><FONT face="courier, monospaced">m</FONT></VTL> is greater than or less than <VTL><FONT face="courier, monospaced">n</FONT></VTL> will not matter; in this
+    case the range will simply count down. Examples showing the use of the range
+    operator as provided below:
+  </P>
+
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    First example:
+    #foreach( $foo in [1..5] ) 
+    $foo 
+    #end
+
+    Second example:
+    #foreach( $bar in [2..-2] )
+    $bar
+    #end
+
+    Third example:
+    #set( $arr = [0..1] )
+    #foreach( $i in $arr )
+    $i
+    #end
+
+    Fourth example:
+    [1..3]
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>    
+  </P>
+
+  <P align="justify">
+    Produces the following output:
+  </P>
+  
+  <P align="justify">
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    First example:
+    1 2 3 4 5
+
+    Second example:
+    2 1 0 -1 -2
+
+    Third example:
+    0 1    
+
+    Fourth example:
+    [1..3]
+    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>    
+  </P>
+
+  <P align="justify">
+    Note that the range operator only produces the array when used in
+    conjunction with <VTLDIRECTIVE><FONT face="courier, monospaced">#set</FONT></VTLDIRECTIVE>
+    and <VTLDIRECTIVE><FONT face="courier, monospaced">#foreach</FONT></VTLDIRECTIVE> directives, as demonstrated
+    in the fourth example.
+  </P>
+
+  <P align="justify">
+    Web page designers concerned with making tables a standard size, but where
+    some will not have enough data to fill the table, will find the range
+    operator particularly useful.
+  </P>
+
+  </FONT></TD></TR></TABLE></DIV><BR>
+
+  <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Advanced Isseus: Escaping and !</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+  <P align="justify">
+    When a reference is silenced with the <VTL><FONT face="courier, monospaced">!</FONT></VTL> character and
+    the <VTL><FONT face="courier, monospaced">!</FONT></VTL> character preceded by an escape characters (&quot;\&quot;),
+    the reference is handled in a special way. Note the differences 
+    between regular escaping (where the escape character precedes the
+    <VTL><FONT face="courier, monospaced">$</FONT></VTL> character, and this case, where is follows it:
+  </P>
+
+  <P align="justify">
+  <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
+    #set( $foo = &quot;bar&quot; )
+
+    # The special case, where &quot;\&quot; precedes &quot;!&quot;:
+    $\!foo # This renders as: $!foo
+    $\!{foo} # This renders as: $!{foo}
+    $\\!foo # This renders as: $\!foo
+    $\\\!foo # This renders as: $\\!foo
+
+    # Contrast this with regular escaping, where &quot;\&quot; precedes &quot;$&quot;:    
+    \$foo # This renders as: \#$foo
+    \$!foo # This renders as: \$!foo
+    \$!{foo} # This renders as: \$!{foo}
+    \\$!{foo} # This renders as: \bar 
+  </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+  </P>
+
+  </FONT></TD></TR></TABLE></DIV><BR>
 
 </FONT></TD></TR></TABLE></DIV><BR>
 

@@ -25,66 +25,62 @@
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>What Is Anakia?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 <P align="justify">
-    Anakia is an alternative to using Ant's &lt;style&gt; task as well as using 
-    <A href="http://xml.apache.org/xalan/">XSL</A> to process your XML 
-    files. In summary, Anakia is an XML transformation tool that uses <A href="http://www.jdom.org">JDOM</A> and <A href="http://jakarta.apache.org/velocity">Velocity</A> to transform your 
-    XML documents into whatever you like.
+    Essentially an XML transformation tool, Anakia uses <A href="http://www.jdom.org">JDOM</A> and <A href="http://jakarta.apache.org/velocity">Velocity</A> to transform 
+    XML documents into the format of your choice. It provides an alternative to
+    using Ant's &lt;style&gt; task and
+    <A href="http://xml.apache.org/xalan/">XSL</A> to process XML 
+    files.
 </P>
 <P align="justify">
-    The benefit of using Anakia over XSL is that it is potentially easier to 
-    learn while still maintaining a similar functionality level. Instead of 
-    learning cryptic &lt;xsl:&gt; tags, all you need to know is how to use the 
-    provided Context objects, JDOM and Velocity's simple directives. Anakia also 
-    seems to perform much faster than Xalan's XSL processor at creating pages 
+    Anakia is potentially easier to learn than XSL, but it maintains
+    a similar level of functionality. Learning cryptic &lt;xsl:&gt; 
+    tags is unnecessary; you only need to know how to use the 
+    provided Context objects, JDOM, and Velocity's simple directives. Anakia 
+    seems to perform much faster than Xalan's XSL processor at creating pages. 
     (23 pages are generated in 7-8 seconds on a PIII 500mhz running Win98 and 
     JDK 1.3 with client Hotspot. A similar system using Ant's &lt;style&gt; task 
-    took 14-15 seconds. A nearly 2x speed improvement.).
+    took 14-15 seconds -- nearly a 2x speed improvement.)
 </P>
 <P align="justify">
-    In the end, Anakia is intended as a replacement for Stylebook which was 
-    originally used to generate simple static websites where all the pages have 
-    the same look and feel. This is great for documentation websites as well as 
-    for project websites like what we have on jakarta.apache.org. Therefore some 
-    of the &quot;extra&quot; functionality that XSL provides is not being 
-    provided here.
+    Anakia -- intended to replace Stylebook, which was 
+    originally used to generate simple, static web sites in which all pages had 
+    the same look and feel -- is great for documentation/project web sites, 
+    such as the sites on jakarta.apache.org. As it is more targeted to a specific
+    purpose, it does not provide some of XSL's &quot;extra&quot; functionality.
 </P>
 <P align="justify">
-    We suggest that you take a look at the jakarta-velocity/examples/anakia directory
-    for an example of how to get started with Anakia. It really is quite simple to use.    
+    The example in the jakarta-velocity/examples/anakia directory
+    provides a good introduction to Anakia. You should find it quite simple to use.    
 </P>
 <P align="justify">
-    The basic usage premise of Anakia is that a Context is created, the .vsl 
-    page is executed (using Velocity) with the Context. Within the Context 
-    contains a JDOM Document object of your .xml page as well as (optionally) a 
-    JDOM Document object of your project.xml page. You can then navigate your 
-    .xml file and pull information out of it by simply executing methods on the 
-    JDOM Document object.
+    Anakia creates a Context, which contains a JDOM Document object of the
+    .xml page, as well as an (optional) JDOM Document object of your project.xml
+    page. The .vsl page is executed (using Velocity) with the Context. You can then 
+    navigate your .xml file and pull information out of it by simply executing methods 
+    on the JDOM Document object.
 </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Installation/Example</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 <P align="justify">
-    As mentioned earlier, take a look at the jakarta-velocity/examples/anakia directory.
-    In order to use those examples, you will need to first build Velocity by following 
-    these <A href="install.html">directions</A>.
+    Before reviewing the jakarta-velocity/examples/anakia directory,
+    you must <A href="install.html">build Velocity</A>.
 </P>
 <P align="justify">
-    Once you have built Velocity, then you can cd into the jakarta-
-    velocity/examples/anakia/build directory and run ./build.sh. If you are on 
-    the Windows platform, then you should install <A href="http://sources.redhat.com/cygwin/">Cygwin</A> so that shell scripts 
-    will work on your PC as well.
+    After building Velocity, <CODE><FONT face="courier, monospaced">cd</FONT></CODE> into the jakarta-velocity/examples/anakia/build 
+    directory and run <CODE><FONT face="courier, monospaced">./build.sh</FONT></CODE>. (Shell scripts will work on 
+    the Windows platform if you install <A href="http://sources.redhat.com/cygwin/">Cygwin</A>.)
 </P>
 <P align="justify">
-    The output of running the ./build.sh script will be placed into the 
-    jakarta-velocity/examples/anakia/docs/ directory. You can look at the HTML files
-    in there and view the results of the execution.
+    Output from the build.sh script, in this case HTML files, is placed into the 
+    jakarta-velocity/examples/anakia/docs/ directory.
 </P>
 <P align="justify">
     The jakarta-velocity/examples/anakia/xdocs/ directory has all of the .xml 
-    source code. In the stylesheets directory within the xdocs directory is the 
-    .vsl file. This is where most of the magic happens and a basic understanding 
-    of <A href="user-guide.html">Velocity Template Language</A> and JDOM 
-    is needed to understand how this file works.
+    source code. The xdocs/stylesheets directory contains the 
+    .vsl file, in which most of the magic happens. Understanding 
+    <A href="user-guide.html">Velocity Template Language</A> and JDOM 
+    is necessary to understand how the .vsl file works.
 </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
@@ -157,7 +153,7 @@
         <TR>
             <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">extension&nbsp;
       </FONT></TD>
-            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">The extension that is appended to the end of your .xml file. For example, 
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the extension that is appended to the end of your .xml file. For example, 
             with an extension of &quot;.html&quot;, index.xml would be converted into index.html.
             By default, the extension is .html.
             &nbsp;
@@ -177,7 +173,7 @@
       </FONT></TD>
             <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This is the path to a &quot;project&quot; file. This file is an XML file 
             that can be used as a &quot;navigation&quot; file. If you have used Stylebook 
-            or Struts system for generation of the website documentation, you 
+            or Struts system for generation of the web site documentation, you 
             will understand the purpose of this file. <B>It is an optional 
             task argument.</B> If you look at the Anakia example in the 
             jakarta-velocity/examples/anakia directory, you can see the project.xml
@@ -205,10 +201,10 @@
             <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This turns on or off the ability to check the last modified date on files
             in order to determine whether or not they need to be re-rendered or not.
             The value of this attribute can be &quot;true, false, yes, no&quot;. By 
-            default, it is true meaning that the last modified date should be checked
-            and if the original .xml file, project file or .vsl file have not changed, 
-            then don't process the page. This speeds up processing quite a bit because
-            pages that have not changed will not get processed again.&nbsp;
+            default, it is true, meaning that the last modified date should be checked
+            and if the original .xml file, project file, or .vsl file have not changed, 
+            then don't process the page. This accelerates processing because
+            pages that have not changed will not get reprocessed.&nbsp;
       </FONT></TD>
         </TR>
         <TR>
@@ -319,16 +315,16 @@
     Anakia was originally conceptualized and implemented by Jon S. Stevens.
 </P>
 <P align="justify">
-    The name <A href="http://www.kabalarians.com/female/anakia.htm">Anakia</A> is just a 
-    cool name that I think fits this project quite nicely; &quot;The name of Anakia 
+    The name <A href="http://www.kabalarians.com/female/anakia.htm">Anakia</A> is a 
+    cool name that I think fits this project quite nicely. &quot;The name of Anakia 
     has given you the desire for creative, artistic or musical expression in an 
     original way. You strive to be different and have the self-confidence to 
     implement your ideas because you have the perseverance necessary to see 
     something through, despite obstacles.&quot;
 </P>
 <P align="justify">
-    Further help and assistance was provided by Jason van Zyl, Geir Magnusson Jr., 
-    and the XPath support was added by Bob McWhirter.
+    Further help and assistance was provided by Jason van Zyl and Geir Magnusson Jr. 
+    XPath support was added by Bob McWhirter.
 </P>
 </FONT></TD></TR></TABLE></DIV><BR>
 
