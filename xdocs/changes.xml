@@ -22,12 +22,29 @@
 </p>
 
 <ul>
-<li>
-Removed use of <a href="http://jakarta.apache.org/log4j/">Log4J's</a>
+<li>Added support for decimal numbers.  Bug #25874. Thanks to Peter Romianowski for the initial implementation.  (wgh)</li>
+<li>MethodInvocationException now consistently thrown 
+(previously was hidden when in parameter to Velocimacro).  As suggested by Mike Rettig. Bug #30220. (wgh)</li>
+<li>Fixed problem in which foreach loop would fail to call overloaded method.  
+Bug #13637. (wgh)</li>
+<li>Removed ERROR level log message "Can't find 'VM_global_library.vm'". Bug #9938. (wgh)</li>
+<li>Anakia now generates consistent line endings based on platform.  Requires upgrade to JDom 1.0.  Bug #33296. (wgh) </li>
+<li>Anakia can now be pre-loaded with custom context values from an optional XML file.  Patch by Peter Ryan.  Bug #21417. (wgh)</li>
+<li>Directives can now be delimited with curly braces, for example #if($condition)something#{else}otherthing#{end}.  Bug #7189. (wgh) </li>
+<li>Nulls now handled appropriate within #foreach.  Patch by Christopher Reck. Bug #27741. (wgh)</li>
+<li>Upgraded JavaCC to version 3.2, providing JDK 1.5 compatibility.  
+(Older version used keyword 'enum' which is reserved in JDK 1.5). Thanks to Shinobu Kuwai 
+for researching this and providing a patch.  Bug #32416. (wgh)</li>
+<li>DatasourceResourceLoader now allows injection of Datasource, allowing it to be used in Inversion of Control (IOC) frameworks.
+Thanks to Matt Raible for suggestion.  Bug #28611. (wgh)</li>
+<li>#stop now works properly.  Bug #24189. (wgh) </li>
+<li>ClasspathResourceLoader now searches ContextClassLoader for template. Thanks to Charles Oliver Nutter for the approach.  Bug #22419. </li>
+<li>Removed use of <a href="http://jakarta.apache.org/log4j/">Log4J's</a>
 deprecated Category and Priority classes in favor of the corresponding
 and supported Logger and Level.  To update, replace necessary
 references, and Category.getInstance() with Logger.getLogger(). (#19133) (dlr)
 </li>
+<li>New Map literal syntax.  Thanks to James Taylor for implementing this.  (wgh).</li>
 <li>
 Removed the long-deprecated Log4JLogSystem.  Never fear,
 SimpleLog4JLogSystem remains. (dlr)
@@ -68,7 +85,7 @@ Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
 <li>
 Fix to DatasourceResourceLoader - stop using the old Runtime singleton as
 would leak a little memory for each instance of VelocityEngine created.
-Bug #17820, hunted down by Will Glas-Husain. (gmj)
+Bug #17820, hunted down by Will Glass-Husain. (gmj)
 </li>
 <li>
 SimplePool now removes elements from pool on a get(). NOTE : Previously, it left the
