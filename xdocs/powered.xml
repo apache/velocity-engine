@@ -9,19 +9,19 @@
  <body>
 
  <section name="Powered-By Velocity Logo">
- 
+
  <p>
    This is not a requirement, but we would love it if you would adopt
    our Powered-By Velocity logo for your own website in order to show
    your support for our hard work.
  </p>
- 
+
  <p>
  <img src="images/powered-by-logo.gif" alt="Powered By Velocity" width="77" height="32" />
  </p>
 
  </section>
- 
+
  <section name="Velocity-powered Products and Projects">
  <p>
    Velocity is a utility tool which can be used in conjunction with
@@ -39,9 +39,9 @@
      <a href="http://jakarta.apache.org/velocity/anakia.html">Anakia</a>
     </td>
     <td>
-       Essentially an XML transformation tool, Anakia uses JDOM and Velocity 
-       to transform XML documents into the format of your choice. It provides 
-       an alternative to using Ant's &lt;style&gt; task and XSL to process XML files. 
+       Essentially an XML transformation tool, Anakia uses JDOM and Velocity
+       to transform XML documents into the format of your choice. It provides
+       an alternative to using Ant's &lt;style&gt; task and XSL to process XML files.
     </td>
    </tr>
 
@@ -50,10 +50,10 @@
      <a href="http://jakarta.apache.org/velocity/texen.html">Texen</a>
     </td>
     <td>
-      Texen is a general purpose text generating utility. It is capable of 
-      producing almost any sort of text output. Driven by Ant, Texen uses 
-      a control template, an optional set of worker templates, and control 
-      context to govern the generated output. 
+      Texen is a general purpose text generating utility. It is capable of
+      producing almost any sort of text output. Driven by Ant, Texen uses
+      a control template, an optional set of worker templates, and control
+      context to govern the generated output.
     </td>
    </tr>
 
@@ -86,7 +86,7 @@
     <td>
         Vamp is a user-friendly tool that helps you package, sign and publish Web
         Start/Java Network Launching Protocol (JNLP) software. Vamp uses Velocity
-        heavily to create parts of the gooey (GUI) in XUL or HTML or to create 
+        heavily to create parts of the gooey (GUI) in XUL or HTML or to create
         documents such as JNLP startup files, web app config files or
         HTML info pages.
     </td>
@@ -98,11 +98,11 @@
     </td>
     <td>
     J/Top is an open source application for monitoring multiple servers running
-    'top'.   It has an email notifier which uses Velocity for formatting the 
+    'top'.   It has an email notifier which uses Velocity for formatting the
     notification emails.
     </td>
    </tr>
-   
+
    <tr>
     <td>
      <a href="http://eyebrowse.tigris.org/">Eyebrowse</a>
@@ -126,18 +126,18 @@
     Hazel uses Velocity as its template engine.
     </td>
    </tr>
-   
+
     <tr>
     <td>
      <a href="http://xjr.sourceforge.net/">XJR : XML to Java via Reflection API</a>
     </td>
     <td>
-        Project toolkit for XML &lt;-&gt; Java compilation and mapping. 
-        Among other things, compiles DTDs to Java class hierarchies. 
+        Project toolkit for XML &lt;-&gt; Java compilation and mapping.
+        Among other things, compiles DTDs to Java class hierarchies.
         Will create XML documents from those hierarchies and others...
     </td>
    </tr>
-   
+
     <tr>
     <td>
   <a href="http://velocidoc.sourceforge.net/intro.html">Velocidoc</a>
@@ -159,7 +159,7 @@
     license.
     </td>
    </tr>
-  
+
    <tr>
     <td>
   <a href="http://luxor-xul.sourceforge.net">Luxor</a>
@@ -178,13 +178,13 @@
   <a href="http://www.beardediris.com/webkiosk.html">WebAmortize</a>
     </td>
     <td>
-    WebAmortization is a simple Java servlet that implements an 
+    WebAmortization is a simple Java servlet that implements an
     online calculator for computing mortgage payments using the Velocity
     template engine.
     </td>
    </tr>
  </table>
- 
+
  </section>
 
  <section name="Velocity powered Websites">
@@ -263,7 +263,7 @@
      <a href="http://www.espial.com">Espial</a>
     </td>
    </tr>
-   
+
    <tr>
     <td>
      <a href="http://www.adeptra.com">www.adeptra.com</a>
@@ -287,7 +287,7 @@
     <td>
     </td>
    </tr>
-   
+
    <tr>
     <td>
      <a href="http://www.webhelp.com/">www.webhelp.com</a>
@@ -297,19 +297,19 @@
       software and services for web and wireless technologies.  WebHelp
       incorporated Velocity with their ETranscript component, so that events
       generated in a conference are rendered as MIME email and XML using Velocity
-      templates.    
+      templates.
     </td>
     <td>
      <a href="http://www.webhelp.com">WebHelp</a>
     </td>
    </tr>
-   
+
    <tr>
     <td>
      <a href="http://www.goodwoodinteriors.com">www.goodwoodinteriors.com</a>
     </td>
     <td>
-     Wood furniture factory site.  The static content of this site is 
+     Wood furniture factory site.  The static content of this site is
      generated using Velocity templates, providing the benefit of simple
      deployment without the overhead of an online servlet container and
      database with the advantage of Velocity's ease of use for generating
@@ -325,16 +325,16 @@
      <a href="http://www.freebok.net/">www.freebok.net</a>
     </td>
     <td>
-      Freebok.net is a free guestbook service that uses Velocity 
-      templates for the site. More importantly the guestbook users 
-      have the option to create their own Velocity templates to 
+      Freebok.net is a free guestbook service that uses Velocity
+      templates for the site. More importantly the guestbook users
+      have the option to create their own Velocity templates to
       render the layout of their guestbook.
     </td>
     <td>
      <a href="http://www.freebok.net/">Freebok.net</a>
     </td>
    </tr>
-   
+
   <tr>
     <td>
      <a href="http://www.studioz.tv/">www.studioz.tv</a>
@@ -350,14 +350,27 @@
     </td>
    </tr>
 
+ <tr>
+    <td>
+     <a href="http://www.cbc.ca/olympics/">www.cbc.ca/olympics/</a>
+    </td>
+    <td>
+    The Canadian Broadcasting Corporation's 2002 Winter Olympic
+    website was developed using Velocity.
+    </td>
+    <td>
+     <a href="http://www.cbc.ca/">Canadian Broadcasting Corporation</a>
+    </td>
+   </tr>
+
   </table>
  </section>
 
 <section name="Frameworks that support Velocity">
  <p>
-  This is a list of web frameworks that include support for 
+  This is a list of web frameworks that include support for
   Velocity 'out of the box'.  While many web frameworks are
-  being used with Velocity, such as the 
+  being used with Velocity, such as the
   <a href="http://jakarta.apache.org/struts/">Jakarta Struts</a>
   project, the following include support for Velocity within the
   package.
@@ -381,7 +394,7 @@
     </td>
     <td>
      One of the early servlet-based web frameworks, and currently in version 2.1,
-     Turbine is a framework that allows experienced 
+     Turbine is a framework that allows experienced
      Java developers to quickly build secure web applications.  While Turbines
      primary templating technology is Velocity, it also supports JSP, WebMacro,
      FreeMarker, ECS and others.
@@ -407,7 +420,7 @@
      <a href="http://jpublish.sourceforge.net/">JPublish</a>
     </td>
     <td>
-     JPublish is a web publishing framework which merges the Velocity template engine 
+     JPublish is a web publishing framework which merges the Velocity template engine
      with a content repository and application control framework.
     </td>
    </tr>
@@ -417,20 +430,20 @@
      <a href="http://mav.sourceforge.net">Maverick</a>
     </td>
     <td>
-    Maverick is a Model-View-Controller framework for publishing web applications. 
-    It is a simple, minimalist framework which offers the ability to render views 
-    with JSP, Velocity, or XSLT directly. 
+    Maverick is a Model-View-Controller framework for publishing web applications.
+    It is a simple, minimalist framework which offers the ability to render views
+    with JSP, Velocity, or XSLT directly.
     </td>
    </tr>
-  
+
     <tr>
     <td>
      <a href="http://sourceforge.net/projects/webwork/">WebWork</a>
     </td>
     <td>
-    WebWork is a web application framework for J2EE. It is based on a 
-    concept called "Pull HMVC" (Pull Hierarchical Model View Controller). 
-    The basic idea is to separate the site programmers' and site designers' 
+    WebWork is a web application framework for J2EE. It is based on a
+    concept called "Pull HMVC" (Pull Hierarchical Model View Controller).
+    The basic idea is to separate the site programmers' and site designers'
     tasks.  WebWork now supports Velocity with their 1.0 release (currently
     in Release Candidate 1).
     </td>
@@ -441,9 +454,9 @@
      <a href="http://www.niggle.org/">Niggle</a>
     </td>
     <td>
-    Niggle is a Java class library intended 
-    for use in development of robust, maintainable web applications. 
-    The Niggle framework is designed to alleviate the repetitive, 
+    Niggle is a Java class library intended
+    for use in development of robust, maintainable web applications.
+    The Niggle framework is designed to alleviate the repetitive,
     tedious details typical of those kinds of applications
     </td>
    </tr>
@@ -475,7 +488,7 @@
     </td>
     <td>
        <a href="mailto:bojan@binarix.com">Bojan Smojver's</a> PumpServlet is an
-       alternative to the core VelocityServlet to use as a baseclass for 
+       alternative to the core VelocityServlet to use as a baseclass for
        developing Velocity-powered servlets.  See the documentation included
        in the download for more information. (That should motivate Bojan...)
     </td>
@@ -486,9 +499,9 @@
      <a href="http://edencrm.sf.net">EdenCRM</a>
     </td>
     <td>
-        EdenCRM is an open source java application for Customer Relationship 
-        Management which is designed specifically for small businesses. 
-        It runs on the desktop and does not require any server software 
+        EdenCRM is an open source java application for Customer Relationship
+        Management which is designed specifically for small businesses.
+        It runs on the desktop and does not require any server software
         (unless you want to have multiple users use a shared database for
         tickets and history entries).
     </td>
