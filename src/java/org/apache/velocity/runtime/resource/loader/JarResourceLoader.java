@@ -78,10 +78,34 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
+ * <p>
  * ResourceLoader to load templates from multiple Jar files.
+ * </p>
+ * <p>
+ * The configuration of the JarResourceLoader is straightforward -
+ * You simply add the JarResourceLoader to the configuration via
+ * </p>
+ * <p><pre>
+ *    resource.loader = jar
+ *    jar.resource.loader.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
+ *    jar.resource.loader.path = list of JAR &lt;URL&gt;s
+ * </pre></p>
+ *
+ * <p> So for example, if you had a jar file on your local filesystem, you could simply do
+ *    <pre>
+ *    jar.resource.loader.path = jar:file:/opt/myfiles/jar1.jar
+ *    </pre>
+ * </p>
+ * <p> Note that jar specification for the <code>.path</code> configuration property
+ * conforms to the same rules for the java.net.JarUrlConnection class.
+ * </p>
+ *
+ * <p> For a working example, see the unit test case, 
+ *  org.apache.velocity.test.MultiLoaderTestCase class
+ * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.10 2001/05/11 03:59:41 geirm Exp $
+ * @version $Id: JarResourceLoader.java,v 1.11 2001/05/15 13:10:33 geirm Exp $
  */
 public class JarResourceLoader extends ResourceLoader
 {
@@ -104,28 +128,32 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        Vector paths = configuration.getVector("resource.path");
-        Runtime.info("PATHS SIZE= " + paths.size() );
+        Runtime.info("JarResourceLoader : initialization starting.");
+
+        Vector paths = configuration.getVector("path");
+
+        Runtime.info("JarResourceLoader # of paths : " + paths.size() );
         
         for ( int i=0; i<paths.size(); i++ )
         {
             loadJar( (String)paths.get(i) );
         }
         
-        Runtime.info("JarResourceLoader initialized...");
+        Runtime.info("JarResourceLoader : initialization complete.");
     }
     
     private void loadJar( String path )
     {
-        Runtime.info("Try to load: " + path);
+        Runtime.info("JarResourceLoader : trying to load: " + path);
+
         // Check path information
         if ( path == null )
         {
-            Runtime.error("Can not load a JAR - JAR path is null");
+            Runtime.error("JarResourceLoader : can not load JAR - JAR path is null");
         }
         if ( !path.startsWith("jar:") )
         {
-            Runtime.error("JAR path must start with jar: -> " +
+            Runtime.error("JarResourceLoader : JAR path must start with jar: -> " +
                 "see java.net.JarURLConnection for information");
         }
         if ( !path.endsWith("!/") )
@@ -190,11 +218,11 @@ public class JarResourceLoader extends ResourceLoader
         
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
-            String msg = "File resource error : argument " + normalizedPath + 
+            String msg = "JAR resource error : argument " + normalizedPath + 
                 " contains .. and may be trying to access " + 
                 "content outside of template root.  Rejected.";
             
-            Runtime.error( "FileResourceLoader : " + msg );
+            Runtime.error( "JarResourceLoader : " + msg );
             
             throw new ResourceNotFoundException ( msg );
         }
