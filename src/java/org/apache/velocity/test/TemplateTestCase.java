@@ -62,11 +62,11 @@ import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.io.FastWriter;
 
 /**
- * Base functionality to be extended by all Apache Velocity test cases.  Test 
- * case implementations are used to automatate testing via JUnit.
+ * Base functionality to be extended by all Apache Velocity test cases which 
+ * evaluate templates as part of their testing.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: TemplateTestCase.java,v 1.1 2000/10/22 22:08:56 dlr Exp $
+ * @version $Id: TemplateTestCase.java,v 1.2 2000/10/22 22:10:51 dlr Exp $
  */
 public abstract class TemplateTestCase extends BaseTestCase
 {
