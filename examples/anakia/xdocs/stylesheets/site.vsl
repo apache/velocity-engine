@@ -25,6 +25,19 @@
 
             #set $au = $root.getChild("properties").getChild("author").getText()
             #set $em = $root.getChild("properties").getChild("author").getAttributeValue("email")
+
+<!--
+            Just a convenient place to try this out, it should return a List.
+            
+            $xpath.applyTo("properties/author", $root) 
+
+            ## Commented out, since it doesn't work
+
+            ##set $au = $xpath.applyTo("properties/author", $root)
+            ##set $em = $xpath.applyTo("properties/author/email", $root)
+-->
+
+
             #metaauthor ( $au $em )
 
             <title>$root.getChild("properties").getChild("title").getText()</title>
