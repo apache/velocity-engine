@@ -242,6 +242,7 @@ When using Velocity in an application program or in a servlet
 (or anywhere, actually), you will generally do the following :
 
 <ol>
+<li>Initialize Velocity. (You only do this once.)</li>
 <li>Create a Context object (more on what that is later).</li>
 <li>Add your data objects to the Context.</li>
 <li>Choose a template.</li>
@@ -255,6 +256,10 @@ In code, this looks like
 import java.io.StringWriter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
+
+Velocity.init();
 
 VelocityContext context = new VelocityContext();
 
