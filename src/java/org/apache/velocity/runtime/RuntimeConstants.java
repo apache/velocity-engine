@@ -64,6 +64,12 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
+    /*
+     * ----------------------------------------------------------------------
+     * L O G G I N G  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+
     /** 
      * Location of the velocity log file.
      */
@@ -87,99 +93,126 @@ public interface RuntimeConstants
     public static final String RUNTIME_LOG_INFO_STACKTRACE = 
         "runtime.log.info.stacktrace";
 
-    /** 
-     * The encoding to use for the template.
-     */
-    public static final String TEMPLATE_ENCODING = "template.encoding";
-    
-    /** 
-     * Initial counter value in #foreach directives.
-     */
-    public static final String COUNTER_NAME = "counter.name";
-
-    /** 
-     * Initial counter value in #foreach directives.
-     */
-    public static final String COUNTER_INITIAL_VALUE = "counter.initial.value";
-
-    /** 
-     * Default Content type for output.
-     */
-    public static final String DEFAULT_CONTENT_TYPE = "default.contentType";
-
-    /**
-     * The public handle for setting a path in
-     * the FileResourceLoader.
-     */
-    public static final String FILE_RESOURCE_LOADER_PATH = "file.resource.path";
-
-    /**
-     * The public handle for setting a jar to search in
-     * the JarResourceLoader.
-     */
-    public static final String JAR_RESOURCE_LOADER_PATH = "jar.resource.path";
-
-    /**
-     * The public handle for turning the caching on in the
-     * FileResourceLoader.
-     */
-    public static final String FILE_RESOURCE_LOADER_CACHING = "file.cache";
-
     /**
      * Logging of invalid references.
      */
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
-        "runtime.log.reference.log_invalid";
+        "runtime.log.invalid.references";
+
+    /** 
+     * The encoding to use for the template.
+     */
+    public static final String TEMPLATE_ENCODING = "template.encoding";
+
+    /*
+     * ----------------------------------------------------------------------
+     * D I R E C T I V E  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     * Directive properties are of the form:
+     * 
+     * directive.<directive-name>.<property>
+     * ----------------------------------------------------------------------
+     */
+
+    /** 
+     * Initial counter value in #foreach directives.
+     */
+    public static final String COUNTER_NAME = 
+        "directive.foreach.counter.name";
+
+    /** 
+     * Initial counter value in #foreach directives.
+     */
+    public static final String COUNTER_INITIAL_VALUE = 
+        "directive.foreach.counter.initial.value";
 
     /**
      * Starting tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.
      */
-    public static String ERRORMSG_START = "include.output.errormsg.start";
+    public static String ERRORMSG_START = 
+        "directive.include.output.errormsg.start";
     
     /**
      * Ending tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.
      */
-    public static String ERRORMSG_END  = "include.output.errormsg.end";
+    public static String ERRORMSG_END  = 
+        "directive.include.output.errormsg.end";
 
     /**
      * Maximum recursion depth allowed for the #parse directive.
      */
-    public static String PARSE_DIRECTIVE_MAXDEPTH = "parse_directive.maxdepth";
+    public static String PARSE_DIRECTIVE_MAXDEPTH 
+        = "directive.parse.max.depth";
+
+
+    /*
+     * ----------------------------------------------------------------------
+     * R E S O U R C E  L O A D E R  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
 
     /**
-     *  Switch for the interpolation facility for string literals
+     * Key used to retrieve the names of the resource loaders
+     * to be used. In a properties file they may appear as
+     * the following:
+     *
+     * resource.loader = file,classpath
      */
-    public static String INTERPOLATE_STRINGLITERALS = "stringliterals.interpolate";
+    public static final String RESOURCE_LOADER = "resource.loader";
 
-    /** name of global Velocimacro library template */
-    public static final String VM_GLOBAL_LIBRARY = "velocimacro.library.global";
+    /**
+     * The public handle for setting a path in
+     * the FileResourceLoader.
+     */
+    public static final String FILE_RESOURCE_LOADER_PATH =
+        "file.resource.loader.path";
 
-    /** name of local Velocimacro library template */
-    public static final String VM_LOCAL_LIBRARY  = "velocimacro.library.local";
+    /**
+     * The public handle for turning the caching on in the
+     * FileResourceLoader.
+     */
+    public static final String FILE_RESOURCE_LOADER_CACHE = 
+        "file.resource.loader.cache";
+
+    /*
+     * ----------------------------------------------------------------------
+     * V E L O C I M A C R O  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+
+    /** 
+     * Name of global Velocimacro library template.
+     */
+    public static final String VM_GLOBAL_LIBRARY = "velocimacro.global.library";
+
+    /** 
+     * Name of local Velocimacro library template.
+     */
+    public static final String VM_LOCAL_LIBRARY  = "velocimacro.local.library";
 
     /** 
      * boolean (true/false) default true : allow 
      * inline (in-template) macro definitions 
      */
     public static final String VM_PERM_ALLOW_INLINE  = 
-        "velocimacro.permissions.allowInline";
+        "velocimacro.permissions.allow.inline";
 
     /**
      * boolean (true/false) default false : allow inline 
      * (in-template) macro definitions to replace existing 
      */
     public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = 
-        "velocimacro.permissions.allowInlineToReplaceGlobal";
+        "velocimacro.permissions.allow.inline.to.replace.global";
     
     /** 
      * Switch for forcing inline macros to be local : default false.
      */
     public final static String VM_PERM_INLINE_LOCAL = 
-        "velocimacro.permissions.allowInlineLocalScope";
+        "velocimacro.permissions.allow.inline.local.scope";
 
     /** 
      * Switch for VM blather : default true.
@@ -189,7 +222,21 @@ public interface RuntimeConstants
    /** 
     * switch for local context in VM : default true 
     */
-    public final static String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
+    public final static String VM_CONTEXT_LOCALSCOPE = 
+        "velocimacro.context.localscope";
+
+    /*
+     * ----------------------------------------------------------------------
+     * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+
+    /**
+     *  Switch for the interpolation facility for string literals
+     */
+    public static String INTERPOLATE_STRINGLITERALS = 
+        "runtime.interpolate.string.literals";
+
 
     /*
      * ----------------------------------------------------------------------
