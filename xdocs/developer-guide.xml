@@ -36,7 +36,7 @@
 <li><a href="developer-guide.html#contextforeach">Collections and #foreach()</a></li>
 <li><a href="developer-guide.html#contextchaining">Context Chaining</a></li>
 <li><a href="developer-guide.html#generatedobjects">Objects Created by the Template</a></li>
-
+<li><a href="developer-guide.html#othercontextissues">Other Context Issues</a></li>
 </ul>
 </li>
 
@@ -79,6 +79,9 @@
  </ul>
 </li>
 
+<li>
+<a href="developer-guide.html#velxml">Velocity and XML</a>
+</li>
 <li>
 <a href="developer-guide.html#summary">Summary</a>
 </li>
@@ -524,6 +527,14 @@ reference '$duplicate' in the template would be 'I am in context2',
 and the template has no access to the covered string 'I am in context1'.
 </p>
 <p>
+Note also that you have to be careful when you are relying on the template
+to add information to a context that you will examine later after the
+rendering.  The changes to the context via <code>#set()</code> statements
+in a template will affect only the outer context.  So make sure that you
+don't discard the outer context, expecting the data from the template to 
+have been placed onto the inner one.
+</p>
+<p>
 This feature has many uses, the most common so far is providing layered 
 data access and toolsets.
 </p>
@@ -589,9 +600,77 @@ demonstration/educational purposes only.
 
    </p>
 
+
+<strong>Other Context Issues</strong>
+<a name="othercontextissues"></a>
+
+<p>
+One of the features provided by the VelocityContext 
+(or any Context derived from AbstractContext) is 
+node specific introspection caching.  Generally, you as a the developer
+don't need to worry about this when using the VelocityContext
+as your context.  However, there is currently one
+known usage pattern where you must be aware of this feature.
+</p>
+
+<p>
+The VelocityContext will accumulate intropection information about the
+syntax nodes in a template as it visits those nodes.  So, in the following
+situation :
+<ul>
+<li>
+  You are iterating over the same template using the same VelocityContext
+  object.
+</li>
+<li>
+Template caching is off.
+</li>
+<li>
+You request the Template from getTemplate() on each iteration.
+</li>
+</ul>
+
+it is possible that your VelocityContext will appear to 'leak' memory.  What happens
+is that it accumulates template node information for each template it visits, and
+as template caching is off, it appears to the VelocityContext that it is visiting 
+a new template each time.
+
+It is highly recommended that you do one or more of the following :
+
+<ul>
+<li> Create a new VelocityContext for each excursion
+down through the template render process.   This will prevent the accumulation
+of introspection cache data.  For the case where you want to reuse the 
+VelocityContext because it's populated, you can simply wrap the populated
+VelocityContext in another, and the 'outer' one will accumulate the 
+introspection information, which you will just discard.  Ex.
+<code>VelocityContext useThis = new VelocityContext( populatedVC ); </code>
+This works because the outer context will store the introspection
+cache data, and get any requested data from the inner context (as it is empty.)
+Be careful though - if your template places data into the context and it's 
+expected that it will be used in the subsequent iterations, you will need to do
+one of the other fixes, as any template #set() statements will be stored in
+the outermost context. See the discussion in 
+<a href="developer-guide.html#contextchaining"> Context chaining</a> for more
+information.
+</li>
+
+<li>
+Turn on template caching.  This will prevent the template from being re-parsed
+on each iteration, resulting the the VelocityContext being able to not only
+avoid adding to the introspection cache information, but be able to use it
+resulting in a performance improvement.
+</li>
+<li>
+Reuse the Template object for the duration of the loop iterations. 
+Then you won't be forcing Velocity, if the cache is turned off, to
+reread and reparse the same template over and over.
+</li>
+</ul>
+
+</p>
+
 </section>
-
-
 
 <section name="Using Velocity In Servlets">
 <a name="servlets"></a>
@@ -1662,6 +1741,169 @@ class.resource.loader.class = org.apache.velocity.runtime.resource.loader.Classp
 Note that the ClasspathResourceLoader doesn't require much configuration.
 </p>
 
+</section>
+
+<section name="Velocity and XML">
+<a name="velxml"></a>
+
+<p>
+Velocity's flexibility and simple template language makes it an ideal environment
+for working with XML data.  <a href="anakia.html">Anakia</a> is an example of how
+Velocity is used to replace XSL for rendering output from XML.  The Velocity site, 
+including this documentation, is generated from XML source using Anakia.
+The Jakarta site is also rendered using Anakia.
+</p>
+
+<p>
+Generally, the pattern for dealing with XML in Velocity is to use something like
+<a href="http://www.jdom.org/">JDOM</a> to process your XML into a data structure with
+convenient Java access.  Then, you produce templates that access data directly 
+out of the XML document - directly though the JDOM tree.  For example, start
+with an XML document such as :
+</p>
+
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<document>
+ <properties>
+  <title>Developer's Guide</title>
+  <author email="geirm@apache.org">Velocity Documentation Team</author>
+ </properties>
+</document>
+
+]]></source> 
+
+<p>
+Now make a little Java program that includes code similar to:
+</p>
+
+<source><![CDATA[
+  ...
+
+  SAXBuilder builder;
+  Document root = null;
+
+  try 
+  {
+     builder = new SAXBuilder(  "org.apache.xerces.parsers.SAXParser" );
+     root = builder.build("test.xml");
+  }
+  catch( Exception ee)
+  {}
+
+  VelocityContext vc = new VelocityContext();
+  vc.put("root", root );
+
+  ...
+]]></source>
+
+<p>
+(See the Anakia source for details on how to do this, or the Anakia example in the <code>examples</code>
+directory in the distribution.)
+And make a regular Velocity template :
+</p>
+
+<source><![CDATA[
+  <html>
+    <body>
+      The document title is $root.getChild("document").getChild("properties").getChild("title").getText()
+    </body>
+   </html>
+  </html>
+]]></source>
+
+<p>
+And render that template as you normally would, using the Context
+containing the JDOM tree. 
+Of course, this isn't the prettiest of examples, but it shows 
+the basics - that you can easily access XML data directly from 
+a Velocity template.
+</p>
+
+<p>
+One real advantage of styling XML data in Velocity is that you have 
+access to any other object or data that the application provides.  You
+aren't limited to just using the data present in the XML document.
+You may add anything you want to the context to provide additional 
+information for your output, or provide tools to help make working
+with the XML data easier.  Bob McWhirter's
+<a href="http://sourceforge.net/projects/werken-xpath/"> Werken Xpath</a>
+is one such useful tool - an example of how it is used in Anakia can be
+found in <code>org.apache.velocity.anakia.XPathTool</code>.
+</p>
+
+<p>
+One issue that arises with XML and Velocity is how to deal with XML 
+entities. One technique is to combine the use of Velocimacros
+when you need to render an entity into the output stream :
+</p>
+
+<source><![CDATA[
+
+## first, define the Velocimacro somewhere
+
+#macro( xenc $sometext )$tools.escapeEntities($sometext)#end
+
+## and use it as
+
+#set( $sometext = " < " )
+<text>#xenc($sometext)</text>
+
+]]></source>
+
+<p>
+where the escapeEntities() is a method that does the escaping
+for you. Another trick would be to create an encoding utility that takes the
+context as a constructor parameter and only implements a method:
+</p>
+
+<source><![CDATA[
+  public String get(String key)
+  {
+     Object obj = context.get(key)
+     return (obj != null) ? Escape.getText( obj.toString() ) : "";
+  }
+
+]]></source>
+
+<p>
+Put it into the context as "xenc". Then you can use it as :
+</p>
+
+<source><![CDATA[
+<text>$xenc.sometext</text>
+]]></source>
+
+<p>
+This takes advantage of Velocity's introspection process - it
+will try to call get("sometext") on the $xenc object in the
+Context - then the xenc object can then get the
+value from the Context, encode it, and return it.
+</p>
+<p>
+Alternatively, since Velocity makes it easy to 
+implement custom Context objects, 
+you could implement your own context which always 
+applies the encoding to any string returned. 
+Be careful to avoid rendering the
+output of method calls directly, as they
+could return objects or strings (which might need encoding).
+Place them first into the context with a #set() 
+directive and the use that, for example :
+</p>
+
+<source><![CDATA[
+#set( $sometext = $jdomElement.getText() )
+<text>$sometext</text>
+]]></source>
+
+<p>
+The previous suggestions came from Christoph Reck, an active
+participant in the Velocity community.  We are very grateful
+for his [unknowing] contribution to this document, and hope his
+ideas weren't mangled too badly  :)
+</p>
 </section>
 
 <section name="Summary">
