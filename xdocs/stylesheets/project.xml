@@ -22,7 +22,7 @@
         <item name="VTL Reference Guide"    href="/vtl-reference-guide.html"/>
     </menu>
     <menu name="Comparisons">
-        <item name="YMTD"                   href="/ymtd.html"/>
+        <item name="YMTD"                   href="/ymtd/ymtd.html"/>
         <item name="VM/WM Differences"      href="/differences.html"/>
     </menu>
     <menu name="Tools">
