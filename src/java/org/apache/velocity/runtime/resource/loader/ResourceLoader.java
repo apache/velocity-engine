@@ -72,7 +72,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * 
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceLoader.java,v 1.12 2001/10/22 03:53:26 jon Exp $
+ * @version $Id: ResourceLoader.java,v 1.13 2002/02/12 17:48:44 dlr Exp $
  */
 public abstract class ResourceLoader
 {
@@ -92,7 +92,7 @@ public abstract class ResourceLoader
      * Class name for this loader, for logging/debuggin
      * purposes.
      */
-     protected String className = null;
+    protected String className = null;
 
     protected RuntimeServices rsvc = null;
 
@@ -156,7 +156,7 @@ public abstract class ResourceLoader
     public String getClassName()
     {
         return className;
-    }        
+    }
 
     /**
      * Set the caching state. If true, then this loader
@@ -167,7 +167,7 @@ public abstract class ResourceLoader
     public void setCachingOn(boolean value)
     {
         isCachingOn = value;
-    }        
+    }
 
     /**
      * The Runtime uses this to find out whether this
@@ -196,6 +196,5 @@ public abstract class ResourceLoader
     public long getModificationCheckInterval()
     {
         return modificationCheckInterval;
-    }        
+    }
 }
-
