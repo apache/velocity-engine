@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime;
+
 /*
  * The Apache Software License, Version 1.1
  *
@@ -52,8 +54,6 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.velocity.runtime;
-
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -104,17 +104,6 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * structure that developers need to be familiar with
  * in order to get Velocity to perform.
  *
- * <pre>
- * Runtime.init(properties);
- *
- * Template template = Runtime.getTemplate("template.vm");
- *
- * Runtime.warn(message);
- * Runtime.info(message);
- * Runtime.error(message);
- * Runtime.debug(message);
- * </pre>
- *
  * The Runtime will also cooperate with external
  * systems like Turbine. Normally the Runtime will
  * be fully initialized from a properties file, but
@@ -126,32 +115,15 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * are to be loaded from, and where the velocity
  * log file should be placed.
  *
- * In order for this to happen the velocity.properties
- * file must look something like the following:
- *
- * runtime.log = system
- * template.path = system
- *
- * Having these properties set to 'system' lets the
- * Velocity Runtime know that an external system
- * will set these properties and initialized 
- * the appropriates sub systems when these properties
- * are set.
- *
  * So in the case of Velocity cooperating with Turbine
  * the code might look something like the following:
  *
  * <pre>
+ * Runtime.setProperties(defaultTurbineVelocityProps);
+ * Runtime.setSourceProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
  * Runtime.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
- * Runtime.initializeLogger();
- *
- * Runtime.setProperty(Runtime.TEMPLATE_PATH, pathToTemplates);
- * Runtime.initializeTemplateLoader();
+ * Runtime.init();
  * </pre>
- *
- * It is simply a matter of setting the appropriate property
- * an initializing the matching sub system.
- *
  *
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
@@ -201,7 +173,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.78 2000/12/19 21:51:02 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.79 2000/12/20 05:25:18 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
