@@ -58,27 +58,22 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
-
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
@@ -86,7 +81,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.30 2001/08/31 20:18:24 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.31 2001/09/18 13:59:58 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -277,7 +272,16 @@ public class TexenTask
             try
             {
                 InputStream inputStream = classLoader.getResourceAsStream(file);
-                contextProperties.load(inputStream);
+                
+                if (inputStream == null)
+                {
+                    throw new BuildException("Context properties file " + file + " could " +
+                        " not be found in the file system or on the classpath!");
+                }
+                else
+                {
+                    contextProperties.load(inputStream);
+                }
             }
             catch (IOException ioe)
             {
