@@ -54,12 +54,14 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
+import org.apache.velocity.runtime.RuntimeServices;
+
 /**
  * Base interface that Logging systems need to implement.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogSystem.java,v 1.5 2001/03/19 23:02:19 geirm Exp $
+ * @version $Id: LogSystem.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
  */
 public interface LogSystem
 {
@@ -84,6 +86,11 @@ public interface LogSystem
      * Prefix for error messages.
      */
     public final static int ERROR_ID = 3;
+
+    /**
+     *  init()
+     */
+    public void init( RuntimeServices rs );
 
     /**
      * Send a log message from Velocity.

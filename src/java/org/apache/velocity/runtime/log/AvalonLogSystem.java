@@ -67,31 +67,41 @@ import org.apache.log.output.FileOutputLogTarget;
 
 import org.apache.velocity.util.StringUtils;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * Implementation of a Avalon logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.5 2001/05/06 19:45:47 jon Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
     private Logger logger = null;
     private String logPath = "";
     
+    private RuntimeServices rsvc = null;
+
     /**
      *  default CTOR.  Initializes itself using the property RUNTIME_LOG
      *  from the Velocity properties
      */
+
     public AvalonLogSystem()
     {
+    }
+
+    public void init( RuntimeServices rs )
+    {
+        this.rsvc = rs;
+
         /*
          *  since this is a Velocity-provided logger, we will
          *  use the Runtime configuration
          */
-        String logfile = (String) Runtime.getProperty( Runtime.RUNTIME_LOG );
+        String logfile = (String) rsvc.getProperty( RuntimeConstants.RUNTIME_LOG );
 
         /*
          *  now init.  If we can't, panic!
@@ -129,7 +139,12 @@ public class AvalonLogSystem implements LogSystem
         target.setFormatter(new VelocityFormatter());
         target.setFormat("%{time} %{message}\\n%{throwable}" );
                 
-        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "velocity" );
+        /*
+         *  use the toString() of RuntimeServices to make a unique logger
+         */
+
+        //        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "velocity" );
+        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( rsvc.toString() );
         logger.setPriority( Priority.DEBUG );
         logger.setLogTargets( new LogTarget[] { target } );
     }

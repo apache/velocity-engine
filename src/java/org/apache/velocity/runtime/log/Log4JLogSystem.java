@@ -61,16 +61,19 @@ import org.apache.log4j.*;
 import org.apache.log4j.net.*;
 import org.apache.log4j.spi.*;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.4 2001/07/28 12:46:31 geirm Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.5 2001/08/07 22:07:37 geirm Exp $
  */
 public class Log4JLogSystem implements LogSystem
 {
+    private RuntimeServices rsvc = null;
+
     /** log4java logging interface */
     protected Category logger = null;
 
@@ -86,18 +89,24 @@ public class Log4JLogSystem implements LogSystem
      */
     public Log4JLogSystem()
     {
+    }
+
+    public void init( RuntimeServices rs )
+    {
+        rsvc = rs;
+
         /*
          *  since this is a Velocity-provided logger, we will
          *  use the Runtime configuration
          */
-        logfile = Runtime.getString( Runtime.RUNTIME_LOG );
+        logfile = rsvc.getString( RuntimeConstants.RUNTIME_LOG );
 
         /*
          *  now init.  If we can't, panic!
          */
         try
         {
-            init();
+            internalInit();
 
             logVelocityMessage( 0, 
                 "Log4JLogSystem initialized using logfile " + logfile );
@@ -114,7 +123,7 @@ public class Log4JLogSystem implements LogSystem
      *
      *  @param logFile   file for log messages
      */
-    public void init()
+    private void internalInit()
         throws Exception
     {
         logger = Category.getInstance("");
@@ -126,7 +135,7 @@ public class Log4JLogSystem implements LogSystem
          */
         logger.setPriority(Priority.DEBUG);
 
-        String pattern = Runtime.getString( Runtime.LOGSYSTEM_LOG4J_PATTERN );
+        String pattern = rsvc.getString( RuntimeConstants.LOGSYSTEM_LOG4J_PATTERN );
         
         if (pattern == null || pattern.length() == 0)
         {
@@ -148,9 +157,9 @@ public class Log4JLogSystem implements LogSystem
         throws Exception
     {
         int backupFiles = 
-            Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_BACKUPS, 1);
+            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_FILE_BACKUPS, 1);
         int fileSize = 
-            Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_SIZE, 100000);
+            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_FILE_SIZE, 100000);
         
         Appender appender = new RollingFileAppender(layout,logfile,true);
         
@@ -171,9 +180,9 @@ public class Log4JLogSystem implements LogSystem
         throws Exception
     {
         String remoteHost = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_REMOTE_HOST);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_REMOTE_HOST);
         int remotePort = 
-            Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_REMOTE_PORT, 1099);
+            rsvc.getInt(RuntimeConstants.LOGSYSTEM_LOG4J_REMOTE_PORT, 1099);
         
         if (remoteHost == null || remoteHost.trim().equals("") || 
             remotePort <= 0)
@@ -193,9 +202,9 @@ public class Log4JLogSystem implements LogSystem
         throws Exception
     {
         String syslogHost = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_SYSLOGD_HOST);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_SYSLOGD_HOST);
         String syslogFacility = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_SYSLOGD_FACILITY);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_SYSLOGD_FACILITY);
         
         if (syslogHost == null || syslogHost.trim().equals("") || 
             syslogFacility == null )
@@ -219,15 +228,15 @@ public class Log4JLogSystem implements LogSystem
         throws Exception
     {
         String smtpHost = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_EMAIL_SERVER);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_SERVER);
         String emailFrom = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_EMAIL_FROM);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_FROM);
         String emailTo = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_EMAIL_TO);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_TO);
         String emailSubject = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_EMAIL_SUBJECT);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_SUBJECT);
         String bufferSize = 
-            Runtime.getString(Runtime.LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE);
+            rsvc.getString(RuntimeConstants.LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE);
 
         if (smtpHost == null || smtpHost.trim().equals("")
                 || emailFrom == null || smtpHost.trim().equals("")
