@@ -65,7 +65,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAndNode.java,v 1.5 2001/04/03 05:05:31 geirm Exp $ 
+ * @version $Id: ASTAndNode.java,v 1.5.4.1 2001/06/02 15:38:49 geirm Exp $ 
  */
 public class ASTAndNode extends SimpleNode
 {
@@ -83,6 +83,17 @@ public class ASTAndNode extends SimpleNode
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
+    }
+
+    /**
+     *  Returns the value of the expression.
+     *  Since the value of the expression is simply the boolean
+     *  result of evaluate(), lets return that.
+     */
+    public Object value(InternalContextAdapter context )
+        throws MethodInvocationException
+    {
+        return new Boolean( evaluate( context ) );
     }
 
     /**

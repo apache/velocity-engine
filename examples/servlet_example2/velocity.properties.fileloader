@@ -1,0 +1,7 @@
+#
+# we are taking advantage of the fact that the file
+# resource loader is the default loader
+#
+
+file.resource.loader.path = templates
+runtime.log = velocity.log

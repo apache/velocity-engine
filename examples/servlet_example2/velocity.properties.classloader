@@ -1,0 +1,4 @@
+resource.loader = class
+class.resource.loader.class = org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+
+runtime.log = velocity.log

@@ -103,7 +103,7 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <a name="Velocity v1.0.1 Released"><strong>Velocity v1.0.1 Released</strong></a>
+          <a name="Velocity v1.1 Release Candidate 2 Released"><strong>Velocity v1.1 Release Candidate 2 Released</strong></a>
         </font>
       </td></tr>
       <tr><td><br/></td></tr>
@@ -116,7 +116,7 @@
    <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32" />
    </td>
    <td>
-   The Velocity team is proud to announce that version 1.0.1 of the 
+   The 2nd release candidate of version 1.1 of the 
    Velocity Template Engine is now released.
    Congratulations and thanks to all participants in the
    Velocity community.
@@ -125,7 +125,22 @@
    </table>      
  </p>
                                                 <p>
-   This is a minor bugfix release.  Please see the
+   Major enhancements include :
+ </p>
+                                                <ul>
+   <li> 
+      The new event-handling facility, allowing finer control and interaction with
+      the rendering process.
+   </li>
+   <li> 
+      Internationalization support through full support of template character encoding.
+   </li>
+   <li> 
+      Optimizations for improved performance.
+   </li>
+ </ul>
+                                                <p> 
+   Minor enhancements are too numerous to mention. Please see the
    <a href="changes.html">change log
    </a> for details.
 </p>
@@ -162,16 +177,18 @@
       <tr><td>
         <blockquote>
                                     <p>
-    Velocity is a Java-based template engine. It permits web page designers
-    to use simple yet powerful template language to reference objects
-    defined in Java code. Web designers can work in parallel with Java
-    programmers to develop web sites according to the Model-View-Controller
-    (MVC) model, meaning that web page designers can focus solely on creating
-    a site that looks good, and programmers can focus solely on writing
-    top-notch code. Velocity separates Java code from the web pages,
-    making the web site more maintainable over the long run and providing
-    a viable alternative to
-    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a>
+    Velocity is a Java-based template engine. It permits anyone to use
+    the simple yet powerful template language to reference objects
+    defined in Java code.
+ </p>
+                                                <p>
+    When Velocity is used for web development, Web designers can work in
+    parallel with Java programmers to develop web sites according to the
+    Model-View-Controller (MVC) model, meaning that web page designers
+    can focus solely on creating a site that looks good, and programmers
+    can focus solely on writing top-notch code. Velocity separates Java
+    code from the web pages, making the web site more maintainable over
+    the long run and providing a viable alternative to <a href="http://java.sun.com/products/jsp/">Java Server Pages</a>
     (JSPs) or <a href="http://www.php.net/">PHP</a>.
  </p>
                                                 <p>
@@ -205,6 +222,13 @@
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
 formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.0.1/">here</a>.
 </p>
+                                                <p> 
+   The current release candidate is version 1.1-rc2.
+</p>
+                                                <p>
+It is available in both <code>tar.gz</code> and <code>zip</code>
+formats, and is found <a href="http://jakarta.apache.org/builds/jakarta-velocity/release/v1.1/">here</a>.
+</p>
                             </blockquote>
         </p>
       </td></tr>
@@ -224,17 +248,16 @@ formats, and are found <a href="http://jakarta.apache.org/builds/jakarta-velocit
     <a href="http://jakarta.apache.org/builds/jakarta-velocity/nightly/">here</a>.
 </p>
                                                 <p>
-  These are meant to provide easy access to the actual project CVS tree. 
-As this is our live development workspace, there are 
-no guarantees as to what you will find there,although we do our best to maintain 
-a buildable source tree. 
-If you are looking for the stable supported release, please use the current 
-release of Velocity.
+These are meant to provide easy access to the actual project CVS tree.
+As this is our live development workspace, there are no guarantees as to
+what you will find there,although we do our best to maintain a buildable
+source tree. If you are looking for the stable supported release, please
+use the current release of Velocity.
 </p>
                                                 <p>
-If you are willing to risk getting dirty, we invite you to try the nightly snapshot 
-to see the current state of affairs (and help out!) 
-<a href="http://jakarta.apache.org/site/cvsindex.html">Public CVS access</a> is also available.
+If you are willing to risk getting dirty, we invite you to try the
+nightly snapshot to see the current state of affairs (and help out!) <a href="http://jakarta.apache.org/site/cvsindex.html">Public CVS
+access</a> is also available.
 </p>
                             </blockquote>
         </p>
@@ -261,8 +284,8 @@ to see the current state of affairs (and help out!)
         There is a list of <a href="contributors.html">Active Developers</a>.
         Submit some code and get your name added!</li>
     <li>
-        Discussion occurs on the <a href="http://jakarta.apache.org/getinvolved/mail.html">Velocity mailing
-        list</a>.</li>
+        Discussion occurs on the <a href="http://jakarta.apache.org/getinvolved/mail.html">Velocity
+        mailing list</a>.</li>
     <li>
         Access to the CVS <strong>jakarta-velocity</strong> repository is available both
         <a href="http://jakarta.apache.org/cvsweb/index.cgi/jakarta-velocity/">online</a>
