@@ -10,10 +10,10 @@ test doesn't fail incorrectly.
 *#
 
 ## This is our base class.
-#set $person = $provider.Person
+#set($person = $provider.Person)
 
 ## This is a subclass of Person
-#set $child = $provider.Child
+#set($child = $provider.Child)
 
 #*
 

@@ -32,7 +32,7 @@ this is testing for wild loose commas , ,
 $100
 
 
-#set $foo = "bar"
+#set($foo = "bar")
 
 This is the $foo way.
 
@@ -70,7 +70,7 @@ This is the $foo way.
 
 
 
-#set $iam-cool = "jon"
+#set($iam-cool = "jon")
 $iam-cool
 $!nada nothing here
 
@@ -108,25 +108,25 @@ function changeImage(layer,imgName,imgObj)
 
 $provider2.Title
 
-#set $a = "x"
+#set($a = "x")
 $a
 
-#set $b = $a
+#set($b = $a)
 $b
 
 <input type="text" name="email" value="">
 <input type="text" name="email" value="$!schmarg">
 
 
-#set $c = $provider.Title
+#set($c = $provider.Title)
 $c
 
 
-#set $d = $provider.getTitle()
+#set($d = $provider.getTitle())
 $d
 
 
-#set $provider.Title = "crocodile hunter!"
+#set($provider.Title = "crocodile hunter!")
 
 
 
@@ -136,27 +136,27 @@ $provider.Title
 
 <!-- look here -->
 
-#set $provider.Title = $d
+#set($provider.Title = $d)
 $provider.Title
 
 
 
-#set $provider.Title = $provider.Name
+#set($provider.Title = $provider.Name)
 $provider.Title
 
 
-#set $provider.Title = $provider.getName()
+#set($provider.Title = $provider.getName())
 $provider.Title
 
 
 
-#set $a = true
+#set($a = true)
 
-#set $b = false
+#set($b = false)
 
-#set $provider.State = true
+#set($provider.State = true)
 
-#set $provider.State = false
+#set($provider.State = false)
 
 
 

@@ -23,8 +23,8 @@ ${provider.Title}MapBuilder
 
 ${provider.Title}.map.${provider.Title}MapBuilder
 
-#set $this = "this"
-#set $that = "that"
+#set($this = "this")
+#set($that = "that")
 
 ${this}${that}
 

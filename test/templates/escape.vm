@@ -11,8 +11,8 @@ test doesn't fail incorrectly.
 
 \A
 
-\#set $woo = "bar"
-#set $woo = "bar"
+\#set($woo = "bar")
+#set($woo = "bar")
 
 \$woo => $woo
 
@@ -22,8 +22,8 @@ $f\oo
 "\r"
 
 Now, test the built in directives. Note that $foo isn't in the context :
-\#set $foo = $foo + 1
-\#set \$foo = $foo + 1
+\#set($foo = $foo + 1)
+\#set(\$foo = $foo + 1)
 \#if($foo)
 \#if ( $foo )
 \#else
@@ -36,7 +36,7 @@ Now, a reference not in the context:
 \#if(\$foo)
 
 Put it in :
-#set $foo = 1
+#set($foo = 1)
 \$foo -> $foo
 \#if($foo)
 \#if(\$foo)

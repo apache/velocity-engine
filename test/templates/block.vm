@@ -11,7 +11,7 @@ test doesn't fail incorrectly.
 First test : spacing between stuff.  Note that spacing preceeding the directives counts!
 One blank line follows
 
-#set $foo = false
+#set($foo = false)
 #if ($foo)
     this is true
 #elseif ($bar)
@@ -42,7 +42,7 @@ One blank line follows
 
 -- Second Test : no spacing between anything (1 blank line follows)
 
-#set $foo = false
+#set($foo = false)
 #if ($foo)
     this is true
 #elseif ($bar)

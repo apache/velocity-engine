@@ -14,7 +14,7 @@ This is for wierd strangeness that doesn't have any other home.
 $f.
 $f
 $f. $f
-#set $f = "foo"
+#set($f = "foo")
 $f.
 $f
 $f. $f
@@ -52,9 +52,9 @@ $-$-$-$-
 $tstrings.chop($generator.parse("sql/mysql/columns", "", "table", $tbl),1)
 $provider.chop("stringy",1)
 
-#set $foo = "foo" 
+#set($foo = "foo") 
 #if ($foo.length()>0)$foo#end 
-#set $bar = "bar" 
+#set($bar = "bar") 
 #if ($bar.length()>0)$bar#end 
 
 

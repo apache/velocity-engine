@@ -9,17 +9,17 @@ test doesn't fail incorrectly.
 
 *#
 
-#set $foo = 5
-#set $foo = $foo + 1
+#set($foo = 5)
+#set($foo = $foo + 1)
 $foo
 
-#set $foo = $foo - 1
+#set($foo = $foo - 1)
 $foo
 
-#set $foo = $foo * 2
+#set($foo = $foo * 2)
 $foo
 
-#set $foo = $foo / 2
+#set($foo = $foo / 2)
 $foo
 
 And the whole thing again with inline set statements

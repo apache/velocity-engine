@@ -2,7 +2,7 @@
 
 \A
 
-#set $woo = "bar"
+#set($woo = "bar")
 
 $woo => bar
 
@@ -12,8 +12,8 @@ $f\oo
 "\r"
 
 Now, test the built in directives. Note that $foo isn't in the context :
-#set $foo = $foo + 1
-#set \$foo = $foo + 1
+#set($foo = $foo + 1)
+#set(\$foo = $foo + 1)
 #if($foo)
 #if ( $foo )
 #else

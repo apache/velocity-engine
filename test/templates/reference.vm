@@ -9,7 +9,7 @@ test doesn't fail incorrectly.
 
 *#
 
-#set $_foo = "bar"
+#set($_foo = "bar")
 $_foo
 #if ($_foo.equals("bar"))
    \$_foo equals "bar" : $_foo
