@@ -75,26 +75,37 @@ public class WebMacro
          */
         String[] res = 
         {
-            // Remove all #begin statements
+            // Remove all #begin statements.
             "#begin\\n", 
             "",
             
-            // Convert WM style #foreach to Velocity #foreach
-            "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$\\w+)",
-            "#foreach ($1 in $2)",
-        
             // Remove the "{" for the start of block directives,
             // Velocity doesn't use them.
             "(#\\w+\\s+.*)\\n\\s*\\{",
             "$1",
-            
+
             // Change the "}" to #end. Have to get more
             // sophisticated here. Will assume either {}
             // and no javascript, or #begin/#end with the
             // possibility of javascript.
             "}",
-            "#end"
+            "#end",
             
+            // Convert WM style if/else to Velocity style.
+            "#end.*\\n\\s*(#else)",
+            "$1",
+            
+            // Convert WM style #foreach to Velocity #foreach.
+            "#foreach\\s+(\\$\\w+)\\s+in\\s+(\\$\\w+)",
+            "#foreach ($1 in $2)",
+        
+            // Change parse to include.
+            "#parse",
+            "#include",
+            
+            // Change extensions when seen.
+            "\\.wm",
+            ".vm"
         };
 
         if (args.length < 1)
