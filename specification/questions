@@ -18,6 +18,13 @@ a final specification can be drafted:
    after the #foreach. The value of $element is
    not available after the #foreach block.
 
+   <Jon S. Stevens>
+   $element should not be available after the foreach
+   There should be a $velocity_count variable available
+   within the scope of the foreach. This variable should
+   start value should be a preference in the velocity.properties
+   file.
+
 -------------------------------------------------------
 
 2. How should expressions in #if/#elseif be
@@ -33,6 +40,11 @@ a final specification can be drafted:
    Boolean object then true/false applies.
    If $variable is defined and is not a Boolean
    object then the expression is true.
+
+   <Jon S. Stevens>
+   I agree with the above. However, if $variable evaluates to 
+   null, then the result should be false. If $variable is not a 
+   Boolean and it is not null, then it should evaluate to true.
 
 -------------------------------------------------------
 
@@ -51,6 +63,11 @@ a final specification can be drafted:
    
    Or should it be configurable?
 
+   Current Implementation:
+   
+   Right now, if it is null the image of the token is spit out:
+   ie: $foo. But, if the token is $!foo then nothing is output.
+
    Responses:
    
    <Daniel L. Rall>
@@ -58,3 +75,6 @@ a final specification can be drafted:
    implementation that logs the null (minimally!) and puts nothing in the
    output.
 
+   <Jon S. Stevens>
+   I agree with Daniel, except that I would add to the default implementation to 
+   make it to spit it out as a literal.
