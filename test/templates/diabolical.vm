@@ -49,3 +49,5 @@ $-$-$-$-
 #FF00FF00
 #'FF
 
+$tstrings.chop($generator.parse("sql/mysql/columns", "", "table", $tbl),1)
+$provider.chop("stringy",1)
