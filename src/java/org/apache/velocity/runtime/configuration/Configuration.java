@@ -164,7 +164,7 @@ import java.util.Vector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.29 2001/05/01 18:55:33 dlr Exp $
+ * @version $Id: Configuration.java,v 1.30 2001/05/03 17:09:58 dlr Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -962,6 +962,10 @@ public class Configuration extends Hashtable
             {
                 return defaultValue;
             }
+        }
+        else if (value instanceof Vector)
+        {
+            return (String) ((Vector) value).get(0);
         }
         else
         {
