@@ -71,7 +71,8 @@ import junit.framework.*;
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: VelocityTestSuite.java,v 1.8 2000/11/16 01:51:25 jvanzyl Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: VelocityTestSuite.java,v 1.9 2000/12/04 01:19:09 geirm Exp $
  */
 public class VelocityTestSuite extends TestSuite
 {
@@ -107,12 +108,27 @@ public class VelocityTestSuite extends TestSuite
             System.exit(1);
         }            
 
-        // Add test cases here.
+        /*
+         *   Add test cases here.
+         */
+
+        /*
+         *  test 1 : template test cases
+         */
+
         List templateTestCases = getTemplateTestCases();
         for (Iterator iter = templateTestCases.iterator(); iter.hasNext(); )
         {
             addTest(new TemplateTestCase((String)iter.next()));
         }
+
+        /*
+         *  test 2 : context safety test case
+         */
+
+        System.out.println("Adding ContextSafetyTestCase.");
+        addTest( new ContextSafetyTestCase() );
+
     }
 
     /**
@@ -137,7 +153,7 @@ public class VelocityTestSuite extends TestSuite
             if (template == null)
                 break;
             
-            System.out.println("Adding " + template);
+            System.out.println("Adding TemplateTestCase : " + template);
             
             testCases.add(template);
         }            
