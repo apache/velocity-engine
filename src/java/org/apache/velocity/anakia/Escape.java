@@ -55,25 +55,26 @@ package org.apache.velocity.anakia;
  */
 
 /**
-    This class is for escaping CDATA sections. The code was 
-    "borrowed" from the JDOM code. I also added in escaping
-    of the " -> &amp;quot; character.
-
-    @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: Escape.java,v 1.1 2000/11/27 01:06:59 jon Exp $
-*/
+ * This class is for escaping CDATA sections. The code was 
+ * "borrowed" from the JDOM code. I also added in escaping
+ * of the " -> &amp;quot; character.
+ *
+ * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: Escape.java,v 1.2 2000/12/20 07:20:17 jvanzyl Exp $
+ */
 public class Escape
 {
     /**
-        empty constructor
-    */
+     * Empty constructor
+     */
     public Escape()
     {
         // left blank on purpose
     }
+    
     /**
-        Do the escaping.
-    */
+     * Do the escaping.
+     */
     public static final String getText(String st)
     {
         StringBuffer buff = new StringBuffer();
