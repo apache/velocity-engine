@@ -112,8 +112,17 @@ import java.util.Vector;
  *   If a property is named "include" (or whatever is defined by
  *   setInclude() and getInclude() and the value of that property is
  *   the full path to a file on disk, that file will be included into
- *   the ConfigurationsRepository.  Duplicate name values will be
- *   replaced, so be careful.
+ *   the ConfigurationsRepository. You can also pull in files relative
+ *   to the parent configuration file. So if you have something
+ *   like the following:
+ *
+ *   include = additional.properties
+ *
+ *   Then "additional.properties" is expected to be in the same
+ *   directory as the parent configuration file.
+ * 
+ *   Duplicate name values will be replaced, so be careful.
+ *
  *  </li>
  * </ul>
  *
@@ -154,7 +163,7 @@ import java.util.Vector;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @version $Id: Configuration.java,v 1.18 2001/03/20 20:29:41 geirm Exp $
+ * @version $Id: Configuration.java,v 1.19 2001/03/21 20:19:16 jvanzyl Exp $
  */
 public class Configuration extends Hashtable
 {
@@ -170,6 +179,17 @@ public class Configuration extends Hashtable
      * @serial
      */
     protected String file;
+
+    /**
+     * Base path of the configuration file used to create
+     * this Configuration object.
+     */
+    protected String basePath;
+
+    /**
+     * File separator.
+     */
+    protected String fileSeparator = System.getProperty("file.separator");
 
     /**
      * Has this configuration been intialized.
@@ -333,6 +353,10 @@ public class Configuration extends Hashtable
         throws IOException
     {
         this.file = file;
+        
+        basePath = new File(file).getAbsolutePath();
+        basePath = basePath.substring(0, basePath.lastIndexOf(fileSeparator) + 1);
+        
         this.load(new FileInputStream(file));
         
         if (defaultFile != null)
@@ -407,28 +431,62 @@ public class Configuration extends Hashtable
                     String key = line.substring(0, equalSign).trim();
                     String value = line.substring(equalSign + 1).trim();
 
-                    // Configure produces lines like this ... just
-                    // ignore them.
+                    /*
+                     * Configure produces lines like this ... just
+                     * ignore them.
+                     */
                     if ("".equals(value))
                         continue;
 
-                    // Recursively load properties files.
-                    File file = new File(value);
-                    if (getInclude() != null &&
-                        key.equalsIgnoreCase(getInclude()) &&
-                        file != null &&
-                        file.exists() &&
-                        file.canRead())
-                        load ( new FileInputStream(file) );
-
-                    
-                    setProperty(key,value);
+                    if (getInclude() != null && 
+                        key.equalsIgnoreCase(getInclude()))
+                    {
+                        /*
+                         * Recursively load properties files.
+                         */
+                        File file = null;
+                        
+                        if (value.startsWith(fileSeparator))
+                        {
+                            /*
+                             * We have an absolute path so we'll
+                             * use this.
+                             */
+                            file = new File(value);
+                        }
+                        else
+                        {   
+                            /* 
+                             * We have a relative path, and we have
+                             * two possible forms here. If we have the
+                             * "./" form then just strip that off first
+                             * before continuing.
+                             */
+                            if (value.startsWith("." + fileSeparator))
+                            {
+                                value = value.substring(2);
+                            }
+                            
+                            file = new File(basePath + value);
+                        }
+                        
+                        if (file != null && file.exists() && file.canRead())
+                        {
+                            load ( new FileInputStream(file));
+                        }
+                    }
+                    else
+                    {
+                        setProperty(key,value);
+                    }                       
                 }
             }
         }
         catch (NullPointerException e)
         {
-            // Should happen only when EOF is reached.
+            /*
+             * Should happen only when EOF is reached.
+             */
             return;
         }
     }
