@@ -58,6 +58,7 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.Runtime;
 
 public class ASTGENode extends SimpleNode
 {
@@ -80,10 +81,49 @@ public class ASTGENode extends SimpleNode
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
     {
-        if (((Integer)jjtGetChild(0).value(context)).intValue() >=
-            ((Integer)jjtGetChild(1).value(context)).intValue())
-            return true;
-        else
+        /*
+         *  get the two args
+         */
+
+        Object left = jjtGetChild(0).value( context );
+        Object right = jjtGetChild(1).value( context );
+
+        /*
+         *  if either is null, lets log and bail
+         */
+
+        if (left == null || right == null)
+        {
+            Runtime.error( ( left == null ? "Left" : "Right" ) + " side of '>=' operation has null value."
+                           + " Operation not possible. "
+                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + ", column " + getColumn() + "]");
             return false;
+        }
+        
+        /*
+         *  if not an Integer, not much we can do either
+         */
+
+        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        {
+            Runtime.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+                           + " side of '>=' operation is not a valid type. "
+                           + "Currently only integers (1,2,3...) and Integer type is supported. "
+                           +  context.getCurrentTemplateName() + " [line " + getLine() 
+                           + ", column " + getColumn() + "]");
+ 
+            return false;
+        }
+
+        if ( ((Integer) left).intValue() >=
+             ((Integer) right).intValue()  ) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
