@@ -25,6 +25,7 @@
         <property name="optimize" value="on"/>
         <property name="deprecation" value="on"/>
         <property name="log.jar" value="lib/log.jar"/>
+        <property name="oro.jar" value="lib/oro.jar"/>
         
         <property name="velocity.docs" value="../docs"/>
         <property name="velocity.xdocs" value="../xdocs"/>
@@ -90,6 +91,7 @@
     <target name="jar" depends="compile">
         
         <unzip src="${log.jar}" dest="${build.dest}"/>
+        <unzip src="${oro.jar}" dest="${build.dest}"/>
     
         <jar jarfile="${build.dir}/${project}-${version}.jar"
             basedir="${build.dest}"

@@ -82,7 +82,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.10 2000/10/22 01:27:32 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.11 2000/10/22 01:53:14 jvanzyl Exp $
  */
 public class Template
 {
