@@ -55,42 +55,17 @@ package org.apache.velocity.runtime.loader;
  */
 
 import org.apache.velocity.Template;
-
 import org.apache.velocity.runtime.Runtime;
-
-//import org.apache.velocity.processor.Processor;
 
 /**
  * Each loader should implement this class
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public abstract class TemplateLoader
 {
-    /*
-    protected Processor processor;
-
-    protected  static String TEMPLATE_PROCESSOR =
-        Runtime.getString(Runtime.TEMPLATE_PROCESSOR);
-    */        
-
+    /** Initialize the template loader */
     public abstract void init();
-
-    /*
-    public void init()
-    {
-        try
-        {
-            processor = (Processor) Class.forName(TEMPLATE_PROCESSOR).newInstance();
-            processor.init();
-            Runtime.info("Template processor initialized.");
-        }
-        catch (Exception e)
-        {
-            Runtime.error("Problem initializing the template processor: " + e);
-        }
-    }
-    */
     
     /**
      * Fetch the template
