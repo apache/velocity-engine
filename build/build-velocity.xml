@@ -57,11 +57,8 @@
     <property name="introspector.test"
         value="org.apache.velocity.test.IntrospectorTestCase"/>
 
-    <property name="default.properties" 
-        value="org/apache/velocity/runtime/defaults/velocity.properties"/>
-    
-    <property name="directive.properties" 
-        value="org/apache/velocity/runtime/defaults/directive.properties"/>
+    <property name="runtime.defaults.dir" 
+        value="org/apache/velocity/runtime/defaults"/>
 
     <property name="default.test.properties"
         value="org/apache/velocity/test/defaults/velocity.properties"/>
@@ -127,12 +124,13 @@
                     includes="**/*.class"/>
             </copy>
             
-            <copy file="${src.java.dir}/${default.properties}"
-                tofile="${build.dest}/${default.properties}"/>
+            <copy todir="${build.dest}/${runtime.defaults.dir}">
+                <fileset 
+                    dir="${src.java.dir}/${runtime.defaults.dir}" 
+                    includes="*"
+                />
+            </copy>
             
-            <copy file="${src.java.dir}/${directive.properties}"
-                tofile="${build.dest}/${directive.properties}"/>
-
             <copy file="${src.java.dir}/${default.test.properties}"
                 tofile="${build.dest}/${default.test.properties}"/>
 
