@@ -13,9 +13,9 @@
 <section name="About this Guide">
 
 <p>
-    This guide is the reference for
-    the Velocity Template Language (VTL). For more information,
-    please also refer to the <a href="user-guide.html">Velocity User Guide</a>.
+    This guide is the reference for the Velocity Template Language
+    (VTL). For more information, please also refer to the <a
+    href="user-guide.html">Velocity User Guide</a>.
 </p>
 
 </section>
@@ -91,7 +91,8 @@
     <ul>
       <li>Regular Notation: $customer.getAddress()</li>
       <li>Formal Notation: ${purchase.getTotal()}</li>
-      <li>Regular Notation with Parameter List: $page.setTitle( "My Home Page" )</li>
+      <li>Regular Notation with Parameter List: $page.setTitle( "My Home
+      Page" )</li>
     </ul>
   </subsection>
   
@@ -121,10 +122,11 @@
     </p>
 
     <ul>
-    <li><em>$ref</em> - The LHS of the assignment must be a variable reference or
-    a property reference.</li>
-    <li><em>arg</em> - The RHS of the assignment, <em>arg</em> is parsed if
-    enclosed in double quotes, and not parsed if enclosed in single quotes.</li>
+    <li><em>$ref</em> - The LHS of the assignment must be a variable
+    reference or a property reference.</li>
+    <li><em>arg</em> - The RHS of the assignment, <em>arg</em> is parsed
+    if enclosed in double quotes, and not parsed if enclosed in single
+    quotes.</li>
     </ul>
 
     <p>
@@ -134,8 +136,10 @@
     <ul>
       <li>Variable reference: #set( $monkey = "bill" )</li>
       <li>String literal: #set( $monkey.Friend = "monica" )</li>
-      <li>Property reference: #set( $monkey.Blame = $whitehouse.Leak )</li>
-      <li>Method reference: #set( $monkey.Plan = $spindoctor.weave($web) )</li>
+      <li>Property reference: #set( $monkey.Blame = $whitehouse.Leak
+      )</li>
+      <li>Method reference: #set( $monkey.Plan = $spindoctor.weave($web)
+      )</li>
       <li>Number literal: #set( $monkey.Number = 123 )</li>
       <li>Object array: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
     </ul>
@@ -153,7 +157,8 @@
     </ul>
   </subsection>
 
-  <subsection name="#if / #elseif / #else - output conditional on truth of statements">
+  <subsection name="#if / #elseif / #else - output conditional on truth 
+                    of statements">
     <p>
     Format:
     </p>
@@ -170,8 +175,8 @@
     </p>
 
     <ul>
-    <li><em>condition</em> - If a boolean, considered true if it has a true false;
-    if not a boolean, considered true if not null.</li>
+    <li><em>condition</em> - If a boolean, considered true if it has a
+    true false; if not a boolean, considered true if not null.</li>
     <li><em>output</em> - May contain VTL.</li>
     </ul>
     
@@ -206,46 +211,48 @@
 
     <ul>
     <li><em>$ref1</em> - The first variable reference is the item.</li>
-    <li><em>$ref2</em> - The second variable reference is the list that holds the
-    items.</li>
-    <li><em>statement</em> - What is output each time Velocity finds a valid item
-    ($ref1) in the list ($ref2).</li>
+    <li><em>$ref2</em> - The second variable reference is the list that
+    holds the items.</li>
+    <li><em>statement</em> - What is output each time Velocity finds a
+    valid item ($ref1) in the list ($ref2).</li>
     </ul>
 
     <p>
-    Velocity provides an easy way to get the loop counter so that you can do
-    something like the following:
+    Velocity provides an easy way to get the loop counter so that you
+    can do something like the following:
     </p>
 
-    <source><![CDATA[
-    <table>
-    #foreach( $customer in $customerList )
-        <tr><td>$velocityCounter</td><td>$customer.Name</td></tr>
-    #end
-    </table>
-    ]]></source>
+<source><![CDATA[
+<table>
+#foreach( $customer in $customerList )
+    <tr><td>$velocityCounter</td><td>$customer.Name</td></tr>
+#end
+</table>
+]]></source>
 
     <p>
     The default name for the loop counter variable reference, which is
     specified in the velocity.properties file, is $velocityCount. By
     default the counter starts at 1, but this can be set to either 0 or
-    1 in the <code>velocity.properties</code> file. Here's what
-    the loop counter properties section of the
-    <code>velocity.properties</code> file appears:
+    1 in the <code>velocity.properties</code> file. Here's what the loop
+    counter properties section of the <code>velocity.properties</code>
+    file appears:
     </p>
 
-    <source><![CDATA[
-    # Default name of the loop counter
-    # variable refernce.
-    counter.name = velocityCount
+<source><![CDATA[
+# Default name of the loop counter
+# variable refernce.
+counter.name = velocityCount
 
-    # Default starting value of the loop
-    # counter variable reference.
-    counter.initial.value = 1
-    ]]></source>
+# Default starting value of the loop
+# counter variable reference.
+counter.initial.value = 1
+]]></source>
+
   </subsection>
 
-  <subsection name="#include - Renders local file(s) that are not parsed by Velocity">
+  <subsection name="#include - Renders local file(s) that are not 
+                    parsed by Velocity">
     <p>
     Format:
     </p>
@@ -268,7 +275,8 @@
     </ul>
   </subsection>
 
-  <subsection name="#parse - Renders a local template that is parsed by Velocity">
+  <subsection name="#parse - Renders a local template that is parsed by 
+                    Velocity">
     <p>
     Format:
     </p>
@@ -278,7 +286,7 @@
     </p>
     
     <ul>
-    <li><em>arg</em> - Refers to a template under TEMPLATE_ROOT.</li>    
+    <li><em>arg</em> - Refers to a template under TEMPLATE_ROOT.</li>
     </ul>
 
     <p>
@@ -311,14 +319,13 @@
     </p>
 
     <p>
-    This will stop execution of the current template. This can also be
-    used in conjunction with the <strong>#foreach</strong> and
-    <strong>#if</strong> directives to conditionally stop a loop from
-    executing.
+    This will stop execution of the current template. This is good for
+    debugging a template.
     </p>
   </subsection>
 
-  <subsection name="#macro - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required">
+  <subsection name="#macro - Allows users to define a Velocimacro (VM), 
+        a repeated segment of a VTL template, as required">
     <p>
     Format:
     </p>
@@ -329,21 +336,23 @@
     </p>
     
     <ul>
-    <li><em>vmname</em> - Name used to call the VM (<em>#vmname</em>)</li>
-    <li><em>$arg1 $arg2 [ ... ]</em> - Arguments to the VM. There can be any number
-    of argumentss, but the number used at invocation must match the number
-    specified in the definition.</li>
-    <li><em>[ VM VTL code... ]</em> - Any valid VTL code, anything you can put into
-    a template, can be put into a VM.</li>
+    <li><em>vmname</em> - Name used to call the VM
+    (<em>#vmname</em>)</li>
+    <li><em>$arg1 $arg2 [ ... ]</em> - Arguments to the VM. There can be
+    any number of argumentss, but the number used at invocation must
+    match the number specified in the definition.</li>
+    <li><em>[ VM VTL code... ]</em> - Any valid VTL code, anything you
+    can put into a template, can be put into a VM.</li>
     </ul>
     
     <p>
-    Once defined, the VM is used like any other VTL directive in a template.
+    Once defined, the VM is used like any other VTL directive in a
+    template.
     </p>
 
-    <source><![CDATA[
-    #vmname( $arg1 $arg2 )
-    ]]></source>
+<source><![CDATA[
+#vmname( $arg1 $arg2 )
+]]></source>
 
     <p>
     VMs can be defined in one of three places:
@@ -351,26 +360,15 @@
 
     <ol>
     <li><i>Global library:</i> VMs pre-packaged with Velocity; available
-        from any template</li>
+    from any template</li>
     <li><i>Local library:</i> customized, user-defined, site-specific
-        VMs; availabe from any template</li>
+    VMs; availabe from any template</li>
     <li><i>Inline:</i> found in regular templates, only usable when
-        <em>velocimacro.permissions.allowInline=true</em> in
-        <code>velocity.properties</code>.</li>
+    <em>velocimacro.permissions.allowInline=true</em> in
+    <code>velocity.properties</code>.</li>
     </ol>
   </subsection>
 
 </section>
 </body>
 </document>
-
-
-
-
-
-
-
-
-
-
-
