@@ -63,7 +63,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.4 2000/12/15 06:55:33 jvanzyl Exp $ 
+ * @version $Id: ASTElseIfStatement.java,v 1.5 2000/12/19 14:41:52 geirm Exp $ 
 */
 
 package org.apache.velocity.runtime.parser.node;
@@ -103,5 +103,14 @@ public class ASTElseIfStatement extends SimpleNode
     public boolean evaluate (Context context)
     {
         return jjtGetChild(0).evaluate(context);
+    }
+
+    /**
+     *  renders the block
+     */
+    public boolean render(Context context, Writer writer)
+        throws IOException
+    {
+        return jjtGetChild(1).render( context, writer );
     }
 }
