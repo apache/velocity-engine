@@ -205,128 +205,128 @@ A sub-rule might describe a tree, or simple a node.
 
 
 block
-	:
-		#(	BLOCK
-				(statement)*
-		)
+    :
+        #(  BLOCK
+                (statement)*
+        )
 
-	;
+    ;
 statement
-	:
-			text
-		|	if_statement
-		|	foreach_statement
-		|	include_statement
-		|	set_statement
-		|	parse_statement
-		|	param_statement
-		|	stop_statement
-		|	reference
-	;
+    :
+            text
+        |   if_statement
+        |   foreach_statement
+        |   include_statement
+        |   set_statement
+        |   parse_statement
+        |   param_statement
+        |   stop_statement
+        |   reference
+    ;
 
 
 text
-	:
-		TEXT
-	;
+    :
+        TEXT
+    ;
 
-//	if/elseif/else chains should be represented solely
-//	by &lt;if_statement&gt;.  &lt;elseif&gt; is simply an &lt;if_statement&gt;
-//	in the false-branch of the preceeding &lt;if_statement&gt;
-//	while &lt;else&gt; is simply an &lt;if_statement&gt; where the
-//	&lt;expr&gt; evaluates to TRUE always, and no false-branch
-//	is provided.
+//  if/elseif/else chains should be represented solely
+//  by &lt;if_statement&gt;.  &lt;elseif&gt; is simply an &lt;if_statement&gt;
+//  in the false-branch of the preceeding &lt;if_statement&gt;
+//  while &lt;else&gt; is simply an &lt;if_statement&gt; where the
+//  &lt;expr&gt; evaluates to TRUE always, and no false-branch
+//  is provided.
 
 if_statement
-	:
-		#(	IF
-				// The expression to test
-				expr
+    :
+        #(  IF
+                // The expression to test
+                expr
 
-				// True branch
-				block
+                // True branch
+                block
 
-				// False branch
-				( block )?
-		)
-	;
+                // False branch
+                ( block )?
+        )
+    ;
 
 foreach_statement
-	:
-		#(	FOREACH
-				// Value to assign for each iteration
-				reference
-				// List of objects to iterator
-				reference
-				// command-block to execute
-				( block )?
-		)
-	;
+    :
+        #(  FOREACH
+                // Value to assign for each iteration
+                reference
+                // List of objects to iterator
+                reference
+                // command-block to execute
+                ( block )?
+        )
+    ;
 
 set_statement
-	:
-		#(	SET
-				// Variable to set
-				reference
-				// Value to assign
-				expr
-	;
+    :
+        #(  SET
+                // Variable to set
+                reference
+                // Value to assign
+                expr
+    ;
 
 parse_statement
-	:
-		#(	PARSE
-				STRING_LITERAL
-		)
-	;
+    :
+        #(  PARSE
+                STRING_LITERAL
+        )
+    ;
 
 include_statement
-	:
-		#(	INCLUDE
-				STRING_LITERAL
-		)
-	;
+    :
+        #(  INCLUDE
+                STRING_LITERAL
+        )
+    ;
 
 stop_statement
-	:
-		STOP
-	;
+    :
+        STOP
+    ;
 
 reference
-	:
-		#(	REFERENCE
-				postfix
-	;
+    :
+        #(  REFERENCE
+                postfix
+    ;
 
 postfix
-	:
-		method_call
-		|
-		member
-		|
-		identifier
-	;
+    :
+        method_call
+        |
+        member
+        |
+        identifier
+    ;
 
 member
-	:
-		#(	DOT
-				identifier
-				(	primary
-				|	method_call
-				)	
-	;
+    :
+        #(  DOT
+                identifier
+                (   primary
+                |   method_call
+                )   
+    ;
 
 primary
-	:
-		IDENTIFIER
-	;
+    :
+        IDENTIFIER
+    ;
 
 method_call
-		#(	CALL
-				postfix
-				// The argument list
-				( expr ) *
-		)
-	;
+        #(  CALL
+                postfix
+                // The argument list
+                ( expr ) *
+        )
+    ;
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
