@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.Runtime;
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.1 2001/03/19 08:05:09 jon Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.2 2001/03/19 08:11:31 jon Exp $
  */
 public class Log4JLogSystem implements LogSystem
 {
@@ -145,13 +145,13 @@ public class Log4JLogSystem implements LogSystem
             Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_BACKUPS, 1);
         int fileSize = 
             Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_SIZE, 100000);
-		Appender appender = new RollingFileAppender(layout,logfile,true);
-		((RollingFileAppender)appender).setMaxBackupIndex(backupFiles);
-		//finding file size
-		if (fileSize > -1)
-		{
-			((RollingFileAppender)appender).setMaxFileSize(fileSize);
-		}
+        Appender appender = new RollingFileAppender(layout,logfile,true);
+        ((RollingFileAppender)appender).setMaxBackupIndex(backupFiles);
+        //finding file size
+        if (fileSize > -1)
+        {
+            ((RollingFileAppender)appender).setMaxFileSize(fileSize);
+        }
         logger.addAppender(appender);
     }
 
