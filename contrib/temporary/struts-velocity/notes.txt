@@ -1,0 +1,64 @@
+Misc Notes
+==========
+
+Context 'Scope'
+--------------
+JSP has this notion of three levels of scope for passing data
+through to the JSP - context, session and request (hereafter c/s/r)
+
+Now, there is no such notion in Vel, but it's important to the JSP
+crowd, for now anyway :)
+
+So, maybe the solution is two-fold : 
+
+when taking c/s/r elements to package into the context, maybe the solution is :
+
+- make a new VC c/s/r
+- chain them :  VC(r) = new VC( VC(s) = new VC(c)) so r masks s masks c
+- also, place those VC's independantly into the context 
+   $struts.context
+   $struts.session
+   $struts.request
+
+- we can also wrap in VMs :
+   #context( <key> )
+   #session( <key> )
+   #request( <key> )
+
+  or something
+
+
+Beanification of Tags
+---------------------
+
+It would be nice to map the tags into VMs.  Currently there are two tags 
+that have been velocitized, <bean:message -> $message and 
+<html:errors -> $errors.getErrors()
+
+A nice solution would be auto-generation of the bean mappings at startup, so it
+can do it from the standard struts configuration files.  Not sure how easy this
+is, but I think it can be done.
+
+ex.
+
+<bean:message ->  #message_bean( <key> )
+
+<html:errors -> #errors_html( <key> )
+
+
+something like that.  I hope it can be done automatically.
+
+The problem will be things that expect a body, like
+
+<logic:equals
+
+In Velocity, we can finagle it so
+
+#if( #equals_logic( ) )
+ ....
+#end
+
+does the right thing.  That shouldn't be hard.
+
+  
+
