@@ -58,7 +58,7 @@
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroProxy.java,v 1.1 2000/11/19 23:28:00 geirm Exp $ 
+ * @version $Id: VelocimacroProxy.java,v 1.2 2000/11/19 23:50:34 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.directive;
@@ -142,7 +142,10 @@ public class VelocimacroProxy extends  Directive
     {
         try 
         {
-            nodeTree_.render(context, writer );
+            if (nodeTree_ != null)
+                nodeTree_.render(context, writer );
+            else
+                Runtime.error( "VM error : " + strMacroName_ + ". Null AST");
         } 
         catch ( Exception e ) 
         {
