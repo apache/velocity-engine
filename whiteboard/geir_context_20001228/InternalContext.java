@@ -1,4 +1,4 @@
-package org.apache.velocity;
+package org.apache.velocity.context;
 
 /*
  * The Apache Software License, Version 1.1
@@ -68,7 +68,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  support, as well as node-local context data introspection caching.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContext.java,v 1.1 2000/12/30 14:42:00 geirm Exp $
+ * @version $Id: InternalContext.java,v 1.2 2000/12/30 23:46:18 geirm Exp $
  */
 public interface InternalContext
 {
@@ -77,14 +77,14 @@ public interface InternalContext
      *
      *  @param s current template name to set
      */
-    public void setCurrentTemplateName( String s );
+     void setCurrentTemplateName( String s );
     
     /**
      *  get the current template name
      *
      *  @return String current template name
      */
-    public String getCurrentTemplateName();
+     String getCurrentTemplateName();
 
     /**
      *  returns an IntrospectionCache Data (@see IntrospectionCacheData)
@@ -93,7 +93,7 @@ public interface InternalContext
      *  @param key  key to find in cache
      *  @return cache object
      */
-    public IntrospectionCacheData icacheGet( Object key );
+     IntrospectionCacheData icacheGet( Object key );
     
     /**
      *  places an IntrospectionCache Data (@see IntrospectionCacheData)
@@ -102,5 +102,5 @@ public interface InternalContext
      *  @param key  key 
      *  @param o  IntrospectionCacheData object to place in cache
      */
-    public void icachePut( Object key, IntrospectionCacheData o );
+     void icachePut( Object key, IntrospectionCacheData o );
 }

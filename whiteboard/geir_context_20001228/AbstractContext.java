@@ -1,4 +1,4 @@
-package org.apache.velocity;
+package org.apache.velocity.context;
 
 /*
  * The Apache Software License, Version 1.1
@@ -62,7 +62,7 @@ import java.io.File;
 import java.util.Enumeration;
 
 import org.apache.velocity.util.ArrayIterator;
-import org.apache.velocity.InternalContextBase;
+import org.apache.velocity.context.InternalContextBase;
 
 /**
  * This class is the abstract base class for all Velocity Context 
@@ -70,10 +70,10 @@ import org.apache.velocity.InternalContextBase;
  * abstract routines that access your preferred storage method.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AbstractContext.java,v 1.3 2000/12/30 14:42:00 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.4 2000/12/30 23:46:18 geirm Exp $
  */
 
-public abstract class AbstractContext extends InternalContextBase  implements Context, InternalContext,  Serializable
+public abstract class AbstractContext extends InternalContextBase  implements Context, Serializable
 {
     /**
      *  we handle the context wrapping

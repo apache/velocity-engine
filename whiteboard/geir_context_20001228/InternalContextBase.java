@@ -1,4 +1,4 @@
-package org.apache.velocity;
+package org.apache.velocity.context;
 
 /*
  * The Apache Software License, Version 1.1
@@ -68,9 +68,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  support, as well as node-local context data introspection caching.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InternalContextBase.java,v 1.1 2000/12/30 14:42:00 geirm Exp $
+ * @version $Id: InternalContextBase.java,v 1.2 2000/12/30 23:46:18 geirm Exp $
  */
-public class InternalContextBase implements InternalContext, Serializable
+public class InternalContextBase implements Serializable
 {
     /**
      *  cache for node/context specific introspection information
@@ -87,7 +87,7 @@ public class InternalContextBase implements InternalContext, Serializable
      *
      *  @param s current template name to set
      */
-    public void setCurrentTemplateName( String s )
+    protected void setCurrentTemplateName( String s )
     {
         strCurrentTemplate = s;
         return;
@@ -98,7 +98,7 @@ public class InternalContextBase implements InternalContext, Serializable
      *
      *  @return String current template name
      */
-    public String getCurrentTemplateName()
+    protected String getCurrentTemplateName()
     {
         return strCurrentTemplate;
     }
@@ -110,7 +110,7 @@ public class InternalContextBase implements InternalContext, Serializable
      *  @param key  key to find in cache
      *  @return cache object
      */
-    public IntrospectionCacheData icacheGet( Object key )
+    protected IntrospectionCacheData icacheGet( Object key )
     {
         return ( IntrospectionCacheData ) introspectionCache.get( key );
     }
@@ -122,7 +122,7 @@ public class InternalContextBase implements InternalContext, Serializable
      *  @param key  key 
      *  @param o  IntrospectionCacheData object to place in cache
      */
-    public void icachePut( Object key, IntrospectionCacheData o )
+    protected void icachePut( Object key, IntrospectionCacheData o )
     {
         introspectionCache.put( key, o );
     }

@@ -4,6 +4,9 @@ import java.sql.*;
 import java.io.Serializable;
 import java.io.*;
 
+import org.apache.velocity.context.AbstractContext;
+import org.apache.velocity.context.Context;
+
 /**
  *   Example context impl that uses a database to store stuff :)
  *
@@ -19,7 +22,7 @@ import java.io.*;
  *  very fragile, crappy code.... just a demo!
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: DBContext.java,v 1.1 2000/12/29 23:09:00 geirm Exp $
+ * @version $Id: DBContext.java,v 1.2 2000/12/30 23:46:18 geirm Exp $
  */
 
 public class DBContext extends AbstractContext
