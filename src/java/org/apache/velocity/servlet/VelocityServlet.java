@@ -129,7 +129,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.46 2002/04/03 16:36:00 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.47 2002/07/03 21:14:59 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
@@ -403,7 +403,6 @@ public abstract class VelocityServlet extends HttpServlet
              */
 
             Template template = handleRequest( request, response, context );        
-
             /*
              *  bail if we can't find the template
              */
@@ -668,16 +667,21 @@ public abstract class VelocityServlet extends HttpServlet
      * @param response HttpServletResponse object from servlet container.
      * @param cause  Exception that was thrown by some other part of process.
      */
-    protected  void error( HttpServletRequest request, HttpServletResponse response, Exception cause )
+    protected void error( HttpServletRequest request, HttpServletResponse response, Exception cause )
         throws ServletException, IOException
     {
         StringBuffer html = new StringBuffer();
         html.append("<html>");
+        html.append("<title>Error</title>");
         html.append("<body bgcolor=\"#ffffff\">");
         html.append("<h2>VelocityServlet : Error processing the template</h2>");
         html.append("<pre>");
-        html.append( cause );
-        html.append("<br>");
+        String why = cause.getMessage();
+        if (why != null && why.trim().length() > 0)
+        {
+            html.append(why);
+            html.append("<br>");
+        }
 
         StringWriter sw = new StringWriter();
         cause.printStackTrace( new PrintWriter( sw ) );
@@ -689,4 +693,3 @@ public abstract class VelocityServlet extends HttpServlet
         response.getOutputStream().print( html.toString() );
     }
 }
-
