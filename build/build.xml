@@ -336,6 +336,7 @@
       optimize="${optimize}">
 
       <classpath>
+        <path refid="classpath"/>
         <pathelement location="${build.dest}"/>
         <pathelement location="${servlet.jar}"/>
       </classpath>
