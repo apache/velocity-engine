@@ -15,54 +15,52 @@
  <s1 title="Design">
 
  <p>
-    Velocity is a Java based template engine. It can be used as a
-    stand-alone utility for generating source code, HTML, reports,
+    Velocity is a Java-based template engine. It can be used as a
+    standalone utility for generating source code, HTML, reports,
     or it can be combined with other systems to provide template
-    services. One such example is the planned marriage of Velocity
-    with the <link href="http://java.apache.org/turbine">Turbine</link>
-    web application framework. Velocity will be tightly integrated with Turbine
-    to provide a template service that will enable a true MVC model 
-    by which web applications may be developed.
+    services. Velocity will be tightly integrated with the 
+    <link href="http://java.apache.org/turbine">Turbine</link>
+    web application framework to provide a template service that will 
+    enable a true MVC model by which web applications may be developed.
  </p>
  
  <p>
-    The original concept for Velocity was borrowed from WebMacro. We are 
-    gratious for the amount of development and design work that went into 
-    WebMacro.
- </p>
-
- <p>
-    The fundamental design of Velocity is around the idea that there are a few 
-    useful script elements that you embed within your HTML code that work in 
-    conjunction with a Context object that is populated in your Java code. The 
-    purpose of the Context object is to provide a &quot;hook&quot; from your 
-    Java code to your Velocity code. Essentially a Context object is simply a 
-    Hashtable which provides get and set methods for retrieving and setting 
-    objects by name within the Context. These script elements provide enough 
-    basic functionality to allow you to retrieve objects from the Context and 
-    put them into your page as text values with some degree of control over 
+    Velocity allows web page designers to embed simple and useful script 
+    elements in HTML code. These script elements work in conjunction with
+    a Context object that is populated in your Java code. A context object--
+    essentially a Hashtable that provides get and set methods for retrieving and setting 
+    objects by name within the Context--provides a &quot;hook&quot; from your 
+    Java code to your Velocity code. These script elements allow a web 
+    designer to retrieve objects from the Context and 
+    put them into a web page as text values. The web designer has some control over 
     looping (for each) and conditional statements (if/else). 
  </p>
-
+ 
  <p>
-    For people who are not familiar with MVC style of development, at first 
-    glance, it will appear as though Velocity is missing a large set of 
-    functionality. It turns out that this is actually the strength of Velocity. 
-    For example, unlike JSP, there is no way to embed Java code within your page 
-    and the script elements provide little more than basic looping and 
-    conditional statements. Another example is the PHP model where every single 
-    feature is implemented with another function. So, how is this better than 
-    the alternatives? The answer is that by using Velocity, you are enforcing a 
-    MVC style of development which defines that your Java code  and your HTML 
-    template code should be separate. This style of development sometimes takes 
-    slightly longer (especially if you are new to MVC), but results in much more 
-    maintainable code over the long term (believe us, we have been doing this 
-    for a long time now). It also provides an abstraction that prevents page 
-    designers from messing with software engineer's Java code. In other words, 
-    it provides an enforcement of a contract that defines what roles people play 
-    in the development process.
+    Velocity enforces a Model-View-Controller (MVC) style of development 
+    by separating Java code from HTML template code. Unlike Java Servlet Pages (JSPs), 
+    Velocity does not allow Java code to be embedded in pages. Unlike PHP, 
+    Velocity does not implement features with other functions. The MVC 
+    approach is one of Velocity's great strengths, and allows for more 
+    maintainable and better designed web pages.
  </p>
-    
+ 
+ <p>
+    Although MVC-style development can sometimes lead to longer incubation 
+    periods for web sites, particularly if the developers involved are new 
+    to MVC, this approach saves time over the long term (believe us, we have 
+    been doing this for a long time now). The MVC abstraction prevents web page 
+    designers from messing with a software engineer's Java code, and 
+    programmers from unduly influencing the look of web sites. This enforces 
+    a contract that defines what roles people play in the web site development process.   
+ </p>
+
+ <p>    
+    The concept for Velocity was borrowed from WebMacro, and those involved in 
+    the Velocity project acknowledge and appreciates the development and design 
+    work that went into the WebMacro project.
+ </p>
+ 
 </s1>
 
 </body>
