@@ -1,0 +1,177 @@
+<HTML><HEAD><TITLE>Texen</TITLE></HEAD><BODY alink="#023264" bgcolor="#ffffff" leftmargin="4" link="#023264" marginheight="4" marginwidth="4" text="#000000" topmargin="4" vlink="#023264"><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD align="left" valign="top"><A href="http://jakarta.apache.org/index.html"><IMG border="0" hspace="0" src="resources/jakarta-logo.gif" vspace="0"></A></TD><TD align="left" bgcolor="#ffffff" valign="top" width="100%"><IMG align="right" alt="" border="0" hspace="0" src="resources/header.gif" vspace="0"></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"></TD></TR><TR><TD background="resources/line.gif" colspan="2" height="2" width="100%"><IMG alt="" border="0" height="2" hspace="0" src="resources/line.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD valign="top" width="1%"></TD><TD nowrap="1" valign="top" width="14%"><BR>
+
+<P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="index.html">Overview</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="getting-started.html">Getting Started</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="install.html">Install</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="design.html">Design</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="contributors.html">Contributors</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="code-standards.html">Coding Standards</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="license.html">License</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="todo.html">TODO</A></LI></FONT>
+    <P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="user-guide.html">User's Guide</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="developer-guide.html">Developer's Guide</A></LI></FONT>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="vtl-reference-guide.html">VTL Reference Guide</A></LI></FONT>
+    <P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="texen.html">Texen</A></LI></FONT>
+    <P></P>
+    <FONT face="arial,helvetica,sanserif" size="-1"><LI><A href="migration.html">Migration To Velocity</A></LI></FONT>
+</TD><TD align="left" valign="top" width="*"><TABLE border="0" cellpadding="3" cellspacing="0"><TR><TD><BR>
+
+ 
+
+
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>What is Texen?</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    Texen is a general purpose text generating utility. You can
+    use it to easily produce any sort of text output. Texen uses a
+    control template, an optional set of worker templates, and control context
+    to govern the generated output. Texen is driven by Ant, and in
+    essense Texen is an <A href="http://jakarta.apache.org/ant/">Ant</A>
+    Task. You can use the TexenTask directly
+    if you wish, but it general you will probably subclass the
+    TexenTask in order to initialize your control context before
+    generating any output.
+</P>
+
+<P align="justify">
+    Texen was originally created to deal with the source generating
+    requirements of Turbine web application framework. The 
+    <A href="http://java.apache.org/turbine/torque.html">Torque</A>
+    utility in <A href="http://java.apache.org/turbine/">Turbine</A>, 
+    which is a subclass of the TexenTask, is responsible
+    for generating the SQL, and the Object-Relational mapping sources
+    for a Turbine project. This is only one example, you can use
+    Texen to generate any sort of text output!
+</P>    
+
+</FONT></TD></TR></TABLE></DIV><BR>
+
+<DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>The TexenTask</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
+
+<P align="justify">
+    As mentioned previously, Texen is essentially an Ant Task. This
+    is a trivial example of how you would use Texen from an Ant build.xml.
+    This example is not very useful, but shows how the Texen mechanism
+    works.
+</P>    
+
+<P align="justify">
+<I>Ant Build File</I>
+<DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+
+&lt;project name=&quot;HtmlGenerator&quot; default=&quot;main&quot; basedir=&quot;.&quot;&gt;
+
+  &lt;taskdef name=&quot;texen&quot; classname=&quot;org.apache.velocity.texen.ant.TexenTask&quot;/&gt;
+
+  &lt;!-- ================================================================ --&gt;
+  &lt;!-- G E N E R A T E  H T M L  P A G E S                              --&gt;
+  &lt;!-- ================================================================ --&gt;
+  &lt;!-- This target will generate a set of HTML pages based on           --&gt;
+  &lt;!-- the information in our control context.                          --&gt;
+  &lt;!-- ================================================================ --&gt;
+
+  &lt;target name=&quot;main&quot;&gt;
+
+    &lt;echo message=&quot;+------------------------------------------+&quot;/&gt;
+    &lt;echo message=&quot;|                                          |&quot;/&gt;
+    &lt;echo message=&quot;| Generating HTML pages!                   |&quot;/&gt;
+    &lt;echo message=&quot;|                                          |&quot;/&gt;
+    &lt;echo message=&quot;+------------------------------------------+&quot;/&gt;
+
+    &lt;texen
+      controlTemplate=&quot;Control.vm&quot;
+      outputDirectory=&quot;.&quot;
+      templatePath=&quot;.&quot;
+      outputFile=&quot;generation.report&quot;
+    /&gt;
+
+  &lt;/target&gt;
+
+&lt;/project&gt;
+
+</PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+<I>Control Template</I>
+<DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+#*
+
+file: Control.vm
+
+This is the control template for our HTML
+page generator!
+
+*#
+
+#set $Planets = [&quot;Earth&quot;, &quot;Mars&quot;, &quot;Venus&quot;]
+
+#foreach ($planet in $Planets)
+
+    $outputFile = strings.concat([$planet, &quot;.html&quot;])
+    $generator.parse(&quot;HtmlTemplate.vm&quot;, $outputFile, &quot;planet&quot;, $planet)
+
+#end
+
+</PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+<I>Worker Template</I>
+<DIV align="left"><TABLE border="0" cellpadding="0" cellspacing="0"><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><TABLE><TR><TD align="left"><PRE>
+
+#*
+
+file: HtmlTemplate.vm
+
+This is worker template, it is called by the
+control template to produce useful output, or
+not so useful in this case :-)
+
+*#
+
+#set $bgcolor = &quot;#ffffff&quot;
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;
+      Everything you wanted to know about $planet! 
+    &lt;/title&gt;
+  &lt;/head&gt;    
+  &lt;body bgcolor=&quot;$bgcolor&quot;&gt;
+  
+  $planet is a great place to live!
+  
+  &lt;/body&gt;
+&lt;/html&gt;
+
+</PRE></TD></TR></TABLE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" colspan="3" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
+</P>
+
+<P align="justify">
+    What will be produced are three html pages: Earth.html,
+    Mars.html, and Venus.html. This is a contrived example but
+    hopefully illustrates how the mechanism works. To do something
+    useful you would subclass the TexenTask, place some objects
+    in the control context and use the information placed in the
+    control context to generate useful output.
+</P>
+
+<P align="justify">
+    For a full working example of Texen, take a look at the Torque
+    utility in Turbine. There is a stand-alone version of Torque
+    available <A href="http://java.apache.org/turbine/tdk/">here</A>.
+</P>
+
+
+</FONT></TD></TR></TABLE></DIV><BR>
+
+
+</TD></TR></TABLE></TD></TR></TABLE><BR><TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TR><TD bgcolor="#023264"><IMG height="1" src="resources/resources.gif" width="1"></TD></TR><TR><TD align="center"><FONT color="#023264" face="arial,helvetica,sanserif" size="-1"><I>
+              Copyright &copy; 2000 The Apache Software Foundation.
+              All Rights Reserved.
+            </I></FONT></TD></TR></TABLE></BODY></HTML>
