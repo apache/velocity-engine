@@ -78,7 +78,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.19 2001/03/20 17:28:26 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.20 2001/03/22 15:55:37 geirm Exp $
  */
 public class ResourceManager
 {
@@ -219,7 +219,6 @@ public class ResourceManager
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
         Resource resource = null;
-        ResourceLoader resourceLoader = null;
         
         /* 
          * Check to see if the resource was placed in the cache.
@@ -256,7 +255,7 @@ public class ResourceManager
                          *  read how old the resource is _before_
                          *  processing (=>reading) it
                          */
-                        long howOldItWas = resourceLoader.getLastModified( resource );
+                        long howOldItWas = resource.getResourceLoader().getLastModified( resource );
 
                         /*
                          *  read in the fresh stream and parse
@@ -313,6 +312,8 @@ public class ResourceManager
                 //! Bug this is being run more then once!
                 
                 long howOldItWas = 0;  // Initialize to avoid warnings
+
+		ResourceLoader resourceLoader = null;
 
                 for (int i = 0; i < resourceLoaders.size(); i++)
                 {
