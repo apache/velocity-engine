@@ -84,7 +84,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.33 2001/03/19 17:12:58 geirm Exp $
+ * @version $Id: Foreach.java,v 1.34 2001/03/19 23:52:41 geirm Exp $
  */
 public class Foreach extends Directive
 {
@@ -298,10 +298,12 @@ public class Foreach extends Directive
         int counter = COUNTER_INITIAL_VALUE;
         
         /*
-         *  save the element key if there is one
+         *  save the element key if there is one,
+         *  and the loop counter
          */
 
         Object o = context.get( elementKey );
+        Object ctr = context.get( COUNTER_NAME );
 
         while (i.hasNext())
         {
@@ -311,15 +313,34 @@ public class Foreach extends Directive
             counter++;
         }
 
-        context.remove(COUNTER_NAME);
-        context.remove(elementKey);
+        /*
+         * restores the loop counter (if we were nested)
+         * if we have one, else just removes
+         */
+        
+        if( ctr != null)
+        {
+            context.put( COUNTER_NAME, ctr );
+        }
+        else
+        {
+            context.remove(COUNTER_NAME);
+        }
+
 
         /*
          *  restores element key if exists
+         *  otherwise just removes
          */
 
         if (o != null)
+        {
             context.put( elementKey, o );
+        }
+        else
+        {
+            context.remove(elementKey);
+        }
 
         return true;
     }
