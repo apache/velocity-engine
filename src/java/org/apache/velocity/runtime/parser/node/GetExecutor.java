@@ -59,10 +59,27 @@ import java.lang.reflect.Method;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.util.introspection.Introspector;
 
+/**
+ * Executor that simply tries to execute a get(key)
+ * operation. This will try to find a get(key) method
+ * for any type of object, not just objects that
+ * implement the Map interface as was previously
+ * the case.
+ *
+ * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+ * @version $Id: GetExecutor.java,v 1.2 2001/01/06 22:14:05 jvanzyl Exp $
+ */
 public class GetExecutor extends AbstractExecutor
 {
+    /**
+     * Container to hold the 'key' part of 
+     * get(key).
+     */
     private Object[] args = new Object[1];
     
+    /**
+     * Default constructor.
+     */
     public GetExecutor(Class c, String key)
         throws Exception
     {
