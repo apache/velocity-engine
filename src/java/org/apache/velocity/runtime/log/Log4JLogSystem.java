@@ -67,7 +67,7 @@ import org.apache.velocity.runtime.Runtime;
  * Implementation of a Log4J logger.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: Log4JLogSystem.java,v 1.2 2001/03/19 08:11:31 jon Exp $
+ * @version $Id: Log4JLogSystem.java,v 1.3 2001/03/19 12:11:10 geirm Exp $
  */
 public class Log4JLogSystem implements LogSystem
 {
@@ -119,16 +119,22 @@ public class Log4JLogSystem implements LogSystem
     {
         logger = Category.getInstance("");
         logger.setAdditivity(false);
-        // Priority is set for DEBUG becouse this implementation checks 
-        // log level.
+
+        /*
+         * Priority is set for DEBUG becouse this implementation checks 
+         * log level.
+         */
         logger.setPriority(Priority.DEBUG);
 
         String pattern = Runtime.getString( Runtime.LOGSYSTEM_LOG4J_PATTERN );
+        
         if (pattern == null || pattern.length() == 0)
         {
             pattern = "%d - %m%n";
         }
+        
         layout = new PatternLayout(pattern);
+        
         configureFile();
         configureRemote();
         configureSyslog();
@@ -145,9 +151,12 @@ public class Log4JLogSystem implements LogSystem
             Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_BACKUPS, 1);
         int fileSize = 
             Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_FILE_SIZE, 100000);
+        
         Appender appender = new RollingFileAppender(layout,logfile,true);
+        
         ((RollingFileAppender)appender).setMaxBackupIndex(backupFiles);
-        //finding file size
+        
+        /* finding file size */
         if (fileSize > -1)
         {
             ((RollingFileAppender)appender).setMaxFileSize(fileSize);
@@ -165,12 +174,15 @@ public class Log4JLogSystem implements LogSystem
             Runtime.getString(Runtime.LOGSYSTEM_LOG4J_REMOTE_HOST);
         int remotePort = 
             Runtime.getInt(Runtime.LOGSYSTEM_LOG4J_REMOTE_PORT, 1099);
+        
         if (remoteHost == null || remoteHost.trim().equals("") || 
             remotePort <= 0)
         {
             return;
         }
+        
         Appender appender=new SocketAppender(remoteHost,remotePort);
+        
         logger.addAppender(appender);
     }
 
@@ -184,6 +196,7 @@ public class Log4JLogSystem implements LogSystem
             Runtime.getString(Runtime.LOGSYSTEM_LOG4J_SYSLOGD_HOST);
         String syslogFacility = 
             Runtime.getString(Runtime.LOGSYSTEM_LOG4J_SYSLOGD_FACILITY);
+        
         if (syslogHost == null || syslogHost.trim().equals("") || 
             syslogFacility == null )
         {
@@ -191,14 +204,16 @@ public class Log4JLogSystem implements LogSystem
         }
 
         Appender appender = new SyslogAppender();
+        
         ((SyslogAppender)appender).setLayout(layout);
         ((SyslogAppender)appender).setSyslogHost(syslogHost);
         ((SyslogAppender)appender).setFacility(syslogFacility);
+        
         logger.addAppender(appender);
     }
 
     /**
-     * Configures the logging to syslogd
+     * Configures the logging to email
      */
     private void configureEmail()
         throws Exception
@@ -224,11 +239,13 @@ public class Log4JLogSystem implements LogSystem
         }
 
         SMTPAppender appender = new SMTPAppender();
+        
         appender.setOption(SMTPAppender.SMTP_HOST_OPTION, smtpHost);
         appender.setOption(SMTPAppender.FROM_OPTION, emailFrom);
         appender.setOption(SMTPAppender.TO_OPTION, emailTo);
         appender.setOption(SMTPAppender.SUBJECT_OPTION, emailSubject);
         appender.setOption(SMTPAppender.BUFFER_SIZE_OPTION, bufferSize);
+        
         appender.setLayout(layout);
         appender.activateOptions();
         logger.addAppender(appender);
