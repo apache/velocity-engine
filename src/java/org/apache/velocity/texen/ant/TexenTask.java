@@ -69,7 +69,7 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
@@ -83,7 +83,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.37 2001/12/06 07:46:47 jvanzyl Exp $
+ * @version $Id: TexenTask.java,v 1.38 2002/07/24 22:42:51 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -217,7 +217,9 @@ public class TexenTask
                 resolvedPath.append(",");
             }
         }
-         this.templatePath = resolvedPath.toString();
+        this.templatePath = resolvedPath.toString();
+        
+        System.out.println(templatePath);
      }
 
     /**
@@ -419,40 +421,43 @@ public class TexenTask
         {
             throw new BuildException("The output file needs to be defined!");
         }            
-
+        
+        VelocityEngine ve = new VelocityEngine();
+        
         try
         {
             // Setup the Velocity Runtime.
             if (templatePath != null)
             {
             	log("Using templatePath: " + templatePath, project.MSG_VERBOSE);
-                Velocity.setProperty(
-                    Velocity.FILE_RESOURCE_LOADER_PATH, templatePath);
+                ve.setProperty(
+                    ve.FILE_RESOURCE_LOADER_PATH, templatePath);
             }
             
             if (useClasspath)
             {
             	log("Using classpath");
-                Velocity.addProperty(
-                    Velocity.RESOURCE_LOADER, "classpath");
+                ve.addProperty(
+                    VelocityEngine.RESOURCE_LOADER, "classpath");
             
-                Velocity.setProperty(
-                    "classpath." + Velocity.RESOURCE_LOADER + ".class",
-                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+                ve.setProperty(
+                    "classpath." + VelocityEngine.RESOURCE_LOADER + ".class",
+                        "org.apache.VelocityEngine.runtime.resource.loader.ClasspathResourceLoader");
 
-                Velocity.setProperty(
-                    "classpath." + Velocity.RESOURCE_LOADER + 
+                ve.setProperty(
+                    "classpath." + VelocityEngine.RESOURCE_LOADER + 
                         ".cache", "false");
 
-                Velocity.setProperty(
-                    "classpath." + Velocity.RESOURCE_LOADER + 
+                ve.setProperty(
+                    "classpath." + VelocityEngine.RESOURCE_LOADER + 
                         ".modificationCheckInterval", "2");
             }
             
-            Velocity.init();
+            ve.init();
 
             // Create the text generator.
             Generator generator = Generator.getInstance();
+            generator.setVelocityEngine(ve);
             generator.setOutputPath(outputDirectory);
             generator.setInputEncoding(inputEncoding);
             generator.setOutputEncoding(outputEncoding);
