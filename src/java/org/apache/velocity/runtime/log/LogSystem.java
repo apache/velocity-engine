@@ -54,28 +54,48 @@ package org.apache.velocity.runtime.log;
  * <http://www.apache.org/>.
  */
 
-
 /**
- * LogManager.java
- * This class is responsible for instantiating the correct LoggingSystem
- * Right now, it is hard coded with a single Logging System. Eventually
- * we will have more LoggingSystems.
+ * Base interface that Logging systems need to implement.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: LogManager.java,v 1.3 2001/03/12 07:19:53 jon Exp $
+ * @version $Id: LogSystem.java,v 1.1 2001/03/12 07:19:53 jon Exp $
  */
-public class LogManager
+public interface LogSystem
 {
-    /**
-     * This class should be fixed to get its log system from
-     * a properties file.
+    public final static boolean DEBUG_ON = true;
+
+    /** 
+     * Prefix for warning messages.
      */
-    public static LogSystem createLogSystem(String logFile)
-        throws Exception
-    {
-        LogSystem ls = new AvalonLogSystem();
-        ls.init(logFile);
-        return ls;
-    }
+    public final static String WARN  = "  [warn] ";
+    public final static int WARN_ID = 0;
+
+    /** 
+     * Prefix for info messages.
+     */
+    public final static String INFO  = "  [info] ";
+    public final static int INFO_ID = 1;
+    
+    /** 
+     * Prefix for debug messages.
+     */
+    public final static String DEBUG = " [debug] ";
+    public final static int DEBUG_ID = 2;
+    
+    /** 
+     * Prefix for error messages.
+     */
+    public final static String ERROR = " [error] ";
+    public final static int ERROR_ID = 3;
+
+    public void init(String logFile) throws Exception;
+    
+    public void info (Object messsage);
+    public void error (Object messsage);
+    public void debug (Object messsage);
+    public void warn (Object messsage);
+    public void log (int type, Object messsage);
+    
+    public boolean getStackTrace();
+    public void setStackTrace(boolean value);
 }
