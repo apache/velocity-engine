@@ -70,7 +70,7 @@ import org.apache.tools.ant.DirectoryScanner;
  * this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: WebMacro.java,v 1.9 2001/05/08 00:24:52 dlr Exp $ 
+ * @version $Id: WebMacro.java,v 1.10 2001/05/08 01:27:21 dlr Exp $ 
  */
 public class WebMacro
 {
@@ -165,7 +165,7 @@ public class WebMacro
         
         if (file.isDirectory())
         {
-            String basedir = args[0];
+            String basedir = file.getAbsolutePath();
             String newBasedir = basedir + VM_EXT;
             
             DirectoryScanner ds = new DirectoryScanner();
@@ -209,9 +209,8 @@ public class WebMacro
         else
         {
             template = basedir + pathSeparator + file;
-            templateDir = newBasedir + pathSeparator + 
-                file.substring(0, file.lastIndexOf(pathSeparator));
-        
+            templateDir = newBasedir + extractPath(file);
+
             outputDirectory = new File(templateDir);
                 
             if (! outputDirectory.exists())
@@ -235,6 +234,17 @@ public class WebMacro
         }
     
         return true;
+    }
+
+    /**
+     * Gets the path segment of the full path to a file (i.e. one
+     * which originally included the file name).
+     */
+    private final String extractPath(String file)
+    {
+        int lastSepPos = file.lastIndexOf(pathSeparator);
+        return (lastSepPos == -1 ? "" :
+                pathSeparator + file.substring(0, lastSepPos));
     }
 
     /**
