@@ -93,7 +93,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.22 2001/03/15 02:43:29 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.23 2001/03/15 03:12:33 geirm Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -256,19 +256,19 @@ public class AnakiaTask extends MatchingTask
             velocityPropertiesFile = new File("velocity.properties");
         }
 
-        // If the props file doesn't exist AND a templatePath hasn't 
-        // been defined, then throw the exception. otherwise, make
-        // the propertiesFile null here so that we can check for it
-        // when we initialize the Runtime.
-        if (!velocityPropertiesFile.exists() && templatePath != null)
+
+        /*
+         * If the props file doesn't exist AND a templatePath hasn't 
+         * been defined, then throw the exception.
+         */
+
+        if ( !velocityPropertiesFile.exists() && templatePath == null )
         {
-            velocityPropertiesFile = null;
-        }
-        else if (templatePath != null)
-        {
-            throw new BuildException ("Could not locate velocity.properties file: " + 
+            throw new BuildException ("No template path and could not locate velocity.properties file: " + 
                 velocityPropertiesFile.getAbsolutePath());
         }
+
+       
 
         log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
 
@@ -288,7 +288,7 @@ public class AnakiaTask extends MatchingTask
         
         try
         {
-            if (velocityPropertiesFile != null)
+            if ( velocityPropertiesFile.exists() )
             {
                 Velocity.init(velocityPropertiesFile.getAbsolutePath());
             }
