@@ -36,3 +36,21 @@ $foo
 
 #set ($foo = $foo / 2)
 $foo
+
+## now lets try some string concatenation
+
+#set($stringy = "This is a very long string"
+ + " that we are breaking up into multiple"
+ + " lines for testing."
+)
+$stringy
+
+#set($stringy = "This is a string. The number 2 = " + 2)
+$stringy
+
+#set($three = 3)
+#set($stringy = "This is a string."
++ " The value = " 
++ $three
+)
+$stringy
