@@ -74,7 +74,10 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 
+import org.apache.velocity.runtime.exception.NodeException;
 import org.apache.velocity.runtime.exception.ReferenceException;
+
+import org.apache.velocity.util.introspection.Introspector;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -82,7 +85,7 @@ import org.apache.velocity.runtime.exception.ReferenceException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.20 2000/11/17 02:24:38 daveb Exp $
+ * @version $Id: Foreach.java,v 1.21 2000/11/24 23:59:47 jon Exp $
  */
 public class Foreach extends Directive
 {
@@ -142,33 +145,44 @@ public class Foreach extends Directive
         // element is so that we don't have to do it
         // everytime the node is traversed.
         //if (listObject instanceof Object[])
-        if (listObject instanceof Object[])
+        try
         {
-            node.setInfo(ARRAY);
-            Object[] arrayObject = ((Object[]) listObject);
+            if (listObject instanceof Object[])
+            {
+                node.setInfo(ARRAY);
+                Object[] arrayObject = ((Object[]) listObject);
             
-            if (arrayObject.length == 0)
+                if (arrayObject.length == 0)
+                    node.setInvalid();
+                else                
+                    sampleElement = arrayObject[0];
+            }            
+            else if (Introspector.implementsMethod(listObject, "iterator"))
+            {
+                node.setInfo(ITERATOR);
+                sampleElement = ((Collection) listObject).iterator().next();
+            }
+            else if (Introspector.implementsMethod(listObject, "values"))
+            {
+                node.setInfo(MAP);
+                sampleElement = ((Map) listObject).values().iterator().next();
+            }
+            else
+            {
+                // If it's not an array or an object that provides
+                // an iterator then the node is invalid and should
+                // not be rendered.
                 node.setInvalid();
-            else                
-                sampleElement = arrayObject[0];
-        }            
-        else if (implementsMethod(listObject, "iterator"))
-        {
-            node.setInfo(ITERATOR);
-            sampleElement = ((Collection) listObject).iterator().next();
+                Runtime.warn ("Could not determine type of iterator for #foreach loop ");
+                throw new NodeException ("Could not determine type of iterator for #foreach loop " , node);
+            }            
         }
-        else if (implementsMethod(listObject, "values"))
+        catch (java.util.NoSuchElementException nsee)
         {
-            node.setInfo(MAP);
-            sampleElement = ((Map) listObject).values().iterator().next();
-        }
-        else
-        {
-            // If it's not an array or an object that provides
-            // an iterator then the node is invalid and should
-            // not be rendered.
             node.setInvalid();
-        }            
+            Runtime.warn ("Iterator for #foreach loop did not contain any values ");
+            throw new NodeException ("Iterator for #foreach loop did not contain any values ", node);
+        }
         
         // This is a little trick so that we can initialize
         // all the blocks in the foreach  properly given
@@ -213,22 +227,4 @@ public class Foreach extends Directive
         return true;
     }
 
-    /**
-     * Checks whether the provided object implements a given method.
-     *
-     * @param object     The object to check.
-     * @param methodName The method to check for.
-     * @return           Whether the method is implemented.
-     */
-    public static boolean implementsMethod(Object object, String methodName)
-    {
-        int m;
-        
-        Method[] methods = object.getClass().getMethods();
-        for (m = 0 ; m < methods.length ; ++m)
-            if (methodName.equals(methods[m].getName()))
-                break;
-        
-        return (m < methods.length);
-    }
 }
