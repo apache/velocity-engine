@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.9 2000/12/08 03:19:00 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.10 2000/12/27 14:29:44 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -152,7 +152,10 @@ public class ASTSetDirective extends SimpleNode
 
         if ( value  == null)
         {
-            Runtime.error(new ReferenceException("#set", right));
+            Runtime.error("RHS of #set statement is null. Context will not be modified. " 
+                          + context.getCurrentTemplateName() + " [line " + getLine() 
+                          + ", column " + getColumn() + "]");
+
             return false;
         }                
 
