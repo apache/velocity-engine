@@ -62,7 +62,7 @@ package org.apache.velocity.runtime;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: RuntimeConstants.java,v 1.34 2003/10/22 03:00:46 dlr Exp $
+ * @version $Id: RuntimeConstants.java,v 1.35 2003/10/22 10:50:42 geirm Exp $
  */
 public interface RuntimeConstants
 {
@@ -130,78 +130,6 @@ public interface RuntimeConstants
     public final static String WARN_PREFIX  = "  [warn] ";
     public final static String ERROR_PREFIX = " [error] ";
     public final static String UNKNOWN_PREFIX = " [unknown] ";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_PATTERN = 
-        "runtime.log.logsystem.log4j.pattern";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_FILE_SIZE = 
-        "runtime.log.logsystem.log4j.file.size";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_FILE_BACKUPS = 
-        "runtime.log.logsystem.log4j.file.backups";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_SYSLOGD_HOST = 
-        "runtime.log.logsystem.log4j.syslogd.host";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_SYSLOGD_FACILITY = 
-        "runtime.log.logsystem.log4j.syslogd.facility";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_REMOTE_HOST = 
-        "runtime.log.logsystem.log4j.remote.host";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_REMOTE_PORT = 
-        "runtime.log.logsystem.log4j.remote.port";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_EMAIL_SERVER = 
-        "runtime.log.logsystem.log4j.email.server";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_EMAIL_FROM = 
-        "runtime.log.logsystem.log4j.email.from";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_EMAIL_TO = 
-        "runtime.log.logsystem.log4j.email.to";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_EMAIL_SUBJECT = 
-        "runtime.log.logsystem.log4j.email.subject";
-
-    /**
-     * Log4J configuration
-     */
-    public final static String LOGSYSTEM_LOG4J_EMAIL_BUFFER_SIZE = 
-        "runtime.log.logsystem.log4j.email.buffer.size";
 
     /*
      * ----------------------------------------------------------------------
