@@ -7,7 +7,7 @@
   <property name="build.dest" value="${build.dir}/classes"/>
   <property name="ant.home" value="."/>
   <property name="test.home" value="../test"/>
-  <property name="junit.jar" value="lib/junit-3.2.jar"/>
+  <property name="junit.jar" value="lib/junit-3.7.jar"/>
 
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
@@ -50,7 +50,7 @@
     <delete dir="${test.home}/texen/results" quiet="true"/>
   </target>
 
-  <target name="test-all" depends="
+  <target name="test-all" depends="   
                                    test-template,
                                    test-velocityapp,
                                    test-introspect,
