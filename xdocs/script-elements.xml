@@ -44,9 +44,9 @@
 
 <s1 title="Variables">
     <p>
-    Variables are referenced in a similar fashion to the way that they are in 
-    Perl (ie: they use a $), but they also take advantage of some Java 
-    principles that are easy for template designers to work with. For example:
+    Velocity references its variables in a fashion similar to Perl (i.e. they 
+    use a $), but takes advantage of some Java principles that template 
+    designers will find easy to use. For example:
     </p>
 
     <p>
@@ -58,16 +58,16 @@
     </p>
 
     <p>
-    As you can see in a couple of the examples above there are alternative uses 
-    for the same variables. Velocity takes advantage of Java's introspection and 
+    These examples illustrate alternative uses for the same variables. 
+    Velocity takes advantage of Java's introspection and 
     bean features to resolve the variable names to both objects in the Context 
     as well as the objects methods. It is possible to embed the variables almost
-    anywhere in your template and have them be evaluated.
+    anywhere in your template that can then be evaluated.
     </p>
     
     <p>
     Everything coming to and from the variables is treated as a String object. 
-    If you have an object that is representing $foo such as an Integer object, 
+    If you have an object that is representing $foo (such as an Integer object), 
     then Velocity will call its .toString() method in order to resolve the 
     object into a String.
     </p>
@@ -90,16 +90,16 @@
     </p>
 
     <p>
-    The variable $foo is evaluated to see if it is a boolean or not null and the 
-    content within the brackets is what is output if the evaluation is true. As 
-    you can see, this has the advantage over other systems because you do not 
-    need to wrap your HTML code within an out.println(), therefore enabling you 
-    to develop a more MVC solution. Of course there are other solutions to 
-    out.println() within JSP, but they are just as ugly as out.println().
+    The variable $foo is evaluated to see if it is a boolean or not null; the 
+    content within the brackets becomes the output if the evaluation is true. 
+    Unlike in JSP, Velocity does not force web developers to wrap HTML code 
+    within an out.println(), or to delve into ugly workarounds to out.println().
+    This results in a more MVC solution.
     </p>
     
     <p>
-    Another example is that you can include #else elements with your #if element.
+    Another example is that you can include #else elements with your #if 
+    element.
     </p>
 
     <p>
@@ -115,8 +115,8 @@
     </p>
 
     <p>
-    Note: In the current version of Velocity, it is not possible to do something like what
-    is shown below. We will be adding this functionality quickly though.
+    Note: Logical operators, illustrated by an example below, are not yet 
+    available in Velocity. This functionality is expected to be added soon.
     </p>
 
     <p>
@@ -128,10 +128,10 @@
     </p>
 
     <p>
-    If you would like to emulate the functionality of #elseif, then you can do 
-    so by using nested #if statements. As you would expect, nesting elements 
-    works for all of the elements to an infinite level of nesting. For example, 
-    you can nest a #foreach within a #if. We will be considering in the future 
+    Nested #if statements can be used to emulate the functionality of #elseif.
+    Nesting elements 
+    works for all elements to an infinite level of nesting. For example, 
+    you can nest a #foreach within an #if. We will be considering in the future 
     of adding a #elseif to simplify things.
     </p>    
     </s1>
@@ -140,7 +140,7 @@
 <s1 title="Loops">
     <s1 title="Foreach Loop">
     <p>
-    The #foreach element allows you to create loops. For example:
+    The #foreach element allows for looping. For example:
     </p>
 
     <p>
@@ -162,10 +162,10 @@
     
     <p>
     The contents of the $allProducts variable is either a Vector, Hashtable or 
-    Array. Thus, the value that is assigned to the $product variable is a Java
-    Object and can be referenced from the variable as so. For example, if $product
-    was really a Product class in Java, you could get the name of the Product
-    by referencing the $product.Name method (ie: Product.getName()).
+    Array. The value assigned to the $product variable is a Java
+    Object and can be referenced from a variable as such. For example, if 
+    $product was really a Product class in Java, you could get the name of the 
+    Product by referencing the $product.Name method (ie: Product.getName()).
     </p>
     </s1>
 </s1>    
@@ -187,9 +187,10 @@
 
 <s1 title="Include">
     <p>
-    The #include script element allows you to import a local file that is 
-    inserted into the location where the #include directive is defined. The 
-    contents of the file are not rendered through the template engine.
+    The #include script element allows the template designer to import a 
+    local file, which is then inserted into the location where the #include 
+    directive is defined. The contents of the file are not rendered through 
+    the template engine.
     </p>
     
     <p>
@@ -213,17 +214,16 @@
     </p>
     
     <p>
-    One difference between Velocity and WebMacro is that the left hand side
-    variable must be prefixed with a $. We felt that this is more appropriate
-    for the script element language because you are effectively setting a 
-    variable and the references to variables should be consistent.
+    Unlike WebMacro, the variable on the left side of teh #param script element
+    must be prefixed with a $. This provides a consistent syntax for
+    referencing variables.
     </p>
 </s1>
 
 <s1 title="Set">
     <p>
-    The #set script element allows the template designer to set variables within
-    the Context.
+    The #set script element allows the template designer to set variables 
+    within the Context.
     </p>
     
     <p>
@@ -233,15 +233,15 @@
     </p>
     
     <p>
-    One difference between Velocity and WebMacro is that the left hand side
-    variable must be prefixed with a $. We felt that this is more appropriate
-    for the script element language because you are effectively setting a 
-    variable and the references to variables should be consistent.
+    Unlike WebMacro, when using the #set directive, the variable on the 
+    left side must be prefixed with a $. This provides a consistent 
+    syntax for referencing variables.
     </p>
     
     <p>
-    Currently, the above example is the only thing that is supported. We will
-    eventually be suporting the full range of WebMacro functionality here.
+    Currently, the above examples are the only directives that have been
+    implemented. We will eventually support the full range of WebMacro 
+    functionality.
     </p>
 </s1>
 

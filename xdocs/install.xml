@@ -23,27 +23,37 @@
 <s1 title="Compiling">
 
 <p>
-    Execute the following script in the velocity/build directory:
+    On Unix/Linux, execute the following script in the velocity/build directory:
 </p>    
 
 <p>
 <source><![CDATA[
 
-./build-velocity
+./build-velocity.sh
 ]]></source>
 </p>
 
 <p>
-    Executing the above script will create a "bin" directory within the Velocity
-    distribution directory. The bin directory will contain the compiled class files (inside a 
-    "classes" directory) as well as a "velocity.jar" file. You can either use 
-    the .jar file directly or copy the org directory into your classpath.
+    On Windows, execute the following script in the velocity\build directory:
+
+<p>
+<source><![CDATA[
+
+build-velocity.bat
+]]></source>
 </p>
 
 <p>
-    If you get a compiler error about not being able to find some package, then 
-    ensure the scripts are edited to properly specify the paths 
-    to each of the packages.
+    Executing this script will create a "bin" directory within the Velocity
+    distribution directory. The bin directory will contain the compiled class 
+    files (inside a "classes" directory) as well as a "velocity.jar" file. 
+    Be sure to update your classpath to include Velocity's .jar file.
+</p>
+
+<p>
+    If you get a compiler error related to one or more packages that could not 
+    be found, ensure the build-velocity script is edited to properly specify 
+    the paths to each of the packages that could not be found.
 </p>
 
 </s1>
