@@ -16,7 +16,7 @@ There are a few things you can do in #if($foobar) GOOGLE! #else$pedantic#end mod
 
 Like get the spacing between things #foreach($a in $stringarray)$a#end to be really, really tight.
 
-Further, it now binds any \\n to the control structures, taking them out of the output.
+Further, it now binds any \n to the control structures, taking them out of the output.
 The hope that this is What You Expect. 
 So...
 
