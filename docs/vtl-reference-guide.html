@@ -23,8 +23,6 @@
 
 
 
-
-
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>About this Guide</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
 <P align="justify">
@@ -37,250 +35,134 @@
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>References</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 
-<P align="justify">
-    There are three types of references in the VTL: variables, properties
-    and methods. As a designer using the VTL, you and your engineers must 
-    come to an agreement on the specific names of references so
-    you can use them correctly in your templates.
-</P>
+<P align="justify"></P>
 
-<P align="justify">
-    <B>Variables</B>
-    <BR>
-    The shorthand notation of a variable consists of a leading <VTL><FONT face="courier, monospaced">$</FONT></VTL> character
-    followed by a VTL <I>Identifier</I>. A VTL Identifier must
-    start with an alphabetic character (a .. z or A .. Z); the rest of the
-    characters are limited to the following types of characters: alphabetic,
-    numeric (0 .. 9), hyphen (&quot;-&quot;), and underscore (&quot;_&quot;).
-    Here are examples of valid variable references in the VTL:   
-</P>
+    <BLOCKQUOTE><UL>
 
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $mudSlinger
-    $mud-slinger
-    $mud_slinger
-    $mudSlinger1
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
+    <LI>Variables</LI>
+    <P align="justify"></P>
+    Notation:
+    <P align="justify"></P>
+    <B>$</B> [ <B>!</B> ][ <B>{</B> ][ <B>a..z</B>, <B>A..Z</B> ][ <B>a..z</B>, <B>A..Z</B>, <B>0..9</B>, <B>-</B>, <B>_</B> ][ <B>}</B> ]
+    <P align="justify"></P>
+    Examples:<BR>
+    Normal notation: <VARIABLE><FONT face="courier, monospaced">$mud-Slinger_9</FONT></VARIABLE><BR>
+    Silent notation: <VARIABLE><FONT face="courier, monospaced">$!mud-Slinger_9</FONT></VARIABLE><BR>
+    Formal notation: <VARIABLE><FONT face="courier, monospaced">${mud-Slinger_9}</FONT></VARIABLE><BR>
+    <P align="justify"></P>
 
-<P align="justify">
-    <B>Properties</B>
-    <BR>
-    Properties are references that consist of a leading <VTL><FONT face="courier, monospaced">$</FONT></VTL>
-    character followed a VTL Identifier, followed by
-    a dot character (&quot;.&quot;) and another VTL Identifier. 
-    These are examples of valid property references in the VTL:
-</P>
+    <LI>Properties</LI>
+    <P align="justify"></P>
+    Notation:
+    <P align="justify"></P>
+    <B>$</B> [ <B>{</B> ][ <B>a..z</B>, <B>A..Z</B> ][ <B>a..z</B>, <B>A..Z</B>, <B>0..9</B>, <B>-</B>, <B>_</B> ]*<B>.</B>[<B>a..z</B>, <B>A..Z</B> ][ <B>a..z</B>, <B>A-Z</B>, <B>0..9</B>, <B>-</B>, <B>_</B> ]* [ <B>}</B> ]
+    <P align="justify"></P>
+    Examples:
+    <P align="justify"></P>
+    Regular Notation: $customer.Address<BR>
+    Formal Notation: ${purchase.Total}<BR>
+    <P align="justify"></P>    
 
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $customer.Address
-    $purchase.Total
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
+    <LI>Methods</LI>
+    <P align="justify"></P>
+    Notation:
+    <P align="justify"></P>
+    <B>$</B> [ <B>{</B> ][ <B>a..z</B>, <B>A..Z</B> ][ <B>a..z</B>, <B>A..Z</B>, <B>0..9</B>, <B>-</B>, <B>_</B> ]*<B>.</B>[ <B>a..z</B>, <B>A..Z</B> ][ <B>a..z</B>, <B>A..Z</B>, <B>0..9</B>, <B>-</B>, <B>_</B> ]*<B>(</B> [ opional parameter list... ] <B>)</B> [<B> } </B>]<BR>
+    Examples:<BR>
+    Regular Notation: $customer.getAddress()<BR>
+    Formal Notation: ${purchase.getTotal()}<BR>
+    Regular Notation with Parameter List: $page.setTitle( &quot;My Home Page&quot; )<BR>
+    <P align="justify"></P>
+    VTL Properties can be used as a shorthand notation for VTL Methods that take <VTL><FONT face="courier, monospaced">get</FONT></VTL> and <VTL><FONT face="courier, monospaced">set</FONT></VTL>. Either <VTL><FONT face="courier, monospaced">$object.getMethod()</FONT></VTL> or <VTL><FONT face="courier, monospaced">$object.setMethod()</FONT></VTL> can be abbreviated as <VTL><FONT face="courier, monospaced">$object.Method</FONT></VTL>. It is generally preferable to use a Property when available. The main difference between Properties and Methods is that you can specify a parameter list to a Method.
+    <P align="justify"></P>
 
-<P align="justify">
-    <B>Methods</B>
-    <BR>
-    Methods are references that consist of a leading <VTL><FONT face="courier, monospaced">$</FONT></VTL>
-    character followed a VTL Identifier, followed
-    by a VTL <I>Method Body</I>. A VTL Method Body
-    consists of a VTL Identifier followed by a
-    left parenthesis character (&quot;(&quot;), followed by an optional parameter
-    list, followed by right parenthesis character (&quot;)&quot;).
-    Examples of valid method references in the
-    VTL are shown below:
-</P>
-
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $customer.getAddress()
-    $purchase.getTotal()
-    $page.setTitle( &quot;My Home Page&quot; )
-    $person.setAttributes( &quot;Strange&quot;,&quot;Weird&quot;,&quot;Excited&quot; )
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    VTL Properties can be used as a shorthand notation 
-    for VTL Methods that take <VTL><FONT face="courier, monospaced">get</FONT></VTL> and <VTL><FONT face="courier, monospaced">set</FONT></VTL>.
-    <VTL><FONT face="courier, monospaced">$object.getMethod()</FONT></VTL> or <VTL><FONT face="courier, monospaced">$object.setMethod()</FONT></VTL>
-    can be abbreviated as <VTL><FONT face="courier, monospaced">$object.Method</FONT></VTL>.
-</P>
-
-<P align="justify">
-    It is generally preferable to use a Property when available. The 
-    main difference between Properties and Methods is that you can 
-    specify a parameter list to a Method.
-</P>
-
-<P align="justify">
-    <B>Formal Reference Notation</B>
-    <BR>
-    In the examples listed above the shorthand notation for
-    references was used, but there is a formal notation that
-    looks like the following:
-</P>
-
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    ${mudSlinger}
-    ${customer.Address}
-    ${purchase.getTotal()}
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    Shorthand notation is usually used for references, but formal
-    reference notation is required for correct processing when 
-    the identifier would otherwise be adjacent to text. In the
-    following example, Velocity would determine the reference
-    to be <VTL><FONT face="courier, monospaced">$vicemaniac</FONT></VTL> were shorthand reference notation
-    used.
-</P>
-
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    Jack is a ${vice}maniac.
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-
-<P align="justify">
-    <B>Quiet Reference Notation</B>
-    <BR>
-    When Velocity encounters an undefined reference,
-    it outputs the image of the reference. For example, if
-    <VTL><FONT face="courier, monospaced">$reference</FONT></VTL> is undefined, the output will be
-    <VTL><FONT face="courier, monospaced">$reference</FONT></VTL>. Quiet reference notation can be 
-    used to suppress this output, and is denoted with a 
-    <VTL><FONT face="courier, monospaced">!</FONT></VTL> after the <VTL><FONT face="courier, monospaced">$</FONT></VTL> character; for
-    example, the quiet notation for <VTL><FONT face="courier, monospaced">$reference</FONT></VTL>
-    is <VTL><FONT face="courier, monospaced">$!reference</FONT></VTL> if shorthand notation is used,
-    and <VTL><FONT face="courier, monospaced">$!{reference}</FONT></VTL> if formal notation is used.
-</P>
+    </UL></BLOCKQUOTE>
 
 </FONT></TD></TR></TABLE></DIV><BR>
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Directives</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
-<P align="justify">        
-    <B>#set</B>
-    <BR>
-    The <VTL><FONT face="courier, monospaced">#set</FONT></VTL> directive is used to set the value of 
-    a reference. 
-</P>
 
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set( $ref = arg )
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    <VTL><FONT face="courier, monospaced">$ref</FONT></VTL> - The LHS of the assignment must be
-    a variable reference or a property reference. 
-</P>
-
-<P align="justify">
-    <VTL><FONT face="courier, monospaced">arg</FONT></VTL> - The RHS is limited to the following
-    types:
+    <P align="justify"></P>
     <BLOCKQUOTE><UL>
-        <LI>Variable reference</LI>
-        <LI>String literal</LI>
-        <LI>Property reference</LI>
-        <LI>Method reference</LI>
-        <LI>Number literal</LI>
-        <LI>Object array</LI>
-    </UL></BLOCKQUOTE>        
-</P>
-
-<P align="justify">
-    Here are examples demonstrating the 
-    aforementioned types:
-</P>
-
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set( $monkey = $bill )
-    #set( $monkey.Friend = &quot;monica&quot; )
-    #set( $monkey.Blame = $whitehouse.Leak )
-    #set( $monkey.Plan = $spindoctor.weave($web) )
-    #set( $monkey.Number = 123 )
-    #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] )
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    The RHS can also be a simple arithmetic expression:
-</P>    
-
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #set( $value = $foo + 1 )
-    #set( $value = $bar - 1 )
-    #set( $value = $foo * $bar )
-    #set( $value = $foo / $bar )
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-
-<P align="justify">        
-    <B>#foreach</B>
+    <LI><B>#set</B> - Establishes the value of a reference.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>
+    <B>#set( $</B>ref <B>=</B> [ <B>&quot;</B>, <B>'</B> ]arg[ <B>&quot;</B>, <B>'</B> ] )
+    <P align="justify"></P>
+    Usage:
     <BR>
-    The <VTL><FONT face="courier, monospaced">#foreach</FONT></VTL> directive provides a simple way 
-    of looping through a list of objects.
-</P>
+    <VTL><FONT face="courier, monospaced">$ref</FONT></VTL> - The LHS of the assignment must be a variable reference or a property reference.<BR>
+    <VTL><FONT face="courier, monospaced">arg</FONT></VTL> - The RHS of the assignment, <VTL><FONT face="courier, monospaced">arg</FONT></VTL> is parsed if enclosed in double quotes, and not parsed if enclosed in single quotes. Examples of possible types are demonstrated:
+    <BR>
+    <BLOCKQUOTE><UL>
+        <LI>Variable reference: #set( $monkey = &quot;bill&quot; )</LI>
+        <LI>String literal: #set( $monkey.Friend = &quot;monica&quot; )</LI>
+        <LI>Property reference: #set( $monkey.Blame = $whitehouse.Leak )</LI>
+        <LI>Method reference: #set( $monkey.Plan = $spindoctor.weave($web) )</LI>
+        <LI>Number literal: #set( $monkey.Number = 123 )</LI>
+        <LI>Object array: #set( $monkey.Say = [&quot;Not&quot;, $my, &quot;fault&quot;] )</LI>
+    </UL></BLOCKQUOTE>
+    The RHS can also be a simple arithmetic expression, such as:<BR>
+        <BLOCKQUOTE><UL>
+	    <LI>Addition: #set( $value = $foo + 1 )</LI>
+	    <LI>Subtraction: #set( $value = $bar - 1 )</LI>
+	    <LI>Multiplication: #set( $value = $foo * $bar )</LI>
+	    <LI>Division: #set( $value = $foo / $bar )</LI>
+	    <LI>Remainder: #set( $value = $foo % $bar )</LI>
+	    </UL></BLOCKQUOTE>
+    <P align="justify"></P>
 
-<P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    &lt;table&gt;
-    #foreach( $customer in $customerList )
-        &lt;tr&gt;
-          &lt;td&gt;
-            $customer.Name
-          &lt;/td&gt;
-        &lt;/tr&gt;
-    #end        
+
+    <LI><B>#if / #ifelse / #else</B> -  output conditional on truth of statements.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>
+    <B>#if(</B> [condition] <B>)</B> [output] [ <B>#elseif( </B>[condition] <B>)</B> [output] ]* [ <B>#else( </B>[condition] <B>)</B> [output] ] <B>#end</B> 
+    <P align="justify"></P>
+    Usage:
+    <BR>
+    <VTL><FONT face="courier, monospaced">condition</FONT></VTL> - If a boolean, considered true if it has a true false; if not a boolean, considered true if not null. Examples of conditions are listed below:<BR>
+    <BLOCKQUOTE><UL>
+           <LI>Equivalent Operator: #if( $foo == $bar )</LI>
+	   <LI>Greater Than: #if( $foo &gt; 42 )</LI>
+	   <LI>Less Than: #if( $foo &lt; 42 )</LI>
+	   <LI>Greater Than or Equal To: #if( $foo &gt;= 42 )</LI>
+	   <LI>Less Than or Equal To: #if( $foo &lt;= 42 )</LI>
+	   <LI>Equals Number: #if( $foo = 42 )</LI>
+	   <LI>Equals String: #if( $foo = &quot;bar&quot; )</LI>
+    </UL></BLOCKQUOTE>	   
+    <VTL><FONT face="courier, monospaced">output</FONT></VTL> - May contain VTL. 
+    <P align="justify"></P>
+
+    <LI><B>#foreach</B> - Loops through a list of objects.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>
+    <B>#foreach( $</B>ref1 <B>in $</B>ref2 <B>)</B> [ statement... ] <B>#end</B> 
+    <P align="justify"></P>
+    Usage:
+    <BR>
+    <VTL><FONT face="courier, monospaced">$ref1</FONT></VTL> - The first variable reference is the item.<BR>
+    <VTL><FONT face="courier, monospaced">$ref2</FONT></VTL> - The second variable reference is the list that holds the items.<BR>
+    <VTL><FONT face="courier, monospaced">statement</FONT></VTL> - What is done each time Velocity finds a valid item ($ref1) in the list ($ref2).<BR>
+    Velocity provides an easy way to get the loop counter so that you can do something like the following:<BR>   
+
+    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE> 
+    &lt;table&gt; 
+    #foreach( $customer in $customerList ) 
+    &lt;tr&gt;&lt;td&gt; $velocityCounter &lt;/td&gt;&lt;td&gt; $customer.Name &lt;/td&gt;&lt;/tr&gt; 
+    #end &lt;/table&gt; 
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
+    <BR>
 
-<P align="justify">
-    Velocity provides an easy way to get the loop
-    counter so that you can do something like the
-    following:
-</P>
-    
-<P align="justify">    
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    &lt;table&gt;
-    #foreach( $customer in $customerList )
-        &lt;tr&gt;
-          &lt;td&gt;
-            $velocityCounter
-          &lt;/td&gt;
-          &lt;td&gt;
-            $customer.Name
-          &lt;/td&gt;
-        &lt;/tr&gt;
-    #end        
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-</P>
-
-<P align="justify">
-    The default name for the loop counter variable
-    reference, which is specified in the velocity.properties
-    file, is $velocityCount. By default the counter starts
-    at 1, but this can be set to either 0 or 1 in the 
-    velocity.properties file. Here's what the loop counter 
-    properties section of the velocity.properties file appears:
-</P>    
+    The default name for the loop counter variable reference, which is specified in the velocity.properties file, is $velocityCount. By default the counter starts at 1, but this can be set to either 0 or 1 in the <FILENAME><I>velocity.properties</I></FILENAME> file. Here's what the loop counter properties section of the <FILENAME><I>velocity.properties</I></FILENAME> file appears:    
 
 <P align="justify">    
     <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
     # Default name of the loop counter
     # variable refernce.
-y    counter.name = velocityCount
+      counter.name = velocityCount
     
     # Default starting value of the loop
     # counter variable reference.
@@ -288,117 +170,76 @@ y    counter.name = velocityCount
     </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
 </P>
 
- <B>#parse</B>
-    <P align="justify">
-    The <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> script element allows the template designer to import a 
-    local file that contains VTL. Velocity will parse the VTL and render the template specified.
-    </P>
+    <LI><B>#include</B> - Renders local file(s) that are not parsed by Velocity.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>
+    <B>#include( </B>arg[, arg2, ... argn]<B> )</B> 
+    <P align="justify"></P>
+    <VTL><FONT face="courier, monospaced">arg</FONT></VTL> - Refers to a valid file under TEMPLATE_ROOT. Can be one of two types:
+    <BR>
+    <BLOCKQUOTE><UL>
+          <LI>String: #include( &quot;disclaimer.txt&quot;, &quot;opinion.txt&quot; )</LI>
+	  <LI>Variable: #include( $foo, $bar )</LI>
+    </UL></BLOCKQUOTE>
+    <P align="justify"></P>
 
-    <P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    #parse( &quot;me.vm&quot; )
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>
+    <LI><B>#parse</B> - Renders a local template that is parsed by Velocity.</LI>
+    <P align="justify"></P>
 
-    <P align="justify">
-    Like the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> directive, <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> 
-    can take a variable rather than a template. Any templates to which <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> 
-    refers must be included under TEMPLATE_ROOT. Unlike the <VTLDIRECTIVE><FONT face="courier, monospaced">#include</FONT></VTLDIRECTIVE> directive, 
-    <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> will only take a single argument. 
-    </P>
+    Format:
+    <P align="justify"></P>
+    <B>#parse( </B>arg<B> )</B>
+    <P align="justify"></P>
+    <VTL><FONT face="courier, monospaced">arg</FONT></VTL> - Refers to a template under TEMPLATE_ROOT. Can be one of two types:
+    <BR>
+    <BLOCKQUOTE><UL>
+          <LI>String: #parse( &quot;lecorbusier.vm&quot; )</LI>
+	  <LI>Variable: #parse( $foo )</LI>
+    </UL></BLOCKQUOTE>
+    <P align="justify"></P>
+    Recursion permitted. See <VTL><FONT face="courier, monospaced">parse_directive.maxdepth</FONT></VTL> in <FILENAME><I>velocity.properties</I></FILENAME> 
+    to change from parse depth. (The default parse depth is 10.)
+    <P align="justify"></P>
 
-    <P align="justify">
-    VTL templates can have <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> statements referring to templates that in turn 
-    have <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> statements. By default set to 10, the <VTL><FONT face="courier, monospaced">parse_directive.maxdepth</FONT></VTL> 
-    line of the <FILENAME><I>velocity.properties</I></FILENAME> allows users to customize maximum number of 
-    <VTLDIRECTIVE><FONT face="courier, monospaced">#parse</FONT></VTLDIRECTIVE> referrals that can occur from a single 
-    template. (Note: If the <VTL><FONT face="courier, monospaced">parse_directive.maxdepth</FONT></VTL> property is absent from the 
-    <FILENAME><I>velocity.properties</I></FILENAME> file, Velocity will set this default to 10.)  
-    Recursion is permitted, for example, if the template <FILENAME><I>dofoo.vm</I></FILENAME> contains the following lines:
-    </P>
+    <LI><B>#stop</B> - Stops the template engine.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>
+    #stop
+    <P align="justify"></P>
+    Usage:
+    <BR>
+    Intended for debugging purposes.
+    <P align="justify"></P>
 
-    <P align="justify">
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    Count down.
-    #set( $count = 8 )
-    #parse( &quot;parsefoo.vm&quot; )
-    All done with dofoo.vm!
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>    
-    
-    <P align="justify">
-    It would reference the template <FILENAME><I>parsefoo.vm</I></FILENAME>, which might contain the following VTL:
-    </P>
+    <LI><B>#macro</B> - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required.</LI>
+    <P align="justify"></P>
+    Format:
+    <P align="justify"></P>   
+    <B>#macro(</B> vmname $arg1[, $arg2, $arg3, ... $argn ] <B>)</B> [ VM VTL code... ] <B>#end</B>
+    <P align="justify"></P>
+    <VTL><FONT face="courier, monospaced">vmname</FONT></VTL> - Name used to call the VM (<VTL><FONT face="courier, monospaced">#vmname</FONT></VTL>)<BR>
+    <VTL><FONT face="courier, monospaced">$arg1 $arg2 [ ... ]</FONT></VTL> - Arguments to the VM. There can be any number of argumentss, but the number used at invocation must match the number specified in the definition.<BR>
+    <VTL><FONT face="courier, monospaced">[ VM VTL code... ]</FONT></VTL> - Any valid VTL code, anything you can put into a template, can be put into a VM.
+   <P align="justify"></P>
 
-    <P align="justify">    
-    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-    $count
-    #set( $count = $count - 1 )
-    #if( $count &gt; 0 )
-      #parse( &quot;parsefoo.vm&quot; )
-    #else
-      All done with parsefoo.vm!
-    #end
-    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-    </P>    
+   Once defined, the VM is used like any other VTL directive in a template.
+   <P align="justify"></P>
 
-    <P align="justify">
-    After &quot;Count down.&quot; is displayed, Velocity passes through <FILENAME><I>parsefoo.vm</I></FILENAME>, counting down from 8. 
-    When the count reaches 0, it will display the &quot;All done with parsefoo.vm!&quot; message. At this point, Velocity will return to 
-    <FILENAME><I>dofoo.vm</I></FILENAME> and output the &quot;All done with dofoo.vm!&quot; message.
-    </P>
-
-
- <B>#macro</B>
-
-   <P align="justify">
-   A Velocimacro is defined with the <VTL><FONT face="courier, monospaced">#macro</FONT></VTL> 
-   directive.
-   </P>
-
-   <P align="justify">
-   <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
-   #macro( vmname $arg1 $arg2 )
-   &lt;VM VTL code&gt;
-   #end
-   </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-   </P>
-
-   <P align="justify">
-   <VTL><FONT face="courier, monospaced">vmname</FONT></VTL> - The name that will be used to call the VM (<VTL><FONT face="courier, monospaced">#vmname</FONT></VTL>)
-   </P>
-
-   <P align="justify">
-   <VTL><FONT face="courier, monospaced">$arg1 $arg2</FONT></VTL> - Arguments to the VM. A VM can have any number of argumentss,
-   but the number used at invocation must match the number specified in the
-   definition.
-   </P>
-
-   <P align="justify">
-   <VTL><FONT face="courier, monospaced">&lt;VM VTL code&gt;</FONT></VTL> - Any valid VTL code, anything you can put into a
-   template, can be put into a VM.
-   </P>
-
-   <P align="justify">
-   Once defined, the VM is used like any other VTL directive in your template.
-   </P>
-
-   <P align="justify">
    <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>
    #vmname( $arg1 $arg2 )
    </PRE></TD><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE></DIV>
-   </P>
 
-   <P align="justify">
-   VMs can be defined in a 'global library', a 'local library', or
-   'inline' in a template.  Both global library and local libraries can be
-   accessed by any template. The global library contains VMs pre-packaged 
-   with Velocity; the local library allows end users to supplement the 
-   pre-packaged VMs with customized, site-specific VMs. Inline VM
-   definitions are those found in regular 'user' templates, although
-   these can only be used when the <VTL><FONT face="courier, monospaced">velocimacro.permissions.allowInline=true</FONT></VTL>
-   in the <FILENAME><I>velocity.properties</I></FILENAME> file.
-   </P>
+   <P align="justify"></P>
+   VMs can be defined in one of three places:
+   <BR>
+   Global library: VMs pre-packaged with Velocity; available from any template<BR>
+   Local library: customized, user-defined, site-specific VMs; availabe from any template<BR>
+   Inline: found in regular templates, only usable when <VTL><FONT face="courier, monospaced">velocimacro.permissions.allowInline=true</FONT></VTL> in <FILENAME><I>velocity.properties</I></FILENAME>.
+   <P align="justify"></P>
+
+</UL></BLOCKQUOTE>
 
 </FONT></TD></TR></TABLE></DIV><BR>
 
