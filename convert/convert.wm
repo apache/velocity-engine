@@ -28,6 +28,9 @@
   }
 }
 
+ #set $action= $permission.getAction();
+   $resource.getDescription();: $resource.getPattern();
+
 $_leadingUnderscore
 
 This is an explicitly terminated $statement;.
