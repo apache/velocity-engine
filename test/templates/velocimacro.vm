@@ -71,4 +71,18 @@ Test boolean args :
 
 #testbool(true)
 #testbool(false)
+
+Test map args :
+
+#macro(showmap $map $key)
+$map.get($key)
+#end
+
+#set($map = {"a":"aval", "b":"bval" } )
+#showmap($map "a")
+#showmap($map "b")
+
+#showmap({"a":"avalinline", "b":"bvalinline"} "a")
+#showmap({"a":"avalinline", "b":"bvalinline"} "b")
+
 - Another fine Velocity Production -
