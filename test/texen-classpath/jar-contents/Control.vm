@@ -1,0 +1,11 @@
+#set ( $sourceFile = "Turbine${baseName}Service.java" )
+$generator.parse("ServiceImplementation.vm",$sourceFile)
+
+#set ( $sourceFile = "${baseName}Service.java" )
+$generator.parse("ServiceInterface.vm",$sourceFile)
+
+#set ( $sourceFile = "Turbine${baseName}.java" )
+$generator.parse("ServiceStaticHelper.vm",$sourceFile)
+
+#set ( $sourceFile = "Test.txt" )
+$generator.parse("Test.vm",$sourceFile)
