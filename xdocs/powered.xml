@@ -96,19 +96,24 @@
      Hazel - Web Start/JNLP app catalog creator (jnlp2html)</a>
     </td>
     <td>
-    <p>
     Hazel allows you to create your own Web Start/JNLP app catalogs.
     Hazel extracts all JNLP links from HTML documents and creates an
-    informative, neat looking HTML document listing all WebStart/JNLP apps along
-    with their vendor, version, description, homepage and more. Hazel comes with
-    built-in templates, but also allows you to use your very own.
-    </p>
-    <p>
-    Hazel uses Velocity as its template engine and, therefore, spares you from
-    learning yet another proprietary template syntax.
-    </p>
+    informative, neat looking HTML document listing all WebStart/JNLP apps.
+    Hazel uses Velocity as its template engine.
     </td>
    </tr>
+   
+    <tr>
+    <td>
+     <a href="http://xjr.sourceforge.net/">XJR : XML to Java via Reflection API</a>
+    </td>
+    <td>
+        Project toolkit for XML &lt;-&gt; Java compilation and mapping. 
+        Among other things, compiles DTDs to Java class hierarchies. 
+        Will create XML documents from those hierarchies and others...
+    </td>
+   </tr>
+   
 
  </table>
  
