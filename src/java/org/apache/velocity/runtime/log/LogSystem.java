@@ -61,7 +61,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogSystem.java,v 1.6 2001/08/07 22:07:37 geirm Exp $
+ * @version $Id: LogSystem.java,v 1.7 2001/08/20 11:44:49 geirm Exp $
  */
 public interface LogSystem
 {
@@ -90,7 +90,7 @@ public interface LogSystem
     /**
      *  init()
      */
-    public void init( RuntimeServices rs );
+    public void init( RuntimeServices rs ) throws Exception;
 
     /**
      * Send a log message from Velocity.

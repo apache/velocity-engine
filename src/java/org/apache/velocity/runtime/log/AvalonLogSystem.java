@@ -74,7 +74,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.8 2001/08/20 11:09:21 geirm Exp $
+ * @version $Id: AvalonLogSystem.java,v 1.9 2001/08/20 11:44:49 geirm Exp $
  */
 public class AvalonLogSystem implements LogSystem
 {
@@ -93,31 +93,47 @@ public class AvalonLogSystem implements LogSystem
     }
 
     public void init( RuntimeServices rs )
+        throws Exception
     {
         this.rsvc = rs;
 
         /*
-         *  since this is a Velocity-provided logger, we will
-         *  use the Runtime configuration
+         *  if a logger is specified, we will use this instead of
+         *  the default
          */
-        String logfile = (String) rsvc.getProperty( RuntimeConstants.RUNTIME_LOG );
-
-        /*
-         *  now init.  If we can't, panic!
-         */
-        try
+        String loggerName = (String) rsvc.getProperty("runtime.log.logsystem.avalon.logger");
+        
+        if (loggerName != null)
         {
-            init( logfile );
-
-            logVelocityMessage( 0, 
-                "AvalonLogSystem initialized using logfile " + logPath );
-        }
-        catch( Exception e )
+            this.logger = Hierarchy.getDefaultHierarchy().getLoggerFor(loggerName);
+        } 
+        else 
         {
-            System.out.println( 
-                "PANIC : Error configuring AvalonLogSystem : " + e );
-            System.err.println( 
-                "PANIC : Error configuring AvalonLogSystem : " + e );
+            /*
+             *  since this is a Velocity-provided logger, we will
+             *  use the Runtime configuration
+             */
+            String logfile = (String) rsvc.getProperty( RuntimeConstants.RUNTIME_LOG );
+
+            /*
+             *  now init.  If we can't, panic!
+             */
+            try
+            {
+                init( logfile );
+
+                logVelocityMessage( 0,
+                    "AvalonLogSystem initialized using logfile " + logPath );
+            }
+            catch( Exception e )
+            {
+                System.out.println(
+                    "PANIC : Error configuring AvalonLogSystem : " + e );
+                System.err.println(
+                    "PANIC : Error configuring AvalonLogSystem : " + e );
+
+                throw new Exception("Unable to configure AvalonLogSystem : " + e );
+            }
         }
     }
 
