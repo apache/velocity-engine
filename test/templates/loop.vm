@@ -12,4 +12,4 @@ test doesn't fail incorrectly.
 #foreach ($element in $list)
     #set $foo = $provider.concat(["<", $element, ">"])
     $provider.concat("hello", $foo)
-#end    
+#end
