@@ -68,6 +68,7 @@ import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.Runtime;
 
 /**
@@ -75,7 +76,7 @@ import org.apache.velocity.runtime.Runtime;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Generator.java,v 1.14 2001/03/23 16:05:36 jvanzyl Exp $ 
+ * @version $Id: Generator.java,v 1.15 2001/04/02 01:15:18 geirm Exp $ 
  */
 public class Generator
 {
@@ -315,7 +316,9 @@ public class Generator
                 fileWriter = (FileWriter) fileWriters.get(outputFile);
             }                
             
-            template.merge (controlContext,fileWriter);
+            VelocityContext vc = new VelocityContext( controlContext );
+            template.merge (vc,fileWriter);
+
             //fw.close();
             
             return "";
