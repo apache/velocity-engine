@@ -52,6 +52,21 @@
  * <http://www.apache.org/>.
  */
 
+package org.apache.velocity.runtime.directive;
+
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
+
 /**
  *  The function of this class is to proxy for the calling parameter to the VM.
  *
@@ -71,17 +86,17 @@
  *
  *  These arguments can be, in the lingo of
  *  the parser, one of :
- *
- *    Reference() : anything that starts with '$'
- *    StringLiteral() : something like "$foo" or "hello geir"
- *    NumberLiteral() : 1, 2 etc
- *    IntegerRange() : [ 1..2] or [$foo .. $bar]
- *    ObjectArray() : [ "a", "b", "c"]
- *    True() : true
- *    False() : false
- *    Word() : not likely - this is simply allowed by the parser so we can have
+ *   <ul>
+ *   <li> Reference() : anything that starts with '$'
+ *   <li> StringLiteral() : something like "$foo" or "hello geir"
+ *   <li> NumberLiteral() : 1, 2 etc
+ *   <li> IntegerRange() : [ 1..2] or [$foo .. $bar]
+ *   <li> ObjectArray() : [ "a", "b", "c"]
+ *   <li> True() : true
+ *   <li> False() : false
+ *    <li>Word() : not likely - this is simply allowed by the parser so we can have
  *             syntactical sugar like #foreach($a in $b)  where 'in' is the Word  
- *
+ *    </ul>
  *  Now, Reference(), StringLit, NumberLit, IntRange, ObjArr are all dynamic things, so 
  *  their value is gotten with the use of a context.  The others are constants.  The trick
  *  we rely on is that the context rather than this class really represents the 
@@ -94,25 +109,8 @@
  *  into a local context.
  *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: VMProxyArg.java,v 1.1 2001/01/13 16:39:06 geirm Exp $ 
+ *  @version $Id: VMProxyArg.java,v 1.2 2001/01/14 14:57:57 geirm Exp $ 
  */
-
-package org.apache.velocity.runtime.directive;
-
-import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
-
-import org.apache.velocity.context.Context;
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Runtime;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ASTReference;
-import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.util.StringUtils;
-
-
 public class VMProxyArg
 {
     /**  type of arg I will have */
