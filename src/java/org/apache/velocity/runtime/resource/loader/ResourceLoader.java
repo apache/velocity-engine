@@ -68,7 +68,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * extend.
  * 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceLoader.java,v 1.8 2001/03/20 01:39:30 jon Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: ResourceLoader.java,v 1.9 2001/03/20 17:28:38 geirm Exp $
  */
 public abstract class ResourceLoader
 {
@@ -97,8 +98,21 @@ public abstract class ResourceLoader
      */
     public void commonInit(Configuration configuration)
     {
-        isCachingOn = configuration.getBoolean("cache");
-        modificationCheckInterval = configuration.getLong("modificationCheckInterval");
+        /*
+         *  these two properties are not required for all loaders.
+         *  For example, for ClasspathLoader, what would cache mean? 
+         *  so adding default values which I think are the safest
+         *
+         *  don't cache, and modCheckInterval irrelevant...
+         */
+
+        isCachingOn = configuration.getBoolean("cache", false);
+        modificationCheckInterval = configuration.getLong("modificationCheckInterval", 0);
+        
+        /*
+         * this is a must!
+         */
+
         className = configuration.getString("class");
     }
 
