@@ -23,6 +23,10 @@ This section describes changes to the main branch after the
 
 <ul>
 <li>
+Deprecated org.apache.velocity.runtime.Runtime in favor of the
+RuntimeInstance and RuntimeSingleton classes. (dlr)
+</li>
+<li>
 Fix to MethodMap part of introspector to make the overloaded
 method selection work as specified in the JLS, from Attila
 Szegedi. (gmj)
