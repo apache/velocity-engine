@@ -66,6 +66,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.configuration.*;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.ArrayIterator;
 
@@ -81,7 +82,7 @@ import org.apache.velocity.runtime.exception.ReferenceException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Foreach.java,v 1.19 2000/11/16 01:54:36 jvanzyl Exp $
+ * @version $Id: Foreach.java,v 1.20 2000/11/17 02:24:38 daveb Exp $
  */
 public class Foreach extends Directive
 {
@@ -90,10 +91,10 @@ public class Foreach extends Directive
     private final static int MAP = 3;
     
     private final static String COUNTER_IDENTIFIER =
-        Runtime.getString(Runtime.COUNTER_NAME);
+        VelocityResources.getString(Runtime.COUNTER_NAME);
     
     private final static int COUNTER_INITIAL_VALUE =
-        new Integer(Runtime.getString(Runtime.COUNTER_INITIAL_VALUE)).intValue();
+        new Integer(VelocityResources.getString(Runtime.COUNTER_INITIAL_VALUE)).intValue();
 
     private String elementKey;
     private Object listObject;
