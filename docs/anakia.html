@@ -97,12 +97,23 @@
 
 <P align="justify">
 <DIV align="center"><TABLE border="0" cellpadding="0" cellspacing="4"><TR><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#023264" height="1" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR><TR><TD bgcolor="#023264" width="1"><IMG border="0" height="1" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD><TD bgcolor="#ffffff"><PRE>&lt;project name=&quot;build-site&quot; default=&quot;docs&quot; basedir=&quot;.&quot;&gt;
-    &lt;property name=&quot;project.name&quot;   value=&quot;site&quot;/&gt;
     &lt;property name=&quot;docs.src&quot; value=&quot;../xdocs&quot;/&gt;
     &lt;property name=&quot;docs.dest&quot; value=&quot;../docs&quot;/&gt;
-    &lt;taskdef name=&quot;anakia&quot; classname=&quot;org.apache.velocity.anakia.AnakiaTask&quot;/&gt;
 
-    &lt;target name=&quot;docs&quot;&gt;
+    &lt;target name=&quot;prepare&quot;&gt;
+        &lt;available classname=&quot;org.apache.velocity.anakia.AnakiaTask&quot; 
+        property=&quot;AnakiaTask.present&quot;/&gt;
+    &lt;/target&gt;
+
+    &lt;target depends=&quot;prepare&quot; name=&quot;prepare-error&quot; unless=&quot;AnakiaTask.present&quot;&gt;
+        &lt;echo&gt;
+            AnakiaTask is not present! Please check to make sure that 
+            velocity.jar is in your classpath.
+        &lt;/echo&gt;
+    &lt;/target&gt;
+
+    &lt;target name=&quot;docs&quot; depends=&quot;prepare-error&quot; if=&quot;AnakiaTask.present&quot;&gt;
+        &lt;taskdef name=&quot;anakia&quot; classname=&quot;org.apache.velocity.anakia.AnakiaTask&quot;/&gt;
         &lt;anakia basedir=&quot;${docs.src}&quot; destdir=&quot;${docs.dest}/&quot;
              extension=&quot;.html&quot; style=&quot;./site.vsl&quot;
              projectFile=&quot;./stylesheets/project.xml&quot;
@@ -275,12 +286,17 @@
       </FONT></TD>
         </TR>
         <TR>
-            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$xpath.applyTo(&quot;/document/author&quot;, $root)&nbsp;
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">$xpath.applyTo(&quot;document/properties/@title&quot;, $root)&nbsp;
       </FONT></TD> 
-            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">This context object returns a List of NodeSet objects. 
-            Essentially, it gives you the power of the XPath specification 
-            within Anakia. This context object is still under development
-            and more documentation will follow soon.&nbsp;
+            <TD align="left" bgcolor="#a0ddf0" colspan="" rowspan="" valign="top"><FONT color="#000000" face="arial,helvetica,sanserif" size="-1">            
+               The W3C XPath Specification <A href="http://www.w3.org/TR/xpath/">http://www.w3.org/TR/xpath/
+               </A> refers to NodeSets repeatedly, but this implementation 
+               simply uses java.util.List to hold all Nodes.  A 'Node' is any 
+               object in a JDOM object tree, such as an org.jdom.Element, 
+               org.jdom.Document, or org.jdom.Attribute. Please see the .vsl 
+               example file and the org.apache.velocity.anakia.XPathTool javadoc 
+               for more information.
+            &nbsp;
       </FONT></TD>
         </TR>
     </TABLE>

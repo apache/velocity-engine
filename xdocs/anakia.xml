@@ -89,12 +89,23 @@
 
 <p>
 <source><![CDATA[<project name="build-site" default="docs" basedir=".">
-    <property name="project.name"   value="site"/>
     <property name="docs.src" value="../xdocs"/>
     <property name="docs.dest" value="../docs"/>
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
 
-    <target name="docs">
+    <target name="prepare">
+        <available classname="org.apache.velocity.anakia.AnakiaTask" 
+        property="AnakiaTask.present"/>
+    </target>
+
+    <target depends="prepare" name="prepare-error" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that 
+            velocity.jar is in your classpath.
+        </echo>
+    </target>
+
+    <target name="docs" depends="prepare-error" if="AnakiaTask.present">
+        <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".html" style="./site.vsl"
              projectFile="./stylesheets/project.xml"
@@ -235,11 +246,17 @@
             soon.</td>
         </tr>
         <tr>
-            <td>$xpath.applyTo("/document/author", $root)</td> 
-            <td>This context object returns a List of NodeSet objects. 
-            Essentially, it gives you the power of the XPath specification 
-            within Anakia. This context object is still under development
-            and more documentation will follow soon.</td>
+            <td>$xpath.applyTo("document/properties/@title", $root)</td> 
+            <td>            
+               The W3C XPath Specification <link 
+               href="http://www.w3.org/TR/xpath/">http://www.w3.org/TR/xpath/
+               </link> refers to NodeSets repeatedly, but this implementation 
+               simply uses java.util.List to hold all Nodes.  A 'Node' is any 
+               object in a JDOM object tree, such as an org.jdom.Element, 
+               org.jdom.Document, or org.jdom.Attribute. Please see the .vsl 
+               example file and the org.apache.velocity.anakia.XPathTool javadoc 
+               for more information.
+            </td>
         </tr>
     </table>
 </p>
