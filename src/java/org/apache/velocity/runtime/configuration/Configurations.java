@@ -82,7 +82,7 @@ import java.io.*;
  * configuration syntax.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @version $Id: Configurations.java,v 1.3 2001/03/04 00:39:24 jvanzyl Exp $
+ * @version $Id: Configurations.java,v 1.4 2001/03/04 20:15:13 jvanzyl Exp $
  */
 public class Configurations
 {
@@ -211,7 +211,7 @@ public class Configurations
                 }
                 
                 String newKey = ((String)key).substring(prefix.length() + 1);
-                c.getRepository().setProperty(newKey, (String)repository.get(key));
+                c.getRepository().setProperty(newKey, repository.get(key));
             }
         }
         

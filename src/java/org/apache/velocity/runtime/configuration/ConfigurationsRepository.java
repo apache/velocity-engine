@@ -75,7 +75,7 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: ConfigurationsRepository.java,v 1.2 2001/03/04 00:39:25 jvanzyl Exp $
+ * @version $Id: ConfigurationsRepository.java,v 1.3 2001/03/04 20:15:13 jvanzyl Exp $
  */
 public abstract class ConfigurationsRepository
     extends Hashtable
@@ -157,7 +157,7 @@ public abstract class ConfigurationsRepository
      * @param String key
      * @param String token
      */
-    public void setProperty(String key, String token)
+    public void setProperty(String key, Object token)
     {
         Object o = this.get(key);
         if (o instanceof String)
