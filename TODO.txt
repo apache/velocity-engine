@@ -23,17 +23,6 @@ o Specification Files
 
 +------------- Not Critical For Release -------------+
 
-o Speed testing suite
-
-  PLAN:
-  Create a repeatable testing suite for Velocity so that it can be
-  compared against other tools. In other words, other tools should also
-  be plugged into this suite. We can also use this to test the relevant
-  performance of changes made to Velocity.
-
-  STATUS:
-  None
-
 o Control Caching Resource Usage
 
   Change resource caching to limit cache size and expire
