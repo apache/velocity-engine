@@ -72,3 +72,8 @@ pedantic
 	  	System.out.println("first element"); 
 	  	System.out.println("second element"); 
 		}
+
+Inline set statement :
+
+Here are the prices :  $10.24  $15.32  $12.15 
+
