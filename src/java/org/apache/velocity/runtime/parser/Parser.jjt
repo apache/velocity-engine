@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.55 2001/02/07 17:27:07 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.56 2001/03/01 03:31:13 geirm Exp $ 
 */
 public class Parser
 {
@@ -565,9 +565,20 @@ MORE :
     { 
         if (! inComment)
         {
+            /*
+             * if we find ourselves in REFERENCE, we need to pop down
+             * to end the previous ref
+             */
+ 
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
             inReference = true;
 
-           if ( debugPrint )
+            if ( debugPrint )
                 System.out.print( "$  : going to " + REFERENCE );
 
             stateStackPush();
@@ -579,9 +590,20 @@ MORE :
     { 
         if (! inComment)
         {
+            /*
+             * if we find ourselves in REFERENCE, we need to pop down
+             * to end the previous ref
+             */
+           
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+            
             inReference = true;
 
-           if ( debugPrint )
+            if ( debugPrint )
                 System.out.print( "$!  : going to " + REFERENCE );
 
             stateStackPush();
@@ -706,7 +728,29 @@ TOKEN:
 <DIRECTIVE,REFMOD2>
 TOKEN :
 {
-   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
+//   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
+  < STRING_LITERAL:
+      ("\""
+        (   (~["\"","\\","\n","\r"])
+          | ("\\"
+              ( ["n","t","b","r","f","\\","'","\""]
+              | ["0"-"7"] ( ["0"-"7"] )?
+              | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+              )
+            )
+          | ( "\\" (" ")* "\n")
+        )*
+        "\""
+      )
+    |
+    ("\'"
+        (   (~["\'","\n","\r"])
+          | ( "\\" (" ")* "\n")
+        )*
+        "\'"
+      )
+  >
+   
     {
         /*
          *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
