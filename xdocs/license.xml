@@ -11,9 +11,9 @@
 
 <source test=""><![CDATA[
 /*
- * $Header: /home/cvs/jakarta-velocity/xdocs/license.xml,v 1.4 2001/03/20 19:24:15 geirm Exp $
- * $Revision: 1.4 $
- * $Date: 2001/03/20 19:24:15 $
+ * $Header: /home/cvs/jakarta-velocity/xdocs/license.xml,v 1.5 2001/03/20 19:27:58 geirm Exp $
+ * $Revision: 1.5 $
+ * $Date: 2001/03/20 19:27:58 $
  *
  * ====================================================================
  * 
@@ -41,13 +41,13 @@
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Jakarta Turbine", and "Apache Software
+ * 4. The names "The Jakarta Project", "Velocity", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
  *    from this software without prior written permission. For written 
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
- *    "Apache Turbine" nor may "Apache" appear in their names without prior 
+ *    "Velocity" nor may "Apache" appear in their names without prior 
  *    written permission of the Apache Group.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
