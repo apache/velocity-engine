@@ -54,41 +54,33 @@ package org.apache.velocity.util;
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- *
  */
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.Enumeration;
 
 /**
- * An Iterator wrapper for an Object[]. This will
- * allow us to deal with all array like structures
- * in a consistent manner.
+ * An Iterator wrapper for an Enumeration.
  *
- * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ArrayIterator.java,v 1.4 2001/04/08 21:06:22 geirm Exp $
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id: EnumerationIterator.java,v 1.1 2001/04/08 21:06:22 geirm Exp $
  */
-public class ArrayIterator implements Iterator
+public class EnumerationIterator implements Iterator
 {
     /**
-     * The objects to iterate.
+     * The enumeration to iterate.
      */
-    private Object[] array;
+    private Enumeration enum = null;
 
     /**
-     * The current position in the array.
-     */
-    private int pos;
-
-    /**
-     * Creates a new iterator instance for the specified array.
+     * Creates a new iteratorwrapper instance for the specified 
+     * Enumeration.
      *
-     * @param array The array for which an iterator is desired.
+     * @param enum  The Enumeration to wrap.
      */
-    public ArrayIterator(Object[] array)
+    public EnumerationIterator( Enumeration enum)
     {
-        this.array = array;
-        pos = 0;
+        this.enum = enum;
     }
 
     /**
@@ -98,13 +90,7 @@ public class ArrayIterator implements Iterator
      */
     public Object next()
     {
-        synchronized (array)
-        {
-            if (pos < array.length)
-                return array[pos++];
-        }
-        throw new NoSuchElementException("No more elements: " + pos +
-                                         " / " + array.length);
+        return enum.nextElement();
     }
     
     /**
@@ -114,13 +100,15 @@ public class ArrayIterator implements Iterator
      */
     public boolean hasNext()
     {
-        return (pos < array.length);
+        return enum.hasMoreElements();
     }
 
     /**
-     * No op--merely added to satify the <code>Iterator</code> interface.
+     *  Unimplemented.  No analogy in Enumeration
      */
     public void remove()
     {
+        // not implemented
     }
+   
 }
