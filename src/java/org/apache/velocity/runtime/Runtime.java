@@ -160,7 +160,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.55 2000/11/27 05:00:50 geirm Exp $
+ * @version $Id: Runtime.java,v 1.56 2000/11/27 05:34:42 geirm Exp $
  */
 public class Runtime implements RuntimeConstants
 {
@@ -270,10 +270,10 @@ public class Runtime implements RuntimeConstants
             return;
         
         /*
-         *  set the default properties
+         *  set the default properties, and don't call assembleSourceInitializers()
          */
 
-        setDefaultProperties();
+        setDefaultProperties( false);
 
         /*
          *  now add the new ones from the calling app
@@ -308,7 +308,7 @@ public class Runtime implements RuntimeConstants
          *  life easy for users.
          */
         
-        setDefaultProperties();
+        setDefaultProperties( false );
                          
         /*
          * if we were passed propertis, try loading propertiesFile as a straight file first,
@@ -494,13 +494,23 @@ public class Runtime implements RuntimeConstants
      * The properties file may be in the file system proper,
      * or the properties file may be in the classpath.
      */
+
     public static void setDefaultProperties()
+    {
+        setDefaultProperties( true );
+    }
+
+    private  static void setDefaultProperties( boolean doAssoc)
     {
         ClassLoader classLoader = Runtime.class.getClassLoader();
         try
         {
             InputStream inputStream = classLoader.getResourceAsStream( DEFAULT_RUNTIME_PROPERTIES );
             VelocityResources.setPropertiesInputStream( inputStream );
+
+            if (doAssoc)
+                assembleSourceInitializers();
+
             info ("Default Properties File: " + new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
         }
         catch (IOException ioe)
