@@ -82,34 +82,52 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  * template.merge(context, writer);
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.1 2000/09/30 17:04:21 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.2 2000/10/09 15:09:10 jvanzyl Exp $
  */
 public class Template
 {
     /** Template processor */
     //private Processor processor;
     private SimpleNode document;
+    private boolean initialized = false;
 
     // So now, after a template is constructed all the
     // initial processing is done.
 
     //public Template(InputStream inputStream, Processor processor)
-    public Template(InputStream inputStream)
-        throws Exception
+    public Template(InputStream inputStream) throws Exception
     {
-        //this.processor = processor;
         parse(inputStream);
     }
 
-    public synchronized void parse(InputStream inputStream) throws Exception
+    public void parse(InputStream inputStream) throws Exception
     {
-        //document = processor.parse(inputStream);
         document = Runtime.parse(inputStream);
     }
 
-    public synchronized void merge(Context context, Writer writer)
+    public void merge(Context context, Writer writer)
         throws IOException
     {
+        synchronized(this)
+        {
+            if (!initialized) 
+                init(context);
+        }                
+        
         document.render(context, writer);
+    }
+
+    private void init(Context context)
+    {
+        try
+        {
+            System.out.println("initializing!");
+            document.init(context, null);
+            initialized = true;
+        }
+        catch (Exception e)
+        {
+            Runtime.error(e);
+        }
     }
 }

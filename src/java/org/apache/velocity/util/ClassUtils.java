@@ -62,7 +62,7 @@ import java.lang.reflect.Method;
  * invoking methods in objects
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: ClassUtils.java,v 1.1 2000/09/30 17:04:29 jvanzyl Exp $
+ *  @version $Id: ClassUtils.java,v 1.2 2000/10/09 15:09:16 jvanzyl Exp $
  */
 public class ClassUtils
 {
@@ -86,6 +86,8 @@ public class ClassUtils
             for (int i = 0; i < size; i++)
             {
                 paramTypes[i] = args[i].getClass();
+                if (paramTypes[i] != String.class)
+                    paramTypes[i] = Object.class;
             }                
         }            
 
