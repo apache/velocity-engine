@@ -58,6 +58,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.io.File;
 
 import java.util.Properties;
 
@@ -76,7 +77,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.3 2001/03/19 06:36:31 jvanzyl Exp $
+ * @version $Id: ClasspathResourceTest.java,v 1.4 2001/03/19 15:37:57 geirm Exp $
  */
 public class ClasspathResourceTest extends TestCase
 {
@@ -154,6 +155,11 @@ public class ClasspathResourceTest extends TestCase
     {
         try
         {
+            /*
+             *  lets ensure the results directory exists
+             */
+            assureResultsDirectoryExists();
+
             Template template1 = Runtime.getTemplate(
                 getFileName(null, "template/test1", TMPL_FILE_EXT));
             
@@ -193,6 +199,29 @@ public class ClasspathResourceTest extends TestCase
         catch (Exception e)
         {
             fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Assures that the results directory exists.  If the results directory
+     * cannot be created, fails the test.
+     */
+    private static void assureResultsDirectoryExists ()
+    {
+        File resultDir = new File(RESULT_DIR);
+        if (!resultDir.exists())
+        {
+            Runtime.info("Results directory does not exist (" + RESULT_DIR + ")");
+            if (resultDir.mkdirs())
+            {
+                Runtime.info("Created results directory" + RESULT_DIR);
+            }
+            else
+            {
+                String errMsg = "Unable to create results directory" + RESULT_DIR;
+                Runtime.warn(errMsg);
+                fail(errMsg);
+            }
         }
     }
 

@@ -58,6 +58,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.io.File;
 
 import java.util.Properties;
 
@@ -76,7 +77,7 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.3 2001/03/14 22:05:20 jvanzyl Exp $
+ * @version $Id: MultipleFileResourcePathTest.java,v 1.4 2001/03/19 15:37:57 geirm Exp $
  */
 public class MultipleFileResourcePathTest extends TestCase
 {
@@ -126,6 +127,8 @@ public class MultipleFileResourcePathTest extends TestCase
 
         try
         {
+            assureResultsDirectoryExists();
+
             Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
 
@@ -196,6 +199,28 @@ public class MultipleFileResourcePathTest extends TestCase
         }
     }
 
+    /**
+     * Assures that the results directory exists.  If the results directory
+     * cannot be created, fails the test.
+     */
+    private static void assureResultsDirectoryExists()
+    {
+        File resultDir = new File(RESULT_DIR);
+        if (!resultDir.exists())
+        {
+            Runtime.info("Results directory does not exist (" + RESULT_DIR + ")");
+            if (resultDir.mkdirs())
+            {
+                Runtime.info("Created results directory" + RESULT_DIR);
+            }
+            else
+            {
+                String errMsg = "Unable to create results directory" + RESULT_DIR;
+                Runtime.warn(errMsg);
+                fail(errMsg);
+            }
+        }
+    }
     /**
      * Concatenates the file name parts together appropriately.
      *
