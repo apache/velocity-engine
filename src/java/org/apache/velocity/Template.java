@@ -68,6 +68,8 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
 
 /**
  * This class is used for controlling all template
@@ -87,7 +89,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Template.java,v 1.27 2001/02/20 16:10:42 geirm Exp $
+ * @version $Id: Template.java,v 1.28 2001/02/26 02:55:31 geirm Exp $
  */
 public class Template extends Resource
 {
@@ -98,46 +100,99 @@ public class Template extends Resource
      */
     private boolean initialized = false;
 
+    private Exception errorCondition = null;
+
     /** Default constructor */
     public Template()
     {
     }
 
+    /**
+     *  gets the named resource as a stream, parses and inits
+     *
+     * @return true if successful
+     * @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception some other problem, should only be from 
+     *          initialization of the template AST.
+     */
     public boolean process()
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        try
+        data = null;
+        InputStream is = null;
+
+        /*
+         *  first, try to get the stream from the loader
+         */
+        try 
         {
-            InputStream is = resourceLoader.getResourceStream(name);
-        
+            is = resourceLoader.getResourceStream(name);
+        }
+        catch( ResourceNotFoundException rnfe )
+        {
+            /*
+             *  remember and re-throw
+             */
+
+            errorCondition = rnfe;
+            throw rnfe;
+        }
+
+        /*
+         *  if that worked, lets protect in case a loader impl
+         *  forgets to throw a proper exception
+         */
+
+        if (is != null)
+        {
+            /*
+             *  now parse the template
+             */
+
             try
             {
-                if (is != null)
-                {
-                    data = Runtime.parse(is, name);
-                    initDocument();
-                    return true;
-                }    
-            } 
+                data = Runtime.parse(is, name);
+                initDocument();
+                return true;
+            }
             catch ( ParseException pex )
             {
                 /*
-                 *  there was a problem parsing the template
-                 */                
+                 *  remember the error and convert
+                 */
+
+               errorCondition =  new ParseErrorException( pex.getMessage() );
+               throw errorCondition;
+            }
+            catch( Exception e )
+            {
+                /*
+                 *  who knows?  Something from initDocument()
+                 */
+
+                errorCondition = e;
+                throw e;
             }
             finally 
             {
-                // Make sure to close the inputstream when we are done.
+                /*
+                 *  Make sure to close the inputstream when we are done.
+                 */
                 is.close();
             }
-        }
-        catch (Exception ignored) 
+        }    
+        else
         {
-            /*
-             *  most likely, the resource wasn't found ?
+            /* 
+             *  is == null, therefore we have some kind of file issue
              */
+
+            errorCondition = new ResourceNotFoundException("Unknown resource error for resource " + name );
+            throw errorCondition;
         }
-   
-        return false;            
     }
 
     /**
@@ -146,7 +201,8 @@ public class Template extends Resource
      *  init() carry the template name down throught for VM
      *  namespace features
      */
-    public void initDocument() throws Exception
+    public void initDocument()
+        throws Exception
     {
         /*
          *  send an empty InternalContextAdapter down into the AST to initialize it
@@ -182,17 +238,33 @@ public class Template extends Resource
 
     /**
      * The AST node structure is merged with the
-     * context to produce the final output. We
-     * also init() the AST node structure if
-     * it hasn't been already. It might actually
-     * be better to move the init() phase up into
-     * the parse(), but it would require the passing
-     * in of the context. The context is required to
-     * determine the objects being used by reflection.
+     * context to produce the final output. 
+     *
+     * Throws IOException if failure is due to a file related
+     * issue, and Exception otherwise
+     *
+     *  @param context Conext with data elements accessed by template
+     *  @param writer output writer for rendered template
+     *  @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     *  @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     *  @throws  Exception  anything else. 
      */
     public void merge( Context context, Writer writer)
-        throws IOException, Exception
+        throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        /*
+         *  we shouldn't have to do this, as if there is an error condition, 
+         *  the application code should never get a reference to the 
+         *  Template
+         */
+
+        if (errorCondition != null)
+        {
+            throw errorCondition;
+        }
+
         if( data != null)
         {
             /*
@@ -219,16 +291,17 @@ public class Template extends Resource
         }
         else
         {
-            Runtime.error("Template.merge() failure. The document is null, " + 
-                          "most likely due to parsing error.");
-         
             /*
-             *  lets throw a general exception here and see if anyone likes it
+             * this shouldn't happen either, but just in case.
              */
 
-            throw new Exception("Template.merge() failure. The document is null, " + 
-                          "most likely due to parsing error.");
+            String msg = "Template.merge() failure. The document is null, " + 
+                "most likely due to parsing error.";
+
+            Runtime.error(msg);
+            throw new Exception(msg);
         }
     }
 }
+
 
