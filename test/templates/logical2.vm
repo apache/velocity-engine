@@ -29,7 +29,7 @@ test doesn't fail incorrectly.
 
 #set($foo = false)
 
-#if (!($foo eq true))
+#if ( not ($foo eq true))
     foo is false
 #end
 
@@ -46,7 +46,7 @@ Logical OR :
  wrong
 #end
 
-#if( !($f or $t) )
+#if( not ($f or $t) )
  wrong
 #else
  right
@@ -90,7 +90,7 @@ Logical AND :
  right
 #end
 
-#if( !($f and $f) )
+#if( not ($f and $f) )
  right
 #else
  wrong
@@ -120,7 +120,7 @@ Logical AND :
  right
 #end
 
-#if( !($null and $null) )
+#if( not ($null and $null) )
  right
 #else
  wrong
@@ -283,7 +283,7 @@ Should equal true : $fofo
 Should equal true : $fofo
 
 
-#set($x = !true)
+#set($x = not true)
 
 #if($x eq false)
 right
@@ -291,7 +291,7 @@ right
 wrong
 #end
 
-#set($y = !$x)
+#set($y = not $x)
 
 #if($y eq true)
 right
