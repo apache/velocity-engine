@@ -81,12 +81,10 @@
  
    <p>
     You meet with software engineers at your company, and everyone
-    has agreed that the variable <pre>$name</pre> will hold the full name of the 
-    current customer, <pre>$customermud</pre> will list all
-    the mud types that the logged in customer has ever purchased from your store, 
-    that <pre>$specialmud</pre> will be all the types mud on sale at present.
-    The <pre>getPromo()</pre> method is used to get promotional information about the
-    type of mud that appears in brackets. 
+    has agreed that the variable <pre>$customer</pre> will hold information
+    pertaining to the customer currently logged in,
+    that <pre>$mudsOnSpecial</pre> will be all the types mud on sale at present.
+    The <pre>$flogger</pre> object contains methods that help with promotion.
     For the task at hand, let's concern ourselves only with these three 
     variables. Remember, you don't need to worry about how the software 
     engineers extract the necessary information from the database, you just need
@@ -102,14 +100,15 @@
     <source><![CDATA[
     <HTML>
     <BODY>
-    Hello $name!
+    Hello $customer.Name!
     <table>
-    #foreach ($customermud in $specialmud)
-       #if ($customermud)
-          <tr><td>$getPromo($specialmud)</td><td>
-       #else
-          <tr><td>Click <a href="specials.html#daily">here</a> for a list of our
-	  specials!</a></td></tr>
+    #foreach ($mud in $mudsOnSpecial)
+       #if ($customer.hasPurchased($mud))
+          <tr>
+            <td>
+              $flogger.getPromo($mud)
+            </td>
+          </tr>
        #end
     #end
     </table>
@@ -123,10 +122,8 @@
     penchant for Bright Red Mud logs in, and Bright Red Mud
     is on sale, that is what this customer will see, prominently displayed. 
     If another customer with a long history of Terracotta Mud purchases logs in,
-    the notice of a Terracotta Mud sale will be front and center. If a customer
-    is not interested in any of the muds currently on sale, they will be
-    invited to view a list of sale items. The flexibility of Velocity is
-    enormous and limited only by your creativity.
+    the notice of a Terracotta Mud sale will be front and center. 
+    The flexibility of Velocity is enormous and limited only by your creativity.
    </p>
  
    </s1>
@@ -323,12 +320,12 @@
     
     <p>
     <source><![CDATA[
-    $getTotalPrice("purchase")
+    $purchase.getTotalPrice()
     ]]></source>
     </p>
     
     <p>
-    In this example, the $getTotalPrice() method, defined in the Java code, 
+    In this example, the getTotalPrice() method, defined in the Java code, 
     will presumably return the total price of a purchase that is being tracked.
     Note that this could also have been written,
     <pre>$purchase.TotalPrice</pre>.
