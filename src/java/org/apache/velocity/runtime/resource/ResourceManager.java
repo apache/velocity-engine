@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.2 2000/12/19 15:37:17 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.3 2000/12/19 16:16:43 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -108,6 +108,8 @@ public class ResourceManager
      */
     private static Hashtable sourceInitializerMap = new Hashtable();
 
+    private static boolean resourceLoaderInitializersActive = false;
+
     /**
      * Initialize the ResourceManager. It is assumed
      * that assembleSourceInitializers() has been
@@ -117,7 +119,7 @@ public class ResourceManager
     {
         ResourceLoader resourceLoader;
         
-        assembleSourceInitializers();
+        assembleResourceLoaderInitializers();
         
         for (int i = 0; i < sourceInitializerList.size(); i++)
         {
@@ -132,12 +134,15 @@ public class ResourceManager
     /**
      * This will produce a List of Hashtables, each
      * hashtable contains the intialization info for
-     * a particular template loader. This Hastable
+     * a particular resource loader. This Hastable
      * will be passed in when initializing the
      * the template loader.
      */
-    private static void assembleSourceInitializers()
+    private static void assembleResourceLoaderInitializers()
     {
+        if (resourceLoaderInitializersActive)
+            return;
+        
         for (int i = 0; i < 10; i++)
         {
             String loaderID = "resource.loader." + new Integer(i).toString();
@@ -282,6 +287,9 @@ public class ResourceManager
      */
     public static void setSourceProperty(String key, String value)
     {
+        if (resourceLoaderInitializersActive == false)
+            assembleResourceLoaderInitializers();
+            
         String publicName = key.substring(0, key.indexOf("."));
         String property = key.substring(key.indexOf(".") + 1);
         ((Map)sourceInitializerMap.get(publicName.toLowerCase())).put(property, value);
