@@ -103,7 +103,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.17 2000/11/03 03:27:55 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.18 2000/11/03 11:34:53 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -453,8 +453,15 @@ TOKEN:
         if (curLexState == REFMODIFIER )
             SwitchTo( REFMOD2 ); 
     }
+}
 
-|   <RPAREN: ")" (" ")* ( "\n" | "\r" | "\r\n" )?>
+/* $$$ gmj
+ *  we never will see a ) in anything but DIRECTIVE and REFMOD2.  Each have their own
+ */
+<DIRECTIVE>
+TOKEN:
+{
+   <RPAREN: ")" (" ")* ( "\n" | "\r" | "\r\n" )?>
     {
        RPARENHandler();
     }    
