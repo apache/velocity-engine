@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Specification - AST</title>
+  <author email="jon@latchkey.com">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Velocity Specification - AST">
+
+<p>
+Please note that this is currently out of date and will be updated soon.
+</p>
+
+<source><![CDATA[
+This is tentatively the AST structure for Velocity.
+
+The structure is as would be described using ANTLR
+BNF-style notation.  A tree is described by 
+#(node node node) where #() represents the tree form.  
+The first node is the root of the tree, and following 
+nodes are all children.
+
+Visually, #(A B C D E) might look like:
+
+     A
+     |
+     B-C-D-E
+
+Root nodes must always be a terminal node, denoted by
+an all-caps identifier.
+
+Non-root nodes may be either terminal nodes, or sub-rules,
+or inlined sub-trees. 
+
+A sub-rule might describe a tree, or simple a node.
+
+
+block
+	:
+		#(	BLOCK
+				(statement)*
+		)
+
+	;
+statement
+	:
+			text
+		|	if_statement
+		|	foreach_statement
+		|	include_statement
+		|	set_statement
+		|	parse_statement
+		|	param_statement
+		|	stop_statement
+		|	reference
+	;
+
+
+text
+	:
+		TEXT
+	;
+
+//	if/elseif/else chains should be represented solely
+//	by <if_statement>.  <elseif> is simply an <if_statement>
+//	in the false-branch of the preceeding <if_statement>
+//	while <else> is simply an <if_statement> where the
+//	<expr> evaluates to TRUE always, and no false-branch
+//	is provided.
+
+if_statement
+	:
+		#(	IF
+				// The expression to test
+				expr
+
+				// True branch
+				block
+
+				// False branch
+				( block )?
+		)
+	;
+
+foreach_statement
+	:
+		#(	FOREACH
+				// Value to assign for each iteration
+				reference
+				// List of objects to iterator
+				reference
+				// command-block to execute
+				( block )?
+		)
+	;
+
+set_statement
+	:
+		#(	SET
+				// Variable to set
+				reference
+				// Value to assign
+				expr
+	;
+
+parse_statement
+	:
+		#(	PARSE
+				STRING_LITERAL
+		)
+	;
+
+include_statement
+	:
+		#(	INCLUDE
+				STRING_LITERAL
+		)
+	;
+
+stop_statement
+	:
+		STOP
+	;
+
+reference
+	:
+		#(	REFERENCE
+				postfix
+	;
+
+postfix
+	:
+		method_call
+		|
+		member
+		|
+		identifier
+	;
+
+member
+	:
+		#(	DOT
+				identifier
+				(	primary
+				|	method_call
+				)	
+	;
+
+primary
+	:
+		IDENTIFIER
+	;
+
+method_call
+		#(	CALL
+				postfix
+				// The argument list
+				( expr ) *
+		)
+	;
+]]></source>
+
+</section>
+
+</body>
+</document>
