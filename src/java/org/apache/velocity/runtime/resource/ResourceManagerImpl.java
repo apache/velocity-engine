@@ -133,10 +133,14 @@ public class ResourceManagerImpl implements ResourceManager
                                 + " This is a critical value.  Please adjust configuration.");
                 continue;
             
-            } else if ( loaderInstance != null ) {
+            } 
+            else if ( loaderInstance != null ) 
+            {
                 resourceLoader = loaderInstance;
                 
-            } else {
+            } 
+            else 
+            {
                 resourceLoader = ResourceLoaderFactory.getLoader( rsvc, loaderClass);
             }
 

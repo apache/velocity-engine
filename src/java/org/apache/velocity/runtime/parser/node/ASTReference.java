@@ -233,7 +233,8 @@ public class ASTReference extends SimpleNode
         {
             if (value == null)
             {
-                if (context.getAllowRendering()) {
+                if (context.getAllowRendering()) 
+                {
                     writer.write(escPrefix);
                     writer.write("\\");
                     writer.write(nullString);
@@ -241,7 +242,8 @@ public class ASTReference extends SimpleNode
             }
             else
             {
-                if (context.getAllowRendering()) {
+                if (context.getAllowRendering()) 
+                {
                     writer.write(escPrefix);
                     writer.write(nullString);
                 }
@@ -273,7 +275,8 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's schmoo, so the \ don't escape each other...
              */
 
-            if (context.getAllowRendering()) {
+            if (context.getAllowRendering()) 
+            {
                 writer.write(escPrefix);
                 writer.write(escPrefix);
                 writer.write(morePrefix);
@@ -296,7 +299,8 @@ public class ASTReference extends SimpleNode
              *  non-null processing
              */
 
-            if (context.getAllowRendering()) {
+            if (context.getAllowRendering()) 
+            {
                 writer.write(escPrefix);
                 writer.write(morePrefix);
                 writer.write(value.toString());

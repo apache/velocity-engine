@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  * Test that an instance of a ResourceLoader can be successfully passed in.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.10 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class ResourceLoaderInstanceTest extends BaseTestCase
 {

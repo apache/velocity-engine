@@ -278,7 +278,8 @@ public class Generator
         if (encoding == null || encoding.length() == 0 || encoding.equals("8859-1") || encoding.equals("8859_1")) {
             writer = new FileWriter(path);
         }
-        else {
+        else 
+        {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), encoding));
         }
         return writer;

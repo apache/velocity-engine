@@ -145,14 +145,17 @@ public class DataSourceResourceLoader extends ResourceLoader
                            + templateColumn + " and " + timestampColumn);
              rsvc.info("Resource Loader Initalized.");
 
-         } else if (dataSourceName != null) 
+         } 
+         else if (dataSourceName != null) 
          {
              rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
              rsvc.info("Resource Loader using columns: " + keyColumn + ", "
                            + templateColumn + " and " + timestampColumn);
              rsvc.info("Resource Loader Initalized.");
          
-         } else {
+         } 
+         else 
+         {
             rsvc.info("DataSourceResourceLoader not properly initialized.  ");
             
          }
