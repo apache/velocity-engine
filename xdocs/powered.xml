@@ -8,6 +8,58 @@
 
  <body>
 
+ <section name="Powered-By Velocity Logo">
+ 
+ <p>
+   This is not a requirement, but we would love it if you would adopt
+   our Powered-By Velocity logo for your own website in order to show
+   your support for our hard work.
+ </p>
+ 
+ <p>
+ <img src="images/powered-by-logo.gif" alt="Powered By Velocity" width="77" height="32" />
+ </p>
+
+ </section>
+ 
+ <section name="Velocity powered Products">
+ <p>
+   Velocity is a utility tool which can be used in conjunction with
+   general applications which may or may not be web based.
+ </p>
+
+ <table>
+   <tr>
+    <td><b>Name</b></td>
+    <td><b>Description</b></td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.gentleware.com/products/index.php3">GentleWare</a> Poseidon for UML
+    </td>
+    <td>
+     GentleWare's Poseidon product uses Velocity as a template tool in
+     order to generate Java code from UML diagrams that you design using
+     their tool.
+    </td>
+   </tr>
+
+   <tr>
+    <td>
+     <a href="http://www.xadra.com/products/vas/index.html">Xadra</a> VelocityAdaptorServer
+    </td>
+    <td>
+     The VelocityAdaptorServer is a very simple yet extremely flexible
+     system for the creation of HTML-based Java Management
+     Extensions[tm] (JMX) compatible management consoles.
+    </td>
+   </tr>
+
+ </table>
+ 
+ </section>
+
  <section name="Velocity powered Websites">
  <p>
   This is a list of public web sites that are created using Velocity.
@@ -16,18 +68,12 @@
  </p>
 
  <p>
-  Currently, in the Jakarta project, 
-  the Velocity, Turbine, Commons, and Alexandria projects
-  as well as the main Jakarta site
-  are all rendered using Velocity through the use of the 
-  Anakia XML transformation
-  tool.
+  Currently, in the Jakarta project, the main Jakarta website, Velocity,
+  Ant, ECS, James, Jetspeed, Log4J, JMeter, Regexp, Tomcat, Turbine,
+  Commons, and Alexandria projects are all rendered as static HTML using
+  Velocity through the use of the Anakia XML transformation tool.
  </p>
 
- <p>
- <img src="images/powered-by-logo.gif" alt="Powered By Velocity" width="77" height="32" />
- </p>
- 
  <p>
   If you want your Velocity powered site listed here, please post a message on
   the Velocity user
