@@ -47,5 +47,20 @@ Therefore it should still function normally :
 >#quietnull($foo)<
 >#quietnull($nada)<
 
+We should be able to use argless VMs (and directives....)
+#macro( noargs )
+Hello! I have no args!
+#end
+
+#noargs()
+
+
+And there was a bug where I wasn't getting the params right for the use-instance :
+
+#macro( showarg $i )
+Arg :>$i<
+#end
+
+#showarg( $jdom.getRootElement().getChild("properties").getChild("author").getTextTrim() )
 
 - Another fine Velocity Production -
