@@ -77,7 +77,7 @@
                                    test-parser,
                                    test-resourceinstance,
                                    test-foreachmethodcall,
-								   test-arithmetic,
+                                   test-arithmetic,
                                    test-number-methods,
                                    test-anakia 
                                    "/>
@@ -388,7 +388,7 @@
   <target name="test-texen-classpath">
 
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-       reverseloader="true">
+       >
       <classpath>
         <pathelement location="../test/texen-classpath/test.jar"/>
         <path refid="classpath"/>
