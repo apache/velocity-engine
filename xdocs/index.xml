@@ -58,6 +58,27 @@
 <section name="Velocity News">
 
 <p>
+<strong>User's Guide Now Available in Spanish</strong>
+<blockquote>
+Thanks to the translation contributed by
+Morales Olaya Juan Pablo, the Velocity project can now
+offer the <a href="user-guide_es.html">User's Guide</a> in Spanish.  Thanks!
+(<i>2002-06-6</i>)
+</blockquote>
+</p>
+
+<p>
+<strong>New Releases :vDoclet</strong>
+<blockquote>
+Another new milestone release in the Velocity 'powered-by' family :
+<ul>
+<li><a href="http://vdoclet.sourceforge.net/">vDoclet 20020422</a></li>
+</ul>
+Check it out!(<i>2002-06-6</i>)
+</blockquote>
+</p>
+
+<p>
 <strong>New Releases : Turbine, WebWork and JPublish</strong>
 <blockquote>
 A few new releases in the Velocity family :
