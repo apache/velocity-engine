@@ -166,12 +166,52 @@ the user's guide to this document
     to text in your templates.
 </p>
 
+<p>
+    <strong>Quiet Reference Notation</strong>
+    <br/>
+    Velocity's normal behavior upon encountering a
+    reference that is undefined is to output the image
+    of the reference. For example, say you have have
+    the following VTL as part of an HTML for you
+    want to produce:
+</p>
+
+<p>
+    <source><![CDATA[
+    <input type="text" name="email" value="$email"/>
+    ]]></source>
+</p>
+
+<p>
+    Now when the form initially loads the variable
+    reference $email has no value, but you don't
+    want the text field to have a value of "$email"
+    it should be blank. To circumvent Velocity's
+    normal behavior you use the quiet reference
+    notation: so instead of using $email in the
+    VTL you would use $!email. So the above example
+    would look like the following:
+</p>    
+
+<p>
+    <source><![CDATA[
+    <input type="text" name="email" value="$!email"/>
+    ]]></source>
+</p>
+
+<p>
+    Now when the form is initially loaded, while
+    $email has no value yet, an empty string will
+    be output instead of "$email".
+</p>
 
 </s1>
 
 <s1 title="Directives">
 </s1>
 
+<s1 title="Macros">
+</s1>
 
 </body>
 </document>
