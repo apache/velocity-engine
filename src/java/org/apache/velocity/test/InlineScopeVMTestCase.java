@@ -76,13 +76,19 @@ import junit.framework.TestCase;
  * Tests if the VM template-locality is working.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.7 2001/03/13 00:07:22 dlr Exp $
+ * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
+ * @version $Id: InlineScopeVMTestCase.java,v 1.8 2001/03/13 00:10:17 dlr Exp $
  */
 public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
 {
+    /**
+     * The name of this test case.
+     */
+    private static final String TEST_CASE_NAME = "InlineScopeVMTestCase";
+
     InlineScopeVMTestCase()
     {
-        super("InlineScopeVMTestCase");
+        super(TEST_CASE_NAME);
 
         try
         {
@@ -106,7 +112,7 @@ public class InlineScopeVMTestCase extends TestCase implements TemplateTestBase
         }
         catch (Exception e)
         {
-            System.err.println("Cannot setup VelocityTestSuite2!");
+            System.err.println("Cannot setup " + TEST_CASE_NAME);
             System.exit(1);
         } 
     }
