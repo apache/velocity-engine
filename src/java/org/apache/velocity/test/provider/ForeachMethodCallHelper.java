@@ -19,7 +19,7 @@ package org.apache.velocity.test.provider;
 /**
  * Provides overloaded methods for testing method execution within a foreach
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: VelocimacroTestCase.java 75959 2004-03-19 17:13:40Z dlr $
+ * @version $Id$
  */
 public class ForeachMethodCallHelper 
 {
