@@ -131,6 +131,8 @@
 <li><a href="developer-guide.html#context">The Basics</a></li>
 <li><a href="developer-guide.html#contextforeach">Collections and #foreach()</a></li>
 <li><a href="developer-guide.html#contextchaining">Context Chaining</a></li>
+<li><a href="developer-guide.html#generatedobjects">Objects Created by the Template</a></li>
+
 </ul>
 </li>
 
@@ -722,6 +724,52 @@ that uses a database as the backing storage.
 Please note that these examples are unsupported and are there for 
 demonstration/educational purposes only.
 </p>
+                                                <strong>Objects Created in the Template</strong>
+                                                <a name="generatedobjects" />
+                                                <p>
+ There are two common situations where the Java code must deal with objects 
+ created at runtime in the template :
+
+ <ol>
+   <li> When a template author calls a method of an object placed into
+   the context by Java code.
+   <source><![CDATA[
+     #set($myarr = ["a","b","c"] )
+     $foo.bar( $myarr )
+   ]]></source>
+   </li>
+   <li> When a template adds objects to the context, the Java code can access
+   those objects after the merge process is complete.
+   <source><![CDATA[
+     #set($myarr = ["a","b","c"] )
+     #set( $foo = 1 )
+     #set( $bar = "bar")
+   ]]></source>
+   </li>
+  </ol>
+
+  Dealing with these cases if very straighforward, as there are just a few
+  things to know :
+
+  <ul>
+    <li>
+    The VTL RangeOperator  [ 1..10 ]  and  ObjectArray ["a","b"] are
+    <code>java.util.ArrayList</code> objects when placed in the context
+    or passed to methods.   Therefore, your methods that are designed to 
+    accept arrays created in the template should be written with this
+    in mind.
+    </li>
+    <li>
+    Numbers will be Integers in the context, and strings will be, of course, Strings.
+    </li>
+    <li>
+    Velocity will properly 'narrow' args to method calls, so calling 
+    <code>setFoo( int i )</code> with an int placed into the 
+    context via <code>#set()</code> will work fine.
+    </li>
+  </ul>
+
+   </p>
                             </blockquote>
       </td></tr>
     </table>
