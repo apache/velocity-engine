@@ -104,7 +104,7 @@ import java.sql.SQLException;
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
- * @version $Id: DataSourceResourceLoader.java,v 1.12 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
@@ -168,8 +168,16 @@ public class DataSourceResourceLoader extends ResourceLoader
                  {
                      if (rs.next())
                      {
-                         return new
-                             BufferedInputStream(rs.getAsciiStream(templateColumn));
+                         InputStream ascStream = rs.getAsciiStream(templateColumn);
+                         if (ascStream != null)
+                             return new BufferedInputStream(ascStream);
+                         else {
+                             String msg = "DataSourceResourceLoader Error: cannot find resource "
+                                 + name;
+                             rsvc.error(msg);
+
+                             throw new ResourceNotFoundException(msg);
+                        }
                      }
                      else
                      {
