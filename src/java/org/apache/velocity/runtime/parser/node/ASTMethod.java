@@ -61,39 +61,33 @@
  *
  *  NOTE :
  *
- *  'late introspection' : Take the example of using in a reference a container whose methods can 
- *   return Objects, such as java.util.Vector and the firstElement() or get(i) methods, and you 
- *   you follow the container element accessor with a method call on the object returned :
- *        
- *       $foo.firstElement().getValue()
- *
- *   where $foo is a Vector.  In this case, the introspection cannot figure
- *   out at init() time what class actually is returned by the accessor firstElement().  To solve this
- *   we now will call init() on the ASTMethod node in execute() when the init() failed.
+ *  introspection is now done at render time.
  *
  *  Please look at the Parser.jjt file which is
  *  what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.7 2000/11/30 05:29:13 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.8 2000/12/04 02:05:14 geirm Exp $ 
  */
 
 package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.Method;
 
+import java.io.*;
+
 import org.apache.velocity.Context;
+import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.util.introspection.Introspector;
 
 
 public class ASTMethod extends SimpleNode
 {
-    private String methodName;
-    private int paramCount;
-    private Method method;
-    private Object[] params;
+    private String methodName = "";
+    private int paramCount = 0;
+    private Object [] params;
 
     public ASTMethod(int id)
     {
@@ -111,32 +105,44 @@ public class ASTMethod extends SimpleNode
         return visitor.visit(this, data);
     }
 
-    public Object init(Context context, Object data)
+    /**
+     *  simple init - init our subtree and get what we can from 
+     *  the AST
+     */
+    public Object init( Context context, Object data)
         throws Exception
     {
+        super.init( context, data );
+
+        /*
+         *  this is about all we can do
+         */
+
         methodName = getFirstToken().image;
-        
         paramCount = jjtGetNumChildren() - 1;
-        params = new Object[paramCount];
+        params = new Object[paramCount];   
         
+        return data;
+    }
+
+    /**
+     *   does the instrospection of the class for the method needed.
+     *   Note, as this calls value() on the args if any, this must
+     *   only be called at execute() / render() time
+     */
+    private Method doIntrospection(Context context, Class data)
+        throws Exception
+    {      
         /*
          *  Now the parameters have to be processed, there
          *  may be references contained within that need
          *  to be introspected.
          */
         
-        for (int i = 0; i < paramCount; i++)
-            jjtGetChild(i + 1).init(context, null);
-
         for (int j = 0; j < paramCount; j++)
             params[j] = jjtGetChild(j + 1).value(context);
  
-        method = Introspector.getMethod( (Class) data, methodName, params);
-      
-        if (method == null)
-            return null;
-        
-        return method.getReturnType();
+        return  Introspector.getMethod( data, methodName, params);
     }
     
     /**
@@ -147,30 +153,43 @@ public class ASTMethod extends SimpleNode
     public Object execute(Object o, Context context)
     {
         /*
-         *  I need to pass in the arguments to the
-         *  method. 
+         *  new strategy (strategery!) for introspection. Since we want to be thread- as well as 
+         *  context-safe, we *must* do it now, at execution time.  There can be no caching.
+         *
+         *  we ned to call initIntrospection() once and only once to prevent calling value() on paramter nodes
+         *  more than once.  This is critical.
+         *
+         *  Example : when we have a container like an array that returns something generic, like j.u.Object
+         *  we need to have the *actual object* to perform introspection for successful execution.
          */
 
-        for (int j = 0; j < paramCount; j++)
-            params[j] = jjtGetChild(j + 1).value(context);
-        
-        try
+        Method method = null;
+
+        try 
         {
             /*
-             *  it is possible that we have to do late introspection.  If we don't 
-             *  have a valid method object, cast this object to a Class, and try init()
-             *  again. As far as  I can tell, the only time that the introspection 
-             *  fails is when we try to case a j.l.Object to a Class, which is the 
-             *  fast track to a ClassCastException
-             *  See the notes above.
+             *  get the class of what we are, and introspect it
+             */
+
+            Class c = o.getClass();
+            method = doIntrospection( context, c );
+            
+            /*
+             *  if we still haven't gotten the method, either we are calling a method that 
+             *  doesn't exist (which is fine...)  or I screwed it up.
              */
 
             if (method == null)
-            {
-                Class c = o.getClass();
-                init( context, c);
-            }
-        
+                return null;
+        }
+        catch( Exception e )
+        {
+            Runtime.error("ASTMethod.execute() : exception : " + e );
+            return null;
+        }
+
+        try
+        {
             /*
              *  get the returned object.  It may be null, and that is
              *  valid for something declared with a void return type.
