@@ -59,7 +59,7 @@ package org.apache.velocity.runtime.log;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogSystem.java,v 1.4 2001/03/19 06:27:39 geirm Exp $
+ * @version $Id: LogSystem.java,v 1.5 2001/03/19 23:02:19 geirm Exp $
  */
 public interface LogSystem
 {
@@ -88,5 +88,5 @@ public interface LogSystem
     /**
      * Send a log message from Velocity.
      */
-    public void logVelocityMessage(int level, String messsage);
+    public void logVelocityMessage(int level, String message);
 }
