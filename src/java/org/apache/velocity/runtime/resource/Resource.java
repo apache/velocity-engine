@@ -73,7 +73,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.5 2001/04/22 18:11:20 geirm Exp $
+ * @version $Id: Resource.java,v 1.6 2001/07/16 16:04:03 dlr Exp $
  */
 public abstract class Resource
 {
@@ -127,13 +127,6 @@ public abstract class Resource
      */
     protected Object data = null;
 
-    /** 
-     *  Default constructor 
-     */
-    public Resource()
-    {
-    }
-    
     /**
      * Perform any subsequent processing that might need
      * to be done by a resource. In the case of a template
