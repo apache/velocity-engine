@@ -21,7 +21,18 @@
     after the 1.4 release.
 </p>
 
+<ul>
+<li>
+Removed use of <a href="http://jakarta.apache.org/log4j/">Log4J's</a>
+deprecated Category and Priority classes in favor of the corresponding
+and supported Logger and Level.  To update, replace necessary
+references, and Category.getInstance() with Logger.getLogger(). (#19133) (dlr)
+</li>
+</ul>
+
 </subsection>
+
+
 <subsection name="1.4-dev">
 <p>
 This section describes changes to the main branch after the
