@@ -61,7 +61,7 @@ import org.apache.velocity.runtime.configuration.Configuration;
  * Factory to grab a template loader.
  * 
  * @author Dave Bryson
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  */
 public class TemplateFactory
 {
@@ -77,15 +77,13 @@ public class TemplateFactory
         try
         {
             loader = ((TemplateLoader)Class.forName(loaderClassName).newInstance());
-            loader.init();
-            
-            Runtime.info("Template loader initialized.");
+            Runtime.info("Template loader instantiated.");
             
             return loader;
         }
         catch( Exception e)
         {
-            Runtime.error("Problem initializing the template loader.\n" +
+            Runtime.error("Problem instantiating the template loader.\n" +
                           "Look at your properties file and make sure the\n" +
                           "name of the template loader is correct. Here is the\n" +
                           "error: " + e);
