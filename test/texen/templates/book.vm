@@ -1,0 +1,15 @@
+This is the book of the week:
+
+Props retrieved using new method:
+
+Title: $props.get("title")
+Author: $props.get("author")
+Publisher: $props.get("publisher")
+ISBN: $props.get("isbn")
+
+Props retrieved using old method:
+
+Title: $props2.get("title")
+Author: $props2.get("author")
+Publisher: $props2.get("publisher")
+ISBN: $props2.get("isbn")
