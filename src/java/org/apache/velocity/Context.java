@@ -66,7 +66,7 @@ import org.apache.velocity.util.ArrayIterator;
  * an valid object derived from Object. These objects
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.5 2000/10/31 23:44:52 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.6 2000/11/02 22:32:24 jvanzyl Exp $
  */
 public class Context implements Cloneable
 {
@@ -115,6 +115,14 @@ public class Context implements Cloneable
     {
         return context.containsKey(key);
     }        
+
+    /*
+     * Get all the keys for the values in the context
+     */
+    public Object[] getKeys()
+    {
+        return context.keySet().toArray();
+    }
 
     /**
      * Removes the value associated with the specified key from the context.
