@@ -112,7 +112,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.61 2001/07/14 13:23:13 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.62 2001/07/18 03:50:45 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -1257,7 +1257,7 @@ void DirectiveArg()       : {}
 |   Word()  
 |   StringLiteral()
 |   NumberLiteral()
-|   LOOKAHEAD(5) IntegerRange()
+|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
 |   ObjectArray()
 |   True()
 |   False()
@@ -1505,7 +1505,7 @@ void Parameter()      : {}
     [<WHITESPACE>]
     (
         StringLiteral()
-      | LOOKAHEAD(5) IntegerRange()
+      | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
       | ObjectArray()
       | True()
       | False()
@@ -2407,7 +2407,7 @@ void PrimaryExpression()       : {}
     StringLiteral()
   | NumberLiteral()    
   | Reference()
-  | LOOKAHEAD(5) IntegerRange()
+  | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | NumberLiteral()) [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
   | ObjectArray()
   | True()
   | False()
