@@ -162,7 +162,7 @@
   
    <tr>
     <td>
-  <a href=" http://luxor-xul.sourceforge.net">Luxor</a>
+  <a href="http://luxor-xul.sourceforge.net">Luxor</a>
     </td>
     <td>
     Luxor is an open-source XML User Interface Language (XUL) toolkit for
@@ -173,6 +173,16 @@
     </td>
    </tr>
 
+   <tr>
+    <td>
+  <a href="http://www.beardediris.com/webkiosk.html">WebAmortize</a>
+    </td>
+    <td>
+    WebAmortization is a simple Java servlet that implements an 
+    online calculator for computing mortgage payments using the Velocity
+    template engine.
+    </td>
+   </tr>
  </table>
  
  </section>
