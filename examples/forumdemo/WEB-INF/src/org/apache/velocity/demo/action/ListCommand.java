@@ -62,7 +62,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.context.Context;
-import org.apache.velocity.util.tools.*;
+import org.apache.velocity.app.tools.*;
 
 import org.apache.velocity.demo.om.*;
 
@@ -70,8 +70,8 @@ import org.apache.velocity.demo.om.*;
  * Handles listing messages
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Revision: 1.2 $
- * $Id: ListCommand.java,v 1.2 2001/01/03 06:08:06 geirm Exp $
+ * @version $Revision: 1.3 $
+ * $Id: ListCommand.java,v 1.3 2001/02/11 23:13:52 geirm Exp $
  */
 public class ListCommand extends Command
 {
