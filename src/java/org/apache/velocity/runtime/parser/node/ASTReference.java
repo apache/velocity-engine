@@ -14,6 +14,12 @@ import org.apache.velocity.runtime.parser.*;
 
 public class ASTReference extends SimpleNode
 {
+    /* Reference types */
+    private static final int NORMAL_REFERENCE = 1;
+    private static final int FORMAL_REFERENCE = 2;
+    private static final int QUIET_REFERENCE = 3;
+    
+    private int referenceType;
     private String nullString;
     private Object rootObject;
     private Object value;
@@ -78,13 +84,20 @@ public class ASTReference extends SimpleNode
         value = execute(null, context);
         
         if (value == null)
+        {
             writer.write(NodeUtils
                 .specialText(getFirstToken()) + 
                     nullString);
+            
+            if (referenceType != QUIET_REFERENCE)
+                Runtime.error(new ReferenceException("reference", this));
+        }                    
         else
+        {
             writer.write(NodeUtils
                 .specialText(getFirstToken()) +
                     value.toString());
+        }                    
     
         return true;
     }
@@ -169,6 +182,7 @@ public class ASTReference extends SimpleNode
         
         if (t.image.equals("$!"))
         {
+            referenceType = QUIET_REFERENCE;
             nullString = "";
             
             if (t.next.image.equals("{"))
@@ -181,12 +195,14 @@ public class ASTReference extends SimpleNode
         else if (t.image.equals("${"))
         {
             // ${provider.Title}
+            referenceType = FORMAL_REFERENCE;
             nullString = literal();
             return t.next.image;
         }            
         else
         {
             // $provider.Title
+            referenceType = NORMAL_REFERENCE;
             nullString = literal();
             return t.image.substring(1);
         }            
@@ -209,7 +225,7 @@ public class ASTReference extends SimpleNode
         // there aren't then we can return with the first
         // token becasue it's a shorthand variable reference
         // like $foo.
-        if (children == null)
+        if (children == null && referenceType == NORMAL_REFERENCE)
             return sb.toString();
         
         while(t.next != null && t.next.last == false)
