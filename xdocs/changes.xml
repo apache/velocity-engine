@@ -65,7 +65,9 @@ This document tracks the changes in Velocity between releases.
        make the stacktraces more useful - noted from some traffic on 
        Turbine list.   (gmj)
      </li>
-
+     <li>
+         Added powered by logo. (JSS)
+     </li>
 </ul>
 </subsection>
 
