@@ -6,11 +6,11 @@
 
     <body>
         <menu name="Home">
-            <item name="Front Page"            href="index.html"/>
+            <item name="Front Page"            href="/index.html"/>
         </menu>
     
         <menu name="About">
-            <item name="About"                 href="about/index.html"/>
+            <item name="About"                 href="/about/index.html"/>
         </menu>
     </body>
 </project>

@@ -72,6 +72,7 @@ import org.jdom.output.XMLOutputter;
 // Velocity Stuff
 import org.apache.velocity.*;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.util.StringUtils;
 
 /**
     The purpose of this Ant Task is to allow you to use 
@@ -87,7 +88,7 @@ import org.apache.velocity.runtime.Runtime;
     it for this project.
     
     @author <a href="jon@latchkey.com">Jon S. Stevens</a>
-    @version $Id: AnakiaTask.java,v 1.7 2000/11/23 13:54:58 werken Exp $
+    @version $Id: AnakiaTask.java,v 1.8 2000/11/25 20:44:08 jon Exp $
 */
 public class AnakiaTask extends MatchingTask
 {
@@ -303,7 +304,7 @@ public class AnakiaTask extends MatchingTask
                 context.put ("xmlout", new XMLOutputter());
                 context.put ("relativePath", getRelativePath(xmlFile));
                 context.put ("xpath", new XPathTool() );
-                                
+
                 // only put this into the context if it exists.
                 if (projectDocument != null)
                     context.put ("project", projectDocument.getRootElement());
@@ -329,7 +330,7 @@ public class AnakiaTask extends MatchingTask
 //            log("Failed to process " + inFile, Project.MSG_INFO);
             if (outFile != null ) outFile.delete();
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
 //            log("Failed to process " + inFile, Project.MSG_INFO);
             if (outFile != null ) outFile.delete();
@@ -357,6 +358,8 @@ public class AnakiaTask extends MatchingTask
     */
     private String getRelativePath(String file)
     {
+        if (file == null || file.length()==0)
+            return "";
         StringTokenizer st = new StringTokenizer(file, "/\\");
         // needs to be -1 cause ST returns 1 even if there are no matches. huh?
         int slashCount = st.countTokens() - 1;
@@ -365,7 +368,10 @@ public class AnakiaTask extends MatchingTask
         {
             sb.append ("../");
         }
-        return sb.toString();
+        if (sb.toString().length() > 0)
+            return StringUtils.chop(sb.toString(), 1);
+        else
+            return ".";    
     }
     /**
         create directories as needed

@@ -50,9 +50,9 @@
                 #makeProject()
                 </td>
                 <td>
-                #set $sections = $root.getChild("body").getChildren("section")
-                #foreach ( $sec in $sections )
-                    #foreach ( $item in $sec.getChildren() )                
+                #set $allSections = $root.getChild("body").getChildren("section")
+                #foreach ( $section in $allSections )
+                    #foreach ( $item in $section.getChildren() )                
                         #if ($item.getName().equals("img"))
                             #image ($item)
                         #else
