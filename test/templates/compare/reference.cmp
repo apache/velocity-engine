@@ -8,3 +8,17 @@ Late introspection :
 7
 
 
+More stupid reference escaping ...
+
+When it does exist in the context :
+
+foo
+$foo
+$!foo
+
+And when it doesn't :
+
+$bar
+\$bar
+\$!bar
+

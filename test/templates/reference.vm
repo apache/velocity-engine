@@ -20,3 +20,18 @@ Late introspection :
 $vector.firstElement().length()
 
 
+More stupid reference escaping ...
+
+When it does exist in the context :
+
+#set($foo = "foo")
+$foo
+\$foo
+\$!foo
+
+And when it doesn't :
+
+$bar
+\$bar
+\$!bar
+
