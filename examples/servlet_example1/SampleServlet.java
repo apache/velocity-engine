@@ -59,6 +59,8 @@ import java.util.Properties;
 import java.util.Vector;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
@@ -74,7 +76,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * 
  * @author Dave Bryson
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: SampleServlet.java,v 1.4 2001/05/08 11:35:37 geirm Exp $
+ * @version $Id: SampleServlet.java,v 1.4.4.1 2001/12/09 19:53:07 geirm Exp $
  */
 public class SampleServlet extends VelocityServlet
 {
@@ -129,19 +131,14 @@ public class SampleServlet extends VelocityServlet
      *  VelocityServlet, your responsibility as programmer
      *  is to simply return a valid Template
      *  </p>
-     *  <p>
-     *  Note : this is the deprecated version of handleRequest() and
-     *  is  here for compatibility with Velocity 1.0
-     *  Velocity 1.1 has a new method handleRequest( HttpServletRequest,
-     *   HttpServletResponse, Context)  that allows you to return null.
-     *  </p>
      *
      *  @param ctx a Velocity Context object to be filled with
      *             data.  Will be used for rendering this 
      *             template
      *  @return Template to be used for request
      */   
-    public Template handleRequest( Context ctx )
+    public Template handleRequest( HttpServletRequest request,
+	HttpServletResponse response, Context ctx )
     {        
         /*
          *  set up some data to put into the context
