@@ -59,7 +59,7 @@
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ASTStringLiteral.java,v 1.3 2000/11/28 04:37:32 geirm Exp $
+ * @version $Id: ASTStringLiteral.java,v 1.4 2000/12/05 05:05:36 geirm Exp $
  */
 
 package org.apache.velocity.runtime.parser.node;
@@ -117,7 +117,7 @@ public class ASTStringLiteral extends SimpleNode
                 /*
                  *  parse the stringlit
                  */
-                SimpleNode nodeTree_ = Runtime.parse( inStream );        
+                SimpleNode nodeTree_ = Runtime.parse( inStream, context.getCurrentTemplateName() );        
                 
                 /*
                  *  init with a cloned context
