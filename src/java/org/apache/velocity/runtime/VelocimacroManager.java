@@ -82,7 +82,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.14 2001/10/11 17:38:21 dlr Exp $ 
+ * @version $Id: VelocimacroManager.java,v 1.15 2001/10/22 11:47:06 geirm Exp $ 
  */
 public class VelocimacroManager
 {
@@ -93,7 +93,10 @@ public class VelocimacroManager
 
     /** Hash of namespace hashes. */
     private Hashtable namespaceHash = new Hashtable();
-
+    
+    /** map of names of library tempates/namespaces */
+    private Hashtable libraryMap = new Hashtable();
+    
     /* 
      * big switch for namespaces.  If true, then properties control 
      * usage. If false, no. 
@@ -127,7 +130,33 @@ public class VelocimacroManager
 
         me.setFromLibrary(registerFromLib);
     
-        if ( usingNamespaces( namespace ) )
+        /*
+         *  the client (VMFactory) will signal to us via
+         *  registerFromLib that we are in startup mode registering
+         *  new VMs from libraries.  Therefore, we want to
+         *  addto the library map for subsequent auto reloads
+         */
+         
+        boolean isLib = true;
+        
+        if ( registerFromLib)
+        {
+           libraryMap.put( namespace, namespace );
+        }
+        else
+        {
+            /*
+             *  now, we first want to check to see if this namespace (template)
+             *  is actually a library - if so, we need to use the global namespace
+             *  we don't have to do this when registering, as namespaces should
+             *  be shut off. If not, the default value is true, so we still go
+             *  global
+             */
+         
+            isLib = libraryMap.containsKey( namespace);
+        }
+               
+        if ( !isLib && usingNamespaces( namespace ) )
         {
             /*
              *  first, do we have a namespace hash already for this namespace?
@@ -140,7 +169,7 @@ public class VelocimacroManager
             return true;
         }
         else
-        {
+        {        
             /*
              *  otherwise, add to global template.  First, check if we
              *  already have it to preserve some of the autoload information
