@@ -12,9 +12,9 @@
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
                                                     <meta name="author" value="Velocity Documentation Team">
-            <meta name="email" value="jvanzyl@locus.apache.org">
+            <meta name="email" value="jon@latchkey.com">
             
-            <title>Velocity - Migration To Velocity</title>
+            <title>Velocity - Velocity Specification - BNF</title>
         </head>
 
         <body bgcolor="#ffffff" text="#000000" link="#525D76">        
@@ -99,41 +99,13 @@
                                                                     <table border="0" cellspacing="0" cellpadding="2" width="100%">
       <tr><td bgcolor="#525D76">
         <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>Converting Templates</strong>
+          <strong>Velocity Specification - BNF</strong>
         </font>
       </td></tr>
       <tr><td>
         <blockquote>
                                     <p>
-    Legacy documents are the bane of any software migration. The Velocity
-    Team has tried to ensure that existing templates can be converted
-    for use within Velocity in as painless a manner as possible.
-</p>
-                                                <p>
-    Currently there is only a WebMacro to Velocity template converter, but
-    there are plans for a Tea to Velocity template converter, and a
-    FreeMarker to Velocity template converter.
-</p>
-                            </blockquote>
-      </td></tr>
-    </table>
-                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
-      <tr><td bgcolor="#525D76">
-        <font color="#ffffff" face="arial,helvetica,sanserif">
-          <strong>WebMacro to Velocity Template Converter</strong>
-        </font>
-      </td></tr>
-      <tr><td>
-        <blockquote>
-                                    <p>
-    The <filename>convert-wm.sh</filename> script in the <filename>convert</filename> directory
-    converts a single WebMacro template (<filename>*.wm</filename>) to a Velocity
-    template (<filename>*.vm</filename>), or converts an entire directory structure
-    of WebMacro templates to Velocity templates.
-</p>
-                                                <p>
-    The <filename>convert-wm.sh</filename> script can convert a single
-    WebMacro template to a Velocity template.
+Please note that this is currently out of date and will be updated soon.
 </p>
                                                     <div align="left">
     <table cellspacing="4" cellpadding="0" border="0">
@@ -145,7 +117,153 @@
     <tr>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
       <td bgcolor="#ffffff"><pre>
-./convert-wm.sh template.wm
+This is a tentative BNF for Velocity, right now this is
+pretty much the WM syntax. This might change, as arithmetic
+might not make it into the syntax, and the future
+velocity syntax will more then likely remove block
+markers and instead use an &quot;#end&quot; token to signify
+the end of a directive.
+
+
+&lt;statement&gt;         
+    
+    ::=   &lt;text&gt;
+        | &lt;block&gt;
+        | &lt;if-statement&gt;
+        | &lt;else-if-statement&gt;
+        | &lt;foreach-statement&gt;
+        | &lt;include-statement&gt;
+        | &lt;set-statement&gt;
+        | &lt;parse-statement&gt;
+        | &lt;param-statment&gt;
+        | &lt;stop-statement&gt;
+        | &lt;reference&gt;
+
+&lt;block&gt;
+    
+    ::= &quot;#begin&quot; { &lt;expresion&gt; } &quot;#end&quot;
+
+&lt;if-statement&gt;
+    
+    ::= &quot;#if&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
+
+
+&lt;else-if-statement&gt; 
+
+    ::= &quot;#elseif&quot; &quot;(&quot; &lt;expresion&gt; &quot;)&quot; &lt;statement&gt; [ &lt;else-statement&gt; ]
+
+&lt;foreach-statement&gt; 
+
+    ::= &quot;#foreach&quot; &lt;reference&gt; &quot;in&quot; &lt;reference&gt; &lt;statement&gt;
+
+&lt;include-statement&gt; 
+
+    ::= &quot;#include&quot; &lt;string-literal&gt;
+
+&lt;set-statement&gt;     
+
+    ::= &quot;#set&quot; &lt;reference&gt; &quot;=&quot; &lt;expression&gt;
+
+&lt;parse-statement&gt;   
+
+    ::= &quot;#parse&quot; &lt;string-literal&gt;
+
+&lt;param-statment&gt;    
+
+    ::= &quot;#param&quot; &lt;reference&gt; &quot;=&quot; &lt;string-literal&gt;
+
+&lt;stop-statement&gt;    
+
+    ::= &quot;#stop&quot;
+
+&lt;reference&gt;         
+
+    ::= &quot;$&quot; &lt;identifier&gt; { &quot;.&quot; &lt;method&gt; | &lt;identifier&gt; }
+
+&lt;method&gt;            
+
+    ::= &lt;identifier&gt; &quot;(&quot; [ &lt;parameter&gt; { &quot;,&quot; &lt;parameter&gt; } ] &quot;)&quot;
+
+&lt;parameter&gt;         
+
+    ::= &lt;reference&gt; | &lt;string-literal&gt;
+
+&lt;alpha-char&gt;
+
+    ::= &quot;a..z, A..Z&quot;
+
+&lt;identifier-char&gt;   
+
+    ::= &quot;a..z, A..Z ,0..9 ,- ,_&quot;
+
+&lt;identifier&gt;        
+
+    ::= &lt;alpha-char&gt; { &lt;identifier-char&gt; }
+
+&lt;expression&gt;        
+
+    ::=   &lt;true&gt;
+        | &lt;false&gt;
+        | &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
+        | &lt;conditional-or-expression&gt;
+                        
+&lt;assignment&gt;        
+    
+    ::= &lt;primary-expression&gt; &quot;=&quot; &lt;assignment&gt;
+
+&lt;conditional-or-expression&gt;
+
+    ::= &lt;conditional-and-expression&gt; { &quot;||&quot; &lt;conditional-and-expression&gt; }
+                            
+&lt;conditional-and-expression&gt;
+
+    ::= &lt;equality-expression&gt; { &quot;&amp;&amp;&quot; &lt;equality-expression&gt; }
+                        
+&lt;equality-expression&gt;
+
+    ::= &lt;relational-expression&gt;
+        {     &quot;==&quot; &lt;relational-expression&gt; 
+            | &quot;!=&quot; &lt;relational-expression&gt; 
+        }
+                        
+&lt;relational-expression&gt;
+
+    ::= &lt;additive-expression&gt;
+        {
+              &quot;&lt;&quot;  &lt;additive-expression&gt;
+            | &quot;&gt;&quot;  &lt;additive-expression&gt;
+            | &quot;&lt;=&quot; &lt;additive-expression&gt;
+            | &quot;&gt;=&quot; &lt;additive-expression&gt;
+        }
+                        
+&lt;additive-expression&gt;
+
+    ::= &lt;multiplicative-expression&gt;
+        {
+              &quot;+&quot; &lt;multiplicative-expression&gt;
+            | &quot;-&quot; &lt;multiplicative-expression&gt;
+        }
+                        
+&lt;multiplicative-expression&gt;
+
+    ::= &lt;unary-expression&gt;
+        {
+              &quot;*&quot; &lt;unary-expression&gt;
+            | &quot;/&quot; &lt;unary-expression&gt;
+            | &quot;%&quot; &lt;unary-expression&gt;
+        }
+                        
+&lt;unary-expression&gt;
+
+    ::= &quot;!&quot; &lt;unary-expression&gt; | &lt;primary-expression&gt;
+                
+&lt;primary-expression&gt;
+
+    ::=   &lt;string-literal&gt;
+        | &lt;number-literal&gt;
+        | &lt;reference&gt;
+        | &quot;(&quot; &lt;expression&gt; &quot;)&quot;
+
 </pre></td>
       <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
     </tr>
@@ -156,42 +274,6 @@
     </tr>
     </table>
     </div>
-                                                <p>
-    This will produce a single Velocity template named
-    <filename>template.vm</filename> from the WebMacro template <filename>template.wm</filename>.
-    The original WebMacro template will be preserved.
-</p>
-                                                <p>
-    To convert an entire directory structure of WebMacro templates using
-    the <filename>convert-wm.sh</filename> script, simply include the directory
-    name instead of the template name, as indicated below.
-</p>
-                                                    <div align="left">
-    <table cellspacing="4" cellpadding="0" border="0">
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#ffffff"><pre>
-    ./convert-wm.sh template.wm
-    </pre></td>
-      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    <tr>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
-    </tr>
-    </table>
-    </div>
-                                                <p>
-    This will produce a directory structure of templates
-    named <filename>templates.vm</filename>. The original WebMacro templates will be
-    preserved during the conversion process.
-</p>
                             </blockquote>
       </td></tr>
     </table>
