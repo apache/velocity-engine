@@ -71,7 +71,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
  * Runtime.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: ResourceManager.java,v 1.3 2000/12/19 16:16:43 jvanzyl Exp $
+ * @version $Id: ResourceManager.java,v 1.4 2000/12/19 21:46:50 jvanzyl Exp $
  */
 public class ResourceManager
 {
@@ -126,6 +126,7 @@ public class ResourceManager
             Map initializer = (Map) sourceInitializerList.get(i);
             String loaderClass = (String) initializer.get("class");
             resourceLoader = ResourceLoaderFactory.getLoader(loaderClass);
+            resourceLoader.commonInit(initializer);
             resourceLoader.init(initializer);
             resourceLoaders.add(resourceLoader);
         }
@@ -234,10 +235,15 @@ public class ResourceManager
                  * make a resource with.
                  */
                 
+                //! Bug this is being run more then once!
+                
                 for (int i = 0; i < resourceLoaders.size(); i++)
                 {
                     resourceLoader = (ResourceLoader) resourceLoaders.get(i);
                     resource.setResourceLoader(resourceLoader);
+                    
+                    Runtime.info("Attempting to find " + resourceName + 
+                        " with " + resourceLoader.getClassName());
                     
                     if (resource.process())
                         break;

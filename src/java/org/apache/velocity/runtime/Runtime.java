@@ -201,7 +201,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.76 2000/12/19 18:07:45 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.77 2000/12/19 21:46:48 jvanzyl Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -269,7 +269,7 @@ public class Runtime implements RuntimeConstants
                 initializeDirectives();
                 initializeParserPool();
                 initializeGlobalCache();
-
+                
                 /*
                  *  initialize the VM Factory.  It will use the properties 
                  * accessable from Runtime, so keep this here at the end.
@@ -562,7 +562,7 @@ public class Runtime implements RuntimeConstants
      */
     public static void setSourceProperty(String key, String value)
     {
-        info ("   ** Resource Loader Property Override : " + key + " = " + value);
+        info ("   ** !!! Resource Loader Property Override : " + key + " = " + value);
         ResourceManager.setSourceProperty(key, value);
     }
 
@@ -859,9 +859,9 @@ public class Runtime implements RuntimeConstants
      * @param strKey  property key
      * @return   value of key or null
      */
-    public static String getString( String strKey)
+    public static String getString(String key)
     {
-        return VelocityResources.getString( strKey );
+        return VelocityResources.getString( key );
     }
 
     /**

@@ -65,7 +65,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * extend.
  * 
  * @autor <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * $Id: ResourceLoader.java,v 1.1 2000/12/19 05:30:06 jvanzyl Exp $
+ * $Id: ResourceLoader.java,v 1.2 2000/12/19 21:46:52 jvanzyl Exp $
  */
 public abstract class ResourceLoader
 {
@@ -80,19 +80,27 @@ public abstract class ResourceLoader
      * that are created with this loader.
      */
     protected long modificationCheckInterval = 2;
-    
+   
+    /**
+     * Class name for this loader, for logging/debuggin
+     * purposes.
+     */
+     protected String className;
+   
     /**
      * This initialization is used by all resource
      * loaders and must be called to set up common
      * properties shared by all resource loaders
      */
-    protected void commonInit(Map initializer)
+    public void commonInit(Map initializer)
     {
         isCachingOn = new Boolean((String)initializer
             .get("cache")).booleanValue();
         
         modificationCheckInterval = Long.parseLong((String)initializer
             .get("modificationCheckInterval"));
+            
+        className = (String)initializer.get("class");
     }
 
     /** 
@@ -120,6 +128,14 @@ public abstract class ResourceLoader
      * in order to locate the InputStream source.
      */
     public abstract long getLastModified(Resource resource);
+
+    /**
+     * Return the class name of this resource Loader
+     */
+    public String getClassName()
+    {
+        return className;
+    }        
 
     /**
      * Set the caching state. If true, then this loader
