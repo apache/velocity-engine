@@ -16,5 +16,7 @@
     <page id="developer-guide" label="Developer's Guide" source="developer-guide.xml"/>
     <page id="vtl-reference-guide" label="VTL Reference Guide" source="vtl-reference-guide.xml"/>
     <separator/>
+    <page id="texen" label="Texen" source="texen.xml"/>
+    <separator/>
     <page id="migration" label="Migration To Velocity" source="migration.xml"/>
 </book>
