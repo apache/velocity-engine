@@ -331,7 +331,7 @@
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
-  <target name="jar-core" depends="compile, collections-support">
+  <target name="jar-core" depends="compile">
         
     <jar compress="true" jarfile="${build.dir}/${project}-core-${version}.jar">
       <fileset dir="${build.dest}">
