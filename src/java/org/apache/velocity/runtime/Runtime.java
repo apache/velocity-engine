@@ -73,6 +73,7 @@ import org.apache.velocity.runtime.log.VelocityFormater;
 import org.apache.velocity.Template;
 
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import org.apache.velocity.runtime.loader.TemplateFactory;
@@ -138,7 +139,7 @@ import org.apache.velocity.runtime.directive.Dummy;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
- * @version $Id: Runtime.java,v 1.22 2000/10/21 02:00:17 jvanzyl Exp $
+ * @version $Id: Runtime.java,v 1.23 2000/10/22 01:27:34 jvanzyl Exp $
  */
 public class Runtime
 {
@@ -351,7 +352,7 @@ public class Runtime
      * AST node structure.
      */
     public synchronized static SimpleNode parse(InputStream inputStream)
-        throws Exception
+        throws ParseException
     {
         return parser.parse(inputStream);
     }

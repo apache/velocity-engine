@@ -72,7 +72,7 @@ import org.apache.velocity.runtime.Runtime;
  * test all the directives support by Velocity.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Test.java,v 1.2 2000/10/20 02:19:54 jvanzyl Exp $
+ * @version $Id: Test.java,v 1.3 2000/10/22 01:27:36 jvanzyl Exp $
  */
 public class Test
 {
@@ -116,7 +116,6 @@ public class Test
         }
         catch( Exception e )
         {
-            e.printStackTrace();
             Runtime.error(e);
         }
     }

@@ -119,6 +119,11 @@ public class Foreach extends Directive
         // the SimpleNode.init() and logged. But we also need
         // to set a flag so that the rendering of this node
         // is ignored as the output would be useless.
+        
+        // Slight problem with this approach. The list object
+        // may have been #set previously, this usually wouldn't
+        // be the case, but this check should be moved into
+        // the rendering phase.
         if (listObject == null)
         {
             node.setInvalid();

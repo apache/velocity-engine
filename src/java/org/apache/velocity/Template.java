@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
@@ -81,7 +82,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * </pre>
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Template.java,v 1.9 2000/10/21 02:00:17 jvanzyl Exp $
+ * @version $Id: Template.java,v 1.10 2000/10/22 01:27:32 jvanzyl Exp $
  */
 public class Template
 {
@@ -116,20 +117,16 @@ public class Template
      * Velocity Runtime. This AST structure can be
      * reused until the template changes on disk.
      */
-    public Template(InputStream inputStream) throws Exception
+    public Template(InputStream inputStream)
     {
-        parse(inputStream);
-    }
-
-    /**
-     * Parse a template which is passed in the form
-     * of an InputStream. The Velocity Runtime
-     * produces an AST node structure from the
-     * InputStream.
-     */
-    protected void parse(InputStream inputStream) throws Exception
-    {
-        document = Runtime.parse(inputStream);
+        try
+        {
+            document = Runtime.parse(inputStream);
+        }
+        catch (ParseException pe)
+        {
+            Runtime.error(pe);
+        }
     }
 
     /**
