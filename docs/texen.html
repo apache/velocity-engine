@@ -282,7 +282,7 @@ page generator!
 
 #foreach ($planet in $Planets)
 
-    #set ($outputFile = $stringutils.concat([$planet, &quot;.html&quot;]))
+    #set ($outputFile = $strings.concat([$planet, &quot;.html&quot;]))
     $generator.parse(&quot;HtmlTemplate.vm&quot;, $outputFile, &quot;planet&quot;, $planet)
 
 #end
