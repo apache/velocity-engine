@@ -90,3 +90,9 @@ And more...
 \#$C0C0C0
 #\$C0C0C0
 
+
+$(QUERY_STRING{forumid})
+\$(QUERY_STRING{forumid})
+\\$(QUERY_STRING{forumid})
+
+

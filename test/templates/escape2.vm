@@ -117,3 +117,11 @@ And more...
 \#$${foo1}
 #\$${foo1}
 
+## and wacky stuff that are not references, but
+## because of the MORE tokens, get screwed up
+
+$(QUERY_STRING{forumid})
+\$(QUERY_STRING{forumid})
+\\$(QUERY_STRING{forumid})
+
+
