@@ -290,32 +290,64 @@ y    counter.name = velocityCount
 </p>
 
  <strong>#parse</strong>
-
     <p>
-    The <vtldirective>#parse</vtldirective> directive is for importing a local file that contains VTL. 
-    Velocity will parse the VTL and render the template specified. <vtldirective>#parse</vtldirective>
-    takes as an argument either a single template name in double quotes or a variable.
+    The <vtldirective>#parse</vtldirective> script element allows the template designer to import a 
+    local file that contains VTL. Velocity will parse the VTL and render the template specified.
     </p>
 
     <p>
     <source><![CDATA[
-    #parse( "template.vm" )
-    #parse( $arg )
+    #parse( "me.vm" )
     ]]></source>
     </p>
 
     <p>
-    Any templates to which <vtldirective>#parse</vtldirective> refers must be included under TEMPLATE_ROOT. 
-    Recursion is strictly prohibited; for example, <filename>foo.vm</filename> cannot include the directive 
-    <vtldirective>#parse( foo.vm )</vtldirective>, nor can it reference any other template which contains the 
-    statement <vtldirective>#parse( foo.vm )</vtldirective>. VTL templates can have <vtldirective>#parse</vtldirective> 
-    statements referring to templates that in turn have <vtldirective>#parse</vtldirective> statements. By default 
-    set to 10, the <vtl>parse_directive.maxdepth</vtl> line of the <filename>velocity.properties</filename> allows users 
-    to customize maximum number of <vtldirective>#parse</vtldirective> referrals that can occur from a single 
-    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
-    <filename>velocity.properties</filename> file, Velocity will set this default to 20.)  
-    </p> 
+    Like the <vtldirective>#include</vtldirective> directive, <vtldirective>#parse</vtldirective> 
+    can take a variable rather than a template. Any templates to which <vtldirective>#parse</vtldirective> 
+    refers must be included under TEMPLATE_ROOT. Unlike the <vtldirective>#include</vtldirective> directive, 
+    <vtldirective>#parse</vtldirective> will only take a single argument. 
+    </p>
 
+    <p>
+    VTL templates can have <vtldirective>#parse</vtldirective> statements referring to templates that in turn 
+    have <vtldirective>#parse</vtldirective> statements. By default set to 10, the <vtl>parse_directive.maxdepth</vtl> 
+    line of the <filename>velocity.properties</filename> allows users to customize maximum number of 
+    <vtldirective>#parse</vtldirective> referrals that can occur from a single 
+    template. (Note: If the <vtl>parse_directive.maxdepth</vtl> property is absent from the 
+    <filename>velocity.properties</filename> file, Velocity will set this default to 10.)  
+    Recursion is permitted, for example, if the template <filename>dofoo.vm</filename> contains the following lines:
+    </p>
+
+    <p>
+    <source><![CDATA[
+    Count down.
+    #set( $count = 8 )
+    #parse( "parsefoo.vm" )
+    All done with dofoo.vm!
+    ]]></source>
+    </p>    
+    
+    <p>
+    It would reference the template <filename>parsefoo.vm</filename>, which might contain the following VTL:
+    </p>
+
+    <p>    
+    <source><![CDATA[
+    $count
+    #set( $count = $count - 1 )
+    #if( $count > 0 )
+      #parse( "parsefoo.vm" )
+    #else
+      All done with parsefoo.vm!
+    #end
+    ]]></source>
+    </p>    
+
+    <p>
+    After "Count down." is displayed, Velocity passes through <filename>parsefoo.vm</filename>, counting down from 8. 
+    When the count reaches 0, it will display the "All done with parsefoo.vm!" message. At this point, Velocity will return to 
+    <filename>dofoo.vm</filename> and output the "All done with dofoo.vm!" message.
+    </p>
 
 
  <strong>#macro</strong>
