@@ -65,7 +65,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
  * This class provides some methods for dynamically
@@ -75,7 +74,8 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.10 2001/05/01 17:29:45 dlr Exp $
+ *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ *  @version $Id: StringUtils.java,v 1.11 2001/05/02 00:06:31 dlr Exp $
  */
 public class StringUtils
 {
@@ -92,17 +92,17 @@ public class StringUtils
     /**
      * Concatenates a list of objects as a String.
      *
-     * @param ArrayList list of object to concatenate.
-     * @return String
+     * @param list The list of objects to concatenate.
+     * @return     A text representation of the concatenated objects.
      */
-    public String concat (ArrayList list)
+    public String concat(List list)
     {
         StringBuffer sb = new StringBuffer();
         int size = list.size();
-        
-        for (int i=0; i < size; i++)
+
+        for (int i = 0; i < size; i++)
         {
-            sb.append (list.get(i).toString());
+            sb.append(list.get(i).toString());
         }
         return sb.toString();
     }
@@ -162,16 +162,13 @@ public class StringUtils
      */
     public static String [] split(String line, String delim)
     {
-        Vector v = new Vector();
+        List list = new ArrayList();
         StringTokenizer t = new StringTokenizer(line, delim);
         while (t.hasMoreTokens())
-            v.addElement(t.nextToken());
-
-        String [] s = new String[v.size()];
-        for (int i = 0; i < v.size(); i++)
-            s[i] = (String) v.elementAt(i);
-
-        return s;
+        {
+            list.add(t.nextToken());
+        }
+        return (String []) list.toArray(new String[list.size()]);
     }
 
     /**
@@ -483,21 +480,20 @@ public class StringUtils
      * Check to see if all the string objects passed
      * in are empty.
      *
-     * @param ArrayList list of string objects.
-     * @return boolean
+     * @param list A list of {@link java.lang.String} objects.
+     * @return     Whether all strings are empty.
      */
-    public boolean allEmpty(ArrayList list)
+    public boolean allEmpty(List list)
     {
         int size = list.size();
         
         for (int i = 0; i < size; i++)
         {
-            if ((list.get(i) != null) && (list.get(i).toString().length() > 0))
+            if (list.get(i) != null && list.get(i).toString().length() > 0)
             {
                 return false;
             }
         }            
-        
         return true;
     }
 }
