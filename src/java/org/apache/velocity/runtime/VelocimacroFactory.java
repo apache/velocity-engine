@@ -30,7 +30,7 @@ import java.util.HashMap;
  *   manages the set of VMs in a running Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocimacroFactory.java,v 1.19 2004/03/19 17:13:34 dlr Exp $ 
+ * @version $Id$ 
  */
 public class VelocimacroFactory
 {
@@ -134,7 +134,23 @@ public class VelocimacroFactory
              */
 
              Object libfiles = rsvc.getProperty( RuntimeConstants.VM_LIBRARY );
-           
+
+             if (libfiles == null)
+             {
+                 logVMMessageInfo("Velocimacro : \"" + RuntimeConstants.VM_LIBRARY +
+                     "\" not set.  trying default library : " + RuntimeConstants.VM_LIBRARY_DEFAULT);
+
+                 // try the default library.
+                 if (rsvc.getLoaderNameForResource(RuntimeConstants.VM_LIBRARY_DEFAULT) != null)
+                 {
+                     libfiles = RuntimeConstants.VM_LIBRARY_DEFAULT;
+                 }
+                 else
+                 {
+                     logVMMessageInfo("Velocimacro : default library not found.");
+                 }
+             }
+
              if( libfiles != null)
              {         
                  if (libfiles instanceof Vector)
