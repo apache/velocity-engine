@@ -75,7 +75,7 @@ TBD: - The faq doesn't show in the content
                 background-color="blue"
                 color="white"
                 text-align="center">
-        FOP - an xsl:fo renderer
+         Velocity
          </fo:block>
 
 
