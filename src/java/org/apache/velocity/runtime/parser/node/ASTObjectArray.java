@@ -55,6 +55,8 @@
 
 package org.apache.velocity.runtime.parser.node;
 
+import java.util.ArrayList;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -81,11 +83,11 @@ public class ASTObjectArray extends SimpleNode
     {
         int size = jjtGetNumChildren();
 
-        Object[] objectArray = new Object[size];
+        ArrayList objectArray = new ArrayList();
 
         for (int i = 0; i < size; i++)
         {
-            objectArray[i] = jjtGetChild(i).value(context);
+            objectArray.add(  jjtGetChild(i).value(context) );
         }            
         
         return objectArray;
