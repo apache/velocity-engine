@@ -72,6 +72,12 @@ This section describes changes to the man branch after the
      Added support for an 'ApplicationContext' to allow the application
      set an Object accessable to custom loaders and loggers. (gmj)
    </li>
+   <li>
+     Added <code>cleanup()</code> hook method to
+     <code>TexenTask</code> to easily allow subclasses to perform
+     cleanup activities without overriding
+     <code>execute()</code>. (dlr)
+   </li>
 </ul>
 
 </subsection>
