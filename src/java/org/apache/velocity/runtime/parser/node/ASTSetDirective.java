@@ -59,13 +59,10 @@ import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.Token;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.EventCartridge;
 
 /**
@@ -73,7 +70,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.21 2002/03/25 00:42:49 geirm Exp $
+ * @version $Id: ASTSetDirective.java,v 1.22 2003/05/04 17:24:30 geirm Exp $
  */
 public class ASTSetDirective extends SimpleNode
 {

@@ -54,14 +54,8 @@ package org.apache.velocity.runtime.parser.node;
  * <http://www.apache.org/>.
  */
 
-import java.lang.reflect.Method;
-
-import java.io.*;
-
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.*;
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
 import org.apache.velocity.util.introspection.Info;
@@ -70,7 +64,6 @@ import org.apache.velocity.exception.MethodInvocationException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.MethodExceptionEventHandler;
 
 /**
  *  ASTMethod.java
@@ -86,7 +79,7 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTMethod.java,v 1.23 2002/05/07 13:24:43 geirm Exp $ 
+ * @version $Id: ASTMethod.java,v 1.24 2003/05/04 17:24:30 geirm Exp $ 
  */
 public class ASTMethod extends SimpleNode
 {

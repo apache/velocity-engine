@@ -54,15 +54,9 @@ package org.apache.velocity.runtime.resource;
  * <http://www.apache.org/>.
  */
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -75,7 +69,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.10 2002/10/10 17:49:53 dlr Exp $
+ * @version $Id: Resource.java,v 1.11 2003/05/04 17:24:31 geirm Exp $
  */
 public abstract class Resource
 {

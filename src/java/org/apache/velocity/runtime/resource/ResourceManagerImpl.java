@@ -56,14 +56,11 @@ package org.apache.velocity.runtime.resource;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 
 import java.io.InputStream;
 import java.io.IOException;
 
-import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -83,7 +80,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManagerImpl.java,v 1.6 2002/03/25 00:44:00 geirm Exp $
+ * @version $Id: ResourceManagerImpl.java,v 1.7 2003/05/04 17:24:31 geirm Exp $
  */
 public class ResourceManagerImpl implements ResourceManager
 {

@@ -59,7 +59,6 @@ import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
@@ -76,7 +75,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id: ASTDirective.java,v 1.20 2001/10/22 03:53:24 jon Exp $ 
+ * @version $Id: ASTDirective.java,v 1.21 2003/05/04 17:24:30 geirm Exp $ 
  */
 public class ASTDirective extends SimpleNode
 {

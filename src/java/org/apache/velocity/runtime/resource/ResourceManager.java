@@ -54,8 +54,6 @@ package org.apache.velocity.runtime.resource;
  * <http://www.apache.org/>.
  */
 
-import java.io.IOException;
-
 import org.apache.velocity.runtime.RuntimeServices;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -68,7 +66,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceManager.java,v 1.33 2002/03/25 00:44:00 geirm Exp $
+ * @version $Id: ResourceManager.java,v 1.34 2003/05/04 17:24:31 geirm Exp $
  */
 public interface ResourceManager
 {
