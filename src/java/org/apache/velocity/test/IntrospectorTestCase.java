@@ -60,7 +60,7 @@ import java.lang.reflect.Method;
 
 import org.apache.velocity.util.introspection.Introspector;
 
-import junit.framework.TestSuite;
+import junit.framework.TestCase;
 
 /**
  * Test case for the Velocity Introspector which uses
@@ -72,14 +72,19 @@ import junit.framework.TestSuite;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.5 2001/03/05 11:47:37 jvanzyl Exp $
+ * @version $Id: IntrospectorTestCase.java,v 1.6 2001/03/12 00:31:14 jon Exp $
  */
-public class IntrospectorTestCase extends BaseTestCase
+public class IntrospectorTestCase extends TestCase
 {
     private Method method;
     private String result;
     private String type;
     private ArrayList failures = new ArrayList();
+
+    IntrospectorTestCase()
+    {
+        super("IntrospectorTestCase");
+    }
 
     /**
       * Creates a new instance.
@@ -87,6 +92,17 @@ public class IntrospectorTestCase extends BaseTestCase
     public IntrospectorTestCase (String name)
     {
         super(name);
+    }
+
+    /**
+      * Get the containing <code>TestSuite</code>.  This is always
+      * <code>VelocityTestSuite</code>.
+      *
+      * @return The <code>TestSuite</code> to run.
+      */
+    public static junit.framework.Test suite ()
+    {
+        return new IntrospectorTestCase();
     }
 
     public void runTest()
@@ -192,19 +208,6 @@ public class IntrospectorTestCase extends BaseTestCase
         {
             e.printStackTrace();
         }
-    }
-
-    /**
-      * Get the containing <code>TestSuite</code>.  This is always
-      * <code>VelocityTestSuite</code>.
-      *
-      * @return The <code>TestSuite</code> to run.
-      */
-    public static junit.framework.Test suite ()
-    {
-        TestSuite suite = new TestSuite();
-        suite.addTest(new IntrospectorTestCase("Introspector Tests"));
-        return suite;
     }
 
     static class MethodProvider

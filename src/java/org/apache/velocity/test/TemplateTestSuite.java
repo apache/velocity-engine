@@ -68,35 +68,23 @@ import org.apache.velocity.runtime.Runtime;
 import junit.framework.TestSuite;
 
 /**
- * Test suite for Apache Velocity.
+ * Test suite for Templates.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VelocityTestSuite.java,v 1.17 2001/03/05 11:47:42 jvanzyl Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @version $Id: TemplateTestSuite.java,v 1.1 2001/03/12 00:31:15 jon Exp $
  */
-public class VelocityTestSuite extends TestSuite
+public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {
-    /**
-     * Properties file that lists which template tests to run.
-     */
-    private final static String TEST_CASE_PROPERTIES = "../test/test.properties";
-    
-    /**
-     * Path for templates. This property will override the
-     * value in the default velocity properties file.
-     */
-    private final static String FILE_RESOURCE_LOADER_PATH = "../test/templates";
-
     private Properties testProperties;
 
     /**
      * Creates an instace of the Apache Velocity test suite.
      */
-    public VelocityTestSuite ()
+    public TemplateTestSuite()
     {
-        super("Apache Velocity test suite");
-
         try
         {
             Runtime.setDefaultProperties();
@@ -114,29 +102,14 @@ public class VelocityTestSuite extends TestSuite
             System.exit(1);
         }            
 
-        /*
-         *   Add test cases here.
-         */
-
-        /*
-         *  test 1 : template test cases
-         */
-
         addTemplateTestCases();
-
-        /*
-         *  test 2 : context safety test case
-         */
-
-        System.out.println("Adding ContextSafetyTestCase.");
-        addTest( new ContextSafetyTestCase() );
     }
 
     /**
      * Adds the template test cases to run to this test suite.  Template test
      * cases are listed in the <code>TEST_CASE_PROPERTIES</code> file.
      */
-    private void addTemplateTestCases ()
+    private void addTemplateTestCases()
     {
         String template;
         for (int i = 1 ;; i++)
@@ -163,7 +136,7 @@ public class VelocityTestSuite extends TestSuite
      * @param nbr The template test number to return a property key for.
      * @return    The property key.
      */
-    private static final String getTemplateTestKey (int nbr)
+    private static final String getTemplateTestKey(int nbr)
     {
         return ("test.template." + nbr);
     }

@@ -68,6 +68,7 @@ import org.apache.velocity.test.provider.TestProvider;
 import org.apache.velocity.runtime.Runtime;
 import org.apache.velocity.util.StringUtils;
 
+import junit.framework.TestCase;
 
 /**
  * Tests if we are context safe : can we switch objects in the context
@@ -80,38 +81,31 @@ import org.apache.velocity.util.StringUtils;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.5 2001/03/05 11:47:34 jvanzyl Exp $
+ * @version $Id: ContextSafetyTestCase.java,v 1.6 2001/03/12 00:31:13 jon Exp $
  */
-public class ContextSafetyTestCase extends BaseTestCase
+public class ContextSafetyTestCase extends TestCase implements TemplateTestBase
 {
-     /**
-     * VTL file extension.
-     */
-    private static final String TMPL_FILE_EXT = "vm";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String CMP_FILE_EXT = "cmp";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String RESULT_FILE_EXT = "res";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String RESULT_DIR = "../test/templates/results";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String COMPARE_DIR = "../test/templates/compare";
-
-    ContextSafetyTestCase()
+    public ContextSafetyTestCase()
     {
         super("ContextSafetyTestCase");
+        try
+        {
+	        Runtime.setDefaultProperties();
+	        Runtime.setSourceProperty(
+	            Runtime.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+	        Runtime.init();
+	    }
+	    catch (Exception e)
+	    {
+            System.err.println("Cannot setup ContextSafetyTestCase!");
+            e.printStackTrace();
+            System.exit(1);
+	    }
+    }
+
+    public static junit.framework.Test suite()
+    {
+        return new ContextSafetyTestCase();
     }
 
     /**
@@ -119,7 +113,6 @@ public class ContextSafetyTestCase extends BaseTestCase
      */
     public void runTest ()
     {
-
         /*
          *  make a Vector and String array because
          *  they are treated differently in Foreach()
