@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.51 2001/01/06 20:56:13 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.52 2001/01/24 16:05:06 geirm Exp $ 
 */
 public class Parser
 {
@@ -289,7 +289,7 @@ TOKEN_MGR_DECLS:
     private boolean inReference;
     public boolean inDirective;
     private boolean inComment;
-    private boolean inSet;
+    public  boolean inSet;
 
     /**
      *  pushes the current state onto the 'state stack',
@@ -810,7 +810,10 @@ TOKEN:
          */
 
         if ( lparen == 0 && !inSet && curLexState != REFMOD2)
+        {
             stateStackPop();
+        }
+       
     }
 }
 
@@ -1298,6 +1301,14 @@ void SetDirective() : {}
     <SET_DIRECTIVE>  
     [ LOOKAHEAD(2) <WHITESPACE> ] 
     ( LOOKAHEAD(2) ( <LPAREN> Expression() <RPAREN> ) | ( Expression() [<NEWLINE>]) )
+
+    { 
+        /*
+         * ensure that inSet is false.  Leads to some amusing bugs...
+         */
+    
+        token_source.inSet = false; 
+    }
 }    
 
 /**
