@@ -14,7 +14,7 @@ if "%JAVA_HOME%" == "" goto javahomeerror
 if exist %JAVA_HOME%\lib\tools.jar set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\tools.jar
 
 set CLASSPATH=%CLASSPATH%;.\lib\ant-1.3.jar;.\lib\ant-1.3-optional.jar
-set CLASSPATH=%CLASSPATH%;.\lib\xerces-1.2.1.jar
+set CLASSPATH=%CLASSPATH%;.\lib\xerces-1.3.0.jar
 set CLASSPATH=%CLASSPATH%;.\lib\Fop.class
 set CLASSPATH=%CLASSPATH%;.\lib\Xslt.class
 

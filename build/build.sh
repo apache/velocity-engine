@@ -26,7 +26,7 @@ fi
 
 CLASSPATH=${CLASSPATH}:./lib/ant-1.3.jar
 CLASSPATH=${CLASSPATH}:./lib/ant-1.3-optional.jar
-CLASSPATH=${CLASSPATH}:./lib/xerces-1.2.1.jar
+CLASSPATH=${CLASSPATH}:./lib/xerces-1.3.0.jar
 CLASSPATH=${CLASSPATH}:./lib/werken.xpath.jar
 CLASSPATH=${CLASSPATH}:./lib/antlr-runtime.jar
 
