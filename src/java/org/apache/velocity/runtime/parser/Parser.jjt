@@ -135,7 +135,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.83 2003/12/30 20:09:51 geirm Exp $
+ * @version $Id$
 */
 public class Parser
 {
@@ -268,10 +268,7 @@ public class Parser
      */
     public boolean isDirective(String directive)
     {
-        if (directives.containsKey(directive))
-            return true;
-        else
-            return false;
+        return directives.containsKey(directive);
     }
 
 
