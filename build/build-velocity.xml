@@ -5,7 +5,7 @@
 <project name="Velocity" default="prepare" basedir=".">
 
     <property name="Name" value="Velocity"/>
-    <property name="version" value="0.5"/>
+    <property name="version" value="0.7"/>
     <property name="project" value="velocity"/>
     <property name="build.compiler" value="classic"/>
     
