@@ -68,6 +68,8 @@ import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.*;
 
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.VelSetter;
+import org.apache.velocity.util.introspection.Info;
 
 import org.apache.velocity.exception.MethodInvocationException;
 
@@ -85,7 +87,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: ASTReference.java,v 1.43 2002/02/23 11:00:40 geirm Exp $ 
+ * @version $Id: ASTReference.java,v 1.44 2002/03/27 15:51:33 geirm Exp $ 
 */
 public class ASTReference extends SimpleNode
 {
@@ -370,6 +372,12 @@ public class ASTReference extends SimpleNode
     public boolean setValue( InternalContextAdapter context, Object value)
       throws MethodInvocationException
     {
+        if (jjtGetNumChildren() == 0)
+        {
+            context.put(rootString, value);
+            return true;
+        }
+
         /*
          *  The rootOfIntrospection is the object we will
          *  retrieve from the Context. This is the base
@@ -407,93 +415,24 @@ public class ASTReference extends SimpleNode
 
         try
         {
-            /*
-             *  first, we introspect for the set<identifier> setter method
-             */
+            VelSetter vs = rsvc.getUberspect().getSetter(result.getClass(), identifier, value, new Info("",1,1));
 
-            Object[] params = { value };
-
-            Class c = result.getClass();
-            Method m = null;
-
-            try
-            {
-                m = rsvc.getIntrospector().getMethod( c, "set" + identifier, params);
-
-                if (m == null)
-                {
-                    throw new NoSuchMethodException();
-                }
-            }
-            catch( NoSuchMethodException nsme2)
-            {
-                StringBuffer sb = new StringBuffer( "set" );
-                sb.append( identifier );
-
-                if(  Character.isLowerCase( sb.charAt(3)))
-                {
-                    sb.setCharAt( 3 ,  Character.toUpperCase( sb.charAt( 3 ) ) );
-                }
-                else
-                {
-                    sb.setCharAt( 3 ,  Character.toLowerCase( sb.charAt( 3 ) ) );
-                }
-               
-                m = rsvc.getIntrospector().getMethod( c, sb.toString(), params);
-
-                if (m == null)
-                {
-                    throw new NoSuchMethodException();
-                }
-            }
-
-            /*
-             *  and if we get here, getMethod() didn't chuck an exception...
-             */
-            
-            Object[] args = { value };
-            m.invoke(result, args);
-        }
-        catch (NoSuchMethodException nsme)
-        {
-            /*
-             *  right now, we only support the Map interface
-             */
-
-            if (result instanceof Map)
-            {
-                try
-                {
-                    ((Map) result).put(identifier, value);
-                }
-                catch (Exception ex)
-                {
-                    rsvc.error("ASTReference Map.put : exception : " + ex 
-                                  + " template = " + context.getCurrentTemplateName() 
-                                  + " [" + this.getLine() + "," + this.getColumn() + "]");
-                    return false;
-                }
-            }
-            else
-            {
-                rsvc.error("ASTReference : cannot find " + identifier + " as settable property or key to Map in"
-                              + " template = " + context.getCurrentTemplateName() 
-                              + " [" + this.getLine() + "," + this.getColumn() + "]");
+            if (vs == null)
                 return false;
-                
-            }
+
+            vs.invoke(result, value);
         }
         catch( InvocationTargetException ite )
         {
             /*
-             *  this is possible 
+             *  this is possible
              */
 
-            throw  new MethodInvocationException( 
-                "ASTReference : Invocation of method '" 
+            throw  new MethodInvocationException(
+                "ASTReference : Invocation of method '"
                 + identifier + "' in  " + result.getClass()
-                + " threw exception " 
-                + ite.getTargetException().getClass(), 
+                + " threw exception "
+                + ite.getTargetException().getClass(),
                ite.getTargetException(), identifier );
         }
         catch( Exception e )
@@ -501,12 +440,12 @@ public class ASTReference extends SimpleNode
             /*
              *  maybe a security exception?
              */
-            rsvc.error("ASTReference setValue() : exception : " + e 
-                                  + " template = " + context.getCurrentTemplateName() 
+            rsvc.error("ASTReference setValue() : exception : " + e
+                                  + " template = " + context.getCurrentTemplateName()
                                   + " [" + this.getLine() + "," + this.getColumn() + "]");
             return false;
          }
-        
+
         return true;
     }
 
