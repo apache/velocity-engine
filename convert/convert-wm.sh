@@ -5,6 +5,11 @@
           && echo \
           && exit
 
-CLASSPATH=../bin/velocity-0.4.jar
+CLASSPATH=.
+
+for jar in ../bin/*.jar
+do
+    CLASSPATH=${CLASSPATH}:${jar}
+done
 
 java -cp ${CLASSPATH} org.apache.velocity.convert.WebMacro $1
