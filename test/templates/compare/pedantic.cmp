@@ -1,0 +1,54 @@
+
+
+This is a test of the new pedantic mode.
+
+There are a few things you can do in pedantic mode.
+
+Like get the spacing between things first elementsecond element to be really, really tight.
+
+Further, it now binds any \n to the control structures, taking them out of the output.
+The hope that this is What You Expect. 
+So...
+
+--
+pedantic
+--
+
+should come out looking like
+
+--
+pedantic
+--
+
+But pay attention to what follows the #end statement :
+
+1) First, follow with 'stuff' (not sure why you want to do this... but anway...)
+
+--
+pedantic
+ woogie!
+--
+
+should be
+
+--
+pedantic
+ woogie!
+--
+
+2)  You can even just have spaces : be careful!
+
+--
+pedantic
+  
+<preceeded by a line with just 2 spaces>
+--
+
+should be
+
+--
+pedantic
+  
+<preceeded by a line with just 2 spaces>
+--
+
