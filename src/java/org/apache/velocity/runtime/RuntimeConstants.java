@@ -102,4 +102,11 @@ public interface RuntimeConstants
      * Maximum recursion depth allowed for the #parse directive.
      */
     public static String PARSE_DIRECTIVE_MAXDEPTH = "parse_directive.maxdepth";
+
+
+    /**
+     *  Switch for the interpolation facility for string literals
+     */
+    public static String INTERPOLATE_STRINGLITERALS = "stringliterals.interpolate";
+
 }
