@@ -59,6 +59,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.IOException;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
@@ -71,6 +72,10 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
+
+import org.apache.velocity.runtime.parser.ParseException;
+
 
 /**
  * This class provides  services to the application 
@@ -96,7 +101,7 @@ import org.apache.velocity.exception.ParseErrorException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.8 2001/03/19 00:57:56 geirm Exp $
+ * @version $Id: Velocity.java,v 1.9 2001/03/19 17:19:36 geirm Exp $
  */
 
 public class Velocity implements RuntimeConstants
@@ -182,6 +187,7 @@ public class Velocity implements RuntimeConstants
      */
     public static  boolean evaluate( Context context,  Writer out,  
                                      String logTag, String instring )
+        throws ParseErrorException, MethodInvocationException, IOException
     {
         ByteArrayInputStream inStream = 
             new ByteArrayInputStream( instring.getBytes() );
@@ -205,37 +211,58 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean evaluate( Context context, Writer writer, 
                                     String logTag, InputStream instream )
+        throws ParseErrorException, MethodInvocationException, IOException
     {
         SimpleNode nodeTree = null;
+        
+        /*
+         *  first, parse - convert ParseException if thrown
+         */
 
         try
         {
             nodeTree = Runtime.parse( instream, logTag );        
- 
-            if (nodeTree != null)
+        }
+        catch ( ParseException pex )
+        {
+            throw  new ParseErrorException( pex.getMessage() );
+        }                
+     
+        /*
+         * now we want to init and render
+         */
+
+        if (nodeTree != null)
+        {
+            InternalContextAdapterImpl ica = 
+                new InternalContextAdapterImpl( context );
+            
+            ica.pushCurrentTemplateName( logTag );
+            
+            try
             {
-                InternalContextAdapterImpl ica = 
-                    new InternalContextAdapterImpl( context );
-                
-                ica.pushCurrentTemplateName( logTag );
-                nodeTree.init( ica, null );
-                
                 try
                 {
-                    nodeTree.render( ica, writer );
+                    nodeTree.init( ica, null );
                 }
-                finally
+                catch( Exception e )
                 {
-                    ica.popCurrentTemplateName();
+                    Runtime.error("Velocity.evaluate() : init exception for tag = " 
+                                  + logTag + " : " + e );
                 }
-                       
-                return true;
+                
+                /*
+                 *  now render, and let any exceptions fly
+                 */
+
+                nodeTree.render( ica, writer );
             }
-        }
-        catch( Exception e )
-        {
-            Runtime.error("Velocity.evaluate() : tag = " 
-                          + logTag + " : " + e );
+            finally
+            {
+                ica.popCurrentTemplateName();
+            }
+            
+            return true;
         }
         
         return false;
@@ -364,34 +391,21 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean mergeTemplate( String templateName, 
                                          Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
-        try
+        Template template = Runtime.getTemplate(templateName);
+        
+        if ( template == null )
         {
-            Template template = Runtime.getTemplate(templateName);
-
-            if ( template == null )
-            {
-                Runtime.error("Velocity.parseTemplate() failed loading template '" 
-                              + templateName + "'" );
-            }
-            else
-            {
-                template.merge(context, writer);
-            }
-
+            Runtime.error("Velocity.parseTemplate() failed loading template '" 
+                          + templateName + "'" );
+            return false;
+        }
+        else
+        {
+            template.merge(context, writer);
             return true;
-        }
-        catch( ResourceNotFoundException rnfe )
-        {
-        }
-        catch( Exception e )
-        {
-            Runtime.error("Velocity.parseTemplate() with " 
-                          + templateName + " : " + e );
-        }
-
-        return false;
+         }
     }
 
     /**
