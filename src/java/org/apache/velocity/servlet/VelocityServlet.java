@@ -74,6 +74,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Template;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.util.SimplePool;
@@ -125,17 +126,17 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="kjohnson@transparent.com">Kent Johnson</a>
  * @author <a href="dlr@finemaltcoding.com">Daniel Rall</a>
- * $Id: VelocityServlet.java,v 1.50 2003/08/22 23:23:47 dlr Exp $
+ * $Id: VelocityServlet.java,v 1.51 2003/08/31 18:09:58 dlr Exp $
  */
 public abstract class VelocityServlet extends HttpServlet
 {
     /**
-     * The HTTP request object context key.
+     * The context key for the HTTP request object.
      */
     public static final String REQUEST = "req";
 
     /**
-     * The HTTP response object context key.
+     * The context key for the HTTP response object.
      */
     public static final String RESPONSE = "res";
 
@@ -154,14 +155,10 @@ public abstract class VelocityServlet extends HttpServlet
      *  Encoding for the output stream
      */
     public static final String DEFAULT_OUTPUT_ENCODING = "ISO-8859-1";
- 
-    /**
-     * The encoding to use when generating outputing.
-     */
-    private static String encoding = null;
 
     /**
-     * The default content type.
+     * The default content type, itself defaulting to {@link
+     * #DEFAULT_CONTENT_TYPE} if not configured.
      */
     private static String defaultContentType;
 
@@ -203,11 +200,10 @@ public abstract class VelocityServlet extends HttpServlet
         initVelocity( config );
 
         /*
-         *  we can get these now that velocity is initialized
+         *  Now that Velocity is initialized, cache some config.
          */
-        defaultContentType = RuntimeSingleton.getString( CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-        encoding = RuntimeSingleton.getString( RuntimeSingleton.OUTPUT_ENCODING, 
-                        DEFAULT_OUTPUT_ENCODING);
+        defaultContentType = RuntimeSingleton.getString(CONTENT_TYPE,
+                                                        DEFAULT_CONTENT_TYPE);
     }
 
     /**
@@ -350,7 +346,8 @@ public abstract class VelocityServlet extends HttpServlet
     }
           
     /**
-     * Handles GET - calls doRequest()
+     * Handles HTTP <code>GET</code> requests by calling {@link
+     * #doRequest()}.
      */
     public void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -359,7 +356,8 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     * Handle a POST request - calls doRequest()
+     * Handles HTTP <code>POST</code> requests by calling {@link
+     * #doRequest()}.
      */
     public void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -368,7 +366,7 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     *   Handles all requests 
+     *  Handles all requests (by default).
      *
      *  @param request  HttpServletRequest object containing client request
      *  @param response HttpServletResponse object for the response
@@ -376,13 +374,14 @@ public abstract class VelocityServlet extends HttpServlet
     protected void doRequest(HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
     {
+        Context context = null;
         try
         {
             /*
              *  first, get a context
              */
 
-            Context context = createContext( request, response );
+            context = createContext( request, response );
             
             /*
              *   set the content type 
@@ -409,12 +408,6 @@ public abstract class VelocityServlet extends HttpServlet
              */
 
             mergeTemplate( template, context, response );
-
-            /*
-             *  call cleanup routine to let a derived class do some cleanup
-             */
-
-            requestCleanup( request, response, context );
         }
         catch (Exception e)
         {
@@ -425,12 +418,21 @@ public abstract class VelocityServlet extends HttpServlet
 
             error( request, response, e);
         }
+        finally
+        {
+            /*
+             *  call cleanup routine to let a derived class do some cleanup
+             */
+
+            requestCleanup( request, response, context );
+        }
     }
 
     /**
-     *  cleanup routine called at the end of the request processing sequence
-     *  allows a derived class to do resource cleanup or other end of 
-     *  process cycle tasks
+     *  A cleanup routine which is called at the end of the {@link
+     *  #doRequest(HttpServletRequest, HttpServletResponse)}
+     *  processing sequence, allowing a derived class to do resource
+     *  cleanup or other end of process cycle tasks.
      *
      *  @param request servlet request from client 
      *  @param response servlet reponse 
@@ -455,6 +457,8 @@ public abstract class VelocityServlet extends HttpServlet
     {
         ServletOutputStream output = response.getOutputStream();
         VelocityWriter vw = null;
+        // ASSUMPTION: response.setContentType() has been called.
+        String encoding = response.getCharacterEncoding();
         
         try
         {
@@ -462,14 +466,16 @@ public abstract class VelocityServlet extends HttpServlet
             
             if (vw == null)
             {
-                vw = new VelocityWriter( new OutputStreamWriter(output, encoding), 4*1024, true);
+                vw = new VelocityWriter(new OutputStreamWriter(output,
+                                                               encoding),
+                                        4 * 1024, true);
             }
             else
             {
                 vw.recycle(new OutputStreamWriter(output, encoding));
             }
            
-            template.merge( context, vw);
+            template.merge(context, vw);
         }
         finally
         {
@@ -502,22 +508,51 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     *  Sets the content type of the response.  This is available to be overriden
-     *  by a derived class.
+     * Sets the content type of the response, defaulting to {@link
+     * #defaultContentType} if not overriden.  Delegates to {@link
+     * #chooseCharacterEncoding(HttpServletRequest)} to select the
+     * appropriate character encoding.
      *
-     *  The default implementation is :
-     *
-     *     response.setContentType( defaultContentType );
-     * 
-     *  where defaultContentType is set to the value of the default.contentType
-     *  property, or "text/html" if that is not set.
-     *
-     *  @param request servlet request from client
-     *  @param response servlet reponse to client
+     * @param request The servlet request from the client.
+     * @param response The servlet reponse to the client.
      */
-    protected void setContentType( HttpServletRequest request, HttpServletResponse response )
+    protected void setContentType(HttpServletRequest request,
+                                  HttpServletResponse response)
     {
-        response.setContentType( defaultContentType );
+        String contentType = defaultContentType;
+        int index = contentType.lastIndexOf(';') + 1;
+        if (0 <= index || (index < contentType.length() &&
+                           contentType.indexOf("charset", index) == -1))
+        {
+            // Append the character encoding which we'd like to use.
+            String encoding = chooseCharacterEncoding(request);
+            //System.out.println("Chose output encoding of '" +
+            //                   encoding + '\'');
+            if (!DEFAULT_OUTPUT_ENCODING.equalsIgnoreCase(encoding))
+            {
+                contentType += "; charset=" + encoding;
+            }
+        }
+        response.setContentType(contentType);
+        //System.out.println("Response Content-Type set to '" +
+        //                   contentType + '\'');
+    }
+
+    /**
+     * Chooses the output character encoding to be used as the value
+     * for the "charset=" portion of the HTTP Content-Type header (and
+     * thus returned by <code>response.getCharacterEncoding()</code>).
+     * Called by {@link #setContentType(HttpServletRequest,
+     * HttpServletResponse)} if an encoding isn't already specified by
+     * Content-Type.  By default, chooses the value of
+     * RuntimeSingleton's <code>output.encoding</code> property.
+     *
+     * @param request The servlet request from the client.
+     */
+    protected String chooseCharacterEncoding(HttpServletRequest request)
+    {
+        return RuntimeSingleton.getString(RuntimeConstants.OUTPUT_ENCODING,
+                                          DEFAULT_OUTPUT_ENCODING);
     }
 
     /**
@@ -673,7 +708,7 @@ public abstract class VelocityServlet extends HttpServlet
         html.append("<html>");
         html.append("<title>Error</title>");
         html.append("<body bgcolor=\"#ffffff\">");
-        html.append("<h2>VelocityServlet : Error processing the template</h2>");
+        html.append("<h2>VelocityServlet: Error processing the template</h2>");
         html.append("<pre>");
         String why = cause.getMessage();
         if (why != null && why.trim().length() > 0)

@@ -72,6 +72,7 @@
                                    test-texen,
                                    test-texen-classpath,
                                    test-misc,
+                                   test-servlet,
                                    test-parser
                                    "/>
 
@@ -282,6 +283,17 @@
       </classpath>
     </java>
   </target>
+
+  <target name="test-servlet">
+    <echo message="Running VelocityServlet tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.VelocityServletTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
 
   <!-- ================================================================ -->
   <!-- T E X E N  T E S T                                               -->
