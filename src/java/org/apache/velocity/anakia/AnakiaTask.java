@@ -90,7 +90,7 @@ import org.apache.velocity.VelocityContext;
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
  *   
  * @author <a href="jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: AnakiaTask.java,v 1.14 2001/03/04 21:24:14 jon Exp $
+ * @version $Id: AnakiaTask.java,v 1.15 2001/03/04 23:44:35 jon Exp $
  */
 public class AnakiaTask extends MatchingTask
 {
@@ -212,7 +212,7 @@ public class AnakiaTask extends MatchingTask
     {
         this.velocityPropertiesFile = velocityPropertiesFile;
     }
-    
+
     /**
      * Turn on/off last modified checking. by default, it is on.
      */
@@ -360,8 +360,16 @@ public class AnakiaTask extends MatchingTask
 
                 VelocityContext context = new VelocityContext();
 
+                XMLOutputter xout = new XMLOutputter();
+                String encoding = Runtime.getString(Runtime.TEMPLATE_ENCODING);
+                if (encoding == null || encoding.length() == 0)
+                {
+                    encoding = "ISO-8859-1";
+                }
+                xout.setEncoding (encoding);
+                
                 context.put ("root", root.getRootElement());
-                context.put ("xmlout", new XMLOutputter());
+                context.put ("xmlout", xout);
                 context.put ("relativePath", getRelativePath(xmlFile));
                 context.put ("treeWalk", new TreeWalker());
                 context.put ("xpath", new XPathTool() );
