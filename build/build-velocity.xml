@@ -71,11 +71,6 @@
   />
 
   <property 
-    name="default.test.properties"
-    value="org/apache/velocity/test/defaults/velocity.properties"
-  />
-
-  <property 
     name="default.texen.properties"
     value="org/apache/velocity/texen/defaults/texen.properties"
   />
@@ -153,11 +148,7 @@
       </fileset>
     </copy>
             
-    <copy 
-      file="${src.java.dir}/${default.test.properties}"
-      tofile="${build.dest}/${default.test.properties}"
-    />
-
+ 
     <copy 
       file="${src.java.dir}/${default.texen.properties}"
       tofile="${build.dest}/${default.texen.properties}"
