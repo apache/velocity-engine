@@ -84,13 +84,13 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.26 2001/08/21 01:26:58 dlr Exp $
+ * @version $Id: TexenTask.java,v 1.27 2001/08/22 00:29:10 dlr Exp $
  */
 public class TexenTask extends Task
 {
     /**
-     * This field contains a message.
-     * This message (telling users to consult the log) is appended to rethrown exception messages.
+     * This message (telling users to consult the log) is appended to
+     * rethrown exception messages.
      */
     private final static String MSG_CONSULT_LOG= ". For more information consult the velocity log.";
     
