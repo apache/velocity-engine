@@ -1493,6 +1493,150 @@ ${data.Request.ServerName}
     </table>
     </div>
                                                 <p>
+    If the RHS is a property or method reference that evaluates to
+    <em>null</em>, it will <b>not</b> be assigned to the LHS.  It is
+    not possible to remove an existing reference from the context via
+    this mechanism.  This can be confusing for
+    newcomers to Velocity.  For example:
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+#set( $result = $query.criteria(&quot;name&quot;) )
+The result of the first query is $result
+
+#set( $result = $query.criteria(&quot;address&quot;) )
+The result of the second query is $result
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     If <em>$query.criteria("name")</em> returns the string
+     "bill", and <em>$query.criteria("address")</em> returns
+     <em>null</em>, the above VTL will render as the following:
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+The result of the first query is bill
+
+The result of the second query is bill
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     This tends to confuse newcomers who construct <em>#foreach</em>
+     loops that attempt to <em>#set</em> a reference via a property or
+     method reference, then immediately test that reference with an
+     <em>#if</em> directive.  For example:
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+#set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
+
+#foreach( $criterion in $criteria )
+
+    #set( $result = $query.criteria($criterion) )
+
+    #if( $result )
+        Query was successful
+    #end
+
+#end
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
+     In the above example, it would not be wise to rely on the
+     evaluation of <em>$result</em> to determine if a query was
+     successful.  After <em>$result</em> has been <em>#set</em> (added to
+     the context), it cannot be set back to <em>null</em> (removed from
+     the context).  The details of the <em>#if</em> and <em>#foreach</em>
+     directives later in this document.
+ </p>
+                                                <p>
+   One solution to this would be to pre-set <em>$result</em>
+   to <em>false</em>.  Then if the <em>$query.criteria()</em>
+   call fails, you can check.
+ </p>
+                                                    <div align="left">
+    <table cellspacing="4" cellpadding="0" border="0">
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#ffffff"><pre>
+
+#set( $criteria = [&quot;name&quot;, &quot;address&quot;] )
+
+#foreach( $criterion in $criteria )
+
+    #set( $result = false )
+    #set( $result = $query.criteria($criterion) )
+
+    #if( $result )
+        Query was successful
+    #end
+
+#end
+</pre></td>
+      <td bgcolor="#023264" width="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    <tr>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+      <td bgcolor="#023264" width="1" height="1"><img src="/images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
+    </tr>
+    </table>
+    </div>
+                                                <p>
     Unlike some of the other Velocity directives, the <em>#set</em>
     directive does not have an <em>#end</em> statement.
  </p>
@@ -1652,7 +1796,14 @@ $blargh
       The variable <em>$foo</em> is evaluated to determine whether it is
       true, which will happen under one of two circumstances: (i)
       <em>$foo</em> is a boolean (true/false) which has a true value, or
-      (ii) the value is not null. The content between the <em>#if</em>
+      (ii) the value is not null.  Remember that the Velocity context only
+      contains Objects, so when we say 'boolean', it will be represented
+      as a Boolean (the class).  This is true even for methods that return
+      <code>boolean</code> - the intrspection infrastructure will return
+      a <code>Boolean</code> of the same logical value.
+    </p>
+                                                <p>
+       The content between the <em>#if</em>
       and the <em>#end</em> statements become the output if the
       evaluation is true. In this case, if <em>$foo</em> is true, the
       output will be: "Velocity!". Conversely, if <em>$foo</em> has a
