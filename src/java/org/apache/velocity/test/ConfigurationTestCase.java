@@ -70,7 +70,7 @@ import junit.framework.TestCase;
  * Tests for the Configuration class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: ConfigurationTestCase.java,v 1.2 2001/03/19 22:38:57 jvanzyl Exp $
+ * @version $Id: ConfigurationTestCase.java,v 1.3 2001/03/20 19:13:12 geirm Exp $
  */
 public class ConfigurationTestCase extends BaseTestCase
 {
@@ -163,6 +163,14 @@ public class ConfigurationTestCase extends BaseTestCase
 
             message(result, "Testing getDouble(key) ...");
             result.write(new Double(c.getDouble("config.double.value")).toString());
+            result.write("\n\n");
+
+            message(result, "Testing escaped-comma scalar...");
+            result.write( c.getString("escape.comma1"));
+            result.write("\n\n");
+
+            message(result, "Testing escaped-comma vector...");
+            showVector(result,  c.getVector("escape.comma2"));
             result.write("\n\n");
 
             result.flush();
