@@ -12,7 +12,7 @@
 
 <body>
 
- <s1 title="About this Guide">
+<s1 title="About this Guide">
 
  <p>
     The Velocity User Guide is intended to help page designers and content 
@@ -23,9 +23,9 @@
     to other pages and templates.
  </p> 
 
- </s1>
+</s1>
 
- <s1 title="What is Velocity?">
+<s1 title="What is Velocity?">
  
  <p>
     Velocity is a Java-based template engine. It permits web page designers
@@ -52,11 +52,11 @@
     according to a true MVC model.
  </p>
  
- </s1>
+</s1>
 
- <s1 title="What can Velocity do for me?">
+<s1 title="What can Velocity do for me?">
 
-   <s1 title="The Mud Store Example">
+ <s1 title="The Mud Store Example">
 
    <p>
     Suppose you are a page designer for an online store that specializes in selling mud. 
@@ -125,8 +125,6 @@
     The flexibility of Velocity is enormous and limited only by your creativity.
    </p>
  
-   </s1>
-
    <p>
     Documented in the VTL Reference are the many other Velocity elements, which 
     collectively give you the power and flexibility you need to make your web site a web
@@ -136,7 +134,9 @@
 
  </s1>
 
- <s1 title="Velocity Template Language (VTL): An Introduction">
+</s1>
+
+<s1 title="Velocity Template Language (VTL): An Introduction">
 
  <p>
     The Velocity Template 
@@ -187,9 +187,9 @@
     data types, as only strings (text-based information) may be passed to variables.
  </p>
 
- </s1>
+</s1>
 
- <s1 title="Hello Velocity World!">
+<s1 title="Hello Velocity World!">
 
  <p>
     Once a value has been assigned to a variable, you can reference the 
@@ -220,16 +220,17 @@
     later on.
  </p>
 
- </s1>
+</s1>
 
- <s1 title="Comments">
+<s1 title="Comments">
  
  <p>
-    Adding comments to your VTL are a useful way of reminding yourself and 
-    explaining to others what your VTL statements are doing, or any other 
-    purpose you find useful. Below is an example of a comment in VTL.
- </p>
- 
+    Comments allows descriptive text to be included that is not placed into the
+    output of the template engine. Comments are a useful way of reminding 
+    yourself and explaining to others what your VTL statements are doing, or 
+    any other purpose you find useful. Below is an example of a comment in VTL.
+ </p> 
+
  <p>
  <source><![CDATA[
     ## This is a single line comment.
@@ -246,15 +247,15 @@
  <p>
  <source><![CDATA[
 
-    This is text that is outside the comment block. Online visitors can see it.
+    This is text that is outside the multi-line comment. Online visitors can see it.
 
     #*
     Thus begins a multi-line comment. Online visitors won't see this text because 
     the Velocity Templating Engine will ignore it.
     *#
     
-    Here is text outside the comment block; it is visible. 
-    
+    Here is text outside the multi-line comment; it is visible. 
+
  ]]></source>
  </p>
 
@@ -272,6 +273,24 @@
     This text still not visible. *# This text is outside the comment block, so
     it is visible.
     ## This text is not visible.
+ ]]></source>
+ </p>
+
+ <p>
+    There is a third type of comment, the VTL comment block, which ma y be used to
+    store such information as the document author and versioning information:
+ </p>
+ 
+ <p>
+ <source><![CDATA[
+    #** 
+    This is a VTL comment block and
+    may be used to store such information 
+    as the document author and versioning
+    information:    
+    @author 
+    @version 5
+    *#
  ]]></source>
  </p>
  
@@ -459,6 +478,7 @@
     notation is required for correct processing. 
  </p>
     
+ <p>
     Suppose you were
     constructing a sentence on the fly where $vice was to be
     used as the base word in the noun of a sentence. Suppose you
@@ -542,10 +562,9 @@
     ]]></source>
  </p>
  
- <strong>Escaping special characters</strong>
+</s1>
 
-
- <s1 title="Getting literal">
+<s1 title="Getting literal">
 
   <p>
     VTL uses special characters, such as $ and #, to do its work, so some
@@ -601,8 +620,9 @@
     c:\\winnt\\system32
     ]]></source>
   </p>
+</s1>
 
- <strong>Summary: References</strong>
+<s1 title="Summary: References">
     
     <p>
     Now that you are familiar with references, you can begin to
@@ -640,7 +660,7 @@
     references almost anywhere in your template.
     </p>
     
- </s1>
+</s1>
 
 
 <s1 title="Directives">  
@@ -659,23 +679,23 @@
     The #set directive is used for setting the value of
     a reference. A value can be assigned to either a variable
     reference or a property reference:
-</p>
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     #set $primate = "monkey"
     #set $customer.Behavior = $primate
     ]]></source>
-</p>
+ </p>
  
-<p>
+ <p>
     The left hand side (LHS) of the assigment must be
     a variable reference or a property reference. The
     right hand side (RHS) can be one of the following
     types:
-</p>
+ </p>
  
-<p>
+ <p>
     <ul>
         <li>Variable reference</li>
         <li>String literal</li>
@@ -684,14 +704,14 @@
         <li>Number literal</li>
         <li>Object array</li>
     </ul>
-</p>
+ </p>
  
-<p>
+ <p>
     These examples demonstrate each of the aforementioned 
     types:
-</p>
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     #set $monkey = $bill ##variable reference
     #set $monkey.Friend = "monica" ##string literal
@@ -700,25 +720,24 @@
     #set $monkey.Number = 123 ##number literal
     #set $monkey.Say = ["Not", $my, "fault"] ##object array
     ]]></source>
-</p>
+ </p>
  
-<p>
+ <p>
     The RHS can also be a simple arithmetic expression:
-</p>
+ </p>
  
-<p>
+ <p>
     <source><![CDATA[
     #set $value = $foo + 1
     #set $value = $bar - 1
     #set $value = $foo * $bar
     #set $value = $foo / $bar
     ]]></source>
-</p>
-        
+ </p>
 
 <s1 title="Conditionals">
 
-    <s1 title="If / ElseIf / Else Conditionals">
+    <strong>If / ElseIf / Else</strong>
     <p>
        The #if statement in Velocity allows for text to be 
        included when the web page is generated, on the conditional 
@@ -778,11 +797,10 @@
       #end
       ]]></source>
     </p>
-    </s1>
-</s1>
+ </s1>
 
-<s1 title="Loops">
-    <s1 title="Foreach Loop">
+ <s1 title="Loops">
+    <strong>Foreach Loop</strong>
     <p>
     The #foreach element allows for looping. For example:
     </p>
@@ -811,10 +829,10 @@
     $product was really a Product class in Java, its name could be retrieved
     by referencing the $product.Name method (ie: Product.getName()).
     </p>
-    </s1>
-</s1>    
 
-<s1 title="Include">
+ </s1>    
+
+ <s1 title="Include">
     <p>
     The #include script element allows the template designer to import a 
     local file, which is then inserted into the location where the #include 
@@ -827,75 +845,11 @@
     #include /path/to/file.vm
     ]]></source>
     </p>
-</s1>
+ </s1>
 
-<s1 title="Set">
-    <p>
-    The #set script element allows the template designer to set variables 
-    within the Context.
-    </p>
-    
-    <p>
-    <source><![CDATA[
-    #set $name = "Fred"
-    ]]></source>
-    </p>
-    
-    <p>
-    When using the #set directive, the variable on the left side must be 
-    prefixed with a $. This provides a 
-    consistent syntax for referencing variables in Velocity.
-    </p>
-    
-    <p>
-    The following script elements have not been implemented.
-    </p>
-</s1>
 
-<s1 title="Comments">
-    <p>
-    There are three comment types that allow the template designer to 
-    place descriptive text in templates that is not placed into the
-    output of the template engine.
-    </p>
-    
-    <p>
-    <source><![CDATA[
-    ## this is a line comment
-    ]]></source>
-    </p>
 
-    <p>
-    <source><![CDATA[
-    #*
-    
-    This is a multiline
-    block comment used for
-    longer descriptions.
-    
-    *#
-    ]]></source>
-    </p>
-
-    <p>
-    <source><![CDATA[
-    #** 
-    
-    This is a VTL comment block and
-    may be used to store such information 
-    as the document author and versioning
-    information:
-    
-    @author 
-    @version 5
-    
-    *#
-    ]]></source>
-    </p>
-
-</s1>
-
-<s1 title="Stop">
+ <s1 title="Stop">
     <p>
     The #stop script element allows the template designer to stop the execution
     of the template engine and return. This is useful for debugging purposes.
@@ -906,9 +860,9 @@
     #stop
     ]]></source>
     </p>    
-</s1>
+ </s1>
 
-<s1 title="Macro">
+ <s1 title="Macro">
     <p>
     With the #macro script element, the template designer can define a 
     time-saving macro. 
@@ -944,7 +898,7 @@
     $element and put it into its table data cell.
     </p>
     
-</s1>
+ </s1>
 
 </s1>
 
