@@ -71,18 +71,17 @@ import org.apache.velocity.util.introspection.Introspector;
  */
 public class PropertyExecutor extends AbstractExecutor
 {
-    /*
-     *  just so we can have a safety comparison in the
-     *  loop in the CTOR
-     */
-    private final static int MAX = 3;
-
-    private String methodUsed = null;
+    protected String methodUsed = null;
 
     public PropertyExecutor( RuntimeServices r, Class clazz, String property)
     {
         rsvc = r;
         
+        discover( clazz, property );
+    }
+
+    protected void discover( Class clazz, String property )
+    {
         /*
          *  this is gross and linear, but it keeps it straightforward.
          */
@@ -96,17 +95,12 @@ public class PropertyExecutor extends AbstractExecutor
             Introspector introspector = rsvc.getIntrospector();
             
             /*
-             *  start with getFoo
+             *  start with get<property>
+             *  this leaves the property name 
+             *  as is...
              */
             sb = new StringBuffer( "get" );
             sb.append( property );
-
-            c = sb.charAt(3);
-
-            if(  Character.isLowerCase(c) )
-            {
-                sb.setCharAt( 3 ,  Character.toUpperCase(c) );
-            }
 
             methodUsed = sb.toString();
 
@@ -114,38 +108,9 @@ public class PropertyExecutor extends AbstractExecutor
              
             if (method != null)
                 return;
-               
+        
             /*
-             *  now look for a boolean isFoo
-             */
-            
-            sb = new StringBuffer( "is" );
-            sb.append( property );
-
-            c = sb.charAt(2);
-
-            if(  Character.isLowerCase(c) )
-            {
-                sb.setCharAt( 2 ,  Character.toUpperCase(c) );
-            }
-
-            methodUsed = sb.toString();
-            method = introspector.getMethod( clazz, methodUsed, params);
-
-            if (method != null)
-            {
-                /*
-                 *  now, this has to return a boolean
-                 */
-
-                if ( method.getReturnType() == Boolean.TYPE )
-                    return;
-
-                method = null;
-            }
-
-            /*
-             *  now the convenience, getfoo
+             *  now the convenience, flip the 1st character
              */
          
             sb = new StringBuffer( "get" );
@@ -153,9 +118,13 @@ public class PropertyExecutor extends AbstractExecutor
 
             c = sb.charAt(3);
 
-            if(  Character.isUpperCase(c) )
+            if(  Character.isLowerCase( c ) )
             {
-                sb.setCharAt( 3 ,  Character.toLowerCase(c) );
+                sb.setCharAt( 3 ,  Character.toUpperCase( c ) );
+            }
+            else
+            {
+                sb.setCharAt( 3 ,  Character.toLowerCase( c ) );
             }
 
             methodUsed = sb.toString();
