@@ -60,6 +60,17 @@ Codebase for 1.0.1 was branched.  This section and above applies to the HEAD CVS
     Additions from Tim Joyce for more Method Exception propogation
     and exception event handling. (gmj)
   </li>
+  <li>
+    Performance patches from Kaspar Nielsen for ASTDirective and Include. (gmj)
+  </li>
+  <li>
+    Texen patch from Robert Burrell Donkin which makes Texen throw all exceptions
+    rather than eating them, and some javadoc. (gmj)
+  </li>
+  <li>
+    Fix for the much acclaimed and dreaded #$foo, $$foo #$#$foofoo, etc bug.  (gmj)
+  </li>
+
 </ul>
 </subsection>
 
