@@ -98,7 +98,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.12 2000/11/01 01:11:21 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.13 2000/11/01 18:22:25 jvanzyl Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -833,11 +833,11 @@ SimpleNode process() : {/*@bgen(jjtree) process */
      } else {
        jjtree.popNode();
      }
-     if (jjte000 instanceof ParseException) {
-       throw (ParseException)jjte000;
-     }
      if (jjte000 instanceof RuntimeException) {
        throw (RuntimeException)jjte000;
+     }
+     if (jjte000 instanceof ParseException) {
+       throw (ParseException)jjte000;
      }
      throw (Error)jjte000;
    } finally {
@@ -1026,11 +1026,11 @@ SimpleNode Directive() :
       } else {
         jjtree.popNode();
       }
-      if (jjte001 instanceof ParseException) {
-        throw (ParseException)jjte001;
-      }
       if (jjte001 instanceof RuntimeException) {
         throw (RuntimeException)jjte001;
+      }
+      if (jjte001 instanceof ParseException) {
+        throw (ParseException)jjte001;
       }
       throw (Error)jjte001;
     } finally {
@@ -1055,11 +1055,11 @@ SimpleNode Directive() :
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1086,11 +1086,11 @@ void ObjectArray() : {/*@bgen(jjtree) ObjectArray */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1136,11 +1136,11 @@ void Method() : {/*@bgen(jjtree) Method */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1173,11 +1173,11 @@ void Reference() : {/*@bgen(jjtree) Reference */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1293,11 +1293,11 @@ void IfStatement() : {/*@bgen(jjtree) IfStatement */
       } else {
         jjtree.popNode();
       }
-      if (jjte001 instanceof ParseException) {
-        throw (ParseException)jjte001;
-      }
       if (jjte001 instanceof RuntimeException) {
         throw (RuntimeException)jjte001;
+      }
+      if (jjte001 instanceof ParseException) {
+        throw (ParseException)jjte001;
       }
       throw (Error)jjte001;
     } finally {
@@ -1316,11 +1316,11 @@ void IfStatement() : {/*@bgen(jjtree) IfStatement */
        } else {
          jjtree.popNode();
        }
-       if (jjte000 instanceof ParseException) {
-         throw (ParseException)jjte000;
-       }
        if (jjte000 instanceof RuntimeException) {
          throw (RuntimeException)jjte000;
+       }
+       if (jjte000 instanceof ParseException) {
+         throw (ParseException)jjte000;
        }
        throw (Error)jjte000;
      } finally {
@@ -1355,11 +1355,11 @@ void ElseStatement() : {/*@bgen(jjtree) ElseStatement */
       } else {
         jjtree.popNode();
       }
-      if (jjte001 instanceof ParseException) {
-        throw (ParseException)jjte001;
-      }
       if (jjte001 instanceof RuntimeException) {
         throw (RuntimeException)jjte001;
+      }
+      if (jjte001 instanceof ParseException) {
+        throw (ParseException)jjte001;
       }
       throw (Error)jjte001;
     } finally {
@@ -1375,11 +1375,11 @@ void ElseStatement() : {/*@bgen(jjtree) ElseStatement */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1415,11 +1415,11 @@ void ElseIfStatement() : {/*@bgen(jjtree) ElseIfStatement */
       } else {
         jjtree.popNode();
       }
-      if (jjte001 instanceof ParseException) {
-        throw (ParseException)jjte001;
-      }
       if (jjte001 instanceof RuntimeException) {
         throw (RuntimeException)jjte001;
+      }
+      if (jjte001 instanceof ParseException) {
+        throw (ParseException)jjte001;
       }
       throw (Error)jjte001;
     } finally {
@@ -1435,11 +1435,11 @@ void ElseIfStatement() : {/*@bgen(jjtree) ElseIfStatement */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1466,11 +1466,11 @@ void SetDirective() : {/*@bgen(jjtree) SetDirective */
      } else {
        jjtree.popNode();
      }
-     if (jjte000 instanceof ParseException) {
-       throw (ParseException)jjte000;
-     }
      if (jjte000 instanceof RuntimeException) {
        throw (RuntimeException)jjte000;
+     }
+     if (jjte000 instanceof ParseException) {
+       throw (ParseException)jjte000;
      }
      throw (Error)jjte000;
    } finally {
@@ -1530,11 +1530,11 @@ void Expression() : {/*@bgen(jjtree) Expression */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1561,11 +1561,11 @@ void Assignment()                : {/*@bgen(jjtree) #Assignment( 2) */
       } else {
         jjtree.popNode();
       }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
       if (jjte000 instanceof RuntimeException) {
         throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
       }
       throw (Error)jjte000;
     } finally {
@@ -1594,11 +1594,11 @@ void ConditionalOrExpression()       : {}
                    } else {
                      jjtree.popNode();
                    }
-                   if (jjte001 instanceof ParseException) {
-                     throw (ParseException)jjte001;
-                   }
                    if (jjte001 instanceof RuntimeException) {
                      throw (RuntimeException)jjte001;
+                   }
+                   if (jjte001 instanceof ParseException) {
+                     throw (ParseException)jjte001;
                    }
                    throw (Error)jjte001;
                  } finally {
@@ -1628,11 +1628,11 @@ void ConditionalAndExpression()       : {}
                      } else {
                        jjtree.popNode();
                      }
-                     if (jjte001 instanceof ParseException) {
-                       throw (ParseException)jjte001;
-                     }
                      if (jjte001 instanceof RuntimeException) {
                        throw (RuntimeException)jjte001;
+                     }
+                     if (jjte001 instanceof ParseException) {
+                       throw (ParseException)jjte001;
                      }
                      throw (Error)jjte001;
                    } finally {
@@ -1662,11 +1662,11 @@ void EqualityExpression()       : {}
                              } else {
                                jjtree.popNode();
                              }
-                             if (jjte001 instanceof ParseException) {
-                               throw (ParseException)jjte001;
-                             }
                              if (jjte001 instanceof RuntimeException) {
                                throw (RuntimeException)jjte001;
+                             }
+                             if (jjte001 instanceof ParseException) {
+                               throw (ParseException)jjte001;
                              }
                              throw (Error)jjte001;
                            } finally {
@@ -1690,11 +1690,11 @@ void EqualityExpression()       : {}
                                  } else {
                                    jjtree.popNode();
                                  }
-                                 if (jjte002 instanceof ParseException) {
-                                   throw (ParseException)jjte002;
-                                 }
                                  if (jjte002 instanceof RuntimeException) {
                                    throw (RuntimeException)jjte002;
+                                 }
+                                 if (jjte002 instanceof ParseException) {
+                                   throw (ParseException)jjte002;
                                  }
                                  throw (Error)jjte002;
                                } finally {
@@ -1725,11 +1725,11 @@ void RelationalExpression()       : {}
                          } else {
                            jjtree.popNode();
                          }
-                         if (jjte001 instanceof ParseException) {
-                           throw (ParseException)jjte001;
-                         }
                          if (jjte001 instanceof RuntimeException) {
                            throw (RuntimeException)jjte001;
+                         }
+                         if (jjte001 instanceof ParseException) {
+                           throw (ParseException)jjte001;
                          }
                          throw (Error)jjte001;
                        } finally {
@@ -1753,11 +1753,11 @@ void RelationalExpression()       : {}
                          } else {
                            jjtree.popNode();
                          }
-                         if (jjte002 instanceof ParseException) {
-                           throw (ParseException)jjte002;
-                         }
                          if (jjte002 instanceof RuntimeException) {
                            throw (RuntimeException)jjte002;
+                         }
+                         if (jjte002 instanceof ParseException) {
+                           throw (ParseException)jjte002;
                          }
                          throw (Error)jjte002;
                        } finally {
@@ -1781,11 +1781,11 @@ void RelationalExpression()       : {}
                          } else {
                            jjtree.popNode();
                          }
-                         if (jjte003 instanceof ParseException) {
-                           throw (ParseException)jjte003;
-                         }
                          if (jjte003 instanceof RuntimeException) {
                            throw (RuntimeException)jjte003;
+                         }
+                         if (jjte003 instanceof ParseException) {
+                           throw (ParseException)jjte003;
                          }
                          throw (Error)jjte003;
                        } finally {
@@ -1809,11 +1809,11 @@ void RelationalExpression()       : {}
                          } else {
                            jjtree.popNode();
                          }
-                         if (jjte004 instanceof ParseException) {
-                           throw (ParseException)jjte004;
-                         }
                          if (jjte004 instanceof RuntimeException) {
                            throw (RuntimeException)jjte004;
+                         }
+                         if (jjte004 instanceof ParseException) {
+                           throw (ParseException)jjte004;
                          }
                          throw (Error)jjte004;
                        } finally {
@@ -1844,11 +1844,11 @@ void AdditiveExpression()       : {}
                     } else {
                       jjtree.popNode();
                     }
-                    if (jjte001 instanceof ParseException) {
-                      throw (ParseException)jjte001;
-                    }
                     if (jjte001 instanceof RuntimeException) {
                       throw (RuntimeException)jjte001;
+                    }
+                    if (jjte001 instanceof ParseException) {
+                      throw (ParseException)jjte001;
                     }
                     throw (Error)jjte001;
                   } finally {
@@ -1872,11 +1872,11 @@ void AdditiveExpression()       : {}
                     } else {
                       jjtree.popNode();
                     }
-                    if (jjte002 instanceof ParseException) {
-                      throw (ParseException)jjte002;
-                    }
                     if (jjte002 instanceof RuntimeException) {
                       throw (RuntimeException)jjte002;
+                    }
+                    if (jjte002 instanceof ParseException) {
+                      throw (ParseException)jjte002;
                     }
                     throw (Error)jjte002;
                   } finally {
@@ -1907,11 +1907,11 @@ void MultiplicativeExpression()       : {}
                        } else {
                          jjtree.popNode();
                        }
-                       if (jjte001 instanceof ParseException) {
-                         throw (ParseException)jjte001;
-                       }
                        if (jjte001 instanceof RuntimeException) {
                          throw (RuntimeException)jjte001;
+                       }
+                       if (jjte001 instanceof ParseException) {
+                         throw (ParseException)jjte001;
                        }
                        throw (Error)jjte001;
                      } finally {
@@ -1935,11 +1935,11 @@ void MultiplicativeExpression()       : {}
                        } else {
                          jjtree.popNode();
                        }
-                       if (jjte002 instanceof ParseException) {
-                         throw (ParseException)jjte002;
-                       }
                        if (jjte002 instanceof RuntimeException) {
                          throw (RuntimeException)jjte002;
+                       }
+                       if (jjte002 instanceof ParseException) {
+                         throw (ParseException)jjte002;
                        }
                        throw (Error)jjte002;
                      } finally {
@@ -1963,11 +1963,11 @@ void MultiplicativeExpression()       : {}
                        } else {
                          jjtree.popNode();
                        }
-                       if (jjte003 instanceof ParseException) {
-                         throw (ParseException)jjte003;
-                       }
                        if (jjte003 instanceof RuntimeException) {
                          throw (RuntimeException)jjte003;
+                       }
+                       if (jjte003 instanceof ParseException) {
+                         throw (ParseException)jjte003;
                        }
                        throw (Error)jjte003;
                      } finally {
@@ -1996,11 +1996,11 @@ void UnaryExpression()       : {}
                     } else {
                       jjtree.popNode();
                     }
-                    if (jjte001 instanceof ParseException) {
-                      throw (ParseException)jjte001;
-                    }
                     if (jjte001 instanceof RuntimeException) {
                       throw (RuntimeException)jjte001;
+                    }
+                    if (jjte001 instanceof ParseException) {
+                      throw (ParseException)jjte001;
                     }
                     throw (Error)jjte001;
                   } finally {
