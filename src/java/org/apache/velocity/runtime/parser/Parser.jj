@@ -96,7 +96,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jj,v 1.36 2000/12/06 05:57:38 geirm Exp $ 
+ * @version $Id: Parser.jj,v 1.37 2000/12/06 19:50:05 geirm Exp $ 
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
 {/*@bgen(jjtree)*/
@@ -768,7 +768,7 @@ TOKEN :
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE: "else"> 
+|   <ELSE_DIRECTIVE: "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )?  > 
      { 
         inDirective = false; 
         stateStackPop();
