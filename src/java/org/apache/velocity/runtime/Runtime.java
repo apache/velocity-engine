@@ -118,53 +118,43 @@ public class Runtime
     {
         if (! initialized)
         {
-        try
-        {
-            Configuration.setPropertiesFile(properties);
+            try
+            {
+                Configuration.setPropertiesFile(properties);
         
-            // Initialize the logger.
-            logger = LogKit.createLogger("velocity", 
-                getString(RUNTIME_LOG), "DEBUG");
+                // Initialize the logger.
+                logger = LogKit.createLogger("velocity", 
+                    getString(RUNTIME_LOG), "DEBUG");
                 
-            // I'm not sure how else to set the format
-            // for the logfile? The time formatting just returns
-            // a long and that's hard coded in the log package.
-            // I should fix that.
-            LogTarget[] t = logger.getLogTargets();            
-            ((FileOutputLogTarget)t[0])
-                .setFormat("%5.5{time} %{message}\\n%{throwable}" );
+                LogTarget[] t = logger.getLogTargets();            
+                ((FileOutputLogTarget)t[0])
+                    .setFormat("%5.5{time} %{message}\\n%{throwable}" );
             
-            info("Logging system initialized.");
+                info("Logging system initialized.");
         
-            // Create the template loader.
-            templateLoader = TemplateFactory
-                .getLoader(getString(TEMPLATE_LOADER));
+                // Create the template loader.
+                templateLoader = TemplateFactory
+                    .getLoader(getString(TEMPLATE_LOADER));
             
-            // Initialize the template loader if there
-            // is a real path set for the template.path
-            // property. Otherwise defer initialization
-            // of the template loader because it is going
-            // to be set by some external mechanism. Turbine
-            // for example.
-            if (! getString(TEMPLATE_PATH).equals("system"))
-                templateLoader.init();
+                // Initialize the template loader if there
+                // is a real path set for the template.path
+                // property. Otherwise defer initialization
+                // of the template loader because it is going
+                // to be set by some external mechanism. Turbine
+                // for example.
+                if (! getString(TEMPLATE_PATH).equals("system"))
+                    templateLoader.init();
 
-            // put this in a method and make a pool of
-            // parsers.
-            parser = new Parser();
-            Hashtable directives = new Hashtable();
-            directives.put("foreach", new Foreach());
-            directives.put("dummy", new Dummy());
-            parser.setDirectives(directives);
-
-            info("Velocity successfully started.");
-            initialized = true;
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-            e.printStackTrace();
-        }
+                createParserPool();
+                
+                info("Velocity successfully started.");
+                initialized = true;
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+                e.printStackTrace();
+            }
         }
     }
 
@@ -173,16 +163,22 @@ public class Runtime
         Configuration.setProperty(key, value);
     }        
 
+    private static void createParserPool()
+    {
+        // put this in a method and make a pool of
+        // parsers.
+        parser = new Parser();
+        Hashtable directives = new Hashtable();
+        directives.put("foreach", new Foreach());
+        directives.put("dummy", new Dummy());
+        parser.setDirectives(directives);
+    }
+
     // Used by the template class.
     public synchronized static SimpleNode parse(InputStream inputStream)
         throws Exception
     {
         return parser.parse(inputStream);
-    }
-
-    public static void initTemplateLoader()
-    {
-        templateLoader.init();
     }
 
     public static Template getTemplate(String template)
