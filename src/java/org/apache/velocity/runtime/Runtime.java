@@ -154,7 +154,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.70 2000/12/17 22:05:42 jon Exp $
+ * @version $Id: Runtime.java,v 1.71 2000/12/17 22:10:57 jon Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -604,9 +604,9 @@ public class Runtime implements RuntimeConstants
                  * template.loader.1.template.path and the translated
                  * name would be used to set the property.
                  */
-                if (property.equals("public.name"))
+                if (property.equalsIgnoreCase("public.name"))
                 {
-                    sourceInitializerMap.put(value, sourceInitializer);
+                    sourceInitializerMap.put(value.toLowerCase(), sourceInitializer);
                 }
             }    
             sourceInitializerList.add(sourceInitializer);
@@ -699,7 +699,7 @@ public class Runtime implements RuntimeConstants
     {
         String publicName = key.substring(0, key.indexOf("."));
         String property = key.substring(key.indexOf(".") + 1);
-        ((Map)sourceInitializerMap.get(publicName)).put(property, value);
+        ((Map)sourceInitializerMap.get(publicName.toLowerCase())).put(property, value);
     }
 
     /**
