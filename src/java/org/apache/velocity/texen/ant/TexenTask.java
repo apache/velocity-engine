@@ -82,7 +82,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="robertdonkin@mac.com">Robert Burrell Donkin</a>
- * @version $Id: TexenTask.java,v 1.34 2001/10/22 03:53:27 jon Exp $
+ * @version $Id: TexenTask.java,v 1.35 2001/10/24 05:20:55 jvanzyl Exp $
  */
 public class TexenTask 
     extends Task
@@ -158,6 +158,11 @@ public class TexenTask
      * will be used when trying to locate templates.
      */
     protected boolean useClasspath;
+
+    /**
+     * Path separator.
+     */
+    private String fileSeparator = System.getProperty("file.separator");
 
     /**
      * [REQUIRED] Set the control template for the
@@ -275,7 +280,10 @@ public class TexenTask
             
             try
             {
-                source.load(new FileInputStream(sources[i]));
+                // resolve relative path from basedir and leave
+                // absolute path untouched.
+                File fullPath = project.resolveFile(sources[i]);
+                source.load(new FileInputStream(fullPath));
             }
             catch (Exception e)
             {
