@@ -72,7 +72,7 @@
   </path>
 
   <!-- =================================================================== -->
-  <!-- prints the environment                                        -->
+  <!-- prints the environment                                              -->
   <!-- =================================================================== -->
   <target name="env">
     
@@ -294,7 +294,7 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- jars the source -->
+  <!-- jars the source                                                    -->
   <!-- ================================================================== -->
   <target name="jar-src"
           depends="prepare"
@@ -371,13 +371,18 @@
       <classpath refid="classpath"/> 
       
     </javadoc>
-  
+  </target>
+
+  <target name="javadocs-clean">
+    <delete dir="${javadoc.destdir}"/>
   </target>
     
   <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
-  <target name="dist" depends="examples-clean-anakia,test-clean,jar,javadocs">
+  <target name="dist" depends="javadocs-clean,
+                               examples-clean-anakia,
+                               test-clean,jar,javadocs">
         
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
@@ -534,7 +539,7 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Make PDF version of Velocity documentation                           -->
+  <!-- Make PDF version of Velocity documentation                          -->
   <!-- =================================================================== -->
   <!--    
   <target name="pdf">
