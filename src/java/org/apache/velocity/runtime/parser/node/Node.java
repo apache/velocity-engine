@@ -64,4 +64,6 @@ public interface Node
     public String literal();
     public void setInvalid();
     public boolean isInvalid();
+    public int getLine();
+    public int getColumn();
 }
