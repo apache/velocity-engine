@@ -169,7 +169,7 @@ import org.apache.velocity.runtime.configuration.VelocityResources;
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:jlb@houseofdistraction.com">Jeff Bowden</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
- * @version $Id: Runtime.java,v 1.81 2001/01/12 19:42:36 jon Exp $
+ * @version $Id: Runtime.java,v 1.82 2001/01/12 20:20:38 dlr Exp $
  */
 public class Runtime implements RuntimeConstants
 {    
@@ -555,20 +555,20 @@ public class Runtime implements RuntimeConstants
     public static SimpleNode parse(InputStream inputStream, String strTemplateName )
         throws ParseException
     {
-        SimpleNode AST = null;
+        SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
         
         if (parser != null)
         {
             try
             {
-                AST = parser.parse(inputStream, strTemplateName);
-                return AST;
+                ast = parser.parse(inputStream, strTemplateName);
             }
             finally
             {
                 parserPool.put(parser);
             }
+            return ast;
         }
         else
         {
