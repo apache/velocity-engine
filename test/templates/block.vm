@@ -72,10 +72,11 @@ blargh #if(true)This follows blargh#end
 blargh#if(true)This immedately follows blargh with a following newline
 #end
 
--- Fourth Test : another tight tight tight.  Note that a space trailing the \#end does the trick.
+-- Fourth Test : another tight tight tight. If you want the \n, then put one *after* the content, not a space after \#end.
 -- one blank line follows
 
-blargh #if(true)This follows blargh#end 
+blargh #if(true)This follows blargh
+#end
 blargh#if(true)This immedately follows blargh with a following newline
 #end
 

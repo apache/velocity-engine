@@ -23,10 +23,10 @@ One blank line follows
 
 blargh This follows blarghblarghThis immedately follows blargh with a following newline
 
--- Fourth Test : another tight tight tight.  Note that a space trailing the #end does the trick.
+-- Fourth Test : another tight tight tight. If you want the \n, then put one *after* the content, not a space after #end.
 -- one blank line follows
 
-blargh This follows blargh 
+blargh This follows blargh
 blarghThis immedately follows blargh with a following newline
 
 -- Fifth Test : different kind of tight. blank line follows
