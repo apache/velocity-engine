@@ -271,12 +271,15 @@ This deployment method will ensure that different web applications will not be s
 
 <DIV align="right"><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD bgcolor="#023264" width="100%"><FONT color="#ffffff" face="arial,helvetica,sanserif" size="+1"><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="5"><B>Velocity Properties</B></FONT></TD></TR><TR><TD><IMG border="0" height="5" hspace="0" src="resources/void.gif" vspace="0" width="1"></TD></TR></TABLE><TABLE border="0" cellpadding="0" cellspacing="0" width="98%"><TR><TD><FONT color="#000000" face="arial,helvetica,sanserif">
 <P align="justify">
-Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties, found in
-/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.
+Velocity's runtime configuration is controlled by regular Java properties.  There is a set of default properties contained
+ in Velocity's jar, found in
+/src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that Velocity uses as it's configuration baseline.  This ensures that Velocity will always have a 'correct' value
+for it's configuration and startup. 
 </P>
-<P align="justify">  Any
-properties specified at init() time will replace existing values.  This ensures that Velocity will always have a 'correct' value
-for it's configuration and startup.  These may not be the values you want, of course.
+<P align="justify">  Any properties then specified at init() time will replace the  default values.  This ensures that you only have to
+configure velocity with the properties that you need to change, and not worry about the rest.  Further, as we add more 
+features and configuration capability, you don't have to change your configuration files to suit - the Velocity engine will
+ always have default values.
 </P>
 <P align="justify">
 describe properties here
