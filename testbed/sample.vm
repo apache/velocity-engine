@@ -11,7 +11,7 @@
             Names
         </td>
     </tr>
-    #foreach ($name in $list)
+    #foreach ($name in $provider.Customers)
     <tr>
         <td bgcolor="#eeeeee">$name</td>
     </tr>

@@ -1,5 +1,5 @@
 Foreach with a variable.
 
-#foreach ($provider in $list)
-    This is $provider.
+#foreach ($element in $list)
+    This is $element.
 #end

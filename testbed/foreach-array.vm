@@ -1,9 +1,9 @@
 Foreach with an array.
 
 <table>
-#foreach ($provider in $provider.Array)
+#foreach ($element in $provider.Array)
     <tr>
-        <td>This is $provider</td>
+        <td>This is $element</td>
     </tr>        
 #end
 </table>
