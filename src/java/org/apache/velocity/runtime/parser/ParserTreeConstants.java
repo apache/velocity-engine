@@ -9,41 +9,42 @@ public interface ParserTreeConstants
   public int JJTESCAPEDDIRECTIVE = 2;
   public int JJTESCAPE = 3;
   public int JJTCOMMENT = 4;
-  public int JJTNUMBERLITERAL = 5;
-  public int JJTSTRINGLITERAL = 6;
-  public int JJTIDENTIFIER = 7;
-  public int JJTWORD = 8;
-  public int JJTDIRECTIVE = 9;
-  public int JJTBLOCK = 10;
-  public int JJTMAP = 11;
-  public int JJTOBJECTARRAY = 12;
-  public int JJTINTEGERRANGE = 13;
-  public int JJTMETHOD = 14;
-  public int JJTREFERENCE = 15;
-  public int JJTTRUE = 16;
-  public int JJTFALSE = 17;
-  public int JJTTEXT = 18;
-  public int JJTIFSTATEMENT = 19;
-  public int JJTELSESTATEMENT = 20;
-  public int JJTELSEIFSTATEMENT = 21;
-  public int JJTSETDIRECTIVE = 22;
-  public int JJTSTOP = 23;
-  public int JJTEXPRESSION = 24;
-  public int JJTASSIGNMENT = 25;
-  public int JJTORNODE = 26;
-  public int JJTANDNODE = 27;
-  public int JJTEQNODE = 28;
-  public int JJTNENODE = 29;
-  public int JJTLTNODE = 30;
-  public int JJTGTNODE = 31;
-  public int JJTLENODE = 32;
-  public int JJTGENODE = 33;
-  public int JJTADDNODE = 34;
-  public int JJTSUBTRACTNODE = 35;
-  public int JJTMULNODE = 36;
-  public int JJTDIVNODE = 37;
-  public int JJTMODNODE = 38;
-  public int JJTNOTNODE = 39;
+  public int JJTFLOATINGPOINTLITERAL = 5;
+  public int JJTINTEGERLITERAL = 6;
+  public int JJTSTRINGLITERAL = 7;
+  public int JJTIDENTIFIER = 8;
+  public int JJTWORD = 9;
+  public int JJTDIRECTIVE = 10;
+  public int JJTBLOCK = 11;
+  public int JJTMAP = 12;
+  public int JJTOBJECTARRAY = 13;
+  public int JJTINTEGERRANGE = 14;
+  public int JJTMETHOD = 15;
+  public int JJTREFERENCE = 16;
+  public int JJTTRUE = 17;
+  public int JJTFALSE = 18;
+  public int JJTTEXT = 19;
+  public int JJTIFSTATEMENT = 20;
+  public int JJTELSESTATEMENT = 21;
+  public int JJTELSEIFSTATEMENT = 22;
+  public int JJTSETDIRECTIVE = 23;
+  public int JJTSTOP = 24;
+  public int JJTEXPRESSION = 25;
+  public int JJTASSIGNMENT = 26;
+  public int JJTORNODE = 27;
+  public int JJTANDNODE = 28;
+  public int JJTEQNODE = 29;
+  public int JJTNENODE = 30;
+  public int JJTLTNODE = 31;
+  public int JJTGTNODE = 32;
+  public int JJTLENODE = 33;
+  public int JJTGENODE = 34;
+  public int JJTADDNODE = 35;
+  public int JJTSUBTRACTNODE = 36;
+  public int JJTMULNODE = 37;
+  public int JJTDIVNODE = 38;
+  public int JJTMODNODE = 39;
+  public int JJTNOTNODE = 40;
 
 
   public String[] jjtNodeName = {
@@ -52,7 +53,8 @@ public interface ParserTreeConstants
     "EscapedDirective",
     "Escape",
     "Comment",
-    "NumberLiteral",
+    "FloatingPointLiteral",
+    "IntegerLiteral",
     "StringLiteral",
     "Identifier",
     "Word",

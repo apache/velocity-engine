@@ -53,7 +53,8 @@ import org.apache.velocity.VelocityContext;
  *   <ul>
  *   <li> Reference() : anything that starts with '$'
  *   <li> StringLiteral() : something like "$foo" or "hello geir"
- *   <li> NumberLiteral() : 1, 2 etc
+ *   <li> IntegerLiteral() : 1, 2 etc
+ *   <li> FloatingPointLiteral() : 1.2, 2e5 etc
  *   <li> IntegerRange() : [ 1..2] or [$foo .. $bar]
  *   <li> ObjectArray() : [ "a", "b", "c"]
  *   <li> True() : true
@@ -61,7 +62,7 @@ import org.apache.velocity.VelocityContext;
  *    <li>Word() : not likely - this is simply allowed by the parser so we can have
  *             syntactical sugar like #foreach($a in $b)  where 'in' is the Word  
  *    </ul>
- *  Now, Reference(), StringLit, NumberLit, IntRange, ObjArr are all dynamic things, so 
+ *  Now, Reference(), StringLit, IntegerLiteral, IntRange, ObjArr are all dynamic things, so
  *  their value is gotten with the use of a context.  The others are constants.  The trick
  *  we rely on is that the context rather than this class really represents the 
  *  state of the argument. We are simply proxying for the thing, returning the proper value 
@@ -83,7 +84,7 @@ public class VMProxyArg
     /**  the AST if the type is such that it's dynamic (ex. JJTREFERENCE ) */
     private SimpleNode nodeTree = null;
 
-    /**  reference for the object if we proxy for a static arg like an NumberLiteral */
+    /**  reference for the object if we proxy for a static arg like an IntegerLiteral*/
     private Object staticObject = null;
 
     /** not used in this impl : carries the appropriate user context */
@@ -297,7 +298,11 @@ public class VMProxyArg
             {
                 retObject =  nodeTree.value( context );
             }
-            else if ( type == ParserTreeConstants.JJTNUMBERLITERAL )
+            else if ( type == ParserTreeConstants.JJTINTEGERLITERAL )
+            {
+                retObject = staticObject;
+            }
+            else if ( type == ParserTreeConstants.JJTFLOATINGPOINTLITERAL )
             {
                 retObject = staticObject;
             }
@@ -434,14 +439,21 @@ public class VMProxyArg
                 break;
             }
 
-        case ParserTreeConstants.JJTNUMBERLITERAL :
+        case ParserTreeConstants.JJTINTEGERLITERAL :
             {
                 constant = true;
                 staticObject = new Integer(callerReference);
                 break;
             }
 
-      case ParserTreeConstants.JJTWORD :
+        case ParserTreeConstants.JJTFLOATINGPOINTLITERAL :
+            {
+                constant = true;
+                staticObject = new Double(callerReference);
+                break;
+            }
+
+        case ParserTreeConstants.JJTWORD :
           {
               /*
                *  this is technically an error...

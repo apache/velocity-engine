@@ -18,20 +18,23 @@ package org.apache.velocity.runtime.parser.node;
 
 
 /**
- * Handles integer addition of nodes
+ * Handles number addition of nodes.<br><br>
  *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAddNode.java,v 1.12 2004/03/20 03:35:51 dlr Exp $ 
-*/
-
+ * @version $Id$ 
+ */
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 
 import org.apache.velocity.exception.MethodInvocationException;
+
+import org.apache.velocity.util.TemplateNumber;
 
 public class ASTAddNode extends SimpleNode
 {
@@ -52,9 +55,8 @@ public class ASTAddNode extends SimpleNode
     }
 
     /**
-     *  computes the sum of the two nodes.  Currently only integer operations are 
-     *  supported.
-     *  @return Integer object with value, or null
+     *  computes the sum of the two nodes.
+     *  @return result or null
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException
@@ -83,12 +85,20 @@ public class ASTAddNode extends SimpleNode
         }
 
         /*
-         * put the Integer test first, as that should happen most often
+         *  convert to Number if applicable
          */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
 
-        if (left instanceof Integer && right instanceof Integer)
-        {
-            return new Integer(((Integer) left).intValue() + ((Integer) right).intValue());
+        /*
+         * Arithmetic operation.
+         */
+        if (left instanceof Number && right instanceof Number) {
+            return MathUtils.add((Number)left, (Number)right);
         }
 
         /*
@@ -98,13 +108,12 @@ public class ASTAddNode extends SimpleNode
         {
             return left.toString().concat(right.toString());
         }
-
         /*
-         *  if not an Integer or Strings, not much we can do right now
+         *  if not a Number or Strings, not much we can do right now
          */
-        rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" )
+        rsvc.error( ( !( left instanceof Number || left instanceof String ) ? "Left" : "Right" )
                        + " side of addition operation is not a valid type. "
-                       + "Currently only Strings, integers (1,2,3...) and Integer type are supported. "
+                       + "Currently only Strings, numbers (1,2,3...) and Number type are supported. "
                        + context.getCurrentTemplateName() + " [line " + getLine()
                        + ", column " + getColumn() + "]");
 

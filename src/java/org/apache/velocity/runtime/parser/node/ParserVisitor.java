@@ -21,7 +21,8 @@ public interface ParserVisitor
   public Object visit(SimpleNode node, Object data);
   public Object visit(ASTprocess node, Object data);
   public Object visit(ASTComment node, Object data);
-  public Object visit(ASTNumberLiteral node, Object data);
+  public Object visit(ASTFloatingPointLiteral node, Object data);
+  public Object visit(ASTIntegerLiteral node, Object data);
   public Object visit(ASTStringLiteral node, Object data);
   public Object visit(ASTIdentifier node, Object data);
   public Object visit(ASTWord node, Object data);

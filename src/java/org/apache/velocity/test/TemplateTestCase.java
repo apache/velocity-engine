@@ -31,8 +31,10 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.TestProvider;
+import org.apache.velocity.test.provider.TestNumber;
 import org.apache.velocity.test.provider.BoolObj;
 import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.util.TemplateNumber;
 
 import org.apache.velocity.app.FieldMethodizer;
 
@@ -150,7 +152,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
          */
 
         Object[] oarr = { "a","b","c","d" } ;
-       int intarr[] = { 10, 20, 30, 40, 50 };
+        int intarr[] = { 10, 20, 30, 40, 50 };
 
         context.put( "collection", vec );
         context2.put("iterator", vec.iterator());
@@ -159,6 +161,15 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("enumerator", vec.elements());
         context.put("intarr", intarr );
         
+        // Add some Numbers
+        context.put ("int1", new Integer (1000));
+        context.put ("long1", new Long (10000000000l));
+        context.put ("float1", new Float (1000.1234));
+        context.put ("double1", new Double (10000000000d));
+        
+        // Add a TemplateNumber
+        context.put ("templatenumber1", new TestNumber (999.125));
+
         /**
          * Test #foreach() with a list containing nulls
          */

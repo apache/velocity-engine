@@ -20,6 +20,20 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.exception.MethodInvocationException;
 
+import org.apache.velocity.util.TemplateNumber;
+
+
+/**
+ * Handles arg1 &gt;= arg2<br><br>
+ *
+ * Only subclasses of Number can be compared.<br><br>
+ *
+ * Please look at the Parser.jjt file which is
+ * what controls the generation of this class.
+ *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
+ */
 public class ASTGENode extends SimpleNode
 {
     public ASTGENode(int id)
@@ -65,23 +79,32 @@ public class ASTGENode extends SimpleNode
             return false;
         }
         
+
         /*
-         *  if not an Integer, not much we can do either
+         *  convert to Number if applicable
+         */
+        if (left instanceof TemplateNumber) {
+           left = ( (TemplateNumber) left).getAsNumber();
+        }
+        if (right instanceof TemplateNumber) {
+           right = ( (TemplateNumber) right).getAsNumber();
+        }
+
+        /*
+         *  Only compare Numbers
          */
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
-                           + " side of '>=' operation is not a valid type. "
-                           + " It is a " + ( !( left instanceof Integer ) ? left.getClass() : right.getClass() ) 
-                           + ". Currently only integers (1,2,3...) and Integer type is supported. "
+            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+                           + " side of '>=' operation is not a Number. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  
             return false;
         }
 
-        return ( (Integer) left).intValue() >=  ((Integer) right).intValue(); 
+       return MathUtils.compare ( (Number)left,(Number)right) >= 0;
      
     }
 

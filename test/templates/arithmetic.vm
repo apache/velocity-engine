@@ -22,17 +22,34 @@ $foo
 #set($foo = $foo / 2)
 $foo
 
-And the whole thing again with inline set statements
+Check the decimal literals
+#set($bar = 4.5e3)
+$bar
 
-#set( $foo = 5)
-#set( $foo = $foo + 1)
-$foo
+#set($bar = 4.5e+3)
+$bar
 
-#set ( $foo = $foo - 1 )
-$foo
+#set($bar = 4.5e-3)
+$bar
 
-#set( $foo = $foo * 2)
-$foo
+#set($bar = 4.5e055)
+$bar
+
+#set($bar = 4.5)
+$bar
+
+#set($bar = $bar + 1)
+$bar
+
+#set($tbar = $bar * 2)
+$tbar
+
+Check that the system can handle integers greater than Integer.MAX_INT
+#set($baba = 100000000000)
+$baba
+
+#set($baba = $baba + 1)
+$baba
 
 #set ($foo = $foo / 2)
 $foo
