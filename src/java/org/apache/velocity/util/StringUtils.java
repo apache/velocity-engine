@@ -68,7 +68,7 @@ import java.util.Vector;
  * string utilities class.
  *
  *  @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- *  @version $Id: StringUtils.java,v 1.3 2000/11/08 02:29:06 jon Exp $
+ *  @version $Id: StringUtils.java,v 1.4 2000/12/11 19:39:01 jon Exp $
  */
 public class StringUtils
 {
@@ -265,5 +265,75 @@ public class StringUtils
             // Do nothing.
         }
         return foo;
+    }
+
+    /**
+     * Return a context-relative path, beginning with a "/", that represents
+     * the canonical version of the specified path after ".." and "." elements
+     * are resolved out.  If the specified path attempts to go outside the
+     * boundaries of the current context (i.e. too many ".." path elements
+     * are present), return <code>null</code> instead.
+     *
+     * @param path Path to be normalized
+     */
+    public static final String normalizePath(String path)
+    {
+        // Normalize the slashes and add leading slash if necessary
+        String normalized = path;
+        if (normalized.indexOf('\\') >= 0)
+        {
+            normalized = normalized.replace('\\', '/');
+        }
+
+        if (!normalized.startsWith("/"))
+        {
+            normalized = "/" + normalized;
+        }
+        
+        // Resolve occurrences of "//" in the normalized path
+        while (true)
+        {
+            int index = normalized.indexOf("//");
+            if (index < 0)
+                break;
+            normalized = normalized.substring(0, index) +
+            normalized.substring(index + 1);
+        }
+
+        // Resolve occurrences of "%20" in the normalized path
+        while (true)
+        {
+            int index = normalized.indexOf("%20");
+            if (index < 0)
+                break;
+            normalized = normalized.substring(0, index) + " " +
+            normalized.substring(index + 3);
+        }
+
+        // Resolve occurrences of "/./" in the normalized path
+        while (true)
+        {
+            int index = normalized.indexOf("/./");
+            if (index < 0)
+                break;
+            normalized = normalized.substring(0, index) +
+            normalized.substring(index + 2);
+        }
+
+        // Resolve occurrences of "/../" in the normalized path
+        while (true)
+        {
+            int index = normalized.indexOf("/../");
+            if (index < 0)
+                break;
+            if (index == 0)
+                return (null);  // Trying to go outside our context
+            int index2 = normalized.lastIndexOf('/', index - 1);
+            normalized = normalized.substring(0, index2) +
+            normalized.substring(index + 3);
+        }
+
+        // Return the normalized path that we have completed
+        return (normalized);
     }
 }
