@@ -3655,6 +3655,12 @@ final void MoreLexicalActions()
          jjimageLen = 0;
         if (!inComment)
         {
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
             inComment = true;
             stateStackPush();
             SwitchTo(IN_SINGLE_LINE_COMMENT);
