@@ -24,11 +24,29 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
     CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
 fi
 
-CLASSPATH=${CLASSPATH}:./lib/ant-1.3.jar
-CLASSPATH=${CLASSPATH}:./lib/ant-1.3-optional.jar
-CLASSPATH=${CLASSPATH}:./lib/xerces-1.3.0.jar
-CLASSPATH=${CLASSPATH}:./lib/werken.xpath.jar
-CLASSPATH=${CLASSPATH}:./lib/antlr-runtime.jar
+# OSX hack to make it work with jikes
+OSXHACK="/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Classes"
+if [ -d ${OSXHACK} ] ; then
+for i in ${OSXHACK}/*.jar
+do
+    CLASSPATH=${CLASSPATH}:$i
+done
+fi
+
+for i in ./lib/ant*.jar
+do
+CLASSPATH=${CLASSPATH}:$i
+done
+
+for i in ./lib/xerces*.jar
+do
+CLASSPATH=${CLASSPATH}:$i
+done
+
+for i in ./lib/werken*.jar
+do
+CLASSPATH=${CLASSPATH}:$i
+done
 
 # convert the unix path to windows
 if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
