@@ -127,7 +127,7 @@ import org.apache.velocity.runtime.directive.Directive;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.23 2000/11/06 01:20:02 jvanzyl Exp $ 
+ * @version $Id: Parser.jjt,v 1.24 2000/11/06 04:12:42 geirm Exp $ 
 */
 public class Parser
 {
@@ -221,7 +221,6 @@ PARSER_END(Parser)
  */
 TOKEN_MGR_DECLS: 
 {  
-    private boolean incMode;
     private int fileDepth = 0;
 
     private int lparen = 0;
@@ -237,38 +236,7 @@ TOKEN_MGR_DECLS:
 
     Stack streams = new Stack();
     Stack states = new Stack();
-    
-    // remove double quotes in the string
-    String stripQuotes(String str) 
-    {
-        int start = str.indexOf("\"");
-        int end = str.indexOf("\"",start+1);    
-        return str.substring(start+1,end);
-    }    
-    
-    /**
-     * Save the state of the current input stream
-     * and the state of the lexer. So we can process
-     * the new one.
-     */
-    void pushFile(String filename)
-    {
-        fileDepth++;
-        
-        streams.push(input_stream);
-        states.push(new Integer(curLexState));
-        
-        try
-        {
-            FileInputStream fs = new FileInputStream(filename);
-            ASCII_CharStream new_stream = new ASCII_CharStream(fs,1,1);    
-            ReInit(new_stream);
-        }
-        catch(Exception e)
-        {
-        }
-    }    
-  
+   
     /**
      * Retrieve the oldStream and oldState and
      * continue processing the input.
@@ -532,8 +500,6 @@ TOKEN:
      { matchedToken.image = "#if"; }
 |    <ESCAPE_END_DIRECTIVE : "\\#end">   
      { matchedToken.image = "#end"; }
-|    <ESCAPE_INCLUDE_DIRECTIVE: "\\#include"> 
-     { matchedToken.image = "#include"; }
 |    <ESCAPE_ELSEIF_DIRECTIVE: "\\#elseif">
      { matchedToken.image = "#elseif"; }
 |    <ESCAPE_ELSE_DIRECTIVE: "\\#else"> 
@@ -638,7 +604,6 @@ MORE :
             SwitchTo(PRE_DIRECTIVE);
         }
     } 
-
 }   
 
 TOKEN :
@@ -707,16 +672,8 @@ SKIP:
 <REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
 TOKEN :
 {
-
    <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) >
     {
-        if (incMode)
-        {
-            matchedToken.image = stripQuotes(image.toString());
-            pushFile(matchedToken.image);
-        }
-        incMode = false;
-    
         /*
          *  - if we are in REFERENCE || REFMODIFIER then " is an ender
          *  - if we are in DIRECTIVE and haven't seen ( yet, then also drop out. 
@@ -728,7 +685,6 @@ TOKEN :
             stateStackPop();
         else if( curLexState == DIRECTIVE && !inSet && lparen == 0)
             stateStackPop();    
-
     }
 
 |   <TRUE: "true">
@@ -783,12 +739,6 @@ TOKEN :
         stateStackPop();
     } 
 
-|   <INCLUDE_DIRECTIVE: "include"> 
-    { 
-        incMode = true; 
-        SwitchTo(DIRECTIVE);
-    }
-
 |   <IF_DIRECTIVE: "if">
     {
         SwitchTo(DIRECTIVE);
@@ -805,12 +755,6 @@ TOKEN :
         stateStackPop();
     } 
 
-//|   <SET_DIRECTIVE: (" "|"\t")* "set" >
-//    { 
-//        inSet = true; 
-//        SwitchTo(DIRECTIVE);
-//    }
-
 |   <STOP_DIRECTIVE: "stop">
     {
         matchedToken.kind = EOF;
@@ -825,8 +769,7 @@ TOKEN:
 |   <NUMBER_LITERAL: (<DIGIT>)+ >
     {
         /*
-         *  in the spirit of Jason's fix :)
-         *  but check to see if we are in set
+         * check to see if we are in set
          *    ex.  #set $foo = $foo + 3
          *  because we want to handle the \n after
          */
@@ -953,7 +896,6 @@ SimpleNode process() : {}
 void Statement() #void : {}
 {
     IfStatement()
-|   IncludeStatement()
 |   StopStatement()
 |   Reference()
 |   Comment()
@@ -1146,7 +1088,6 @@ void Text() :
 |   <ESCAPE_SET_DIRECTIVE>
 |   <ESCAPE_IF_DIRECTIVE>
 |   <ESCAPE_END_DIRECTIVE>   
-|   <ESCAPE_INCLUDE_DIRECTIVE> 
 |   <ESCAPE_ELSEIF_DIRECTIVE>
 |   <ESCAPE_ELSE_DIRECTIVE> 
 |   <ESCAPE_STOP_DIRECTIVE>
@@ -1185,19 +1126,6 @@ void SetDirective() : {}
    (<SET_DIRECTIVE> Expression() [<NEWLINE>] )
 }    
 
-/**
- * This method corresponds to an #include
- * directive in a Velocity template. The
- * following are examples of #include
- * constructs that are acceptable in
- * a template:
- *
- * #include "foo.inc" 
- */
-void IncludeStatement() #void: {}
-{
-    <INCLUDE_DIRECTIVE> <STRING_LITERAL>
-}
 
 /**
  * This method corresponds to the #stop
