@@ -120,7 +120,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Parser.jjt,v 1.45 2000/12/21 04:43:45 geirm Exp $ 
+ * @version $Id: Parser.jjt,v 1.46 2000/12/21 05:50:25 geirm Exp $ 
 */
 public class Parser
 {
@@ -724,7 +724,7 @@ TOKEN:
 <REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
 TOKEN :
 {
-   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) >
+   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
     {
         /*
          *  - if we are in REFERENCE || REFMODIFIER then " is an ender
