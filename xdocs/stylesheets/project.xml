@@ -9,7 +9,7 @@
     <menu name="About">
         <item name="Overview"               href="/index.html"/>
         <item name="Getting Started"        href="/getting-started.html"/>
-        <item name="Download"               href="/builds/jakarta-velocity/"/>
+        <item name="Download"               href="http://jakarta.apache.org/builds/jakarta-velocity/"/>
         <item name="Install"                href="/install.html"/>
         <item name="Design"                 href="/design.html"/>
         <item name="Contributors"           href="/contributors.html"/>
