@@ -124,15 +124,6 @@ The Todo list that follows is roughly in order of importance.
       <tr><td>
         <blockquote>
                                     <p>
-    <strong>Runtime API</strong>
-    <br />
-        The Velocity Runtime is the single access point for all
-        Velocity's functionality. A standard API for the
-        Runtime should be defined so that in the span between
-        the 0.5 Milestone release and a 1.0 release, the Runtime
-        API changes as little as possible.
-    </p>
-                                                <p>
     <strong>Directive Interface</strong>
     <br />
         Right now there is a very thin interface for directives, but
@@ -140,38 +131,6 @@ The Todo list that follows is roughly in order of importance.
         interface is not intended to be used outside core Velocity
         developers (it is not intended to be a public API), but it
         probably makes sense to shield directive creators from JavaCC.
-    </p>
-                                                <p>
-    <strong>Context</strong>
-    <br />
-        The Velocity Context class is still fairly primitive. It
-        loosely adheres to a Map, but it definitely needs some
-        thinking. It works fine now, but it might be good to
-        think about: how to load standard tools and how to
-        make that process efficient; how to stamp items in
-        the context with expiry durations so that items can
-        be cached and how this might work.
-    </p>
-                                                <p>
-    <strong>User's Guide</strong>
-    <br />
-        This would be a guide for designers who would
-        be using the Velocity Template Language (VTL) to
-        create templates. The users guide would give
-        example usage and a definitive description
-        of the VTL syntax. <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
-        has started work on this with John Castura, but any and all
-        suggestions are welcome.
-    </p>
-                                                <p>
-    <strong>Developer Guide</strong>
-    <br />
-        This would be a guide for developers who would use
-        Velocity as a standalone servlet tool, or in conjuction
-        with a servlet controller framework like Turbine.
-        <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a> is
-        currently working on this guide, but any and all suggestions
-        are welcome.
     </p>
                                                 <p>
     <strong>Caching</strong>
@@ -213,31 +172,6 @@ The Todo list that follows is roughly in order of importance.
         to have a configuration of a setup for a common profiler
         so that anyone who wanted to do some profiling could do
         so in a consistent manner.
-    </p>
-                                                <p>
-    <strong>Encoding Caching</strong>
-    <br />
-        What would this entail? And how could we implement an
-        efficient encoding caching mechanism.
-    </p>
-                                                <p>
-    <strong>Plugins</strong>
-    <br />
-        It would be good to allow plugins in the form of JAR files
-        to be picked up the Velocity Runtime during startup. This
-        would be a good way for Velocity developers to share tools
-        that could be used in a context. For example there are some
-        utilities in Turbine that allow email to be sent from within
-        a template. It might be good to package this sort of utility
-        in a JAR file so that there are no dependencies in the
-        Velocity build for a specific utility.
-    </p>
-                                                <p>
-    <strong>Context Tools</strong>
-    <br />
-        What kind of tools might be good to add to Velocity? There
-        are several utilties that have been created in Turbine that
-        might be good to move over to the Velocity code base.
     </p>
                                                 <p>
     <strong>Syntax Dumper</strong>
