@@ -281,6 +281,8 @@
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
 
+    <delete dir="${build.dest}/meta-inf" quiet="true"/>
+
     <jar jarfile="${build.dir}/${project}-j2ee-${version}.jar"
       basedir="${build.dest}"
       excludes="**/package.html"
