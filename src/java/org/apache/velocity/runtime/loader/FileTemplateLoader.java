@@ -64,6 +64,7 @@ import java.util.Hashtable;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * This is a simple template file loader.
@@ -71,7 +72,7 @@ import org.apache.velocity.runtime.Runtime;
  * That'll change once we decide how we want to do configuration
  * 
  * @author Dave Bryson
- * $Revision: 1.10 $
+ * $Revision: 1.11 $
  */
 public class FileTemplateLoader extends TemplateLoader
 {
@@ -105,6 +106,13 @@ public class FileTemplateLoader extends TemplateLoader
             throw new Exception ("Need to specify a file name or file path!");
         }
         
+        name = StringUtils.normalizePath(name);
+        if ( name == null || name.length() == 0 )
+        {
+            throw new Exception ("#include() error : argument " + name + 
+                " contains .. and may be trying to access " + 
+                "content outside of template root.  Rejected.");
+        }
         File file = new File( templatePath, name );           
         if ( file.canRead() )
         {
@@ -136,6 +144,11 @@ public class FileTemplateLoader extends TemplateLoader
         return true;
     }
 
+    /**
+        Get the last modified date
+        
+        @return the last modified datestamp of the Template
+    */
     public long getLastModified(Template t)
     {
         File file = new File(templatePath, t.getName());
