@@ -61,6 +61,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.RuntimeServices;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
@@ -76,7 +77,7 @@ import org.apache.velocity.context.Context;
  *   when testing the NullSetEventHandler
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventExample.java,v 1.2 2001/05/20 21:08:12 geirm Exp $
+ * @version $Id: EventExample.java,v 1.3 2001/09/09 07:26:24 geirm Exp $
  */
 
 public class EventExample implements ReferenceInsertionEventHandler, 
@@ -333,6 +334,15 @@ public class EventExample implements ReferenceInsertionEventHandler,
 
         throw e;
     } 
+
+	/**
+	 *  Required init method for LogSystem
+	 *  to get access to RuntimeServices
+	 */ 
+	 public void init( RuntimeServices rs )
+	 {
+	 	return;
+	 }
 
     /**
      *  This is the key method needed to implement a logging interface

@@ -54,6 +54,8 @@
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.RuntimeServices;
+
 
 /**
  *  This is a toy demonstration of how Velocity
@@ -64,7 +66,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  *  through it.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LoggerExample.java,v 1.1 2001/03/19 23:01:37 geirm Exp $
+ * @version $Id: LoggerExample.java,v 1.2 2001/09/09 07:26:24 geirm Exp $
  */
 public class LoggerExample implements LogSystem
 {
@@ -92,6 +94,15 @@ public class LoggerExample implements LogSystem
         }
     }
 
+	/**
+	 *  Required init() method for LogSystem
+	 *  to get access to RuntimeServices
+	 */ 
+	 public void init( RuntimeServices rs )
+	 {
+	 	return;
+	 }
+	 
     /**
      *  This is the key method needed to implement a logging interface
      *  for Velocity.
