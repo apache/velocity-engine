@@ -57,14 +57,14 @@ package org.apache.velocity;
 import java.util.Hashtable;
 
 /**
- * This class is used as the storage place for all dynamic
+ * This class provides the storage location for all dynamic
  * information that is used to create a document. A final
  * document is created by processing a template against
  * the contents of the context. The context may include
  * an valid object derived from Object. These objects
  * are stored in a Hashtable. 
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: Context.java,v 1.2 2000/10/12 14:28:14 jvanzyl Exp $
+ * @version $Id: Context.java,v 1.3 2000/10/15 03:20:06 dlr Exp $
  */
 public class Context
 {
@@ -115,10 +115,11 @@ public class Context
     }        
 
     /**
-     * Removes the specified key from the context.
+     * Removes the value associated with the specified key from the context.
      *
-     * @param key The key to remove.
-     * @return    TODO
+     * @param key The name of the value to remove.
+     * @return    The value that the key was mapped to, or <code>null</code> 
+     *            if unmapped.
      */
     public Object remove(Object key)
     {
