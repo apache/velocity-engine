@@ -85,7 +85,7 @@ import org.apache.velocity.context.InternalContextBase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  * @author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
- * @version $Id: AbstractContext.java,v 1.4 2001/03/28 03:01:04 geirm Exp $
+ * @version $Id: AbstractContext.java,v 1.4.4.1 2001/06/02 14:33:31 geirm Exp $
  */
 
 public abstract class AbstractContext extends InternalContextBase 
@@ -171,6 +171,16 @@ public abstract class AbstractContext extends InternalContextBase
     public AbstractContext( Context inner )
     {
         innerContext = inner;
+
+        /*
+         *  now, do a 'forward pull' of event cartridge so
+         *  it's accessable, bringing to the top level.
+         */
+
+        if (innerContext instanceof InternalEventContext )
+        {
+            attachEventCartridge( ( (InternalEventContext) innerContext).getEventCartridge() );
+        }
     }
 
     /**
