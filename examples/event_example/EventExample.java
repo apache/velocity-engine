@@ -62,10 +62,11 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.runtime.log.LogSystem;
 
-import org.apache.velocity.context.EventCartridge;
-import org.apache.velocity.context.ReferenceInsertionEventHandler;
-import org.apache.velocity.context.MethodExceptionEventHandler;
-import org.apache.velocity.context.NullSetEventHandler;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.NullSetEventHandler;
+
 import org.apache.velocity.context.Context;
 
 /**
@@ -75,7 +76,7 @@ import org.apache.velocity.context.Context;
  *   when testing the NullSetEventHandler
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventExample.java,v 1.1 2001/05/17 13:00:03 geirm Exp $
+ * @version $Id: EventExample.java,v 1.2 2001/05/20 21:08:12 geirm Exp $
  */
 
 public class EventExample implements ReferenceInsertionEventHandler, 
@@ -310,9 +311,9 @@ public class EventExample implements ReferenceInsertionEventHandler,
      *  a log message.  This method gives the application
      *  a chance to 'vote' on msg generation
      */
-    public boolean nullSetLogMessage( String reference )
+    public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
-        if (reference.equals("$settest"))
+        if (lhs.equals("$settest"))
             return false;
         
         return true;
