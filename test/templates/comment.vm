@@ -47,3 +47,20 @@ $foo
 
 $##
 there is a dollar before me
+
+
+Test of multiline/singleline combo
+## fix for bug 7697
+
+#*
+    multiline
+
+    ## embedded singline comment
+
+    stuff
+
+*#
+
+with some closing text
+
+##test
