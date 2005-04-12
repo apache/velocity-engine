@@ -53,3 +53,10 @@ $int1 + $templatenumber1.AsNumber = #set ($rem = $int1 + $templatenumber1)$rem
 $int1 - $templatenumber1.AsNumber = #set ($rem = $int1 - $templatenumber1)$rem
 $int1 * $templatenumber1.AsNumber = #set ($rem = $int1 * $templatenumber1)$rem
 $int1 / $templatenumber1.AsNumber = #set ($rem = $int1 / $templatenumber1)$rem
+
+Test integer division
+5 / 2 = #set($result = 5 / 2)$result
+
+Test decimal division
+5 / 2.0 = #set($result = 5 / 2.0)$result
+5.0 / 2 = #set($result = 5.0 / 2)$result

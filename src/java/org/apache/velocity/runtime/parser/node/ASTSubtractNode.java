@@ -107,7 +107,7 @@ public class ASTSubtractNode extends SimpleNode
             return null;
         }
 
-        return MathUtils.substract ( (Number)left,(Number)right);
+        return MathUtils.subtract ( (Number)left,(Number)right);
     }
 }
 
