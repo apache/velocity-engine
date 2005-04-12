@@ -82,7 +82,7 @@ public class ArithmeticTestCase extends TestCase
 
     private void subtractHelper (Number n1, Number n2, double expectedResult, Class expectedResultType) 
     {
-        Number result = MathUtils.substract( n1, n2);
+        Number result = MathUtils.subtract( n1, n2);
         assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
         assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
     }
@@ -115,7 +115,7 @@ public class ArithmeticTestCase extends TestCase
         divideHelper (new Integer(10), new Short( (short)2), 5, Integer.class);
         divideHelper (new Byte((byte)10), new Short( (short)2), 5, Short.class);
         divideHelper (BigInteger.valueOf(10), new Short( (short)2), 5, BigInteger.class);
-        divideHelper (new Integer(10), new Short( (short)4), 2.5, Double.class);
+        divideHelper (new Integer(10), new Short( (short)4), 2, Integer.class);
         divideHelper (new Integer(10), new Float( 2.5f), 4, Float.class);
         divideHelper (new Integer(10), new Double( 2.5), 4, Double.class);
         divideHelper (new Integer(10), new BigDecimal( 2.5), 4, BigDecimal.class);

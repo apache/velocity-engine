@@ -283,7 +283,7 @@ public abstract class MathUtils
      * Subtract two numbers and return the correct value / type.
      * Overflow detection is done for integer values (byte, short, int, long) only!
      */
-    public static Number substract (Number op1, Number op2) {
+    public static Number subtract (Number op1, Number op2) {
 
         int calcBase = findCalculationBase( op1, op2);
         switch (calcBase) {
@@ -342,9 +342,9 @@ public abstract class MathUtils
     }
 
     /**
-     * Divide two numbers. Integer-types will be returned as Integer-type if and only if
-     * the modulo of the two numbers is 0. Otherwise a Double will be returned. The same
-     * for BigIntegers.
+     * Divide two numbers. The result will be returned as Integer-type if and only if
+     * both sides of the division operator are Integer-types. Otherwise a Float, Double, 
+     * or BigDecimal will be returned. 
      */
     public static Number divide (Number op1, Number op2) {
 
@@ -353,17 +353,13 @@ public abstract class MathUtils
             case BASE_BIGINTEGER:
                 BigInteger b1 = toBigInteger( op1 );
                 BigInteger b2 = toBigInteger( op2 );
-                if (b1.mod( b2).compareTo( INT_ZERO) == 0) {
-                    return b1.divide( b2);
-                }
-                return toBigDecimal( op1 ).divide( toBigDecimal ( op2 ), BigDecimal.ROUND_HALF_DOWN);
+                return b1.divide( b2);
+
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                if (l1 % l2 == 0) {
-                    return wrapPrimitive( l1 / l2, op1, op2);
-                }
-                return new Double ((double)l1 / l2);
+                return wrapPrimitive( l1 / l2, op1, op2);
+
             case BASE_FLOAT:
                 return new Float (op1.floatValue()/op2.floatValue());
             case BASE_DOUBLE:

@@ -8,7 +8,7 @@ Multiplication, division, and modulus :
 5 % 2 = 1
 5 % 0 = $rem2
 7 % 2 = 1
-5 / 2 = 2.5
+5 / 2 = 2
 5 / 0 = $rem4
 5 * 2 = 10
 
@@ -22,7 +22,7 @@ Some test for the new number-handling
 1000 + 10000000000 = 10000001000
 1000 - 10000000000 = -9999999000
 1000 * 10000000000 = 10000000000000
-1000 / 10000000000 = 1.0E-7
+1000 / 10000000000 = 0
 1000 % 10000000000 = 1000
 
 1000 + 1000.1234 = 2000.1234
@@ -35,3 +35,10 @@ This checks that an object implementing TemplateNumber can be used in arithmetic
 1000 - 999.125 = 0.875
 1000 * 999.125 = 999125.0
 1000 / 999.125 = 1.0008757662955086
+
+Test integer division
+5 / 2 = 2
+
+Test decimal division
+5 / 2.0 = 2.5
+5.0 / 2 = 2.5

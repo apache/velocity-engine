@@ -28,7 +28,7 @@ Check that the system can handle integers greater than Integer.MAX_INT
 
 100000000001
 
-2.5
+2
 
 
 This is a very long string that we are breaking up into multiple lines for testing.
