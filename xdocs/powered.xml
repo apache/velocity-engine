@@ -735,6 +735,20 @@ ads resulting in fast ad retrieval with no database connections required.
 
    <tr>
     <td>
+     <a href="http://www.jcorporate.com/expresso.html">Expresso</a>
+    </td>
+    <td>
+     Expresso is a powerful, enterprise-strength web application development
+framework. Expresso extends Struts for developing database-driven web
+applications and adds capabilities for security, robust
+object-relational mapping, and many other services commonly required in
+web application development. Expresso can use Velocity for the view
+tier, as well as several other technologies.
+    </td>
+   </tr>
+
+   <tr>
+    <td>
      <a href="http://click.sourceforge.net">Click</a>
     </td>
     <td>
