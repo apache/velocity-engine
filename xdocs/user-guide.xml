@@ -1270,7 +1270,19 @@ directive.foreach.counter.name = velocityCount
 directive.foreach.counter.initial.value = 1
 ]]></source>
 
- </section>
+    <p>
+    It's possible to set a maximum allowed number of times that a loop
+    may be executed. By default there is no max (indicated by a value of 0
+    or less), but this can be set to an arbitrary number in the
+    <code>velocity.properties</code> file.  This is useful as a fail-safe.
+    </p>
+
+<source><![CDATA[
+# The maximum allowed number of loops.
+directive.foreach.maxloops = -1
+]]></source>
+
+</section>
 
 <section name="Include">
 

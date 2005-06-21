@@ -1909,6 +1909,11 @@ Default starting value for the loop counter reference in a #foreach() loop.
 </p>
 
 <p>
+<code>directive.foreach.maxloops = -1</code><br/>
+Maximum allowed number of loops for a #foreach() statement.
+</p>
+
+<p>
 <strong>#include() and #parse() Directive</strong>
 </p>
 
