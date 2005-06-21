@@ -115,6 +115,11 @@ public interface RuntimeConstants
     public static final String COUNTER_INITIAL_VALUE = 
         "directive.foreach.counter.initial.value";
 
+    /** 
+     * Maximum allowed number of loops.
+     */
+    public static final String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
+
     /**
      * Starting tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only

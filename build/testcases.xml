@@ -76,7 +76,7 @@
                                    test-servlet,
                                    test-parser,
                                    test-resourceinstance,
-                                   test-foreachmethodcall,
+                                   test-foreach,
                                    test-arithmetic,
                                    test-number-methods,
                                    test-anakia 
@@ -446,10 +446,10 @@
     </java>
   </target>
 
- <target name="test-foreachmethodcall">
-    <echo message="Running Foreach Method call tests..."/>
+ <target name="test-foreach">
+    <echo message="Running Foreach max loops tests..."/>
     <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.ForeachMethodCallTestCase"/>
+      <arg value="org.apache.velocity.test.ForeachTest"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -457,4 +457,3 @@
   </target>
 
 </project>
-

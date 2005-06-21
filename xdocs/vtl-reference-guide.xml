@@ -271,6 +271,17 @@ directive.foreach.counter.name = velocityCount
 directive.foreach.counter.initial.value = 1
 ]]></source>
 
+    <p>
+    Additionally, the maximum allowed number of loop iterations can be
+    controlled engine-wide (an ability introduced in Velocity 1.5).
+    By default, there is no limit:
+    </p>
+
+<source><![CDATA[
+# The maximum allowed number of loops.
+directive.foreach.maxloops = -1
+]]></source>
+
   </subsection>
 
   <subsection name="#include - Renders local file(s) that are not

@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.directive;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author Daniel Rall
  * @version $Id$
  */
 public class Foreach extends Directive
@@ -272,6 +273,11 @@ public class Foreach extends Directive
     private int counterInitialValue;
 
     /**
+     * The maximum number of times we're allowed to loop.
+     */
+    private int maxNbrLoops;
+
+    /**
      * The reference name used to access each
      * of the elements in the list object. It
      * is the $item in the following:
@@ -299,6 +305,12 @@ public class Foreach extends Directive
 
         counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
         counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
+        maxNbrLoops = rsvc.getInt(RuntimeConstants.MAX_NUMBER_LOOPS,
+                                  Integer.MAX_VALUE);
+        if (maxNbrLoops < 1)
+        {
+            maxNbrLoops = Integer.MAX_VALUE;
+        }
  
         /*
          *  this is really the only thing we can do here as everything
@@ -362,29 +374,28 @@ public class Foreach extends Directive
         }
 
         int counter = counterInitialValue;
+        boolean maxNbrLoopsExceeded = false;
         
         /*
-         *  save the element key if there is one,
-         *  and the loop counter
+         *  save the element key if there is one, and the loop counter
          */
-
         Object o = context.get(elementKey);
-        Object ctr = context.get( counterName);
+        Object savedCounter = context.get(counterName);
 
-        /**
+        /*
          * Instantiate the null holder context if a null value
          * is returned by the foreach iterator.  Only one instance is 
          * created - it's reused for every null value.
          */
         NullHolderContext nullHolderContext = null;
-        
-        while (i.hasNext())
+
+        while (!maxNbrLoopsExceeded && i.hasNext())
         {
-            context.put( counterName , new Integer(counter));
+            context.put(counterName , new Integer(counter));
             Object value = i.next();
             context.put(elementKey, value);
 
-            /**
+            /*
              * If the value is null, use the special null holder context
              */
             if( value == null )
@@ -401,6 +412,10 @@ public class Foreach extends Directive
                 node.jjtGetChild(3).render(context, writer);
             }
             counter++;
+
+            // Determine whether we're allowed to continue looping.
+            // ASSUMPTION: counterInitialValue is not negative!
+            maxNbrLoopsExceeded = (counter - counterInitialValue) >= maxNbrLoops;
         }
 
         /*
@@ -408,9 +423,9 @@ public class Foreach extends Directive
          * if we have one, else just removes
          */
         
-        if (ctr != null)
+        if (savedCounter != null)
         {
-            context.put(counterName, ctr);
+            context.put(counterName, savedCounter);
         }
         else
         {
