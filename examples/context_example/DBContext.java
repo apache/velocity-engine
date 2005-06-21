@@ -36,7 +36,7 @@ import org.apache.velocity.context.Context;
  *  very fragile, crappy code.... just a demo!
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: DBContext.java,v 1.4 2004/03/19 17:13:31 dlr Exp $
+ * @version $Id$
  */
 
 public class DBContext extends AbstractContext

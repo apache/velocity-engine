@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * that during render().
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Literal.java,v 1.9 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class Literal extends Directive
 {

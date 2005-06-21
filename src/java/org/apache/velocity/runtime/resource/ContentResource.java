@@ -31,7 +31,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContentResource.java,v 1.12 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class ContentResource extends Resource
 {

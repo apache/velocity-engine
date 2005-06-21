@@ -43,7 +43,7 @@ import org.apache.velocity.context.Context;
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: VelocityContext.java,v 1.8 2004/03/19 17:13:32 dlr Exp $
+ *  @version $Id$
  */
 public class VelocityContext extends AbstractContext implements Cloneable
 {

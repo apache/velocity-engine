@@ -40,7 +40,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  * RuntimeTestCase causes the Runtime to be initialized twice.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ContextSafetyTestCase.java,v 1.12 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestBase
 {

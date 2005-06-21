@@ -21,7 +21,7 @@ package org.apache.velocity.test;
  * strings that are of use when testing templates.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestBase.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public interface TemplateTestBase
 {

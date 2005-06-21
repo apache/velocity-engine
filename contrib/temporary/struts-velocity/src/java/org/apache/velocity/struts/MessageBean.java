@@ -35,7 +35,7 @@ import org.apache.struts.util.MessageResources;
  *  This will be redone to avoid the code duplication.
  *  </p>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: MessageBean.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
+ * $Id$
  */
 public class MessageBean extends VelocityBean
 {

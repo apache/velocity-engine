@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: ResourceCacheImpl.java,v 1.7 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class ResourceCacheImpl implements ResourceCache
 {

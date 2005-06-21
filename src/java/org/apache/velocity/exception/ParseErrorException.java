@@ -25,7 +25,7 @@ package org.apache.velocity.exception;
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseErrorException.java,v 1.4 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  */
 public class ParseErrorException extends VelocityException
 {

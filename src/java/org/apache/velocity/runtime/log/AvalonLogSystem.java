@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: AvalonLogSystem.java,v 1.14 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class AvalonLogSystem implements LogSystem
 {

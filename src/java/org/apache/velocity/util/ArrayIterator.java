@@ -37,7 +37,7 @@ import java.lang.reflect.Array;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: ArrayIterator.java,v 1.8 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public class ArrayIterator implements Iterator
 {

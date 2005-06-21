@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * the case.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: GetExecutor.java,v 1.10 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
  */
 public class GetExecutor extends AbstractExecutor
 {

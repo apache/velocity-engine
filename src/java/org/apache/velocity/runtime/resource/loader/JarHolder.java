@@ -32,7 +32,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * A small wrapper around a Jar
  *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarHolder.java,v 1.10 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class JarHolder
 {

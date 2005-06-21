@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * generative task and compares the output.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: TexenClasspathTestCase.java,v 1.5 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class TexenClasspathTestCase 
     extends BaseTestCase

@@ -34,7 +34,7 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @version $Id: TemplateTestSuite.java,v 1.8 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class TemplateTestSuite extends TestSuite implements TemplateTestBase
 {

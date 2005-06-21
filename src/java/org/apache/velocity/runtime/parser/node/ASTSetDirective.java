@@ -32,7 +32,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTSetDirective.java,v 1.24 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
  */
 public class ASTSetDirective extends SimpleNode
 {

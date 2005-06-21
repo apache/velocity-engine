@@ -54,7 +54,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: JarResourceLoader.java,v 1.18 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class JarResourceLoader extends ResourceLoader
 {

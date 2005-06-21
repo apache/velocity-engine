@@ -24,7 +24,7 @@ package org.apache.velocity.context;
  *  I will rename soon :)
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalContextAdapter.java,v 1.7 2004/03/19 17:13:33 dlr Exp $
+ *  @version $Id$
  */
 
 public interface InternalContextAdapter 

@@ -29,7 +29,7 @@ import org.jdom.output.Format;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
- * @version $Id: OutputWrapper.java,v 1.10 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public class OutputWrapper extends XMLOutputter
 {

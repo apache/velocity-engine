@@ -126,7 +126,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
- * @version $Id: Configuration.java,v 1.36 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  *
  * @deprecated As of version 1.1, please use ExtendedProperties from
  * the Jakarta Commons Collections component.

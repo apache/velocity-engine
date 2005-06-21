@@ -25,7 +25,7 @@ import org.jdom.DefaultJDOMFactory;
  * instances instead of ordinary JDOM {@link Element} instances.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: AnakiaJDOMFactory.java,v 1.6 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public class AnakiaJDOMFactory extends DefaultJDOMFactory
 {

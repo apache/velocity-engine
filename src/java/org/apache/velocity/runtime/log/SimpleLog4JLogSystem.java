@@ -39,7 +39,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  version :)
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
- * @version $Id: SimpleLog4JLogSystem.java,v 1.11 2004/05/21 09:39:57 geirm Exp $
+ * @version $Id$
  * @deprecated Use Log4JLogSystem instead for compatibility with
  * modern Log4J versions.
  */

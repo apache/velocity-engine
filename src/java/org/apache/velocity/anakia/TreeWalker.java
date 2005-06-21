@@ -33,7 +33,7 @@ import org.jdom.Element;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: TreeWalker.java,v 1.8 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class TreeWalker
 {

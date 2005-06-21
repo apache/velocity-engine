@@ -21,7 +21,7 @@ package org.apache.velocity.app.event;
  *  writing a log message when RHS of #set() is null.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NullSetEventHandler.java,v 1.4 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public interface NullSetEventHandler extends EventHandler
 {

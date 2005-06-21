@@ -39,7 +39,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
- * @version $Id: InlineScopeVMTestCase.java,v 1.13 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {

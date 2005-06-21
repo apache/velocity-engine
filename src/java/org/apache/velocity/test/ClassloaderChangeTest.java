@@ -36,7 +36,7 @@ import junit.framework.TestCase;
  * Tests if we can hand Velocity an arbitrary class for logging.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ClassloaderChangeTest.java,v 1.3 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class ClassloaderChangeTest extends TestCase implements LogSystem
 {

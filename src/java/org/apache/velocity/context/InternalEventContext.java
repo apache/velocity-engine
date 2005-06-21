@@ -26,7 +26,7 @@ import org.apache.velocity.app.event.EventCartridge;
  *  of the .context package.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: InternalEventContext.java,v 1.4 2004/03/19 17:13:33 dlr Exp $
+ *  @version $Id$
  */
 public interface InternalEventContext
 {

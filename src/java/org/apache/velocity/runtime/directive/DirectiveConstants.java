@@ -20,7 +20,7 @@ package org.apache.velocity.runtime.directive;
  *  Base class for all directives used in Velocity.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id: DirectiveConstants.java,v 1.6 2004/03/19 17:13:34 dlr Exp $ 
+ *  @version $Id$ 
  */
 public interface DirectiveConstants
 {

@@ -20,7 +20,7 @@ package org.apache.velocity.util.introspection;
  *  for information error reporting from the uberspector implementations
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Info.java,v 1.5 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class Info
 {

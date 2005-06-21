@@ -35,7 +35,7 @@ import org.jdom.output.*;
  * sublist into a <code>NodeList</code>).
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: NodeList.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class NodeList implements List, Cloneable
 {

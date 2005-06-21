@@ -29,7 +29,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: AbstractExecutor.java,v 1.14 2004/03/19 17:13:36 dlr Exp $
+ * @version $Id$
  */
 public abstract class AbstractExecutor
 {

@@ -21,7 +21,7 @@ package org.apache.velocity.exception;
  *  application layer.
  *
  * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
- * @version $Id: VelocityException.java,v 1.4 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  */
 public class VelocityException extends Exception
 {

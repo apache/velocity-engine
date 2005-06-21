@@ -27,7 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * of the Velocity engine.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: InstanceExample.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 
 public class InstanceExample

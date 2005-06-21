@@ -39,7 +39,7 @@ import java.util.Map;
  *
  *  @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- *  @version $Id: StringUtils.java,v 1.18 2004/03/19 17:13:40 dlr Exp $
+ *  @version $Id$
  */
 public class StringUtils
 {

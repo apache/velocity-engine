@@ -21,7 +21,7 @@ package org.apache.velocity.util.introspection;
  *  information.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectionCacheData.java,v 1.5 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public class IntrospectionCacheData
 {
