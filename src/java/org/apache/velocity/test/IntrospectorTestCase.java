@@ -34,7 +34,7 @@ import junit.framework.TestCase;
  * for now.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: IntrospectorTestCase.java,v 1.12 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class IntrospectorTestCase extends BaseTestCase
 {

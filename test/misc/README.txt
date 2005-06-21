@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.5 2001/03/12 02:09:19 jon Exp $
+$Id$
 
 This directory contains some misc tests for you to ponder over.
 

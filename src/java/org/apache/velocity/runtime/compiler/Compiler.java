@@ -23,7 +23,7 @@ import org.apache.bcel.Constants;
  * The start of a velocity template compiler. Incomplete.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Compiler.java,v 1.8 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  */
 public class Compiler implements InstructionConstants
 {

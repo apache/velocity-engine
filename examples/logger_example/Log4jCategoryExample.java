@@ -26,7 +26,7 @@ import org.apache.log4j.BasicConfigurator;
  *  as the Velocity logging target.
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: Log4jCategoryExample.java,v 1.3 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class Log4jCategoryExample
 {

@@ -31,7 +31,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * This is a simple URL-based loader.
  * 
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: URLResourceLoader.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public class URLResourceLoader extends ResourceLoader
 {

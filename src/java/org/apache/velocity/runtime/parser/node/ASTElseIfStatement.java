@@ -36,7 +36,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTElseIfStatement.java,v 1.11 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id$ 
 */
 public class ASTElseIfStatement extends SimpleNode
 {

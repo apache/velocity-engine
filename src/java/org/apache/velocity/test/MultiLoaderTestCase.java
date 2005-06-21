@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: MultiLoaderTestCase.java,v 1.6 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class MultiLoaderTestCase extends BaseTestCase
 {

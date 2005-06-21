@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: IntrospectorTestCase2.java,v 1.3 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class IntrospectorTestCase2 extends BaseTestCase
 {

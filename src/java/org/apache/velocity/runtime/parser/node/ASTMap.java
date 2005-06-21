@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * This class was originally generated from Parset.jjt.
  *
- * @version $Id: ASTMap.java,v 1.2 2004/02/27 18:43:17 dlr Exp $
+ * @version $Id$
  */
 public class ASTMap extends SimpleNode
 {

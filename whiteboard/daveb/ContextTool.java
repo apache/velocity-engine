@@ -20,7 +20,7 @@ import org.apache.velocity.context.Context;
 /**
  * 
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ContextTool.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public abstract class ContextTool implements Serializable
 {

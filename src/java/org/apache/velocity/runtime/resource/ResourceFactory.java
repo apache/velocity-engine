@@ -24,7 +24,7 @@ import org.apache.velocity.Template;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceFactory.java,v 1.7 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public class ResourceFactory
 {

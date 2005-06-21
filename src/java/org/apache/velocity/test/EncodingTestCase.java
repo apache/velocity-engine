@@ -40,7 +40,7 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EncodingTestCase.java,v 1.6 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
 {

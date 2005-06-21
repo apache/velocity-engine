@@ -33,7 +33,7 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: WebMacro.java,v 1.22 2004/03/19 17:13:34 dlr Exp $ 
+ * @version $Id$ 
  */
 public class WebMacro
 {

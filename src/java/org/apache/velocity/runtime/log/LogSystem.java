@@ -23,7 +23,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LogSystem.java,v 1.9 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public interface LogSystem
 {

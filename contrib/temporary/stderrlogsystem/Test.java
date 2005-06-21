@@ -24,7 +24,7 @@ import org.apache.velocity.app.VelocityEngine;
  *  enough output...
  *
  *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
- *  @version $Id: Test.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
+ *  @version $Id$
  */
 public class Test
 {

@@ -23,7 +23,7 @@ import java.io.File;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileUtil.java,v 1.11 2004/03/19 17:13:39 dlr Exp $ 
+ * @version $Id$ 
  */
 public class FileUtil
 {

@@ -31,7 +31,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: CommonsExtPropTestCase.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class CommonsExtPropTestCase extends BaseTestCase
 {

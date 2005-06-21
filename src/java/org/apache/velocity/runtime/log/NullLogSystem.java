@@ -22,7 +22,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  Logger used in case of failure. Does nothing.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: NullLogSystem.java,v 1.3 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class NullLogSystem implements LogSystem
 {

@@ -88,7 +88,7 @@ import org.apache.velocity.util.introspection.Uberspect;
  *
  * @see org.apache.velocity.runtime.RuntimeInstance
  *
- * @version $Id: RuntimeSingleton.java,v 1.9 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  */
 public class RuntimeSingleton implements RuntimeConstants
 {

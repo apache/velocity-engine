@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  *  Simpletest for the SimplePool
  *
- * @version $Id: TestSimplePool.java,v 1.2 2004/02/27 18:43:21 dlr Exp $ 
+ * @version $Id$ 
  */
 public class TestSimplePool extends TestCase
 {

@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: MethodMap.java,v 1.17 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public class MethodMap
 {

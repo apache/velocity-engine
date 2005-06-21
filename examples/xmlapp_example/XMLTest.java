@@ -30,7 +30,7 @@ import org.jdom.input.SAXBuilder;
  * Example to show basic XML handling in a template.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: XMLTest.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class XMLTest
 {

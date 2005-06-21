@@ -31,7 +31,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Example2.java,v 1.5 2004/03/19 17:13:31 dlr Exp $
+ * @version $Id$
  */
 
 public class Example2

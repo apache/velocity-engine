@@ -39,7 +39,7 @@ import org.apache.velocity.context.Context;
  *   when testing the NullSetEventHandler
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventExample.java,v 1.5 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 
 public class EventExample implements ReferenceInsertionEventHandler, 

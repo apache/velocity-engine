@@ -31,7 +31,7 @@ import org.apache.velocity.exception.ParseErrorException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: Resource.java,v 1.16 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public abstract class Resource
 {

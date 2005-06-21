@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  *  For internal use in parser - not to be passed to app level
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: MacroParseException.java,v 1.3 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class MacroParseException extends ParseException
 {

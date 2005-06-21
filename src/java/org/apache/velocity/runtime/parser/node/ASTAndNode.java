@@ -27,7 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ASTAndNode.java,v 1.10 2004/03/19 17:13:36 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ASTAndNode extends SimpleNode
 {

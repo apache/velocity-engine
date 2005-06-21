@@ -39,7 +39,7 @@ import junit.framework.TestCase;
  * Multiple paths in the file resource loader.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.10 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class MultipleFileResourcePathTest extends BaseTestCase
 {

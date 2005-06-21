@@ -28,7 +28,7 @@ import org.apache.oro.text.perl.Perl5Util;
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: BaseTestCase.java,v 1.16 2004/03/20 03:35:51 dlr Exp $
+ * @version $Id$
  */
 public class BaseTestCase extends TestCase
 {

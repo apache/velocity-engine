@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
- * @version $Id: Log4JLogSystem.java,v 1.14 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  * @since Velocity 1.5
  */
 public class Log4JLogSystem implements LogSystem

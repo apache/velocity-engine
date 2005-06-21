@@ -25,7 +25,7 @@ import javax.servlet.jsp.PageContext;
  *  </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ScopeTool.java,v 1.3 2004/03/19 17:13:31 dlr Exp $ 
+ * @version $Id$ 
  */
 public class ScopeTool
 {

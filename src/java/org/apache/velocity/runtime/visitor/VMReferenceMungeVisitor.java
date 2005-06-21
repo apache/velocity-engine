@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.parser.node.ASTReference;
  *  the VMProxy stuff more complicated than it is already.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: VMReferenceMungeVisitor.java,v 1.4 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */ 
 public class VMReferenceMungeVisitor extends BaseVisitor
 {

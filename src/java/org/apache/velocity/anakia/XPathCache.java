@@ -26,7 +26,7 @@ import java.util.WeakHashMap;
  * <code>selectNodes()</code> methods.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
- * @version $Id: XPathCache.java,v 1.3 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 class XPathCache
 {

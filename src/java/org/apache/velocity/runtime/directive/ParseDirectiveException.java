@@ -22,7 +22,7 @@ import java.util.Stack;
  * Exception for #parse() problems
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ParseDirectiveException.java,v 1.6 2004/03/19 17:13:35 dlr Exp $
+ * @version $Id$
  */
 public class ParseDirectiveException extends Exception
 {

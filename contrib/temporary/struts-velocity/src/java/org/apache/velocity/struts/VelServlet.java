@@ -49,7 +49,7 @@ import org.apache.struts.action.Action;
  *  This ain't done...
  *  </p>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * $Id: VelServlet.java,v 1.3 2004/03/19 17:13:31 dlr Exp $
+ * $Id$
  */
 public class VelServlet extends VelocityServlet
 {  

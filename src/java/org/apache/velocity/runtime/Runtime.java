@@ -85,7 +85,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @see org.apache.velocity.runtime.RuntimeSingleton
  * @deprecated Use RuntimeInstance or RuntimeSingleton instead.
  *
- * @version $Id: Runtime.java,v 1.118 2004/03/19 17:13:34 dlr Exp $
+ * @version $Id$
  */
 public class Runtime implements RuntimeConstants
 {

@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
  *  behavior in Velocity to be customized.
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magusson Jr.</a>
- * @version $Id: Uberspect.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  */
 public interface Uberspect
 {

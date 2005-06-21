@@ -41,7 +41,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
- * @version $Id: VelocimacroManager.java,v 1.19 2004/03/19 17:13:34 dlr Exp $ 
+ * @version $Id$ 
  */
 public class VelocimacroManager
 {

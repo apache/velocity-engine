@@ -26,7 +26,7 @@ import java.io.Writer;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author Anil K. Vijendran
- * @version $Id: VelocityWriter.java,v 1.12 2004/03/20 03:35:50 dlr Exp $
+ * @version $Id$
  */
 public final class VelocityWriter extends Writer
 {

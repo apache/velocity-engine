@@ -32,7 +32,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * 
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: ResourceLoader.java,v 1.16 2004/03/19 17:13:37 dlr Exp $
+ * @version $Id$
  */
 public abstract class ResourceLoader
 {

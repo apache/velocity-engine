@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
- * @version $Id: ClasspathResourceTest.java,v 1.11 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class ClasspathResourceTest extends BaseTestCase
 {

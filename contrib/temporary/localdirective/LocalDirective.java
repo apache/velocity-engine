@@ -53,7 +53,7 @@ import java.util.Iterator;
  *       2
  *    1
  *
- * @version $Id: LocalDirective.java,v 1.2 2004/02/27 18:43:12 dlr Exp $ 
+ * @version $Id$ 
  */
 public class LocalDirective extends Directive
 {

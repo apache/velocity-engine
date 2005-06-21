@@ -25,7 +25,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *  Thanks to Paulo for the suggestion
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
- * @version $Id: UberspectLoggable.java,v 1.3 2004/03/19 17:13:40 dlr Exp $
+ * @version $Id$
  *
  */
 public interface UberspectLoggable

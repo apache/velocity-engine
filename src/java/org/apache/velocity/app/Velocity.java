@@ -66,7 +66,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: Velocity.java,v 1.32 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public class Velocity implements RuntimeConstants
 {

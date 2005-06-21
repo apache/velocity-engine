@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  through it.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: LoggerExample.java,v 1.4 2004/03/19 17:13:32 dlr Exp $
+ * @version $Id$
  */
 public class LoggerExample implements LogSystem
 {
