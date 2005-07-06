@@ -67,6 +67,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  I have also tried it with a WAR deployment, and that seemed to
  *  work just fine.
  *  
+ * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
@@ -91,7 +92,7 @@ public class ClasspathResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException if template not found
      *         in  classpath.
      */
-    public synchronized InputStream getResourceStream( String name )
+    public InputStream getResourceStream( String name )
         throws ResourceNotFoundException
     {
         InputStream result = null;

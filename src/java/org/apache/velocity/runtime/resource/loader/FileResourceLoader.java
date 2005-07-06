@@ -22,13 +22,14 @@ import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.velocity.util.StringUtils;
-
 import org.apache.velocity.runtime.resource.Resource;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -36,6 +37,7 @@ import org.apache.commons.collections.ExtendedProperties;
 /**
  * A loader for templates stored on the file system.
  *
+ * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a> 
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
@@ -44,25 +46,31 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * The paths to search for templates.
      */
-    private Vector paths = null;
+    private List paths;
 
     /**
      * Used to map the path that a template was found on
      * so that we can properly check the modification
-     * times of the files.
+     * times of the files. This is synchronizedMap
+     * instance.
      */
-    private Hashtable templatePaths = new Hashtable();
+    private Map templatePaths;    
 
     public void init( ExtendedProperties configuration)
     {
         rsvc.info("FileResourceLoader : initialization starting.");
         
-        paths = configuration.getVector("path");
+        paths = new ArrayList();
+        paths.addAll( configuration.getVector("path") );
+        
+        /**
+         * Create synchronized map instance
+         */
+        templatePaths = Collections.synchronizedMap(new HashMap());
         
         /*
          *  lets tell people what paths we will be using
          */
-
         int sz = paths.size();
 
         for( int i=0; i < sz; i++)
@@ -82,7 +90,7 @@ public class FileResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
      */
-    public synchronized InputStream getResourceStream(String templateName)
+    public InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
         /*
@@ -132,8 +140,7 @@ public class FileResourceLoader extends ResourceLoader
                  * from so that we can check its modification
                  * time.
                  */
-
-                templatePaths.put(templateName, path);
+                templatePaths.put(templateName, path);                    
                 return inputStream;
             }                
         }
