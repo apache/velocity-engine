@@ -38,9 +38,11 @@ import org.apache.velocity.exception.MethodInvocationException;
  * This class is used for controlling all template
  * operations. This class uses a parser created
  * by JavaCC to create an AST that is subsequently
- * traversed by a Visitor. 
+ * traversed by a Visitor.
  *
  * <pre>
+ * // set up and initialize Velocity before this code block
+ *
  * Template template = Velocity.getTemplate("test.wm");
  * Context context = new VelocityContext();
  *
@@ -78,7 +80,7 @@ public class Template extends Resource
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception some other problem, should only be from 
+     * @throws Exception some other problem, should only be from
      *          initialization of the template AST.
      */
     public boolean process()
@@ -91,7 +93,7 @@ public class Template extends Resource
         /*
          *  first, try to get the stream from the loader
          */
-        try 
+        try
         {
             is = resourceLoader.getResourceStream(name);
         }
@@ -119,14 +121,14 @@ public class Template extends Resource
             try
             {
                 BufferedReader br = new BufferedReader( new InputStreamReader( is, encoding ) );
- 
+
                 data = rsvc.parse( br, name);
                 initDocument();
                 return true;
             }
             catch( UnsupportedEncodingException  uce )
-            {   
-                String msg = "Template.process : Unsupported input encoding : " + encoding 
+            {
+                String msg = "Template.process : Unsupported input encoding : " + encoding
                 + " for template " + name;
 
                 errorCondition  = new ParseErrorException( msg );
@@ -150,17 +152,17 @@ public class Template extends Resource
                 errorCondition = e;
                 throw e;
             }
-            finally 
+            finally
             {
                 /*
                  *  Make sure to close the inputstream when we are done.
                  */
                 is.close();
             }
-        }    
+        }
         else
         {
-            /* 
+            /*
              *  is == null, therefore we have some kind of file issue
              */
 
@@ -170,8 +172,8 @@ public class Template extends Resource
     }
 
     /**
-     *  initializes the document.  init() is not longer 
-     *  dependant upon context, but we need to let the 
+     *  initializes the document.  init() is not longer
+     *  dependant upon context, but we need to let the
      *  init() carry the template name down throught for VM
      *  namespace features
      */
@@ -181,7 +183,7 @@ public class Template extends Resource
         /*
          *  send an empty InternalContextAdapter down into the AST to initialize it
          */
-        
+
         InternalContextAdapterImpl ica = new InternalContextAdapterImpl(  new VelocityContext() );
 
         try
@@ -191,7 +193,7 @@ public class Template extends Resource
              */
 
             ica.pushCurrentTemplateName( name );
-            
+
             /*
              *  init the AST
              */
@@ -200,7 +202,7 @@ public class Template extends Resource
         }
         finally
         {
-            /*  
+            /*
              *  in case something blows up...
              *  pull it off for completeness
              */
@@ -212,7 +214,7 @@ public class Template extends Resource
 
     /**
      * The AST node structure is merged with the
-     * context to produce the final output. 
+     * context to produce the final output.
      *
      * Throws IOException if failure is due to a file related
      * issue, and Exception otherwise
@@ -223,14 +225,14 @@ public class Template extends Resource
      *          from any available source.
      *  @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     *  @throws  Exception  anything else. 
+     *  @throws  Exception  anything else.
      */
     public void merge( Context context, Writer writer)
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
         /*
-         *  we shouldn't have to do this, as if there is an error condition, 
-         *  the application code should never get a reference to the 
+         *  we shouldn't have to do this, as if there is an error condition,
+         *  the application code should never get a reference to the
          *  Template
          */
 
@@ -258,7 +260,7 @@ public class Template extends Resource
             finally
             {
                 /*
-                 *  lets make sure that we always clean up the context 
+                 *  lets make sure that we always clean up the context
                  */
                 ica.popCurrentTemplateName();
                 ica.setCurrentResource( null );
@@ -270,7 +272,7 @@ public class Template extends Resource
              * this shouldn't happen either, but just in case.
              */
 
-            String msg = "Template.merge() failure. The document is null, " + 
+            String msg = "Template.merge() failure. The document is null, " +
                 "most likely due to parsing error.";
 
             rsvc.error(msg);
