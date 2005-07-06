@@ -20,6 +20,8 @@ import java.io.InputStream;
 
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.resource.Resource;
@@ -53,6 +55,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  org.apache.velocity.test.MultiLoaderTestCase class
  * </p>
  * 
+ * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a>
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
@@ -63,14 +66,14 @@ public class JarResourceLoader extends ResourceLoader
      * Key = the entry *excluding* plain directories
      * Value = the JAR URL
      */
-    private Hashtable entryDirectory = new Hashtable(559);
+    private Map entryDirectory = new HashMap(559);
     
     /**
      * Maps JAR URLs to the actual JAR
      * Key = the JAR URL
      * Value = the JAR
      */
-    private Hashtable jarfiles = new Hashtable(89);
+    private Map jarfiles = new HashMap(89);
    
     /**
      * Called by Velocity to initialize the loader
@@ -79,6 +82,9 @@ public class JarResourceLoader extends ResourceLoader
     {
         rsvc.info("JarResourceLoader : initialization starting.");
 
+        // rest of Velocity engine still use legacy Vector 
+        // and Hashtable classes. Classes are implicitly
+        // synchronized even if we don't need it.
         Vector paths = configuration.getVector("path");
 
         /*
@@ -155,7 +161,7 @@ public class JarResourceLoader extends ResourceLoader
      * Copy all the entries into the entryDirectory
      * It will overwrite any duplicate keys.
      */
-    private synchronized void addEntries( Hashtable entries )
+    private void addEntries( Hashtable entries )
     {
         entryDirectory.putAll( entries );
     }
@@ -169,7 +175,7 @@ public class JarResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
      */
-    public synchronized InputStream getResourceStream( String source )
+    public InputStream getResourceStream( String source )
         throws ResourceNotFoundException
     {
         InputStream results = null;
@@ -230,13 +236,3 @@ public class JarResourceLoader extends ResourceLoader
         return 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
