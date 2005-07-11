@@ -14,20 +14,20 @@
         <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.html"/>
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
-    <menu name="Docs (Velocity 1.4)">
-        <item name="User's Guide"             href="/docs14/user-guide.html"/>
-        <item name="Developer's Guide"        href="/docs14/developer-guide.html"/>
-        <item name="VTL Reference Guide"      href="/docs14/vtl-reference-guide.html"/>
-        <item name="Anakia : XML->doc tool"   href="/docs14/anakia.html"/>
-        <item name="Texen : text generation"  href="/docs14/texen.html"/>
-        <item name="Veltag : JSP taglib"      href="/docs14/veltag.html"/>
-        <item name="Javadoc"                  href="/docs14/api/index.html"/>
-        <item name="Change Log"               href="/docs14/changes.html"/>
-        <item name="License"                  href="/docs14/license.html"/>
+    <menu name="Docs">
+        <item name="User's Guide"             href="/docs/user-guide.html"/>
+        <item name="Developer's Guide"        href="/docs/developer-guide.html"/>
+        <item name="VTL Reference Guide"      href="/docs/vtl-reference-guide.html"/>
+        <item name="Anakia : XML->doc tool"   href="/docs/anakia.html"/>
+        <item name="Texen : text generation"  href="/docs/texen.html"/>
+        <item name="Veltag : JSP taglib"      href="/docs/veltag.html"/>
+        <item name="Javadoc"                  href="/docs/api/index.html"/>
+        <item name="Change Log"               href="/docs/changes.html"/>
+        <item name="License"                  href="/docs/license.html"/>
     </menu>
     <menu name="Sub Projects">
-        <item name="Velocity Tools"           href="/tools/index.html"/>
-        <item name="DVSL : XML transformation"  href="/dvsl/index.html"/>
+        <item name="Velocity Tools"           href="http://jakarta.apache.org/velocity/tools/index.html"/>
+        <item name="DVSL : XML transformation"  href="http://jakarta.apache.org/velocity/dvsl/index.html"/>
     </menu>
     <menu name="Community">
         <item name="Wiki"                     href="http://wiki.apache.org/jakarta-velocity/"/>

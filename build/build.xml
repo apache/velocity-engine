@@ -39,6 +39,10 @@
   <property name="docs.dest" value="../docs"/>
   <property name="docs.src" value="../xdocs"/>
 
+  <!-- set to "project" for distribution and "project-website" -->
+  <!-- when building docs for web site -->
+  <property name="docs.project" value="project.xml"/>
+
   <!-- jars explicitly needed for bulding 'dep jar' -->    
   <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
@@ -677,14 +681,19 @@
        #######################################################
        #
        #  Now using Anakia to transform our XML documentation
-       #  to HTML.
-        
+       #  to HTML.  
+       #
+       #  using project file: ${docs.project}
+       #
+       #  Note: set property "docs.project" to "project.xml"
+       #  for distribution and "project-website.xml" for
+       #  website.
        #######################################################
       </echo>
 
       <anakia basedir="${docs.src}" destdir="${docs.dest}/"
            extension=".html" style="./site.vsl"
-           projectFile="stylesheets/project.xml"
+           projectFile="stylesheets/${docs.project}"
            excludes="**/stylesheets/** empty.xml"
            includes="**/*.xml"
            lastModifiedCheck="true"
@@ -707,13 +716,6 @@
           </fileset>
       </copy>
 
-      <!-- copy product docs into versioned folder -->
-      <copy todir="${docs.dest}/${docsfolder}" filtering="no">
-          <fileset dir="${docs.dest}/docs">
-              <include name="*.html"/>
-          </fileset>
-      </copy>
-        
   </target>
   
   
