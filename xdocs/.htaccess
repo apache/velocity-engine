@@ -8,3 +8,4 @@ RewriteRule ^texen\.html velocity/docs14/texen.html
 RewriteRule ^user-guide\.html velocity/docs14/user-guide.html 
 RewriteRule ^veltag\.html docs14/veltag.html 
 RewriteRule ^vtl-reference-guide\.html velocity/docs14/vtl-reference-guide.html 
+RewriteRule ^api velocity/docs14/api
