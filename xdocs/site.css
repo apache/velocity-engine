@@ -65,41 +65,54 @@ table#layout td {
 }
 
 div#container {
-
-	/** IE **/
-	height:100%;
-
-	/** Firefox - need to adjust if menu length changes **/
-	min-height:1000px;
+	width: 760px;
+	margin: 10px;
+	margin-left: 0;
+	margin-right: auto;
+	padding: 10px;
 }
 
 div#header {
-	margin-left:5px;
-	margin-top:10px;
-	margin-bottom:10px;
-	width: 825px;
+	padding: 5px;
+	margin: 0px;
+	margin-top:5px;
+	margin-bottom:5px;
 	height:80px;
 	border-bottom: 1px solid #333333;
 }
 
-div#body {
-	left:0px;
-	top:0px;
-	margin-left:225px;
-	width: 600px; 
+div#menu {
+	float: left;
+	width: 200px;
+	margin: 0;
+	margin-left: 0px;
+	margin-right: 5px;
+
+	/** little higher margin since it doesn't start with a header **/
+	margin-top:10px;
+	margin-bottom:0px;
+	
+	padding: 5px;
 }
 
+div#body {
+	margin-right:0px;
+	margin-left: 215px;
+	margin-top:5px;
+	margin-bottom:0px;
 
-div#menu {
-	float:left;
-	width: 200px; 
-	margin-left:5px;
+	padding: 5px;
+
 }
 
 div#footer {
+
+	clear: both;
+
 	padding-top:15px;
 	margin-top:25px;
 	border-top: 1px solid #333333;
+
 
 	text-align:center;
 	color: #525D76;
@@ -122,7 +135,7 @@ div#logo2 {
 
 /** define body tag redefinitions **/
 
-
+		
 div#body th {
 	background-color: #039acc;
 	color: #000000;

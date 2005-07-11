@@ -251,11 +251,11 @@ limitations under the License.
 
 			## use a table in order to force footer to end of page
 						
+			<div id="container">
+
 				<div id="header">
 					#getProjectImage()
 				</div>
-
-			<div id="container">
 
 				<div id="menu">
 					#makeProject()			
@@ -268,10 +268,10 @@ limitations under the License.
 					#end			
 				</div>
 
-			</div>
+				<div id="footer">
+					Copyright &#169; 1999-2005, The Apache Software Foundation
+				</div>
 
-			<div id="footer">
-				Copyright &#169; 1999-2005, The Apache Software Foundation
 			</div>
 			
         </body>
