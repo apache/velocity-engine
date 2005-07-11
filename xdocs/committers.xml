@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Velocity Committers</title>
+  <author email="wglass@apache.org">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+
+<section name="Committers">
+
+<p>While many individuals have contributed to Velocity 
+in past and present, the following are the currently active committers 
+for the project.  
+</p>
+<p>
+Listed alphabetically:
+</p>
+
+<table>
+
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Affiliation</th>
+    </tr>
+    
+    <tr>
+        <td>Will Glass-Husain</td>
+        <td>wglass@apache.org</td>
+        <td>Forio Business Simulations</td>
+    </tr>
+
+    <tr>
+        <td>Geir Magnusson Jr.</td>
+        <td>geirm@apache.org</td>
+        <td>Independent</td>
+    </tr>
+
+    <tr>
+        <td>Daniel L. Rall</td>
+        <td>dlr@finemaltcoding.com</td>
+        <td>CollabNet</td>
+    </tr>
+</table>
+
+</section>
+
+</body>
+</document>

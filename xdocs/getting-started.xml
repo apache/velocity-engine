@@ -30,19 +30,36 @@
      guide for VTL, the Velocity Template Language.
    </li>
    <li>
-     The <a href="design.html">Design</a> document, which provides a high-level overview
-     of the how Velocity works, and why it's important.
+     If you want to build a web application, be sure to read the <a href="webapps.html">Web Application Guide</a>
+     and then download the <a href="">Velocity Tools</a> sub-project to use VelocityViewServlet.
     </li>
    </ul>
 
+    
    And of course, the best place to start is with the examples provided with the distribution,
    and the source code itself, which is included.
 </p>
 
-<p>
-    Instructions for downloading and installing Velocity can be found on the
-    <a href="install.html">Install</a> document.
-</p>
+
+</section>
+<section name="Downloading Velocity">
+    <p>
+        You can download the latest release version of 
+        <a href="http://jakarta.apache.org/site/downloads/downloads_velocity-engine.cgi">Velocity</a> 
+        or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity-tools.cgi">Velocity Tools</a> 
+        from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
+    </p>
+
+    <p>
+        If you want to download the latest source, you can do so via the Subversion (svn) 
+        source control system, or download a complete 
+        <a href="http://cvs.apache.org/snapshots/velocity/">nightly snapshot.</a>
+    </p>
+
+    <p>
+        Instructions for building Velocity from source can be found on the
+        <a href="build.html">Build</a> document.
+    </p>
 
 </section>
 

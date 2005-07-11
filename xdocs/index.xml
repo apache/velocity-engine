@@ -8,211 +8,55 @@
  </properties>
 
  <body>
-<section name="Velocity v1.4 Released">
-
- <p>
-   <table>
-   <tr>
-   <td>
-   <img src="images/powered-by-logo.gif" alt="powered-by-logo.gif" width="77" height="32"/>
-   </td>
-   <td>
-   Version 1.4 of the Velocity Template Engine is <i>finally</i> released (2004-4-14)
-   </td>
-   </tr>
-   </table>
- </p>
-
- <p>
-     Changes include :
-
-     <ul>
-         <li>New (and better) introspection code</li>
-         <li>Pluggable introspection</li>
-         <li>Lots of little fixes.  See changelog.</li>
-     </ul>
- </p>
-
-</section>
-
-<section name="Notice : JDOM API Change">
-    <p>
-        As part of their effort to reach v1.0, the JDOM
-        community has made slight modifications to their API.
-        This will affect Velocity users that use the 'Anakia'
-        package.
-    </p>
-
-    <p>
-        Velocity versions 1.4 and older require using a version
-        of JDOM older than beta10rc1.  All new releases of
-        Velocity will require JDOM 1.0.
-    </p>
-</section>
-
-<section name="Velocity News">
-
-
-    <p>
-        <strong>Another Velocity Article</strong>
-        <blockquote>
-        New
-        <a href="http://www.onjava.com/pub/a/onjava/2004/04/14/velocity.html">
-        article</a> on a JSP to Velocity project.
-
-        (<i>2004-04-26</i>)
-        </blockquote>
-    </p>
-
-    <p>
-        <strong>Velocity Dreamweaver Extension</strong>
-        <blockquote>
-        Jason Gill  (aka Pete the Chop) wrote a
-        <a href="http://velocity.gilluminate.com/">
-        Dreamweaver Extension</a> that gives full Velocity support
-        in Dreamweaver.  Give it a look if you use Dreamweaver.
-
-        (<i>2004-04-14</i>)
-        </blockquote>
-    </p>
-
-    <p>
-        <strong>New Article on Velocity</strong>
-        <blockquote>
-        Sing Li discusses how to use Velocity in a standalone application
-        as well as a replacement for JSP in the Struts MVC framework in this
-        <a href="http://www.ibm.com/developerworks/library/j-velocity/">
-        article</a>
-        (<i>2004-02-19</i>)
-        </blockquote>
-    </p>
-    <p>
-        <strong>ALE uses Velocity</strong>
-        <blockquote>
-        Brad Cox is pleased to announce the alpha (0.1) release of the
-        <a href="http://virtualschool.edu/ale/">Action Learning Environment (ALE)</a>
-        , an open source environment for
-        building experiential learning environments.
-        ALE is open source (free) software and is available
-        (<i>2004-1-22</i>)
-        </blockquote>
-
-    </p>
-    <p>
-        <strong>New Article on Velocity</strong>
-        <blockquote>
-        Erik Hatcher's recent article
-        <a href="http://today.java.net/pub/a/today/2003/12/16/velocity.html">
-        Velocity: Fast Track to Templating</a> is currently a featured
-        article at <a href="http://www.java.net/">java.net</a>.
-        (<i>2003-12-23</i>)
-        </blockquote>
-    </p>
-
-    <p>
-        <strong>Velosurf 0.8 Released</strong>
-        <blockquote>
-        <a href="http://velosurf.sourceforge.net">Velosurf</a>,
-        a database access tool for use with the Velocity template engine,
-        has released v0.8
-        (<i>2003-10-21</i>)
-        </blockquote>
-
-    </p>
-    <p>
-        <strong>Generate SOAP messages with Ivory</strong>
-        <blockquote>
-        <a href="http://ivory.codehaus.org/soaplet/index.html">Ivory Soaplet</a>
-            framework uses Velocity to generate SOAP messages.
-        (<i>2003-10-14</i>)
-        </blockquote>
-    </p>
-
-<p>
-    <strong>IntelliJ IDEA Uses Velocity</strong>
-    <blockquote>
-    <a href="http://www.intellij.com/">IntelliJ IDEA</a> uses Velocity as its
-        templating system for generating class and method javaodocs.
-    (<i>2003-10-14</i>)
-    </blockquote>
-</p>
-
-<p>
-<strong>Cotsec Forms Uses Velocity</strong>
-<blockquote>
-<a href="http://www.cotsec.com/">Cotsec</a> has released a
-cross-language/cross-platform rapid development
-environment called Cotsec Forms that uses Velocity as its underlying
-template engine.
-(<i>2003-08-23</i>)
-</blockquote>
-</p>
-
-<p>
-<strong>Velocity Tools 1.0</strong>
-<blockquote>
-The first release of the <a href="tools/index.html">Velocity Tools</a> subproject is 
-<a href="http://jakarta.apache.org/builds/jakarta-velocity-tools/release/v1.0/">available</a>.
-It includes a generic tools package, support for clean, quick MVC web
-development in the VelocityView package, and support for integration with
-the Struts framework.
-(<i>2003-07-16</i>)
-</blockquote>
-</p>
-
-<p>
-<i>Archived articles are <a href="newshistory.html">here</a></i>.
-</p>
-
- </section>
-
- <section name="What is Velocity?">
-
- <p>
-    Velocity is a Java-based template engine. It permits anyone to use
-    the simple yet powerful template language to reference objects
-    defined in Java code.
- </p>
-
- <p>
-    When Velocity is used for web development, Web designers can work in
-    parallel with Java programmers to develop web sites according to the
-    Model-View-Controller (MVC) model, meaning that web page designers
-    can focus solely on creating a site that looks good, and programmers
-    can focus solely on writing top-notch code. Velocity separates Java
-    code from the web pages, making the web site more maintainable over
-    the long run and providing a viable alternative to <a
-    href="http://java.sun.com/products/jsp/">Java Server Pages</a>
-    (JSPs) or <a href="http://www.php.net/">PHP</a>.
- </p>
-
- <p>
-    Velocity's capabilities reach well beyond the realm of the web;
-    for example, it can be used to generate SQL and PostScript and XML
-    (see <a href="./anakia.html">Anakia</a> for more information on
-    XML transformations) from templates.  It can be used either as a
-    standalone utility for generating source code and reports, or as
-    an integrated component of other systems.  For instance, Velocity
-    provides template services for the <a
-    href="http://jakarta.apache.org/turbine/">Turbine</a> web
-    application framework, together providing a view engine
-    facilitating development of web applications according to a true
-    MVC model.
- </p>
-
- </section>
+ 
+ 
+  <section name="What is Velocity?">
+ 
+  <p>
+     Velocity is a Java-based template engine. It permits anyone to use
+     a simple yet powerful template language to reference objects
+     defined in Java code.
+  </p>
+ 
+  <p>
+     When Velocity is used for web development, Web designers can work in
+     parallel with Java programmers to develop web sites according to the
+     Model-View-Controller (MVC) model, meaning that web page designers
+     can focus solely on creating a site that looks good, and programmers
+     can focus solely on writing top-notch code. Velocity separates Java
+     code from the web pages, making the web site more maintainable over
+     its lifespan and providing a viable alternative to <a
+     href="http://java.sun.com/products/jsp/">Java Server Pages</a>
+     (JSPs) or <a href="http://www.php.net/">PHP</a>.
+  </p>
+ 
+  <p>
+     Velocity's capabilities reach well beyond the realm of the web;
+     for example, it can be used to generate SQL, PostScript and XML
+     (see <a href="./anakia.html">Anakia</a> for more information on
+     XML transformations) from templates.  It can be used either as a
+     standalone utility for generating source code and reports, or as
+     an integrated component of other systems.  For instance, Velocity
+     provides template services for the <a
+     href="http://jakarta.apache.org/turbine/">Turbine</a> web
+     application framework, together resulting in a view engine
+     facilitating development of web applications according to a true
+     MVC model.
+  </p>
+ 
+  </section>
 
 
 
 <section name="Where do I get releases?">
 
 <p>
-   The current release version is version 1.4
+   The current release version is version 1.4.
 </p>
 
 <p>
 The release distribution is available in both <code>tar.gz</code> and <code>zip</code>
-formats, and are found <a href="http://www.apache.org/dist/jakarta/velocity/binaries/velocity-1.4/">here</a>.
+formats, and can be found <a href="http://www.apache.org/dist/jakarta/velocity/binaries/velocity-1.4/">here</a>.
 </p>
 
 <p>
@@ -221,15 +65,16 @@ formats, and are found <a href="http://www.apache.org/dist/jakarta/velocity/bina
 
 </section>
 
+
 <section name="Where do I get nightly snapshots?">
 
 <p>
-    Nightly snapshots of the Velocity CVS can be found
-    <a href="http://cvs.apache.org/snapshots/velocity/">here</a>.
+    Nightly snapshots of the Velocity subversion source code tree can be found
+    <a href="http://svn.apache.org/snapshots/velocity/">here</a>.
 </p>
 
 <p>
-These are meant to provide easy access to the actual project CVS tree.
+These are meant to provide easy access to the actual project source control tree.
 As this is our live development workspace, there are no guarantees as to
 what you will find there,although we do our best to maintain a buildable
 source tree. If you are looking for the stable supported release, please
@@ -238,7 +83,7 @@ use the current release of Velocity.
 
 <p>
 If you are willing to risk getting dirty, we invite you to try the
-nightly snapshot to see the current state of affairs (and help out!) <a
+nightly snapshot to see the current state of affairs. (and help out!) <a
 href="http://www.apache.org/dev/version-control.html">Public Subversion
 access</a> is also available.
 </p>
@@ -255,13 +100,13 @@ access</a> is also available.
 </p>
 
 <ul>
-    <li>
-        There is a list of <a href="contributors.html">Active Developers</a>.
-        Submit some code and get your name added!</li>
-    <li>
-        Discussion occurs on the <a
+    <li>Report bugs, ask questions, and help new users on the <a
         href="http://jakarta.apache.org/getinvolved/mail.html">Velocity
-        mailing list</a>.</li>
+        mailing lists</a>.</li>
+    <li>There's a list of issues waiting to be addressed in 
+        <a href="http://issues.apache.org/bugzilla">Bugzilla</a>.</li>
+    <li>The Wiki has a large collection of community written content.  Add your
+        own article or contribute to the FAQ!</li>    
     <li>
         Access to the Subversion <strong>jakarta-velocity</strong> repository is available both
         <a href="http://svn.apache.org/repos/asf/jakarta/velocity/trunk/">online</a>
