@@ -12,6 +12,10 @@
 
   <property name="Name" value="Velocity"/>
   <property name="version" value="1.5-dev"/>
+  
+  <!-- the name of the versioned product documentation -->
+  <property name="docsfolder" value="docs15"/>
+
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -33,7 +37,6 @@
   <property name="deprecation" value="off"/>
 
   <property name="docs.dest" value="../docs"/>
-  <property name="docs_print.dest" value="../docs_print"/>
   <property name="docs.src" value="../xdocs"/>
 
   <!-- jars explicitly needed for bulding 'dep jar' -->    
@@ -115,8 +118,8 @@
   **  examples-clean-all                 cleans the anakia/forumdemo examples
   **  javadocs       prepare             build javadocs
   **  javadocs-clean                     delete javadocs
-  **  docs           jar                 Velocity Documentation
-  **  docs_print     jar                 Velocity Documentation (printable)
+  **  docs           jar                 Generates Velocity Documentation
+  **  docs-clean                         Cleans generated Velocity Documentation
   **  test           compile             runs JUnit tests
   **  test-clean                         deletes test results
   **  clean                              deletes build dir
@@ -693,69 +696,32 @@
               <include name="**/*.gif"/>
               <include name="**/*.jpeg"/>
               <include name="**/*.jpg"/>
+              <include name="**/*.png"/>
           </fileset>
       </copy>
   
-      <!-- In case we have CSS someday
       <copy todir="${docs.dest}" filtering="no">
           <fileset dir="${docs.src}">
               <include name="**/*.css"/>
+              <include name="**/.htaccess"/>
           </fileset>
       </copy>
-      -->
+
+      <!-- copy product docs into versioned folder -->
+      <copy todir="${docs.dest}/${docsfolder}" filtering="no">
+          <fileset dir="${docs.dest}/docs">
+              <include name="*.html"/>
+          </fileset>
+      </copy>
+        
   </target>
-  <!-- =================================================================== -->
-  <!-- Make printable HTML version of Velocity documentation                         -->
-  <!-- =================================================================== -->
-
-  <target name="docs_print" 
-          depends="jar"
-          description="generates the HTML documentation (printable)"
-          >
-
-      <taskdef name="anakia"
-          classname="org.apache.velocity.anakia.AnakiaTask">
-          
-          <classpath>
-             <pathelement location="${build.dir}/${project}-${version}.jar"/>
-             <path refid="classpath"/>
-          </classpath>
-
-      </taskdef>
-
-      <echo>
-       #######################################################
-       #
-       #  Now using Anakia to transform our XML documentation
-       #  to HTML.
-       #
-       #######################################################
-      </echo>
-
-      <anakia basedir="${docs.src}" destdir="${docs_print.dest}/"
-           extension=".html" style="./site_printable.vsl"
-           projectFile="stylesheets/project.xml"
-           excludes="**/stylesheets/** empty.xml"
-           includes="**/*.xml"
-           lastModifiedCheck="true"
-	       templatePath="../xdocs/stylesheets">
-      </anakia>
-
-      <copy todir="${docs_print.dest}/images" filtering="no">
-          <fileset dir="${docs.src}/images">
-              <include name="**/*.gif"/>
-              <include name="**/*.jpeg"/>
-              <include name="**/*.jpg"/>
-          </fileset>
-      </copy>
   
-      <!-- In case we have CSS someday
-      <copy todir="${docs.dest}" filtering="no">
-          <fileset dir="${docs.src}">
-              <include name="**/*.css"/>
-          </fileset>
-      </copy>
-      -->
+  
+  <!-- =================================================================== -->
+  <!-- Cleans up the docs directory                                       -->
+  <!-- =================================================================== -->
+  <target name="docs-clean">
+    <delete dir="${docs.dest}" quiet="true"/>
   </target>
 
 
