@@ -1,10 +1,10 @@
 RewriteEngine  on
 RewriteBase /
-RewriteRule ^anakia\.html docs14/anakia.html 
-RewriteRule ^changes\.html docs14/changes.html 
-RewriteRule ^developer-guide\.html docs14/developer-guide.html 
-RewriteRule ^license\.html docs14/license.html 
-RewriteRule ^texen\.html docs14/texen.html 
-RewriteRule ^user-guide\.html docs14/user-guide.html 
+RewriteRule ^anakia\.html velocity/docs14/anakia.html 
+RewriteRule ^changes\.html velocity/docs14/changes.html 
+RewriteRule ^developer-guide\.html velocity/docs14/developer-guide.html 
+RewriteRule ^license\.html velocity/docs14/license.html 
+RewriteRule ^texen\.html velocity/docs14/texen.html 
+RewriteRule ^user-guide\.html velocity/docs14/user-guide.html 
 RewriteRule ^veltag\.html docs14/veltag.html 
-RewriteRule ^vtl-reference-guide\.html docs14/vtl-reference-guide.html 
+RewriteRule ^vtl-reference-guide\.html velocity/docs14/vtl-reference-guide.html 
