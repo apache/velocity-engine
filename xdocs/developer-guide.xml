@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Developer's Guide</title>
+  <author email="geirm@apache.org">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+
+<section name="Moved">
+
+<p>
+Velocity documentation has moved 
+<a href="http://jakarta.apache.org/velocity/docs14/developer-guide.html">here</a>.
+</p>
+
+</section>
+
+</body>
+</document>
