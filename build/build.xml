@@ -13,9 +13,6 @@
   <property name="Name" value="Velocity"/>
   <property name="version" value="1.5-dev"/>
   
-  <!-- the name of the versioned product documentation -->
-  <property name="docsfolder" value="docs15"/>
-
   <property name="project" value="velocity"/>
     
   <property name="build.dir" value="../bin"/>
@@ -26,7 +23,7 @@
 
   <property name="src.java.dir" value="../src/java"/>
   <property name="test.java.dir" value="../src/test"/>
-  <property name="javadoc.destdir" value="../docs/api"/>
+  <property name="javadoc.destdir" value="../docs/docs/api"/>
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
@@ -664,7 +661,7 @@
   <!-- =================================================================== -->
 
   <target name="docs" 
-          depends="jar"
+          depends="jar,javadocs"
           description="generates the HTML documentation"
           >
       <taskdef name="anakia"
