@@ -661,7 +661,7 @@
   <!-- =================================================================== -->
 
   <target name="docs" 
-          depends="jar,javadocs"
+          depends="jar"
           description="generates the HTML documentation"
           >
       <taskdef name="anakia"
