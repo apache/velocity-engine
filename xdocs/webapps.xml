@@ -15,18 +15,19 @@
 Velocity is often used to generate web pages in applications, usually as a direct replacement
 for JSP.  Some of the benefits of using Velocity to generate web pages are:
 </p>
-
+      
 <ul>
-<li> <strong>Simple</strong> - Good for non-technical web designers.
+<li> <strong>Simplicity</strong> - The pages can be written and maintained by non-technical web designers.
 </li>
 
-<li> <strong>Easy to maintain</strong> - With the recommended MVC approach removes scripting from web pages.
+<li> <strong>Ease of maintainance</strong> - Scripting is removed from web pages with the recommended MVC approach.
 </li>
 
-<li> <strong>Methods and properties</strong> - Web designers can reference methods as well as properties of objects in context
+<li> <strong>Access both methods and properties</strong> - Web designers can reference methods as well as properties of objects in a context.
 </li>
 
-<li> <strong>Consistent</strong> - Velocity can be used for other text generation tasks (such as sending email) providing a consistent way of marking up text.
+<li> <strong>Consistency</strong> - Velocity can be used for other text generation tasks (such as sending email) 
+providing a consistent way to mark up text.
 </li>
 </ul>
 
@@ -39,8 +40,8 @@ for JSP.  Some of the benefits of using Velocity to generate web pages are:
 
 <p>
 The primary purpose of the core Velocity engine is simply to generate text based on 
-a template.  Consequently, Velocity does not contain any web-related functionality in and off itself.  
-To make a web application you will need a <strong>framework</strong> to respond to HTTP requests, 
+a template.  Consequently, Velocity does not contain any web-related functionality in and of itself.  
+To make a web application, you will need a framework to respond to HTTP requests, 
 handle user authentication, make business logic calls, and generate a response.  
 There are several strong contenders.
 </p>
@@ -51,7 +52,7 @@ The easiest way to get started is to download the companion <a href="http://jaka
 subproject and use the 
 <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>.  This servlet is easy to configure 
 and install.  You create a directory of templates on your web server, edit an XML file that lists various "Tools" to 
-place in the context and you are off.  More details are in the tutorial below.
+place in the context and you are off.  More details can be found in the tutorial below.
 </li>
 
 <li>  <strong>Velocity Tools / VelocityStruts</strong> -
@@ -81,7 +82,7 @@ and customizing it.  In particular you can add new functionality to the Velocity
 
 <p>
 As a side note, you may also come across references to VelocityServlet, which is a deprecated servlet that was included in
-the Velocity Core up through version 1.4.  Since VelocityServlet is no longer being maintained we strongly recommend
+the Velocity Core up to version 1.4.  Since VelocityServlet is no longer being maintained we strongly recommend
 you use VelocityViewServlet in Velocity Tools instead.
 </p>
 
@@ -108,8 +109,8 @@ There are $users.size() currently logged in.
 ]]></source>
 
 <p>
-As a bad example, a financial web page might include an object that calculates
-data year by year.  A method calculateNextYear() would calculate data for the next year and advance an internal counter.
+An example of an unsafe operation concerns a financial web page with an object in the context that calculates
+data year by year.  The method calculateNextYear() calculates data for the next year and advances an internal counter:
 </p>
 
 <source><![CDATA[
@@ -118,9 +119,9 @@ $table.calculateNextYear()
 2006 data: $table.data
 ]]></source>
 
-<p>The problem with this approach is that you can't repeat this code in multiple parts of the page.  You may not intend
+<p>The problem with this approach is that the code cannot be repeated in multiple parts of the page.  You may not intend
 to do so, but it's easy to forget this when cutting and pasting or writing control statements (such as #if or #foreach).
-This gets much worse when you are dealing with application or session-level state.  
+This becomes more of an issue when you are dealing with application or session-level state.  
 </p>
 
 <p>The (strongly) recommended practice is
@@ -143,10 +144,10 @@ be used more than once in the page with no change in behavior.
 
 <p>
 Any user-entered text that contains special HTML or XML entities (such as &lt;, &gt;, or &amp;) needs to be escaped 
-before included in the web page.  This is required both to ensure the text is visible and also to prevent
+before included in the web page.  This is required, both to ensure the text is visible, and also to prevent
 dangerous <a href="http://en.wikipedia.org/wiki/Cross_site_scripting">cross-site scripting</a>.  
-Unlike (for example) JSP's JSTL (Java Standard Tag Language), 
-Velocity does not contain any HTML-specific escaping functionality.  However, you have three options.
+Unlike, for example, JSTL (the Java Standard Tag Language found in Java Server Pages), 
+Velocity does not contain any HTML-specific escaping functionality.  However, you have three options:
 </p>
 
 <ol>
@@ -170,8 +171,8 @@ to be escaped, and in Javascript strings the single apostrophe ' needs to be esc
 <subsection name="Securing the Application">
 
 <p>
-Since a web application is running on a central server that typically has multiple users and confidential resources, 
-care must be taken to make the web application is secure.  Most standard web security principles apply to a 
+Since a web application is running on a central server, that typically has multiple users and confidential resources, 
+care must be taken to make certain that the web application is secure.  Most standard web security principles apply to a 
 web application built with Velocity.  A few specific issues (such as system configuration, more on cross-site scripting, 
 and method introspection) are written up in this article on 
 <a href="http://wiki.apache.org/jakarta-velocity/BuildingSecureWebApplications">Building Secure Applications with Velocity</a>.
@@ -182,9 +183,9 @@ and method introspection) are written up in this article on
 <subsection name="Log Files">
 
 <p>
-A minor point is that Velocity (in the absence of any log-related configuration) creates a log file in the current directory.  
-When Velocity is used in a web application the "current directory" is usually the current directory when the application
-server is started.  If you start seeing the file "velocity.log" files in random places on your server filesystem check
+A minor point is that Velocity, in the absence of any log-related configuration, creates a log file in the current directory.  
+When Velocity is used in a web application the "current directory" is usually the current directory from which the application
+server is started.  If you start seeing the file "velocity.log" files in random places on your server filesystem, check
 the Velocity log configuration.  Typically this occurs when Velocity is used within a web application outside of web page
 generation (e.g. for sending email).
 </p>
@@ -203,7 +204,7 @@ What follows is a brief tutorial on building a simple web app with VelocityViewS
 
 <ol>
 <li>Download the Velocity Tools project source (you need the source for the examples)
-from <a href="http://jakarta.apache.org/site/downloads/">here</a>.  
+from <a href="http://jakarta.apache.org/site/downloads/">Jakarta download page</a>.  
 </li>
 
 <li>If you haven't already installed <a href="http://ant.apache.org/">Apache Ant</a>. do so now.
@@ -307,7 +308,7 @@ And finally the web.xml file specifies the name of the servlet and location of t
 
 </li>
 <li>Copy this directory into your "webapps" directory on Tomcat.  You could also copy "simple.war", but copying in the entire directory
-will let you experiment with changes.  You should now be able to access your simple one-page webapp with this URL.  (or something similar)
+will let you experiment with changes.  You should now be able to access your simple one-page webapp with this URL.  (or something similar):
 
 <source><![CDATA[
 http://localhost:8080/simple/index.vm
