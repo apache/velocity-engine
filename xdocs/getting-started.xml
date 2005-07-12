@@ -13,31 +13,31 @@
 <section name="Getting Started">
 
 <p>
-  It's easy to get started with Velocity.   The best places to start are
+  It's easy to get started with Velocity.   The best places to begin are:
 
   <ul>
    <li>
-      The <a href="user-guide.html">User's Guide</a>, which provides a good
+      the <a href="user-guide.html">User's Guide</a>, which provides a good
       overview of what Velocity templates are all about.
    </li>
    <li>
-     The <a href="developer-guide.html">Developer's Guide</a>, which provides
-     a good reference and discussion of incorporating Velocity into your Java
+     the <a href="developer-guide.html">Developer's Guide</a>, which provides
+     a good reference and discussion of how to incorporate Velocity into your Java
      programs and servlets.
    </li>
    <li>
-     The <a href="vtl-reference-guide.html">VTL Reference Guide</a>, which is a reference
-     guide for VTL, the Velocity Template Language.
+     the <a href="vtl-reference-guide.html">VTL Reference Guide</a>, which is a reference
+     guide to VTL, the Velocity Template Language.
    </li>
    <li>
-     If you want to build a web application, be sure to read the <a href="webapps.html">Web Application Guide</a>
+     if you want to build a web application, be sure to read the <a href="webapps.html">Web Application Guide</a>
      and then download the <a href="">Velocity Tools</a> sub-project to use VelocityViewServlet.
     </li>
    </ul>
 
     
-   And of course, the best place to start is with the examples provided with the distribution,
-   and the source code itself, which is included.
+   The best place to start is with the examples provided in the distribution,
+   and with the source code itself, which is included.
 </p>
 
 
@@ -57,7 +57,7 @@
     </p>
 
     <p>
-        Instructions for building Velocity from source can be found on the
+        Instructions for building Velocity from source can be found in the
         <a href="build.html">Build</a> document.
     </p>
 
@@ -68,7 +68,7 @@
 <p>
 Our API documentation is available <a href="api/index.html">online</a>, 
 as part of the distribution package, and of course, you can generate it
-yourself from the included sources.
+yourself from the included source code.
 </p>
 <p>
     If you would like to create a full set
