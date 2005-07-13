@@ -42,7 +42,7 @@
 </p>
 
 <p>
-<em>Ant Build File</em>
+<strong>Ant Build File</strong>
 </p>
 
 <source><![CDATA[
@@ -50,12 +50,12 @@
 
   <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"/>
 
-  <!-- ================================================================ -->
-  <!-- G E N E R A T E  H T M L  P A G E S                              -->
-  <!-- ================================================================ -->
-  <!-- This target will generate a set of HTML pages based on           -->
-  <!-- the information in our control context.                          -->
-  <!-- ================================================================ -->
+  <!-- ============================================================= -->
+  <!-- G E N E R A T E  H T M L  P A G E S                           -->
+  <!-- ============================================================= -->
+  <!-- This target will generate a set of HTML pages based on        -->
+  <!-- the information in our control context.                       -->
+  <!-- ============================================================= -->
 
   <target name="main">
 
@@ -78,7 +78,7 @@
 ]]></source>
 
 <p>
-<em>Control Template</em>
+<strong>Control Template</strong>
 </p>
 
 <source><![CDATA[
@@ -102,7 +102,7 @@ page generator!
 ]]></source>
 
 <p>
-<em>Worker Template</em>
+<strong>Worker Template</strong>
 </p>
 
 <source><![CDATA[

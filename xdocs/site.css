@@ -182,13 +182,13 @@ div.source {
 	padding-bottom:4px;
 	padding-top:5px;
 	
-	width:575px;
+	width:600;
 
 	border: 1px solid #333333;
 	background-color: #EEEEEE;
 	color: #333333;
 
-	/** puts a space before or after the block in IE and FireFox **/
+	/** bug: puts a extra line before the block in IE and after the block in FireFox **/
 	white-space: pre;
 
 	font-family: Courier;
@@ -198,6 +198,19 @@ div.source {
 	overflow:auto;
 }
 
+
+div.license {
+	margin-left:0px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:5px;
+	
+	border: 1px solid #333333;
+	background-color: #EEEEEE;
+	color: #333333;
+
+	text-align: left;	
+}
 
 /** define menu styles **/
 
@@ -229,8 +242,10 @@ div.menusection li {
 }
 
 @media print {
-	div#container {
 
+	/** make sure this fits the page **/
+	div#container {
+		width:100%;
 		min-height:0px;
 	}
 
@@ -247,6 +262,21 @@ div.menusection li {
 		margin-left:5px;
 	}
 	
+
+	div.source {
+		width:95%;
+		margin-left:0px;
+	}
+
+	/** make a bit more room on the page **/
+	div.section {
+		margin-left: 0px;	
+	}
+
+	div.subsection {
+		margin-left: 0px;	
+	}
+
 	h1 {
 		background-color: #FFFFFF;
 		color: #000000;

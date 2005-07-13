@@ -1720,64 +1720,66 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
  ...
 
-public class Test implements ReferenceInsertionEventHandler,
-                             NullSetEventHandler,
-                             MethodExceptionEventHandler
+public class Test implements 
+                        ReferenceInsertionEventHandler,
+                        NullSetEventHandler,
+                        MethodExceptionEventHandler
 {
-    public void myTest()
-    {
-        ....
-
-        /*
-         *  now, it's assumed that Test implements the correct methods to
-         *  support the event handler interfaces.  So to use them, first
-         *  make a new cartridge
-         */
-        EventCartridge ec = new EventCartridge();
-
-        /*
-         * then register this class as it contains the handlers
-         */
-        ec.addEventHandler(this);
-
-        /*
-         * and then finally let it attach itself to the context
-         */
-        ec.attachToContext( context );
-
-        /*
-         * now merge your template with the context as you normally
-         * do
-         */
-
-        ....
-    }
+  public void myTest()
+  {
+    ....
 
     /*
-     *  and now the implementations of the event handlers
+     *  now, it's assumed that Test implements the correct methods
+     *  to support the event handler interfaces.  So to use them, 
+     *  first make a new cartridge
      */
-    public Object referenceInsert( String reference, Object value  )
-    {
-        /*  do something with it */
-        return value;
-    }
+    EventCartridge ec = new EventCartridge();
 
-    public boolean shouldLogOnNullSet( String lhs, String rhs )
-    {
-        if ( /* whatever rule */ )
-            return false;
+    /*
+     * then register this class as it contains the handlers
+     */
+    ec.addEventHandler(this);
 
-        return true;
-    }
+    /*
+     * and then finally let it attach itself to the context
+     */
+    ec.attachToContext( context );
 
-    public Object methodException( Class claz, String method, Exception e )
-         throws Exception
-    {
-        if ( /* whatever rule */ )
-           return "I should have thrown";
+    /*
+     * now merge your template with the context as you normally
+     * do
+     */
 
-        throw e;
-    }
+    ....
+  }
+
+  /*
+   *  and now the implementations of the event handlers
+   */
+  public Object referenceInsert( String reference, Object value  )
+  {
+    /*  do something with it */
+    return value;
+  }
+
+  public boolean shouldLogOnNullSet( String lhs, String rhs )
+  {
+    if ( /* whatever rule */ )
+      return false;
+
+    return true;
+  }
+
+  public Object methodException( Class claz, String method, 
+                                 Exception e )
+     throws Exception
+  {
+    if ( /* whatever rule */ )
+       return "I should have thrown";
+
+    throw e;
+  }
 }
 ]]></source>
 
@@ -2268,37 +2270,38 @@ import org.apache.log4j.BasicConfigurator;
 
 public class Log4jCategoryExample
 {
-    public static String CATEGORY_NAME = "velexample";
+  public static String CATEGORY_NAME = "velexample";
 
-    public static void main( String args[] )
-        throws Exception
-    {
-        /*
-         *  configure log4j to log to console
-         */
+  public static void main( String args[] )
+    throws Exception
+  {
+    /*
+     *  configure log4j to log to console
+     */
 
-        BasicConfigurator.configure();
+    BasicConfigurator.configure();
 
-        Category log = Category.getInstance( CATEGORY_NAME );
+    Category log = Category.getInstance( CATEGORY_NAME );
 
-        log.info("Hello from Log4jCategoryExample - ready to start velocity");
+    log.info("Log4jCategoryExample: ready to start velocity");
 
-        /*
-         *  now create a new VelocityEngine instance, and
-         *  configure it to use the category
-         */
+    /*
+     *  now create a new VelocityEngine instance, and
+     *  configure it to use the category
+     */
 
-        VelocityEngine ve = new VelocityEngine();
+    VelocityEngine ve = new VelocityEngine();
 
-        ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-            "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
+    ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+      "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
 
-        ve.setProperty("runtime.log.logsystem.log4j.category", CATEGORY_NAME);
+    ve.setProperty("runtime.log.logsystem.log4j.category", 
+                    CATEGORY_NAME);
 
-        ve.init();
+    ve.init();
 
-        log.info("this should follow the initialization output from velocity");
-    }
+    log.info("follows initialization output from velocity");
+  }
 }
 ]]></source>
 
@@ -2327,43 +2330,43 @@ public class MyClass implements LogSystem
 
 ...
 
-    public MyClass()
-    {
-        ...
+  public MyClass()
+  {
+    ...
 
-        try
-        {
-            /*
-             *  register this class as a logger
-             */
-            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            /*
-             *  do something
-             */
-        }
-    }
-
-    /**
-     *  This init() will be invoked once by the LogManager
-     *  to give you current RuntimeServices intance
-     */
-    public void init( RuntimeServices rsvc )
+    try
     {
-        // do nothing
+      /*
+       *  register this class as a logger
+       */
+      Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
+      Velocity.init();
     }
-
-    /**
-     *  This is the method that you implement for Velocity to call
-     *  with log messages.
-     */
-    public void logVelocityMessage(int level, String message)
+    catch (Exception e)
     {
-        /*  do something useful */
+      /*
+       *  do something
+       */
     }
+  }
+
+  /**
+   *  This init() will be invoked once by the LogManager
+   *  to give you current RuntimeServices intance
+   */
+  public void init( RuntimeServices rsvc )
+  {
+    // do nothing
+  }
+
+  /**
+   *  This is the method that you implement for Velocity to 
+   *  call with log messages.
+   */
+  public void logVelocityMessage(int level, String message)
+  {
+    /*  do something useful */
+  }
 ...
 }
 ]]></source>
@@ -2783,7 +2786,8 @@ Now, make a regular Velocity template :
 <html>
   <body>
     The document title is
-    $root.getChild("document").getChild("properties").getChild("title").getText()
+    $root.getChild("document").getChild("properties")
+            .getChild("title").getText()
   </body>
 </html>
 ]]></source>

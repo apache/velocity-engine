@@ -30,4 +30,7 @@ Consequently, on a file system a link to docs/user-guide.html will
 point to the latest file, while on the webserver it will be forwarded
 to docs14/user-guide.html.
 
+Finally, note that (for compatibility with old links) links to all old 
+product doc URLs still work (rewritten with .htaccess to go to the new
+folder).
 

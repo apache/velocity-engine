@@ -244,6 +244,13 @@ limitations under the License.
             #end
 
             <title>$project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()</title>
+
+			## use an absolute CSS for when the URL is rewritten on the site
+			## from /velocity/anakia.html to /velocity/docs/anakia.html
+			<link rel="stylesheet" href="http://jakarta.apache.org/velocity/site.css" type="text/css">
+			
+			## use a relative CSS for when the page is displayed locally (will overwrite
+			## previous CSS settings)
 			<link rel="stylesheet" href="${relativePath}/site.css" type="text/css">
         </head>
 
