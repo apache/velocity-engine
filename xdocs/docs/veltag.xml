@@ -79,25 +79,25 @@ simple as :
 <jsp:useBean id="mybean"  class="GeirBean" />
 
 <body>
-    <vel:velocity strictaccess="true">
+  <vel:velocity strictaccess="true">
 
-         #set($mybean = $scopetool.getPageScope("mybean"))
+    #set($mybean = $scopetool.getPageScope("mybean"))
 
-         #if(true)
-            this is true!
-         #end
+    #if(true)
+       this is true!
+    #end
 
-         <br>
+    <br>
 
-         $mybean.string
+    $mybean.string
 
-         <br>
+    <br>
 
-        #foreach($item in $mybean.array) 
-            $item <br>
-        #end
+    #foreach($item in $mybean.array) 
+        $item <br>
+    #end
 
-    </vel:velocity>
+  </vel:velocity>
 </body>
 </html>
 ]]></source>
@@ -257,15 +257,15 @@ two.
 
 <vel:velocity strictaccess="true">
 
-         #set($reqbean = $scopetool.getRequestScope("beaninrequest"))
+  #set($reqbean = $scopetool.getRequestScope("beaninrequest"))
 
-         $reqbean.string
+  $reqbean.string
 
-         <br>
+  <br>
 
-        #foreach($item in $reqbean.array) 
-            $item <br>
-        #end
+  #foreach($item in $reqbean.array) 
+    $item <br>
+  #end
 
 </vel:velocity>
 ]]></source>
