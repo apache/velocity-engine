@@ -10,7 +10,7 @@
 
 <body>
 
-<section name="Table of Contents">
+<section name="User Guide - Contents">
 
 <ol>
 <li><a href="#About this Guide">About this Guide</a></li>
@@ -1833,7 +1833,7 @@ Vyacheslav Ganelin
     </p>
 
 <source><![CDATA[
-Send #set($foo = ["$10 and ","a pie"])#foreach($a in $foo)$a#end please.
+Send #set($foo=["$10 and ","a pie"])#foreach($a in $foo)$a#end please.
 ]]></source>
 
     <p>
