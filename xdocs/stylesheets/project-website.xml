@@ -21,8 +21,8 @@
     
     <!-- note: on the website a .htaccess file will direct these links to the "docs14" folder -->
     <menu name="Docs (Velocity 1.4)">
-        <item name="User's Guide"             href="http://jakarta.apache.org/velocity/docs/user-guide.html"/>
-        <item name="Developer's Guide"        href="http://jakarta.apache.org/velocity/docs/developer-guide.html"/>
+        <item name="User Guide"             href="http://jakarta.apache.org/velocity/docs/user-guide.html"/>
+        <item name="Developer Guide"        href="http://jakarta.apache.org/velocity/docs/developer-guide.html"/>
         <item name="VTL Reference"            href="http://jakarta.apache.org/velocity/docs/vtl-reference-guide.html"/>
         <item name="Anakia : XML->doc tool"   href="http://jakarta.apache.org/velocity/docs/anakia.html"/>
         <item name="Texen : text generation"  href="http://jakarta.apache.org/velocity/docs/texen.html"/>

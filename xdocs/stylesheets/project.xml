@@ -15,8 +15,8 @@
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
     <menu name="Docs">
-        <item name="User's Guide"             href="/docs/user-guide.html"/>
-        <item name="Developer's Guide"        href="/docs/developer-guide.html"/>
+        <item name="User Guide"             href="/docs/user-guide.html"/>
+        <item name="Developer Guide"        href="/docs/developer-guide.html"/>
         <item name="VTL Reference"            href="/docs/vtl-reference-guide.html"/>
         <item name="Anakia : XML->doc tool"   href="/docs/anakia.html"/>
         <item name="Texen : text generation"  href="/docs/texen.html"/>
