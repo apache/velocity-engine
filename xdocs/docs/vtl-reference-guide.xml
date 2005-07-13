@@ -3,7 +3,7 @@
 <document>
 
  <properties>
-  <title>VTL Reference Guide</title>
+  <title>VTL Reference</title>
   <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
   <author email="jcastura@apache.org">John Castura</author>
  </properties>
@@ -188,6 +188,7 @@
 
     <ul>
        <li>Equivalent Operator: #if( $foo == $bar )</li>
+       <li>Not Equals: #if( $foo != $bar )</li>
        <li>Greater Than: #if( $foo > 42 )</li>
        <li>Less Than: #if( $foo &lt; 42 )</li>
        <li>Greater Than or Equal To: #if( $foo >= 42 )</li>
