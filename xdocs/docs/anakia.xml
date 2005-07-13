@@ -21,9 +21,9 @@
 </p>
 <p>
    The basic model that AnakiaTask uses is pretty straightforward : 
+</p>
    <ol>
    <li>Parse your XML into a JDOM Document:
-   
 <source><![CDATA[
 SAXBuilder builder;
 Document root = null;
@@ -51,9 +51,7 @@ context.put("root", root );
     <li>Render a template using Velocity. Within the template, one
         can use JDOM's methods to access the data contained in the
         XML document.</li>
-    </ol>
-</p>
-
+</ol>
 <p>
     Anakia is potentially easier to learn than XSL, but it maintains a
     similar level of functionality. Learning cryptic &lt;xsl:&gt; tags
