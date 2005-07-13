@@ -22,8 +22,10 @@
 <p>
    The basic model that AnakiaTask uses is pretty straightforward : 
    <ol>
-   <li>Parse your XML into a JDOM Document:<br/>
-<pre>SAXBuilder builder;
+   <li>Parse your XML into a JDOM Document:
+   
+<source><![CDATA[
+SAXBuilder builder;
 Document root = null;
 
 try 
@@ -32,13 +34,19 @@ try
         "org.apache.xerces.parsers.SAXParser" );
     root = builder.build( file );
 }
-catch( Exception )
+catch( Exception E )
 {
     System.out.println( ...  );
-}</pre></li>
+}
+]]></source>
+
+</li>
 
     <li>Stuff the Document (or root Element) into the context:<br/>
-<pre>context.put("root", root );</pre></li>
+<source><![CDATA[
+context.put("root", root );
+]]></source>
+</li>
 
     <li>Render a template using Velocity. Within the template, one
         can use JDOM's methods to access the data contained in the
@@ -128,15 +136,18 @@ catch( Exception )
         property="AnakiaTask.present"/>
     </target>
 
-    <target depends="prepare" name="prepare-error" unless="AnakiaTask.present">
+    <target depends="prepare" name="prepare-error" 
+                            unless="AnakiaTask.present">
         <echo>
             AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath.
         </echo>
     </target>
 
-    <target name="docs" depends="prepare-error" if="AnakiaTask.present">
-        <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
+    <target name="docs" depends="prepare-error" 
+                        if="AnakiaTask.present">
+        <taskdef name="anakia" 
+                 classname="org.apache.velocity.anakia.AnakiaTask"/>
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".html" style="./site.vsl"
              projectFile="./stylesheets/project.xml"
@@ -396,13 +407,13 @@ catch( Exception )
 <source><![CDATA[
 #set ($customMenus = $xpath.applyTo("body/menu",$customContext))
 #foreach($customMenu in $customMenus)
-    <strong>$customMenu.getAttributeValue("name")</strong>
-    <ul>
-    #foreach ($customItem in $customMenu.getChildren() )
-        #set ($name = $customItem.getAttributeValue("name"))
-        <li>#projectanchor($name $customItem.getAttributeValue("href"))</li>
-        #end
-    </ul>
+  <strong>$customMenu.getAttributeValue("name")</strong>
+  <ul>
+  #foreach ($customItem in $customMenu.getChildren() )
+    #set ($name = $customItem.getAttributeValue("name"))
+    <li>#projectanchor($name $customItem.getAttributeValue("href"))</li>
+  #end
+  </ul>
 #end]]></source>
 </section>
 

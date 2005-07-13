@@ -342,10 +342,10 @@ Here is text outside the multi-line comment; it is visible.
 <source><![CDATA[
 This text is visible. ## This text is not.
 This text is visible.
-This text is visible. #* This text, as part of a multi-line comment,
-is not visible. This text is not visible; it is also part of the
-multi-line comment. This text still not visible. *# This text is outside
-the comment, so it is visible.
+This text is visible. #* This text, as part of a multi-line 
+comment, is not visible. This text is not visible; it is also 
+part of the multi-line comment. This text still not 
+visible. *# This text is outside the comment, so it is visible.
 ## This text is not visible.
 ]]></source>
 
@@ -1833,7 +1833,7 @@ Vyacheslav Ganelin
     </p>
 
 <source><![CDATA[
-Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
+Send #set($foo = ["$10 and ","a pie"])#foreach($a in $foo)$a#end please.
 ]]></source>
 
     <p>
@@ -1843,7 +1843,7 @@ Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
 
 <source><![CDATA[
 Send me
-#set( $foo = ["$10 and ","a cake"] )
+#set( $foo = ["$10 and ","a pie"] )
 #foreach( $a in $foo )
 $a
 #end
@@ -1856,7 +1856,7 @@ please.
 
 <source><![CDATA[
 Send me
-#set($foo       = ["$10 and ","a cake"])
+#set($foo       = ["$10 and ","a pie"])
                  #foreach           ($a in $foo )$a
          #end please.
 ]]></source>
