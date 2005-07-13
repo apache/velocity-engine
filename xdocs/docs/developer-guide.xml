@@ -902,8 +902,8 @@ things to know:
     </li>
     <li>VTL Map references are unsurprisingly stored as <code>java.util.Map</code>.</li>
     <li>
-	Decimal numbers will be Doubles or BigDecimals in the context, integer numbers will be 
-	Integer, Long, or BigIntegers, and strings will be, of course, Strings.
+    Decimal numbers will be Doubles or BigDecimals in the context, integer numbers will be 
+    Integer, Long, or BigIntegers, and strings will be, of course, Strings.
     </li>
     <li>
     Velocity will properly 'narrow' args to method calls, so calling
@@ -1861,7 +1861,7 @@ These produce a large amount of log output.
 <p>
 <code>runtime.log.invalid.references = true </code><br/>
 Property to turn off the log output when a reference isn't valid.
-Good thing to turn of in production, but very valuable
+Good thing to turn off in production, but very valuable
 for debugging.
 </p>
 
