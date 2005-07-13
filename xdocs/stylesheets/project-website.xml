@@ -38,9 +38,9 @@
     <menu name="Community">
         <item name="Wiki"                     href="http://wiki.apache.org/jakarta-velocity/"/>
         <item name="Recent News"              href="http://wiki.apache.org/jakarta-velocity/VelocityNews"/>
-        <item name="Powered By Velocity"      href="http://wiki.apache.org/jakarta-velocity/PoweredBy"/>
-        <item name="IDE/Editor Plugins"       href="http://wiki.apache.org/jakarta-velocity/DevTools"/>
-        <item name="Articles and Books"       href="http://wiki.apache.org/jakarta-velocity/Articles"/>
+        <item name="Powered By Velocity"      href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity"/>
+        <item name="IDE/Editor Plugins"       href="http://wiki.apache.org/jakarta-velocity/VelocityEditors"/>
+        <item name="Articles and Books"       href="http://wiki.apache.org/jakarta-velocity/PublishedArticlesAndBooks"/>
         <item name="Get Involved"             href="http://wiki.apache.org/jakarta-velocity/GetInvolved"/>
         <item name="Mailing Lists"            href="http://jakarta.apache.org/site/mail.html"/>
     </menu>
