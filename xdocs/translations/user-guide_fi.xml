@@ -1121,7 +1121,7 @@ $blargh
     <p>
       Velocity tukee myös loogisia AND ja OR
       operaattoreita. Lisätietoja löydät dokumentista <a
-      href="vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
+      href="../docs/vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
       esimerkkilause joka käyttää loogista AND:iä.
     </p>
 

@@ -18,14 +18,16 @@
  </p>
     <ul>
         <li>Web applications.  Web designers create HTML pages with placeholders for dynamic information.  
-           The page is processed with <a href="">VelocityViewServlet</a> or any of a 
-           number of <a href="">frameworks</a> which support Velocity.  This approach to web application development
+           The page is processed with <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a> or any of a 
+           number of <a href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity">frameworks</a> which support Velocity.  
+           This approach to web application development
            is called Model-View-Controller or MVC and is intended to be a direct replacement
            for applications developed with Java Server Pages (JSPs) or PHP.
         </li>
         
         <li>Source code generation.  Velocity can be used to generate Java source code, SQL, or PostScript
-            based on templates.  The <a href="">Powered by</a> page lists a number of open source 
+            based on templates.  The <a href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity">PoweredByVelocity</a> 
+            page lists a number of open source 
             and commercial development software packages which use Velocity in this manner.
         </li>
             
@@ -34,7 +36,7 @@
             file rather than directly embedded in your Java code.
         </li>
             
-        <li>XML transformation.  Velocity provides an ant task called <a href="anakia.html">Anakia</a> which reads
+        <li>XML transformation.  Velocity provides an ant task called <a href="docs/anakia.html">Anakia</a> which reads
             an XML file and makes it available to a Velocity template.  A common application is to
             convert documentation stored in a generic "xdoc" format into a styled HTML document.
          </li>
@@ -46,8 +48,8 @@
  <p>
     Velocity allows web page designers and other template writers to include markup statements 
     called <em>references</em> in the page.  These references are pulled from a <em>Context</em>
-    object --essentially a hashtable that provides get and set
-    methods for retrieving and setting objects --and the corresponding values are inserted 
+    object -- essentially a hashtable that provides get and set
+    methods for retrieving and setting objects -- and the corresponding values are inserted 
     directly in a page.  Velocity provides basic control statements, that can loop over a collection
     of values (foreach) or conditionally show a block of text (if/else).  The ability to
     call arbitrary Java methods, include other files, and to create macros that can be repeatedly
