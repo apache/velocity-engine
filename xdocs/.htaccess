@@ -16,6 +16,12 @@ RewriteRule ^api velocity/docs14/api
 
 
 ## rewrite official links to point to correct version
-RewriteRule ^docs velocity/docs14/
+RewriteRule ^docs$ velocity/docs14/
 
-RewriteRule ^docs/(.*/) velocity/docs14/\1
+RewriteRule ^docs/(.*/)$ velocity/docs14/\1
+
+RewriteRule ^docs14$ velocity/docs14/user-guide.html 
+RewriteRule ^docs14/$ velocity/docs14/user-guide.html
+
+RewriteRule ^api$ velocity/docs14/api
+RewriteRule ^api/(.*/)$ velocity/docs14/api/\1
