@@ -18,16 +18,18 @@
         <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.html"/>
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
+    
+    <!-- note: on the website a .htaccess file will direct these links to the "docs14" folder -->
     <menu name="Docs (Velocity 1.4)">
-        <item name="User's Guide"             href="http://jakarta.apache.org/velocity/docs14/user-guide.html"/>
-        <item name="Developer's Guide"        href="http://jakarta.apache.org/velocity/docs14/developer-guide.html"/>
-        <item name="VTL Reference Guide"      href="http://jakarta.apache.org/velocity/docs14/vtl-reference-guide.html"/>
-        <item name="Anakia : XML->doc tool"   href="http://jakarta.apache.org/velocity/docs14/anakia.html"/>
-        <item name="Texen : text generation"  href="http://jakarta.apache.org/velocity/docs14/texen.html"/>
-        <item name="Veltag : JSP taglib"      href="http://jakarta.apache.org/velocity/docs14/veltag.html"/>
-        <item name="Javadoc"                  href="http://jakarta.apache.org/velocity/docs14/api/index.html"/>
-        <item name="Change Log"               href="http://jakarta.apache.org/velocity/docs14/changes.html"/>
-        <item name="License"                  href="http://jakarta.apache.org/velocity/docs14/license.html"/>
+        <item name="User's Guide"             href="http://jakarta.apache.org/velocity/docs/user-guide.html"/>
+        <item name="Developer's Guide"        href="http://jakarta.apache.org/velocity/docs/developer-guide.html"/>
+        <item name="VTL Reference"            href="http://jakarta.apache.org/velocity/docs/vtl-reference-guide.html"/>
+        <item name="Anakia : XML->doc tool"   href="http://jakarta.apache.org/velocity/docs/anakia.html"/>
+        <item name="Texen : text generation"  href="http://jakarta.apache.org/velocity/docs/texen.html"/>
+        <item name="Veltag : JSP taglib"      href="http://jakarta.apache.org/velocity/docs/veltag.html"/>
+        <item name="Javadoc"                  href="http://jakarta.apache.org/velocity/docs/api/index.html"/>
+        <item name="Change Log"               href="http://jakarta.apache.org/velocity/docs/changes.html"/>
+        <item name="License"                  href="http://jakarta.apache.org/velocity/docs/license.html"/>
     </menu>
     <menu name="Sub Projects">
         <item name="Velocity Tools"           href="http://jakarta.apache.org/velocity/tools/index.html"/>

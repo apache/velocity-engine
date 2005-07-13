@@ -13,26 +13,28 @@
 <section name="Getting Started">
 
 <p>
-  It's easy to get started with Velocity.   The best places to begin are:
+
+Velocity is easy to use! A quick way to get started is to skim the
+references below, then look at the examples and source provided in the
+distribution. <i>For developers writing web-based applications, the Web
+Application Guide is highly recommended!</i>
+
 
   <ul>
-   <li>
-      the <a href="user-guide.html">User's Guide</a>, which provides a good
-      overview of what Velocity templates are all about.
-   </li>
-   <li>
-     the <a href="developer-guide.html">Developer's Guide</a>, which provides
-     a good reference and discussion of how to incorporate Velocity into your Java
-     programs and servlets.
-   </li>
-   <li>
-     the <a href="vtl-reference-guide.html">VTL Reference Guide</a>, which is a reference
-     guide to VTL, the Velocity Template Language.
-   </li>
-   <li>
-     if you want to build a web application, be sure to read the <a href="webapps.html">Web Application Guide</a>
-     and then download the <a href="">Velocity Tools</a> sub-project to use VelocityViewServlet.
+
+    <li><a href="docs/user-guide.html">User's Guide</a> - explains how to write Velocity templates 
     </li>
+    
+    <li><a href="docs/developer-guide.html">Developer's Guide</a> - explains how to use Velocity inside Java programs
+    </li>
+    
+    <li><a href="docs/vtl-reference-guide.html">VTL Reference</a> - concise syntax for Velocity Template Language (VTL) 
+    </li>
+    
+    <li><a href="webapps.html">Web Application Guide</a> - web-based application techniques and
+    VelocityViewServlet tutorial 
+    </li>
+
    </ul>
 
     

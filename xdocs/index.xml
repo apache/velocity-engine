@@ -33,7 +33,7 @@
   <p>
      Velocity's capabilities reach well beyond the realm of the web;
      for example, it can be used to generate SQL, PostScript and XML
-     (see <a href="./anakia.html">Anakia</a> for more information on
+     (see <a href="docs/anakia.html">Anakia</a> for more information on
      XML transformations) from templates.  It can be used either as a
      standalone utility for generating source code and reports, or as
      an integrated component of other systems.  For instance, Velocity

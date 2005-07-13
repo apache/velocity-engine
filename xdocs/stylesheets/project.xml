@@ -17,7 +17,7 @@
     <menu name="Docs">
         <item name="User's Guide"             href="/docs/user-guide.html"/>
         <item name="Developer's Guide"        href="/docs/developer-guide.html"/>
-        <item name="VTL Reference Guide"      href="/docs/vtl-reference-guide.html"/>
+        <item name="VTL Reference"            href="/docs/vtl-reference-guide.html"/>
         <item name="Anakia : XML->doc tool"   href="/docs/anakia.html"/>
         <item name="Texen : text generation"  href="/docs/texen.html"/>
         <item name="Veltag : JSP taglib"      href="/docs/veltag.html"/>

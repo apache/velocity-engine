@@ -1,5 +1,9 @@
 RewriteEngine  on
 RewriteBase /
+
+## rewrite links from earlier directory structure
+## use forward not redirect so anchors still work
+
 RewriteRule ^anakia\.html velocity/docs14/anakia.html 
 RewriteRule ^changes\.html velocity/docs14/changes.html 
 RewriteRule ^developer-guide\.html velocity/docs14/developer-guide.html 
@@ -9,3 +13,9 @@ RewriteRule ^user-guide\.html velocity/docs14/user-guide.html
 RewriteRule ^veltag\.html docs14/veltag.html 
 RewriteRule ^vtl-reference-guide\.html velocity/docs14/vtl-reference-guide.html 
 RewriteRule ^api velocity/docs14/api
+
+
+## rewrite official links to point to correct version
+RewriteRule ^docs velocity/docs14/
+
+RewriteRule ^docs/(.*/) velocity/docs14/\1
