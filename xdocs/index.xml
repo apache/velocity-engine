@@ -76,7 +76,7 @@ formats, and can be found <a href="http://www.apache.org/dist/jakarta/velocity/b
 <p>
 These are meant to provide easy access to the actual project source control tree.
 As this is our live development workspace, there are no guarantees as to
-what you will find there,although we do our best to maintain a buildable
+what you will find there, although we do our best to maintain a buildable
 source tree. If you are looking for the stable supported release, please
 use the current release of Velocity.
 </p>
