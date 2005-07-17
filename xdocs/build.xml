@@ -36,7 +36,7 @@ The directory tree of the distribution looks like :
 jakarta-velocity
   /build        - contains build scripts
   /bin          - where the built jars / classes will go
-  /src          - sourcecode for Velocity, Anakia, and Texen
+  /src          - source for Velocity, Anakia, and Texen
   /docs         - documentation in HTML form
   /docs/api     - Javadocs for Velocity source
   /examples     - example/demonstration code
@@ -86,8 +86,7 @@ version number. Be sure to update your classpath to include Velocity's
 </p>
 
 <p>
-Note that to build any of the specific build targets, as detailed in
-the <a href="docs/developer-guide.html">developers guide</a>, simply add
+Note that to build any of the specific build targets simply add
 the target name to the command line.  For example, to build the Javadoc
 API documentation :
 </p>
@@ -95,6 +94,99 @@ API documentation :
 <source><![CDATA[
 ant javadocs
 ]]></source>
+
+
+<p>Some of the most useful targets are:
+</p>
+
+<ul>
+  <li>
+    <b><code>jar</code></b> builds the complete Velocity jar in the
+    <code>bin</code> directory.  This jar will be called 'velocity-X.jar',
+    where 'X' is the current version number. This jar does not include
+    necessary dependencies for Velocity.  If you use this
+    target, you must get the Collections component jar from Jakarta Commons and add
+    to your CLASSPATH (or WEB-INF/lib).
+    If you wish to use the built-in logging or template conversion,
+    you must include the appropriate jars in your CLASSPATH or
+    webapp's WEB-INF/lib.
+    For convenience, you can use the <code>jar-dep</code> target to build
+    a jar with ORO, Logkit and Commons Collections included.
+  </li>
+  <li>
+    <b><code>jar-dep</code></b> builds the complete Velocity jar in
+    the <code>bin</code> directory, including necessary
+    support for logging from the
+    <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
+    Avalon Logkit</a> package, critical configuration support from the
+    <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
+    and the necesary support for WebMacro
+    template conversion using the
+    <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
+    package.
+   </li>
+   <li>
+    <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
+    <code>bin</code> directory, called 'velocity-core-X.jar'. This jar
+    contains the core Velocity functionality, and doesn't include example
+    and utility things like Anakia, Texen or the VelocityServlet support
+    baseclass.  It has the same external dependency requirements as the
+    regular <code>jar</code> target.
+  </li>
+  <li>
+    <b><code>jar-util</code></b> builds a utility Velocity jar in the
+    <code>bin</code> directory, called 'velocity-util-X.jar'. This jar
+    contains utility code, specifically Anakia, Texen, and the WebMacro
+    template conversion utility. It has the same external dependency requirements as the
+    regular <code>jar</code> target.
+  </li>
+  <li>
+    <b><code>jar-J2EE</code></b> builds a complete jar, like the 'jar' target,
+    that includes any components that require J2EE support. Currently, this
+    includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
+    As usual, it is placed in the  <code>bin</code> directory, called
+    'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
+    must place (or link) a copy of j2ee.jar into the build/lib directory.
+    We do not provide it as part of the distribution. A good source is
+    http://java.sun.com/.  It has the same external dependency requirements as the
+    regular <code>jar</code> target.
+  </li>
+  <li>
+    <b><code>jar-J2EE-dep</code></b> build a complete jar with J2EE support
+    and includes logging support from the Jakarta Avalon Logkit and
+    regexp support fromt the Jakarta ORO package. See the notes on the
+    <code>jar-dep</code> target, above.
+  </li>
+  <li>
+    <b><code>examples</code></b> builds the example code in the example programs
+    found in the <code>examples</code> directory. This build target will
+    also build the forumdemo example project.
+  </li>
+  <li>
+    <b><code>docs</code></b> builds these docs in the <code>docs</code> directory
+    using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.
+    Allowing you to use
+    Velocity templates in place of stylesheets
+    - give it a try! 
+  </li>
+  <li>
+    <b><code>jar-src</code></b> bundles all the Velocity source code into a single
+    jar, placed in the <code>bin</code> directory.
+  </li>
+  <li>
+    <b><code>javadocs</code></b> builds the Javadoc class documentation in the
+    <code>docs/api</code> directory
+  </li>
+  <li>
+    <b><code>test</code></b> (after jar) will test Velocity against it's testbed
+    suite of test routines
+  </li>
+  <li>
+    <b><code>help</code></b> lists the build targets that are available.
+  </li>
+</ul>
+
+
 
 <p>
 Velocity should build 'out of the box', independent of your classpath.
@@ -172,8 +264,7 @@ Total time: 42 seconds
 
 <p>
 Note that the number of tests may vary from those shown above, but if
-you see 'OK' after the tests are run, all is well.  Now it's time to use
-Velocity.
+you see 'OK' after the tests are run, all is well.  
 </p>
 </section>
 

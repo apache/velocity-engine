@@ -97,7 +97,7 @@ context.put("root", root );
 <section name="Installation/Example">
 <p>
     Before reviewing the jakarta-velocity/examples/anakia directory,
-    you must <a href="install.html">build Velocity</a>.
+    you must <a href="../install.html">build Velocity</a>.
 </p>
 <p>
     After building Velocity, <code>cd</code> into the
