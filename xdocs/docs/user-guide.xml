@@ -29,6 +29,7 @@ Introduction">Velocity Template Language (VTL): An Introduction</a></li>
         <li><a href="#Variables">Variables</a></li>
         <li><a href="#Properties">Properties</a></li>
         <li><a href="#Methods">Methods</a></li>
+        <li><a href="#Property Lookup Rules">Property Lookup Rules</a></li>
     </ol>
 </li>
 <li><a href="#Formal Reference Notation">Formal Reference Notation</a></li>
@@ -522,6 +523,32 @@ $sisyphus.pushRock()
 $book.setTitle( "Homage to Catalonia" )
 ## Can't pass a parameter list
 ]]></source>
+
+ <p>
+    <a name="Property Lookup Rules"><strong>Property Lookup Rules</strong></a>
+    <br/>
+    As was mentioned earlier, properties often refer to methods of the
+    parent object. Velocity is quite clever when figuring out which method
+    corresponds to a requested property. It tries out different alternatives
+    based on several established naming conventions. The exact lookup
+    sequence depends on whether or not the property name starts with
+    an upper-case letter. For lower-case names, such as
+    <em>$customer.address</em>, the sequence is
+    <ol>
+     <li>getaddress()</li>
+     <li>getAddress()</li>
+     <li>get("address")</li>
+     <li>isAddress()</li>
+    </ol>
+    For upper-case property names like <em>$customer.Address</em>, it is
+    slightly different:
+    <ol>
+     <li>getAddress()</li>
+     <li>getaddress()</li>
+     <li>get("Address")</li>
+     <li>isAddress()</li>
+    </ol>
+ </p>
 
  <p>
     <a name="Formal Reference Notation"><strong>Formal Reference Notation</strong></a>
