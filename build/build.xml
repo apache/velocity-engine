@@ -27,7 +27,7 @@
   <property name="final.name" value="${project}-${version}"/>
   <property name="dist.root" value="../dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
-  <property name="year" value="2002"/>
+  <property name="year" value="2005"/>
   <property name="ant.home" value="."/>
   <property name="debug" value="on"/>
   <property name="optimize" value="on"/>
@@ -44,15 +44,6 @@
   <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="collections.jar" value="lib/commons-collections.jar" />
-
-  <!-- used for forumdemo et al -->
-  <property name="servlet.jar" value="lib/servlet.jar"/>
-
-  <!-- Forum demo build information -->
-  <property name="demo.base" value="../examples/forumdemo"/>
-  <property name="demo.dest" value="${demo.base}/WEB-INF/classes"/>
-  <property name="demo.src" value="${demo.base}/WEB-INF/src"/>
-  <property name="demo.lib" value="${demo.base}/WEB-INF/lib"/>
 
   <!-- PDF generation using FOP -->
   <property name="xdocs.dir" value="../xdocs"/>
@@ -113,10 +104,9 @@
   **  jar-util       compile             prepares jar with only util classes
   **  jar-servlet    compile             prepares jar with only servlet classes
   **  jar-src                            prepares jar of source
-  **  examples       jar                 compiles examples and calls forumdemo
+  **  examples       jar                 compiles examples 
   **  examples-clean-anakia              cleans anakia example
-  **  examples-clean-forumdemo           cleans forum demo
-  **  examples-clean-all                 cleans the anakia/forumdemo examples
+  **  examples-clean-all                 cleans the anakia example
   **  javadocs       prepare             build javadocs
   **  javadocs-clean                     delete javadocs
   **  docs           jar                 Generates Velocity Documentation
@@ -416,20 +406,15 @@
       ** Building the examples :
       **   examples/appexample1 : application example
       **   examples/appexample2 : application example
-      **   examples/servletexample1 : servlet example
-      **   examples/servletexample2 : servlet example
       **   examples/context_example : example context implementations
       **   examples/logger_example : how to make an external logger
       **   examples/xmlapp_example : how to access XML data in a template
       **   examples/event_example : how to use Velocity's event handlers
-      **   forumdemo : demonstration webapp
       **************************************************************
     </echo>
 
     <javac srcdir="${example.dir}/app_example1
                   :${example.dir}/app_example2
-                  :${example.dir}/servlet_example1
-                  :${example.dir}/servlet_example2
                   :${example.dir}/context_example
                   :${example.dir}/logger_example
                   :${example.dir}/xmlapp_example
@@ -441,17 +426,13 @@
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${build.dest}"/>
-        <pathelement location="${servlet.jar}"/> 
       </classpath>
       
     </javac>
 
-    <antcall target="forumdemo" />
-
   </target>
 
-  <target name="examples-clean-all" depends="examples-clean-anakia,
-                                             examples-clean-forumdemo">
+  <target name="examples-clean-all" depends="examples-clean-anakia">
     <delete quiet="true">
       <fileset dir="${example.dir}" includes="**/*.class">
         <include name="**/*.log"/>
@@ -461,11 +442,6 @@
 
   <target name="examples-clean-anakia">
     <delete dir="${example.dir}/anakia/docs" quiet="true"/>
-  </target>
-
-  <target name="examples-clean-forumdemo">
-    <delete dir="${example.dir}/forumdemo/WEB-INF/classes" quiet="true"/>
-    <delete dir="${example.dir}/forumdemo/WEB-INF/lib" quiet="true"/>
   </target>
 
   <!-- =================================================================== -->
@@ -791,56 +767,10 @@
         <ant antfile="testcases.xml" target="test-clean"/>
    </target>
 
-  <!-- =================================================================== -->
-  <!-- Forum Demo Web App                                                  -->
-  <!-- =================================================================== -->
-  <target name="forumdemo" depends="compile, jar-dep">
-       
-    <echo>
-      **************************************************
-      ** Building the Forum demo ...
-      ** Remember to set the PATH in Velocity.properties
-      ** once you move the WAR to your Servlet engine.
-      **
-      ** The WAR can be found in the bin directory
-      **************************************************
-    </echo>
-    
-    <mkdir dir="${demo.dest}"/>
-    <mkdir dir="${demo.lib}"/>
-
-    <javac srcdir="${demo.src}"
-      destdir="${demo.dest}"
-      debug="${debug}"
-      deprecation="${deprecation}"
-      optimize="${optimize}">
-      
-     <classpath>
-        <pathelement location="${build.dest}"/>
-        <pathelement location="${servlet.jar}"/>
-      </classpath>
- 
-    </javac>
-
-    <copy todir="${demo.lib}">
-      <fileset dir="${build.dir}"> 
-        <include name="**/velocity-dep*.jar"/>
-      </fileset>
-    </copy>
-
-    <jar
-      jarfile="${build.dir}/forumdemo.war"
-      basedir="${demo.base}"
-      excludes="**/package.html"
-    />
-    
-  </target>
-
   <!-- Delete the demo files for re-build -->
   <target name="cleandemo">
     
     <delete dir="${demo.dest}/org" quiet="true"/>
-    <delete file="${build.dir}/forumdemo.war" quiet="true"/>
     
   </target>
     
