@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="Overview">
+<section name="Overview" href="Overview">
 
 <p>
 The Velocity Tools Subproject is a repository of Java packages

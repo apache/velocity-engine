@@ -9,110 +9,110 @@
 
 <body>
 
-<section name="Developer Guide - Contents">
+<section name="Developer Guide - Contents" href="DeveloperGuide-Contents">
 
 <p>
 <ol>
 
 <li>
-<a href="developer-guide.html#Introduction">Introduction and Getting Started</a>
+<a href="#Introduction">Introduction and Getting Started</a>
 </li>
 
 <li>
-<a href="developer-guide.html#Resources">Resources</a>
+<a href="#Resources">Resources</a>
 </li>
 
 <li>
-<a href="developer-guide.html#How Velocity Works">How Velocity Works</a>
+<a href="#HowVelocityWorks">How Velocity Works</a>
 <ul>
- <li><a href="developer-guide.html#The Fundamental Pattern">The Fundamental Pattern</a></li>
+ <li><a href="#TheFundamentalPattern">The Fundamental Pattern</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#To Singleton Or Not To Singleton...">To Singleton Or Not To Singleton...</a>
+<a href="#ToSingletonOrNotToSingleton...">To Singleton Or Not To Singleton...</a>
 <ul>
-  <li><a href="developer-guide.html#Singleton">Singleton Model</a></li>
-  <li><a href="developer-guide.html#Separate">Separate Instance</a></li>
+  <li><a href="#Singleton">Singleton Model</a></li>
+  <li><a href="#Separate">Separate Instance</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#The Context">The Context</a>
+<a href="#TheContext">The Context</a>
 <ul>
-<li><a href="developer-guide.html#The Basics">The Basics</a></li>
-<li><a href="developer-guide.html#Support for Iterative Objects for #foreach()">Support for Iterative Objects for #foreach()</a></li>
-<li><a href="developer-guide.html#Context Chaining">Context Chaining</a></li>
-<li><a href="developer-guide.html#Objects Created in the Template">Objects Created by the Template</a></li>
-<li><a href="developer-guide.html#Other Context Issues">Other Context Issues</a></li>
+<li><a href="#TheBasics">The Basics</a></li>
+<li><a href="#SupportforIterativeObjectsfor#foreach()">Support for Iterative Objects for #foreach()</a></li>
+<li><a href="#ContextChaining">Context Chaining</a></li>
+<li><a href="#ObjectsCreatedintheTemplate">Objects Created by the Template</a></li>
+<li><a href="#OtherContextIssues">Other Context Issues</a></li>
 </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#Using Velocity">Using Velocity in General Applications</a>
+<a href="#UsingVelocity">Using Velocity in General Applications</a>
 <ul>
-<li><a href="developer-guide.html#The Velocity Helper Class">The Velocity Helper Class</a></li>
-<li><a href="developer-guide.html#Exceptions">Exceptions</a></li>
-<li><a href="developer-guide.html#Miscellaneous Details">Miscellaneous Details</a></li>
+<li><a href="#TheVelocityHelperClass">The Velocity Helper Class</a></li>
+<li><a href="#Exceptions">Exceptions</a></li>
+<li><a href="#MiscellaneousDetails">Miscellaneous Details</a></li>
 </ul>
 </li>
 
 <li>
-  <a href="developer-guide.html#Application Attributes">Application Attributes</a>
+  <a href="#ApplicationAttributes">Application Attributes</a>
 </li>
 
 <li>
-<a href="developer-guide.html#EventCartridge and Event Handlers">EventCartridge and Event Handlers</a>
+<a href="#EventCartridgeandEventHandlers">EventCartridge and Event Handlers</a>
 </li>
 
 <li>
-<a href="developer-guide.html#Velocity Configuration Keys and Values">Velocity Configuration Keys and Values</a>
+<a href="#VelocityConfigurationKeysandValues">Velocity Configuration Keys and Values</a>
 </li>
 
 <li>
-<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a>
+<a href="#ConfiguringtheLogSystem">Configuring the Log System</a>
  <ul>
   <li>
-    <a href="developer-guide.html#Using Log4j With Existing Category">Using Log4j With Existing Category</a>
+    <a href="#UsingLog4jWithExistingCategory">Using Log4j With Existing Category</a>
   </li>
   <li>
-    <a href="developer-guide.html#Simple Example of a Custom Logger">Simple Example of a Custom Logger</a>
+    <a href="#SimpleExampleofaCustomLogger">Simple Example of a Custom Logger</a>
   </li>
  </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#Configuring Resource Loaders">Configuring the Resource Loaders (template loaders)</a>
+<a href="#ConfiguringResourceLoaders">Configuring the Resource Loaders (template loaders)</a>
 <ul>
   <li>
-    <a href="developer-guide.html#Resource Loaders">Resource Loaders</a>
+    <a href="#ResourceLoaders">Resource Loaders</a>
   </li>
   <li>
-    <a href="developer-guide.html#Configuration Examples">Configuration Examples</a>
+    <a href="#ConfigurationExamples">Configuration Examples</a>
   </li>
   <li>
-    <a href="developer-guide.html#Resource Manager and Cache">Pluggable Resource Manager and Resource Cache</a>
+    <a href="#ResourceManagerandCache">Pluggable Resource Manager and Resource Cache</a>
   </li>
  </ul>
 </li>
 
 <li>
-<a href="developer-guide.html#Template Encoding for Internationalization">Template Encoding for Internationalization</a>
+<a href="#TemplateEncodingforInternationalization">Template Encoding for Internationalization</a>
 </li>
 
 <li>
-<a href="developer-guide.html#Velocity and XML">Velocity and XML</a>
+<a href="#VelocityandXML">Velocity and XML</a>
 </li>
 
 <li>
-<a href="developer-guide.html#Summary">Summary</a>
+<a href="#Summary">Summary</a>
 </li>
 
 </ol>
 </p>
 </section>
 
-<section name="Introduction">
+<section name="Introduction" href="Introduction">
 <p>
 Velocity is a Java-based template engine, a simple and powerful development tool
 that allows you to easily create and render documents that format and present
@@ -197,7 +197,7 @@ default build target, you must add the dependencies to your classpath.
 
 </section>
 
-<section name="Resources">
+<section name="Resources" href="Resources">
 <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
@@ -280,10 +280,10 @@ All directory references above are relative to the distribution root directory.
 </p>
 </section>
 
-<section name="How Velocity Works">
+<section name="How Velocity Works" href="HowVelocityWorks">
 
 <p>
-<a name="The Fundamental Pattern"><strong>'The Fundamental Pattern'</strong></a>
+<a name="TheFundamentalPattern"><strong>'The Fundamental Pattern'</strong></a>
 </p>
 
 <p>
@@ -361,7 +361,7 @@ either explicitly, or behind the scenes.
 
 </section>
 
-<section name="To Singleton Or Not To Singleton...">
+<section name="To Singleton Or Not To Singleton..." href="ToSingletonOrNotToSingleton...">
 
 <p>
 As of Velocity 1.2 and later, developers now have two options
@@ -483,9 +483,9 @@ classes are intended for the application developer.
 </p>
 </section>
 
-<section name="The Context">
+<section name="The Context" href="TheContext">
 
-<a name="The Basics"><strong>The Basics</strong></a>
+<a name="TheBasics"><strong>The Basics</strong></a>
 <p>
 The concept of the 'context' is central to Velocity, and is a common technique
 for moving a container of data around between parts of a system. The idea is
@@ -534,7 +534,7 @@ see the API documentation included in the distribution.
 </p>
 
 <p>
-<a name="Support for Iterative Objects for #foreach()"><strong>Support for Iterative Objects for
+<a name="SupportforIterativeObjectsfor#foreach()"><strong>Support for Iterative Objects for
 #foreach()</strong></a>
 </p>
 
@@ -633,7 +633,7 @@ thought.  Rather, the opposite is true, in general.  Just be
 careful when you place an Iterator into the context.
 </p>
 
-<a name="Context Chaining"><strong>Context Chaining</strong></a>
+<a name="ContextChaining"><strong>Context Chaining</strong></a>
 
 <p>
 An innovative feature of Velocity's context design is the concept
@@ -704,7 +704,7 @@ Please note that these examples are unsupported and are there for
 demonstration/educational purposes only.
 </p>
 
-<a name="Objects Created in the Template"><strong>Objects Created in the
+<a name="ObjectsCreatedintheTemplate"><strong>Objects Created in the
 Template</strong></a>
 
 <p>
@@ -758,7 +758,7 @@ things to know:
     </li>
   </ul>
 
-<a name="Other Context Issues"><strong>Other Context Issues</strong></a>
+<a name="OtherContextIssues"><strong>Other Context Issues</strong></a>
 
 <p>
 One of the features provided by the VelocityContext
@@ -813,7 +813,7 @@ Be careful though - if your template places data into the context and it's
 expected that it will be used in the subsequent iterations, you will need to do
 one of the other fixes, as any template #set() statements will be stored in
 the outermost context. See the discussion in
-<a href="developer-guide.html#Context Chaining">Context chaining</a> for more
+<a href="#ContextChaining">Context chaining</a> for more
 information.
 </li>
 
@@ -834,19 +834,19 @@ won't gather new introspection information each time.
 
 </section>
 
-<section name="Using Velocity">
+<section name="Using Velocity" href="UsingVelocity">
 
 <p>If you are using <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>
 or other web frameworks, you may never call Velocity directly.  However, if you use 
 Velocity for non-web purposes, or create your own web framework you will need
 to directly call the Velocity Engine similar to 
-<a href="developer-guide.html#The Fundamental Pattern">the fundamental pattern</a> shown earlier.
+<a href="#TheFundamentalPattern">the fundamental pattern</a> shown earlier.
 One important additional thing to remember is to initialize the Velocity Engine before
 using it to merge templates.
 
 </p>
 
-<a name="The Velocity Helper Class"><strong>The Velocity Helper Class</strong></a>
+<a name="TheVelocityHelperClass"><strong>The Velocity Helper Class</strong></a>
 
 <p>
 Velocity contains an application utility class called Velocity
@@ -1114,7 +1114,7 @@ In each case, a message is put into the runtime log.  For more information,
 see the Javadoc API documentation.
 </p>
 
-<a name="Miscellaneous Details"><strong>Miscellaneous Details</strong></a>
+<a name="MiscellaneousDetails"><strong>Miscellaneous Details</strong></a>
 
 <p>
 While the above example used the default properties, setting your own
@@ -1194,7 +1194,7 @@ in the following section.
 
 </section>
 
-<section name="Application Attributes">
+<section name="Application Attributes" href="ApplicationAttributes">
 <p>
 <i>Application Attributes</i> are name-value pairs that can be associated with
 a RuntimeInstance (either via the <code>VelocityEngine</code> or
@@ -1245,7 +1245,7 @@ it must do so via the Object passed as the value.
 </p>
 </section>
 
-<section name="EventCartridge and Event Handlers">
+<section name="EventCartridge and Event Handlers" href="EventCartridgeandEventHandlers">
 
 <p>
 Starting in version 1.1, a fine-grain event handling system was added to Velocity.
@@ -1387,7 +1387,7 @@ public class Test implements
 
 </section>
 
-<section name="Velocity Configuration Keys and Values">
+<section name="Velocity Configuration Keys and Values" href="VelocityConfigurationKeysandValues">
 
 <p>
 Velocity's runtime configuration is controlled by a set of configuration keys
@@ -1414,7 +1414,7 @@ values.
 </p>
 
 <p>
-Please sees the section above <a href="developer-guide.html#Using
+Please sees the section above <a href="#Using
 Velocity In General Applications"><b>Using Velocity In General
 Applications</b></a> for discussion on the configuration API.
 </p>
@@ -1443,7 +1443,7 @@ instantiated instance of a logging class that supports the interface
 <code>org.apache.velocity.runtime.log.LogSystem.</code>, which allows
 the combination of Velocity log messages with your other application
 log messages.  Please see the section
-<a href="developer-guide.html#Configuring the Log System">Configuring the Log System</a>
+<a href="#ConfiguringtheLogSystem">Configuring the Log System</a>
 for more information.
 </p>
 
@@ -1746,7 +1746,7 @@ to do.
 
 </section>
 
-<section name="Configuring the Log System">
+<section name="Configuring the Log System" href="ConfiguringtheLogSystem">
 
 <p>
 Velocity has a few nice logging features to allow both simplicity and
@@ -1827,9 +1827,9 @@ then simply set the  configuration property
 classname, and Velocity will create an instance of that class at init time.
 You may specify the classname as you specify any other properties. See
 the information on the
-<a href="developer-guide.html#Using Velocity In General Applications">
+<a href="#UsingVelocityInGeneralApplications">
 Velocity helper class</a> as well as the
-<a href="developer-guide.html#Velocity Configuration Keys and Values">
+<a href="#VelocityConfigurationKeysandValues">
 configuration keys and values.</a>
 Please note that through oversight, the interface to
 <code>org.apache.velocity.runtime.log.LogSystem</code>
@@ -1849,14 +1849,14 @@ pass an instance of your logging class to Velocity via the
 initializing the Velocity engine,
 and Velocity will log messages to your applications logger.
 See the information on the
-<a href="developer-guide.html#Using Velocity In General Applications">Velocity helper class</a>
+<a href="#UsingVelocityInGeneralApplications">Velocity helper class</a>
 as well as the
-<a href="developer-guide.html#Velocity Configuration Keys and Values">configuration keys and values.</a>
+<a href="#VelocityConfigurationKeysandValues">configuration keys and values.</a>
 </li>
 
 </ul>
 
-<a name="Using Log4j With Existing Category"><strong>Using Log4j With Existing Category</strong></a>
+<a name="UsingLog4jWithExistingCategory"><strong>Using Log4j With Existing Category</strong></a>
 
 <p>
 Here is an example of how to configure Velocity to log to an existing Log4j
@@ -1911,7 +1911,7 @@ public class Log4jCategoryExample
 Note that the above example can be found in <code>examples/logger_example</code>.
 </p>
 
-<a name="Simple Example of a Custom Logger"><strong>Simple Example of a Custom Logger</strong></a>
+<a name="SimpleExampleofaCustomLogger"><strong>Simple Example of a Custom Logger</strong></a>
 
 <p>
 Here is an example of how to use an instantiation of your class that implements
@@ -1975,9 +1975,9 @@ public class MyClass implements LogSystem
 
 </section>
 
-<section name="Configuring Resource Loaders">
+<section name="Configuring Resource Loaders" href="ConfiguringResourceLoaders">
 
-<a name="Resource Loaders"><strong>Resource Loaders</strong></a>
+<a name="ResourceLoaders"><strong>Resource Loaders</strong></a>
 
 <p>
 One of the fundamental and important parts about Velocity is the resource
@@ -2000,7 +2000,7 @@ each described below.  Note that in the example configuration properties given,
 a common name for the loader is shown
 (ex.'file' in <code>file.resource.loader.path</code>). This 'common name'
 may not work for your configuration. Please read the section on
-<a href="developer-guide.html#Velocity Configuration Keys and Values">resource configuration properties</a>
+<a href="#VelocityConfigurationKeysandValues">resource configuration properties</a>
  to understand how this system works.  Also, each of these loaders is
 located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 </p>
@@ -2063,12 +2063,12 @@ For more information on this loader, please see the javadoc for the class
 
 </ul>
 
-<a name="Configuration Examples"><strong>Configuration Examples</strong></a>
+<a name="ConfigurationExamples"><strong>Configuration Examples</strong></a>
 
 <p>
 Configuring the resource loaders for Velocity is straightforward.
 The properties that control the are listed in the
-<a href="developer-guide.html#Configuring Resource Loaders">resource configuration</a>
+<a href="#ConfiguringResourceLoaders">resource configuration</a>
 section, for further reference.
 </p>
 
@@ -2215,7 +2215,7 @@ for proper operation, the ClasspathResourceLoader is the simplest.
 </p>
 
 
-<a name="Resource Manager and Cache"></a>
+<a name="ResourceManagerandCache"></a>
 <strong>Pluggable Resource Manager and Resource Cache</strong>
 
 <p>
@@ -2285,7 +2285,7 @@ This key is also defined as a contstant
 
 </section>
 
-<section name="Template Encoding for Internationalization">
+<section name="Template Encoding for Internationalization" href="TemplateEncodingforInternationalization">
 
 <p>
 As of version 1.1, Velocity allows you to specify the character encoding of your
@@ -2318,7 +2318,7 @@ encoding is an application specific issue.
 
 </section>
 
-<section name="Velocity and XML">
+<section name="Velocity and XML" href="VelocityandXML">
 
 <p>
 Velocity's flexibility and simple template language makes it an ideal environment
@@ -2476,7 +2476,7 @@ Christoph Reck, an active participant in the Velocity community.
 
 </section>
 
-<section name="Summary">
+<section name="Summary" href="Summary">
 
 <p>
 We hope this brief guide was a helpful introduction to using Velocity in

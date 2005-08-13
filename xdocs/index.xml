@@ -10,7 +10,7 @@
  <body>
  
  
-  <section name="What is Velocity?">
+  <section name="What is Velocity?" href="WhatisVelocity?">
  
   <p>
      Velocity is a Java-based template engine. It permits anyone to use
@@ -48,7 +48,7 @@
 
 
 
-<section name="Where do I get releases?">
+<section name="Where do I get releases?" href="WheredoIgetreleases?">
 
 <p>
    The current release version is version 1.4.
@@ -66,7 +66,7 @@ formats, and can be found <a href="http://www.apache.org/dist/jakarta/velocity/b
 </section>
 
 
-<section name="Where do I get nightly snapshots?">
+<section name="Where do I get nightly snapshots?" href="WheredoIgetnightlysnapshots?">
 
 <p>
     Nightly snapshots of the Velocity subversion source code tree can be found
@@ -90,7 +90,7 @@ access</a> is also available.
 
 </section>
 
-<section name="How do I contribute, give feedback, fix bugs and so on?">
+<section name="How do I contribute, give feedback, fix bugs and so on?" href="HowdoIcontribute,givefeedback,fixbugsandsoon?">
 
 <p>
     The Velocity project really needs and appreciates any contributions,

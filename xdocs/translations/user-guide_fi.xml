@@ -10,19 +10,19 @@
  </properties>
 <body>
 
-<section name="Sis‰llys">
+<section name="Sis‰llys" href="Sis‰llys">
 
 <ol>
-<li><a href="#Tietoja t‰st‰ oppaasta">Tietoja t‰st‰ oppaasta</a></li>
-<li><a href="#Mik‰ on Velocity?">Mik‰ on Velocity?</a></li>
-<li><a href="#Miten voin k‰ytt‰‰ Velocity‰?">Miten voin k‰ytt‰‰ Velocity‰?</a>
+<li><a href="#Tietojat‰st‰oppaasta">Tietoja t‰st‰ oppaasta</a></li>
+<li><a href="#Mik‰onVelocity?">Mik‰ on Velocity?</a></li>
+<li><a href="#Mitenvoink‰ytt‰‰Velocity‰?">Miten voin k‰ytt‰‰ Velocity‰?</a>
     <ol>
-        <li><a href="#Kurakauppa esimerkki">Kurakauppa esimerkki</a></li>
+        <li><a href="#Kurakauppaesimerkki">Kurakauppa esimerkki</a></li>
     </ol>
 </li>
-<li><a href="#Velocity Template Language (VTL): Johdanto">Velocity
+<li><a href="#VelocityTemplateLanguage(VTL):Johdanto">Velocity
 Template Language (VTL): Johdanto</a></li> 
-<li><a href="#Hei Velocity Maailma!">Hei Velocity Maailma!</a></li>
+<li><a href="#HeiVelocityMaailma!">Hei Velocity Maailma!</a></li>
 <li><a href="#Kommentit">Kommentit</a></li>
 <li><a href="#Viittaukset">Viittaukset</a>
     <ol>
@@ -31,22 +31,22 @@ Template Language (VTL): Johdanto</a></li>
         <li><a href="#Metodit">Metodit</a></li>
     </ol>
 </li>
-<li><a href="#Muodollinen merkint‰">Muodollinen viittausten merkint‰</a></li>
-<li><a href="#Hiljainen viittausten merkint‰">Hiljainen viittausten merkint‰</a></li>
+<li><a href="#Muodollinenmerkint‰">Muodollinen viittausten merkint‰</a></li>
+<li><a href="#Hiljainenviittaustenmerkint‰">Hiljainen viittausten merkint‰</a></li>
 <li><a href="#Kirjaimellisesti">Kirjaimellisesti</a>
     <ol>
         <li><a href="#Dollari">Dollari</a></li>
-        <li><a href="#VTL viittausten suojaaminen">VTL viittausten suojaaminen</a></li>
+        <li><a href="#VTLviittaustensuojaaminen">VTL viittausten suojaaminen</a></li>
     </ol>
 </li>
-<li><a href="#Kirjainkoon muutos">Kirjainkoon muutos</a></li>
+<li><a href="#Kirjainkoonmuutos">Kirjainkoon muutos</a></li>
 <li><a href="#Ohjeet">Ohjeet</a>
     <ol>
         <li><a href="#Set">Set</a></li>
         <li><a href="#Tekstivakiot">Tekstivakiot</a></li>
-        <li><a href="#If-Else ehtolauseet">If-Else ehtolauseet</a>
+        <li><a href="#If-Elseehtolauseet">If-Else ehtolauseet</a>
             <ol>
-                <li><a href="#Relaatio- ja loogiset operaattorit">Relaatio- ja loogiset
+                <li><a href="#Relaatio-jaloogisetoperaattorit">Relaatio- ja loogiset
                 operaattorit</a></li>
             </ol>
         </li>
@@ -57,16 +57,15 @@ Template Language (VTL): Johdanto</a></li>
         <li><a href="#Velocimakrot">Velocimakrot</a></li>
     </ol>
 </li>
-<li><a href="#VTL ohjeiden suojaaminen">VTL ohjeiden suojaaminen</a></li>
-<li><a href="#VTL: Muotoilu">VTL: Muotoilu</a></li>
-<li><a href="#Muita ominaisuuksia ja sekalaista">Muita ominaisuuksia ja sekalaista</a>
+<li><a href="#VTLohjeidensuojaaminen">VTL ohjeiden suojaaminen</a></li>
+<li><a href="#VTL:Muotoilu">VTL: Muotoilu</a></li>
+<li><a href="#Muitaominaisuuksiajasekalaista">Muita ominaisuuksia ja sekalaista</a>
     <ol>
         <li><a href="#Matematiikka">Matematiikka</a></li>
-        <li><a href="#Vaihteluv‰li (Range Operator)">Vaihteluv‰li (Range Operator)</a></li>
-        <li><a href="#Edistyneet kysymykset: Suojaaminen ja
-        !">Edistyneet kysymykset: Suojaaminen ja !</a></li>
-        <li><a href="#Yleist‰ Velocimakroista">Yleist‰ Velocimakroista</a></li>
-        <li><a href="#Merkkijonojen yhdist‰minen">Merkkijonojen yhdist‰minen</a></li>
+        <li><a href="#Vaihteluv‰li(RangeOperator)">Vaihteluv‰li (Range Operator)</a></li>
+        <li><a href="#Edistyneetkysymykset:Suojaaminenja!">Edistyneet kysymykset: Suojaaminen ja !</a></li>
+        <li><a href="#Yleist‰Velocimakroista">Yleist‰ Velocimakroista</a></li>
+        <li><a href="#Merkkijonojenyhdist‰minen">Merkkijonojen yhdist‰minen</a></li>
     </ol>
 </li>
 <li><a href="#Palaute">Palaute</a></li>
@@ -74,7 +73,7 @@ Template Language (VTL): Johdanto</a></li>
 
 </section>
 
-<section name="Tietoja t‰st‰ oppaasta">
+<section name="Tietoja t‰st‰ oppaasta" href="Tietojat‰st‰oppaasta">
 
  <p>
     Velocity k‰ytt‰j‰n opas on tarkoitettu sivusuunnittelijoille ja
@@ -93,7 +92,7 @@ Template Language (VTL): Johdanto</a></li>
 
 </section>
 
-<section name="Mik‰ on Velocity?">
+<section name="Mik‰ on Velocity?" href="Mik‰onVelocity?">
 
  <p>
     Velocity on javapohjainen sivumoottori (template engine). Sen
@@ -125,8 +124,8 @@ Template Language (VTL): Johdanto</a></li>
 
 </section>
 
-<section name="Miten voin k‰ytt‰‰ Velocity‰?">
-<subsection name="Kurakauppa esimerkki">
+<section name="Miten voin k‰ytt‰‰ Velocity‰?" href="Mitenvoink‰ytt‰‰Velocity‰?">
+<subsection name="Kurakauppa esimerkki" href="Kurakauppaesimerkki">
    <p>
     Oletetaan ett‰ olet kuraa myyv‰n onlinekaupan
     sivusuunnittelija. Kutsumme kauppaa "Kurakauppa
@@ -209,7 +208,7 @@ Hei $asiakas.Nimi!
 
 </section>
 
-<section name="Velocity Template Language (VTL): Johdanto">
+<section name="Velocity Template Language (VTL): Johdanto" href="VelocityTemplateLanguage(VTL):Johdanto">
 
  <p>
     Velocityn sivunkuvauskieli (Velocity Template Language, VTL)
@@ -273,7 +272,7 @@ Hei $asiakas.Nimi!
 
 </section>
 
-<section name="Hei Velocity Maailma!">
+<section name="Hei Velocity Maailma!" href="HeiVelocityMaailma!">
 
  <p>
     Kun muuttujalle on m‰‰ritelty arvo, voidaan siihen viitata miss‰
@@ -303,7 +302,7 @@ Hei $foo Maailma!
 
 </section>
 
-<section name="Kommentit">
+<section name="Kommentit" href="Kommentit">
 
  <p>
     Kommenttien avulla sivulle voidaan lis‰t‰ aputekstej‰ jotka eiv‰t
@@ -374,7 +373,7 @@ tallettamiseen:
 
 </section>
 
-<section name="Viittaukset">
+<section name="Viittaukset" href="Viittaukset">
 
  <p>
     VTL:ss‰ on kolme erityyppist‰ viittausta: muuttujat, ominaisuudet
@@ -638,7 +637,7 @@ Juha on ${pahe}maani.
 
 </section>
 
-<section name="Kirjaimellisesti">
+<section name="Kirjaimellisesti" href="Kirjaimellisesti">
 
   <p>
     VTL k‰ytt‰‰ erikoismerkkej‰ kuten <em>$</em> ja <em>#</em> omassa
@@ -658,7 +657,7 @@ Juha on ${pahe}maani.
   </p>
 
   <p>
-    <a name="VTL viittausten suojaaminen"><strong>VTL viittausten suojaaminen</strong></a>
+    <a name="VTLviittaustensuojaaminen"><strong>VTL viittausten suojaaminen</strong></a>
     <br/>
 
     Ongelmatilanne saattaa synty‰ silloin, kun Velocity ei osaa
@@ -759,7 +758,7 @@ $kuu = $foo
 
 </section>
 
-<section name="Kirjainkoon muutos">
+<section name="Kirjainkoon muutos" href="Kirjainkoonmuutos">
 
     <p>
     Kun nyt olet tutustunut viittauksiin, voit alkaa k‰ytt‰m‰‰n niit‰
@@ -822,7 +821,7 @@ ${data.Pyynto.PalvelinNimi}
 </section>
 
 
-<section name="Ohjeet">
+<section name="Ohjeet" href="Ohjeet">
 
  <p>
     <em>Ohjeet</em> ovat helppok‰yttˆisi‰ skriptielementtej‰ joita
@@ -1035,7 +1034,7 @@ $blargh
 </section>
 
 
-<section name="If-Else ehtolauseet">
+<section name="If-Else ehtolauseet" href="If-Elseehtolauseet">
 
     <strong>If / ElseIf / Else</strong>
     <p>
@@ -1097,7 +1096,7 @@ $blargh
     </p>
 
     <p>
-    <a name="Relaatio- ja loogiset operaattorit"><strong>Relaatio- ja
+    <a name="Relaatio-jaloogisetoperaattorit"><strong>Relaatio- ja
     loogiset operaattorit</strong></a>
     </p>
 
@@ -1198,7 +1197,7 @@ $blargh
 
  </section>
 
-<section name="Silmukat">
+<section name="Silmukat" href="Silmukat">
 
    <strong>Foreach silmukat</strong>
 
@@ -1276,7 +1275,7 @@ counter.initial.value = 1
 
  </section>
 
-<section name="Include">
+<section name="Include" href="Include">
 
     <p>
     <em>#include</em> elementin avulla sivusuunnittelija voi hakea
@@ -1317,7 +1316,7 @@ counter.initial.value = 1
 
  </section>
 
-<section name="Parse">
+<section name="Parse" href="Parse">
 
     <p>
     <em>#parse</em> elementin avulla sivusuunnittelija voi sis‰llytt‰‰
@@ -1383,7 +1382,7 @@ $laskuri
  </section>
 
 
-<section name="Stop">
+<section name="Stop" href="Stop">
 
     <p>
     <em>#stop</em> elementin avulla sivupohjan suunnittelija voi
@@ -1396,7 +1395,7 @@ $laskuri
 ]]></source>
  </section>
 
-<section name="Velocimakrot">
+<section name="Velocimakrot" href="Velocimakrot">
 
     <p>
     <em>#macro</em> elementin avulla sivupohjan suunnittelija voi
@@ -1700,7 +1699,7 @@ $laskuri
     </p>
  </section>
 
-<section name="VTL ohjeiden suojaaminen">
+<section name="VTL ohjeiden suojaaminen" href="VTLohjeidensuojaaminen">
   <p>
     VTL ohjeet voidaan suojata kenoviivalla ("\") samalla tavalla kuin
     VTL viittauksetkin.
@@ -1818,7 +1817,7 @@ Vyacheslav Ganelin
 
  </section>
 
-<section name="VTL: Muotoilu">
+<section name="VTL: Muotoilu" href="VTL:Muotoilu">
 
 
     <p>
@@ -1873,9 +1872,9 @@ Send me
 
 </section>
 
-<section name="Muita ominaisuuksia ja sekalaista">
+<section name="Muita ominaisuuksia ja sekalaista" href="Muitaominaisuuksiajasekalaista">
 
-<subsection name="Matematiikka">
+<subsection name="Matematiikka" href="Matematiikka">
 
   <p>
     Velocitylla on muutamia sis‰‰nrakennettuja matemaattisia
@@ -1942,7 +1941,7 @@ $b
 
   </subsection>
 
-<subsection name="Vaihteluv‰li (Range Operator)">
+<subsection name="Vaihteluv‰li (Range Operator)" href="Vaihteluv‰li(RangeOperator)">
 
   <p>
     Vaihteluv‰li‰ voidaan k‰ytt‰‰ <em>#set</em> ja <em>#foreach</em>
@@ -2014,7 +2013,7 @@ Nelj‰s esimerkki:
 
   </subsection>
 
-<subsection name="Edistyneet kysymykset: Suojaaminen ja !">
+<subsection name="Edistyneet kysymykset: Suojaaminen ja !" href="Edistyneetkysymykset:Suojaaminenja!">
 
   <p>
     Kun viittaus hiljennet‰‰n <em>!</em> merkill‰ ja <em>!</em> merkki‰
@@ -2067,7 +2066,7 @@ $!{foo}
 
  </subsection>
 
-<subsection name="Yleist‰ Velocimakroista">
+<subsection name="Yleist‰ Velocimakroista" href="Yleist‰Velocimakroista">
 
 <p>
 T‰m‰ osio on Velocimakroaiheinen mini-FAQ. Osio muuttuu ajan myˆt‰,
@@ -2240,7 +2239,7 @@ uudelleenlataus?</strong>
 
 </subsection>
 
-<subsection name="Merkkijonojen yhdist‰minen">
+<subsection name="Merkkijonojen yhdist‰minen" href="Merkkijonojenyhdist‰minen">
 
     <p>
     Yleinen kehitt‰jien kysym‰ kysymys on <i>Kuinka yhdist‰n
@@ -2307,7 +2306,7 @@ uudelleenlataus?</strong>
 
 </section>
 
-<section name="Palaute">
+<section name="Palaute" href="Palaute">
 
   <p>
     Mik‰li lˆyd‰t t‰st‰ ohjeesta virheit‰ tai haluat antaa ohjetta

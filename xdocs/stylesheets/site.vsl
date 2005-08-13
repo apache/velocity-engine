@@ -146,7 +146,7 @@ limitations under the License.
 #end
 
 #macro ( section $section)
-	<a name="$section.getAttributeValue("name")"></a>
+	<a name="#anchorName($section)"></a>
 	<h1>$section.getAttributeValue("name")</h1>
 
 	<div class="subsection">
@@ -161,7 +161,7 @@ limitations under the License.
 #end
 
 #macro ( subsection $subsection)
-	<a name="$subsection.getAttributeValue("name")"></a>
+	<a name="#anchorName($subsection)"></a>
 	<h2>$subsection.getAttributeValue("name")</h2>
 	<div class="subsection">
 		#foreach ( $items in $subsection.getChildren() )
@@ -170,6 +170,13 @@ limitations under the License.
 	</div>
 #end
 
+#macro ( anchorName $section)
+#if ($section.getAttributeValue("href"))
+$section.getAttributeValue("href")##
+#else
+$section.getAttributeValue("name")##
+#end
+#end
 
 #macro ( makeProject )
 
