@@ -10,7 +10,7 @@
 
 <body>
 
-<section name="About this Guide">
+<section name="About this Guide" href="AboutthisGuide">
 <p>
     This guide is the reference for the Velocity Template Language
     (VTL). For more information, please also refer to the <a
@@ -19,8 +19,8 @@
 
 </section>
 
-<section name="References">
-    <subsection name="Variables">
+<section name="References" href="References">
+    <subsection name="Variables" href="Variables">
     <p>
     Notation:
     </p>
@@ -43,7 +43,7 @@
     </ul>
   </subsection>
 
-  <subsection name="Properties">
+  <subsection name="Properties" href="Properties">
     <p>
     Notation:
     </p>
@@ -67,7 +67,7 @@
     </ul>
   </subsection>
 
-  <subsection name="Methods">
+  <subsection name="Methods" href="Methods">
     <p>
     Notation:
     </p>
@@ -106,8 +106,8 @@
 
 </section>
 
-<section name="Directives">
-  <subsection name="#set - Establishes the value of a reference">
+<section name="Directives" href="Directives">
+  <subsection name="#set - Establishes the value of a reference" href="set-Establishesthevalueofareference">
     <p>
     Format:
     </p>
@@ -159,8 +159,7 @@
     </ul>
   </subsection>
 
-  <subsection name="#if / #elseif / #else - output conditional on truth
-  of statements">
+  <subsection name="#if/#elseif/#else-outputconditionalontruthofstatements">
     <p>
     Format:
     </p>
@@ -200,7 +199,7 @@
     </ul>
   </subsection>
 
-  <subsection name="#foreach - Loops through a list of objects">
+  <subsection name="#foreach - Loops through a list of objects" href="foreach-Loopsthroughalistofobjects">
     <p>
     Format:
     </p>
@@ -285,8 +284,7 @@ directive.foreach.maxloops = -1
 
   </subsection>
 
-  <subsection name="#include - Renders local file(s) that are not
-                    parsed by Velocity">
+  <subsection name="#include - Renders local file(s) that are not parsed by Velocity" href="include-Renderslocalfile(s)thatarenotparsedbyVelocity">
     <p>
     Format:
     </p>
@@ -309,8 +307,7 @@ directive.foreach.maxloops = -1
     </ul>
   </subsection>
 
-  <subsection name="#parse - Renders a local template that is parsed by
-                    Velocity">
+  <subsection name="#parse - Renders a local template that is parsed by Velocity" href="parse-RendersalocaltemplatethatisparsedbyVelocity">
     <p>
     Format:
     </p>
@@ -339,7 +336,7 @@ directive.foreach.maxloops = -1
     </p>
   </subsection>
 
-  <subsection name="#stop - Stops the template engine">
+  <subsection name="#stop - Stops the template engine" href="stop-Stopsthetemplateengine">
     <p>
     Format:
     </p>
@@ -358,8 +355,7 @@ directive.foreach.maxloops = -1
     </p>
   </subsection>
 
-  <subsection name="#macro - Allows users to define a Velocimacro (VM),
-        a repeated segment of a VTL template, as required">
+  <subsection name="#macro - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required" href="macro-AllowsuserstodefineaVelocimacro(VM),arepeatedsegmentofaVTLtemplate,asrequired">
     <p>
     Format:
     </p>
@@ -405,12 +401,12 @@ directive.foreach.maxloops = -1
 
 </section>
 
-<section name="Comments">
+<section name="Comments" href="Comments">
     <p>
     Comments are not rendered at runtime.
     </p>
 
-    <subsection name="Single Line">
+    <subsection name="Single Line" href="SingleLine">
     <p>
     Example:
     </p>
@@ -420,7 +416,7 @@ directive.foreach.maxloops = -1
     </p>
 
     </subsection>
-    <subsection name="Multi Line">
+    <subsection name="Multi Line" href="MultiLine">
     <p>
     Example:
     </p>

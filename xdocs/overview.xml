@@ -10,7 +10,7 @@
  <body>
 
 
- <section name="Overview">
+ <section name="Overview" href="Overview">
 
  <p>
     Velocity is a template engine that can be used for many purposes.  Some common types of applications
@@ -44,7 +44,7 @@
  </section>
  
  
- <section name="How it Works">
+ <section name="How it Works" href="HowitWorks">
  <p>
     Velocity allows web page designers and other template writers to include markup statements 
     called <em>references</em> in the page.  These references are pulled from a <em>Context</em>
@@ -79,7 +79,7 @@
  </section>
     
 
- <section name="Extending Velocity's Capability">
+ <section name="Extending Velocity's Capability" href="ExtendingVelocity'sCapability">
     <p>While Velocity is generally useful within an application as is, there are a number of ways
     it's capabilities can be extended.
     </p>
@@ -114,7 +114,7 @@
 
  </section>
 
- <section name="Acknowledgement">
+ <section name="Acknowledgement" href="Acknowledgement">
     <p>
         Velocity's design concept is borrowed from <a
         href="http://www.webmacro.org/">WebMacro</a>. Those involved in the

@@ -10,7 +10,7 @@
 <body>
 
 
-<section name="Getting Started">
+<section name="Getting Started" href="GettingStarted">
 
 <p>
 
@@ -44,7 +44,7 @@ Application Guide is highly recommended!</i>
 
 
 </section>
-<section name="Downloading Velocity">
+<section name="Downloading Velocity" href="DownloadingVelocity">
     <p>
         You can download the latest release version of 
         <a href="http://jakarta.apache.org/site/downloads/downloads_velocity-engine.cgi">Velocity</a> 
@@ -65,7 +65,7 @@ Application Guide is highly recommended!</i>
 
 </section>
 
-<section name="API Documentation">
+<section name="API Documentation" href="APIDocumentation">
 
 <p>
 Our API documentation is available <a href="api/index.html">online</a>, 

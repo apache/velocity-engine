@@ -7,19 +7,19 @@
 <author email="ju-moral@uniandes.edu.co">Juan Pablo Morales</author>
 </properties>
 <body>
-    <section name="Tabla de Contenidos">
+    <section name="Tabla de Contenidos" href="TabladeContenidos">
 
 <ol>
-    <li><a href="#Acerca de esta guía">Acerca de esta guía</a></li>
-    <li><a href="#¿Qué es Velocity?">¿Qué es Velocity?</a></li>
-    <li><a href="#¿Qué puede hacer Velocity por mi?">¿Qué puede hacer Velocity por mi?</a>
+    <li><a href="#Acercadeestaguía">Acerca de esta guía</a></li>
+    <li><a href="#¿QuéesVelocity?">¿Qué es Velocity?</a></li>
+    <li><a href="#¿QuépuedehacerVelocitypormi?">¿Qué puede hacer Velocity por mi?</a>
     <ol>
-        <li><a href="#El Ejemplo de la tienda de Lodo">El Ejemplo de la tienda de
+        <li><a href="#ElEjemplodelatiendadeLodo">El Ejemplo de la tienda de
             Lodo</a></li>
     </ol>
 </li>
-<li><a href="#El Lenguaje de Plantillas de Velocity (VTL): Una Introducción">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
-<li><a href="#¡Hola Mundo Velocity!">¡Hola Mundo Velocity!</a></li>
+<li><a href="#ElLenguajedePlantillasdeVelocity(VTL):UnaIntroducción">El Lenguaje de Plantillas de Velocity (VTL): Una Introducción</a></li>
+<li><a href="#¡HolaMundoVelocity!">¡Hola Mundo Velocity!</a></li>
 <li><a href="#Comentarios">Comentarios</a></li>
 <li><a href="#Referencias">Referencias</a>
     <ol>
@@ -28,46 +28,46 @@
         <li><a href="#Métodos">Métodos</a></li>
     </ol>
 </li>
-<li><a href="#Notación Formal de Referencias">Notación Formal de Referencias</a></li>
-<li><a href="#Notación Sileciosa de Referencias">Notación Sileciosa de Referencias</a></li>
+<li><a href="#NotaciónFormaldeReferencias">Notación Formal de Referencias</a></li>
+<li><a href="#NotaciónSileciosadeReferencias">Notación Sileciosa de Referencias</a></li>
 <li><a href="#Literalmente">Literalmente</a>
     <ol>
         <li><a href="#Dinero">Dinero</a></li>
-        <li><a href="#Escapando Referencias VTL Válidas">Escapando Referencias VTL Válidas</a></li>
+        <li><a href="#EscapandoReferenciasVTLVálidas">Escapando Referencias VTL Válidas</a></li>
     </ol>
 </li>
-<li><a href="#Sustitución de Mayúsculas y Minúsculas">Sustitución de Mayúsculas y Minúsculas</a></li>
+<li><a href="#SustitucióndeMayúsculasyMinúsculas">Sustitución de Mayúsculas y Minúsculas</a></li>
 <li><a href="#Directivas">Directivas</a>
     <ol>
         <li><a href="#Set">Set</a></li>
-        <li><a href="#Cadenas de Caracteres">Cadenas de Caracteres</a></li>
-        <li><a href="#Sentencias If-Else">Sentencias If-Else</a>
+        <li><a href="#CadenasdeCaracteres">Cadenas de Caracteres</a></li>
+        <li><a href="#SentenciasIf-Else">Sentencias If-Else</a>
             <ol>
-                <li><a href="#Operadores Lógicos y Relacionales">Operadores Lógicos y Relacionales</a></li>
+                <li><a href="#OperadoresLógicosyRelacionales">Operadores Lógicos y Relacionales</a></li>
             </ol>
         </li>
-        <li><a href="#Ciclos Foreach">Ciclos Foreach</a></li>
+        <li><a href="#CiclosForeach">Ciclos Foreach</a></li>
         <li><a href="#Include">Include</a></li>
         <li><a href="#Parse">Parse</a></li>
         <li><a href="#Stop">Stop</a></li>
         <li><a href="#Velocimacros">Velocimacros</a></li>
     </ol>
 </li>
-<li><a href="#Escapando Directivas VTL">Escapando Directivas VTL</a></li>
-<li><a href="#VTL: Asuntos de Formato">VTL: Asuntos de Formato</a></li>
-<li><a href="#Otras Características y Miscelánea">Otras Características y Miscelánea</a>
+<li><a href="#EscapandoDirectivasVTL">Escapando Directivas VTL</a></li>
+<li><a href="#VTL:AsuntosdeFormato">VTL: Asuntos de Formato</a></li>
+<li><a href="#OtrasCaracterísticasyMiscelánea">Otras Características y Miscelánea</a>
     <ol>
         <li><a href="#Matemáticas">Matemáticas</a></li>
-        <li><a href="#El Operador de Rango">El Operador de Rango</a></li>
-        <li><a href="#Temas Avanzados: Escapando y !">Temas Avanzados: Escapando y !</a></li>
-        <li><a href="#Miscelánea de Velocimacro">Miscelánea de Velocimacro</a></li>
-        <li><a href="#Concatenación de Cadenas">Concatenación de Cadenas</a></li>
+        <li><a href="#ElOperadordeRango">El Operador de Rango</a></li>
+        <li><a href="#TemasAvanzados:Escapandoy!">Temas Avanzados: Escapando y !</a></li>
+        <li><a href="#MisceláneadeVelocimacro">Miscelánea de Velocimacro</a></li>
+        <li><a href="#ConcatenacióndeCadenas">Concatenación de Cadenas</a></li>
     </ol>
 </li>
 <li><a href="#Retroalimentación">Retroalimentación</a></li>
 </ol>
 </section>
-<section name="Acerca de esta guía">
+<section name="Acerca de esta guía" href="Acercadeestaguía">
 
 <p>
 La Guía del usuario de Velocity busca ayudar a los diseñadores de páginas y a
@@ -81,7 +81,7 @@ plantillas.
 
 <p>Gracias por escoger Velocity!</p>
 </section>
-<section name="¿Qué es Velocity?">
+<section name="¿Qué es Velocity?" href="QuéesVelocity?">
 <p>
 Velocity es un motor de plantillas basado en Java. Le permite a los diseñadores
 de páginas hacer referencia a métodos definidos dentro del código Java. Los
@@ -106,8 +106,8 @@ proveerá un servicio de plantillas que facilitará el desarrollo de aplicaciones
 web de acuerdo a un verdadero modelo MVC.
 </p>
 </section>
-<section name="¿Qué puede hacer Velocity por mi?">
-<subsection name="El Ejemplo de la tienda de Lodo">
+<section name="¿Qué puede hacer Velocity por mi?" href="QuépuedehacerVelocitypormi?">
+<subsection name="El Ejemplo de la tienda de Lodo" href="ElEjemplodelatiendadeLodo">
 <p>
 Suponga que usted es un diseñador para una tienda en línea que se especializa
 en vender lodo a la que llamaremos "La Tienda de Lodo en línea". Los negocios
@@ -183,7 +183,7 @@ de Velocity.
 </p>
 </subsection>
 </section>
-<section name="El Lenguaje de Plantillas de Velocity (VTL): Una Introducción">
+<section name="El Lenguaje de Plantillas de Velocity (VTL): Una Introducción" href="ElLenguajedePlantillasdeVelocity(VTL):UnaIntroducción">
   <p>
   El Lenguaje de Plantillas de Velocity (VTL) fue creado para prover la
   manera mas fácil, simple y limpia de incorporar contenido dinámico
@@ -248,7 +248,7 @@ de Velocity.
 
 </section>
 
-<section name="¡Hola Mundo Velocity!">
+<section name="¡Hola Mundo Velocity!" href="HolaMundoVelocity!">
 
   <p>
     Una vez un valor ha sido asignado a una variable, usted puede
@@ -279,7 +279,7 @@ de Velocity.
 
 </section>
 
-<section name="Comentarios">
+<section name="Comentarios" href="Comentarios">
 
 <p>
 Los comentarios es posible incluir texto que no aparecerá como parte de
@@ -349,7 +349,7 @@ información de versiones:
 
 </section>
 
-<section name="Referencias">
+<section name="Referencias" href="Referencias">
 
 <p>
     Existen tres tipos de referencias en VTL: variables, propiedades y
@@ -515,7 +515,7 @@ $libro.setTitulo( "Homenaje a Colombia" )
 ]]></source>
 
  <p>
- <a name="Notación Formal de Referencias"><strong>Notación Formal de
+ <a name="NotaciónFormaldeReferencias"><strong>Notación Formal de
          Referncias</strong></a>
  <br />
  La notación abreviada para referencias fue utilizada en los ejemplos
@@ -569,7 +569,7 @@ Juan es un ${vicio}mano.
 
 
  <p>
- <a name="Notación Sileciosa de Referencias"><strong>Notación de Referenias
+ <a name="NotaciónSileciosadeReferencias"><strong>Notación de Referenias
          Silenciosas</strong></a>
  <br />
     Cuando Velocity encuentra una referencia indefinida, su
@@ -612,7 +612,7 @@ Juan es un ${vicio}mano.
 
 </section>
 
-<section name="Literalmente">
+<section name="Literalmente" href="Literalmente">
 
   <p>
   VTL hace uso de caracteres especiales, como <em>$</em> y <em>#</em>,
@@ -632,7 +632,7 @@ Juan es un ${vicio}mano.
   </p>
 
   <p>
-  <a name="Escapando Referencias VTL Válidas"><strong>Escapando Referencias
+  <a name="EscapandoReferenciasVTLVálidas"><strong>Escapando Referencias
           VTL Válidas</strong></a>
   <br />
   Pueden existir casos en donde haya la posibilidad de que Velocity se
@@ -734,7 +734,7 @@ en lugar de <em>$foo</em>
 
 </section>
 
-<section name="Sustitución de Mayúsculas y Minúsculas">
+<section name="Sustitución de Mayúsculas y Minúsculas" href="SustitucióndeMayúsculasyMinúsculas">
 
 <p>
 Ahora que usted esta familiarizado con las referencias, puede comenzar a
@@ -794,7 +794,7 @@ referencias casi en cualquier lugar de su plantilla.
 </section>
 
 
-<section name="Directivas">
+<section name="Directivas" href="Directivas">
 
 <p>
     Las Referencias le permiten a los diseñadores de plantillas generar
@@ -954,7 +954,7 @@ El resultado de la primera consulta en pedro
     directiva <em>#set</em> no tiene un enunciado <em>#end</em>.
  </p>
 
- <a name="Cadenas de Caracteres"><strong>Cadenas de Caracteres</strong></a>
+ <a name="CadenasdeCaracteres"><strong>Cadenas de Caracteres</strong></a>
 
  <p>
     Cuando se utiliza la directiva <em>#set</em>, los literales de
@@ -1006,7 +1006,7 @@ $blarg
 </section>
 
 
-<section name="Sentencias If-Else">
+<section name="Sentencias If-Else" href="SentenciasIf-Else">
 
 <strong>Condicionales</strong>
 <p>
@@ -1070,7 +1070,7 @@ $blarg
     </p>
 
     <p>
-    <a name="Operadores Lógicos y Relacionales"><strong>Operadores
+    <a name="OperadoresLógicosyRelacionales"><strong>Operadores
             Lógicos y Relacionales</strong></a>
     </p>
 
@@ -1174,7 +1174,7 @@ $blarg
 
  </section>
 
-<section name="Ciclos Foreach">
+<section name="Ciclos Foreach" href="CiclosForeach">
 
    <strong>Ciclo Foreach</strong>
 
@@ -1259,7 +1259,7 @@ directive.foreach.counter.initial.value = 1
 
  </section>
 
-<section name="Include">
+<section name="Include" href="Include">
 
     <p>
     El elemento de script <em>#include</em> le permite al diseñador de
@@ -1303,7 +1303,7 @@ directive.foreach.counter.initial.value = 1
 
  </section>
 
-<section name="Parse">
+<section name="Parse" href="Parse">
 
 <p>
     El elemento de script <em>#parse</em> le permite al diseñadore de
@@ -1370,7 +1370,7 @@ $cuenta
  </section>
 
 
-<section name="Stop">
+<section name="Stop" href="Stop">
 
 <p>
 El elemento de script <em>#stop</em> permite al diseñador parar la
@@ -1383,7 +1383,7 @@ de corrección de errores.
 ]]></source>
  </section>
 
-<section name="Velocimacros">
+<section name="Velocimacros" href="Velocimacros">
 
     <p>
     El elemento de script <em>#macro</em> script permite definir un
@@ -1688,7 +1688,7 @@ siguientes elementos de VTL:
     </p>
  </section>
 
-<section name="Escapando Directivas VTL">
+<section name="Escapando Directivas VTL" href="EscapandoDirectivasVTL">
 <p>
 Las directivas de VTL se pueden escapar con el palote invertido o
 backslash ("\") de manera similar a como se escapan las referencias de
@@ -1809,7 +1809,7 @@ un retorno después de 'Ganelin', por lo que el \\ final, que precede el
 
  </section>
 
-<section name="VTL: Asuntos de Formato">
+<section name="VTL: Asuntos de Formato" href="VTL:AsuntosdeFormato">
 
 <p>
 A pesar de que el VTL mostrado en esta guía del usuario se muestra en la
@@ -1866,9 +1866,9 @@ En cada caso la salida será la misma
 
 </section>
 
-<section name="Otras Características y Miscelánea">
+<section name="Otras Características y Miscelánea" href="OtrasCaracterísticasyMiscelánea">
 
-<subsection name="Matemáticas">
+<subsection name="Matemáticas" href="Matemáticas">
 
 <p>
 Velocity tiene varias funciones matemáticas incluidas que pueden ser
@@ -1896,7 +1896,7 @@ puede obtener utilizando el operador módulo (<em>%</em>).
 
   </subsection>
 
-<subsection name="El Operador de Rango">
+<subsection name="El Operador de Rango" href="ElOperadordeRango">
 
 <p>
 El operador de rango se puede usar en conjunción con las directivas
@@ -1969,7 +1969,7 @@ llenar la tabla, encontrarán el operador de rango particularmente útil.
 
   </subsection>
 
-<subsection name="Temas Avanzados: Escapando y !">
+<subsection name="Temas Avanzados: Escapando y !" href="TemasAvanzados:Escapandoy!">
 
 <p>
 Cuando una referencia se hace silenciona con el caracter <em>!</em> y el
@@ -2022,7 +2022,7 @@ $!{foo}
 
  </subsection>
 
-<subsection name="Miscelánea de Velocimacro">
+<subsection name="Miscelánea de Velocimacro" href="MisceláneadeVelocimacro">
 
 <p>
 Esta sección contiene un conjunto de preguntas frecuentes (FAQ)
@@ -2187,7 +2187,7 @@ Velocimacros.
 
 </subsection>
 
-<subsection name="Concatenación de Cadenas">
+<subsection name="Concatenación de Cadenas" href="ConcatenacióndeCadenas">
 
 <p>
 Una pregunta común que los desarrolladores formulan es <i>¿Cómo
@@ -2254,7 +2254,7 @@ Una pregunta común que los desarrolladores formulan es <i>¿Cómo
 
 </section>
 
-<section name="Retroalimentación">
+<section name="Retroalimentación" href="Retroalimentación">
 
 <p>
 Si encuentra algún error en este manual o tiene algún otro comentario o

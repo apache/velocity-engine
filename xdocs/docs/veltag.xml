@@ -9,38 +9,38 @@
 
 <body>
 
-<section name="Contents">
+<section name="Contents" href="Contents">
 
 <ol>
 <li>
-<a href="#So You Have To Use JSP...">So You Have To Use JSP...</a>
+<a href="#SoYouHaveToUseJSP...">So You Have To Use JSP...</a>
 <ul>
   <li>
-    <a href="#What Are The Advantages">What Are The Advantages?</a>
+    <a href="#WhatAreTheAdvantages">What Are The Advantages?</a>
   </li>
 </ul>
 </li>
 
 <li>
- <a href="#Using The Velocity Taglib">Using The Velocity Taglib</a>
+ <a href="#UsingTheVelocityTaglib">Using The Velocity Taglib</a>
  <ul>
   <li>
-    <a href="#Automatic Scope Access">Automatic Scope Access</a>
+    <a href="#AutomaticScopeAccess">Automatic Scope Access</a>
   </li>
   <li>
-    <a href="#Strict Scope Access">Strict Scope Access</a>
+    <a href="#StrictScopeAccess">Strict Scope Access</a>
   </li>
 </ul>
 </li>
 
 <li>
-<a href="#Building The Velocity Taglib">Building The Velocity Taglib</a>
+<a href="#BuildingTheVelocityTaglib">Building The Velocity Taglib</a>
 <ul>
   <li>
-    <a href="#JJAR build">Build Using JJAR</a>
+    <a href="#JJARbuild">Build Using JJAR</a>
   </li>
   <li>
-    <a href="#nonJJAR build">Non-JJAR Traditional Build</a>
+    <a href="#nonJJARbuild">Non-JJAR Traditional Build</a>
   </li>
 </ul>
 </li>
@@ -52,7 +52,7 @@
 
 </section>
 
-<section name="So You Have To Use JSP...">
+<section name="So You Have To Use JSP..." href="SoYouHaveToUseJSP...">
 
 <p>
  Sometimes it appears you don't have a choice - technology decisions are 
@@ -106,7 +106,7 @@ simple as :
 Not hard at all, is it?
 </p>
 
-<a name="What Are The Advantages"><strong>What Are The Advantages?</strong></a>
+<a name="WhatAreTheAdvantages"><strong>What Are The Advantages?</strong></a>
 
 <p>
 The first question asked when confronted with this subject is something 
@@ -166,7 +166,7 @@ maintain functionality.  Some things that Velocity provides :
 
 </section>
 
-<section name="Using The Velocity Taglib">
+<section name="Using The Velocity Taglib" href="UsingTheVelocityTaglib">
 
 <p>
 The biggest challenge in bringing together Velocity and JSP is the 
@@ -187,7 +187,7 @@ access and strict access, allow two distinct ways of managing and
 accessing data.  These two ways can also be used together.
 </p>
 
-<a name="Automatic Scope Access"><strong>Automatic Scope Access</strong></a>
+<a name="AutomaticScopeAccess"><strong>Automatic Scope Access</strong></a>
 
 <p>
 The first way, automatic access, is the most convenient.  When an 
@@ -231,7 +231,7 @@ other access mode, strict scope access, or a combination of the
 two.
 </p>
 
-<a name="Strict Scope Access"><strong>Strict Scope Access</strong></a>
+<a name="StrictScopeAccess"><strong>Strict Scope Access</strong></a>
   <p>
    The alternative (or addition to) Automatic Scope Access is something called 
    <i>Strict Scope Access</i>.  Strict Scope Acccess means that the Velocity
@@ -276,7 +276,7 @@ Again, pretty straightforward.
 
 </section>
 
-<section name="Building The Velocity Taglib">
+<section name="Building The Velocity Taglib" href="BuildingTheVelocityTaglib">
 
 <p>
 To use the Velocity taglib, you need to build it, as it is not 
@@ -292,7 +292,7 @@ project.  See
 for more about the Subversion code repository.
 </p>
 
-<a name="JJAR build"><strong>The Easy, JJAR Way</strong></a>
+<a name="JJARbuild"><strong>The Easy, JJAR Way</strong></a>
 
 <p>
 The Veltag taglib can be built using a new, <b>experimental</b> 
@@ -345,7 +345,7 @@ To build with JJAR :
 That's it.  Pretty easy.
 </p>
 
-<a name="nonJJAR build"><strong>The JJAR-Is-A-Work-In-Progress Way</strong></a>
+<a name="nonJJARbuild"><strong>The JJAR-Is-A-Work-In-Progress Way</strong></a>
 
 <p>
 In the event the JJAR-based build is broken, or you just enjoy
@@ -390,7 +390,7 @@ To build, you need the following :
 </ul>
 </section>
 
-<section name="Configuration">
+<section name="Configuration" href="Configuration">
 
 <p>
 Using the taglib is very straightforward.  The following assumes

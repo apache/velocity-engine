@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="Building a Web Application with Velocity">
+<section name="Building a Web Application with Velocity" href="BuildingaWebApplicationwithVelocity">
 
 <p>
 Velocity is often used to generate web pages in applications, usually as a direct replacement
@@ -36,7 +36,7 @@ providing a consistent way to mark up text.
 
 </section>
 
-<section name="Use a Framework">
+<section name="Use a Framework" href="UseaFramework">
 
 <p>
 The primary purpose of the core Velocity engine is simply to generate text based on 
@@ -88,13 +88,13 @@ you use VelocityViewServlet in Velocity Tools instead.
 
 </section>
 
-<section name="Web-Specific Issues">
+<section name="Web-Specific Issues" href="Web-SpecificIssues">
 <p>
 There are a few issues with Velocity that are specific to web applications.  Here is a brief discussion of the most 
 commonly encountered issues.
 </p>
 
-<subsection name="Changing Object State - Don't!">
+<subsection name="Changing Object State - Don't!" href="ChangingObjectState-Don't!">
 <p>Velocity provides the ability to call any method of an object acting as a reference.  This can be useful when displaying 
 information into the page but is dangerous when object or application state is modified.
 </p>
@@ -140,7 +140,7 @@ be used more than once in the page with no change in behavior.
 
 </subsection>
 
-<subsection name="Escaping HTML/XML Entities">
+<subsection name="Escaping HTML/XML Entities" href="EscapingHTML/XMLEntities">
 
 <p>
 Any user-entered text that contains special HTML or XML entities (such as &lt;, &gt;, or &amp;) needs to be escaped 
@@ -168,7 +168,7 @@ to be escaped, and in Javascript strings the single apostrophe ' needs to be esc
 
 </subsection>
 
-<subsection name="Securing the Application">
+<subsection name="Securing the Application" href="SecuringtheApplication">
 
 <p>
 Since a web application is running on a central server, that typically has multiple users and confidential resources, 
@@ -180,7 +180,7 @@ and method introspection) are written up in this article on
 
 </subsection>
 
-<subsection name="Log Files">
+<subsection name="Log Files" href="LogFiles">
 
 <p>
 A minor point is that Velocity, in the absence of any log-related configuration, creates a log file in the current directory.  
@@ -195,7 +195,7 @@ generation (e.g. for sending email).
 
 </section>
 
-<section name="Tutorial">
+<section name="Tutorial" href="Tutorial">
 
 <p>
 What follows is a brief tutorial on building a simple web app with VelocityViewServlet.  For more information, consult the 

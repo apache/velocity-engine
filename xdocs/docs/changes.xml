@@ -9,13 +9,13 @@
 
 <body>
 
-<section name="Velocity Changes">
+<section name="Velocity Changes" href="VelocityChanges">
 
 <p>
    This document tracks the changes in Velocity between releases.
 </p>
 
-<subsection name="1.5-dev">
+<subsection name="1.5-dev" href="1.5-dev">
 <p>
     This section describes changes to the main branch
     after the 1.4 release.
@@ -130,7 +130,7 @@ Tiny fix to VelocityWriter to prevent a NPE if someone passes it a null (gmj)
 
 </subsection>
 
-<subsection name="1.4-rc1">
+<subsection name="1.4-rc1" href="1.4-rc1">
 <p>
     This section describes changes to the 1.4 branch after
     rc1. It was released as v1.4 on April 14, 2004.
@@ -141,7 +141,7 @@ Tiny fix to VelocityWriter to prevent a NPE if someone passes it a null (gmj)
     </ul>
 </subsection>
     
-<subsection name="1.4-dev">
+<subsection name="1.4-dev" href="1.4-dev">
 <p>
 This section describes changes to the main branch after the
 1.3 release.  They were released as part of 1.4 rc1 on
@@ -228,7 +228,7 @@ Upgraded JDOM to v1.0b9 (gmj)
 </subsection>
 
 
-<subsection name="1.3.1-rc2">
+<subsection name="1.3.1-rc2" href="1.3.1-rc2">
 <p>
 This section desscribes changes to the VEL_1_3_BRANCH after
 the 1.3.1-rc2 release.  It was released as 1.3.1 on it's own branch,
@@ -236,7 +236,7 @@ VEL_1_3_1_BRANCH on March 31, 2003.
 </p>
 </subsection>
 
-<subsection name="1.3.1-rc1">
+<subsection name="1.3.1-rc1" href="1.3.1-rc1">
 <p>
 This section describes changes to the VEL_1_3_BRANCH after the
 1.3.1-rc1 release. This was released as 1.3.1-rc2 on July 24, 2002.
@@ -255,7 +255,7 @@ This section describes changes to the VEL_1_3_BRANCH after the
 </subsection>
 
 
-<subsection name="1.3">
+<subsection name="1.3" href="1.3">
 <p>
 This section describes changes to the VEL_1_3_BRANCH after the
 1.3 release. This was released as 1.3.1-rc1 on July 22, 2002.
@@ -268,7 +268,7 @@ This section describes changes to the VEL_1_3_BRANCH after the
 </ul>
 </subsection>
 
-<subsection name="1.3-rc1">
+<subsection name="1.3-rc1" href="1.3-rc1">
 <p>
 This section describes changes to the VEL_1_3_BRANCH after the
 1.3-rc1 release. This branch was released as v1.3 on July 7, 2002.
@@ -295,7 +295,7 @@ Brought recent Spanish and French translations of the User's Guide to the
 
 </subsection>
 
-<subsection name="1.3-dev">
+<subsection name="1.3-dev" href="1.3-dev">
 <p>
 This section describes changes to the main branch after the
 1.2 release. This was then branched as VEL_1_3_BRANCH in CVS
@@ -478,14 +478,14 @@ and released as v1.3-rc on March 17, 2002.
 
 </subsection>
 
-<subsection name="1.2">
+<subsection name="1.2" href="1.2">
 <p>
 1.2 was released on December 9, 2001.
 </p>
 
 </subsection>
 
-<subsection name="1.2-rc3">
+<subsection name="1.2-rc3" href="1.2-rc3">
 <p>
 This section describes changes to the VEL_1_2_BRANCH after the
 1.2-rc3 release. 1.2-rc3 was released on November 7, 2001
@@ -506,7 +506,7 @@ rc for the 1.2 release.
 
 </subsection>
 
-<subsection name="1.2-rc2">
+<subsection name="1.2-rc2" href="1.2-rc2">
 <p>
 This section describes changes to the VEL_1_2_BRANCH after the
 1.2-rc2 release. 1.2-rc2 was released on October 18, 2001
@@ -533,7 +533,7 @@ as an administrative fix for 1.2-rc1 (files were damaged.)
 
 </subsection>
 
-<subsection name="1.2-rc1">
+<subsection name="1.2-rc1" href="1.2-rc1">
 <p>
 This section describes changes to the VEL_1_2_BRANCH after the
 1.2-rc1 release. These are updates working towards a rc2 or
@@ -561,7 +561,7 @@ final.
 
 </subsection>
 
-<subsection name="1.2-dev">
+<subsection name="1.2-dev" href="1.2-dev">
 <p>
   This section describes changes to the main branch after the 1.1 release.
   This was then branched as VEL_1_2_BRANCH in CVS and released as v1.2-rc1
@@ -725,7 +725,7 @@ final.
 </ul>
 </subsection>
 
-<subsection name="1.1-rc2">
+<subsection name="1.1-rc2" href="1.1-rc2">
 <p>
 This section describes changes to the VEL_1_1_BRANCH after the
 1.1-rc2 release.  This was released as v1.1 on June 16, 2001.
@@ -740,7 +740,7 @@ This section describes changes to the VEL_1_1_BRANCH after the
 
 </subsection>
 
-<subsection name="1.1-rc1">
+<subsection name="1.1-rc1" href="1.1-rc1">
 <p>
 This section describes changes to VEL_1_1_BRANCH after the 1.1-rc1
 release.  This was released as v1.1-rc2 on June 2, 2001.
@@ -771,7 +771,7 @@ release.  This was released as v1.1-rc2 on June 2, 2001.
 </ul>
 </subsection>
 
-<subsection name="1.1-dev">
+<subsection name="1.1-dev" href="1.1-dev">
 <p>
 This section describes changes to the main branch after the 1.0.1 release.
 This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 20, 2001.
@@ -878,7 +878,7 @@ This was then branched as VEL_1_1_BRANCH in CVS and released as v1.1-rc1 on May 
 </ul>
 </subsection>
 
-<subsection name="1.0.1-dev">
+<subsection name="1.0.1-dev" href="1.0.1-dev">
 <p>
 Released as v1.0.1-rc1 on April 10, 2001.
 </p>
@@ -931,7 +931,7 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
 </ul>
 
 </subsection>
-<subsection name="1.0b3">
+<subsection name="1.0b3" href="1.0b3">
 <p>
    Released as version 1.0 on April 2, 2001
 </p>
@@ -1002,7 +1002,7 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
 
 </subsection>
 
-<subsection name="1.0b2">
+<subsection name="1.0b2" href="1.0b2">
 
 <p>
    Released as version 1.0 beta 2 on March 26, 2001
@@ -1094,7 +1094,7 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
 </ul>
 </subsection>
 
-<subsection name="1.0b1">
+<subsection name="1.0b1" href="1.0b1">
 <ul>
     <li>
         Initial release.

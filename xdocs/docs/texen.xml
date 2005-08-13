@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="What is Texen?">
+<section name="What is Texen?" href="WhatisTexen?">
 
 <p>
     Texen is a general purpose text generating utility. It is capable of
@@ -34,7 +34,7 @@
 
 </section>
 
-<section name="The TexenTask">
+<section name="The TexenTask" href="TheTexenTask">
 
 <p>
     This trivial example, which shows how to use Texen from an Ant
@@ -169,14 +169,14 @@ not so useful in this case). :-)
             <td>useResourceLoaderCache</td>
             <td>Optional argument used when useClasspath is turned on.
             See the <a
-            href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            href="developer-guide.html#ConfiguringResourceLoaders">Developer's Guide</a>
             for details on resource caching.</td>
         </tr>
         <tr>
             <td>resourceLoaderModificationCheckInterval</td>
             <td>Optional argument used when useClasspath is turned on.
             See the <a
-            href="developer-guide.html#Configuring Resource Loaders">Developer's Guide</a>
+            href="developer-guide.html#ConfiguringResourceLoaders">Developer's Guide</a>
             for details on resource caching.</td>
         </tr>
         <tr>
@@ -228,7 +228,7 @@ not so useful in this case). :-)
 
 </section>
 
-<section name="Predefined Context Objects">
+<section name="Predefined Context Objects" href="PredefinedContextObjects">
 <p>
     The Texen Ant task places several objects into the Context for you.
 </p>

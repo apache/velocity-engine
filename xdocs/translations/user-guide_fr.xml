@@ -9,42 +9,42 @@
   </properties>
 <body>
     
-<section name="Table des Matières">
+<section name="Table des Matières" href="TabledesMatières">
       
 <ol>
-<li><a href="#A propos de ce document">A propos de ce document</a></li>
-<li><a href="#Velocity, qu'est-ce que c'est?">Velocity, qu'est-ce que c'est?</a></li>
-<li><a href="#Qu'est-ce que Velocity peut faire pour moi?">Qu'est-ce que Velocity peut faire pour moi?</a>
+<li><a href="#Aproposdecedocument">A propos de ce document</a></li>
+<li><a href="#Velocity,qu'est-cequec'est?">Velocity, qu'est-ce que c'est?</a></li>
+<li><a href="#Qu'est-cequeVelocitypeutfairepourmoi?">Qu'est-ce que Velocity peut faire pour moi?</a>
   <ol>
-    <li><a href="#L'exemple de MudStore">L'exemple de MudStore</a></li>
+    <li><a href="#L'exempledeMudStore">L'exemple de MudStore</a></li>
   </ol>
 </li>
-<li><a href="#Introduction au Velocity Template Language (VTL)">Introduction au Velocity Template Language (VTL)</a></li>
-<li><a href="#Hello Velocity World!">Hello Velocity World!</a></li>
-<li><a href="#Les commentaires">Les commentaires</a></li>
-<li><a href="#Les références">Les références</a>
+<li><a href="#IntroductionauVelocityTemplateLanguage(VTL)">Introduction au Velocity Template Language (VTL)</a></li>
+<li><a href="#HelloVelocityWorld!">Hello Velocity World!</a></li>
+<li><a href="#Lescommentaires">Les commentaires</a></li>
+<li><a href="#Lesréférences">Les références</a>
   <ol>
     <li><a href="#Variables">Variables</a></li>
     <li><a href="#Propriétés">Propriétés</a></li>
     <li><a href="#Méthodes">Méthodes</a></li>
   </ol>
 </li>
-<li><a href="#Notation formelle des références">Notation formelle des références</a></li>
-<li><a href="#Notation silencieuse des références">Notation silencieuse des références</a></li>
-<li><a href="#Sortie littérale">Sortie littérale</a>
+<li><a href="#Notationformelledesréférences">Notation formelle des références</a></li>
+<li><a href="#Notationsilencieusedesréférences">Notation silencieuse des références</a></li>
+<li><a href="#Sortielittérale">Sortie littérale</a>
   <ol>
     <li><a href="#Devise">Devise</a></li>
-    <li><a href="#Echapper des références VTL valides">Echapper des références VTL valides</a></li>
+    <li><a href="#EchapperdesréférencesVTLvalides">Echapper des références VTL valides</a></li>
   </ol>
 </li>
-<li><a href="#Substitution de cas">Substitution de cas</a></li>
+<li><a href="#Substitutiondecas">Substitution de cas</a></li>
 <li><a href="#Directives">Directives</a>
   <ol>
     <li><a href="#Set">Set</a></li>
-    <li><a href="#Chaînes de caractères littérales">Chaînes de caractères littérales</a></li>
+    <li><a href="#Chaînesdecaractèreslittérales">Chaînes de caractères littérales</a></li>
     <li><a href="#Conditions">Conditions</a>
       <ol>
-        <li><a href="#Opérateurs relationnels et logiques">Opérateurs relationnels et logiques</a></li>
+        <li><a href="#Opérateursrelationnelsetlogiques">Opérateurs relationnels et logiques</a></li>
       </ol>
     </li>
     <li><a href="#Boucles">Boucles</a></li>
@@ -54,22 +54,22 @@
     <li><a href="#Velocimacros">Velocimacros</a></li>
   </ol>
 </li>
-<li><a href="#Echappement des directives VTL">Echappement des directives VTL</a></li>
-<li><a href="#VTL: Questions de format">VTL: Questions de format</a></li>
-<li><a href="#Autres caractéristiques et sujets divers">Autres caractéristiques et sujets divers</a>
+<li><a href="#EchappementdesdirectivesVTL">Echappement des directives VTL</a></li>
+<li><a href="#VTL:Questionsdeformat">VTL: Questions de format</a></li>
+<li><a href="#Autrescaractéristiquesetsujetsdivers">Autres caractéristiques et sujets divers</a>
   <ol>
     <li><a href="#Math">Math</a></li>
-    <li><a href="#Opérateur de portée (range)">Opérateur de portée (range)</a></li>
-    <li><a href="#Questions pointues: Echappement et !">Questions pointues: Echappement et !</a></li>
-    <li><a href="#Compléments divers sur les Velocimacros">Compléments divers sur les Velocimacros</a></li>
-    <li><a href="#Concaténation de chaînes">Concaténation de chaînes</a></li>
+    <li><a href="#Opérateurdeportée(range)">Opérateur de portée (range)</a></li>
+    <li><a href="#Questionspointues:Echappementet!">Questions pointues: Echappement et !</a></li>
+    <li><a href="#ComplémentsdiverssurlesVelocimacros">Compléments divers sur les Velocimacros</a></li>
+    <li><a href="#Concaténationdechaînes">Concaténation de chaînes</a></li>
   </ol>
 </li>
-<li><a href="#Donnez votre avis">Donnez votre avis</a></li>
+<li><a href="#Donnezvotreavis">Donnez votre avis</a></li>
 </ol>
 </section>
 
-<section name="A propos de ce document">
+<section name="A propos de ce document" href="Aproposdecedocument">
   <p>
     Le Guide de l'utilisateur Velocity a pour but d'aider les concepteurs de page et les fournisseurs de contenu à se
     familiariser avec Velocity et avec la syntaxe de son langage de script, simple mais puissant, le Velocity Template
@@ -80,7 +80,7 @@
   <p>Merci de choisir Velocity!</p>
 </section>
 
-<section name="Velocity, qu'est-ce que c'est?">
+<section name="Velocity, qu'est-ce que c'est?" href="Velocity,qu'est-cequec'est?">
   <p>
     Velocity est un moteur de substitution, basé sur Java. Il permet aux concepteurs de pages web de faire référence
     à des méthodes définies dans du code Java. Les concepteurs de pages peuvent travailler en équipe avec des
@@ -101,8 +101,8 @@
   </p>
 </section>
 
-<section name="Qu'est-ce que Velocity peut faire pour moi?">
-  <subsection name="L'exemple de MudStore">
+<section name="Qu'est-ce que Velocity peut faire pour moi?" href="Qu'est-cequeVelocitypeutfairepourmoi?">
+  <subsection name="L'exemple de MudStore" href="L'exempledeMudStore">
     <p>Supposons que vous soyez un concepteur de pages pour une boutique en ligne spécialisée dans la vente de terre cuite. Appelons-la "The Online Mud Store". Les affaires marchent fort. Les clients passent commande pour différents types et diverses quantités de terre cuite. Ils s'identifient sur votre site avec un nom d'utilisateur et un mot de passe, ce qui leur permet de suivre leurs commandes et d'en passer de nouvelles. Pour l'instant, vous vendez de la glaise Terracotta, un produit qui marche bien. Quelques-uns de vos clients achètent régulièrement de la glaise Bright Red, que vous vendez aussi, bien sûr, mais qui n'a pas autant la cote et qui se trouve d'habitude reléguée dans les marges de vos pages. Les informations relatives à chaque client sont suivies dans votre base de données, et donc un jour la question se pose: pourquoi ne pas utiliser Velocity pour proposer des offres spéciales à une clientèle ciblée, celle qui est la plus intéressée à un type de marchandise?</p>
     <p>Avec Velocity, il est très facile de personnaliser les pages web pour certains visiteurs. En tant que concepteur de pages du MudRoom, vous voulez maintenant réaliser la page d'accueil que verra votre client après s'être identifié sur votre site. </p>
     <p>Vous tenez une réunion avec les ingénieurs développement de votre entreprise, et tout le monde s'accorde sur le fait que <em>$customer</em> contiendra les informations relatives au client qui s'est connecté et <em>$mudsOnSpecial</em> tous les types de terre disponibles à la vente en ce moment. L'objet <em>$flogger</em> contient différentes méthodes pour aider à la promotion de certains produits. Pour la tâche qui nous concerne, occupons-nous seulement de ces trois références. Rappelez-vous que vous n'avez pas à vous soucier de la manière dont les développeurs vont extraire les informations nécessaires de la base de données, vous supposez seulement que ça fonctionne -- ce qui vous permet de vous occuper de votre part du boulot et les développeurs de la leur.</p>
@@ -129,7 +129,7 @@ Hello $customer.Name!
   </subsection>
 </section>
 
-<section name="Introduction au Velocity Template Language (VTL)">
+<section name="Introduction au Velocity Template Language (VTL)" href="IntroductionauVelocityTemplateLanguage(VTL)">
   <p>Le Velocity Template Language (VTL) a été conçu pour inclure du contenu dynamique dans une page web de la manière la plus facile, la plus simple et la plus propre. Même un infographiste avec peu ou pas de bagage en programmation sera rapidement capable d'utiliser le VTL pour incorporer du contenu dynamique dans un site web.</p>
   <p>VTL utilise des <em>références</em> pour embarquer du contenu dynamique dans un site web, et une variable est un type de référence. Une variable fait référence à quelque chose qui est défini dans le code Java, ou elle peut prendre sa valeur d'une <em>instruction</em> VTL dans la page web. Voici un exemple d'instruction VTL</p>
   <source><![CDATA[
@@ -163,7 +163,7 @@ Hello $customer.Name!
   </p>
 </section>
 
-<section name="Hello Velocity World!">
+<section name="Hello Velocity World!" href="HelloVelocityWorld!">
   <p>
     Une fois qu'une valeur a été assignée à une variable, vous pouvez faire référence à cette variable n'importe où dans
     votre document HTML. Dans l'exemple suivant, une valeur est assignée à <em>$foo</em> et référencée plus loin.
@@ -184,7 +184,7 @@ Hello $foo World!
   </p>
 </section>
 
-<section name="Les commentaires">
+<section name="Les commentaires" href="Lescommentaires">
   <p>
     Les commentaires permettent d'inclure du texte descriptif qui ne sera pas reporté dans la sortie du moteur
     d'inclusion. Les commentaires sont une manière utile de se rappeler et d'expliquer à d'autres ce que font les
@@ -236,7 +236,7 @@ telles que l'auteur ou la version du document.
 ]]></source>
 </section>
 
-<section name="Les références">
+<section name="Les références" href="Lesréférences">
   <p>
     Il y a trois types de références en VTL: les variables, les propriétés et les méthodes. En tant que concepteur
     utilisant le VTL, vous et vos ingénieurs devez vous mettre d'accord sur les noms des références, de manière à pouvoir
@@ -348,7 +348,7 @@ $book.setTitle( "Homage to Catalonia" )
 ## On ne peut pas passer une liste de paramètres
 ]]></source>
   <p>
-    <a name="Notation formelle des références"><strong>Notation formelle des références</strong></a>
+    <a name="Notationformelledesréférences"><strong>Notation formelle des références</strong></a>
     <br/>Dans les exemples ci-dessus, nous avons utilisé la notation abrégée pour les références, mais il y a aussi
     une notation formelle pour les références, illustrée ci-dessous:
   </p>
@@ -384,7 +384,7 @@ Jacques est un ${vice}mane.
     souvent utile quand les références sont directement adjacentes à du texte au sein d'un gabarit.
   </p>
   <p>
-    <a name="Notation silencieuse des références"><strong>Notation silencieuse des références</strong></a>
+    <a name="Notationsilencieusedesréférences"><strong>Notation silencieuse des références</strong></a>
     <br/>Lorsque Velocity rencontre une référence non définie, son comportement normal est de produire une image de la
     référence. Par exemple, supposons que la référence suivante apparaisse dans un gabarit VTL:
   </p>
@@ -410,7 +410,7 @@ Jacques est un ${vice}mane.
 ]]></source>
 </section>
 
-<section name="Sortie littérale">
+<section name="Sortie littérale" href="Sortielittérale">
   <p>
     VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
     quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
@@ -423,7 +423,7 @@ Jacques est un ${vice}mane.
     minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
   </p>
   <p>
-    <a name="Echapper des références VTL valides"><strong>Echapper des références VTL valides</strong></a>
+    <a name="EchapperdesréférencesVTLvalides"><strong>Echapper des références VTL valides</strong></a>
     <br/>Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
     caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
     fait en utilisant le caractère backslash (<em>\</em>).
@@ -490,7 +490,7 @@ $moon = $foo
   <p>Il est aussi possible d'échapper les directives VTL; ceci est décrit plus en détail dans la section Directives.</p>
 </section>
 
-<section name="Substitution de cas">
+<section name="Substitution de cas" href="Substitutiondecas">
   <p>
     Maintenant que les références vous sont familières, vous pouvez commencer à les mettre en pratique dans vos propres
     gabarits. Les références, dans Velocity, tirent avantage de certains principes Java que les concepteurs de gabarits
@@ -534,7 +534,7 @@ ${data.Request.ServerName}
   </p>
 </section>
 
-<section name="Directives">
+<section name="Directives" href="Directives">
   <p>
     Les références permettent aux concepteurs de pages de générer du contenu dynamique pour des sites web alors que les
     <em>directives</em> -- des éléments de script, faciles à utiliser, qui peuvent être mis en oeuvre pour manipuler de
@@ -650,7 +650,7 @@ Le résultat de la seconde requête est bill
 #end
 ]]></source>
   <p>Contrairement à d'autres directives Velocity, la directive <em>#set</em> n'a pas d'instruction <em>#end</em>.</p>
-  <a name="Chaînes de caractères littérales"><strong>Chaînes de caractères littérales</strong></a>
+  <a name="Chaînesdecaractèreslittérales"><strong>Chaînes de caractères littérales</strong></a>
   <p>
     Lorsque vous utilisez la directive <em>#set</em>, les chaînes de caractères littérales délimitées par des guillements
     sont interprétées et rendues de la manière suivante:
@@ -684,7 +684,7 @@ $blargh
   </p>
 </section>
 
-<section name="Conditions">
+<section name="Conditions" href="Conditions">
   <strong>If / ElseIf / Else</strong>
   <p>
     La directive <em>#if</em> de Velocity permet à du texte d'être inclus à la génération d'une page web seulement si la
@@ -728,7 +728,7 @@ $blargh
     Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premières comparaisons échouent. Ensuite,
     <em>$bar</em> est comparé à 6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
   </p>
-  <p><a name="Opérateurs logiques et relationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
+  <p><a name="Opérateurslogiquesetrelationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
   <p>Velocity utilise l'opérateur d'équivalence pour déterminer les relations entre des variables. Voici un exemple simple pour illustrer la manière d'utiliser l'opérateur d'équivalence.</p>
   <source><![CDATA[
 #set ($foo = "deoxyribonucleic acid")
@@ -797,7 +797,7 @@ $blargh
   </p>
 </section>
 
-<section name="Boucles">
+<section name="Boucles" href="Boucles">
   <strong>Boucle Foreach</strong>
   <p>L'élément <em>#foreach</em> permet d'itérer. Par exemple:</p>
   <source><![CDATA[
@@ -855,7 +855,7 @@ directive.foreach.counter.initial.value = 1
 ]]></source>
 </section>
 
-<section name="Include">
+<section name="Include" href="Include">
   <p>
     L'élément de script <em>#include</em> permet au concepteur de gabarits d'importer un fichier local, qui est alors
     inséré à l'endroit où la directive <em>#include</em> est définie. Le contenu du fichier n'est pas rendu en passant
@@ -883,7 +883,7 @@ directive.foreach.counter.initial.value = 1
 ]]></source>
 </section>
 
-<section name="Parse">
+<section name="Parse" href="Parse">
   <p>
     L'élément de script <em>#parse</em> permet au concepteur de gabarits d'importer un fichier local contenant du VTL.
     Velocity va alors interpréter le VTL et rendre le gabarit spécifié.
@@ -928,7 +928,7 @@ $count
   </p>
 </section>
 
-<section name="Stop">
+<section name="Stop" href="Stop">
   <p>
     L'élément de script <em>#stop</em> permet au concepteur de gabarits d'arrêter l'exécution du moteur de substitution.
     Cette directive peut être utile pour le débogage.
@@ -938,7 +938,7 @@ $count
 ]]></source>
 </section>
 
-<section name="Velocimacros">
+<section name="Velocimacros" href="Velocimacros">
   <p>
     L'élément de script <em>#macro</em> permet aux concepteurs de définir un segment répétable d'un gabarit VTL.
     Les "Velocimacros" sont très utiles dans un grand nombre de scénarios, simples ou complexes.
@@ -1136,7 +1136,7 @@ $count
   </p>
 </section>
 
-<section name="Echappement des directives VTL">
+<section name="Echappement des directives VTL" href="EchappementdesdirectivesVTL">
   <p>
     Les directives VTL peuvent être échappées avec le caractère barre de fraction inversée ("\"), de la même manière que
     les références VTL valides.
@@ -1228,7 +1228,7 @@ Vyacheslav Ganelin
   </p>
 </section>
 
-<section name="VTL: Questions de format">
+<section name="VTL: Questions de format" href="VTL:Questionsdeformat">
   <p>
     Bien que le VTL soit souvent montré dans ce guide de l'utilisateur avec des sauts de ligne et des espaces,
     le VTL ci-dessous:
@@ -1265,8 +1265,8 @@ Send me
   <p>Dans tous les cas, la sortie sera identique.</p>
 </section>
 
-<section name="Autres caractéristiques et sujets divers">
-  <subsection name="Math">
+<section name="Autres caractéristiques et sujets divers" href="Autrescaractéristiquesetsujetsdivers">
+  <subsection name="Math" href="Math">
     <p>
       Velocity a quelques fonctions mathématiques intégrées, fonctions que l'on peut utiliser dans les gabarits
       avec la directive <em>set</em>. Les équations suivantes sont des exemples d'addition, soustraction, multiplication
@@ -1287,7 +1287,7 @@ Send me
 ]]></source>
   </subsection>
   
-  <subsection name="Opérateur d'intervalle (range)">
+  <subsection name="Opérateur d'intervalle (range)" href="Opérateurd'intervalle(range)">
     <p>
       L'opérateur d'intervalle peut être utilisé en conjonction avec les instructions <em>#set</em> et
       <em>#foreach</em>. C'est assez commode pour produire un tableau d'objets contenant des entiers;
@@ -1345,7 +1345,7 @@ Quatrième exemple:
     </p>
   </subsection>
   
-  <subsection name="Questions pointues: Echappement et !">
+  <subsection name="Questions pointues: Echappement et !" href="Questionspointues:Echappementet!">
     <p>
       Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère 
       <em>!</em> est précédé par un caractère d'échappement <em>\</em>, la référence est traitée de manière particulière.
@@ -1382,7 +1382,7 @@ $!{foo}
 ]]></source>
   </subsection>
   
-  <subsection name="Compléments divers sur les Velocimacros">
+  <subsection name="Compléments divers sur les Velocimacros" href="ComplémentsdiverssurlesVelocimacros">
     <p>
       Cette section est une mini-FAQ sur différents sujets relatifs aux Velocimacros.
       Cette section évoluera au fil du temps, et cela vaudra donc la peine d'y revenir occasionnellement pour y
@@ -1486,7 +1486,7 @@ Outer : inner : outerlala
     <p>Ne gardez pas cette configuration en production.</p>
   </subsection>
   
-  <subsection name="Concaténation de chaînes">
+  <subsection name="Concaténation de chaînes" href="Concaténationdechaînes">
     <p>
       Une question habituelle parmi les développeurs est:
       <i>Comment concaténer des chaînes de caractères? Y a-t'il quelque chose de semblable à l'opérateur '+' en Java?</i>.
@@ -1534,7 +1534,7 @@ Outer : inner : outerlala
   </subsection>
 </section>
 
-<section name="Donnez votre avis">
+<section name="Donnez votre avis" href="Donnezvotreavis">
   <p>
     Si vous rencontrez des erreurs dans le manuel (autres que des erreurs de traduction), ou si vous voulez faire part de
     votre avis sur le Guide de l'utilisateur Velocity,

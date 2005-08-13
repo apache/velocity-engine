@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="Installation">
+<section name="Installation" href="Installation">
 
 <p>
 Velocity runs on a variety of platforms that have installed the Java 2
@@ -47,7 +47,7 @@ jakarta-velocity
 
 </section>
 
-<section name="Building">
+<section name="Building" href="Building">
 
 <p>
 To make building Velocity easy and consistant, we require a Jakarta project
@@ -206,7 +206,7 @@ list.
 
 </section>
 
-<section name="Testing Your Installation">
+<section name="Testing Your Installation" href="TestingYourInstallation">
 
 <p>
 The Velocity developers use an automated test facility, and it is

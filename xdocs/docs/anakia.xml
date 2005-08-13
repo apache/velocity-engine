@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="What Is Anakia?">
+<section name="What Is Anakia?" href="WhatIsAnakia?">
 <p>
     Essentially an XML transformation tool, Anakia uses <a
     href="http://www.jdom.org">JDOM</a> and <a
@@ -94,7 +94,7 @@ context.put("root", root );
 
 </section>
 
-<section name="Installation/Example">
+<section name="Installation/Example" href="Installation/Example">
 <p>
     Before reviewing the jakarta-velocity/examples/anakia directory,
     you must <a href="../install.html">build Velocity</a>.
@@ -117,7 +117,7 @@ context.put("root", root );
 </p>
 </section>
 
-<section name="How does it work?">
+<section name="How does it work?" href="Howdoesitwork?">
 
 <p>
     Anakia is an Ant task that executes from an Ant build file. The
@@ -252,7 +252,7 @@ context.put("root", root );
     </table>
 </section>
 
-<section name="Predefined Context Objects">
+<section name="Predefined Context Objects" href="PredefinedContextObjects">
 <p>
     The Anakia Ant task places several objects into the Context for you.
 </p>
@@ -364,7 +364,7 @@ context.put("root", root );
 
 </section>
 
-<section name="Customizing the Anakia Context">
+<section name="Customizing the Anakia Context" href="CustomizingtheAnakiaContext">
 <p>
     The Anakia context can be customized by using one or more context nested 
     elements.
@@ -415,7 +415,7 @@ context.put("root", root );
 #end]]></source>
 </section>
 
-<section name="Credits">
+<section name="Credits" href="Credits">
 <p>
     Anakia was originally conceptualized and implemented by 
         <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>.
