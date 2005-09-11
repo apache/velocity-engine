@@ -182,21 +182,81 @@
     </ul>
 
     <p>
-    Examples:
+    Examples (showing different operators):
     </p>
 
-    <ul>
-       <li>Equivalent Operator: #if( $foo == $bar )</li>
-       <li>Not Equals: #if( $foo != $bar )</li>
-       <li>Greater Than: #if( $foo > 42 )</li>
-       <li>Less Than: #if( $foo &lt; 42 )</li>
-       <li>Greater Than or Equal To: #if( $foo >= 42 )</li>
-       <li>Less Than or Equal To: #if( $foo &lt;= 42 )</li>
-       <li>Equals Number: #if( $foo == 42 )</li>
-       <li>Equals String: #if( $foo == "bar" )</li>
-       <li>Boolean NOT: #if( !$foo )</li>
-       <li>using brackets to delimit directive: #if( $foo == $bar)it's true!#{else}it's not!#end</li>
-    </ul>
+    <table>
+    <tr>
+        <th>Operator Name</th>
+        <th>Symbol</th>
+        <th>Alternative Symbol</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td>Equals Number</td>
+        <td>==</td>
+        <td>eq</td>
+        <td> #if( $foo == 42 )</td>
+    </tr>
+    <tr>
+        <td>Equals String</td>
+        <td>==</td>
+        <td>eq</td>
+        <td> #if( $foo == "bar" )</td>
+    </tr>
+    <tr>
+        <td>Object Equivalence</td>
+        <td>==</td>
+        <td>eq</td>
+        <td> #if( $foo == $bar )</td>
+    </tr>
+    <tr>
+        <td>Not Equals</td>
+        <td>!=</td>
+        <td>ne</td>
+        <td> #if( $foo != $bar )</td>
+    </tr>
+    <tr>
+        <td>Greater Than</td>
+        <td>&gt;</td>
+        <td>gt</td>
+        <td> #if( $foo > 42 )</td>
+    </tr>
+    <tr>
+        <td>Less Than</td>
+        <td>&lt;</td>
+        <td>lt</td>
+        <td> #if( $foo &lt; 42 )</td>
+    </tr>
+    <tr>
+        <td>Greater Than or Equal To</td>
+        <td>&gt;=</td>
+        <td>ge</td>
+        <td> #if( $foo >= 42 )</td>
+    </tr>
+    <tr>
+        <td>Less Than or Equal To</td>
+        <td>&lt;=</td>
+        <td>le</td>
+        <td> #if( $foo &lt;= 42 )</td>
+    </tr>
+    <tr>
+        <td>Boolean NOT</td>
+        <td>!</td>
+        <td>not</td>
+        <td> #if( !$foo )</td>
+    </tr>
+   </table>
+
+   <P>Note: You can also use brackets to delimit directives.  This is especially 
+   useful when text immediately follows an <code>#else</code> directive.
+   </P>
+       
+<source><![CDATA[
+#if( $foo == $bar)it's true!#{else}it's not!#end</li>
+]]></source>
+    
+    
   </subsection>
 
   <subsection name="#foreach - Loops through a list of objects" href="foreach-Loopsthroughalistofobjects">
