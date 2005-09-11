@@ -78,7 +78,10 @@
                                    test-foreach,
                                    test-arithmetic,
                                    test-number-methods,
-                                   test-anakia 
+                                   test-anakia,
+                                   test-includeeventhandler,
+                                   test-filteredeventhandler,
+                                   test-builtineventhandler                                   
                                    "/>
 
   <target name="test-template">
@@ -442,5 +445,38 @@
       </classpath>
     </java>
   </target>
+
+ <target name="test-includeeventhandler">
+    <echo message="Running IncludeEvent Handler tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.IncludeEventHandlingTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
+   
+ <target name="test-filteredeventhandler">
+    <echo message="Running Filtered Event Handler tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.FilteredEventHandlingTestCase"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+ </target>
+
+ <target name="test-builtineventhandler">
+    <echo message="Running Built-In Event Handler tests..."/>
+
+    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.BuiltInEventHandlerTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </java>
+   </target>
 
 </project>

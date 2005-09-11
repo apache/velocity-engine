@@ -19,13 +19,11 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
-
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.app.event.EventCartridge;
 
 /**
  * Node for the #set directive
@@ -105,17 +103,8 @@ public class ASTSetDirective extends SimpleNode
              */
             if(blather)
             {
-                EventCartridge ec = context.getEventCartridge();
-
-                boolean doit = true;
                
-                /*
-                 *  if we have an EventCartridge...
-                 */
-                if (ec != null)
-                {
-                    doit = ec.shouldLogOnNullSet( left.literal(), right.literal() );
-                }
+                boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
 
                 if (doit)
                 {

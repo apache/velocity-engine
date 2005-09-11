@@ -17,25 +17,18 @@ package org.apache.velocity.runtime;
  */
 
 import java.io.Reader;
-
 import java.util.Properties;
 
-import org.apache.velocity.Template;
-
-
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-
-import org.apache.velocity.runtime.directive.Directive;
-
-import org.apache.velocity.runtime.resource.ContentResource;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-
 import org.apache.commons.collections.ExtendedProperties;
-
+import org.apache.velocity.Template;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 
@@ -102,6 +95,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
+     *   <li>Event Handlers</li>
      *   <li>Parser Pool</li>
      *   <li>Global Cache</li>
      *   <li>Static Content Include System</li>
@@ -532,6 +526,14 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         return ri.getIntrospector();
     }
+    
+    /**
+      * Returns the event handlers for the application.
+      */
+     public EventCartridge getEventCartridge()
+     {
+         return ri.getApplicationEventCartridge();
+     }
     
     /**
      * @see org.apache.velocity.runtime.RuntimeServices#getApplicationAttribute(Object)

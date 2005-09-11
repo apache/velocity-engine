@@ -17,17 +17,20 @@ package org.apache.velocity.app.event;
  */
 
 /**
- *  Event handler : lets an app approve / veto
- *  writing a log message when RHS of #set() is null.
+ *  Event handler called when the RHS of #set is null.  Lets an app approve / veto
+ *  writing a log message based on the specific reference.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
 public interface NullSetEventHandler extends EventHandler
 {
     /**
-     *  Called when the RHS of a #set() is null, which will result
-     *  in a null LHS.
+     * Called when the RHS of a #set() is null, which will result
+     * in a null LHS. All NullSetEventHandlers
+     * are called in sequence until a false is returned.  If no NullSetEventHandler
+     * is registered all nulls will be logged.
      *
      *  @param lhs  reference literal of left-hand-side of set statement
      *  @param rhs  reference literal of right-hand-side of set statement

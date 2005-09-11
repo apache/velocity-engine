@@ -26,7 +26,7 @@
   <shortDescription>Velocity is a Java-based template engine</shortDescription>
 
   <url>http://jakarta.apache.org/velocity/</url>
-  <issueTrackingUrl>http://nagoya.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
+  <issueTrackingUrl>http://issues.apache.org/jira/browse/VELOCITY</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
   <siteDirectory>/www/jakarta.apache.org/velocity/</siteDirectory>
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-velocity/</distributionDirectory>
@@ -42,7 +42,7 @@
 
   <mailingLists>
     <mailingList>
-      <name>Maven User List</name>
+      <name>Velocity User List</name>
       <subscribe>velocity-user-subscribe@jakarta.apache.org</subscribe>
       <unsubscribe>velocity-user-unsubscribe@jakarta.apache.org</unsubscribe>
       <!-- Using mail-archive until there is something in nagoya's eyebrowse...
@@ -51,7 +51,7 @@
       <archive>http://www.mail-archive.com/velocity-user@jakarta.apache.org/</archive>
     </mailingList>
     <mailingList>
-      <name>Maven Developer List</name>
+      <name>Velocity Developer List</name>
       <subscribe>velocity-dev-subscribe@jakarta.apache.org</subscribe>
       <unsubscribe>velocity-dev-unsubscribe@jakarta.apache.org</unsubscribe>
       <!-- Using mail-archive until there is something in nagoya's eyebrowse...
@@ -64,16 +64,16 @@
   <developers>
 
     <developer>
-      <name>Bob McWhirter</name>
-      <id>werken</id>
-      <email>bob@werken.com</email>
-      <organization>Werken and Sons</organization>
+      <name>Will Glass-Husain</name>
+      <id>wglass</id>
+      <email>wglass@forio.com</email>
+      <organization>Forio Business Simulations</organization>
       <roles>
         <role>Java Developer</role>
       </roles>
     </developer>
 
-    <developer>
+   <developer>
       <name>Geir Magnusson Jr.</name>
       <id>geirm</id>
       <email>geirm@optonline.net</email>
@@ -90,26 +90,6 @@
       <organization>CollabNet, Inc.</organization>
       <roles>
         <role>Java Developer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <name>Jon Stevens</name>
-      <id>jon</id>
-      <email>jon@latchkey.com</email>
-      <organization>CollabNet, Inc.</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <name>Jason van Zyl</name>
-      <id>jvanzyl</id>
-      <email>jason@zenplex.com</email>
-      <organization>Zenplex</organization>
-      <roles>
-        <role>Architect</role>
       </roles>
     </developer>
 
@@ -132,6 +112,11 @@
     <dependency>
       <id>commons-collections</id>
       <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <id>commons-lang</id>
+      <version>2.1</version>
     </dependency>
 
     <dependency>

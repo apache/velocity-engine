@@ -17,7 +17,7 @@ package org.apache.velocity.app.event;
  */
 
 /**
- *  Base interface for all event handlers
+ * Base interface for all event handlers
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$

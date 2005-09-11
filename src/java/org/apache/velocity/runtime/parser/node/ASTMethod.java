@@ -16,16 +16,15 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.*;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-import org.apache.velocity.util.introspection.VelMethod;
-import org.apache.velocity.util.introspection.Info;
-
-import org.apache.velocity.exception.MethodInvocationException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.EventHandlerUtil;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.util.introspection.VelMethod;
 
 /**
  *  ASTMethod.java
@@ -226,18 +225,15 @@ public class ASTMethod extends SimpleNode
              *  above
              */
 
-            EventCartridge ec = context.getEventCartridge();
-
             /*
-             *  if we have an event cartridge, see if it wants to veto
-             *  also, let non-Exception Throwables go...
+             *  let non-Exception Throwables go...
              */
 
-            if ( ec != null && ite.getTargetException() instanceof java.lang.Exception)
+            if ( ite.getTargetException() instanceof java.lang.Exception)
             {
                 try
                 {
-                    return ec.methodException( o.getClass(), methodName, (Exception)ite.getTargetException() );
+                    return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception)ite.getTargetException() );
                 }
                 catch( Exception e )
                 {

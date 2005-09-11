@@ -280,7 +280,8 @@ public class VMContext implements InternalContextAdapter
 
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
-        return innerContext.attachEventCartridge( ec );
+        EventCartridge cartridge = innerContext.attachEventCartridge( ec );
+        return cartridge;
     }
 
     public EventCartridge getEventCartridge()

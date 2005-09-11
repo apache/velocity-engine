@@ -215,7 +215,9 @@ public class Foreach extends Directive
          */
         public EventCartridge attachEventCartridge(EventCartridge ec)
         {
-            return innerContext.attachEventCartridge(ec);
+            EventCartridge cartridge = innerContext.attachEventCartridge( ec );
+            
+            return cartridge;
         }
 
         /**
