@@ -204,6 +204,45 @@ public interface RuntimeConstants
 
     /*
      * ----------------------------------------------------------------------
+     *  E V E N T  H A N D L E R  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+     
+    /**
+     * The <code>eventhandler.referenceinsertion.class</code> property
+     * specifies a list of the {@link
+     * org.apache.velocity.app.event.ReferenceInsertionEventHandler}
+     * implementations to use.
+     */
+    public static final String EVENTHANDLER_REFERENCEINSERTION = "eventhandler.referenceinsertion.class";
+
+    /**
+     * The <code>eventhandler.nullset.class</code> property
+     * specifies a list of the {@link
+     * org.apache.velocity.app.event.NullSetEventHandler}
+     * implementations to use.
+     */
+    public static final String EVENTHANDLER_NULLSET = "eventhandler.nullset.class";
+
+    /**
+     * The <code>eventhandler.methodexception.class</code> property
+     * specifies a list of the {@link
+     * org.apache.velocity.app.event.MethoExceptionEventHandler}
+     * implementations to use.
+     */
+    public static final String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
+ 
+    /**
+     * The <code>eventhandler.include.class</code> property
+     * specifies a list of the {@link
+     * org.apache.velocity.app.event.IncludeEventHandler}
+     * implementations to use.
+     */
+    public static final String EVENTHANDLER_INCLUDE = "eventhandler.include.class";
+
+
+    /*
+     * ----------------------------------------------------------------------
      * V E L O C I M A C R O  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
@@ -284,7 +323,7 @@ public interface RuntimeConstants
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.
-     * the constansts listed below are strictly used in the Runtime
+     * the constants listed below are strictly used in the Runtime
      * class itself.
      * ----------------------------------------------------------------------
      */

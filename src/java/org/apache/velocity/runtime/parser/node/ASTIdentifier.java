@@ -16,16 +16,16 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.VelPropertyGet;
-
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.app.event.EventCartridge;
-
 import java.lang.reflect.InvocationTargetException;
+
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.EventHandlerUtil;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
+import org.apache.velocity.util.introspection.VelPropertyGet;
 
 /**
  *  ASTIdentifier.java
@@ -165,12 +165,11 @@ public class ASTIdentifier extends SimpleNode
              *  also, let non-Exception Throwables go...
              */
 
-            if (ec != null
-                    && ite.getTargetException() instanceof java.lang.Exception)
+            if (ite.getTargetException() instanceof java.lang.Exception)
             {
                 try
                 {
-                    return ec.methodException(o.getClass(), vg.getMethodName(),
+                    return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
                             (Exception)ite.getTargetException());
                 }
                 catch(Exception e)

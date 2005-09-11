@@ -19,16 +19,15 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.velocity.context.InternalContextAdapter;
-
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-
+import org.apache.velocity.app.event.EventHandlerUtil;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * Pluggable directive that handles the <code>#parse()</code>
@@ -78,7 +77,7 @@ public class Parse extends InputBase
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
      */
-    public boolean render( InternalContextAdapter context, 
+    public boolean render( InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException, ResourceNotFoundException, ParseErrorException,
                MethodInvocationException
@@ -91,7 +90,7 @@ public class Parse extends InputBase
             rsvc.error( "#parse() error :  null argument" );
             return false;
         }
-        
+
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
@@ -106,8 +105,23 @@ public class Parse extends InputBase
         /*
          *  get the path
          */
-        String arg = value.toString();
-        
+        String sourcearg = value.toString();
+
+        /*
+         *  check to see if the argument will be changed by the event cartridge
+         */
+
+
+        String arg = EventHandlerUtil.includeEvent( rsvc, context, sourcearg, context.getCurrentTemplateName(), getName());
+
+        /*
+         *   a null return value from the event cartridge indicates we should not
+         *   input a resource.
+         */
+        boolean blockinput = false;
+        if (arg == null)
+            blockinput = true;
+
         /*
          *   see if we have exceeded the configured depth.
          *   If it isn't configured, put a stop at 20 just in case.
@@ -115,7 +129,7 @@ public class Parse extends InputBase
 
         Object[] templateStack = context.getTemplateNameStack();
 
-        if ( templateStack.length >= 
+        if ( templateStack.length >=
                 rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 20) )
         {
             StringBuffer path = new StringBuffer();
@@ -125,7 +139,7 @@ public class Parse extends InputBase
                 path.append( " > " + templateStack[i] );
             }
 
-            rsvc.error( "Max recursion depth reached (" + 
+            rsvc.error( "Max recursion depth reached (" +
                 templateStack.length + ")"  + " File stack:" + path );
             return false;
         }
@@ -133,55 +147,58 @@ public class Parse extends InputBase
         /*
          *  now use the Runtime resource loader to get the template
          */
-       
+
         Template t = null;
 
-        try 
+        try
         {
-            t = rsvc.getTemplate( arg, getInputEncoding(context) );
+            if (!blockinput)
+                t = rsvc.getTemplate( arg, getInputEncoding(context) );
         }
         catch ( ResourceNotFoundException rnfe )
         {
-       		/*
-       		 * the arg wasn't found.  Note it and throw
-       		 */
-       		 
-        	rsvc.error("#parse(): cannot find template '" + arg +
+            /*
+             * the arg wasn't found.  Note it and throw
+             */
+
+            rsvc.error("#parse(): cannot find template '" + arg +
                        "', called from template " +
                        context.getCurrentTemplateName() + " at (" +
                        getLine() + ", " + getColumn() + ")" );
-        	throw rnfe;
+            throw rnfe;
         }
         catch ( ParseErrorException pee )
         {
-        	/*
-        	 * the arg was found, but didn't parse - syntax error
-        	 *  note it and throw
-        	 */
+            /*
+             * the arg was found, but didn't parse - syntax error
+             *  note it and throw
+             */
 
-        	rsvc.error("#parse(): syntax error in #parse()-ed template '" +
+            rsvc.error("#parse(): syntax error in #parse()-ed template '" +
                        arg + "', called from template " +
                        context.getCurrentTemplateName() + " at (" +
                        getLine() + ", " + getColumn() + ")" );
-        		
-        	throw pee;
-        } 
+
+            throw pee;
+        }
         catch ( Exception e)
-        {	
-        	rsvc.error("#parse() : arg = " + arg + ".  Exception : " + e);
+        {
+            rsvc.error("#parse() : arg = " + arg + ".  Exception : " + e);
             return false;
         }
-    
+
         /*
          *  and render it
          */
         try
         {
-            context.pushCurrentTemplateName(arg);
-            ((SimpleNode) t.getData()).render( context, writer );
+            if (!blockinput) {
+                context.pushCurrentTemplateName(arg);
+                ((SimpleNode) t.getData()).render( context, writer );
+            }
         }
         catch ( Exception e )
-        {        
+        {
             /*
              *  if it's a MIE, it came from the render.... throw it...
              */
@@ -196,10 +213,17 @@ public class Parse extends InputBase
         }
         finally
         {
-            context.popCurrentTemplateName();
+            if (!blockinput)
+                context.popCurrentTemplateName();
         }
+
+        /*
+         *    note - a blocked input is still a successful operation as this is
+         *    expected behavior.
+         */
 
         return true;
     }
+
 }
 

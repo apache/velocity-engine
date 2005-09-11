@@ -16,23 +16,48 @@ package org.apache.velocity.app.event;
  * limitations under the License.
  */
 
-import org.apache.velocity.context.InternalEventContext;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalEventContext;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- *  'Package' of event handlers...
+ * Stores the event handlers. Event handlers can be assigned on a per
+ * VelocityEngine instance basis by specifying the class names in the
+ * velocity.properties file. Event handlers may also be assigned on a per-page
+ * basis by creating a new instance of EventCartridge, adding the event
+ * handlers, and then calling attachToContext. For clarity, it's recommended
+ * that one approach or the other be followed, as the second method is primarily
+ * presented for backwards compatibility.
  *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez</a>
+ * <P>
+ * Note that Event Handlers follow a filter pattern, with multiple event
+ * handlers allowed for each event. When the appropriate event occurs, all the
+ * appropriate event handlers are called in the sequence they were added to the
+ * Event Cartridge. See the javadocs of the specific event handler interfaces
+ * for more details.
+ *
+ * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain </a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr. </a>
+ * @author <a href="mailto:j_a_fernandez@yahoo.com">Jose Alberto Fernandez </a>
  * @version $Id$
  */
-public class EventCartridge implements ReferenceInsertionEventHandler,
-                                       NullSetEventHandler,
-                                       MethodExceptionEventHandler
-{
-    private ReferenceInsertionEventHandler rieh = null;
-    private NullSetEventHandler nseh = null;
-    private MethodExceptionEventHandler meeh = null;
+public class EventCartridge
+  {
+    private List ReferenceHandlers = new ArrayList();
+    private List NullSetHandlers = new ArrayList();
+    private List MethodExceptionHandlers = new ArrayList();
+    private List IncludeHandlers = new ArrayList();
+
+    /**
+     * Ensure that handlers are not initialized more than once.
+     */
+    Set initializedHandlers = new HashSet();
 
     /**
      *  Adds an event handler(s) to the Cartridge.  This method
@@ -48,39 +73,86 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
         {
             return false;
         }
-        
+
         boolean found = false;
 
         if ( ev instanceof ReferenceInsertionEventHandler)
         {
-            rieh = (ReferenceInsertionEventHandler) ev;
+            addReferenceInsertionEventHandler( (ReferenceInsertionEventHandler) ev );
             found = true;
         }
-       
+
         if ( ev instanceof NullSetEventHandler )
         {
-            nseh = (NullSetEventHandler) ev;
+            addNullSetEventHandler( (NullSetEventHandler) ev );
             found = true;
         }
 
         if ( ev instanceof MethodExceptionEventHandler )
         {
-            meeh = (MethodExceptionEventHandler) ev;
+            addMethodExceptionHandler( (MethodExceptionEventHandler) ev );
             found = true;
         }
- 
+        if ( ev instanceof IncludeEventHandler )
+        {
+            addIncludeEventHandler( (IncludeEventHandler) ev );
+            found = true;
+        }
+
         return found;
     }
-    
+
     /**
-     *  Removes an event handler(s) from the Cartridge.  This method
-     *  will find all possible event handler interfaces supported
-     *  by the passed in object and remove them.
-     *
-     *  @param ev object impementing a valid EventHandler-derived interface
-     *  @return true if a supported interface, false otherwise or if null
+      *  Add a reference insertion event handler to the Cartridge.
+      *
+      *  @param ev ReferenceInsertionEventHandler
      */
-    public boolean removeEventHandler(EventHandler ev)
+     public void addReferenceInsertionEventHandler( ReferenceInsertionEventHandler ev )
+     {
+         ReferenceHandlers.add( ev );
+     }
+
+    /**
+      *  Add a null set event handler to the Cartridge.
+      *
+      *  @param ev NullSetEventHandler
+      */
+     public void addNullSetEventHandler( NullSetEventHandler ev )
+     {
+         NullSetHandlers.add( ev );
+     }
+
+    /**
+     *  Add a method exception event handler to the Cartridge.
+     *
+     *  @param ev MethodExceptionEventHandler
+     */
+    public void addMethodExceptionHandler( MethodExceptionEventHandler ev )
+    {
+        MethodExceptionHandlers.add( ev );
+    }
+
+    /**
+     *  Add an include event handler to the Cartridge.
+     *
+     *  @param ev IncludeEventHandler
+     */
+    public void addIncludeEventHandler( IncludeEventHandler ev )
+    {
+        IncludeHandlers.add( ev );
+    }
+
+
+    /**
+     * Removes an event handler(s) from the Cartridge. This method will find all
+     * possible event handler interfaces supported by the passed in object and
+     * remove them.
+     *
+     * @param ev  object impementing a valid EventHandler-derived interface
+     * @return true if event handler was previously registered, false if not
+     *         found
+     */
+    public boolean removeEventHandler( EventHandler ev )
     {
         if ( ev == null )
         {
@@ -88,99 +160,58 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
         }
 
         boolean found = false;
-        
-        if (ev == rieh) 
-        {
-            rieh = null;
-            found = true;
-        }
-	
-        if (ev == nseh) 
-        {
-            nseh = null;
-            found = true;
-        }
 
-        if (ev == meeh) 
-        {
-            meeh = null;
-            found = true;
-        }
+        if ( ev instanceof ReferenceInsertionEventHandler )
+            return ReferenceHandlers.remove( ev );
+
+        if ( ev instanceof NullSetEventHandler )
+            return NullSetHandlers.remove( ev );
+
+        if ( ev instanceof MethodExceptionEventHandler )
+            return MethodExceptionHandlers.remove(ev );
+
+        if ( ev instanceof IncludeEventHandler )
+            return IncludeHandlers.remove( ev );
 
         return found;
     }
 
     /**
-     *  Implementation of ReferenceInsertionEventHandler method
-     *  <code>referenceInsert()</code>.
-     *
-     *  Called during Velocity merge before a reference value will
-     *  be inserted into the output stream.
-     *
-     *  @param reference reference from template about to be inserted
-     *  @param value  value about to be inserted (after toString() )
-     *  @return Object on which toString() should be called for output.
+     * Iterate through all the stored ReferenceInsertionEventHandler objects
+     * @return iterator of handler objects
      */
-    public Object referenceInsert( String reference, Object value  )
+    public Iterator getReferenceInsertionEventHandlers()
     {
-        if (rieh == null)
-        {
-            return value;
-        }
-
-        return rieh.referenceInsert( reference, value );
+        return ReferenceHandlers.iterator();
     }
 
     /**
-     *  Implementation of NullSetEventHandler method
-     *  <code>shouldLogOnNullSet()</code>.
-     *
-     *  Called during Velocity merge to determine if when
-     *  a #set() results in a null assignment, a warning
-     *  is logged.
-     *
-     *  @param reference reference from template about to be inserted
-     *  @return true if to be logged, false otherwise
+     * Iterate through all the stored NullSetEventHandler objects
+     * @return iterator of handler objects
      */
-    public boolean shouldLogOnNullSet( String lhs, String rhs )
+    public Iterator getNullSetEventHandlers()
     {
-        if ( nseh == null)
-        {
-            return true;
-        }
-
-        return nseh.shouldLogOnNullSet( lhs, rhs );
+        return NullSetHandlers.iterator();
     }
-    
+
     /**
-     *  Implementation of MethodExceptionEventHandler  method
-     *  <code>methodException()</code>.
-     *
-     *  Called during Velocity merge if a reference is null
-     *
-     *  @param claz  Class that is causing the exception
-     *  @param method method called that causes the exception
-     *  @param e Exception thrown by the method
-     *  @return Object to return as method result
-     *  @throws exception to be wrapped and propogated to app  
+     * Iterate through all the stored MethodExceptionEventHandler objects
+     * @return iterator of handler objects
      */
-    public Object methodException( Class claz, String method, Exception e )
-        throws Exception
+    public Iterator getMethodExceptionEventHandlers()
     {
-        /*
-         *  if we don't have a handler, just throw what we were handed
-         */
-        if (meeh == null)
-        {
-            throw e;
-        }
-
-        /*
-         *  otherwise, call it..
-         */
-        return meeh.methodException( claz, method, e );
+        return MethodExceptionHandlers.iterator();
     }
-    
+
+    /**
+     * Iterate through all the stored IncludeEventHandlers objects
+     * @return iterator of handler objects
+     */
+    public Iterator getIncludeEventHandlers()
+    {
+        return IncludeHandlers.iterator();
+    }
+
     /**
      *  Attached the EventCartridge to the context
      *
@@ -192,10 +223,17 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
     public final boolean attachToContext( Context context )
     {
         if (  context instanceof InternalEventContext )
-        {         
+        {
             InternalEventContext iec = (InternalEventContext) context;
 
             iec.attachEventCartridge( this );
+
+            /**
+             * while it's tempting to call setContext on each handler from here,
+             * this needs to be done before each method call.  This is
+             * because the specific context will change as inner contexts
+             * are linked in through macros, foreach, or directly by the user.
+             */
 
             return true;
         }
@@ -204,4 +242,60 @@ public class EventCartridge implements ReferenceInsertionEventHandler,
             return false;
         }
     }
+
+    /**
+     * Initialize the handlers.  For global handlers this is called when Velocity
+     * is initialized. For local handlers this is called when the first handler
+     * is executed.  Handlers will not be initialized more than once.
+     */
+    public void initialize (RuntimeServices rs) throws Exception
+    {
+
+        for ( Iterator i = ReferenceHandlers.iterator(); i.hasNext(); )
+        {
+            EventHandler eh = ( EventHandler ) i.next();
+            if ( (eh instanceof RuntimeServicesAware) &&
+                    !initializedHandlers.contains(eh) )
+            {
+                ((RuntimeServicesAware) eh).setRuntimeServices ( rs );
+                initializedHandlers.add( eh );
+            }
+        }
+
+        for ( Iterator i = NullSetHandlers.iterator(); i.hasNext(); )
+        {
+            EventHandler eh = ( EventHandler ) i.next();
+            if ( (eh instanceof RuntimeServicesAware) &&
+                    !initializedHandlers.contains(eh) )
+            {
+                ((RuntimeServicesAware) eh).setRuntimeServices ( rs );
+                initializedHandlers.add( eh );
+            }
+        }
+
+        for ( Iterator i = MethodExceptionHandlers.iterator(); i.hasNext(); )
+        {
+            EventHandler eh = ( EventHandler ) i.next();
+            if ( (eh instanceof RuntimeServicesAware) &&
+                    !initializedHandlers.contains(eh) )
+            {
+                ((RuntimeServicesAware) eh).setRuntimeServices ( rs );
+                initializedHandlers.add( eh );
+            }
+        }
+
+        for ( Iterator i = IncludeHandlers.iterator(); i.hasNext(); )
+        {
+            EventHandler eh = ( EventHandler ) i.next();
+            if ( (eh instanceof RuntimeServicesAware) &&
+                    !initializedHandlers.contains(eh) )
+            {
+                ((RuntimeServicesAware) eh).setRuntimeServices ( rs );
+                initializedHandlers.add( eh );
+            }
+        }
+
+    }
+
+
 }

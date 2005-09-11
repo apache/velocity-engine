@@ -17,18 +17,18 @@ package org.apache.velocity.runtime.directive;
  * limitations under the License.
  */
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
+import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
-
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * Pluggable directive that handles the #include() statement in VTL. 
@@ -158,22 +158,20 @@ public class Include extends InputBase
      *  @param writer output Writer
      *  @return boolean success or failure.  failures are logged
      */
-    private boolean renderOutput( Node node, InternalContextAdapter context, 
+    private boolean renderOutput( Node node, InternalContextAdapter context,
                                   Writer writer )
         throws IOException, MethodInvocationException,
                ResourceNotFoundException
     {
-        String arg = "";
-        
         if ( node == null )
         {
             rsvc.error("#include() error :  null argument");
             return false;
         }
-            
+
         /*
          *  does it have a value?  If you have a null reference, then no.
-         */        
+         */
         Object value = node.value( context );
         if ( value == null)
         {
@@ -184,39 +182,63 @@ public class Include extends InputBase
         /*
          *  get the path
          */
-        arg = value.toString();
+        String sourcearg = value.toString();
+
+        /*
+         *  check to see if the argument will be changed by the event handler
+         */
+
+        String arg = EventHandlerUtil.includeEvent( rsvc, context, sourcearg, context.getCurrentTemplateName(), getName() );
+
+        /*
+         *   a null return value from the event cartridge indicates we should not
+         *   input a resource.
+         */
+        boolean blockinput = false;
+        if (arg == null)
+            blockinput = true;
 
         Resource resource = null;
 
         try
         {
-            resource = rsvc.getContent(arg, getInputEncoding(context));
+            if (!blockinput)
+                resource = rsvc.getContent(arg, getInputEncoding(context));
         }
         catch ( ResourceNotFoundException rnfe )
         {
-       		/*
-       		 * the arg wasn't found.  Note it and throw
-       		 */
-       		 
-        	rsvc.error("#include(): cannot find resource '" + arg +
+            /*
+             * the arg wasn't found.  Note it and throw
+             */
+
+            rsvc.error("#include(): cannot find resource '" + arg +
                        "', called from template " +
                        context.getCurrentTemplateName() + " at (" +
                        getLine() + ", " + getColumn() + ")" );
-        	throw rnfe;
+            throw rnfe;
         }
 
         catch (Exception e)
         {
-        	rsvc.error("#include(): arg = '" + arg +
+            rsvc.error("#include(): arg = '" + arg +
                        "', called from template " +
                        context.getCurrentTemplateName() + " at (" +
                        getLine() + ", " + getColumn() + ") : " + e);
-        }            
-        
-        if ( resource == null )
+        }
+
+
+        /*
+         *    note - a blocked input is still a successful operation as this is
+         *    expected behavior.
+         */
+
+        if ( blockinput )
+            return true;
+
+        else if ( resource == null )
             return false;
-       
-        writer.write((String)resource.getData());       
+
+        writer.write((String)resource.getData());
         return true;
     }
 

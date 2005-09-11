@@ -44,6 +44,7 @@
   <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
   <property name="collections.jar" value="lib/commons-collections.jar" />
+  <property name="lang.jar" value="lib/commons-lang-2.1.jar" />
 
   <!-- PDF generation using FOP -->
   <property name="xdocs.dir" value="../xdocs"/>
@@ -269,6 +270,7 @@
          
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
+    <unzip src="${lang.jar}" dest="${build.dest}"/>
  
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
@@ -309,6 +311,7 @@
         
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
+    <unzip src="${lang.jar}" dest="${build.dest}"/>
 
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 

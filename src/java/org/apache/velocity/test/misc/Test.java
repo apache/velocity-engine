@@ -20,36 +20,30 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.io.StringWriter;
-
+import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.Vector;
-import java.util.Enumeration;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.FieldMethodizer;
 import org.apache.velocity.app.Velocity;
-
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
-
-import org.apache.velocity.context.Context;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.test.provider.TestProvider;
 
 
 /**
@@ -68,6 +62,7 @@ public class Test implements ReferenceInsertionEventHandler,
      * Cache of writers
      */
     private static Stack writerStack = new Stack();
+    private RuntimeServices rs;
 
     public Test(String templateFile, String encoding)
     {
@@ -268,6 +263,12 @@ public class Test implements ReferenceInsertionEventHandler,
 
         }
     }
+
+    public void initialize( RuntimeServices rs )
+    {
+        this.rs = rs;
+    }
+
 
     public Object referenceInsert( String reference, Object value  )
     {

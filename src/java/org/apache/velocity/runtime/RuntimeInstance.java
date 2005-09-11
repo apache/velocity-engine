@@ -16,46 +16,43 @@ package org.apache.velocity.runtime;
  * limitations under the License.
  */
 
-import java.io.InputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
-
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.Properties;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
+import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
-
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.EventHandler;
+import org.apache.velocity.app.event.RuntimeServicesAware;
+import org.apache.velocity.app.event.IncludeEventHandler;
+import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.NullSetEventHandler;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.log.LogSystem;
-import org.apache.velocity.runtime.log.PrimordialLogSystem;
 import org.apache.velocity.runtime.log.NullLogSystem;
-
-import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.log.PrimordialLogSystem;
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
-
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
-
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-
-import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -162,6 +159,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     private ResourceManager resourceManager = null;
 
+    /**
+     * This stores the engine-wide set of event handlers.  Event handlers for
+     * each specific merge are stored in the context.
+     */
+    private EventCartridge eventCartridge = null;
+
     /*
      *  Each runtime instance has it's own introspector
      *  to ensure that each instance is completely separate.
@@ -209,6 +212,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
+     *   <li>EventHandler</li>
      *   <li>Parser Pool</li>
      *   <li>Global Cache</li>
      *   <li>Static Content Include System</li>
@@ -227,6 +231,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializeLogger();
             initializeResourceManager();
             initializeDirectives();
+            initializeEventHandlers();
             initializeParserPool();
 
             initializeIntrospection();
@@ -537,6 +542,105 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }                            
     }
     
+    private void initializeEventHandlers()
+        throws Exception
+    {
+        
+        eventCartridge = new EventCartridge();
+        
+        /**
+         * For each type of event handler, get the class name, instantiate it, and store it.
+         */
+         
+        String[] referenceinsertion = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION);
+        if ( referenceinsertion != null )
+        { 
+            for ( int i=0; i < referenceinsertion.length; i++ ) 
+            {
+                EventHandler ev = initializeSpecificEventHandler(referenceinsertion[i],RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION,ReferenceInsertionEventHandler.class); 
+                if (ev != null)
+                    eventCartridge.addReferenceInsertionEventHandler((ReferenceInsertionEventHandler) ev);
+            }
+        }
+        
+        String[] nullset = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_NULLSET);
+        if ( nullset != null )
+        { 
+            for ( int i=0; i < nullset.length; i++ ) 
+            {
+                EventHandler ev = initializeSpecificEventHandler(nullset[i],RuntimeConstants.EVENTHANDLER_NULLSET,NullSetEventHandler.class); 
+                if (ev != null)
+                    eventCartridge.addNullSetEventHandler((NullSetEventHandler) ev);
+            }
+        }
+        
+        String[] methodexception = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION);
+        if ( methodexception != null )
+        { 
+            for ( int i=0; i < methodexception.length; i++ ) 
+            {
+                EventHandler ev = initializeSpecificEventHandler(methodexception[i],RuntimeConstants.EVENTHANDLER_METHODEXCEPTION,MethodExceptionEventHandler.class); 
+                if (ev != null)
+                    eventCartridge.addMethodExceptionHandler((MethodExceptionEventHandler) ev);
+            }
+        }
+        
+        String[] includeHandler = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_INCLUDE);
+        if ( includeHandler != null )
+        { 
+            for ( int i=0; i < includeHandler.length; i++ ) 
+            {
+                EventHandler ev = initializeSpecificEventHandler(includeHandler[i],RuntimeConstants.EVENTHANDLER_INCLUDE,IncludeEventHandler.class); 
+                if (ev != null)
+                    eventCartridge.addIncludeEventHandler((IncludeEventHandler) ev);
+            }
+        }
+        
+    }
+    
+    private EventHandler initializeSpecificEventHandler(String classname, String paramName, Class EventHandlerInterface)
+        throws Exception
+    {
+        if ( classname != null && classname.length() > 0) 
+        {   
+            Object o = null;
+            try {
+                o = Class.forName(classname).newInstance();
+            }
+            catch (ClassNotFoundException cnfe )
+            {
+                String err = "The specified class for " 
+                    + paramName 
+                    + " ("
+                    + classname    
+                    + ") does not exist (or is not accessible to the current classlaoder.";
+                 error(err);
+                 throw new Exception(err);
+            }
+            
+            if (!EventHandlerInterface.isAssignableFrom(EventHandlerInterface))
+            {
+                String err = "The specified class for " 
+                    + paramName 
+                    + " ("
+                    + classname 
+                    + ") does not implement "
+                    + EventHandlerInterface.getName()
+                    + " Velocity not initialized correctly.";
+                    
+                error(err);
+                throw new Exception(err);
+            }
+
+            EventHandler ev = (EventHandler) o;   
+            if ( ev instanceof RuntimeServicesAware )
+                ((RuntimeServicesAware) ev).setRuntimeServices(this);
+            return ev;
+        
+        } else
+            return null;
+    }
+ 
     /**
      * Initialize the Velocity logging system.
      *
@@ -1119,6 +1223,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return introspector;
     }
+    
+    /**
+     * Returns the event handlers for the application.
+     */
+     public EventCartridge getApplicationEventCartridge()
+     {
+         return eventCartridge;
+     }
+    
 
     /**
      *  Gets the application attribute for the given key

@@ -16,22 +16,20 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
-import org.apache.velocity.runtime.parser.*;
-
-import org.apache.velocity.util.introspection.VelPropertySet;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
-
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.util.introspection.VelPropertySet;
 
 /**
  * This class is responsible for handling the references in
@@ -258,12 +256,7 @@ public class ASTReference extends SimpleNode
          *  if we have an event cartridge, get a new value object
          */
 
-        EventCartridge ec = context.getEventCartridge();
-
-        if (ec != null)
-        {
-            value =  ec.referenceInsert(literal(), value);
-        }
+        value =  EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
 
         /*
          *  if value is null...

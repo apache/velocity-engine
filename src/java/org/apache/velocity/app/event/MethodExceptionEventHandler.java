@@ -1,4 +1,6 @@
 package org.apache.velocity.app.event;
+
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -16,17 +18,29 @@ package org.apache.velocity.app.event;
  */
 
 /**
- *  Called when a method throws an exception.  This gives the
+ *  Event handler called when a method throws an exception.  This gives the
  *  application a chance to deal with it and either
  *  return something nice, or throw.
  *
  *  Please return what you want rendered into the output stream.
  *
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
 public interface MethodExceptionEventHandler extends EventHandler
 {
+    /**
+     * Called when a method throws an exception.
+     * Only the first registered MethodExceptionEventHandler is called.  If
+     * none are registered a MethodInvocationException is thrown.
+     *
+     * @param claz the class of the object the method is being applied to
+     * @param method the method
+     * @param e the thrown exception
+     * @return an object to insert in the page
+     * @throws Exception an exception to be thrown instead inserting an object
+     */
     public Object methodException( Class claz, String method, Exception e )
          throws Exception;
 }
