@@ -180,7 +180,7 @@ public class BuiltInEventHandlerTest extends BaseTestCase {
         // set up HTML match on everything, JavaScript match on _js*
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, "org.apache.velocity.app.event.implement.EscapeHtmlReference,org.apache.velocity.app.event.implement.EscapeJavaScriptReference");
-        ve.setProperty("eventhandler.escape.javascript.match", "/.*_js*/");
+        ve.setProperty("eventhandler.escape.javascript.match", "/.*_js.*/");
         ve.init();
     
         Writer writer;
