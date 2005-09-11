@@ -111,7 +111,7 @@ embedded in a multi-line comment. (gmj)
 </li>
 <li>
 To make using w/ XML easier allow alternative logical operators 'and', 'or',
-    'lt', 'gt', 'le', 'ge', 'eq'.  (gmj)
+    'lt', 'gt', 'le', 'ge', 'eq', 'ne', 'not'.  (gmj)
 </li>
 <li>
 Allow newlines in strings. (gmj)
@@ -1024,7 +1024,7 @@ No changes following rc1.  Released as v1.0.1 on April 22, 2001.
     </li>
     <li>
          Fixed nullpointer problem in cache refresh in ResourceManager
-	     (reported by Ilkka Priha) (gmj)
+         (reported by Ilkka Priha) (gmj)
     </li>
     <li>
          VelocityServlet now respects the 'default.contentType'
