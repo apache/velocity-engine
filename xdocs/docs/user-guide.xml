@@ -1135,6 +1135,11 @@ $blargh
 #end
 ]]></source>
 
+    <p>Note that the semantics of <em>==</em> are slightly different than Java where <em>==</em> 
+    can only be used to test object equality.  In Velocity the equivalent operator 
+    can be used to directly compare numbers, strings, or objects.  
+    </p>
+
     <p>
       Velocity has logical AND, OR and NOT operators as well.
       For further information, please see the
@@ -1144,7 +1149,6 @@ $blargh
     </p>
 
 <source><![CDATA[
-
 ## logical AND
 
 #if( $foo && $bar )
@@ -1173,7 +1177,6 @@ $blargh
     </p>
 
 <source><![CDATA[
-
 ## logical OR
 
 #if( $foo || $bar )
@@ -1215,6 +1218,22 @@ $blargh
     which is something altogether different.
     </p>
 
+    <p>There are text versions of all logical operators, including
+    <em>eq</em>, <em>ne</em>, 
+    <em>and</em>, <em>or</em>, <em>not</em>, <em>gt</em>, <em>ge</em>, <em>lt</em>, 
+    and <em>le</em>.
+    </p>
+
+    <p>One more useful note.  When you wish to include text immediately following
+    a <em>#else</em> directive you will need to use curly brackets immediately surrounding 
+    the directive to differentiate it from the following text.  
+    (Any directive can be delimited by
+    curly brackets, although this is most useful for <em>#else</em>).
+    </p>
+
+<source><![CDATA[
+#if( $foo == $bar)it's true!#{else}it's not!#end</li>
+]]></source>
 
  </section>
 
