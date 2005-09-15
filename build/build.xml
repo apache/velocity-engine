@@ -276,11 +276,22 @@
 
     <jar jarfile="${build.dir}/${project}-dep-${version}.jar">
 
+      <metainf dir=".." includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
-     
+      <manifest>
+        <attribute name="Created-By" value="Apache Ant"/>
+        <attribute name="Package" value="org.apache.velocity"/>
+        <attribute name="Build-Jdk" value="${java.version}"/>
+        <attribute name="Extension-Name" value="${project}"/>
+        <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
     </jar>
   
   </target>
@@ -293,11 +304,22 @@
          
     <jar jarfile="${build.dir}/${project}-${version}.jar">
 
+      <metainf dir=".." includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
-     
+      <manifest>
+        <attribute name="Created-By" value="Apache Ant"/>
+        <attribute name="Package" value="org.apache.velocity"/>
+        <attribute name="Build-Jdk" value="${java.version}"/>
+        <attribute name="Extension-Name" value="${project}"/>
+        <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
     </jar>
   
   </target>
@@ -315,10 +337,23 @@
 
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
-    <jar jarfile="${build.dir}/${project}-J2EE-dep-${version}.jar"
-      basedir="${build.dest}"
-      excludes="**/package.html"
-    />
+    <jar jarfile="${build.dir}/${project}-J2EE-dep-${version}.jar">
+      <metainf dir=".." includes="LICENSE.txt"/>
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+      </fileset>
+      <manifest>
+        <attribute name="Created-By" value="Apache Ant"/>
+        <attribute name="Package" value="org.apache.velocity"/>
+        <attribute name="Build-Jdk" value="${java.version}"/>
+        <attribute name="Extension-Name" value="${project}"/>
+        <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
+    </jar>
   
   </target>
 
@@ -329,10 +364,23 @@
   <!-- =================================================================== -->
   <target name="jar-J2EE" depends="compile-J2EE" if="J2EE.present">
         
-    <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar"
-      basedir="${build.dest}"
-      excludes="**/package.html"
-    />
+    <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar">
+      <metainf dir=".." includes="LICENSE.txt"/>
+      <fileset dir="${build.dest}">
+        <exclude name="**/package.html"/>
+      </fileset>
+      <manifest>
+        <attribute name="Created-By" value="Apache Ant"/>
+        <attribute name="Package" value="org.apache.velocity"/>
+        <attribute name="Build-Jdk" value="${java.version}"/>
+        <attribute name="Extension-Name" value="${project}"/>
+        <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
+    </jar>
   
   </target>
 
