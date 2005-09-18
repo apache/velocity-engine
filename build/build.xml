@@ -43,7 +43,7 @@
   <!-- jars explicitly needed for bulding 'dep jar' -->    
   <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="lib/oro.jar"/>
-  <property name="collections.jar" value="lib/commons-collections.jar" />
+  <property name="collections.jar" value="lib/commons-collections-3.1.jar" />
   <property name="lang.jar" value="lib/commons-lang-2.1.jar" />
 
   <!-- PDF generation using FOP -->
