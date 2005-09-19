@@ -205,7 +205,7 @@ public class Velocity implements RuntimeConstants
     public static  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException,
-        	ResourceNotFoundException, IOException
+            ResourceNotFoundException, IOException
     {
         return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
     }
@@ -230,7 +230,7 @@ public class Velocity implements RuntimeConstants
     public static boolean evaluate( Context context, Writer writer,
                                     String logTag, InputStream instream )
         throws ParseErrorException, MethodInvocationException,
-        	ResourceNotFoundException, IOException
+            ResourceNotFoundException, IOException
     {
         /*
          *  first, parse - convert ParseException if thrown
@@ -273,7 +273,7 @@ public class Velocity implements RuntimeConstants
     public static boolean evaluate( Context context, Writer writer,
                                     String logTag, Reader reader )
         throws ParseErrorException, MethodInvocationException,
-        	ResourceNotFoundException,IOException
+            ResourceNotFoundException,IOException
     {
         SimpleNode nodeTree = null;
 
@@ -399,7 +399,9 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     *  merges a template and puts the rendered stream into the writer
+     *  Merges a template and puts the rendered stream into the writer.
+     *  The default encoding that Velocity uses to read template files is defined in
+     *  the property input.encoding and defaults to ISO-8859-1.
      *
      *  @param templateName name of template to be used in merge
      *  @param context  filled context to be used in merge
