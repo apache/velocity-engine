@@ -157,7 +157,8 @@
         </fileset>
       </copy>
 
-    <!--  chose a class that's from j2ee.jar -->
+    <!--  note: check to see if required class is available.  -->
+    <!-- might be j2ee.jar, jdbc2_0-stdext.jar, or simply JDK 1.4+ -->
     <available  classname="javax.sql.DataSource"
        property="J2EE.present">
        <classpath refid = "classpath"/> 
