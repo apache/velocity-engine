@@ -51,8 +51,8 @@ import org.apache.commons.collections.ExtendedProperties;
  * </p>
  *
  * <p>
- * Please ensure that you call one of the init() variants. 
- * This is critical for proper behavior.  
+ * Please ensure that you call one of the init() variants.
+ * This is critical for proper behavior.
  * </p>
  *
  * <p> Coming soon : Velocity will call
@@ -105,10 +105,10 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  initialize the Velocity runtime engine, using the default 
+     *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
      */
-    public void init() 
+    public void init()
         throws Exception
     {
         ri.init();
@@ -118,7 +118,7 @@ public class VelocityEngine implements RuntimeConstants
      *  initialize the Velocity runtime engine, using default properties
      *  plus the properties in the properties file passed in as the arg
      *
-     *  @param propsFilename file containing properties to use to initialize 
+     *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
      */
     public void init(String propsFilename)
@@ -136,10 +136,10 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void init(Properties p)
         throws Exception
-    {      
+    {
         ri.init(p);
     }
-    
+
     /**
      * Set a Velocity Runtime property.
      *
@@ -170,7 +170,7 @@ public class VelocityEngine implements RuntimeConstants
     public void clearProperty(String key)
     {
         ri.clearProperty(key);
-    }        
+    }
 
     /**
      * Set an entire configuration at once. This is
@@ -186,7 +186,7 @@ public class VelocityEngine implements RuntimeConstants
     public void setConfiguration(Configuration configuration)
     {
         /*
-         *  Yuk. We added a little helper to Configuration to 
+         *  Yuk. We added a little helper to Configuration to
          *  help with deprecation.  The Configuration class
          *  contains a 'shadow' ExtendedProperties
          */
@@ -223,23 +223,23 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  renders the input string using the context into the output writer. 
-     *  To be used when a template is dynamically constructed, or want to use 
+     *  renders the input string using the context into the output writer.
+     *  To be used when a template is dynamically constructed, or want to use
      *  Velocity as a token replacer.
      *
      *  @param context context to use in rendering input string
      *  @param out  Writer in which to render the output
-     *  @param logTag  string to be used as the template name for log 
+     *  @param logTag  string to be used as the template name for log
      *                 messages in case of error
      *  @param instring input string containing the VTL to be rendered
      *
      *  @return true if successful, false otherwise.  If false, see
      *             Velocity runtime log
      */
-    public  boolean evaluate( Context context,  Writer out,  
+    public  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException,
-        	ResourceNotFoundException, IOException
+            ResourceNotFoundException, IOException
     {
         return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
     }
@@ -255,16 +255,16 @@ public class VelocityEngine implements RuntimeConstants
      *                 in case of error
      *  @param instream input stream containing the VTL to be rendered
      *
-     *  @return true if successful, false otherwise.  If false, see 
+     *  @return true if successful, false otherwise.  If false, see
      *               Velocity runtime log
      *  @deprecated Use
-     *  {@link #evaluate( Context context, Writer writer, 
+     *  {@link #evaluate( Context context, Writer writer,
      *      String logTag, Reader reader ) }
      */
-    public boolean evaluate( Context context, Writer writer, 
+    public boolean evaluate( Context context, Writer writer,
                                     String logTag, InputStream instream )
-        throws ParseErrorException, MethodInvocationException, 
-        	ResourceNotFoundException, IOException
+        throws ParseErrorException, MethodInvocationException,
+            ResourceNotFoundException, IOException
     {
         /*
          *  first, parse - convert ParseException if thrown
@@ -279,7 +279,7 @@ public class VelocityEngine implements RuntimeConstants
             br = new BufferedReader(  new InputStreamReader( instream, encoding));
         }
         catch( UnsupportedEncodingException  uce )
-        {   
+        {
             String msg = "Unsupported input encoding : " + encoding
                 + " for template " + logTag;
             throw new ParseErrorException( msg );
@@ -299,18 +299,18 @@ public class VelocityEngine implements RuntimeConstants
      *                 in case of error
      *  @param reader Reader containing the VTL to be rendered
      *
-     *  @return true if successful, false otherwise.  If false, see 
+     *  @return true if successful, false otherwise.  If false, see
      *               Velocity runtime log
      *
      *  @since Velocity v1.1
      */
     public boolean evaluate(Context context, Writer writer,
                                     String logTag, Reader reader)
-        throws ParseErrorException, MethodInvocationException, 
-        	ResourceNotFoundException,IOException
+        throws ParseErrorException, MethodInvocationException,
+            ResourceNotFoundException,IOException
     {
         SimpleNode nodeTree = null;
-        
+
         try
         {
             nodeTree = ri.parse(reader, logTag);
@@ -318,19 +318,19 @@ public class VelocityEngine implements RuntimeConstants
         catch (ParseException pex)
         {
             throw  new ParseErrorException( pex.getMessage() );
-        }                
-     
+        }
+
         /*
          * now we want to init and render
          */
 
         if (nodeTree != null)
         {
-            InternalContextAdapterImpl ica = 
+            InternalContextAdapterImpl ica =
                 new InternalContextAdapterImpl( context );
-            
+
             ica.pushCurrentTemplateName( logTag );
-            
+
             try
             {
                 try
@@ -339,10 +339,10 @@ public class VelocityEngine implements RuntimeConstants
                 }
                 catch( Exception e )
                 {
-                    ri.error("Velocity.evaluate() : init exception for tag = " 
+                    ri.error("Velocity.evaluate() : init exception for tag = "
                                   + logTag + " : " + e );
                 }
-                
+
                 /*
                  *  now render, and let any exceptions fly
                  */
@@ -353,19 +353,19 @@ public class VelocityEngine implements RuntimeConstants
             {
                 ica.popCurrentTemplateName();
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
 
-   
+
     /**
      *  Invokes a currently registered Velocimacro with the parms provided
      *  and places the rendered stream into the writer.
      *
-     *  Note : currently only accepts args to the VM if they are in the context. 
+     *  Note : currently only accepts args to the VM if they are in the context.
      *
      *  @param vmName name of Velocimacro to call
      *  @param logTag string to be used for template name in case of error
@@ -375,8 +375,8 @@ public class VelocityEngine implements RuntimeConstants
      *  @param writer  Writer for output stream
      *  @return true if Velocimacro exists and successfully invoked, false otherwise.
      */
-    public boolean invokeVelocimacro( String vmName, String logTag, 
-                                              String params[], Context context, 
+    public boolean invokeVelocimacro( String vmName, String logTag,
+                                              String params[], Context context,
                                               Writer writer )
         throws Exception
     {
@@ -384,7 +384,7 @@ public class VelocityEngine implements RuntimeConstants
          *  check parms
          */
 
-        if ( vmName == null ||  params == null ||  context == null 
+        if ( vmName == null ||  params == null ||  context == null
              || writer == null || logTag == null)
         {
             ri.error( "VelocityEngine.invokeVelocimacro() : invalid parameter");
@@ -394,10 +394,10 @@ public class VelocityEngine implements RuntimeConstants
         /*
          * does the VM exist?
          */
-          
+
         if (!ri.isVelocimacro( vmName, logTag ))
         {
-            ri.error( "VelocityEngine.invokeVelocimacro() : VM '"+ vmName 
+            ri.error( "VelocityEngine.invokeVelocimacro() : VM '"+ vmName
                            + "' not registered.");
             return false;
         }
@@ -410,7 +410,7 @@ public class VelocityEngine implements RuntimeConstants
 
         construct.append( vmName );
         construct.append( "(" );
- 
+
         for( int i = 0; i < params.length; i++)
         {
             construct.append( " $" );
@@ -421,9 +421,9 @@ public class VelocityEngine implements RuntimeConstants
 
         try
         {
-            boolean retval = evaluate(  context,  writer,  
+            boolean retval = evaluate(  context,  writer,
                                          logTag, construct.toString() );
-  
+
             return retval;
         }
         catch( Exception  e )
@@ -434,19 +434,21 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  merges a template and puts the rendered stream into the writer
+     *  Merges a template and puts the rendered stream into the writer.
+     *  The default encoding that Velocity uses to read template files is defined in
+     *  the property input.encoding and defaults to ISO-8859-1.
      *
      *  @param templateName name of template to be used in merge
      *  @param context  filled context to be used in merge
      *  @param  writer  writer to write template into
      *
-     *  @return true if successful, false otherwise.  Errors 
+     *  @return true if successful, false otherwise.  Errors
      *           logged to velocity log.
      * *  @deprecated Use
      *  {@link #mergeTemplate( String templateName, String encoding,
      *                Context context, Writer writer )}
      */
-    public boolean mergeTemplate( String templateName, 
+    public boolean mergeTemplate( String templateName,
                                          Context context, Writer writer )
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
@@ -462,7 +464,7 @@ public class VelocityEngine implements RuntimeConstants
      *  @param context  filled context to be used in merge
      *  @param  writer  writer to write template into
      *
-     *  @return true if successful, false otherwise.  Errors 
+     *  @return true if successful, false otherwise.  Errors
      *           logged to velocity log
      *
      *  @since Velocity v1.1
@@ -472,10 +474,10 @@ public class VelocityEngine implements RuntimeConstants
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
         Template template = ri.getTemplate(templateName, encoding);
-        
+
         if ( template == null )
         {
-            ri.error("Velocity.parseTemplate() failed loading template '" 
+            ri.error("Velocity.parseTemplate() failed loading template '"
                           + templateName + "'" );
             return false;
         }
@@ -526,13 +528,13 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *   Determines if a resource is accessable via the currently 
+     *   Determines if a resource is accessable via the currently
      *   configured resource loaders.
      *   <br><br>
      *   Note that the current implementation will <b>not</b>
      *   change the state of the system in any real way - so this
-     *   cannot be used to pre-load the resource cache, as the 
-     *   previous implementation did as a side-effect. 
+     *   cannot be used to pre-load the resource cache, as the
+     *   previous implementation did as a side-effect.
      *   <br><br>
      *   The previous implementation exhibited extreme lazyness and
      *   sloth, and the author has been flogged.
@@ -553,7 +555,7 @@ public class VelocityEngine implements RuntimeConstants
     {
         return resourceExists(resourceName);
     }
-    
+
     /**
      * Log a warning message.
      *
@@ -563,8 +565,8 @@ public class VelocityEngine implements RuntimeConstants
     {
         ri.warn(message);
     }
-    
-    /** 
+
+    /**
      * Log an info message.
      *
      * @param message message to log
@@ -573,7 +575,7 @@ public class VelocityEngine implements RuntimeConstants
     {
         ri.info(message);
     }
-    
+
     /**
      * Log an error message.
      *
@@ -583,7 +585,7 @@ public class VelocityEngine implements RuntimeConstants
     {
         ri.error(message);
     }
-    
+
     /**
      * Log a debug message.
      *
@@ -619,7 +621,7 @@ public class VelocityEngine implements RuntimeConstants
      {
         ri.setApplicationAttribute(key, value);
      }
-} 
+}
 
 
 
