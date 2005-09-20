@@ -448,7 +448,7 @@ TOKEN:
   <COLON : ":" >
 }
 
-<DIRECTIVE>
+<DIRECTIVE, REFMOD2>
 TOKEN :
 {
     <LEFT_CURLEY : "{" >
@@ -989,7 +989,13 @@ TOKEN :
         SwitchTo(REFMODIFIER);
 
     }
-|   <LCURLY: "{">
+}
+
+
+<REFERENCE,REFMODIFIER>
+TOKEN :
+{
+    <LCURLY: "{">
 |   <RCURLY: "}">
     {
         stateStackPop();
