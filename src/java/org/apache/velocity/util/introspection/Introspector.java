@@ -16,14 +16,8 @@ package org.apache.velocity.util.introspection;
  * limitations under the License.
  */
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import java.lang.reflect.Method;
 
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
@@ -112,8 +106,11 @@ public class Introspector extends IntrospectorBase
             {
                 if ( i > 0)
                     msg = msg + ", ";
-                
-                msg = msg + params[i].getClass().getName();
+
+                if (params[i] == null)
+                    msg = msg + "null";
+                else
+                    msg = msg + params[i].getClass().getName();                
             }
             
             msg = msg + ") for class " + c;
