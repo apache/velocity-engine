@@ -2505,21 +2505,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     finally { jj_save(11, xla); }
   }
 
-  final private boolean jj_3R_31() {
-    if (jj_3R_20()) return true;
-    return false;
-  }
-
-  final private boolean jj_3R_26() {
-    if (jj_3R_35()) return true;
-    return false;
-  }
-
-  final private boolean jj_3_10() {
-    if (jj_3R_28()) return true;
-    return false;
-  }
-
   final private boolean jj_3R_81() {
     if (jj_scan_token(COMMA)) return true;
     if (jj_3R_24()) return true;
@@ -3117,6 +3102,21 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
   final private boolean jj_3R_61() {
     if (jj_scan_token(FLOATING_POINT_LITERAL)) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_31() {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_26() {
+    if (jj_3R_35()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_10() {
+    if (jj_3R_28()) return true;
     return false;
   }
 
