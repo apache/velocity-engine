@@ -1557,24 +1557,23 @@ void Text() : {}
 void IfStatement() : {}
 {
     <IF_DIRECTIVE> [<WHITESPACE>] <LPAREN> Expression() <RPAREN>
-    ( Statement() )+ #Block
+    ( Statement() )* #Block
     [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
     [ LOOKAHEAD(1) ElseStatement() ]
     <END>
-
 }
 
 void ElseStatement() : {}
 {
    <ELSE_DIRECTIVE>
-    ( Statement() )+ #Block
+    ( Statement() )* #Block
 }
 
 void ElseIfStatement() : {}
 {
     <ELSEIF_DIRECTIVE> [<WHITESPACE>]
     <LPAREN> Expression() <RPAREN>
-    ( Statement() )+ #Block
+    ( Statement() )* #Block
 }
 
 /**
