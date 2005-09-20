@@ -21,6 +21,7 @@ import java.io.InputStream;
 import org.apache.velocity.runtime.RuntimeServices;
 
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 
@@ -73,14 +74,40 @@ public abstract class ResourceLoader
          *  don't cache, and modCheckInterval irrelevant...
          */
 
-        isCachingOn = configuration.getBoolean("cache", false);
-        modificationCheckInterval = configuration.getLong("modificationCheckInterval", 0);
+        try
+	    {
+            isCachingOn = configuration.getBoolean("cache", false);
+        }
+        catch (Exception e)
+        {
+            isCachingOn = false;
+            rs.error(e.getMessage() + ": Using default of '" + isCachingOn
+                     + '\'');
+        }
+        try
+        {
+            modificationCheckInterval = configuration.getLong("modificationCheckInterval", 0);
+        }
+        catch (Exception e)
+        {
+            modificationCheckInterval = 0;
+            rs.error(e.getMessage() + ": Using default of '" +
+                     modificationCheckInterval + '\'');
+        }
         
         /*
          * this is a must!
          */
-
-        className = configuration.getString("class");
+        className = ResourceCacheImpl.class.getName();
+        try
+        {
+            className = configuration.getString("class", className);
+        }
+        catch (Exception e)
+        {
+            rs.error(e.getMessage() + ": Using default of '" + className
+                     + '\'');
+        }
     }
 
     /** 
