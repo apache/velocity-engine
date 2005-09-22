@@ -21,7 +21,7 @@ package org.apache.velocity.test.provider;
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$
  */
-public class ForeachMethodCallHelper 
+public class ForeachMethodCallHelper
 {
     public String getFoo(Integer v) { return "int "+v; }
     public String getFoo(String v) { return "str "+v; }

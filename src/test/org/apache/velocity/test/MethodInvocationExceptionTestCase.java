@@ -30,7 +30,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class MethodInvocationExceptionTestCase extends TestCase 
+public class MethodInvocationExceptionTestCase extends TestCase
 {
    /**
      * Default constructor.
@@ -51,7 +51,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
         {
             System.err.println("Cannot setup MethodInvocationExceptionTest : " + e);
             System.exit(1);
-        }            
+        }
     }
 
     public static junit.framework.Test suite ()
@@ -63,7 +63,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
      * Runs the test :
      *
      *  uses the Velocity class to eval a string
-     *  which accesses a method that throws an 
+     *  which accesses a method that throws an
      *  exception.
      */
     public void runTest ()
@@ -71,7 +71,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
         String template = "$woogie.doException() boing!";
 
         VelocityContext vc = new VelocityContext();
-        
+
         vc.put("woogie", this );
 
         StringWriter w = new StringWriter();
@@ -133,7 +133,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
 
         template = "$woogie.Foo boing!";
- 
+
         try
         {
             Velocity. evaluate( vc,  w, "test", template );
@@ -159,7 +159,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
 
         template = "#set($woogie.foo = 'lala') boing!";
- 
+
         try
         {
             Velocity. evaluate( vc,  w, "test", template );
@@ -190,7 +190,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
          * to throw an exception.
          */
         template = "#macro (macro1 $param) $param #end  #macro1($woogie.getFoo())";
- 
+
         try
         {
             Velocity. evaluate( vc,  w, "test", template );
@@ -204,7 +204,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             fail("Wrong exception thrown, test of exception within macro parameter");
         }
 
-    
+
     }
 
     public void doException()

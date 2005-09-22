@@ -20,20 +20,11 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.File;
-
-import java.util.Properties;
-
-import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import junit.framework.TestCase;
 
 /**
  * Multiple paths in the file resource loader.
@@ -104,7 +95,7 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
             System.err.println("Cannot setup MultipleFileResourcePathTest!");
             e.printStackTrace();
             System.exit(1);
-        }            
+        }
     }
 
     public static junit.framework.Test suite ()
@@ -121,21 +112,21 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
         {
             Template template1 = RuntimeSingleton.getTemplate(
                 getFileName(null, "path1", TMPL_FILE_EXT));
-            
+
             Template template2 = RuntimeSingleton.getTemplate(
                 getFileName(null, "path2", TMPL_FILE_EXT));
-           
-            FileOutputStream fos1 = 
+
+            FileOutputStream fos1 =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
 
-            FileOutputStream fos2 = 
+            FileOutputStream fos2 =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "path2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-            
+
             /*
              *  put the Vector into the context, and merge both
              */
@@ -145,14 +136,14 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
             template1.merge(context, writer1);
             writer1.flush();
             writer1.close();
-            
+
             template2.merge(context, writer2);
             writer2.flush();
             writer2.close();
 
-            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1", 
+            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1",
                     RESULT_FILE_EXT, CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR, COMPARE_DIR, "path2", 
+                !isMatch(RESULTS_DIR, COMPARE_DIR, "path2",
                     RESULT_FILE_EXT, CMP_FILE_EXT))
             {
                 fail("Output incorrect.");

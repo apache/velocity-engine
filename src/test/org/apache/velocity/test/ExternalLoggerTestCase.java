@@ -16,12 +16,11 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
+import junit.framework.TestCase;
+
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
-
 import org.apache.velocity.runtime.log.LogSystem;
-
-import junit.framework.TestCase;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -31,7 +30,7 @@ import junit.framework.TestCase;
  */
 public class ExternalLoggerTestCase extends TestCase implements LogSystem
 {
-   
+
     private String logString = null;
     private VelocityEngine ve = null;
 
@@ -47,7 +46,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
             /*
              *  use an alternative logger.  Set it up here and pass it in.
              */
-            
+
             ve = new VelocityEngine();
             ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
             ve.init();
@@ -56,7 +55,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
         {
             System.err.println("Cannot setup LoggerTest : " + e);
             System.exit(1);
-        }            
+        }
     }
 
     public void init( RuntimeServices rs )
@@ -97,7 +96,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
         /*
          * Start with the appropriate prefix
          */
-        switch( level ) 
+        switch( level )
         {
             case LogSystem.DEBUG_ID :
                 out = VelocityEngine.DEBUG_PREFIX;
@@ -108,7 +107,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
             case LogSystem.WARN_ID :
                 out = VelocityEngine.WARN_PREFIX;
                 break;
-            case LogSystem.ERROR_ID : 
+            case LogSystem.ERROR_ID :
                 out = VelocityEngine.ERROR_PREFIX;
                 break;
             default :

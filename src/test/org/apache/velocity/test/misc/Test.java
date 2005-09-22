@@ -54,7 +54,7 @@ import org.apache.velocity.test.provider.TestProvider;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class Test implements ReferenceInsertionEventHandler, 
+public class Test implements ReferenceInsertionEventHandler,
                              NullSetEventHandler,
                              MethodExceptionEventHandler
 {
@@ -70,14 +70,14 @@ public class Test implements ReferenceInsertionEventHandler,
         TestProvider provider = new TestProvider();
         ArrayList al = provider.getCustomers();
         Hashtable h = new Hashtable();
-  
+
         /*
          *  put this in to test introspection $h.Bar or $h.get("Bar") etc
          */
-        
+
         h.put("Bar", "this is from a hashtable!");
         h.put("Foo", "this is from a hashtable too!");
-       
+
         /*
          *  adding simple vector with strings for testing late introspection stuff
          */
@@ -94,7 +94,7 @@ public class Test implements ReferenceInsertionEventHandler,
         {
             /*
              *  this is another way to do properties when initializing Runtime.
-             *  make a Properties 
+             *  make a Properties
              */
 
             Properties p = new Properties();
@@ -102,12 +102,12 @@ public class Test implements ReferenceInsertionEventHandler,
             /*
              *  now, if you want to, load it from a file (or whatever)
              */
-            
+
             try
             {
-                FileInputStream fis =  new FileInputStream( 
+                FileInputStream fis =  new FileInputStream(
                     new File("velocity.properties" ));
-            
+
                 if( fis != null)
                     p.load( fis );
             }
@@ -139,11 +139,11 @@ public class Test implements ReferenceInsertionEventHandler,
             /*
              *  use an alternative logger.  Set it up here and pass it in.
              */
-            
+
             //            SimpleLogSystem sls = new SimpleLogSystem("velocity_simple.log");
-            
+
             // Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, sls );
-          
+
             /*
              *  and now call init
              */
@@ -157,12 +157,12 @@ public class Test implements ReferenceInsertionEventHandler,
             if (templateFile == null)
             {
                 templateFile = "examples/example.vm";
-            }                
-         
+            }
+
 
             Template template = null;
 
-            try 
+            try
             {
                 template = RuntimeSingleton.getTemplate(templateFile, encoding);
             }
@@ -199,22 +199,22 @@ public class Test implements ReferenceInsertionEventHandler,
             context.put("Floog", "floogie woogie");
             context.put("geirstring", str );
             context.put("mylong", new Long(5) );
-            
+
             /*
              *  we want to make sure we test all types of iterative objects
              *  in #foreach()
              */
-             
+
             int intarr[] = { 10, 20, 30, 40, 50 };
 
             Object[] oarr = { "a","b","c","d" } ;
-            
+
             context.put( "collection", v );
             context.put("iterator", v.iterator());
             context.put("map", h );
             context.put("obarr", oarr );
             context.put("intarr", intarr );
-            
+
             String stest = " My name is $name -> $Floog";
             StringWriter w = new StringWriter();
             //            Velocity.evaluate( context, w, "evaltest",stest );
@@ -250,7 +250,7 @@ public class Test implements ReferenceInsertionEventHandler,
                 writer.flush();
                 writer.close();
             }
- 
+
         }
         catch( MethodInvocationException mie )
         {
@@ -283,7 +283,7 @@ public class Test implements ReferenceInsertionEventHandler,
 
         if (lhs.equals("$woogie"))
             return false;
-        
+
         return true;
     }
 

@@ -44,25 +44,25 @@ public interface TemplateTestBase
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    public final static String FILE_RESOURCE_LOADER_PATH = 
+    public final static String FILE_RESOURCE_LOADER_PATH =
                           "test/templates";
 
     /**
      * Properties file that lists which template tests to run.
      */
-    public final static String TEST_CASE_PROPERTIES = 
+    public final static String TEST_CASE_PROPERTIES =
                           FILE_RESOURCE_LOADER_PATH + "/templates.properties";
 
     /**
      * Results relative to the build directory.
      */
-    public final static String RESULT_DIR = 
+    public final static String RESULT_DIR =
                           "target/test/templates";
 
     /**
      * Results relative to the build directory.
      */
-    public final static String COMPARE_DIR = 
+    public final static String COMPARE_DIR =
                           FILE_RESOURCE_LOADER_PATH + "/compare";
 
 }

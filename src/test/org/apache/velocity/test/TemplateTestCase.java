@@ -17,28 +17,21 @@ package org.apache.velocity.test;
  */
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Vector;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.test.provider.TestNumber;
-import org.apache.velocity.test.provider.BoolObj;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.util.TemplateNumber;
-
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.FieldMethodizer;
-
-import junit.framework.TestCase;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.test.provider.BoolObj;
+import org.apache.velocity.test.provider.TestNumber;
+import org.apache.velocity.test.provider.TestProvider;
 
 /**
  * Easily add test cases which evaluate templates and check their output.
@@ -69,7 +62,7 @@ import junit.framework.TestCase;
 public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 {
     /**
-     * The base file name of the template and comparison file (i.e. array for 
+     * The base file name of the template and comparison file (i.e. array for
      * array.vm and array.cmp).
      */
     protected String baseFileName;
@@ -85,7 +78,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
     /**
      * Creates a new instance.
      *
-     * @param baseFileName The base name of the template and comparison file to 
+     * @param baseFileName The base name of the template and comparison file to
      *                     use (i.e. array for array.vm and array.cmp).
      */
     public TemplateTestCase (String baseFileName)
@@ -121,7 +114,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         vec.addElement(new String("string2"));
 
         /*
-         *  set up 3 chained contexts, and add our data 
+         *  set up 3 chained contexts, and add our data
          *  throught the 3 of them.
          */
 
@@ -160,13 +153,13 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("obarr", oarr );
         context.put("enumerator", vec.elements());
         context.put("intarr", intarr );
-        
+
         // Add some Numbers
         context.put ("int1", new Integer (1000));
         context.put ("long1", new Long (10000000000l));
         context.put ("float1", new Float (1000.1234));
         context.put ("double1", new Double (10000000000d));
-        
+
         // Add a TemplateNumber
         context.put ("templatenumber1", new TestNumber (999.125));
 
@@ -178,8 +171,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         nullList.add("b");
         nullList.add(null);
         nullList.add("d");
-        context.put("nullList", nullList);        
-    
+        context.put("nullList", nullList);
+
     }
 
     /**
@@ -191,11 +184,11 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         {
             Template template = RuntimeSingleton.getTemplate
                 (getFileName(null, baseFileName, TMPL_FILE_EXT));
-            
+
             assureResultsDirectoryExists(RESULT_DIR);
 
             /* get the file to write to */
-            FileOutputStream fos = 
+            FileOutputStream fos =
                 new FileOutputStream (getFileName(
                     RESULT_DIR, baseFileName, RESULT_FILE_EXT));
 
@@ -207,7 +200,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
             /* close the file */
             writer.flush();
             writer.close();
-            
+
             if (!isMatch(RESULT_DIR,COMPARE_DIR,baseFileName,
                     RESULT_FILE_EXT,CMP_FILE_EXT))
             {

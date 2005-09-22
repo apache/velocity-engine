@@ -20,10 +20,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-
-import org.apache.commons.collections.ExtendedProperties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -36,7 +33,7 @@ import org.apache.velocity.test.provider.ForeachMethodCallHelper;
  * @author Daniel Rall
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  */
-public class ForeachTestCase extends TestCase 
+public class ForeachTestCase extends TestCase
 {
     private VelocityContext context;
 

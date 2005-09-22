@@ -16,16 +16,14 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.lang.reflect.Method;
-
-import org.apache.velocity.runtime.RuntimeSingleton;
-
-import junit.framework.TestCase;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.apache.velocity.runtime.RuntimeSingleton;
 
 /**
  *  Simple introspector test case for primitive problem found in 1.3

@@ -16,21 +16,17 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
-import java.lang.ClassLoader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.VelocityContext;
-
 import org.apache.velocity.runtime.log.LogSystem;
-
 import org.apache.velocity.util.introspection.Introspector;
-
-import junit.framework.TestCase;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -42,10 +38,10 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
 {
     private VelocityEngine ve = null;
     private boolean sawCacheDump = false;
-    
+
     private static String OUTPUT = "Hello From Foo";
-    
-    
+
+
     /**
      * Default constructor.
      */
@@ -58,7 +54,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
             /*
              *  use an alternative logger.  Set it up here and pass it in.
              */
-            
+
             ve = new VelocityEngine();
             ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
             ve.init();
@@ -67,7 +63,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
         {
             System.err.println("Cannot setup ClassloaderChnageTest : " + e);
             System.exit(1);
-        }            
+        }
     }
 
     public void init( RuntimeServices rs )
@@ -86,7 +82,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
     public void runTest ()
     {
         sawCacheDump = false;
-                        
+
         try
         {
             VelocityContext vc = new VelocityContext();
@@ -104,7 +100,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
              *  put it into the context
              */
             vc.put("foo", foo);
-        
+
             /*
              *  and render something that would use it
              *  that will get it into the introspector cache
@@ -116,34 +112,34 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
              *  Check to make sure ok.  note the obvious
              *  dependency on the Foo class...
              */
-             
+
             if ( !writer.toString().equals( OUTPUT ))
             {
                fail("Output from doIt() incorrect");
             }
-             
+
             /*
              * and do it again :)
              */
             cl = new TestClassloader();
             fooclass = cl.loadClass("Foo");
             foo = fooclass.newInstance();
-            
+
             vc.put("foo", foo);
-        
-            writer = new StringWriter(); 
+
+            writer = new StringWriter();
             ve.evaluate( vc, writer, "test", "$foo.doIt()");
 
             if ( !writer.toString().equals( OUTPUT ))
             {
                fail("Output from doIt() incorrect");
-            }   
+            }
         }
         catch( Exception ee )
         {
             System.out.println("ClassloaderChangeTest : " + ee );
-        }   
-        
+        }
+
         if (!sawCacheDump)
         {
             fail("Didn't see introspector cache dump.");
@@ -159,7 +155,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
         if (message.equals( Introspector.CACHEDUMP_MSG) )
         {
             sawCacheDump = true;
-        }       
+        }
     }
 }
 
@@ -170,33 +166,33 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
  */
 class TestClassloader extends ClassLoader
 {
-    private final static String testclass = 
+    private final static String testclass =
         "test/classloader/Foo.class";
-        
+
     private Class fooClass = null;
-    
+
     public TestClassloader()
     {
         try
         {
             File f = new File( testclass );
-            
+
             byte[] barr = new byte[ (int) f.length() ];
-                 
+
             FileInputStream fis = new FileInputStream( f );
             fis.read( barr );
             fis.close();
-        
+
             fooClass = defineClass("Foo", barr, 0, barr.length);
         }
         catch( Exception e )
         {
             System.out.println("TestClassloader : exception : " + e );
-        }        
+        }
     }
-    
-    
-    public Class findClass(String name)     
+
+
+    public Class findClass(String name)
     {
         return fooClass;
     }

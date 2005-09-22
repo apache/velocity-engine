@@ -21,18 +21,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import java.util.Properties;
-
-import org.apache.velocity.VelocityContext;
-
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import junit.framework.TestCase;
 
 /**
  * Tests if the VM template-locality is working.
@@ -59,22 +51,22 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
              *  changed
              */
 
-            Velocity.setProperty( 
+            Velocity.setProperty(
                 Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-            
-            Velocity.setProperty( 
+
+            Velocity.setProperty(
                 Velocity.VM_PERM_INLINE_LOCAL, "true");
 
-            Velocity.setProperty( 
+            Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-            
-            Velocity.init();    
+
+            Velocity.init();
         }
         catch (Exception e)
         {
             System.err.println("Cannot setup " + TEST_CASE_NAME);
             System.exit(1);
-        } 
+        }
     }
 
     public static junit.framework.Test suite ()
@@ -90,29 +82,29 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
         try
         {
             assureResultsDirectoryExists(RESULT_DIR);
-            
+
             /*
-             * Get the template and the output. Do them backwards. 
+             * Get the template and the output. Do them backwards.
              * vm_test2 uses a local VM and vm_test1 doesn't
              */
 
             Template template2 = RuntimeSingleton.getTemplate(
                 getFileName(null, "vm_test2", TMPL_FILE_EXT));
-            
+
             Template template1 = RuntimeSingleton.getTemplate(
                 getFileName(null, "vm_test1", TMPL_FILE_EXT));
-           
-            FileOutputStream fos1 = 
+
+            FileOutputStream fos1 =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
 
-            FileOutputStream fos2 = 
+            FileOutputStream fos2 =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-            
+
             /*
              *  put the Vector into the context, and merge both
              */
@@ -122,7 +114,7 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
             template1.merge(context, writer1);
             writer1.flush();
             writer1.close();
-            
+
             template2.merge(context, writer2);
             writer2.flush();
             writer2.close();
