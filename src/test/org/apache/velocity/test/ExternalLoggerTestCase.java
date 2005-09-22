@@ -29,7 +29,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ExternalLoggerTest extends TestCase implements LogSystem
+public class ExternalLoggerTestCase extends TestCase implements LogSystem
 {
    
     private String logString = null;
@@ -38,7 +38,7 @@ public class ExternalLoggerTest extends TestCase implements LogSystem
     /**
      * Default constructor.
      */
-    public ExternalLoggerTest()
+    public ExternalLoggerTestCase()
     {
         super("LoggerTest");
 
@@ -66,7 +66,7 @@ public class ExternalLoggerTest extends TestCase implements LogSystem
 
     public static junit.framework.Test suite ()
     {
-        return new ExternalLoggerTest();
+        return new ExternalLoggerTestCase();
     }
 
     /**

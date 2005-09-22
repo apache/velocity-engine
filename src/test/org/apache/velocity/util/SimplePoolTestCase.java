@@ -25,14 +25,14 @@ import junit.framework.TestSuite;
  *
  * @version $Id$ 
  */
-public class TestSimplePool extends TestCase
+public class SimplePoolTestCase extends TestCase
 {
     public static Test suite()
     {
-        return new TestSuite(TestSimplePool.class);
+        return new TestSuite(SimplePoolTestCase.class);
     }
 
-    public TestSimplePool(String testName)
+    public SimplePoolTestCase(String testName)
     {
         super(testName);
     }

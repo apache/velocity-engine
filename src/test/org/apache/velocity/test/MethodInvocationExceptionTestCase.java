@@ -30,12 +30,12 @@ import org.apache.velocity.exception.MethodInvocationException;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class MethodInvocationExceptionTest extends TestCase 
+public class MethodInvocationExceptionTestCase extends TestCase 
 {
    /**
      * Default constructor.
      */
-    public MethodInvocationExceptionTest()
+    public MethodInvocationExceptionTestCase()
     {
         super("MethodInvocationExceptionTest");
 
@@ -56,7 +56,7 @@ public class MethodInvocationExceptionTest extends TestCase
 
     public static junit.framework.Test suite ()
     {
-        return new MethodInvocationExceptionTest();
+        return new MethodInvocationExceptionTestCase();
     }
 
     /**
