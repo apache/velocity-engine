@@ -16,7 +16,9 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -37,25 +39,21 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
     /**
      * Default constructor.
      */
-    public ExternalLoggerTestCase()
+    public ExternalLoggerTestCase(String name)
     {
-        super("LoggerTest");
+        super(name);
+    }
 
-        try
-        {
-            /*
-             *  use an alternative logger.  Set it up here and pass it in.
-             */
+    public void setUp()
+            throws Exception
+    {
+        /*
+         *  use an alternative logger.  Set it up here and pass it in.
+         */
 
-            ve = new VelocityEngine();
-            ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
-            ve.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup LoggerTest : " + e);
-            System.exit(1);
-        }
+        ve = new VelocityEngine();
+        ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
+        ve.init();
     }
 
     public void init( RuntimeServices rs )
@@ -63,15 +61,15 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
         // do nothing with it
     }
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new ExternalLoggerTestCase();
+        return new TestSuite(ExternalLoggerTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testExternalLogger ()
     {
         /*
          *  simply log something and see if we get it.

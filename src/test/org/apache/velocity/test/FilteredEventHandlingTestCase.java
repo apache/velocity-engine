@@ -23,6 +23,9 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -78,9 +81,9 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
     /**
      * Default constructor.
      */
-    public FilteredEventHandlingTestCase()
+    public FilteredEventHandlingTestCase(String name)
     {
-        super("FilteredEventHandlingTestCase");
+        super(name);
     }
 
 
@@ -92,12 +95,12 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         /* don't need it...*/
     }
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new FilteredEventHandlingTestCase();
+        return new TestSuite(FilteredEventHandlingTestCase.class);
     }
 
-    public void runTest() throws Exception
+    public void testFilteredEventHandling() throws Exception
     {
         String handler1 = "org.apache.velocity.test.eventhandler.Handler1";
         String handler2 = "org.apache.velocity.test.eventhandler.Handler2";
@@ -156,30 +159,23 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         context = new VelocityContext();
         w = new StringWriter();
         context.put("test",new ArrayList());
-        try {
+
+        try
+        {
             ve.evaluate( context, w, "test", "$test.get(0)");
             fail ( "Method exception event test 1" );
-        } catch( MethodInvocationException mee )
+        } 
+        catch( MethodInvocationException mee )
         {
-            // correct if exception is raised
-        }
-        catch( Exception e )
-        {
-            fail ( "Method exception event test 1" );
+            // do nothing
         }
 
         // sequence2
         context = new VelocityContext();
         w = new StringWriter();
         context.put("test",new ArrayList());
-        try {
-            ve2.evaluate( context, w, "test", "$test.get(0)");
-        }
-        catch( Exception e )
-        {
-            fail ( "Method exception event test 2" );
-        }
 
+        ve2.evaluate( context, w, "test", "$test.get(0)");
 
         // check log on null set with both sequences
         // sequence 1

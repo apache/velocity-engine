@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -40,96 +43,86 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
      */
     private static final String TEST_CASE_NAME = "InlineScopeVMTestCase";
 
-    InlineScopeVMTestCase()
+    public InlineScopeVMTestCase(String name)
     {
-        super(TEST_CASE_NAME);
-
-        try
-        {
-            /*
-             *  do our properties locally, and just override the ones we want
-             *  changed
-             */
-
-            Velocity.setProperty(
-                Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-
-            Velocity.setProperty(
-                Velocity.VM_PERM_INLINE_LOCAL, "true");
-
-            Velocity.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup " + TEST_CASE_NAME);
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public void setUp()
+            throws Exception
     {
-        return new InlineScopeVMTestCase();
+        /*
+         *  do our properties locally, and just override the ones we want
+         *  changed
+         */
+
+        Velocity.setProperty(
+            Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
+
+        Velocity.setProperty(
+            Velocity.VM_PERM_INLINE_LOCAL, "true");
+
+        Velocity.setProperty(
+            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+
+        Velocity.init();
+    }
+
+    public static Test suite ()
+    {
+        return new TestSuite(InlineScopeVMTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testInlineScopeVM ()
+            throws Exception
     {
-        try
+        assureResultsDirectoryExists(RESULT_DIR);
+
+        /*
+         * Get the template and the output. Do them backwards.
+         * vm_test2 uses a local VM and vm_test1 doesn't
+         */
+
+        Template template2 = RuntimeSingleton.getTemplate(
+            getFileName(null, "vm_test2", TMPL_FILE_EXT));
+
+        Template template1 = RuntimeSingleton.getTemplate(
+            getFileName(null, "vm_test1", TMPL_FILE_EXT));
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+
+        /*
+         *  put the Vector into the context, and merge both
+         */
+
+        VelocityContext context = new VelocityContext();
+
+        template1.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        template2.merge(context, writer2);
+        writer2.flush();
+        writer2.close();
+
+        if (!isMatch(RESULT_DIR,COMPARE_DIR,"vm_test1",
+                RESULT_FILE_EXT,CMP_FILE_EXT) ||
+            !isMatch(RESULT_DIR,COMPARE_DIR,"vm_test2",
+                RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            assureResultsDirectoryExists(RESULT_DIR);
-
-            /*
-             * Get the template and the output. Do them backwards.
-             * vm_test2 uses a local VM and vm_test1 doesn't
-             */
-
-            Template template2 = RuntimeSingleton.getTemplate(
-                getFileName(null, "vm_test2", TMPL_FILE_EXT));
-
-            Template template1 = RuntimeSingleton.getTemplate(
-                getFileName(null, "vm_test1", TMPL_FILE_EXT));
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "vm_test1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 =
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "vm_test2", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-
-            /*
-             *  put the Vector into the context, and merge both
-             */
-
-            VelocityContext context = new VelocityContext();
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            template2.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            if (!isMatch(RESULT_DIR,COMPARE_DIR,"vm_test1",
-                    RESULT_FILE_EXT,CMP_FILE_EXT) ||
-                !isMatch(RESULT_DIR,COMPARE_DIR,"vm_test2",
-                    RESULT_FILE_EXT,CMP_FILE_EXT))
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("Output incorrect.");
         }
     }
 }

@@ -32,7 +32,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
@@ -49,34 +51,29 @@ public class VelocityServletTestCase extends TestCase
     /**
      * Default constructor.
      */
-    public VelocityServletTestCase()
+    public VelocityServletTestCase(String name)
     {
-        super("VelocityServletTest");
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new VelocityServletTestCase();
+        return new TestSuite(VelocityServletTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest()
+    public void testVelocityServlet()
+            throws Exception
     {
         /*
          * Assure we have the encoding we think we should.
          */
 
         MockVelocityServlet servlet = new MockVelocityServlet();
-        try
-        {
-            servlet.init(new MockServletConfig());
-        }
-        catch (ServletException e)
-        {
-            e.printStackTrace();
-        }
+        servlet.init(new MockServletConfig());
+
         System.out.println(RuntimeConstants.OUTPUT_ENCODING + "=" +
                            RuntimeSingleton.getProperty
                            (RuntimeConstants.OUTPUT_ENCODING));
@@ -85,6 +82,7 @@ public class VelocityServletTestCase extends TestCase
         assertEquals("Character encoding not set to UTF-8",
                      "UTF-8", res.getCharacterEncoding());
     }
+
 
     class MockVelocityServlet extends VelocityServlet
     {

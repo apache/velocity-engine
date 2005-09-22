@@ -135,12 +135,15 @@ public class ArithmeticTestCase extends TestCase
         moduloHelper (new Byte((byte)10), new Short( (short)3), 1, Short.class);
         moduloHelper (BigInteger.valueOf(10), new Short( (short)4), 2, BigInteger.class);
         moduloHelper (new Integer(10), new Float( 5.5f), 4.5, Float.class);
+
         try
         {
             moduloHelper (new Integer(10), new BigDecimal( 2.5), 4, BigDecimal.class);
             fail ("Modulo with BigDecimal is not allowed! Should have thrown an ArithmeticException.");
-        } catch( ArithmeticException e)
+        }
+        catch( ArithmeticException e)
         {
+            // do nothing
         }
     }
 

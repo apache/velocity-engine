@@ -18,7 +18,9 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -34,52 +36,42 @@ public class VelocimacroTestCase extends TestCase
     private String template1 = "#macro(foo $a)$a#end #macro(bar $b)#foo($b)#end #foreach($i in [1..3])#bar($i)#end";
     private String result1 = "  123";
 
-    public VelocimacroTestCase()
+    public VelocimacroTestCase(String name)
     {
-        super("VelocimacroTestCase");
-
-        try
-        {
-            /*
-             *  setup local scope for templates
-             */
-            Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup VelocimacroTestCase!");
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite()
+    public void setUp()
+            throws Exception
     {
-        return new VelocimacroTestCase();
+        /*
+         *  setup local scope for templates
+         */
+        Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        Velocity.init();
+    }
+
+    public static Test suite()
+    {
+        return new TestSuite(VelocimacroTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testVelociMacro ()
+            throws Exception
     {
         VelocityContext context = new VelocityContext();
 
-        try
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "vm_chain1", template1);
+        
+        String out = writer.toString();
+        
+        if( !result1.equals( out ) )
         {
-            StringWriter writer = new StringWriter();
-            Velocity.evaluate(context, writer, "vm_chain1", template1);
-
-            String out = writer.toString();
-
-            if( !result1.equals( out ) )
-            {
-                fail("output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("output incorrect.");
         }
     }
 }

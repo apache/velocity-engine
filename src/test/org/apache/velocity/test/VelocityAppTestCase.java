@@ -18,6 +18,9 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -34,45 +37,39 @@ public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBas
     private String input1 = "My name is $name -> $Floog";
     private String result1 = "My name is jason -> floogie woogie";
 
-    public VelocityAppTestCase()
+    public VelocityAppTestCase(String name)
     {
-        super("VelocityAppTestCase");
-
-        try
-        {
-            Velocity.setProperty(
-	           Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup VelocityAppTestCase!");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite()
+    public void setUp()
+            throws Exception
     {
-        return new VelocityAppTestCase();
+        Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+
+        Velocity.init();
+    }
+
+    public static Test suite()
+    {
+        return new TestSuite(VelocityAppTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testVelocityApp ()
+            throws Exception
     {
         VelocityContext context = new VelocityContext();
         context.put("name", "jason");
         context.put("Floog", "floogie woogie");
 
-        try
-        {
             Velocity.evaluate(context, compare1, "evaltest", input1);
 
 /*
-            FIXME: Not tested right now.
+            @todo FIXME: Not tested right now.
 
             StringWriter result2 = new StringWriter();
             Velocity.mergeTemplate("mergethis.vm",  context, result2);
@@ -85,10 +82,5 @@ public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBas
             {
                 fail("Output incorrect.");
             }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
     }
 }

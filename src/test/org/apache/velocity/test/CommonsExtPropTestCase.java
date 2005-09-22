@@ -20,6 +20,8 @@ import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.Vector;
 
+import junit.framework.TestSuite;
+
 import org.apache.commons.collections.ExtendedProperties;
 
 
@@ -56,23 +58,22 @@ public class CommonsExtPropTestCase extends BaseTestCase
      * Creates a new instance.
      *
      */
-    public CommonsExtPropTestCase()
+    public CommonsExtPropTestCase(String name)
     {
-        super("CommonsExtPropTestCase");
+        super(name);
     }
 
     public static junit.framework.Test suite()
     {
-        return new CommonsExtPropTestCase();
+        return new TestSuite(CommonsExtPropTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testExtendedProperties ()
+            throws Exception
     {
-        try
-        {
             assureResultsDirectoryExists(RESULTS_DIR);
 
             ExtendedProperties c = new ExtendedProperties(TEST_CONFIG);
@@ -140,13 +141,6 @@ public class CommonsExtPropTestCase extends BaseTestCase
             {
                 fail("Output incorrect.");
             }
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup CommonsExtPropTestCase!");
-            e.printStackTrace();
-            System.exit(1);
-        }
     }
 
     private void showIterator(FileWriter result, Iterator i)

@@ -17,6 +17,7 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.util.StringUtils;
 
@@ -29,11 +30,6 @@ import org.apache.velocity.util.StringUtils;
  */
 public class MiscTestCase extends BaseTestCase
 {
-    public MiscTestCase()
-    {
-        super("MiscTestCase");
-    }
-
     public MiscTestCase (String name)
     {
         super(name);
@@ -41,10 +37,10 @@ public class MiscTestCase extends BaseTestCase
 
     public static Test suite ()
     {
-        return new MiscTestCase();
+        return new TestSuite(MiscTestCase.class);
     }
 
-    public void runTest()
+    public void testStringUtils()
     {
         /*
          *  some StringUtils tests

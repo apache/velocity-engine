@@ -1,5 +1,7 @@
 package org.apache.velocity.test;
 
+import junit.framework.TestSuite;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -40,46 +42,31 @@ public class TexenTestCase extends BaseTestCase
      * Creates a new instance.
      *
      */
-    public TexenTestCase()
+    public TexenTestCase(String name)
     {
-        super("TexenTestCase");
+        super(name);
     }
 
     public static junit.framework.Test suite()
     {
-        return new TexenTestCase();
-    }
-
-    /**
-     * Sets up the test.
-     */
-    protected void setUp ()
-    {
+        return new TestSuite(TexenTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testTexenResults ()
+            throws Exception
     {
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
+        assureResultsDirectoryExists(RESULTS_DIR);
 
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeather","java","java") ||
-                !isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeatherService","java","java") ||
-                !isMatch(RESULTS_DIR,COMPARE_DIR,"WeatherService","java","java") ||
-                !isMatch(RESULTS_DIR,COMPARE_DIR,"book","txt","txt") ||
-                !isMatch(RESULTS_DIR,COMPARE_DIR,"Test","txt","txt"))
-            {
-                fail("Output is incorrect!");
-            }
-        }
-        catch(Exception e)
+        if (!isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeather","java","java") ||
+            !isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeatherService","java","java") ||
+            !isMatch(RESULTS_DIR,COMPARE_DIR,"WeatherService","java","java") ||
+            !isMatch(RESULTS_DIR,COMPARE_DIR,"book","txt","txt") ||
+            !isMatch(RESULTS_DIR,COMPARE_DIR,"Test","txt","txt"))
         {
-            /*
-             * do nothing.
-             */
+            fail("Output is incorrect!");
         }
     }
 }

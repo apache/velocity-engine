@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -45,25 +47,21 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
     /**
      * Default constructor.
      */
-    public ClassloaderChangeTestCase()
+    public ClassloaderChangeTestCase(String name)
     {
-        super("ClassloaderChangeTest");
+        super(name);
+    }
 
-        try
-        {
-            /*
-             *  use an alternative logger.  Set it up here and pass it in.
-             */
-
-            ve = new VelocityEngine();
-            ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
-            ve.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup ClassloaderChnageTest : " + e);
-            System.exit(1);
-        }
+    public void setUp()
+            throws Exception
+    {
+        /*
+         *  use an alternative logger.  Set it up here and pass it in.
+         */
+        
+        ve = new VelocityEngine();
+        ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
+        ve.init();
     }
 
     public void init( RuntimeServices rs )
@@ -71,73 +69,67 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
         // do nothing with it
     }
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new ClassloaderChangeTestCase();
+        return new TestSuite(ClassloaderChangeTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testClassloaderChange()
+        throws Exception
     {
         sawCacheDump = false;
 
-        try
+        VelocityContext vc = new VelocityContext();
+        Object foo = null;
+
+        /*
+         *  first, we need a classloader to make our foo object
+         */
+
+        TestClassloader cl = new TestClassloader();
+        Class fooclass = cl.loadClass("Foo");
+        foo = fooclass.newInstance();
+
+        /*
+         *  put it into the context
+         */
+        vc.put("foo", foo);
+        
+        /*
+         *  and render something that would use it
+         *  that will get it into the introspector cache
+         */
+        StringWriter writer = new StringWriter();
+        ve.evaluate( vc, writer, "test", "$foo.doIt()");
+
+        /*
+         *  Check to make sure ok.  note the obvious
+         *  dependency on the Foo class...
+         */
+
+        if ( !writer.toString().equals( OUTPUT ))
         {
-            VelocityContext vc = new VelocityContext();
-            Object foo = null;
-
-            /*
-             *  first, we need a classloader to make our foo object
-             */
-
-            TestClassloader cl = new TestClassloader();
-            Class fooclass = cl.loadClass("Foo");
-            foo = fooclass.newInstance();
-
-            /*
-             *  put it into the context
-             */
-            vc.put("foo", foo);
-
-            /*
-             *  and render something that would use it
-             *  that will get it into the introspector cache
-             */
-            StringWriter writer = new StringWriter();
-            ve.evaluate( vc, writer, "test", "$foo.doIt()");
-
-            /*
-             *  Check to make sure ok.  note the obvious
-             *  dependency on the Foo class...
-             */
-
-            if ( !writer.toString().equals( OUTPUT ))
-            {
-               fail("Output from doIt() incorrect");
-            }
-
-            /*
-             * and do it again :)
-             */
-            cl = new TestClassloader();
-            fooclass = cl.loadClass("Foo");
-            foo = fooclass.newInstance();
-
-            vc.put("foo", foo);
-
-            writer = new StringWriter();
-            ve.evaluate( vc, writer, "test", "$foo.doIt()");
-
-            if ( !writer.toString().equals( OUTPUT ))
-            {
-               fail("Output from doIt() incorrect");
-            }
+            fail("Output from doIt() incorrect");
         }
-        catch( Exception ee )
+
+        /*
+         * and do it again :)
+         */
+        cl = new TestClassloader();
+        fooclass = cl.loadClass("Foo");
+        foo = fooclass.newInstance();
+
+        vc.put("foo", foo);
+
+        writer = new StringWriter();
+        ve.evaluate( vc, writer, "test", "$foo.doIt()");
+        
+        if ( !writer.toString().equals( OUTPUT ))
         {
-            System.out.println("ClassloaderChangeTest : " + ee );
+            fail("Output from doIt() incorrect");
         }
 
         if (!sawCacheDump)
@@ -172,23 +164,17 @@ class TestClassloader extends ClassLoader
     private Class fooClass = null;
 
     public TestClassloader()
+            throws Exception
     {
-        try
-        {
-            File f = new File( testclass );
-
-            byte[] barr = new byte[ (int) f.length() ];
-
-            FileInputStream fis = new FileInputStream( f );
-            fis.read( barr );
-            fis.close();
-
-            fooClass = defineClass("Foo", barr, 0, barr.length);
-        }
-        catch( Exception e )
-        {
-            System.out.println("TestClassloader : exception : " + e );
-        }
+        File f = new File( testclass );
+        
+        byte[] barr = new byte[ (int) f.length() ];
+        
+        FileInputStream fis = new FileInputStream( f );
+        fis.read( barr );
+        fis.close();
+        
+        fooClass = defineClass("Foo", barr, 0, barr.length);
     }
 
 

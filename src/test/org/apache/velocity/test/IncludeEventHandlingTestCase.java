@@ -22,6 +22,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -85,118 +88,108 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     /**
      * Default constructor.
      */
-    public IncludeEventHandlingTestCase()
+    public IncludeEventHandlingTestCase(String name)
     {
-        super("EventHandlingTestCase");
+        super(name);
+    }
 
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
+    public void setUp()
+            throws Exception
+    {
+        assureResultsDirectoryExists(RESULTS_DIR);
 
-            Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        Velocity.addProperty(
+            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
-            Velocity.init();
+        Velocity.init();
 
 
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup include event handling test : " + e);
-            System.exit(1);
-        }
     }
 
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new IncludeEventHandlingTestCase();
+        return new TestSuite(IncludeEventHandlingTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testIncludeEventHandling ()
+            throws Exception
     {
-        try
+        Template template1 = RuntimeSingleton.getTemplate(
+            getFileName(null, "test1", TMPL_FILE_EXT));
+
+        Template template2 = RuntimeSingleton.getTemplate(
+            getFileName(null, "subdir/test2", TMPL_FILE_EXT));
+
+        Template template3 = RuntimeSingleton.getTemplate(
+            getFileName(null, "test3", TMPL_FILE_EXT));
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
+
+        FileOutputStream fos3 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+        Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
+
+        /*
+         *  lets make a Context and add the event cartridge
+         */
+
+        Context context = new VelocityContext();
+
+        /*
+         *  Now make an event cartridge, register the
+         *  input event handler and attach it to the
+         *  Context
+         */
+
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(this);
+        ec.attachToContext( context );
+
+
+        // BEHAVIOR A: pass through #input and #parse with no change
+        EventHandlerBehavior = PASS_THROUGH;
+
+        template1.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        // BEHAVIOR B: pass through #input and #parse with using a relative path
+        EventHandlerBehavior = RELATIVE_PATH;
+
+        template2.merge(context, writer2);
+        writer2.flush();
+        writer2.close();
+
+        // BEHAVIOR C: refuse to pass through #input and #parse
+        EventHandlerBehavior = BLOCK;
+
+        template3.merge(context, writer3);
+        writer3.flush();
+        writer3.close();
+
+        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test1",
+                RESULT_FILE_EXT, CMP_FILE_EXT) ||
+            !isMatch(RESULTS_DIR, COMPARE_DIR, "test2",
+                RESULT_FILE_EXT, CMP_FILE_EXT) ||
+            !isMatch(RESULTS_DIR, COMPARE_DIR, "test3",
+                RESULT_FILE_EXT, CMP_FILE_EXT)
+                )
         {
-            Template template1 = RuntimeSingleton.getTemplate(
-                getFileName(null, "test1", TMPL_FILE_EXT));
-
-            Template template2 = RuntimeSingleton.getTemplate(
-                getFileName(null, "subdir/test2", TMPL_FILE_EXT));
-
-            Template template3 = RuntimeSingleton.getTemplate(
-                getFileName(null, "test3", TMPL_FILE_EXT));
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
-
-            FileOutputStream fos3 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-            Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
-
-            /*
-             *  lets make a Context and add the event cartridge
-             */
-
-            Context context = new VelocityContext();
-
-            /*
-             *  Now make an event cartridge, register the
-             *  input event handler and attach it to the
-             *  Context
-             */
-
-            EventCartridge ec = new EventCartridge();
-            ec.addEventHandler(this);
-            ec.attachToContext( context );
-
-
-            // BEHAVIOR A: pass through #input and #parse with no change
-            EventHandlerBehavior = PASS_THROUGH;
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            // BEHAVIOR B: pass through #input and #parse with using a relative path
-            EventHandlerBehavior = RELATIVE_PATH;
-
-            template2.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            // BEHAVIOR C: refuse to pass through #input and #parse
-            EventHandlerBehavior = BLOCK;
-
-            template3.merge(context, writer3);
-            writer3.flush();
-            writer3.close();
-
-            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test1",
-                    RESULT_FILE_EXT, CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR, COMPARE_DIR, "test2",
-                    RESULT_FILE_EXT, CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR, COMPARE_DIR, "test3",
-                    RESULT_FILE_EXT, CMP_FILE_EXT)
-                    )
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("Output incorrect.");
         }
     }
 
