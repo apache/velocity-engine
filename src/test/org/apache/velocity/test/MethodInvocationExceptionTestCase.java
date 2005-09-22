@@ -18,7 +18,9 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -35,28 +37,23 @@ public class MethodInvocationExceptionTestCase extends TestCase
    /**
      * Default constructor.
      */
-    public MethodInvocationExceptionTestCase()
+    public MethodInvocationExceptionTestCase(String name)
     {
-        super("MethodInvocationExceptionTest");
-
-        try
-        {
-            /*
-             *  init() Runtime with defaults
-             */
-            Velocity.init();
-
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup MethodInvocationExceptionTest : " + e);
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public void setUp()
+            throws Exception
     {
-        return new MethodInvocationExceptionTestCase();
+        /*
+         *  init() Runtime with defaults
+         */
+        Velocity.init();
+    }
+
+    public static Test suite ()
+    {
+        return new TestSuite(MethodInvocationExceptionTestCase.class);
     }
 
     /**
@@ -66,7 +63,8 @@ public class MethodInvocationExceptionTestCase extends TestCase
      *  which accesses a method that throws an
      *  exception.
      */
-    public void runTest ()
+    public void testNormalMethodInvocationException ()
+            throws Exception
     {
         String template = "$woogie.doException() boing!";
 
@@ -95,18 +93,23 @@ public class MethodInvocationExceptionTestCase extends TestCase
                 System.out.println("  exception = " + ( (Exception) t).getMessage() );
             }
         }
-        catch( Exception e)
-        {
-            fail("Wrong exception thrown, first test." + e);
-            e.printStackTrace();
-        }
+    }
+
+
+    public void testGetterMethodInvocationException ()
+            throws Exception
+    {
+        VelocityContext vc = new VelocityContext();
+        vc.put("woogie", this );
+
+        StringWriter w = new StringWriter();
 
         /*
          *  second test - to ensure that methods accessed via get+ construction
          *  also work
          */
 
-        template = "$woogie.foo boing!";
+        String template = "$woogie.foo boing!";
 
         try
         {
@@ -127,12 +130,18 @@ public class MethodInvocationExceptionTestCase extends TestCase
                 System.out.println("  exception = " + ( (Exception) t).getMessage() );
             }
         }
-        catch( Exception e)
-        {
-            fail("Wrong exception thrown, second test");
-        }
+    }
 
-        template = "$woogie.Foo boing!";
+
+    public void testCapitalizedGetterMethodInvocationException ()
+            throws Exception
+    {
+        VelocityContext vc = new VelocityContext();
+        vc.put("woogie", this );
+
+        StringWriter w = new StringWriter();
+
+        String template = "$woogie.Foo boing!";
 
         try
         {
@@ -153,12 +162,17 @@ public class MethodInvocationExceptionTestCase extends TestCase
                 System.out.println("  exception = " + ( (Exception) t).getMessage() );
             }
         }
-        catch( Exception e)
-        {
-            fail("Wrong exception thrown, third test");
-        }
+    }
 
-        template = "#set($woogie.foo = 'lala') boing!";
+    public void testSetterMethodInvocationException ()
+            throws Exception
+    {
+        VelocityContext vc = new VelocityContext();
+        vc.put("woogie", this );
+
+        StringWriter w = new StringWriter();
+
+        String template = "#set($woogie.foo = 'lala') boing!";
 
         try
         {
@@ -179,17 +193,23 @@ public class MethodInvocationExceptionTestCase extends TestCase
                 System.out.println("  exception = " + ( (Exception) t).getMessage() );
             }
         }
-        catch( Exception e)
-        {
-            fail("Wrong exception thrown, set test");
-        }
+    }
 
-        /**
-         * test that no exception is thrown when in parameter to macro.
-         * This is the way we expect the system to work, but it would be better
-         * to throw an exception.
-         */
-        template = "#macro (macro1 $param) $param #end  #macro1($woogie.getFoo())";
+
+    /**
+     * test that no exception is thrown when in parameter to macro.
+     * This is the way we expect the system to work, but it would be better
+     * to throw an exception.
+     */
+    public void testMacroInvocationException ()
+            throws Exception
+    {
+        VelocityContext vc = new VelocityContext();
+        vc.put("woogie", this );
+
+        StringWriter w = new StringWriter();
+
+        String template = "#macro (macro1 $param) $param #end  #macro1($woogie.getFoo())";
 
         try
         {
@@ -199,12 +219,6 @@ public class MethodInvocationExceptionTestCase extends TestCase
         {
             fail("Shouldn't have thrown exception, macro param test.");
         }
-        catch( Exception e)
-        {
-            fail("Wrong exception thrown, test of exception within macro parameter");
-        }
-
-
     }
 
     public void doException()

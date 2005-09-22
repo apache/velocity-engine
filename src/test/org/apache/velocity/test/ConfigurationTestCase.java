@@ -20,6 +20,9 @@ import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.Vector;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.runtime.configuration.Configuration;
 
 /**
@@ -54,96 +57,88 @@ public class ConfigurationTestCase extends BaseTestCase
      * Creates a new instance.
      *
      */
-    public ConfigurationTestCase()
+    public ConfigurationTestCase(String name)
     {
-        super("ConfigurationTestCase");
+        super(name);
     }
 
-    public static junit.framework.Test suite()
+    public static Test suite()
     {
-        return new ConfigurationTestCase();
+        return new TestSuite(ConfigurationTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testConfiguration ()
+            throws Exception
     {
-        try
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        Configuration c = new Configuration(TEST_CONFIG);
+
+        FileWriter result = new FileWriter(
+            getFileName(RESULTS_DIR, "output", "res"));
+
+        message(result, "Testing order of keys ...");
+        showIterator(result, c.getKeys());
+
+        message(result, "Testing retrieval of CSV values ...");
+        showVector(result, c.getVector("resource.loader"));
+
+        message(result, "Testing subset(prefix).getKeys() ...");
+        Configuration subset = c.subset("file.resource.loader");
+        showIterator(result, subset.getKeys());
+
+        message(result, "Testing getVector(prefix) ...");
+        showVector(result, subset.getVector("path"));
+
+        message(result, "Testing getString(key) ...");
+        result.write(c.getString("config.string.value"));
+        result.write("\n\n");
+
+        message(result, "Testing getBoolean(key) ...");
+        result.write(new Boolean(c.getBoolean("config.boolean.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getByte(key) ...");
+        result.write(new Byte(c.getByte("config.byte.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getShort(key) ...");
+        result.write(new Short(c.getShort("config.short.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getInt(key) ...");
+        result.write(new Integer(c.getInt("config.int.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getLong(key) ...");
+        result.write(new Long(c.getLong("config.long.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getFloat(key) ...");
+        result.write(new Float(c.getFloat("config.float.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing getDouble(key) ...");
+        result.write(new Double(c.getDouble("config.double.value")).toString());
+        result.write("\n\n");
+
+        message(result, "Testing escaped-comma scalar...");
+        result.write( c.getString("escape.comma1"));
+        result.write("\n\n");
+
+        message(result, "Testing escaped-comma vector...");
+        showVector(result,  c.getVector("escape.comma2"));
+        result.write("\n\n");
+
+        result.flush();
+        result.close();
+
+        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "output","res","cmp"))
         {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            Configuration c = new Configuration(TEST_CONFIG);
-
-            FileWriter result = new FileWriter(
-                getFileName(RESULTS_DIR, "output", "res"));
-
-            message(result, "Testing order of keys ...");
-            showIterator(result, c.getKeys());
-
-            message(result, "Testing retrieval of CSV values ...");
-            showVector(result, c.getVector("resource.loader"));
-
-            message(result, "Testing subset(prefix).getKeys() ...");
-            Configuration subset = c.subset("file.resource.loader");
-            showIterator(result, subset.getKeys());
-
-            message(result, "Testing getVector(prefix) ...");
-            showVector(result, subset.getVector("path"));
-
-            message(result, "Testing getString(key) ...");
-            result.write(c.getString("config.string.value"));
-            result.write("\n\n");
-
-            message(result, "Testing getBoolean(key) ...");
-            result.write(new Boolean(c.getBoolean("config.boolean.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getByte(key) ...");
-            result.write(new Byte(c.getByte("config.byte.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getShort(key) ...");
-            result.write(new Short(c.getShort("config.short.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getInt(key) ...");
-            result.write(new Integer(c.getInt("config.int.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getLong(key) ...");
-            result.write(new Long(c.getLong("config.long.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getFloat(key) ...");
-            result.write(new Float(c.getFloat("config.float.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing getDouble(key) ...");
-            result.write(new Double(c.getDouble("config.double.value")).toString());
-            result.write("\n\n");
-
-            message(result, "Testing escaped-comma scalar...");
-            result.write( c.getString("escape.comma1"));
-            result.write("\n\n");
-
-            message(result, "Testing escaped-comma vector...");
-            showVector(result,  c.getVector("escape.comma2"));
-            result.write("\n\n");
-
-            result.flush();
-            result.close();
-
-            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "output","res","cmp"))
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup ConfigurationTestCase!");
-            e.printStackTrace();
-            System.exit(1);
+            fail("Output incorrect.");
         }
     }
 

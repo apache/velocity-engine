@@ -179,39 +179,31 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
      * Runs the test.
      */
     public void runTest ()
+        throws Exception
     {
-        try
+        Template template = RuntimeSingleton.getTemplate
+            (getFileName(null, baseFileName, TMPL_FILE_EXT));
+
+        assureResultsDirectoryExists(RESULT_DIR);
+
+        /* get the file to write to */
+        FileOutputStream fos =
+            new FileOutputStream (getFileName(
+                RESULT_DIR, baseFileName, RESULT_FILE_EXT));
+
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+        /* process the template */
+        template.merge( context, writer);
+
+        /* close the file */
+        writer.flush();
+        writer.close();
+
+        if (!isMatch(RESULT_DIR,COMPARE_DIR,baseFileName,
+                RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            Template template = RuntimeSingleton.getTemplate
-                (getFileName(null, baseFileName, TMPL_FILE_EXT));
-
-            assureResultsDirectoryExists(RESULT_DIR);
-
-            /* get the file to write to */
-            FileOutputStream fos =
-                new FileOutputStream (getFileName(
-                    RESULT_DIR, baseFileName, RESULT_FILE_EXT));
-
-            Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            /* process the template */
-            template.merge( context, writer);
-
-            /* close the file */
-            writer.flush();
-            writer.close();
-
-            if (!isMatch(RESULT_DIR,COMPARE_DIR,baseFileName,
-                    RESULT_FILE_EXT,CMP_FILE_EXT))
-            {
-                fail("Processed template did not match expected output");
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("EXCEPTION : " + e );
-
-            fail(e.getMessage());
+            fail("Processed template did not match expected output");
         }
     }
 }

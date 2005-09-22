@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -68,154 +71,143 @@ public class MultiLoaderTestCase extends BaseTestCase
     /**
      * Default constructor.
      */
-    public MultiLoaderTestCase()
+    public MultiLoaderTestCase(String name)
     {
-        super("MultiLoaderTestCase");
-
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            /*
-             * Set up the file loader.
-             */
-
-            Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
-
-            Velocity.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-
-            Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
-
-            Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
-
-            /*
-             *  Set up the classpath loader.
-             */
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".class",
-                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
-                    "2");
-
-            /*
-             *  setup the Jar loader
-             */
-
-            Velocity.setProperty(
-                                 "jar." + Velocity.RESOURCE_LOADER + ".class",
-                                 "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
-
-            Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",
-                                  "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup MultiLoaderTestCase!");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public void setUp()
+            throws Exception
     {
-        return new MultiLoaderTestCase();
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        /*
+         * Set up the file loader.
+         */
+
+        Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
+
+        Velocity.setProperty(
+            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+
+        Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
+
+        Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
+
+        /*
+         *  Set up the classpath loader.
+         */
+
+        Velocity.setProperty(
+            "classpath." + Velocity.RESOURCE_LOADER + ".class",
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+        Velocity.setProperty(
+            "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+
+        Velocity.setProperty(
+            "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
+                "2");
+
+        /*
+         *  setup the Jar loader
+         */
+
+        Velocity.setProperty(
+                             "jar." + Velocity.RESOURCE_LOADER + ".class",
+                             "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
+
+        Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",
+                              "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
+
+        Velocity.init();
+    }
+
+    public static Test suite ()
+    {
+        return new TestSuite(MultiLoaderTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testMultiLoader ()
+            throws Exception
     {
-        try
+        /*
+         *  lets ensure the results directory exists
+         */
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        /*
+         * Template to find with the file loader.
+         */
+        Template template1 = Velocity.getTemplate(
+            getFileName(null, "path1", TMPL_FILE_EXT));
+
+        /*
+         * Template to find with the classpath loader.
+         */
+        Template template2 = Velocity.getTemplate(
+            getFileName(null, "template/test1", TMPL_FILE_EXT));
+
+        /*
+         * Template to find with the jar loader
+         */
+        Template template3 = Velocity.getTemplate(
+           getFileName(null, "template/test2", TMPL_FILE_EXT));
+
+        /*
+         * and the results files
+         */
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
+
+        FileOutputStream fos3 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+        Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
+
+        /*
+         *  put the Vector into the context, and merge both
+         */
+
+        VelocityContext context = new VelocityContext();
+
+        template1.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        template2.merge(context, writer2);
+        writer2.flush();
+        writer2.close();
+
+        template3.merge(context, writer3);
+        writer3.flush();
+        writer3.close();
+
+        if (!isMatch(RESULTS_DIR,COMPARE_DIR,"path1",RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            /*
-             *  lets ensure the results directory exists
-             */
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            /*
-             * Template to find with the file loader.
-             */
-            Template template1 = Velocity.getTemplate(
-                getFileName(null, "path1", TMPL_FILE_EXT));
-
-            /*
-             * Template to find with the classpath loader.
-             */
-            Template template2 = Velocity.getTemplate(
-                getFileName(null, "template/test1", TMPL_FILE_EXT));
-
-            /*
-             * Template to find with the jar loader
-             */
-            Template template3 = Velocity.getTemplate(
-               getFileName(null, "template/test2", TMPL_FILE_EXT));
-
-            /*
-             * and the results files
-             */
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
-
-            FileOutputStream fos3 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-            Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
-
-            /*
-             *  put the Vector into the context, and merge both
-             */
-
-            VelocityContext context = new VelocityContext();
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            template2.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            template3.merge(context, writer3);
-            writer3.flush();
-            writer3.close();
-
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"path1",RESULT_FILE_EXT,CMP_FILE_EXT))
-            {
-                fail("Output incorrect for FileResourceLoader test.");
-            }
-
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT) )
-            {
-                fail("Output incorrect for ClasspathResourceLoader test.");
-            }
-
-            if( !isMatch(RESULTS_DIR,COMPARE_DIR,"test3",RESULT_FILE_EXT,CMP_FILE_EXT))
-            {
-                fail("Output incorrect for JarResourceLoader test.");
-            }
+            fail("Output incorrect for FileResourceLoader test.");
         }
-        catch (Exception e)
+
+        if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT) )
         {
-            fail(e.getMessage());
+            fail("Output incorrect for ClasspathResourceLoader test.");
+        }
+
+        if( !isMatch(RESULTS_DIR,COMPARE_DIR,"test3",RESULT_FILE_EXT,CMP_FILE_EXT))
+        {
+            fail("Output incorrect for JarResourceLoader test.");
         }
     }
 }

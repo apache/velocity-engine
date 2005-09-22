@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -74,84 +77,73 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
     /**
      * Default constructor.
      */
-    MultipleFileResourcePathTestCase()
+    public MultipleFileResourcePathTestCase(String name)
     {
-        super("MultipleFileResourcePathTest");
-
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
-
-            Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup MultipleFileResourcePathTest!");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new MultipleFileResourcePathTestCase();
+        return new TestSuite(MultipleFileResourcePathTestCase.class);
+    }
+
+    public void setUp()
+            throws Exception
+    {
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        Velocity.addProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
+
+        Velocity.addProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
+
+        Velocity.init();
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void  testMultipleFileResources ()
+            throws Exception
     {
-        try
+        Template template1 = RuntimeSingleton.getTemplate(
+            getFileName(null, "path1", TMPL_FILE_EXT));
+
+        Template template2 = RuntimeSingleton.getTemplate(
+            getFileName(null, "path2", TMPL_FILE_EXT));
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "path2", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+
+        /*
+         *  put the Vector into the context, and merge both
+         */
+
+        VelocityContext context = new VelocityContext();
+
+        template1.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        template2.merge(context, writer2);
+        writer2.flush();
+        writer2.close();
+
+        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1",
+                RESULT_FILE_EXT, CMP_FILE_EXT) ||
+            !isMatch(RESULTS_DIR, COMPARE_DIR, "path2",
+                RESULT_FILE_EXT, CMP_FILE_EXT))
         {
-            Template template1 = RuntimeSingleton.getTemplate(
-                getFileName(null, "path1", TMPL_FILE_EXT));
-
-            Template template2 = RuntimeSingleton.getTemplate(
-                getFileName(null, "path2", TMPL_FILE_EXT));
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "path2", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-
-            /*
-             *  put the Vector into the context, and merge both
-             */
-
-            VelocityContext context = new VelocityContext();
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            template2.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1",
-                    RESULT_FILE_EXT, CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR, COMPARE_DIR, "path2",
-                    RESULT_FILE_EXT, CMP_FILE_EXT))
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("Output incorrect.");
         }
     }
 }

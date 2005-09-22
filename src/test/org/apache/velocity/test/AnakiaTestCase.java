@@ -1,5 +1,8 @@
 package org.apache.velocity.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -36,14 +39,14 @@ public class AnakiaTestCase extends BaseTestCase
      * Creates a new instance.
      *
      */
-    public AnakiaTestCase()
+    public AnakiaTestCase(String name)
     {
-        super("AnakiaTestCase");
+        super(name);
     }
 
-    public static junit.framework.Test suite()
+    public static Test suite()
     {
-        return new AnakiaTestCase();
+        return new TestSuite(AnakiaTestCase.class);
     }
 
     /**
@@ -51,38 +54,30 @@ public class AnakiaTestCase extends BaseTestCase
      * code to do the Anakia output is in the .xml file that runs
      * this test.
      */
-    public void runTest ()
+    public void testAnakiaResults ()
+            throws Exception
     {
-        try
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        /**
+        if (!isMatch(RESULTS_DIR,COMPARE_DIR,"index",FILE_EXT,FILE_EXT))
         {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            /**
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"index",FILE_EXT,FILE_EXT))
-            {
-                fail("Output is incorrect!");
-            }
-            **/
-
-            if (!isMatch(
-                    RESULTS_DIR,
-                    COMPARE_DIR,
-                    "index",
-                    CONTEXT_FILE_EXT,
-                    CONTEXT_FILE_EXT))
-                    {
-                    fail("Custom Context Output is incorrect");
-                    }
-            else
-            {
-                System.out.println ("Passed!");
-            }
+            fail("Output is incorrect!");
         }
-        catch(Exception e)
+        **/
+
+        if (!isMatch(
+                RESULTS_DIR,
+                COMPARE_DIR,
+                "index",
+                CONTEXT_FILE_EXT,
+                CONTEXT_FILE_EXT))
+                {
+                fail("Custom Context Output is incorrect");
+                }
+        else
         {
-            /*
-             * do nothing.
-             */
+            System.out.println ("Passed!");
         }
     }
 }

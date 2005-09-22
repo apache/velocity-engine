@@ -80,11 +80,6 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     /**
      * Default constructor.
      */
-    public BuiltInEventHandlerTestCase()
-    {
-        super("BuiltInEventHandlerTestCase");
-    }
-
     public BuiltInEventHandlerTestCase(String name)
     {
         super(name);
@@ -237,32 +232,25 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         context = new VelocityContext();
         context.put("list",new ArrayList());
 
-        try {
-            // exception only
-            writer = new StringWriter();
-            ve1.evaluate(context,writer,"test","$list.get(0)");
-            assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-            assertTrue(writer.toString().indexOf("Index: 0, Size: 0") == -1);
-            assertTrue(writer.toString().indexOf("ArrayList") == -1);
+        // exception only
+        writer = new StringWriter();
+        ve1.evaluate(context,writer,"test","$list.get(0)");
+        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(writer.toString().indexOf("Index: 0, Size: 0") == -1);
+        assertTrue(writer.toString().indexOf("ArrayList") == -1);
 
-            // message
-            writer = new StringWriter();
-            ve2.evaluate(context,writer,"test","$list.get(0)");
-            assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-            assertTrue(writer.toString().indexOf("Index: 0, Size: 0") != -1);
-            assertTrue(writer.toString().indexOf("ArrayList") == -1);
+        // message
+        writer = new StringWriter();
+        ve2.evaluate(context,writer,"test","$list.get(0)");
+        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(writer.toString().indexOf("Index: 0, Size: 0") != -1);
+        assertTrue(writer.toString().indexOf("ArrayList") == -1);
 
-            // stack trace
-            writer = new StringWriter();
-            ve3.evaluate(context,writer,"test","$list.get(0)");
-            assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-            assertTrue(writer.toString().indexOf("ArrayList") != -1);
-
-
-        } catch (Exception E)
-        {
-            fail("Shouldn't have thrown exception. " + E);
-        }
+        // stack trace
+        writer = new StringWriter();
+        ve3.evaluate(context,writer,"test","$list.get(0)");
+        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(writer.toString().indexOf("ArrayList") != -1);
     }
 
     public void testIncludeNotFound() throws Exception
@@ -324,6 +312,4 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
             fail("Output incorrect.");
         }
     }
-
-
 }

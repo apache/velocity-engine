@@ -18,6 +18,9 @@ package org.apache.velocity.test;
 
 import java.lang.reflect.Method;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
 
@@ -32,11 +35,6 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 public class Introspector2TestCase extends BaseTestCase
 {
 
-    Introspector2TestCase()
-    {
-        super("IntrospectorTestCase2");
-    }
-
     /**
       * Creates a new instance.
       */
@@ -50,50 +48,44 @@ public class Introspector2TestCase extends BaseTestCase
       *
       * @return The <code>TestSuite</code> to run.
       */
-    public static junit.framework.Test suite ()
+    public static Test suite ()
     {
-        return new Introspector2TestCase();
+        return new TestSuite(Introspector2TestCase.class);
     }
 
-    public void runTest()
+    public void testIntrospector()
+            throws Exception
     {
-        try
+        Velocity.init();
+
+        Method method;
+        String result;
+        Tester t = new Tester();
+
+        Object[] params = { new Foo(), new Foo() };
+
+        method = RuntimeSingleton.getIntrospector()
+            .getMethod( Tester.class, "find", params );
+
+        if ( method == null)
+            fail("Returned method was null");
+
+        result = (String) method.invoke( t, params);
+
+        if ( !result.equals( "Bar-Bar" ) )
         {
-            Velocity.init();
-
-            Method method;
-            String result;
-            Tester t = new Tester();
-
-            Object[] params = { new Foo(), new Foo() };
-
-            method = RuntimeSingleton.getIntrospector()
-                .getMethod( Tester.class, "find", params );
-
-            if ( method == null)
-                fail("Returned method was null");
-
-            result = (String) method.invoke( t, params);
-
-            if ( !result.equals( "Bar-Bar" ) )
-            {
-                fail("Should have gotten 'Bar-Bar' : recieved '" + result + "'");
-            }
-
-            /*
-             *  now test for failure due to ambiguity
-             */
-
-            method = RuntimeSingleton.getIntrospector()
-                .getMethod( Tester2.class, "find", params );
-
-            if ( method != null)
-                fail("Introspector shouldn't have found a method as it's ambiguous.");
+            fail("Should have gotten 'Bar-Bar' : received '" + result + "'");
         }
-        catch (Exception e)
-        {
-            fail( e.toString() );
-        }
+
+        /*
+         *  now test for failure due to ambiguity
+         */
+
+        method = RuntimeSingleton.getIntrospector()
+            .getMethod( Tester2.class, "find", params );
+
+        if ( method != null)
+            fail("Introspector shouldn't have found a method as it's ambiguous.");
     }
 
     public interface Woogie

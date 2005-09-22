@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -36,7 +39,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  */
 public class ResourceLoaderInstanceTestCase extends BaseTestCase
 {
-     /**
+    /**
      * VTL file extension.
      */
     private static final String TMPL_FILE_EXT = "vm";
@@ -70,72 +73,62 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
     /**
      * Default constructor.
      */
-    ResourceLoaderInstanceTestCase()
+    public ResourceLoaderInstanceTestCase(String name)
     {
-        super("ResourceLoaderInstanceTest");
-
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            ResourceLoader rl = new FileResourceLoader();
-
-            // pass in an instance to Velocity
-            Velocity.addProperty( "resource.loader", "testrl" );
-            Velocity.setProperty( "testrl.resource.loader.instance", rl );
-            Velocity.setProperty( "testrl.resource.loader.path", FILE_RESOURCE_LOADER_PATH );
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup ResourceLoaderInstanceTest!");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public void setUp()
+            throws Exception
     {
-        return new ResourceLoaderInstanceTestCase();
+
+        ResourceLoader rl = new FileResourceLoader();
+
+        // pass in an instance to Velocity
+        Velocity.addProperty( "resource.loader", "testrl" );
+        Velocity.setProperty( "testrl.resource.loader.instance", rl );
+        Velocity.setProperty( "testrl.resource.loader.path", FILE_RESOURCE_LOADER_PATH );
+
+        Velocity.init();
+    }
+
+    public static Test suite ()
+    {
+        return new TestSuite(ResourceLoaderInstanceTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testResourceLoaderInstance ()
+            throws Exception
     {
-        try
-        {
-            Template template = RuntimeSingleton.getTemplate(
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        Template template = RuntimeSingleton.getTemplate(
                 getFileName(null, "testfile", TMPL_FILE_EXT));
 
-            FileOutputStream fos =
+        FileOutputStream fos =
                 new FileOutputStream (
-                    getFileName(RESULTS_DIR, "testfile", RESULT_FILE_EXT));
+                        getFileName(RESULTS_DIR, "testfile", RESULT_FILE_EXT));
 
 
-            Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
-            /*
-             *  put the Vector into the context, and merge both
-             */
+        /*
+         *  put the Vector into the context, and merge both
+         */
 
-            VelocityContext context = new VelocityContext();
+        VelocityContext context = new VelocityContext();
 
-            template.merge(context, writer);
-            writer.flush();
-            writer.close();
+        template.merge(context, writer);
+        writer.flush();
+        writer.close();
 
-            if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
-                    RESULT_FILE_EXT, CMP_FILE_EXT) )
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
+        if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
+                        RESULT_FILE_EXT, CMP_FILE_EXT) )
         {
-            fail(e.getMessage());
+            fail("Output incorrect.");
         }
     }
 }

@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -63,105 +66,94 @@ public class ClasspathResourceTestCase extends BaseTestCase
     /**
      * Default constructor.
      */
-    public ClasspathResourceTestCase()
+    public ClasspathResourceTestCase(String name)
     {
-        super("ClasspathResourceTest");
-
-        try
-        {
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
-
-            /*
-             * I don't think I should have to do this, these should
-             * be in the default config file.
-             */
-
-            Velocity.addProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".class",
-                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
-
-            Velocity.setProperty(
-                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
-                    "2");
-
-            Velocity.init();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Cannot setup ClasspathResourceTest!");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super(name);
     }
 
-    public static junit.framework.Test suite ()
+    public void setUp()
+            throws Exception
     {
-        return new ClasspathResourceTestCase();
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+
+        /*
+         * I don't think I should have to do this, these should
+         * be in the default config file.
+         */
+
+        Velocity.addProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".class",
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+        Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+        
+        Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
+                "2");
+
+        Velocity.init();
+    }
+    
+    public static Test suite ()
+    {
+        return new TestSuite(ClasspathResourceTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testClasspathResource ()
+            throws Exception
     {
-        try
+        /*
+         *  lets ensure the results directory exists
+         */
+        assureResultsDirectoryExists(RESULTS_DIR);
+
+        Template template1 = RuntimeSingleton.getTemplate(
+            getFileName(null, "template/test1", TMPL_FILE_EXT));
+
+        // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
+        //            Template template2 = RuntimeSingleton.getTemplate(
+        //                getFileName(null, "template/test2", TMPL_FILE_EXT));
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
+
+        // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
+        //            FileOutputStream fos2 =
+        //                new FileOutputStream (
+        //                    getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
+        //            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+
+        /*
+         *  put the Vector into the context, and merge both
+         */
+
+        VelocityContext context = new VelocityContext();
+
+        template1.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
+        //            template2.merge(context, writer2);
+        //            writer2.flush();
+        //            writer2.close();
+
+        if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test1",RESULT_FILE_EXT,CMP_FILE_EXT)
+                // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
+                //                || !isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT)
+            )
         {
-            /*
-             *  lets ensure the results directory exists
-             */
-            assureResultsDirectoryExists(RESULTS_DIR);
-
-            Template template1 = RuntimeSingleton.getTemplate(
-                getFileName(null, "template/test1", TMPL_FILE_EXT));
-
-            // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
-            //            Template template2 = RuntimeSingleton.getTemplate(
-            //                getFileName(null, "template/test2", TMPL_FILE_EXT));
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
-
-            // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
-            //            FileOutputStream fos2 =
-            //                new FileOutputStream (
-            //                    getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
-            //            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-
-            /*
-             *  put the Vector into the context, and merge both
-             */
-
-            VelocityContext context = new VelocityContext();
-
-            template1.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
-            //            template2.merge(context, writer2);
-            //            writer2.flush();
-            //            writer2.close();
-
-            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test1",RESULT_FILE_EXT,CMP_FILE_EXT)
-                    // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
-                    //                || !isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT)
-                )
-            {
-                fail("Output is incorrect!");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("Output is incorrect!");
         }
     }
 }

@@ -22,6 +22,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Vector;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -42,34 +45,30 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  */
 public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestBase
 {
-    public ContextSafetyTestCase()
+    public ContextSafetyTestCase(String name)
     {
-        super("ContextSafetyTestCase");
-
-        try
-        {
-	        Velocity.setProperty(
-	            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-
-             Velocity.init();
-	    }
-	    catch (Exception e)
-	    {
-            System.err.println("Cannot setup ContextSafetyTestCase!");
-            e.printStackTrace();
-            System.exit(1);
-	    }
+        super(name);
     }
 
-    public static junit.framework.Test suite()
+    public void setUp()
+            throws Exception
     {
-        return new ContextSafetyTestCase();
+        Velocity.setProperty(
+                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+
+        Velocity.init();
+    }
+
+    public static Test suite()
+    {
+        return new TestSuite(ContextSafetyTestCase.class);
     }
 
     /**
      * Runs the test.
      */
-    public void runTest ()
+    public void testContextSafety ()
+        throws Exception
     {
         /*
          *  make a Vector and String array because
@@ -89,57 +88,50 @@ public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestB
 
         VelocityContext context = new VelocityContext();
 
-        try
+        assureResultsDirectoryExists(RESULT_DIR);
+
+        /*
+         *  get the template and the output
+         */
+
+        Template template = RuntimeSingleton.getTemplate(
+            getFileName(null, "context_safety", TMPL_FILE_EXT));
+
+        FileOutputStream fos1 =
+            new FileOutputStream (
+                getFileName(RESULT_DIR, "context_safety1", RESULT_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULT_DIR, "context_safety2", RESULT_FILE_EXT));
+
+        Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+
+        /*
+         *  put the Vector into the context, and merge
+         */
+
+        context.put("vector", v);
+        template.merge(context, writer1);
+        writer1.flush();
+        writer1.close();
+
+        /*
+         *  now put the string array into the context, and merge
+         */
+
+        context.put("vector", strArray);
+        template.merge(context, writer2);
+        writer2.flush();
+        writer2.close();
+
+        if (!isMatch(RESULT_DIR,COMPARE_DIR,"context_safety1",
+                RESULT_FILE_EXT,CMP_FILE_EXT) ||
+            !isMatch(RESULT_DIR,COMPARE_DIR,"context_safety2",
+                RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            assureResultsDirectoryExists(RESULT_DIR);
-
-            /*
-             *  get the template and the output
-             */
-
-            Template template = RuntimeSingleton.getTemplate(
-                getFileName(null, "context_safety", TMPL_FILE_EXT));
-
-            FileOutputStream fos1 =
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "context_safety1", RESULT_FILE_EXT));
-
-            FileOutputStream fos2 =
-                new FileOutputStream (
-                    getFileName(RESULT_DIR, "context_safety2", RESULT_FILE_EXT));
-
-            Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-            Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-
-            /*
-             *  put the Vector into the context, and merge
-             */
-
-            context.put("vector", v);
-            template.merge(context, writer1);
-            writer1.flush();
-            writer1.close();
-
-            /*
-             *  now put the string array into the context, and merge
-             */
-
-            context.put("vector", strArray);
-            template.merge(context, writer2);
-            writer2.flush();
-            writer2.close();
-
-            if (!isMatch(RESULT_DIR,COMPARE_DIR,"context_safety1",
-                    RESULT_FILE_EXT,CMP_FILE_EXT) ||
-                !isMatch(RESULT_DIR,COMPARE_DIR,"context_safety2",
-                    RESULT_FILE_EXT,CMP_FILE_EXT))
-            {
-                fail("Output incorrect.");
-            }
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
+            fail("Output incorrect.");
         }
     }
 }

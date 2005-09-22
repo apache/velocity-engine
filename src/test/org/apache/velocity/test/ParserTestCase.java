@@ -71,10 +71,11 @@ public class ParserTestCase extends TestCase
         try
         {
             ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
-            assertTrue(false);
+            fail("Could evaluate template with errors!");
         }
         catch(ParseErrorException pe)
         {
+            // Do nothing
         }
     }
 
@@ -105,10 +106,11 @@ public class ParserTestCase extends TestCase
         try
         {
             ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
-            assertTrue(false);
+            fail("Could evaluate macro with errors!");
         }
         catch(ParseErrorException pe)
         {
+            // Do nothing
         }
     }
 
@@ -148,11 +150,11 @@ public class ParserTestCase extends TestCase
         try
         {
             ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
-            assertTrue(false);
+            fail("Evaluation of macro with errors succeeded!");
         }
         catch(ParseErrorException pe)
         {
-            System.out.println("Caught pee!");
+            // Do nothing
         }
     }
 
