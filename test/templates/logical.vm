@@ -452,3 +452,6 @@ right
 #else
 wrong
 #end
+
+## check empty if statement is ok
+#if( true )#end

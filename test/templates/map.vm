@@ -31,8 +31,8 @@ $hashmap.get("Foo")
 #set($key = 'key')
 #set($value = 'value')
 
-#set($mymap = { "a" : "aval", 'b' : 'bval', 1 : 2, $key :  $value, 'hash' : $hashmap } )
-
+#set($mymap = { "a" : "aval", "bar" : "booboo", 'b' : 'bval', 1 : 2, $key :  $value, 'hash' : $hashmap } )
+$mymap.put("bar", { "aa" : "aaa" })
 $mymap.a
 $mymap.get("a")
 $mymap.b
@@ -40,6 +40,8 @@ $mymap.get('b')
 $mymap.get(1)
 $mymap.get($key)
 $mymap.hash.Foo
+$mymap.map.foo
+$mymap.bar
 
 ##
 ##  test for empty map
