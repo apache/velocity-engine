@@ -804,17 +804,19 @@
               <include name="*.jar"></include>
             </fileset>
             <pathelement path="${build.dest}"></pathelement>
-            <pathelement location="../test/cpload/test1.jar"/>
-            <pathelement location="../test/cpload/test2.jar"/>
-            <pathelement location="../test/multiloader/test1.jar"/>
           </classpath>
 
           <batchtest todir="../target/test-reports">
             <fileset dir="${test.java.dir}">
                 <include name="**/*TestCase.java"></include>
+
                 <exclude name="**/BaseTestCase.java"></exclude>
-                <exclude name="**/Texen*TestCase.java"></exclude>
-                <exclude name="**/Anakia*TestCase.java"></exclude>
+
+                <exclude name="**/TexenTestCase.java"></exclude>
+                <exclude name="**/TexenClasspathTestCase.java"></exclude>
+                <exclude name="**/AnakiaTestCase.java"></exclude>
+                <exclude name="**/MultiLoaderTestCase.java"></exclude>
+                <exclude name="**/ClasspathResourceTestCase.java"></exclude>
             </fileset>
           </batchtest>
           <formatter type="plain"/>
