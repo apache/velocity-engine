@@ -34,7 +34,7 @@ import java.math.BigInteger;
  * @author <a href="mailto:wglass@forio.com">Peter Romianowski</a>
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
-public class TestNumberMethodCalls extends TestCase
+public class NumberMethodCallsTestCase extends TestCase
 {
     private VelocityEngine ve = null;
 
@@ -43,7 +43,7 @@ public class TestNumberMethodCalls extends TestCase
     /**
      * Default constructor.
      */
-    public TestNumberMethodCalls()
+    public NumberMethodCallsTestCase()
     {
         super("TestNumberMethodCalls");
 
@@ -66,7 +66,7 @@ public class TestNumberMethodCalls extends TestCase
 
     public static junit.framework.Test suite ()
     {
-        return new TestNumberMethodCalls();
+        return new NumberMethodCallsTestCase();
     }
 
     /**

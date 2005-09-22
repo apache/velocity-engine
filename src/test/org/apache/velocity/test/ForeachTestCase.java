@@ -36,11 +36,11 @@ import org.apache.velocity.test.provider.ForeachMethodCallHelper;
  * @author Daniel Rall
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  */
-public class ForeachTest extends TestCase 
+public class ForeachTestCase extends TestCase 
 {
     private VelocityContext context;
 
-    public ForeachTest(String name)
+    public ForeachTestCase(String name)
     {
         super(name);
     }

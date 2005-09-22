@@ -34,10 +34,10 @@ import junit.framework.TestCase;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class IntrospectorTestCase2 extends BaseTestCase
+public class Introspector2TestCase extends BaseTestCase
 {
 
-    IntrospectorTestCase2()
+    Introspector2TestCase()
     {
         super("IntrospectorTestCase2");
     }
@@ -45,7 +45,7 @@ public class IntrospectorTestCase2 extends BaseTestCase
     /**
       * Creates a new instance.
       */
-    public IntrospectorTestCase2(String name)
+    public Introspector2TestCase(String name)
     {
         super(name);
     }
@@ -57,7 +57,7 @@ public class IntrospectorTestCase2 extends BaseTestCase
       */
     public static junit.framework.Test suite ()
     {
-        return new IntrospectorTestCase2();
+        return new Introspector2TestCase();
     }
 
     public void runTest()

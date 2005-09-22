@@ -43,7 +43,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id: EventCartridge.java,v 1.5 2004/03/19 17:13:33 dlr Exp $
  */
-public class BuiltInEventHandlerTest extends BaseTestCase {
+public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
    
     /**
@@ -80,19 +80,19 @@ public class BuiltInEventHandlerTest extends BaseTestCase {
     /**
      * Default constructor.
      */
-    public BuiltInEventHandlerTest()
+    public BuiltInEventHandlerTestCase()
     {
         super("BuiltInEventHandlerTestCase");
     }
 
-    public BuiltInEventHandlerTest(String name)
+    public BuiltInEventHandlerTestCase(String name)
     {
         super(name);
     }
     
     public static Test suite()
     {
-       return new TestSuite(BuiltInEventHandlerTest.class);
+       return new TestSuite(BuiltInEventHandlerTestCase.class);
     }
 
 

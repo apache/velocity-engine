@@ -34,7 +34,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$
  */
-public class ResourceLoaderInstanceTest extends BaseTestCase
+public class ResourceLoaderInstanceTestCase extends BaseTestCase
 {
      /**
      * VTL file extension.
@@ -70,7 +70,7 @@ public class ResourceLoaderInstanceTest extends BaseTestCase
     /**
      * Default constructor.
      */
-    ResourceLoaderInstanceTest()
+    ResourceLoaderInstanceTestCase()
     {
         super("ResourceLoaderInstanceTest");
 
@@ -97,7 +97,7 @@ public class ResourceLoaderInstanceTest extends BaseTestCase
 
     public static junit.framework.Test suite ()
     {
-        return new ResourceLoaderInstanceTest();
+        return new ResourceLoaderInstanceTestCase();
     }
 
     /**

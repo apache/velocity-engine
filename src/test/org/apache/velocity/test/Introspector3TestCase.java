@@ -33,19 +33,19 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class IntrospectorTestCase3 extends BaseTestCase
+public class Introspector3TestCase extends BaseTestCase
 {
     /**
       * Creates a new instance.
       */
-    public IntrospectorTestCase3(String name)
+    public Introspector3TestCase(String name)
     {
         super(name);
     }
 
     public static Test suite()
     {
-        return new TestSuite(IntrospectorTestCase3.class);
+        return new TestSuite(Introspector3TestCase.class);
     }
 
     public void testSimple()

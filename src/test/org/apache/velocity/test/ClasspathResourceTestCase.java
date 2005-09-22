@@ -20,28 +20,20 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.File;
-
-import java.util.Properties;
-
-import org.apache.velocity.VelocityContext;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import junit.framework.TestCase;
 
 /**
- * Multiple paths in the file resource loader.
+ * Load templates from the Classpath.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
-public class MultipleFileResourcePathTest extends BaseTestCase
+public class ClasspathResourceTestCase extends BaseTestCase
 {
      /**
      * VTL file extension.
@@ -59,49 +51,49 @@ public class MultipleFileResourcePathTest extends BaseTestCase
     private static final String RESULT_FILE_EXT = "res";
 
     /**
-     * Path for templates. This property will override the
-     * value in the default velocity properties file.
+     * Results relative to the build directory.
      */
-    private final static String FILE_RESOURCE_LOADER_PATH1 = "../test/multi/path1";
-
-    /**
-     * Path for templates. This property will override the
-     * value in the default velocity properties file.
-     */
-    private final static String FILE_RESOURCE_LOADER_PATH2 = "../test/multi/path2";
+    private static final String RESULTS_DIR = "../test/cpload/results";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULTS_DIR = "../test/multi/results";
-
-    /**
-     * Results relative to the build directory.
-     */
-    private static final String COMPARE_DIR = "../test/multi/compare";
+    private static final String COMPARE_DIR = "../test/cpload/compare";
 
     /**
      * Default constructor.
      */
-    MultipleFileResourcePathTest()
+    public ClasspathResourceTestCase()
     {
-        super("MultipleFileResourcePathTest");
+        super("ClasspathResourceTest");
 
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
+            
+            Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+
+            /*
+             * I don't think I should have to do this, these should
+             * be in the default config file.
+             */
 
             Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
+                "classpath." + Velocity.RESOURCE_LOADER + ".class",
+                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
-            Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
+            Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+
+            Velocity.setProperty(
+                "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
+                    "2");
 
             Velocity.init();
         }
         catch (Exception e)
         {
-            System.err.println("Cannot setup MultipleFileResourcePathTest!");
+            System.err.println("Cannot setup ClasspathResourceTest!");
             e.printStackTrace();
             System.exit(1);
         }            
@@ -109,7 +101,7 @@ public class MultipleFileResourcePathTest extends BaseTestCase
 
     public static junit.framework.Test suite ()
     {
-        return new MultipleFileResourcePathTest();
+        return new ClasspathResourceTestCase();
     }
 
     /**
@@ -119,19 +111,24 @@ public class MultipleFileResourcePathTest extends BaseTestCase
     {
         try
         {
+            /*
+             *  lets ensure the results directory exists
+             */
+            assureResultsDirectoryExists(RESULTS_DIR);
+
             Template template1 = RuntimeSingleton.getTemplate(
-                getFileName(null, "path1", TMPL_FILE_EXT));
+                getFileName(null, "template/test1", TMPL_FILE_EXT));
             
             Template template2 = RuntimeSingleton.getTemplate(
-                getFileName(null, "path2", TMPL_FILE_EXT));
+                getFileName(null, "template/test2", TMPL_FILE_EXT));
            
             FileOutputStream fos1 = 
                 new FileOutputStream (
-                    getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
+                    getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
 
             FileOutputStream fos2 = 
                 new FileOutputStream (
-                    getFileName(RESULTS_DIR, "path2", RESULT_FILE_EXT));
+                    getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
@@ -150,12 +147,10 @@ public class MultipleFileResourcePathTest extends BaseTestCase
             writer2.flush();
             writer2.close();
 
-            if (!isMatch(RESULTS_DIR, COMPARE_DIR, "path1", 
-                    RESULT_FILE_EXT, CMP_FILE_EXT) ||
-                !isMatch(RESULTS_DIR, COMPARE_DIR, "path2", 
-                    RESULT_FILE_EXT, CMP_FILE_EXT))
+            if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test1",RESULT_FILE_EXT,CMP_FILE_EXT) ||
+                !isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT))
             {
-                fail("Output incorrect.");
+                fail("Output is incorrect!");
             }
         }
         catch (Exception e)

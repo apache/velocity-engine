@@ -30,7 +30,7 @@ import org.apache.oro.text.perl.Perl5Util;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @version $Id$
  */
-public class BaseTestCase extends TestCase
+public abstract class BaseTestCase extends TestCase
 {
     /**
      *  used for nomalization of output and compare data

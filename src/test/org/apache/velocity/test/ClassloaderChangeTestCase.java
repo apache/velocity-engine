@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ClassloaderChangeTest extends TestCase implements LogSystem
+public class ClassloaderChangeTestCase extends TestCase implements LogSystem
 {
     private VelocityEngine ve = null;
     private boolean sawCacheDump = false;
@@ -49,7 +49,7 @@ public class ClassloaderChangeTest extends TestCase implements LogSystem
     /**
      * Default constructor.
      */
-    public ClassloaderChangeTest()
+    public ClassloaderChangeTestCase()
     {
         super("ClassloaderChangeTest");
 
@@ -77,7 +77,7 @@ public class ClassloaderChangeTest extends TestCase implements LogSystem
 
     public static junit.framework.Test suite ()
     {
-        return new ClassloaderChangeTest();
+        return new ClassloaderChangeTestCase();
     }
 
     /**

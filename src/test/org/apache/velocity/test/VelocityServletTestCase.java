@@ -44,19 +44,19 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:dlr@apache.org">Daniel Rall</a>
  */
-public class VelocityServletTest extends TestCase
+public class VelocityServletTestCase extends TestCase
 {
     /**
      * Default constructor.
      */
-    public VelocityServletTest()
+    public VelocityServletTestCase()
     {
         super("VelocityServletTest");
     }
 
     public static junit.framework.Test suite ()
     {
-        return new VelocityServletTest();
+        return new VelocityServletTestCase();
     }
 
     /**
