@@ -7,7 +7,8 @@
   <property name="build.dest" value="${build.dir}/classes"/>
   <property name="ant.home" value="."/>
   <property name="test.home" value="../test"/>
-  <property name="junit.jar" value="lib/junit-3.7.jar"/>
+  <property name="test.target" value="../target/test"/>
+  <property name="junit.jar" value="lib/junit-3.8.1.jar"/>
 
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
@@ -31,24 +32,24 @@
          Hack to prevent Ant from complaining about missing directories.
          This is fixed in Ant >1.3, but we are using Ant 1.3 now.
     -->
-    <mkdir dir="${test.home}/anakia/results"/>
-    <mkdir dir="${test.home}/configuration/results"/>
-    <mkdir dir="${test.home}/cpload/results"/>
-    <mkdir dir="${test.home}/multi/results"/>
-    <mkdir dir="${test.home}/multiloader/results"/>
-    <mkdir dir="${test.home}/templates/results"/>
-    <mkdir dir="${test.home}/texen/results"/>
+    <mkdir dir="${test.target}/anakia"/>
+    <mkdir dir="${test.target}/configuration"/>
+    <mkdir dir="${test.target}/cpload"/>
+    <mkdir dir="${test.target}/multi"/>
+    <mkdir dir="${test.target}/multiloader"/>
+    <mkdir dir="${test.target}/templates"/>
+    <mkdir dir="${test.target}/texen"/>
     <!--
          Delete the results directories
     -->
-    <delete dir="${test.home}/anakia/results" quiet="true"/>
-    <delete dir="${test.home}/configuration/results" quiet="true"/>
-    <delete dir="${test.home}/cpload/results" quiet="true"/>
-    <delete dir="${test.home}/multi/results" quiet="true"/>
-    <delete dir="${test.home}/multiloader/results" quiet="true"/>
-    <delete dir="${test.home}/templates/results" quiet="true"/>
-    <delete dir="${test.home}/texen/results" quiet="true"/>
-    <delete dir="${test.home}/resourceinstance/results" quiet="true"/>
+    <delete dir="${test.target}/anakia" quiet="true"/>
+    <delete dir="${test.target}/configuration" quiet="true"/>
+    <delete dir="${test.target}/cpload" quiet="true"/>
+    <delete dir="${test.target}/multi" quiet="true"/>
+    <delete dir="${test.target}/multiloader" quiet="true"/>
+    <delete dir="${test.target}/templates" quiet="true"/>
+    <delete dir="${test.target}/texen" quiet="true"/>
+    <delete dir="${test.target}/resourceinstance" quiet="true"/>
   </target>
 
   <target name="test-all" depends="
@@ -87,7 +88,7 @@
   <target name="test-template">
     <echo message="Running Template tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes"
+    <java classname="${velocity.test.runner}" fork="yes" dir=".."
           failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TemplateTestCase"/>
       <classpath refid="classpath"/>
@@ -97,7 +98,7 @@
  <target name="test-eventhandling">
     <echo message="Running Event Handler tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.EventHandlingTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -108,7 +109,7 @@
   <target name="test-encoding">
     <echo message="Running Template encoding test..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.EncodingTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -119,7 +120,7 @@
   <target name="test-velocityapp">
     <echo message="Running app.Velocity tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.VelocityAppTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -130,7 +131,7 @@
   <target name="test-introspect">
     <echo message="Running Introspector tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.IntrospectorTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -141,8 +142,8 @@
   <target name="test-introspect2">
     <echo message="Running Introspector2 tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.IntrospectorTestCase2"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.Introspector2TestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -151,8 +152,8 @@
 
     <target name="test-introspect3">
     <echo message="Running Introspector3 tests..."/>
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.IntrospectorTestCase3"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.Introspector3TestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -160,8 +161,8 @@
   </target>
   
   <target name="test-classloaderchange">
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
-      <arg value="org.apache.velocity.test.ClassloaderChangeTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
+      <arg value="org.apache.velocity.test.ClassloaderChangeTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -171,7 +172,7 @@
   <target name="test-inlinevmscope">
     <echo message="Running Inline VM Scope tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.InlineScopeVMTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -182,8 +183,8 @@
   <target name="test-multi">
     <echo message="Running Multiple File Resource Path tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.MultipleFileResourcePathTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.MultipleFileResourcePathTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -193,12 +194,12 @@
   <target name="test-cpload">
     <echo message="Running Classpath Resource tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.ClasspathResourceTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ClasspathResourceTestCase"/>
       <classpath>
         <path refid="classpath"/>
-        <pathelement location="../test/cpload/test1.jar"/>
-        <pathelement location="../test/cpload/test2.jar"/>
+        <pathelement location="${test.home}/cpload/test1.jar"/>
+        <pathelement location="${test.home}/cpload/test2.jar"/>
       </classpath>
     </java>
   </target>
@@ -206,7 +207,7 @@
   <target name="test-contextsafety">
     <echo message="Running Context Safety tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.ContextSafetyTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -222,29 +223,29 @@
         <path refid="classpath"/>
       </classpath>
     </taskdef>
-    <anakia basedir="../test/anakia/xdocs" destdir="../test/anakia/results"
+    <anakia basedir="${test.home}/anakia/xdocs" destdir="${test.target}/anakia"
             extension=".html" style="./site.vsl"
             projectFile="./stylesheets/project.xml"
             excludes="**/stylesheets/**"
             includes="**/*.xml"
-            templatePath="../test/anakia/xdocs/stylesheets"
-            velocityPropertiesFile="../test/anakia/velocity.properties"
+            templatePath="${test.home}/anakia/xdocs/stylesheets"
+            velocityPropertiesFile="${test.home}/anakia/velocity.properties"
             lastModifiedCheck="false">
     </anakia>
   
-    <anakia basedir="../test/anakia/xdocs" 
-            destdir="../test/anakia/results"
+    <anakia basedir="${test.home}/anakia/xdocs" 
+            destdir="${test.target}/anakia"
         extension=".context.html" style="./site_contexts.vsl"
         projectFile="./stylesheets/project.xml"
         excludes="**/stylesheets/**"
         includes="**/*.xml"
-        templatePath="../test/anakia/xdocs/stylesheets"
+        templatePath="${test.home}/anakia/xdocs/stylesheets"
         lastModifiedCheck="false">
         
         <context name="customContext" file="./stylesheets/customContext.xml"/>
     </anakia>    
  
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -253,7 +254,7 @@
   </target>
 
   <target name="test-configuration">
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.ConfigurationTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -262,7 +263,7 @@
   </target>
 
  <target name="test-commonsextprop">
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}" >
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.CommonsExtPropTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -273,8 +274,8 @@
   <target name="test-externallogger">
     <echo message="Running external logger tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.ExternalLoggerTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ExternalLoggerTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -285,8 +286,8 @@
   <target name="test-methodinvocationexception">
     <echo message="Running MethodInvocationException tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.MethodInvocationExceptionTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.MethodInvocationExceptionTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -296,7 +297,7 @@
    <target name="test-misc">
     <echo message="Running misc tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.MiscTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -307,7 +308,7 @@
    <target name="test-parser">
     <echo message="Running special parser tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.ParserTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -318,7 +319,7 @@
    <target name="test-arithmetic">
     <echo message="Running special arithmetic tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.ArithmeticTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -329,8 +330,8 @@
    <target name="test-number-methods">
     <echo message="Running number method call tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.TestNumberMethodCalls"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.NumberMethodCallsTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -352,14 +353,14 @@
     </taskdef>
 
     <texen
-      contextProperties="../test/texen/service.props,../test/texen/additional.props"
+      contextProperties="${test.home}/texen/service-ant.props,${test.home}/texen/additional.props"
       controlTemplate="Control.vm"
-      outputDirectory="../test/texen/results"
-      templatePath="../test/texen/templates"
+      outputDirectory="${test.target}/texen"
+      templatePath="${test.home}/texen/templates"
       outputFile="report"
     />
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TexenTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -382,20 +383,20 @@
     <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
        >
       <classpath>
-        <pathelement location="../test/texen-classpath/test.jar"/>
+        <pathelement location="${test.home}/texen-classpath/test.jar"/>
         <path refid="classpath"/>
       </classpath>
     </taskdef>
 
     <texen
       useClassPath="true"
-      contextProperties="service.props"
+      contextProperties="service-ant.props"
       controlTemplate="Control.vm"
-      outputDirectory="../test/texen-classpath/results"
+      outputDirectory="${test.target}/texen-classpath"
       outputFile="report"
     />
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TexenClasspathTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -407,18 +408,18 @@
   <target name="test-multiloader">
     <echo message="Running MultiLoader tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.MultiLoaderTestCase"/>
       <classpath>
         <path refid="classpath"/>
-        <pathelement location="../test/multiloader/test1.jar"/>
+        <pathelement location="${test.home}/multiloader/test1.jar"/>
       </classpath>
     </java>
   </target>
 
  <target name="test-velocimacro">
     <echo message="Running Velocimacro tests..."/>
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.VelocimacroTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -428,8 +429,8 @@
 
  <target name="test-resourceinstance">
     <echo message="Running Resource Loader instance tests..."/>
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.ResourceLoaderInstanceTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ResourceLoaderInstanceTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -438,8 +439,8 @@
 
  <target name="test-foreach">
     <echo message="Running Foreach max loops tests..."/>
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.ForeachTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.ForeachTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
@@ -449,7 +450,7 @@
  <target name="test-includeeventhandler">
     <echo message="Running IncludeEvent Handler tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.IncludeEventHandlingTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -460,7 +461,7 @@
  <target name="test-filteredeventhandler">
     <echo message="Running Filtered Event Handler tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.FilteredEventHandlingTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -471,8 +472,8 @@
  <target name="test-builtineventhandler">
     <echo message="Running Built-In Event Handler tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" failonerror="${testbed.failonerror}">
-      <arg value="org.apache.velocity.test.BuiltInEventHandlerTest"/>
+    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+      <arg value="org.apache.velocity.test.BuiltInEventHandlerTestCase"/>
       <classpath>
         <path refid="classpath"/>
       </classpath>
