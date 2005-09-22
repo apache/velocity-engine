@@ -7,7 +7,7 @@ email=jvanzyl@apache.org
 ## will be available in the context
 ## as $license.
 
-license.file.contents = ../test/texen/license.txt
+license.file.contents = test/texen/license.txt
 
 # Test some properties that have be give some boolean
 # values.

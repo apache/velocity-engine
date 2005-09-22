@@ -65,17 +65,17 @@ public class BuiltInEventHandlerTest extends BaseTestCase {
     * Path for templates. This property will override the
     * value in the default velocity properties file.
     */
-   private final static String FILE_RESOURCE_LOADER_PATH = "../test/includeevent";
+   private final static String FILE_RESOURCE_LOADER_PATH = "test/includeevent";
 
    /**
     * Results relative to the build directory.
     */
-   private static final String RESULTS_DIR = "../test/includeevent/results";
+   private static final String RESULTS_DIR = "test/includeevent/results";
 
    /**
     * Results relative to the build directory.
     */
-   private static final String COMPARE_DIR = "../test/includeevent/compare";
+   private static final String COMPARE_DIR = "test/includeevent/compare";
 
     /**
      * Default constructor.

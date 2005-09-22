@@ -18,6 +18,7 @@ package org.apache.velocity.test;
 
 import java.io.FileWriter;
 
+
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -37,19 +38,19 @@ public class ConfigurationTestCase extends BaseTestCase
      * Comparison directory.
      */
     private static final String COMPARE_DIR = 
-        "../test/configuration/compare";
+        "test/configuration/compare";
     
     /**
      * Results directory.
      */
     private static final String RESULTS_DIR = 
-        "../test/configuration/results";
+        "target/test/configuration";
 
     /**
      * Test configuration
      */
     private static final String TEST_CONFIG = 
-        "../test/configuration/test.config";
+        "test/configuration/test.config";
 
     /**
      * Creates a new instance.

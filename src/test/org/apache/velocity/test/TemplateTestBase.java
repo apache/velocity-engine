@@ -45,7 +45,7 @@ public interface TemplateTestBase
      * value in the default velocity properties file.
      */
     public final static String FILE_RESOURCE_LOADER_PATH = 
-                          "../test/templates";
+                          "test/templates";
 
     /**
      * Properties file that lists which template tests to run.
@@ -57,7 +57,7 @@ public interface TemplateTestBase
      * Results relative to the build directory.
      */
     public final static String RESULT_DIR = 
-                          FILE_RESOURCE_LOADER_PATH + "/results";
+                          "target/test/templates";
 
     /**
      * Results relative to the build directory.
