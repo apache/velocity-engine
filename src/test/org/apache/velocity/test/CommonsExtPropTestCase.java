@@ -17,7 +17,6 @@ package org.apache.velocity.test;
  */
 
 import java.io.FileWriter;
-
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -38,19 +37,19 @@ public class CommonsExtPropTestCase extends BaseTestCase
     /**
      * Comparison directory.
      */
-    private static final String COMPARE_DIR = 
+    private static final String COMPARE_DIR =
         "test/configuration/compare";
-    
+
     /**
      * Results directory.
      */
-    private static final String RESULTS_DIR = 
+    private static final String RESULTS_DIR =
         "target/test/configuration";
 
     /**
      * Test configuration
      */
-    private static final String TEST_CONFIG = 
+    private static final String TEST_CONFIG =
         "test/configuration/test.config";
 
     /**
@@ -75,24 +74,24 @@ public class CommonsExtPropTestCase extends BaseTestCase
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
-            
+
             ExtendedProperties c = new ExtendedProperties(TEST_CONFIG);
-            
+
             FileWriter result = new FileWriter(
                 getFileName(RESULTS_DIR, "output", "res"));
-            
+
             message(result, "Testing order of keys ...");
             showIterator(result, c.getKeys());
-            
+
             message(result, "Testing retrieval of CSV values ...");
-            showVector(result, c.getVector("resource.loader"));            
+            showVector(result, c.getVector("resource.loader"));
 
             message(result, "Testing subset(prefix).getKeys() ...");
             ExtendedProperties subset = c.subset("file.resource.loader");
             showIterator(result, subset.getKeys());
 
             message(result, "Testing getVector(prefix) ...");
-            showVector(result, subset.getVector("path"));            
+            showVector(result, subset.getVector("path"));
 
             message(result, "Testing getString(key) ...");
             result.write(c.getString("config.string.value"));
@@ -136,7 +135,7 @@ public class CommonsExtPropTestCase extends BaseTestCase
 
             result.flush();
             result.close();
-            
+
             if (!isMatch(RESULTS_DIR, COMPARE_DIR, "output","res","cmp"))
             {
                 fail("Output incorrect.");

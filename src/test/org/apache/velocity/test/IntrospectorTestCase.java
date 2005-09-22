@@ -16,13 +16,10 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import java.lang.reflect.Method;
-
 import org.apache.velocity.runtime.RuntimeSingleton;
-
-import junit.framework.TestCase;
 
 /**
  * Test case for the Velocity Introspector which uses
@@ -70,7 +67,7 @@ public class IntrospectorTestCase extends BaseTestCase
     public void runTest()
     {
         MethodProvider mp = new MethodProvider();
-    
+
         try
         {
             // Test boolean primitive.
@@ -79,10 +76,10 @@ public class IntrospectorTestCase extends BaseTestCase
             method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", booleanParams);
             result = (String) method.invoke(mp, booleanParams);
-            
+
             if (!result.equals(type))
                 failures.add(type + "Method could not be found!");
-            
+
             // Test byte primitive.
             Object[] byteParams = { new Byte("1") };
             type = "byte";
@@ -149,19 +146,19 @@ public class IntrospectorTestCase extends BaseTestCase
             method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, type + "Method", shortParams);
             result = (String) method.invoke(mp, shortParams);
-        
+
             if (!result.equals(type))
                 failures.add(type + "Method could not be found!");
 
             // Test untouchable
 
             Object[] params = {};
-           
+
             method = RuntimeSingleton.getIntrospector().getMethod(
                 MethodProvider.class, "untouchable", params);
 
             if (method != null)
-                failures.add(type + "able to access a private-access method.");      
+                failures.add(type + "able to access a private-access method.");
 
             // Test really untouchable
 
@@ -169,20 +166,20 @@ public class IntrospectorTestCase extends BaseTestCase
                 MethodProvider.class, "reallyuntouchable", params);
 
             if (method != null)
-                failures.add(type + "able to access a default-access method.");      
+                failures.add(type + "able to access a default-access method.");
 
             // There were any failures then show all the
             // errors that occured.
-            
+
             int totalFailures = failures.size();
             if (totalFailures > 0)
             {
                 StringBuffer sb = new StringBuffer("\nIntrospection Errors:\n");
                 for (int i = 0; i < totalFailures; i++)
                     sb.append((String) failures.get(i)).append("\n");
-            
+
                 fail(sb.toString());
-            }                    
+            }
         }
         catch (Exception e)
         {

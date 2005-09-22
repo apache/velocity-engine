@@ -16,7 +16,6 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
 import junit.framework.Test;
 
 import org.apache.velocity.util.StringUtils;

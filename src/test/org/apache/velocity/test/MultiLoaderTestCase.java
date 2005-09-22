@@ -20,18 +20,10 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.File;
-
-import java.util.Properties;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.VelocimacroFactory;
-
-import junit.framework.TestCase;
+import org.apache.velocity.app.Velocity;
 
 /**
  * Load templates from the Classpath.
@@ -83,16 +75,16 @@ public class MultiLoaderTestCase extends BaseTestCase
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
-            
+
             /*
              * Set up the file loader.
              */
-            
+
             Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
-            
+
             Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-            
+
             Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
 
             Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
@@ -120,7 +112,7 @@ public class MultiLoaderTestCase extends BaseTestCase
                                  "jar." + Velocity.RESOURCE_LOADER + ".class",
                                  "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
 
-            Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",  
+            Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",
                                   "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
 
             Velocity.init();
@@ -130,7 +122,7 @@ public class MultiLoaderTestCase extends BaseTestCase
             System.err.println("Cannot setup MultiLoaderTestCase!");
             e.printStackTrace();
             System.exit(1);
-        }            
+        }
     }
 
     public static junit.framework.Test suite ()
@@ -155,13 +147,13 @@ public class MultiLoaderTestCase extends BaseTestCase
              */
             Template template1 = Velocity.getTemplate(
                 getFileName(null, "path1", TMPL_FILE_EXT));
-            
+
             /*
              * Template to find with the classpath loader.
              */
             Template template2 = Velocity.getTemplate(
                 getFileName(null, "template/test1", TMPL_FILE_EXT));
-           
+
             /*
              * Template to find with the jar loader
              */
@@ -172,22 +164,22 @@ public class MultiLoaderTestCase extends BaseTestCase
              * and the results files
              */
 
-            FileOutputStream fos1 = 
+            FileOutputStream fos1 =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "path1", RESULT_FILE_EXT));
 
-            FileOutputStream fos2 = 
+            FileOutputStream fos2 =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
 
-            FileOutputStream fos3 = 
+            FileOutputStream fos3 =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
 
             Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
             Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
             Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
-            
+
             /*
              *  put the Vector into the context, and merge both
              */
@@ -197,7 +189,7 @@ public class MultiLoaderTestCase extends BaseTestCase
             template1.merge(context, writer1);
             writer1.flush();
             writer1.close();
-            
+
             template2.merge(context, writer2);
             writer2.flush();
             writer2.close();
@@ -210,12 +202,12 @@ public class MultiLoaderTestCase extends BaseTestCase
             {
                 fail("Output incorrect for FileResourceLoader test.");
             }
- 
+
             if (!isMatch(RESULTS_DIR,COMPARE_DIR,"test2",RESULT_FILE_EXT,CMP_FILE_EXT) )
             {
                 fail("Output incorrect for ClasspathResourceLoader test.");
             }
-            
+
             if( !isMatch(RESULTS_DIR,COMPARE_DIR,"test3",RESULT_FILE_EXT,CMP_FILE_EXT))
             {
                 fail("Output incorrect for JarResourceLoader test.");

@@ -40,7 +40,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  */
 public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSystem
 {
-   
+
     /**
     * VTL file extension.
     */
@@ -72,7 +72,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
     */
    private static final String COMPARE_DIR = "test/includeevent/compare";
 
-   
+
     private String logString = null;
 
     /**
@@ -115,7 +115,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         ve.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET, sequence1);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence1);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, sequence1);
-        ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);        
+        ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.init();
 
         VelocityEngine ve2 = new VelocityEngine();
@@ -124,32 +124,32 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET, sequence2);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence2);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, sequence2);
-        ve2.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);        
+        ve2.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve2.init();
-        
+
         VelocityContext context;
         StringWriter w;
-        
-        
+
+
         // check reference insertion with both sequences
         context = new VelocityContext();
         w = new StringWriter();
         context.put("test","abc");
-        ve.evaluate( context, w, "test", "$test" );        
+        ve.evaluate( context, w, "test", "$test" );
         if ( !w.toString().equals( "ABCABC" ))
         {
             fail( "Reference insertion test 1");
         }
-        
+
         context = new VelocityContext();
         w = new StringWriter();
         context.put("test","abc");
-        ve2.evaluate( context, w, "test", "$test" );        
+        ve2.evaluate( context, w, "test", "$test" );
         if ( !w.toString().equals( "ABCabc" ))
         {
             fail( "Reference insertion test 2");
         }
-        
+
         // check method exception with both sequences
 
         // sequence 1
@@ -167,14 +167,14 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         {
             fail ( "Method exception event test 1" );
         }
-        
+
         // sequence2
         context = new VelocityContext();
         w = new StringWriter();
         context.put("test",new ArrayList());
         try {
             ve2.evaluate( context, w, "test", "$test.get(0)");
-        } 
+        }
         catch( Exception e )
         {
             fail ( "Method exception event test 2" );
@@ -186,22 +186,22 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         context = new VelocityContext();
         w = new StringWriter();
         logString = null;
-        ve.evaluate( context, w, "test", "#set($test1 = $test2)" );        
+        ve.evaluate( context, w, "test", "#set($test1 = $test2)" );
         if ( logString != null)
         {
             fail( "log null set test 1");
         }
-        
+
         // sequence 2
         context = new VelocityContext();
         w = new StringWriter();
         logString = null;
-        ve2.evaluate( context, w, "test", "#set($test1 = $test2)" );        
+        ve2.evaluate( context, w, "test", "#set($test1 = $test2)" );
         if ( logString != null)
         {
             fail( "log null set test 2");
         }
-        
+
 
         // check include event handler with both sequences
 
@@ -209,7 +209,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         Template template;
         FileOutputStream fos;
         Writer fwriter;
-        
+
         template = ve.getTemplate( getFileName(null, "test4", TMPL_FILE_EXT) );
 
         fos = new FileOutputStream (
@@ -222,11 +222,11 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         fwriter.flush();
         fwriter.close();
 
-        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test4", RESULT_FILE_EXT, CMP_FILE_EXT)) 
+        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test4", RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             fail("Output incorrect.");
         }
-    
+
         // sequence 2
         template = ve2.getTemplate( getFileName(null, "test5", TMPL_FILE_EXT) );
 
@@ -240,15 +240,15 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
         fwriter.flush();
         fwriter.close();
 
-        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test5", RESULT_FILE_EXT, CMP_FILE_EXT)) 
+        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test5", RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             fail("Output incorrect.");
         }
 
     }
-    
-    
-    
+
+
+
 
     /**
      *  handler for LogSystem interface

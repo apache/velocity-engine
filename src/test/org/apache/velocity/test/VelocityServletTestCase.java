@@ -16,13 +16,14 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Set;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -31,12 +32,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.servlet.VelocityServlet;
-
 import junit.framework.TestCase;
+
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.servlet.VelocityServlet;
 
 
 /**
@@ -128,7 +128,7 @@ public class VelocityServletTestCase extends TestCase
         public String getServletName()
         {
             return "VelocityServlet";
-        }            
+        }
     }
 
     static class MockServletContext implements ServletContext
@@ -333,7 +333,7 @@ public class VelocityServletTestCase extends TestCase
         }
 
 
-        // ---- HttpServletResponse implementation ------------------------- 
+        // ---- HttpServletResponse implementation -------------------------
 
         public void addCookie(javax.servlet.http.Cookie c)
         {

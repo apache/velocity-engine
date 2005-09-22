@@ -56,14 +56,14 @@ public class AnakiaTestCase extends BaseTestCase
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
-            
+
             /**
             if (!isMatch(RESULTS_DIR,COMPARE_DIR,"index",FILE_EXT,FILE_EXT))
             {
                 fail("Output is incorrect!");
             }
             **/
-            
+
             if (!isMatch(
                     RESULTS_DIR,
                     COMPARE_DIR,
@@ -72,12 +72,12 @@ public class AnakiaTestCase extends BaseTestCase
                     CONTEXT_FILE_EXT))
                     {
                     fail("Custom Context Output is incorrect");
-                    }            
+                    }
             else
             {
                 System.out.println ("Passed!");
             }
-        }            
+        }
         catch(Exception e)
         {
             /*

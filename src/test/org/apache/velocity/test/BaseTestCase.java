@@ -17,11 +17,12 @@ package org.apache.velocity.test;
  */
 
 import java.io.File;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.util.StringUtils;
 
 import junit.framework.TestCase;
+
 import org.apache.oro.text.perl.Perl5Util;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Base test case that provides a few utility methods for
@@ -35,7 +36,7 @@ public abstract class BaseTestCase extends TestCase
     /**
      *  used for nomalization of output and compare data
      */
-    private Perl5Util perl = new Perl5Util();    
+    private Perl5Util perl = new Perl5Util();
 
     /**
      * Default constructor.
@@ -99,24 +100,24 @@ public abstract class BaseTestCase extends TestCase
     }
 
     /**
-     * Returns whether the processed template matches the 
+     * Returns whether the processed template matches the
      * content of the provided comparison file.
      *
-     * @return Whether the output matches the contents 
+     * @return Whether the output matches the contents
      *         of the comparison file.
      *
      * @exception Exception Test failure condition.
      */
     protected boolean isMatch (String resultsDir,
                                String compareDir,
-                               String baseFileName, 
+                               String baseFileName,
                                String resultExt,
                                String compareExt)
         throws Exception
     {
         String result = StringUtils.fileContentsToString
             (getFileName(resultsDir, baseFileName, resultExt));
-            
+
         String compare = StringUtils.fileContentsToString
              (getFileName(compareDir, baseFileName, compareExt));
 
@@ -124,7 +125,7 @@ public abstract class BaseTestCase extends TestCase
          *  normalize each wrt newline
          */
 
-        return normalizeNewlines(result).equals( 
+        return normalizeNewlines(result).equals(
                            normalizeNewlines( compare ) );
     }
 

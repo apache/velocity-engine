@@ -79,7 +79,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
             assureResultsDirectoryExists(RESULTS_DIR);
 
             ResourceLoader rl = new FileResourceLoader();
-            
+
             // pass in an instance to Velocity
             Velocity.addProperty( "resource.loader", "testrl" );
             Velocity.setProperty( "testrl.resource.loader.instance", rl );
@@ -92,7 +92,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
             System.err.println("Cannot setup ResourceLoaderInstanceTest!");
             e.printStackTrace();
             System.exit(1);
-        }            
+        }
     }
 
     public static junit.framework.Test suite ()
@@ -109,14 +109,14 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
         {
             Template template = RuntimeSingleton.getTemplate(
                 getFileName(null, "testfile", TMPL_FILE_EXT));
-                       
-            FileOutputStream fos = 
+
+            FileOutputStream fos =
                 new FileOutputStream (
                     getFileName(RESULTS_DIR, "testfile", RESULT_FILE_EXT));
 
-            
+
             Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
-            
+
             /*
              *  put the Vector into the context, and merge both
              */
@@ -126,7 +126,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
             template.merge(context, writer);
             writer.flush();
             writer.close();
-            
+
             if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
                     RESULT_FILE_EXT, CMP_FILE_EXT) )
             {

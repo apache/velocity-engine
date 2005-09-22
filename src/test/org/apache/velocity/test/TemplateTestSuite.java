@@ -17,15 +17,11 @@ package org.apache.velocity.test;
  */
 
 import java.io.FileInputStream;
-
 import java.util.Properties;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.apache.velocity.app.Velocity;
 
 import junit.framework.TestSuite;
+
+import org.apache.velocity.app.Velocity;
 
 /**
  * Test suite for Templates.
@@ -49,13 +45,13 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
         {
             Velocity.setProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-            
+
             Velocity.setProperty(Velocity.RUNTIME_LOG_ERROR_STACKTRACE, "true");
             Velocity.setProperty(Velocity.RUNTIME_LOG_WARN_STACKTRACE, "true");
             Velocity.setProperty(Velocity.RUNTIME_LOG_INFO_STACKTRACE, "true");
 
             Velocity.init();
-            
+
             testProperties = new Properties();
             testProperties.load(new FileInputStream(TEST_CASE_PROPERTIES));
         }
@@ -64,7 +60,7 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
             System.err.println("Cannot setup TemplateTestSuite!");
             e.printStackTrace();
             System.exit(1);
-        }            
+        }
 
         addTemplateTestCases();
     }

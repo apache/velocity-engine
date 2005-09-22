@@ -16,7 +16,8 @@ package org.apache.velocity.test.provider;
  * limitations under the License.
  */
 
-import java.math.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**

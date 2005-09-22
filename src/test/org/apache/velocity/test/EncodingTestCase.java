@@ -21,16 +21,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import java.util.Vector;
-
-import org.apache.velocity.VelocityContext;
-
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.StringUtils;
-
-import junit.framework.TestCase;
 
 /**
  * Tests input encoding handling.  The input target is UTF-8, having
@@ -47,12 +40,12 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
     public EncodingTestCase()
     {
         super("EncodingTestCase");
-        
+
         try
         {
 	        Velocity.setProperty(
 	            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-	        
+
             Velocity.setProperty( Velocity.INPUT_ENCODING, "UTF-8" );
 
             Velocity.init();
@@ -75,13 +68,13 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
      */
     public void runTest ()
     {
-        
+
         VelocityContext context = new VelocityContext();
-       
+
         try
         {
             assureResultsDirectoryExists(RESULT_DIR);
-            
+
             /*
              *  get the template and the output
              */
@@ -93,16 +86,16 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
             Template template = Velocity.getTemplate(
                 getFileName(null, "encodingtest", TMPL_FILE_EXT), "UTF-8");
 
-            FileOutputStream fos = 
+            FileOutputStream fos =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "encodingtest", RESULT_FILE_EXT));
 
             Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-           
+
             template.merge(context, writer);
             writer.flush();
             writer.close();
-            
+
             if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest",
                     RESULT_FILE_EXT,CMP_FILE_EXT) )
             {
@@ -113,19 +106,19 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
              *  a 'high-byte' chinese example from Michael Zhou
              */
 
-            template = Velocity.getTemplate( 
+            template = Velocity.getTemplate(
                   getFileName( null, "encodingtest2", TMPL_FILE_EXT), "UTF-8");
 
-            fos = 
+            fos =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "encodingtest2", RESULT_FILE_EXT));
 
             writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-           
+
             template.merge(context, writer);
             writer.flush();
             writer.close();
-            
+
             if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest2",
                     RESULT_FILE_EXT,CMP_FILE_EXT) )
             {
@@ -136,19 +129,19 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
              *  a 'high-byte' chinese from Ilkka
              */
 
-            template = Velocity.getTemplate( 
+            template = Velocity.getTemplate(
                   getFileName( null, "encodingtest3", TMPL_FILE_EXT), "GBK");
 
-            fos = 
+            fos =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "encodingtest3", RESULT_FILE_EXT));
 
             writer = new BufferedWriter(new OutputStreamWriter(fos, "GBK"));
-           
+
             template.merge(context, writer);
             writer.flush();
             writer.close();
-            
+
             if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest3",
                     RESULT_FILE_EXT,CMP_FILE_EXT) )
             {
@@ -159,19 +152,19 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
              *  Russian example from Vitaly Repetenko
              */
 
-            template = Velocity.getTemplate( 
+            template = Velocity.getTemplate(
                   getFileName( null, "encodingtest_KOI8-R", TMPL_FILE_EXT), "KOI8-R");
 
-            fos = 
+            fos =
                 new FileOutputStream (
                     getFileName(RESULT_DIR, "encodingtest_KOI8-R", RESULT_FILE_EXT));
 
             writer = new BufferedWriter(new OutputStreamWriter(fos, "KOI8-R"));
-           
+
             template.merge(context, writer);
             writer.flush();
             writer.close();
-            
+
             if (!isMatch(RESULT_DIR,COMPARE_DIR,"encodingtest_KOI8-R",
                     RESULT_FILE_EXT,CMP_FILE_EXT) )
             {

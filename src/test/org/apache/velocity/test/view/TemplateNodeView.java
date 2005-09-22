@@ -16,16 +16,14 @@ package org.apache.velocity.test.view;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.FileInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 import org.apache.velocity.runtime.RuntimeSingleton;
-
-import org.apache.velocity.runtime.visitor.NodeViewMode;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.visitor.NodeViewMode;
 
 /**
  * Simple class for dumping the AST for a template.
@@ -33,12 +31,12 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  */
 public class TemplateNodeView
 {
-    /** 
+    /**
      * Root of the AST node structure that results from
      * parsing a template.
      */
     private SimpleNode document;
-    
+
     /**
      * Visitor used to traverse the AST node structure
      * and produce a visual representation of the
@@ -64,7 +62,7 @@ public class TemplateNodeView
                                        RuntimeSingleton.getString(RuntimeSingleton.INPUT_ENCODING));
 
             BufferedReader br = new BufferedReader( isr );
-                                         
+
             document = RuntimeSingleton.parse( br, template);
 
             visitor = new NodeViewMode();
@@ -83,5 +81,5 @@ public class TemplateNodeView
     public static void main(String args[])
     {
         TemplateNodeView v = new TemplateNodeView(args[0]);
-    }        
+    }
 }

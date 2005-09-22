@@ -16,14 +16,14 @@
 
 package org.apache.velocity.util;
 
-import junit.framework.TestCase;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
  *  Simpletest for the SimplePool
  *
- * @version $Id$ 
+ * @version $Id$
  */
 public class SimplePoolTestCase extends TestCase
 {

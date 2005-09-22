@@ -16,7 +16,11 @@ package org.apache.velocity.test.provider;
  * limitations under the License.
  */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 
 /**
  * This class is used by the testbed. Instances of the class
@@ -63,10 +67,10 @@ public class TestProvider
         list.add("list element 1");
         list.add("list element 2");
         list.add("list element 3");
-        
+
         return list;
     }
-    
+
     public Hashtable getSearch()
     {
         Hashtable h = new Hashtable();
@@ -78,11 +82,11 @@ public class TestProvider
 
         ArrayList al = new ArrayList();
         al.add(h);
-        
+
         h.put("RelatedLinks", al);
 
         return h;
-    }        
+    }
 
     public Hashtable getHashtable()
     {
@@ -90,17 +94,17 @@ public class TestProvider
         h.put("key0", "value0");
         h.put("key1", "value1");
         h.put("key2", "value2");
-        
+
         return h;
-    }        
+    }
 
     public ArrayList getRelSearches()
     {
         ArrayList al = new ArrayList();
         al.add(getSearch());
-        
+
         return al;
-    }        
+    }
 
     public String getTitle()
     {
@@ -124,8 +128,8 @@ public class TestProvider
             item.put("label", "label" + Integer.toString(i+1));
             //al.add(item);
             menu[i] = item;
-        }            
-            
+        }
+
         //return al;
         return menu;
     }
@@ -157,12 +161,12 @@ public class TestProvider
     public Object me()
     {
         return this;
-    }        
+    }
 
     public String toString()
     {
         return ("test provider");
-    }        
+    }
 
     public Vector getVector()
     {
@@ -170,7 +174,7 @@ public class TestProvider
 
         list.addElement("vector element 1");
         list.addElement("vector element 2");
-        
+
         return list;
     }
 
@@ -191,11 +195,11 @@ public class TestProvider
     {
         return true;
     }
-    
+
     public boolean getStateFalse()
     {
         return false;
-    }        
+    }
 
     public String objectArrayMethod(Object[] o)
     {
@@ -205,24 +209,24 @@ public class TestProvider
     public String concat(Object[] strings)
     {
         StringBuffer result = new StringBuffer();
-        
+
         for (int i = 0; i < strings.length; i++)
         {
             result.append((String) strings[i]).append(' ');
         }
-        
+
         return result.toString();
     }
 
     public String concat(List strings)
     {
         StringBuffer result = new StringBuffer();
-        
+
         for (int i = 0; i < strings.size(); i++)
         {
             result.append((String) strings.get(i)).append(' ');
         }
-        
+
         return result.toString();
     }
 
@@ -246,7 +250,7 @@ public class TestProvider
     public String concat(String a, String b)
     {
         return a + b;
-    }        
+    }
 
     // These two are for testing subclasses.
 
@@ -254,16 +258,16 @@ public class TestProvider
     {
         return new Person();
     }
-    
+
     public Child getChild()
     {
         return new Child();
-    }        
+    }
 
     public String showPerson(Person person)
     {
         return person.getName();
-    }        
+    }
 
     /**
      * Chop i characters off the end of a string.
@@ -280,28 +284,28 @@ public class TestProvider
     public boolean allEmpty(Object[] list)
     {
         int size = list.length;
-        
+
         for (int i = 0; i < size; i++)
             if (list[i].toString().length() > 0)
                 return false;
-        
+
         return true;
     }
 
     /*
      * This can't have the signature
-    
+
     public void setState(boolean state)
-    
+
     or dynamically invoking the method
     doesn't work ... you would have to
     put a wrapper around a method for a
-    real boolean property that takes a 
+    real boolean property that takes a
     Boolean object if you wanted this to
     work. Not really sure how useful it
     is anyway. Who cares about boolean
     values you can just set a variable.
-    
+
     */
 
     public void setState(Boolean state)
@@ -329,7 +333,7 @@ public class TestProvider
     public String get(String key)
     {
         return key;
-    }        
+    }
 
     /**
      * Test the ability of vel to use a put(key)
@@ -340,7 +344,7 @@ public class TestProvider
     {
         ob = o;
         return key;
-    }        
+    }
 
     public String getFoo()
         throws Exception

@@ -16,10 +16,6 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
-import java.io.File;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.util.StringUtils;
-import junit.framework.TestCase;
 
 /**
  * This is a test case for Texen. Simply executes a simple
@@ -28,7 +24,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
-public class TexenClasspathTestCase 
+public class TexenClasspathTestCase
     extends BaseTestCase
 {
     /**
@@ -70,7 +66,7 @@ public class TexenClasspathTestCase
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
-            
+
             if (!isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeather","java","java") ||
                 !isMatch(RESULTS_DIR,COMPARE_DIR,"TurbineWeatherService","java","java") ||
                 !isMatch(RESULTS_DIR,COMPARE_DIR,"WeatherService","java","java") ||
@@ -79,7 +75,7 @@ public class TexenClasspathTestCase
             {
                 fail("Output is incorrect!");
             }
-        }            
+        }
         catch(Exception e)
         {
             /*
