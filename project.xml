@@ -284,7 +284,6 @@
       </includes>
       <excludes>
         <exclude>**/BaseTestCase.java</exclude>
-        <exclude>**/TemplateTestCase.java</exclude>
       </excludes>
     </unitTest>
 
