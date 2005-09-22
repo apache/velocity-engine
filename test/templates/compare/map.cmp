@@ -12,7 +12,7 @@ foovalue
 
 
 
-
+booboo
 aval
 aval
 bval
@@ -20,6 +20,8 @@ bval
 2
 value
 foovalue
+$mymap.map.foo
+{aa=aaa}
 
 
 0
