@@ -33,12 +33,12 @@ public class TexenTestCase extends BaseTestCase
     /**
      * Directory where results are generated.
      */
-    private static final String RESULTS_DIR = "../test/texen/results";
+    private static final String RESULTS_DIR = "target/test/texen";
 
     /**
      * Directory where comparison output is stored.
      */
-    private static final String COMPARE_DIR = "../test/texen/compare";
+    private static final String COMPARE_DIR = "test/texen/compare";
 
     /**
      * Creates a new instance.

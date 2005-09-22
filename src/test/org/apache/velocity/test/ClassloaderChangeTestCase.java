@@ -171,7 +171,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
 class TestClassloader extends ClassLoader
 {
     private final static String testclass = 
-        "../test/classloader/Foo.class";
+        "test/classloader/Foo.class";
         
     private Class fooClass = null;
     
