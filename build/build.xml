@@ -794,23 +794,30 @@
     <target name="junittest" depends="compile"
                  description="Run non-legacy unit test cases">
 
-        <junit dir="./" printSummary="yes" fork="true" haltonerror="true">
+        <mkdir dir="../target/test-reports"/>
+        <junit dir=".." printSummary="yes" fork="true" haltonerror="true">
 
-          <sysproperty key="basedir" value="../src/test"></sysproperty>
+          <sysproperty key="basedir" value=".."></sysproperty>
 
           <classpath>
             <fileset dir="lib">
               <include name="*.jar"></include>
             </fileset>
             <pathelement path="${build.dest}"></pathelement>
+            <pathelement location="../test/cpload/test1.jar"/>
+            <pathelement location="../test/cpload/test2.jar"/>
+            <pathelement location="../test/multiloader/test1.jar"/>
           </classpath>
 
-          <batchtest>
-            <fileset dir="../src/test">
-                <include name="**/Test*.java"></include>
+          <batchtest todir="../target/test-reports">
+            <fileset dir="${test.java.dir}">
+                <include name="**/*TestCase.java"></include>
+                <exclude name="**/BaseTestCase.java"></exclude>
+                <exclude name="**/Texen*TestCase.java"></exclude>
+                <exclude name="**/Anakia*TestCase.java"></exclude>
             </fileset>
           </batchtest>
-
+          <formatter type="plain"/>
         </junit>
     </target>
 
