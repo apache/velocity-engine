@@ -30,6 +30,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.FieldMethodizer;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.BoolObj;
+import org.apache.velocity.test.provider.NullToStringObject;
 import org.apache.velocity.test.provider.TestNumber;
 import org.apache.velocity.test.provider.TestProvider;
 
@@ -173,6 +174,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         nullList.add("d");
         context.put("nullList", nullList);
 
+        // test silent references with a null tostring
+        context.put("nullToString",new NullToStringObject());
     }
 
     /**

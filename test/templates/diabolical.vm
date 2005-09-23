@@ -60,3 +60,8 @@ $provider.chop("stringy",1)
 
 #set($a=1)
 #0F
+
+$nullToString
+$nullToString.toString()
+$!nullToString
+$!nullToString.toString()
