@@ -171,11 +171,6 @@ public class ASTReference extends SimpleNode
             for (int i = 0; i < numChildren; i++)
             {
                 result = jjtGetChild(i).execute(result,context);
-
-                if (result == null)
-                {
-                    return null;
-                }
             }
 
             return result;
@@ -262,7 +257,7 @@ public class ASTReference extends SimpleNode
          *  if value is null...
          */
 
-        if (value == null)
+        if ( value == null || (value.toString() == null) )
         {
             /*
              *  write prefix twice, because it's schmoo, so the \ don't escape each other...

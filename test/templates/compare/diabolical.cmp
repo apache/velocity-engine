@@ -43,3 +43,8 @@ string
 foobar
 
 #0F
+
+$nullToString
+$nullToString.toString()
+
+
