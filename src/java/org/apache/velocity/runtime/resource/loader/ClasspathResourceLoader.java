@@ -120,6 +120,14 @@ public class ClasspathResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         
+        if (result == null) 
+        {
+             String msg = "FileResourceLoader Error: cannot find resource " +
+              name;
+        
+             throw new ResourceNotFoundException( msg );
+        }
+        
         return result;
     }
     
