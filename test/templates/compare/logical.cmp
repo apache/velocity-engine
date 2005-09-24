@@ -164,6 +164,14 @@ Should equal true : true
 
 Should equal true : true
 
+----------------------
+Compare String and StringBuffer
+----------------------
+This should be true: true
+
+This should be false: false
+
+This should be true: true
 
 
 right
