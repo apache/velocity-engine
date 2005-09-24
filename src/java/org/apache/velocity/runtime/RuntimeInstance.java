@@ -936,6 +936,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        if (resourceManager == null)
+        {
+            throw new IllegalStateException
+              (" Cannot retrieve template as Velocity was not initialized.");
+        }
+        
         return (Template)
                 resourceManager.getResource(name,
                     ResourceManager.RESOURCE_TEMPLATE, encoding);
@@ -975,6 +981,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        if (resourceManager == null)
+        {
+            throw new IllegalStateException
+              (" Cannot retrieve content as Velocity was not initialized.");
+        }
+
         return (ContentResource)
                 resourceManager.getResource(name,
                         ResourceManager.RESOURCE_CONTENT, encoding);
@@ -992,6 +1004,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getLoaderNameForResource(String resourceName)
     {
+        if (resourceManager == null)
+        {
+            throw new IllegalStateException
+              (" Cannot retrieve template information as Velocity was not initialized.");
+        }
+
         return resourceManager.getLoaderNameForResource(resourceName);
     }
 
