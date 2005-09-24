@@ -390,6 +390,17 @@ Should equal true : $fofo
 #set($fofo = ( ($t || $f) && $t))
 Should equal true : $fofo
 
+----------------------
+Compare String and StringBuffer
+----------------------
+#set($compClass = ($name == $name2))
+This should be true: $compClass
+
+#set($compClass2 = ($name == $name3))
+This should be false: $compClass2
+
+#set($compClass3 = ($name != $name3))
+This should be true: $compClass3
 
 #set($x = !true)
 

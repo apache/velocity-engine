@@ -111,27 +111,41 @@ public class ASTEQNode extends SimpleNode
        }
 
 
-        /*
-         *  check to see if they are the same class.  I don't think this is slower
-         *  as I don't think that getClass() results in object creation, and we can
-         *  extend == to handle all classes
-         */
 
-        if (left.getClass().equals( right.getClass() ) )
+       /** 
+        * assume that if one class is a subclass of the other 
+        * that we should use the equals operator
+        */
+       
+        if (left.getClass().isAssignableFrom(right.getClass()) || 
+                right.getClass().isAssignableFrom(left.getClass()) )
         {
             return left.equals( right );
         }
         else
         {
-            rsvc.error("Error in evaluation of == expression."
-                          + " Both arguments must be of the same Class."
-                          + " Currently left = " + left.getClass() + ", right = " 
-                          + right.getClass() + ". "
-                          + context.getCurrentTemplateName() + " [line " + getLine() 
-                          + ", column " + getColumn() + "] (ASTEQNode)");
+            /**
+             * Compare the String representations
+             */
+            if ((left.toString() == null) || (right.toString() == null))  
+            {
+                rsvc.error( ( left.toString() == null ? "Left" : "Right" ) + " string side "
+                        + "String representation ("
+                        + jjtGetChild( (left == null? 0 : 1) ).literal()
+                        + ") of '!=' operation has null value."
+                        + " Operation not possible. "
+                        + context.getCurrentTemplateName() + " [line " + getLine() 
+                        + ", column " + getColumn() + "]");
+
+                return false;
+            }
+            
+            else 
+            {
+                return left.toString().equals(right.toString());
+            }
         }
 
-        return false;    
     }
 
     public Object value(InternalContextAdapter context)

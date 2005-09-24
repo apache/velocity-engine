@@ -125,6 +125,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 
         context.put("provider", provider);
         context1.put("name", "jason");
+        context1.put("name2", new StringBuffer("jason"));
+        context1.put("name3", new StringBuffer("geoge"));
         context2.put("providers", provider.getCustomers2());
         context.put("list", al);
         context1.put("hashtable", h);
