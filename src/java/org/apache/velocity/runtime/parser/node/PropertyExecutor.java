@@ -54,7 +54,7 @@ public class PropertyExecutor extends AbstractExecutor
 
             /*
              *  start with get<property>
-             *  this leaves the property name 
+             *  this leaves the property name
              *  as is...
              */
             sb = new StringBuffer("get");
@@ -63,14 +63,16 @@ public class PropertyExecutor extends AbstractExecutor
             methodUsed = sb.toString();
 
             method = introspector.getMethod(clazz, methodUsed, params);
-             
+
             if (method != null)
+            {
                 return;
-        
+            }
+
             /*
              *  now the convenience, flip the 1st character
              */
-         
+
             sb = new StringBuffer("get");
             sb.append(property);
 
@@ -89,8 +91,10 @@ public class PropertyExecutor extends AbstractExecutor
             method = introspector.getMethod(clazz, methodUsed, params);
 
             if (method != null)
-                return; 
-            
+            {
+                return;
+            }
+
         }
         catch(Exception e)
         {
@@ -106,10 +110,10 @@ public class PropertyExecutor extends AbstractExecutor
         throws IllegalAccessException,  InvocationTargetException
     {
         if (method == null)
+        {
             return null;
+        }
 
-        return method.invoke(o, null);
+        return method.invoke(o, ((Object []) null));
     }
 }
-
-
