@@ -2,7 +2,7 @@
 
 <!-- Build file for Velocity -->
 
-<project name="Velocity" default="jar" basedir=".">
+<project name="Velocity" default="jar" basedir="..">
 
   <!-- Give user a chance to override without editing this file
        (and without typing -D each time it compiles it -->
@@ -14,43 +14,44 @@
   <property name="version" value="1.5-dev"/>
   
   <property name="project" value="velocity"/>
-    
-  <property name="build.dir" value="../bin"/>
+  <property name="velocity.dir" value="." />  
+  <property name="velocity.build.dir" value="build" />  
+  <property name="build.dir" value="${velocity.dir}/bin"/>
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.dest" value="${build.dir}/classes"/>
     
-  <property name="example.dir" value="../examples"/>
+  <property name="example.dir" value="${velocity.dir}/examples"/>
 
-  <property name="src.java.dir" value="../src/java"/>
-  <property name="test.java.dir" value="../src/test"/>
-  <property name="javadoc.destdir" value="../docs/docs/api"/>
+  <property name="src.java.dir" value="${velocity.dir}/src/java"/>
+  <property name="test.java.dir" value="${velocity.dir}/src/test"/>
+  <property name="javadoc.destdir" value="${velocity.dir}/docs/docs/api"/>
   <property name="final.name" value="${project}-${version}"/>
-  <property name="dist.root" value="../dist"/>
+  <property name="dist.root" value="${velocity.dir}/dist"/>
   <property name="dist.dir" value="${dist.root}/${final.name}"/>
   <property name="year" value="2005"/>
-  <property name="ant.home" value="."/>
+
   <property name="debug" value="on"/>
   <property name="optimize" value="on"/>
   <property name="deprecation" value="off"/>
 
-  <property name="docs.dest" value="../docs"/>
-  <property name="docs.src" value="../xdocs"/>
+  <property name="docs.dest" value="${velocity.dir}/docs"/>
+  <property name="docs.src" value="${velocity.dir}/xdocs"/>
 
   <!-- set to "project" for distribution and "project-website" -->
   <!-- when building docs for web site -->
   <property name="docs.project" value="project.xml"/>
 
   <!-- jars explicitly needed for bulding 'dep jar' -->    
-  <property name="log.jar" value="lib/logkit-1.0.1.jar"/>
-  <property name="oro.jar" value="lib/oro.jar"/>
-  <property name="collections.jar" value="lib/commons-collections-3.1.jar" />
-  <property name="lang.jar" value="lib/commons-lang-2.1.jar" />
+  <property name="log.jar" value="${velocity.build.dir}/lib/logkit-1.0.1.jar"/>
+  <property name="oro.jar" value="${velocity.build.dir}/lib/oro.jar"/>
+  <property name="collections.jar" value="${velocity.build.dir}/lib/commons-collections-3.1.jar" />
+  <property name="lang.jar" value="${velocity.build.dir}/lib/commons-lang-2.1.jar" />
 
   <!-- PDF generation using FOP -->
-  <property name="xdocs.dir" value="../xdocs"/>
+  <property name="xdocs.dir" value="${velocity.dir}/xdocs"/>
   <property name="allfiles.xml" value="velocity-doc.xml"/>
   <property name="outfile.fo" value="velocity.fo"/>
-  <property name="outfile.pdf" value="../docs/velocity.pdf"/>
+  <property name="outfile.pdf" value="${velocity.dir}/docs/velocity.pdf"/>
 
   <property 
     name="default.texen.properties"
@@ -74,7 +75,7 @@
 
   <!-- Build classpath -->
   <path id="classpath">
-    <fileset dir="./lib">
+    <fileset dir="${velocity.build.dir}/lib">
       <include name="**/*.jar"/>
     </fileset>
   </path>
@@ -357,7 +358,7 @@
 
     <jar jarfile="${build.dir}/${project}-dep-${version}.jar">
 
-      <metainf dir=".." includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
@@ -385,7 +386,7 @@
          
     <jar jarfile="${build.dir}/${project}-${version}.jar">
 
-      <metainf dir=".." includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
@@ -419,7 +420,7 @@
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-J2EE-dep-${version}.jar">
-      <metainf dir=".." includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
       </fileset>
@@ -446,7 +447,7 @@
   <target name="jar-J2EE" depends="compile-J2EE" if="J2EE.present">
         
     <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar">
-      <metainf dir=".." includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
       </fileset>
@@ -524,7 +525,7 @@
           depends="prepare"
           description="--> generates the velocity.src.jar file containing source only">
       <jar jarfile="${build.dir}/${final.name}.src.jar"
-          basedir="${build.src}"
+          velocity.dir="${build.src}"
           excludes="**/package.html"/>
   </target>
 
@@ -621,55 +622,55 @@
     </copy>
 
     <copy todir="${dist.dir}/build">
-      <fileset dir="../build">
+      <fileset dir="${velocity.dir}/build">
         <include name="**"/>
         <exclude name="velocity.log"/>
       </fileset>
     </copy>
 
     <copy todir="${dist.dir}/convert">
-      <fileset dir="../convert">
+      <fileset dir="${velocity.dir}/convert">
         <include name="**"/>
       </fileset>
     </copy>
 
-    <copy todir="${dist.dir}/docs">
-      <fileset dir="../docs">
+    <copy todir="${docs.dest}">
+      <fileset dir="${velocity.dir}/docs">
         <include name="**"/>
       </fileset>
     </copy>
 
     <copy todir="${dist.dir}/examples">
-      <fileset dir="../examples">
+      <fileset dir="${example.dir}">
         <include name="**"/>
       </fileset>
     </copy>
 
     <copy todir="${dist.dir}/src">
-      <fileset dir="../src">
+      <fileset dir="${velocity.dir}/src">
         <include name="**"/>
       </fileset>
     </copy>
 
     <copy todir="${dist.dir}/test">
-      <fileset dir="../test">
+      <fileset dir="${velocity.dir}/test">
         <include name="**"/>
       </fileset>
     </copy>
 
     <copy todir="${dist.dir}/xdocs">
-      <fileset dir="../xdocs">
+      <fileset dir="${docs.src}">
         <include name="**"/>
       </fileset>
     </copy>
 
     <copy 
-      file="../LICENSE.txt" 
+      file="${velocity.dir}/LICENSE.txt" 
       tofile="${dist.dir}/LICENSE.txt"
     />
 
     <copy 
-      file="../README.txt" 
+      file="${velocity.dir}/README.txt" 
       tofile="${dist.dir}/README.txt"
     />
     
@@ -697,11 +698,11 @@
   <target name="package-jar"
           depends="package"
           description="--> generates the .jar file">
-      <delete file="../${final.name}.jar" quiet="true"/>
+      <delete file="${velocity.dir}/${final.name}.jar" quiet="true"/>
 
       <jar 
-          jarfile="../${final.name}.jar" 
-          basedir="${dist.root}"
+          jarfile="${velocity.dir}/${final.name}.jar" 
+          velocity.dir="${dist.root}"
           excludes="**/package.html"
       />
   </target>
@@ -712,8 +713,8 @@
   <target name="package-zip"
           depends="package"
           description="--> generates the distribution as .zip">
-      <delete file="../${final.name}.zip" quiet="true"/>
-      <zip zipfile="../${final.name}.zip" basedir="${dist.root}" 
+      <delete file="${velocity.dir}/${final.name}.zip" quiet="true"/>
+      <zip zipfile="${velocity.dir}/${final.name}.zip" velocity.dir="${dist.root}" 
            includes="**/${final.name}/**"/>
   </target>
 
@@ -723,11 +724,11 @@
   <target name="package-tgz"
           depends="package"
           description="--> generates the distribution as .tar.gz">
-      <delete file="../${final.name}.tar" quiet="true"/>
-      <delete file="../${final.name}.tar.gz" quiet="true"/>
-      <tar tarfile="../${final.name}.tar" basedir="${dist.root}" 
+      <delete file="${velocity.dir}/${final.name}.tar" quiet="true"/>
+      <delete file="${velocity.dir}/${final.name}.tar.gz" quiet="true"/>
+      <tar tarfile="${velocity.dir}/${final.name}.tar" velocity.dir="${dist.root}" 
            includes="**/${final.name}/**" longfile="gnu"/>
-      <gzip zipfile="../${final.name}.tar.gz" src="../${final.name}.tar"/>
+      <gzip zipfile="${velocity.dir}/${final.name}.tar.gz" src="${velocity.dir}/${final.name}.tar"/>
   </target>
 
   <!-- ================================================================== -->
@@ -796,13 +797,13 @@
        #######################################################
       </echo>
 
-      <anakia basedir="${docs.src}" destdir="${docs.dest}/"
-           extension=".html" style="./site.vsl"
+      <anakia velocity.dir="${docs.src}" destdir="${docs.dest}/"
+           extension=".html" style="site.vsl"
            projectFile="stylesheets/${docs.project}"
            excludes="**/stylesheets/** empty.xml"
            includes="**/*.xml"
            lastModifiedCheck="true"
-           templatePath="../xdocs/stylesheets">
+           templatePath="${velocity.dir}/xdocs/stylesheets">
       </anakia>
 
       <copy todir="${docs.dest}/images" filtering="no">
@@ -838,15 +839,15 @@
   <!--    
   <target name="pdf">
     <xslt 
-      infile="../xdocs/site-book.xml" 
-      xsltfile="xsl/xml2xml.xsl"
+      infile="${velocity.dir}/xdocs/site-book.xml" 
+      xsltfile="${velocity.build.dir}/xsl/xml2xml.xsl"
       outfile="${allfiles.xml}" 
       smart="yes"
     />
     
     <xslt 
       infile="${allfiles.xml}" 
-      xsltfile="xsl/xml2pdf.xsl"
+      xsltfile="${velocity.build.dir}/xsl/xml2pdf.xsl"
       outfile="${outfile.fo}" 
       smart="yes"
     />
@@ -868,25 +869,25 @@
    <target name="test"
             depends="compile, junittest"
             description="--> Run the testcases">
-        <ant antfile="testcases.xml" target="test-all"/>
+        <ant antfile="${velocity.build.dir}/testcases.xml" target="test-all"/>
    </target>
 
     <target name="junittest" depends="compile"
                  description="Run non-legacy unit test cases">
 
-        <mkdir dir="../target/test-reports"/>
-        <junit dir=".." printSummary="yes" fork="true" haltonerror="true">
+        <mkdir dir="${velocity.dir}/target/test-reports"/>
+        <junit dir="${velocity.dir}" printSummary="yes" fork="true" haltonerror="true">
 
-          <sysproperty key="basedir" value=".."></sysproperty>
+          <sysproperty key="velocity.dir" value="${velocity.dir}"></sysproperty>
 
           <classpath>
-            <fileset dir="lib">
+            <fileset dir="${velocity.build.dir}/lib">
               <include name="*.jar"></include>
             </fileset>
             <pathelement path="${build.dest}"></pathelement>
           </classpath>
 
-          <batchtest todir="../target/test-reports">
+          <batchtest todir="${velocity.dir}/target/test-reports">
             <fileset dir="${test.java.dir}">
                 <include name="**/*TestCase.java"></include>
 

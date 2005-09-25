@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
 
 <!-- Testcases for Velocity -->
-<project name="main" default="test-all">
+<project name="main" default="test-all" basedir="..">
+  <property file="${user.home}/.ant.properties" />
+  <property file="${user.home}/build.properties" />
+  <property file=".ant.properties" />
 
-  <property name="build.dir" value="../bin"/>
+  <property name="velocity.dir" value="." />  
+  <property name="velocity.build.dir" value="build" />  
+
+  <property name="build.dir" value="${velocity.dir}/bin"/>
   <property name="build.dest" value="${build.dir}/classes"/>
-  <property name="ant.home" value="."/>
-  <property name="test.home" value="../test"/>
-  <property name="test.target" value="../target/test"/>
-  <property name="junit.jar" value="lib/junit-3.8.1.jar"/>
+  <property name="test.home" value="${velocity.dir}/test"/>
+  <property name="test.target" value="${velocity.dir}/target/test"/>
+  <property name="junit.jar" value="${velocity.build.dir}/lib/junit-3.8.1.jar"/>
 
   <!-- JUnit Testbed properties -->
   <property name="velocity.test.runner" value="junit.textui.TestRunner"/>
@@ -18,7 +23,7 @@
 
   <!-- Build classpath -->
   <path id="classpath">
-    <fileset dir="./lib">
+    <fileset dir="${velocity.build.dir}/lib">
       <include name="**/*.jar"/>
     </fileset>
     <pathelement location="${build.dest}"/>
@@ -56,7 +61,7 @@
   <target name="test-cpload">
     <echo message="Running Classpath Resource tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.ClasspathResourceTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -96,7 +101,7 @@
         <context name="customContext" file="./stylesheets/customContext.xml"/>
     </anakia>    
  
-    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}" >
+    <java classname="${velocity.test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${testbed.failonerror}" >
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -119,14 +124,14 @@
     </taskdef>
 
     <texen
-      contextProperties="${test.home}/texen/service-ant.props,${test.home}/texen/additional.props"
+      contextProperties="${test.home}/texen/service.props,${test.home}/texen/additional.props"
       controlTemplate="Control.vm"
       outputDirectory="${test.target}/texen"
       templatePath="${test.home}/texen/templates"
       outputFile="report"
     />
 
-    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TexenTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -156,13 +161,13 @@
 
     <texen
       useClassPath="true"
-      contextProperties="service-ant.props"
+      contextProperties="service.props"
       controlTemplate="Control.vm"
       outputDirectory="${test.target}/texen-classpath"
       outputFile="report"
     />
 
-    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.TexenClasspathTestCase"/>
       <classpath>
         <path refid="classpath"/>
@@ -174,7 +179,7 @@
   <target name="test-multiloader">
     <echo message="Running MultiLoader tests..."/>
 
-    <java classname="${velocity.test.runner}" fork="yes" dir=".." failonerror="${testbed.failonerror}">
+    <java classname="${velocity.test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${testbed.failonerror}">
       <arg value="org.apache.velocity.test.MultiLoaderTestCase"/>
       <classpath>
         <path refid="classpath"/>
