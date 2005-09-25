@@ -70,7 +70,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
    /**
     * Results relative to the build directory.
     */
-   private static final String RESULTS_DIR = "test/includeevent/results";
+   private static final String RESULTS_DIR = "target/test/includeevent";
 
    /**
     * Results relative to the build directory.
@@ -83,6 +83,11 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public BuiltInEventHandlerTestCase(String name)
     {
         super(name);
+    }
+
+    public void setUp()
+    {
+        assureResultsDirectoryExists(RESULTS_DIR);
     }
 
     public static Test suite()
