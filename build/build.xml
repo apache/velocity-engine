@@ -525,7 +525,7 @@
           depends="prepare"
           description="--> generates the velocity.src.jar file containing source only">
       <jar jarfile="${build.dir}/${final.name}.src.jar"
-          velocity.dir="${build.src}"
+          basedir="${build.src}"
           excludes="**/package.html"/>
   </target>
 
@@ -702,7 +702,7 @@
 
       <jar 
           jarfile="${velocity.dir}/${final.name}.jar" 
-          velocity.dir="${dist.root}"
+          basedir="${dist.root}"
           excludes="**/package.html"
       />
   </target>
@@ -714,7 +714,7 @@
           depends="package"
           description="--> generates the distribution as .zip">
       <delete file="${velocity.dir}/${final.name}.zip" quiet="true"/>
-      <zip zipfile="${velocity.dir}/${final.name}.zip" velocity.dir="${dist.root}" 
+      <zip zipfile="${velocity.dir}/${final.name}.zip" basedir="${dist.root}" 
            includes="**/${final.name}/**"/>
   </target>
 
@@ -726,7 +726,7 @@
           description="--> generates the distribution as .tar.gz">
       <delete file="${velocity.dir}/${final.name}.tar" quiet="true"/>
       <delete file="${velocity.dir}/${final.name}.tar.gz" quiet="true"/>
-      <tar tarfile="${velocity.dir}/${final.name}.tar" velocity.dir="${dist.root}" 
+      <tar tarfile="${velocity.dir}/${final.name}.tar" basedir="${dist.root}" 
            includes="**/${final.name}/**" longfile="gnu"/>
       <gzip zipfile="${velocity.dir}/${final.name}.tar.gz" src="${velocity.dir}/${final.name}.tar"/>
   </target>
@@ -797,7 +797,7 @@
        #######################################################
       </echo>
 
-      <anakia velocity.dir="${docs.src}" destdir="${docs.dest}/"
+      <anakia basedir="${docs.src}" destdir="${docs.dest}/"
            extension=".html" style="site.vsl"
            projectFile="stylesheets/${docs.project}"
            excludes="**/stylesheets/** empty.xml"
