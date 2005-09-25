@@ -15,7 +15,7 @@ package org.apache.velocity.runtime.resource.loader;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 import java.io.InputStream;
 
 import org.apache.velocity.runtime.resource.Resource;
@@ -29,7 +29,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  templates from the classpath.
  *  <br>
  *  <br>
- *  Will load templates from  from multiple instances of 
+ *  Will load templates from  from multiple instances of
  *  and arbitrary combinations of :
  *  <ul>
  *  <li> jar files
@@ -53,11 +53,11 @@ import org.apache.commons.collections.ExtendedProperties;
  *  <br>
  *  <br>
  *  This makes deployment trivial for web applications running in
- *  any Servlet 2.2 compliant servlet runner, such as Tomcat 3.2 
+ *  any Servlet 2.2 compliant servlet runner, such as Tomcat 3.2
  *  and others.
  *  <br>
  *  <br>
- *  For a Servlet Spec v2.2 servlet runner, 
+ *  For a Servlet Spec v2.2 servlet runner,
  *  just drop the jars of template files into the WEB-INF/lib
  *  directory of your webapp, and you won't have to worry about setting
  *  template paths or altering them with the root of the webapp
@@ -66,7 +66,7 @@ import org.apache.commons.collections.ExtendedProperties;
  *  <br>
  *  I have also tried it with a WAR deployment, and that seemed to
  *  work just fine.
- *  
+ *
  * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
@@ -96,18 +96,18 @@ public class ClasspathResourceLoader extends ResourceLoader
         throws ResourceNotFoundException
     {
         InputStream result = null;
-        
+
         if (name == null || name.length() == 0)
         {
             throw new ResourceNotFoundException ("No template name provided");
         }
-        
+
         /**
-         * look for resource in thread classloader first (e.g. WEB-INF\lib in 
+         * look for resource in thread classloader first (e.g. WEB-INF\lib in
          * a servlet container) then fall back to the system classloader.
          */
-        
-        try 
+
+        try
         {
             result = ClassUtils.getResourceAsStream( getClass(), name );
         }
@@ -116,21 +116,21 @@ public class ClasspathResourceLoader extends ResourceLoader
             /*
              *  log and convert to a general Velocity ResourceNotFoundException
              */
-            
+
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
-        
-        if (result == null) 
+
+        if (result == null)
         {
-             String msg = "FileResourceLoader Error: cannot find resource " +
+             String msg = "ClasspathResourceLoader Error: cannot find resource " +
               name;
-        
+
              throw new ResourceNotFoundException( msg );
         }
-        
+
         return result;
     }
-    
+
     /**
      * Defaults to return false.
      */
