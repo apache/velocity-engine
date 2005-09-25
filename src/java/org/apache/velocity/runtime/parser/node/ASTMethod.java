@@ -126,15 +126,14 @@ public class ASTMethod extends SimpleNode
             
             MethodCacheKey mck = new MethodCacheKey(paramClasses);
             IntrospectionCacheData icd =  context.icacheGet( mck );
-            Class c = o.getClass();
-
+            
             /*
              *  like ASTIdentifier, if we have cache information, and the
              *  Class of Object o is the same as that in the cache, we are
              *  safe.
              */
 
-            if ( icd != null && icd.contextData == c )
+            if ( icd != null && (o != null && icd.contextData == o.getClass()) )
             {
 
                 /*
@@ -153,12 +152,12 @@ public class ASTMethod extends SimpleNode
                 for (int j = 0; j < paramCount; j++)
                     params[j] = jjtGetChild(j + 1).value(context);
 
-                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info("",1,1));
+                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
 
                 if (method != null)
                 {    
                     icd = new IntrospectionCacheData();
-                    icd.contextData = c;
+                    icd.contextData = o.getClass();
                     icd.thingy = method;
                     
                     context.icachePut( mck, icd );
