@@ -49,7 +49,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  the default Velocity introspector
      */
-    private static Introspector introspector;
+    protected static Introspector introspector;
 
     /**
      *  init - does nothing - we need to have setRuntimeLogger
@@ -170,7 +170,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                                                    identifier);
         }
 
-        return (executor != null) ? new VelGetterImpl(executor) : null;
+        return (executor.isAlive()) ? new VelGetterImpl(executor) : null;
     }
 
     /**
