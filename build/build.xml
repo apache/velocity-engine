@@ -878,8 +878,6 @@
         <mkdir dir="${velocity.dir}/target/test-reports"/>
         <junit dir="${velocity.dir}" printSummary="yes" fork="true" haltonerror="true">
 
-          <sysproperty key="velocity.dir" value="${velocity.dir}"></sysproperty>
-
           <classpath>
             <fileset dir="${velocity.build.dir}/lib">
               <include name="*.jar"></include>
