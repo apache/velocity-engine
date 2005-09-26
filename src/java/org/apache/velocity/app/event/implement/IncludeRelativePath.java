@@ -16,9 +16,7 @@ package org.apache.velocity.app.event.implement;
  * limitations under the License.
  */
 
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.app.event.IncludeEventHandler;
-import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * Event handler that looks for included files relative to the path of the
@@ -29,9 +27,8 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @version $Id$
  */
 
-public class IncludeRelativePath implements IncludeEventHandler,RuntimeServicesAware {
+public class IncludeRelativePath implements IncludeEventHandler {
 
-    private RuntimeServices rs;
     String notfound;
 
     /**
@@ -71,10 +68,4 @@ public class IncludeRelativePath implements IncludeEventHandler,RuntimeServicesA
             return currentResourcePath.substring(0,lastslashpos) + "/" + includeResourcePath;
 
     }
-
-
-    public void setRuntimeServices(RuntimeServices rs) throws Exception {
-         this.rs = rs;
-     }
-
 }
