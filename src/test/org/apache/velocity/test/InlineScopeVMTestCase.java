@@ -38,11 +38,6 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  */
 public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {
-    /**
-     * The name of this test case.
-     */
-    private static final String TEST_CASE_NAME = "InlineScopeVMTestCase";
-
     public InlineScopeVMTestCase(String name)
     {
         super(name);

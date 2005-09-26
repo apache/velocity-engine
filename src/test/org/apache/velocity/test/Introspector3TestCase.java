@@ -51,7 +51,6 @@ public class Introspector3TestCase extends BaseTestCase
     {
         Method method;
         String result;
-        String type;
 
         MethodProvider mp = new MethodProvider();
 
@@ -61,7 +60,6 @@ public class Introspector3TestCase extends BaseTestCase
 
         Object[] listIntInt = { new ArrayList(), new Integer(1), new Integer(2) };
         Object[] listLongList = { new ArrayList(), new Long(1), new ArrayList() };
-        Object[] listLongInt = { new ArrayList(), new Long(1), new Integer(2) };
         Object[] intInt = {  new Integer(1), new Integer(2) };
         Object[] longInt = {  new Long(1), new Integer(2) };
         Object[] longLong = {  new Long(1), new Long(2) };

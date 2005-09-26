@@ -82,9 +82,6 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
 
     private int EventHandlerBehavior = PASS_THROUGH;
 
-    private RuntimeServices rs;
-
-
     /**
      * Default constructor.
      */
@@ -196,7 +193,6 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
 
     public void setRuntimeServices( RuntimeServices rs )
      {
-         this.rs = rs;
      }
 
     /**

@@ -76,10 +76,4 @@ public class TemplateNodeView
             e.printStackTrace();
         }
     }
-
-    /** For testing */
-    public static void main(String args[])
-    {
-        TemplateNodeView v = new TemplateNodeView(args[0]);
-    }
 }

@@ -17,7 +17,6 @@ package org.apache.velocity.test;
  */
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

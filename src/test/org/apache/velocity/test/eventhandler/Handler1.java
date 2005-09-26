@@ -21,7 +21,6 @@ import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * This is a test set of event handlers, used to test event handler sequences.
@@ -31,8 +30,6 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 public class Handler1
     implements NullSetEventHandler, ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {
-
-    private RuntimeServices rs;
 
         /**
          * never log
