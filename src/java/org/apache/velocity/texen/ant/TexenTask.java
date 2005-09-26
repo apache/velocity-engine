@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -34,6 +35,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.texen.Generator;
 import org.apache.velocity.util.StringUtils;
 
@@ -400,9 +402,9 @@ public class TexenTask
             // Setup the Velocity Runtime.
             if (templatePath != null)
             {
-                log("Using templatePath: " + templatePath, project.MSG_VERBOSE);
+                log("Using templatePath: " + templatePath, Project.MSG_VERBOSE);
                 ve.setProperty(
-                    ve.FILE_RESOURCE_LOADER_PATH, templatePath);
+                    RuntimeConstants.FILE_RESOURCE_LOADER_PATH, templatePath);
             }
 
             if (useClasspath)
@@ -447,7 +449,7 @@ public class TexenTask
             }
 
             String path = outputDirectory + File.separator + outputFile;
-            log("Generating to file " + path, project.MSG_INFO);
+            log("Generating to file " + path, Project.MSG_INFO);
             Writer writer = generator.getWriter(path, outputEncoding);
 
             // The generator and the output path should
