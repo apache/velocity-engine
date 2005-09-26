@@ -16,10 +16,7 @@ package org.apache.velocity.util.introspection;
  * limitations under the License.
  */
 
-import org.apache.velocity.runtime.RuntimeLogger;
-
 import java.util.Iterator;
-import java.lang.reflect.Method;
 
 /**
  * 'Federated' introspection/reflection interface to allow the introspection

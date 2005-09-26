@@ -16,12 +16,10 @@ package org.apache.velocity.util.introspection;
  * limitations under the License.
  */
 
-import java.util.Map;
-import java.util.List;
-import java.util.Hashtable;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * A cache of introspection information for a specific class instance.
