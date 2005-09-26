@@ -327,13 +327,16 @@
 
     <unzip src="${collections.jar}" dest="${build.dest}" />
 
-    <!--  we only want one file right now, the ExtendedProperties -->
-    <!--  keep jars svelte...                                     -->
-
+    <!--  we only want a few files -->
     <delete>
        <fileset dir="${build.dest}">
-          <include name="org/apache/commons/collections/*.class" />
-          <exclude name="org/apache/commons/collections/LRUMap.class" />
+          <include name="org/apache/commons/collections/**/*.class" />
+          <exclude name="org/apache/commons/collections/map/LRUMap.class" />
+          <exclude name="org/apache/commons/collections/map/AbstractHashedMap.class" />
+          <exclude name="org/apache/commons/collections/map/AbstractLinkedMap.class" />
+          <exclude name="org/apache/commons/collections/IterableMap.class" />
+          <exclude name="org/apache/commons/collections/BoundedMap.class" />
+          <exclude name="org/apache/commons/collections/OrderedMap.class" />
           <exclude name="org/apache/commons/collections/ExtendedProperties*.class" />
        </fileset>
     </delete>
