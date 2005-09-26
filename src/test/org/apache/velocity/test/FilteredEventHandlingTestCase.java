@@ -39,7 +39,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  * assigned for each type.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.7 2004/03/19 17:13:38 dlr Exp $
+ * @version $Id$
  */
 public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSystem
 {

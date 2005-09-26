@@ -26,7 +26,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * This is a test set of event handlers, used to test event handler sequences.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: $
+ * @version $Id$
  */
 public class Handler2
     implements NullSetEventHandler, ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {

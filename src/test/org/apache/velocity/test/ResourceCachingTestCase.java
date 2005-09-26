@@ -30,7 +30,7 @@ import org.apache.velocity.app.VelocityEngine;
  * Test resource caching related issues.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: ResourceCachingTestCase.java $
+ * @version $Id$
  */
 public class ResourceCachingTestCase extends BaseTestCase
 {

@@ -38,7 +38,7 @@ import junit.framework.TestSuite;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:isidore@setgame.com">Llewellyn Falco</a>
- * @version $Id: IntrospectorTestCase.java 290983 2005-09-22 17:05:48Z henning $
+ * @version $Id$
  */
 public class InfoTestCase extends BaseTestCase implements TemplateTestBase
 {

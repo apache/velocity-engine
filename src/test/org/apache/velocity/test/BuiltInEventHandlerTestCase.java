@@ -41,7 +41,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Tests the operation of the built in event handlers.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: EventCartridge.java,v 1.5 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public class BuiltInEventHandlerTestCase extends BaseTestCase {
 

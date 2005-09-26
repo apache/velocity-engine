@@ -39,7 +39,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  *  Tests event handling
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id: EventHandlingTestCase.java,v 1.5 2001/08/07 22:20:28 geirm Exp $
+ * @version $Id$
  */
 public class IncludeEventHandlingTestCase extends BaseTestCase implements IncludeEventHandler,RuntimeServicesAware
 {

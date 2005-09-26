@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * EventCartridge is attached to the context.  
  * 
  * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: GlobalEventHandler.java,v 1.4 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public interface  RuntimeServicesAware
 {
