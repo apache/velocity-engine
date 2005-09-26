@@ -22,6 +22,8 @@
 </p>
 
 <ul>
+<li>Removed the Configuration class and all methods that references it. This class was deprecated since Velocity 1.1 and was scheduled to be gone for Velocity 1.3 or 1.4. Now
+it was finally removed in 1.5 (henning)</li>
 <li>Added support for decimal numbers.  Bug #25874. Thanks to Peter Romianowski for the initial implementation.  (wgh)</li>
 <li>MethodInvocationException now consistently thrown 
 (previously was hidden when in parameter to Velocimacro).  As suggested by Mike Rettig. Bug #30220. (wgh)</li>

@@ -32,7 +32,6 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.configuration.Configuration;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -136,30 +135,6 @@ public class Velocity implements RuntimeConstants
     public static void clearProperty(String key)
     {
         RuntimeSingleton.clearProperty(key);
-    }
-
-    /**
-     * Set an entire configuration at once. This is
-     * useful in cases where the parent application uses
-     * the Configuration class and the velocity configuration
-     * is a subset of the parent application's configuration.
-     *
-     * @param Configuration configuration
-     *
-     * @deprecated Use
-     *  {@link #setExtendedProperties( ExtendedProperties  ) }
-     */
-    public static void setConfiguration(Configuration configuration)
-    {
-        /*
-         *  Yuk. We added a little helper to Configuration to
-         *  help with deprecation.  The Configuration class
-         *  contains a 'shadow' ExtendedProperties
-         */
-
-        ExtendedProperties ep = configuration.getExtendedProperties();
-
-        RuntimeSingleton.setConfiguration( ep );
     }
 
     /**
