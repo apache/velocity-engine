@@ -21,7 +21,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Iterator;
 
-import org.apache.commons.collections.LRUMap;
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
