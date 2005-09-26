@@ -19,7 +19,7 @@ package org.apache.velocity.test.provider;
 /**
  * Used to confirm that a null to string is processed properly
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: ForeachMethodCallHelper.java 290942 2005-09-22 13:32:34Z henning $
+ * @version $Id$
  */
 public class NullToStringObject
 {

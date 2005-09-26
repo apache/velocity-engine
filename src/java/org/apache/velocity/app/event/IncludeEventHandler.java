@@ -22,7 +22,7 @@ package org.apache.velocity.app.event;
  *  Allows the developer to modify the path of the resource returned.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: EventCartridge.java,v 1.5 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public interface  IncludeEventHandler extends EventHandler
 {

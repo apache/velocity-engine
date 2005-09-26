@@ -48,7 +48,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * <a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html">http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html</a>.
  * 
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain </a>
- * @version $Id: EventCartridge.java,v 1.5 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public abstract class EscapeReference implements ReferenceInsertionEventHandler,RuntimeServicesAware {
 

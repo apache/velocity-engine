@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * This is a test set of event handlers, used to test event handler sequences.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: $
+ * @version $Id$
  */
 public class Handler1
     implements NullSetEventHandler, ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {

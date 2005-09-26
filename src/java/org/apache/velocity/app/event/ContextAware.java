@@ -31,7 +31,7 @@ import org.apache.velocity.context.Context;
  * correct context being loaded before a request.
  *
  * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: GlobalEventHandler.java,v 1.4 2004/03/19 17:13:33 dlr Exp $
+ * @version $Id$
  */
 public interface  ContextAware
 {
