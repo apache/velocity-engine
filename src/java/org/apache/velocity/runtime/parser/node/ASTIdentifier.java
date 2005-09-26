@@ -158,8 +158,6 @@ public class ASTIdentifier extends SimpleNode
         }
         catch(InvocationTargetException ite)
         {
-            EventCartridge ec = context.getEventCartridge();
-
             /*
              *  if we have an event cartridge, see if it wants to veto
              *  also, let non-Exception Throwables go...

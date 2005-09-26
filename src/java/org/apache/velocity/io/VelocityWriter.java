@@ -57,8 +57,6 @@ public final class VelocityWriter extends Writer
 
     private static int defaultCharBufferSize = 8 * 1024;
 
-    private boolean flushed = false;
-
     /**
      * Create a buffered character-output stream that uses a default-sized
      * output buffer.
@@ -132,7 +130,6 @@ public final class VelocityWriter extends Writer
     {
         if (bufferSize == 0)
             return;
-        flushed = true;
         if (nextChar == 0)
             return;
         writer.write(cb, 0, nextChar);
@@ -329,7 +326,6 @@ public final class VelocityWriter extends Writer
     public final void recycle(Writer writer)
     {
         this.writer = writer;
-        flushed = false;
         clear();
     }
 }

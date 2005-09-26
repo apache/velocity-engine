@@ -142,8 +142,6 @@ public class ClassMap
      */
     private void populateMethodCache()
     {
-        StringBuffer methodKey;
-
         /*
          *  get all publicly accessible methods
          */

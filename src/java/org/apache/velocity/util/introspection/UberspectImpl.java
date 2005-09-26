@@ -182,7 +182,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     {
         Class claz = obj.getClass();
 
-        VelPropertySet vs = null;
         VelMethod vm = null;
         try
         {

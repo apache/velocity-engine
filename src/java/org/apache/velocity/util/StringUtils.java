@@ -49,11 +49,6 @@ public class StringUtils
     private static final String EOL = System.getProperty("line.separator");
     
     /**
-     * Length of the line separator.
-     */
-    private static final int EOL_LENGTH = EOL.length();
-
-    /**
      * Concatenates a list of objects as a String.
      *
      * @param list The list of objects to concatenate.

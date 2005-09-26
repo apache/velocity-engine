@@ -58,13 +58,6 @@ import org.apache.velocity.exception.MethodInvocationException;
  */
 public class Template extends Resource
 {
-    /**
-     *   To keep track of whether this template has been
-     *   initialized. We use the document.init(context)
-     *   to perform this.
-     */
-    private boolean initialized = false;
-
     private Exception errorCondition = null;
 
     /** Default constructor */
