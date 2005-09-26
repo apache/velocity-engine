@@ -26,6 +26,11 @@ import org.apache.velocity.runtime.parser.node.Node;
  */
 public class ReferenceException extends Exception
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 3833874766480090214L;
+
     public ReferenceException(String exceptionMessage, Node node)
     {
         super(exceptionMessage + " [line " + node.getLine() + ",column " +

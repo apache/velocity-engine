@@ -32,6 +32,11 @@ import java.util.List;
  */
 public class AnakiaElement extends Element
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 8429597252274491314L;
+    
     private static final XMLOutputter DEFAULT_OUTPUTTER = new XMLOutputter();
 
     static 

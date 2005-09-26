@@ -29,6 +29,11 @@ package org.apache.velocity.exception;
  */
 public class ParseErrorException extends VelocityException
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = -6665197935086306474L;
+
     public ParseErrorException(String exceptionMessage )
     {
         super(exceptionMessage);

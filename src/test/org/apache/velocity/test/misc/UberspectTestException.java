@@ -31,6 +31,11 @@ import org.apache.velocity.util.introspection.Info;
 public class UberspectTestException extends Error
 {
 
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 3956896150436225712L;
+    
     Info info;
 
     public UberspectTestException(String string, Info i) 

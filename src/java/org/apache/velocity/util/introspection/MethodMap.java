@@ -139,6 +139,10 @@ public class MethodMap
      */
     public static class AmbiguousException extends Exception
     {
+        /**
+         * Version Id for serializable
+         */
+        private static final long serialVersionUID = -2314636505414551662L;
     }
 
 

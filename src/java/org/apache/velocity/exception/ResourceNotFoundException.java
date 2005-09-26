@@ -30,6 +30,11 @@ package org.apache.velocity.exception;
  */
 public class ResourceNotFoundException extends VelocityException
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = -4287732191458420347L;
+
     public ResourceNotFoundException(String exceptionMessage)
     {
         super(exceptionMessage);

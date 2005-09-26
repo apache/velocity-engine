@@ -29,6 +29,11 @@ package org.apache.velocity.exception;
  */
 public class MethodInvocationException extends VelocityException
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 7305685093478106341L;
+    
     private String methodName = "";
     private String referenceName = "";
     private Throwable wrapped = null;

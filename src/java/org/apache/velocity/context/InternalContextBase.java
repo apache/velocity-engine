@@ -43,6 +43,11 @@ import org.apache.velocity.runtime.resource.Resource;
 class InternalContextBase implements InternalHousekeepingContext, InternalEventContext,  Serializable
 {
     /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = -245905472770843470L;
+
+    /**
      *  cache for node/context specific introspection information
      */
     private HashMap introspectionCache = new HashMap(33);
