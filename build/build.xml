@@ -12,14 +12,14 @@
 
   <property name="Name" value="Velocity"/>
   <property name="version" value="1.5-dev"/>
-  
+
   <property name="project" value="velocity"/>
-  <property name="velocity.dir" value="." />  
-  <property name="velocity.build.dir" value="build" />  
+  <property name="velocity.dir" value="." />
+  <property name="velocity.build.dir" value="build" />
   <property name="build.dir" value="${velocity.dir}/bin"/>
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.dest" value="${build.dir}/classes"/>
-    
+
   <property name="example.dir" value="${velocity.dir}/examples"/>
 
   <property name="src.java.dir" value="${velocity.dir}/src/java"/>
@@ -41,7 +41,7 @@
   <!-- when building docs for web site -->
   <property name="docs.project" value="project.xml"/>
 
-  <!-- jars explicitly needed for bulding 'dep jar' -->    
+  <!-- jars explicitly needed for bulding 'dep jar' -->
   <property name="log.jar" value="${velocity.build.dir}/lib/logkit-1.0.1.jar"/>
   <property name="oro.jar" value="${velocity.build.dir}/lib/oro.jar"/>
   <property name="collections.jar" value="${velocity.build.dir}/lib/commons-collections-3.1.jar" />
@@ -53,13 +53,13 @@
   <property name="outfile.fo" value="velocity.fo"/>
   <property name="outfile.pdf" value="${velocity.dir}/docs/velocity.pdf"/>
 
-  <property 
+  <property
     name="default.texen.properties"
     value="org/apache/velocity/texen/defaults/texen.properties"
   />
 
-  <property 
-    name="runtime.defaults.dir" 
+  <property
+    name="runtime.defaults.dir"
     value="org/apache/velocity/runtime/defaults"
   />
 
@@ -85,10 +85,10 @@
   <!-- prints the targets available in this build file                     -->
   <!-- =================================================================== -->
   <target name="help">
-    
+
     <echo>
   ****************************************************************************
-  ** 
+  **
   **  Help for Velocity build file
   **
   **  Target         Depends on          Description
@@ -96,7 +96,7 @@
   **  env                                echos environment variables to screen
   **  prepare        env                 creates build dir, copies source
   **  J2EE-error     prepare             message if J2EE missing but required
-  **  parser         env                 calls jjtree and javacc 
+  **  parser         env                 calls jjtree and javacc
   **                                     (requires javaCC 3.1+ and ant 1.6.x)
   **  compile        prepare             compiles non-J2EE source
   **  compile-J2EE   prepare, J2EE-error compiles J2EE source
@@ -113,7 +113,7 @@
   **  jar-util       compile             prepares jar with only util classes
   **  jar-servlet    compile             prepares jar with only servlet classes
   **  jar-src                            prepares jar of source
-  **  examples       jar                 compiles examples 
+  **  examples       jar                 compiles examples
   **  examples-clean-anakia              cleans anakia example
   **  examples-clean-all                 cleans the anakia example
   **  javadocs       prepare             build javadocs
@@ -125,36 +125,36 @@
   **  clean                              deletes build dir
   ***************************************************************************
     </echo>
-  
+
   </target>
   <!-- =================================================================== -->
   <!-- prints the environment                                              -->
   <!-- =================================================================== -->
   <target name="env">
-    
+
     <echo message="java.home = ${java.home}"/>
     <echo message="user.home = ${user.home}"/>
     <echo message="java.class.path = ${java.class.path}"/>
     <echo message=""/>
-  
+
   </target>
 
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
   <target name="prepare" depends="env">
-    
+
     <tstamp/>
     <filter token="year" value="${year}"/>
     <filter token="version" value="${version}"/>
-    <filter token="date" value="${DSTAMP}"/>        
+    <filter token="date" value="${DSTAMP}"/>
 
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.dest}"/>
     <mkdir dir="${build.src}"/>
 
     <copy todir="${build.src}" filtering="yes">
-      <fileset dir="${src.java.dir}"> 
+      <fileset dir="${src.java.dir}">
         <include name="**/*.java"/>
       </fileset>
     </copy>
@@ -169,7 +169,7 @@
     <!-- might be j2ee.jar, jdbc2_0-stdext.jar, or simply JDK 1.4+ -->
     <available  classname="javax.sql.DataSource"
        property="J2EE.present">
-       <classpath refid = "classpath"/> 
+       <classpath refid = "classpath"/>
      </available>
 
   </target>
@@ -192,60 +192,56 @@
   <!-- =================================================================== -->
   <!-- Calls jjtree and javacc                                             -->
   <!-- =================================================================== -->
-  <target name="parser" depends="env">
+  <target name="parser" depends="parser-setup,jjtree,javacc,javacc-cleanup,javacc-missing"/>
+
+   <target name="parser-setup" depends="env">
         <echo>
            ***********************************************************
-           ** Creating Parser.jj and Parser.java in source tree.     
-           **                                                        
-           ** Note: ASTNode files generated by jjtree are            
-           ** not generated with this task.  To create new ASTNode files,   
-           ** run jjtree manually then copy the relevant files into  
-           ** the runtime/parser/node directory (deleting all other 
-           ** generated files).                     
-           **                                   
+           ** Creating Parser.jj and Parser.java in source tree.
+           **
+           ** Note: ASTNode files generated by jjtree are
+           ** not generated with this task.  To create new ASTNode files,
+           ** run jjtree manually then copy the relevant files into
+           ** the runtime/parser/node directory (deleting all other
+           ** generated files).
+           **
            ***********************************************************
          </echo>
-         
+
          <echo message="This task requires javacc 3.1+ and ant 1.6.x to be installed."/>
          <echo message="Checking javcc.home='${javacc.home}' and ant.version='${ant.version}'."/>
 
          <condition property="parser-task-runnable">
             <and>
               <available file="${javacc.home}" type="dir"/>
-              
+
               <!-- include a list of acceptable ant versions here -->
               <or>
                   <contains string="${ant.version}" substring="1.6"/>
               </or>
             </and>
           </condition>
+   </target>
 
-         <antcall target="jjtree" />
-         <antcall target="javacc" />
-         <antcall target="javacc-cleanup" />
-         <antcall target="javacc-missing" />
-         
+   <target name="jjtree" if="parser-task-runnable" depends="parser-setup">
+        <echo message="Running JJTree on Parser.jjt"/>
+        <delete file="${src.java.dir}/org/apache/velocity/runtime/parser/Parser.jj" />
+        <jjtree
+		  target="${src.java.dir}/org/apache/velocity/runtime/parser/Parser.jjt"
+          outputdirectory="${src.java.dir}/org/apache/velocity/runtime/parser/"
+          javacchome="${javacc.home}" buildnodefiles="false" />
    </target>
-   
-   
-   <target name="jjtree" if="parser-task-runnable">   
-        <echo message="Running JJTree on Parser.jjt"/>        
-        <jjtree 
-		  target="${src.java.dir}/org/apache/velocity/runtime/parser/Parser.jjt" 
-          outputdirectory="${src.java.dir}/org/apache/velocity/runtime/parser/" 
-          javacchome="${javacc.home}" buildnodefiles="false" />   
-   </target>
-         
-   <target name="javacc" if="parser-task-runnable">   
+
+   <target name="javacc" if="parser-task-runnable" depends="parser-setup">
         <echo message="Running JavaCC on Parser.jj"/>
-        <javacc target="${src.java.dir}/org/apache/velocity/runtime/parser/Parser.jj" 
-        outputdirectory="${src.java.dir}/org/apache/velocity/runtime/parser/" 
-        javacchome="${javacc.home}" />   
+        <javacc target="${src.java.dir}/org/apache/velocity/runtime/parser/Parser.jj"
+        outputdirectory="${src.java.dir}/org/apache/velocity/runtime/parser/"
+        javacchome="${javacc.home}" />
    </target>
 
-   <target name="javacc-cleanup" if="parser-task-runnable">   
+   <target name="javacc-cleanup" if="parser-task-runnable" depends="parser-setup">
        <delete>
-           <fileset dir="${src.java.dir}/org/apache/velocity/runtime/parser/">  
+           <fileset dir="${src.java.dir}/org/apache/velocity/runtime/parser/">
                <include name="AST*"/>
                <include name="Node.java"/>
                <include name="SimpleNode.java"/>
@@ -253,8 +249,8 @@
            </fileset>
        </delete>
    </target>
-                           
-   <target name="javacc-missing" unless="parser-task-runnable">
+
+   <target name="javacc-missing" unless="parser-task-runnable" depends="parser-setup">
         <echo message="Couldn't run javacc."/>
 		<echo message="JavaCC 3.1+ must be installed at ${javacc.home}."/>
 		<echo message="Ant must be version 1.6.x."/>
@@ -265,7 +261,7 @@
   <!-- Compiles the source directory without the J2EE dependent files      -->
   <!-- =================================================================== -->
   <target name="compile" depends="prepare">
-      
+
     <javac srcdir="${build.src}"
       destdir="${build.dest}"
       debug="${debug}"
@@ -273,10 +269,10 @@
       optimize="${optimize}">
 
       <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.java"/>
-      
+
       <classpath refid="classpath"/>
     </javac>
-            
+
     <antcall target="compile-copy"/>
   </target>
 
@@ -284,16 +280,16 @@
   <!-- Compiles the source directory with the J2EE dependent files         -->
   <!-- =================================================================== -->
   <target name="compile-J2EE" depends="prepare, J2EE-error" if="J2EE.present">
-      
+
     <javac srcdir="${build.src}"
       destdir="${build.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
       optimize="${optimize}">
-      
+
       <classpath refid="classpath"/>
     </javac>
-            
+
     <antcall target="compile-copy"/>
 
   </target>
@@ -309,14 +305,14 @@
         <include name="**/*.class"/>
       </fileset>
     </copy>
-            
+
     <copy todir="${build.dest}/${runtime.defaults.dir}">
       <fileset dir="${src.java.dir}/${runtime.defaults.dir}">
         <include name="*"/>
       </fileset>
     </copy>
 
-    <copy 
+    <copy
       file="${src.java.dir}/${default.texen.properties}"
       tofile="${build.dest}/${default.texen.properties}"
     />
@@ -333,7 +329,7 @@
 
     <!--  we only want one file right now, the ExtendedProperties -->
     <!--  keep jars svelte...                                     -->
- 
+
     <delete>
        <fileset dir="${build.dest}">
           <include name="org/apache/commons/collections/*.class" />
@@ -349,11 +345,11 @@
   <!-- including the Oro and logkit dependencies for convenience           -->
   <!-- =================================================================== -->
   <target name="jar-dep" depends="compile, collections-support">
-         
+
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
     <unzip src="${lang.jar}" dest="${build.dest}"/>
- 
+
     <delete dir="${build.dest}/meta-inf" quiet="true"/>
 
     <jar jarfile="${build.dir}/${project}-dep-${version}.jar">
@@ -375,7 +371,7 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
@@ -383,7 +379,7 @@
   <!-- that has no included dependencies                                   -->
   <!-- =================================================================== -->
   <target name="jar" depends="compile">
-         
+
     <jar jarfile="${build.dir}/${project}-${version}.jar">
 
       <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
@@ -403,7 +399,7 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
@@ -412,7 +408,7 @@
   <!--  including Oro and LogKit for convenience                           -->
   <!-- =================================================================== -->
   <target name="jar-J2EE-dep" depends="compile-J2EE, collections-support" if="J2EE.present">
-        
+
     <unzip src="${log.jar}" dest="${build.dest}"/>
     <unzip src="${oro.jar}" dest="${build.dest}"/>
     <unzip src="${lang.jar}" dest="${build.dest}"/>
@@ -436,7 +432,7 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
@@ -445,7 +441,7 @@
   <!-- but without built-in dependencies on Oro or Logkit                  -->
   <!-- =================================================================== -->
   <target name="jar-J2EE" depends="compile-J2EE" if="J2EE.present">
-        
+
     <jar jarfile="${build.dir}/${project}-J2EE-${version}.jar">
       <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
       <fileset dir="${build.dest}">
@@ -463,14 +459,14 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
   <target name="jar-core" depends="compile">
-        
+
     <jar compress="true" jarfile="${build.dir}/${project}-core-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -483,14 +479,14 @@
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
   <target name="jar-util" depends="compile">
-        
+
     <jar jarfile="${build.dir}/${project}-util-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -500,14 +496,14 @@
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
-  
+
   </target>
 
   <!-- =================================================================== -->
   <!-- Compiles the source directory and creates a .jar file               -->
   <!-- =================================================================== -->
   <target name="jar-servlet" depends="compile">
-        
+
     <jar jarfile="${build.dir}/${project}-servlet-${version}.jar">
       <fileset dir="${build.dest}">
         <exclude name="**/package.html"/>
@@ -515,7 +511,7 @@
         <exclude name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.class"/>
       </fileset>
     </jar>
-  
+
   </target>
 
   <!-- ================================================================== -->
@@ -533,7 +529,7 @@
   <!-- Compiles the example code                                           -->
   <!-- =================================================================== -->
   <target name="examples" depends="jar">
-        
+
     <echo>
       **************************************************************
       ** Building the examples :
@@ -560,7 +556,7 @@
         <path refid="classpath"/>
         <pathelement location="${build.dest}"/>
       </classpath>
-      
+
     </javac>
 
   </target>
@@ -581,9 +577,9 @@
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
   <target name="javadocs" depends="prepare">
-    
+
     <mkdir dir="${javadoc.destdir}"/>
-    
+
     <javadoc
       sourcepath="${build.src}"
       packagenames="org.apache.velocity.*"
@@ -595,23 +591,23 @@
       windowtitle="${Name} ${version} API"
       doctitle="${Name} ${version} API"
       bottom="Copyright &#169; ${year} Apache Software Foundation. All Rights Reserved.">
-      
-      <classpath refid="classpath"/> 
-      
+
+      <classpath refid="classpath"/>
+
     </javadoc>
   </target>
 
   <target name="javadocs-clean">
     <delete dir="${javadoc.destdir}" quiet="true"/>
   </target>
-    
+
   <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
   <target name="package" depends="javadocs-clean,
                                examples-clean-anakia,
                                test-clean,clean,jar,jar-dep,javadocs">
-        
+
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
 
@@ -664,18 +660,18 @@
       </fileset>
     </copy>
 
-    <copy 
-      file="${velocity.dir}/LICENSE.txt" 
+    <copy
+      file="${velocity.dir}/LICENSE.txt"
       tofile="${dist.dir}/LICENSE.txt"
     />
 
-    <copy 
-      file="${velocity.dir}/README.txt" 
+    <copy
+      file="${velocity.dir}/README.txt"
       tofile="${dist.dir}/README.txt"
     />
-    
-    <copy 
-      file="${build.dir}/${final.name}.jar" 
+
+    <copy
+      file="${build.dir}/${final.name}.jar"
       tofile="${dist.dir}/${final.name}.jar"
     />
 
@@ -687,9 +683,9 @@
     <fixcrlf srcdir="${dist.dir}"
        eol="crlf"
        eof="asis"
-       includes="**/*.wm, **/*.txt, **/*.xml, 
+       includes="**/*.wm, **/*.txt, **/*.xml,
                  **/*.java, **/*.properties"
-    />    
+    />
   </target>
 
   <!-- ================================================================== -->
@@ -700,8 +696,8 @@
           description="--> generates the .jar file">
       <delete file="${velocity.dir}/${final.name}.jar" quiet="true"/>
 
-      <jar 
-          jarfile="${velocity.dir}/${final.name}.jar" 
+      <jar
+          jarfile="${velocity.dir}/${final.name}.jar"
           basedir="${dist.root}"
           excludes="**/package.html"
       />
@@ -714,7 +710,7 @@
           depends="package"
           description="--> generates the distribution as .zip">
       <delete file="${velocity.dir}/${final.name}.zip" quiet="true"/>
-      <zip zipfile="${velocity.dir}/${final.name}.zip" basedir="${dist.root}" 
+      <zip zipfile="${velocity.dir}/${final.name}.zip" basedir="${dist.root}"
            includes="**/${final.name}/**"/>
   </target>
 
@@ -726,7 +722,7 @@
           description="--> generates the distribution as .tar.gz">
       <delete file="${velocity.dir}/${final.name}.tar" quiet="true"/>
       <delete file="${velocity.dir}/${final.name}.tar.gz" quiet="true"/>
-      <tar tarfile="${velocity.dir}/${final.name}.tar" basedir="${dist.root}" 
+      <tar tarfile="${velocity.dir}/${final.name}.tar" basedir="${dist.root}"
            includes="**/${final.name}/**" longfile="gnu"/>
       <gzip zipfile="${velocity.dir}/${final.name}.tar.gz" src="${velocity.dir}/${final.name}.tar"/>
   </target>
@@ -764,18 +760,18 @@
   <target name="clean">
     <delete dir="${build.dir}" quiet="true"/>
   </target>
-  
+
   <!-- =================================================================== -->
   <!-- Make HTML version of Velocity documentation                         -->
   <!-- =================================================================== -->
 
-  <target name="docs" 
+  <target name="docs"
           depends="jar"
           description="generates the HTML documentation"
           >
       <taskdef name="anakia"
           classname="org.apache.velocity.anakia.AnakiaTask">
-          
+
           <classpath>
              <pathelement location="${build.dir}/${project}-${version}.jar"/>
              <path refid="classpath"/>
@@ -787,7 +783,7 @@
        #######################################################
        #
        #  Now using Anakia to transform our XML documentation
-       #  to HTML.  
+       #  to HTML.
        #
        #  using project file: ${docs.project}
        #
@@ -814,7 +810,7 @@
               <include name="**/*.png"/>
           </fileset>
       </copy>
-  
+
       <copy todir="${docs.dest}" filtering="no">
           <fileset dir="${docs.src}">
               <include name="**/*.css"/>
@@ -823,8 +819,8 @@
       </copy>
 
   </target>
-  
-  
+
+
   <!-- =================================================================== -->
   <!-- Cleans up the docs directory                                       -->
   <!-- =================================================================== -->
@@ -836,33 +832,33 @@
   <!-- =================================================================== -->
   <!-- Make PDF version of Velocity documentation                          -->
   <!-- =================================================================== -->
-  <!--    
+  <!--
   <target name="pdf">
-    <xslt 
-      infile="${velocity.dir}/xdocs/site-book.xml" 
+    <xslt
+      infile="${velocity.dir}/xdocs/site-book.xml"
       xsltfile="${velocity.build.dir}/xsl/xml2xml.xsl"
-      outfile="${allfiles.xml}" 
+      outfile="${allfiles.xml}"
       smart="yes"
     />
-    
-    <xslt 
-      infile="${allfiles.xml}" 
+
+    <xslt
+      infile="${allfiles.xml}"
       xsltfile="${velocity.build.dir}/xsl/xml2pdf.xsl"
-      outfile="${outfile.fo}" 
+      outfile="${outfile.fo}"
       smart="yes"
     />
-    
-    <fop 
-      fofile="${outfile.fo}" 
+
+    <fop
+      fofile="${outfile.fo}"
       pdffile="${outfile.pdf}"
-    /> 
-        
+    />
+
     <delete file="${allfiles.xml}"/>
     <delete file="${outfile.fo}"/>
-  
+
   </target>
   -->
-    
+
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
@@ -909,10 +905,7 @@
 
   <!-- Delete the demo files for re-build -->
   <target name="cleandemo">
-    
     <delete dir="${demo.dest}/org" quiet="true"/>
-    
   </target>
-    
-</project>
 
+</project>
