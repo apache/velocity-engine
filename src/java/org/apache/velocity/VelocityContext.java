@@ -48,6 +48,10 @@ import org.apache.velocity.context.Context;
 public class VelocityContext extends AbstractContext implements Cloneable
 {
     /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 9033846851064645037L;
+    /**
      *  Storage for key/value pairs.
      */
     private Map context = null;

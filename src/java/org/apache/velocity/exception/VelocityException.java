@@ -25,6 +25,11 @@ package org.apache.velocity.exception;
  */
 public class VelocityException extends Exception
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 1251243065134956044L;
+
     public VelocityException(String exceptionMessage )
     {
         super(exceptionMessage);

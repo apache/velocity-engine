@@ -26,6 +26,11 @@ import java.util.Stack;
  */
 public class ParseDirectiveException extends Exception
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 1176301138464472774L;
+    
     private Stack filenameStack = new Stack();
     private String msg = "";
     private int depthCount = 0;

@@ -28,6 +28,11 @@ import org.apache.velocity.runtime.parser.ParseException;
  */
 public class MacroParseException extends ParseException
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = -4985224672336070691L;
+
     public MacroParseException(String msg)
     {
         super(msg);

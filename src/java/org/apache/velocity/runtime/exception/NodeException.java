@@ -20,6 +20,11 @@ import org.apache.velocity.runtime.parser.node.Node;
 
 public class NodeException extends Exception
 {
+    /**
+     * Version Id for serializable
+     */
+    private static final long serialVersionUID = 1214382967295242803L;
+
     public NodeException(String exceptionMessage, Node node)
     {
         super(exceptionMessage + ": " + node.literal() + 
