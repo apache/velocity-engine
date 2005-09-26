@@ -346,17 +346,6 @@ public class Configuration extends Hashtable
     }
 
     /**
-     * Private initializer method that sets up the generic
-     * resources.
-     *
-     * @exception IOException, if there was an I/O problem.
-     */
-    private void init( Configuration exp ) throws IOException
-    {
-        isInitialized = true;
-    }
-    
-    /**
      * Indicate to client code whether property
      * resources have been initialized or not.
      */

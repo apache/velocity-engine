@@ -87,9 +87,6 @@ public class VMProxyArg
     /**  reference for the object if we proxy for a static arg like an IntegerLiteral*/
     private Object staticObject = null;
 
-    /** not used in this impl : carries the appropriate user context */
-    private InternalContextAdapter usercontext = null;
-
     /** number of children in our tree if a reference */
     private int numTreeChildren = 0;
 
@@ -491,7 +488,6 @@ public class VMProxyArg
      */
     public VMProxyArg( VMProxyArg model, InternalContextAdapter c )
     {
-        usercontext = c;
         contextReference = model.getContextReference();
         callerReference = model.getCallerReference();
         nodeTree = model.getNodeTree();

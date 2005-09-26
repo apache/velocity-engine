@@ -33,7 +33,6 @@ import org.apache.velocity.runtime.RuntimeServices;
 public class PrimordialLogSystem implements LogSystem
 {
     private Vector pendingMessages = new Vector();    
-    private RuntimeServices rsvc = null;
 
     /**
      *  default CTOR.
@@ -45,7 +44,6 @@ public class PrimordialLogSystem implements LogSystem
     public void init( RuntimeServices rs )
         throws Exception
     {
-        rsvc = rs;
     }
     
     /**

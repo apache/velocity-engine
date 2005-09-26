@@ -54,8 +54,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  */
 public class Parse extends InputBase
 {
-    private boolean ready = false;
-
     /**
      * Return name of this directive.
      */
