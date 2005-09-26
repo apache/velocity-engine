@@ -148,13 +148,10 @@ public class Macro extends Directive
 
         if(firstType != ParserTreeConstants.JJTWORD)
         {
-            Token t = node.jjtGetChild(0).getFirstToken();
-
             throw new MacroParseException("First argument to #macro() must be a"
                     + " token without surrounding \' or \", which specifies"
                     + " the macro name.  Currently it is a "
                     + ParserTreeConstants.jjtNodeName[firstType]);
-
         }
 
         /*
@@ -186,8 +183,8 @@ public class Macro extends Directive
          * so just give it a whack...
          */
 
-        boolean bRet = rs.addVelocimacro(argArray[0], macroBody.toString(),
-                        argArray, sourceTemplate);
+        rs.addVelocimacro(argArray[0], macroBody.toString(),
+                          argArray, sourceTemplate);
 
         return;
     }
