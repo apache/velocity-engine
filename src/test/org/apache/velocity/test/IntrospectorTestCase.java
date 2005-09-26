@@ -211,6 +211,7 @@ public class IntrospectorTestCase extends BaseTestCase
         public String shortMethod (short p) { return "short"; }
 
         String untouchable() { return "yech";}
+        // don't remove! Used through introspection for testing!
         private String reallyuntouchable() { return "yech!"; }
 
     }
