@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.io.Writer;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedWriter;
@@ -158,8 +159,11 @@ public class Generator
                 }
             }
         }
-        catch (Exception e)
+        catch (IOException e)
         {
+            System.err.println("Could not load " + propFile
+                    + ", falling back to defaults. ("
+                    + e.getMessage() + ")");
             /*
              * If something goes wrong we use default properties
              */
@@ -202,9 +206,9 @@ public class Generator
                 }
             }
         }
-        catch (Exception ioe)
+        catch (IOException ioe)
         {
-            System.err.println("Cannot get default properties!");
+            System.err.println("Cannot get default properties: " + ioe.getMessage());
         }
     }
 
@@ -523,9 +527,17 @@ public class Generator
             try
             {
                 writer.flush();
+            }
+            catch (IOException e)
+            {
+                /* do nothing */
+            }
+
+            try
+            {
                 writer.close();
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 /* do nothing */
             }
