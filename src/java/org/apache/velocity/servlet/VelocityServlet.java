@@ -139,7 +139,7 @@ public abstract class VelocityServlet extends HttpServlet
      */
    
     private static SimplePool writerPool = new SimplePool(40);
-   
+
     /** 
      * Performs initialization of this servlet.  Called by the servlet 
      * container on loading.
@@ -161,8 +161,8 @@ public abstract class VelocityServlet extends HttpServlet
         /*
          *  Now that Velocity is initialized, cache some config.
          */
-        defaultContentType = RuntimeSingleton.getString(CONTENT_TYPE,
-                                                        DEFAULT_CONTENT_TYPE);
+        VelocityServlet.defaultContentType = 
+                RuntimeSingleton.getString(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
     }
 
     /**
@@ -433,9 +433,9 @@ public abstract class VelocityServlet extends HttpServlet
         }
         finally
         {
-            try
+            if (vw != null)
             {
-                if (vw != null)
+                try
                 {
                     /*
                      *  flush and put back into the pool
@@ -443,20 +443,19 @@ public abstract class VelocityServlet extends HttpServlet
                      *  nicely with others.
                      */
                     vw.flush();
-
-                    /*
-                     * Clear the VelocityWriter's reference to its
-                     * internal OutputStreamWriter to allow the latter
-                     * to be GC'd while vw is pooled.
-                     */
-                    vw.recycle(null);
-
-                    writerPool.put(vw);
                 }
-            }
-            catch (Exception e)
-            {
-                // do nothing
+                catch (IOException e)
+                {
+                    // do nothing
+                }
+
+                /*
+                 * Clear the VelocityWriter's reference to its
+                 * internal OutputStreamWriter to allow the latter
+                 * to be GC'd while vw is pooled.
+                 */
+                vw.recycle(null);
+                writerPool.put(vw);
             }
         }
     }
@@ -473,7 +472,7 @@ public abstract class VelocityServlet extends HttpServlet
     protected void setContentType(HttpServletRequest request,
                                   HttpServletResponse response)
     {
-        String contentType = defaultContentType;
+        String contentType = VelocityServlet.defaultContentType;
         int index = contentType.lastIndexOf(';') + 1;
         if (index <= 0 || (index < contentType.length() &&
                            contentType.indexOf("charset", index) == -1))
