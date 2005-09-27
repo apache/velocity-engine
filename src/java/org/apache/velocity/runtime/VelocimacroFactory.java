@@ -360,23 +360,20 @@ public class VelocimacroFactory
         }
 
         /*
-         *  if we are to blather, blather...
+         * Report addition of the new Velocimacro.
          */
-        if ( blather)
+        if (blather)
         {
-            String s = "#" +  argArray[0];
-            s += "(";
-        
-            for( int i=1; i < argArray.length; i++)
+            // The same code appears in directive.Macro
+            StringBuffer msg = new StringBuffer();
+            msg.append("Velocimacro : added new VM : #");
+            msg.append(argArray[0]).append('(');;
+            for (int i = 1; i < argArray.length; i++)
             {
-                s += " ";
-                s += argArray[i];
+                msg.append(' ').append(argArray[i]);
             }
-
-            s += " ) : source = ";
-            s += sourceTemplate;
-            
-           logVMMessageInfo( "Velocimacro : added new VM : " + s );
+            msg.append(" ) : source = ").append(sourceTemplate);
+            logVMMessageInfo(msg.toString());
         }
 
         return true;
