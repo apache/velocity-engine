@@ -362,7 +362,7 @@ public class VelocimacroFactory
         /*
          * Report addition of the new Velocimacro.
          */
-        if (blather)
+        if (getBlather())
         {
             // The same code appears in directive.Macro
             StringBuffer msg = new StringBuffer();
@@ -454,8 +454,10 @@ public class VelocimacroFactory
      */
     private void logVMMessageInfo( String s )
     {
-        if (blather)
+        if (getBlather())
+        {
             rsvc.info( s );
+        }
     }
 
     /**
@@ -463,8 +465,10 @@ public class VelocimacroFactory
      */
     private void logVMMessageWarn( String s )
     {
-        if (blather)
+        if (getBlather())
+        {
             rsvc.warn( s );
+        }
     }
       
     /**
