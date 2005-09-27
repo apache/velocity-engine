@@ -766,6 +766,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + " Ignoring. ");
             }
         }
+        // The ugly threesome:  ClassNotFoundException,
+        // IllegalAccessException, InstantiationException.
+        // Ignore Findbugs complaint for now.
         catch (Exception e)
         {
             error("Exception Loading " + caption + " Directive: " 
