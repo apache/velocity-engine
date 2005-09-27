@@ -48,7 +48,7 @@ import java.io.Serializable;
  */
 
 public abstract class AbstractContext extends InternalContextBase 
-    implements Context, Serializable
+    implements Context
 {
     /**
      *  the chained Context if any
