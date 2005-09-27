@@ -101,12 +101,14 @@ public class Macro extends Directive
     }
 
     /**
-     *  Used by Parser.java to process VMs withing the parsing process
+     *  Used by Parser.java to process VMs during the parsing process.
      *
-     *  processAndRegister() doesn't actually render the macro to the output
-     *  Processes the macro body into the internal representation used by the
-     *  VelocimacroProxy objects, and if not currently used, adds it
-     *  to the macro Factory
+     *  This method does not render the macro to the output stream,
+     *  but rather <i>processes the macro body</i> into the internal
+     *  representation used by {#link
+     *  org.apache.velocity.runtime.directive.VelocimacroProxy}
+     *  objects, and if not currently used, adds it to the macro
+     *  Factory.
      */ 
     public static void processAndRegister(RuntimeServices rs,  Node node,
                                           String sourceTemplate)
@@ -158,7 +160,7 @@ public class Macro extends Directive
          *  get the arguments to the use of the VM
          */
 
-        String argArray[] = getArgArray(node);
+        String argArray[] = getArgArray(node, rs);
 	 
         /*
          *   now, try and eat the code block. Pass the root.
@@ -183,25 +185,35 @@ public class Macro extends Directive
          * so just give it a whack...
          */
 
-        rs.addVelocimacro(argArray[0], macroBody.toString(),
-                          argArray, sourceTemplate);
-
-        return;
+        boolean macroAdded = rs.addVelocimacro(argArray[0],
+                                               macroBody.toString(),
+                                               argArray, sourceTemplate);
+        if (!macroAdded)
+        {
+            rs.warn("Failed to add macro " +
+                    formatArgArray(new StringBuffer(), argArray) +
+                    " from '" + sourceTemplate + '\'');
+        }
     }
 
   
     /**
-     *  creates an array containing the literal
-     *  strings in the macro arguement
+     * Creates an array containing the literal text from the macro
+     * arguement(s) (including the macro's name as the first arg).
+     *
+     * @param node The parse node from which to grok the argument
+     * list.  It's expected to include the block node tree (for the
+     * macro body).
+     * @param rsvc For debugging purposes only.
      */
-    private static String[] getArgArray(Node node)
+    private static String[] getArgArray(Node node, RuntimeServices rsvc)
     {
         /*
-         *  remember : this includes the block tree
+         * Get the number of arguments for the macro, excluding the
+         * last child node which is the block tree containing the
+         * macro body.
          */
-        
         int numArgs = node.jjtGetNumChildren();
-	
         numArgs--;  // avoid the block tree...
 	
         String argArray[] = new String[numArgs];
@@ -235,15 +247,11 @@ public class Macro extends Directive
 	
         if (debugMode)
         {
-            System.out.println("Macro.getArgArray() : #args = " + numArgs);
-            System.out.print(argArray[0] + "(");
-	    
-            for (i = 1; i < numArgs; i++)
-            {
-                System.out.print(" " + argArray[i]);
-            }
-
-            System.out.println(" )");
+            StringBuffer msg = new StringBuffer();
+            msg.append("Macro.getArgArray() : nbrArgs=" + numArgs);
+            msg.append(" : ");
+            formatArgArray(msg, argArray);
+            rsvc.debug(msg.toString());
         }
 	
         return argArray;
@@ -284,5 +292,21 @@ public class Macro extends Directive
         list.add(NodeUtils.tokenLiteral(t));
 
         return list;
+    }
+
+    /**
+     * For debugging purposes.  Formats the arguments from
+     * <code>argArray</code> and appends them to <code>buf</code>.
+     */
+    private static StringBuffer formatArgArray(StringBuffer buf,
+                                               String[] argArray)
+    {
+        buf.append(argArray[0]).append('(');
+        for (int i = 1; i < argArray.length; i++)
+        {
+            buf.append(' ').append(argArray[i]);
+        }
+        buf.append(" )");
+        return buf;
     }
 }
