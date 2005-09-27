@@ -18,6 +18,7 @@ package org.apache.velocity.convert;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.util.StringUtils;
@@ -112,9 +113,7 @@ public class WebMacro
         
         if (!file.exists())
         {
-            System.err.println
-                ("The specified template or directory does not exist");
-            System.exit(1);
+            throw new RuntimeException("The specified template or directory does not exist");
         }
         
         if (file.isDirectory())
@@ -153,18 +152,12 @@ public class WebMacro
     
         System.out.println("Converting " + file + "...");
         
-        String template;
-        String templateDir;
-        String newTemplate;
+        String template = file;
+        String templateDir = "";
+        String newTemplate = convertName(file);
         File outputDirectory;
         
-        if (basedir.length() == 0)
-        {
-            template = file;
-            templateDir = "";
-            newTemplate = convertName(file);
-        }            
-        else
+        if (basedir.length() > 0)
         {
             template = basedir + File.separator + file;
             templateDir = newBasedir + extractPath(file);
@@ -180,16 +173,30 @@ public class WebMacro
         }            
         
         String convertedTemplate = convertTemplate(template);
-                    
+
+        FileWriter fw = null;
         try
         {
-            FileWriter fw = new FileWriter(newTemplate);
+            fw = new FileWriter(newTemplate);
             fw.write(convertedTemplate);
-            fw.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+        finally
+        {
+            if (fw != null)
+            {
+                try
+                {
+                    fw.close();
+                }
+                catch (IOException io)
+                {
+                    // Do nothing
+                }
+            }
         }
     
         return true;
@@ -211,14 +218,9 @@ public class WebMacro
      */
     private String convertName(String name)
     {
-        if (name.indexOf(WM_EXT) > 0)
-        {
-            return name.substring(0, name.indexOf(WM_EXT)) + VM_EXT;
-        }
-        else
-        {
-            return name;
-        }
+        return (name.indexOf(WM_EXT) < 0) 
+                ? name 
+                : name.substring(0, name.indexOf(WM_EXT)) + VM_EXT;
     }
 
     /**
@@ -227,7 +229,6 @@ public class WebMacro
     private static final void usage()
     {
         System.err.println("Usage: convert-wm <template.wm | directory>");
-        System.exit(1);
     }
 
     /**
