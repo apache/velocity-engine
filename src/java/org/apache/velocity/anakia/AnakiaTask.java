@@ -19,6 +19,7 @@ package org.apache.velocity.anakia;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Iterator;
@@ -408,7 +409,8 @@ public class AnakiaTask extends MatchingTask
         }
         catch (JDOMException e)
         {
-            if (outFile != null ) outFile.delete();
+            outFile.delete();
+
             if (e.getCause() != null)
             {
                 Throwable rootCause = e.getCause();
@@ -448,10 +450,19 @@ public class AnakiaTask extends MatchingTask
                 try
                 {
                     writer.flush();
+                }
+                catch (IOException e)
+                {
+                    // Do nothing
+                }
+
+                try
+                {
                     writer.close();
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
+                    // Do nothing
                 }
             }
         }
