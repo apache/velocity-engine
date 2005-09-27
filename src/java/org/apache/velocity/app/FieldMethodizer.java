@@ -86,7 +86,9 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.out.println( e );
+            System.out.println("Could not add " + s 
+                    + " for field methodizing: " 
+                    + e.getMessage());
         }
     }
 
@@ -106,7 +108,9 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.out.println( e );
+            System.out.println("Could not add " + o 
+                    + " for field methodizing: " 
+                    + e.getMessage());
         }
     }
     
@@ -137,16 +141,21 @@ public class FieldMethodizer
      */
     public Object get( String fieldName )
     {
+        Object value = null;
         try 
         {
             Field f = (Field) fieldHash.get( fieldName );
             if (f != null)
-                return f.get( (Class) classHash.get(fieldName) );
+            {
+                value = f.get( (Class) classHash.get(fieldName) );
+            }
         }
-        catch( Exception e )
+        catch( IllegalAccessException e )
         {
+            System.out.println("IllegalAccessException while trying to access " + fieldName 
+                    + ": " + e.getMessage());
         }
-        return null;
+        return value;
     }
 
     /**
