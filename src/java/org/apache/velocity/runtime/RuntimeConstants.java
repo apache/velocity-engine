@@ -17,7 +17,7 @@ package org.apache.velocity.runtime;
  */
 
 /**
- * This class defines the keys that are used in the 
+ * This class defines the keys that are used in the
  * velocity.properties file so that they can be referenced as a constant
  * within Java code.
  *
@@ -42,46 +42,46 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** 
+    /**
      * Location of the velocity log file.
      */
-    public static final String RUNTIME_LOG = 
+    public static final String RUNTIME_LOG =
         "runtime.log";
-    
+
     /**
      *  externally provided logger
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM = 
+    public static final String RUNTIME_LOG_LOGSYSTEM =
         "runtime.log.logsystem";
 
     /**
      *  class of log system to use
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS = 
+    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS =
         "runtime.log.logsystem.class";
 
-    /** 
+    /**
      * Stack trace output for error messages.
      */
-    public static final String RUNTIME_LOG_ERROR_STACKTRACE = 
+    public static final String RUNTIME_LOG_ERROR_STACKTRACE =
         "runtime.log.error.stacktrace";
-    
-    /** 
+
+    /**
      * Stack trace output for warning messages.
      */
-    public static final String RUNTIME_LOG_WARN_STACKTRACE = 
+    public static final String RUNTIME_LOG_WARN_STACKTRACE =
         "runtime.log.warn.stacktrace";
-    
-    /** 
+
+    /**
      * Stack trace output for info messages.
      */
-    public static final String RUNTIME_LOG_INFO_STACKTRACE = 
+    public static final String RUNTIME_LOG_INFO_STACKTRACE =
         "runtime.log.info.stacktrace";
 
     /**
      * Logging of invalid references.
      */
-    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  = 
+    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  =
         "runtime.log.invalid.references";
 
     /**
@@ -98,24 +98,24 @@ public interface RuntimeConstants
      * D I R E C T I V E  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      * Directive properties are of the form:
-     * 
+     *
      * directive.<directive-name>.<property>
      * ----------------------------------------------------------------------
      */
 
-    /** 
+    /**
      * Initial counter value in #foreach directives.
      */
-    public static final String COUNTER_NAME = 
+    public static final String COUNTER_NAME =
         "directive.foreach.counter.name";
 
-    /** 
+    /**
      * Initial counter value in #foreach directives.
      */
-    public static final String COUNTER_INITIAL_VALUE = 
+    public static final String COUNTER_INITIAL_VALUE =
         "directive.foreach.counter.initial.value";
 
-    /** 
+    /**
      * Maximum allowed number of loops.
      */
     public static final String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
@@ -125,21 +125,21 @@ public interface RuntimeConstants
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.
      */
-    public static String ERRORMSG_START = 
+    public static String ERRORMSG_START =
         "directive.include.output.errormsg.start";
-    
+
     /**
      * Ending tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.
      */
-    public static String ERRORMSG_END  = 
+    public static String ERRORMSG_END  =
         "directive.include.output.errormsg.end";
 
     /**
      * Maximum recursion depth allowed for the #parse directive.
      */
-    public static String PARSE_DIRECTIVE_MAXDEPTH 
+    public static String PARSE_DIRECTIVE_MAXDEPTH
         = "directive.parse.max.depth";
 
 
@@ -148,9 +148,9 @@ public interface RuntimeConstants
      *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
-     
+
     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
-     
+
     /**
      * The <code>resource.manager.cache.class</code> property
      * specifies the name of the {@link
@@ -176,7 +176,7 @@ public interface RuntimeConstants
     /**
      *  controls if the finding of a resource is logged
      */
-    public static final String RESOURCE_MANAGER_LOGWHENFOUND = 
+    public static final String RESOURCE_MANAGER_LOGWHENFOUND =
         "resource.manager.logwhenfound";
 
     /**
@@ -199,7 +199,7 @@ public interface RuntimeConstants
      * The public handle for turning the caching on in the
      * FileResourceLoader.
      */
-    public static final String FILE_RESOURCE_LOADER_CACHE = 
+    public static final String FILE_RESOURCE_LOADER_CACHE =
         "file.resource.loader.cache";
 
     /*
@@ -207,7 +207,7 @@ public interface RuntimeConstants
      *  E V E N T  H A N D L E R  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
-     
+
     /**
      * The <code>eventhandler.referenceinsertion.class</code> property
      * specifies a list of the {@link
@@ -231,7 +231,7 @@ public interface RuntimeConstants
      * implementations to use.
      */
     public static final String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
- 
+
     /**
      * The <code>eventhandler.include.class</code> property
      * specifies a list of the {@link
@@ -247,53 +247,53 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** 
+    /**
      * Name of local Velocimacro library template.
      */
     public static final String VM_LIBRARY  = "velocimacro.library";
 
-    /** 
+    /**
      * Default Velocimacro library template.
      */
     public static final String VM_LIBRARY_DEFAULT  = "VM_global_library.vm";
 
-    /** 
-     * switch for autoloading library-sourced VMs (for development) 
+    /**
+     * switch for autoloading library-sourced VMs (for development)
      */
-    public final static String VM_LIBRARY_AUTORELOAD = 
+    public final static String VM_LIBRARY_AUTORELOAD =
         "velocimacro.library.autoreload";
 
-    /** 
-     * boolean (true/false) default true : allow 
-     * inline (in-template) macro definitions 
+    /**
+     * boolean (true/false) default true : allow
+     * inline (in-template) macro definitions
      */
-    public static final String VM_PERM_ALLOW_INLINE  = 
+    public static final String VM_PERM_ALLOW_INLINE  =
         "velocimacro.permissions.allow.inline";
 
     /**
-     * boolean (true/false) default false : allow inline 
-     * (in-template) macro definitions to replace existing 
+     * boolean (true/false) default false : allow inline
+     * (in-template) macro definitions to replace existing
      */
-    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  = 
+    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  =
         "velocimacro.permissions.allow.inline.to.replace.global";
-    
-    /** 
+
+    /**
      * Switch for forcing inline macros to be local : default false.
      */
-    public final static String VM_PERM_INLINE_LOCAL = 
+    public final static String VM_PERM_INLINE_LOCAL =
         "velocimacro.permissions.allow.inline.local.scope";
 
-    /** 
+    /**
      * Switch for VM blather : default true.
      */
     public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
 
-   /** 
-    * switch for local context in VM : default false 
+   /**
+    * switch for local context in VM : default false
     */
-    public final static String VM_CONTEXT_LOCALSCOPE = 
+    public final static String VM_CONTEXT_LOCALSCOPE =
         "velocimacro.context.localscope";
-    
+
     /*
      * ----------------------------------------------------------------------
      * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
@@ -303,11 +303,11 @@ public interface RuntimeConstants
     /**
      *  Switch for the interpolation facility for string literals
      */
-    public static String INTERPOLATE_STRINGLITERALS = 
+    public static String INTERPOLATE_STRINGLITERALS =
         "runtime.interpolate.string.literals";
 
-    /** 
-     * The character encoding for the templates.  Used by the parser in 
+    /**
+     * The character encoding for the templates.  Used by the parser in
      * processing the input streams.
      */
     public static final String INPUT_ENCODING = "input.encoding";
@@ -320,6 +320,18 @@ public interface RuntimeConstants
 
     public static final String ENCODING_DEFAULT = "ISO-8859-1";
 
+
+    /**
+     *  key name for uberspector
+     */
+    public static final String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
+
+    /**
+     * @see #NUMBER_OF_PARSERS
+     */
+    public static final String PARSER_POOL_SIZE = "parser.pool.size";
+
+
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.
@@ -328,16 +340,16 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** 
+    /**
      * Default Runtime properties.
      */
-    final static String DEFAULT_RUNTIME_PROPERTIES = 
+    final static String DEFAULT_RUNTIME_PROPERTIES =
         "org/apache/velocity/runtime/defaults/velocity.properties";
 
-    /** 
-     * Default Runtime properties 
+    /**
+     * Default Runtime properties
      */
-    final static String DEFAULT_RUNTIME_DIRECTIVES = 
+    final static String DEFAULT_RUNTIME_DIRECTIVES =
         "org/apache/velocity/runtime/defaults/directive.properties";
 
     /**
@@ -347,14 +359,5 @@ public interface RuntimeConstants
      */
     final static int NUMBER_OF_PARSERS = 20;
 
-    /**
-     * @see #NUMBER_OF_PARSERS
-     */
-    final static String PARSER_POOL_SIZE = "parser.pool.size";
 
-
-    /**
-     *  key name for uberspector
-     */
-    final static String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 }
