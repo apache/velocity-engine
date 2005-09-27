@@ -348,24 +348,38 @@ public class StringUtils
     {
         String contents = "";
         
-        File f = new File(file);
-        
-        if (f.exists())
+        File f = null;
+        try
         {
-            try
+            f = new File(file);
+        
+            if (f.exists())
             {
-                FileReader fr = new FileReader(f);
-                char[] template = new char[(int) f.length()];
-                fr.read(template);
-                contents = new String(template);
-            }
-            catch (Exception e)
-            {
-                System.out.println(e);
-                e.printStackTrace();
+                FileReader fr = null;
+                try
+                {
+                    fr = new FileReader(f);
+                    char[] template = new char[(int) f.length()];
+                    fr.read(template);
+                    contents = new String(template);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    if (fr != null)
+                    {
+                        fr.close();
+                    }
+                }
             }
         }
-        
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return contents;
     }
     
