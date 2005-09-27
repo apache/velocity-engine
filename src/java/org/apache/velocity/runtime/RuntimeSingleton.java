@@ -215,16 +215,6 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     * Returns a JavaCC generated Parser.
-     *
-     * @return Parser javacc generated parser
-     */
-    private static Parser createNewParser()
-    {
-        return ri.createNewParser();
-    }
-
-    /**
      * Parse the input and return the root of
      * AST node structure.
      * <br><br>

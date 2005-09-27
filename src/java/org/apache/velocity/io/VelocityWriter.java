@@ -111,16 +111,6 @@ public final class VelocityWriter extends Writer
         nextChar = 0;
     }
 
-    private final void init( Writer writer, int sz, boolean autoFlush )
-    {
-        this.writer= writer;
-        if( sz > 0 && ( cb == null || sz > cb.length ) )
-            cb=new char[sz];
-        nextChar = 0;
-        this.autoFlush=autoFlush;
-        this.bufferSize=sz;
-    }
-
     /**
      * Flush the output buffer to the underlying character stream, without
      * flushing the stream itself.  This method is non-private only so that it
