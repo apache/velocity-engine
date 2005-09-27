@@ -43,7 +43,7 @@
 <li><a href="#Directives">Directives</a>
     <ol>
         <li><a href="#Set">Set</a></li>
-        <li><a href="#StringLiterals">String Literals</a></li>
+        <li><a href="#StringLiterals">Literals</a></li>
         <li><a href="#Conditionals">If-Else Statements</a>
             <ol>
                 <li><a href="#RelationalandLogicalOperators">Relational and Logical
@@ -1004,7 +1004,7 @@ The result of the second query is bill
     directive does not have an <em>#end</em> statement.
  </p>
 
-<a name="StringLiterals"><strong>String Literals</strong></a>
+<a name="StringLiterals"><strong>Literals</strong></a>
 
  <p>
     When using the <em>#set</em> directive, string literals that are
@@ -1052,6 +1052,31 @@ $blargh
     editing <code>velocity.properties</code> such that
     <code>stringliterals.interpolate=false</code>.
  </p>
+
+ <p>
+    Alternately, the <em>#literal</em> script element allows the
+    template designer to easily use large chunks of uninterpreted
+    content in VTL code.  This can be especially useful in place of <a
+    href="#EscapingVTLDirectives">escaping</a> multiple directives.
+ </p>
+
+<source><![CDATA[
+#literal()
+#foreach ($woogie in $boogie)
+  nothing will happen to $woogie
+#end  
+#end  
+]]></source>
+
+    <p>
+    Renders as:
+    </p>
+
+<source><![CDATA[
+#foreach ($woogie in $boogie)
+  nothing will happen to $woogie
+#end  
+]]></source>
 </section>
 
 
