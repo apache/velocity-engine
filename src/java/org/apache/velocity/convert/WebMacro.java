@@ -153,16 +153,15 @@ public class WebMacro
         System.out.println("Converting " + file + "...");
         
         String template = file;
-        String templateDir = "";
         String newTemplate = convertName(file);
-        File outputDirectory;
         
         if (basedir.length() > 0)
         {
-            template = basedir + File.separator + file;
-            templateDir = newBasedir + extractPath(file);
+            String templateDir = newBasedir + extractPath(file);
+            File outputDirectory = new File(templateDir);
 
-            outputDirectory = new File(templateDir);
+            template = basedir + File.separator + file;
+
                 
             if (! outputDirectory.exists())
             {
