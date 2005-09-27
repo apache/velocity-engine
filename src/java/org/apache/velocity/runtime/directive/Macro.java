@@ -190,9 +190,10 @@ public class Macro extends Directive
                                                argArray, sourceTemplate);
         if (!macroAdded)
         {
-            rs.warn("Failed to add macro " +
-                    formatArgArray(new StringBuffer(), argArray) +
-                    " from '" + sourceTemplate + '\'');
+            StringBuffer msg = new StringBuffer("Failed to add macro: ");
+            macroToString(msg, argArray);
+            msg.append(" : source = ").append(sourceTemplate);
+            rs.warn(msg.toString());
         }
     }
 
@@ -247,10 +248,9 @@ public class Macro extends Directive
 	
         if (debugMode)
         {
-            StringBuffer msg = new StringBuffer();
-            msg.append("Macro.getArgArray() : nbrArgs=" + numArgs);
-            msg.append(" : ");
-            formatArgArray(msg, argArray);
+            StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
+            msg.append(numArgs).append(" : ");
+            macroToString(msg, argArray);
             rsvc.debug(msg.toString());
         }
 	
@@ -297,16 +297,24 @@ public class Macro extends Directive
     /**
      * For debugging purposes.  Formats the arguments from
      * <code>argArray</code> and appends them to <code>buf</code>.
+     *
+     * @param buf A StringBuffer. If null, a new StringBuffer is allocated.
+     * @param argArray The Macro arguments to format
+     *
+     * @return A StringBuffer containing the formatted arguments. If a StringBuffer
+     *         has passed in as buf, this method returns it.
      */
-    private static StringBuffer formatArgArray(StringBuffer buf,
-                                               String[] argArray)
+    public static final StringBuffer macroToString(final StringBuffer buf,
+                                                   final String[] argArray)
     {
-        buf.append(argArray[0]).append('(');
+        StringBuffer ret = (buf == null) ? new StringBuffer() : buf;
+
+        ret.append('#').append(argArray[0]).append("( ");
         for (int i = 1; i < argArray.length; i++)
         {
-            buf.append(' ').append(argArray[i]);
+            ret.append(' ').append(argArray[i]);
         }
-        buf.append(" )");
-        return buf;
+        ret.append(" )");
+        return ret;
     }
 }

@@ -18,6 +18,7 @@ package org.apache.velocity.runtime;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 
 import java.util.Vector;
@@ -364,16 +365,11 @@ public class VelocimacroFactory
          */
         if (getBlather())
         {
-            // The same code appears in directive.Macro
-            StringBuffer msg = new StringBuffer();
-            msg.append("Velocimacro : added new VM : #");
-            msg.append(argArray[0]).append('(');;
-            for (int i = 1; i < argArray.length; i++)
-            {
-                msg.append(' ').append(argArray[i]);
-            }
-            msg.append(" ) : source = ").append(sourceTemplate);
-            logVMMessageInfo(msg.toString());
+            StringBuffer msg = new StringBuffer("Velocimacro : added new VM : ");
+            Macro.macroToString(msg, argArray);
+            msg.append(" : source = ").append(sourceTemplate);
+            // Already checked for getBlather()
+            rsvc.info(msg.toString());
         }
 
         return true;
