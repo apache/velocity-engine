@@ -83,7 +83,7 @@ import org.apache.velocity.util.introspection.UberspectLoggable;
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
  * init()
- * 
+ *
  * If init() is called by itself the RuntimeInstance will initialize
  * with a set of default values.
  * -----------------------------------------------------------------------
@@ -102,13 +102,13 @@ import org.apache.velocity.util.introspection.UberspectLoggable;
  * @version $Id$
  */
 public class RuntimeInstance implements RuntimeConstants, RuntimeServices
-{    
+{
     /**
      *  VelocimacroFactory object to manage VMs
      */
     private  VelocimacroFactory vmFactory = null;
 
-    /** 
+    /**
      *  The Runtime logger.  We start with an instance of
      *  a 'primordial logger', which just collects log messages
      *  then, when the log system is initialized, we dump
@@ -116,12 +116,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private  LogSystem logSystem = new PrimordialLogSystem();
 
-    /** 
-     * The Runtime parser pool 
+    /**
+     * The Runtime parser pool
      */
     private  SimplePool parserPool;
-    
-    /** 
+
+    /**
      * Indicate whether the Runtime has been fully initialized.
      */
     private  boolean initialized;
@@ -149,7 +149,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * can be retrieved from the main ExtendedProperties object
      * using something like the following:
      *
-     * ExtendedProperties loaderConfiguration = 
+     * ExtendedProperties loaderConfiguration =
      *         configuration.subset(loaderID);
      *
      * And a configuration is a lot more convenient to deal
@@ -173,7 +173,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
 
     /*
-     *  Opaque reference to something specificed by the 
+     *  Opaque reference to something specificed by the
      *  application for use in application supplied/specified
      *  pluggable components
      */
@@ -194,7 +194,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /*
          *  make a new introspector and initialize it
          */
-         
+
         introspector = new Introspector( this );
 
         /*
@@ -236,13 +236,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             initializeIntrospection();
             /*
-             *  initialize the VM Factory.  It will use the properties 
+             *  initialize the VM Factory.  It will use the properties
              * accessable from Runtime, so keep this here at the end.
              */
             vmFactory.initVelocimacro();
 
             info("Velocity successfully started.");
-            
+
             initialized = true;
         }
     }
@@ -320,10 +320,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             InputStream inputStream = getClass()
                 .getResourceAsStream('/' + DEFAULT_RUNTIME_PROPERTIES);
-            
+
             configuration.load( inputStream );
-            
-            info ("Default Properties File: " + 
+
+            info ("Default Properties File: " +
                 new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
         }
         catch (IOException ioe)
@@ -344,10 +344,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (overridingProperties == null)
         {
             overridingProperties = new ExtendedProperties();
-        }            
-            
+        }
+
         overridingProperties.setProperty(key, value);
-    }        
+    }
 
     /**
      * Allow an external system to set an ExtendedProperties
@@ -399,11 +399,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (overridingProperties == null)
         {
             overridingProperties = new ExtendedProperties();
-        }            
-            
+        }
+
         overridingProperties.addProperty(key, value);
     }
-    
+
     /**
      * Clear the values pertaining to a particular
      * property.
@@ -415,9 +415,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (overridingProperties != null)
         {
             overridingProperties.clearProperty(key);
-        }            
+        }
     }
-    
+
     /**
      *  Allows an external caller to get a property.  The calling
      *  routine is required to know the type, as this routine
@@ -440,21 +440,21 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void initializeProperties()
     {
-        /* 
+        /*
          * Always lay down the default properties first as
          * to provide a solid base.
          */
         if (configuration.isInitialized() == false)
         {
             setDefaultProperties();
-        }            
-    
+        }
+
         if( overridingProperties != null)
-        {        
+        {
             configuration.combine(overridingProperties);
         }
     }
-    
+
     /**
      * Initialize the Velocity Runtime with a Properties
      * object.
@@ -466,7 +466,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         overridingProperties = ExtendedProperties.convertProperties(p);
         init();
     }
-    
+
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
@@ -486,7 +486,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /*
          * Which resource manager?
          */
-         
+
         String rm = getString(RuntimeConstants.RESOURCE_MANAGER_CLASS);
 
         if (rm != null && rm.length() > 0)
@@ -496,9 +496,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  if that isn't a ResourceManager, consider
              *  this a huge error and throw
              */
-            
+
             Object o = null;
-            
+
             try
             {
                o = ClassUtils.getNewInstance( rm );
@@ -506,148 +506,148 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             catch (ClassNotFoundException cnfe )
             {
                 String err = "The specified class for Resourcemanager ("
-                    + rm    
+                    + rm
                     + ") does not exist (or is not accessible to the current classlaoder.";
                  error(err);
                  throw new Exception(err);
             }
-            
+
             if (!(o instanceof ResourceManager))
             {
                 String err = "The specified class for ResourceManager ("
-                    + rm 
+                    + rm
                     + ") does not implement org.apache.runtime.resource.ResourceManager."
                     + " Velocity not initialized correctly.";
-                    
+
                 error(err);
                 throw new Exception(err);
             }
 
             resourceManager = (ResourceManager) o;
-            
-            resourceManager.initialize(this);        
+
+            resourceManager.initialize(this);
          }
          else
          {
             /*
              *  someone screwed up.  Lets not fool around...
              */
-             
+
             String err = "It appears that no class was specified as the"
             + " ResourceManager.  Please ensure that all configuration"
             + " information is correct.";
-            
+
             error(err);
             throw new Exception( err );
-        }                            
+        }
     }
-    
+
     private void initializeEventHandlers()
         throws Exception
     {
-        
+
         eventCartridge = new EventCartridge();
-        
+
         /**
          * For each type of event handler, get the class name, instantiate it, and store it.
          */
-         
+
         String[] referenceinsertion = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION);
         if ( referenceinsertion != null )
-        { 
-            for ( int i=0; i < referenceinsertion.length; i++ ) 
+        {
+            for ( int i=0; i < referenceinsertion.length; i++ )
             {
-                EventHandler ev = initializeSpecificEventHandler(referenceinsertion[i],RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION,ReferenceInsertionEventHandler.class); 
+                EventHandler ev = initializeSpecificEventHandler(referenceinsertion[i],RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION,ReferenceInsertionEventHandler.class);
                 if (ev != null)
                     eventCartridge.addReferenceInsertionEventHandler((ReferenceInsertionEventHandler) ev);
             }
         }
-        
+
         String[] nullset = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_NULLSET);
         if ( nullset != null )
-        { 
-            for ( int i=0; i < nullset.length; i++ ) 
+        {
+            for ( int i=0; i < nullset.length; i++ )
             {
-                EventHandler ev = initializeSpecificEventHandler(nullset[i],RuntimeConstants.EVENTHANDLER_NULLSET,NullSetEventHandler.class); 
+                EventHandler ev = initializeSpecificEventHandler(nullset[i],RuntimeConstants.EVENTHANDLER_NULLSET,NullSetEventHandler.class);
                 if (ev != null)
                     eventCartridge.addNullSetEventHandler((NullSetEventHandler) ev);
             }
         }
-        
+
         String[] methodexception = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION);
         if ( methodexception != null )
-        { 
-            for ( int i=0; i < methodexception.length; i++ ) 
+        {
+            for ( int i=0; i < methodexception.length; i++ )
             {
-                EventHandler ev = initializeSpecificEventHandler(methodexception[i],RuntimeConstants.EVENTHANDLER_METHODEXCEPTION,MethodExceptionEventHandler.class); 
+                EventHandler ev = initializeSpecificEventHandler(methodexception[i],RuntimeConstants.EVENTHANDLER_METHODEXCEPTION,MethodExceptionEventHandler.class);
                 if (ev != null)
                     eventCartridge.addMethodExceptionHandler((MethodExceptionEventHandler) ev);
             }
         }
-        
+
         String[] includeHandler = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_INCLUDE);
         if ( includeHandler != null )
-        { 
-            for ( int i=0; i < includeHandler.length; i++ ) 
+        {
+            for ( int i=0; i < includeHandler.length; i++ )
             {
-                EventHandler ev = initializeSpecificEventHandler(includeHandler[i],RuntimeConstants.EVENTHANDLER_INCLUDE,IncludeEventHandler.class); 
+                EventHandler ev = initializeSpecificEventHandler(includeHandler[i],RuntimeConstants.EVENTHANDLER_INCLUDE,IncludeEventHandler.class);
                 if (ev != null)
                     eventCartridge.addIncludeEventHandler((IncludeEventHandler) ev);
             }
         }
-        
+
     }
-    
+
     private EventHandler initializeSpecificEventHandler(String classname, String paramName, Class EventHandlerInterface)
         throws Exception
     {
-        if ( classname != null && classname.length() > 0) 
-        {   
+        if ( classname != null && classname.length() > 0)
+        {
             Object o = null;
             try {
                 o = Class.forName(classname).newInstance();
             }
             catch (ClassNotFoundException cnfe )
             {
-                String err = "The specified class for " 
-                    + paramName 
+                String err = "The specified class for "
+                    + paramName
                     + " ("
-                    + classname    
+                    + classname
                     + ") does not exist (or is not accessible to the current classlaoder.";
                  error(err);
                  throw new Exception(err);
             }
-            
+
             if (!EventHandlerInterface.isAssignableFrom(EventHandlerInterface))
             {
-                String err = "The specified class for " 
-                    + paramName 
+                String err = "The specified class for "
+                    + paramName
                     + " ("
-                    + classname 
+                    + classname
                     + ") does not implement "
                     + EventHandlerInterface.getName()
                     + " Velocity not initialized correctly.";
-                    
+
                 error(err);
                 throw new Exception(err);
             }
 
-            EventHandler ev = (EventHandler) o;   
+            EventHandler ev = (EventHandler) o;
             if ( ev instanceof RuntimeServicesAware )
                 ((RuntimeServicesAware) ev).setRuntimeServices(this);
             return ev;
-        
+
         } else
             return null;
     }
- 
+
     /**
      * Initialize the Velocity logging system.
      *
      * @throws Exception
      */
     private void initializeLogger() throws Exception
-    { 
+    {
         /*
          * Initialize the logger. We will eventually move all
          * logging into the logging manager.
@@ -656,12 +656,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             PrimordialLogSystem pls = (PrimordialLogSystem) logSystem;
             logSystem = LogManager.createLogSystem(this);
-            
+
             /*
-             * in the event of failure, lets do something to let it 
+             * in the event of failure, lets do something to let it
              * limp along.
              */
-             
+
              if (logSystem == null)
              {
                 logSystem = new NullLogSystem();
@@ -673,7 +673,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
    }
 
-    
+
     /**
      * This methods initializes all the directives
      * that are used by the Velocity Runtime. The
@@ -691,9 +691,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * This will be used for creating parsers.
          */
         runtimeDirectives = new Hashtable();
-        
+
         Properties directiveProperties = new Properties();
-        
+
         /*
          * Grab the properties file with the list of directives
          * that we should initialize.
@@ -701,7 +701,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         InputStream inputStream =
             getClass().getResourceAsStream('/' + DEFAULT_RUNTIME_DIRECTIVES);
-    
+
         if (inputStream == null)
         {
             throw new Exception("Error loading directive.properties! " +
@@ -712,7 +712,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         directiveProperties.load(inputStream);
-        
+
         /*
          * Grab all the values of the properties. These
          * are all class names for example:
@@ -720,43 +720,43 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * org.apache.velocity.runtime.directive.Foreach
          */
         Enumeration directiveClasses = directiveProperties.elements();
-        
+
         while (directiveClasses.hasMoreElements())
         {
             String directiveClass = (String) directiveClasses.nextElement();
             loadDirective( directiveClass, "System" );
         }
-        
+
         /*
          *  now the user's directives
          */
-         
+
         String[] userdirective = configuration.getStringArray("userdirective");
-        
+
         for( int i = 0; i < userdirective.length; i++)
         {
             loadDirective( userdirective[i], "User");
         }
-        
+
     }
-    
+
     /**
      *  instantiates and loads the directive with some basic checks
-     * 
-     *  @param directiveClass classname of directive to load 
+     *
+     *  @param directiveClass classname of directive to load
      */
     private void loadDirective(String directiveClass, String caption)
-    {    
+    {
         try
         {
             Object o = ClassUtils.getNewInstance( directiveClass );
-            
+
             if (o instanceof Directive)
             {
                 Directive directive = (Directive) o;
                 runtimeDirectives.put(directive.getName(), directive);
-                    
-                info("Loaded " + caption + " Directive: " 
+
+                info("Loaded " + caption + " Directive: "
                     + directiveClass);
             }
             else
@@ -771,12 +771,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         // Ignore Findbugs complaint for now.
         catch (Exception e)
         {
-            error("Exception Loading " + caption + " Directive: " 
-                + directiveClass + " : " + e);    
+            error("Exception Loading " + caption + " Directive: "
+                + directiveClass + " : " + e);
         }
     }
-    
-    
+
+
     /**
      * Initializes the Velocity parser pool.
      * This still needs to be implemented.
@@ -812,10 +812,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * AST node structure.
      * <br><br>
      *  In the event that it runs out of parsers in the
-     *  pool, it will create and let them be GC'd 
+     *  pool, it will create and let them be GC'd
      *  dynamically, logging that it has to do that.  This
      *  is considered an exceptional condition.  It is
-     *  expected that the user will set the 
+     *  expected that the user will set the
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
@@ -852,7 +852,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  if we couldn't get a parser from the pool
              *  make one and log it.
              */
-            
+
             error("Runtime : ran out of parsers. Creating new.  "
                   + " Please increment the parser.pool.size property."
                   + " The current value is too small.");
@@ -874,8 +874,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             try
             {
                 /*
-                 *  dump namespace if we are told to.  Generally, you want to 
-                 *  do this - you don't in special circumstances, such as 
+                 *  dump namespace if we are told to.  Generally, you want to
+                 *  do this - you don't in special circumstances, such as
                  *  when a VM is getting init()-ed & parsed
                  */
 
@@ -903,10 +903,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         return ast;
     }
-    
+
     /**
      * Returns a <code>Template</code> from the resource manager.
-     * This method assumes that the character encoding of the 
+     * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
      * property.  The default is "ISO-8859-1"
      *
@@ -942,9 +942,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (resourceManager == null)
         {
             throw new IllegalStateException
-              (" Cannot retrieve template as Velocity was not initialized.");
+              ("Cannot retrieve template as Velocity was not initialized.");
         }
-        
+
         return (Template)
                 resourceManager.getResource(name,
                     ResourceManager.RESOURCE_TEMPLATE, encoding);
@@ -987,7 +987,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (resourceManager == null)
         {
             throw new IllegalStateException
-              (" Cannot retrieve content as Velocity was not initialized.");
+              ("Cannot retrieve content as Velocity was not initialized.");
         }
 
         return (ContentResource)
@@ -997,7 +997,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -1010,7 +1010,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (resourceManager == null)
         {
             throw new IllegalStateException
-              (" Cannot retrieve template information as Velocity was not initialized.");
+              ("Cannot retrieve template information as Velocity was not initialized.");
         }
 
         return resourceManager.getLoaderNameForResource(resourceName);
@@ -1027,11 +1027,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (configuration.isInitialized())
         {
             return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
-        }            
+        }
         else
         {
             return false;
-        }            
+        }
     }
 
     /**
@@ -1043,7 +1043,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private void log(int level, Object message)
     {
         String out;
-     
+
         /*
          *  now,  see if the logging stacktrace is on
          *  and modify the message to suit
@@ -1055,8 +1055,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         else
         {
-            out = message.toString();    
-        }            
+            out = message.toString();
+        }
 
         /*
          *  just log it, as we are guaranteed now to have some
@@ -1074,8 +1074,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         log(LogSystem.WARN_ID, message);
     }
-    
-    /** 
+
+    /**
      * Log an info message.
      *
      * @param message message to log
@@ -1084,7 +1084,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         log(LogSystem.INFO_ID, message);
     }
-    
+
     /**
      * Log an error message.
      *
@@ -1094,7 +1094,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         log(LogSystem.ERROR_ID, message);
     }
-    
+
     /**
      * Log a debug message.
      *
@@ -1108,11 +1108,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * String property accessor method with default to hide the
      * configuration implementation.
-     * 
+     *
      * @param key property key
-     * @param defaultValue  default value to return if key not 
+     * @param defaultValue  default value to return if key not
      *               found in resource manager.
-     * @return value of key or default 
+     * @return value of key or default
      */
     public String getString( String key, String defaultValue)
     {
@@ -1134,21 +1134,21 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
    /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
      *
-     * @param name Name of velocimacro 
+     * @param name Name of velocimacro
      * @param macro String form of macro body
-     * @param argArray Array of strings, containing the 
+     * @param argArray Array of strings, containing the
      *                         #macro() arguments.  the 0th is the name.
-     * @return True if added, false if rejected for some 
-     *                  reason (either parameters or permission settings) 
+     * @return True if added, false if rejected for some
+     *                  reason (either parameters or permission settings)
      */
-    public boolean addVelocimacro( String name, 
-                                          String macro, 
-                                          String argArray[], 
+    public boolean addVelocimacro( String name,
+                                          String macro,
+                                          String argArray[],
                                           String sourceTemplate )
-    {    
+    {
         return vmFactory.addVelocimacro(name, macro,  argArray,  sourceTemplate);
     }
- 
+
     /**
      *  Checks to see if a VM exists
      *
@@ -1216,7 +1216,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Boolean property accessor method to hide the configuration implementation.
-     * 
+     *
      * @param key property key
      * @param default default value if property not found
      * @return value of key or default value
@@ -1235,8 +1235,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public ExtendedProperties getConfiguration()
     {
         return configuration;
-    }        
-    
+    }
+
     /**
      *  Return the Introspector for this instance
      */
@@ -1244,7 +1244,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return introspector;
     }
-    
+
     /**
      * Returns the event handlers for the application.
      */
@@ -1252,7 +1252,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      {
          return eventCartridge;
      }
-    
+
 
     /**
      *  Gets the application attribute for the given key
