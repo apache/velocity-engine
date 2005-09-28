@@ -30,25 +30,25 @@ import org.apache.commons.collections.ExtendedProperties;
 /**
  * This is abstract class the all text resource loaders should
  * extend.
- * 
+ *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
 public abstract class ResourceLoader
 {
-    /** 
+    /**
      * Does this loader want templates produced with it
      * cached in the Runtime.
      */
      protected boolean isCachingOn = false;
-    
+
     /**
      * This property will be passed on to the templates
      * that are created with this loader.
      */
     protected long modificationCheckInterval = 2;
-   
+
     /**
      * Class name for this loader, for logging/debuggin
      * purposes.
@@ -68,14 +68,14 @@ public abstract class ResourceLoader
 
         /*
          *  these two properties are not required for all loaders.
-         *  For example, for ClasspathLoader, what would cache mean? 
+         *  For example, for ClasspathLoader, what would cache mean?
          *  so adding default values which I think are the safest
          *
          *  don't cache, and modCheckInterval irrelevant...
          */
 
         try
-	    {
+        {
             isCachingOn = configuration.getBoolean("cache", false);
         }
         catch (Exception e)
@@ -94,7 +94,7 @@ public abstract class ResourceLoader
             rs.error(e.getMessage() + ": Using default of '" +
                      modificationCheckInterval + '\'');
         }
-        
+
         /*
          * this is a must!
          */
@@ -110,17 +110,17 @@ public abstract class ResourceLoader
         }
     }
 
-    /** 
+    /**
      * Initialize the template loader with a
      * a resources class.
      */
     public abstract void init( ExtendedProperties configuration);
 
-    /** 
+    /**
      * Get the InputStream that the Runtime will parse
      * to create a template.
      */
-    public abstract InputStream getResourceStream( String source ) 
+    public abstract InputStream getResourceStream( String source )
         throws ResourceNotFoundException;
 
     /**
@@ -128,7 +128,7 @@ public abstract class ResourceLoader
      * has been modified.
      */
     public abstract boolean isSourceModified(Resource resource);
-    
+
     /**
      * Get the last modified time of the InputStream source
      * that was used to create the template. We need the template
@@ -175,7 +175,7 @@ public abstract class ResourceLoader
     {
         this.modificationCheckInterval = modificationCheckInterval;
     }
-    
+
     /**
      * Get the interval at which the InputStream source
      * should be checked for modifications.
