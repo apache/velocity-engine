@@ -84,8 +84,6 @@ public class AvalonLogSystem implements LogSystem
             }
             catch( Exception e )
             {
-                System.out.println(
-                    "PANIC : Error configuring AvalonLogSystem : " + e );
                 System.err.println(
                     "PANIC : Error configuring AvalonLogSystem : " + e );
 
