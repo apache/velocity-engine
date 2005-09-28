@@ -173,7 +173,6 @@ public class LogManager
                 + " Please consult the documentation regarding logging."
                 + " Exception : " + ncdfe;
 
-            System.out.println( errstr );
             System.err.println( errstr );
 
             throw ncdfe;

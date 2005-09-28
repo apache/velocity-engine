@@ -102,7 +102,7 @@ public class Log4JLogSystem implements LogSystem
         }
         catch(Exception e)
         {
-            System.out.println(
+            System.err.println(
                 "PANIC : error configuring Log4JLogSystem : " + e);
         }
     }
