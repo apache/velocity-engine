@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
- * @version $Id: AvalonLogChute.java 292075 2005-09-28 00:08:12Z dlr $
+ * @version $Id$
  */
 public class AvalonLogChute implements LogChute
 {

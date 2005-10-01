@@ -24,7 +24,7 @@ import org.apache.velocity.util.StringUtils;
  * use of this will fully replace use of the RuntimeLogger. 
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
- * @version $Id: Log.java 291585 2005-09-26 08:56:23Z henning $
+ * @version $Id$
  */
 public class Log
 {
