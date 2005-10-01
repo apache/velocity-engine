@@ -98,7 +98,7 @@ public class LogManager
          * AvalonLogChute, the Log4JLogChute, and the JdkLogChute for 
          * convenience - so we use whichever we find first.
          */
-        List classes = null;
+        List classes = new ArrayList();
         Object obj = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
 
         /*
@@ -110,7 +110,6 @@ public class LogManager
         }
         else if ( obj instanceof String)
         { 
-            classes = new ArrayList();
             classes.add( obj );
         }
 
