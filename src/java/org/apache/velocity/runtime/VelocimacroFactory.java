@@ -383,7 +383,7 @@ public class VelocimacroFactory
      *  @param sourceTemplate Source template that contains the defintion of the VM
      *  @return true if it is allowed to be added, false otherwise
      */
-    private boolean canAddVelocimacro( String name, String sourceTemplate)
+    private synchronized boolean canAddVelocimacro( String name, String sourceTemplate)
     {
         /*
          *  short circuit and do it if autoloader is on, and the
@@ -677,7 +677,7 @@ public class VelocimacroFactory
      * recursive reload due to inter-calling
      * VMs in a library
      */
-    private class Twonk
+    private static class Twonk
     {
         public Template template;
         public long modificationTime;
