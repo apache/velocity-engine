@@ -45,7 +45,8 @@ public class PropertiesUtil
      */
     public Properties load(String propertiesFile)
     {
-        Properties properties = new Properties();
+        Properties properties;
+
         String templatePath = Generator.getInstance().getTemplatePath();
         if (templatePath != null)
         {

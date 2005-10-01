@@ -277,8 +277,6 @@ public class Macro extends Directive
 
         ArrayList list = new ArrayList();
 
-        t = rootNode.getFirstToken();
-
         while (t != tLast)
         {
             list.add(NodeUtils.tokenLiteral(t));
