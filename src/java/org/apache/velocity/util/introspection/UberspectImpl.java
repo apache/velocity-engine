@@ -49,27 +49,27 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  the default Velocity introspector
      */
-    protected static Introspector introspector;
+    protected Introspector introspector;
 
     /**
-     *  init - does nothing - we need to have setRuntimeLogger
-     *  called before getting our introspector, as the default
-     *  vel introspector depends upon it.
+     *  init - generates the Introspector. As the setup code
+     *  makes sure that the log gets set before this is called,
+     *  we can initialize the Introspector using the log object.
      */
     public void init()
-        throws Exception
     {
+        introspector = new Introspector(log);
     }
 
     /**
      *  Sets the runtime logger - this must be called before anything
-     *  else besides init() as to get the logger.  Makes the pull
-     *  model appealing...
+     *  else.
+     *  
+     * @param log The logger instance to use.
      */
     public void setLog(Log log)
     {
         this.log = log;
-        introspector = new Introspector(log);
     }
 
     /**
