@@ -29,8 +29,6 @@ import org.apache.velocity.app.event.IncludeEventHandler;
 
 public class IncludeRelativePath implements IncludeEventHandler {
 
-    String notfound;
-
     /**
      * Return path relative to the current template's path.
      */
