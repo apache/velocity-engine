@@ -105,23 +105,31 @@ public class Introspector extends IntrospectorBase
              *  whoops.  Ambiguous.  Make a nice log message and return null...
              */
 
-            String msg = "Introspection Error : Ambiguous method invocation "
-                + name + "( ";
+            StringBuffer msg = new StringBuffer("Introspection Error : Ambiguous method invocation ")
+                    .append(name)
+                    .append("( ");
 
             for (int i = 0; i < params.length; i++)
             {
                 if ( i > 0)
-                    msg = msg + ", ";
+                {
+                    msg.append(", ");
+                }
 
                 if (params[i] == null)
-                    msg = msg + "null";
+                {
+                    msg.append("null");
+                }
                 else
-                    msg = msg + params[i].getClass().getName();                
+                {
+                    msg.append(params[i].getClass().getName());
+                }
             }
             
-            msg = msg + ") for class " + c;
+            msg.append(") for class ")
+                    .append(c);
             
-            log.error( msg );
+            log.error( msg.toString());
         }
 
         return null;
