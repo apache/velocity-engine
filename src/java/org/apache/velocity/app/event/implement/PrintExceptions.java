@@ -87,26 +87,20 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
 
     private static String getStackTrace(Throwable throwable)
     {
-        StringWriter stackTraceWriter = null;
+        PrintWriter printWriter = null;
         try
         {
-            stackTraceWriter = new StringWriter();
-            throwable.printStackTrace(new PrintWriter(stackTraceWriter));
-            stackTraceWriter.flush();
+            StringWriter stackTraceWriter = new StringWriter();
+            printWriter = new PrintWriter(stackTraceWriter);
+            throwable.printStackTrace(printWriter);
+            printWriter.flush();
             return stackTraceWriter.toString();
         }
         finally
         {
-            if (stackTraceWriter != null)
+            if (printWriter != null)
             {
-                try
-                {
-                    stackTraceWriter.close();
-                }
-                catch (IOException ioe)
-                {
-                    // do nothing
-                }
+                printWriter.close();
             }
         }
     }
