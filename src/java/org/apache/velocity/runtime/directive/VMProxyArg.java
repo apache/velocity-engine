@@ -79,6 +79,9 @@ import org.apache.velocity.VelocityContext;
  */
 public class VMProxyArg
 {
+    /** in the event our type is switched - we don't care really what it is */
+    private static final int GENERALSTATIC = -1;
+
     /**  type of arg I will have */
     private int type = 0;
 
@@ -102,9 +105,6 @@ public class VMProxyArg
 
     /** by default, we are dynamic.  safest */
     private boolean constant = false;
-
-    /** in the event our type is switched - we don't care really what it is */
-    private final int GENERALSTATIC = -1;
 
     private RuntimeServices rsvc = null;
     private Log log = null;
@@ -138,7 +138,9 @@ public class VMProxyArg
          *  avoid fn call overhead 
          */
         if( nodeTree != null)
+        {
             numTreeChildren = nodeTree.jjtGetNumChildren();
+        }
 
         /*
          *  if we are a reference, and 'scalar' (i.e. $foo )
@@ -465,7 +467,7 @@ public class VMProxyArg
                 log.error("Unsupported arg type : " + callerReference +
                           " You most likely intended to call a VM with a string literal, so enclose with ' or \" characters. (VMProxyArg.setup())");
                 constant = true;
-                staticObject = new String( callerReference );
+                staticObject = callerReference;
 
                 break;
             }
