@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
- * @version $Id: PrimordialLogChute.java 291677 2005-09-26 17:04:21Z henning $
+ * @version $Id$
  */
 public class HoldingLogChute implements LogChute
 {

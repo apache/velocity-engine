@@ -23,7 +23,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Logger used when no other is configured.
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
- * @version $Id: StandardOutLogChute.java 291585 2005-09-26 08:56:23Z henning $
+ * @version $Id$
  */
 public class StandardOutLogChute implements LogChute
 {

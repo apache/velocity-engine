@@ -35,7 +35,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
  * @author <a href="mailto:nbubna@apache.org>Nathan Bubna</a>
- * @version $Id: Log4JLogChute.java 292075 2005-09-28 00:08:12Z dlr $
+ * @version $Id$
  * @since Velocity 1.5
  */
 public class Log4JLogChute implements LogChute

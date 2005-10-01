@@ -25,7 +25,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Implementation of a simple java.util.logging LogChute.
  *
  * @author <a href="mailto:nbubna@apache.org>Nathan Bubna</a>
- * @version $Id: JdkLogChute.java 291585 2005-09-26 08:56:23Z henning $
+ * @version $Id$
  * @since Velocity 1.5
  */
 public class JdkLogChute implements LogChute
