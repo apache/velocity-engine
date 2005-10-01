@@ -247,6 +247,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                  closeDbConnection(conn);
              }
          }
+         // IOException, SQLException
          catch(Exception e)
          {
              String msg = "DataSourceResourceLoader Error: database problem trying to load resource "

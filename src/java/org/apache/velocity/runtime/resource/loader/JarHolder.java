@@ -16,6 +16,7 @@ package org.apache.velocity.runtime.resource.loader;
  * limitations under the License.
  */
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -71,7 +72,7 @@ public class JarHolder
             conn.connect();
             theJar = conn.getJarFile();
         } 
-        catch (Exception e)
+        catch (IOException e)
         {
             log.error("JarHolder: error establishing connection to JAR ", e);
         }

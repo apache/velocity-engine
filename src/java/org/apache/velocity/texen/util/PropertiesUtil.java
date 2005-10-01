@@ -122,7 +122,7 @@ public class PropertiesUtil
                 // we found a valid file.
                 break;
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 // do nothing
             }
