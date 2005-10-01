@@ -102,12 +102,15 @@ public class JarResourceLoader extends ResourceLoader
                              + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
-                             
-        log.info("JarResourceLoader # of paths : " + paths.size() );
-        
-        for ( int i=0; i<paths.size(); i++ )
+         
+        if (paths != null)
         {
-            loadJar( (String)paths.get(i) );
+            log.info("JarResourceLoader # of paths : " + paths.size() );
+        
+            for ( int i=0; i<paths.size(); i++ )
+            {
+                loadJar( (String)paths.get(i) );
+            }
         }
         
         log.info("JarResourceLoader : initialization complete.");
