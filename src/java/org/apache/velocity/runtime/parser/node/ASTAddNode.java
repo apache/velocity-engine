@@ -74,7 +74,7 @@ public class ASTAddNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" )
+            log.error((left == null ? "Left" : "Right")
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of addition operation has null value."
@@ -114,7 +114,7 @@ public class ASTAddNode extends SimpleNode
         /*
          *  if not a Number or Strings, not much we can do right now
          */
-        rsvc.error( ( !( left instanceof Number || left instanceof String ) ? "Left" : "Right" )
+        log.error((!(left instanceof Number || left instanceof String) ? "Left" : "Right")
                        + " side of addition operation is not a valid type. "
                        + "Currently only Strings, numbers (1,2,3...) and Number type are supported. "
                        + context.getCurrentTemplateName() + " [line " + getLine()

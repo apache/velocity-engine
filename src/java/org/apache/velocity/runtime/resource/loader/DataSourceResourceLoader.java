@@ -23,8 +23,8 @@ import javax.sql.DataSource;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.Resource;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -137,27 +137,32 @@ public class DataSourceResourceLoader extends ResourceLoader
          keyColumn       = configuration.getString("resource.keycolumn");
          templateColumn  = configuration.getString("resource.templatecolumn");
          timestampColumn = configuration.getString("resource.timestampcolumn");
-
+         
          if (dataSource != null) 
          {
-             rsvc.info("Resources Loaded using dataSource instance with table: " + tableName);
-             rsvc.info("Resource Loader using columns: " + keyColumn + ", "
-                           + templateColumn + " and " + timestampColumn);
-             rsvc.info("Resource Loader Initalized.");
-
+             if (log.isInfoEnabled())
+             {
+                 log.info("Resources Loaded using dataSource instance with table: "
+                          + tableName);
+                 log.info("Resource Loader using columns: " + keyColumn + ", "
+                          + templateColumn + " and " + timestampColumn);
+                 log.info("Resource Loader Initalized.");
+             }
          } 
          else if (dataSourceName != null) 
          {
-             rsvc.info("Resources Loaded From: " + dataSourceName + "/" + tableName);
-             rsvc.info("Resource Loader using columns: " + keyColumn + ", "
-                           + templateColumn + " and " + timestampColumn);
-             rsvc.info("Resource Loader Initalized.");
-         
+             if (log.isInfoEnabled())
+             {
+                 log.info("Resources Loaded From: " + dataSourceName + "/"
+                          + tableName);
+                 log.info("Resource Loader using columns: " + keyColumn + ", "
+                          + templateColumn + " and " + timestampColumn);
+                 log.info("Resource Loader Initalized.");
+              }
          } 
          else 
          {
-            rsvc.info("DataSourceResourceLoader not properly initialized.  ");
-            
+            log.info("DataSourceResourceLoader not properly initialized.  ");
          }
      }
 
@@ -218,7 +223,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                          {
                              String msg = "DataSourceResourceLoader Error: cannot find resource "
                                  + name;
-                             rsvc.error(msg);
+                             log.error(msg);
 
                              throw new ResourceNotFoundException(msg);
                         }
@@ -227,7 +232,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                      {
                          String msg = "DataSourceResourceLoader Error: cannot find resource "
                              + name;
-                         rsvc.error(msg);
+                         log.error(msg);
 
                          throw new ResourceNotFoundException(msg);
                      }
@@ -244,10 +249,9 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch(Exception e)
          {
-             String msg =  "DataSourceResourceLoader Error: database problem trying to load resource "
-                 + name + ": " + e.toString();
-
-             rsvc.error(msg);
+             String msg = "DataSourceResourceLoader Error: database problem trying to load resource "
+                          + name;
+             log.error(msg, e);
 
              throw new ResourceNotFoundException(msg);
          }
@@ -283,7 +287,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         rsvc.error("DataSourceResourceLoader Error: while "
+                         log.error("DataSourceResourceLoader Error: while "
                                        + i_operation
                                        + " could not find resource " + name);
                      }
@@ -300,15 +304,15 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch(SQLException e)
          {
-             rsvc.error( "DataSourceResourceLoader Error: error while "
+             log.error("DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
-                 + name + ": " + e.toString() );
+                 + name, e);
          }
          catch(NamingException e)
          {
-             rsvc.error( "DataSourceResourceLoader Error: error while "
+             log.error("DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
-                 + name + ": " + e.toString() );
+                 + name, e);
          }
 
          return 0;
@@ -347,9 +351,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch (Exception e)
          {
-             rsvc.info(
-                 "DataSourceResourceLoader Quirk: problem when closing connection: "
-                 + e.toString());
+             log.info("DataSourceResourceLoader Quirk: problem when closing connection", e);
          }
      }
 

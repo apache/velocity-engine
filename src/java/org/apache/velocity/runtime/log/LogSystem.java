@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.log;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -19,43 +19,47 @@ package org.apache.velocity.runtime.log;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- * Base interface that Logging systems need to implement.
+ * Old base interface that old logging systems needed to implement.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @deprecated Use LogChute instead!
  * @version $Id$
  */
 public interface LogSystem
 {
+    /**
+     * @deprecated This is unused and meaningless
+     */
     public final static boolean DEBUG_ON = true;
 
     /**
-     * Prefix for debug messages.
+     * ID for debug messages.
      */
     public final static int DEBUG_ID = 0;
 
     /** 
-     * Prefix for info messages.
+     * ID for info messages.
      */
     public final static int INFO_ID = 1;
     
     /** 
-     * Prefix for warning messages.
+     * ID for warning messages.
      */
     public final static int WARN_ID = 2;
 
     /** 
-     * Prefix for error messages.
+     * ID for error messages.
      */
     public final static int ERROR_ID = 3;
 
     /**
-     *  init()
+     * Initializes this LogSystem.
      */
     public void init( RuntimeServices rs ) throws Exception;
 
     /**
-     * Send a log message from Velocity.
+     * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message);
 }

@@ -173,7 +173,7 @@ public class VelocimacroProxy extends Directive
             }
             else
             {
-                rsvc.error( "VM error : " + macroName + ". Null AST");
+                rsvc.getLog().error("VM error " + macroName + ". Null AST");
             }
         } 
         catch ( Exception e ) 
@@ -187,8 +187,8 @@ public class VelocimacroProxy extends Directive
                 throw (MethodInvocationException) e;
             }
 
-            rsvc.error("VelocimacroProxy.render() : exception VM = #" + macroName + 
-            "() : "  + StringUtils.stackTrace(e));
+            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" + 
+                                macroName + "()", e);
         }
 
         return true;
@@ -216,10 +216,10 @@ public class VelocimacroProxy extends Directive
      
         if ( getNumArgs() != i ) 
         {
-            rsvc.error("VM #" + macroName + ": error : too " 
-                       + ( (getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted " 
-                       + getNumArgs() + " got " + i );
-
+            rsvc.getLog().error("VM #" + macroName + ": error : too " +
+                                ((getNumArgs() > i) ? "few" : "many") + 
+                                " arguments to macro. Wanted " + getNumArgs() +
+                                " got " + i);
             return;
         }
 
@@ -302,8 +302,8 @@ public class VelocimacroProxy extends Directive
         } 
         catch ( Exception e ) 
         {
-            rsvc.error("VelocimacroManager.parseTree() : exception " + macroName + 
-                          " : "  + StringUtils.stackTrace(e));
+            rsvc.getLog().error("VelocimacroManager.parseTree() : exception " + 
+                                macroName, e);
         }
     }
   

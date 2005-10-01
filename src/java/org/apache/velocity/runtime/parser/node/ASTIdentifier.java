@@ -134,8 +134,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch(Exception e)
         {
-            rsvc.error("ASTIdentifier.execute() : identifier = "
-                               + identifier + " : " + e);
+            log.error("ASTIdentifier.execute() : identifier = "+identifier, e);
         }
 
         /*
@@ -203,7 +202,7 @@ public class ASTIdentifier extends SimpleNode
         }
         catch(Exception e)
         {
-            rsvc.error("ASTIdentifier() : exception invoking method "
+            log.error("ASTIdentifier() : exception invoking method "
                         + "for identifier '" + identifier + "' in "
                         + o.getClass() + " : " + e);
         }

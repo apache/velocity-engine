@@ -316,7 +316,7 @@ public class VelocimacroFactory
                                  "will not automatically reload global library macros");
             }
 
-            rsvc.info("Velocimacro : initialization complete.");
+            rsvc.getLog().info("Velocimacro : initialization complete.");
         }
     
         return;
@@ -369,7 +369,7 @@ public class VelocimacroFactory
             Macro.macroToString(msg, argArray);
             msg.append(" : source = ").append(sourceTemplate);
             // Already checked for getBlather()
-            rsvc.info(msg.toString());
+            rsvc.getLog().info(msg);
         }
 
         return true;
@@ -452,7 +452,7 @@ public class VelocimacroFactory
     {
         if (getBlather())
         {
-            rsvc.info( s );
+            rsvc.getLog().info(s);
         }
     }
 
@@ -463,7 +463,7 @@ public class VelocimacroFactory
     {
         if (getBlather())
         {
-            rsvc.warn( s );
+            rsvc.getLog().warn(s);
         }
     }
       

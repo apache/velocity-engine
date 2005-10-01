@@ -25,6 +25,7 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
@@ -335,6 +336,11 @@ public interface RuntimeServices extends RuntimeLogger
      * implemenation.
      */
     public Uberspect getUberspect();
+
+    /**
+     * Returns a convenient Log instance that wraps the current LogChute.
+     */
+    public Log getLog();
 
     /**
       * Returns the event handlers for the application.

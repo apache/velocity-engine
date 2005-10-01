@@ -1,7 +1,5 @@
-package org.apache.velocity.runtime.log;
-
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -16,31 +14,20 @@ package org.apache.velocity.runtime.log;
  * limitations under the License.
  */
 
-import org.apache.velocity.runtime.RuntimeServices;
+package org.apache.velocity.runtime.log;
+
 
 /**
  *  Logger used in case of failure. Does nothing.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @deprecated Use NullLogChute.
  * @version $Id$
  */
-public class NullLogSystem implements LogSystem
+public class NullLogSystem extends NullLogChute implements LogSystem
 {
-    public NullLogSystem()
-    {
-    }
-
-    public void init( RuntimeServices rs )
-        throws Exception
-    {
-    }
-    
     /**
-     *  logs messages to the great Garbage Collector
-     *  in the sky
-     *
-     *  @param level severity level
-     *  @param message complete error message
+     *  @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message)
     {

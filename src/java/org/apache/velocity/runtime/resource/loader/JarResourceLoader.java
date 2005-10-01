@@ -80,7 +80,7 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        rsvc.info("JarResourceLoader : initialization starting.");
+        log.info("JarResourceLoader : initialization starting.");
 
         // rest of Velocity engine still use legacy Vector 
         // and Hashtable classes. Classes are implicitly
@@ -97,34 +97,34 @@ public class JarResourceLoader extends ResourceLoader
 
             if (paths != null && paths.size() > 0)
             {
-                rsvc.warn("JarResourceLoader : you are using a deprecated configuration"
+                log.warn("JarResourceLoader : you are using a deprecated configuration"
                              + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
                              + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
                              
-        rsvc.info("JarResourceLoader # of paths : " + paths.size() );
+        log.info("JarResourceLoader # of paths : " + paths.size() );
         
         for ( int i=0; i<paths.size(); i++ )
         {
             loadJar( (String)paths.get(i) );
         }
         
-        rsvc.info("JarResourceLoader : initialization complete.");
+        log.info("JarResourceLoader : initialization complete.");
     }
     
     private void loadJar( String path )
     {
-        rsvc.info("JarResourceLoader : trying to load: " + path);
+        log.info("JarResourceLoader : trying to load: " + path);
 
         // Check path information
         if ( path == null )
         {
-            rsvc.error("JarResourceLoader : can not load JAR - JAR path is null");
+            log.error("JarResourceLoader : can not load JAR - JAR path is null");
         }
         if ( !path.startsWith("jar:") )
         {
-            rsvc.error("JarResourceLoader : JAR path must start with jar: -> " +
+            log.error("JarResourceLoader : JAR path must start with jar: -> " +
                 "see java.net.JarURLConnection for information");
         }
         if ( !path.endsWith("!/") )
@@ -193,7 +193,7 @@ public class JarResourceLoader extends ResourceLoader
                 " contains .. and may be trying to access " + 
                 "content outside of template root.  Rejected.";
             
-            rsvc.error( "JarResourceLoader : " + msg );
+            log.error( "JarResourceLoader : " + msg );
             
             throw new ResourceNotFoundException ( msg );
         }

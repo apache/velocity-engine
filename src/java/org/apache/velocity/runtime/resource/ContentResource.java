@@ -77,7 +77,7 @@ public class ContentResource extends Resource
         }
         catch ( Exception e ) 
         {
-            rsvc.error("Cannot process content resource : " + e.toString() );
+            rsvc.getLog().error("Cannot process content resource", e);
             return false;
         }
         finally

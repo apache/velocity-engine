@@ -1,7 +1,7 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Copyright 2002-2004 The Apache Software Foundation.
+ * Copyright 2002-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.apache.velocity.util.introspection;
  */
 
 import org.apache.velocity.runtime.RuntimeLogger;
+import org.apache.velocity.runtime.log.Log;
 
 /**
  *  Marker interface to let an uberspector indicate it can and wants to
@@ -24,15 +25,22 @@ import org.apache.velocity.runtime.RuntimeLogger;
  *
  *  Thanks to Paulo for the suggestion
  *
+ * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @version $Id$
  *
  */
 public interface UberspectLoggable
 {
+
     /**
-     *  Sets the logger.  This will be called before any calls to the
-     *  uberspector
+     * Sets the logger.  This will be called before any calls to the
+     * uberspector
+     */
+    public void setLog(Log log);
+
+    /**
+     * @deprecated Use setLog(Log log) instead.
      */
     public void setRuntimeLogger(RuntimeLogger logger);
 }

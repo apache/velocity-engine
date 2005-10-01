@@ -76,7 +76,7 @@ public class ASTAndNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) + " side of '&&' operation is null."
+            log.error((left == null ? "Left" : "Right") + " side of '&&' operation is null."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");

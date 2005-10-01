@@ -26,7 +26,7 @@ import org.apache.velocity.util.ClassUtils;
 
 /**
  * <p>
- * This class is responsible for instantiating the correct LoggingSystem
+ * This class is responsible for instantiating the correct LogChute
  * </p>
  *
  * <p>
@@ -35,25 +35,25 @@ import org.apache.velocity.util.ClassUtils;
  * <ul>
  * <li> 
  *      First try to see if the user is passing in a living object
- *      that is a LogSystem, allowing the app to give is living
+ *      that is a LogChute, allowing the app to give its living
  *      custom loggers.
  *  </li>
  *  <li> 
  *       Next, run through the (possible) list of classes specified
  *       specified as loggers, taking the first one that appears to 
- *       work.  This is how we support finding either log4j or
- *       logkit, whichever is in the classpath, as both are 
- *       listed as defaults.
+ *       work.  This is how we support finding logkit, log4j or
+ *       jdk logging, whichever is in the classpath and found first, 
+ *       as all three are listed as defaults.
  *  </li>
  *  <li>
- *      Finally, we turn to 'faith-based' logging, and hope that
- *      logkit is in the classpath, and try for an AvalonLogSystem
- *      as a final gasp.  After that, there is nothing we can do.
+ *      Finally, we turn to the System.out stream and print log messages
+ *      to it if nothing else works.
  *  </li>
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
  */
 public class LogManager
@@ -62,39 +62,48 @@ public class LogManager
      *  Creates a new logging system or returns an existing one
      *  specified by the application.
      */
-    public static LogSystem createLogSystem( RuntimeServices rsvc )
-        throws Exception
+    public static LogChute createLogChute(RuntimeServices rsvc) throws Exception
     {
         /*
          *  if a logSystem was set as a configuation value, use that. 
          *  This is any class the user specifies.
          */
-
         Object o = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM );
 
-        if (o != null && o instanceof LogSystem)
+        if (o != null)
         {
-            ((LogSystem) o).init( rsvc );
-
-            return (LogSystem) o;
+            // first check for a LogChute
+            if (o instanceof LogChute)
+            {
+                ((LogChute)o).init(rsvc);
+                return (LogChute)o;
+            }
+            // then check for a LogSystem
+            if (o instanceof LogSystem)
+            {
+                // wrap the LogSystem into a chute.
+                LogChute chute = new LogChuteSystem((LogSystem)o);
+                chute.init(rsvc);
+                // warn the user about the deprecation
+                chute.log(LogChute.WARN_ID, 
+                          "LogSystem has been deprecated. Please use a LogChute implementation.");
+                return chute;
+            }
         }
   
-        /*
-         *  otherwise, see if a class was specified.  You
-         *  can put multiple classes, and we use the first one we find.
+        /* otherwise, see if a class was specified.  You can put multiple 
+         * classes, and we use the first one we find.
          *
-         *  Note that the default value of this property contains both the
-         *  AvalonLogSystem and the SimpleLog4JLogSystem for convenience - 
-         *  so we use whichever we find.
+         * Note that the default value of this property contains the
+         * AvalonLogChute, the Log4JLogChute, and the JdkLogChute for 
+         * convenience - so we use whichever we find first.
          */
-        
         List classes = null;
         Object obj = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
 
         /*
          *  we might have a list, or not - so check
          */
-
         if ( obj instanceof List)
         {
             classes = (List) obj;
@@ -105,82 +114,93 @@ public class LogManager
             classes.add( obj );
         }
 
+        Log log = rsvc.getLog();
+
         /*
          *  now run through the list, trying each.  It's ok to 
          *  fail with a class not found, as we do this to also
          *  search out a default simple file logger
          */
-
         for( Iterator ii = classes.iterator(); ii.hasNext(); )
         {
             String claz = (String) ii.next();
-
             if (claz != null && claz.length() > 0 )
             {
-                rsvc.info("Trying to use logger class " + claz );
-          
+                log.info("Trying to use logger class " + claz );
                 try
                 {
                     o = ClassUtils.getNewInstance( claz );
-
-                    if ( o instanceof LogSystem )
+                    if (o instanceof LogChute)
                     {
-                        ((LogSystem) o).init( rsvc );
-
-                        rsvc.info("Using logger class " + claz );
-
-                        return (LogSystem) o;
+                        ((LogChute)o).init(rsvc);
+                        log.info("Using logger class " + claz);
+                        return (LogChute)o;
+                    }
+                    else if (o instanceof LogSystem)
+                    {
+                        LogChute chute = new LogChuteSystem((LogSystem)o);
+                        chute.init(rsvc);
+                        // warn the user about the deprecation
+                        chute.log(LogChute.WARN_ID, 
+                                  "LogSystem has been deprecated. Please use a LogChute implementation.");
+                        return chute;
                     }
                     else
                     {
-                        rsvc.error("The specifid logger class " + claz + 
-                                   " isn't a valid LogSystem");
+                        log.error("The specifid logger class " + claz +
+                                  " isn't a valid LogChute");
                     }
                 }
                 catch( NoClassDefFoundError ncdfe )
                 {
-                    rsvc.debug("Couldn't find class " + claz 
-                               + " or necessary supporting classes in "
-                               + "classpath. Exception : " + ncdfe);
+                    log.debug("Couldn't find class " + claz 
+                              + " or necessary supporting classes in "
+                              + "classpath. Exception : " + ncdfe);
                 }
             }
         }
       
-        /*
-         *  if the above failed, then we are in deep doo-doo, as the 
-         *  above means that either the user specified a logging class
-         *  that we can't find, there weren't the necessary
-         *  dependencies in the classpath for it, or there were no
-         *  dependencies for the default loggers, log4j and logkit.
-         *  Since we really don't know, 
-         *  then take a wack at the AvalonLogSystem as a last resort.
+        /* If the above failed, that means either the user specified a 
+         * logging class that we can't find, there weren't the necessary
+         * dependencies in the classpath for it, or there were the same
+         * problems for the default loggers, log4j and Java1.4+.
+         * Since we really don't know and we want to be sure the user knows
+         * that something went wrong with the logging, let's fall back to the 
+         * surefire StandardOutLogChute. No panicking or failing to log!!
          */
-
-        LogSystem als = null;
-
-        try
-        {
-            als = new AvalonLogSystem();
-
-            als.init( rsvc );
-        }
-        catch( NoClassDefFoundError ncdfe )
-        {
-            String errstr = "PANIC : Velocity cannot find any of the"
-                + " specified or default logging systems in the classpath,"
-                + " or the classpath doesn't contain the necessary classes"
-                + " to support them."
-                + " Please consult the documentation regarding logging."
-                + " Exception : " + ncdfe;
-
-            System.err.println( errstr );
-
-            throw ncdfe;
-        }
-
-        rsvc.info("Using AvalonLogSystem as logger of final resort.");
-        
-        return als;
+        LogChute sls = new StandardOutLogChute();
+        sls.init(rsvc);
+        log.info("Using StandardOutLogChute.");
+        return sls;
     }
+
+    /**
+     * Update the Log instance with the appropriate LogChute and other
+     * settings determined by the RuntimeServices.
+     */
+    public static void updateLog(Log log, RuntimeServices rsvc) throws Exception
+    {
+        // create a new LogChute using the RuntimeServices
+        LogChute newLogChute = createLogChute(rsvc);
+        LogChute oldLogChute = log.getLogChute();
+
+        // If the old LogChute was a PrimordialLogChute,
+        // dump its messages into the new system first.
+        if (oldLogChute instanceof HoldingLogChute)
+        {
+            HoldingLogChute hlc = (HoldingLogChute)oldLogChute;
+            hlc.transferTo(newLogChute);
+        }
+
+        // check whether or not we should print the stack traces of
+        // Throwables passed *as* messages (rather than as Throwables).
+        boolean showStacks = 
+            rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_WARN_STACKTRACE, false);
+        log.setShowStackTraces(showStacks);
+
+        // pass the new LogChute to the log
+        log.setLogChute(newLogChute);
+    }
+
 }
 

@@ -25,7 +25,7 @@ import java.util.jar.JarFile;
 import java.util.Hashtable;
 
 import org.apache.velocity.runtime.RuntimeServices;
-
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
@@ -40,23 +40,29 @@ public class JarHolder
     private JarFile theJar = null;
     private JarURLConnection conn = null;
         
-    private RuntimeServices rsvc = null;
+    private Log log = null;
 
     public JarHolder( RuntimeServices rs, String urlpath )
     {
-        rsvc = rs;
+        this.log = rs.getLog();
 
         this.urlpath=urlpath;
         init();
         
-        rsvc.info("  JarHolder : initialized JAR: " + urlpath );
+        if (log.isInfoEnabled())
+        {
+            log.info("JarHolder: initialized JAR: " + urlpath );
+        }
     }
 
     public void init()
     {
         try
         {
-            rsvc.info("  JarHolder : attempting to connect to "+ urlpath);
+            if (log.isInfoEnabled())
+            {
+                log.info("JarHolder: attempting to connect to "+ urlpath);
+            }
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
             conn.setAllowUserInteraction(false);
@@ -67,7 +73,7 @@ public class JarHolder
         } 
         catch (Exception e)
         {
-            rsvc.error("  JarHolder : error establishing connection to JAR "+ e);
+            log.error("JarHolder: error establishing connection to JAR ", e);
         }
     }
 
@@ -79,12 +85,12 @@ public class JarHolder
         }
         catch ( Exception e )
         {
-            rsvc.error("  JarHolder : error Closing JAR the file " +  e);
+            log.error("JarHolder: error Closing JAR the file ", e);
         }
         theJar = null;
         conn = null;
 
-        rsvc.info("  JarHolder : JAR file closed");
+        log.info("JarHolder: JAR file closed");
     }
     
     public InputStream getResource( String theentry )
@@ -102,7 +108,7 @@ public class JarHolder
         }
         catch( Exception fnfe )
         {
-            rsvc.error("  JarHolder : getResource() error : exception : " + fnfe );
+            log.error("JarHolder : getResource() error", fnfe);
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         

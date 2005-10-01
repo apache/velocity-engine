@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -106,6 +107,7 @@ public class VMProxyArg
     private final int GENERALSTATIC = -1;
 
     private RuntimeServices rsvc = null;
+    private Log log = null;
 
     /**
      *  ctor for current impl 
@@ -120,6 +122,7 @@ public class VMProxyArg
     public VMProxyArg( RuntimeServices rs, String contextRef, String callerRef, int t )
     {
         rsvc = rs;
+        log = rsvc.getLog();
 
         contextReference = contextRef;
         callerReference = callerRef;
@@ -193,7 +196,7 @@ public class VMProxyArg
                 }
                 catch( MethodInvocationException mie )
                 {
-                    rsvc.error("VMProxyArg.getObject() : method invocation error setting value : " + mie );                    
+                    log.error("VMProxyArg.getObject() : method invocation error setting value", mie);                    
                 }
            }
             else
@@ -220,8 +223,8 @@ public class VMProxyArg
             type = GENERALSTATIC;
             staticObject = o;
 
-            rsvc.error("VMProxyArg.setObject() : Programmer error : I am a constant!  No setting! : "
-                               + contextReference + " / " + callerReference);
+            log.error("VMProxyArg.setObject() : Programmer error : I am a constant!  No setting! : "
+                      + contextReference + " / " + callerReference);
         }
 
         return null;
@@ -318,7 +321,7 @@ public class VMProxyArg
                 }
                 catch (Exception e )
                 {
-                    rsvc.error("VMProxyArg.getObject() : error rendering reference : " + e );
+                    log.error("VMProxyArg.getObject() : error rendering reference", e);
                 }
             }
             else if( type ==  GENERALSTATIC )
@@ -327,7 +330,9 @@ public class VMProxyArg
             }
             else
             {
-                rsvc.error("Unsupported VM arg type : VM arg = " + callerReference +" type = " + type + "( VMProxyArg.getObject() )");
+                log.error("Unsupported VM arg type : VM arg = " + 
+                          callerReference +" type = " + type + 
+                          "( VMProxyArg.getObject() )");
             }
             
             return retObject;
@@ -341,7 +346,7 @@ public class VMProxyArg
              *  I can think of
              */
             
-            rsvc.error("VMProxyArg.getObject() : method invocation error getting value : " + mie );
+            log.error("VMProxyArg.getObject() : method invocation error getting value", mie);
             
             return null;
         }
@@ -399,7 +404,7 @@ public class VMProxyArg
 
                     if ( nodeTree != null && nodeTree.getType() != type )
                     {
-                        rsvc.error( "VMProxyArg.setup() : programmer error : type doesn't match node type.");
+                        log.error("VMProxyArg.setup() : programmer error : type doesn't match node type.");
                     }
 
                     /*
@@ -416,8 +421,8 @@ public class VMProxyArg
                 } 
                 catch ( Exception e ) 
                 {
-                    rsvc.error("VMProxyArg.setup() : exception " + callerReference + 
-                                  " : "  + StringUtils.stackTrace(e));
+                    log.error("VMProxyArg.setup() : exception " + 
+                              callerReference, e);
                 }
 
                 break;
@@ -457,8 +462,8 @@ public class VMProxyArg
                  *  this is technically an error...
                  */
 
-                rsvc.error("Unsupported arg type : " + callerReference
-                            + "  You most likely intended to call a VM with a string literal, so enclose with ' or \" characters. (VMProxyArg.setup())");
+                log.error("Unsupported arg type : " + callerReference +
+                          " You most likely intended to call a VM with a string literal, so enclose with ' or \" characters. (VMProxyArg.setup())");
                 constant = true;
                 staticObject = new String( callerReference );
 
@@ -467,8 +472,8 @@ public class VMProxyArg
  
              default :
             {
-                 rsvc.error(" VMProxyArg.setup() : unsupported type : " 
-                                    + callerReference  );
+                 log.error("VMProxyArg.setup() : unsupported type : " 
+                           + callerReference  );
             }
         }
     }

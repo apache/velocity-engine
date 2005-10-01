@@ -58,7 +58,7 @@ public class FileResourceLoader extends ResourceLoader
 
     public void init( ExtendedProperties configuration)
     {
-        rsvc.info("FileResourceLoader : initialization starting.");
+        log.info("FileResourceLoader : initialization starting.");
         
         paths = new ArrayList();
         paths.addAll( configuration.getVector("path") );
@@ -68,17 +68,16 @@ public class FileResourceLoader extends ResourceLoader
          */
         templatePaths = Collections.synchronizedMap(new HashMap());
         
-        /*
-         *  lets tell people what paths we will be using
-         */
-        int sz = paths.size();
-
-        for( int i=0; i < sz; i++)
+        if (log.isInfoEnabled())
         {
-            rsvc.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+            // this section lets tell people what paths we will be using
+            int sz = paths.size();
+            for( int i=0; i < sz; i++)
+            {
+                log.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+            }
+            log.info("FileResourceLoader : initialization complete.");
         }
-
-        rsvc.info("FileResourceLoader : initialization complete.");
     }
 
     /**
@@ -114,7 +113,7 @@ public class FileResourceLoader extends ResourceLoader
                 " contains .. and may be trying to access " + 
                 "content outside of template root.  Rejected.";
 
-            rsvc.error( "FileResourceLoader : " + msg );
+            log.error( "FileResourceLoader : " + msg );
       
             throw new ResourceNotFoundException ( msg );
         }

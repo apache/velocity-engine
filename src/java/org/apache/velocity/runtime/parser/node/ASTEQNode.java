@@ -77,7 +77,7 @@ public class ASTEQNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) 
+            log.error((left == null ? "Left" : "Right")
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal() 
                            + ") of '==' operation "
@@ -129,7 +129,8 @@ public class ASTEQNode extends SimpleNode
              */
             if ((left.toString() == null) || (right.toString() == null))  
             {
-                rsvc.error( ( left.toString() == null ? "Left" : "Right" ) + " string side "
+                log.error((left.toString() == null ? "Left" : "Right") 
+                        + " string side "
                         + "String representation ("
                         + jjtGetChild( (left == null? 0 : 1) ).literal()
                         + ") of '!=' operation has null value."

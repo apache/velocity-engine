@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
@@ -43,7 +44,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  Our runtime logger.
      */
-    private RuntimeLogger rlog;
+    private Log log;
 
     /**
      *  the default Velocity introspector
@@ -65,10 +66,20 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *  else besides init() as to get the logger.  Makes the pull
      *  model appealing...
      */
+    public void setLog(Log log)
+    {
+        this.log = log;
+        introspector = new Introspector(log);
+    }
+
+    /**
+     * @deprecated Use setLog(Log log) instead.
+     */
     public void setRuntimeLogger(RuntimeLogger runtimeLogger)
     {
-        rlog = runtimeLogger;
-        introspector = new Introspector(rlog);
+        // in the off chance anyone still uses this method
+        // directly, use this hack to keep it working
+        setLog(new RuntimeLoggerLog(runtimeLogger));
     }
 
     /**
@@ -95,7 +106,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
         else if (obj instanceof Iterator)
         {
-            rlog.debug("The iterative object in the #foreach() loop at " +
+            log.debug("The iterative object in the #foreach() loop at " +
                        i + " is of type java.util.Iterator.  Because " +
                        "it is not resettable, if used in more than once it " +
                        "may lead to unexpected results.");
@@ -104,7 +115,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
         else if (obj instanceof Enumeration)
         {
-            rlog.debug("The iterative object in the #foreach() loop at " +
+            log.debug("The iterative object in the #foreach() loop at " +
                        i + " is of type java.util.Enumeration.  Because " +
                        "it is not resettable, if used in more than once it " +
                        "may lead to unexpected results.");
@@ -113,7 +124,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         /*  we have no clue what this is  */
-        rlog.warn("Could not determine type of iterator in " +
+        log.warn("Could not determine type of iterator in " +
                   "#foreach loop at " + i);
 
         return null;
@@ -148,7 +159,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *  (also getfoo() )
          */
 
-        executor = new PropertyExecutor(rlog,introspector, claz, identifier);
+        executor = new PropertyExecutor(log,introspector, claz, identifier);
 
         /*
          *  if that didn't work, look for get("foo")
@@ -156,7 +167,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         if (!executor.isAlive())
         {
-            executor = new GetExecutor(rlog, introspector, claz, identifier);
+            executor = new GetExecutor(log, introspector, claz, identifier);
         }
 
         /*
@@ -165,7 +176,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         if (!executor.isAlive())
         {
-            executor = new BooleanPropertyExecutor(rlog, introspector, claz,
+            executor = new BooleanPropertyExecutor(log, introspector, claz,
                                                    identifier);
         }
 

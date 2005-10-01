@@ -268,7 +268,7 @@ public class Template extends Resource
             String msg = "Template.merge() failure. The document is null, " +
                 "most likely due to parsing error.";
 
-            rsvc.error(msg);
+            rsvc.getLog().error(msg);
             throw new Exception(msg);
         }
     }

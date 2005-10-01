@@ -59,7 +59,7 @@ public class EventHandlerUtil {
             }
             catch (Exception E)
             {
-                rsvc.error("Couldn't initialize event handler.  " + E);
+                rsvc.getLog().error("Couldn't initialize event handler.", E);
             }
         }
 
@@ -115,7 +115,7 @@ public class EventHandlerUtil {
             }
             catch (Exception E)
             {
-                rsvc.error("Couldn't initialize event handler.  " + E);
+                rsvc.getLog().error("Couldn't initialize event handler.", E);
             }
         }
 
@@ -178,7 +178,7 @@ public class EventHandlerUtil {
             }
             catch (Exception E)
             {
-                rsvc.error("Couldn't initialize event handler.  " + E);
+                rsvc.getLog().error("Couldn't initialize event handler.", E);
             }
         }
 
@@ -245,7 +245,7 @@ public class EventHandlerUtil {
             }
             catch (Exception E)
             {
-                rsvc.error("Couldn't initialize event handler.  " + E);
+                rsvc.getLog().error("Couldn't initialize event handler.", E);
             }
         }
 

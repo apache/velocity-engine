@@ -87,6 +87,7 @@ public interface RuntimeConstants
     /**
      *  Log message prefixes
      */
+    public final static String TRACE_PREFIX = " [trace] ";
     public final static String DEBUG_PREFIX = " [debug] ";
     public final static String INFO_PREFIX  = "  [info] ";
     public final static String WARN_PREFIX  = "  [warn] ";

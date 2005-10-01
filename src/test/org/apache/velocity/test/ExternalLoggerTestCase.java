@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ExternalLoggerTestCase extends TestCase implements LogSystem
+public class ExternalLoggerTestCase extends TestCase implements LogChute
 {
 
     private String logString = null;
@@ -87,7 +87,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
         }
     }
 
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         String out = "";
 
@@ -96,16 +96,19 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
          */
         switch( level )
         {
-            case LogSystem.DEBUG_ID :
+            case LogChute.DEBUG_ID :
                 out = VelocityEngine.DEBUG_PREFIX;
                 break;
-            case LogSystem.INFO_ID :
+            case LogChute.INFO_ID :
                 out = VelocityEngine.INFO_PREFIX;
                 break;
-            case LogSystem.WARN_ID :
+            case LogChute.TRACE_ID :
+                out = VelocityEngine.TRACE_PREFIX;
+                break;
+            case LogChute.WARN_ID :
                 out = VelocityEngine.WARN_PREFIX;
                 break;
-            case LogSystem.ERROR_ID :
+            case LogChute.ERROR_ID :
                 out = VelocityEngine.ERROR_PREFIX;
                 break;
             default :
@@ -114,5 +117,16 @@ public class ExternalLoggerTestCase extends TestCase implements LogSystem
         }
 
         logString =  out + message;
+    }
+
+    public void log(int level, String message, Throwable t)
+    {
+        // ignore the Throwable, we're not testing this method here
+        log(level, message);
+    }
+
+    public boolean isLevelEnabled(int level)
+    {
+        return true;
     }
 }

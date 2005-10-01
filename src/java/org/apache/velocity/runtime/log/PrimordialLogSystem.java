@@ -1,7 +1,5 @@
-package org.apache.velocity.runtime.log;
-
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -16,10 +14,7 @@ package org.apache.velocity.runtime.log;
  * limitations under the License.
  */
 
-import java.util.Vector;
-import java.util.Enumeration;
-
-import org.apache.velocity.runtime.RuntimeServices;
+package org.apache.velocity.runtime.log;
 
 /**
  *  Pre-init logger.  I believe that this was suggested by
@@ -29,60 +24,23 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
+ * @deprecated Use HoldingLogChute instead!
  */
-public class PrimordialLogSystem implements LogSystem
+public class PrimordialLogSystem extends HoldingLogChute implements LogSystem
 {
-    private Vector pendingMessages = new Vector();    
-
     /**
-     *  default CTOR.
-     */
-    public PrimordialLogSystem()
-    {
-    }
-
-    public void init( RuntimeServices rs )
-        throws Exception
-    {
-    }
-    
-    /**
-     *  logs messages.  All we do is store them until
-     *   'later'.
-     *
-     *  @param level severity level
-     *  @param message complete error message
+     * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message)
     {
-        synchronized( this )
-        {
-            Object[] data = new Object[2];
-            data[0] = new Integer(level);
-            data[1] = message;
-            pendingMessages.addElement(data);
-        }
+        log(level, message);
     }
-    
+
     /**
-     * dumps the log messages this logger is holding into a new logger
+     * @deprecated use transferTo(LogChute newChute)
      */
     public void dumpLogMessages( LogSystem newLogger )
     {
-        synchronized( this )
-        {
-            if ( !pendingMessages.isEmpty())
-            {
-                /*
-                 *  iterate and log each individual message...
-                 */
-            
-                for( Enumeration e = pendingMessages.elements(); e.hasMoreElements(); )
-                {
-                    Object[] data = (Object[]) e.nextElement();
-                    newLogger.logVelocityMessage(((Integer) data[0]).intValue(), (String) data[1]);
-                }
-            }    
-        }
+        transferTo(new LogChuteSystem(newLogger));
     }    
 }

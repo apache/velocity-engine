@@ -21,6 +21,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
@@ -34,6 +35,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 public class SimpleNode implements Node
 {
     protected RuntimeServices rsvc = null;
+    protected Log log = null;
 
     protected Node parent;
     protected Node[] children;
@@ -192,6 +194,7 @@ public class SimpleNode implements Node
          */
 
         rsvc = (RuntimeServices) data;
+        log = rsvc.getLog();
 
         int i, k = jjtGetNumChildren();
 
@@ -203,7 +206,7 @@ public class SimpleNode implements Node
             }
             catch (ReferenceException re)
             {
-                rsvc.error(re);
+                log.error(re);
             }
         }            
     

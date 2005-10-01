@@ -85,7 +85,7 @@ public class Parse extends InputBase
          */
         if ( node.jjtGetChild(0) == null)
         {
-            rsvc.error( "#parse() error :  null argument" );
+            rsvc.getLog().error("#parse() null argument");
             return false;
         }
 
@@ -96,7 +96,7 @@ public class Parse extends InputBase
 
         if ( value == null)
         {
-            rsvc.error( "#parse() error :  null argument" );
+            rsvc.getLog().error("#parse() null argument");
             return  false;
         }
 
@@ -137,8 +137,9 @@ public class Parse extends InputBase
                 path.append( " > " + templateStack[i] );
             }
 
-            rsvc.error( "Max recursion depth reached (" +
-                templateStack.length + ")"  + " File stack:" + path );
+            rsvc.getLog().error("Max recursion depth reached (" +
+                                templateStack.length + ')' + " File stack:" +
+                                path);
             return false;
         }
 
@@ -158,11 +159,10 @@ public class Parse extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-
-            rsvc.error("#parse(): cannot find template '" + arg +
-                       "', called from template " +
-                       context.getCurrentTemplateName() + " at (" +
-                       getLine() + ", " + getColumn() + ")" );
+            rsvc.getLog().error("#parse(): cannot find template '" + arg +
+                                "', called from template " +
+                                context.getCurrentTemplateName() + " at (" +
+                                getLine() + ", " + getColumn() + ")" );
             throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -172,16 +172,16 @@ public class Parse extends InputBase
              *  note it and throw
              */
 
-            rsvc.error("#parse(): syntax error in #parse()-ed template '" +
-                       arg + "', called from template " +
-                       context.getCurrentTemplateName() + " at (" +
-                       getLine() + ", " + getColumn() + ")" );
+            rsvc.getLog().error("#parse(): syntax error in #parse()-ed template '"
+                                + arg + "', called from template " +
+                                context.getCurrentTemplateName() + " at (" +
+                                getLine() + ", " + getColumn() + ")" );
 
             throw pee;
         }
         catch ( Exception e)
         {
-            rsvc.error("#parse() : arg = " + arg + ".  Exception : " + e);
+            rsvc.getLog().error("#parse() : arg = " + arg + '.', e);
             return false;
         }
 
@@ -206,7 +206,7 @@ public class Parse extends InputBase
                 throw (MethodInvocationException) e;
             }
 
-            rsvc.error( "Exception rendering #parse( " + arg + " )  : " + e );
+            rsvc.getLog().error("Exception rendering #parse(" + arg + ')', e);
             return false;
         }
         finally
