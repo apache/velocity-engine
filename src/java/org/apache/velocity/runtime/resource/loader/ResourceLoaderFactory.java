@@ -41,17 +41,17 @@ public class ResourceLoaderFactory
         {
             loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
             
-            rs.info("Resource Loader Instantiated: " + 
-                loader.getClass().getName());
+            rs.getLog().info("Resource Loader Instantiated: " + 
+                             loader.getClass().getName());
             
             return loader;
         }
         catch( Exception e)
         {
-            rs.error("Problem instantiating the template loader.\n" +
+            rs.getLog().error("Problem instantiating the template loader.\n" +
                           "Look at your properties file and make sure the\n" +
                           "name of the template loader is correct. Here is the\n" +
-                          "error: " + StringUtils.stackTrace(e));
+                          "error:", e);
             
             throw new Exception("Problem initializing template loader: " + loaderClassName + 
             "\nError is: " + StringUtils.stackTrace(e));

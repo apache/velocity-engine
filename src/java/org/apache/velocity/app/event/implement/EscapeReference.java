@@ -118,7 +118,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
             } 
             catch (MalformedPerl5PatternException E) 
             {
-                rs.error("Invalid regular expression '" + matchRegExp + "'.  No escaping will be performed.");
+                rs.getLog().error("Invalid regular expression '" + matchRegExp
+                                  + "'.  No escaping will be performed.");
                 matchRegExp = null;
             }
         }

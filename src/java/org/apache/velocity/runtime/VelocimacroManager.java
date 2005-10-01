@@ -446,8 +446,8 @@ public class VelocimacroManager
             } 
             catch ( Exception e ) 
             {
-                rsvc.error("VelocimacroManager.parseTree() : exception " +
-                           macroname + " : "  + StringUtils.stackTrace(e));
+                rsvc.getLog().error("VelocimacroManager.parseTree() : exception "
+                                    + macroname, e);
             }
         }
     }

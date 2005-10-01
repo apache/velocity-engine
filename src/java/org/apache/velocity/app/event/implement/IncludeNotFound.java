@@ -69,7 +69,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
              */
             else
             {
-                rs.error("Can't find include not found page: " + notfound);
+                rs.getLog().error("Can't find include not found page: " + notfound);
                 return null;
             }
 

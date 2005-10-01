@@ -140,8 +140,8 @@ public class Include extends InputBase
             }
             else
             {
-                rsvc.error("#include() error : invalid argument type : " 
-                    + n.toString());
+                rsvc.getLog().error("#include() invalid argument type: "
+                                    + n.toString());
                 outputErrorToStream( writer, "error with arg " + i 
                     + " please see log.");
             }
@@ -165,7 +165,7 @@ public class Include extends InputBase
     {
         if ( node == null )
         {
-            rsvc.error("#include() error :  null argument");
+            rsvc.getLog().error("#include() null argument");
             return false;
         }
 
@@ -175,7 +175,7 @@ public class Include extends InputBase
         Object value = node.value( context );
         if ( value == null)
         {
-            rsvc.error("#include() error :  null argument");
+            rsvc.getLog().error("#include()  null argument");
             return false;
         }
 
@@ -210,20 +210,19 @@ public class Include extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-
-            rsvc.error("#include(): cannot find resource '" + arg +
-                       "', called from template " +
-                       context.getCurrentTemplateName() + " at (" +
-                       getLine() + ", " + getColumn() + ")" );
+            rsvc.getLog().error("#include(): cannot find resource '" + arg +
+                                "', called from template " +
+                                context.getCurrentTemplateName() + " at (" +
+                                getLine() + ", " + getColumn() + ")" );
             throw rnfe;
         }
 
         catch (Exception e)
         {
-            rsvc.error("#include(): arg = '" + arg +
-                       "', called from template " +
-                       context.getCurrentTemplateName() + " at (" +
-                       getLine() + ", " + getColumn() + ") : " + e);
+            rsvc.getLog().error("#include(): arg = '" + arg +
+                                "', called from template " +
+                                context.getCurrentTemplateName() + " at (" +
+                                getLine() + ", " + getColumn() + ')', e);
         }
 
 

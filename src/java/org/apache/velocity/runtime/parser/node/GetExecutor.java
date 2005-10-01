@@ -20,7 +20,8 @@ import org.apache.velocity.util.introspection.Introspector;
 
 import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.exception.MethodInvocationException;
-
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 
@@ -41,16 +42,22 @@ public class GetExecutor extends AbstractExecutor
      * get(key).
      */
     private Object[] args = new Object[1];
+
+    public GetExecutor(Log log, Introspector ispect, Class c, String key)
+        throws Exception
+    {
+        this.log = log;
+        args[0] = key;
+        method = ispect.getMethod(c, "get", args);
+    }
     
     /**
-     * Default constructor.
+     * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public GetExecutor(RuntimeLogger r, Introspector ispect, Class c, String key)
         throws Exception
     {
-        rlog = r;
-        args[0] = key;
-        method = ispect.getMethod(c, "get", args);
+        this(new RuntimeLoggerLog(r), ispect, c, key);
     }
 
     /**

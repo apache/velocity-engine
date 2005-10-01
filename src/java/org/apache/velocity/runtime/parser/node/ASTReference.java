@@ -181,7 +181,7 @@ public class ASTReference extends SimpleNode
              *  someone tossed their cookies
              */
 
-            rsvc.error("Method " + mie.getMethodName()
+            log.error("Method " + mie.getMethodName()
                         + " threw exception for reference $"
                         + rootString
                         + " in template " + context.getCurrentTemplateName()
@@ -275,7 +275,7 @@ public class ASTReference extends SimpleNode
                 && rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,
                         true))
             {
-               rsvc.warn(new ReferenceException("reference : template = "
+               log.warn(new ReferenceException("reference : template = "
                                 + context.getCurrentTemplateName(), this));
             }
 
@@ -360,8 +360,8 @@ public class ASTReference extends SimpleNode
 
         if (result == null)
         {
-            rsvc.error(new ReferenceException("reference set : template = "
-                    + context.getCurrentTemplateName(), this));
+            log.error(new ReferenceException("reference set : template = "
+                      + context.getCurrentTemplateName(), this));
             return false;
         }
 
@@ -375,8 +375,8 @@ public class ASTReference extends SimpleNode
 
             if (result == null)
             {
-                rsvc.error(new ReferenceException("reference set : template = "
-                        + context.getCurrentTemplateName(), this));
+                log.error(new ReferenceException("reference set : template = "
+                          + context.getCurrentTemplateName(), this));
                 return false;
             }
         }
@@ -416,7 +416,7 @@ public class ASTReference extends SimpleNode
             /*
              *  maybe a security exception?
              */
-            rsvc.error("ASTReference setValue() : exception : " + e
+            log.error("ASTReference setValue() : exception : " + e
                                   + " template = " + context.getCurrentTemplateName()
                                   + " [" + this.getLine() + "," + this.getColumn() + "]");
             return false;
@@ -462,7 +462,7 @@ public class ASTReference extends SimpleNode
             if (i == -1)
             {
                 /* yikes! */
-                rsvc.error("ASTReference.getRoot() : internal error : "
+                log.error("ASTReference.getRoot() : internal error : "
                             + "no $ found for slashbang.");
                 computableReference = false;
                 nullString = t.image;

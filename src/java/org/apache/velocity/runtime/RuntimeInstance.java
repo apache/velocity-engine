@@ -39,9 +39,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.LogManager;
-import org.apache.velocity.runtime.log.LogSystem;
-import org.apache.velocity.runtime.log.NullLogSystem;
-import org.apache.velocity.runtime.log.PrimordialLogSystem;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -49,7 +47,6 @@ import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.SimplePool;
-import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
@@ -109,12 +106,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private  VelocimacroFactory vmFactory = null;
 
     /**
-     *  The Runtime logger.  We start with an instance of
-     *  a 'primordial logger', which just collects log messages
-     *  then, when the log system is initialized, we dump
-     *  all messages out of the primordial one into the real one.
+     * The Runtime logger.  We start with an instance of
+     * a 'primordial logger', which just collects log messages
+     * then, when the log system is initialized, all the
+     * messages get dumpted out of the primordial one into the real one.
      */
-    private  LogSystem logSystem = new PrimordialLogSystem();
+    private Log log = new Log();
 
     /**
      * The Runtime parser pool
@@ -195,7 +192,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          *  make a new introspector and initialize it
          */
 
-        introspector = new Introspector( this );
+        introspector = new Introspector(getLog());
 
         /*
          * and a store for the application attributes
@@ -228,7 +225,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             info("Starting Jakarta Velocity v@version@");
             info("RuntimeInstance initializing.");
             initializeProperties();
-            initializeLogger();
+            initializeLog();
             initializeResourceManager();
             initializeDirectives();
             initializeEventHandlers();
@@ -289,7 +286,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             if (uberSpect instanceof UberspectLoggable)
             {
-                ((UberspectLoggable) uberSpect).setRuntimeLogger(this);
+                ((UberspectLoggable) uberSpect).setLog(getLog());
             }
 
             uberSpect.init();
@@ -646,32 +643,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @throws Exception
      */
-    private void initializeLogger() throws Exception
+    private void initializeLog() throws Exception
     {
-        /*
-         * Initialize the logger. We will eventually move all
-         * logging into the logging manager.
-         */
-        if (logSystem instanceof PrimordialLogSystem)
-        {
-            PrimordialLogSystem pls = (PrimordialLogSystem) logSystem;
-            logSystem = LogManager.createLogSystem(this);
-
-            /*
-             * in the event of failure, lets do something to let it
-             * limp along.
-             */
-
-             if (logSystem == null)
-             {
-                logSystem = new NullLogSystem();
-             }
-             else
-             {
-                pls.dumpLogMessages(logSystem);
-             }
-        }
-   }
+        // since the Log we started with was just placeholding,
+        // let's update it with the real LogChute settings.
+        LogManager.updateLog(this.log, this);
+    }
 
 
     /**
@@ -1017,92 +994,43 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Added this to check and make sure that the configuration
-     * is initialized before trying to get properties from it.
-     * This occurs when there are errors during initialization
-     * and the default properties have yet to be layed down.
+     * Returns a convenient Log instance that wraps the current LogChute.
      */
-    private boolean showStackTrace()
+    public Log getLog()
     {
-        if (configuration.isInitialized())
-        {
-            return getBoolean(RUNTIME_LOG_WARN_STACKTRACE, false);
-        }
-        else
-        {
-            return false;
-        }
+        return log;
     }
 
     /**
-     * Handle logging.
-     *
-     * @param level level of message to log
-     * @param message message to log
-     */
-    private void log(int level, Object message)
-    {
-        String out;
-
-        /*
-         *  now,  see if the logging stacktrace is on
-         *  and modify the message to suit
-         */
-        if (showStackTrace() &&
-            (message instanceof Throwable || message instanceof Exception))
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = message.toString();
-        }
-
-        /*
-         *  just log it, as we are guaranteed now to have some
-         *  kind of logger - save the if()
-         */
-        logSystem.logVelocityMessage(level, out);
-    }
-
-    /**
-     * Log a warning message.
-     *
-     * @param message message to log
+     * @deprecated Use getLog() and call warn() on it.
      */
     public void warn(Object message)
     {
-        log(LogSystem.WARN_ID, message);
+        getLog().warn(message);
     }
 
     /**
-     * Log an info message.
-     *
-     * @param message message to log
+     * @deprecated Use getLog() and call info() on it.
      */
     public void info(Object message)
     {
-        log(LogSystem.INFO_ID, message);
+        getLog().info(message);
     }
 
     /**
-     * Log an error message.
-     *
-     * @param message message to log
+     * @deprecated Use getLog() and call error() on it.
      */
     public void error(Object message)
     {
-        log(LogSystem.ERROR_ID, message);
+        getLog().error(message);
     }
 
     /**
-     * Log a debug message.
-     *
-     * @param message message to log
+     * @deprecated Use getLog() and call debug() on it.
      */
     public void debug(Object message)
     {
-        log(LogSystem.DEBUG_ID, message);
+        getLog().debug(message);
     }
 
     /**

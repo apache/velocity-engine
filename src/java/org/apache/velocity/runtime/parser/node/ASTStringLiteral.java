@@ -162,7 +162,7 @@ public class ASTStringLiteral extends SimpleNode
                  *  eh.  If anything wrong, just punt 
                  *  and output the literal 
                  */
-                rsvc.error("Error in interpolating string literal : " + e);
+                log.error("Error in interpolating string literal", e);
             }
         }
         

@@ -189,7 +189,7 @@ public class ASTMethod extends SimpleNode
              *  can come from the doIntropection() also, from Introspector
              */
 
-            rsvc.error("ASTMethod.execute() : exception from introspection : " + e);
+            log.error("ASTMethod.execute() : exception from introspection", e);
             return null;
         }
 
@@ -265,9 +265,8 @@ public class ASTMethod extends SimpleNode
         }
         catch( Exception e )
         {
-            rsvc.error("ASTMethod.execute() : exception invoking method '" 
-                               + methodName + "' in " + o.getClass() + " : "  + e );
-                               
+            log.error("ASTMethod.execute() : exception invoking method '" 
+                      + methodName + "' in " + o.getClass(), e);
             return null;
         }            
     }

@@ -35,7 +35,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
@@ -46,7 +46,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  */
 public class EventHandlingTestCase
         extends TestCase
-        implements LogSystem
+        implements LogChute
 {
     private static String NO_REFERENCE_VALUE =  "<no reference value>";
     private static String REFERENCE_VALUE =  "<reference value>";
@@ -284,7 +284,7 @@ public class EventHandlingTestCase
     }
 
     /**
-     * Required by LogSystem
+     * Required by LogChute
      */
     public void init( RuntimeServices rs )
     {
@@ -292,11 +292,21 @@ public class EventHandlingTestCase
     }
 
     /**
-     *  handler for LogSystem interface
+     * handler for LogChute interface
      */
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         setLogString(message);
+    }
+
+    public void log(int level, String message, Throwable t)
+    {
+        setLogString(message);
+    }
+
+    public boolean isLevelEnabled(int level)
+    {
+        return true;
     }
 
     public static void clearLogString()

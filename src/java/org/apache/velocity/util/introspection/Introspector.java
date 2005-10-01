@@ -17,7 +17,8 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
-
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
@@ -59,16 +60,21 @@ public class Introspector extends IntrospectorBase
         "Introspector : detected classloader change. Dumping cache.";
 
     /**
-     *  our engine runtime services
+     * The Log we use
      */
-    private RuntimeLogger rlog = null;
+    private Log log = null;
+
+    public Introspector(Log log)
+    {
+        this.log = log;
+    }
 
     /**
-     *  Recieves our RuntimeServices object
+     * @deprecated RuntimeLogger is deprecated. Use Introspector(Log log).
      */
     public Introspector(RuntimeLogger logger)
     {
-        this.rlog = logger;
+        this(new RuntimeLoggerLog(logger));
     }
    
     /**
@@ -115,7 +121,7 @@ public class Introspector extends IntrospectorBase
             
             msg = msg + ") for class " + c;
             
-            rlog.error( msg );
+            log.error( msg );
         }
 
         return null;
@@ -128,6 +134,6 @@ public class Introspector extends IntrospectorBase
     protected void clearCache()
     {
         super.clearCache();
-        rlog.info( CACHEDUMP_MSG );
+        log.info( CACHEDUMP_MSG );
     }
 }

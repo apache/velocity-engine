@@ -77,7 +77,8 @@ public class ASTIntegerRange extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) + " side of range operator [n..m] has null value."
+            log.error((left == null ? "Left" : "Right")
+                           + " side of range operator [n..m] has null value."
                            + " Operation not possible. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
@@ -90,7 +91,7 @@ public class ASTIntegerRange extends SimpleNode
 
         if ( !( left instanceof Integer )  || !( right instanceof Integer ))
         {
-            rsvc.error( ( !( left instanceof Integer ) ? "Left" : "Right" ) 
+            log.error((!(left instanceof Integer) ? "Left" : "Right")
                            + " side of range operator is not a valid type. "
                            + "Currently only integers (1,2,3...) and Integer type is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 

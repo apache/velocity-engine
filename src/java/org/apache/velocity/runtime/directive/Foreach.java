@@ -367,7 +367,7 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            rsvc.error("Error getting iterator for #foreach : " + ee.getMessage());
+            rsvc.getLog().error("Error getting iterator for #foreach", ee);
         }
 
         if (i == null)

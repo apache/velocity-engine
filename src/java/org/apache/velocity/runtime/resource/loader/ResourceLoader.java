@@ -19,7 +19,7 @@ package org.apache.velocity.runtime.resource.loader;
 import java.io.InputStream;
 
 import org.apache.velocity.runtime.RuntimeServices;
-
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 
@@ -56,6 +56,7 @@ public abstract class ResourceLoader
     protected String className = null;
 
     protected RuntimeServices rsvc = null;
+    protected Log log = null;
 
     /**
      * This initialization is used by all resource
@@ -65,6 +66,7 @@ public abstract class ResourceLoader
     public void commonInit( RuntimeServices rs, ExtendedProperties configuration)
     {
         this.rsvc = rs;
+        this.log = rsvc.getLog();
 
         /*
          *  these two properties are not required for all loaders.
@@ -81,8 +83,7 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             isCachingOn = false;
-            rs.error(e.getMessage() + ": Using default of '" + isCachingOn
-                     + '\'');
+            log.error("Exception using default of '" + isCachingOn + '\'', e);
         }
         try
         {
@@ -91,8 +92,8 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             modificationCheckInterval = 0;
-            rs.error(e.getMessage() + ": Using default of '" +
-                     modificationCheckInterval + '\'');
+            log.error("Exception using default of '" + 
+                      modificationCheckInterval + '\'', e);
         }
 
         /*
@@ -105,8 +106,7 @@ public abstract class ResourceLoader
         }
         catch (Exception e)
         {
-            rs.error(e.getMessage() + ": Using default of '" + className
-                     + '\'');
+            log.error("Exception using default of '" + className + '\'', e);
         }
     }
 

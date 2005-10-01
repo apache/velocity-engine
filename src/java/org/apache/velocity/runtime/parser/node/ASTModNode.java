@@ -69,7 +69,8 @@ public class ASTModNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
+            log.error((left == null ? "Left" : "Right")
+                           + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of modulus operation has null value."
                            + " Operation not possible. "
@@ -96,11 +97,11 @@ public class ASTModNode extends SimpleNode
         if ( ! (left instanceof Number) || ! (right instanceof Number) ) 
         {
 
-            rsvc.error(    ( ! (left instanceof Number) ? "Left" : "Right" ) + " side "
+            log.error((!(left instanceof Number) ? "Left" : "Right")
+                           + " side "
                            + " of modulus operation is not a Number. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
- 
             return null;
 
         }
@@ -111,10 +112,9 @@ public class ASTModNode extends SimpleNode
         if ( MathUtils.isZero ( (Number) right ) ) 
         {
 
-            rsvc.error( "Right side of modulus operation is zero. Must be non-zero. "
+            log.error("Right side of modulus operation is zero. Must be non-zero. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
- 
             return null;
 
         }

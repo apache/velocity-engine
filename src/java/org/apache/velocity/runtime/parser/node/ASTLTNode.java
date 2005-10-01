@@ -68,7 +68,7 @@ public class ASTLTNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) 
+            log.error((left == null ? "Left" : "Right")
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '<' operation has null value."
@@ -97,7 +97,7 @@ public class ASTLTNode extends SimpleNode
 
         if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+            log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of '>=' operation is not a valid Number. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");

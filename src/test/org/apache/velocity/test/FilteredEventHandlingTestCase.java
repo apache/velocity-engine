@@ -32,7 +32,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 
 /**
  * Tests event handling for all event handlers when multiple event handlers are
@@ -41,7 +41,7 @@ import org.apache.velocity.runtime.log.LogSystem;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSystem
+public class FilteredEventHandlingTestCase extends BaseTestCase implements LogChute
 {
 
     /**
@@ -88,7 +88,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
 
 
     /**
-     * Required by LogSystem
+     * Required by LogChute
      */
     public void init( RuntimeServices rs )
     {
@@ -247,11 +247,21 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogSy
 
 
     /**
-     *  handler for LogSystem interface
+     *  handler for LogChute interface
      */
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         logString = message;
+    }
+
+    public void log(int level, String message, Throwable t)
+    {
+        logString = message;
+    }
+
+    public boolean isLevelEnabled(int level)
+    {
+        return true;
     }
 
 }

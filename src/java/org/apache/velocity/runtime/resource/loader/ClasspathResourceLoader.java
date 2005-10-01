@@ -79,8 +79,8 @@ public class ClasspathResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        rsvc.info("ClasspathResourceLoader : initialization starting.");
-        rsvc.info("ClasspathResourceLoader : initialization complete.");
+        log.info("ClasspathResourceLoader : initialization starting.");
+        log.info("ClasspathResourceLoader : initialization complete.");
     }
 
     /**

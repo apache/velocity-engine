@@ -18,7 +18,8 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.velocity.util.introspection.Introspector;
-
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
@@ -30,13 +31,22 @@ public class PropertyExecutor extends AbstractExecutor
 
     protected String methodUsed = null;
 
-    public PropertyExecutor(RuntimeLogger r, Introspector ispctr,
+    public PropertyExecutor(Log log, Introspector ispctr,
                             Class clazz, String property)
     {
-        rlog = r;
+        this.log = log;
         introspector = ispctr;
 
         discover(clazz, property);
+    }
+
+    /**
+     * @deprecated RuntimeLogger is deprecated. Use the other constructor.
+     */
+    public PropertyExecutor(RuntimeLogger r, Introspector ispctr,
+                            Class clazz, String property)
+    {
+        this(new RuntimeLoggerLog(r), ispctr, clazz, property);
     }
 
     protected void discover(Class clazz, String property)
@@ -98,7 +108,7 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            rlog.error("PROGRAMMER ERROR : PropertyExector() : " + e );
+            log.error("PROGRAMMER ERROR : PropertyExector()", e);
         }
     }
 

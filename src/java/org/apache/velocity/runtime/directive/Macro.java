@@ -135,8 +135,8 @@ public class Macro extends Directive
              *  define a block
              */
             
-            rs.error("#macro error : Velocimacro must have name as 1st " + 
-                "argument to #macro(). #args = " + numArgs);
+            rs.getLog().error("#macro error : Velocimacro must have name as 1st " +
+                              "argument to #macro(). #args = " + numArgs);
 
             throw new MacroParseException("First argument to #macro() must be " +
                     " macro name.");
@@ -193,7 +193,7 @@ public class Macro extends Directive
             StringBuffer msg = new StringBuffer("Failed to add macro: ");
             macroToString(msg, argArray);
             msg.append(" : source = ").append(sourceTemplate);
-            rs.warn(msg.toString());
+            rs.getLog().warn(msg);
         }
     }
 
@@ -251,7 +251,7 @@ public class Macro extends Directive
             StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
             msg.append(numArgs).append(" : ");
             macroToString(msg, argArray);
-            rsvc.debug(msg.toString());
+            rsvc.getLog().debug(msg);
         }
 	
         return argArray;

@@ -62,7 +62,8 @@ public class ASTNENode extends SimpleNode
 
         if ( left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
+            log.error((left == null ? "Left" : "Right")
+                           + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '!=' operation has null value."
                            + " Operation not possible. "
@@ -110,14 +111,14 @@ public class ASTNENode extends SimpleNode
              */
             if ((left.toString() == null) || (right.toString() == null))  
             {
-                rsvc.error( ( left.toString() == null ? "Left" : "Right" ) + " string side "
+                log.error((left.toString() == null ? "Left" : "Right")
+                        + " string side "
                         + "String representation ("
                         + jjtGetChild( (left == null? 0 : 1) ).literal()
                         + ") of '!=' operation has null value."
                         + " Operation not possible. "
                         + context.getCurrentTemplateName() + " [line " + getLine() 
                         + ", column " + getColumn() + "]");
-
                 return false;
             }
             

@@ -73,7 +73,8 @@ public class ASTSubtractNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) + " side ("
+            log.error((left == null ? "Left" : "Right")
+                           + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of subtraction operation has null value."
                            + " Operation not possible. "
@@ -99,11 +100,10 @@ public class ASTSubtractNode extends SimpleNode
          */
         if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+            log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of subtraction operation is not a Number. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
- 
             return null;
         }
 

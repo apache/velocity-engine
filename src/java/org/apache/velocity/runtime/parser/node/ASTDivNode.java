@@ -71,7 +71,7 @@ public class ASTDivNode extends SimpleNode
 
         if (left == null || right == null)
         {
-            rsvc.error( ( left == null ? "Left" : "Right" ) 
+            log.error((left == null ? "Left" : "Right")
                            + " side ("
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of division operation has null value."
@@ -99,7 +99,7 @@ public class ASTDivNode extends SimpleNode
          */
         if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            rsvc.error( ( !( left instanceof Number ) ? "Left" : "Right" )
+            log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of division operation is not a number. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
@@ -112,7 +112,7 @@ public class ASTDivNode extends SimpleNode
          */
         if ( MathUtils.isZero ( (Number)right ) )
         {
-            rsvc.error( "Right side of division operation is zero. Must be non-zero. "
+            log.error("Right side of division operation is zero. Must be non-zero. "
                            +  context.getCurrentTemplateName() + " [line " + getLine() 
                            + ", column " + getColumn() + "]");
  

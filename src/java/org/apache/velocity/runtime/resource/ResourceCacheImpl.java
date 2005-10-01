@@ -66,7 +66,7 @@ public class ResourceCacheImpl implements ResourceCache
             lruCache.putAll(cache);
             cache = lruCache;
         }
-        rsvc.info("ResourceCache : initialized. (" + this.getClass() + ')');
+        rsvc.getLog().info("ResourceCache: initialized ("+this.getClass()+')');
     }
     
     public Resource get( Object key )

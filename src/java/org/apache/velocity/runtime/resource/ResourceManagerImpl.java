@@ -22,6 +22,7 @@ import java.util.Vector;
 import java.io.InputStream;
 import java.io.IOException;
 
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -99,6 +100,7 @@ public class ResourceManagerImpl implements ResourceManager
     private  boolean logWhenFound = true;
 
     protected RuntimeServices rsvc = null;
+    protected Log log = null;
 
     /**
      * Initialize the ResourceManager.
@@ -107,8 +109,9 @@ public class ResourceManagerImpl implements ResourceManager
         throws Exception
     {
         rsvc = rs;
+        log = rsvc.getLog();
         
-        rsvc.info("Default ResourceManager initializing. (" + this.getClass() + ")");
+        log.info("Default ResourceManager initializing. (" + this.getClass() + ")");
 
         ResourceLoader resourceLoader;
         
@@ -128,7 +131,7 @@ public class ResourceManagerImpl implements ResourceManager
 
             if ( (loaderClass == null) && (loaderInstance == null) )
             {
-                rsvc.error(  "Unable to find '"
+                log.error("Unable to find '"
                                 + configuration.getString(RESOURCE_LOADER_IDENTIFIER)
                                 + ".resource.loader.class' specification in configuation."
                                 + " This is a critical value.  Please adjust configuration.");
@@ -173,23 +176,16 @@ public class ResourceManagerImpl implements ResourceManager
             }
             catch (ClassNotFoundException cnfe )
             {
-                String err = "The specified class for ResourceCache ("
-                    + claz    
-                    + ") does not exist (or is not accessible to the current classlaoder).";
-                 rsvc.error( err );
-                 
-                 o = null;
+                log.error("The specified class for ResourceCache (" + claz +
+                          ") does not exist (or is not accessible to the current classloader).");
+                o = null;
             }
             
             if (!(o instanceof ResourceCache) )
             {
-                String err = "The specified class for ResourceCache ("
-                    + claz 
-                    + ") does not implement org.apache.runtime.resource.ResourceCache."
-                    + " ResourceManager. Using default ResourceCache implementation.";
-                    
-                rsvc.error( err);
-                
+                log.error("The specified class for ResourceCache (" + claz +
+                          ") does not implement org.apache.runtime.resource.ResourceCache." +
+                          " ResourceManager. Using default ResourceCache implementation.");
                 o = null;
             }
         }
@@ -205,7 +201,7 @@ public class ResourceManagerImpl implements ResourceManager
             
          globalCache.initialize( rsvc );        
 
-         rsvc.info("Default ResourceManager initialization complete.");
+         log.info("Default ResourceManager initialization complete.");
 
         }
 
@@ -248,8 +244,8 @@ public class ResourceManagerImpl implements ResourceManager
 
             if ( loaderConfiguration == null)
             {
-                rsvc.warn("ResourceManager : No configuration information for resource loader named '" 
-                          + resourceLoaderNames.get(i) + "'. Skipping.");
+                log.warn("ResourceManager : No configuration information for resource loader named '" 
+                         + resourceLoaderNames.get(i) + "'. Skipping.");
                 continue;
             }
 
@@ -322,16 +318,12 @@ public class ResourceManagerImpl implements ResourceManager
             }
             catch( ParseErrorException pee )
             {
-                rsvc.error(
-                    "ResourceManager.getResource() exception: " + pee);
-                
+                log.error("ResourceManager.getResource() exception", pee);
                 throw pee;
             }
             catch( Exception eee )
             {
-                rsvc.error(
-                    "ResourceManager.getResource() exception: " + eee);
-                
+                log.error("ResourceManager.getResource() exception", eee);
                 throw eee;
             }
         }
@@ -352,24 +344,18 @@ public class ResourceManagerImpl implements ResourceManager
             }
             catch( ResourceNotFoundException rnfe2 )
             {
-                rsvc.error(
-                    "ResourceManager : unable to find resource '" + resourceName + 
-                        "' in any resource loader.");
-                
+                log.error("ResourceManager : unable to find resource '" +
+                          resourceName + "' in any resource loader.");
                 throw rnfe2;
             }
             catch( ParseErrorException pee )
             {
-                rsvc.error(
-                    "ResourceManager.getResource() parse exception: " + pee);
-                
+                log.error("ResourceManager.getResource() parse exception", pee);
                 throw pee;
             }
             catch( Exception ee )
             {
-                rsvc.error(
-                    "ResourceManager.getResource() exception new: " + ee);
-
+                log.error("ResourceManager.getResource() exception new", ee);
                 throw ee;
             }
         }
@@ -438,8 +424,9 @@ public class ResourceManagerImpl implements ResourceManager
 
                      if ( logWhenFound )
                      {
-                         rsvc.info("ResourceManager : found " + resourceName + 
-                                      " with loader " + resourceLoader.getClassName() );
+                         log.info("ResourceManager : found " + resourceName +
+                                  " with loader " + 
+                                  resourceLoader.getClassName());
                      }
    
                      howOldItWas = resourceLoader.getLastModified( resource );
@@ -522,9 +509,10 @@ public class ResourceManagerImpl implements ResourceManager
                 
                 if (!resource.getEncoding().equals( encoding ) )
                 {
-                    rsvc.error("Declared encoding for template '" + resource.getName() 
-                                  + "' is different on reload.  Old = '" + resource.getEncoding()
-                                  + "'  New = '" + encoding );
+                    log.error("Declared encoding for template '" +
+                              resource.getName() +
+                              "' is different on reload. Old = '" +
+                              resource.getEncoding() + "' New = '" + encoding);
     
                     resource.setEncoding( encoding );
                 }

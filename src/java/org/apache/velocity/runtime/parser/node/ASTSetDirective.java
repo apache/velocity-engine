@@ -108,7 +108,7 @@ public class ASTSetDirective extends SimpleNode
 
                 if (doit)
                 {
-                    rsvc.error("RHS of #set statement is null. Context will not be modified. " 
+                    log.error("RHS of #set statement is null. Context will not be modified. " 
                                   + context.getCurrentTemplateName() + " [line " + getLine() 
                                   + ", column " + getColumn() + "]");
                 }

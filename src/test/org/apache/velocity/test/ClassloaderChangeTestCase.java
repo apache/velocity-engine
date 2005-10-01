@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -36,7 +36,7 @@ import org.apache.velocity.util.introspection.Introspector;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ClassloaderChangeTestCase extends TestCase implements LogSystem
+public class ClassloaderChangeTestCase extends TestCase implements LogChute
 {
     private VelocityEngine ve = null;
     private boolean sawCacheDump = false;
@@ -55,10 +55,6 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
     public void setUp()
             throws Exception
     {
-        /*
-         *  use an alternative logger.  Set it up here and pass it in.
-         */
-        
         ve = new VelocityEngine();
         ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
         ve.init();
@@ -142,12 +138,27 @@ public class ClassloaderChangeTestCase extends TestCase implements LogSystem
      *  method to catch Velocity log messages.  When we
      *  see the introspector dump message, then set the flag
      */
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         if (message.equals( Introspector.CACHEDUMP_MSG) )
         {
             sawCacheDump = true;
         }
+    }
+
+    /**
+     *  method to catch Velocity log messages.  When we
+     *  see the introspector dump message, then set the flag
+     */
+    public void log(int level, String message, Throwable t)
+    {
+        // ignore the Throwable for this test
+        log(level, message);
+    }
+
+    public boolean isLevelEnabled(int level)
+    {
+        return true;
     }
 }
 
