@@ -28,7 +28,7 @@ package org.apache.velocity.anakia;
  */
 public class Escape
 {
-    public static String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     
     /**
      * Empty constructor

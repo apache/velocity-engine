@@ -50,8 +50,8 @@ public abstract class MathUtils
     /**
      * A BigDecimal representing the number 0
      */
-    protected static BigDecimal DECIMAL_ZERO    = new BigDecimal ( 0 );
-    protected static BigInteger INT_ZERO        = BigInteger.valueOf( 0 );
+    protected static final BigDecimal DECIMAL_ZERO    = new BigDecimal ( 0 );
+    protected static final BigInteger INT_ZERO        = BigInteger.valueOf( 0 );
 
     /**
      * The constants are used to determine in which context we have to calculate.
@@ -65,7 +65,7 @@ public abstract class MathUtils
     /**
      * The <code>Class</code>-object is key, the maximum-value is the value
      */
-    protected static Map ints = new HashMap();
+    protected static final Map ints = new HashMap();
     static
     {
         ints.put (Byte.class, BigDecimal.valueOf (Byte.MAX_VALUE));
@@ -78,7 +78,7 @@ public abstract class MathUtils
     /**
      * The "size" of the number-types - ascending.
      */
-    protected static List typesBySize = new ArrayList();
+    protected static final List typesBySize = new ArrayList();
     static
     {
         typesBySize.add (Byte.class);
