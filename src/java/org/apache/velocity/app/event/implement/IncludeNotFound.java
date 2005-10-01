@@ -41,7 +41,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
 
     private static final String DEFAULT_NOT_FOUND = "notfound.vm";
     private static final String PROPERTY_NOT_FOUND = "eventhandler.include.notfound";
-    private RuntimeServices rs;
+    private RuntimeServices rs = null;
     String notfound;
 
     /**
@@ -82,7 +82,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
     public void setRuntimeServices(RuntimeServices rs) throws Exception
     {
          this.rs = rs;
-         notfound = rs.getString(PROPERTY_NOT_FOUND,DEFAULT_NOT_FOUND).trim();
+         notfound = rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND).trim();
      }
 
 }
