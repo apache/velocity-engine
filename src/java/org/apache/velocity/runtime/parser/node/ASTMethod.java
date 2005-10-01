@@ -209,7 +209,9 @@ public class ASTMethod extends SimpleNode
             if (obj == null)
             {
                 if( method.getReturnType() == Void.TYPE)
-                     return new String("");
+                {
+                    return "";
+                }
             }
             
             return obj;
