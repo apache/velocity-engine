@@ -49,10 +49,10 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 public class EventCartridge
   {
-    private List ReferenceHandlers = new ArrayList();
-    private List NullSetHandlers = new ArrayList();
-    private List MethodExceptionHandlers = new ArrayList();
-    private List IncludeHandlers = new ArrayList();
+    private List referenceHandlers = new ArrayList();
+    private List nullSetHandlers = new ArrayList();
+    private List methodExceptionHandlers = new ArrayList();
+    private List includeHandlers = new ArrayList();
 
     /**
      * Ensure that handlers are not initialized more than once.
@@ -109,7 +109,7 @@ public class EventCartridge
      */
      public void addReferenceInsertionEventHandler( ReferenceInsertionEventHandler ev )
      {
-         ReferenceHandlers.add( ev );
+         referenceHandlers.add( ev );
      }
 
     /**
@@ -119,7 +119,7 @@ public class EventCartridge
       */
      public void addNullSetEventHandler( NullSetEventHandler ev )
      {
-         NullSetHandlers.add( ev );
+         nullSetHandlers.add( ev );
      }
 
     /**
@@ -129,7 +129,7 @@ public class EventCartridge
      */
     public void addMethodExceptionHandler( MethodExceptionEventHandler ev )
     {
-        MethodExceptionHandlers.add( ev );
+        methodExceptionHandlers.add( ev );
     }
 
     /**
@@ -139,7 +139,7 @@ public class EventCartridge
      */
     public void addIncludeEventHandler( IncludeEventHandler ev )
     {
-        IncludeHandlers.add( ev );
+        includeHandlers.add( ev );
     }
 
 
@@ -162,16 +162,16 @@ public class EventCartridge
         boolean found = false;
 
         if ( ev instanceof ReferenceInsertionEventHandler )
-            return ReferenceHandlers.remove( ev );
+            return referenceHandlers.remove( ev );
 
         if ( ev instanceof NullSetEventHandler )
-            return NullSetHandlers.remove( ev );
+            return nullSetHandlers.remove( ev );
 
         if ( ev instanceof MethodExceptionEventHandler )
-            return MethodExceptionHandlers.remove(ev );
+            return methodExceptionHandlers.remove(ev );
 
         if ( ev instanceof IncludeEventHandler )
-            return IncludeHandlers.remove( ev );
+            return includeHandlers.remove( ev );
 
         return found;
     }
@@ -182,7 +182,7 @@ public class EventCartridge
      */
     public Iterator getReferenceInsertionEventHandlers()
     {
-        return ReferenceHandlers.iterator();
+        return referenceHandlers.iterator();
     }
 
     /**
@@ -191,7 +191,7 @@ public class EventCartridge
      */
     public Iterator getNullSetEventHandlers()
     {
-        return NullSetHandlers.iterator();
+        return nullSetHandlers.iterator();
     }
 
     /**
@@ -200,7 +200,7 @@ public class EventCartridge
      */
     public Iterator getMethodExceptionEventHandlers()
     {
-        return MethodExceptionHandlers.iterator();
+        return methodExceptionHandlers.iterator();
     }
 
     /**
@@ -209,7 +209,7 @@ public class EventCartridge
      */
     public Iterator getIncludeEventHandlers()
     {
-        return IncludeHandlers.iterator();
+        return includeHandlers.iterator();
     }
 
     /**
@@ -251,7 +251,7 @@ public class EventCartridge
     public void initialize (RuntimeServices rs) throws Exception
     {
 
-        for ( Iterator i = ReferenceHandlers.iterator(); i.hasNext(); )
+        for ( Iterator i = referenceHandlers.iterator(); i.hasNext(); )
         {
             EventHandler eh = ( EventHandler ) i.next();
             if ( (eh instanceof RuntimeServicesAware) &&
@@ -262,7 +262,7 @@ public class EventCartridge
             }
         }
 
-        for ( Iterator i = NullSetHandlers.iterator(); i.hasNext(); )
+        for ( Iterator i = nullSetHandlers.iterator(); i.hasNext(); )
         {
             EventHandler eh = ( EventHandler ) i.next();
             if ( (eh instanceof RuntimeServicesAware) &&
@@ -273,7 +273,7 @@ public class EventCartridge
             }
         }
 
-        for ( Iterator i = MethodExceptionHandlers.iterator(); i.hasNext(); )
+        for ( Iterator i = methodExceptionHandlers.iterator(); i.hasNext(); )
         {
             EventHandler eh = ( EventHandler ) i.next();
             if ( (eh instanceof RuntimeServicesAware) &&
@@ -284,7 +284,7 @@ public class EventCartridge
             }
         }
 
-        for ( Iterator i = IncludeHandlers.iterator(); i.hasNext(); )
+        for ( Iterator i = includeHandlers.iterator(); i.hasNext(); )
         {
             EventHandler eh = ( EventHandler ) i.next();
             if ( (eh instanceof RuntimeServicesAware) &&
