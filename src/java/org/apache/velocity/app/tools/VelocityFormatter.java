@@ -48,7 +48,6 @@ import org.apache.velocity.context.*;
 public class VelocityFormatter
 {
     Context context = null;
-    NumberFormat nf = NumberFormat.getInstance();
 
     /**
      * Constructor needs a backpointer to the context.
