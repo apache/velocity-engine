@@ -39,10 +39,12 @@ public class NodeUtils
      */
     public static String specialText(Token t)
     {
-        String specialText = "";
+        StringBuffer specialText = new StringBuffer();
         
         if (t.specialToken == null || t.specialToken.image.startsWith("##") )
-            return specialText;
+        {
+            return "";
+        }
             
         Token tmp_t = t.specialToken;
 
@@ -115,12 +117,21 @@ public class NodeUtils
                 }
             }
             
-            specialText += sb.toString();
+            // This is a potential JDK 1.3/JDK 1.4 gotcha. If we remove
+            // the toString() method call, then when compiling under JDK 1.4,
+            // this will be mapped to StringBuffer.append(StringBuffer) and
+            // under JDK 1.3, it will be mapped to StringBuffer.append(Object).
+            // So the JDK 1.4 compiled jar will bomb out under JDK 1.3 with a
+            // MethodNotFound error. 
+            //
+            // @todo Once we are JDK 1.4+ only, remove the toString(), make this
+            // loop perform a little bit better.
+            specialText.append(sb.toString());
 
             tmp_t = tmp_t.next;
         }            
 
-        return specialText;
+        return specialText.toString();
     }
     
     /**
