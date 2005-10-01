@@ -35,8 +35,8 @@ import org.apache.velocity.runtime.parser.Parser;
 public class ASTSetDirective extends SimpleNode
 {
     private String leftReference = "";
-    private Node right;
-    private ASTReference left;
+    private Node right = null;
+    private ASTReference left = null;
     boolean blather = false;
 
     public ASTSetDirective(int id)

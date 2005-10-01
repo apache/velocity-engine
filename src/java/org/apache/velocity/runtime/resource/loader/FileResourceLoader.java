@@ -46,7 +46,7 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * The paths to search for templates.
      */
-    private List paths;
+    private List paths = new ArrayList();
 
     /**
      * Used to map the path that a template was found on
@@ -54,20 +54,14 @@ public class FileResourceLoader extends ResourceLoader
      * times of the files. This is synchronizedMap
      * instance.
      */
-    private Map templatePaths;    
+    private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
     public void init( ExtendedProperties configuration)
     {
         log.info("FileResourceLoader : initialization starting.");
         
-        paths = new ArrayList();
         paths.addAll( configuration.getVector("path") );
-        
-        /**
-         * Create synchronized map instance
-         */
-        templatePaths = Collections.synchronizedMap(new HashMap());
-        
+
         if (log.isInfoEnabled())
         {
             // this section lets tell people what paths we will be using

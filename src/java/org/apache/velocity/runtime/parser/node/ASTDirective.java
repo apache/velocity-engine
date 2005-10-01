@@ -43,7 +43,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  */
 public class ASTDirective extends SimpleNode
 {
-    private Directive directive;
+    private Directive directive = null;
     private String directiveName = "";
     private boolean isDirective;
 
