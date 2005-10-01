@@ -64,6 +64,8 @@ public class LogManager
      */
     public static LogChute createLogChute(RuntimeServices rsvc) throws Exception
     {
+        Log log = rsvc.getLog();
+
         /*
          *  if a logSystem was set as a configuation value, use that. 
          *  This is any class the user specifies.
@@ -79,7 +81,7 @@ public class LogManager
                 return (LogChute)o;
             }
             // then check for a LogSystem
-            if (o instanceof LogSystem)
+            else if (o instanceof LogSystem)
             {
                 // wrap the LogSystem into a chute.
                 LogChute chute = new LogChuteSystem((LogSystem)o);
@@ -88,6 +90,10 @@ public class LogManager
                 chute.log(LogChute.WARN_ID, 
                           "LogSystem has been deprecated. Please use a LogChute implementation.");
                 return chute;
+            }
+            else
+            {
+                log.warn(o.getClass().getName() + " object passed in as log implementation which is not supported.");
             }
         }
   
@@ -112,8 +118,6 @@ public class LogManager
         { 
             classes.add( obj );
         }
-
-        Log log = rsvc.getLog();
 
         /*
          *  now run through the list, trying each.  It's ok to 
@@ -183,7 +187,7 @@ public class LogManager
         LogChute newLogChute = createLogChute(rsvc);
         LogChute oldLogChute = log.getLogChute();
 
-        // If the old LogChute was a PrimordialLogChute,
+        // If the old LogChute was the pre-Init logger,
         // dump its messages into the new system first.
         if (oldLogChute instanceof HoldingLogChute)
         {
