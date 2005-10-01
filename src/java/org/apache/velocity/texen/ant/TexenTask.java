@@ -306,13 +306,14 @@ public class TexenTask
                 }
             }
 
-            Iterator j = source.getKeys();
-
-            while (j.hasNext())
+            if (source != null)
             {
-                String name = (String) j.next();
-                String value = source.getString(name);
-                contextProperties.setProperty(name,value);
+                for (Iterator j = source.getKeys(); j.hasNext(); )
+                {
+                    String name = (String) j.next();
+                    String value = source.getString(name);
+                    contextProperties.setProperty(name,value);
+                }
             }
         }
     }
