@@ -255,7 +255,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  Implementation of VelMethod
      */
-    public class VelMethodImpl implements VelMethod
+    public static class VelMethodImpl implements VelMethod
     {
         Method method = null;
 
@@ -290,7 +290,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
     }
 
-    public class VelGetterImpl implements VelPropertyGet
+    public static class VelGetterImpl implements VelPropertyGet
     {
         AbstractExecutor ae = null;
 
@@ -320,7 +320,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
     }
 
-    public class VelSetterImpl implements VelPropertySet
+    public static class VelSetterImpl implements VelPropertySet
     {
         VelMethod vm = null;
         String putKey = null;
