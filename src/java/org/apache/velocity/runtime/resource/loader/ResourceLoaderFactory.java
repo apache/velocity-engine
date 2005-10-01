@@ -46,7 +46,8 @@ public class ResourceLoaderFactory
             
             return loader;
         }
-        catch( Exception e)
+        // The ugly three strike again: ClassNotFoundException,IllegalAccessException,InstantiationException
+        catch(Exception e)
         {
             rs.getLog().error("Problem instantiating the template loader.\n" +
                           "Look at your properties file and make sure the\n" +

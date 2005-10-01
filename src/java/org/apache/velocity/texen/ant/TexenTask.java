@@ -282,7 +282,7 @@ public class TexenTask
                 log("Using contextProperties file: " + fullPath);
                 source.load(new FileInputStream(fullPath));
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 ClassLoader classLoader = this.getClass().getClassLoader();
 
