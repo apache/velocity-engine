@@ -58,7 +58,7 @@ public class Foreach extends Directive
      * is required since the standard context may not support nulls.
      * All puts and gets are passed through, except for the foreach iterator key.
      */
-    protected class NullHolderContext implements InternalContextAdapter
+    protected static class NullHolderContext implements InternalContextAdapter
     {
         private InternalContextAdapter  innerContext = null;
         private String   loopVariableKey = "";
