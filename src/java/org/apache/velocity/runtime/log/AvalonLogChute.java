@@ -191,12 +191,12 @@ public class AvalonLogChute implements LogChute
     {
         switch (level)
         {
+            // For Avalon, no Trace exists. Log at debug level.
+            case LogChute.TRACE_ID:
             case LogChute.DEBUG_ID:
                 return logger.isDebugEnabled();
             case LogChute.INFO_ID:
                 return logger.isInfoEnabled();
-            case LogChute.TRACE_ID:
-                return logger.isDebugEnabled();
             case LogChute.WARN_ID:
                 return logger.isWarnEnabled();
             case LogChute.ERROR_ID:
