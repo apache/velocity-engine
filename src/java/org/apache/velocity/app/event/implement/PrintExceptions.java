@@ -42,7 +42,9 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
 
     private static String SHOW_MESSAGE = "eventhandler.methodexception.message";
     private static String SHOW_STACK_TRACE = "eventhandler.methodexception.stacktrace";
-    private RuntimeServices rs;
+
+    /** Reference to the runtime service */
+    private RuntimeServices rs = null;
 
     /**
      * Render the method exception, and optionally the exception message and stack trace.
@@ -83,23 +85,31 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
     }
 
 
-    private static String getStackTrace(Throwable E)
+    private static String getStackTrace(Throwable throwable)
     {
+        StringWriter stackTraceWriter = null;
         try
         {
-            StringWriter StackTraceWriter = new StringWriter();
-            E.printStackTrace(new PrintWriter(StackTraceWriter));
-            StackTraceWriter.flush();
-            String StackTrace = StackTraceWriter.toString();
-            StackTraceWriter.close();
-            return StackTraceWriter.toString() ;
+            stackTraceWriter = new StringWriter();
+            throwable.printStackTrace(new PrintWriter(stackTraceWriter));
+            stackTraceWriter.flush();
+            return stackTraceWriter.toString();
         }
-        catch (IOException ioe)
+        finally
         {
-            return "";
+            if (stackTraceWriter != null)
+            {
+                try
+                {
+                    stackTraceWriter.close();
+                }
+                catch (IOException ioe)
+                {
+                    // do nothing
+                }
+            }
         }
     }
-
 
 
     public void setRuntimeServices(RuntimeServices rs) throws Exception
