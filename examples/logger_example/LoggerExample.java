@@ -15,7 +15,7 @@
  */
 
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.runtime.RuntimeServices;
 
 
@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class LoggerExample implements LogSystem
+public class LoggerExample implements LogChute
 {
     public LoggerExample()
     {
@@ -66,12 +66,31 @@ public class LoggerExample implements LogSystem
 	 }
 	 
     /**
-     *  This is the key method needed to implement a logging interface
-     *  for Velocity.
+     * This just prints the message and level to System.out.
      */ 
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         System.out.println("level : " + level + " msg : " + message);
+    }
+
+     
+    /**
+     * This prints the level, message, and the Throwable's message to 
+     * System.out.
+     */ 
+    public void log(int level, String message, Throwable t)
+    {
+        System.out.println("level : " + level + " msg : " + message + " t : "
+                           + t.getMessage());
+    }
+
+    /**
+     * This always returns true because logging levels can't be disabled in
+     * this impl.
+     */
+    public void isLevelEnabled(int level)
+    {
+        return true;
     }
 
     public static void main(String[] args)
