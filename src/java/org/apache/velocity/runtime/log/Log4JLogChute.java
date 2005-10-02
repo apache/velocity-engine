@@ -241,6 +241,7 @@ public class Log4JLogChute implements LogChute
         {
             logger.removeAppender(appender);
             appender.close();
+            appender = null;
         }
     }
 

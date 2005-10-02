@@ -46,6 +46,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 public class SimpleLog4JLogSystem implements LogSystem
 {
     private RuntimeServices rsvc = null;
+    private RollingFileAppender appender = null;
 
     /** log4java logging interface */
     protected Category logger = null;
@@ -118,7 +119,7 @@ public class SimpleLog4JLogSystem implements LogSystem
          */
         logger.setLevel(Level.DEBUG);
 
-        RollingFileAppender appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
+        appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
         
         appender.setMaxBackupIndex( 1 );
         
@@ -166,11 +167,11 @@ public class SimpleLog4JLogSystem implements LogSystem
     /** Close all destinations*/
     public void shutdown()
     {
-        Enumeration appenders = logger.getAllAppenders();
-        while (appenders.hasMoreElements())
+        if (appender != null)
         {
-            Appender appender = (Appender)appenders.nextElement();
+            logger.removeAppender(appender);
             appender.close();
+            appender = null;
         }
     }
 }
