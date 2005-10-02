@@ -17,38 +17,32 @@ package org.apache.velocity.runtime;
  */
 
 /**
- * Interface for internal runtime logging services that are needed by the
+ * Interface for internal runtime logging services. This will hopefully
+ * be dissolved into the Log class at some point soon.
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magusson Jr.</a>
  * @version $Id$
+ * @deprecated This functionality has been taken over by the Log class
  */
 public interface RuntimeLogger
 {
     /**
-     * Log a warning message.
-     *
-     * @param Object message to log
+     * @deprecated Use Log.warn(Object)
      */
     public void warn(Object message);
 
     /**
-     * Log an info message.
-     *
-     * @param Object message to log
+     * @deprecated Use Log.warn(Object)
      */
     public  void info(Object message);
 
     /**
-     * Log an error message.
-     *
-     * @param Object message to log
+     * @deprecated Use Log.warn(Object)
      */
     public void error(Object message);
 
     /**
-     * Log a debug message.
-     *
-     * @param Object message to log
+     * @deprecated Use Log.warn(Object)
      */
     public void debug(Object message);
 }
