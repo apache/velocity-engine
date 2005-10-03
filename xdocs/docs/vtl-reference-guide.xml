@@ -248,14 +248,23 @@
     </tr>
    </table>
 
-   <P>Note: You can also use brackets to delimit directives.  This is especially 
-   useful when text immediately follows an <code>#else</code> directive.
-   </P>
-       
+   <p>Notes:</p>
+   <ol>
+	<li>
+		The == operator can be used to compare numbers, strings, objects of the same class, or objects
+		of different classes.  In the last case (when objects are of different classes), the toString()
+		method is called on each object and the resulting Strings are compared.
+	</li>
+	<li>
+	 You can also use brackets to delimit directives.  This is especially 
+    useful when text immediately follows an <code>#else</code> directive.    
+	</li>
+   </ol>
+      
 <source><![CDATA[
 #if( $foo == $bar)it's true!#{else}it's not!#end</li>
 ]]></source>
-    
+	  
     
   </subsection>
 
