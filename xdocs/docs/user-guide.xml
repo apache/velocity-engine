@@ -1162,7 +1162,9 @@ $blargh
 
     <p>Note that the semantics of <em>==</em> are slightly different than Java where <em>==</em> 
     can only be used to test object equality.  In Velocity the equivalent operator 
-    can be used to directly compare numbers, strings, or objects.  
+    can be used to directly compare numbers, strings, or objects.  When the objects
+	are of different classes, the string representations are obtained by calling
+	<code>toString()</code> for each object and then compared.
     </p>
 
     <p>
