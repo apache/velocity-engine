@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <document>
 
@@ -44,6 +44,12 @@ Listed alphabetically:
         <td>Daniel L. Rall</td>
         <td>dlr@finemaltcoding.com</td>
         <td>CollabNet</td>
+    </tr>
+
+    <tr>
+        <td>Henning Schmiedehausen</td>
+        <td>hps@intermeta.de</td>
+        <td>INTERMETA - Gesellschaft für Mehrwertdienste mbH</td>
     </tr>
 
     <tr>
