@@ -16,6 +16,7 @@
 
 package org.apache.velocity.runtime.log;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import org.apache.log4j.Logger;
 import org.apache.log4j.RollingFileAppender;
@@ -52,35 +53,30 @@ public class Log4JLogChute implements LogChute
      */
     protected Logger logger = null;
 
-    public void init(RuntimeServices rs)
+    public void init(RuntimeServices rs) throws Exception
     {
         rsvc = rs;
 
         /* first see if there is a category specified and just use that - it allows
          * the application to make us use an existing logger
          */
-        String loggerName = (String)rsvc.getProperty(RUNTIME_LOG_LOG4J_LOGGER);
-        if (loggerName != null)
+        String name = (String)rsvc.getProperty(RUNTIME_LOG_LOG4J_LOGGER);
+        if (name != null)
         {
-            logger = Logger.getLogger(loggerName);
-        
-            log(0, "Log4JLogChute using logger '"
-                               + loggerName + '\'');
+            logger = Logger.getLogger(name);
+            log(DEBUG_ID, "Log4JLogChute using logger '" + name + '\'');
         }
         else
         {
-            // if not, use the file...
-            String logfile = rsvc.getString(RuntimeConstants.RUNTIME_LOG);
+            // create a logger with this class name to avoid conflicts
+            logger = Logger.getLogger(this.getClass().getName());
 
-            // now init.  If we can't, panic!
-            try
+            // if we have a file property, then create a separate
+            // rolling file log for velocity messages only
+            String file = rsvc.getString(RuntimeConstants.RUNTIME_LOG);
+            if (file != null && file.trim().length() > 0)
             {
-                internalInit(logfile);
-                log(0, "Log4JLogChute initialized using logfile '" + logfile + "'");
-            }
-            catch(Exception e)
-            {
-                System.err.println("PANIC: error configuring Log4JLogChute - " + e);
+                initAppender(file);
             }
         }
 
@@ -95,32 +91,37 @@ public class Log4JLogChute implements LogChute
         }
         catch (NoSuchFieldException e)
         {
-            log(0, "The version of log4j being used does not support the \"trace\" level.");
+            log(DEBUG_ID,
+                "The version of log4j being used does not support the \"trace\" level.");
         }
     }
 
-    /*
-     * initializes the log system using the logfile argument
-     */
-    private void internalInit(String logfile) throws Exception
+    // This tries to create a file appender for the specified file name.
+    private void initAppender(String file) throws Exception
     {
-        /* do it by our classname to avoid conflicting with anything else 
-         * that might be used...
-         */
-        logger = Logger.getLogger(this.getClass().getName());
-        logger.setAdditivity(false);
+        try
+        {
+            // to add the appender
+            PatternLayout layout = new PatternLayout("%d - %m%n");
+            this.appender = new RollingFileAppender(layout, file, true);
 
-        /* Priority is set for DEBUG becouse this implementation checks 
-         * log level. */
-        logger.setLevel(Level.DEBUG);
+            // if we successfully created the file appender,
+            // configure it and set the logger to use only it
+            appender.setMaxBackupIndex(1);
+            appender.setMaximumFileSize(100000);
 
-        this.appender = 
-            new RollingFileAppender(new PatternLayout("%d - %m%n"), 
-                                    logfile, true);
-        
-        appender.setMaxBackupIndex(1);
-        appender.setMaximumFileSize(100000);
-        logger.addAppender(appender);
+            // don't inherit appenders from higher in the logger heirarchy
+            logger.setAdditivity(false);
+            // this impl checks levels (by default don't include trace level)
+            logger.setLevel(Level.DEBUG);
+            logger.addAppender(appender);
+            log(DEBUG_ID, "Log4JLogChute initialized using file '"+file+'\'');
+        }
+        catch (IOException ioe)
+        {
+            rsvc.getLog().warn("Could not create file appender '"+file+'\'', ioe);
+            throw new Exception("Error configuring Log4JLogChute : " + ioe);
+        }
     }
 
     /**
