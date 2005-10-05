@@ -58,42 +58,51 @@ import org.apache.velocity.util.ClassUtils;
  */
 public class LogManager
 {
-    /**
-     *  Creates a new logging system or returns an existing one
-     *  specified by the application.
-     */
-    public static LogChute createLogChute(RuntimeServices rsvc) throws Exception
+    // Creates a new logging system or returns an existing one
+    // specified by the application.
+    private static LogChute createLogChute(RuntimeServices rsvc) throws Exception
     {
         Log log = rsvc.getLog();
 
-        /*
-         *  if a logSystem was set as a configuation value, use that. 
-         *  This is any class the user specifies.
+        /* If a LogChute or LogSystem instance was set as a configuation 
+         * value, use that.  This is any class the user specifies.
          */
-        Object o = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM );
-
+        Object o = rsvc.getProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM);
         if (o != null)
         {
             // first check for a LogChute
             if (o instanceof LogChute)
             {
-                ((LogChute)o).init(rsvc);
-                return (LogChute)o;
+                try
+                {
+                    ((LogChute)o).init(rsvc);
+                    return (LogChute)o;
+                }
+                catch (Exception e)
+                {
+                    log.error("Could not init runtime.log.logsystem " + o, e);
+                }
             }
             // then check for a LogSystem
             else if (o instanceof LogSystem)
             {
-                // wrap the LogSystem into a chute.
-                LogChute chute = new LogChuteSystem((LogSystem)o);
-                chute.init(rsvc);
-                // warn the user about the deprecation
-                chute.log(LogChute.WARN_ID, 
-                          "LogSystem has been deprecated. Please use a LogChute implementation.");
-                return chute;
+                // inform the user about the deprecation
+                log.info("LogSystem has been deprecated. Please use a LogChute implementation.");
+                try
+                {
+                    // wrap the LogSystem into a chute.
+                    LogChute chute = new LogChuteSystem((LogSystem)o);
+                    chute.init(rsvc);
+                    return chute;
+                }
+                catch (Exception e)
+                {
+                    log.error("Could not init runtime.log.logsystem " + o, e);
+                }
             }
             else
             {
-                log.warn(o.getClass().getName() + " object passed in as log implementation which is not supported.");
+                log.warn(o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.");
             }
         }
   
@@ -141,24 +150,30 @@ public class LogManager
                     }
                     else if (o instanceof LogSystem)
                     {
+                        // inform the user about the deprecation
+                        log.info("LogSystem has been deprecated. Please use a LogChute implementation.");
                         LogChute chute = new LogChuteSystem((LogSystem)o);
                         chute.init(rsvc);
-                        // warn the user about the deprecation
-                        chute.log(LogChute.WARN_ID, 
-                                  "LogSystem has been deprecated. Please use a LogChute implementation.");
                         return chute;
                     }
                     else
                     {
                         log.error("The specifid logger class " + claz +
-                                  " isn't a valid LogChute");
+                                  " isn't a valid LogChute implementation.");
                     }
                 }
-                catch( NoClassDefFoundError ncdfe )
+                catch(NoClassDefFoundError ncdfe)
                 {
-                    log.debug("Couldn't find class " + claz 
-                              + " or necessary supporting classes in "
-                              + "classpath. Exception : " + ncdfe);
+                    // note these errors for anyone debugging the app
+                    log.debug("Couldn't find class " + claz +
+                              " or necessary supporting classes in classpath.",
+                              ncdfe);
+                }
+                catch(Exception e)
+                {
+                    // log init exception at slightly higher priority
+                    log.info("Failed to initialize an instance of " + claz +
+                             " with the current runtime configuration.", e);
                 }
             }
         }
@@ -171,10 +186,10 @@ public class LogManager
          * that something went wrong with the logging, let's fall back to the 
          * surefire StandardOutLogChute. No panicking or failing to log!!
          */
-        LogChute sls = new StandardOutLogChute();
-        sls.init(rsvc);
+        LogChute slc = new StandardOutLogChute();
+        slc.init(rsvc);
         log.info("Using StandardOutLogChute.");
-        return sls;
+        return slc;
     }
 
     /**
