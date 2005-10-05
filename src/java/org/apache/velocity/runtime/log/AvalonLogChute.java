@@ -17,6 +17,7 @@
 package org.apache.velocity.runtime.log;
 
 import java.io.File;
+import java.io.IOException;
 import org.apache.log.Priority;
 import org.apache.log.Logger;
 import org.apache.log.Hierarchy;
@@ -36,85 +37,65 @@ import org.apache.velocity.runtime.RuntimeConstants;
 public class AvalonLogChute implements LogChute
 {
     private Logger logger = null;
-
     private RuntimeServices rsvc = null;
 
-    /**
-     *  default CTOR.  Initializes itself using the property RUNTIME_LOG
-     *  from the Velocity properties
-     */
-
-    public AvalonLogChute()
-    {
-    }
-
-    public void init( RuntimeServices rs )
-        throws Exception
+    public void init(RuntimeServices rs) throws Exception
     {
         this.rsvc = rs;
 
-        /*
-         *  if a logger is specified, we will use this instead of
-         *  the default
-         */
-        String loggerName = (String) rsvc.getProperty("runtime.log.logsystem.avalon.logger");
-        
-        if (loggerName != null)
+        // if a logger is specified, we will use this instead of the default
+        String name = (String)rsvc.getProperty("runtime.log.logsystem.avalon.logger");
+        if (name != null)
         {
-            this.logger = Hierarchy.getDefaultHierarchy().getLoggerFor(loggerName);
+            this.logger = Hierarchy.getDefaultHierarchy().getLoggerFor(name);
         } 
         else 
         {
-            /*
-             *  since this is a Velocity-provided logger, we will
-             *  use the Runtime configuration
-             */
-            String logfile = (String) rsvc.getProperty( RuntimeConstants.RUNTIME_LOG );
+            // use the toString() of RuntimeServices to make a unique logger
+            logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
 
-            /*
-             *  now init.  If we can't, panic!
-             */
-            try
+            // if we have a file property, use it to create a FileTarget
+            String file = (String)rsvc.getProperty(RuntimeConstants.RUNTIME_LOG);
+            if (file != null && file.trim().length() > 0)
             {
-                init( logfile );
-
-                log( 0,
-                    "AvalonLogChute initialized using logfile '" + logfile + "'" );
-            }
-            catch( Exception e )
-            {
-                System.err.println(
-                    "PANIC : Error configuring AvalonLogChute : " + e );
-
-                throw new Exception("Unable to configure AvalonLogChute : " + e );
+                initTarget(file);
             }
         }
     }
 
-    /**
-     *  initializes the log system using the logfile argument
-     *
-     *  @param logFile   file for log messages
-     */
-    public void init(String logFile)
-        throws Exception
+    // creates a file target using the specified file name
+    private void initTarget(String file) throws Exception
     {
+        try
+        {
+            VelocityFormatter vf = 
+                new VelocityFormatter("%{time} %{message}\\n%{throwable}");
 
-    /*
-     *  make our FileTarget.  Note we are going to keep the 
-     *  default behavior of not appending...
+            // make the target and keep the default behavior of not appending
+            FileTarget target = new FileTarget(new File(file), false, vf);
+
+            logger.setPriority(Priority.DEBUG);
+            logger.setLogTargets(new LogTarget[] { target });
+            log(DEBUG_ID, "AvalonLogChute initialized using file '"+file+'\'');
+        }
+        catch (IOException ioe)
+        {
+            rsvc.getLog().warn("Unable to create log file for AvalonLogChute", ioe);
+            throw new Exception("Error configuring AvalonLogChute : " + ioe);
+        }
+    }
+
+    /**
+     * @deprecated This method should not be used. It is here only to provide
+     *             backwards compatibility for the deprecated AvalonLogSystem
+     *             class, in case anyone used it and this method directly.
      */
-        FileTarget target = new FileTarget( new File( logFile), 
-                        false, 
-                        new VelocityFormatter("%{time} %{message}\\n%{throwable}" ) );
-       
-        /*
-         *  use the toString() of RuntimeServices to make a unique logger
-         */
-
-        logger = Hierarchy.getDefaultHierarchy().getLoggerFor( rsvc.toString() );
-        logger.setPriority( Priority.DEBUG );
-        logger.setLogTargets( new LogTarget[] { target } );
+    public void init(String file) throws Exception
+    {
+        logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
+        initTarget(file);
+        // nag the theoretical user
+        log(WARN_ID, "You shouldn't be using the init(String file) method!");
     }
     
     /**
@@ -126,10 +107,9 @@ public class AvalonLogChute implements LogChute
     public void log(int level, String message)
     {
         /*
-         *  based on level, call teh right logger method
-         *  and prefix with the appropos prefix
+         * based on level, call the right logger method
+         * and prefix with the appropos prefix
          */
-
         switch (level) 
         {
             case LogChute.WARN_ID:
