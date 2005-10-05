@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
  */
-public class HoldingLogChute implements LogChute
+class HoldingLogChute implements LogChute
 {
     private Vector pendingMessages = new Vector();    
 
