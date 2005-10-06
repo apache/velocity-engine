@@ -18,7 +18,8 @@ public interface ParserConstants {
   int SET_DIRECTIVE = 12;
   int DOLLAR = 13;
   int DOLLARBANG = 14;
-  int HASH = 18;
+  int HASH = 17;
+  int SINGLE_LINE_COMMENT_START = 18;
   int DOUBLE_ESCAPE = 19;
   int ESCAPE = 20;
   int TEXT = 21;
@@ -94,10 +95,10 @@ public interface ParserConstants {
     "<SET_DIRECTIVE>",
     "<DOLLAR>",
     "<DOLLARBANG>",
-    "\"##\"",
-    "<token of kind 16>",
+    "<token of kind 15>",
     "\"#*\"",
     "\"#\"",
+    "\"##\"",
     "\"\\\\\\\\\"",
     "\"\\\\\"",
     "<TEXT>",
