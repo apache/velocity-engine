@@ -122,7 +122,6 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
             /*
              *  put the Vector into the context, and merge both
              */
-
             VelocityContext context = new VelocityContext();
 
             template1.merge(context, writer1);
