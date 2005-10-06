@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  * Test use of an absolute path with the FileResourceLoader
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: MultipleFileResourcePathTest.java,v 1.8 2001/10/22 03:53:26 jon Exp $
+ * @version $Id$
  */
 public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
 {
@@ -121,7 +121,7 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
 
             /*
              *  put the Vector into the context, and merge both
-             */
+             */     
             VelocityContext context = new VelocityContext();
 
             template1.merge(context, writer1);
