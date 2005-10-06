@@ -331,14 +331,24 @@
     <delete>
        <fileset dir="${build.dest}">
           <include name="org/apache/commons/collections/**/*.class" />
-          <exclude name="org/apache/commons/collections/map/LRUMap.class" />
-          <exclude name="org/apache/commons/collections/map/AbstractHashedMap.class" />
-          <exclude name="org/apache/commons/collections/map/AbstractLinkedMap.class" />
-          <exclude name="org/apache/commons/collections/IterableMap.class" />
           <exclude name="org/apache/commons/collections/BoundedMap.class" />
-          <exclude name="org/apache/commons/collections/OrderedMap.class" />
           <exclude name="org/apache/commons/collections/ExtendedProperties*.class" />
-       </fileset>
+          <exclude name="org/apache/commons/collections/IterableMap.class" />
+          <exclude name="org/apache/commons/collections/iterators/AbstractEmptyIterator.class" />
+          <exclude name="org/apache/commons/collections/iterators/EmptyIterator.class" />
+          <exclude name="org/apache/commons/collections/iterators/EmptyMapIterator.class" />
+          <exclude name="org/apache/commons/collections/iterators/EmptyOrderedIterator.class" />
+          <exclude name="org/apache/commons/collections/iterators/EmptyOrderedMapIterator.class" />
+          <exclude name="org/apache/commons/collections/KeyValue.class" />
+          <exclude name="org/apache/commons/collections/map/AbstractHashedMap*.class" />
+          <exclude name="org/apache/commons/collections/map/AbstractLinkedMap*.class" />
+          <exclude name="org/apache/commons/collections/map/LRUMap.class" />
+          <exclude name="org/apache/commons/collections/MapIterator.class" />
+          <exclude name="org/apache/commons/collections/OrderedMap.class" />
+          <exclude name="org/apache/commons/collections/OrderedMapIterator.class" />
+          <exclude name="org/apache/commons/collections/OrderedIterator.class" />
+          <exclude name="org/apache/commons/collections/ResettableIterator.class" />
+	   </fileset>
     </delete>
 
   </target>
