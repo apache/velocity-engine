@@ -651,22 +651,6 @@ MORE :
         }
     }
 
-|   "##"
-   {
-        if (!inComment)
-        {
-            if (curLexState == REFERENCE)
-            {
-                inReference = false;
-                stateStackPop();
-            }
-
-            inComment = true;
-            stateStackPush();
-            SwitchTo(IN_SINGLE_LINE_COMMENT);
-        }
-     }
-
 |   <"#**" ~["#"]>
     {
         input_stream.backup(1);
@@ -710,6 +694,29 @@ MORE :
     }
 }
 
+
+// treat the single line comment case separately 
+// to avoid ##<EOF> errors
+<*>
+TOKEN : 
+{
+   <SINGLE_LINE_COMMENT_START: "##">
+   {
+        if (!inComment)
+        {
+            if (curLexState == REFERENCE)
+            {
+                inReference = false;
+                stateStackPop();
+            }
+
+            inComment = true;
+            stateStackPush();
+            SwitchTo(IN_SINGLE_LINE_COMMENT);
+        }
+     }
+}
+
 TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
@@ -725,7 +732,7 @@ TOKEN :
 <IN_SINGLE_LINE_COMMENT>
 TOKEN :
 {
-  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" >
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n">
   {
      inComment = false;
      stateStackPop();
@@ -1164,7 +1171,7 @@ void Escape() : {}
 
 void Comment() : {}
 {
-    <SINGLE_LINE_COMMENT>
+	<SINGLE_LINE_COMMENT_START> ( <SINGLE_LINE_COMMENT> ) ?
 |   <MULTI_LINE_COMMENT>
 |   <FORMAL_COMMENT>
 }
