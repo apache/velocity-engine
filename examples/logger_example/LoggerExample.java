@@ -88,7 +88,7 @@ public class LoggerExample implements LogChute
      * This always returns true because logging levels can't be disabled in
      * this impl.
      */
-    public void isLevelEnabled(int level)
+    public boolean isLevelEnabled(int level)
     {
         return true;
     }
