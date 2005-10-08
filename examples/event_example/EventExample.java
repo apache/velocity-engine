@@ -22,7 +22,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.MethodInvocationException;
 
-import org.apache.velocity.runtime.log.LogSystem;
+import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.runtime.RuntimeServices;
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -44,7 +44,7 @@ import org.apache.velocity.context.Context;
 
 public class EventExample implements ReferenceInsertionEventHandler, 
                                      NullSetEventHandler, MethodExceptionEventHandler,
-                                     LogSystem
+                                     LogChute
 {
 
     private boolean logOutput = false;
@@ -307,15 +307,36 @@ public class EventExample implements ReferenceInsertionEventHandler,
 	 }
 
     /**
-     *  This is the key method needed to implement a logging interface
-     *  for Velocity.
+     * This just prints the message and level to System.out.
      */ 
-    public void logVelocityMessage(int level, String message)
+    public void log(int level, String message)
     {
         if (logOutput)
         {
-            System.out.print("Velocity Log : level : " + level + " msg : " + message);
+            System.out.println("level : " + level + " msg : " + message);
         }
     }
 
+     
+    /**
+     * This prints the level, message, and the Throwable's message to 
+     * System.out.
+     */ 
+    public void log(int level, String message, Throwable t)
+    {
+        if (logOutput)
+        {
+            System.out.println("level : " + level + " msg : " + message + " t : "
+                    + t.getMessage());
+        }
+    }
+
+    /**
+     * This always returns true because logging levels can't be disabled in
+     * this impl.
+     */
+    public boolean isLevelEnabled(int level)
+    {
+        return true;
+    }
 }
