@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import org.apache.velocity.Template;
 
-import org.apache.velocity.runtime.Runtime;
+import org.apache.velocity.runtime.RuntimeSingleton;
 
 /**
  *  the ultimate in silliness...
@@ -43,9 +43,9 @@ public class DBContextTest
     {
         try
         {
-            Runtime.init( new Properties() );
+            RuntimeSingleton.init( new Properties() );
  
-            Template template = Runtime.getTemplate(templateFile);
+            Template template = RuntimeSingleton.getTemplate(templateFile);
 
             DBContext dbc = new DBContext();
 
@@ -64,7 +64,7 @@ public class DBContextTest
         }
         catch( Exception e )
         {
-            Runtime.error(e);
+            RuntimeSingleton.error(e);
         }
     }
 
