@@ -342,7 +342,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void warn(Object message)
     {
-        ri.warn( message );
+        ri.getLog().warn( message );
     }
     
     /** 
@@ -352,7 +352,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        ri.info( message );
+        ri.getLog().info( message );
     }
     
     /**
@@ -362,7 +362,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        ri.error( message );
+        ri.getLog().error( message );
     }
     
     /**
@@ -372,7 +372,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        ri.debug( message );
+        ri.getLog().debug( message );
     }
 
     /**
