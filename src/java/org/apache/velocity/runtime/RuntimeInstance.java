@@ -221,9 +221,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (initialized == false)
         {
-            info("************************************************************** ");
-            info("Starting Jakarta Velocity v@version@");
-            info("RuntimeInstance initializing.");
+            log.info("************************************************************** ");
+            log.info("Starting Jakarta Velocity v@build.version@");
+            log.debug("compiled at @build.time@");
+            log.info("RuntimeInstance initializing.");
+
             initializeProperties();
             initializeLog();
             initializeResourceManager();
@@ -238,7 +240,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              */
             vmFactory.initVelocimacro();
 
-            info("Velocity successfully started.");
+            log.info("Velocity successfully started.");
 
             initialized = true;
         }
@@ -267,8 +269,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 String err = "The specified class for Uberspect ("
                     + rm
                     + ") does not exist (or is not accessible to the current classlaoder.";
-                 error(err);
-                 throw new Exception(err);
+                log.error(err);
+                throw new Exception(err);
             }
 
             if (!(o instanceof Uberspect))
@@ -278,7 +280,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + ") does not implement org.apache.velocity.util.introspector.Uberspect."
                     + " Velocity not initialized correctly.";
 
-                error(err);
+                log.error(err);
                 throw new Exception(err);
             }
 
@@ -301,7 +303,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             + " Uberspect.  Please ensure that all configuration"
             + " information is correct.";
 
-            error(err);
+            log.error(err);
             throw new Exception(err);
         }
     }
@@ -505,8 +507,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 String err = "The specified class for Resourcemanager ("
                     + rm
                     + ") does not exist (or is not accessible to the current classlaoder.";
-                 error(err);
-                 throw new Exception(err);
+                log.error(err);
+                throw new Exception(err);
             }
 
             if (!(o instanceof ResourceManager))
@@ -516,7 +518,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + ") does not implement org.apache.runtime.resource.ResourceManager."
                     + " Velocity not initialized correctly.";
 
-                error(err);
+                log.error(err);
                 throw new Exception(err);
             }
 
@@ -534,7 +536,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             + " ResourceManager.  Please ensure that all configuration"
             + " information is correct.";
 
-            error(err);
+            log.error(err);
             throw new Exception( err );
         }
     }
@@ -611,8 +613,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + " ("
                     + classname
                     + ") does not exist (or is not accessible to the current classlaoder.";
-                 error(err);
-                 throw new Exception(err);
+                log.error(err);
+                throw new Exception(err);
             }
 
             if (!EventHandlerInterface.isAssignableFrom(EventHandlerInterface))
@@ -625,7 +627,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + EventHandlerInterface.getName()
                     + " Velocity not initialized correctly.";
 
-                error(err);
+                log.error(err);
                 throw new Exception(err);
             }
 
@@ -733,13 +735,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 Directive directive = (Directive) o;
                 runtimeDirectives.put(directive.getName(), directive);
 
-                info("Loaded " + caption + " Directive: "
+                log.info("Loaded " + caption + " Directive: "
                     + directiveClass);
             }
             else
             {
-                error(caption + " Directive " + directiveClass
-                    + " is not org.apache.velocity.runtime.directive.Directive."
+                log.error(caption + " Directive " + directiveClass
+                    + " is not implementing org.apache.velocity.runtime.directive.Directive."
                     + " Ignoring. ");
             }
         }
@@ -748,7 +750,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         // Ignore Findbugs complaint for now.
         catch (Exception e)
         {
-            error("Exception Loading " + caption + " Directive: "
+            log.error("Exception Loading " + caption + " Directive: "
                 + directiveClass + " : " + e);
         }
     }
@@ -769,7 +771,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             parserPool.put(createNewParser());
         }
 
-        info("Created '" + numParsers + "' parsers.");
+        log.info("Created '" + numParsers + "' parsers.");
     }
 
     /**
@@ -830,7 +832,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  make one and log it.
              */
 
-            error("Runtime : ran out of parsers. Creating new.  "
+            log.error("Runtime : ran out of parsers. Creating new.  "
                   + " Please increment the parser.pool.size property."
                   + " The current value is too small.");
 
@@ -876,7 +878,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         else
         {
-            error("Runtime : ran out of parsers and unable to create more.");
+            log.error("Runtime : ran out of parsers and unable to create more.");
         }
         return ast;
     }

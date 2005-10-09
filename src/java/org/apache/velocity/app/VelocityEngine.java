@@ -314,7 +314,7 @@ public class VelocityEngine implements RuntimeConstants
                 }
                 catch( Exception e )
                 {
-                    ri.error("Velocity.evaluate() : init exception for tag = "
+                    ri.getLog().error("Velocity.evaluate() : init exception for tag = "
                                   + logTag + " : " + e );
                 }
 
@@ -362,7 +362,7 @@ public class VelocityEngine implements RuntimeConstants
         if ( vmName == null ||  params == null ||  context == null
              || writer == null || logTag == null)
         {
-            ri.error( "VelocityEngine.invokeVelocimacro() : invalid parameter");
+            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : invalid parameter");
             return false;
         }
 
@@ -372,7 +372,7 @@ public class VelocityEngine implements RuntimeConstants
 
         if (!ri.isVelocimacro( vmName, logTag ))
         {
-            ri.error( "VelocityEngine.invokeVelocimacro() : VM '"+ vmName
+            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : VM '"+ vmName
                            + "' not registered.");
             return false;
         }
@@ -403,7 +403,7 @@ public class VelocityEngine implements RuntimeConstants
         }
         catch( Exception  e )
         {
-            ri.error( "VelocityEngine.invokeVelocimacro() : error " + e );
+            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : error " + e );
             throw e;
         }
     }
@@ -452,7 +452,7 @@ public class VelocityEngine implements RuntimeConstants
 
         if ( template == null )
         {
-            ri.error("Velocity.parseTemplate() failed loading template '"
+            ri.getLog().error("Velocity.parseTemplate() failed loading template '"
                           + templateName + "'" );
             return false;
         }
@@ -538,7 +538,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void warn(Object message)
     {
-        ri.warn(message);
+        ri.getLog().warn(message);
     }
 
     /**
@@ -548,7 +548,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void info(Object message)
     {
-        ri.info(message);
+        ri.getLog().info(message);
     }
 
     /**
@@ -558,7 +558,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void error(Object message)
     {
-        ri.error(message);
+        ri.getLog().error(message);
     }
 
     /**
@@ -568,7 +568,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void debug(Object message)
     {
-        ri.debug(message);
+        ri.getLog().debug(message);
     }
 
     /**
