@@ -161,12 +161,13 @@ public class ASTIdentifier extends SimpleNode
              *  also, let non-Exception Throwables go...
              */
 
-            if (ite.getTargetException() instanceof java.lang.Exception)
+            Throwable t = ite.getTargetException();
+            if (t instanceof Exception)
             {
                 try
                 {
                     return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
-                            (Exception)ite.getTargetException());
+                            (Exception) t);
                 }
                 catch(Exception e)
                 {

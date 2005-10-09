@@ -230,11 +230,12 @@ public class ASTMethod extends SimpleNode
              *  let non-Exception Throwables go...
              */
 
-            if ( ite.getTargetException() instanceof java.lang.Exception)
+            Throwable t = ite.getTargetException();
+            if (t instanceof Exception)
             {
                 try
                 {
-                    return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception)ite.getTargetException() );
+                    return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
                 }
                 catch( Exception e )
                 {
