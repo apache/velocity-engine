@@ -63,7 +63,7 @@ public class Example2
 
         try
         {
-            Velocity.mergeTemplate("example2.vm", context, w );
+            Velocity.mergeTemplate("example2.vm", "ISO-8859-1", context, w );
         }
         catch (Exception e )
         {
