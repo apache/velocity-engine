@@ -29,8 +29,8 @@ import junit.framework.TestSuite;
  */
 public class AnakiaTestCase extends BaseTestCase
 {
-    private static final String COMPARE_DIR = "test/anakia/compare";
-    private static final String RESULTS_DIR = "target/test/anakia";
+    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/anakia/compare";
+    private static final String RESULTS_DIR = TEST_RESULT_DIR + "/anakia";
 
     private static final String CONTEXT_FILE_EXT = "context.html";
 

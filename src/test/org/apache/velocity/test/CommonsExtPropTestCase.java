@@ -40,19 +40,19 @@ public class CommonsExtPropTestCase extends BaseTestCase
      * Comparison directory.
      */
     private static final String COMPARE_DIR =
-        "test/configuration/compare";
+        TEST_COMPARE_DIR + "/configuration/compare";
 
     /**
      * Results directory.
      */
     private static final String RESULTS_DIR =
-        "target/test/configuration";
+        TEST_RESULT_DIR + "/configuration";
 
     /**
      * Test configuration
      */
     private static final String TEST_CONFIG =
-        "test/configuration/test.config";
+        TEST_COMPARE_DIR + "/configuration/test.config";
 
     /**
      * Creates a new instance.

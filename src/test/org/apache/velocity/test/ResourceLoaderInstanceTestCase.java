@@ -58,17 +58,17 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    private final static String FILE_RESOURCE_LOADER_PATH = "test/resourceinstance";
+    private final static String FILE_RESOURCE_LOADER_PATH = TEST_COMPARE_DIR + "/resourceinstance";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULTS_DIR = "target/test/resourceinstance";
+    private static final String RESULTS_DIR = TEST_RESULT_DIR + "/resourceinstance";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String COMPARE_DIR = "test/resourceinstance/compare";
+    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/resourceinstance/compare";
 
     /**
      * Default constructor.
