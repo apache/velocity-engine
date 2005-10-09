@@ -1,6 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!-- Testcases for Velocity -->
+<!--
+ Copyright 2000-2005 The Apache Software Foundation.
+
+ Licensed under the Apache License, Version 2.0 (the "License")
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- Legacy Testcases for Velocity. See notes at the top
+     of the main build file
+-->
+
 <project name="main" default="test-all" basedir="..">
   <property file="${user.home}/.ant.properties" />
   <property file="${user.home}/build.properties" />
@@ -13,7 +32,7 @@
   <property name="test.runner" value="junit.textui.TestRunner"/>
 
   <!-- Build classpath -->
-  <path id="classpath">
+  <path id="velocity.test.classpath">
     <fileset dir="${velocity.build.dir}/lib">
       <include name="**/*.jar"/>
     </fileset>
@@ -25,30 +44,16 @@
   <!-- JUnit Test Cases                                                    -->
   <!-- =================================================================== -->
   <target name="test-clean">
-    <!--
-         Hack to prevent Ant from complaining about missing directories.
-         This is fixed in Ant >1.3, but we are using Ant 1.3 now.
-    -->
-    <mkdir dir="${build.test}/anakia"/>
-    <mkdir dir="${build.test}/cpload"/>
-    <mkdir dir="${build.test}/multiloader"/>
-    <mkdir dir="${build.test}/texen"/>
-    <!--
-         Delete the results directories
-    -->
+    <!-- Delete the results directories -->
     <delete dir="${build.test}/anakia" quiet="true"/>
     <delete dir="${build.test}/cpload" quiet="true"/>
     <delete dir="${build.test}/multiloader" quiet="true"/>
     <delete dir="${build.test}/texen" quiet="true"/>
   </target>
 
-  <target name="test-all" depends="
-                                   test-cpload,
-                                   test-anakia,
-                                   test-texen,
-                                   test-texen-classpath,
-                                   test-multiloader
-                                   "/>
+  <target name="test-all"
+          depends="test-cpload,test-anakia,test-texen,
+                   test-texen-classpath,test-multiloader"/>
 
   <target name="test-cpload">
     <echo message="Running Classpath Resource tests..."/>
@@ -56,7 +61,7 @@
     <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}">
       <arg value="org.apache.velocity.test.ClasspathResourceTestCase"/>
       <classpath>
-        <path refid="classpath"/>
+        <path refid="velocity.test.classpath"/>
         <pathelement location="${test.dir}/cpload/test1.jar"/>
         <pathelement location="${test.dir}/cpload/test2.jar"/>
       </classpath>
@@ -66,11 +71,9 @@
   <target name="test-anakia">
     <echo message="Running Anakia tests..."/>
 
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
-    </taskdef>
+    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"
+             classpathref="velocity.test.classpath"/>
+
     <anakia basedir="${test.dir}/anakia/xdocs" destdir="${build.test}/anakia"
             extension=".html" style="./site.vsl"
             projectFile="./stylesheets/project.xml"
@@ -93,11 +96,9 @@
         <context name="customContext" file="./stylesheets/customContext.xml"/>
     </anakia>    
  
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}" >
+    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}" 
+          classpathref="velocity.test.classpath">
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
     </java>
   </target>
 
@@ -109,11 +110,8 @@
 
   <target name="test-texen">
 
-    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
-    </taskdef>
+    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
+             classpathref="velocity.test.classpath"/>
 
     <texen
       contextProperties="${test.dir}/texen/service.props,${test.dir}/texen/additional.props"
@@ -123,11 +121,9 @@
       outputFile="report"
     />
 
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}">
+    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
+          classpathref="velocity.test.classpath">
       <arg value="org.apache.velocity.test.TexenTestCase"/>
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
     </java>
 
   </target>
@@ -140,14 +136,10 @@
   <!-- ================================================================ -->
 
   <target name="test-texen-classpath">
-
-    <!--  note: previously the taskdef included the mysterious attribute reverseLoader="true" -->
-    <!--  now that this has been removed, we only guarantee this works with ant 1.5+ -->
-    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-       >
+    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
       <classpath>
         <pathelement location="${test.dir}/texen-classpath/test.jar"/>
-        <path refid="classpath"/>
+        <path refid="velocity.test.classpath"/>
       </classpath>
     </taskdef>
 
@@ -159,11 +151,9 @@
       outputFile="report"
     />
 
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}">
+    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
+          classpathref="velocity.test.classpath">
       <arg value="org.apache.velocity.test.TexenClasspathTestCase"/>
-      <classpath>
-        <path refid="classpath"/>
-      </classpath>
     </java>
 
   </target>
@@ -174,7 +164,7 @@
     <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}">
       <arg value="org.apache.velocity.test.MultiLoaderTestCase"/>
       <classpath>
-        <path refid="classpath"/>
+        <path refid="velocity.test.classpath"/>
         <pathelement location="${test.dir}/multiloader/test1.jar"/>
       </classpath>
     </java>
