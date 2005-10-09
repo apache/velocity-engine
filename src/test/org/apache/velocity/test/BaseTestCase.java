@@ -31,7 +31,9 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @version $Id$
  */
-public abstract class BaseTestCase extends TestCase
+public abstract class BaseTestCase
+        extends TestCase
+        implements TemplateTestBase
 {
     /**
      *  used for nomalization of output and compare data

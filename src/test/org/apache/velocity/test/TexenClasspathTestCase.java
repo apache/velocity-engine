@@ -33,12 +33,12 @@ public class TexenClasspathTestCase
     /**
      * Directory where results are generated.
      */
-    private static final String RESULTS_DIR = "target/test/texen-classpath";
+    private static final String RESULTS_DIR = TEST_RESULT_DIR + "/texen-classpath";
 
     /**
      * Directory where comparison output is stored.
      */
-    private static final String COMPARE_DIR = "test/texen-classpath/compare";
+    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/texen-classpath/compare";
 
     /**
      * Creates a new instance.

@@ -25,6 +25,19 @@ package org.apache.velocity.test;
  */
 public interface TemplateTestBase
 {
+    /** 
+     * Directory relative to the distribution root, where the 
+     * values to compare test results to are stored.
+     */
+    public static final String TEST_COMPARE_DIR = "@test.dir@";
+
+    /**
+     * Directory relative to the distribution root, where the
+     * test cases should put their output
+     */
+    public static final String TEST_RESULT_DIR = "@build.test@";
+
+
     /**
      * VTL file extension.
      */
@@ -45,7 +58,7 @@ public interface TemplateTestBase
      * value in the default velocity properties file.
      */
     public final static String FILE_RESOURCE_LOADER_PATH =
-                          "test/templates";
+                          TEST_COMPARE_DIR + "/templates";
 
     /**
      * Properties file that lists which template tests to run.
@@ -57,7 +70,7 @@ public interface TemplateTestBase
      * Results relative to the build directory.
      */
     public final static String RESULT_DIR =
-                          "target/test/templates";
+                          TEST_RESULT_DIR + "/templates";
 
     /**
      * Results relative to the build directory.

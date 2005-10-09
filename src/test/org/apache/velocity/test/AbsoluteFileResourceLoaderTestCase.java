@@ -55,17 +55,17 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
      * Path to template file.  This will get combined with the 
      * application directory to form an absolute path
      */
-    private final static String TEMPLATE_PATH = "test/absolute/absolute";
+    private final static String TEMPLATE_PATH = TEST_COMPARE_DIR + "/absolute/absolute";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULTS_DIR = "target/test/absolute/results";
+    private static final String RESULTS_DIR = TEST_RESULT_DIR + "/absolute/results";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String COMPARE_DIR = "test/absolute/compare";
+    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/absolute/compare";
 
     /**
      * Default constructor.

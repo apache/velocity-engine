@@ -55,18 +55,18 @@ public class MultiLoaderTestCase extends BaseTestCase
     /**
      * Results relative to the build directory.
      */
-    private static final String RESULTS_DIR = "target/test/multiloader";
+    private static final String RESULTS_DIR = TEST_RESULT_DIR + "/multiloader";
 
     /**
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    private final static String FILE_RESOURCE_LOADER_PATH = "test/multiloader";
+    private final static String FILE_RESOURCE_LOADER_PATH = TEST_COMPARE_DIR + "/multiloader";
 
     /**
      * Results relative to the build directory.
      */
-    private static final String COMPARE_DIR = "test/multiloader/compare";
+    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/multiloader/compare";
 
     /**
      * Default constructor.
