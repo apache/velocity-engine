@@ -17,20 +17,20 @@
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
 
 /**
- *  Simple example class to show how to use an existing Log4j Categeory
+ *  Simple example class to show how to use an existing Log4j Logger
  *  as the Velocity logging target.
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class Log4jCategoryExample
+public class Log4jLoggerExample
 {
-    public static String CATEGORY_NAME = "velexample";
+    public static String LOGGER_NAME = "velexample";
 
     public static void main( String args[] )
         throws Exception
@@ -41,13 +41,13 @@ public class Log4jCategoryExample
 
         BasicConfigurator.configure();
 
-        Category log = Category.getInstance( CATEGORY_NAME );
+        Logger log = Logger.getLogger( LOGGER_NAME );
 
-        log.info("Hello from Log4jCategoryExample - ready to start velocity");
+        log.info("Hello from Log4jLoggerExample - ready to start velocity");
 
         /*
          *  now create a new VelocityEngine instance, and
-         *  configure it to use the category
+         *  configure it to use the logger
          */
 
         VelocityEngine ve = new VelocityEngine();
@@ -55,7 +55,7 @@ public class Log4jCategoryExample
         ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
             "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
 
-        ve.setProperty("runtime.log.logsystem.log4j.category", CATEGORY_NAME);
+        ve.setProperty("runtime.log.logsystem.log4j.category", LOGGER_NAME);
 
         ve.init();
 
