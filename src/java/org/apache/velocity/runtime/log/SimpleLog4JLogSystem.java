@@ -28,10 +28,9 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- *  <p><em>This class is deprecated in favor of the new incarnation of
- *  {@link Log4JLogSystem}, which makes use of Log4J's
- *  <code>Logger</code> concept rather than its deprecated
- *  <code>Category</code> concept.</em></p>
+ * <p><em>This class is deprecated in favor of the new {@link Log4JLogChute}, 
+ * which makes use of Log4J's <code>Logger</code> rather than its deprecated
+ * <code>Category</code> class.</em></p>
  *
  *  Implementation of a simple log4j system that will either
  *  latch onto an existing category, or just do a simple
@@ -40,8 +39,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @version $Id$
- * @deprecated Use Log4JLogSystem instead for compatibility with
- * modern Log4J versions.
+ * @deprecated Use Log4JLogCute instead.
  */
 public class SimpleLog4JLogSystem implements LogSystem
 {
