@@ -61,19 +61,20 @@ public interface RuntimeConstants
         "runtime.log.logsystem.class";
 
     /**
-     * Stack trace output for error messages.
+     * @deprecated This appears to have always been meaningless.
      */
     public static final String RUNTIME_LOG_ERROR_STACKTRACE =
         "runtime.log.error.stacktrace";
 
     /**
-     * Stack trace output for warning messages.
+     * @deprecated The functionality this controlled is
+     *             confusing and no longer necessary.
      */
     public static final String RUNTIME_LOG_WARN_STACKTRACE =
         "runtime.log.warn.stacktrace";
 
     /**
-     * Stack trace output for info messages.
+     * @deprecated This appears to have always been meaningless.
      */
     public static final String RUNTIME_LOG_INFO_STACKTRACE =
         "runtime.log.info.stacktrace";

@@ -30,7 +30,6 @@ public class Log
 {
 
     private LogChute chute;
-    private boolean showStacks;
 
     /**
      * Creates a new Log that wraps a HoldingLogChute.
@@ -68,40 +67,9 @@ public class Log
         return this.chute;
     }
 
-    /**
-     * Sets whether or not Throwables passed as messages
-     * (not to be confused with passing them as Throwables)
-     * will have their whole stack traces printed or not.
-     */
-    protected void setShowStackTraces(boolean showStacks)
-    {
-        this.showStacks = showStacks;
-    }
-
-    /**
-     * Tells whether or not Throwables passed as messages
-     * (not to be confused with passing them as Throwables)
-     * will have their whole stack traces printed or not.
-     */
-    public boolean getShowStackTraces()
-    {
-        return this.showStacks;
-    }
-
     private void log(int level, Object message)
     {
-        String out;
-        /* now,  see if the logging stacktrace is on
-         * and modify the message to suit */
-        if (showStacks && message instanceof Throwable)
-        {
-            out = StringUtils.stackTrace((Throwable)message);
-        }
-        else
-        {
-            out = String.valueOf(message);
-        }
-        chute.log(level, out);
+        chute.log(level, String.valueOf(message));
     }
 
     private void log(int level, Object message, Throwable t)

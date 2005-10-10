@@ -1453,15 +1453,6 @@ org.apache.velocity.runtime.log.AvalonLogChute</code><br/>
 Class to be used for the Velocity-instantiated log system.
 </p>
 
-
-<p>
-<code>runtime.log.error.stacktrace = false</code><br/>
-<code>runtime.log.warn.stacktrace = false</code><br/>
-<code>runtime.log.info.stacktrace = false</code><br/>
-Turns on stacktracing for the three error categories.
-These produce a large amount of log output.
-</p>
-
 <p>
 <code>runtime.log.invalid.references = true </code><br/>
 Property to turn off the log output when a reference isn't valid.
