@@ -210,12 +210,6 @@ public class LogManager
             hlc.transferTo(newLogChute);
         }
 
-        // check whether or not we should print the stack traces of
-        // Throwables passed *as* messages (rather than as Throwables).
-        boolean showStacks = 
-            rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_WARN_STACKTRACE, false);
-        log.setShowStackTraces(showStacks);
-
         // pass the new LogChute to the log
         log.setLogChute(newLogChute);
     }
