@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,9 @@
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
-
+import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
-
 
 /**
  *  Simple example class to show how to use an existing Log4j Logger
@@ -38,10 +37,9 @@ public class Log4jLoggerExample
         /*
          *  configure log4j to log to console
          */
-
         BasicConfigurator.configure();
 
-        Logger log = Logger.getLogger( LOGGER_NAME );
+        Logger log = Logger.getLogger(LOGGER_NAME);
 
         log.info("Hello from Log4jLoggerExample - ready to start velocity");
 
@@ -49,13 +47,12 @@ public class Log4jLoggerExample
          *  now create a new VelocityEngine instance, and
          *  configure it to use the logger
          */
-
         VelocityEngine ve = new VelocityEngine();
 
-        ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-            "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+                       "org.apache.velocity.runtime.log.Log4JLogChute");
 
-        ve.setProperty("runtime.log.logsystem.log4j.category", LOGGER_NAME);
+        ve.setProperty(Log4JLogChute.RUNTIME_LOG_LOG4J_LOGGER, LOGGER_NAME);
 
         ve.init();
 
