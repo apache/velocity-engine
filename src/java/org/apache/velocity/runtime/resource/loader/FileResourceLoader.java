@@ -115,14 +115,6 @@ public class FileResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException ( msg );
         }
 
-        /*
-         *  if a / leads off, then just nip that :)
-         */
-        if (template.startsWith("/"))
-        {
-            template = template.substring(1);
-        }
-
         int size = paths.size();
         for (int i = 0; i < size; i++)
         {
@@ -274,6 +266,14 @@ public class FileResourceLoader extends ResourceLoader
         }
         else
         {
+            /*
+             *  if a / leads off, then just nip that :)
+             */
+            if (template.startsWith("/"))
+            {
+                template = template.substring(1);
+            }
+
             file = new File ( path, template );
         }
 
