@@ -26,7 +26,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.introspection.Introspector;
@@ -106,6 +105,15 @@ public class RuntimeSingleton implements RuntimeConstants
         throws Exception
     {
         ri.init();
+    }
+
+    /**
+     * Returns true if the RuntimeSingleton has been successfully initialized.
+     * @return
+     */
+    public static boolean isInitialized()
+    {
+        return ri.isInitialized();
     }
 
     /**

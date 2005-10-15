@@ -353,4 +353,11 @@ public interface RuntimeServices extends RuntimeLogger
      * implemenation.
      */
     public Introspector getIntrospector();
+    
+    /**
+     * Returns true if the RuntimeInstance has been successfully initialized.
+     * @return
+     */
+    public boolean isInitialized();
+
 }
