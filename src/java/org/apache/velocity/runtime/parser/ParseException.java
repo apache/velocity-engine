@@ -10,7 +10,26 @@ package org.apache.velocity.runtime.parser;
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
-public class ParseException extends Exception {
+public class ParseException extends Exception 
+{
+
+  /**
+   * This constructor is used to add a template name
+   * to info cribbed from a ParseException generated in the parser. 
+   */
+  public ParseException(Token currentTokenVal,
+                        int[][] expectedTokenSequencesVal,
+                        String[] tokenImageVal,
+                        String templateNameVal
+                       )
+  {
+    super("");
+    specialConstructor = true;
+    currentToken = currentTokenVal;
+    expectedTokenSequences = expectedTokenSequencesVal;
+    tokenImage = tokenImageVal;
+    templateName = templateNameVal;
+  }
 
   /**
    * This constructor is used by the method "generateParseException"
@@ -46,12 +65,14 @@ public class ParseException extends Exception {
    * these constructors.
    */
 
-  public ParseException() {
+  public ParseException() 
+  {
     super();
     specialConstructor = false;
   }
 
-  public ParseException(String message) {
+  public ParseException(String message) 
+  {
     super(message);
     specialConstructor = false;
   }
@@ -83,6 +104,24 @@ public class ParseException extends Exception {
    * defined in the generated ...Constants interface.
    */
   public String[] tokenImage;
+  
+  /**
+   * This is the name of the template which contains the parsing error, or
+   * null if not defined.
+   */
+  public String templateName;
+  
+  /**
+   * This is the column number of the error in the template, or -1 if not
+   * defined.
+   */
+  public int columnNumber = -1;
+  
+  /**
+   * This is the line number of the error in the template, or -1 if not
+   * defined.
+   */
+  public int lineNumber = -1;
 
   /**
    * This method has the standard behavior when this object has been
@@ -94,45 +133,70 @@ public class ParseException extends Exception {
    * of the final stack trace, and hence the correct error message
    * gets displayed.
    */
-  public String getMessage() {
-    if (!specialConstructor) {
+  public String getMessage() 
+  {
+    if (!specialConstructor) 
+    {
       return super.getMessage();
     }
     String expected = "";
     int maxSize = 0;
-    for (int i = 0; i < expectedTokenSequences.length; i++) {
-      if (maxSize < expectedTokenSequences[i].length) {
-        maxSize = expectedTokenSequences[i].length;
-      }
-      for (int j = 0; j < expectedTokenSequences[i].length; j++) {
-        expected += tokenImage[expectedTokenSequences[i][j]] + " ";
-      }
-      if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
-        expected += "...";
-      }
-      expected += eol + "    ";
+    for (int i = 0; i < expectedTokenSequences.length; i++) 
+    {
+        if (maxSize < expectedTokenSequences[i].length) 
+        {
+            maxSize = expectedTokenSequences[i].length;
+        }
+        for (int j = 0; j < expectedTokenSequences[i].length; j++) 
+        {
+            expected += tokenImage[expectedTokenSequences[i][j]] + " ";
+        }
+        if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) 
+        {
+            expected += "...";
+        }
+        expected += eol + "    ";
     }
+    
     String retval = "Encountered \"";
     Token tok = currentToken.next;
-    for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
-      if (tok.kind == 0) {
-        retval += tokenImage[0];
-        break;
-      }
-      retval += add_escapes(tok.image);
-      tok = tok.next; 
+    for (int i = 0; i < maxSize; i++) 
+    {
+        if (i != 0) 
+        {
+            retval += " ";
+        }
+        if (tok.kind == 0) 
+        {
+            retval += tokenImage[0];
+            break;
+        }
+        retval += add_escapes(tok.image);
+        tok = tok.next; 
     }
-    retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
-    retval += "." + eol;
-    if (expectedTokenSequences.length == 1) {
-      retval += "Was expecting:" + eol + "    ";
-    } else {
-      retval += "Was expecting one of:" + eol + "    ";
+    
+    lineNumber = currentToken.next.beginLine;
+    columnNumber = currentToken.next.beginColumn;
+    retval += "\" at line " + lineNumber + " column " + columnNumber;
+    if (templateName != null) 
+    {
+        retval += " of " + templateName + eol;
+    } 
+    else 
+    {
+        retval += "." + eol;
+    }
+    if (expectedTokenSequences.length == 1) 
+    {
+        retval += "Was expecting:" + eol + "    ";
+    } 
+    else 
+    {
+        retval += "Was expecting one of:" + eol + "    ";
     }
     retval += expected;
     return retval;
-  }
+    }
 
   /**
    * The end of line string for this machine.
@@ -177,10 +241,13 @@ public class ParseException extends Exception {
               retval.append("\\\\");
               continue;
            default:
-              if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+              if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) 
+              {
                  String s = "0000" + Integer.toString(ch, 16);
                  retval.append("\\u" + s.substring(s.length() - 4, s.length()));
-              } else {
+              } 
+              else 
+              {
                  retval.append(ch);
               }
               continue;

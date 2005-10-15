@@ -16,6 +16,8 @@ package org.apache.velocity.exception;
  * limitations under the License.
  */
 
+import org.apache.velocity.runtime.parser.ParseException;
+
 /**
  *  Application-level exception thrown when a resource of any type
  *  has a syntax or other error which prevents it from being parsed.
@@ -34,8 +36,74 @@ public class ParseErrorException extends VelocityException
      */
     private static final long serialVersionUID = -6665197935086306474L;
 
-    public ParseErrorException(String exceptionMessage )
+    /**
+     * The column number of the parsing error, or -1 if not defined.
+     */
+    private int columnNumber = -1;
+    
+    /**
+     * The line number of the parsing error, or -1 if not defined.
+     */
+    private int lineNumber;
+    
+    /**
+     * The name of the template containing the error, or null if not defined.
+     */
+    private String templateName;
+    
+    /**
+     * Create a ParseErrorException with the given message.
+     * 
+     * @param exceptionMessage the error exception message
+     */
+    public ParseErrorException(String exceptionMessage)
+      {
+          super(exceptionMessage);
+    }    
+
+    /**
+     * Create a ParseErrorException with the given ParseException.
+     * 
+     * @param pex the parsing exception
+     */
+    public ParseErrorException(ParseException pex) 
     {
-        super(exceptionMessage);
-    }       
+        super(pex.getMessage());
+        
+        columnNumber = pex.columnNumber;
+        lineNumber = pex.lineNumber;
+        templateName = pex.templateName;
+    }
+    
+    /**
+     * Return the column number of the parsing error, or -1 if not defined.
+     * 
+     * @return column number of the parsing error, or -1 if not defined
+     */
+    public int getColumnNumber() 
+    {
+        return columnNumber;
+    }
+
+    /**
+     * Return the line number of the parsing error, or -1 if not defined.
+     * 
+     * @return line number of the parsing error, or -1 if not defined
+     */
+    public int getLineNumber() 
+    {
+        return lineNumber;
+    }
+    
+    /**
+     * Return the name of the template containing the error, or null if not 
+     * defined.
+     * 
+     * @return the name of the template containing the parsing error, or null
+     *      if not defined
+     */
+    public String getTemplateName() 
+    {
+        return templateName;
+    }
 }

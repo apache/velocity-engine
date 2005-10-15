@@ -132,9 +132,8 @@ public class Template extends Resource
                 /*
                  *  remember the error and convert
                  */
-
-               errorCondition =  new ParseErrorException( pex.getMessage() );
-               throw errorCondition;
+                errorCondition =  new ParseErrorException( pex );
+                throw errorCondition;
             }
             catch( Exception e )
             {
