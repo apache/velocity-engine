@@ -246,7 +246,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
     }
 
-
+    /**
+     * Returns true if the RuntimeInstance has been successfully initialized.
+     * @return
+     */
+    public boolean isInitialized()
+    {
+        return initialized;
+    }
+    
     /**
      *  Gets the classname for the Uberspect introspection package and
      *  instantiates an instance.

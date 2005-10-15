@@ -241,6 +241,14 @@ public class VelocityEngine implements RuntimeConstants
         throws ParseErrorException, MethodInvocationException,
             ResourceNotFoundException, IOException
     {
+        /**
+         * Check to see the engine was initialized.
+         */
+        if (!ri.isInitialized()) 
+        {
+            throw new IllegalStateException ("Cannot evaluate string as Velocity has not been initialized.");
+        }
+        
         /*
          *  first, parse - convert ParseException if thrown
          */
@@ -284,6 +292,15 @@ public class VelocityEngine implements RuntimeConstants
         throws ParseErrorException, MethodInvocationException,
             ResourceNotFoundException,IOException
     {
+
+        /**
+         * Check to see the engine was initialized.
+         */
+        if (!ri.isInitialized()) 
+        {
+            throw new IllegalStateException ("Cannot evaluate string as Velocity has not been initialized.");
+        }
+                
         SimpleNode nodeTree = null;
 
         try
@@ -448,6 +465,14 @@ public class VelocityEngine implements RuntimeConstants
                                       Context context, Writer writer )
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
     {
+        /**
+         * Check to see the engine was initialized.
+         */
+        if (!ri.isInitialized()) 
+        {
+            throw new IllegalStateException ("Cannot merge template as Velocity has not been initialized.");
+        }
+        
         Template template = ri.getTemplate(templateName, encoding);
 
         if ( template == null )
@@ -478,6 +503,14 @@ public class VelocityEngine implements RuntimeConstants
     public Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
+        /**
+         * Check to see the engine was initialized.
+         */
+        if (!ri.isInitialized()) 
+        {
+            throw new IllegalStateException ("Cannot get template as Velocity has not been initialized.");
+        }
+        
         return ri.getTemplate( name );
     }
 

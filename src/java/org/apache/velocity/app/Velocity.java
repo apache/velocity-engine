@@ -207,6 +207,14 @@ public class Velocity implements RuntimeConstants
         throws ParseErrorException, MethodInvocationException,
             ResourceNotFoundException, IOException
     {
+        /**
+         * Check to see the engine was initialized.
+         */
+        if (!RuntimeSingleton.isInitialized()) 
+        {
+            throw new IllegalStateException ("Cannot evaluate string as Velocity has not been initialized.");
+        }
+        
         /*
          *  first, parse - convert ParseException if thrown
          */
