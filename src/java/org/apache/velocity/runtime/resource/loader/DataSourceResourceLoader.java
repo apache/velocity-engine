@@ -16,22 +16,20 @@ package org.apache.velocity.runtime.resource.loader;
  * limitations under the License.
  */
 
-import java.io.InputStream;
 import java.io.BufferedInputStream;
-
-import javax.sql.DataSource;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.exception.ResourceNotFoundException;
-
-import org.apache.commons.collections.ExtendedProperties;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
 
 /**
  * <P>This is a simple template file loader that loads templates
@@ -320,27 +318,32 @@ public class DataSourceResourceLoader extends ResourceLoader
      }
 
     /**
-     *   gets connection to the datasource specified through the configuration
+     *  Gets connection to the datasource specified through the configuration
      *  parameters.
      *
      *  @return connection
      */
-     private Connection openDbConnection()
+     private Connection openDbConnection() 
          throws NamingException, SQLException
-    {
-         if (ctx == null)
+     {
+         if (dataSource != null) 
          {
-             ctx = new InitialContext();
+            return dataSource.getConnection();
+         }
+         
+         if (ctx == null) 
+         {
+            ctx = new InitialContext();
          }
 
-         if (dataSource == null)
+         if (dataSource == null) 
          {
-             dataSource = (DataSource)ctx.lookup(dataSourceName);
+            dataSource = (DataSource) ctx.lookup(dataSourceName);
          }
 
          return dataSource.getConnection();
      }
-
+     
     /**
      *  Closes connection to the datasource
      */
