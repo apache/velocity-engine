@@ -83,14 +83,25 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
      */
     public Object referenceInsert(String reference, Object value) 
     {
-        if (matchRegExp == null)
-            return escape(value);
+        if(value == null)
+        {
+            return value; 
+        }
         
-        else if (perl.match(matchRegExp,reference))
+        if (matchRegExp == null)
+        {
             return escape(value);
+        }
+            
+        else if (perl.match(matchRegExp,reference))
+        {
+            return escape(value);
+        }
         
         else
+        {
             return value;
+        }
     }
 
     /**
@@ -105,7 +116,9 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
          */
         matchRegExp = rs.getConfiguration().getString(getMatchAttribute());
         if ((matchRegExp != null) && (matchRegExp.trim().length() == 0))
+        {
             matchRegExp = null;
+        }
         
         /**
          * Test the regular expression for a well formed pattern
