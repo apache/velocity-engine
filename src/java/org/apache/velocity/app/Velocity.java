@@ -258,7 +258,7 @@ public class Velocity implements RuntimeConstants
         }
         catch ( ParseException pex )
         {
-            throw  new ParseErrorException( pex.getMessage() );
+            throw  new ParseErrorException( pex );
         }
 
         /*

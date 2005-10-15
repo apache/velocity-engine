@@ -192,8 +192,8 @@ public class Parser
         {
             rsvc.getLog().error("Parser Exception: " + templateName, pe);
             throw new ParseException (pe.currentToken,
-                pe.expectedTokenSequences, pe.tokenImage);
-        }
+				pe.expectedTokenSequences, pe.tokenImage, currentTemplateName);        
+		}
         catch (TokenMgrError tme)
         {
             throw new ParseException("Lexical error: " + tme.toString());
