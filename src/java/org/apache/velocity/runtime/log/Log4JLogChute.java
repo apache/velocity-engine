@@ -84,10 +84,8 @@ public class Log4JLogChute implements LogChute
         try
         {
             Field traceLevel = Level.class.getField("TRACE");
-            if (traceLevel != null)
-            {
-                hasTrace = true;
-            }
+            // we'll never get here in pre 1.2.12 log4j
+            hasTrace = true;
         }
         catch (NoSuchFieldException e)
         {
