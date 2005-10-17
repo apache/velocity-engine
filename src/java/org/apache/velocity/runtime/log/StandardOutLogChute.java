@@ -27,12 +27,35 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 public class StandardOutLogChute implements LogChute
 {
+    public static final String RUNTIME_LOG_LEVEL_KEY = 
+        "runtime.log.logsystem.stdout.level";
 
-    private int enabled = -1;
+    private int enabled = TRACE_ID;
 
     public void init(RuntimeServices rs) throws Exception
     {
-        // does nothing
+        // look for a level config property
+        String level = (String)rs.getProperty(RUNTIME_LOG_LEVEL_KEY);
+        if (level != null)
+        {
+            // and set it accordingly
+            if (level.equalsIgnoreCase("debug"))
+            {
+                setEnabledLevel(DEBUG_ID);
+            }
+            else if (level.equalsIgnoreCase("info"))
+            {
+                setEnabledLevel(INFO_ID);
+            }
+            else if (level.equalsIgnoreCase("warn"))
+            {
+                setEnabledLevel(WARN_ID);
+            }
+            else if (level.equalsIgnoreCase("error"))
+            {
+                setEnabledLevel(ERROR_ID);
+            }
+        }
     }
 
     protected String getPrefix(int level)
