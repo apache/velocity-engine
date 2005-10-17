@@ -97,6 +97,16 @@
       </roles>
       <timezone>2</timezone>
     </developer>
+
+    <developer>
+      <name>Nathan Bubna</name>
+      <id>nbubna</id>
+      <email>nathan@esha.com</email>
+      <organization>ESHA Research</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors/>
