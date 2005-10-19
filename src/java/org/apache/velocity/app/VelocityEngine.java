@@ -606,20 +606,19 @@ public class VelocityEngine implements RuntimeConstants
 
     /**
      *  <p>
-     *  Set the an ApplicationAttribue, which is an Object
-     *  set by the application which is accessable from
-     *  any component of the system that gets a RuntimeServices.
-     *  This allows communication between the application
-     *  environment and custom pluggable components of the
-     *  Velocity engine, such as loaders and loggers.
+     *  Sets an application attribute (which can be any Object) that will be 
+     *  accessible from any component of the system that gets a 
+     *  RuntimeServices. This allows communication between the application
+     *  environment and custom pluggable components of the Velocity engine,
+     *  such as ResourceLoaders and LogChutes.
      *  </p>
      *
      *  <p>
-     *  Note that there is no enfocement or rules for the key
+     *  Note that there is no enforcement or rules for the key
      *  used - it is up to the application developer.  However, to
      *  help make the intermixing of components possible, using
-     *  the target Class name (e.g.  com.foo.bar ) as the key
-     *   might help avoid collision.
+     *  the target Class name (e.g. com.foo.bar ) as the key
+     *  might help avoid collision.
      *  </p>
      *
      *  @param key object 'name' under which the object is stored
@@ -632,20 +631,12 @@ public class VelocityEngine implements RuntimeConstants
      
      /**
       *  <p>
-      *  Return an ApplicationAttribue, which is an Object
-      *  set by the application which is accessable from
+      *  Return an application attribute (which can be any Object)
+      *  that was set by the application in order to be accessible from
       *  any component of the system that gets a RuntimeServices.
       *  This allows communication between the application
       *  environment and custom pluggable components of the
-      *  Velocity engine, such as loaders and loggers.
-      *  </p>
-      *
-      *  <p>
-      *  Note that there is no enfocement or rules for the key
-      *  used - it is up to the application developer.  However, to
-      *  help make the intermixing of components possible, using
-      *  the target Class name (e.g.  com.foo.bar ) as the key
-      *   might help avoid collision.
+      *  Velocity engine, such as ResourceLoaders and LogChutes.
       *  </p>
       *
       *  @param key object 'name' under which the object is stored
@@ -655,7 +646,5 @@ public class VelocityEngine implements RuntimeConstants
      {
         return ri.getApplicationAttribute(key);
      }
+
 }
-
-
-
