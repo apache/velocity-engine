@@ -325,7 +325,7 @@ public interface RuntimeServices extends RuntimeLogger
     public ExtendedProperties getConfiguration();
 
     /**
-     * Return the specified applcation attribute.
+     * Return the specified application attribute.
      *
      * @param key The name of the attribute to retrieve.
      */
