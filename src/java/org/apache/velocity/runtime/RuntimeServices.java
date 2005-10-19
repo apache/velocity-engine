@@ -332,6 +332,15 @@ public interface RuntimeServices extends RuntimeLogger
     public Object getApplicationAttribute( Object key );
 
     /**
+     * Set the specified application attribute.
+     *
+     * @param key The name of the attribute to set.
+     * @param value The attribute value to set.
+     * @return the displaced attribute value
+     */
+    public Object setApplicationAttribute( Object key, Object value );
+
+    /**
      * Returns the configured class introspection/reflection
      * implemenation.
      */
