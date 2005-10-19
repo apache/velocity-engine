@@ -629,6 +629,32 @@ public class VelocityEngine implements RuntimeConstants
      {
         ri.setApplicationAttribute(key, value);
      }
+     
+     /**
+      *  <p>
+      *  Return an ApplicationAttribue, which is an Object
+      *  set by the application which is accessable from
+      *  any component of the system that gets a RuntimeServices.
+      *  This allows communication between the application
+      *  environment and custom pluggable components of the
+      *  Velocity engine, such as loaders and loggers.
+      *  </p>
+      *
+      *  <p>
+      *  Note that there is no enfocement or rules for the key
+      *  used - it is up to the application developer.  However, to
+      *  help make the intermixing of components possible, using
+      *  the target Class name (e.g.  com.foo.bar ) as the key
+      *   might help avoid collision.
+      *  </p>
+      *
+      *  @param key object 'name' under which the object is stored
+      *  return value object to store under this key
+      */
+     public Object getApplicationAttribute( Object key )
+     {
+        return ri.getApplicationAttribute(key);
+     }
 }
 
 
