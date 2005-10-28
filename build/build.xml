@@ -623,7 +623,7 @@
           depends="build-package-tree">
 
     <!-- .zip built for Windows -->
-    <fixcrlf srcdir="${dist.dir}" eol="crlf" eof="asis">
+    <fixcrlf srcdir="${dist.dir}" eol="crlf" eof="asis" encoding="ISO-8859-1">
       <include name="**/*.html" />
       <include name="**/*.java" />
       <include name="**/*.properties" />
@@ -644,7 +644,7 @@
           depends="build-package-tree">
 
     <!-- .tar.gz built for Unix -->
-    <fixcrlf srcdir="${dist.dir}" eol="lf" eof="remove">
+    <fixcrlf srcdir="${dist.dir}" eol="lf" eof="remove" encoding="ISO-8859-1">
       <include name="**/*.html" />
       <include name="**/*.java" />
       <include name="**/*.properties" />
