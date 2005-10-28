@@ -39,18 +39,6 @@
   <property name="parserjj.file"  value="${build.parser}/Parser.jj" />
   <property name="parserjjt.file" value="${build.parser}/Parser.jjt" />
 
-  <!-- Build classpath -->
-  <path id="velocity.build.classpath">
-    <fileset dir="${velocity.lib.dir}">
-      <include name="**/*.jar"/>
-    </fileset>
-  </path>
-
-  <path id="velocity.run.classpath">
-    <path refid="velocity.build.classpath"/>
-    <pathelement location="${build.dir}/${final.name}.jar"/>
-  </path>
-
   <!-- =================================================================== -->
   <!-- prints the targets available in this build file                     -->
   <!-- =================================================================== -->
@@ -135,6 +123,25 @@
   </target>
 
   <!-- =================================================================== -->
+  <!-- sets up the build environment (classpath and libs)                  -->
+  <!-- =================================================================== -->
+  <target name="build-prepare">
+    <ant antfile="${velocity.build.dir}/download.xml" target="build-download" />
+
+    <!-- Build classpath -->
+    <path id="velocity.build.classpath">
+      <fileset dir="${build.lib}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </path>
+  
+    <path id="velocity.run.classpath">
+      <path refid="velocity.build.classpath"/>
+      <pathelement location="${build.dir}/${final.name}.jar"/>
+    </path>
+  </target>
+
+  <!-- =================================================================== -->
   <!-- checks for the existence/non-existence of various java features     -->
   <!--                                                                     -->
   <!-- currently checks for                                                -->
@@ -145,7 +152,7 @@
   <target name="prepare-jdbc" depends="check-jdbc,check-jdbc-true,check-jdbc-false"/>
   <target name="prepare-jdk14" depends="check-jdk14,check-jdk14-true,check-jdk14-false"/>
 
-  <target name="check-jdbc">
+  <target name="check-jdbc" depends="build-prepare">
     <!--  note: check to see if required class is available.  -->
     <!-- might be j2ee.jar, jdbc2_0-stdext.jar, or simply JDK 1.4+ -->
     <available classname="javax.sql.DataSource"
@@ -176,7 +183,7 @@
     </echo>
   </target>
 
-  <target name="check-jdk14">
+  <target name="check-jdk14" depends="build-prepare">
      <available classname="java.util.logging.Logger"
                property="jdk14.present">
       <classpath refid="velocity.build.classpath"/>
@@ -209,7 +216,7 @@
   <!-- =================================================================== -->
   <target name="compile" depends="compile-src,compile-test"/>
 
-  <target name="compile-src" depends="prepare,check-jdbc,check-jdk14"
+  <target name="compile-src" depends="prepare,build-prepare,check-jdbc,check-jdk14"
           description="Compiles the Velocity source">
     <javac srcdir="${build.src}"
       destdir="${build.dest}"
@@ -227,7 +234,7 @@
 
   </target>
 
-  <target name="compile-test" depends="prepare,compile-src"
+  <target name="compile-test" depends="prepare,build-prepare,compile-src"
           description="Compiles the Velocity test classes">
     <javac srcdir="${build.test.src}"
       destdir="${build.test.dest}"
@@ -343,7 +350,7 @@
   <!-- ================================================================ -->
   <target name="build-dependency-classes">
     <mkdir dir="${build.deps}"/>
-    <unzip src="${collections.jar}" dest="${build.deps}">
+    <unzip src="${build.lib}/commons-collections-${jar.commons-collections.version}.jar" dest="${build.deps}">
     <!--  we only want a few files from commons collections -->
       <patternset>
         <include name="org/apache/commons/collections/BoundedMap.class" />
@@ -365,9 +372,9 @@
         <include name="org/apache/commons/collections/ResettableIterator.class" />
       </patternset>
     </unzip>
-    <unzip src="${log.jar}"  dest="${build.deps}"/>
-    <unzip src="${oro.jar}"  dest="${build.deps}"/>
-    <unzip src="${lang.jar}" dest="${build.deps}"/>
+    <unzip src="${build.lib}/avalon-logkit-${jar.avalon-logkit.version}.jar"  dest="${build.deps}"/>
+    <unzip src="${build.lib}/oro-${jar.oro.version}.jar"  dest="${build.deps}"/>
+    <unzip src="${build.lib}/commons-lang-${jar.commons-lang.version}.jar" dest="${build.deps}"/>
     <delete dir="${build.deps}/META-INF" quiet="true"/>
   </target>
 
@@ -442,7 +449,7 @@
   <!-- =================================================================== -->
   <!-- Compiles the example code                                           -->
   <!-- =================================================================== -->
-  <target name="examples" depends="jar"
+  <target name="examples" depends="build-prepare,jar"
           description="Compiles the Velocity Example code">
 
     <echo>
@@ -485,7 +492,7 @@
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
-  <target name="javadocs" depends="prepare"
+  <target name="javadocs" depends="prepare,build-prepare"
           description="Creates the Javadoc API documentation">
 
     <mkdir dir="${build.javadoc}"/>
@@ -541,6 +548,10 @@
 
     <copy todir="${dist.dir}/src/test/">
       <fileset dir="${build.test.src}" />
+    </copy>
+
+    <copy todir="${dist.dir}/lib">
+      <fileset dir="${build.lib}" />
     </copy>
 
     <copy todir="${dist.dir}/build">
@@ -678,7 +689,7 @@
   <!-- Make HTML version of Velocity documentation                         -->
   <!-- =================================================================== -->
 
-  <target name="docs" depends="jar"
+  <target name="docs" depends="build-prepare,jar"
           description="Generates the Velocity HTML documentation">
 
     <taskdef name="anakia"
@@ -737,50 +748,50 @@
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
-   <target name="test" depends="compile-test"
-           description="Run the Velocity testcases">
+  <target name="test" depends="build-prepare,compile-test"
+          description="Run the Velocity testcases">
 
-     <mkdir dir="${build.test.reports}"/>
-     <junit dir="${velocity.dir}" 
-            fork="true"
-            printSummary="yes"
-            haltonerror="${test.haltonerror}"
-            haltonfailure="${test.haltonfailure}">
+    <mkdir dir="${build.test.reports}"/>
+    <junit dir="${velocity.dir}" 
+           fork="true"
+           printSummary="yes"
+           haltonerror="${test.haltonerror}"
+           haltonfailure="${test.haltonfailure}">
 
-       <!-- Don't use the run classpath, test using the exploded class tree -->
-       <classpath>
-         <path refid="velocity.build.classpath" />
-         <pathelement path="${build.dest}"/>
-         <pathelement path="${build.test.dest}"/>
-       </classpath>
+      <!-- Don't use the run classpath, test using the exploded class tree -->
+      <classpath>
+        <path refid="velocity.build.classpath" />
+        <pathelement path="${build.dest}"/>
+        <pathelement path="${build.test.dest}"/>
+      </classpath>
 
-       <batchtest todir="${build.test.reports}">
-         <fileset dir="${test.java.dir}">
-           <include name="**/*TestCase.java"></include>
+      <batchtest todir="${build.test.reports}">
+        <fileset dir="${test.java.dir}">
+          <include name="**/*TestCase.java"></include>
 
-           <exclude name="**/BaseTestCase.java"></exclude>
+          <exclude name="**/BaseTestCase.java"></exclude>
 
-           <exclude name="**/TexenTestCase.java"></exclude>
-           <exclude name="**/TexenClasspathTestCase.java"></exclude>
-           <exclude name="**/AnakiaTestCase.java"></exclude>
-           <exclude name="**/MultiLoaderTestCase.java"></exclude>
-           <exclude name="**/ClasspathResourceTestCase.java"></exclude>
-         </fileset>
-       </batchtest>
-       <formatter type="plain"/>
-     </junit>
+          <exclude name="**/TexenTestCase.java"></exclude>
+          <exclude name="**/TexenClasspathTestCase.java"></exclude>
+          <exclude name="**/AnakiaTestCase.java"></exclude>
+          <exclude name="**/MultiLoaderTestCase.java"></exclude>
+          <exclude name="**/ClasspathResourceTestCase.java"></exclude>
+        </fileset>
+      </batchtest>
+      <formatter type="plain"/>
+    </junit>
 
-     <!-- Run the legacy tests for anakia, texen... -->
-     <ant antfile="${velocity.build.dir}/testcases.xml"
-          target="test-all"/>
-   </target>
-
-   <target name="test-clean">
-     <delete dir="${build.test.dest}" quiet="true"/>
-     <delete dir="${build.test}" quiet="true"/>
-     <delete dir="${build.test.reports}" quiet="true"/>
-
+    <!-- Run the legacy tests for anakia, texen... -->
     <ant antfile="${velocity.build.dir}/testcases.xml"
-         target="test-clean"/>
-   </target>
+         target="test-all"/>
+  </target>
+
+  <target name="test-clean">
+    <delete dir="${build.test.dest}" quiet="true"/>
+    <delete dir="${build.test}" quiet="true"/>
+    <delete dir="${build.test.reports}" quiet="true"/>
+
+   <ant antfile="${velocity.build.dir}/testcases.xml"
+        target="test-clean"/>
+  </target>
 </project>
