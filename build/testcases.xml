@@ -33,7 +33,7 @@
 
   <!-- Build classpath -->
   <path id="velocity.test.classpath">
-    <fileset dir="${velocity.build.dir}/lib">
+    <fileset dir="${build.lib}">
       <include name="**/*.jar"/>
     </fileset>
     <pathelement location="${build.dest}"/>
