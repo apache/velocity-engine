@@ -28,6 +28,7 @@ import org.apache.velocity.runtime.parser.TemplateParseException;
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class ParseErrorException extends VelocityException
@@ -35,7 +36,7 @@ public class ParseErrorException extends VelocityException
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = -6665197935086306474L;
+    private static final long serialVersionUID = -6665197935086306473L;
 
     /**
      * The column number of the parsing error, or -1 if not defined.
@@ -73,13 +74,13 @@ public class ParseErrorException extends VelocityException
 
         // Don't use a second C'tor, TemplateParseException is a subclass of
         // ParseException...
-        if (pex instanceof TemplateParseException)
+        if (pex instanceof ExtendedParseException)
         {
-            TemplateParseException tpex = (TemplateParseException) pex;
+            ExtendedParseException xpex = (ExtendedParseException) pex;
 
-            columnNumber = tpex.getColumnNumber();
-            lineNumber = tpex.getLineNumber();
-            templateName = tpex.getTemplateName();
+            columnNumber = xpex.getColumnNumber();
+            lineNumber = xpex.getLineNumber();
+            templateName = xpex.getTemplateName();
         }
         else
         {

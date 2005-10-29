@@ -48,6 +48,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class Macro extends Directive
@@ -110,7 +111,7 @@ public class Macro extends Directive
      *  objects, and if not currently used, adds it to the macro
      *  Factory.
      */ 
-    public static void processAndRegister(RuntimeServices rs,  Node node,
+    public static void processAndRegister(RuntimeServices rs,  Token t, Node node,
                                           String sourceTemplate)
         throws IOException, ParseException
     {
@@ -139,7 +140,7 @@ public class Macro extends Directive
                               "argument to #macro(). #args = " + numArgs);
 
             throw new MacroParseException("First argument to #macro() must be " +
-                    " macro name.");
+                    " macro name.", sourceTemplate, t);
         }
 
         /*
@@ -153,7 +154,7 @@ public class Macro extends Directive
             throw new MacroParseException("First argument to #macro() must be a"
                     + " token without surrounding \' or \", which specifies"
                     + " the macro name.  Currently it is a "
-                    + ParserTreeConstants.jjtNodeName[firstType]);
+                    + ParserTreeConstants.jjtNodeName[firstType], sourceTemplate, t);
         }
 
         /*
