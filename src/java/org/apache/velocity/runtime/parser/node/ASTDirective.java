@@ -22,6 +22,7 @@ import java.io.IOException;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

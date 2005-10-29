@@ -25,6 +25,7 @@ import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.Token;
 
 import org.apache.velocity.exception.MethodInvocationException;

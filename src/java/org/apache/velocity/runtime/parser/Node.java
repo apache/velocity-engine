@@ -16,8 +16,6 @@ package org.apache.velocity.runtime.parser;
  * limitations under the License.
  */
 
-import org.apache.velocity.runtime.parser.node.ParserVisitor;
-
 /**
  * This is the machine generated Node structure for the Parser.
  */

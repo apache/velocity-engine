@@ -18,6 +18,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 
 /**
  * This class is responsible for handling the Else VTL control statement.
