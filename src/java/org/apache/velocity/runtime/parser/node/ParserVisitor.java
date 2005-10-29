@@ -20,6 +20,8 @@ public interface ParserVisitor
 {
   public Object visit(SimpleNode node, Object data);
   public Object visit(ASTprocess node, Object data);
+  public Object visit(ASTEscapedDirective node, Object data);
+  public Object visit(ASTEscape node, Object data);
   public Object visit(ASTComment node, Object data);
   public Object visit(ASTFloatingPointLiteral node, Object data);
   public Object visit(ASTIntegerLiteral node, Object data);
@@ -28,7 +30,9 @@ public interface ParserVisitor
   public Object visit(ASTWord node, Object data);
   public Object visit(ASTDirective node, Object data);
   public Object visit(ASTBlock node, Object data);
+  public Object visit(ASTMap node, Object data);
   public Object visit(ASTObjectArray node, Object data);
+  public Object visit(ASTIntegerRange node, Object data);
   public Object visit(ASTMethod node, Object data);
   public Object visit(ASTReference node, Object data);
   public Object visit(ASTTrue node, Object data);
@@ -38,6 +42,7 @@ public interface ParserVisitor
   public Object visit(ASTElseStatement node, Object data);
   public Object visit(ASTElseIfStatement node, Object data);
   public Object visit(ASTSetDirective node, Object data);
+  public Object visit(ASTStop node, Object data);
   public Object visit(ASTExpression node, Object data);
   public Object visit(ASTAssignment node, Object data);
   public Object visit(ASTOrNode node, Object data);
