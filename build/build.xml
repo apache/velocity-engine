@@ -260,7 +260,7 @@
   <!-- =================================================================== -->
   <!-- rebuilds the JJTree/JavaCC based parser                             -->
   <!-- =================================================================== -->
-  <target name="parser" depends="parser-check,jjtree,javacc,javacc-cleanup"
+  <target name="parser" depends="parser-check,jjtree,javacc"
           description="Rebuilds the JJTree/JavaCC based parser" />
 
   <target name="parser-check">
@@ -332,14 +332,6 @@
     <javacc target="${parserjj.file}"
             outputdirectory="${build.parser}"
             javacchome="${javacc.home}" />
-  </target>
-
-  <target name="javacc-cleanup" depends="parser-check">
-    <delete>
-      <fileset dir="${build.parser}">
-        <include name="ParserVisitor.java"/>
-      </fileset>
-    </delete>
   </target>
 
   <!-- ================================================================ -->

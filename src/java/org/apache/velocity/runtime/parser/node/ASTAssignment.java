@@ -18,6 +18,7 @@ package org.apache.velocity.runtime.parser.node;
 
 
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 
 public class ASTAssignment extends SimpleNode
 {

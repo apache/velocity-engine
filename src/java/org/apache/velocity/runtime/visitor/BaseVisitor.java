@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.visitor;
 import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.node.ASTAddNode;
 import org.apache.velocity.runtime.parser.node.ASTAndNode;
 import org.apache.velocity.runtime.parser.node.ASTAssignment;
@@ -59,7 +60,6 @@ import org.apache.velocity.runtime.parser.node.ASTText;
 import org.apache.velocity.runtime.parser.node.ASTTrue;
 import org.apache.velocity.runtime.parser.node.ASTWord;
 import org.apache.velocity.runtime.parser.node.ASTprocess;
-import org.apache.velocity.runtime.parser.node.ParserVisitor;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**

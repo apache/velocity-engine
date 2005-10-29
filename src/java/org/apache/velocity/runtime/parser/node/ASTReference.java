@@ -27,6 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.VelPropertySet;
