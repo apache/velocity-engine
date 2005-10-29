@@ -115,7 +115,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         catch (ParseException pe)
         {
             rsvc.getLog().error("Parser Exception: " + templateName, pe);
-            throw new ParseException (pe.currentToken,
+            throw new TemplateParseException (pe.currentToken,
                                 pe.expectedTokenSequences, pe.tokenImage, currentTemplateName);
                 }
         catch (TokenMgrError tme)
