@@ -337,7 +337,6 @@
   <target name="javacc-cleanup" depends="parser-check">
     <delete>
       <fileset dir="${build.parser}">
-        <include name="Node.java"/>
         <include name="ParserVisitor.java"/>
       </fileset>
     </delete>

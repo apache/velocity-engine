@@ -146,7 +146,7 @@ public class Macro extends Directive
          *  lets make sure that the first arg is an ASTWord
          */
 
-        int firstType = node.jjtGetChild(0).getType();
+        int firstType = node.getChild(0).getType();
 
         if(firstType != ParserTreeConstants.JJTWORD)
         {
@@ -167,7 +167,7 @@ public class Macro extends Directive
          */
         
         List macroArray = 
-            getASTAsStringArray(node.jjtGetChild(numArgs - 1));
+            getASTAsStringArray(node.getChild(numArgs - 1));
   
         /*
          *  make a big string out of our macro
@@ -227,7 +227,7 @@ public class Macro extends Directive
 	
         while (i < numArgs)
         {
-            argArray[i] = node.jjtGetChild(i).getFirstToken().image;
+            argArray[i] = node.getChild(i).getFirstToken().image;
 
             /*
              *  trim off the leading $ for the args after the macro name.

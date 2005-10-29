@@ -83,7 +83,7 @@ public class Parse extends InputBase
         /*
          *  did we get an argument?
          */
-        if ( node.jjtGetChild(0) == null)
+        if ( node.getChild(0) == null)
         {
             rsvc.getLog().error("#parse() null argument");
             return false;
@@ -92,7 +92,7 @@ public class Parse extends InputBase
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
-        Object value =  node.jjtGetChild(0).value( context );
+        Object value =  node.getChild(0).value( context );
 
         if ( value == null)
         {

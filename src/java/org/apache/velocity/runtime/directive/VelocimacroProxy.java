@@ -345,20 +345,20 @@ public class VelocimacroProxy extends Directive
              *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
              */
 
-            callingArgTypes[i] = node.jjtGetChild(i).getType();
+            callingArgTypes[i] = node.getChild(i).getType();
  
            
-            if (false &&  node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
+            if (false &&  node.getChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
-                args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
+                args[i] += node.getChild(i).getFirstToken().image.substring(1, node.getChild(i).getFirstToken().image.length() - 1);
             }
             else
             {
                 /*
                  *  just wander down the token list, concatenating everything together
                  */
-                t = node.jjtGetChild(i).getFirstToken();
-                tLast = node.jjtGetChild(i).getLastToken();
+                t = node.getChild(i).getFirstToken();
+                tLast = node.getChild(i).getLastToken();
 
                 while( t != tLast ) 
                 {

@@ -66,9 +66,9 @@ public class ASTIfStatement extends SimpleNode
          * if so render and leave immediately because there
          * is nothing left to do!
          */
-        if (jjtGetChild(0).evaluate(context))
+        if (getChild(0).evaluate(context))
         {
-            jjtGetChild(1).render(context, writer);
+            getChild(1).render(context, writer);
             return true;
         }
     
@@ -85,9 +85,9 @@ public class ASTIfStatement extends SimpleNode
          */
         for (int i = 2; i < totalNodes; i++)
         {
-            if (jjtGetChild(i).evaluate(context))
+            if (getChild(i).evaluate(context))
             {
-                jjtGetChild(i).render(context, writer);
+                getChild(i).render(context, writer);
                 return true;
             }
         }

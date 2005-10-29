@@ -70,8 +70,8 @@ public class ASTOrNode extends SimpleNode
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
     {
-        Node left = jjtGetChild(0);
-        Node right = jjtGetChild(1);
+        Node left = getChild(0);
+        Node right = getChild(1);
 
         /*
          *  if the left is not null and true, then true

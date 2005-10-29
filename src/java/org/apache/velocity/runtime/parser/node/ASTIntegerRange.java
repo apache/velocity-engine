@@ -68,8 +68,8 @@ public class ASTIntegerRange extends SimpleNode
          *  get the two range ends
          */
 
-        Object left = jjtGetChild(0).value( context );
-        Object right = jjtGetChild(1).value( context );
+        Object left = getChild(0).value( context );
+        Object right = getChild(1).value( context );
 
         /*
          *  if either is null, lets log and bail
