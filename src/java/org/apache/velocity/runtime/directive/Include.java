@@ -129,7 +129,7 @@ public class Include extends InputBase
              *  we only handle StringLiterals and References right now
              */
 
-            Node n = node.jjtGetChild(i);
+            Node n = node.getChild(i);
 
             if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL || 
                  n.getType() ==  ParserTreeConstants.JJTREFERENCE )

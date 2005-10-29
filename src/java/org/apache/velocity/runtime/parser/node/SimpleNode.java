@@ -84,16 +84,16 @@ public class SimpleNode implements Node
         return last;
     }
 
-    public void jjtSetParent(Node n)
+    public void jjtSetParent(org.apache.velocity.runtime.parser.Node n)
     {
-        parent = n;
+        parent = (Node) n;
     }
-    public Node jjtGetParent()
+    public org.apache.velocity.runtime.parser.Node jjtGetParent()
     {
         return parent;
     }
 
-    public void jjtAddChild(Node n, int i)
+    public void jjtAddChild(org.apache.velocity.runtime.parser.Node n, int i)
     {
         if (children == null)
         {
@@ -105,10 +105,15 @@ public class SimpleNode implements Node
             System.arraycopy(children, 0, c, 0, children.length);
             children = c;
         }
-        children[i] = n;
+        children[i] = (Node) n;
     }
 
-    public Node jjtGetChild(int i)
+    public org.apache.velocity.runtime.parser.Node jjtGetChild(int i)
+    {
+        return getChild(i);
+    }
+    
+    public Node getChild(int i)
     {
         return children[i];
     }
@@ -202,7 +207,7 @@ public class SimpleNode implements Node
         {
             try
             {
-                jjtGetChild(i).init( context, data);
+                getChild(i).init( context, data);
             }
             catch (ReferenceException re)
             {
@@ -231,7 +236,7 @@ public class SimpleNode implements Node
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
-            jjtGetChild(i).render(context, writer);
+            getChild(i).render(context, writer);
     
         return true;
     }

@@ -112,7 +112,7 @@ public class ASTMethod extends SimpleNode
             
             for (int j = 0; j < paramCount; j++) 
             {
-                params[j] = jjtGetChild(j + 1).value(context);
+                params[j] = getChild(j + 1).value(context);
                 
                 if (params[j] != null)
                 {
@@ -150,7 +150,7 @@ public class ASTMethod extends SimpleNode
                  */
 
                 for (int j = 0; j < paramCount; j++)
-                    params[j] = jjtGetChild(j + 1).value(context);
+                    params[j] = getChild(j + 1).value(context);
 
                 method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
 

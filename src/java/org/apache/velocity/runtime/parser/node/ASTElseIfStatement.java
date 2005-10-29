@@ -67,7 +67,7 @@ public class ASTElseIfStatement extends SimpleNode
     public boolean evaluate ( InternalContextAdapter context)
         throws MethodInvocationException
     {
-        return jjtGetChild(0).evaluate(context);
+        return getChild(0).evaluate(context);
     }
 
     /**
@@ -77,6 +77,6 @@ public class ASTElseIfStatement extends SimpleNode
         throws IOException,MethodInvocationException, 
         	ResourceNotFoundException, ParseErrorException
     {
-        return jjtGetChild(1).render( context, writer );
+        return getChild(1).render( context, writer );
     }
 }
