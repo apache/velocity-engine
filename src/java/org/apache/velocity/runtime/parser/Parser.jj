@@ -73,6 +73,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
@@ -165,7 +166,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
              *  Macro specification
              */
             rsvc.getLog().error("Parser Error: #macro() : " + templateName, mee);
-            throw new ParseException(mee.getMessage());
+            throw mee;
         }
         catch (ParseException pe)
         {
@@ -1505,10 +1506,7 @@ SimpleNode Directive() :
                         throw new MacroParseException("Invalid arg #"
                             + argPos + " in "
                             + (isVM ? "VM " : "directive " )
-                            + t.image
-                            + " at line " + t.beginLine + ", column "
-                            + t.beginColumn
-                            + " in template " + currentTemplateName);
+                            + t.image, currentTemplateName, t);
                     }
                 }
                 else
@@ -1520,9 +1518,7 @@ SimpleNode Directive() :
                         throw new MacroParseException("Invalid first arg "
                             + " in #macro() directive - must be a"
                             + " word token (no \' or \" surrounding)"
-                            + " at line " + t.beginLine + ", column "
-                            + t.beginColumn
-                            + " in template " + currentTemplateName);
+                            + " at line " + t.beginLine + ", column ", currentTemplateName, t);
                     }
                 }
 
@@ -1587,7 +1583,7 @@ SimpleNode Directive() :
 
         if (doItNow)
         {
-            Macro.processAndRegister(rsvc, jjtn000, currentTemplateName);
+            Macro.processAndRegister(rsvc, t, jjtn000, currentTemplateName);
         }
 
         /*

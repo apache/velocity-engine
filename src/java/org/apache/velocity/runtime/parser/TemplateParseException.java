@@ -1,5 +1,7 @@
 package org.apache.velocity.runtime.parser;
 
+import org.apache.velocity.exception.ExtendedParseException;
+
 /*
  * Copyright 2000-2004 The Apache Software Foundation.
  *
@@ -22,9 +24,12 @@ package org.apache.velocity.runtime.parser;
  *
  * @see org.apache.velocity.runtime.parser.ParseException
  *
+ * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
+ * @version $Id$
  */
 public class TemplateParseException
         extends ParseException
+        implements ExtendedParseException
 {
     /**
      * This is the name of the template which contains the parsing error, or

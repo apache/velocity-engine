@@ -16,7 +16,9 @@ package org.apache.velocity.runtime.directive;
  * limitations under the License.
  */
 
+import org.apache.velocity.exception.ExtendedParseException;
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.Token;
 
 /**
  *  Exception to indicate problem happened while constructing #macro()
@@ -24,17 +26,62 @@ import org.apache.velocity.runtime.parser.ParseException;
  *  For internal use in parser - not to be passed to app level
  *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
+ * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class MacroParseException extends ParseException
+public class MacroParseException
+        extends ParseException
+        implements ExtendedParseException
 {
+    private final String templateName;
+
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = -4985224672336070691L;
+    private static final long serialVersionUID = -4985224672336070690L;
 
-    public MacroParseException(String msg)
+    public MacroParseException(final String msg, final String templateName, final Token currentToken)
     {
         super(msg);
+        this.currentToken = currentToken;
+        this.templateName = templateName;
+    }
+
+    /**
+     * returns the Template name where this exception occured.
+     */
+    public String getTemplateName()
+    {
+        return templateName;
+    }
+
+    /**
+     * returns the line number where this exception occured.
+     */
+    public int getLineNumber()
+    {
+        if ((currentToken != null) && (currentToken.next != null))
+        {
+            return currentToken.next.beginLine;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    /**
+     * returns the column number where this exception occured.
+     */
+    public int getColumnNumber()
+    {
+        if ((currentToken != null) && (currentToken.next != null))
+        {
+            return currentToken.next.beginColumn;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }
