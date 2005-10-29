@@ -36,7 +36,7 @@ public class ParseErrorException extends VelocityException
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = -6665197935086306473L;
+    private static final long serialVersionUID = -6665197935086306472L;
 
     /**
      * The column number of the parsing error, or -1 if not defined.
@@ -85,9 +85,12 @@ public class ParseErrorException extends VelocityException
         else
         {
             //  ugly, ugly, ugly...
-            columnNumber = pex.currentToken.next.beginColumn;
-            lineNumber = pex.currentToken.next.beginLine;
-            templateName = "*unset*";
+
+            if (pex.currentToken != null && pex.currentToken.next != null)
+            {
+                columnNumber = pex.currentToken.next.beginColumn;
+                lineNumber = pex.currentToken.next.beginLine;
+            }
         }
     }
     
