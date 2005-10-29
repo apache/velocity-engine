@@ -37,7 +37,7 @@
   <property file="build/build.properties" />
 
   <property name="parserjj.file"  value="${build.parser}/Parser.jj" />
-  <property name="parserjjt.file" value="${build.parser}/Parser.jjt" />
+  <property name="parserjjt.file" value="${src.parser.dir}/Parser.jjt" />
 
   <!-- =================================================================== -->
   <!-- prints the targets available in this build file                     -->
@@ -337,9 +337,7 @@
   <target name="javacc-cleanup" depends="parser-check">
     <delete>
       <fileset dir="${build.parser}">
-        <include name="AST*"/>
         <include name="Node.java"/>
-        <include name="SimpleNode.java"/>
         <include name="ParserVisitor.java"/>
       </fileset>
     </delete>
