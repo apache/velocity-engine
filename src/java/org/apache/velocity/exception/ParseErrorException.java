@@ -17,6 +17,7 @@ package org.apache.velocity.exception;
  */
 
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.TemplateParseException;
 
 /**
  *  Application-level exception thrown when a resource of any type
@@ -44,12 +45,12 @@ public class ParseErrorException extends VelocityException
     /**
      * The line number of the parsing error, or -1 if not defined.
      */
-    private int lineNumber;
+    private int lineNumber = -1;
     
     /**
      * The name of the template containing the error, or null if not defined.
      */
-    private String templateName;
+    private String templateName = "*unset*";
     
     /**
      * Create a ParseErrorException with the given message.
@@ -69,10 +70,24 @@ public class ParseErrorException extends VelocityException
     public ParseErrorException(ParseException pex) 
     {
         super(pex.getMessage());
-        
-        columnNumber = pex.columnNumber;
-        lineNumber = pex.lineNumber;
-        templateName = pex.templateName;
+
+        // Don't use a second C'tor, TemplateParseException is a subclass of
+        // ParseException...
+        if (pex instanceof TemplateParseException)
+        {
+            TemplateParseException tpex = (TemplateParseException) pex;
+
+            columnNumber = tpex.getColumnNumber();
+            lineNumber = tpex.getLineNumber();
+            templateName = tpex.getTemplateName();
+        }
+        else
+        {
+            //  ugly, ugly, ugly...
+            columnNumber = pex.currentToken.next.beginColumn;
+            lineNumber = pex.currentToken.next.beginLine;
+            templateName = "*unset*";
+        }
     }
     
     /**
