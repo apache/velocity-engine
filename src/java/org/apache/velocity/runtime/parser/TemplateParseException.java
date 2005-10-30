@@ -144,11 +144,14 @@ public class TemplateParseException
     {
         if (!specialConstructor)
         {
-            return super.getMessage();
+            StringBuffer sb = new StringBuffer(super.getMessage());
+            appendTemplateInfo(sb);
+            return sb.toString();
         }
 
-        String expected = "";
         int maxSize = 0;
+
+        StringBuffer expected = new StringBuffer();
 
         for (int i = 0; i < expectedTokenSequences.length; i++)
         {
@@ -159,52 +162,67 @@ public class TemplateParseException
 
             for (int j = 0; j < expectedTokenSequences[i].length; j++)
             {
-                expected += (tokenImage[expectedTokenSequences[i][j]] + " ");
+                expected.append(tokenImage[expectedTokenSequences[i][j]]).append(" ");
             }
 
             if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0)
             {
-                expected += "...";
+                expected.append("...");
             }
 
-            expected += (eol + "    ");
+            expected.append(eol).append("    ");
         }
 
-        String retval = "Encountered \"";
+        StringBuffer retval = new StringBuffer("Encountered \"");
         Token tok = currentToken.next;
 
         for (int i = 0; i < maxSize; i++)
         {
             if (i != 0)
             {
-                retval += " ";
+                retval.append(" ");
             }
 
             if (tok.kind == 0)
             {
-                retval += tokenImage[0];
-
+                retval.append(tokenImage[0]);
                 break;
             }
 
-            retval += add_escapes(tok.image);
+            retval.append(add_escapes(tok.image));
             tok = tok.next;
         }
 
-        retval += ("\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn);
-        retval += (templateName != null) ? (" of " + templateName + eol) : ("." + eol);
+        retval.append("\"");
+        appendTemplateInfo(retval);
 
         if (expectedTokenSequences.length == 1)
         {
-            retval += ("Was expecting:" + eol + "    ");
+            retval.append("Was expecting:").append(eol).append("    ");
         }
         else
         {
-            retval += ("Was expecting one of:" + eol + "    ");
+            retval.append("Was expecting one of:").append(eol).append("    ");
         }
 
-        retval += expected;
+        // avoid JDK 1.3 StringBuffer.append(Object o) vs 1.4 StringBuffer.append(StringBuffer sb) gotcha.
+        retval.append(expected.toString());
+        return retval.toString();
+    }
 
-        return retval;
+    protected void appendTemplateInfo(final StringBuffer sb)
+    {
+        sb.append(" at line ").append(getLineNumber())
+          .append(", column ").append(getColumnNumber());
+
+        if (getTemplateName() != null)
+        {
+            sb.append(" of ").append(getTemplateName());
+        }
+        else
+        {
+            sb.append(".");
+        }
+        sb.append(eol);
     }
 }

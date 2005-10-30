@@ -38,7 +38,7 @@ public class MacroParseException
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = -4985224672336070690L;
+    private static final long serialVersionUID = -4985224672336070689L;
 
     public MacroParseException(final String msg, final String templateName, final Token currentToken)
     {
@@ -83,5 +83,101 @@ public class MacroParseException
         {
             return -1;
         }
+    }
+
+    /**
+     * This method has the standard behavior when this object has been
+     * created using the standard constructors.  Otherwise, it uses
+     * "currentToken" and "expectedTokenSequences" to generate a parse
+     * error message and returns it.  If this object has been created
+     * due to a parse error, and you do not catch it (it gets thrown
+     * from the parser), then this method is called during the printing
+     * of the final stack trace, and hence the correct error message
+     * gets displayed.
+     */
+    public String getMessage()
+    {
+        if (!specialConstructor)
+        {
+            StringBuffer sb = new StringBuffer(super.getMessage());
+            appendTemplateInfo(sb);
+            return sb.toString();
+        }
+
+        int maxSize = 0;
+
+        StringBuffer expected = new StringBuffer();
+
+        for (int i = 0; i < expectedTokenSequences.length; i++)
+        {
+            if (maxSize < expectedTokenSequences[i].length)
+            {
+                maxSize = expectedTokenSequences[i].length;
+            }
+
+            for (int j = 0; j < expectedTokenSequences[i].length; j++)
+            {
+                expected.append(tokenImage[expectedTokenSequences[i][j]]).append(" ");
+            }
+
+            if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0)
+            {
+                expected.append("...");
+            }
+
+            expected.append(eol).append("    ");
+        }
+
+        StringBuffer retval = new StringBuffer("Encountered \"");
+        Token tok = currentToken.next;
+
+        for (int i = 0; i < maxSize; i++)
+        {
+            if (i != 0)
+            {
+                retval.append(" ");
+            }
+
+            if (tok.kind == 0)
+            {
+                retval.append(tokenImage[0]);
+                break;
+            }
+
+            retval.append(add_escapes(tok.image));
+            tok = tok.next;
+        }
+
+        retval.append("\"");
+        appendTemplateInfo(retval);
+
+        if (expectedTokenSequences.length == 1)
+        {
+            retval.append("Was expecting:").append(eol).append("    ");
+        }
+        else
+        {
+            retval.append("Was expecting one of:").append(eol).append("    ");
+        }
+
+        // avoid JDK 1.3 StringBuffer.append(Object o) vs 1.4 StringBuffer.append(StringBuffer sb) gotcha.
+        retval.append(expected.toString());
+        return retval.toString();
+    }
+
+    protected void appendTemplateInfo(final StringBuffer sb)
+    {
+        sb.append(" at line ").append(getLineNumber())
+          .append(", column ").append(getColumnNumber());
+
+        if (getTemplateName() != null)
+        {
+            sb.append(" of ").append(getTemplateName());
+        }
+        else
+        {
+            sb.append(".");
+        }
+        sb.append(eol);
     }
 }
