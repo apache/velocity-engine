@@ -1517,8 +1517,7 @@ SimpleNode Directive() :
 
                         throw new MacroParseException("Invalid first arg "
                             + " in #macro() directive - must be a"
-                            + " word token (no \' or \" surrounding)"
-                            + " at line " + t.beginLine + ", column ", currentTemplateName, t);
+                            + " word token (no \' or \" surrounding)", currentTemplateName, t);
                     }
                 }
 
