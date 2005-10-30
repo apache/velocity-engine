@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<document>
+  <properties>
+    <title>Velocity dependencies</title>
+    <author email="hps@intermeta.de">Henning P. Schmiedehausen</author>
+  </properties>
+
+  <body>
+    <section name="Velocity dependencies" href="dependencies">
+      <p>
+       Velocity has a number of external jar dependencies. However, not all of these
+       are needed every time.This document should help you do decide which jars must
+       also be present if you want to integrate Velocity into your application.
+      </p>
+  
+      <table>
+        <tr>
+          <th>jar name</th><th>Required</th><th>Explanation</th>
+        </tr>
+        <tr>
+          <td>commons-collections</td><td>Yes</td>
+          <td>Needed for all parts of Velocity</td>
+        </tr>
+        <tr>
+          <td>commons-lang</td><td>Yes</td>
+          <td>Needed for all parts of Velocity</td>
+        </tr>
+        <tr>
+          <td>oro</td><td>Yes</td>
+          <td>Needed for all parts of Velocity</td>
+        </tr>
+        <tr>
+          <td>log4j</td><td>No</td>
+          <td>Must only be present if log4j Logging has been selected.
+              Not needed if Avalon logkit or jdk logging is used.</td>
+        </tr>
+        <tr>
+          <td>avalon-logkit (or logkit)</td><td>No</td>
+          <td>Must only be present if Avalon Logging has been selected.
+              Not needed if log4j logging or jdk logging is used.</td>
+        </tr>
+        <tr>
+          <td>servletapi</td><td>No</td>
+          <td>Only needed when the VelocityServlet class is used. Should
+              normally be supplied by the servlet container. <b>VelocityServlet
+              is deprecated and should be replaced with VelocityViewServlet from
+              the velocity-tools distribution.</b></td>
+        </tr>
+        <tr>
+          <td>jdom</td><td>No</td>
+          <td>Only required for the Anakia tool / ant task</td>
+        </tr>
+        <tr>
+          <td>werken-xpath</td><td>No</td>
+          <td>Only required for the Anakia tool / ant task</td>
+        </tr>
+      </table>
+  
+      <p>
+        The most common case is the integration of the Velocity runtime into your
+        application. In this case, you must also add commons-collections, commons-lang
+        and oro to your application (and either avalon-logkit or log4j for logging if
+        required). If you already have one or more of these libraries in your application,
+        you should check if you need to update their versions.
+      </p>
+    </section>
+  </body>
+</document>
+
