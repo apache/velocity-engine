@@ -1,10 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="jar:jar">
-  <!-- The ClasspathResourceTestCase, TexenTestCase and AnakiaTestCase
-       require that some prerequisites are run before the actual test
-       cases (which compare only outputs) are executed.
-  -->
+<!--
+ Copyright 2001-2005 The Apache Software Foundation.
+
+ Licensed under the Apache License, Version 2.0 (the "License")
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!--  maven Buildfile                                                         -->
+<!--                                                                          -->
+<!-- $Id$ -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+
+<project
+  xmlns:j="jelly:core"
+  xmlns:u="jelly:util"
+  xmlns:maven="jelly:maven"
+  xmlns:ant="jelly:ant"
+  default="jar:jar">
+
+  <!-- ================================================================== -->
+  <!-- C O M P I L E   P R E - G O A L                                    -->
+  <!-- ================================================================== -->
+  <!-- Before compiling the Source Code, it is necessary to               -->
+  <!-- replace a few tokens in the source code.                           -->
+  <!-- ================================================================== -->
+  <preGoal name="java:compile">
+    <ant:tstamp>
+      <ant:format property="build.time" pattern="yyyy-MM-dd hh:mm:ss" />
+      <ant:format property="build.year" pattern="yyyy"/>
+    </ant:tstamp>
+    <ant:filter token="build.year" value="${build.year}"/>
+    <ant:filter token="build.version" value="${version}"/>
+    <ant:filter token="build.time" value="${build.time}"/>
+
+    <ant:copy todir="target/src" filtering="yes">
+      <ant:fileset dir="src/java">
+        <ant:include name="**/*.java"/>
+      </ant:fileset>
+    </ant:copy>
+
+    <!-- Hack for Maven bug when compiling with a clean target. -->
+    <j:if test="${sourcesPresent != 'true'}">
+      <j:set var="sourcesPresent" value="true"/>
+      <path id="maven.compile.src.set" location="target/src"/>
+    </j:if>
+
+  </preGoal>
+
+  <!-- ================================================================== -->
+  <!-- T E S T - C O M P I L E   P R E - G O A L                          -->
+  <!-- ================================================================== -->
+  <!-- The test code is used by the ant and the maven build but both use  -->
+  <!-- different directories controlled by ant tokens. Replace these      -->
+  <!-- with the correct values.                                           -->
+  <!-- ================================================================== -->
+  <preGoal name="test:compile">
+    <ant:filter token="test.dir" value="./test"/>
+    <ant:filter token="build.test" value="target/test"/>
+
+    <ant:copy todir="target/test-src" filtering="yes">
+      <ant:fileset dir="src/test">
+        <ant:include name="**/*.java"/>
+      </ant:fileset>
+    </ant:copy>
+
+    <!-- Hack for Maven bug when compiling with a clean target. -->
+    <j:if test="${unitTestSourcesPresent != 'true'}">
+      <j:set var="unitTestSourcesPresent" value="true"/>
+      <path id="maven.test.compile.src.set" location="target/test-src"/>
+    </j:if>
+
+  </preGoal>
+
+  <!-- ================================================================== -->
+  <!-- T E S T - R E S O U R C E S   P R E - G O A L                      -->
+  <!-- ================================================================== -->
+  <!-- The ClasspathResourceTestCase, TexenTestCase and AnakiaTestCase    -->
+  <!-- require that some prerequisites are run before the actual test     -->
+  <!-- cases (which compare only outputs) are executed.                   -->
+  <!-- ================================================================== -->
+
   <preGoal name="test:test-resources">
     <attainGoal name="anakiaTest"/>
     <attainGoal name="texenTest"/>
@@ -96,6 +184,7 @@
        have to unjar the test jar in the test-classes directory.
        See http://jira.codehaus.org/browse/MPTEST-57
   -->
+
   <postGoal name="test:test-resources">
     <unjar src="test/cpload/test1.jar" dest="target/test-classes" />
   </postGoal>
