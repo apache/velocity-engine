@@ -754,8 +754,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
                         {if (true) throw new MacroParseException("Invalid first arg "
                             + " in #macro() directive - must be a"
-                            + " word token (no \' or \" surrounding)"
-                            + " at line " + t.beginLine + ", column ", currentTemplateName, t);}
+                            + " word token (no \' or \" surrounding)", currentTemplateName, t);}
                     }
                 }
 
@@ -2880,6 +2879,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
+  final private boolean jj_3_1() {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
   final private boolean jj_3R_70() {
     if (jj_3R_24()) return true;
     Token xsp;
@@ -2887,11 +2891,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       xsp = jj_scanpos;
       if (jj_3R_85()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  final private boolean jj_3_1() {
-    if (jj_3R_20()) return true;
     return false;
   }
 
@@ -2930,15 +2929,15 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
+  final private boolean jj_3R_45() {
+    if (jj_3R_65()) return true;
+    return false;
+  }
+
   final private boolean jj_3R_69() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(26)) jj_scanpos = xsp;
-    return false;
-  }
-
-  final private boolean jj_3R_45() {
-    if (jj_3R_65()) return true;
     return false;
   }
 
