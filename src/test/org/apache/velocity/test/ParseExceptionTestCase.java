@@ -136,5 +136,74 @@ public class ParseExceptionTestCase extends BaseTestCase
         }
     }
     
+    /**
+     * Tests that parseException has useful info when thrown in VelocityEngine.evaluate()
+     * and the problem comes from a macro definition
+     * @throws Exception
+     */
+    public void testParseExceptionFromMacroDef ()
+            throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+        
+        VelocityContext context = new VelocityContext();
+        
+        Writer writer = new StringWriter();
+        
+        try 
+        {
+            ve.evaluate(context,writer,"testMacro","#macro($blarg) foo #end");     
+            fail("Should have thown a ParseErrorException");
+        } 
+        catch (ParseErrorException e) 
+        {
+            assertEquals("testMacro",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(7,e.getColumnNumber());
+        } 
+        finally
+        {
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
+ 
+    /**
+     * Tests that parseException has useful info when thrown in VelocityEngine.evaluate()
+     * and the problem comes from a macro invocation
+     * @throws Exception
+     */
+    public void testParseExceptionFromMacroInvoke ()
+            throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+        
+        VelocityContext context = new VelocityContext();
+        
+        Writer writer = new StringWriter();
+        
+        try 
+        {
+            ve.evaluate(context,writer,"testMacroInvoke", "#macro(   foo $a) $a #end #foo(woogie)");     
+            fail("Should have thown a ParseErrorException");
+        } 
+        catch (ParseErrorException e) 
+        {
+            assertEquals("testMacroInvoke",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(31,e.getColumnNumber());
+        } 
+        finally
+        {
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
  
 }
