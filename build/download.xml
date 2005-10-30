@@ -29,7 +29,6 @@
    <mkdir dir="${build.lib}" />
    <antcall target="antlr-download" />
    <antcall target="avalon-logkit-download" />
-   <antcall target="bcel-download" />
    <antcall target="commons-collections-download" />
    <antcall target="commons-lang-download" />
    <antcall target="jdom-download" />
@@ -58,12 +57,6 @@
   <target name="avalon-logkit-download">
    <property name="jarname" value="avalon-logkit" />
    <property name="jarversion" value="${jar.avalon-logkit.version}" />
-   <antcall target="http-download"/>
-  </target>
-
-  <target name="bcel-download">
-   <property name="jarname" value="bcel" />
-   <property name="jarversion" value="${jar.bcel.version}" />
    <antcall target="http-download"/>
   </target>
 
