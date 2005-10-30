@@ -1,0 +1,2 @@
+This is an alternative implementation of EscapeReference intended for JDK 1.4 which allows
+us to drop oro from the runtime dependencies once we move to JDK 1.4+ only.
