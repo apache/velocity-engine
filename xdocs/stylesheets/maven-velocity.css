@@ -1,7 +1,12 @@
+body {
+  background-color: white;
+}
+
 body, td, select, input, li{
   font-family: Helvetica, Times, Times New Roman, serif;
   font-size: 12pt;
 }
+
 pre, code{
   font-size: 10pt;
 }
