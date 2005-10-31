@@ -91,7 +91,7 @@
   <!-- =================================================================== -->
   <target name="basic-prepare">
     <tstamp>
-      <format property="build.time" pattern="yyyy-MM-dd hh:mm:ss" />
+      <format property="build.time" pattern="yyyy-MM-dd HH:mm:ss" />
       <format property="build.year" pattern="yyyy"/>
     </tstamp>
     <filter token="build.year" value="${build.year}"/>
