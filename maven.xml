@@ -39,11 +39,11 @@
   <!-- ================================================================== -->
   <preGoal name="java:compile">
     <ant:tstamp>
-      <ant:format property="build.time" pattern="yyyy-MM-dd hh:mm:ss" />
+      <ant:format property="build.time" pattern="yyyy-MM-dd HH:mm:ss" />
       <ant:format property="build.year" pattern="yyyy"/>
     </ant:tstamp>
     <ant:filter token="build.year" value="${build.year}"/>
-    <ant:filter token="build.version" value="${version}"/>
+    <ant:filter token="build.version" value="${pom.currentVersion}"/>
     <ant:filter token="build.time" value="${build.time}"/>
 
     <ant:copy todir="target/src" filtering="yes">
