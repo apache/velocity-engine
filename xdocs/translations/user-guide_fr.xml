@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <document>
   <properties>
     <title>Guide de l'utilisateur Velocity</title>
     <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
     <author email="jcastura@kw.igs.net">John Castura</author>
-    <author email="jean-francois.elfouly@wanadoo.fr">Jean-François El Fouly</author>
+    <author email="jean-francois.elfouly@wanadoo.fr">Jean-FranÃ§ois El Fouly</author>
   </properties>
 <body>
     
-<section name="Table des Matières" href="TabledesMatières">
+<section name="Table des MatiÃ¨res" href="TabledesMatiÃ¨res">
       
 <ol>
 <li><a href="#Aproposdecedocument">A propos de ce document</a></li>
@@ -22,29 +22,29 @@
 <li><a href="#IntroductionauVelocityTemplateLanguage(VTL)">Introduction au Velocity Template Language (VTL)</a></li>
 <li><a href="#HelloVelocityWorld!">Hello Velocity World!</a></li>
 <li><a href="#Lescommentaires">Les commentaires</a></li>
-<li><a href="#Lesréférences">Les références</a>
+<li><a href="#LesrÃ©fÃ©rences">Les rÃ©fÃ©rences</a>
   <ol>
     <li><a href="#Variables">Variables</a></li>
-    <li><a href="#Propriétés">Propriétés</a></li>
-    <li><a href="#Méthodes">Méthodes</a></li>
+    <li><a href="#PropriÃ©tÃ©s">PropriÃ©tÃ©s</a></li>
+    <li><a href="#MÃ©thodes">MÃ©thodes</a></li>
   </ol>
 </li>
-<li><a href="#Notationformelledesréférences">Notation formelle des références</a></li>
-<li><a href="#Notationsilencieusedesréférences">Notation silencieuse des références</a></li>
-<li><a href="#Sortielittérale">Sortie littérale</a>
+<li><a href="#NotationformelledesrÃ©fÃ©rences">Notation formelle des rÃ©fÃ©rences</a></li>
+<li><a href="#NotationsilencieusedesrÃ©fÃ©rences">Notation silencieuse des rÃ©fÃ©rences</a></li>
+<li><a href="#SortielittÃ©rale">Sortie littÃ©rale</a>
   <ol>
     <li><a href="#Devise">Devise</a></li>
-    <li><a href="#EchapperdesréférencesVTLvalides">Echapper des références VTL valides</a></li>
+    <li><a href="#EchapperdesrÃ©fÃ©rencesVTLvalides">Echapper des rÃ©fÃ©rences VTL valides</a></li>
   </ol>
 </li>
 <li><a href="#Substitutiondecas">Substitution de cas</a></li>
 <li><a href="#Directives">Directives</a>
   <ol>
     <li><a href="#Set">Set</a></li>
-    <li><a href="#Chaînesdecaractèreslittérales">Chaînes de caractères littérales</a></li>
+    <li><a href="#ChaÃ®nesdecaractÃ¨reslittÃ©rales">ChaÃ®nes de caractÃ¨res littÃ©rales</a></li>
     <li><a href="#Conditions">Conditions</a>
       <ol>
-        <li><a href="#Opérateursrelationnelsetlogiques">Opérateurs relationnels et logiques</a></li>
+        <li><a href="#OpÃ©rateursrelationnelsetlogiques">OpÃ©rateurs relationnels et logiques</a></li>
       </ol>
     </li>
     <li><a href="#Boucles">Boucles</a></li>
@@ -56,13 +56,13 @@
 </li>
 <li><a href="#EchappementdesdirectivesVTL">Echappement des directives VTL</a></li>
 <li><a href="#VTL:Questionsdeformat">VTL: Questions de format</a></li>
-<li><a href="#Autrescaractéristiquesetsujetsdivers">Autres caractéristiques et sujets divers</a>
+<li><a href="#AutrescaractÃ©ristiquesetsujetsdivers">Autres caractÃ©ristiques et sujets divers</a>
   <ol>
     <li><a href="#Math">Math</a></li>
-    <li><a href="#Opérateurdeportée(range)">Opérateur de portée (range)</a></li>
+    <li><a href="#OpÃ©rateurdeportÃ©e(range)">OpÃ©rateur de portÃ©e (range)</a></li>
     <li><a href="#Questionspointues:Echappementet!">Questions pointues: Echappement et !</a></li>
-    <li><a href="#ComplémentsdiverssurlesVelocimacros">Compléments divers sur les Velocimacros</a></li>
-    <li><a href="#Concaténationdechaînes">Concaténation de chaînes</a></li>
+    <li><a href="#ComplÃ©mentsdiverssurlesVelocimacros">ComplÃ©ments divers sur les Velocimacros</a></li>
+    <li><a href="#ConcatÃ©nationdechaÃ®nes">ConcatÃ©nation de chaÃ®nes</a></li>
   </ol>
 </li>
 <li><a href="#Donnezvotreavis">Donnez votre avis</a></li>
@@ -71,10 +71,10 @@
 
 <section name="A propos de ce document" href="Aproposdecedocument">
   <p>
-    Le Guide de l'utilisateur Velocity a pour but d'aider les concepteurs de page et les fournisseurs de contenu à se
+    Le Guide de l'utilisateur Velocity a pour but d'aider les concepteurs de page et les fournisseurs de contenu Ã  se
     familiariser avec Velocity et avec la syntaxe de son langage de script, simple mais puissant, le Velocity Template
     Language (VTL). Beaucoup d'exemples dans ce guide concernent l'utilisation de Velocity pour l'inclusion de contenu
-    dynamique dans des sites web, mais tous les exemples du VTL pourraient aussi bien s'appliquer à d'autres pages ou
+    dynamique dans des sites web, mais tous les exemples du VTL pourraient aussi bien s'appliquer Ã  d'autres pages ou
     gabarits.
   </p>
   <p>Merci de choisir Velocity!</p>
@@ -82,30 +82,30 @@
 
 <section name="Velocity, qu'est-ce que c'est?" href="Velocity,qu'est-cequec'est?">
   <p>
-    Velocity est un moteur de substitution, basé sur Java. Il permet aux concepteurs de pages web de faire référence
-    à des méthodes définies dans du code Java. Les concepteurs de pages peuvent travailler en équipe avec des
-    programmeurs Java pour développer des sites web dans l'architecture MVC (Modèle-Vue-Contrôleur), ce qui signifie
-    que les infographistes peuvent se concentrer sur la création d'un site au désign attractif et les programmeurs
-    peuvent se consacrer entièrement à l'écriture de code de qualité. Velocity sépare le code Java des pages web,
-    ce qui rend le site plus facile à maintenir dans le long terme et fournit une alternative réaliste aux
-    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a> (JSPs) ou à
+    Velocity est un moteur de substitution, basÃ© sur Java. Il permet aux concepteurs de pages web de faire rÃ©fÃ©rence
+    Ã  des mÃ©thodes dÃ©finies dans du code Java. Les concepteurs de pages peuvent travailler en Ã©quipe avec des
+    programmeurs Java pour dÃ©velopper des sites web dans l'architecture MVC (ModÃ¨le-Vue-ContrÃ´leur), ce qui signifie
+    que les infographistes peuvent se concentrer sur la crÃ©ation d'un site au dÃ©sign attractif et les programmeurs
+    peuvent se consacrer entiÃ¨rement Ã  l'Ã©criture de code de qualitÃ©. Velocity sÃ©pare le code Java des pages web,
+    ce qui rend le site plus facile Ã  maintenir dans le long terme et fournit une alternative rÃ©aliste aux
+    <a href="http://java.sun.com/products/jsp/">Java Server Pages</a> (JSPs) ou Ã 
     <a href="http://www.php.net/">PHP</a>.
   </p>
   <p>
-    Velocity peut être utilisé pour générer des pages web, du SQL, du Postcript et tout ce qui peut être généré à partir
-    d'un gabarit. Vous pouvez l'utiliser comme un utilitaire indépendant pour générer du code source ou des états
-    imprimés, ou bien comme un composant intégré dans d'autres systèmes. A terme, Velocity fournira les services
+    Velocity peut Ãªtre utilisÃ© pour gÃ©nÃ©rer des pages web, du SQL, du Postcript et tout ce qui peut Ãªtre gÃ©nÃ©rÃ© Ã  partir
+    d'un gabarit. Vous pouvez l'utiliser comme un utilitaire indÃ©pendant pour gÃ©nÃ©rer du code source ou des Ã©tats
+    imprimÃ©s, ou bien comme un composant intÃ©grÃ© dans d'autres systÃ¨mes. A terme, Velocity fournira les services
     d'inclusion pour le framework d'applications web <a href="http://java.apache.org/turbine/">Turbine</a>.
-    Velocity et Turbine fournissent un service d'inclusion qui permettra de développer des applications web dans une
-    véritable architecture MVC.
+    Velocity et Turbine fournissent un service d'inclusion qui permettra de dÃ©velopper des applications web dans une
+    vÃ©ritable architecture MVC.
   </p>
 </section>
 
 <section name="Qu'est-ce que Velocity peut faire pour moi?" href="Qu'est-cequeVelocitypeutfairepourmoi?">
   <subsection name="L'exemple de MudStore" href="L'exempledeMudStore">
-    <p>Supposons que vous soyez un concepteur de pages pour une boutique en ligne spécialisée dans la vente de terre cuite. Appelons-la "The Online Mud Store". Les affaires marchent fort. Les clients passent commande pour différents types et diverses quantités de terre cuite. Ils s'identifient sur votre site avec un nom d'utilisateur et un mot de passe, ce qui leur permet de suivre leurs commandes et d'en passer de nouvelles. Pour l'instant, vous vendez de la glaise Terracotta, un produit qui marche bien. Quelques-uns de vos clients achètent régulièrement de la glaise Bright Red, que vous vendez aussi, bien sûr, mais qui n'a pas autant la cote et qui se trouve d'habitude reléguée dans les marges de vos pages. Les informations relatives à chaque client sont suivies dans votre base de données, et donc un jour la question se pose: pourquoi ne pas utiliser Velocity pour proposer des offres spéciales à une clientèle ciblée, celle qui est la plus intéressée à un type de marchandise?</p>
-    <p>Avec Velocity, il est très facile de personnaliser les pages web pour certains visiteurs. En tant que concepteur de pages du MudRoom, vous voulez maintenant réaliser la page d'accueil que verra votre client après s'être identifié sur votre site. </p>
-    <p>Vous tenez une réunion avec les ingénieurs développement de votre entreprise, et tout le monde s'accorde sur le fait que <em>$customer</em> contiendra les informations relatives au client qui s'est connecté et <em>$mudsOnSpecial</em> tous les types de terre disponibles à la vente en ce moment. L'objet <em>$flogger</em> contient différentes méthodes pour aider à la promotion de certains produits. Pour la tâche qui nous concerne, occupons-nous seulement de ces trois références. Rappelez-vous que vous n'avez pas à vous soucier de la manière dont les développeurs vont extraire les informations nécessaires de la base de données, vous supposez seulement que ça fonctionne -- ce qui vous permet de vous occuper de votre part du boulot et les développeurs de la leur.</p>
+    <p>Supposons que vous soyez un concepteur de pages pour une boutique en ligne spÃ©cialisÃ©e dans la vente de terre cuite. Appelons-la "The Online Mud Store". Les affaires marchent fort. Les clients passent commande pour diffÃ©rents types et diverses quantitÃ©s de terre cuite. Ils s'identifient sur votre site avec un nom d'utilisateur et un mot de passe, ce qui leur permet de suivre leurs commandes et d'en passer de nouvelles. Pour l'instant, vous vendez de la glaise Terracotta, un produit qui marche bien. Quelques-uns de vos clients achÃ¨tent rÃ©guliÃ¨rement de la glaise Bright Red, que vous vendez aussi, bien sÃ»r, mais qui n'a pas autant la cote et qui se trouve d'habitude relÃ©guÃ©e dans les marges de vos pages. Les informations relatives Ã  chaque client sont suivies dans votre base de donnÃ©es, et donc un jour la question se pose: pourquoi ne pas utiliser Velocity pour proposer des offres spÃ©ciales Ã  une clientÃ¨le ciblÃ©e, celle qui est la plus intÃ©ressÃ©e Ã  un type de marchandise?</p>
+    <p>Avec Velocity, il est trÃ¨s facile de personnaliser les pages web pour certains visiteurs. En tant que concepteur de pages du MudRoom, vous voulez maintenant rÃ©aliser la page d'accueil que verra votre client aprÃ¨s s'Ãªtre identifiÃ© sur votre site. </p>
+    <p>Vous tenez une rÃ©union avec les ingÃ©nieurs dÃ©veloppement de votre entreprise, et tout le monde s'accorde sur le fait que <em>$customer</em> contiendra les informations relatives au client qui s'est connectÃ© et <em>$mudsOnSpecial</em> tous les types de terre disponibles Ã  la vente en ce moment. L'objet <em>$flogger</em> contient diffÃ©rentes mÃ©thodes pour aider Ã  la promotion de certains produits. Pour la tÃ¢che qui nous concerne, occupons-nous seulement de ces trois rÃ©fÃ©rences. Rappelez-vous que vous n'avez pas Ã  vous soucier de la maniÃ¨re dont les dÃ©veloppeurs vont extraire les informations nÃ©cessaires de la base de donnÃ©es, vous supposez seulement que Ã§a fonctionne -- ce qui vous permet de vous occuper de votre part du boulot et les dÃ©veloppeurs de la leur.</p>
     <p>Vous pouvez inclure l'instruction VTL suivante dans votre page web:</p>
     <source><![CDATA[
 <HTML>
@@ -124,49 +124,49 @@ Hello $customer.Name!
 </table>
 ]]>
     </source>
-    <p>Les détails précis de l'instruction <em>foreach</em> seront décrits un peu plus loin; ce qui compte pour l'instant, c'est l'impact que peut avoir ce petit script sur votre site web. Quand un client qui apprécie habituellement la glaise BrightRed se connecte, et que ce produit est en vente, c'est ce qu'il verra en premier lieu. Si un client qui a acheté beaucoup de Terracotta se connecte, c'est la vente de Terracotta qui sera affichée en tête et au centre. La flexibilité de Velocity est très grande, limitée seulement par votre créativité.</p>
-    <p>Dans le manuel de référence du VTL, vous trouverez la documentation de beaucoup d'autres éléments de Velocity, qui ensemble vous donnent la puissance et la souplesse dont vous avez besoin pour faire de votre site web une <em>présence</em> sur le web. Lorsque vous deviendrez de plus en plus familiers avec ces éléments, vous mettrez à votre service toute la puissance de Velocity.</p>
+    <p>Les dÃ©tails prÃ©cis de l'instruction <em>foreach</em> seront dÃ©crits un peu plus loin; ce qui compte pour l'instant, c'est l'impact que peut avoir ce petit script sur votre site web. Quand un client qui apprÃ©cie habituellement la glaise BrightRed se connecte, et que ce produit est en vente, c'est ce qu'il verra en premier lieu. Si un client qui a achetÃ© beaucoup de Terracotta se connecte, c'est la vente de Terracotta qui sera affichÃ©e en tÃªte et au centre. La flexibilitÃ© de Velocity est trÃ¨s grande, limitÃ©e seulement par votre crÃ©ativitÃ©.</p>
+    <p>Dans le manuel de rÃ©fÃ©rence du VTL, vous trouverez la documentation de beaucoup d'autres Ã©lÃ©ments de Velocity, qui ensemble vous donnent la puissance et la souplesse dont vous avez besoin pour faire de votre site web une <em>prÃ©sence</em> sur le web. Lorsque vous deviendrez de plus en plus familiers avec ces Ã©lÃ©ments, vous mettrez Ã  votre service toute la puissance de Velocity.</p>
   </subsection>
 </section>
 
 <section name="Introduction au Velocity Template Language (VTL)" href="IntroductionauVelocityTemplateLanguage(VTL)">
-  <p>Le Velocity Template Language (VTL) a été conçu pour inclure du contenu dynamique dans une page web de la manière la plus facile, la plus simple et la plus propre. Même un infographiste avec peu ou pas de bagage en programmation sera rapidement capable d'utiliser le VTL pour incorporer du contenu dynamique dans un site web.</p>
-  <p>VTL utilise des <em>références</em> pour embarquer du contenu dynamique dans un site web, et une variable est un type de référence. Une variable fait référence à quelque chose qui est défini dans le code Java, ou elle peut prendre sa valeur d'une <em>instruction</em> VTL dans la page web. Voici un exemple d'instruction VTL</p>
+  <p>Le Velocity Template Language (VTL) a Ã©tÃ© conÃ§u pour inclure du contenu dynamique dans une page web de la maniÃ¨re la plus facile, la plus simple et la plus propre. MÃªme un infographiste avec peu ou pas de bagage en programmation sera rapidement capable d'utiliser le VTL pour incorporer du contenu dynamique dans un site web.</p>
+  <p>VTL utilise des <em>rÃ©fÃ©rences</em> pour embarquer du contenu dynamique dans un site web, et une variable est un type de rÃ©fÃ©rence. Une variable fait rÃ©fÃ©rence Ã  quelque chose qui est dÃ©fini dans le code Java, ou elle peut prendre sa valeur d'une <em>instruction</em> VTL dans la page web. Voici un exemple d'instruction VTL</p>
   <source><![CDATA[
 #set( $a = "Velocity" )
 ]]></source>
   <p>
-    Cette instruction VTL -- comme toutes les instructions VTL d'ailleurs -- commence par le caractère <em>#</em> et
+    Cette instruction VTL -- comme toutes les instructions VTL d'ailleurs -- commence par le caractÃ¨re <em>#</em> et
     contient une directive <em>set</em>. Quand un visiteur demande votre page web, le moteur de substitution Velocity
-    (Velocity Templating Engine) recherche dans votre page tous les caractères <em>#</em>, détermine lesquels marquent le
-    début d'instructions VTL, et quels caractères <em>#</em> n'ont rien à voir avec le VTL.
+    (Velocity Templating Engine) recherche dans votre page tous les caractÃ¨res <em>#</em>, dÃ©termine lesquels marquent le
+    dÃ©but d'instructions VTL, et quels caractÃ¨res <em>#</em> n'ont rien Ã  voir avec le VTL.
   </p>
   <p>
-    Le caractère <em>#</em>est suivi d'une directive, <em>set</em>. La directive <em>set</em>utilise une expression
-    (entre parenthèses) -- une équation qui assigne une <em>valeur</em>à une <em>variable</em>. La variable est écrite
-    à gauche et sa valeur à droite; les deux sont séparés par un caractère <em>=</em>.
+    Le caractÃ¨re <em>#</em>est suivi d'une directive, <em>set</em>. La directive <em>set</em>utilise une expression
+    (entre parenthÃ¨ses) -- une Ã©quation qui assigne une <em>valeur</em>Ã  une <em>variable</em>. La variable est Ã©crite
+    Ã  gauche et sa valeur Ã  droite; les deux sont sÃ©parÃ©s par un caractÃ¨re <em>=</em>.
   </p>
   <p>
     Dans l'exemple ci-dessus, la variable est <em>$a</em>et la valeur est <em>Velocity</em>. Cette variable, comme toutes
-    les références, commence par le caractère <em>$</em>. Les valeurs sont toujours entourées d'apostrophes;
-    dans Velocity, il n'y a jamais de confusion possible entre les types de données puisque seules des chaînes de
-    caractères (informations de type texte) peuvent être passées à des variables.
+    les rÃ©fÃ©rences, commence par le caractÃ¨re <em>$</em>. Les valeurs sont toujours entourÃ©es d'apostrophes;
+    dans Velocity, il n'y a jamais de confusion possible entre les types de donnÃ©es puisque seules des chaÃ®nes de
+    caractÃ¨res (informations de type texte) peuvent Ãªtre passÃ©es Ã  des variables.
   </p>
   <p>
-    Le truc suivant peut être utile pour mieux comprendre comment Velocity fonctionne :<strong>Les références commencent
-    par <em>$</em> et sont utilisées pour récupérer quelque chose. Les directives commencent par <em>#</em>et sont
-    utilisées pour faire quelque chose.</strong>
+    Le truc suivant peut Ãªtre utile pour mieux comprendre comment Velocity fonctionne :<strong>Les rÃ©fÃ©rences commencent
+    par <em>$</em> et sont utilisÃ©es pour rÃ©cupÃ©rer quelque chose. Les directives commencent par <em>#</em>et sont
+    utilisÃ©es pour faire quelque chose.</strong>
   </p>
   <p>
-    Dans l'exemple ci-dessus, <em>#set</em>est utilisé pour assigner une valeur à une variable. La variable, <em>$a</em>,
-    peut alors être utilisée dans le gabarit pour produire "Velocity".
+    Dans l'exemple ci-dessus, <em>#set</em>est utilisÃ© pour assigner une valeur Ã  une variable. La variable, <em>$a</em>,
+    peut alors Ãªtre utilisÃ©e dans le gabarit pour produire "Velocity".
   </p>
 </section>
 
 <section name="Hello Velocity World!" href="HelloVelocityWorld!">
   <p>
-    Une fois qu'une valeur a été assignée à une variable, vous pouvez faire référence à cette variable n'importe où dans
-    votre document HTML. Dans l'exemple suivant, une valeur est assignée à <em>$foo</em> et référencée plus loin.
+    Une fois qu'une valeur a Ã©tÃ© assignÃ©e Ã  une variable, vous pouvez faire rÃ©fÃ©rence Ã  cette variable n'importe oÃ¹ dans
+    votre document HTML. Dans l'exemple suivant, une valeur est assignÃ©e Ã  <em>$foo</em> et rÃ©fÃ©rencÃ©e plus loin.
   </p>
   <source><![CDATA[
 <html>
@@ -176,30 +176,30 @@ Hello $foo World!
 </body>
 </html>
 ]]></source>
-  <p>Le résultat est une page web où s'imprime "Hello Velocity World!".</p>
+  <p>Le rÃ©sultat est une page web oÃ¹ s'imprime "Hello Velocity World!".</p>
   <p>
-    Pour rendre les instructions contenant des directives VTL plus lisibles, nous vous encourageons à débuter chaque
-    instruction VTL sur une nouvelle ligne -- mais vous n'êtes pas obligé de procéder ainsi. La directive <em>set</em>
-    sera revue avec davantage de détails plus loin.
+    Pour rendre les instructions contenant des directives VTL plus lisibles, nous vous encourageons Ã  dÃ©buter chaque
+    instruction VTL sur une nouvelle ligne -- mais vous n'Ãªtes pas obligÃ© de procÃ©der ainsi. La directive <em>set</em>
+    sera revue avec davantage de dÃ©tails plus loin.
   </p>
 </section>
 
 <section name="Les commentaires" href="Lescommentaires">
   <p>
-    Les commentaires permettent d'inclure du texte descriptif qui ne sera pas reporté dans la sortie du moteur
-    d'inclusion. Les commentaires sont une manière utile de se rappeler et d'expliquer à d'autres ce que font les
-    instructions VTL, ou à toute autre fin utile. Voici un exemple de commentaire en VTL.
+    Les commentaires permettent d'inclure du texte descriptif qui ne sera pas reportÃ© dans la sortie du moteur
+    d'inclusion. Les commentaires sont une maniÃ¨re utile de se rappeler et d'expliquer Ã  d'autres ce que font les
+    instructions VTL, ou Ã  toute autre fin utile. Voici un exemple de commentaire en VTL.
   </p>
   <source><![CDATA[
 ## Ceci est un commentaire d'une seule ligne.
 ]]></source>
   <p>
-    Un commentaire d'une ligne commence par <em>##</em> et se termine à la fin de la ligne. Si vous voulez écrire
+    Un commentaire d'une ligne commence par <em>##</em> et se termine Ã  la fin de la ligne. Si vous voulez Ã©crire
     quelques lignes de commentaires, pas besoin de multiplier ces commentaires d'une ligne. Les commentaires multi-lignes,
-    qui commencent par <em>#*</em> et se terminent par <em>*#</em>, sont là pour ce cas de figure.
+    qui commencent par <em>#*</em> et se terminent par <em>*#</em>, sont lÃ  pour ce cas de figure.
   </p>
   <source><![CDATA[
-Ceci est du texte à l'extérieur du commentaire multi-lignes. Les visiteurs du site peuvent le voir.
+Ceci est du texte Ã  l'extÃ©rieur du commentaire multi-lignes. Les visiteurs du site peuvent le voir.
 
 #*
   Ici commence donc un commentaire de plusieurs lignes.
@@ -208,27 +208,27 @@ Ceci est du texte à l'extérieur du commentaire multi-lignes. Les visiteurs du si
   (Velocity Templating Engine) l'ignore.
 *#
 
-Ce texte-ci est à l'extérieur du commentaire: il est visible.
+Ce texte-ci est Ã  l'extÃ©rieur du commentaire: il est visible.
 ]]></source>
-  <p>Voici quelques exemples pour clarifier la manière dont les commentaires d'une et plusieurs lignes fonctionnent:</p>
+  <p>Voici quelques exemples pour clarifier la maniÃ¨re dont les commentaires d'une et plusieurs lignes fonctionnent:</p>
   <source><![CDATA[
 Ce texte est visible. ## Ce texte ne l'est pas.
 Ce texte est visible.
 Ce texte est visible. #* Ce texte, qui fait partie d'un commentaire
 de plusieurs lignes, n'est pas visible. Ce texte n'est pas visible;
 il faut aussi partie du commentaire multi-lignes.
-Ce texte n'est toujours pas visible. *# Ce texte est à l'extérieur
+Ce texte n'est toujours pas visible. *# Ce texte est Ã  l'extÃ©rieur
 du commentaire, il est donc visible.
 ## Ce texte n'est pas visible.
 ]]></source>
   <p>
-    Il y a un troisième type de commentaires, le bloc de commentaires VTL, que vous pouvez utiliser pour écrire des
+    Il y a un troisiÃ¨me type de commentaires, le bloc de commentaires VTL, que vous pouvez utiliser pour Ã©crire des
     informations telles que l'auteur du document ou la version.
   </p>
   <source><![CDATA[
 #**
 Ceci est un bloc de commentaires VTL, qui
-peut être utilisé pour inscrire des informations
+peut Ãªtre utilisÃ© pour inscrire des informations
 telles que l'auteur ou la version du document.
 @author
 @version 5
@@ -236,22 +236,22 @@ telles que l'auteur ou la version du document.
 ]]></source>
 </section>
 
-<section name="Les références" href="Lesréférences">
+<section name="Les rÃ©fÃ©rences" href="LesrÃ©fÃ©rences">
   <p>
-    Il y a trois types de références en VTL: les variables, les propriétés et les méthodes. En tant que concepteur
-    utilisant le VTL, vous et vos ingénieurs devez vous mettre d'accord sur les noms des références, de manière à pouvoir
+    Il y a trois types de rÃ©fÃ©rences en VTL: les variables, les propriÃ©tÃ©s et les mÃ©thodes. En tant que concepteur
+    utilisant le VTL, vous et vos ingÃ©nieurs devez vous mettre d'accord sur les noms des rÃ©fÃ©rences, de maniÃ¨re Ã  pouvoir
     les utiliser correctement dans vos gabarits de pages.
   </p>
   <p>
-    Tout ce qui entre et sort d'une référence est traité comme un objet chaîne de caractères. S'il y a un objet qui
-    représente <em>$foo</em>(un objet Integer par exemple), Velocity appellera sa méthode <code>.toString()</code>
+    Tout ce qui entre et sort d'une rÃ©fÃ©rence est traitÃ© comme un objet chaÃ®ne de caractÃ¨res. S'il y a un objet qui
+    reprÃ©sente <em>$foo</em>(un objet Integer par exemple), Velocity appellera sa mÃ©thode <code>.toString()</code>
     pour convertir l'objet en String.
   </p>
   <p>
     <a name="Variables"><strong>Variables</strong></a>
     <br/>
-    La notation abrégée pour une variable consiste en un caractère "$" initial suivi d'un <em>Identificateur</em>VTL.
-    Un identificateur VTL doit commencer par une lettre (a .. z ou A .. Z). Le reste des caractères est limité aux types
+    La notation abrÃ©gÃ©e pour une variable consiste en un caractÃ¨re "$" initial suivi d'un <em>Identificateur</em>VTL.
+    Un identificateur VTL doit commencer par une lettre (a .. z ou A .. Z). Le reste des caractÃ¨res est limitÃ© aux types
     suivants:
   </p>
   <p>
@@ -262,7 +262,7 @@ telles que l'auteur ou la version du document.
       <li>trait de soulignement ("_")</li>
     </ul>
   </p>
-  <p>Voici quelques exemples de références valides en VTL: </p>
+  <p>Voici quelques exemples de rÃ©fÃ©rences valides en VTL: </p>
   <source><![CDATA[
 $foo
 $mudSlinger
@@ -271,20 +271,20 @@ $mud_slinger
 $mudSlinger1
 ]]></source>
   <p>
-    Lorsque VTL référence une variable, telle que <em>$foo</em>, la variable peut prendre sa valeur soit d'une directive
+    Lorsque VTL rÃ©fÃ©rence une variable, telle que <em>$foo</em>, la variable peut prendre sa valeur soit d'une directive
     <em>set</em> dans le gabarit, soit d'un programme Java. Par exemple, si la variable Java <em>$foo</em> a la valeur
-    <em>bar</em> à la ligne à laquelle il est fait appel au gabarit, <em>bar</em> remplace toutes les instances de
+    <em>bar</em> Ã  la ligne Ã  laquelle il est fait appel au gabarit, <em>bar</em> remplace toutes les instances de
     <em>$foo</em> dans la page web. Autrement, si j'inclus l'instruction
   </p>
   <source><![CDATA[
 #set( $foo = "bar" )
 ]]></source>
-  <p>la sortie sera la même pour toutes les instances de <em>$foo</em> qui suivent cette directive.</p>
+  <p>la sortie sera la mÃªme pour toutes les instances de <em>$foo</em> qui suivent cette directive.</p>
   <p>
-    <a name="Propriétés"><strong>Propriétés</strong></a>
-    <br/>Les propriétés sont la seconde espèce de références en VTL et elles ont un format qui les distingue.
-    La notation abrégée consiste en un caractère <em>$</em> initial suivi d'un identifiant VTL, suivi d'un point (".")
-    et d'un autre identifiant VTL. Quelques exemples de références valides de propriétés en VTL:
+    <a name="PropriÃ©tÃ©s"><strong>PropriÃ©tÃ©s</strong></a>
+    <br/>Les propriÃ©tÃ©s sont la seconde espÃ¨ce de rÃ©fÃ©rences en VTL et elles ont un format qui les distingue.
+    La notation abrÃ©gÃ©e consiste en un caractÃ¨re <em>$</em> initial suivi d'un identifiant VTL, suivi d'un point (".")
+    et d'un autre identifiant VTL. Quelques exemples de rÃ©fÃ©rences valides de propriÃ©tÃ©s en VTL:
   </p>
   <source><![CDATA[
 $customer.Address
@@ -292,19 +292,19 @@ $purchase.Total
 ]]></source>
   <p>
     Prenons le premier exemple, <em>$customer.Address</em>. Cette expression peut avoir deux significations.
-    Elle peut signifier: "Regarde dans la table de hachage identifiée par <em>customer</em> et renvoie la valeur associée
-    à la clé <em>Address</em>. Mais <em>$customer.Address</em> peut aussi faire référence à une méthode (les références
-    qui désignent des méthodes seront discutées dans la section suivante); <em>$customer.Address</em> pourrait être
-    une manière abrégée d'écrire <em>$customer.getAddress()</em>. Quand quelqu'un demande votre page, Velocity va
-    déterminer laquelle de ces deux possibilités a un sens, et retournera la valeur appropriée.
+    Elle peut signifier: "Regarde dans la table de hachage identifiÃ©e par <em>customer</em> et renvoie la valeur associÃ©e
+    Ã  la clÃ© <em>Address</em>. Mais <em>$customer.Address</em> peut aussi faire rÃ©fÃ©rence Ã  une mÃ©thode (les rÃ©fÃ©rences
+    qui dÃ©signent des mÃ©thodes seront discutÃ©es dans la section suivante); <em>$customer.Address</em> pourrait Ãªtre
+    une maniÃ¨re abrÃ©gÃ©e d'Ã©crire <em>$customer.getAddress()</em>. Quand quelqu'un demande votre page, Velocity va
+    dÃ©terminer laquelle de ces deux possibilitÃ©s a un sens, et retournera la valeur appropriÃ©e.
   </p>
   <p>
-    <a name="Méthodes"><strong>Méthodes</strong></a>
-    <br/>Une méthode est définie dans le code Java et peut faire quelque chose d'utile, comme effectuer un calcul ou
-    prendre une décision. Les méthodes sont des références qui consistent en un caractère "$" initial, suivi d'un
-    identifiant VTL, suivi d'un <em>corps de méthode</em>. Un corps de méthode VTL consiste en un identifiant VTL
-    suivi du caractère parenthèse ouvrante ("("), éventuellement suivi d'une liste de paramètres, suivi du caractère
-    parenthèse fermante (")"). Quelques exemples de références de méthodes valides en VTL:
+    <a name="MÃ©thodes"><strong>MÃ©thodes</strong></a>
+    <br/>Une mÃ©thode est dÃ©finie dans le code Java et peut faire quelque chose d'utile, comme effectuer un calcul ou
+    prendre une dÃ©cision. Les mÃ©thodes sont des rÃ©fÃ©rences qui consistent en un caractÃ¨re "$" initial, suivi d'un
+    identifiant VTL, suivi d'un <em>corps de mÃ©thode</em>. Un corps de mÃ©thode VTL consiste en un identifiant VTL
+    suivi du caractÃ¨re parenthÃ¨se ouvrante ("("), Ã©ventuellement suivi d'une liste de paramÃ¨tres, suivi du caractÃ¨re
+    parenthÃ¨se fermante (")"). Quelques exemples de rÃ©fÃ©rences de mÃ©thodes valides en VTL:
   </p>
   <source><![CDATA[
 $customer.getAddress()
@@ -314,43 +314,43 @@ $person.setAttributes( ["Strange", "Weird", "Excited"] )
 ]]></source>
   <p>
     Les deux premiers exemples -- <em>$customer.getAddress()</em> et 
-    <em>$purchase.getTotal()</em> -- peuvent avoir l'air semblables à ceux utilisés dans la section précédente,
-    consacrée aux Propriétés, <em>$customer.Address</em> et
-    <em>$purchase.Total</em>. Si vous avez deviné que ces exemples sont liés entre eux d'une manière ou d'une autre,
+    <em>$purchase.getTotal()</em> -- peuvent avoir l'air semblables Ã  ceux utilisÃ©s dans la section prÃ©cÃ©dente,
+    consacrÃ©e aux PropriÃ©tÃ©s, <em>$customer.Address</em> et
+    <em>$purchase.Total</em>. Si vous avez devinÃ© que ces exemples sont liÃ©s entre eux d'une maniÃ¨re ou d'une autre,
     vous avez raison!
   </p>
   <p>
-    Les propriétés VTL peuvent être utilisées comme une notation abrégée pour des méthodes VTL.
-    La propriété <em>$customer.Address</em> a exactement le même effet que l'utilisation de la méthode
-    <em>$customer.getAddress()</em>. Il est généralement préférable d'utiliser une propriété lorsqu'il y en a une
-    de disponible. La principale différence entre les Propriétés et les Méthodes est que pour les méthodes, on peut
-    spécifier une liste de paramètres.
+    Les propriÃ©tÃ©s VTL peuvent Ãªtre utilisÃ©es comme une notation abrÃ©gÃ©e pour des mÃ©thodes VTL.
+    La propriÃ©tÃ© <em>$customer.Address</em> a exactement le mÃªme effet que l'utilisation de la mÃ©thode
+    <em>$customer.getAddress()</em>. Il est gÃ©nÃ©ralement prÃ©fÃ©rable d'utiliser une propriÃ©tÃ© lorsqu'il y en a une
+    de disponible. La principale diffÃ©rence entre les PropriÃ©tÃ©s et les MÃ©thodes est que pour les mÃ©thodes, on peut
+    spÃ©cifier une liste de paramÃ¨tres.
   </p>
-  <p>La notation abrégée peut être utilisée pour les méthodes suivantes</p>
+  <p>La notation abrÃ©gÃ©e peut Ãªtre utilisÃ©e pour les mÃ©thodes suivantes</p>
   <source><![CDATA[
 $sun.getPlanets()
 $annelid.getDirt()
 $album.getPhoto()
 ]]></source>
   <p>
-    On s'attend logiquement à ce que ces méthodes retournent les noms des planètes qui tournent autour du soleil,
+    On s'attend logiquement Ã  ce que ces mÃ©thodes retournent les noms des planÃ¨tes qui tournent autour du soleil,
     qu'elles nourissent notre ver de terre ou prennent une photo dans un album. Il n'y a que la notation longue
-    qui fonctionne pour les méthodes suivantes:
+    qui fonctionne pour les mÃ©thodes suivantes:
   </p>
   <source><![CDATA[
 $sun.getPlanet( ["Earth", "Mars", "Neptune"] )
-## On ne peut pas passer une liste de paramètres avec $sun.Planets
+## On ne peut pas passer une liste de paramÃ¨tres avec $sun.Planets
 
 $sisyphus.pushRock()
 ## Velocity suppose que je veux dire $sisyphus.getRock()
 
 $book.setTitle( "Homage to Catalonia" )
-## On ne peut pas passer une liste de paramètres
+## On ne peut pas passer une liste de paramÃ¨tres
 ]]></source>
   <p>
-    <a name="Notationformelledesréférences"><strong>Notation formelle des références</strong></a>
-    <br/>Dans les exemples ci-dessus, nous avons utilisé la notation abrégée pour les références, mais il y a aussi
-    une notation formelle pour les références, illustrée ci-dessous:
+    <a name="NotationformelledesrÃ©fÃ©rences"><strong>Notation formelle des rÃ©fÃ©rences</strong></a>
+    <br/>Dans les exemples ci-dessus, nous avons utilisÃ© la notation abrÃ©gÃ©e pour les rÃ©fÃ©rences, mais il y a aussi
+    une notation formelle pour les rÃ©fÃ©rences, illustrÃ©e ci-dessous:
   </p>
   <source><![CDATA[
 ${mudSlinger}
@@ -358,92 +358,92 @@ ${customer.Address}
 ${purchase.getTotal()}
 ]]></source>
   <p>
-    Dans presque tous les cas, vous utiliserez pour les références la notation abrégée, mais dans certains cas
-    la notation formelle est requise pour une exécution correcte.
+    Dans presque tous les cas, vous utiliserez pour les rÃ©fÃ©rences la notation abrÃ©gÃ©e, mais dans certains cas
+    la notation formelle est requise pour une exÃ©cution correcte.
   </p>
   <p>
-    Supposons que vous soyez en train de construire dynamiquement une phrase dans laquelle <em>$vice</em> doit être
-    utilisé comme base pour la construction d'un nom de la phrase. Le but est de permettre à quelqu'un de choisir le mot
-    de base et de produire l'un des deux résultats suivants:
+    Supposons que vous soyez en train de construire dynamiquement une phrase dans laquelle <em>$vice</em> doit Ãªtre
+    utilisÃ© comme base pour la construction d'un nom de la phrase. Le but est de permettre Ã  quelqu'un de choisir le mot
+    de base et de produire l'un des deux rÃ©sultats suivants:
     "Jacques est pyromane" ou "Jacques est cleptomane".
-    L'utilisation de la notation abrégée ne convient pas pour cette tâche. Considérons en effet l'exemple suivant:
+    L'utilisation de la notation abrÃ©gÃ©e ne convient pas pour cette tÃ¢che. ConsidÃ©rons en effet l'exemple suivant:
   </p>
   <source><![CDATA[
 Jacques est un $vicemane.
 ]]></source>
   <p>
-    La syntaxe est ici ambiguë, et Velocity suppose que <em>$vicemane</em>, et non <em>$vice</em>, est l'identifiant
+    La syntaxe est ici ambiguÃ«, et Velocity suppose que <em>$vicemane</em>, et non <em>$vice</em>, est l'identifiant
     que vous pensiez utiliser. Ne trouvant pas de valeur pour <em>$vicemane</em>, il renverra <em>$vicemane</em>.
-    L'utilisation de la notation formelle peut résoudre ce problème.
+    L'utilisation de la notation formelle peut rÃ©soudre ce problÃ¨me.
   </p>
   <source><![CDATA[
 Jacques est un ${vice}mane.
 ]]></source>
   <p>
-    Cette fois Velocity sait que <em>$vice</em>, et non <em>$vicemane</em>, est la référence. La notation formelle est
-    souvent utile quand les références sont directement adjacentes à du texte au sein d'un gabarit.
+    Cette fois Velocity sait que <em>$vice</em>, et non <em>$vicemane</em>, est la rÃ©fÃ©rence. La notation formelle est
+    souvent utile quand les rÃ©fÃ©rences sont directement adjacentes Ã  du texte au sein d'un gabarit.
   </p>
   <p>
-    <a name="Notationsilencieusedesréférences"><strong>Notation silencieuse des références</strong></a>
-    <br/>Lorsque Velocity rencontre une référence non définie, son comportement normal est de produire une image de la
-    référence. Par exemple, supposons que la référence suivante apparaisse dans un gabarit VTL:
+    <a name="NotationsilencieusedesrÃ©fÃ©rences"><strong>Notation silencieuse des rÃ©fÃ©rences</strong></a>
+    <br/>Lorsque Velocity rencontre une rÃ©fÃ©rence non dÃ©finie, son comportement normal est de produire une image de la
+    rÃ©fÃ©rence. Par exemple, supposons que la rÃ©fÃ©rence suivante apparaisse dans un gabarit VTL:
   </p>
   <source><![CDATA[
 <input type="text" name="email" value="$email"/>
 ]]></source>
   <p>
-    Quand le formulaire est chargé pour la première fois, la variable référencée par <em>$email</em> n'a pas de valeur,
-    mais vous préfèreriez un champ de texte vide à la valeur "$email". L'utilisation de la notation silencieuse contourne
+    Quand le formulaire est chargÃ© pour la premiÃ¨re fois, la variable rÃ©fÃ©rencÃ©e par <em>$email</em> n'a pas de valeur,
+    mais vous prÃ©fÃ¨reriez un champ de texte vide Ã  la valeur "$email". L'utilisation de la notation silencieuse contourne
     le comportement normal de Velocity; au lieu d'utiliser <em>$email</em> dans le code VTL, utilisez <em>$!email</em>.
-    L'exemple précédent ressemblerait donc à ceci:
+    L'exemple prÃ©cÃ©dent ressemblerait donc Ã  ceci:
   </p>
   <source><![CDATA[
 <input type="text" name="email" value="$!email"/>
 ]]></source>
   <p>
-    A présent, quand le formulaire est chargé pour la première fois et que <em>$email</em> n'a toujours pas de valeur,
-    une chaîne vide sera produite au lieu de "$email".
+    A prÃ©sent, quand le formulaire est chargÃ© pour la premiÃ¨re fois et que <em>$email</em> n'a toujours pas de valeur,
+    une chaÃ®ne vide sera produite au lieu de "$email".
   </p>
-  <p>La notation formelle et la notation silencieuse peuvent être utilisées ensemble, comme illustré ci-dessous.</p>
+  <p>La notation formelle et la notation silencieuse peuvent Ãªtre utilisÃ©es ensemble, comme illustrÃ© ci-dessous.</p>
   <source><![CDATA[
 <input type="text" name="email" value="$!{email}"/>
 ]]></source>
 </section>
 
-<section name="Sortie littérale" href="Sortielittérale">
+<section name="Sortie littÃ©rale" href="SortielittÃ©rale">
   <p>
-    VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
-    quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
-    du caractère <em>$</em>.
+    VTL utilise des caractÃ¨res spÃ©ciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tÃ¢che; il faut donc prendre
+    quelques prÃ©cautions pour utiliser ces caractÃ¨res dans vos gabarits. Cette section est consacrÃ©e Ã  l'Ã©chappement
+    du caractÃ¨re <em>$</em>.
   </p>
   <p>
     <a name="Devise"><strong>Devise</strong></a>
-    <br/>Il n'y a pas de problème particulier à écrire "J'ai acheté un sac de 2 kg de patates au marché de la ferme
+    <br/>Il n'y a pas de problÃ¨me particulier Ã  Ã©crire "J'ai achetÃ© un sac de 2 kg de patates au marchÃ© de la ferme
     pour seulement $2.50!". Comme dit plus haut, un identifiant VTL commence toujours par une lettre, majuscule ou
-    minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
+    minuscule, et donc $2.50 ne serait pas pris par erreur pour une rÃ©fÃ©rence.
   </p>
   <p>
-    <a name="EchapperdesréférencesVTLvalides"><strong>Echapper des références VTL valides</strong></a>
+    <a name="EchapperdesrÃ©fÃ©rencesVTLvalides"><strong>Echapper des rÃ©fÃ©rences VTL valides</strong></a>
     <br/>Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
-    caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
-    fait en utilisant le caractère backslash (<em>\</em>).
+    caractÃ¨res spÃ©ciaux est le meilleur moyen de traiter les caractÃ¨res spÃ©ciaux du VTL dans vos gabarits, et ceci se
+    fait en utilisant le caractÃ¨re backslash (<em>\</em>).
   </p>
   <source><![CDATA[
 #set( $email = "foo" )
 $email
 ]]></source>
   <p>
-    Lorsque Velocity rencontre une référence à <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
-    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est défini. Si <em>$email</em>
-    n'était pas défini, la sortie serait <em>$email</em>.
+    Lorsque Velocity rencontre une rÃ©fÃ©rence Ã  <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
+    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est dÃ©fini. Si <em>$email</em>
+    n'Ã©tait pas dÃ©fini, la sortie serait <em>$email</em>.
   </p>
   <p>
-    Supposons que <em>$email</em> soit défini (par exemple, cette référence a la valeur <em>foo</em>)
-    et que vous vouliez produire <em>$email</em>. Il y a différentes manières de le faire, mais la plus simple est
-    d'utiliser le caractère d'échappement.
+    Supposons que <em>$email</em> soit dÃ©fini (par exemple, cette rÃ©fÃ©rence a la valeur <em>foo</em>)
+    et que vous vouliez produire <em>$email</em>. Il y a diffÃ©rentes maniÃ¨res de le faire, mais la plus simple est
+    d'utiliser le caractÃ¨re d'Ã©chappement.
   </p>
   <source><![CDATA[
-## La ligne qui suit définit $email dans ce gabarit:
+## La ligne qui suit dÃ©finit $email dans ce gabarit:
 #set( $email = "foo" )
 $email
 \$email
@@ -458,9 +458,9 @@ $email
 \$email
 ]]></source>
   <p>
-    Notez que le caractère <em>\</em> s'applique au <em>$</em> à partir de la gauche. Cette règle d'application
-    à partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
-    à ce qui se passe lorsque <em>$email</em> n'est pas défini.
+    Notez que le caractÃ¨re <em>\</em> s'applique au <em>$</em> Ã  partir de la gauche. Cette rÃ¨gle d'application
+    Ã  partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
+    Ã  ce qui se passe lorsque <em>$email</em> n'est pas dÃ©fini.
   </p>
   <source><![CDATA[
 $email
@@ -476,75 +476,75 @@ $email
 \\\$email
 ]]></source>
   <p>
-    Remarquez comment Velocity traite les références définies différemment de celles qui n'ont pas été définies.
-    Voici par exemple une directive set qui donne à <em>$foo</em> la valeur <em>gibbous</em>.
+    Remarquez comment Velocity traite les rÃ©fÃ©rences dÃ©finies diffÃ©remment de celles qui n'ont pas Ã©tÃ© dÃ©finies.
+    Voici par exemple une directive set qui donne Ã  <em>$foo</em> la valeur <em>gibbous</em>.
   </p>
   <source><![CDATA[
 #set( $foo = "gibbous" )
 $moon = $foo
 ]]></source>
   <p>
-    La sortie sera: <em>$moon = gibbous</em> -- où <em>$moon</em> est rendu littéralement puisqu'il n'est pas défini,
+    La sortie sera: <em>$moon = gibbous</em> -- oÃ¹ <em>$moon</em> est rendu littÃ©ralement puisqu'il n'est pas dÃ©fini,
     alors que <em>gibbous</em> est rendu au lieu de <em>$foo</em>.
   </p>
-  <p>Il est aussi possible d'échapper les directives VTL; ceci est décrit plus en détail dans la section Directives.</p>
+  <p>Il est aussi possible d'Ã©chapper les directives VTL; ceci est dÃ©crit plus en dÃ©tail dans la section Directives.</p>
 </section>
 
 <section name="Substitution de cas" href="Substitutiondecas">
   <p>
-    Maintenant que les références vous sont familières, vous pouvez commencer à les mettre en pratique dans vos propres
-    gabarits. Les références, dans Velocity, tirent avantage de certains principes Java que les concepteurs de gabarits
+    Maintenant que les rÃ©fÃ©rences vous sont familiÃ¨res, vous pouvez commencer Ã  les mettre en pratique dans vos propres
+    gabarits. Les rÃ©fÃ©rences, dans Velocity, tirent avantage de certains principes Java que les concepteurs de gabarits
     vont trouver commodes. Par exemple:
   </p>
   <source><![CDATA[
 $foo
 
 $foo.getBar()
-## est équivalent à
+## est Ã©quivalent Ã 
 $foo.Bar
 
 $data.setUser("jon")
-## est équivalent à
+## est Ã©quivalent Ã 
 #set( $data.User = "jon" )
 
 $data.getRequest().getServerName()
-## est équivalent à
+## est Ã©quivalent Ã 
 $data.Request.ServerName
-## est équivalent à
+## est Ã©quivalent Ã 
 ${data.Request.ServerName}
 ]]></source>
   <p>
-    Ces exemples illustrent différentes manières d'utiliser les mêmes références. Velocity tire parti de l'introspection
-    Java et des caractéristiques des beans pour résoudre les noms de référence en objets du contexte et aussi en leurs
-    méthodes. Il est possible d'inclure et d'évaluer des références à peu près partout dans votre gabarit.
+    Ces exemples illustrent diffÃ©rentes maniÃ¨res d'utiliser les mÃªmes rÃ©fÃ©rences. Velocity tire parti de l'introspection
+    Java et des caractÃ©ristiques des beans pour rÃ©soudre les noms de rÃ©fÃ©rence en objets du contexte et aussi en leurs
+    mÃ©thodes. Il est possible d'inclure et d'Ã©valuer des rÃ©fÃ©rences Ã  peu prÃ¨s partout dans votre gabarit.
   </p>
   <p>
-    Velocity utilise comme modèles les spécifications des Beans telles qu'elles ont été définies par Sun Microsystems;
-    il est donc sensible à la casse (majuscules/minuscules); les développeurs se sont toutefois battus pour intercepter
-    et corriger les erreurs des utilisateurs chaque fois que c'est possible. Lorsque la méthode <em>getFoo()</em> est
-    référencée dans un gabarit par <code>$bar.foo</code>, Velocity essayera d'abord <code>$getfoo</code>. Si ceci échoue,
-    Velocity essayera <code>$getFoo</code>. De même, si un gabarit fait référence à <code>$bar.Foo</code>,
+    Velocity utilise comme modÃ¨les les spÃ©cifications des Beans telles qu'elles ont Ã©tÃ© dÃ©finies par Sun Microsystems;
+    il est donc sensible Ã  la casse (majuscules/minuscules); les dÃ©veloppeurs se sont toutefois battus pour intercepter
+    et corriger les erreurs des utilisateurs chaque fois que c'est possible. Lorsque la mÃ©thode <em>getFoo()</em> est
+    rÃ©fÃ©rencÃ©e dans un gabarit par <code>$bar.foo</code>, Velocity essayera d'abord <code>$getfoo</code>. Si ceci Ã©choue,
+    Velocity essayera <code>$getFoo</code>. De mÃªme, si un gabarit fait rÃ©fÃ©rence Ã  <code>$bar.Foo</code>,
     Velocity essayera d'abord <em>$getFoo()</em> et ensuite <em>getfoo()</em>.
   </p>
   <p>
-    Note: <em>Dans un gabarit, les références à des variables d'instance ne sont pas résolues.</em> Il n'y a que les
-    références équivalentes aux attributs des accesseurs (getter / setter) des JavaBeans qui sont résolues
-    (autrement dit <code>$foo.Name</code> est résolu par l'appel de la méthode d'instance <code>getName()</code>
+    Note: <em>Dans un gabarit, les rÃ©fÃ©rences Ã  des variables d'instance ne sont pas rÃ©solues.</em> Il n'y a que les
+    rÃ©fÃ©rences Ã©quivalentes aux attributs des accesseurs (getter / setter) des JavaBeans qui sont rÃ©solues
+    (autrement dit <code>$foo.Name</code> est rÃ©solu par l'appel de la mÃ©thode d'instance <code>getName()</code>
     de la classe Foo, mais pas en une variable d'instance publique <code>Name</code> de cette classe Foo).
   </p>
 </section>
 
 <section name="Directives" href="Directives">
   <p>
-    Les références permettent aux concepteurs de pages de générer du contenu dynamique pour des sites web alors que les
-    <em>directives</em> -- des éléments de script, faciles à utiliser, qui peuvent être mis en oeuvre pour manipuler de
-    manière créative la sortie d'un code Java -- permet aux concepteurs de vraiment prendre en charge l'apparence et le
+    Les rÃ©fÃ©rences permettent aux concepteurs de pages de gÃ©nÃ©rer du contenu dynamique pour des sites web alors que les
+    <em>directives</em> -- des Ã©lÃ©ments de script, faciles Ã  utiliser, qui peuvent Ãªtre mis en oeuvre pour manipuler de
+    maniÃ¨re crÃ©ative la sortie d'un code Java -- permet aux concepteurs de vraiment prendre en charge l'apparence et le
     contenu du site web.
   </p>
   <a name="Set"><strong>#set</strong></a>
   <p>
-    La directive <em>#set</em> s'utilise pour donner une valeur à une référence. Une valeur peut être assignée soit à une
-    référence de type variable, soit à une référence de type propriété, et ceci toujours entre parenthèses, comme montré
+    La directive <em>#set</em> s'utilise pour donner une valeur Ã  une rÃ©fÃ©rence. Une valeur peut Ãªtre assignÃ©e soit Ã  une
+    rÃ©fÃ©rence de type variable, soit Ã  une rÃ©fÃ©rence de type propriÃ©tÃ©, et ceci toujours entre parenthÃ¨ses, comme montrÃ©
     ici:
   </p>
   <source><![CDATA[
@@ -552,34 +552,34 @@ ${data.Request.ServerName}
 #set( $customer.Behavior = $primate )
 ]]></source>
   <p>
-    Le côté gauche (left hand side -- LHS) de l'assignation doit être une référence variable ou propriété. Le membre de
-    droite (right hand side -- RHS) peut être de l'un des types suivants:
+    Le cÃ´tÃ© gauche (left hand side -- LHS) de l'assignation doit Ãªtre une rÃ©fÃ©rence variable ou propriÃ©tÃ©. Le membre de
+    droite (right hand side -- RHS) peut Ãªtre de l'un des types suivants:
   </p>
   <p>
     <ul>
-      <li>Une référence (variable)</li>
-      <li>Une chaîne de caractères littérale</li>
-      <li>Une référence (propriété)</li>
-      <li>Une référence à une méthode</li>
-      <li>Un nombre littéral</li>
+      <li>Une rÃ©fÃ©rence (variable)</li>
+      <li>Une chaÃ®ne de caractÃ¨res littÃ©rale</li>
+      <li>Une rÃ©fÃ©rence (propriÃ©tÃ©)</li>
+      <li>Une rÃ©fÃ©rence Ã  une mÃ©thode</li>
+      <li>Un nombre littÃ©ral</li>
       <li>Une ArrayList</li>
     </ul>
   </p>
-  <p>Les exemples suivants montrent chacun des types susmentionnés:</p>
+  <p>Les exemples suivants montrent chacun des types susmentionnÃ©s:</p>
   <source><![CDATA[
-#set( $monkey = $bill ) ## référence (variable)
-#set( $monkey.Friend = "monica" ) ## chaîne de caractères littérale
-#set( $monkey.Blame = $whitehouse.Leak ) ## référence (propriété)
-#set( $monkey.Plan = $spindoctor.weave($web) ) ## référence à une méthode
-#set( $monkey.Number = 123 ) ## nombre littéral
+#set( $monkey = $bill ) ## rÃ©fÃ©rence (variable)
+#set( $monkey.Friend = "monica" ) ## chaÃ®ne de caractÃ¨res littÃ©rale
+#set( $monkey.Blame = $whitehouse.Leak ) ## rÃ©fÃ©rence (propriÃ©tÃ©)
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## rÃ©fÃ©rence Ã  une mÃ©thode
+#set( $monkey.Number = 123 ) ## nombre littÃ©ral
 #set( $monkey.Say = ["Not", $my, "fault"] ) ## ArrayList
 ]]></source>
   <p>
-    NOTE: Dans le dernier exemple, les éléments définis avec l'opérateur [..] sont accessibles en utilisant les méthodes
-    définies dans la classe ArrayList. Ainsi, par exemple, on peut accéder au premier élément en écrivant
+    NOTE: Dans le dernier exemple, les Ã©lÃ©ments dÃ©finis avec l'opÃ©rateur [..] sont accessibles en utilisant les mÃ©thodes
+    dÃ©finies dans la classe ArrayList. Ainsi, par exemple, on peut accÃ©der au premier Ã©lÃ©ment en Ã©crivant
     $monkey.Say.get(0)
   </p>
-  <p>Le membre de droite peut aussi être une expression arithmétique simple:</p>
+  <p>Le membre de droite peut aussi Ãªtre une expression arithmÃ©tique simple:</p>
   <source><![CDATA[
 #set( $value = $foo + 1 )
 #set( $value = $bar - 1 )
@@ -587,30 +587,30 @@ ${data.Request.ServerName}
 #set( $value = $foo / $bar )
 ]]></source>
   <p>
-    Si le membre de droite est une référence à une méthode ou à une propriété dont la valeur est <em>null</em>, il ne
-    sera <b>pas</b> affecté au membre de gauche. Il n'est pas possible d'enlever une référence existante du contexte
-    par ce biais-là. Ceci peut troubler les débutants en Velocity. Par exemple:
+    Si le membre de droite est une rÃ©fÃ©rence Ã  une mÃ©thode ou Ã  une propriÃ©tÃ© dont la valeur est <em>null</em>, il ne
+    sera <b>pas</b> affectÃ© au membre de gauche. Il n'est pas possible d'enlever une rÃ©fÃ©rence existante du contexte
+    par ce biais-lÃ . Ceci peut troubler les dÃ©butants en Velocity. Par exemple:
   </p>
   <source><![CDATA[
 #set( $result = $query.criteria("name") )
-Le résultat de la première requête est $result
+Le rÃ©sultat de la premiÃ¨re requÃªte est $result
 
 #set( $result = $query.criteria("address") )
-Le résultat de la seconde requête est $result
+Le rÃ©sultat de la seconde requÃªte est $result
 ]]></source>
   <p>
-     Si <em>$query.criteria("name")</em> renvoie la chaîne "bill", et que  <em>$query.criteria("address")</em> renvoie
-     <em>null</em>, le code VTL ci-dessus sera rendu de la manière suivante:
+     Si <em>$query.criteria("name")</em> renvoie la chaÃ®ne "bill", et que  <em>$query.criteria("address")</em> renvoie
+     <em>null</em>, le code VTL ci-dessus sera rendu de la maniÃ¨re suivante:
   </p>
   <source><![CDATA[
-Le résultat de la première requête est bill
+Le rÃ©sultat de la premiÃ¨re requÃªte est bill
 
-Le résultat de la seconde requête est bill
+Le rÃ©sultat de la seconde requÃªte est bill
 ]]></source>
   <p>
     Ceci induit en confusion les nouveaux venus, qui construisent des boucles <em>#foreach</em> qui tentent de faire
-    un <em>#set</em> sur une référence à partir d'une référence à une propriété ou une méthode et testent immédiatement
-    cette référence avec une directive <em>#if</em>. Par exemple:
+    un <em>#set</em> sur une rÃ©fÃ©rence Ã  partir d'une rÃ©fÃ©rence Ã  une propriÃ©tÃ© ou une mÃ©thode et testent immÃ©diatement
+    cette rÃ©fÃ©rence avec une directive <em>#if</em>. Par exemple:
   </p>
   <source><![CDATA[
 #set( $criteria = ["name", "address"] )
@@ -626,14 +626,14 @@ Le résultat de la seconde requête est bill
 #end
 ]]></source>
   <p>
-    Dans l'exemple ci-dessus, il ne serait pas avisé de se reposer sur l'évaluation de <em>$result</em> pour déterminer
-    si une requête a été couronnée de succès. Une fois que <em>$result</em> a reçu une valeur par un <em>#set</em>
-    (et a donc été ajouté au contexte), il ne peut pas recevoir la valeur <em>null</em> (et se trouver ainsi enlevé du
-    contexte). Les détails des directives <em>#if</em> et <em>#foreach</em> sont traités plus loin dans ce document.
+    Dans l'exemple ci-dessus, il ne serait pas avisÃ© de se reposer sur l'Ã©valuation de <em>$result</em> pour dÃ©terminer
+    si une requÃªte a Ã©tÃ© couronnÃ©e de succÃ¨s. Une fois que <em>$result</em> a reÃ§u une valeur par un <em>#set</em>
+    (et a donc Ã©tÃ© ajoutÃ© au contexte), il ne peut pas recevoir la valeur <em>null</em> (et se trouver ainsi enlevÃ© du
+    contexte). Les dÃ©tails des directives <em>#if</em> et <em>#foreach</em> sont traitÃ©s plus loin dans ce document.
   </p>
   <p>
-    Une solution à ce problème serait de pré-positionner <em>$result</em> à <em>false</em>. Si l'appel à
-    <em>$query.criteria()</em> échoue, il est possible de faire la vérification.
+    Une solution Ã  ce problÃ¨me serait de prÃ©-positionner <em>$result</em> Ã  <em>false</em>. Si l'appel Ã 
+    <em>$query.criteria()</em> Ã©choue, il est possible de faire la vÃ©rification.
   </p>
   <source><![CDATA[
 #set( $criteria = ["name", "address"] )
@@ -644,16 +644,16 @@ Le résultat de la seconde requête est bill
     #set( $result = $query.criteria($criterion) )
 
     #if( $result )
-        La requête a abouti correctement
+        La requÃªte a abouti correctement
     #end
 
 #end
 ]]></source>
-  <p>Contrairement à d'autres directives Velocity, la directive <em>#set</em> n'a pas d'instruction <em>#end</em>.</p>
-  <a name="Chaînesdecaractèreslittérales"><strong>Chaînes de caractères littérales</strong></a>
+  <p>Contrairement Ã  d'autres directives Velocity, la directive <em>#set</em> n'a pas d'instruction <em>#end</em>.</p>
+  <a name="ChaÃ®nesdecaractÃ¨reslittÃ©rales"><strong>ChaÃ®nes de caractÃ¨res littÃ©rales</strong></a>
   <p>
-    Lorsque vous utilisez la directive <em>#set</em>, les chaînes de caractères littérales délimitées par des guillements
-    sont interprétées et rendues de la manière suivante:
+    Lorsque vous utilisez la directive <em>#set</em>, les chaÃ®nes de caractÃ¨res littÃ©rales dÃ©limitÃ©es par des guillements
+    sont interprÃ©tÃ©es et rendues de la maniÃ¨re suivante:
   </p>
   <source><![CDATA[
 #set( $directoryRoot = "www" )
@@ -665,30 +665,30 @@ $template
   <source><![CDATA[
 www/index.vm
 ]]></source>
-  <p>Toutefois, lorsque la chaîne de caractères littérale est délimitée par des apostrophes, elle n'est pas interprétée.</p>
+  <p>Toutefois, lorsque la chaÃ®ne de caractÃ¨res littÃ©rale est dÃ©limitÃ©e par des apostrophes, elle n'est pas interprÃ©tÃ©e.</p>
   <source><![CDATA[
 #set( $foo = "bar" )
 $foo
 #set( $blargh = '$foo' )
 $blargh
 ]]></source>
-  <p>Ce qui est rendu de la manière suivante:</p>
+  <p>Ce qui est rendu de la maniÃ¨re suivante:</p>
   <source><![CDATA[
   bar
   $foo
 ]]></source>
   <p>
-    Cette caractéristique d'utilisation des apostrophes pour rendre du texte non interprété est le comportement par défaut
-    de Velocity. Ce comportement peut être changé en éditant le fichier <code>velocity.properties</code> et en y écrivant
-    l'entrée: <code>stringliterals.interpolate=false</code>.
+    Cette caractÃ©ristique d'utilisation des apostrophes pour rendre du texte non interprÃ©tÃ© est le comportement par dÃ©faut
+    de Velocity. Ce comportement peut Ãªtre changÃ© en Ã©ditant le fichier <code>velocity.properties</code> et en y Ã©crivant
+    l'entrÃ©e: <code>stringliterals.interpolate=false</code>.
   </p>
 </section>
 
 <section name="Conditions" href="Conditions">
   <strong>If / ElseIf / Else</strong>
   <p>
-    La directive <em>#if</em> de Velocity permet à du texte d'être inclus à la génération d'une page web seulement si la
-    condition qui suit l'instruction if est vérifiée. Par exemple:
+    La directive <em>#if</em> de Velocity permet Ã  du texte d'Ãªtre inclus Ã  la gÃ©nÃ©ration d'une page web seulement si la
+    condition qui suit l'instruction if est vÃ©rifiÃ©e. Par exemple:
   </p>
   <source><![CDATA[
 #if( $foo )
@@ -696,21 +696,21 @@ $blargh
 #end
 ]]></source>
   <p>
-    La variable <em>$foo</em> est évaluée pour déterminer si elle vaut true, ce qui se produit dans l'une des deux cas
-    suivants; (i) <em>$foo</em> est une variable booléenne (true/false) dont la valeur est vrai (true), ou (ii) la valeur
-    de <em>$foo</em> est différente de null. On se rappelle que le contexte de Velocity ne contient que des Objets,
-    et donc lorsqu'on dit un booléen, il sera représenté comme un objet de la classe Boolean contenant la valeur logique
-    appropriée.
+    La variable <em>$foo</em> est Ã©valuÃ©e pour dÃ©terminer si elle vaut true, ce qui se produit dans l'une des deux cas
+    suivants; (i) <em>$foo</em> est une variable boolÃ©enne (true/false) dont la valeur est vrai (true), ou (ii) la valeur
+    de <em>$foo</em> est diffÃ©rente de null. On se rappelle que le contexte de Velocity ne contient que des Objets,
+    et donc lorsqu'on dit un boolÃ©en, il sera reprÃ©sentÃ© comme un objet de la classe Boolean contenant la valeur logique
+    appropriÃ©e.
   </p>
   <p>
     Ce qui est contenu entre l'instruction <em>#if</em> et l'instruction <em>#end</em> sera produit en sortie si la
-    condition est évaluée comme vraie. Dans l'exemple précédent, si <em>$foo</em> est true, la sortie sera: "Velocity!".
-    A l'inverse, si <em>$foo</em> a la valeur null, ou si c'est un booléen de valeur false, l'instruction est évaluée
+    condition est Ã©valuÃ©e comme vraie. Dans l'exemple prÃ©cÃ©dent, si <em>$foo</em> est true, la sortie sera: "Velocity!".
+    A l'inverse, si <em>$foo</em> a la valeur null, ou si c'est un boolÃ©en de valeur false, l'instruction est Ã©valuÃ©e
     comme fausse, et il n'y a pas de sortie produite.
   </p>
   <p>
-    Un élément <em>#elseif</em> ou <em>#else</em> peut être utilisé dans la directive <em>#if</em>.
-    Notez que le moteur Velocity (Velocity Template Engine) s'arrêtera à la première expression évaluée comme vraie.
+    Un Ã©lÃ©ment <em>#elseif</em> ou <em>#else</em> peut Ãªtre utilisÃ© dans la directive <em>#if</em>.
+    Notez que le moteur Velocity (Velocity Template Engine) s'arrÃªtera Ã  la premiÃ¨re expression Ã©valuÃ©e comme vraie.
     Dans l'exemple suivant, supposons que  <em>$foo</em> vaut 15 et que <em>$bar</em> vaut 6.
   </p>
   <source><![CDATA[
@@ -725,25 +725,25 @@ $blargh
 #end
 ]]></source>
   <p>
-    Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premières comparaisons échouent. Ensuite,
-    <em>$bar</em> est comparé à 6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
+    Dans cet exemple, <em>$foo</em> est plus grand que 10, donc les deux premiÃ¨res comparaisons Ã©chouent. Ensuite,
+    <em>$bar</em> est comparÃ© Ã  6, ce qui donne vrai, et dont la sortie produit est <strong>Go South</strong>.
   </p>
-  <p><a name="Opérateurslogiquesetrelationnels"><strong>Opérateurs logiques et relationnels</strong></a></p>
-  <p>Velocity utilise l'opérateur d'équivalence pour déterminer les relations entre des variables. Voici un exemple simple pour illustrer la manière d'utiliser l'opérateur d'équivalence.</p>
+  <p><a name="OpÃ©rateurslogiquesetrelationnels"><strong>OpÃ©rateurs logiques et relationnels</strong></a></p>
+  <p>Velocity utilise l'opÃ©rateur d'Ã©quivalence pour dÃ©terminer les relations entre des variables. Voici un exemple simple pour illustrer la maniÃ¨re d'utiliser l'opÃ©rateur d'Ã©quivalence.</p>
   <source><![CDATA[
 #set ($foo = "deoxyribonucleic acid")
 #set ($bar = "ribonucleic acid")
 
 #if ($foo == $bar)
-  Dans ce cas, il est clair qu'ils ne sont pas équivalents. Donc...
+  Dans ce cas, il est clair qu'ils ne sont pas Ã©quivalents. Donc...
 #else
-  Ils ne sont pas équivalents et c'est ceci qui sera produit en sortie.
+  Ils ne sont pas Ã©quivalents et c'est ceci qui sera produit en sortie.
 #end
 ]]></source>
   <p>
-    Velocity a aussi des opérateurs ET, OU et NON. Pour plus d'informations, référez-vous au
+    Velocity a aussi des opÃ©rateurs ET, OU et NON. Pour plus d'informations, rÃ©fÃ©rez-vous au
     <a href="../docs/vtl-reference-guide.html">VTL Reference Guide</a> (en anglais).
-    Ci-dessous, quelques exemples illustrent l'utilisation des opérateurs logiques ET, OU et NON.
+    Ci-dessous, quelques exemples illustrent l'utilisation des opÃ©rateurs logiques ET, OU et NON.
   </p>
   <source><![CDATA[
 ##ET logique
@@ -754,16 +754,16 @@ $blargh
 
 ]]></source>
   <p>
-    La directive <em>#if()</em> ne sera évaluée comme <em>true</em> que si <em>$foo</em> et <em>$bar</em> sont
-    <em>true</em> tous les deux. Si <em>$foo</em> est <em>false</em>, l'expression sera globalement évaluée comme
-    <em>false</em> et <em>$bar</em> ne sera pas évalué. Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity testera
-    la valeur de <em>$bar</em>; si <em>$bar</em> vaut <em>true</em>, alors l'expression dans son entièreté vaut
+    La directive <em>#if()</em> ne sera Ã©valuÃ©e comme <em>true</em> que si <em>$foo</em> et <em>$bar</em> sont
+    <em>true</em> tous les deux. Si <em>$foo</em> est <em>false</em>, l'expression sera globalement Ã©valuÃ©e comme
+    <em>false</em> et <em>$bar</em> ne sera pas Ã©valuÃ©. Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity testera
+    la valeur de <em>$bar</em>; si <em>$bar</em> vaut <em>true</em>, alors l'expression dans son entiÃ¨retÃ© vaut
     <em>true</em> et la sortie <strong>Ceci ET cela</strong> est produite. Si <em>$bar</em> est <em>false</em>,
-    alors il n'y aura pas de sortie produite puisque l'expression entière est fausse.
+    alors il n'y aura pas de sortie produite puisque l'expression entiÃ¨re est fausse.
   </p>
   <p>
-    Les opérateurs logiques OU fonctionnent de la même manière, si ce n'est qu'une seule des références doit être évaluée
-    à <em>true</em> pour que l'expression entière soit considérée comme vraie. Voyez l'exemple suivant:
+    Les opÃ©rateurs logiques OU fonctionnent de la mÃªme maniÃ¨re, si ce n'est qu'une seule des rÃ©fÃ©rences doit Ãªtre Ã©valuÃ©e
+    Ã  <em>true</em> pour que l'expression entiÃ¨re soit considÃ©rÃ©e comme vraie. Voyez l'exemple suivant:
   </p>
   <source><![CDATA[
 ##OU logique
@@ -773,33 +773,33 @@ $blargh
 #end
 ]]></source>
   <p>
-    Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity n'a pas besoin d'évaluer <em>$bar</em>; que <em>$bar</em>
-    soit vrai ou faux ne change rien à l'affaire, l'expression sera vraie, et <strong>Ceci OU cela</strong> sera produit
-    en sortie. Mais si <em>$foo</em> est false, la valeur de <em>$bar</em> doit être vérifiée.
+    Si <em>$foo</em> vaut <em>true</em>, le moteur Velocity n'a pas besoin d'Ã©valuer <em>$bar</em>; que <em>$bar</em>
+    soit vrai ou faux ne change rien Ã  l'affaire, l'expression sera vraie, et <strong>Ceci OU cela</strong> sera produit
+    en sortie. Mais si <em>$foo</em> est false, la valeur de <em>$bar</em> doit Ãªtre vÃ©rifiÃ©e.
     Dans ce cas, si <em>$bar</em> est faux lui aussi, l'expression sera fausse et il n'y aura pas de sortie produite.
-    Sinon, si <em>$bar</em> est vrai, alors l'expression entière est vraie, et la sortie est
+    Sinon, si <em>$bar</em> est vrai, alors l'expression entiÃ¨re est vraie, et la sortie est
     <strong>Ceci OU cela</strong>.
   </p>
-  <p>Avec l'opérateur logique NON, il n'y a qu'un seul argument :</p>
+  <p>Avec l'opÃ©rateur logique NON, il n'y a qu'un seul argument :</p>
   <source><![CDATA[
 ##NON logique
 
 #if( !$foo )
-  <strong>PAS ça</strong>
+  <strong>PAS Ã§a</strong>
 #end
 ]]></source>
   <p>
-    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est évalué comme <em>false</em>, 
-    et il n'y a pas de sortie. Si <em>$foo</em> est <em>false</em>, alors <em>!$foo</em> est évalué à <em>true</em>
-    et <strong>PAS ça</strong> est produit en sortie. Attention à ne pas confondre ceci avec la
-    <em>référence silencieuse $!foo</em> que nous avons déjà rencontrée et qui représente quelque chose de complètement
-    différent.
+    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est Ã©valuÃ© comme <em>false</em>, 
+    et il n'y a pas de sortie. Si <em>$foo</em> est <em>false</em>, alors <em>!$foo</em> est Ã©valuÃ© Ã  <em>true</em>
+    et <strong>PAS Ã§a</strong> est produit en sortie. Attention Ã  ne pas confondre ceci avec la
+    <em>rÃ©fÃ©rence silencieuse $!foo</em> que nous avons dÃ©jÃ  rencontrÃ©e et qui reprÃ©sente quelque chose de complÃ¨tement
+    diffÃ©rent.
   </p>
 </section>
 
 <section name="Boucles" href="Boucles">
   <strong>Boucle Foreach</strong>
-  <p>L'élément <em>#foreach</em> permet d'itérer. Par exemple:</p>
+  <p>L'Ã©lÃ©ment <em>#foreach</em> permet d'itÃ©rer. Par exemple:</p>
   <source><![CDATA[
 <ul>
 #foreach( $product in $allProducts )
@@ -808,17 +808,17 @@ $blargh
 </ul>
 ]]></source>
   <p>
-    Cette boucle <em>#foreach</em> parcourt un à un tous les produits (cibles) de la liste <em>$allProducts</em> (objet).
-    A chaque passage dans la boucle, une valeur de <em>$allProducts</em> est placée dans la variable <em>$product</em>.
+    Cette boucle <em>#foreach</em> parcourt un Ã  un tous les produits (cibles) de la liste <em>$allProducts</em> (objet).
+    A chaque passage dans la boucle, une valeur de <em>$allProducts</em> est placÃ©e dans la variable <em>$product</em>.
   </p>
   <p>
     Le contenu de la variable <em>$allProducts</em> est un vecteur (Vector), une table de hachage (Hashtable)
-    ou un tableau (Array). La valeur assignée à <em>$product</em> est un objet Java, et peut être référencée en tant
+    ou un tableau (Array). La valeur assignÃ©e Ã  <em>$product</em> est un objet Java, et peut Ãªtre rÃ©fÃ©rencÃ©e en tant
     que telle par une variable. Par exemple, si <em>$product</em> est en effet une classe Product en Java,
-    son nom peut être récupéré en référençant la méthode <em>$product.Name</em> (c'est-à-dire <em>$Product.getName()</em>).
+    son nom peut Ãªtre rÃ©cupÃ©rÃ© en rÃ©fÃ©renÃ§ant la mÃ©thode <em>$product.Name</em> (c'est-Ã -dire <em>$Product.getName()</em>).
   </p>
   <p>
-    Supposons que <em>$allProducts</em> soit une Hashtable. Si vous voulez retrouver les valeurs des clés et les objets
+    Supposons que <em>$allProducts</em> soit une Hashtable. Si vous voulez retrouver les valeurs des clÃ©s et les objets
     de la Hashtable, vous pouvez utiliser un bout de code comme celui-ci:
   </p>
   <source><![CDATA[
@@ -829,7 +829,7 @@ $blargh
 </ul>
 ]]></source>
   <p>
-    Velocity fournit un moyen simple de connaître le compteur de boucle, de sorte qu'on puisse faire quelque chose comme:
+    Velocity fournit un moyen simple de connaÃ®tre le compteur de boucle, de sorte qu'on puisse faire quelque chose comme:
   </p>
   <source><![CDATA[
 <table>
@@ -839,9 +839,9 @@ $blargh
 </table>
 ]]></source>
   <p>
-    Le nom par défaut de la variable/référence du compteur de bouche est spécifié dans le fichier
-    <code>velocity.properties</code>. Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
-    dans le fichier <code>velocity.properties</code>. Voici à quoi ressemble la section Propriétés du compteur de boucle
+    Le nom par dÃ©faut de la variable/rÃ©fÃ©rence du compteur de bouche est spÃ©cifiÃ© dans le fichier
+    <code>velocity.properties</code>. Par dÃ©faut le compteur dÃ©marre Ã  1, mais ceci aussi peut Ãªtre paramÃ©trÃ© (Ã  0 ou 1)
+    dans le fichier <code>velocity.properties</code>. Voici Ã  quoi ressemble la section PropriÃ©tÃ©s du compteur de boucle
     dans le fichier <code>velocity.properties</code>:
   </p>
   <source><![CDATA[
@@ -857,25 +857,25 @@ directive.foreach.counter.initial.value = 1
 
 <section name="Include" href="Include">
   <p>
-    L'élément de script <em>#include</em> permet au concepteur de gabarits d'importer un fichier local, qui est alors
-    inséré à l'endroit où la directive <em>#include</em> est définie. Le contenu du fichier n'est pas rendu en passant
-    par le moteur de substitution. Pour des raisons de sécurité, le fichier à inclure ne peut se trouver que sous
+    L'Ã©lÃ©ment de script <em>#include</em> permet au concepteur de gabarits d'importer un fichier local, qui est alors
+    insÃ©rÃ© Ã  l'endroit oÃ¹ la directive <em>#include</em> est dÃ©finie. Le contenu du fichier n'est pas rendu en passant
+    par le moteur de substitution. Pour des raisons de sÃ©curitÃ©, le fichier Ã  inclure ne peut se trouver que sous
     TEMPLATE_ROOT.
   </p>
   <source><![CDATA[
 #include( "one.txt" )
 ]]></source>
   <p>
-    Le fichier auquel la directive <em>#include</em> fait référence est inclus entre des guillemets.
-    Si plusieurs fichiers doivent être inclus, leurs noms doivent être séparés par des virgules.
+    Le fichier auquel la directive <em>#include</em> fait rÃ©fÃ©rence est inclus entre des guillemets.
+    Si plusieurs fichiers doivent Ãªtre inclus, leurs noms doivent Ãªtre sÃ©parÃ©s par des virgules.
   </p>
   <source><![CDATA[
 #include( "one.gif","two.txt","three.htm" )
 ]]></source>
   <p>
-    Le fichier à inclure ne doit pas nécessairement être appelé par son nom; en fait, il est souvent préférable
-    d'utiliser une variable plutôt qu'un nom de fichier. Ce qui peut être utile pour cibler ce qui est produit en
-    fonction de critères déterminés au moment où la page est demandée. Voici un exemple qui utilise à la fois un nom
+    Le fichier Ã  inclure ne doit pas nÃ©cessairement Ãªtre appelÃ© par son nom; en fait, il est souvent prÃ©fÃ©rable
+    d'utiliser une variable plutÃ´t qu'un nom de fichier. Ce qui peut Ãªtre utile pour cibler ce qui est produit en
+    fonction de critÃ¨res dÃ©terminÃ©s au moment oÃ¹ la page est demandÃ©e. Voici un exemple qui utilise Ã  la fois un nom
     de fichier et une variable.
   </p>
   <source><![CDATA[
@@ -885,25 +885,25 @@ directive.foreach.counter.initial.value = 1
 
 <section name="Parse" href="Parse">
   <p>
-    L'élément de script <em>#parse</em> permet au concepteur de gabarits d'importer un fichier local contenant du VTL.
-    Velocity va alors interpréter le VTL et rendre le gabarit spécifié.
+    L'Ã©lÃ©ment de script <em>#parse</em> permet au concepteur de gabarits d'importer un fichier local contenant du VTL.
+    Velocity va alors interprÃ©ter le VTL et rendre le gabarit spÃ©cifiÃ©.
   </p>
   <source><![CDATA[
 #parse( "me.vm" )
 ]]></source>
   <p>
-    Comme la directive <em>#include</em>, <em>#parse</em> peut prendre en argument une variable plutôt qu'un nom
-    de gabarit. Tous les gabarits auxquels il est fait référence par <em>#parse</em> doivent se trouver
-    sous TEMPLATE_ROOT. Contrairement à la directive <em>#include</em>, <em>#parse</em> ne peut prendre qu'un seul
+    Comme la directive <em>#include</em>, <em>#parse</em> peut prendre en argument une variable plutÃ´t qu'un nom
+    de gabarit. Tous les gabarits auxquels il est fait rÃ©fÃ©rence par <em>#parse</em> doivent se trouver
+    sous TEMPLATE_ROOT. Contrairement Ã  la directive <em>#include</em>, <em>#parse</em> ne peut prendre qu'un seul
     argument.
   </p>
   <p>
-    Les gabarits VTL peuvent contenir des instructions <em>#parse</em> faisant référence à des gabarits qui à leur tour
-    contiennent des <em>#parse</em>. Par défaut à 10, la ligne <em>parse_directive.maxdepth</em> du fichier
-    <code>velocity.properties</code> permet aux utilisateurs de personnaliser le nombre de références <em>#parse</em>
-    que l'on peut rencontrer dans un gabarit. (Note: Si la propriété <em>parse_directive.maxdepth</em> est absente du
-    fichier <code>velocity.properties</code>, Velocité positionne cette valeur par défaut à 10).
-    La récursion est permise; par exemple si le gabarit <code>dofoo.vm</code> contient les lignes suivantes:
+    Les gabarits VTL peuvent contenir des instructions <em>#parse</em> faisant rÃ©fÃ©rence Ã  des gabarits qui Ã  leur tour
+    contiennent des <em>#parse</em>. Par dÃ©faut Ã  10, la ligne <em>parse_directive.maxdepth</em> du fichier
+    <code>velocity.properties</code> permet aux utilisateurs de personnaliser le nombre de rÃ©fÃ©rences <em>#parse</em>
+    que l'on peut rencontrer dans un gabarit. (Note: Si la propriÃ©tÃ© <em>parse_directive.maxdepth</em> est absente du
+    fichier <code>velocity.properties</code>, VelocitÃ© positionne cette valeur par dÃ©faut Ã  10).
+    La rÃ©cursion est permise; par exemple si le gabarit <code>dofoo.vm</code> contient les lignes suivantes:
   </p>
   <source><![CDATA[
 Count down.
@@ -911,7 +911,7 @@ Count down.
 #parse( "parsefoo.vm" )
 All done with dofoo.vm!
 ]]></source>
-  <p>Il fait référence au gabarit <code>parsefoo.vm</code>, qui peut contenir le VTL suivant:</p>
+  <p>Il fait rÃ©fÃ©rence au gabarit <code>parsefoo.vm</code>, qui peut contenir le VTL suivant:</p>
   <source><![CDATA[
 $count
 #set( $count = $count - 1 )
@@ -922,16 +922,16 @@ $count
 #end
 ]]></source>
   <p>
-    Après que "Count down." soit affiché, Velocity passe par <code>parsefoo.vm</code>, comptant à rebours à partir de 8.
-    Lorsque le compte à rebours atteint 0, il affiche le message "All done with parsefoo.vm!".
-    A ce stade, Velocity va retourner à <code>dofoo.vm</code> et produire le message "All done with dofoo.vm!".
+    AprÃ¨s que "Count down." soit affichÃ©, Velocity passe par <code>parsefoo.vm</code>, comptant Ã  rebours Ã  partir de 8.
+    Lorsque le compte Ã  rebours atteint 0, il affiche le message "All done with parsefoo.vm!".
+    A ce stade, Velocity va retourner Ã  <code>dofoo.vm</code> et produire le message "All done with dofoo.vm!".
   </p>
 </section>
 
 <section name="Stop" href="Stop">
   <p>
-    L'élément de script <em>#stop</em> permet au concepteur de gabarits d'arrêter l'exécution du moteur de substitution.
-    Cette directive peut être utile pour le débogage.
+    L'Ã©lÃ©ment de script <em>#stop</em> permet au concepteur de gabarits d'arrÃªter l'exÃ©cution du moteur de substitution.
+    Cette directive peut Ãªtre utile pour le dÃ©bogage.
   </p>
   <source><![CDATA[
 #stop
@@ -940,9 +940,9 @@ $count
 
 <section name="Velocimacros" href="Velocimacros">
   <p>
-    L'élément de script <em>#macro</em> permet aux concepteurs de définir un segment répétable d'un gabarit VTL.
-    Les "Velocimacros" sont très utiles dans un grand nombre de scénarios, simples ou complexes.
-    Une Velocimacro, écrite dans le seul but de s'économiser un peu de frappe et de minimiser les fautes,
+    L'Ã©lÃ©ment de script <em>#macro</em> permet aux concepteurs de dÃ©finir un segment rÃ©pÃ©table d'un gabarit VTL.
+    Les "Velocimacros" sont trÃ¨s utiles dans un grand nombre de scÃ©narios, simples ou complexes.
+    Une Velocimacro, Ã©crite dans le seul but de s'Ã©conomiser un peu de frappe et de minimiser les fautes,
     servira d'introduction au concept de Velocimacro.
   </p>
   <source><![CDATA[
@@ -951,17 +951,17 @@ $count
 #end
 ]]></source>
   <p>
-    La Velocimacro définie dans cet exemple est <em>d</em>; elle peut être appelée d'une manière semblable à toute autre
+    La Velocimacro dÃ©finie dans cet exemple est <em>d</em>; elle peut Ãªtre appelÃ©e d'une maniÃ¨re semblable Ã  toute autre
     directive VTL:
   </p>
   <source><![CDATA[
 #d()
 ]]></source>
-  <p>Lorsque ce gabarit est appelé, Velocity remplace <em>#d()</em> par une ligne contenant une cellule de données vide.</p>
+  <p>Lorsque ce gabarit est appelÃ©, Velocity remplace <em>#d()</em> par une ligne contenant une cellule de donnÃ©es vide.</p>
   <p>
-    Une Velocimacro peut prendre n'importe quel nombre d'arguments -- même zéro, comme on l'a vu dans l'exemple --
-    mais lorsque la macro est appelée, elle doit l'être avec le même nombre d'arguments que dans la définition.
-    Beaucoup de Velocimacros sont plus sophistiquées que celle définie ci-dessus; voici une Velocimacro qui prend deux
+    Une Velocimacro peut prendre n'importe quel nombre d'arguments -- mÃªme zÃ©ro, comme on l'a vu dans l'exemple --
+    mais lorsque la macro est appelÃ©e, elle doit l'Ãªtre avec le mÃªme nombre d'arguments que dans la dÃ©finition.
+    Beaucoup de Velocimacros sont plus sophistiquÃ©es que celle dÃ©finie ci-dessus; voici une Velocimacro qui prend deux
     arguments, une couleur et un tableau.
   </p>
   <source><![CDATA[
@@ -972,14 +972,14 @@ $count
 #end
 ]]></source>
   <p>
-    La Velocimacro définie dans cet exemple, <em>tablerows</em>, prend deux arguments. Le premier argument prend la place
+    La Velocimacro dÃ©finie dans cet exemple, <em>tablerows</em>, prend deux arguments. Le premier argument prend la place
     de <em>$color</em> et le second argument prend la place de <em>$somelist</em>.
   </p>
   <p>
-    Tout ce qui peut être mis dans un gabarit VTL peut aussi trouver place dans le corps d'une Velocimacro.
+    Tout ce qui peut Ãªtre mis dans un gabarit VTL peut aussi trouver place dans le corps d'une Velocimacro.
     La Velocimacro <em>tablerows</em> contient une instruction <em>foreach</em>. On remarquera qu'il y a deux
-    instructions <em>#end</em> dans la définition de la Velocimacro <em>#tablerows</em>; la première termine
-    le <em>#foreach</em>, la seconde termine la définition de la Velocimacro.
+    instructions <em>#end</em> dans la dÃ©finition de la Velocimacro <em>#tablerows</em>; la premiÃ¨re termine
+    le <em>#foreach</em>, la seconde termine la dÃ©finition de la Velocimacro.
   </p>
   <source><![CDATA[
 #set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"] )
@@ -990,7 +990,7 @@ $count
 ]]></source>
   <p>
     Notez que  <em>$greatlakes</em> prend la place de <em>$somelist</em>. Quand la Velocimacro <em>#tablerows</em>
-    est appelée dans ce contexte, la sortie suivante est produite:
+    est appelÃ©e dans ce contexte, la sortie suivante est produite:
   </p>
   <source><![CDATA[
 <table>
@@ -1002,17 +1002,17 @@ $count
 </table>
 ]]></source>
   <p>
-    Les Velocimacros peuvent être définies <i>inline</i> dans un gabarit Velocity; elles ne sont pas disponibles dans
-    ce cas pour d'autres gabarits Velocity sur le même site web. Définir une Velocimacro pour qu'elle puisse être partagée
-    par tous les gabarits a des avantages évidents: cela réduit le besoin de redéfinir la Velocimacro dans de nombreux
-    gabarits, cela économise du travail et réduit les occasions de se tromper, cela assure qu'un chagement fait une seule
-    fois dans une macro est aussitôt disponible dans tous les gabarits.
+    Les Velocimacros peuvent Ãªtre dÃ©finies <i>inline</i> dans un gabarit Velocity; elles ne sont pas disponibles dans
+    ce cas pour d'autres gabarits Velocity sur le mÃªme site web. DÃ©finir une Velocimacro pour qu'elle puisse Ãªtre partagÃ©e
+    par tous les gabarits a des avantages Ã©vidents: cela rÃ©duit le besoin de redÃ©finir la Velocimacro dans de nombreux
+    gabarits, cela Ã©conomise du travail et rÃ©duit les occasions de se tromper, cela assure qu'un chagement fait une seule
+    fois dans une macro est aussitÃ´t disponible dans tous les gabarits.
   </p>
   <p>
-    Si la Velocimacro <em>#tablerows($color $list)</em> avait été définie dans une bibliothèque de gabarits Velocimacros,
-    cette macro aurait pu être utilisée dans n'importe lequel des gabarits usuels. Elle pourrait être utilisée de
-    nombreuses fois et dans des buts différents. Dans le gabarit <code>mushroom.vm</code> consacré à toute espèce de
-    champignons, la Velocimacro <em>#tablerows</em> pourrait être appelée pour donner la liste des parties
+    Si la Velocimacro <em>#tablerows($color $list)</em> avait Ã©tÃ© dÃ©finie dans une bibliothÃ¨que de gabarits Velocimacros,
+    cette macro aurait pu Ãªtre utilisÃ©e dans n'importe lequel des gabarits usuels. Elle pourrait Ãªtre utilisÃ©e de
+    nombreuses fois et dans des buts diffÃ©rents. Dans le gabarit <code>mushroom.vm</code> consacrÃ© Ã  toute espÃ¨ce de
+    champignons, la Velocimacro <em>#tablerows</em> pourrait Ãªtre appelÃ©e pour donner la liste des parties
     d'un champignon typique.
   </p>
   <source><![CDATA[
@@ -1023,8 +1023,8 @@ $count
 </table>
 ]]></source>
   <p>
-    Lors de l'exécution d'une requête pour <code>mushroom.vm</code>, Velocity trouverait la Velocimacro
-    <em>#tablerows</em> dans la bibliothèque de gabarits (définie dans le fichier <code>velocity.properties</code>)
+    Lors de l'exÃ©cution d'une requÃªte pour <code>mushroom.vm</code>, Velocity trouverait la Velocimacro
+    <em>#tablerows</em> dans la bibliothÃ¨que de gabarits (dÃ©finie dans le fichier <code>velocity.properties</code>)
     et produirait la sortie suivante:
   </p>
   <source><![CDATA[
@@ -1037,21 +1037,21 @@ $count
 </table>
 ]]></source>
   <strong>Arguments d'une Velocimacro</strong>
-  <p>Les Velocimacros peuvent prendre comme argument tout élément VTL parmi les suivants:</p>
+  <p>Les Velocimacros peuvent prendre comme argument tout Ã©lÃ©ment VTL parmi les suivants:</p>
   <ul>
-    <li>Référence: tout ce qui commence par '$'</li>
-    <li>Chaîne de caractères littérale: quelque chose comme "$foo" ou 'hello'</li>
-    <li>Nombre littéral:  1, 2 etc</li>
+    <li>RÃ©fÃ©rence: tout ce qui commence par '$'</li>
+    <li>ChaÃ®ne de caractÃ¨res littÃ©rale: quelque chose comme "$foo" ou 'hello'</li>
+    <li>Nombre littÃ©ral:  1, 2 etc</li>
     <li>Intervalle d'entiers (IntegerRange) : [ 1..2] ou [$foo .. $bar]</li>
     <li>ObjectArray : [ "a", "b", "c"]</li>
-    <li>Valeur booléenne true</li>
-    <li>Valeur booléenne false</li>
+    <li>Valeur boolÃ©enne true</li>
+    <li>Valeur boolÃ©enne false</li>
   </ul>
   <p>
-    Lorsqu'on passe des références comme arguments à des Velocimacros, notez que ces références sont passées "par nom".
-    Ce qui veut dire que leur valeur est "générée" à chaque utilisation à l'intérieur d'une Velocimacro.
-    Cette particularité vous permet de passer des références contenant des appels de méthodes et que la méthode soit
-    appelée à chaque fois. Par exemple, en appelant la Velocimacro suivante comme indiqué:
+    Lorsqu'on passe des rÃ©fÃ©rences comme arguments Ã  des Velocimacros, notez que ces rÃ©fÃ©rences sont passÃ©es "par nom".
+    Ce qui veut dire que leur valeur est "gÃ©nÃ©rÃ©e" Ã  chaque utilisation Ã  l'intÃ©rieur d'une Velocimacro.
+    Cette particularitÃ© vous permet de passer des rÃ©fÃ©rences contenant des appels de mÃ©thodes et que la mÃ©thode soit
+    appelÃ©e Ã  chaque fois. Par exemple, en appelant la Velocimacro suivante comme indiquÃ©:
   </p>
   <source><![CDATA[
      #macro( callme $a )
@@ -1060,86 +1060,86 @@ $count
 
      #callme( $foo.bar() )
    ]]></source>
-  <p>le résultat est que la méthode bar() de la référence $foo est appelée trois fois.</p>
+  <p>le rÃ©sultat est que la mÃ©thode bar() de la rÃ©fÃ©rence $foo est appelÃ©e trois fois.</p>
   <p>
-    A première vue, cette particularité est surprenante mais si vous considérez la raison d'être originelle des
-    Velocimacros (éliminer la duplication par couper/coller de VTL d'usage courant), ça a bien sûr un sens.
-    Cela vous permet de faire des choses étonnantes telles que passer à la Velocimacro des objets ayant un état,
-    comme un objet qui génère des couleurs en séquences répétées pour colorer les lignes d'un tableau.
+    A premiÃ¨re vue, cette particularitÃ© est surprenante mais si vous considÃ©rez la raison d'Ãªtre originelle des
+    Velocimacros (Ã©liminer la duplication par couper/coller de VTL d'usage courant), Ã§a a bien sÃ»r un sens.
+    Cela vous permet de faire des choses Ã©tonnantes telles que passer Ã  la Velocimacro des objets ayant un Ã©tat,
+    comme un objet qui gÃ©nÃ¨re des couleurs en sÃ©quences rÃ©pÃ©tÃ©es pour colorer les lignes d'un tableau.
   </p>
   <p>
-    Si vous éprouvez le besoin de contourner ce comportement, vous pouvez toujours assigner la valeur reçue de la méthode
-    à une nouvelle référence et passer cette référence:
+    Si vous Ã©prouvez le besoin de contourner ce comportement, vous pouvez toujours assigner la valeur reÃ§ue de la mÃ©thode
+    Ã  une nouvelle rÃ©fÃ©rence et passer cette rÃ©fÃ©rence:
   </p>
   <source><![CDATA[
      #set( $myval = $foo.bar() )
      #callme( $myval )
   ]]></source>
-  <strong>Propriétés des Velocimacros</strong>
+  <strong>PropriÃ©tÃ©s des Velocimacros</strong>
   <p>
-    Plusieurs entrées du fichier <code>velocity.properties</code> permettent une implémentation flexible des Velocimacros.
-    Ces lignes sont commentées en détail dans le <a href="../docs/developer-guide.html">Developer Guide</a> (en anglais).
+    Plusieurs entrÃ©es du fichier <code>velocity.properties</code> permettent une implÃ©mentation flexible des Velocimacros.
+    Ces lignes sont commentÃ©es en dÃ©tail dans le <a href="../docs/developer-guide.html">Developer Guide</a> (en anglais).
   </p>
   <p>
-    <code>velocimacro.library</code> - Une liste (délimitée par des virgules, de toutes les bibliothèques de gabarits
-    Velocimacro. Par défaut, Velocity ne recherche qu'une bibliothèque: <em>VM_global_library.vm</em>.
-    Le chemin de gabarits donné ici est utilisé pour trouver les bibliothèques de Velocimacros.
+    <code>velocimacro.library</code> - Une liste (dÃ©limitÃ©e par des virgules, de toutes les bibliothÃ¨ques de gabarits
+    Velocimacro. Par dÃ©faut, Velocity ne recherche qu'une bibliothÃ¨que: <em>VM_global_library.vm</em>.
+    Le chemin de gabarits donnÃ© ici est utilisÃ© pour trouver les bibliothÃ¨ques de Velocimacros.
   </p>
   <p>
-    <code>velocimacro.permissions.allow.inline</code> - Cette propriété, qui peut prendre les valeurs true ou false,
-    détermine si les Velocimacros peuvent être définies dans des gabarits ordinaires.
-    La valeur par défaut, true, permet aux concepteurs de gabarits de définir des Velocimacros dans les gabarits eux-mêmes.
+    <code>velocimacro.permissions.allow.inline</code> - Cette propriÃ©tÃ©, qui peut prendre les valeurs true ou false,
+    dÃ©termine si les Velocimacros peuvent Ãªtre dÃ©finies dans des gabarits ordinaires.
+    La valeur par dÃ©faut, true, permet aux concepteurs de gabarits de dÃ©finir des Velocimacros dans les gabarits eux-mÃªmes.
   </p>
   <p>
     <code>velocimacro.permissions.allow.inline.to.replace.global</code> - Les valeurs possibles sont true ou false,
-    pour cette propriété qui permet à l'utilisateur de spécifier si une Velocimacro définie en ligne dans un gabarit
-    peut remplacer un gabarit défini globalement, celui qui a été défini au démarrage par la propriété
-    <code>velocimacro.library</code>. La valeur par défaut, <code>false</code>, empêche les Velocimacros défines
-    <i>inline</i> dans un gabarit de remplacer  celles qui sont définies dans les bibliothèques de gabarits chargées
-    au démarrage.
+    pour cette propriÃ©tÃ© qui permet Ã  l'utilisateur de spÃ©cifier si une Velocimacro dÃ©finie en ligne dans un gabarit
+    peut remplacer un gabarit dÃ©fini globalement, celui qui a Ã©tÃ© dÃ©fini au dÃ©marrage par la propriÃ©tÃ©
+    <code>velocimacro.library</code>. La valeur par dÃ©faut, <code>false</code>, empÃªche les Velocimacros dÃ©fines
+    <i>inline</i> dans un gabarit de remplacer  celles qui sont dÃ©finies dans les bibliothÃ¨ques de gabarits chargÃ©es
+    au dÃ©marrage.
   </p>
   <p>
-    <code>velocimacro.permissions.allow.inline.local.scope</code> - Cette propriété, qui peut prendre les valeurs true
-    ou false (false par défaut), contrôle si les Velocimacros définies <i>inline</i> ont leur visibilité limitée au
-    gabarit qui les définit. En d'autres mots, avec cette propriété définie à true, un gabarit peut définir des
-    Velocimacros <i>inline</i> qui ne seront utilisables que par le gabarit qui les définit. Vous pouvez utiliser
-    cette possibilité pour concocter quelques artifices amusants: si une VM globale appelle une autre VM globale,
-    définie <i>inline</i>, un gabarit peut définir une implémentation "privée" de la seconde VM, qui sera appellée
-    par la première VM quand celle-ci est appelée elle-même dans le gabarit. Aucun autre gabarit n'est affecté.
+    <code>velocimacro.permissions.allow.inline.local.scope</code> - Cette propriÃ©tÃ©, qui peut prendre les valeurs true
+    ou false (false par dÃ©faut), contrÃ´le si les Velocimacros dÃ©finies <i>inline</i> ont leur visibilitÃ© limitÃ©e au
+    gabarit qui les dÃ©finit. En d'autres mots, avec cette propriÃ©tÃ© dÃ©finie Ã  true, un gabarit peut dÃ©finir des
+    Velocimacros <i>inline</i> qui ne seront utilisables que par le gabarit qui les dÃ©finit. Vous pouvez utiliser
+    cette possibilitÃ© pour concocter quelques artifices amusants: si une VM globale appelle une autre VM globale,
+    dÃ©finie <i>inline</i>, un gabarit peut dÃ©finir une implÃ©mentation "privÃ©e" de la seconde VM, qui sera appellÃ©e
+    par la premiÃ¨re VM quand celle-ci est appelÃ©e elle-mÃªme dans le gabarit. Aucun autre gabarit n'est affectÃ©.
   </p>
   <p>
-    <code>velocimacro.context.localscope</code> - Cette propriété peut valoir true ou false, la valeur par défaut est
-    false. Quand elle vaut true, toute modification du contexte via #set() à l'intérieur d'une Velocimacro est considérée
-    'locale' à cette Velocimacro et n'affectera pas le contexte de façon permanente.
+    <code>velocimacro.context.localscope</code> - Cette propriÃ©tÃ© peut valoir true ou false, la valeur par dÃ©faut est
+    false. Quand elle vaut true, toute modification du contexte via #set() Ã  l'intÃ©rieur d'une Velocimacro est considÃ©rÃ©e
+    'locale' Ã  cette Velocimacro et n'affectera pas le contexte de faÃ§on permanente.
   </p>
   <p>
-    <code>velocimacro.library.autoreload</code> - Cette propriété contrôle le chargement automatique de la bibliothèque
-    de Velocimacro. La valeur par défaut est <code>false</code>. Quand elle est positionnée à <code>true</code>
-    la bibliothèque source appelée pour une Velocimacro sera vérifiée pour voir si elle a changé et sera rechargée
-    si nécessaire. Ceci vous permet de modifier et de tester des bibliothèques de Velocimacro sans avoir à redémarrer
+    <code>velocimacro.library.autoreload</code> - Cette propriÃ©tÃ© contrÃ´le le chargement automatique de la bibliothÃ¨que
+    de Velocimacro. La valeur par dÃ©faut est <code>false</code>. Quand elle est positionnÃ©e Ã  <code>true</code>
+    la bibliothÃ¨que source appelÃ©e pour une Velocimacro sera vÃ©rifiÃ©e pour voir si elle a changÃ© et sera rechargÃ©e
+    si nÃ©cessaire. Ceci vous permet de modifier et de tester des bibliothÃ¨ques de Velocimacro sans avoir Ã  redÃ©marrer
     votre application ou votre moteur de servlets, exactement comme vous pouvez le faire pour des gabarits ordinaires.
-    Ce mode ne fonctionne que quand le cache est désactivé dans les  <i>resource loaders</i>
-    (par exemple <code>file.resource.loader.cache = false</code>). Cette possibilité a été conçue pour le développement,
+    Ce mode ne fonctionne que quand le cache est dÃ©sactivÃ© dans les  <i>resource loaders</i>
+    (par exemple <code>file.resource.loader.cache = false</code>). Cette possibilitÃ© a Ã©tÃ© conÃ§ue pour le dÃ©veloppement,
     pas pour la production.
   </p>
   <strong>Autres remarques sur les Velocimacros</strong>
   <p>
-    A ce stade, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
-    Cela signifie que vos déclarations #macro() doivent précéder l'usage des Velocimacros.
+    A ce stade, les Velocimacros doivent Ãªtre dÃ©finies avant d'Ãªtre utilisÃ©es dans un gabarit.
+    Cela signifie que vos dÃ©clarations #macro() doivent prÃ©cÃ©der l'usage des Velocimacros.
   </p>
   <p>
-    Il est important de s'en souvenir si l'on essaye d'interpréter (#parse()) un gabarit contenant des directives #macro()
-    <i>inline</i>. Puisque l'interprétation se fait au moment de l'exécution, et que l'interpréteur décide au moment de
-    l'interprétation si, dans un gabarit, un élément qui a l'air d'une VM en est vraiment une, #parse()-er un ensemble de
-    déclarations de VM ne produira pas le résultat escompté. Pour contourner ce problème potentiel, on peut utiliser la
-    propriété <code>velocimacro.library</code> pour que Velocity charge vos VMs au démarrage.
+    Il est important de s'en souvenir si l'on essaye d'interprÃ©ter (#parse()) un gabarit contenant des directives #macro()
+    <i>inline</i>. Puisque l'interprÃ©tation se fait au moment de l'exÃ©cution, et que l'interprÃ©teur dÃ©cide au moment de
+    l'interprÃ©tation si, dans un gabarit, un Ã©lÃ©ment qui a l'air d'une VM en est vraiment une, #parse()-er un ensemble de
+    dÃ©clarations de VM ne produira pas le rÃ©sultat escomptÃ©. Pour contourner ce problÃ¨me potentiel, on peut utiliser la
+    propriÃ©tÃ© <code>velocimacro.library</code> pour que Velocity charge vos VMs au dÃ©marrage.
   </p>
 </section>
 
 <section name="Echappement des directives VTL" href="EchappementdesdirectivesVTL">
   <p>
-    Les directives VTL peuvent être échappées avec le caractère barre de fraction inversée ("\"), de la même manière que
-    les références VTL valides.
+    Les directives VTL peuvent Ãªtre Ã©chappÃ©es avec le caractÃ¨re barre de fraction inversÃ©e ("\"), de la mÃªme maniÃ¨re que
+    les rÃ©fÃ©rences VTL valides.
   </p>
   <source><![CDATA[
 ## #include( "a.txt" ) renders as <contents of a.txt>
@@ -1152,7 +1152,7 @@ $count
 \\#include ( "a.txt" )
 ]]></source>
   <p>
-    Il faut prendre des précautions particulières lorsqu'on échappe des directives VTL qui contiennent plusieurs éléments
+    Il faut prendre des prÃ©cautions particuliÃ¨res lorsqu'on Ã©chappe des directives VTL qui contiennent plusieurs Ã©lÃ©ments
     de script en une seule directive (comme dans le cas d'une instruction conditionnelle if-else-end).
     Voici un exemple typique d'instruction VTL if:
   </p>
@@ -1166,8 +1166,8 @@ $count
 Vyacheslav Ganelin
 ]]></source>
   <p>
-    Si <em>$jazz</em>, il n'y a pas de sortie produite. Echapper des éléments de script modifie la sortie.
-    Considérons le cas suivant:
+    Si <em>$jazz</em>, il n'y a pas de sortie produite. Echapper des Ã©lÃ©ments de script modifie la sortie.
+    ConsidÃ©rons le cas suivant:
   </p>
   <source><![CDATA[
 \#if( $jazz )
@@ -1181,9 +1181,9 @@ Vyacheslav Ganelin
  #end
 ]]></source>
   <p>
-    En fait, puisque tous les éléments de script sont échappés, <em>$jazz</em> n'est jamais évalué en vue d'en connaître
-    la valeur logique. Supposons que les barres de fraction inverses précèdent les éléments de script qui sont
-    légitimement échappés:
+    En fait, puisque tous les Ã©lÃ©ments de script sont Ã©chappÃ©s, <em>$jazz</em> n'est jamais Ã©valuÃ© en vue d'en connaÃ®tre
+    la valeur logique. Supposons que les barres de fraction inverses prÃ©cÃ¨dent les Ã©lÃ©ments de script qui sont
+    lÃ©gitimement Ã©chappÃ©s:
   </p>
   <source><![CDATA[
 \\#if( $jazz )
@@ -1196,10 +1196,10 @@ Vyacheslav Ganelin
 \
 ]]></source>
   <p>
-    Pour comprendre, notons que le  <code>#if( arg ) </code>, lorsqu'il est terminé par un retour à la ligne, omettra
-    ce retour à la ligne de la sortie produite. Donc, le corps du bloc <code>#if()</code> suit la première barre '\',
-    rendue par le '\\' qui précède <code>#if()</code>. Le dernier \ est sur une ligne différente du texte qui précède
-    parce qu'il y a un retour chariot après 'Ganelin', et donc le \\ final, qui précède le <code>#end</code> fait partie
+    Pour comprendre, notons que le  <code>#if( arg ) </code>, lorsqu'il est terminÃ© par un retour Ã  la ligne, omettra
+    ce retour Ã  la ligne de la sortie produite. Donc, le corps du bloc <code>#if()</code> suit la premiÃ¨re barre '\',
+    rendue par le '\\' qui prÃ©cÃ¨de <code>#if()</code>. Le dernier \ est sur une ligne diffÃ©rente du texte qui prÃ©cÃ¨de
+    parce qu'il y a un retour chariot aprÃ¨s 'Ganelin', et donc le \\ final, qui prÃ©cÃ¨de le <code>#end</code> fait partie
     du corps du bloc.
   </p>
   
@@ -1214,8 +1214,8 @@ Vyacheslav Ganelin
   
   
   <p>
-    Notons que les choses vont commencer à mal se passer
-    si des éléments de script ne sont pas échappés correctement.
+    Notons que les choses vont commencer Ã  mal se passer
+    si des Ã©lÃ©ments de script ne sont pas Ã©chappÃ©s correctement.
   </p>
   <source><![CDATA[
 \\\#if( $jazz )
@@ -1223,14 +1223,14 @@ Vyacheslav Ganelin
 \\#end
 ]]></source>
   <p>
-    Ici le <em>#if</em> est échappé, mais il y a un <em>#end</em> qui reste là, et trop de terminaisons vont causer
-    une erreur dans l'interprétation.
+    Ici le <em>#if</em> est Ã©chappÃ©, mais il y a un <em>#end</em> qui reste lÃ , et trop de terminaisons vont causer
+    une erreur dans l'interprÃ©tation.
   </p>
 </section>
 
 <section name="VTL: Questions de format" href="VTL:Questionsdeformat">
   <p>
-    Bien que le VTL soit souvent montré dans ce guide de l'utilisateur avec des sauts de ligne et des espaces,
+    Bien que le VTL soit souvent montrÃ© dans ce guide de l'utilisateur avec des sauts de ligne et des espaces,
     le VTL ci-dessous:
   </p>
   <source><![CDATA[
@@ -1240,13 +1240,13 @@ Vyacheslav Ganelin
 #end
 ]]></source>
   <p>
-    est tout aussi valide que le bout de code suivant, posté par Geir Magnusson Jr. à la liste de diffusion Velocity
+    est tout aussi valide que le bout de code suivant, postÃ© par Geir Magnusson Jr. Ã  la liste de diffusion Velocity
     (pour illustrer un point sans rapport avec notre sujet):
   </p>
   <source><![CDATA[
 Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
 ]]></source>
-  <p>Velocity digère les blancs inutiles. La directive qui précède peut donc s'écrire de la manière suivante:</p>
+  <p>Velocity digÃ¨re les blancs inutiles. La directive qui prÃ©cÃ¨de peut donc s'Ã©crire de la maniÃ¨re suivante:</p>
   <source><![CDATA[
 Send me
 #set( $foo = ["$10 and ","a cake"] )
@@ -1265,11 +1265,11 @@ Send me
   <p>Dans tous les cas, la sortie sera identique.</p>
 </section>
 
-<section name="Autres caractéristiques et sujets divers" href="Autrescaractéristiquesetsujetsdivers">
+<section name="Autres caractÃ©ristiques et sujets divers" href="AutrescaractÃ©ristiquesetsujetsdivers">
   <subsection name="Math" href="Math">
     <p>
-      Velocity a quelques fonctions mathématiques intégrées, fonctions que l'on peut utiliser dans les gabarits
-      avec la directive <em>set</em>. Les équations suivantes sont des exemples d'addition, soustraction, multiplication
+      Velocity a quelques fonctions mathÃ©matiques intÃ©grÃ©es, fonctions que l'on peut utiliser dans les gabarits
+      avec la directive <em>set</em>. Les Ã©quations suivantes sont des exemples d'addition, soustraction, multiplication
       et division respectivement:
     </p>
     <source><![CDATA[
@@ -1279,27 +1279,27 @@ Send me
 #set( $foo = $bar / 2 )
 ]]></source>
     <p>
-      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut 
-      être obtenu en utilisant l'opérateur modulo (<em>%</em>).
+      Lorsqu'une opÃ©ration de division est exÃ©cutÃ©e, le rÃ©sultat sera un entier. Le reste Ã©ventuel de la division peut 
+      Ãªtre obtenu en utilisant l'opÃ©rateur modulo (<em>%</em>).
     </p>
     <source><![CDATA[
 #set( $foo = $bar % 5 )
 ]]></source>
   </subsection>
   
-  <subsection name="Opérateur d'intervalle (range)" href="Opérateurd'intervalle(range)">
+  <subsection name="OpÃ©rateur d'intervalle (range)" href="OpÃ©rateurd'intervalle(range)">
     <p>
-      L'opérateur d'intervalle peut être utilisé en conjonction avec les instructions <em>#set</em> et
+      L'opÃ©rateur d'intervalle peut Ãªtre utilisÃ© en conjonction avec les instructions <em>#set</em> et
       <em>#foreach</em>. C'est assez commode pour produire un tableau d'objets contenant des entiers;
-      l'opérateur d'intervalle est construit comme ceci:
+      l'opÃ©rateur d'intervalle est construit comme ceci:
     </p>
     <source><![CDATA[
 [n..m]
 ]]></source>
     <p>
-      <em>n</em> et <em>m</em> doivent tous deux être ou renvoyer des entiers. Que <em>m</em> soit plus grand ou plus
-      petit que <em>n</em> importe peu, si cela se produit le tableau décompte. Voici quelques exemples de l'opérateur
-      de portée:
+      <em>n</em> et <em>m</em> doivent tous deux Ãªtre ou renvoyer des entiers. Que <em>m</em> soit plus grand ou plus
+      petit que <em>n</em> importe peu, si cela se produit le tableau dÃ©compte. Voici quelques exemples de l'opÃ©rateur
+      de portÃ©e:
     </p>
     <source><![CDATA[
 Premier exemple:
@@ -1312,13 +1312,13 @@ Second exemple:
 $bar
 #end
 
-Troisième exemple:
+TroisiÃ¨me exemple:
 #set( $arr = [0..1] )
 #foreach( $i in $arr )
 $i
 #end
 
-Quatrième exemple:
+QuatriÃ¨me exemple:
 [1..3]
 ]]></source>
     <p>Produit la sortie suivante:</p>
@@ -1329,27 +1329,27 @@ Premier exemple:
 Second exemple:
 2 1 0 -1 -2
 
-Troisième exemple:
+TroisiÃ¨me exemple:
 0 1
 
-Quatrième exemple:
+QuatriÃ¨me exemple:
 [1..3]
 ]]></source>
     <p>
-      Il est à noter que l'opérateur d'intervalle ne produit le tableau qu'utilisé en conjonction avec les directives
-      <em>#set</em> et <em>#foreach</em>, comme démontré dans le quatrième exemple.
+      Il est Ã  noter que l'opÃ©rateur d'intervalle ne produit le tableau qu'utilisÃ© en conjonction avec les directives
+      <em>#set</em> et <em>#foreach</em>, comme dÃ©montrÃ© dans le quatriÃ¨me exemple.
     </p>
     <p>
       Les concepteurs de pages web soucieux de construire des tables de taille standard, mais dans lequelles il n'y a
-      pas assez de données pour remplir la table, trouveront cet opérateur d'intervalle particulièrement utile.
+      pas assez de donnÃ©es pour remplir la table, trouveront cet opÃ©rateur d'intervalle particuliÃ¨rement utile.
     </p>
   </subsection>
   
   <subsection name="Questions pointues: Echappement et !" href="Questionspointues:Echappementet!">
     <p>
-      Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère 
-      <em>!</em> est précédé par un caractère d'échappement <em>\</em>, la référence est traitée de manière particulière.
-      A noter: les différences entre l'échappement ordinaire et le cas particulier où <em>\</em> précède <em>!</em>
+      Lorsqu'une rÃ©fÃ©rence est annulÃ©e par le caractÃ¨re <em>!</em> et que ce caractÃ¨re 
+      <em>!</em> est prÃ©cÃ©dÃ© par un caractÃ¨re d'Ã©chappement <em>\</em>, la rÃ©fÃ©rence est traitÃ©e de maniÃ¨re particuliÃ¨re.
+      A noter: les diffÃ©rences entre l'Ã©chappement ordinaire et le cas particulier oÃ¹ <em>\</em> prÃ©cÃ¨de <em>!</em>
       comme ici:
     </p>
     <source><![CDATA[
@@ -1366,7 +1366,7 @@ $!{foo}
 $\!foo
 $\\!foo
 ]]></source>
-    <p>A comparer avec l'échappement ordinaire, où <em>\</em> précède <em>$</em>:</p>
+    <p>A comparer avec l'Ã©chappement ordinaire, oÃ¹ <em>\</em> prÃ©cÃ¨de <em>$</em>:</p>
     <source><![CDATA[
 \$foo
 \$!foo
@@ -1382,13 +1382,13 @@ $!{foo}
 ]]></source>
   </subsection>
   
-  <subsection name="Compléments divers sur les Velocimacros" href="ComplémentsdiverssurlesVelocimacros">
+  <subsection name="ComplÃ©ments divers sur les Velocimacros" href="ComplÃ©mentsdiverssurlesVelocimacros">
     <p>
-      Cette section est une mini-FAQ sur différents sujets relatifs aux Velocimacros.
-      Cette section évoluera au fil du temps, et cela vaudra donc la peine d'y revenir occasionnellement pour y
+      Cette section est une mini-FAQ sur diffÃ©rents sujets relatifs aux Velocimacros.
+      Cette section Ã©voluera au fil du temps, et cela vaudra donc la peine d'y revenir occasionnellement pour y
       chercher de nouvelles informations.
     </p>
-    <p>Note: tout au long de cette section, 'Velocimacro' sera habituellement abrégé en 'VM'.</p>
+    <p>Note: tout au long de cette section, 'Velocimacro' sera habituellement abrÃ©gÃ© en 'VM'.</p>
     <strong>Puis-je utiliser une directive ou une autre VM comme argument d'une VM?</strong>
     <p>Exemple : <code>#center( #bold("hello") )</code></p>
     <p>
@@ -1397,20 +1397,20 @@ $!{foo}
     </p>
     <p>
       <i>Pourtant...</i>, il y a des choses que vous pouvez faire. Une solution, simple, est de tirer avantage du fait
-      que l'apostrophe (") restitue son contenu. Vous pouvez donc écrire quelque chose comme
+      que l'apostrophe (") restitue son contenu. Vous pouvez donc Ã©crire quelque chose comme
     </p>
     <source><![CDATA[
 #set($stuff = "#bold('hello')" )
 #center( $stuff )
 ]]></source>
-    <p>Vous pouvez même vous épargner une étape...</p>
+    <p>Vous pouvez mÃªme vous Ã©pargner une Ã©tape...</p>
     <source><![CDATA[
 #center( "#bold( 'hello' )" )
 ]]></source>
     <p>
-      Mais il est à noter, dans ce dernier exemple, que l'argument est évalué <i>à l'intérieur</i> de la VM, pas au niveau
-      de l'appel. En d'autres termes, l'argument passé à la VM est passé dans son intégralité et évalué dans la VM à
-      laquelle il a été passé. Ceci permet d'écrire des choses comme:
+      Mais il est Ã  noter, dans ce dernier exemple, que l'argument est Ã©valuÃ© <i>Ã  l'intÃ©rieur</i> de la VM, pas au niveau
+      de l'appel. En d'autres termes, l'argument passÃ© Ã  la VM est passÃ© dans son intÃ©gralitÃ© et Ã©valuÃ© dans la VM Ã 
+      laquelle il a Ã©tÃ© passÃ©. Ceci permet d'Ã©crire des choses comme:
     </p>
     <source><![CDATA[
 #macro( inner $foo )
@@ -1430,12 +1430,12 @@ $!{foo}
 Outer : inner : outerlala
 ]]></source>
     <p>
-      puisque l'évaluation de "#inner($bar)" se produit à l'intérieur de  #outer(), et c'est donc la valeur $bar
-      positionnée à l'intérieur de  #outer() qui est utilisée.
+      puisque l'Ã©valuation de "#inner($bar)" se produit Ã  l'intÃ©rieur de  #outer(), et c'est donc la valeur $bar
+      positionnÃ©e Ã  l'intÃ©rieur de  #outer() qui est utilisÃ©e.
     </p>
     <p>
-      Ceci est tout à fait intentionnel, et c'est une caractéristique jalousement gardée - les arguments sont passés
-      'par nom' aux VM, de sorte qu'on puisse passer aux VM un genre de "références avec état" telles que
+      Ceci est tout Ã  fait intentionnel, et c'est une caractÃ©ristique jalousement gardÃ©e - les arguments sont passÃ©s
+      'par nom' aux VM, de sorte qu'on puisse passer aux VM un genre de "rÃ©fÃ©rences avec Ã©tat" telles que
     </p>
     <source><![CDATA[
 #macro( foo $color )
@@ -1446,8 +1446,8 @@ Outer : inner : outerlala
 #foo( $bar.rowColor() )
 ]]></source>
     <p>
-      et appeler rowColor() plusieurs fois, plutôt qu'une fois. Pour éviter cela, il faut appeler la méthode hors de la VM
-      et passer la valeur à la VM.
+      et appeler rowColor() plusieurs fois, plutÃ´t qu'une fois. Pour Ã©viter cela, il faut appeler la mÃ©thode hors de la VM
+      et passer la valeur Ã  la VM.
     </p>
     <source><![CDATA[
 #set($color = $bar.rowColor())
@@ -1455,29 +1455,29 @@ Outer : inner : outerlala
 ]]></source>
     <strong>Peut-on enregistrer des Velocimacros avec #parse() ?</strong>
     <p>
-      Pour l'instant, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
-      Ce qui signifie que les déclarations #macro() doivent précéder l'usage des Velocimacros.
+      Pour l'instant, les Velocimacros doivent Ãªtre dÃ©finies avant d'Ãªtre utilisÃ©es dans un gabarit.
+      Ce qui signifie que les dÃ©clarations #macro() doivent prÃ©cÃ©der l'usage des Velocimacros.
     </p>
     <p>
-      Il est important de s'en souvenir si l'on essaye d'interpréter avec #parse() un gabarit qui contient des directives
-      #macro() définies <i>inline</i>. Puisque le #parse() a lieu au moment de l'exécution, et que l'interpréteur décide
-      à ce moment si quelque chose qui ressemble syntaxiquement à une VM dans le gabarit en est vraiment une au moment de
-      l'interprétation, #parse()-r un ensemble de déclarations de VM ne fonctionnera pas comme on pourrait le prévoir.
+      Il est important de s'en souvenir si l'on essaye d'interprÃ©ter avec #parse() un gabarit qui contient des directives
+      #macro() dÃ©finies <i>inline</i>. Puisque le #parse() a lieu au moment de l'exÃ©cution, et que l'interprÃ©teur dÃ©cide
+      Ã  ce moment si quelque chose qui ressemble syntaxiquement Ã  une VM dans le gabarit en est vraiment une au moment de
+      l'interprÃ©tation, #parse()-r un ensemble de dÃ©clarations de VM ne fonctionnera pas comme on pourrait le prÃ©voir.
       Pour contourner ce comportement, il suffit d'utiliser <code>velocimacro.library</code> pour que Velocity charge
-      vos VM's au démarrage.
+      vos VM's au dÃ©marrage.
     </p>
     <strong>Qu'est-ce que le <i>Velocimacro Autoreloading</i>?</strong>
-    <p>Il existe une propriété, conçue pour le <i>développement</i>, pas pour la production:</p>
+    <p>Il existe une propriÃ©tÃ©, conÃ§ue pour le <i>dÃ©veloppement</i>, pas pour la production:</p>
     <p><code>velocimacro.library.autoreload</code></p>
-    <p>dont la valeur par défaut est <i>false</i>. Lorsque cette propriété est positionnée à <i>true</i>, en même temps que</p>
+    <p>dont la valeur par dÃ©faut est <i>false</i>. Lorsque cette propriÃ©tÃ© est positionnÃ©e Ã  <i>true</i>, en mÃªme temps que</p>
     <p><code>&lt;type&gt;.resource.loader.cache = false</code></p>
     <p>
-      (où &lt;type&gt; est le nom du chargeur de ressources que vous utilisez, par exemple 'file'), le moteur Velocity va
-      automatiquement prendre en compte les changements apportés à vos fichiers de bibliothèques Velocimacro, au fur et à
-      mesure que vous les modifiez, de sorte que vous n'ayez pas à arrêter le moteur de servlet (ou l'application) ou avoir
-      recours à tout autre subterfuge de ce genre pour recharger vos Velocimacros.
+      (oÃ¹ &lt;type&gt; est le nom du chargeur de ressources que vous utilisez, par exemple 'file'), le moteur Velocity va
+      automatiquement prendre en compte les changements apportÃ©s Ã  vos fichiers de bibliothÃ¨ques Velocimacro, au fur et Ã 
+      mesure que vous les modifiez, de sorte que vous n'ayez pas Ã  arrÃªter le moteur de servlet (ou l'application) ou avoir
+      recours Ã  tout autre subterfuge de ce genre pour recharger vos Velocimacros.
     </p>
-    <p>Voici à quoi peut ressembler un ensemble simple de propriétés.</p>
+    <p>Voici Ã  quoi peut ressembler un ensemble simple de propriÃ©tÃ©s.</p>
     <source><![CDATA[
     file.resource.loader.path = templates
     file.resource.loader.cache = false
@@ -1486,16 +1486,16 @@ Outer : inner : outerlala
     <p>Ne gardez pas cette configuration en production.</p>
   </subsection>
   
-  <subsection name="Concaténation de chaînes" href="Concaténationdechaînes">
+  <subsection name="ConcatÃ©nation de chaÃ®nes" href="ConcatÃ©nationdechaÃ®nes">
     <p>
-      Une question habituelle parmi les développeurs est:
-      <i>Comment concaténer des chaînes de caractères? Y a-t'il quelque chose de semblable à l'opérateur '+' en Java?</i>.
+      Une question habituelle parmi les dÃ©veloppeurs est:
+      <i>Comment concatÃ©ner des chaÃ®nes de caractÃ¨res? Y a-t'il quelque chose de semblable Ã  l'opÃ©rateur '+' en Java?</i>.
     </p>
     <p>
-      Pour concaténer des références en VTL, il suffit de les 'mettre ensemble'. Le contexte dans lequel vous voulez les
+      Pour concatÃ©ner des rÃ©fÃ©rences en VTL, il suffit de les 'mettre ensemble'. Le contexte dans lequel vous voulez les
       assembler ainsi a une certaine importance, il faut donc illustrer notre propos par quelques exemples.
     </p>
-    <p>Dans le flux habituel d'un gabarit (lorsqu'on mélange les références avec du contenu ordinaire):</p>
+    <p>Dans le flux habituel d'un gabarit (lorsqu'on mÃ©lange les rÃ©fÃ©rences avec du contenu ordinaire):</p>
     <source><![CDATA[
        #set( $size = "Big" )
        #set( $name = "Ben" )
@@ -1503,8 +1503,8 @@ Outer : inner : outerlala
       Cette horloge sonne comme $size$name.
    ]]></source>
     <p>
-      produira 'Cette horloge sonne comme BigBen'. Pour prendre des exemples plus intéressants, lorsqu'on veut concaténer
-      des chaînes pour les passer à une méthode ou les assigner à une nouvelle référence, il suffit d'écrire:
+      produira 'Cette horloge sonne comme BigBen'. Pour prendre des exemples plus intÃ©ressants, lorsqu'on veut concatÃ©ner
+      des chaÃ®nes pour les passer Ã  une mÃ©thode ou les assigner Ã  une nouvelle rÃ©fÃ©rence, il suffit d'Ã©crire:
     </p>
     <source><![CDATA[
       #set( $size = "Big" )
@@ -1515,8 +1515,8 @@ Outer : inner : outerlala
       Cette horloge sonne comme $clock.
     ]]></source>
     <p>
-      Ce qui produit le même résultat. Dernier exemple, lorsqu'on veut mélanger des chaînes "statiques" avec des
-      références, il peut être nécessaire d'utiliser les "références formelles" rencontrées plus haut:
+      Ce qui produit le mÃªme rÃ©sultat. Dernier exemple, lorsqu'on veut mÃ©langer des chaÃ®nes "statiques" avec des
+      rÃ©fÃ©rences, il peut Ãªtre nÃ©cessaire d'utiliser les "rÃ©fÃ©rences formelles" rencontrÃ©es plus haut:
     </p>
     <source><![CDATA[
       #set( $size = "Big" )
@@ -1527,9 +1527,9 @@ Outer : inner : outerlala
       Cette horloge sonne comme $clock.
     ]]></source>
     <p>
-      Et maintenant le résultat produit est 'Cette horloge sonne comme BigTallBen'.
-      La notation formelle est requise pour que l'interpréteur comprenne que l'on souhaite utiliser '$size' et non
-      '$sizeTall', ce qui serait le cas si les accolades n'étaient pas présentes.
+      Et maintenant le rÃ©sultat produit est 'Cette horloge sonne comme BigTallBen'.
+      La notation formelle est requise pour que l'interprÃ©teur comprenne que l'on souhaite utiliser '$size' et non
+      '$sizeTall', ce qui serait le cas si les accolades n'Ã©taient pas prÃ©sentes.
     </p>
   </subsection>
 </section>
@@ -1538,7 +1538,7 @@ Outer : inner : outerlala
   <p>
     Si vous rencontrez des erreurs dans le manuel (autres que des erreurs de traduction), ou si vous voulez faire part de
     votre avis sur le Guide de l'utilisateur Velocity,
-    envoyez un mail à la <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
+    envoyez un mail Ã  la <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
     Merci!
   </p>
 </section>
