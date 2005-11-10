@@ -254,7 +254,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return initialized;
     }
-    
+
     /**
      *  Gets the classname for the Uberspect introspection package and
      *  instantiates an instance.
@@ -323,19 +323,36 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void setDefaultProperties()
     {
+        InputStream inputStream = null;
         try
         {
-            InputStream inputStream = getClass()
+            inputStream = getClass()
                 .getResourceAsStream('/' + DEFAULT_RUNTIME_PROPERTIES);
 
             configuration.load( inputStream );
 
             info ("Default Properties File: " +
                 new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+
+
         }
         catch (IOException ioe)
         {
-            System.err.println("Cannot get Velocity Runtime default properties!");
+            log.error("Cannot get Velocity Runtime default properties!");
+        }
+        finally
+        {
+            try
+            {
+                if (inputStream != null)
+                {
+                    inputStream.close();
+                }
+            }
+            catch (IOException ioe)
+            {
+                log.error("Cannot close Velocity Runtime default properties!" + ioe);
+            }
         }
     }
 
@@ -686,19 +703,43 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * that we should initialize.
          */
 
-        InputStream inputStream =
-            getClass().getResourceAsStream('/' + DEFAULT_RUNTIME_DIRECTIVES);
+        InputStream inputStream = null;
 
-        if (inputStream == null)
+        try
         {
-            throw new Exception("Error loading directive.properties! " +
-                                "Something is very wrong if these properties " +
-                                "aren't being located. Either your Velocity " +
-                                "distribution is incomplete or your Velocity " +
-                                "jar file is corrupted!");
+            inputStream = getClass().getResourceAsStream('/' + DEFAULT_RUNTIME_DIRECTIVES);
+
+            if (inputStream == null)
+            {
+                throw new Exception("Error loading directive.properties! " +
+                                    "Something is very wrong if these properties " +
+                                    "aren't being located. Either your Velocity " +
+                                    "distribution is incomplete or your Velocity " +
+                                    "jar file is corrupted!");
+            }
+
+            directiveProperties.load(inputStream);
+
+        }
+        catch (IOException ioe)
+        {
+            log.error("Error while loading directive properties!",ioe);
+        }
+        finally
+        {
+            try
+            {
+                if (inputStream != null)
+                {
+                    inputStream.close();
+                }
+            }
+            catch (IOException ioe)
+            {
+                log.error("Cannot close directive properties!", ioe);
+            }
         }
 
-        directiveProperties.load(inputStream);
 
         /*
          * Grab all the values of the properties. These
