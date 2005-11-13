@@ -359,7 +359,7 @@ directive.foreach.maxloops = -1
     </p>
 
     <p>
-    <strong>#</strong> [ <strong>{</strong> ] <strong>include</strong> [ <strong>}</strong> ] <strong>( </strong>arg[, arg2, ... argn]<strong> )</strong>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>include</strong> [ <strong>}</strong> ] <strong>( </strong>arg[ arg2  ... argn]<strong> )</strong>
     </p>
 
     <ul>
@@ -371,8 +371,8 @@ directive.foreach.maxloops = -1
     </p>
 
     <ul>
-      <li>String: #include( "disclaimer.txt", "opinion.txt" )</li>
-      <li>Variable: #include( $foo, $bar )</li>
+      <li>String: #include( "disclaimer.txt"  "opinion.txt" )</li>
+      <li>Variable: #include( $foo  $bar )</li>
     </ul>
   </subsection>
 
