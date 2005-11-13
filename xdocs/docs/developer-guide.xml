@@ -1441,7 +1441,7 @@ relative to the 'current directory'.
 <code>runtime.log.logsystem</code><br/>
 This property has no default value.  It is used to give Velocity an
 instantiated instance of a logging class that supports the interface
-<code>org.apache.velocity.runtime.log.LogChute.</code>, which allows
+<code>org.apache.velocity.runtime.log.LogChute</code>, which allows
 the combination of Velocity log messages with your other application
 log messages.  Please see the section
 <a href="#Configuring Logging">Configuring Logging</a>
