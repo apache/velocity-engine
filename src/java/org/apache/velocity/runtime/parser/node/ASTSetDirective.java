@@ -88,51 +88,65 @@ public class ASTSetDirective extends SimpleNode
         throws IOException, MethodInvocationException
     {
         /*
-         *  get the RHS node, and it's value
+         *  get the RHS node, and its value
          */
 
         Object value = right.value(context);
 
         /*
-         * it's an error if we don't have a value of some sort
+         * it's an error if we don't have a value of some sort AND 
+         * it is not allowed by configuration 
          */
 
-        if ( value  == null)
+        if( !rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED,false) ) 
+        {
+            if ( value == null )
+            {
+                /*
+                 *  first, are we supposed to say anything anyway?
+                 */
+                if(blather)
+                {
+                    boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
+    
+                    if (doit)
+                    {
+                        log.warn("RHS of #set statement is null. Context will not be modified. " 
+                                      + context.getCurrentTemplateName() + " [line " + getLine() 
+                                      + ", column " + getColumn() + "]");
+                    }
+                }
+    
+                return false;
+            }                
+        }      
+
+        if ( value == null )
         {
             /*
-             *  first, are we supposed to say anything anyway?
+             * if RHS is null it doesn't matter if LHS is simple or complex
+             * because the LHS is removed from context
              */
-            if(blather)
-            {
-               
-                boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
-
-                if (doit)
-                {
-                    log.error("RHS of #set statement is null. Context will not be modified. " 
-                                  + context.getCurrentTemplateName() + " [line " + getLine() 
-                                  + ", column " + getColumn() + "]");
-                }
-            }
-
-            return false;
-        }                
-
-        /*
-         *  if the LHS is simple, just punch the value into the context
-         *  otherwise, use the setValue() method do to it.
-         *  Maybe we should always use setValue()
-         */
-        
-        if (left.jjtGetNumChildren() == 0)
-        {
-            context.put( leftReference, value);
+            context.remove( leftReference );
         }
         else
         {
-            left.setValue(context, value);
+            /*
+             *  if the LHS is simple, just punch the value into the context
+             *  otherwise, use the setValue() method do to it.
+             *  Maybe we should always use setValue()
+             */
+            
+            if (left.jjtGetNumChildren() == 0)
+            {
+                context.put( leftReference, value);
+            }
+            else
+            {
+                left.setValue(context, value);
+            }
         }
-    
+        
         return true;
     }
 

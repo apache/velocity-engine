@@ -1,0 +1,8 @@
+## This template is used for the case in which #set with a null
+## is not accepted
+set2
+
+#set($abc = "123")
+$abc
+#set($abc = $boohoo)
+$abc

@@ -1260,7 +1260,8 @@ Currently, there are 3 events that can be handled, and all are found in the
 <i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
 
 <blockquote>
-When a #set() results in a null assignment, this is normally
+When a #set() rejects an assignment due to the right hand side being an invalid
+or null reference, this is normally
 logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the
 logging of this condition.
 <br/>
@@ -1506,6 +1507,17 @@ Default starting value for the loop counter reference in a #foreach() loop.
 <p>
 <code>directive.foreach.maxloops = -1</code><br/>
 Maximum allowed number of loops for a #foreach() statement.
+</p>
+
+<p>
+<strong>#set() Directive</strong>
+</p>
+
+<p>
+<code>directive.set.null.allowed = false</code><br/>
+If true, having a right hand side of a #set() statement with
+an invalid reference or null value will set the left hand side to null.
+If false, the left hand side will stay the same.
 </p>
 
 <p>
