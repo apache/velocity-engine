@@ -135,6 +135,11 @@ public class TexenTask
     protected boolean useClasspath;
 
     /**
+     * The LogFile (incl. path) to log to.
+     */
+    protected String logFile; 
+    
+    /**
      *   Property which controls whether the resource
      *   loader will be told to cache.  Default false
      */
@@ -254,6 +259,22 @@ public class TexenTask
         return outputFile;
     }
 
+    /**
+     * Sets the log file.
+     */
+    public void setLogFile(String log)
+    {
+        this.logFile = log;
+    }
+    
+    /**
+     * Gets the log file.
+     */
+    public String getLogFile()
+    {
+        return this.logFile;
+    }
+    
     /**
      * Set the context properties that will be
      * fed into the initial context be the
@@ -427,6 +448,11 @@ public class TexenTask
                         ".modificationCheckInterval", resourceLoaderModificationCheckInterval);
             }
 
+            if (this.logFile != null)
+            {
+                ve.setProperty(RuntimeConstants.RUNTIME_LOG, this.logFile);
+            } 
+            
             ve.init();
 
             // Create the text generator.
