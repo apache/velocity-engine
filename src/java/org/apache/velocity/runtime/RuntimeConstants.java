@@ -123,6 +123,11 @@ public interface RuntimeConstants
     public static final String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
 
     /**
+     * if set to true then allows #set to accept null values in the right hand side.
+     */
+    public static final String SET_NULL_ALLOWED = "directive.set.null.allowed";
+    
+    /**
      * Starting tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only
      * string literals, and references are allowed.

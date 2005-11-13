@@ -919,9 +919,12 @@ ${data.Request.ServerName}
 
  <p>
     If the RHS is a property or method reference that evaluates to
-    <em>null</em>, it will <b>not</b> be assigned to the LHS.  It is
-    not possible to remove an existing reference from the context via
-    this mechanism.  This can be confusing for
+    <em>null</em>, it will <b>not</b> be assigned to the LHS.  
+	Depending on how Velocity is configured, it is usually not
+    possible to remove an existing reference from the context via
+    this mechanism.  
+	(Note that this can be permitted by changing one of the Velocity configuration properties).
+	This can be confusing for
     newcomers to Velocity.  For example:
  </p>
 
