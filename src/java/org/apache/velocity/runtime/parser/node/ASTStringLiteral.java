@@ -16,15 +16,14 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-
-import java.io.StringWriter;
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.io.StringWriter;
 
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 
 /**
  * ASTStringLiteral support.  Will interpolate!
@@ -41,6 +40,9 @@ public class ASTStringLiteral extends SimpleNode
     private String image = "";
     private String interpolateimage = "";
 
+    /** true if the string contains a line comment (##) */
+    private boolean containsLineComment;
+    
     public ASTStringLiteral(int id)
     {
         super(id);
@@ -87,12 +89,37 @@ public class ASTStringLiteral extends SimpleNode
         image = getFirstToken().image.substring(1, 
                                                 getFirstToken().image.length() - 1);
 
+        /**
+         * note.  A kludge on a kludge.  The first part, Geir calls 
+         * this the dreaded <MORE> kludge.  Basically, the use of the 
+         * <MORE> token eats the last character of an interpolated 
+         * string.  EXCEPT when a line comment (##) is in
+         * the string this isn't an issue.  
+         * 
+         * So, to solve this we look for a line comment.  If it isn't found
+         * we add a space here and remove it later.
+         */
+        
+        /**
+         * Note - this should really use a regexp to look for [^\]##
+         * but apparently escaping of line comments isn't working right
+         * now anyway.
+         */
+        containsLineComment = (image.indexOf("##") != -1);
+        
         /*
-         * tack a space on the end (dreaded <MORE> kludge)
+         * if appropriate, tack a space on the end (dreaded <MORE> kludge)
          */
 
-        interpolateimage = image + " ";
-
+        if (!containsLineComment)
+        {
+            interpolateimage = image + " ";
+        }
+        else
+        {
+            interpolateimage = image;
+        }
+            
         if (interpolate)
         {
             /*
@@ -152,10 +179,17 @@ public class ASTStringLiteral extends SimpleNode
                 String ret = writer.toString();
 
                 /*
-                 *  remove the space from the end (dreaded <MORE> kludge)
+                 * if appropriate, remove the space from the end 
+                 * (dreaded <MORE> kludge part deux)
                  */
-
-                return ret.substring(0, ret.length() - 1);
+                if (!containsLineComment)
+                {
+                    return ret.substring(0, ret.length() - 1);
+                }
+                else
+                {
+                    return ret;
+                }
             }
             catch(Exception e)
             {
