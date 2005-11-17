@@ -25,6 +25,7 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
@@ -342,11 +343,17 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getLoaderNameForResource( resourceName );
     }
 
-    
+
     /**
-     * Log a warning message.
-     *
-     * @param Object message to log
+     * Returns a convenient Log instance that wraps the current LogChute.
+     */
+    public static Log getLog()
+    {
+        return ri.getLog();
+    }
+
+    /**
+     * @deprecated Use getLog() and call warn() on it.
      */
     public static void warn(Object message)
     {
@@ -354,9 +361,7 @@ public class RuntimeSingleton implements RuntimeConstants
     }
     
     /** 
-     * Log an info message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call info() on it.
      */
     public static void info(Object message)
     {
@@ -364,9 +369,7 @@ public class RuntimeSingleton implements RuntimeConstants
     }
     
     /**
-     * Log an error message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call error() on it.
      */
     public static void error(Object message)
     {
@@ -374,9 +377,7 @@ public class RuntimeSingleton implements RuntimeConstants
     }
     
     /**
-     * Log a debug message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call debug() on it.
      */
     public static void debug(Object message)
     {
