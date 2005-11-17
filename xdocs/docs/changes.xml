@@ -22,6 +22,7 @@
 </p>
 
 <ul>
+<li>Made a lot of internal logging upgrades including: Deprecated LogSystem interface and replaced it (and all its implementations) with a new LogChute interface and implementations, added getLog() to RuntimeServices (and all its friends) to improve on and replace its now deprecated logging methods, added a JdkLogChute as a 3rd default option for those using JDK 1.4+, and added a StandardOutLogChute as final resort if other LogChute inits fail. See JIRA issues VELOCITY-403, VELOCITY-166, VELOCITY-78, VELOCITY-157, VELOCITY-159, VELOCITY-193. (ndb)</li>
 <li>ant build now downloads the required dependency jars from ibiblio.org (henning)</li>
 <li>Unified template name, line and column number reporting for ParserErrorException (henning)</li>
 <li>Dropped the non-functional Velocity compiler. (henning)</li>
