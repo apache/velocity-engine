@@ -172,6 +172,10 @@ public class ASTReference extends SimpleNode
             for (int i = 0; i < numChildren; i++)
             {
                 result = getChild(i).execute(result,context);
+                if (result == null)
+                {
+                    break;
+                }
             }
 
             return result;
