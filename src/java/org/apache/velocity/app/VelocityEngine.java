@@ -31,6 +31,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -564,10 +565,18 @@ public class VelocityEngine implements RuntimeConstants
         return resourceExists(resourceName);
     }
 
+
     /**
-     * Log a warning message.
-     *
-     * @param message message to log
+     * Returns a convenient Log instance that wraps the current LogChute.
+     * Use this to log error messages. It has the usual methods you'd expect.
+     */
+    public Log getLog()
+    {
+        return ri.getLog();
+    }
+
+    /**
+     * @deprecated Use getLog() and call warn() on it.
      */
     public void warn(Object message)
     {
@@ -575,9 +584,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Log an info message.
-     *
-     * @param message message to log
+     * @deprecated Use getLog() and call warn() on it.
      */
     public void info(Object message)
     {
@@ -585,9 +592,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Log an error message.
-     *
-     * @param message  message to log
+     * @deprecated Use getLog() and call warn() on it.
      */
     public void error(Object message)
     {
@@ -595,9 +600,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Log a debug message.
-     *
-     * @param  message message to log
+     * @deprecated Use getLog() and call warn() on it.
      */
     public void debug(Object message)
     {

@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -495,9 +496,16 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * Log a warning message.
-     *
-     * @param Object message to log
+     * Returns a convenient Log instance that wraps the current LogChute.
+     * Use this to log error messages. It has the usual methods.
+     */
+    public static Log getLog()
+    {
+        return RuntimeSingleton.getLog();
+    }
+
+    /**
+     * @deprecated Use getLog() and call warn() on it.
      */
     public static void warn(Object message)
     {
@@ -505,9 +513,7 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * Log an info message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call info() on it.
      */
     public static void info(Object message)
     {
@@ -515,9 +521,7 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * Log an error message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call error() on it.
      */
     public static void error(Object message)
     {
@@ -525,9 +529,7 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * Log a debug message.
-     *
-     * @param Object message to log
+     * @deprecated Use getLog() and call debug() on it.
      */
     public static void debug(Object message)
     {
