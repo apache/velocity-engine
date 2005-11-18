@@ -17,7 +17,6 @@ package org.apache.velocity.exception;
  */
 
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.TemplateParseException;
 
 /**
  *  Application-level exception thrown when a resource of any type

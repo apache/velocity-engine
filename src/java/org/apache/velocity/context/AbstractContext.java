@@ -16,7 +16,6 @@ package org.apache.velocity.context;
  * limitations under the License.
  */
 
-import java.io.Serializable;
 
 /**
  *  This class is the abstract base class for all conventional 

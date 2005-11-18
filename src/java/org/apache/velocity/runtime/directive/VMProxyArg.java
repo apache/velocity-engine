@@ -16,21 +16,18 @@ package org.apache.velocity.runtime.directive;
  * limitations under the License.
  */
 
-import java.io.StringWriter;
-import java.io.StringReader;
 import java.io.BufferedReader;
-
+import java.io.StringReader;
+import java.io.StringWriter;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.node.ASTReference;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.util.StringUtils;
-
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.VelocityContext;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  *  The function of this class is to proxy for the calling parameter to the VM.

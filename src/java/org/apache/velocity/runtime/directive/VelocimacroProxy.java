@@ -16,25 +16,20 @@ package org.apache.velocity.runtime.directive;
  * limitations under the License.
  */
 
-import java.io.Writer;
-import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.StringReader;
-
+import java.io.Writer;
 import java.util.HashMap;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
-
-import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.util.StringUtils;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
 
 /**
  *  VelocimacroProxy.java

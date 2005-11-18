@@ -16,7 +16,6 @@
 
 package org.apache.velocity.runtime.log;
 
-import org.apache.velocity.util.StringUtils;
 
 /**
  * Convenient wrapper for LogChute functions. This implements
