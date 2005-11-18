@@ -16,7 +16,7 @@ foobar.jpg
 How about a directive?  Sure :
 
 
- >a<  >b<  >c<  
+ >a<  >b<  >c< 
 
 For our next trick, lets interpolate a.... VelociMacro!
 
@@ -36,5 +36,16 @@ Now, non interpolated stringlits :
  False 
 $code
 $!$\!code
+
+Now, check comments within strings.  double quotes they should be removed.
+Single quotes, they should be kept literal.
+
+
+test
+test 
+
+testtest
+test##test
+test#* hello *#test
 
 -- end --
