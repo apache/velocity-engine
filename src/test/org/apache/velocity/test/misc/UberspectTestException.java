@@ -38,9 +38,9 @@ public class UberspectTestException extends Error
     
     Info info;
 
-    public UberspectTestException(String string, Info i) 
+    public UberspectTestException(String message, Info i) 
     {
-        super(string);
+        super(message);
         info = i;
     }
 
@@ -49,5 +49,9 @@ public class UberspectTestException extends Error
         return info;
     }
 
+    public String getMessage()
+    {
+      return super.getMessage() + "\n failed at " + info;
+    }
 
 }
