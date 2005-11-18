@@ -104,13 +104,7 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
         }
         finally 
         {
-            try 
-            {
-                writer.close();
-            } 
-            catch (IOException E)
-            {
-            }
+            writer.close();
         }
         assertInfoEqual(info, templateName, expectedLine, expectedCol);
         
