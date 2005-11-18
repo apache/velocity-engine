@@ -16,14 +16,10 @@ package org.apache.velocity.runtime.log;
  * limitations under the License.
  */
 
-import java.util.Enumeration;
-
 import org.apache.log4j.Category;
-import org.apache.log4j.RollingFileAppender;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
-
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.RollingFileAppender;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 

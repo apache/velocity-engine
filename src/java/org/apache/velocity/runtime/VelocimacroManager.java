@@ -16,16 +16,12 @@ package org.apache.velocity.runtime;
  * limitations under the License.
  */
 
-import java.util.Hashtable;
-
-import java.io.StringReader;
 import java.io.BufferedReader;
-
+import java.io.StringReader;
+import java.util.Hashtable;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.util.StringUtils;
-
-import org.apache.velocity.context.InternalContextAdapter;
 
 /**
  * Manages VMs in namespaces.  Currently, two namespace modes are

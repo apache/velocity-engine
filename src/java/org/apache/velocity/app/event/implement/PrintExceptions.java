@@ -16,12 +16,10 @@ package org.apache.velocity.app.event.implement;
  * limitations under the License.
  */
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
