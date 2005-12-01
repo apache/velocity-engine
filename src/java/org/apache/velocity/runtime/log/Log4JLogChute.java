@@ -18,12 +18,13 @@ package org.apache.velocity.runtime.log;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import org.apache.log4j.Logger;
-import org.apache.log4j.RollingFileAppender;
-import org.apache.log4j.PatternLayout;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.RollingFileAppender;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.ExceptionUtils;
 
 /**
  * Implementation of a simple log4j system that will either latch onto
@@ -118,7 +119,7 @@ public class Log4JLogChute implements LogChute
         catch (IOException ioe)
         {
             rsvc.getLog().warn("Could not create file appender '"+file+'\'', ioe);
-            throw new Exception("Error configuring Log4JLogChute : " + ioe);
+            throw ExceptionUtils.createRuntimeException("Error configuring Log4JLogChute : ", ioe);
         }
     }
 

@@ -349,15 +349,12 @@ public class TestProvider
     public String getFoo()
         throws Exception
     {
-        System.out.println("Hello from getfoo");
-
         throw new Exception("From getFoo()");
     }
 
     public String getThrow()
         throws Exception
     {
-        System.out.println("Hello from geThrow");
        throw new Exception("From getThrow()");
     }
 }

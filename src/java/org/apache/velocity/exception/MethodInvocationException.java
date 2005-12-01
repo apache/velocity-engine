@@ -1,5 +1,7 @@
 package org.apache.velocity.exception;
 
+import org.apache.velocity.util.ExceptionUtils;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -50,6 +52,7 @@ public class MethodInvocationException extends VelocityException
     {
         super(message);
         this.wrapped = e;
+        ExceptionUtils.setCause(this, e);
         this.methodName = methodName;
     }       
 

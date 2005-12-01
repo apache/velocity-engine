@@ -30,6 +30,7 @@ import javax.sql.DataSource;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ExceptionUtils;
 
 /**
  * <P>This is a simple template file loader that loads templates
@@ -263,15 +264,17 @@ public class DataSourceResourceLoader extends ResourceLoader
      *  @param i_operation string for logging, indicating caller's intention
      *
      *  @return timestamp as long
+     * @throws ResourceNotFoundException 
      */
-     private long readLastModified(Resource resource, String i_operation)
+     private long readLastModified(Resource resource, String i_operation) 
      {
          /*
           *  get the template name from the resource
           */
 
          String name = resource.getName();
-         try
+         
+        try
          {
              Connection conn = openDbConnection();
 
@@ -303,15 +306,19 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch(SQLException e)
          {
-             log.error("DataSourceResourceLoader Error: error while "
+             String msg = "DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
-                 + name, e);
-         }
+                 + name;
+             log.error(msg, e);
+             throw ExceptionUtils.createRuntimeException(msg, e);
+      }
          catch(NamingException e)
          {
-             log.error("DataSourceResourceLoader Error: error while "
+             String msg = "DataSourceResourceLoader Error: error while "
                  + i_operation + " when trying to load resource "
-                 + name, e);
+                 + name;
+             log.error(msg, e);
+             throw ExceptionUtils.createRuntimeException(msg, e);
          }
 
          return 0;
@@ -355,8 +362,10 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch (Exception e)
          {
-             log.info("DataSourceResourceLoader Quirk: problem when closing connection", e);
-         }
+            String msg = "DataSourceResourceLoader Quirk: problem when closing connection";
+            log.info(msg, e);
+            throw  ExceptionUtils.createRuntimeException(msg, e);
+        }
      }
 
     /**
