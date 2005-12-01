@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.ExceptionUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -113,11 +114,7 @@ public class ClasspathResourceLoader extends ResourceLoader
         }
         catch( Exception fnfe )
         {
-            /*
-             *  log and convert to a general Velocity ResourceNotFoundException
-             */
-
-            throw new ResourceNotFoundException( fnfe.getMessage() );
+            throw (ResourceNotFoundException) ExceptionUtils.createWithCause(ResourceNotFoundException.class, "problem with template: " + name, fnfe );
         }
 
         if (result == null)
