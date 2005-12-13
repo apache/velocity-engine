@@ -206,6 +206,12 @@ public class Parse extends InputBase
                 throw (MethodInvocationException) e;
             }
 
+            // Also throw Runtime Exceptions up the chain. Should fix VELOCITY-424.
+            if (e instanceof RuntimeException)
+            {
+                throw (RuntimeException) e;
+            }
+
             rsvc.getLog().error("Exception rendering #parse(" + arg + ')', e);
             return false;
         }

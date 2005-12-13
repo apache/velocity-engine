@@ -23,6 +23,9 @@
 
   <body>
     <release version="1.5-dev" date="in Subversion">
+      <action type="fix" dev="henning" issue="VELOCITY-424" due-to="Malcom Edgar">
+        Throw Runtime exceptions from nodes up the chain.
+      </action>
       <action type="fix" dev="henning" issue="VELOCITY-426" due-to="Malcom Edgar">
         Revert the split between org.apache.velocity.runtime.parser.node.Node and
         org.apache.velocity.runtime.parser.Node. The parser now only uses ...parser.node.Node
