@@ -104,7 +104,7 @@ public abstract class MathUtils
             return new BigDecimal ( (BigInteger)n );
         }
 
-        return new BigDecimal ( ((Number)n).doubleValue() );
+        return new BigDecimal (n.doubleValue());
 
     }
 
@@ -119,7 +119,7 @@ public abstract class MathUtils
             return (BigInteger)n;
         }
 
-        return BigInteger.valueOf ( ((Number)n).longValue() );
+        return BigInteger.valueOf (n.longValue());
 
     }
 

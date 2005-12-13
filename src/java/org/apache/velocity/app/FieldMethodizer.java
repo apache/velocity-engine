@@ -147,7 +147,7 @@ public class FieldMethodizer
             Field f = (Field) fieldHash.get( fieldName );
             if (f != null)
             {
-                value = f.get( (Class) classHash.get(fieldName) );
+                value = f.get(classHash.get(fieldName) );
             }
         }
         catch( IllegalAccessException e )
