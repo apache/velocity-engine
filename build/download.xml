@@ -39,7 +39,7 @@
    <antcall target="werken-xpath-download" />
   </target>
 
-  <target name="http-download">
+  <target name="http-download" unless="skip.jar.loading">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
     <get src="${repo.url}/${jarname}/jars/${jarname}-${jarversion}.jar"
          dest="${build.lib}/${jarname}-${jarversion}.jar"
