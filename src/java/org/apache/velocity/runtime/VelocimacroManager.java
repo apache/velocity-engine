@@ -119,7 +119,7 @@ public class VelocimacroManager
              */
 
             Hashtable local = getNamespace(namespace, true);
-            local.put((String) vmName, me);
+            local.put(vmName, me);
          
             return true;
         }
