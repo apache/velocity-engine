@@ -29,7 +29,7 @@ import org.apache.velocity.util.ExceptionUtils;
 
 
 /**
- * Test that thrown exceptions include (under JDK 1.4+ a proper cause.
+ * Test thrown exceptions include a proper cause (under JDK 1.4+).
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
