@@ -17,20 +17,19 @@
 
 package org.apache.velocity.runtime.parser.node;
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.exception.ReferenceException;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-import org.apache.velocity.runtime.parser.Token;
-
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.exception.ReferenceException;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
+import org.apache.velocity.runtime.parser.Token;
 
 
 public class SimpleNode implements Node
@@ -85,16 +84,17 @@ public class SimpleNode implements Node
         return last;
     }
 
-    public void jjtSetParent(org.apache.velocity.runtime.parser.Node n)
+    public void jjtSetParent(Node n)
     {
-        parent = (Node) n;
+        parent = n;
     }
-    public org.apache.velocity.runtime.parser.Node jjtGetParent()
+    
+    public Node jjtGetParent()
     {
         return parent;
     }
 
-    public void jjtAddChild(org.apache.velocity.runtime.parser.Node n, int i)
+    public void jjtAddChild(Node n, int i)
     {
         if (children == null)
         {
@@ -106,19 +106,14 @@ public class SimpleNode implements Node
             System.arraycopy(children, 0, c, 0, children.length);
             children = c;
         }
-        children[i] = (Node) n;
+        children[i] = n;
     }
 
-    public org.apache.velocity.runtime.parser.Node jjtGetChild(int i)
-    {
-        return getChild(i);
-    }
-    
-    public Node getChild(int i)
+    public Node jjtGetChild(int i)
     {
         return children[i];
     }
-
+    
     public int jjtGetNumChildren()
     {
         return (children == null) ? 0 : children.length;
@@ -208,7 +203,7 @@ public class SimpleNode implements Node
         {
             try
             {
-                getChild(i).init( context, data);
+                jjtGetChild(i).init( context, data);
             }
             catch (ReferenceException re)
             {
@@ -237,7 +232,7 @@ public class SimpleNode implements Node
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
-            getChild(i).render(context, writer);
+            jjtGetChild(i).render(context, writer);
     
         return true;
     }

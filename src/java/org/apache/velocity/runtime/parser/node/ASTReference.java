@@ -109,7 +109,7 @@ public class ASTReference extends SimpleNode
 
         if (numChildren > 0 )
         {
-            identifier = getChild(numChildren - 1).getFirstToken().image;
+            identifier = jjtGetChild(numChildren - 1).getFirstToken().image;
         }
 
         /*
@@ -171,7 +171,7 @@ public class ASTReference extends SimpleNode
         {
             for (int i = 0; i < numChildren; i++)
             {
-                result = getChild(i).execute(result,context);
+                result = jjtGetChild(i).execute(result,context);
                 if (result == null)
                 {
                     break;
@@ -376,7 +376,7 @@ public class ASTReference extends SimpleNode
 
         for (int i = 0; i < numChildren - 1; i++)
         {
-            result = getChild(i).execute(result, context);
+            result = jjtGetChild(i).execute(result, context);
 
             if (result == null)
             {

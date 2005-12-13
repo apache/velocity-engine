@@ -155,7 +155,7 @@ public class ASTSetDirective extends SimpleNode
      */
     private ASTReference getLeftHandSide()
     {
-        return (ASTReference) getChild(0);
+        return (ASTReference) jjtGetChild(0);
 
      //   return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
     }
@@ -165,7 +165,7 @@ public class ASTSetDirective extends SimpleNode
      */
     private Node getRightHandSide()
     {
-        return getChild(1);
+        return jjtGetChild(1);
 //        return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
     }
 }
