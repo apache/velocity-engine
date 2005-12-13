@@ -319,7 +319,7 @@ public class Foreach extends Directive
          *  else is context sensitive
          */
 
-        SimpleNode sn = (SimpleNode) node.getChild(0);
+        SimpleNode sn = (SimpleNode) node.jjtGetChild(0);
 
         if (sn instanceof ASTReference)
         {
@@ -354,7 +354,7 @@ public class Foreach extends Directive
          *  do our introspection to see what our collection is
          */
 
-        Object listObject = node.getChild(2).value(context);
+        Object listObject = node.jjtGetChild(2).value(context);
 
         if (listObject == null)
              return false;
@@ -407,11 +407,11 @@ public class Foreach extends Directive
                     // lazy instantiation
                     nullHolderContext = new NullHolderContext(elementKey, context);
                 }
-                node.getChild(3).render(nullHolderContext, writer);
+                node.jjtGetChild(3).render(nullHolderContext, writer);
             }
             else
             {
-                node.getChild(3).render(context, writer);
+                node.jjtGetChild(3).render(context, writer);
             }
             counter++;
 

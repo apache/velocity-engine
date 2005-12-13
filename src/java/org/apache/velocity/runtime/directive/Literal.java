@@ -62,7 +62,7 @@ public class Literal extends Directive
     {
         super.init( rs, context, node );
 
-        literalText = node.getChild(0).literal();
+        literalText = node.jjtGetChild(0).literal();
     }    
 
     /**

@@ -54,8 +54,8 @@ public class ASTNENode extends SimpleNode
     public boolean evaluate(  InternalContextAdapter context)
         throws MethodInvocationException
     {
-        Object left = getChild(0).value( context );
-        Object right = getChild(1).value( context );
+        Object left = jjtGetChild(0).value( context );
+        Object right = jjtGetChild(1).value( context );
 
         /*
          *  null check
@@ -65,7 +65,7 @@ public class ASTNENode extends SimpleNode
         {
             log.error((left == null ? "Left" : "Right")
                            + " side ("
-                           + getChild( (left == null? 0 : 1) ).literal()
+                           + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '!=' operation has null value."
                            + " Operation not possible. "
                            + context.getCurrentTemplateName() + " [line " + getLine() 
@@ -115,7 +115,7 @@ public class ASTNENode extends SimpleNode
                 log.error((left.toString() == null ? "Left" : "Right")
                         + " string side "
                         + "String representation ("
-                        + getChild( (left == null? 0 : 1) ).literal()
+                        + jjtGetChild( (left == null? 0 : 1) ).literal()
                         + ") of '!=' operation has null value."
                         + " Operation not possible. "
                         + context.getCurrentTemplateName() + " [line " + getLine() 

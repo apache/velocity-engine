@@ -395,7 +395,7 @@ public class VMProxyArg
                      *  now, our tree really is the first DirectiveArg(), and only one
                      */
 
-                    nodeTree = (SimpleNode) nodeTree.getChild(0).getChild(0);
+                    nodeTree = (SimpleNode) nodeTree.jjtGetChild(0).jjtGetChild(0);
 
                     /*
                      * sanity check

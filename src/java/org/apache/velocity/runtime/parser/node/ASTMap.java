@@ -64,8 +64,8 @@ public class ASTMap extends SimpleNode
         
         for (int i = 0; i < size; i += 2)
         {
-            SimpleNode keyNode = (SimpleNode) getChild(i);
-            SimpleNode valueNode = (SimpleNode) getChild(i+1);
+            SimpleNode keyNode = (SimpleNode) jjtGetChild(i);
+            SimpleNode valueNode = (SimpleNode) jjtGetChild(i+1);
 
             Object key = (keyNode == null ? null : keyNode.value(context));
             Object value = (valueNode == null ? null : valueNode.value(context));

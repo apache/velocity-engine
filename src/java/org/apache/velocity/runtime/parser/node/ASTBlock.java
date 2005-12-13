@@ -54,7 +54,7 @@ public class ASTBlock extends SimpleNode
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
-            getChild(i).render(context, writer);
+            jjtGetChild(i).render(context, writer);
     
         return true;
     }

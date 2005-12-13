@@ -44,12 +44,12 @@ public class ASTExpression extends SimpleNode
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
     {
-        return getChild(0).evaluate(context);
+        return jjtGetChild(0).evaluate(context);
     }
 
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException
     {
-        return getChild(0).value(context);
+        return jjtGetChild(0).value(context);
     }
 }

@@ -68,8 +68,8 @@ public class ASTAndNode extends SimpleNode
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
     {       
-        Node left = getChild(0);
-        Node right = getChild(1);
+        Node left = jjtGetChild(0);
+        Node right = jjtGetChild(1);
 
         /*
          *  if either is null, lets log and bail
