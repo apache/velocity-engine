@@ -1,6 +1,5 @@
 package org.apache.velocity.test;
 
-import java.io.IOException;
 import java.io.StringWriter;
 
 import junit.framework.Test;
