@@ -15,7 +15,7 @@
         <item name="Overview"                 href="/overview.html"/>
         <item name="Getting Started"          href="/getting-started.html"/>
         <item name="Web Applications"         href="/webapps.html"/>
-        <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.html"/>
+        <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi"/>
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
     
