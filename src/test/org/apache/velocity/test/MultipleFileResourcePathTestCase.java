@@ -37,20 +37,6 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  */
 public class MultipleFileResourcePathTestCase extends BaseTestCase
 {
-     /**
-     * VTL file extension.
-     */
-    private static final String TMPL_FILE_EXT = "vm";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String CMP_FILE_EXT = "cmp";
-
-    /**
-     * Comparison file extension.
-     */
-    private static final String RESULT_FILE_EXT = "res";
 
     /**
      * Path for templates. This property will override the
