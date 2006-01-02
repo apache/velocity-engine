@@ -390,7 +390,7 @@ public class VelocimacroFactory
          *  template is one of the library templates
          */
         
-        if ( getAutoload() )
+        if ( getAutoload() && (macroLibVec != null) )
         {
             /*
              *  see if this is a library template
