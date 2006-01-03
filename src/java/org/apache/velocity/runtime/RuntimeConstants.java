@@ -234,7 +234,7 @@ public interface RuntimeConstants
     /**
      * The <code>eventhandler.methodexception.class</code> property
      * specifies a list of the {@link
-     * org.apache.velocity.app.event.MethoExceptionEventHandler}
+     * org.apache.velocity.app.event.MethodExceptionEventHandler}
      * implementations to use.
      */
     public static final String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
