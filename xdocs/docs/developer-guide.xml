@@ -1537,7 +1537,7 @@ Output to the render stream will only occur if both the .start and .end
 (next) tag are defined.
 </p>
 <p>
-<code>directive.parse.maxdepth = 10</code><br/>
+<code>directive.parse.max.depth = 10</code><br/>
 Defines the allowable parse depth for a template. A template may #parse()
 another template which itself may have a #parse() directive.  This value
 prevents runaway #parse() recursion.
