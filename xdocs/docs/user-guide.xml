@@ -920,11 +920,11 @@ ${data.Request.ServerName}
  <p>
     If the RHS is a property or method reference that evaluates to
     <em>null</em>, it will <b>not</b> be assigned to the LHS.  
-	Depending on how Velocity is configured, it is usually not
+    Depending on how Velocity is configured, it is usually not
     possible to remove an existing reference from the context via
     this mechanism.  
-	(Note that this can be permitted by changing one of the Velocity configuration properties).
-	This can be confusing for
+    (Note that this can be permitted by changing one of the Velocity configuration properties).
+    This can be confusing for
     newcomers to Velocity.  For example:
  </p>
 
@@ -1166,8 +1166,8 @@ $blargh
     <p>Note that the semantics of <em>==</em> are slightly different than Java where <em>==</em> 
     can only be used to test object equality.  In Velocity the equivalent operator 
     can be used to directly compare numbers, strings, or objects.  When the objects
-	are of different classes, the string representations are obtained by calling
-	<code>toString()</code> for each object and then compared.
+    are of different classes, the string representations are obtained by calling
+    <code>toString()</code> for each object and then compared.
     </p>
 
     <p>
@@ -1420,10 +1420,10 @@ directive.foreach.maxloops = -1
     <p>
     VTL templates can have <em>#parse</em> statements referring to
     templates that in turn have <em>#parse</em> statements. By default
-    set to 10, the <em>parse_directive.maxdepth</em> line of the
+    set to 10, the <em>directive.parse.max.depth</em> line of the
     <code>velocity.properties</code> allows users to customize maximum
     number of <em>#parse</em> referrals that can occur from a single
-    template. (Note: If the <em>parse_directive.maxdepth</em> property
+    template. (Note: If the <em>directive.parse.max.depth</em> property
     is absent from the <code>velocity.properties</code> file, Velocity
     will set this default to 10.) Recursion is permitted, for example,
     if the template <code>dofoo.vm</code> contains the following lines:
