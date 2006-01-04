@@ -16,26 +16,20 @@ package org.apache.velocity.runtime.resource;
  * limitations under the License.
  */
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import java.io.InputStream;
-import java.io.IOException;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
-
-import org.apache.velocity.runtime.resource.ResourceFactory;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-
-import org.apache.commons.collections.ExtendedProperties;
 
 /**
  * Class to manage the text resource for the Velocity
@@ -291,27 +285,14 @@ public class ResourceManagerImpl implements ResourceManager
          * If it was placed in the cache then we will use
          * the cached version of the resource. If not we
          * will load it.
-         */
-        
-        Resource resource = globalCache.get(resourceName);
-
-        /**
-         * Check to see if the type has changed and reload the file if so.  
-         * For example, if a file has been loaded with #include and then #parse
-         * If so, reload the resource.  
          * 
-         * Note that if a page repeatedly alternates #include and #parse 
-         * on the same file the cache is essentially negated.
+         * Note: the type is included in the key to differentiate ContentResource 
+         * (static content from #include) with a Template.
          */
-        if ( resource != null )
-        {
-            if ( ((resourceType == RESOURCE_CONTENT) && !(resource instanceof ContentResource)) ||
-                 ((resourceType == RESOURCE_TEMPLATE) && !(resource instanceof Template)) )
-            {
-                resource = null;
-            }
-        }
         
+        String resourceKey = resourceType + resourceName;
+        Resource resource = globalCache.get(resourceKey);
+
         if( resource != null)
         {
             /*
@@ -330,7 +311,7 @@ public class ResourceManagerImpl implements ResourceManager
                  *  so clear the cache and try again
                  */
                  
-                 globalCache.remove( resourceName );
+                 globalCache.remove( resourceKey );
      
                  return getResource( resourceName, resourceType, encoding );
             }
@@ -357,7 +338,7 @@ public class ResourceManagerImpl implements ResourceManager
                       
                 if (resource.getResourceLoader().isCachingOn())
                 {
-                    globalCache.put(resourceName, resource);
+                    globalCache.put(resourceKey, resource);
                 }                    
             }
             catch( ResourceNotFoundException rnfe2 )
