@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashMap;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -171,16 +172,24 @@ public class VelocimacroProxy extends Directive
                 rsvc.getLog().error("VM error " + macroName + ". Null AST");
             }
         } 
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
+
+        /*
+         *  if it's a MIE, it came from the render.... throw it...
+         */
+        catch( MethodInvocationException e )
+        {
+            throw e;
+        }
+
         catch ( Exception e ) 
         {
-            /*
-             *  if it's a MIE, it came from the render.... throw it...
-             */
-
-            if ( e instanceof MethodInvocationException)
-            {
-                throw (MethodInvocationException) e;
-            }
 
             rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" + 
                                 macroName + "()", e);
@@ -295,6 +304,13 @@ public class VelocimacroProxy extends Directive
             VMReferenceMungeVisitor v = new VMReferenceMungeVisitor( hm );
             nodeTree.jjtAccept( v, null );
         } 
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch ( Exception e ) 
         {
             rsvc.getLog().error("VelocimacroManager.parseTree() : exception " + 

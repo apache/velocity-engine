@@ -179,6 +179,13 @@ public class Parse extends InputBase
 
             throw pee;
         }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch ( Exception e)
         {
             rsvc.getLog().error("#parse() : arg = " + arg + '.', e);
@@ -195,23 +202,23 @@ public class Parse extends InputBase
                 ((SimpleNode) t.getData()).render( context, writer );
             }
         }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
+
+        /*
+         *  if it's a MIE, it came from the render.... throw it...
+         */
+        catch( MethodInvocationException e )
+        {
+            throw e;
+        }
         catch ( Exception e )
         {
-            /*
-             *  if it's a MIE, it came from the render.... throw it...
-             */
-
-            if ( e instanceof MethodInvocationException)
-            {
-                throw (MethodInvocationException) e;
-            }
-
-            // Also throw Runtime Exceptions up the chain. Should fix VELOCITY-424.
-            if (e instanceof RuntimeException)
-            {
-                throw (RuntimeException) e;
-            }
-
             rsvc.getLog().error("Exception rendering #parse(" + arg + ')', e);
             return false;
         }

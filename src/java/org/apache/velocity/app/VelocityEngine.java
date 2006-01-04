@@ -16,31 +16,28 @@ package org.apache.velocity.app;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.velocity.context.Context;
-import org.apache.velocity.Template;
-import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.runtime.parser.ParseException;
 
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.Template;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * <p>
@@ -330,6 +327,13 @@ public class VelocityEngine implements RuntimeConstants
                 {
                     nodeTree.init( ica, ri );
                 }
+                /**
+                 * pass through application level runtime exceptions
+                 */
+                catch( RuntimeException e )
+                {
+                    throw e;
+                }
                 catch( Exception e )
                 {
                     ri.getLog().error("Velocity.evaluate() : init exception for tag = "
@@ -418,6 +422,13 @@ public class VelocityEngine implements RuntimeConstants
                                          logTag, construct.toString() );
 
             return retval;
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch( Exception  e )
         {

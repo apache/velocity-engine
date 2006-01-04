@@ -17,10 +17,10 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
-import org.apache.velocity.runtime.RuntimeLogger;
+import org.apache.velocity.util.introspection.Introspector;
 
 /**
  * Returned the value of object property when executed.
@@ -105,6 +105,13 @@ public class PropertyExecutor extends AbstractExecutor
                 return;
             }
 
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch(Exception e)
         {
