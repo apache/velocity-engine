@@ -409,6 +409,7 @@
         <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
         <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
         <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor-Id" value="org.apache"/>
         <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
@@ -430,6 +431,7 @@
         <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
         <attribute name="Implementation-Title" value="org.apache.velocity"/>
         <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Vendor-Id" value="org.apache"/>
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
