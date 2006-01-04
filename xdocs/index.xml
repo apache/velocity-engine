@@ -96,7 +96,7 @@
           contribute to the FAQ! </li>
         <li> Read-only access to the Subversion
           <strong>jakarta-velocity</strong> repository is available both
-          <a href="http://svn.apache.org/repos/asf/jakarta/velocity/trunk/">
+          <a href="http://svn.apache.org/repos/asf/jakarta/velocity/core/trunk/">
             online</a> and with a
           <a href="http://www.apache.org/dev/version-control.html"> Subversion
             client</a>. </li>
