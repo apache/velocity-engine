@@ -133,6 +133,14 @@ public class ASTIdentifier extends SimpleNode
                 }
             }
         }
+        
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch(Exception e)
         {
             log.error("ASTIdentifier.execute() : identifier = "+identifier, e);
@@ -170,7 +178,13 @@ public class ASTIdentifier extends SimpleNode
                     return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
                             (Exception) t);
                 }
-                catch(Exception e)
+
+                /**
+                 * If the event handler throws an exception, then wrap it
+                 * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
+                 * similar catchall code blocks.
+                 */
+                catch( Exception e )
                 {
                     throw new MethodInvocationException(
                       "Invocation of method '" + vg.getMethodName() + "'"
@@ -201,6 +215,13 @@ public class ASTIdentifier extends SimpleNode
         catch(IllegalArgumentException iae)
         {
             return null;
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch(Exception e)
         {

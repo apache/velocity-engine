@@ -17,10 +17,14 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
@@ -191,14 +195,30 @@ public class ASTStringLiteral extends SimpleNode
                     return ret;
                 }
             }
-            catch(Exception e)
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
             {
-                /* 
-                 *  eh.  If anything wrong, just punt 
-                 *  and output the literal 
-                 */
+                throw e;
+            }
+            catch( ParseErrorException  e )
+            {
                 log.error("Error in interpolating string literal", e);
             }
+            catch( MethodInvocationException  e )
+            {
+                log.error("Error in interpolating string literal", e);
+            }
+            catch( ResourceNotFoundException  e )
+            {
+                log.error("Error in interpolating string literal", e);
+            }
+            catch( IOException  e )
+            {
+                log.error("Error in interpolating string literal", e);
+            }
+
         }
         
         /*

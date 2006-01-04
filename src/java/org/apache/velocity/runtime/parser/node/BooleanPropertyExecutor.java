@@ -15,11 +15,10 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import org.apache.velocity.util.introspection.Introspector;
-
+import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
-import org.apache.velocity.runtime.RuntimeLogger;
+import org.apache.velocity.util.introspection.Introspector;
 
 /**
  *  Handles discovery and valuation of a
@@ -86,6 +85,13 @@ public class BooleanPropertyExecutor extends PropertyExecutor
 
                 method = null;
             }
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch(Exception e)
         {

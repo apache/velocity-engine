@@ -416,6 +416,13 @@ public class ASTReference extends SimpleNode
                 + ite.getTargetException().getClass(),
                ite.getTargetException(), identifier );
         }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch(Exception e)
         {
             /*

@@ -16,23 +16,20 @@ package org.apache.velocity;
  * limitations under the License.
  */
 
-import java.io.InputStream;
-import java.io.Writer;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapterImpl;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.resource.Resource;
 
 /**
  * This class is used for controlling all template
@@ -134,6 +131,13 @@ public class Template extends Resource
                  */
                 errorCondition =  new ParseErrorException( pex );
                 throw errorCondition;
+            }
+            /**
+             * pass through runtime exceptions
+             */
+            catch( RuntimeException e )
+            {
+                throw e;
             }
             catch( Exception e )
             {

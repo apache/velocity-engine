@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.directive;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -318,6 +319,13 @@ public class VMProxyArg
                     
                     retObject = writer;
                 }
+                /**
+                 * pass through application level runtime exceptions
+                 */
+                catch( RuntimeException e )
+                {
+                    throw e;
+                }
                 catch (Exception e )
                 {
                     log.error("VMProxyArg.getObject() : error rendering reference", e);
@@ -418,6 +426,13 @@ public class VMProxyArg
 
                     nodeTree.init(ica, rsvc);
                 } 
+                /**
+                 * pass through application level runtime exceptions
+                 */
+                catch( RuntimeException e )
+                {
+                    throw e;
+                }
                 catch ( Exception e ) 
                 {
                     log.error("VMProxyArg.setup() : exception " + 

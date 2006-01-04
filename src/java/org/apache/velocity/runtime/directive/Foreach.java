@@ -16,29 +16,22 @@ package org.apache.velocity.runtime.directive;
  * limitations under the License.
  */
 
-import java.io.Writer;
 import java.io.IOException;
-
+import java.io.Writer;
 import java.util.Iterator;
 
 import org.apache.velocity.app.event.EventCartridge;
-
-import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.Context;
-
-import org.apache.velocity.runtime.resource.Resource;
-
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeConstants;
-
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.parser.node.ASTReference;
-
+import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
@@ -364,6 +357,13 @@ public class Foreach extends Directive
         try
         {
             i = rsvc.getUberspect().getIterator(listObject, uberInfo);
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch(Exception ee)
         {

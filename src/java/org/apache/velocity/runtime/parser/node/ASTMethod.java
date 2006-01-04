@@ -184,6 +184,13 @@ public class ASTMethod extends SimpleNode
 
             throw mie;
         }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch( Exception e )
         {
             /*
@@ -238,6 +245,12 @@ public class ASTMethod extends SimpleNode
                 {
                     return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
                 }
+                
+                /**
+                 * If the event handler throws an exception, then wrap it
+                 * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
+                 * similar catchall code blocks.
+                 */
                 catch( Exception e )
                 {
                     throw new MethodInvocationException( 
@@ -266,6 +279,13 @@ public class ASTMethod extends SimpleNode
                 + ite.getTargetException().getMessage(), 
                 ite.getTargetException(), methodName );
             }
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
         }
         catch( Exception e )
         {

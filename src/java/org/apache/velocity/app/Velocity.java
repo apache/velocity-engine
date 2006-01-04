@@ -16,31 +16,28 @@ package org.apache.velocity.app;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.velocity.context.Context;
-import org.apache.velocity.Template;
-import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.runtime.parser.ParseException;
 
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.Template;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * This class provides  services to the application
@@ -374,7 +371,26 @@ public class Velocity implements RuntimeConstants
 
             return retval;
         }
-        catch( Exception  e )
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
+        catch( ParseErrorException  e )
+        {
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+        }
+        catch( MethodInvocationException  e )
+        {
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+        }
+        catch( ResourceNotFoundException  e )
+        {
+            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+        }
+        catch( IOException  e )
         {
             RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
         }

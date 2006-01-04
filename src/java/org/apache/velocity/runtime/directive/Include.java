@@ -217,6 +217,13 @@ public class Include extends InputBase
             throw rnfe;
         }
 
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
         catch (Exception e)
         {
             rsvc.getLog().error("#include(): arg = '" + arg +

@@ -33,9 +33,10 @@ public class UberspectTestImpl extends UberspectImpl
 
         if (method == null) 
         {
-            throw new UberspectTestException("Method " + 
-                    obj.getClass().getName() + "." + methodName + 
-                    " does not exist.", i);
+            if (obj == null)
+                throw new UberspectTestException("Can't call method '" + methodName + "' on null object",i);
+            else
+                throw new UberspectTestException("Did not find method "+ obj.getClass().getName()+"."+methodName, i);
         }
 
         return method;
@@ -47,8 +48,10 @@ public class UberspectTestImpl extends UberspectImpl
         
         if (propertyGet == null) 
         {
-            throw new UberspectTestException("Did not find "+
-                    obj.getClass().getName()+"."+identifier, i);
+            if (obj == null)
+                throw new UberspectTestException("Can't call getter '" + identifier + "' on null object",i);
+            else
+                throw new UberspectTestException("Did not find "+ obj.getClass().getName()+"."+identifier, i);
         }
         
         return propertyGet;

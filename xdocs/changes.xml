@@ -24,6 +24,16 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="update" dev="wglass" issue="VELOCITY-429" due-to="">
+		Pass through all runtime exceptions.  Among other benefits, this 
+		allows plugins to throw a runtime exception to signify an application
+		level problem in the calling application.
+      </action>
+
+      <action type="fix" dev="wglass" issue="VELOCITY-98" due-to="Michal Chmielewski">
+		When #include was followed by #parse with the same file name, a ClassCastException was thrown.
+	  </action>
+	  
       <action type="add" dev="wglass" issue="VELOCITY-425" due-to="Llewellyn Falco">
         Wrapped exceptions now have Cause property set on JDK 1.4.  (note that Velocity
         continues to run under JDK 1.3).

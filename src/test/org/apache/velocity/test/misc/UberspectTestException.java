@@ -28,7 +28,7 @@ import org.apache.velocity.util.introspection.Info;
  * @author <a href="mailto:isidore@setgame.com">Llewellyn Falco</a>
  * @version $Id$
  */
-public class UberspectTestException extends Error
+public class UberspectTestException extends RuntimeException
 {
 
     /**
