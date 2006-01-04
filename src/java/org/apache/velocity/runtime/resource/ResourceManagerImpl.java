@@ -22,6 +22,7 @@ import java.util.Vector;
 import java.io.InputStream;
 import java.io.IOException;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -294,6 +295,23 @@ public class ResourceManagerImpl implements ResourceManager
         
         Resource resource = globalCache.get(resourceName);
 
+        /**
+         * Check to see if the type has changed and reload the file if so.  
+         * For example, if a file has been loaded with #include and then #parse
+         * If so, reload the resource.  
+         * 
+         * Note that if a page repeatedly alternates #include and #parse 
+         * on the same file the cache is essentially negated.
+         */
+        if ( resource != null )
+        {
+            if ( ((resourceType == RESOURCE_CONTENT) && !(resource instanceof ContentResource)) ||
+                 ((resourceType == RESOURCE_TEMPLATE) && !(resource instanceof Template)) )
+            {
+                resource = null;
+            }
+        }
+        
         if( resource != null)
         {
             /*
