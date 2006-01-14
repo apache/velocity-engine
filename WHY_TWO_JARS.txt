@@ -38,7 +38,7 @@ velocity-dep-<version>.jar
 --------------------------
 
   This jar is intended to be used when you do standalone development
-  with Velocity. It contains all of the core Velocity code (runtime,
+  with Velocity. It contains all of the Velocity engine code (runtime,
   anakia, texen and their respective ant tasks) and also all external
   dependencies from other jars, repackaged into a single jar. Currently
   that is:

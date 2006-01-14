@@ -83,7 +83,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  Implement to determine if a key is in the storage.
      *  <br><br>
      *  Currently, this method is not used internally by 
-     *  the Velocity core. 
+     *  the Velocity engine. 
      *
      *   @param key key to test for existance 
      *   @return true if found, false if not
@@ -95,7 +95,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  strings from your storage.
      *  <br><br>
      *  Currently, this method is not used internally by
-     *  the Velocity core.
+     *  the Velocity engine.
      *
      *  @return array of keys
      */
@@ -105,7 +105,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  I mplement to remove an item from your storage.
      *  <br><br>
      *  Currently, this method is not used internally by
-     *  the Velocity core.
+     *  the Velocity engine.
      *
      *  @param key key to remove
      *  @return object removed if exists, else null
