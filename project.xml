@@ -56,9 +56,9 @@
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-velocity/</distributionDirectory>
 
   <repository>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/velocity/core/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/velocity/core/trunk</developerConnection>
-    <url>http://svn.apache.org/viewcvs/jakarta/velocity/core/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk</developerConnection>
+    <url>http://svn.apache.org/viewcvs/jakarta/velocity/engine/trunk/</url>
   </repository>
 
   <versions/>

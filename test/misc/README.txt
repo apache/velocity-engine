@@ -10,7 +10,7 @@ dump.sh: This script will dump out a text representation of the AST.
          Usage: ./dump.sh ../templates/test.vm
 
 test.sh: This script is used for command line testing of .vm files.
-         Note: this script is not a replacement for the core testing
+         Note: this script is not a replacement for the engine testing
          suite. It is simply a convinence script/class for the developers.
 
 thanks!

@@ -39,7 +39,7 @@ providing a consistent way to mark up text.
 <section name="Use a Framework" href="UseaFramework">
 
 <p>
-The primary purpose of the core Velocity engine is simply to generate text based on 
+The primary purpose of the Velocity engine is simply to generate text based on 
 a template.  Consequently, Velocity does not contain any web-related functionality in and of itself.  
 To make a web application, you will need a framework to respond to HTTP requests, 
 handle user authentication, make business logic calls, and generate a response.  
@@ -82,7 +82,7 @@ and customizing it.  In particular you can add new functionality to the Velocity
 
 <p>
 As a side note, you may also come across references to VelocityServlet, which is a deprecated servlet that was included in
-the Velocity Core up to version 1.4.  Since VelocityServlet is no longer being maintained we strongly recommend
+the Velocity Engine up to version 1.4.  Since VelocityServlet is no longer being maintained we strongly recommend
 you use VelocityViewServlet in Velocity Tools instead.
 </p>
 
