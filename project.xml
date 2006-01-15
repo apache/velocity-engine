@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright 2001-2005 The Apache Software Foundation.
+ Copyright 2001-2006 The Apache Software Foundation.
 
  Licensed under the Apache License, Version 2.0 (the "License")
  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
   <pomVersion>3</pomVersion>
   <id>velocity</id>
   <name>Velocity</name>
-  <currentVersion>1.5-dev</currentVersion>
+  <currentVersion>SNAPSHOT</currentVersion>
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://jakarta.apache.org/</url>
@@ -52,8 +52,7 @@
   <url>http://jakarta.apache.org/velocity/</url>
   <issueTrackingUrl>http://issues.apache.org/jira/browse/VELOCITY</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/velocity/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-velocity/</distributionDirectory>
+  <siteDirectory>/www/jakarta.apache.org/velocity/engine</siteDirectory>
 
   <repository>
     <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk</connection>
@@ -61,7 +60,8 @@
     <url>http://svn.apache.org/viewcvs/jakarta/velocity/engine/trunk/</url>
   </repository>
 
-  <versions/>
+  <versions>
+  </versions>
 
   <branches/>
 
@@ -116,7 +116,7 @@
       <name>Henning P. Schmiedehausen</name>
       <id>henning</id>
       <email>hps@intermeta.de</email>
-      <organization>INTERMETA - Gesellschaft fuer Mehrwertdienste mbH</organization>
+      <organization>INTERMETA - Gesellschaft für Mehrwertdienste mbH</organization>
       <roles>
         <role>Java Developer</role>
       </roles>
