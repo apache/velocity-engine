@@ -2392,7 +2392,8 @@ catch( Exception ee)
 {}
 
 VelocityContext vc = new VelocityContext();
-vc.put("root", root );
+vc.put("root", root.getRootElement());
+
 
 ...
 ]]></source>
