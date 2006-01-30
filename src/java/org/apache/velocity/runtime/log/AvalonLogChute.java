@@ -56,7 +56,7 @@ public class AvalonLogChute implements LogChute
 
             // if we have a file property, use it to create a FileTarget
             String file = (String)rsvc.getProperty(RuntimeConstants.RUNTIME_LOG);
-            if (file != null && file.trim().length() > 0)
+            if (file != null && file.length() > 0)
             {
                 initTarget(file);
             }

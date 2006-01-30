@@ -21,6 +21,7 @@ import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Base class for escaping references.  To use it, override the following methods:
@@ -114,8 +115,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         /**
          * Get the regular expression pattern.
          */
-        matchRegExp = rs.getConfiguration().getString(getMatchAttribute());
-        if ((matchRegExp != null) && (matchRegExp.trim().length() == 0))
+        matchRegExp = StringUtils.nullTrim(rs.getConfiguration().getString(getMatchAttribute()));
+        if ((matchRegExp != null) && (matchRegExp.length() == 0))
         {
             matchRegExp = null;
         }

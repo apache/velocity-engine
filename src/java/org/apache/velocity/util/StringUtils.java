@@ -599,4 +599,37 @@ public class StringUtils
         }            
         return true;
     }
+    
+    /**
+     * Trim all strings in a List.  Changes the strings in the existing list.
+     * @param list
+     * @return
+     */
+    public static List trimStrings(List list)
+    {
+        if (list == null)
+            return null;
+        
+        int sz = list.size();
+        for (int i = 0; i < sz; i++)
+            list.set(i,nullTrim((String) list.get(i)));
+        return list;
+    }
+    
+    /**
+     * Trim the string, but pass a null through.
+     * @param s
+     * @return
+     */
+    public static String nullTrim(String s)
+    {
+        if (s == null)
+        {
+            return null;
+        }
+        else
+        {
+            return s.trim();
+        }
+    }
 }

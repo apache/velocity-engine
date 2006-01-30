@@ -31,6 +31,7 @@ import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExceptionUtils;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * <P>This is a simple template file loader that loads templates
@@ -131,11 +132,11 @@ public class DataSourceResourceLoader extends ResourceLoader
 
      public void init(ExtendedProperties configuration)
      {
-         dataSourceName  = configuration.getString("resource.datasource");
-         tableName       = configuration.getString("resource.table");
-         keyColumn       = configuration.getString("resource.keycolumn");
-         templateColumn  = configuration.getString("resource.templatecolumn");
-         timestampColumn = configuration.getString("resource.timestampcolumn");
+         dataSourceName  = StringUtils.nullTrim(configuration.getString("resource.datasource"));
+         tableName       = StringUtils.nullTrim(configuration.getString("resource.table"));
+         keyColumn       = StringUtils.nullTrim(configuration.getString("resource.keycolumn"));
+         templateColumn  = StringUtils.nullTrim(configuration.getString("resource.templatecolumn"));
+         timestampColumn = StringUtils.nullTrim(configuration.getString("resource.timestampcolumn"));
          
          if (dataSource != null) 
          {

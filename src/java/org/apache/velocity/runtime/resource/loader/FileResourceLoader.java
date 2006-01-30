@@ -65,6 +65,8 @@ public class FileResourceLoader extends ResourceLoader
         
         paths.addAll( configuration.getVector("path") );
 
+        // trim spaces from all paths
+        StringUtils.trimStrings(paths);
         if (log.isInfoEnabled())
         {
             // this section lets tell people what paths we will be using

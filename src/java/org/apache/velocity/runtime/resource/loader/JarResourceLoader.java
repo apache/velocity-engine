@@ -86,7 +86,8 @@ public class JarResourceLoader extends ResourceLoader
         // and Hashtable classes. Classes are implicitly
         // synchronized even if we don't need it.
         Vector paths = configuration.getVector("path");
-
+        StringUtils.trimStrings(paths);
+        
         /*
          *  support the old version but deprecate with a log message
          */
@@ -94,6 +95,7 @@ public class JarResourceLoader extends ResourceLoader
         if( paths == null || paths.size() == 0)
         {
             paths = configuration.getVector("resource.path");
+            StringUtils.trimStrings(paths);
 
             if (paths != null && paths.size() > 0)
             {
