@@ -38,7 +38,7 @@ import org.apache.velocity.runtime.log.LogChute;
  * Tests event handling for all event handlers when multiple event handlers are
  * assigned for each type.
  *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
 public class FilteredEventHandlingTestCase extends BaseTestCase implements LogChute
