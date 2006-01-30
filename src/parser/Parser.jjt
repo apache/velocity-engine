@@ -1360,7 +1360,7 @@ SimpleNode Directive() :
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
 
-    [<WHITESPACE>] <LPAREN>  ( LOOKAHEAD(2) [<WHITESPACE>]
+    [<WHITESPACE>] <LPAREN>  ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
 
             argType = DirectiveArg()
             {
