@@ -1,0 +1,8 @@
+## tests to see if
+## ParseException in parsed file is caught
+
+text
+
+#parse("haserror.txt")
+
+text
