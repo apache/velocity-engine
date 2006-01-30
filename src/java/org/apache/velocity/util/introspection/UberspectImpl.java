@@ -150,6 +150,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
             throws Exception
     {
+        if (obj == null)
+            return null;
+        
         AbstractExecutor executor;
 
         Class claz = obj.getClass();

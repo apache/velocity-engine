@@ -96,8 +96,6 @@ public class ASTIdentifier extends SimpleNode
 
         try
         {
-            Class c = o.getClass();
-
             /*
              *  first, see if we have this information cached.
              */
@@ -111,7 +109,7 @@ public class ASTIdentifier extends SimpleNode
              * that is fixed in the template :)
              */
 
-            if (icd != null && icd.contextData == c)
+            if ( icd != null && (o != null) && (icd.contextData == o.getClass()) )
             {
                 vg = (VelPropertyGet) icd.thingy;
             }
@@ -124,10 +122,10 @@ public class ASTIdentifier extends SimpleNode
 
                 vg = rsvc.getUberspect().getPropertyGet(o,identifier, uberInfo);
 
-                if (vg != null && vg.isCacheable())
+                if (vg != null && vg.isCacheable() && (o != null))
                 {
                     icd = new IntrospectionCacheData();
-                    icd.contextData = c;
+                    icd.contextData = o.getClass();
                     icd.thingy = vg;
                     context.icachePut(this,icd);
                 }

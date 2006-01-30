@@ -155,7 +155,7 @@ public class ASTMethod extends SimpleNode
 
                 method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
 
-                if (method != null)
+                if ((method != null) && (o != null))
                 {    
                     icd = new IntrospectionCacheData();
                     icd.contextData = o.getClass();
