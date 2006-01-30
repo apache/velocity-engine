@@ -1215,9 +1215,6 @@ void Word() : {}
 
 /**
  *   Supports the arguments for the Pluggable Directives
- *   We add whitespace in here as a token so the VMs can
- *   easily reconstruct a macro body from the token stream
- *   See Directive()
  */
 int DirectiveArg() #void : {}
 {
