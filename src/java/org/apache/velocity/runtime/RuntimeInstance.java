@@ -30,16 +30,16 @@ import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -47,6 +47,7 @@ import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.SimplePool;
+import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
@@ -451,7 +452,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Object getProperty(String key)
     {
-        return configuration.getProperty(key);
+        Object o = configuration.getProperty(key);
+        if (o instanceof String)
+        {
+            return StringUtils.nullTrim((String) o);
+        }
+        else
+        {
+            return o;
+        }
     }
 
     /**
@@ -1167,7 +1176,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getString(String key)
     {
-        return configuration.getString(key);
+        return StringUtils.nullTrim(configuration.getString(key));
     }
 
     /**

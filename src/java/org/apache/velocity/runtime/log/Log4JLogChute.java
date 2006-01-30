@@ -75,7 +75,7 @@ public class Log4JLogChute implements LogChute
             // if we have a file property, then create a separate
             // rolling file log for velocity messages only
             String file = rsvc.getString(RuntimeConstants.RUNTIME_LOG);
-            if (file != null && file.trim().length() > 0)
+            if (file != null && file.length() > 0)
             {
                 initAppender(file);
             }

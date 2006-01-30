@@ -16,9 +16,10 @@ package org.apache.velocity.app.event.implement;
  * limitations under the License.
  */
 
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.app.event.IncludeEventHandler;
+import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Simple event handler that checks to see if an included page is available.
@@ -82,7 +83,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
     public void setRuntimeServices(RuntimeServices rs) throws Exception
     {
          this.rs = rs;
-         notfound = rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND).trim();
+         notfound = StringUtils.nullTrim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
      }
 
 }

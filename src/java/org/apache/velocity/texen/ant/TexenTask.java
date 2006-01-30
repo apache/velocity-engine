@@ -332,7 +332,7 @@ public class TexenTask
                 for (Iterator j = source.getKeys(); j.hasNext(); )
                 {
                     String name = (String) j.next();
-                    String value = source.getString(name);
+                    String value = StringUtils.nullTrim(source.getString(name));
                     contextProperties.setProperty(name,value);
                 }
             }
@@ -501,7 +501,7 @@ public class TexenTask
                 while (i.hasNext())
                 {
                     String property = (String) i.next();
-                    String value = contextProperties.getString(property);
+                    String value = StringUtils.nullTrim(contextProperties.getString(property));
 
                     // Now lets quickly check to see if what
                     // we have is numeric and try to put it

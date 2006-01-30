@@ -30,6 +30,7 @@ import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Class to manage the text resource for the Velocity
@@ -120,7 +121,7 @@ public class ResourceManagerImpl implements ResourceManager
              */
             ExtendedProperties configuration = 
                 (ExtendedProperties) sourceInitializerList.get(i);
-            String loaderClass = configuration.getString("class");
+            String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
             ResourceLoader loaderInstance = 
                 (ResourceLoader) configuration.get("instance");
 
@@ -216,7 +217,8 @@ public class ResourceManagerImpl implements ResourceManager
 
         Vector resourceLoaderNames = 
             rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
-
+        StringUtils.trimStrings(resourceLoaderNames);
+        
         for (int i = 0; i < resourceLoaderNames.size(); i++)
         {
             /*

@@ -16,6 +16,9 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -65,6 +68,30 @@ public class MiscTestCase extends BaseTestCase
         res = StringUtils.chop( arg, 2, eol );
         assertTrue( "Test 4", res.equals("Hell"));
 
+        arg = null;
+        res = StringUtils.nullTrim(arg);
+        assertNull(arg);
+        
+        arg = " test ";
+        res = StringUtils.nullTrim(arg);
+        assertEquals("test",res);
+
+        arg = "test";
+        res = StringUtils.nullTrim(arg);
+        assertEquals("test",res);
+        
+        List list = null;
+        assertNull(StringUtils.trimStrings(list));
+        
+        list = new ArrayList();
+        assertEquals(new ArrayList(),StringUtils.trimStrings(list));
+        
+        list.add("test");
+        list.add(" abc");
+        StringUtils.trimStrings(list);
+        assertEquals("test",list.get(0));
+        assertEquals("abc",list.get(1));
+        
     }
 
 }
