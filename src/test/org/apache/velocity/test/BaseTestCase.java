@@ -17,6 +17,7 @@ package org.apache.velocity.test;
  */
 
 import java.io.File;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -57,14 +58,35 @@ public abstract class BaseTestCase
     {
         StringBuffer buf = new StringBuffer();
         
-        if (base != null && base.charAt(0) != '/')
+        File baseFile = new File(base);
+
+        if (dir != null)
         {
-            if (dir != null)
+            if (!baseFile.isAbsolute())
             {
-                buf.append(dir).append('/');
+                baseFile = new File(dir, base);
+
+                try
+                {
+                    buf.append(baseFile.getCanonicalPath());
+                }
+                catch (IOException e)
+                {
+                    fail("IO Exception while getting canonical path for " + baseFile);
+                }
+            }
+            else
+            {
+                buf.append(base);
             }
         }
-        buf.append(base).append('.').append(ext);
+        else
+        {
+            buf.append(base);
+        }
+
+        buf.append('.').append(ext);
+
         return buf.toString();
     }
 
