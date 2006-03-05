@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="1.3"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.jayasoft.org/misc/ivy/ivy.xsd">
+    <info organisation="The Apache Software Foundation" module="jakarta-velocity" />
+    <dependencies>
+        <dependency name="antlr" rev="2.7.5" />
+        <dependency name="avalon-logkit" rev="2.1" />
+        <dependency name="commons-collections" rev="3.1" />
+        <dependency name="commons-lang" rev="2.1" />
+        <dependency name="jdom" rev="1.0" />
+        <dependency name="junit" rev="3.8.1" />
+        <dependency name="log4j" rev="1.2.12" />
+        <dependency name="oro" rev="2.0.8" />
+        <dependency name="servletapi" rev="2.3" />
+        <dependency name="werken-xpath" rev="0.9.4" />
+    </dependencies>
+</ivy-module>

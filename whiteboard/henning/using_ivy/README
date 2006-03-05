@@ -1,0 +1,9 @@
+Copy all files in this directory into the "build" directory of the
+Velocity tree to use the ivy dependency resolver
+(http://www.jayasoft.org/ivy/) instead of our self-rolled ibiblio
+download. Make sure that the ivy jar ends up in build/lib
+
+ivy features a local file cache (just like maven), dependency checking
+and resolving and a lot more stuff. It also has an Apache friendly
+license.
+
