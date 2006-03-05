@@ -27,6 +27,14 @@
 
 <project name="Velocity" default="world" basedir="..">
 
+  <path id="basedir-os">
+    <pathelement location="${basedir}" />
+  </path>
+  <!-- This is the relative base dir. This must be the root of the   -->
+  <!-- Velocity distribution. All relative pathes are prefixed with  -->
+  <!-- velocity.dir                                                  -->
+  <pathconvert property="velocity.dir" refid="basedir-os" targetos="unix"/>
+
   <!-- Give user a chance to override without editing this file
        (and without typing -D each time it compiles it -->
   <property file="${user.home}/.ant.properties" />
