@@ -56,9 +56,13 @@ public abstract class BaseTestCase
     protected static String getFileName (String dir, String base, String ext)
     {
         StringBuffer buf = new StringBuffer();
-        if (dir != null)
+        
+        if (base != null && base.charAt(0) != '/')
         {
-            buf.append(dir).append('/');
+            if (dir != null)
+            {
+                buf.append(dir).append('/');
+            }
         }
         buf.append(base).append('.').append(ext);
         return buf.toString();
