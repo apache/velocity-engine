@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 The Apache Software Foundation.
+ * Copyright 2005-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -112,23 +112,23 @@ public class AvalonLogChute implements LogChute
          */
         switch (level) 
         {
-            case LogChute.WARN_ID:
-                logger.warn( RuntimeConstants.WARN_PREFIX + message );
+            case WARN_ID:
+                logger.warn(WARN_PREFIX + message );
                 break;
-            case LogChute.INFO_ID:
-                logger.info( RuntimeConstants.INFO_PREFIX + message);
+            case INFO_ID:
+                logger.info(INFO_PREFIX + message);
                 break;
-            case LogChute.DEBUG_ID:
-                logger.debug( RuntimeConstants.DEBUG_PREFIX + message);
+            case DEBUG_ID:
+                logger.debug(DEBUG_PREFIX + message);
                 break;
-            case LogChute.TRACE_ID:
-                logger.debug(RuntimeConstants.TRACE_PREFIX + message);
+            case TRACE_ID:
+                logger.debug(TRACE_PREFIX + message);
                 break;
-            case LogChute.ERROR_ID:
-                logger.error(RuntimeConstants.ERROR_PREFIX + message);
+            case ERROR_ID:
+                logger.error(ERROR_PREFIX + message);
                 break;
             default:
-                logger.info( message);
+                logger.info(message);
                 break;
         }
     }
@@ -143,20 +143,20 @@ public class AvalonLogChute implements LogChute
     {
         switch (level) 
         {
-            case LogChute.WARN_ID:
-                logger.warn(RuntimeConstants.WARN_PREFIX + message, t);
+            case WARN_ID:
+                logger.warn(WARN_PREFIX + message, t);
                 break;
-            case LogChute.INFO_ID:
-                logger.info(RuntimeConstants.INFO_PREFIX + message, t);
+            case INFO_ID:
+                logger.info(INFO_PREFIX + message, t);
                 break;
-            case LogChute.DEBUG_ID:
-                logger.debug(RuntimeConstants.DEBUG_PREFIX + message, t);
+            case DEBUG_ID:
+                logger.debug(DEBUG_PREFIX + message, t);
                 break;
-            case LogChute.TRACE_ID:
-                logger.debug(RuntimeConstants.TRACE_PREFIX + message, t);
+            case TRACE_ID:
+                logger.debug(TRACE_PREFIX + message, t);
                 break;
-            case LogChute.ERROR_ID:
-                logger.error(RuntimeConstants.ERROR_PREFIX + message, t);
+            case ERROR_ID:
+                logger.error(ERROR_PREFIX + message, t);
                 break;
             default:
                 logger.info(message, t);
@@ -172,14 +172,14 @@ public class AvalonLogChute implements LogChute
         switch (level)
         {
             // For Avalon, no Trace exists. Log at debug level.
-            case LogChute.TRACE_ID:
-            case LogChute.DEBUG_ID:
+            case TRACE_ID:
+            case DEBUG_ID:
                 return logger.isDebugEnabled();
-            case LogChute.INFO_ID:
+            case INFO_ID:
                 return logger.isInfoEnabled();
-            case LogChute.WARN_ID:
+            case WARN_ID:
                 return logger.isWarnEnabled();
-            case LogChute.ERROR_ID:
+            case ERROR_ID:
                 return logger.isErrorEnabled();
             default:
                 return true;

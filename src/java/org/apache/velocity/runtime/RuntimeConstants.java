@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -85,14 +85,17 @@ public interface RuntimeConstants
     public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  =
         "runtime.log.invalid.references";
 
-    /**
-     *  Log message prefixes
-     */
+    /** @deprecated Use LogChute.TRACE_PREFIX instead */
     public final static String TRACE_PREFIX = " [trace] ";
+    /** @deprecated Use LogChute.DEBUG_PREFIX instead */
     public final static String DEBUG_PREFIX = " [debug] ";
+    /** @deprecated Use LogChute.INFO_PREFIX instead */
     public final static String INFO_PREFIX  = "  [info] ";
+    /** @deprecated Use LogChute.WARN_PREFIX instead */
     public final static String WARN_PREFIX  = "  [warn] ";
+    /** @deprecated Use LogChute.ERROR_PREFIX instead */
     public final static String ERROR_PREFIX = " [error] ";
+    /** @deprecated This will be removed in a future version */
     public final static String UNKNOWN_PREFIX = " [unknown] ";
 
     /*

@@ -1,7 +1,7 @@
 package org.apache.velocity.test;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -96,27 +96,27 @@ public class ExternalLoggerTestCase extends TestCase implements LogChute
          */
         switch( level )
         {
-            case LogChute.DEBUG_ID :
-                out = VelocityEngine.DEBUG_PREFIX;
+            case DEBUG_ID :
+                out = DEBUG_PREFIX;
                 break;
-            case LogChute.INFO_ID :
-                out = VelocityEngine.INFO_PREFIX;
+            case INFO_ID :
+                out = INFO_PREFIX;
                 break;
-            case LogChute.TRACE_ID :
-                out = VelocityEngine.TRACE_PREFIX;
+            case TRACE_ID :
+                out = TRACE_PREFIX;
                 break;
-            case LogChute.WARN_ID :
-                out = VelocityEngine.WARN_PREFIX;
+            case WARN_ID :
+                out = WARN_PREFIX;
                 break;
-            case LogChute.ERROR_ID :
-                out = VelocityEngine.ERROR_PREFIX;
+            case ERROR_ID :
+                out = ERROR_PREFIX;
                 break;
             default :
-                out = VelocityEngine.UNKNOWN_PREFIX;
+                out = INFO_PREFIX;
                 break;
         }
 
-        logString =  out + message;
+        logString = out + message;
     }
 
     public void log(int level, String message, Throwable t)

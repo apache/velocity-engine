@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 The Apache Software Foundation.
+ * Copyright 2005-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -29,29 +29,34 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 public interface LogChute
 {
-    /**
-     * ID for trace messages.
-     */
+    /** Prefix string for trace messages. */
+    public final static String TRACE_PREFIX = " [trace] ";
+
+    /** Prefix string for debug messages. */
+    public final static String DEBUG_PREFIX = " [debug] ";
+
+    /** Prefix string for info messages. */
+    public final static String INFO_PREFIX  = "  [info] ";
+
+    /** Prefix string for warn messages. */
+    public final static String WARN_PREFIX  = "  [warn] ";
+
+    /** Prefix string for error messages. */
+    public final static String ERROR_PREFIX = " [error] ";
+
+    /** ID for trace messages. */
     public final static int TRACE_ID = -1;
 
-    /**
-     * ID for debug messages.
-     */
+    /** ID for debug messages. */
     public final static int DEBUG_ID = 0;
 
-    /** 
-     * ID for info messages.
-     */
+    /** ID for info messages. */
     public final static int INFO_ID = 1;
     
-    /** 
-     * ID for warning messages.
-     */
+    /** ID for warning messages. */
     public final static int WARN_ID = 2;
 
-    /** 
-     * ID for error messages.
-     */
+    /** ID for error messages. */
     public final static int ERROR_ID = 3;
 
     /**
