@@ -79,7 +79,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogChute
 
         String testString = "This is a test.";
 
-        ve.warn( testString );
+        ve.getLog().warn(testString);
 
         if (logString == null || !logString.equals(WARN_PREFIX +  testString ) )
         {

@@ -1,7 +1,7 @@
 package org.apache.velocity.test;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -99,15 +99,15 @@ public abstract class BaseTestCase
         File dir = new File(resultsDirectory);
         if (!dir.exists())
         {
-            RuntimeSingleton.info("Template results directory does not exist");
+            RuntimeSingleton.getLog().info("Template results directory does not exist");
             if (dir.mkdirs())
             {
-                RuntimeSingleton.info("Created template results directory");
+                RuntimeSingleton.getLog().info("Created template results directory");
             }
             else
             {
                 String errMsg = "Unable to create template results directory";
-                RuntimeSingleton.warn(errMsg);
+                RuntimeSingleton.getLog().warn(errMsg);
                 fail(errMsg);
             }
         }
