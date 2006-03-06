@@ -81,7 +81,7 @@ public class ExternalLoggerTestCase extends TestCase implements LogChute
 
         ve.warn( testString );
 
-        if (logString == null || !logString.equals( VelocityEngine.WARN_PREFIX +  testString ) )
+        if (logString == null || !logString.equals(WARN_PREFIX +  testString ) )
         {
             fail("Didn't recieve log message.");
         }
