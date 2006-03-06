@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 The Apache Software Foundation.
+ * Copyright 2005-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -62,18 +62,18 @@ public class StandardOutLogChute implements LogChute
     {
         switch (level)
         {
-            case LogChute.WARN_ID:
-                return RuntimeConstants.WARN_PREFIX;
-            case LogChute.INFO_ID:
-                return RuntimeConstants.INFO_PREFIX ;
-            case LogChute.DEBUG_ID:
-                return RuntimeConstants.DEBUG_PREFIX;
-            case LogChute.TRACE_ID:
-                return RuntimeConstants.TRACE_PREFIX;
-            case LogChute.ERROR_ID:
-                return RuntimeConstants.ERROR_PREFIX;
+            case WARN_ID:
+                return WARN_PREFIX;
+            case INFO_ID:
+                return INFO_PREFIX ;
+            case DEBUG_ID:
+                return DEBUG_PREFIX;
+            case TRACE_ID:
+                return TRACE_PREFIX;
+            case ERROR_ID:
+                return ERROR_PREFIX;
             default:
-                return RuntimeConstants.UNKNOWN_PREFIX;
+                return INFO_PREFIX;
         }
     }
 
