@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -357,7 +357,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void warn(Object message)
     {
-        ri.getLog().warn( message );
+        getLog().warn(message);
     }
     
     /** 
@@ -365,7 +365,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        ri.getLog().info( message );
+        getLog().info(message);
     }
     
     /**
@@ -373,7 +373,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        ri.getLog().error( message );
+        getLog().error(message);
     }
     
     /**
@@ -381,7 +381,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        ri.getLog().debug( message );
+        getLog().debug(message);
     }
 
     /**
