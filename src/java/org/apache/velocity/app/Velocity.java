@@ -1,7 +1,7 @@
 package org.apache.velocity.app;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ public class Velocity implements RuntimeConstants
      *  initialize the Velocity runtime engine, using default properties
      *  plus the properties in the passed in java.util.Properties object
      *
-     *  @param p  Proprties object containing initialization properties
+     *  @param p  Properties object containing initialization properties
      *
      */
     public static void init( Properties p )
@@ -286,8 +286,7 @@ public class Velocity implements RuntimeConstants
                 }
                 catch( Exception e )
                 {
-                    RuntimeSingleton.error("Velocity.evaluate() : init exception for tag = "
-                                  + logTag + " : " + e );
+                    getLog().error("Velocity.evaluate() : init exception for tag = "+logTag, e);
                 }
 
                 /*
@@ -332,7 +331,7 @@ public class Velocity implements RuntimeConstants
         if ( vmName == null ||  params == null ||  context == null
              || writer == null || logTag == null)
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : invalid parameter");
+            getLog().error("Velocity.invokeVelocimacro() : invalid parameter");
             return false;
         }
 
@@ -342,7 +341,7 @@ public class Velocity implements RuntimeConstants
 
         if (!RuntimeSingleton.isVelocimacro( vmName, logTag ))
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : VM '"+ vmName
+            getLog().error("Velocity.invokeVelocimacro() : VM '"+ vmName
                            + "' not registered.");
             return false;
         }
@@ -374,25 +373,25 @@ public class Velocity implements RuntimeConstants
         /**
          * pass through application level runtime exceptions
          */
-        catch( RuntimeException e )
+        catch(RuntimeException re)
         {
-            throw e;
+            throw re;
         }
-        catch( ParseErrorException  e )
+        catch(ParseErrorException pee)
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+            getLog().error("Velocity.invokeVelocimacro() failed", pee);
         }
-        catch( MethodInvocationException  e )
+        catch(MethodInvocationException mie)
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+            getLog().error("Velocity.invokeVelocimacro() failed", mie);
         }
-        catch( ResourceNotFoundException  e )
+        catch(ResourceNotFoundException rnfe)
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+            getLog().error("Velocity.invokeVelocimacro() failed", rnfe);
         }
-        catch( IOException  e )
+        catch(IOException ioe)
         {
-            RuntimeSingleton.error( "Velocity.invokeVelocimacro() : error " + e );
+            getLog().error("Velocity.invokeVelocimacro() failed", ioe);
         }
 
         return false;
@@ -442,7 +441,7 @@ public class Velocity implements RuntimeConstants
 
         if ( template == null )
         {
-            RuntimeSingleton.error("Velocity.parseTemplate() failed loading template '"
+            getLog().error("Velocity.parseTemplate() failed loading template '"
                           + templateName + "'" );
             return false;
         }
@@ -525,7 +524,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void warn(Object message)
     {
-        RuntimeSingleton.warn( message );
+        getLog().warn( message );
     }
 
     /**
@@ -533,7 +532,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void info(Object message)
     {
-        RuntimeSingleton.info( message );
+        getLog().info( message );
     }
 
     /**
@@ -541,7 +540,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void error(Object message)
     {
-        RuntimeSingleton.error( message );
+        getLog().error( message );
     }
 
     /**
@@ -549,7 +548,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void debug(Object message)
     {
-        RuntimeSingleton.debug( message );
+        getLog().debug( message );
     }
 
     /**
