@@ -1,7 +1,7 @@
 package org.apache.velocity.app;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -334,10 +334,10 @@ public class VelocityEngine implements RuntimeConstants
                 {
                     throw e;
                 }
-                catch( Exception e )
+                catch(Exception e)
                 {
-                    ri.getLog().error("Velocity.evaluate() : init exception for tag = "
-                                  + logTag + " : " + e );
+                    getLog().error("Velocity.evaluate() : init exception for tag = "
+                                   + logTag, e);
                 }
 
                 /*
@@ -384,7 +384,7 @@ public class VelocityEngine implements RuntimeConstants
         if ( vmName == null ||  params == null ||  context == null
              || writer == null || logTag == null)
         {
-            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : invalid parameter");
+            getLog().error("VelocityEngine.invokeVelocimacro() : invalid parameter");
             return false;
         }
 
@@ -394,7 +394,7 @@ public class VelocityEngine implements RuntimeConstants
 
         if (!ri.isVelocimacro( vmName, logTag ))
         {
-            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : VM '"+ vmName
+            getLog().error("VelocityEngine.invokeVelocimacro() : VM '" + vmName
                            + "' not registered.");
             return false;
         }
@@ -430,9 +430,9 @@ public class VelocityEngine implements RuntimeConstants
         {
             throw e;
         }
-        catch( Exception  e )
+        catch(Exception e)
         {
-            ri.getLog().error( "VelocityEngine.invokeVelocimacro() : error " + e );
+            getLog().error("VelocityEngine.invokeVelocimacro() : error ", e);
             throw e;
         }
     }
@@ -489,8 +489,8 @@ public class VelocityEngine implements RuntimeConstants
 
         if ( template == null )
         {
-            ri.getLog().error("Velocity.parseTemplate() failed loading template '"
-                          + templateName + "'" );
+            getLog().error("Velocity.mergeTemplate() was unable to load template '"
+                           + templateName + "'");
             return false;
         }
         else
@@ -591,7 +591,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void warn(Object message)
     {
-        ri.getLog().warn(message);
+        getLog().warn(message);
     }
 
     /**
@@ -599,7 +599,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void info(Object message)
     {
-        ri.getLog().info(message);
+        getLog().info(message);
     }
 
     /**
@@ -607,7 +607,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void error(Object message)
     {
-        ri.getLog().error(message);
+        getLog().error(message);
     }
 
     /**
@@ -615,7 +615,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void debug(Object message)
     {
-        ri.getLog().debug(message);
+        getLog().debug(message);
     }
 
     /**

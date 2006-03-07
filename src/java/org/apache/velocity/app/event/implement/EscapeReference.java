@@ -1,7 +1,7 @@
 package org.apache.velocity.app.event.implement;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -133,7 +133,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
             catch (MalformedPerl5PatternException E) 
             {
                 rs.getLog().error("Invalid regular expression '" + matchRegExp
-                                  + "'.  No escaping will be performed.");
+                                  + "'.  No escaping will be performed.", E);
                 matchRegExp = null;
             }
         }

@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -80,8 +80,10 @@ public class ClasspathResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        log.info("ClasspathResourceLoader : initialization starting.");
-        log.info("ClasspathResourceLoader : initialization complete.");
+        if (log.isTraceEnabled())
+        {
+            log.trace("ClasspathResourceLoader : initialization complete.");
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,10 @@ public class FileResourceLoader extends ResourceLoader
 
     public void init( ExtendedProperties configuration)
     {
-        log.info("FileResourceLoader : initialization starting.");
+        if (log.isTraceEnabled())
+        {
+            log.trace("FileResourceLoader : initialization starting.");
+        }
         
         paths.addAll( configuration.getVector("path") );
 
@@ -75,7 +78,7 @@ public class FileResourceLoader extends ResourceLoader
             {
                 log.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
             }
-            log.info("FileResourceLoader : initialization complete.");
+            log.trace("FileResourceLoader : initialization complete.");
         }
     }
 
@@ -112,7 +115,7 @@ public class FileResourceLoader extends ResourceLoader
                 " contains .. and may be trying to access " + 
                 "content outside of template root.  Rejected.";
 
-            log.error( "FileResourceLoader : " + msg );
+            log.error("FileResourceLoader : " + msg);
       
             throw new ResourceNotFoundException ( msg );
         }
@@ -140,10 +143,7 @@ public class FileResourceLoader extends ResourceLoader
          * templates and we didn't find anything so
          * throw an exception.
          */
-         String msg = "FileResourceLoader Error: cannot find resource " +
-          template;
-    
-         throw new ResourceNotFoundException( msg );
+         throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
     }
     
     /**

@@ -1,7 +1,7 @@
 package org.apache.velocity.app.event.implement;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -63,13 +63,15 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
         if (!exists)
         {
             if (rs.getLoaderNameForResource(notfound) == null)
+            {
                 return notfound;
 
-            /**
-             * can't find not found, so display nothing
-             */
+            }
             else
             {
+                /**
+                 * can't find not found, so display nothing
+                 */
                 rs.getLog().error("Can't find include not found page: " + notfound);
                 return null;
             }

@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.log;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -138,14 +138,14 @@ public class LogManager
             String claz = (String) ii.next();
             if (claz != null && claz.length() > 0 )
             {
-                log.info("Trying to use logger class " + claz );
+                log.debug("Trying to use logger class " + claz );
                 try
                 {
                     o = ClassUtils.getNewInstance( claz );
                     if (o instanceof LogChute)
                     {
                         ((LogChute)o).init(rsvc);
-                        log.info("Using logger class " + claz);
+                        log.debug("Using logger class " + claz);
                         return (LogChute)o;
                     }
                     else if (o instanceof LogSystem)
@@ -188,7 +188,7 @@ public class LogManager
          */
         LogChute slc = new StandardOutLogChute();
         slc.init(rsvc);
-        log.info("Using StandardOutLogChute.");
+        log.debug("Using StandardOutLogChute.");
         return slc;
     }
 

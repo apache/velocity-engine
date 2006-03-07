@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -50,9 +50,9 @@ public class JarHolder
         this.urlpath=urlpath;
         init();
         
-        if (log.isInfoEnabled())
+        if (log.isDebugEnabled())
         {
-            log.info("JarHolder: initialized JAR: " + urlpath );
+            log.debug("JarHolder: initialized JAR: " + urlpath);
         }
     }
 
@@ -60,9 +60,9 @@ public class JarHolder
     {
         try
         {
-            if (log.isInfoEnabled())
+            if (log.isDebugEnabled())
             {
-                log.info("JarHolder: attempting to connect to "+ urlpath);
+                log.debug("JarHolder: attempting to connect to " + urlpath);
             }
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
@@ -72,9 +72,10 @@ public class JarHolder
             conn.connect();
             theJar = conn.getJarFile();
         } 
-        catch (IOException e)
+        catch (IOException ioe)
         {
-            log.error("JarHolder: error establishing connection to JAR ", e);
+            log.error("JarHolder: error establishing connection to JAR at \""
+                      + urlpath + "\"", ioe);
         }
     }
 
@@ -86,12 +87,12 @@ public class JarHolder
         }
         catch ( Exception e )
         {
-            log.error("JarHolder: error Closing JAR the file ", e);
+            log.error("JarHolder: error closing the JAR file", e);
         }
         theJar = null;
         conn = null;
 
-        log.info("JarHolder: JAR file closed");
+        log.trace("JarHolder: JAR file closed");
     }
     
     public InputStream getResource( String theentry )
@@ -109,7 +110,7 @@ public class JarHolder
         }
         catch( Exception fnfe )
         {
-            log.error("JarHolder : getResource() error", fnfe);
+            log.error("JarHolder: getResource() error", fnfe);
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
         

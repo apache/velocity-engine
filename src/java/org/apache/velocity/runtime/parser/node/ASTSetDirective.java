@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class ASTSetDirective extends SimpleNode
     private String leftReference = "";
     private Node right = null;
     private ASTReference left = null;
-    boolean blather = false;
+    boolean logOnNull = false;
 
     public ASTSetDirective(int id)
     {
@@ -71,7 +71,7 @@ public class ASTSetDirective extends SimpleNode
         right = getRightHandSide();
         left = getLeftHandSide();
 
-        blather = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
+        logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
  
         /*
          *  grab this now.  No need to redo each time
@@ -105,13 +105,13 @@ public class ASTSetDirective extends SimpleNode
                 /*
                  *  first, are we supposed to say anything anyway?
                  */
-                if(blather)
+                if(logOnNull)
                 {
                     boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
     
-                    if (doit)
+                    if (doit && log.isInfoEnabled())
                     {
-                        log.warn("RHS of #set statement is null. Context will not be modified. " 
+                        log.info("RHS of #set statement is null. Context will not be modified. " 
                                       + context.getCurrentTemplateName() + " [line " + getLine() 
                                       + ", column " + getColumn() + "]");
                     }

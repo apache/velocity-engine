@@ -442,8 +442,8 @@ public class VelocimacroManager
             } 
             catch ( Exception e ) 
             {
-                rsvc.getLog().error("VelocimacroManager.parseTree() : exception "
-                                    + macroname, e);
+                rsvc.getLog().error("VelocimacroManager.parseTree() failed on VM '"
+                                    + macroname + "'", e);
             }
         }
     }
