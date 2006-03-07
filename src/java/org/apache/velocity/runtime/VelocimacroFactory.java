@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
+import org.apache.velocity.runtime.log.Log;
 
 import java.util.Vector;
 import java.util.Map;
@@ -39,6 +40,11 @@ public class VelocimacroFactory
      *  runtime services for this instance
      */
     private RuntimeServices rsvc = null;
+
+    /** 
+     *  the log for this instance
+     */
+    private Log log = null;
 
     /**
      *  VMManager : deal with namespace management
@@ -68,7 +74,7 @@ public class VelocimacroFactory
     /**
      *  controls log output
      */
-    private boolean blather = false;
+    private boolean outputMessages = false;
 
     /**
      *  determines if the libraries are auto-loaded
@@ -94,6 +100,7 @@ public class VelocimacroFactory
     public VelocimacroFactory( RuntimeServices rs )
     {
         this.rsvc = rs;
+        this.log = rs.getLog();
 
         /*
          *  we always access in a synchronized(), so we 
@@ -115,12 +122,18 @@ public class VelocimacroFactory
         synchronized( this )
         {
             /*
+             *  respect message switch even from the start
+             */
+            outputMessages = rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true);
+            if (outputMessages && log.isTraceEnabled())
+            {
+                log.trace("Velocimacro : initialization starting.");
+            }
+
+            /*
              *   allow replacements while we add the libraries, if exist
              */
             setReplacementPermission( true );
-            setBlather( true );
-
-            logVMMessageInfo("Velocimacro : initialization starting.");
  
             /*
              *  add all library macros to the global namespace
@@ -138,8 +151,9 @@ public class VelocimacroFactory
 
              if (libfiles == null)
              {
-                 logVMMessageInfo("Velocimacro : \"" + RuntimeConstants.VM_LIBRARY +
-                     "\" not set.  trying default library : " + RuntimeConstants.VM_LIBRARY_DEFAULT);
+                 debug("\"" + RuntimeConstants.VM_LIBRARY +
+                     "\" is not set.  Trying default library: " + 
+                     RuntimeConstants.VM_LIBRARY_DEFAULT);
 
                  // try the default library.
                  if (rsvc.getLoaderNameForResource(RuntimeConstants.VM_LIBRARY_DEFAULT) != null)
@@ -148,7 +162,7 @@ public class VelocimacroFactory
                  }
                  else
                  {
-                     logVMMessageInfo("Velocimacro : default library not found.");
+                     debug("Default library not found.");
                  }
              }
 
@@ -181,8 +195,7 @@ public class VelocimacroFactory
 
                          vmManager.setRegisterFromLib( true );
 
-                         logVMMessageInfo("Velocimacro : adding VMs from " +
-                             "VM library template : " + lib  );
+                         debug("adding VMs from VM library : " + lib);
 
                          try 
                          {
@@ -201,12 +214,13 @@ public class VelocimacroFactory
                          } 
                          catch (Exception e)
                          {
-                             logVMMessageInfo("Velocimacro : error using  VM " +
-                                              "library template " + lib + " : " + e );
+                             log.error("Velocimacro : Error using VM library : "+lib, e);
                          }
 
-                         logVMMessageInfo("Velocimacro :  VM library template " +
-                                 "macro registration complete." );
+                         if (outputMessages && log.isTraceEnabled())
+                         {
+                             log.trace("Velocimacro : VM library registration complete.");
+                         }
             
                          vmManager.setRegisterFromLib( false );
                      }
@@ -216,6 +230,7 @@ public class VelocimacroFactory
             /*
              *   now, the permissions
              */
+
             
             /*
              *  allowinline : anything after this will be an inline macro, I think
@@ -229,13 +244,11 @@ public class VelocimacroFactory
             {
                 setAddMacroPermission( false );
                 
-                logVMMessageInfo("Velocimacro : allowInline = false : VMs can not " +
-                    "be defined inline in templates");
+                info("allowInline = false : VMs can NOT be defined inline in templates");
             }
             else
             {
-                logVMMessageInfo("Velocimacro : allowInline = true : VMs can be " +
-                    "defined inline in templates");
+                debug("allowInline = true : VMs can be defined inline in templates");
             }
 
             /*
@@ -251,12 +264,12 @@ public class VelocimacroFactory
             {
                 setReplacementPermission( true );
                 
-                logVMMessageInfo("Velocimacro : allowInlineToOverride = true : VMs " +
+                info("allowInlineToOverride = true : VMs " +
                     "defined inline may replace previous VM definitions");
             }
             else
             {
-                logVMMessageInfo("Velocimacro : allowInlineToOverride = false : VMs " +
+                debug("allowInlineToOverride = false : VMs " +
                     "defined inline may NOT replace previous VM definitions");
             }
 
@@ -274,31 +287,16 @@ public class VelocimacroFactory
         
             if ( getTemplateLocalInline() )
             {
-                logVMMessageInfo("Velocimacro : allowInlineLocal = true : VMs " +
+                info("allowInlineLocal = true : VMs " +
                     "defined inline will be local to their defining template only.");
             }
             else
             {
-                logVMMessageInfo("Velocimacro : allowInlineLocal = false : VMs " +
-                    "defined inline will be  global in scope if allowed.");
+                debug("allowInlineLocal = false : VMs " +
+                    "defined inline will be global in scope if allowed.");
             }
  
             vmManager.setTemplateLocalInlineVM( getTemplateLocalInline() );
-
-            /*
-             *  general message switch.  default is on
-             */
-            setBlather( rsvc.getBoolean( RuntimeConstants.VM_MESSAGES_ON, true ));
-        
-            if (getBlather())
-            {
-                logVMMessageInfo("Velocimacro : messages on  : VM system " +
-                    "will output logging messages");
-            }
-            else
-            {
-                logVMMessageInfo("Velocimacro : messages off : VM system will be quiet");
-            }
 
             /*
              *  autoload VM libraries
@@ -307,16 +305,19 @@ public class VelocimacroFactory
         
             if (getAutoload())
             {
-                logVMMessageInfo("Velocimacro : autoload on  : VM system " +
-                                 "will automatically reload global library macros");
+                info("autoload on : VM system " +
+                     "will automatically reload global library macros");
             }
             else
             {
-                logVMMessageInfo("Velocimacro : autoload off  : VM system " +
-                                 "will not automatically reload global library macros");
+                debug("autoload off : VM system " +
+                      "will not automatically reload global library macros");
             }
 
-            rsvc.getLog().info("Velocimacro : initialization complete.");
+            if (outputMessages && log.isTraceEnabled())
+            {
+                log.trace("Velocimacro : initialization complete.");
+            }
         }
     
         return;
@@ -337,9 +338,7 @@ public class VelocimacroFactory
         if ( name == null ||   macroBody == null || argArray == null || 
         	sourceTemplate == null )
         {
-            logVMMessageWarn("Velocimacro : VM addition rejected : " +
-                "programmer error : arg null"  );
-            
+            warn("VM addition rejected : programmer error : arg null");
             return false;
         }
         
@@ -363,13 +362,12 @@ public class VelocimacroFactory
         /*
          * Report addition of the new Velocimacro.
          */
-        if (getBlather())
+        if (outputMessages && log.isInfoEnabled())
         {
-            StringBuffer msg = new StringBuffer("Velocimacro : added new VM : ");
+            StringBuffer msg = new StringBuffer("Velocimacro : added ");
             Macro.macroToString(msg, argArray);
             msg.append(" : source = ").append(sourceTemplate);
-            // Already checked for getBlather()
-            rsvc.getLog().info(msg);
+            log.info(msg);
         }
 
         return true;
@@ -415,9 +413,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            logVMMessageWarn("Velocimacro : VM addition rejected : " + name + 
-                " : inline VMs not allowed."  );
-            
+            warn("VM addition rejected : "+name+" : inline VMs not allowed.");
             return false;
         }
 
@@ -436,8 +432,7 @@ public class VelocimacroFactory
              */
             if ( isVelocimacro( name, sourceTemplate ) && !replaceAllowed )
             {
-                logVMMessageWarn("Velocimacro : VM addition rejected : "
-                    + name + " : inline not allowed to replace existing VM"  );
+                warn("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
                 return false;
             }
         }
@@ -448,22 +443,33 @@ public class VelocimacroFactory
     /**
      *  localization of the logging logic
      */
-    private void logVMMessageInfo( String s )
+    private void debug(String s)
     {
-        if (getBlather())
+        if (outputMessages && log.isDebugEnabled())
         {
-            rsvc.getLog().info(s);
+            log.debug("Velocimacro : " + s);
         }
     }
 
     /**
      *  localization of the logging logic
      */
-    private void logVMMessageWarn( String s )
+    private void info(String s)
     {
-        if (getBlather())
+        if (outputMessages && log.isInfoEnabled())
         {
-            rsvc.getLog().warn(s);
+            log.info("Velocimacro : " + s);
+        }
+    }
+
+    /**
+     *  localization of the logging logic
+     */
+    private void warn(String s)
+    {
+        if (outputMessages && log.isWarnEnabled())
+        {
+            log.warn("Velocimacro : " + s);
         }
     }
       
@@ -541,8 +547,7 @@ public class VelocimacroFactory
 
                             if ( ft > tt )
                             {
-                                logVMMessageInfo("Velocimacro : autoload reload for VMs from " +
-                                                 "VM library template : " + lib  );
+                                debug("auto-reloading VMs from VM library : "+lib);
              
                                 /*
                                  *  when there are VMs in a library that invoke each other,
@@ -573,8 +578,7 @@ public class VelocimacroFactory
                     }
                     catch (Exception e)
                     {
-                        logVMMessageInfo("Velocimacro : error using  VM " +
-                                         "library template " + lib + " : " + e );
+                        log.error("Velocimacro : Error using VM library : "+lib, e);
                     }
 
                     /*
@@ -633,22 +637,6 @@ public class VelocimacroFactory
         boolean b = replaceAllowed;
         replaceAllowed = arg;
         return b;
-    }
-
-    /**
-     *  set output message mode 
-     */
-    private void setBlather( boolean b )
-    {
-        blather = b;
-    }
-
-    /**
-     * get output message mode
-     */
-    private boolean getBlather()
-    {
-        return blather;
     }
 
     /**

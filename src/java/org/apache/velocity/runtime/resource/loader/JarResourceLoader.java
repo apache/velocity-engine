@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtendedProperties configuration)
     {
-        log.info("JarResourceLoader : initialization starting.");
+        log.trace("JarResourceLoader : initialization starting.");
 
         // rest of Velocity engine still use legacy Vector 
         // and Hashtable classes. Classes are implicitly
@@ -99,15 +99,15 @@ public class JarResourceLoader extends ResourceLoader
 
             if (paths != null && paths.size() > 0)
             {
-                log.warn("JarResourceLoader : you are using a deprecated configuration"
-                             + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
-                             + " Please change to the conventional '<name>.resource.loader.path'.");
+                log.info("JarResourceLoader : you are using a deprecated configuration"
+                         + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
+                         + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
          
         if (paths != null)
         {
-            log.info("JarResourceLoader # of paths : " + paths.size() );
+            log.debug("JarResourceLoader # of paths : " + paths.size() );
         
             for ( int i=0; i<paths.size(); i++ )
             {
@@ -115,12 +115,15 @@ public class JarResourceLoader extends ResourceLoader
             }
         }
         
-        log.info("JarResourceLoader : initialization complete.");
+        log.trace("JarResourceLoader : initialization complete.");
     }
     
     private void loadJar( String path )
     {
-        log.info("JarResourceLoader : trying to load: " + path);
+        if (log.isDebugEnabled())
+        {
+            log.debug("JarResourceLoader : trying to load \"" + path + "\"");
+        }
 
         // Check path information
         if ( path == null )

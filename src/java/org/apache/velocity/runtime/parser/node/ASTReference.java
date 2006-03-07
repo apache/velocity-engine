@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -58,6 +58,7 @@ public class ASTReference extends SimpleNode
     private String rootString;
     private boolean escaped = false;
     private boolean computableReference = true;
+    private boolean logOnNull = true;
     private String escPrefix = "";
     private String morePrefix = "";
     private String identifier = "";
@@ -118,6 +119,12 @@ public class ASTReference extends SimpleNode
 
         uberInfo = new Info(context.getCurrentTemplateName(),
                 getLine(),getColumn());
+
+        /*
+         * track whether we log invalid references
+         */
+        logOnNull = 
+            rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
 
         return data;
     }
@@ -276,14 +283,13 @@ public class ASTReference extends SimpleNode
                 writer.write(nullString);
             }
 
-            if (referenceType != QUIET_REFERENCE
-                && rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,
-                        true))
+            if (logOnNull && referenceType != QUIET_REFERENCE && log.isInfoEnabled())
             {
-               log.warn(new ReferenceException("reference : template = "
-                                + context.getCurrentTemplateName(), this));
+                log.info("Null reference [template '"
+                         + context.getCurrentTemplateName() + "', line " 
+                         + this.getLine() + ", column " + this.getColumn() 
+                         + "] : " + this.literal() + " cannot be resolved.");
             }
-
             return true;
         }
         else

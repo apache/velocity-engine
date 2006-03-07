@@ -189,7 +189,8 @@ public class Macro extends Directive
         boolean macroAdded = rs.addVelocimacro(argArray[0],
                                                macroBody.toString(),
                                                argArray, sourceTemplate);
-        if (!macroAdded)
+
+        if (!macroAdded && rs.getLog().isWarnEnabled())
         {
             StringBuffer msg = new StringBuffer("Failed to add macro: ");
             macroToString(msg, argArray);

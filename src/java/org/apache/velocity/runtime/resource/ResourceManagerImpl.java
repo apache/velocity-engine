@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public class ResourceManagerImpl implements ResourceManager
         rsvc = rs;
         log = rsvc.getLog();
         
-        log.info("Default ResourceManager initializing. (" + this.getClass() + ")");
+        log.debug("Default ResourceManager initializing. (" + this.getClass() + ")");
 
         ResourceLoader resourceLoader;
         
@@ -173,14 +173,14 @@ public class ResourceManagerImpl implements ResourceManager
             catch (ClassNotFoundException cnfe )
             {
                 log.error("The specified class for ResourceCache (" + claz +
-                          ") does not exist (or is not accessible to the current classloader).");
+                          ") does not exist or is not accessible to the current classloader.");
                 o = null;
             }
             
             if (!(o instanceof ResourceCache) )
             {
                 log.error("The specified class for ResourceCache (" + claz +
-                          ") does not implement org.apache.runtime.resource.ResourceCache." +
+                          ") does not implement " + ResourceCache.class.getName() +
                           " ResourceManager. Using default ResourceCache implementation.");
                 o = null;
             }
@@ -189,17 +189,17 @@ public class ResourceManagerImpl implements ResourceManager
         /*
          *  if we didn't get through that, just use the default.
          */
-         
-        if ( o == null)
+        if (o == null)
+        {
             o = new ResourceCacheImpl();
-            
-         globalCache = (ResourceCache) o;
-            
-         globalCache.initialize( rsvc );        
-
-         log.info("Default ResourceManager initialization complete.");
-
         }
+            
+        globalCache = (ResourceCache)o;
+            
+        globalCache.initialize(rsvc);        
+
+        log.trace("Default ResourceManager initialization complete.");
+    }
 
     /**
      * This will produce a List of Hashtables, each
@@ -423,9 +423,9 @@ public class ResourceManagerImpl implements ResourceManager
                       *  multi-path support - will revisit and fix
                       */
 
-                     if ( logWhenFound )
+                     if (logWhenFound && log.isDebugEnabled())
                      {
-                         log.info("ResourceManager : found " + resourceName +
+                         log.debug("ResourceManager : found " + resourceName +
                                   " with loader " + 
                                   resourceLoader.getClassName());
                      }
@@ -510,7 +510,7 @@ public class ResourceManagerImpl implements ResourceManager
                 
                 if (!resource.getEncoding().equals( encoding ) )
                 {
-                    log.error("Declared encoding for template '" +
+                    log.warn("Declared encoding for template '" +
                               resource.getName() +
                               "' is different on reload. Old = '" +
                               resource.getEncoding() + "' New = '" + encoding);

@@ -441,15 +441,15 @@ public class Velocity implements RuntimeConstants
 
         if ( template == null )
         {
-            getLog().error("Velocity.parseTemplate() failed loading template '"
-                          + templateName + "'" );
+            getLog().error("Velocity.mergeTemplate() was unable to load template '"
+                           + templateName + "'");
             return false;
         }
         else
         {
             template.merge(context, writer);
             return true;
-         }
+        }
     }
 
     /**

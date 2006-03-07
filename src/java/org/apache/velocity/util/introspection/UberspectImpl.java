@@ -1,7 +1,7 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Copyright 2002-2004 The Apache Software Foundation.
+ * Copyright 2002-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -106,26 +106,29 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
         else if (obj instanceof Iterator)
         {
-            log.debug("The iterative object in the #foreach() loop at " +
-                       i + " is of type java.util.Iterator.  Because " +
-                       "it is not resettable, if used in more than once it " +
-                       "may lead to unexpected results.");
-
+            if (log.isDebugEnabled())
+            {
+                log.debug("The iterative object in the #foreach() loop at " +
+                           i + " is of type java.util.Iterator.  Because " +
+                           "it is not resettable, if used in more than once it " +
+                           "may lead to unexpected results.");
+            }
             return ((Iterator) obj);
         }
         else if (obj instanceof Enumeration)
         {
-            log.debug("The iterative object in the #foreach() loop at " +
-                       i + " is of type java.util.Enumeration.  Because " +
-                       "it is not resettable, if used in more than once it " +
-                       "may lead to unexpected results.");
-
+            if (log.isDebugEnabled())
+            {
+                log.debug("The iterative object in the #foreach() loop at " +
+                           i + " is of type java.util.Enumeration.  Because " +
+                           "it is not resettable, if used in more than once it " +
+                           "may lead to unexpected results.");
+            }
             return new EnumerationIterator((Enumeration) obj);
         }
 
         /*  we have no clue what this is  */
-        log.warn("Could not determine type of iterator in " +
-                  "#foreach loop at " + i);
+        log.info("Could not determine type of iterator in #foreach loop at " + i);
 
         return null;
     }

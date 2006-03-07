@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -222,10 +222,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (initialized == false)
         {
-            log.info("************************************************************** ");
-            log.info("Starting Jakarta Velocity v@build.version@");
-            log.debug("compiled at @build.time@");
-            log.info("RuntimeInstance initializing.");
+            log.trace("*******************************************************************");
+            log.debug("Starting Jakarta Velocity v@build.version@ (compiled: @build.time@)");
+            log.trace("RuntimeInstance initializing.");
 
             initializeProperties();
             initializeLog();
@@ -241,7 +240,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              */
             vmFactory.initVelocimacro();
 
-            log.info("Velocity successfully started.");
+            log.trace("RuntimeInstance successfully initialized.");
 
             initialized = true;
         }
@@ -275,9 +274,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (ClassNotFoundException cnfe)
             {
-                String err = "The specified class for Uberspect ("
-                    + rm
-                    + ") does not exist (or is not accessible to the current classlaoder.";
+                String err = "The specified class for Uberspect (" + rm
+                    + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
                 throw new Exception(err);
             }
@@ -285,9 +283,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             if (!(o instanceof Uberspect))
             {
                 String err = "The specified class for Uberspect ("
-                    + rm
-                    + ") does not implement org.apache.velocity.util.introspector.Uberspect."
-                    + " Velocity not initialized correctly.";
+                    + rm + ") does not implement " + Uberspect.class.getName()
+                    + "; Velocity is not initialized correctly.";
 
                 log.error(err);
                 throw new Exception(err);
@@ -332,14 +329,17 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             configuration.load( inputStream );
 
-            info ("Default Properties File: " +
-                new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+            if (log.isDebugEnabled())
+            {
+                log.debug("Default Properties File: " +
+                    new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+            }
 
 
         }
         catch (IOException ioe)
         {
-            log.error("Cannot get Velocity Runtime default properties!");
+            log.error("Cannot get Velocity Runtime default properties!", ioe);
         }
         finally
         {
@@ -352,7 +352,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (IOException ioe)
             {
-                log.error("Cannot close Velocity Runtime default properties!" + ioe);
+                log.error("Cannot close Velocity Runtime default properties!", ioe);
             }
         }
     }
@@ -538,19 +538,17 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (ClassNotFoundException cnfe )
             {
-                String err = "The specified class for Resourcemanager ("
-                    + rm
-                    + ") does not exist (or is not accessible to the current classlaoder.";
+                String err = "The specified class for ResourceManager (" + rm
+                    + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
                 throw new Exception(err);
             }
 
             if (!(o instanceof ResourceManager))
             {
-                String err = "The specified class for ResourceManager ("
-                    + rm
-                    + ") does not implement org.apache.runtime.resource.ResourceManager."
-                    + " Velocity not initialized correctly.";
+                String err = "The specified class for ResourceManager (" + rm
+                    + ") does not implement " + ResourceManager.class.getName()
+                    + "; Velocity is not initialized correctly.";
 
                 log.error(err);
                 throw new Exception(err);
@@ -643,23 +641,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             catch (ClassNotFoundException cnfe )
             {
                 String err = "The specified class for "
-                    + paramName
-                    + " ("
-                    + classname
-                    + ") does not exist (or is not accessible to the current classlaoder.";
+                    + paramName + " (" + classname
+                    + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
                 throw new Exception(err);
             }
 
             if (!EventHandlerInterface.isAssignableFrom(EventHandlerInterface))
             {
-                String err = "The specified class for "
-                    + paramName
-                    + " ("
-                    + classname
-                    + ") does not implement "
+                String err = "The specified class for " + paramName + " ("
+                    + classname + ") does not implement "
                     + EventHandlerInterface.getName()
-                    + " Velocity not initialized correctly.";
+                    + "; Velocity is not initialized correctly.";
 
                 log.error(err);
                 throw new Exception(err);
@@ -732,7 +725,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         catch (IOException ioe)
         {
-            log.error("Error while loading directive properties!",ioe);
+            log.error("Error while loading directive properties!", ioe);
         }
         finally
         {
@@ -761,7 +754,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         while (directiveClasses.hasMoreElements())
         {
             String directiveClass = (String) directiveClasses.nextElement();
-            loadDirective( directiveClass, "System" );
+            loadDirective(directiveClass);
+            log.debug("Loaded System Directive: " + directiveClass);
         }
 
         /*
@@ -772,7 +766,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         for( int i = 0; i < userdirective.length; i++)
         {
-            loadDirective( userdirective[i], "User");
+            loadDirective(userdirective[i]);
+            if (log.isInfoEnabled())
+            {
+                log.info("Loaded User Directive: " + userdirective[i]);
+            }
         }
 
     }
@@ -782,7 +780,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      *  @param directiveClass classname of directive to load
      */
-    private void loadDirective(String directiveClass, String caption)
+    private void loadDirective(String directiveClass)
     {
         try
         {
@@ -792,15 +790,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             {
                 Directive directive = (Directive) o;
                 runtimeDirectives.put(directive.getName(), directive);
-
-                log.info("Loaded " + caption + " Directive: "
-                    + directiveClass);
             }
             else
             {
-                log.error(caption + " Directive " + directiveClass
-                    + " is not implementing org.apache.velocity.runtime.directive.Directive."
-                    + " Ignoring. ");
+                log.error(directiveClass + " does not implement "
+                    + Directive.class.getName() + "; it cannot be loaded.");
             }
         }
         // The ugly threesome:  ClassNotFoundException,
@@ -808,8 +802,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         // Ignore Findbugs complaint for now.
         catch (Exception e)
         {
-            log.error("Exception Loading " + caption + " Directive: "
-                + directiveClass + " : " + e);
+            log.error("Failed to load Directive: " + directiveClass, e);
         }
     }
 
@@ -829,7 +822,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             parserPool.put(createNewParser());
         }
 
-        log.info("Created '" + numParsers + "' parsers.");
+        if (log.isDebugEnabled())
+        {
+            log.debug("Created '" + numParsers + "' parsers.");
+        }
     }
 
     /**
@@ -890,9 +886,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  make one and log it.
              */
 
-            log.error("Runtime : ran out of parsers. Creating new.  "
-                  + " Please increment the parser.pool.size property."
-                  + " The current value is too small.");
+            if (log.isInfoEnabled())
+            {
+                log.info("Runtime : ran out of parsers. Creating a new one. "
+                      + " Please increment the parser.pool.size property."
+                      + " The current value is too small.");
+            }
 
             parser = createNewParser();
 

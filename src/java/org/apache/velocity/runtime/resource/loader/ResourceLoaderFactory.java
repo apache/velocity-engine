@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ public class ResourceLoaderFactory
         {
             loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
             
-            rs.getLog().info("Resource Loader Instantiated: " + 
-                             loader.getClass().getName());
+            rs.getLog().debug("ResourceLoader instantiated: "
+                              + loader.getClass().getName());
             
             return loader;
         }

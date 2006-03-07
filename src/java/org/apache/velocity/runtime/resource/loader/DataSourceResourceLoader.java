@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -140,29 +140,31 @@ public class DataSourceResourceLoader extends ResourceLoader
          
          if (dataSource != null) 
          {
-             if (log.isInfoEnabled())
+             if (log.isDebugEnabled())
              {
-                 log.info("Resources Loaded using dataSource instance with table: "
-                          + tableName);
-                 log.info("Resource Loader using columns: " + keyColumn + ", "
-                          + templateColumn + " and " + timestampColumn);
-                 log.info("Resource Loader Initalized.");
+                 log.debug("DataSourceResourceLoader : using dataSource instance with table \""
+                          + tableName + "\"");
+                 log.debug("DataSourceResourceLoader : using columns \""
+                          + keyColumn + "\", \"" + templateColumn + "\" and \""
+                          + timestampColumn + "\"");
+                 log.trace("DataSourceResourceLoader initalized.");
              }
          } 
          else if (dataSourceName != null) 
          {
-             if (log.isInfoEnabled())
+             if (log.isDebugEnabled())
              {
-                 log.info("Resources Loaded From: " + dataSourceName + "/"
-                          + tableName);
-                 log.info("Resource Loader using columns: " + keyColumn + ", "
-                          + templateColumn + " and " + timestampColumn);
-                 log.info("Resource Loader Initalized.");
+                 log.debug("DataSourceResourceLoader : using \"" + dataSourceName
+                          + "\" datasource with table \"" + tableName + "\"");
+                 log.debug("DataSourceResourceLoader : using columns \""
+                          + keyColumn + "\", \"" + templateColumn + "\" and \""
+                          + timestampColumn + "\"");
+                 log.trace("DataSourceResourceLoader initalized.");
               }
          } 
          else 
          {
-            log.info("DataSourceResourceLoader not properly initialized.  ");
+            log.warn("DataSourceResourceLoader not properly initialized. No DataSource was identified.");
          }
      }
 
@@ -221,7 +223,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                          }
                          else 
                          {
-                             String msg = "DataSourceResourceLoader Error: cannot find resource "
+                             String msg = "DataSourceResourceLoader : cannot find resource "
                                  + name;
                              log.error(msg);
 
@@ -230,7 +232,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         String msg = "DataSourceResourceLoader Error: cannot find resource "
+                         String msg = "DataSourceResourceLoader : cannot find resource "
                              + name;
                          log.error(msg);
 
@@ -250,7 +252,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          // IOException, SQLException
          catch(Exception e)
          {
-             String msg = "DataSourceResourceLoader Error: database problem trying to load resource "
+             String msg = "DataSourceResourceLoader : database problem trying to load resource "
                           + name;
              log.error(msg, e);
 
@@ -290,9 +292,9 @@ public class DataSourceResourceLoader extends ResourceLoader
                      }
                      else
                      {
-                         log.error("DataSourceResourceLoader Error: while "
-                                       + i_operation
-                                       + " could not find resource " + name);
+                         log.error("DataSourceResourceLoader : while "
+                                   + i_operation + " could not find resource "
+                                   + name);
                      }
                  }
                  finally
@@ -307,7 +309,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch(SQLException e)
          {
-             String msg = "DataSourceResourceLoader Error: error while "
+             String msg = "DataSourceResourceLoader : error while "
                  + i_operation + " when trying to load resource "
                  + name;
              log.error(msg, e);
@@ -315,7 +317,7 @@ public class DataSourceResourceLoader extends ResourceLoader
       }
          catch(NamingException e)
          {
-             String msg = "DataSourceResourceLoader Error: error while "
+             String msg = "DataSourceResourceLoader : error while "
                  + i_operation + " when trying to load resource "
                  + name;
              log.error(msg, e);
@@ -363,8 +365,8 @@ public class DataSourceResourceLoader extends ResourceLoader
          }
          catch (Exception e)
          {
-            String msg = "DataSourceResourceLoader Quirk: problem when closing connection";
-            log.info(msg, e);
+            String msg = "DataSourceResourceLoader : problem when closing connection";
+            log.warn(msg, e);
             throw  ExceptionUtils.createRuntimeException(msg, e);
         }
      }
