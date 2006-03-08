@@ -3,7 +3,7 @@ package org.apache.velocity.util;
 import java.io.InputStream;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -36,17 +36,16 @@ public class ClassUtils {
     }
     
     /**
-     * Return a new instance of the given class.  Checks the ThreadContext
-     * classloader first, then uses the System classloader.  Should replace all calls
-     * to <code>Class.forName( claz ).newInstance()</code> (which only calls
-     * the System class loader) when the class might be in a different classloader
-     * (e.g. in a webapp).
+     * Return the specified class.  Checks the ThreadContext classloader first,
+     * then uses the System classloader.  Should replace all calls to 
+     * <code>Class.forName( claz )</code> (which only calls the System class
+     * loader) when the class might be in a different classloader (e.g. in a 
+     * webapp).
      *
-     * @param classname the name of the class to instantiate
-     * @return
+     * @param clazz the name of the class to instantiate
+     * @return the requested Class object
      */
-    public static Object getNewInstance(String classname) 
-        throws ClassNotFoundException,IllegalAccessException,InstantiationException
+    public static Class getClass(String clazz) throws ClassNotFoundException
     {
         /**
          * Use the Thread context classloader if possible
@@ -56,26 +55,36 @@ public class ClassUtils {
         {
             try 
             {
-                return Class.forName(classname, true, loader).newInstance();
+                return Class.forName(clazz, true, loader);
             } 
-            catch (ClassNotFoundException E) {
-                
+            catch (ClassNotFoundException E)
+            {
                 /**
-                 * If not found with ThreadContext loader, try System classloader
-                 * (works around bug in ant).
+                 * If not found with ThreadContext loader, fall thru to
+                 * try System classloader below (works around bug in ant).
                  */
-                return Class.forName(classname).newInstance();
             }
         }
-        
         /**
-         * No Thread context classloader, so use system loader.
+         * Thread context classloader isn't working out, so use system loader.
          */
-        else 
-        {
-            return Class.forName(classname).newInstance();
-        }
-
+        return Class.forName(clazz);
+    }
+    
+    /**
+     * Return a new instance of the given class.  Checks the ThreadContext
+     * classloader first, then uses the System classloader.  Should replace all
+     * calls to <code>Class.forName( claz ).newInstance()</code> (which only 
+     * calls the System class loader) when the class might be in a different 
+     * classloader (e.g. in a webapp).
+     *
+     * @param classname the name of the class to instantiate
+     * @return an instance of the specified class
+     */
+    public static Object getNewInstance(String clazz) 
+        throws ClassNotFoundException,IllegalAccessException,InstantiationException
+    {
+        return getClass(clazz).newInstance();
     }
     
     /**
