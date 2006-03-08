@@ -1,7 +1,7 @@
 package org.apache.velocity.texen;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.util.ClassUtils;
 
 /**
  * A text/code generator class
@@ -498,8 +499,7 @@ public class Generator
 
                 try
                 {
-                    Class cls = Class.forName (contextObj);
-                    Object o = cls.newInstance();
+                    Object o = ClassUtils.getNewInstance(contextObj);
                     context.put (contextName,o);
                 }
                 catch (Exception e)
