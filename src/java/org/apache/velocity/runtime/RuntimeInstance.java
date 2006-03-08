@@ -120,9 +120,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private  SimplePool parserPool;
 
     /**
+     * Indicate whether the Runtime is in the midst of initialization.
+     */
+    private boolean initializing = false;
+
+    /**
      * Indicate whether the Runtime has been fully initialized.
      */
-    private  boolean initialized;
+    private boolean initialized = false;
 
     /**
      * These are the properties that are laid down over top
@@ -183,22 +188,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public RuntimeInstance()
     {
         /*
-         *  create a VM factory, resource manager
-         *  and introspector
+         *  create a VM factory, introspector, and application attributes
          */
-
         vmFactory = new VelocimacroFactory( this );
 
         /*
          *  make a new introspector and initialize it
          */
-
         introspector = new Introspector(getLog());
 
         /*
          * and a store for the application attributes
          */
-
         applicationAttributes = new HashMap();
     }
 
@@ -220,8 +221,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public synchronized void init()
         throws Exception
     {
-        if (initialized == false)
+        if (!initialized && !initializing)
         {
+            initializing = true;
+
             log.trace("*******************************************************************");
             log.debug("Starting Jakarta Velocity v@build.version@ (compiled: @build.time@)");
             log.trace("RuntimeInstance initializing.");
@@ -243,6 +246,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             log.trace("RuntimeInstance successfully initialized.");
 
             initialized = true;
+            initializing = false;
         }
     }
 
@@ -835,6 +839,21 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Parser createNewParser()
     {
+        /* must be initialized before we use runtimeDirectives */
+        if (!initialized && !initializing)
+        {
+            log.debug("Velocity was not initialized! Calling init()...");
+            try
+            {
+                init();
+            }
+            catch (Exception e)
+            {
+                getLog().error("Could not auto-initialize Velocity", e);
+                throw new IllegalStateException("Velocity could not be initialized!");
+            }
+        }
+
         Parser parser = new Parser(this);
         parser.setDirectives(runtimeDirectives);
         return parser;
@@ -874,6 +893,20 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public SimpleNode parse(Reader reader, String templateName, boolean dumpNamespace)
         throws ParseException
     {
+        /* must be initialized before using parserPool */
+        if (!initialized && !initializing)
+        {
+            log.debug("Velocity was not initialized! Calling init()...");
+            try
+            {
+                init();
+            }
+            catch (Exception e)
+            {
+                getLog().error("Could not auto-initialize Velocity", e);
+                throw new IllegalStateException("Velocity could not be initialized!");
+            }
+        }
 
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
@@ -975,10 +1008,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        if (resourceManager == null)
+        /* must be initialized before using resourceManager */
+        if (!initialized && !initializing)
         {
-            throw new IllegalStateException
-              ("Cannot retrieve template as Velocity was not initialized.");
+            log.info("Velocity not initialized yet. Calling init()...");
+            init();
         }
 
         return (Template)
@@ -1020,10 +1054,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        if (resourceManager == null)
+        /* must be initialized before using resourceManager */
+        if (!initialized && !initializing)
         {
-            throw new IllegalStateException
-              ("Cannot retrieve content as Velocity was not initialized.");
+            log.info("Velocity not initialized yet. Calling init()...");
+            init();
         }
 
         return (ContentResource)
@@ -1033,9 +1068,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
 
     /**
-     *  Determines is a template exists, and returns name of the loader that
+     *  Determines if a template exists and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
-     *  the Velocity.templateExists() utility method, which was broken
+     *  the Velocity.resourceExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
      *
      *  @param resourceName Name of template or content resource
@@ -1043,10 +1078,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getLoaderNameForResource(String resourceName)
     {
-        if (resourceManager == null)
+        /* must be initialized before using resourceManager */
+        if (!initialized && !initializing)
         {
-            throw new IllegalStateException
-              ("Cannot retrieve template information as Velocity was not initialized.");
+            log.debug("Velocity was not initialized! Calling init()...");
+            try
+            {
+                init();
+            }
+            catch (Exception e)
+            {
+                getLog().error("Could not initialize Velocity", e);
+                throw new IllegalStateException("Velocity could not be initialized!");
+            }
         }
 
         return resourceManager.getLoaderNameForResource(resourceName);
@@ -1235,10 +1279,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Returns the event handlers for the application.
      */
-     public EventCartridge getApplicationEventCartridge()
-     {
-         return eventCartridge;
-     }
+    public EventCartridge getApplicationEventCartridge()
+    {
+        return eventCartridge;
+    }
 
 
     /**
