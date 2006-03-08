@@ -1,7 +1,7 @@
 package org.apache.velocity.app;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.lang.Class;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import org.apache.velocity.util.ClassUtils;
 
 /**
  *  <p>
@@ -120,7 +121,7 @@ public class FieldMethodizer
     public void addObject ( String s )
         throws Exception
     {
-        inspect(Class.forName(s));
+        inspect(ClassUtils.getClass(s));
     }
     
     /**

@@ -640,7 +640,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             Object o = null;
             try {
-                o = Class.forName(classname).newInstance();
+                o = ClassUtils.getNewInstance(classname);
             }
             catch (ClassNotFoundException cnfe )
             {
