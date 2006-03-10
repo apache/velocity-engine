@@ -47,7 +47,7 @@
     <menu name="Developers">
         <item name="Source Code Repository"   href="http://www.apache.org/dev/version-control.html"/>
         <item name="Building from Source"     href="/build.html"/>
-        <item name="Nightly Snapshots"        href="http://cvs.apache.org/snapshots/velocity/"/>
+        <item name="Nightly Snapshots"        href="http://svn.apache.org/snapshots/jakarta-velocity/"/>
         <item name="Road Map"                 href="http://wiki.apache.org/jakarta-velocity/RoadMap"/>
         <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>    
         <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>    
