@@ -1829,7 +1829,7 @@ Vyacheslav Ganelin
 
   <p>
   In fact, because all script elements
-  are escaped, <em>$jazz</em> is never evaluated for it's boolean value.
+  are escaped, <em>$jazz</em> is never evaluated for its boolean value.
   Suppose
   backslashes precede script elements that are legitimately escaped:
   </p>
@@ -2125,7 +2125,7 @@ purposes, a VM is a directive.
 
 <p>
 <i>However...</i>, there are things you can do. One easy solution is to take
-advantage of the fact that 'doublequote' (") renders it's contents. So you
+advantage of the fact that 'doublequote' (") renders its contents. So you
 could do something like
 </p>
 

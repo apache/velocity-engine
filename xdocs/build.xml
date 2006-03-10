@@ -178,7 +178,7 @@ ant javadocs
     <code>docs/api</code> directory
   </li>
   <li>
-    <b><code>test</code></b> (after jar) will test Velocity against it's testbed
+    <b><code>test</code></b> (after jar) will test Velocity against its testbed
     suite of test routines
   </li>
   <li>
