@@ -81,7 +81,7 @@
 
  <section name="Extending Velocity's Capability" href="ExtendingVelocity'sCapability">
     <p>While Velocity is generally useful within an application as is, there are a number of ways
-    it's capabilities can be extended.
+    its capabilities can be extended.
     </p>
     
     <ul>

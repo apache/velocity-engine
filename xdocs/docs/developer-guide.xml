@@ -380,7 +380,7 @@ provided to make Velocity easier to integrate into your Java application.
    This is very convenient as it
    allows localized configuration and sharing of resources.  For example, this
    is a very appropriate model for use in a Servlet 2.2+ compliant web application
-   as each web application can have it's own instance of Velocity, allowing
+   as each web application can have its own instance of Velocity, allowing
    that web application's servlet to share resources like templates, a logger, etc.
    The singleton is accessable via the <code>org.apache.velocity.app.Velocity</code>
    class, and and example of use :
@@ -1400,9 +1400,9 @@ comma-separated values.
 <p>
 There is a set of default values contained in Velocity's jar, found in
 /src/java/org/apache/velocity/runtime/defaults/velocity.defaults, that
-Velocity uses as it's configuration baseline.
+Velocity uses as its configuration baseline.
 This ensures that Velocity will always have a 'correct' value
-for it's configuration keys at startup, although it may not be what you want.
+for its configuration keys at startup, although it may not be what you want.
 </p>
 
 <p>
@@ -1422,7 +1422,7 @@ Applications</b></a> for discussion on the configuration API.
 
 <p>
 Below are listed the configuration keys that control Velocity's behavior.
-Organized by category, each key is listed with it's current default value
+Organized by category, each key is listed with its current default value
 to the right of the '=' sign.
 </p>
 
@@ -1791,7 +1791,7 @@ Logkit or Log4j to use as the default logging system.
 
 <li>
 <b>Existing Log4j Logger/Category</b><br/>
-Starting with version 1.3, Velocity will log it's output to an existing
+Starting with version 1.3, Velocity will log its output to an existing
 Log4j Category setup elsewhere in the application.  With version 1.5, we have
 switched to using the Logger class, as the Category class is now deprecated
 in Log4j. To use this feature you must
@@ -2032,7 +2032,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 
 <ul>
 <li>
-  <b>FileResourceLoader :</b> This loader gets resources from the filesystem. It's
+  <b>FileResourceLoader :</b> This loader gets resources from the filesystem. Its
   configuration properties include :
   <ul>
     <li>
