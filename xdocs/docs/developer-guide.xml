@@ -152,7 +152,7 @@ more detail on the various options.
 <p>
     If you want to download the latest source, you can do so via the Subversion (svn) 
     source control system, or download a complete 
-    <a href="http://cvs.apache.org/snapshots/velocity/">nightly snapshot.</a>
+    <a href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly snapshot.</a>
 </p>
 
 <p>

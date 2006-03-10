@@ -22,7 +22,7 @@ Everything required to build Velocity comes with the distribution, which
 can be obtained from <a
 href="http://www.apache.org/dev/version-control.html">Subversion</a> or
 from the <a
-href="http://cvs.apache.org/snapshots/velocity/">nightly
+href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly
 builds</a>.  However, you will need to install Ant, an excellent
 Java-based build tool.  Ant is also a Jakarta project, and can be
 found <a href="http://jakarta.apache.org/ant/">here</a>.
