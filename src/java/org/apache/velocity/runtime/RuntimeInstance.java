@@ -46,7 +46,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.SimplePool;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
@@ -117,7 +116,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * The Runtime parser pool
      */
-    private  SimplePool parserPool;
+    private  ParserPool parserPool;
 
     /**
      * Indicate whether the Runtime is in the midst of initialization.
@@ -813,23 +812,67 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Initializes the Velocity parser pool.
-     * This still needs to be implemented.
      */
     private void initializeParserPool()
+    throws Exception
     {
-        int numParsers = getInt(PARSER_POOL_SIZE, NUMBER_OF_PARSERS);
-
-        parserPool = new SimplePool(numParsers);
-
-        for (int i = 0; i < numParsers; i++)
+        /*
+         * Which parser pool?
+         */
+        String pp = getString(RuntimeConstants.PARSER_POOL_CLASS);
+        
+        if (pp != null && pp.length() > 0)
         {
-            parserPool.put(createNewParser());
+            /*
+             *  if something was specified, then make one.
+             *  if that isn't a ParserPool, consider
+             *  this a huge error and throw
+             */
+            
+            Object o = null;
+            
+            try
+            {
+                o = ClassUtils.getNewInstance( pp );
+            }
+            catch (ClassNotFoundException cnfe )
+            {
+                String err = "The specified class for ParserPool ("
+                    + pp
+                    + ") does not exist (or is not accessible to the current classloader.";
+                log.error(err);
+                throw new Exception(err);
+            }
+            
+            if (!(o instanceof ParserPool))
+            {
+                String err = "The specified class for ParserPool ("
+                    + pp
+                    + ") does not implement org.apache.velocity.runtime.ParserPool."
+                    + " Velocity not initialized correctly.";
+                
+                log.error(err);
+                throw new Exception(err);
+            }
+            
+            parserPool = (ParserPool) o;
+            
+            parserPool.initialize(this);
         }
-
-        if (log.isDebugEnabled())
+        else
         {
-            log.debug("Created '" + numParsers + "' parsers.");
+            /*
+             *  someone screwed up.  Lets not fool around...
+             */
+            
+            String err = "It appears that no class was specified as the"
+                + " ParserPool.  Please ensure that all configuration"
+                + " information is correct.";
+            
+            log.error(err);
+            throw new Exception( err );
         }
+        
     }
 
     /**
@@ -958,12 +1001,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             finally
             {
                 /*
-                 *  if this came from the pool, then put back
+                 *  put it back
                  */
-                if (!madeNew)
-                {
-                    parserPool.put(parser);
-                }
+                parserPool.put(parser);
+                
             }
         }
         else
