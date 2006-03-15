@@ -813,8 +813,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Initializes the Velocity parser pool.
      */
-    private void initializeParserPool()
-    throws Exception
+    private void initializeParserPool() throws Exception
     {
         /*
          * Which parser pool?
@@ -847,8 +846,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             if (!(o instanceof ParserPool))
             {
                 String err = "The specified class for ParserPool ("
-                    + pp
-                    + ") does not implement org.apache.velocity.runtime.ParserPool."
+                    + pp + ") does not implement " + ParserPool.class
                     + " Velocity not initialized correctly.";
                 
                 log.error(err);
