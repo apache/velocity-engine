@@ -337,6 +337,14 @@ public interface RuntimeConstants
     public static final String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 
     /**
+     * The <code>parser.pool.class</code> property
+     * specifies the name of the {@link
+     * org.apache.velocity.util.SimplePool}
+     * implementation to use.
+     */
+    public static final String PARSER_POOL_CLASS = "parser.pool.class";
+
+    /**
      * @see #NUMBER_OF_PARSERS
      */
     public static final String PARSER_POOL_SIZE = "parser.pool.size";
