@@ -186,7 +186,7 @@ public class ASTStringLiteral extends SimpleNode
                  * if appropriate, remove the space from the end 
                  * (dreaded <MORE> kludge part deux)
                  */
-                if (!containsLineComment)
+                if (!containsLineComment && ret.length() > 0)
                 {
                     return ret.substring(0, ret.length() - 1);
                 }
