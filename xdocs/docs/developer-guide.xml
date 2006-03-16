@@ -144,8 +144,8 @@ more detail on the various options.
 
 <p>
     You can download the latest release version of 
-    <a href="http://jakarta.apache.org/site/downloads/downloads_velocity-engine.cgi">Velocity</a> 
-    or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity-tools.cgi">Velocity Tools</a> 
+    <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a> 
+    or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a> 
     from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
 </p>
 
