@@ -204,7 +204,7 @@ What follows is a brief tutorial on building a simple web app with VelocityViewS
 
 <ol>
 <li>Download the Velocity Tools project source (you need the source for the examples)
-from <a href="http://jakarta.apache.org/site/downloads/">Jakarta download page</a>.  
+from <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">download page</a>.  
 </li>
 
 <li>If you haven't already installed <a href="http://ant.apache.org/">Apache Ant</a>. do so now.

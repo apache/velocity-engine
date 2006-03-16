@@ -37,13 +37,13 @@
     
     <section name="Where do I get releases?" href="WheredoIgetreleases?">
       
-      <p> The current release version is version 1.5. </p>
+      <p> The current release version is version 1.4. </p>
       
       <p> The release distribution is available as a combined source/binary distribution in
         <code>tar.gz</code> and
         <code>zip</code> formats, and can be downloaded through the
         <a
-          href="http://jakarta.apache.org/site/downloads/downloads_velocity-engine.cgi">
+          href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">
           Apache Mirror system</a>. </p>
       
       <p> The Velocity jars are also available through the
