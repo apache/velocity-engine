@@ -1713,12 +1713,19 @@ further information.
 </p>
 
 <p>
-<strong>Runtime Configuration</strong>
+<strong>Parser Configuration</strong>
 </p>
-
+<p>
+<code>parser.pool.class = org.apache.velocity.runtime.ParserPoolImpl</code><br/>
+This property selects the implementation for the parser pool.  This class
+must implement ParserPool. Generally there is no reason to change this though
+if you are building a high volume web application you might consider including
+an alternate implementation that automatically adjusts the size of the pool.
+</p>
 <p>
 <code>parser.pool.size = 20</code><br/>
-This property sets the number of parser instances that Velocity will
+This property is used by the default pooling implementation to
+set the number of parser instances that Velocity will
 create at startup and keep in a pool.  The default of 20 parsers
 should be more than enough for most uses.  In the event that Velocity
 does run out of parsers, it will indicate so in the log, and
