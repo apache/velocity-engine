@@ -9,7 +9,7 @@
 
 <body>
 
-<section name="Installation" href="Installation">
+<section name="Installation">
 
 <p>
 Velocity runs on a variety of platforms that have installed the Java 2
@@ -47,7 +47,7 @@ jakarta-velocity
 
 </section>
 
-<section name="Building" href="Building">
+<section name="Building">
 
 <p>
 To make building Velocity easy and consistant, we require a Jakarta project
@@ -67,7 +67,7 @@ All directory references will be relative to 'jakarta-velocity'.
 </p>
 
 <p>
-Change to the <filename>build</filename> directory (<code>cd
+Change to the <b>build</b> directory (<code>cd
 build</code>). Then, to build the jar file, simply type:
 </p>
 
@@ -76,13 +76,13 @@ ant
 ]]></source>
 
 <p>
-Executing this script will create a <filename>bin</filename> directory
-within the Velocity distribution directory. The <filename>bin</filename>
+Executing this script will create a <b>bin</b> directory
+within the Velocity distribution directory. The <b>bin</b>
 directory will contain the compiled class files (inside a
-<filename>classes</filename> directory) as well as a
-<filename>velocity-XX.jar</filename> file, where XX is the current
+<b>classes</b> directory) as well as a
+<b>velocity-XX.jar</b> file, where XX is the current
 version number. Be sure to update your classpath to include Velocity's
-<filename>.jar</filename> file.
+<b>.jar</b> file.
 </p>
 
 <p>
@@ -206,7 +206,7 @@ list.
 
 </section>
 
-<section name="Testing Your Installation" href="TestingYourInstallation">
+<section name="Testing Your Installation">
 
 <p>
 The Velocity developers use an automated test facility, and it is
@@ -216,7 +216,7 @@ well with your build of Velocity.
 
 <p>
 To run the test suite, simply use the build target
-<filename>test</filename> when you build :
+<b>test</b> when you build :
 </p>
 <source><![CDATA[
 ant test
