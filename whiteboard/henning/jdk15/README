@@ -1,0 +1,7 @@
+This is an Uberspect Implementation (with test) that only compiles under JDK 1.5
+but allows Objects that implement Iterable to be used in #foreach()
+
+Use it by adding the following line to your velocity.properties:
+
+runtime.introspector.uberspect = org.apache.velocity.util.introspection.JDK15UberspectImpl
+
