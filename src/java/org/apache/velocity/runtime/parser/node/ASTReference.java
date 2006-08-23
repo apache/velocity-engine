@@ -265,11 +265,18 @@ public class ASTReference extends SimpleNode
 
         value =  EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
 
+        String toString = null;
+        if (value != null) 
+        {
+            toString = value.toString();
+        }
+
+
         /*
          *  if value is null...
          */
 
-        if ( value == null || (value.toString() == null) )
+        if ( value == null || toString == null)
         {
             /*
              *  write prefix twice, because it's schmoo, so the \ don't escape each other...
@@ -302,7 +309,7 @@ public class ASTReference extends SimpleNode
             {
                 writer.write(escPrefix);
                 writer.write(morePrefix);
-                writer.write(value.toString());
+                writer.write(toString);
             }
 
             return true;

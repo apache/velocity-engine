@@ -16,6 +16,8 @@ package org.apache.velocity.test;
  */
 
 import java.io.StringWriter;
+import java.util.Map;
+import java.util.HashMap;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -155,6 +157,35 @@ public class ParserTestCase extends TestCase
         catch(ParseErrorException pe)
         {
             // Do nothing
+        }
+    }
+
+    /**
+     *  Test to see if we toString is called multiple times on references.
+     */
+    public void testASTReferenceToStringOnlyCalledOnce()
+        throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+
+        ve.init();
+
+        String template = "$counter";
+
+        ToStringCounter counter = new ToStringCounter();
+        Map m = new HashMap();
+        m.put("counter", counter);
+
+        ve.evaluate(new VelocityContext(m), new StringWriter(), "foo", template);
+
+        assertEquals(1, counter.timesCalled);
+    }
+
+    public static class ToStringCounter {
+        public int timesCalled = 0;
+        public String toString() {
+            this.timesCalled++;
+            return "foo";
         }
     }
 
