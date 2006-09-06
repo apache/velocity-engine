@@ -50,6 +50,19 @@ public class UberspectorTestCase
         ri.init();
     }
 
+    public void testNullObjects()
+            throws Exception
+    {
+        // How about some null objects... Gee, I'm mean. ;-) 
+        Uberspect u = ri.getUberspect();
+
+        VelPropertyGet getter = u.getPropertyGet(null, "foo", null);
+        assertNull(getter);
+
+        VelPropertySet setter = u.getPropertySet(null, "foo", Object.class, null);
+        assertNull(setter);
+    }
+
     public void testEmptyPropertyGetter()
             throws Exception
     {
@@ -60,7 +73,7 @@ public class UberspectorTestCase
 
         // Don't screw up on empty properties. That should map to get(Object)
         assertNotNull(getter);
-        assertEquals("Found wrong method", "get", getter.getMethodName());
+        assertEquals("Found wrong method", "get", getter. getMethodName());
     }
 
     public void testEmptyPropertySetter()
