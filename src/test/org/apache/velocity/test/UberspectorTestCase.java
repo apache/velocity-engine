@@ -7,7 +7,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.test.misc.GetPutObject;
 import org.apache.velocity.util.introspection.Uberspect;
+import org.apache.velocity.util.introspection.VelPropertyGet;
+import org.apache.velocity.util.introspection.VelPropertySet;
 
 /*
  * Copyright 2006 The Apache Software Foundation.
@@ -47,28 +50,57 @@ public class UberspectorTestCase
         ri.init();
     }
 
-    public void testEmptyProperties()
+    public void testEmptyPropertyGetter()
             throws Exception
     {
         Uberspect u = ri.getUberspect();
         Map map = new HashMap();
 
-        // Don't screw up on empty propeties. That should map to get(Object) and put(Object, Object) on a Map
-        assertNotNull(u.getPropertyGet(map, "", null));
-        assertNotNull(u.getPropertySet(map, "", Object.class, null));
+        VelPropertyGet getter = u.getPropertyGet(map, "", null);
+
+        // Don't screw up on empty properties. That should map to get(Object)
+        assertNotNull(getter);
+        assertEquals("Found wrong method", "get", getter.getMethodName());
     }
-    
-    public void testNullProperties()
-        throws Exception
+
+    public void testEmptyPropertySetter()
+            throws Exception
     {
         Uberspect u = ri.getUberspect();
         Map map = new HashMap();
 
-        // Don't screw up on null propeties. That should map to get(Object) and put(Object, Object) on a Map, too?
-        assertNotNull(u.getPropertyGet(map, null, null));
-        assertNotNull(u.getPropertySet(map, null, Object.class, null));
+        VelPropertySet setter = u.getPropertySet(map, "", Object.class, null);
+
+        // Don't screw up on empty properties. That should map to put(Object, Object)
+        assertNotNull(setter);
+        assertEquals("Found wrong method", "put", setter.getMethodName());
     }
     
+    public void testNullPropertyGetter()
+        throws Exception
+    {
+        Uberspect u = ri.getUberspect();
+        GetPutObject gpo = new GetPutObject();
+
+        VelPropertyGet getter = u.getPropertyGet(gpo, null, null);
+
+        // Don't screw up on null properties. That should map to get() on the GPO.
+        assertNotNull(getter);
+        assertEquals("Found wrong method", "get", getter.getMethodName());
+    }
+
+    public void testNullPropertySetter()
+        throws Exception
+    {
+        Uberspect u = ri.getUberspect();
+        GetPutObject gpo = new GetPutObject();
+
+        // Don't screw up on null properties. That should map to put() on the GPO.
+        VelPropertySet setter = u.getPropertySet(gpo, null, Object.class, null); 
+        assertNotNull(setter);
+        assertEquals("Found wrong method", "put", setter.getMethodName());
+    }
+
     /*
     
     public void testMapGetSet()
