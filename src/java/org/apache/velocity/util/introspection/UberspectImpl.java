@@ -154,18 +154,17 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             throws Exception
     {
         if (obj == null)
+        {
             return null;
+        }
         
-        AbstractExecutor executor;
-
         Class claz = obj.getClass();
 
         /*
          *  first try for a getFoo() type of property
          *  (also getfoo() )
          */
-
-        executor = new PropertyExecutor(log,introspector, claz, identifier);
+        AbstractExecutor executor = new PropertyExecutor(log,introspector, claz, identifier);
 
         /*
          *  if that didn't work, look for get("foo")

@@ -35,55 +35,58 @@ import org.apache.velocity.util.introspection.Introspector;
  */
 public class BooleanPropertyExecutor extends PropertyExecutor
 {
-    public BooleanPropertyExecutor(Log log, Introspector is, Class clazz, String property)
+    public BooleanPropertyExecutor(final Log log, final Introspector introspector,
+            final Class clazz, final String property)
     {
-        super(log, is, clazz, property);
+        super(log, introspector, clazz, property);
     }
 
     /**
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
-    public BooleanPropertyExecutor(RuntimeLogger rlog, Introspector is, Class clazz, String property)
+    public BooleanPropertyExecutor(final RuntimeLogger rlog, final Introspector introspector,
+            final Class clazz, final String property)
     {
-        super(new RuntimeLoggerLog(rlog), is, clazz, property);
+        super(new RuntimeLoggerLog(rlog), introspector, clazz, property);
     }
 
-    protected void discover(Class clazz, String property)
+    protected void discover(final Class clazz, final String property)
     {
         try
         {
-            char c;
-            StringBuffer sb;
+            Object [] params = {};
 
-            Object[] params = {  };
-
-            /*
-             *  now look for a boolean isFoo
-             */
-
-            sb = new StringBuffer("is");
+            StringBuffer sb = new StringBuffer("is");
             sb.append(property);
 
-            c = sb.charAt(2);
+            setMethod(getIntrospector().getMethod(clazz, sb.toString(), params));
 
-            if (Character.isLowerCase(c))
-            {
-                sb.setCharAt(2, Character.toUpperCase(c));
-            }
-
-            methodUsed = sb.toString();
-            method = introspector.getMethod(clazz, methodUsed, params);
-
-            if (method != null)
+            if (!isAlive())
             {
                 /*
-                 *  now, this has to return a boolean
+                 *  now the convenience, flip the 1st character
                  */
 
-                if (method.getReturnType() == Boolean.TYPE)
-                    return;
+                char c = sb.charAt(2);
 
-                method = null;
+                if (Character.isLowerCase(c))
+                {
+                    sb.setCharAt(2, Character.toUpperCase(c));
+                }
+                else
+                {
+                    sb.setCharAt(2, Character.toLowerCase(c));
+                }
+
+                setMethod(getIntrospector().getMethod(clazz, sb.toString(), params));
+            }
+
+            if (isAlive())
+            {
+                if (getMethod().getReturnType() != Boolean.TYPE)
+                {
+                    setMethod(null); // That case is rare but not unknown
+                }
             }
         }
         /**
@@ -95,7 +98,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
         }
         catch(Exception e)
         {
-            log.error("PROGRAMMER ERROR : BooleanPropertyExector()", e);
+            log.error("While looking for boolean property getter for '" + property + "':", e);
         }
     }
 }
