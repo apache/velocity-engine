@@ -15,14 +15,12 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.util.introspection.Introspector;
-
 import java.lang.reflect.InvocationTargetException;
-import org.apache.velocity.exception.MethodInvocationException;
+
+import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
-import org.apache.velocity.runtime.RuntimeLogger;
+import org.apache.velocity.util.introspection.Introspector;
 
 
 /**
