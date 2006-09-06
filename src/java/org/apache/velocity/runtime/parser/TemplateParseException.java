@@ -31,6 +31,8 @@ public class TemplateParseException
         extends ParseException
         implements ExtendedParseException
 {
+    private static final long serialVersionUID = -3146323135623083918L;
+    
     /**
      * This is the name of the template which contains the parsing error, or
      * null if not defined.
