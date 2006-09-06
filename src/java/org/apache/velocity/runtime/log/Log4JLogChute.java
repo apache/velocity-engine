@@ -32,7 +32,7 @@ import org.apache.velocity.util.ExceptionUtils;
  *
  * Use this one rather than {@link SimpleLog4JLogSystem}; it uses the
  * modern <code>Logger</code> concept of Log4J, rather than the
- * deprecated <code>Categeory</code> concept.
+ * deprecated <code>Category</code> concept.
  *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
