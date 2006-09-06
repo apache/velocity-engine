@@ -16,7 +16,6 @@
 
 package org.apache.velocity.runtime.log;
 
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
