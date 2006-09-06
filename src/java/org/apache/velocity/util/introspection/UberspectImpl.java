@@ -17,18 +17,21 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
 import org.apache.velocity.runtime.parser.node.GetExecutor;
 import org.apache.velocity.runtime.parser.node.PropertyExecutor;
+import org.apache.velocity.runtime.parser.node.PutExecutor;
+import org.apache.velocity.runtime.parser.node.SetExecutor;
+import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.EnumerationIterator;
 
@@ -37,6 +40,7 @@ import org.apache.velocity.util.EnumerationIterator;
  *  functionality of Velocity
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class UberspectImpl implements Uberspect, UberspectLoggable
@@ -140,7 +144,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             throws Exception
     {
         if (obj == null)
+        {
             return null;
+        }
 
         Method m = introspector.getMethod(obj.getClass(), methodName, args);
 
@@ -164,7 +170,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *  first try for a getFoo() type of property
          *  (also getfoo() )
          */
-        AbstractExecutor executor = new PropertyExecutor(log,introspector, claz, identifier);
+        AbstractExecutor executor = new PropertyExecutor(log, introspector, claz, identifier);
 
         /*
          *  if that didn't work, look for get("foo")
@@ -195,66 +201,29 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                                          Object arg, Info i)
             throws Exception
     {
+        if (obj == null)
+        {
+            return null;
+        }
+        
         Class claz = obj.getClass();
 
-        VelMethod vm = null;
-        try
+        /*
+         *  first try for a setFoo() type of property
+         *  (also setfoo() )
+         */
+        SetExecutor executor = new SetPropertyExecutor(log, introspector, claz, identifier, arg);
+
+        /*
+         *  if that didn't work, look for put("foo", arg)
+         */
+
+        if (!executor.isAlive())
         {
-            /*
-             *  first, we introspect for the set<identifier> setter method
-             */
-
-            Object[] params = {arg};
-
-            try
-            {
-                vm = getMethod(obj, "set" + identifier, params, i);
-
-                if (vm == null)
-                {
-                   throw new NoSuchMethodException();
-                }
-            }
-            catch(NoSuchMethodException nsme2)
-            {
-                StringBuffer sb = new StringBuffer("set");
-                sb.append(identifier);
-
-                if (Character.isLowerCase( sb.charAt(3)))
-                {
-                    sb.setCharAt(3, Character.toUpperCase(sb.charAt(3)));
-                }
-                else
-                {
-                    sb.setCharAt(3, Character.toLowerCase(sb.charAt(3)));
-                }
-
-                vm = getMethod(obj, sb.toString(), params, i);
-
-                if (vm == null)
-                {
-                   throw new NoSuchMethodException();
-                }
-            }
+            executor = new PutExecutor(log, introspector, claz, arg, identifier);
         }
-        catch (NoSuchMethodException nsme)
-        {
-            /*
-             *  right now, we only support the Map interface
-             */
 
-            if (Map.class.isAssignableFrom(claz))
-            {
-                Object[] params = {new Object(), new Object()};
-
-                vm = getMethod(obj, "put", params, i);
-
-                if (vm!=null)
-                    return new VelSetterImpl(vm, identifier);
-            }
-       }
-
-       return (vm!=null) ?  new VelSetterImpl(vm) : null;
+        return (executor.isAlive()) ? new VelSetterImpl(executor) : null;
     }
 
     /**
@@ -262,7 +231,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      */
     public static class VelMethodImpl implements VelMethod
     {
-        Method method = null;
+        final Method method;
 
         public VelMethodImpl(Method m)
         {
@@ -271,6 +240,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         private VelMethodImpl()
         {
+            method = null;
         }
 
         public Object invoke(Object o, Object[] params)
@@ -297,21 +267,22 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     public static class VelGetterImpl implements VelPropertyGet
     {
-        AbstractExecutor ae = null;
+        final AbstractExecutor getExecutor;
 
         public VelGetterImpl(AbstractExecutor exec)
         {
-            ae = exec;
+            getExecutor = exec;
         }
 
         private VelGetterImpl()
         {
+            getExecutor = null;
         }
 
         public Object invoke(Object o)
             throws Exception
         {
-            return ae.execute(o);
+            return getExecutor.execute(o);
         }
 
         public boolean isCacheable()
@@ -321,46 +292,34 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         public String getMethodName()
         {
-            return ae.getMethod().getName();
+            return getExecutor.isAlive() ? getExecutor.getMethod().getName() : null;
         }
     }
 
     public static class VelSetterImpl implements VelPropertySet
     {
-        VelMethod vm = null;
-        String putKey = null;
+        private final SetExecutor setExecutor;
 
-        public VelSetterImpl(VelMethod velmethod)
+        public VelSetterImpl(final SetExecutor setExecutor)
         {
-            this.vm = velmethod;
-        }
-
-        public VelSetterImpl(VelMethod velmethod, String key)
-        {
-            this.vm = velmethod;
-            putKey = key;
+            this.setExecutor = setExecutor;
         }
 
         private VelSetterImpl()
         {
+            setExecutor = null;
         }
 
-        public Object invoke(Object o, Object value)
+        /**
+         * Invoke the found Set Executor.
+         *
+         * @param o is the Object to invoke it on.
+         * @param value in the Value to set.
+         */
+        public Object invoke(final Object o, final Object value)
             throws Exception
         {
-            ArrayList al = new ArrayList();
-
-            if (putKey != null)
-            {
-                al.add(putKey);
-                al.add(value);
-            }
-            else
-            {
-                al.add(value);
-            }
-
-            return vm.invoke(o,al.toArray());
+            return setExecutor.execute(o, value);
         }
 
         public boolean isCacheable()
@@ -370,7 +329,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         public String getMethodName()
         {
-            return vm.getMethodName();
+            return setExecutor.isAlive() ? setExecutor.getMethod().getName() : null;
         }
     }
 }

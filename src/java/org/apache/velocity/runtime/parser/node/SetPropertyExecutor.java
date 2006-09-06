@@ -1,6 +1,6 @@
 package org.apache.velocity.runtime.parser.node;
 /*
- * Copyright 2000-2006 The Apache Software Foundation.
+ * Copyright 2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,23 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
- * Returned the value of object property when executed.
+ * Executor for looking up property names in the passed in class
+ * This will try to find a set&lt;foo&gt;(key, value) method
+ *
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @version $Id$
  */
-public class PropertyExecutor extends AbstractExecutor
+public class SetPropertyExecutor
+        extends SetExecutor
 {
     private final Introspector introspector;
 
-    public PropertyExecutor(final Log log, final Introspector introspector,
-            final Class clazz, final String property)
+    public SetPropertyExecutor(final Log log, final Introspector introspector,
+            final Class clazz, final String property, final Object arg)
     {
         this.log = log;
         this.introspector = introspector;
@@ -41,17 +44,8 @@ public class PropertyExecutor extends AbstractExecutor
         // or the introspector will get confused.
         if (StringUtils.isNotEmpty(property))
         {
-            discover(clazz, property);
+            discover(clazz, property, arg);
         }
-    }
-
-    /**
-     * @deprecated RuntimeLogger is deprecated. Use the other constructor.
-     */
-    public PropertyExecutor(final RuntimeLogger r, final Introspector introspector,
-            final Class clazz, final String property)
-    {
-        this(new RuntimeLoggerLog(r), introspector, clazz, property);
     }
 
     protected Introspector getIntrospector()
@@ -59,17 +53,13 @@ public class PropertyExecutor extends AbstractExecutor
         return this.introspector;
     }
 
-    protected void discover(final Class clazz, final String property)
+    protected void discover(final Class clazz, final String property, final Object arg)
     {
-        /*
-         *  this is gross and linear, but it keeps it straightforward.
-         */
+        Object [] params = new Object [] { arg };
 
         try
         {
-            Object [] params = {};
-
-            StringBuffer sb = new StringBuffer("get");
+            StringBuffer sb = new StringBuffer("set");
             sb.append(property);
 
             setMethod(introspector.getMethod(clazz, sb.toString(), params));
@@ -103,16 +93,17 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            log.error("While looking for property getter for '" + property + "':", e);
+            log.error("While looking for property setter for '" + property + "':", e);
         }
     }
 
     /**
      * Execute method against context.
      */
-    public Object execute(Object o)
+    public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException
     {
-        return isAlive() ? getMethod().invoke(o, ((Object []) null)) : null;
+        Object [] params = new Object [] { value };
+        return isAlive() ? getMethod().invoke(o, params) : null;
     }
 }

@@ -1,6 +1,6 @@
 package org.apache.velocity.runtime.parser.node;
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,9 @@ import org.apache.velocity.runtime.RuntimeLogger;
  */
 public class GetExecutor extends AbstractExecutor
 {
-    private Introspector introspector = null;
+    private final Introspector introspector;
 
+    // This is still threadsafe because this object is only read except in the C'tor. 
     private Object [] params = {};
 
     public GetExecutor(final Log log, final Introspector introspector,
@@ -56,8 +57,7 @@ public class GetExecutor extends AbstractExecutor
 
         if (property != null)
         {
-            this.params = new Object[1];
-            this.params[0] = property;
+            this.params = new Object[] { property };
         }
         discover(clazz);
     }
