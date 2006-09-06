@@ -38,7 +38,7 @@ public abstract class AbstractExecutor
     /**
      * Method to be executed.
      */
-    protected Method method = null;
+    private Method method = null;
     
     /**
      * Execute method against context.
@@ -58,5 +58,10 @@ public abstract class AbstractExecutor
     public Method getMethod()
     {
         return method;
+    }
+
+    protected void setMethod(final Method method)
+    {
+        this.method = method;
     }
 }

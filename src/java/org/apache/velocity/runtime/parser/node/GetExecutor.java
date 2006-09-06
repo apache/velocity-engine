@@ -37,80 +37,65 @@ import org.apache.velocity.runtime.RuntimeLogger;
  */
 public class GetExecutor extends AbstractExecutor
 {
-    /**
-     * Container to hold the 'key' part of 
-     * get(key).
-     */
-    private Object[] args = new Object[1];
+    private Introspector introspector = null;
 
-    public GetExecutor(Log log, Introspector ispect, Class c, String key)
-        throws Exception
+    private Object [] params = {};
+
+    public GetExecutor(final Log log, final Introspector introspector,
+            final Class clazz, final String property)
     {
         this.log = log;
-        args[0] = key;
-        method = ispect.getMethod(c, "get", args);
+        this.introspector = introspector;
+
+        // If you passed in null as property, we don't use the value
+        // for parameter lookup. Instead we just look for get() without
+        // any parameters.
+        //
+        // In any other case, the following condition will set up an array
+        // for looking up get(String) on the class.
+
+        if (property != null)
+        {
+            this.params = new Object[1];
+            this.params[0] = property;
+        }
+        discover(clazz);
     }
-    
+
     /**
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
-    public GetExecutor(RuntimeLogger r, Introspector ispect, Class c, String key)
-        throws Exception
+    public GetExecutor(final RuntimeLogger rlog, final Introspector introspector,
+            final Class clazz, final String property)
     {
-        this(new RuntimeLoggerLog(r), ispect, c, key);
+        this(new RuntimeLoggerLog(rlog), introspector, clazz, property);
+    }
+
+    protected void discover(final Class clazz)
+    {
+        try
+        {
+            setMethod(introspector.getMethod(clazz, "get", params));
+        }
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
+        {
+            throw e;
+        }
+        catch(Exception e)
+        {
+            log.error("While looking for get('" + params[0] + "') method:", e);
+        }
     }
 
     /**
      * Execute method against context.
      */
-    public Object execute(Object o)
-        throws IllegalAccessException, InvocationTargetException
+    public Object execute(final Object o)
+        throws IllegalAccessException,  InvocationTargetException
     {
-        if (method == null)
-            return null;
-
-        return method.invoke(o, args);
-    }
-
-    /**
-     * Execute method against context.
-     */
-    public Object OLDexecute(Object o, InternalContextAdapter context)
-        throws IllegalAccessException, MethodInvocationException
-    {
-        if (method == null)
-            return null;
-     
-        try 
-        {
-            return method.invoke(o, args);  
-        }
-        catch(InvocationTargetException ite)
-        {
-            /*
-             *  the method we invoked threw an exception.
-             *  package and pass it up
-             */
-
-            throw  new MethodInvocationException( 
-                "Invocation of method 'get(\"" + args[0] + "\")'" 
-                + " in  " + o.getClass() 
-                + " threw exception " 
-                + ite.getTargetException().getClass(), 
-                ite.getTargetException(), "get");
-        }
-        catch(IllegalArgumentException iae)
-        {
-            return null;
-        }
+        return isAlive() ? getMethod().invoke(o, params) : null;
     }
 }
-
-
-
-
-
-
-
-
-

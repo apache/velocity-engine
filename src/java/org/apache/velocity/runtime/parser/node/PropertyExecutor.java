@@ -17,6 +17,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
@@ -27,29 +28,38 @@ import org.apache.velocity.util.introspection.Introspector;
  */
 public class PropertyExecutor extends AbstractExecutor
 {
-    protected Introspector introspector = null;
+    private Introspector introspector = null;
 
-    protected String methodUsed = null;
-
-    public PropertyExecutor(Log log, Introspector ispctr,
-                            Class clazz, String property)
+    public PropertyExecutor(final Log log, final Introspector introspector,
+            final Class clazz, final String property)
     {
         this.log = log;
-        introspector = ispctr;
+        this.introspector = introspector;
 
-        discover(clazz, property);
+        // Don't allow passing in the empty string or null because
+        // it will either fail with a StringIndexOutOfBounds error
+        // or the introspector will get confused.
+        if (StringUtils.isNotEmpty(property))
+        {
+            discover(clazz, property);
+        }
     }
 
     /**
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
-    public PropertyExecutor(RuntimeLogger r, Introspector ispctr,
-                            Class clazz, String property)
+    public PropertyExecutor(final RuntimeLogger r, final Introspector introspector,
+            final Class clazz, final String property)
     {
-        this(new RuntimeLoggerLog(r), ispctr, clazz, property);
+        this(new RuntimeLoggerLog(r), introspector, clazz, property);
     }
 
-    protected void discover(Class clazz, String property)
+    protected Introspector getIntrospector()
+    {
+        return this.introspector;
+    }
+
+    protected void discover(final Class clazz, final String property)
     {
         /*
          *  this is gross and linear, but it keeps it straightforward.
@@ -57,54 +67,32 @@ public class PropertyExecutor extends AbstractExecutor
 
         try
         {
-            char c;
-            StringBuffer sb;
+            Object [] params = {};
 
-            Object[] params = {  };
-
-            /*
-             *  start with get<property>
-             *  this leaves the property name
-             *  as is...
-             */
-            sb = new StringBuffer("get");
+            StringBuffer sb = new StringBuffer("get");
             sb.append(property);
 
-            methodUsed = sb.toString();
+            setMethod(introspector.getMethod(clazz, sb.toString(), params));
 
-            method = introspector.getMethod(clazz, methodUsed, params);
-
-            if (method != null)
+            if (!isAlive())
             {
-                return;
+                /*
+                 *  now the convenience, flip the 1st character
+                 */
+
+                char c = sb.charAt(3);
+
+                if (Character.isLowerCase(c))
+                {
+                    sb.setCharAt(3, Character.toUpperCase(c));
+                }
+                else
+                {
+                    sb.setCharAt(3, Character.toLowerCase(c));
+                }
+
+                setMethod(introspector.getMethod(clazz, sb.toString(), params));
             }
-
-            /*
-             *  now the convenience, flip the 1st character
-             */
-
-            sb = new StringBuffer("get");
-            sb.append(property);
-
-            c = sb.charAt(3);
-
-            if (Character.isLowerCase(c))
-            {
-                sb.setCharAt(3, Character.toUpperCase(c));
-            }
-            else
-            {
-                sb.setCharAt(3, Character.toLowerCase(c));
-            }
-
-            methodUsed = sb.toString();
-            method = introspector.getMethod(clazz, methodUsed, params);
-
-            if (method != null)
-            {
-                return;
-            }
-
         }
         /**
          * pass through application level runtime exceptions
@@ -115,10 +103,9 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            log.error("PROGRAMMER ERROR : PropertyExector()", e);
+            log.error("While looking for property getter for '" + property + "':", e);
         }
     }
-
 
     /**
      * Execute method against context.
@@ -126,11 +113,6 @@ public class PropertyExecutor extends AbstractExecutor
     public Object execute(Object o)
         throws IllegalAccessException,  InvocationTargetException
     {
-        if (method == null)
-        {
-            return null;
-        }
-
-        return method.invoke(o, ((Object []) null));
+        return isAlive() ? getMethod().invoke(o, ((Object []) null)) : null;
     }
 }
