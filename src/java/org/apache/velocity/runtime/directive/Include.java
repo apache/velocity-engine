@@ -31,19 +31,18 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
- * Pluggable directive that handles the #include() statement in VTL. 
+ * <p>Pluggable directive that handles the #include() statement in VTL. 
  * This #include() can take multiple arguments of either 
- * StringLiteral or Reference.
+ * StringLiteral or Reference.</p>
  *
- * Notes:
- * -----
- *  1) The included source material can only come from somewhere in 
- *    the TemplateRoot tree for security reasons. There is no way 
- *    around this.  If you want to include content from elsewhere on
- *    your disk, use a link from somwhere under Template Root to that 
- *    content.
+ * <p>Notes:</p>
+ * <ol>
+ * <li>For security reasons, the included source material can only come
+ *    from somewhere within the template root tree.  If you want to include
+ *    content from elsewhere on your disk, add extra template roots, or use
+ *    a link from somwhere under template root to that content.</li>
  *
- *  2) By default, there is no output to the render stream in the event of
+ *  <li>By default, there is no output to the render stream in the event of
  *    a problem.  You can override this behavior with two property values :
  *       include.output.errormsg.start
  *       include.output.errormsg.end
@@ -51,14 +50,15 @@ import org.apache.velocity.runtime.resource.Resource;
  *     in the render output to bracket the arg string that caused the 
  *     problem.
  *     Ex. : if you are working in html then
- *       include.output.errormsg.start=<!-- #include error :
- *       include.output.errormsg.end= -->
- *     might be an excellent way to start...
+ *       include.output.errormsg.start=&lt;!-- #include error :
+ *       include.output.errormsg.end= --&gt;
+ *     might be an excellent way to start...</li>
  *
- *  3) As noted above, #include() can take multiple arguments.
- *    Ex : #include( "foo.vm" "bar.vm" $foo )
- *    will simply include all three if valid to output w/o any
- *    special separator.
+ *  <li>As noted above, #include() can take multiple arguments.
+ *    Ex : #include('foo.vm' 'bar.vm' $foo)
+ *    will include all three if valid to output without any
+ *    special separator.</li>
+ *  </ol>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
