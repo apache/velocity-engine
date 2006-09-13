@@ -186,7 +186,8 @@
       destdir="${build.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
-      optimize="${optimize}">
+      optimize="${optimize}"
+      source="1.4">
 
       <exclude  name="org/apache/velocity/runtime/resource/loader/DataSourceResourceLoader.java"/>
       
@@ -205,7 +206,8 @@
       destdir="${build.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
-      optimize="${optimize}">
+      optimize="${optimize}"
+      source="1.4">
       
       <classpath refid="classpath"/>
     </javac>
@@ -424,7 +426,8 @@
                   :${example.dir}/event_example"
       debug="${debug}"
       deprecation="${deprecation}"
-      optimize="${optimize}">
+      optimize="${optimize}"
+      source="1.4">
 
       <classpath>
         <path refid="classpath"/>
@@ -872,7 +875,8 @@
       destdir="${demo.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
-      optimize="${optimize}">
+      optimize="${optimize}"
+      source="1.4">
       
      <classpath>
         <pathelement location="${build.dest}"/>
