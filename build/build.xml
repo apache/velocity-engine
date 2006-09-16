@@ -422,6 +422,8 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
+    <checksum file="${build.dir}/${final.name}.jar" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${final.name}.jar" algorithm="sha1" fileext=".sha1"/>
   </target>
 
   <!-- ================================================================== -->
@@ -443,6 +445,8 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
+    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="sha1" fileext=".sha1"/>
   </target>
 
   <!-- =================================================================== -->
@@ -645,6 +649,8 @@
     <delete file="${build.dir}/${final.name}.zip" quiet="true"/>
     <zip zipfile="${build.dir}/${final.name}.zip" basedir="${dist.root}"
          includes="**/${final.name}/**"/>
+    <checksum file="${build.dir}/${final.name}.zip" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${final.name}.zip" algorithm="sha1" fileext=".sha1"/>
   </target>
 
   <!-- ================================================================== -->
@@ -666,6 +672,8 @@
     <delete file="${build.dir}/${final.name}.tar.gz" quiet="true"/>
     <tar tarfile="${build.dir}/${final.name}.tar.gz" basedir="${dist.root}"
          includes="**/${final.name}/**" longfile="gnu" compression="gzip" />
+    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="sha1" fileext=".sha1"/>
   </target>
 
   <!-- ================================================================== -->
