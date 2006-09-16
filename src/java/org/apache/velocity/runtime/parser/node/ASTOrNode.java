@@ -57,7 +57,8 @@ public class ASTOrNode extends SimpleNode
     public Object value(InternalContextAdapter context )
         throws MethodInvocationException
     {
-        return new Boolean( evaluate( context ) );
+        // TODO: JDK 1.4+ -> valueOf()
+        return new Boolean(evaluate(context));
     }
 
     /**

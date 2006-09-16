@@ -170,6 +170,7 @@ public abstract class MathUtils
             }
             else
             {
+                // TODO: JDK 1.4+ -> valueOf()
                 return new Byte ((byte)value);
             }
         }
@@ -181,6 +182,7 @@ public abstract class MathUtils
             }
             else
             {
+                // TODO: JDK 1.4+ -> valueOf()
                 return new Short((short)value);
             }
         }
@@ -192,11 +194,13 @@ public abstract class MathUtils
             }
             else
             {
+                // TODO: JDK 1.4+ -> valueOf()
                 return new Integer ((int)value);
             }
         }
         if (type == Long.class)
         {
+            // TODO: JDK 1.4+ -> valueOf()
             return new Long (value);
         }
         return BigInteger.valueOf( value);

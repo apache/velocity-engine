@@ -53,10 +53,11 @@ public class ASTAndNode extends SimpleNode
      *  Since the value of the expression is simply the boolean
      *  result of evaluate(), lets return that.
      */
-    public Object value(InternalContextAdapter context )
+    public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
-        return new Boolean( evaluate( context ) );
+        // TODO: JDK 1.4+ -> valueOf()
+        return new Boolean(evaluate(context));
     }
 
     /**
