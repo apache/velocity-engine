@@ -117,18 +117,16 @@ public class VelocimacroFactory
     public void initVelocimacro()
     {
         /*
+         *  respect message switch even from the start
+         */
+        outputMessages = rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true);
+
+        /*
          *  maybe I'm just paranoid...
          */
         synchronized( this )
         {
-            /*
-             *  respect message switch even from the start
-             */
-            outputMessages = rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true);
-            if (outputMessages && log.isTraceEnabled())
-            {
-                log.trace("Velocimacro : initialization starting.");
-            }
+            trace("Velocimacro : initialization starting.");
 
             /*
              *   allow replacements while we add the libraries, if exist
@@ -214,13 +212,10 @@ public class VelocimacroFactory
                          } 
                          catch (Exception e)
                          {
-                             log.error("Velocimacro : Error using VM library : "+lib, e);
+                             log.error("Velocimacro : Error using VM library : " + lib, e);
                          }
 
-                         if (outputMessages && log.isTraceEnabled())
-                         {
-                             log.trace("Velocimacro : VM library registration complete.");
-                         }
+                         trace("Velocimacro : VM library registration complete.");
             
                          vmManager.setRegisterFromLib( false );
                      }
@@ -314,10 +309,7 @@ public class VelocimacroFactory
                       "will not automatically reload global library macros");
             }
 
-            if (outputMessages && log.isTraceEnabled())
-            {
-                log.trace("Velocimacro : initialization complete.");
-            }
+            trace("Velocimacro : initialization complete.");
         }
     
         return;
@@ -362,13 +354,10 @@ public class VelocimacroFactory
         /*
          * Report addition of the new Velocimacro.
          */
-        if (outputMessages && log.isInfoEnabled())
-        {
-            StringBuffer msg = new StringBuffer("Velocimacro : added ");
-            Macro.macroToString(msg, argArray);
-            msg.append(" : source = ").append(sourceTemplate);
-            log.info(msg);
-        }
+        StringBuffer msg = new StringBuffer("Velocimacro : added ");
+        Macro.macroToString(msg, argArray);
+        msg.append(" : source = ").append(sourceTemplate);
+        info(msg.toString());
 
         return true;
     }
@@ -473,6 +462,17 @@ public class VelocimacroFactory
         }
     }
       
+    /**
+     *  localization of the logging logic
+     */
+    private void trace(String s)
+    {
+        if (outputMessages && log.isTraceEnabled())
+        {
+            log.trace("Velocimacro : " + s);
+        }
+    }
+
     /**
      *  Tells the world if a given directive string is a Velocimacro
      */
