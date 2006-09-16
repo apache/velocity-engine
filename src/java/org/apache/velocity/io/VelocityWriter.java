@@ -47,8 +47,8 @@ public final class VelocityWriter extends Writer
      */
     public static final int	UNBOUNDED_BUFFER = -2;
 
-    protected int     bufferSize;
-    protected boolean autoFlush;
+    private int     bufferSize;
+    private boolean autoFlush;
 
     private Writer writer;
     
