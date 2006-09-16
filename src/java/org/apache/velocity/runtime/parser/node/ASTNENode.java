@@ -112,10 +112,11 @@ public class ASTNENode extends SimpleNode
              */
             if ((left.toString() == null) || (right.toString() == null))  
             {
-                log.error((left.toString() == null ? "Left" : "Right")
+        	boolean culprit =  (left.toString() == null);
+                log.error((culprit ? "Left" : "Right") 
                         + " string side "
                         + "String representation ("
-                        + jjtGetChild( (left == null? 0 : 1) ).literal()
+                        + jjtGetChild((culprit ? 0 : 1) ).literal()
                         + ") of '!=' operation has null value."
                         + " Operation not possible. "
                         + context.getCurrentTemplateName() + " [line " + getLine() 
