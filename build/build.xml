@@ -779,7 +779,7 @@
       </classpath>
 
       <batchtest todir="${build.test.reports}">
-        <fileset dir="${build.test.dest}">
+        <fileset dir="${build.test.src}">
           <include name="**/*TestCase.java"></include>
 
           <exclude name="**/BaseTestCase.java"></exclude>
