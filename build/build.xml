@@ -126,6 +126,7 @@
     <copy todir="${build.test.src}" filtering="yes">
       <fileset dir="${test.java.dir}">
         <include name="**/*.java"/>
+        <exclude name="**/WrappedExceptionTestCase.java"/>
       </fileset>
     </copy>
   </target>
@@ -202,6 +203,11 @@
     <copy todir="${build.src}" filtering="yes">
       <fileset dir="${src.java.dir}">
         <include name="**/JdkLogChute.java"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.test.src}" filtering="yes">
+      <fileset dir="${test.java.dir}">
+        <include name="**/WrappedExceptionTestCase.java"/>
       </fileset>
     </copy>
   </target>
@@ -773,7 +779,7 @@
       </classpath>
 
       <batchtest todir="${build.test.reports}">
-        <fileset dir="${test.java.dir}">
+        <fileset dir="${build.test.dest}">
           <include name="**/*TestCase.java"></include>
 
           <exclude name="**/BaseTestCase.java"></exclude>
