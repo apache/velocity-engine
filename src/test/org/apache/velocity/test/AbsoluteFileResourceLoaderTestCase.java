@@ -87,9 +87,7 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
         }
         catch (Exception e)
         {
-            System.err.println("Cannot setup AbsoluteFileResourceLoaderTest!");
-            e.printStackTrace();
-            System.exit(1);
+            fail("Cannot setup AbsoluteFileResourceLoaderTest!");
         }
     }
 
