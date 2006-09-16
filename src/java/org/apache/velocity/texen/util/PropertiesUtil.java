@@ -17,7 +17,6 @@ package org.apache.velocity.texen.util;
  */
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -43,22 +42,32 @@ public class PropertiesUtil
      * @return a properties instance filled with the properties found
      * in the file or an empty instance if no file was found.
      */
-    public Properties load(String propertiesFile)
+    public Properties load(final String propertiesFile)
     {
-        Properties properties;
+        Properties properties = null;
 
         String templatePath = Generator.getInstance().getTemplatePath();
-        if (templatePath != null)
+        try
         {
-            properties = loadFromTemplatePath(propertiesFile);
+            if (templatePath != null)
+            {
+        	properties = loadFromTemplatePath(propertiesFile);
+            }
+            else
+            {
+        	properties = loadFromClassPath(propertiesFile);
+            }
         }
-        else
+        catch (RuntimeException e)
         {
-            properties = loadFromClassPath(propertiesFile);
+            throw e;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Could not load properties: " + e.getMessage());
         }
     
         return properties;
-        
     }
     
     /**
@@ -74,7 +83,8 @@ public class PropertiesUtil
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
      */
-    protected Properties loadFromTemplatePath(String propertiesFile)
+    protected Properties loadFromTemplatePath(final String propertiesFile)
+    	throws Exception
     {
         Properties properties = new Properties();
         String templatePath = Generator.getInstance().getTemplatePath();
@@ -95,6 +105,7 @@ public class PropertiesUtil
         while (st.hasMoreTokens())
         {
             String templateDir = st.nextToken();
+            InputStream stream = null;
             try
             {
                 // If the properties file is being pulled from the
@@ -117,14 +128,18 @@ public class PropertiesUtil
                     fullPath = templateDir + "/" + propertiesFile;
                 }
 
-                properties.load(new FileInputStream(fullPath));
+                stream = new FileInputStream(fullPath);
+                properties.load(stream);
                 // first pick wins, we don't need to go further since
                 // we found a valid file.
                 break;
             }
-            catch (IOException e)
+            finally
             {
-                // do nothing
+        	if (stream != null)
+        	{
+        	    stream.close();
+        	}
             }
         } 
         return properties;
@@ -137,11 +152,14 @@ public class PropertiesUtil
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
      */ 
-    protected Properties loadFromClassPath(String propertiesFile)
+    protected Properties loadFromClassPath(final String propertiesName)
+    	throws Exception
     {
         Properties properties = new Properties();
         ClassLoader classLoader = this.getClass().getClassLoader();
         
+        InputStream inputStream = null;
+
         try
         {
             // This is a hack for now to make sure that properties
@@ -151,18 +169,20 @@ public class PropertiesUtil
             // and this hack will allow those same templates
             // that use $generator.templatePath to work in
             // JAR files.
-            if (propertiesFile.startsWith("$generator"))
-            {
-                propertiesFile = propertiesFile.substring(
-                    "$generator.templatePath/".length());
-            }
             
-            InputStream inputStream = classLoader.getResourceAsStream(propertiesFile);
+            String propertiesFile = propertiesName.startsWith("$generator")
+        	    ? propertiesName.substring("$generator.templatePath/".length())
+    		    : propertiesName;
+            
+    	    inputStream = classLoader.getResourceAsStream(propertiesFile);
             properties.load(inputStream);
         }
-        catch (IOException ioe)
+        finally
         {
-            // do nothing
+            if (inputStream != null)
+            {
+        	inputStream.close();
+            }
         }
         return properties;
     }
