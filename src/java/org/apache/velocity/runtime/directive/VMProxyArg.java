@@ -408,23 +408,25 @@ public class VMProxyArg
                     /*
                      * sanity check
                      */
-
-                    if ( nodeTree != null && nodeTree.getType() != type )
+                    if ( nodeTree != null)
                     {
-                        log.error("VMProxyArg.setup() : programmer error : type doesn't match node type.");
+                	if(nodeTree.getType() != type)
+                	{
+                	    log.error("VMProxyArg.setup() : programmer error : type doesn't match node type.");
+                	}
+
+                	/*
+                	 *  init.  be a good citizen and give it an ICA
+                	 */
+
+                	InternalContextAdapter ica
+                		= new InternalContextAdapterImpl(new VelocityContext());
+
+                	ica.pushCurrentTemplateName("VMProxyArg : "
+                		+ ParserTreeConstants.jjtNodeName[type]);
+
+                	nodeTree.init(ica, rsvc);
                     }
-
-                    /*
-                     *  init.  be a good citizen and give it an ICA
-                     */
-
-                    InternalContextAdapter ica
-                            = new InternalContextAdapterImpl(new VelocityContext());
-
-                    ica.pushCurrentTemplateName("VMProxyArg : "
-                            + ParserTreeConstants.jjtNodeName[type]);
-
-                    nodeTree.init(ica, rsvc);
                 } 
                 /**
                  * pass through application level runtime exceptions
@@ -445,14 +447,14 @@ public class VMProxyArg
             case ParserTreeConstants.JJTTRUE :
             {
                 constant = true;
-                staticObject = new  Boolean(true);
+                staticObject = Boolean.TRUE;
                 break;
             }
 
             case ParserTreeConstants.JJTFALSE :
             {
                 constant = true;
-                staticObject =  new Boolean(false);
+                staticObject =  Boolean.FALSE;
                 break;
             }
 
