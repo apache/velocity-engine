@@ -56,6 +56,10 @@ public class ExceptionUtils
                 re = (Throwable) constructor
                         .newInstance(new Object[]{message, cause});
             }
+            catch (RuntimeException e)
+            {
+                throw e;
+            }
             catch (Exception e)
             {
                 causesAllowed = false;
@@ -70,6 +74,10 @@ public class ExceptionUtils
                 re = (Throwable) constructor
                         .newInstance(new Object[]{message
                                 + " caused by " + cause});
+            }
+            catch (RuntimeException e)
+            {
+                throw e;
             }
             catch (Exception e)
             {
@@ -90,6 +98,10 @@ public class ExceptionUtils
             {
                 Method method = onObject.getClass().getMethod("initCause", new Class[]{Throwable.class});
                 method.invoke(onObject, new Object[]{cause});
+            }
+            catch (RuntimeException e)
+            {
+                throw e;
             }
             catch (Exception e)
             {
