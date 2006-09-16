@@ -249,6 +249,10 @@ public class DataSourceResourceLoader extends ResourceLoader
                  closeDbConnection(conn);
              }
          }
+         catch (RuntimeException e)
+         {
+             throw e;
+         }
          // IOException, SQLException
          catch(Exception e)
          {
@@ -346,10 +350,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             ctx = new InitialContext();
          }
 
-         if (dataSource == null) 
-         {
-            dataSource = (DataSource) ctx.lookup(dataSourceName);
-         }
+         dataSource = (DataSource) ctx.lookup(dataSourceName);
 
          return dataSource.getConnection();
      }
