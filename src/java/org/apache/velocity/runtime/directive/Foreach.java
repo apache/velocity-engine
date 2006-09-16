@@ -393,6 +393,7 @@ public class Foreach extends Directive
 
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
+            // TODO: JDK 1.4+ -> valueOf()
             context.put(counterName , new Integer(counter));
             Object value = i.next();
             context.put(elementKey, value);
