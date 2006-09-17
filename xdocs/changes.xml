@@ -24,6 +24,20 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="add" dev="henning">
+               Add a test for the DataSourceResource Loader.
+      </action>
+
+      <action type="add" dev="henning">
+               Build now creates the MD5 and SHA1 checksums for archives and jars.
+      </action>
+
+      <action type="fix" dev="henning">
+		Fix a number of issues reported by running FindBugs on the Velocity source.
+      </action>
+    </release>
+
+    <release version="1.5-beta1" date="2006-09-13">
       <action type="fix" dev="wglass" issue="VELOCITY-438" due-to="Stephen Haberman">
 		Stop references from calling object.toString() twice.
       </action>
