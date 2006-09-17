@@ -28,6 +28,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 public class NullLogChute implements LogChute
 {
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
     }
@@ -55,7 +58,7 @@ public class NullLogChute implements LogChute
     }
 
     /**
-     * This will always return false.
+     * @see org.apache.velocity.runtime.log.LogChute#isLevelEnabled(int)
      */
     public boolean isLevelEnabled(int level)
     {

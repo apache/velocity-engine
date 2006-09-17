@@ -32,17 +32,26 @@ import org.apache.velocity.exception.MethodInvocationException;
  */
 public class ASTAndNode extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTAndNode(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTAndNode(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -52,6 +61,9 @@ public class ASTAndNode extends SimpleNode
      *  Returns the value of the expression.
      *  Since the value of the expression is simply the boolean
      *  result of evaluate(), lets return that.
+     * @param context 
+     * @return The value of the expression.
+     * @throws MethodInvocationException 
      */
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
@@ -65,6 +77,9 @@ public class ASTAndNode extends SimpleNode
      *   null && right = false
      *   left && null = false
      *   null && null = false
+     * @param context 
+     * @return True if both sides are true.
+     * @throws MethodInvocationException 
      */     
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException

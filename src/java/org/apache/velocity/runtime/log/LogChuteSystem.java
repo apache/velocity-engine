@@ -34,17 +34,24 @@ public class LogChuteSystem implements LogChute
     /**
      * Only classes in this package should be creating this.
      * Users should not have to mess with this class.
+     * @param wrapMe 
      */
     protected LogChuteSystem(LogSystem wrapMe)
     {
         this.logSystem = wrapMe;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
         logSystem.init(rs);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#log(int, java.lang.String)
+     */
     public void log(int level, String message)
     {
         logSystem.logVelocityMessage(level, message);
@@ -54,6 +61,9 @@ public class LogChuteSystem implements LogChute
      * First passes off the message at the specified level,
      * then passes off stack trace of the Throwable as a 
      * 2nd message at the same level.
+     * @param level 
+     * @param message 
+     * @param t 
      */
     public void log(int level, String message, Throwable t)
     {
@@ -62,7 +72,7 @@ public class LogChuteSystem implements LogChute
     }
 
     /**
-     * Always returns true.
+     * @see org.apache.velocity.runtime.log.LogChute#isLevelEnabled(int)
      */
     public boolean isLevelEnabled(int level)
     {

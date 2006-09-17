@@ -45,24 +45,45 @@ public interface Node
       added. */
     public void jjtClose();
 
-    /** This pair of methods are used to inform the node of its
-      parent. */
+    /**
+     * This pair of methods are used to inform the node of its
+     * parent. 
+     * @param n
+     * */
     public void jjtSetParent(Node n);
 
+    /**
+     * @return The node parent.
+     */
     public Node jjtGetParent();
 
-    /** This method tells the node to add its argument to the node's
-      list of children.  */
+    /** 
+     * This method tells the node to add its argument to the node's
+     * list of children.  
+     * @param n 
+     * @param i
+     */
     public void jjtAddChild(Node n, int i);
 
-    /** This method returns a child node.  The children are numbered
-       from zero, left to right. */
+    /**
+     * This method returns a child node.  The children are numbered
+     * from zero, left to right. 
+     * @param i 
+     * @return A child node.
+     */
     public Node jjtGetChild(int i);
 
-    /** Return the number of children the node has. */
+    /**
+     * Return the number of children the node has.
+     * @return The number of children of this node.
+     */
     public int jjtGetNumChildren();
 
-    /** Accept the visitor. **/
+    /**
+     * @param visitor
+     * @param data
+     * @return The Node execution result object.
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data);
 
     /*
@@ -74,33 +95,104 @@ public interface Node
      * ========================================================================
      */
 
+    /**
+     * @see #jjtAccept(ParserVisitor, Object)
+     * @param visitor 
+     * @param data 
+     * @return The node execution result. 
+     */
     public Object childrenAccept(ParserVisitor visitor, Object data);
 
-    // added
+    /**
+     * @return The first token.
+     */
     public Token getFirstToken();
+    /**
+     * @return The last token.
+     */
     public Token getLastToken();
+    /**
+     * @return The NodeType.
+     */
     public int getType();
 
+    /**
+     * @param context
+     * @param data
+     * @return The init result.
+     * @throws Exception
+     */
     public Object init( InternalContextAdapter context, Object data) throws Exception;
 
+    /**
+     * @param context
+     * @return The evaluation result.
+     * @throws MethodInvocationException
+     */
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException;
 
+    /**
+     * @param context
+     * @return The node value.
+     * @throws MethodInvocationException
+     */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException;
 
+    /**
+     * @param context
+     * @param writer
+     * @return True if the node rendered successfully.
+     * @throws IOException
+     * @throws MethodInvocationException
+     * @throws ParseErrorException
+     * @throws ResourceNotFoundException
+     */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, ParseErrorException, ResourceNotFoundException;
 
+    /**
+     * @param o
+     * @param context
+     * @return The execution result.
+     * @throws MethodInvocationException
+     */
     public Object execute(Object o, InternalContextAdapter context)
       throws MethodInvocationException;
 
+    /**
+     * @param info
+     */
     public void setInfo(int info);
+
+    /**
+     * @return The current node info.
+     */
     public int getInfo();
 
+    /**
+     * @return A literal.
+     */
     public String literal();
+
+    /**
+     * Mark the node as invalid. 
+     */
     public void setInvalid();
+
+    /**
+     * @return True if the node is invalid.
+     */
     public boolean isInvalid();
+
+    /**
+     * @return The current line position.
+     */
     public int getLine();
+
+    /**
+     * @return The current column position.
+     */
     public int getColumn();
 }

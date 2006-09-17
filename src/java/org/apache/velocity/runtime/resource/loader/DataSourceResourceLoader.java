@@ -132,7 +132,10 @@ public class DataSourceResourceLoader extends ResourceLoader
      private InitialContext ctx;
      private DataSource dataSource;
 
-     public void init(ExtendedProperties configuration)
+     /**
+      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+      */
+    public void init(ExtendedProperties configuration)
      {
          dataSourceName  = StringUtils.nullTrim(configuration.getString("resource.datasource"));
          tableName       = StringUtils.nullTrim(configuration.getString("resource.table"));
@@ -175,20 +178,26 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      * Set the DataSource used by this resource loader.  Call this as an alternative to 
      * specifying the data source name via properties.
-     * @param source
+     * @param dataSource The data source for this ResourceLoader. 
      */
     public void setDataSource(final DataSource dataSource) 
     {
         this.dataSource = dataSource;
     }
 
-     public boolean isSourceModified(final Resource resource)
+     /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     */
+    public boolean isSourceModified(final Resource resource)
      {
          return (resource.getLastModified() !=
                  readLastModified(resource, "checking timestamp"));
      }
 
-     public long getLastModified(final Resource resource)
+     /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     */
+    public long getLastModified(final Resource resource)
      {
          return readLastModified(resource, "getting timestamp");
      }
@@ -199,6 +208,7 @@ public class DataSourceResourceLoader extends ResourceLoader
       *
       *  @param name name of template
       *  @return InputStream containing template
+     * @throws ResourceNotFoundException 
       */
      public synchronized InputStream getResourceStream(final String name)
          throws ResourceNotFoundException

@@ -48,23 +48,35 @@ public class ASTDirective extends SimpleNode
     private String directiveName = "";
     private boolean isDirective;
 
+    /**
+     * @param id
+     */
     public ASTDirective(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTDirective(Parser p, int id)
     {
         super(p, id);
     }
 
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
     
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
     public Object init( InternalContextAdapter context, Object data) 
         throws Exception
     {
@@ -105,6 +117,9 @@ public class ASTDirective extends SimpleNode
         return data;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
+     */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, ResourceNotFoundException, ParseErrorException
     {
@@ -131,6 +146,7 @@ public class ASTDirective extends SimpleNode
     /**
      *   Sets the directive name.  Used by the parser.  This keeps us from having to 
      *   dig it out of the token stream and gives the parse the change to override.
+     * @param str 
      */
     public void setDirectiveName( String str )
     {
@@ -140,6 +156,7 @@ public class ASTDirective extends SimpleNode
 
     /**
      *  Gets the name of this directive.
+     *  @return The name of this directive.
      */
     public String getDirectiveName()
     {

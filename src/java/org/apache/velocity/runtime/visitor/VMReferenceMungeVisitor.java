@@ -39,6 +39,7 @@ public class VMReferenceMungeVisitor extends BaseVisitor
 
     /**
      *  CTOR - takes a map of args to reference
+     * @param map 
      */
     public VMReferenceMungeVisitor( Map map )
     {
@@ -51,6 +52,7 @@ public class VMReferenceMungeVisitor extends BaseVisitor
      *
      *  @param node ASTReference to work on
      *  @param data Object to pass down from caller
+     * @return A visitor object result.
      */
     public Object visit( ASTReference node, Object data)
     {

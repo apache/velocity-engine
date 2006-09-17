@@ -36,17 +36,26 @@ import org.apache.velocity.util.TemplateNumber;
  */
 public class ASTDivNode extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTDivNode(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTDivNode(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -54,7 +63,9 @@ public class ASTDivNode extends SimpleNode
 
     /**
      *  computes the result of the division.  
+     * @param context 
      *  @return result or null
+     * @throws MethodInvocationException 
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException

@@ -40,17 +40,26 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 */
 public class ASTElseIfStatement extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTElseIfStatement(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTElseIfStatement(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -63,6 +72,9 @@ public class ASTElseIfStatement extends SimpleNode
      * here and return the value back to ASTIfStatement
      * where this node was originally asked to evaluate
      * itself.
+     * @param context
+     * @return True if all childs are true.
+     * @throws MethodInvocationException 
      */
     public boolean evaluate ( InternalContextAdapter context)
         throws MethodInvocationException
@@ -71,7 +83,7 @@ public class ASTElseIfStatement extends SimpleNode
     }
 
     /**
-     *  renders the block
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, 

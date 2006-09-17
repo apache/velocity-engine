@@ -55,10 +55,14 @@ public interface LogSystem
 
     /**
      * Initializes this LogSystem.
+     * @param rs 
+     * @throws Exception 
      */
     public void init( RuntimeServices rs ) throws Exception;
 
     /**
+     * @param level 
+     * @param message 
      * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message);

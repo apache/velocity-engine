@@ -26,7 +26,9 @@ package org.apache.velocity.runtime.log;
 public class AvalonLogSystem extends AvalonLogChute implements LogSystem
 {
     /**
-     *  @deprecated Use log(level, message).
+     *  @param level 
+     * @param message 
+     * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message)
     {

@@ -37,6 +37,7 @@ import org.apache.velocity.runtime.log.Log;
  */
 public abstract class SetExecutor
 {
+    /** Class logger */
     protected Log log = null;
     
     /**
@@ -46,6 +47,11 @@ public abstract class SetExecutor
     
     /**
      * Execute method against context.
+     * @param o 
+     * @param value 
+     * @return The result of the invocation.
+     * @throws IllegalAccessException 
+     * @throws InvocationTargetException 
      */
     public abstract Object execute(Object o, Object value)
          throws IllegalAccessException, InvocationTargetException;
@@ -53,17 +59,24 @@ public abstract class SetExecutor
     /**
      * Tell whether the executor is alive by looking
      * at the value of the method.
+     * @return True if the executor is alive.
      */
     public boolean isAlive()
     {
         return (method != null);
     }
 
+    /**
+     * @return The method to invoke.
+     */
     public Method getMethod()
     {
         return method;
     }
 
+    /**
+     * @param method
+     */
     protected void setMethod(final Method method)
     {
         this.method = method;

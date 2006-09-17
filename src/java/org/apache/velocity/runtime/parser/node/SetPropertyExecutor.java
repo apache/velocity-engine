@@ -33,6 +33,13 @@ public class SetPropertyExecutor
 {
     private final Introspector introspector;
 
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     * @param arg
+     */
     public SetPropertyExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property, final Object arg)
     {
@@ -48,11 +55,19 @@ public class SetPropertyExecutor
         }
     }
 
+    /**
+     * @return The current introspector.
+     */
     protected Introspector getIntrospector()
     {
         return this.introspector;
     }
 
+    /**
+     * @param clazz
+     * @param property
+     * @param arg
+     */
     protected void discover(final Class clazz, final String property, final Object arg)
     {
         Object [] params = new Object [] { arg };
@@ -99,6 +114,11 @@ public class SetPropertyExecutor
 
     /**
      * Execute method against context.
+     * @param o 
+     * @param value 
+     * @return The value of the invocation.
+     * @throws IllegalAccessException 
+     * @throws InvocationTargetException 
      */
     public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException

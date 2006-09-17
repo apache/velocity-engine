@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * algorithm, with a maximum size specified via the
  * <code>resource.manager.cache.size</code> property (idenfied by the
  * {@link
- * org.apache.velocity.runtime.RuntimeConstants#RESOURCE_MANAGER_CACHE_SIZE}
+ * org.apache.velocity.runtime.RuntimeConstants#RESOURCE_MANAGER_DEFAULTCACHE_SIZE}
  * constant).  This property get be set to <code>0</code> or less for
  * a greedy, unbounded cache (the behavior from pre-v1.5).
  *
@@ -52,6 +52,9 @@ public class ResourceCacheImpl implements ResourceCache
      */
     protected RuntimeServices rsvc = null;
     
+    /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#initialize(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void initialize( RuntimeServices rs )
     {
         rsvc = rs;
@@ -69,21 +72,33 @@ public class ResourceCacheImpl implements ResourceCache
         rsvc.getLog().debug("ResourceCache: initialized ("+this.getClass()+')');
     }
     
+    /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#get(java.lang.Object)
+     */
     public Resource get( Object key )
     {
         return (Resource) cache.get( key );
     }
     
+    /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#put(java.lang.Object, org.apache.velocity.runtime.resource.Resource)
+     */
     public Resource put( Object key, Resource value )
     {
         return (Resource) cache.put( key, value );
     }
     
+    /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#remove(java.lang.Object)
+     */
     public Resource remove( Object key )
     {
         return (Resource) cache.remove( key );
     }
     
+    /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#enumerateKeys()
+     */
     public Iterator enumerateKeys()
     {
         return cache.keySet().iterator();

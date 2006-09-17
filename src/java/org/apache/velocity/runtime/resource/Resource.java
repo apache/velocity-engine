@@ -88,6 +88,9 @@ public abstract class Resource
     {
     }
 
+    /**
+     * @param rs
+     */
     public void setRuntimeServices( RuntimeServices rs )
     {
         rsvc = rs;
@@ -105,10 +108,15 @@ public abstract class Resource
      * indicates whether the resource could be read.
      * @exception ResourceNotFoundException Similar in semantics as
      * returning <code>false</code>.
+     * @throws ParseErrorException 
+     * @throws Exception 
      */
     public abstract boolean process() 
         throws ResourceNotFoundException, ParseErrorException, Exception;
 
+    /**
+     * @return True if source has been modified.
+     */
     public boolean isSourceModified()
     {
         return resourceLoader.isSourceModified(this);
@@ -126,6 +134,7 @@ public abstract class Resource
     /**
      * Is it time to check to see if the resource
      * source has been updated?
+     * @return True if resource must be checked.
      */
     public boolean requiresChecking()
     {
@@ -158,6 +167,7 @@ public abstract class Resource
     /**
      * Set the name of this resource, for example
      * test.vm.
+     * @param name 
      */
     public void setName(String name)
     {
@@ -166,6 +176,7 @@ public abstract class Resource
 
     /**
      * Get the name of this template.
+     * @return The name of this template.
      */
     public String getName()
     {
@@ -175,6 +186,7 @@ public abstract class Resource
     /**
      *  set the encoding of this resource
      *  for example, "ISO-8859-1"
+     * @param encoding 
      */
     public void setEncoding( String encoding )
     {
@@ -184,6 +196,7 @@ public abstract class Resource
     /**
      *  get the encoding of this resource
      *  for example, "ISO-8859-1"
+     * @return The encoding of this resource.
      */
     public String getEncoding()
     {
@@ -193,7 +206,8 @@ public abstract class Resource
 
     /**
      * Return the lastModifed time of this
-     * template.
+     * resource.
+     * @return The lastModifed time of this resource.
      */
     public long getLastModified()
     {
@@ -202,7 +216,8 @@ public abstract class Resource
     
     /**
      * Set the last modified time for this
-     * template.
+     * resource.
+     * @param lastModified 
      */
     public void setLastModified(long lastModified)
     {
@@ -212,6 +227,7 @@ public abstract class Resource
     /**
      * Return the template loader that pulled
      * in the template stream
+     * @return The resource loader for this resource.
      */
     public ResourceLoader getResourceLoader()
     {
@@ -222,6 +238,7 @@ public abstract class Resource
      * Set the template loader for this template. Set
      * when the Runtime determines where this template
      * came from the list of possible sources.
+     * @param resourceLoader 
      */
     public void setResourceLoader(ResourceLoader resourceLoader)
     {
@@ -231,6 +248,7 @@ public abstract class Resource
     /** 
      * Set arbitrary data object that might be used
      * by the resource.
+     * @param data 
      */
     public void setData(Object data)
     {
@@ -240,6 +258,7 @@ public abstract class Resource
     /**
      * Get arbitrary data object that might be used
      * by the resource.
+     * @return The data object for this resource.
      */
     public Object getData()
     {

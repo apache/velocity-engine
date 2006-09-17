@@ -40,6 +40,7 @@ public class RuntimeLoggerLog extends Log
 
     /**
      * Creates a new Log that wraps a PrimordialLogChute.
+     * @param rlog 
      */
     public RuntimeLoggerLog(RuntimeLogger rlog)
     {
@@ -50,102 +51,156 @@ public class RuntimeLoggerLog extends Log
         this.rlog = rlog;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#setLogChute(org.apache.velocity.runtime.log.LogChute)
+     */
     protected void setLogChute(LogChute newLogChute)
     {
         throw new UnsupportedOperationException("RuntimeLoggerLog does not support this method.");
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#getLogChute()
+     */
     protected LogChute getLogChute()
     {
         throw new UnsupportedOperationException("RuntimeLoggerLog does not support this method.");
     }
 
+    /**
+     * @param showStacks
+     */
     protected void setShowStackTraces(boolean showStacks)
     {
         throw new UnsupportedOperationException("RuntimeLoggerLog does not support this method.");
     }
 
+    /**
+     * @return True if Stack traces should be shown.
+     */
     public boolean getShowStackTraces()
     {
         throw new UnsupportedOperationException("RuntimeLoggerLog does not support this method.");
     }
 
     /**
-     * Returns true.
+     * @see org.apache.velocity.runtime.log.Log#isTraceEnabled()
      */
     public boolean isTraceEnabled()
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#trace(java.lang.Object)
+     */
     public void trace(Object message)
     {
         debug(message);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#trace(java.lang.Object, java.lang.Throwable)
+     */
     public void trace(Object message, Throwable t)
     {
         debug(message, t);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#isDebugEnabled()
+     */
     public boolean isDebugEnabled()
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#debug(java.lang.Object)
+     */
     public void debug(Object message)
     {
         rlog.debug(message);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#debug(java.lang.Object, java.lang.Throwable)
+     */
     public void debug(Object message, Throwable t)
     {
         rlog.debug(message);
         rlog.debug(t);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#isInfoEnabled()
+     */
     public boolean isInfoEnabled()
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#info(java.lang.Object)
+     */
     public void info(Object message)
     {
         rlog.info(message);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#info(java.lang.Object, java.lang.Throwable)
+     */
     public void info(Object message, Throwable t)
     {
         rlog.info(message);
         rlog.info(t);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#isWarnEnabled()
+     */
     public boolean isWarnEnabled()
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#warn(java.lang.Object)
+     */
     public void warn(Object message)
     {
         rlog.warn(message);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#warn(java.lang.Object, java.lang.Throwable)
+     */
     public void warn(Object message, Throwable t)
     {
         rlog.warn(message);
         rlog.warn(t);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#isErrorEnabled()
+     */
     public boolean isErrorEnabled()
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#error(java.lang.Object)
+     */
     public void error(Object message)
     {
         rlog.error(message);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.Log#error(java.lang.Object, java.lang.Throwable)
+     */
     public void error(Object message, Throwable t)
     {
         rlog.error(message);

@@ -30,6 +30,12 @@ public class PropertyExecutor extends AbstractExecutor
 {
     private final Introspector introspector;
 
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     */
     public PropertyExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)
     {
@@ -46,6 +52,10 @@ public class PropertyExecutor extends AbstractExecutor
     }
 
     /**
+     * @param r 
+     * @param introspector 
+     * @param clazz 
+     * @param property 
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public PropertyExecutor(final RuntimeLogger r, final Introspector introspector,
@@ -54,11 +64,18 @@ public class PropertyExecutor extends AbstractExecutor
         this(new RuntimeLoggerLog(r), introspector, clazz, property);
     }
 
+    /**
+     * @return The current introspector.
+     */
     protected Introspector getIntrospector()
     {
         return this.introspector;
     }
 
+    /**
+     * @param clazz
+     * @param property
+     */
     protected void discover(final Class clazz, final String property)
     {
         /*
@@ -108,7 +125,7 @@ public class PropertyExecutor extends AbstractExecutor
     }
 
     /**
-     * Execute method against context.
+     * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
     public Object execute(Object o)
         throws IllegalAccessException,  InvocationTargetException

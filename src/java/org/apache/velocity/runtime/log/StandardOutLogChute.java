@@ -26,11 +26,15 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 public class StandardOutLogChute implements LogChute
 {
+    /** */
     public static final String RUNTIME_LOG_LEVEL_KEY = 
         "runtime.log.logsystem.stdout.level";
 
     private int enabled = TRACE_ID;
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
         // look for a level config property
@@ -57,6 +61,10 @@ public class StandardOutLogChute implements LogChute
         }
     }
 
+    /**
+     * @param level
+     * @return The prefix for the given level.
+     */
     protected String getPrefix(int level)
     {
         switch (level)
@@ -134,6 +142,7 @@ public class StandardOutLogChute implements LogChute
 
     /**
      * Set the minimum level at which messages will be printed.
+     * @param level 
      */
     public void setEnabledLevel(int level)
     {
@@ -142,6 +151,7 @@ public class StandardOutLogChute implements LogChute
 
     /**
      * Returns the current minimum level at which messages will be printed.
+     * @return The current minimum level at which messages will be printed.
      */
     public int getEnabledLevel()
     {
@@ -152,6 +162,8 @@ public class StandardOutLogChute implements LogChute
      * This will return true if the specified level
      * is equal to or higher than the level this
      * LogChute is enabled for.
+     * @param level 
+     * @return True if logging is enabled for this level.
      */
     public boolean isLevelEnabled(int level)
     {

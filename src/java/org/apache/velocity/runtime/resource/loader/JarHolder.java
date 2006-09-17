@@ -43,6 +43,10 @@ public class JarHolder
         
     private Log log = null;
 
+    /**
+     * @param rs
+     * @param urlpath
+     */
     public JarHolder( RuntimeServices rs, String urlpath )
     {
         this.log = rs.getLog();
@@ -56,6 +60,9 @@ public class JarHolder
         }
     }
 
+    /**
+     * 
+     */
     public void init()
     {
         try
@@ -79,6 +86,9 @@ public class JarHolder
         }
     }
 
+    /**
+     * 
+     */
     public void close() 
     {
         try
@@ -95,6 +105,11 @@ public class JarHolder
         log.trace("JarHolder: JAR file closed");
     }
     
+    /**
+     * @param theentry
+     * @return The requested resource.
+     * @throws ResourceNotFoundException
+     */
     public InputStream getResource( String theentry )
      throws ResourceNotFoundException {
         InputStream data = null;
@@ -117,6 +132,9 @@ public class JarHolder
         return data;
     }
 
+    /**
+     * @return The entries of the jar as a hashtable.
+     */
     public Hashtable getEntries()
     {
         Hashtable allEntries = new Hashtable(559);
@@ -135,6 +153,9 @@ public class JarHolder
         return allEntries;
     }
     
+    /**
+     * @return The URL path of this jar holder.
+     */
     public String getUrlPath()
     {
         return urlpath;

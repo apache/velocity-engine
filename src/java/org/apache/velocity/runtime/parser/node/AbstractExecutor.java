@@ -33,6 +33,7 @@ import org.apache.velocity.runtime.log.Log;
  */
 public abstract class AbstractExecutor
 {
+    /** */
     protected Log log = null;
     
     /**
@@ -42,6 +43,10 @@ public abstract class AbstractExecutor
     
     /**
      * Execute method against context.
+     * @param o 
+     * @return The resulting object. 
+     * @throws IllegalAccessException 
+     * @throws InvocationTargetException 
      */
      public abstract Object execute(Object o)
          throws IllegalAccessException, InvocationTargetException;
@@ -49,17 +54,25 @@ public abstract class AbstractExecutor
     /**
      * Tell whether the executor is alive by looking
      * at the value of the method.
+     * 
+     * @return True if executor is alive.
      */
     public boolean isAlive()
     {
         return (method != null);
     }
 
+    /**
+     * @return The current method.
+     */
     public Method getMethod()
     {
         return method;
     }
 
+    /**
+     * @param method
+     */
     protected void setMethod(final Method method)
     {
         this.method = method;

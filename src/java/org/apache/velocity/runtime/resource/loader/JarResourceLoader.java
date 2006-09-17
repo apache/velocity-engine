@@ -77,6 +77,7 @@ public class JarResourceLoader extends ResourceLoader
    
     /**
      * Called by Velocity to initialize the loader
+     * @param configuration 
      */
     public void init( ExtendedProperties configuration)
     {
@@ -178,7 +179,7 @@ public class JarResourceLoader extends ResourceLoader
      * Get an InputStream so that the Runtime can build a
      * template with it.
      *
-     * @param name name of template to get
+     * @param source name of template to get
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
@@ -232,13 +233,19 @@ public class JarResourceLoader extends ResourceLoader
     }
         
         
-    // TO DO BELOW 
-    // SHOULD BE DELEGATED TO THE JARHOLDER
+    // TODO: SHOULD BE DELEGATED TO THE JARHOLDER
+
+    /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     */
     public boolean isSourceModified(Resource resource)
     {
         return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     */
     public long getLastModified(Resource resource)
     {
         return 0;

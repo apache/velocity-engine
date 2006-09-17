@@ -42,6 +42,10 @@ public class TemplateParseException
     /**
      * This constructor is used to add a template name
      * to info cribbed from a ParseException generated in the parser.
+     * @param currentTokenVal 
+     * @param expectedTokenSequencesVal 
+     * @param tokenImageVal 
+     * @param templateNameVal 
      */
     public TemplateParseException(Token currentTokenVal, int [][] expectedTokenSequencesVal, String [] tokenImageVal,
         String templateNameVal)
@@ -61,6 +65,9 @@ public class TemplateParseException
      * to force the "toString" method of parent class "Throwable" to
      * print the error message in the form:
      *     ParseException: <result of getMessage>
+     * @param currentTokenVal 
+     * @param expectedTokenSequencesVal 
+     * @param tokenImageVal 
      */
     public TemplateParseException(Token currentTokenVal, int [][] expectedTokenSequencesVal, String [] tokenImageVal)
     {
@@ -96,6 +103,7 @@ public class TemplateParseException
 
     /**
      * returns the Template name where this exception occured.
+     * @return The Template name where this exception occured.
      */
     public String getTemplateName()
     {
@@ -104,6 +112,7 @@ public class TemplateParseException
 
     /**
      * returns the line number where this exception occured.
+     * @return The line number where this exception occured.
      */
     public int getLineNumber()
     {
@@ -119,6 +128,7 @@ public class TemplateParseException
 
     /**
      * returns the column number where this exception occured.
+     * @return The column number where this exception occured.
      */
     public int getColumnNumber()
     {
@@ -141,6 +151,7 @@ public class TemplateParseException
      * from the parser), then this method is called during the printing
      * of the final stack trace, and hence the correct error message
      * gets displayed.
+     * @return The error message.
      */
     public String getMessage()
     {
@@ -212,6 +223,9 @@ public class TemplateParseException
         return retval.toString();
     }
 
+    /**
+     * @param sb
+     */
     protected void appendTemplateInfo(final StringBuffer sb)
     {
         sb.append(" at line ").append(getLineNumber())

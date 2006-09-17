@@ -40,6 +40,12 @@ public class GetExecutor extends AbstractExecutor
     // This is still threadsafe because this object is only read except in the C'tor. 
     private Object [] params = {};
 
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     */
     public GetExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)
     {
@@ -61,6 +67,10 @@ public class GetExecutor extends AbstractExecutor
     }
 
     /**
+     * @param rlog 
+     * @param introspector 
+     * @param clazz 
+     * @param property 
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public GetExecutor(final RuntimeLogger rlog, final Introspector introspector,
@@ -89,7 +99,7 @@ public class GetExecutor extends AbstractExecutor
     }
 
     /**
-     * Execute method against context.
+     * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
     public Object execute(final Object o)
         throws IllegalAccessException,  InvocationTargetException
