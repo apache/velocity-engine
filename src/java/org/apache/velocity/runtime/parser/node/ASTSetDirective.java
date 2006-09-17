@@ -40,17 +40,26 @@ public class ASTSetDirective extends SimpleNode
     private ASTReference left = null;
     boolean logOnNull = false;
 
+    /**
+     * @param id
+     */
     public ASTSetDirective(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTSetDirective(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -58,6 +67,10 @@ public class ASTSetDirective extends SimpleNode
 
     /**
      *  simple init.  We can get the RHS and LHS as the the tree structure is static
+     * @param context 
+     * @param data 
+     * @return Init result.
+     * @throws Exception 
      */
     public Object init(InternalContextAdapter context, Object data)
             throws Exception
@@ -83,6 +96,11 @@ public class ASTSetDirective extends SimpleNode
 
     /**
      *   puts the value of the RHS into the context under the key of the LHS
+     * @param context 
+     * @param writer 
+     * @return True if rendering was sucessful.
+     * @throws IOException 
+     * @throws MethodInvocationException 
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException

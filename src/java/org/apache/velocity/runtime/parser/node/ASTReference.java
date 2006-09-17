@@ -69,22 +69,34 @@ public class ASTReference extends SimpleNode
 
     protected Info uberInfo;
 
+    /**
+     * @param id
+     */
     public ASTReference(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTReference(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
     public Object init(InternalContextAdapter context, Object data)
         throws Exception
     {
@@ -131,6 +143,7 @@ public class ASTReference extends SimpleNode
 
     /**
      *  Returns the 'root string', the reference key
+     * @return the root string.
      */
      public String getRootString()
      {
@@ -142,6 +155,8 @@ public class ASTReference extends SimpleNode
      *
      *   @param o   unused Object parameter
      *   @param context context used to generate value
+     * @return The execution result.
+     * @throws MethodInvocationException 
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
@@ -211,6 +226,9 @@ public class ASTReference extends SimpleNode
      *
      *  @param context  context of data to use in getting value
      *  @param writer   writer to render to
+     * @return True if rendering was successful.
+     * @throws IOException 
+     * @throws MethodInvocationException 
      */
     public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
@@ -322,6 +340,8 @@ public class ASTReference extends SimpleNode
      *   boolean, and 'true' if value is not null
      *
      *   @param context context to compute value with
+     * @return True if evaluation was ok.
+     * @throws MethodInvocationException 
      */
     public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
@@ -343,6 +363,9 @@ public class ASTReference extends SimpleNode
             return true;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
+     */
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -358,6 +381,7 @@ public class ASTReference extends SimpleNode
      *  @param context context object containing this reference
      *  @param value Object to set as value
      *  @return true if successful, false otherwise
+     * @throws MethodInvocationException 
      */
     public boolean setValue( InternalContextAdapter context, Object value)
       throws MethodInvocationException
@@ -647,6 +671,12 @@ public class ASTReference extends SimpleNode
 
     }
 
+    /**
+     * @param context
+     * @param variable
+     * @return The evaluated value of the variable.
+     * @throws MethodInvocationException
+     */
     public Object getVariableValue(Context context, String variable) throws MethodInvocationException
     {
         return context.get(variable);
@@ -680,6 +710,7 @@ public class ASTReference extends SimpleNode
      *  Returns the literal representation of the
      *  node.  Should be something like
      *  $<token>.
+     * @return A literal string.
      */
     public String literal()
     {

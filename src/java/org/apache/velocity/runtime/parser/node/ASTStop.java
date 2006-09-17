@@ -38,17 +38,26 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  */
 public class ASTStop extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTStop(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTStop(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -56,6 +65,13 @@ public class ASTStop extends SimpleNode
 
     /**
      * Do not output anything, just shut off the rendering.
+     * @param context 
+     * @param writer 
+     * @return Always true.
+     * @throws IOException 
+     * @throws MethodInvocationException 
+     * @throws ParseErrorException 
+     * @throws ResourceNotFoundException 
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException

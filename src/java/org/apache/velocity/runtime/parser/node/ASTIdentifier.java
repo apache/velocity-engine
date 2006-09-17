@@ -52,17 +52,27 @@ public class ASTIdentifier extends SimpleNode
      */
     protected Info uberInfo;
 
+    /**
+     * @param id
+     */
     public ASTIdentifier(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTIdentifier(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -71,6 +81,10 @@ public class ASTIdentifier extends SimpleNode
     /**
      *  simple init - don't do anything that is context specific.
      *  just get what we need from the AST, which is static.
+     * @param context 
+     * @param data 
+     * @return The data object.
+     * @throws Exception 
      */
     public  Object init(InternalContextAdapter context, Object data)
         throws Exception
@@ -86,7 +100,7 @@ public class ASTIdentifier extends SimpleNode
     }
 
     /**
-     *  invokes the method on the object passed in
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#execute(java.lang.Object, org.apache.velocity.context.InternalContextAdapter)
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException

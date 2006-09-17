@@ -34,18 +34,25 @@ import java.util.Map;
  */
 public class ASTMap extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTMap(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTMap(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** 
-     * Accept the visitor. 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
@@ -53,7 +60,7 @@ public class ASTMap extends SimpleNode
     }
 
     /**
-     * Evaluate the node.
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
