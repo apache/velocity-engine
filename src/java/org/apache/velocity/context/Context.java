@@ -40,6 +40,7 @@ public interface Context
      *
      * @param key   The name to key the provided value with.
      * @param value The corresponding value.
+     * @return The old object or null if there was no old object.
      */
     Object put(String key, Object value);
 
@@ -60,7 +61,8 @@ public interface Context
     boolean containsKey(Object key);
 
     /**
-     * Get all the keys for the values in the context
+     * Get all the keys for the values in the context.
+     * @return All the keys for the values in the context.
      */
     Object[] getKeys();
 

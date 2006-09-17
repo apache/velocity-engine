@@ -18,6 +18,9 @@ package org.apache.velocity.runtime.exception;
 
 import org.apache.velocity.runtime.parser.node.Node;
 
+/**
+ *
+ */
 public class NodeException extends Exception
 {
     /**
@@ -25,6 +28,10 @@ public class NodeException extends Exception
      */
     private static final long serialVersionUID = 1214382967295242803L;
 
+    /**
+     * @param exceptionMessage
+     * @param node
+     */
     public NodeException(String exceptionMessage, Node node)
     {
         super(exceptionMessage + ": " + node.literal() + 

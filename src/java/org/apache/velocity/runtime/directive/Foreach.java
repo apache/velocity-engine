@@ -241,6 +241,7 @@ public class Foreach extends Directive
 
     /**
      * Return name of this directive.
+     * @return The name of this directive.
      */
     public String getName()
     {
@@ -249,6 +250,7 @@ public class Foreach extends Directive
     
     /**
      * Return type of this directive.
+     * @return The type of this directive.
      */
     public int getType()
     {
@@ -292,6 +294,10 @@ public class Foreach extends Directive
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
+     * @param rs 
+     * @param context 
+     * @param node 
+     * @throws Exception 
      */
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
@@ -337,6 +343,14 @@ public class Foreach extends Directive
 
     /**
      *  renders the #foreach() block
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
+     * @throws MethodInvocationException 
+     * @throws ResourceNotFoundException 
+     * @throws ParseErrorException 
      */
     public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)

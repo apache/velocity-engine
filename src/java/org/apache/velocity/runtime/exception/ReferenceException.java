@@ -31,6 +31,10 @@ public class ReferenceException extends Exception
      */
     private static final long serialVersionUID = 3833874766480090214L;
 
+    /**
+     * @param exceptionMessage
+     * @param node
+     */
     public ReferenceException(String exceptionMessage, Node node)
     {
         super(exceptionMessage + " [line " + node.getLine() + ",column " +

@@ -30,6 +30,14 @@ import org.apache.velocity.app.event.EventCartridge;
  */
 public interface InternalEventContext
 {
+    /**
+     * @param ec
+     * @return The old EventCartridge.
+     */
     public EventCartridge attachEventCartridge( EventCartridge ec);
+
+    /**
+     * @return The current EventCartridge.
+     */
     public EventCartridge getEventCartridge();
 }

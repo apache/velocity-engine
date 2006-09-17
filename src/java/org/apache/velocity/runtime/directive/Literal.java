@@ -38,6 +38,7 @@ public class Literal extends Directive
     
     /**
      * Return name of this directive.
+     * @return The name of this directive.
      */
     public String getName()
     {
@@ -46,6 +47,7 @@ public class Literal extends Directive
     
     /**
      * Return type of this directive.
+     * @return The type of this directive.
      */
     public int getType()
     {
@@ -55,6 +57,10 @@ public class Literal extends Directive
     /**
      * Store the literal rendition of a node using
      * the Node.literal().
+     * @param rs 
+     * @param context 
+     * @param node 
+     * @throws Exception 
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
@@ -68,6 +74,11 @@ public class Literal extends Directive
     /**
      * Throw the literal rendition of the block between
      * #literal()/#end into the writer.
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
      */
     public boolean render( InternalContextAdapter context, 
                            Writer writer, Node node)

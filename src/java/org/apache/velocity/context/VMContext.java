@@ -59,6 +59,8 @@ public class VMContext implements InternalContextAdapter
 
      /**
      *  CTOR, wraps an ICA
+     * @param inner 
+     * @param rsvc 
      */
     public VMContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
@@ -69,13 +71,17 @@ public class VMContext implements InternalContextAdapter
     }
 
     /**
-     *  return the inner / user context
+     *  Return the inner / user context.
+     * @return The inner / user context.
      */
     public Context getInternalUserContext()
     {
         return innerContext.getInternalUserContext();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalWrapperContext#getBaseContext()
+     */
     public InternalContextAdapter getBaseContext()
     {
         return innerContext.getBaseContext();
@@ -89,6 +95,7 @@ public class VMContext implements InternalContextAdapter
      *  dynamic ones, as they modify context rather than their own
      *  state
      *  @param  vmpa VMProxyArg to add 
+     * @throws MethodInvocationException 
      */
     public void addVMProxyArg(  VMProxyArg vmpa ) throws MethodInvocationException
     {
@@ -215,7 +222,7 @@ public class VMContext implements InternalContextAdapter
     }
  
     /**
-     *  not yet impl
+     * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
      */
     public boolean containsKey(Object key)
     {
@@ -223,7 +230,7 @@ public class VMContext implements InternalContextAdapter
     }
   
     /**
-     *  impl badly
+     * @see org.apache.velocity.context.Context#getKeys()
      */
     public Object[] getKeys()
     {
@@ -231,70 +238,106 @@ public class VMContext implements InternalContextAdapter
     }
 
     /**
-     *  impl badly
+     * @see org.apache.velocity.context.Context#remove(java.lang.Object)
      */
     public Object remove(Object key)
     {
         return vmproxyhash.remove( key );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
+     */
     public void pushCurrentTemplateName( String s )
     {
         innerContext.pushCurrentTemplateName( s );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
+     */
     public void popCurrentTemplateName()
     {
         innerContext.popCurrentTemplateName();
     }
    
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
+     */
     public String getCurrentTemplateName()
     {
         return innerContext.getCurrentTemplateName();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
+     */
     public Object[] getTemplateNameStack()
     {
         return innerContext.getTemplateNameStack();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
+     */
     public IntrospectionCacheData icacheGet( Object key )
     {
         return innerContext.icacheGet( key );
     }
    
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
+     */
     public void icachePut( Object key, IntrospectionCacheData o )
     {
         innerContext.icachePut( key, o );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
+     */
     public boolean getAllowRendering()
     {
        return innerContext.getAllowRendering();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
+     */
     public void setAllowRendering(boolean v)
     {
         innerContext.setAllowRendering(v);
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
+     */
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
         EventCartridge cartridge = innerContext.attachEventCartridge( ec );
         return cartridge;
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
+     */
     public EventCartridge getEventCartridge()
     {
         return innerContext.getEventCartridge();
     }
 
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
+     */
     public void setCurrentResource( Resource r )
     {
         innerContext.setCurrentResource( r );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
+     */
     public Resource getCurrentResource()
     {
         return innerContext.getCurrentResource();

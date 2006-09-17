@@ -40,6 +40,11 @@ public class MacroParseException
      */
     private static final long serialVersionUID = -4985224672336070689L;
 
+    /**
+     * @param msg
+     * @param templateName
+     * @param currentToken
+     */
     public MacroParseException(final String msg, final String templateName, final Token currentToken)
     {
         super(msg);
@@ -49,6 +54,7 @@ public class MacroParseException
 
     /**
      * returns the Template name where this exception occured.
+     * @return The Template name where this exception occured.
      */
     public String getTemplateName()
     {
@@ -57,6 +63,7 @@ public class MacroParseException
 
     /**
      * returns the line number where this exception occured.
+     * @return The line number where this exception occured.
      */
     public int getLineNumber()
     {
@@ -72,6 +79,7 @@ public class MacroParseException
 
     /**
      * returns the column number where this exception occured.
+     * @return The column number where this exception occured.
      */
     public int getColumnNumber()
     {
@@ -94,6 +102,7 @@ public class MacroParseException
      * from the parser), then this method is called during the printing
      * of the final stack trace, and hence the correct error message
      * gets displayed.
+     * @return the current message.
      */
     public String getMessage()
     {
@@ -165,6 +174,9 @@ public class MacroParseException
         return retval.toString();
     }
 
+    /**
+     * @param sb
+     */
     protected void appendTemplateInfo(final StringBuffer sb)
     {
         sb.append(" at line ").append(getLineNumber())

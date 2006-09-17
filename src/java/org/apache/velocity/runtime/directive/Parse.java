@@ -56,6 +56,7 @@ public class Parse extends InputBase
 {
     /**
      * Return name of this directive.
+     * @return The name of this directive.
      */
     public String getName()
     {
@@ -64,6 +65,7 @@ public class Parse extends InputBase
     
     /**
      * Return type of this directive.
+     * @return The type of this directive.
      */
     public int getType()
     {
@@ -74,6 +76,14 @@ public class Parse extends InputBase
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
+     * @throws ResourceNotFoundException 
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
      */
     public boolean render( InternalContextAdapter context,
                            Writer writer, Node node)

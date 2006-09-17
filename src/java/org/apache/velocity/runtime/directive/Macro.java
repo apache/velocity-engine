@@ -57,6 +57,7 @@ public class Macro extends Directive
 
     /**
      * Return name of this directive.
+     * @return The name of this directive.
      */
     public String getName()
     {
@@ -65,6 +66,7 @@ public class Macro extends Directive
     
     /**
      * Return type of this directive.
+     * @return The type of this directive.
      */
     public int getType()
     {
@@ -74,6 +76,11 @@ public class Macro extends Directive
     /**
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
      */
     public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)
@@ -86,6 +93,9 @@ public class Macro extends Directive
         return true;
     }
  
+    /**
+     * @see org.apache.velocity.runtime.directive.Directive#init(org.apache.velocity.runtime.RuntimeServices, org.apache.velocity.context.InternalContextAdapter, org.apache.velocity.runtime.parser.node.Node)
+     */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
        throws Exception
@@ -110,6 +120,12 @@ public class Macro extends Directive
      *  org.apache.velocity.runtime.directive.VelocimacroProxy}
      *  objects, and if not currently used, adds it to the macro
      *  Factory.
+     * @param rs 
+     * @param t 
+     * @param node 
+     * @param sourceTemplate 
+     * @throws IOException 
+     * @throws ParseException 
      */ 
     public static void processAndRegister(RuntimeServices rs,  Token t, Node node,
                                           String sourceTemplate)

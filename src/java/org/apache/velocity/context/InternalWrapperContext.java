@@ -24,10 +24,16 @@ package org.apache.velocity.context;
  */
 public interface InternalWrapperContext
 {
-    /** returns the wrapped user context */
-    public Context getInternalUserContext();
+    /**
+     * Returns the wrapped user context.
+     * @return The wrapped user context.
+     */
+    Context getInternalUserContext();
 
-    /** returns the base full context impl */
-    public InternalContextAdapter getBaseContext();
-    
+    /**
+     * Returns the base full context impl.
+     * @return The base full context impl.
+     * 
+     */
+    InternalContextAdapter getBaseContext();   
 }

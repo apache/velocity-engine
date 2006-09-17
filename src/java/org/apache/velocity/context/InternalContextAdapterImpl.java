@@ -85,6 +85,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * 
      *  For support of internal contexts, it will create an InternalContextBase
      *  if need be.
+     * @param c 
      */
     public InternalContextAdapterImpl( Context c )
     {
@@ -107,52 +108,82 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /* --- InternalHousekeepingContext interface methods --- */
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
+     */
     public void pushCurrentTemplateName( String s )
     {
         icb.pushCurrentTemplateName( s );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
+     */
     public void popCurrentTemplateName()
     {
         icb.popCurrentTemplateName();
     }
   
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
+     */
     public String getCurrentTemplateName()
     {
         return icb.getCurrentTemplateName();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
+     */
     public Object[] getTemplateNameStack()
     {
         return icb.getTemplateNameStack();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
+     */
     public IntrospectionCacheData icacheGet( Object key )
     {
         return icb.icacheGet( key );
     }
     
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
+     */
     public void icachePut( Object key, IntrospectionCacheData o )
     {
         icb.icachePut( key, o );
     }
 
-   public void setCurrentResource( Resource r )
+   /**
+    * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
+    */
+    public void setCurrentResource( Resource r )
     {
         icb.setCurrentResource(r);
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
+     */
     public Resource getCurrentResource()
     {
         return icb.getCurrentResource();
     }
 
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
+     */
     public boolean getAllowRendering()
     {
        return icb.getAllowRendering();
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
+     */
     public void setAllowRendering(boolean v)
     {
         icb.setAllowRendering(v);
@@ -161,26 +192,41 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /* ---  Context interface methods --- */
 
+    /**
+     * @see org.apache.velocity.context.Context#put(java.lang.String, java.lang.Object)
+     */
     public Object put(String key, Object value)
     {
         return context.put( key , value );
     }
 
+    /**
+     * @see org.apache.velocity.context.Context#get(java.lang.String)
+     */
     public Object get(String key)
     {
         return context.get( key );
     }
 
+    /**
+     * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
+     */
     public boolean containsKey(Object key)
     {
         return context.containsKey( key );
     }
 
+    /**
+     * @see org.apache.velocity.context.Context#getKeys()
+     */
     public Object[] getKeys()
     {
         return context.getKeys();
     }
 
+    /**
+     * @see org.apache.velocity.context.Context#remove(java.lang.Object)
+     */
     public Object remove(Object key)
     {
         return context.remove( key );
@@ -192,6 +238,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      *  returns the user data context that
      *  we are wrapping
+     * @return The internal user data context. 
      */
     public Context getInternalUserContext()
     {
@@ -203,6 +250,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      *  wrapping. Here, its this, but for other thing
      *  like VM related context contortions, it can
      *  be something else
+     * @return The base context.
      */
     public InternalContextAdapter getBaseContext()
     {
@@ -211,6 +259,9 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /* -----  InternalEventContext ---- */
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
+     */
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
         if (iec != null)
@@ -221,6 +272,9 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return null;
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
+     */
     public EventCartridge getEventCartridge()
     {
         if ( iec != null)
