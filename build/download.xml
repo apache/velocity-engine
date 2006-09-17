@@ -32,17 +32,29 @@
    <antcall target="commons-collections-download" />
    <antcall target="commons-lang-download" />
    <antcall target="jdom-download" />
-   <antcall target="junit-download" />
    <antcall target="log4j-download" />
    <antcall target="oro-download" />
    <antcall target="servletapi-download" />
    <antcall target="werken-xpath-download" />
+
+   <mkdir dir="${build.test.lib}" />
+   <antcall target="hsqldb-download" />
+   <antcall target="junit-download" />
   </target>
 
   <target name="http-download" unless="skip.jar.loading">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
     <get src="${repo.url}/${download.jarname}/jars/${download.jarname}-${download.jarversion}.jar"
          dest="${build.lib}/${download.jarname}-${download.jarversion}.jar"
+         usetimestamp="true"
+         verbose="false"
+         ignoreerrors="false" />
+  </target>
+
+  <target name="http-test-download" unless="skip.jar.loading">
+    <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
+    <get src="${repo.url}/${download.jarname}/jars/${download.jarname}-${download.jarversion}.jar"
+         dest="${build.test.lib}/${download.jarname}-${download.jarversion}.jar"
          usetimestamp="true"
          verbose="false"
          ignoreerrors="false" />
@@ -78,12 +90,6 @@
    <antcall target="http-download"/>
   </target>
 
-  <target name="junit-download">
-   <property name="download.jarname" value="junit" />
-   <property name="download.jarversion" value="${jar.junit.version}" />
-   <antcall target="http-download"/>
-  </target>
-
   <target name="log4j-download">
    <property name="download.jarname" value="log4j" />
    <property name="download.jarversion" value="${jar.log4j.version}" />
@@ -107,5 +113,20 @@
    <property name="download.jarversion" value="${jar.werken-xpath.version}" />
    <antcall target="http-download"/>
   </target>
+
+<!-- Test Dependencies -->
+
+  <target name="junit-download">
+   <property name="download.jarname" value="junit" />
+   <property name="download.jarversion" value="${jar.junit.version}" />
+   <antcall target="http-test-download"/>
+  </target>
+
+  <target name="hsqldb-download">
+   <property name="download.jarname" value="hsqldb" />
+   <property name="download.jarversion" value="${jar.hsqldb.version}" />
+   <antcall target="http-test-download"/>
+  </target>
+
 </project>
 

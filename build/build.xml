@@ -127,6 +127,7 @@
       <fileset dir="${test.java.dir}">
         <include name="**/*.java"/>
         <exclude name="**/WrappedExceptionTestCase.java"/>
+        <exclude name="**/sql/*.java"/>
       </fileset>
     </copy>
   </target>
@@ -140,6 +141,13 @@
     <!-- Build classpath -->
     <path id="velocity.build.classpath">
       <fileset dir="${build.lib}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </path>
+  
+    <!-- Test classpath, contains dependencies needed only for Testing -->
+    <path id="velocity.test.classpath">
+      <fileset dir="${build.test.lib}">
         <include name="**/*.jar"/>
       </fileset>
     </path>
@@ -174,6 +182,11 @@
     <copy todir="${build.src}" filtering="yes">
       <fileset dir="${src.java.dir}">
         <include name="**/DataSourceResourceLoader.java"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.test.src}" filtering="yes">
+      <fileset dir="${test.java.dir}">
+        <include name="**/sql/*.java"/>
       </fileset>
     </copy>
   </target>
@@ -260,6 +273,7 @@
       <!-- Don't use the run classpath, build using the exploded class tree -->
       <classpath>
         <path refid="velocity.build.classpath"/>
+        <path refid="velocity.test.classpath" />
         <pathelement location="${build.dest}"/>
       </classpath>
     </javac>
@@ -563,6 +577,10 @@
       <fileset dir="${build.lib}" />
     </copy>
 
+    <copy todir="${dist.dir}/lib/test">
+      <fileset dir="${build.test.lib}" />
+    </copy>
+
     <copy todir="${dist.dir}/build">
       <fileset dir="${velocity.dir}/build">
         <include name="**"/>
@@ -774,6 +792,7 @@
       <!-- Don't use the run classpath, test using the exploded class tree -->
       <classpath>
         <path refid="velocity.build.classpath" />
+        <path refid="velocity.test.classpath" />
         <pathelement path="${build.dest}"/>
         <pathelement path="${build.test.dest}"/>
       </classpath>
