@@ -148,14 +148,12 @@ public class MultiLoaderTestCase extends BaseTestCase
         /*
          * Template to find with the classpath loader.
          */
-        Template template2 = Velocity.getTemplate(
-            getFileName(null, "template/test1", TMPL_FILE_EXT));
+        Template template2 = Velocity.getTemplate("template/test1." + TMPL_FILE_EXT);
 
         /*
          * Template to find with the jar loader
          */
-        Template template3 = Velocity.getTemplate(
-           getFileName(null, "template/test2", TMPL_FILE_EXT));
+        Template template3 = Velocity.getTemplate("template/test2." + TMPL_FILE_EXT);
 
         /*
          * and the results files
