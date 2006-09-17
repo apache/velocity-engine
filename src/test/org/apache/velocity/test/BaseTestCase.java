@@ -57,35 +57,32 @@ public abstract class BaseTestCase
     protected static String getFileName (String dir, String base, String ext)
     {
         StringBuffer buf = new StringBuffer();
-        
-        File baseFile = new File(base);
 
-        if (dir != null)
+        try
         {
-            if (!baseFile.isAbsolute())
-            {
-                baseFile = new File(dir, base);
+            File baseFile = new File(base);
 
-                try
+            if (dir != null)
+            {
+                if (!baseFile.isAbsolute())
                 {
-                    buf.append(baseFile.getCanonicalPath());
+                    baseFile = new File(dir, base);
                 }
-                catch (IOException e)
-                {
-                    fail("IO Exception while getting canonical path for " + baseFile);
-                }
+
+                buf.append(baseFile.getCanonicalPath());
             }
             else
             {
-                buf.append(base);
+                buf.append(baseFile.getPath());
             }
+            
+            buf.append('.').append(ext);
+            
         }
-        else
+        catch (IOException e)
         {
-            buf.append(base);
+            fail("IO Exception while running getFileName(" + dir + ", " + base + ", "+ ext + "): " + e.getMessage());
         }
-
-        buf.append('.').append(ext);
 
         return buf.toString();
     }
