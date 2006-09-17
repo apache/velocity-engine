@@ -57,6 +57,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * Return name of this Velocimacro.
+     * @return The name of this Velocimacro.
      */
     public String getName() 
     { 
@@ -66,6 +67,7 @@ public class VelocimacroProxy extends Directive
     /**
      * Velocimacros are always LINE
      * type directives.
+     * @return The type of this directive.
      */
     public int getType()
     { 
@@ -74,6 +76,7 @@ public class VelocimacroProxy extends Directive
  
     /**
      *   sets the directive name of this VM
+     * @param name 
      */
     public void setName( String name )
     {
@@ -82,6 +85,7 @@ public class VelocimacroProxy extends Directive
    
     /**
      *  sets the array of arguments specified in the macro definition
+     * @param arr 
      */
     public void setArgArray( String [] arr )
     {
@@ -95,6 +99,9 @@ public class VelocimacroProxy extends Directive
         numMacroArgs = argArray.length - 1;
     }
 
+    /**
+     * @param tree
+     */
     public void setNodeTree( SimpleNode tree )
     {
         nodeTree = tree;
@@ -102,6 +109,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      *  returns the number of ars needed for this VM
+     * @return The number of ars needed for this VM
      */
     public int getNumArgs()
     {
@@ -112,12 +120,16 @@ public class VelocimacroProxy extends Directive
      *   Sets the orignal macro body.  This is simply the cat of the macroArray, but the 
      *   Macro object creates this once during parsing, and everyone shares it.
      *   Note : it must not be modified.
+     * @param mb 
      */
     public void setMacrobody( String mb )
     {
         macroBody = mb;
     }
 
+    /**
+     * @param ns
+     */
     public void setNamespace( String ns )
     {
         this.namespace = ns;
@@ -125,6 +137,12 @@ public class VelocimacroProxy extends Directive
 
     /**
      *   Renders the macro using the context
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
+     * @throws MethodInvocationException 
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException, MethodInvocationException
@@ -202,6 +220,10 @@ public class VelocimacroProxy extends Directive
      *   The major meat of VelocimacroProxy, init() checks the # of arguments, patches the
      *   macro body, renders the macro into an AST, and then inits the AST, so it is ready 
      *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
+     * @param rs 
+     * @param context 
+     * @param node 
+     * @throws Exception 
      */
     public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
        throws Exception
@@ -244,6 +266,9 @@ public class VelocimacroProxy extends Directive
     /**
      *  basic VM setup.  Sets up the proxy args for this
      *  use, and parses the tree
+     * @param callArgs 
+     * @param callArgTypes 
+     * @return True if the proxy was setup successfully. 
      */
     public boolean setupMacro( String[] callArgs, int[] callArgTypes )
     {

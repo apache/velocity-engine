@@ -82,9 +82,15 @@ interface InternalHousekeepingContext
     /**
      *  temporary fix to enable #include() to figure out
      *  current encoding.
-     *
+     * 
+     * @return The current resource.
      */
     Resource getCurrentResource();
+    
+    
+    /**
+     * @param r
+     */
     void setCurrentResource( Resource r );
     
     
@@ -99,6 +105,7 @@ interface InternalHousekeepingContext
     /**
      * Set whether rendering is allowed.  Defaults to true but is set to
      * false after a #stop directive.
+     * @param v 
      */
      void setAllowRendering(boolean v);
 

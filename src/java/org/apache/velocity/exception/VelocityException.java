@@ -30,6 +30,9 @@ public class VelocityException extends Exception
      */
     private static final long serialVersionUID = 1251243065134956044L;
 
+    /**
+     * @param exceptionMessage
+     */
     public VelocityException(String exceptionMessage )
     {
         super(exceptionMessage);

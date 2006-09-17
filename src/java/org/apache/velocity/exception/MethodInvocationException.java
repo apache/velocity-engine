@@ -81,7 +81,7 @@ public class MethodInvocationException extends VelocityException
     /**
      *  Sets the reference name that threw this exception
      *
-     *  @param reference name of reference
+     *  @param ref name of reference
      */
     public void setReferenceName( String ref )
     {

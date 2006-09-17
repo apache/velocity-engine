@@ -72,6 +72,7 @@ public class Include extends InputBase
 
     /**
      * Return name of this directive.
+     * @return The name of this directive.
      */
     public String getName()
     {
@@ -80,6 +81,7 @@ public class Include extends InputBase
     
     /**
      * Return type of this directive.
+     * @return The type of this directive.
      */
     public int getType()
     {
@@ -89,6 +91,10 @@ public class Include extends InputBase
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
+     * @param rs 
+     * @param context 
+     * @param node 
+     * @throws Exception 
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node) 
@@ -111,6 +117,13 @@ public class Include extends InputBase
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
+     * @param context 
+     * @param writer 
+     * @param node 
+     * @return True if the directive rendered successfully.
+     * @throws IOException 
+     * @throws MethodInvocationException 
+     * @throws ResourceNotFoundException 
      */
     public boolean render(InternalContextAdapter context, 
                            Writer writer, Node node)

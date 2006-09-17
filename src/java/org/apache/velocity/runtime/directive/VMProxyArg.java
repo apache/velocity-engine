@@ -112,6 +112,7 @@ public class VMProxyArg
      *
      *  takes the reference literal we are proxying for, the literal 
      *  the VM we are for is called with...
+     * @param rs 
      *
      *  @param contextRef reference arg in the definition of the VM, used in the VM
      *  @param callerRef  reference used by the caller as an arg to the VM
@@ -505,7 +506,9 @@ public class VMProxyArg
      *  VMProxyArg objects, and use this contructor to avoid reparsing the 
      *  reference args
      *
-     *  that impl also had the VMProxyArg carry it's context
+     *  that impl also had the VMProxyArg carry it's context.
+     * @param model 
+     * @param c 
      */
     public VMProxyArg( VMProxyArg model, InternalContextAdapter c )
     {
@@ -530,26 +533,41 @@ public class VMProxyArg
         }
     }
   
+    /**
+     * @return The caller reference.
+     */
     public String getCallerReference()
     {
         return callerReference;
     }
 
+    /**
+     * @return The context reference.
+     */
     public String getContextReference()
     {
         return contextReference;
     }
 
+    /**
+     * @return The node tree.
+     */
     public SimpleNode getNodeTree()
     {
         return nodeTree;
     }
 
+    /**
+     * @return The static object.
+     */
     public Object getStaticObject()
     {
         return staticObject;
     }
 
+    /**
+     * @return The type.
+     */
     public int getType()
     {
         return type;

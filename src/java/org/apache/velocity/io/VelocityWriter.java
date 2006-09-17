@@ -98,6 +98,7 @@ public final class VelocityWriter extends Writer
      *
      * @param  writer  Writer to wrap around
      * @param  sz   	Output-buffer size, a positive integer
+     * @param autoFlush 
      *
      * @exception  IllegalArgumentException  If sz is <= 0
      */
@@ -141,6 +142,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * Flush the stream.
+     * @throws IOException 
      *
      */
     public final void flush()  throws IOException
@@ -154,6 +156,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * Close the stream.
+     * @throws IOException 
      *
      */
     public final void close() throws IOException {
@@ -172,6 +175,8 @@ public final class VelocityWriter extends Writer
 
     /**
      * Write a single character.
+     * @param c 
+     * @throws IOException 
      *
      */
     public final void write(int c) throws IOException
@@ -214,6 +219,7 @@ public final class VelocityWriter extends Writer
      * @param  cbuf  A character array
      * @param  off   Offset from which to start reading characters
      * @param  len   Number of characters to write
+     * @throws IOException 
      *
      */
     public final void write(char cbuf[], int off, int len) 
@@ -261,6 +267,8 @@ public final class VelocityWriter extends Writer
     /**
      * Write an array of characters.  This method cannot be inherited from the
      * Writer class because it must suppress I/O exceptions.
+     * @param buf 
+     * @throws IOException 
      */
     public final void write(char buf[]) throws IOException
     {
@@ -273,6 +281,7 @@ public final class VelocityWriter extends Writer
      * @param  s     String to be written
      * @param  off   Offset from which to start reading characters
      * @param  len   Number of characters to be written
+     * @throws IOException 
      *
      */
     public final void write(String s, int off, int len) throws IOException
@@ -300,6 +309,8 @@ public final class VelocityWriter extends Writer
     /**
      * Write a string.  This method cannot be inherited from the Writer class
      * because it must suppress I/O exceptions.
+     * @param s 
+     * @throws IOException 
      */
     public final void write(String s) throws IOException
     {
@@ -311,6 +322,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * resets this class so that it can be reused
+     * @param writer 
      *
      */
     public final void recycle(Writer writer)

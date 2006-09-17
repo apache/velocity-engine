@@ -38,7 +38,14 @@ import org.apache.tools.ant.DirectoryScanner;
  */
 public class WebMacro
 {
+    /**
+     * 
+     */
     protected static final String VM_EXT = ".vm";
+
+    /**
+     * 
+     */
     protected static final String WM_EXT = ".wm";
 
     /**
@@ -106,6 +113,7 @@ public class WebMacro
     /**
      * Iterate through the set of find/replace regexes
      * that will convert a given WM template to a VM template
+     * @param target 
      */
     public void convert(String target)
     {
@@ -232,6 +240,8 @@ public class WebMacro
 
     /**
      * Apply find/replace regexes to our WM template
+     * @param template 
+     * @return Returns the template with all regexprs applied.
      */
     public String convertTemplate(String template)
     {
@@ -277,6 +287,7 @@ public class WebMacro
 
     /**
      * Main hook for the conversion process.
+     * @param args 
      */
     public static void main(String[] args)
     {

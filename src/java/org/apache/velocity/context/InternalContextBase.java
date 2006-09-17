@@ -140,28 +140,43 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         introspectionCache.put( key, o );
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
+     */
     public void setCurrentResource( Resource r )
     {
         currentResource = r;
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
+     */
     public Resource getCurrentResource()
     {
         return currentResource;
     }
 
 
-     public boolean getAllowRendering()
+     /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
+     */
+    public boolean getAllowRendering()
      {
         return allowRendering;
      }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
+     */
     public void setAllowRendering(boolean v)
     {
         allowRendering = v;
     }
 
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
+     */
     public EventCartridge attachEventCartridge( EventCartridge ec )
     {
         EventCartridge temp = eventCartridge;
@@ -171,6 +186,9 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         return temp;
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
+     */
     public EventCartridge getEventCartridge()
     {
         return eventCartridge;
