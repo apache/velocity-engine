@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -118,6 +119,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:david.kinnvall@alertir.com">David Kinnvall</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class DataSourceResourceLoader extends ResourceLoader
@@ -147,8 +149,9 @@ public class DataSourceResourceLoader extends ResourceLoader
                  log.debug("DataSourceResourceLoader : using columns \""
                           + keyColumn + "\", \"" + templateColumn + "\" and \""
                           + timestampColumn + "\"");
-                 log.trace("DataSourceResourceLoader initalized.");
              }
+
+             log.trace("DataSourceResourceLoader initalized.");
          } 
          else if (dataSourceName != null) 
          {
@@ -159,8 +162,9 @@ public class DataSourceResourceLoader extends ResourceLoader
                  log.debug("DataSourceResourceLoader : using columns \""
                           + keyColumn + "\", \"" + templateColumn + "\" and \""
                           + timestampColumn + "\"");
-                 log.trace("DataSourceResourceLoader initalized.");
               }
+
+             log.trace("DataSourceResourceLoader initalized.");
          } 
          else 
          {
@@ -292,7 +296,8 @@ public class DataSourceResourceLoader extends ResourceLoader
                  {
                      if (rs.next())
                      {
-                         return rs.getTimestamp(timestampColumn).getTime();
+                	 Timestamp ts = rs.getTimestamp(timestampColumn); 
+                         return ts != null ? ts.getTime() : 0;
                      }
                      else
                      {
