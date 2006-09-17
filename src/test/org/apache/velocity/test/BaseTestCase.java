@@ -54,7 +54,12 @@ public abstract class BaseTestCase
      *
      * @return The full path to the file.
      */
-    protected static String getFileName (String dir, String base, String ext)
+    protected static String getFileName (final String dir, final String base, final String ext)
+    {
+        return getFileName(dir, base, ext, false);
+    }
+
+    protected static String getFileName (final String dir, final String base, final String ext, final boolean mustExist)
     {
         StringBuffer buf = new StringBuffer();
 
@@ -77,11 +82,25 @@ public abstract class BaseTestCase
             }
             
             buf.append('.').append(ext);
-            
+
+            if (mustExist)
+            {
+                File testFile = new File(buf.toString());
+                        
+                if (!testFile.exists())
+                {
+                    fail("getFileName() result " + testFile.getPath() + " does not exist!"); 
+                }
+
+                if (!testFile.isFile())
+                {
+                    fail("getFileName() result " + testFile.getPath() + " is not a file!"); 
+                }
+            }
         }
         catch (IOException e)
         {
-            fail("IO Exception while running getFileName(" + dir + ", " + base + ", "+ ext + "): " + e.getMessage());
+            fail("IO Exception while running getFileName(" + dir + ", " + base + ", "+ ext + ", " + mustExist + "): " + e.getMessage());
         }
 
         return buf.toString();
@@ -141,10 +160,10 @@ public abstract class BaseTestCase
         throws Exception
     {
         String result = StringUtils.fileContentsToString
-            (getFileName(resultsDir, baseFileName, resultExt));
+                (getFileName(resultsDir, baseFileName, resultExt, true));
 
         String compare = StringUtils.fileContentsToString
-             (getFileName(compareDir, baseFileName, compareExt));
+                (getFileName(compareDir, baseFileName, compareExt, true));
 
         /*
          *  normalize each wrt newline
