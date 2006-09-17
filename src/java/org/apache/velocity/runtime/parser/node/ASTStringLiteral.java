@@ -47,11 +47,18 @@ public class ASTStringLiteral extends SimpleNode
     /** true if the string contains a line comment (##) */
     private boolean containsLineComment;
     
+    /**
+     * @param id
+     */
     public ASTStringLiteral(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTStringLiteral(Parser p, int id)
     {
         super(p, id);
@@ -60,6 +67,10 @@ public class ASTStringLiteral extends SimpleNode
     /**
      *  init : we don't have to do much.  Init the tree (there 
      *  shouldn't be one) and then see if interpolation is turned on.
+     * @param context 
+     * @param data 
+     * @return Init result.
+     * @throws Exception 
      */
     public Object init(InternalContextAdapter context, Object data) 
         throws Exception
@@ -151,7 +162,9 @@ public class ASTStringLiteral extends SimpleNode
         return data;
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -162,6 +175,8 @@ public class ASTStringLiteral extends SimpleNode
      *  If the properties allow, and the string literal contains a $ or a #
      *  the literal is rendered against the context
      *  Otherwise, the stringlit is returned.
+     * @param context 
+     * @return result of the rendering.
      */
     public Object value(InternalContextAdapter context)
     {

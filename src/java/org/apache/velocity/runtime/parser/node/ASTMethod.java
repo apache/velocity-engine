@@ -48,17 +48,26 @@ public class ASTMethod extends SimpleNode
     private String methodName = "";
     private int paramCount = 0;
 
+    /**
+     * @param id
+     */
     public ASTMethod(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTMethod(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -67,6 +76,10 @@ public class ASTMethod extends SimpleNode
     /**
      *  simple init - init our subtree and get what we can from 
      *  the AST
+     * @param context 
+     * @param data 
+     * @return The init result
+     * @throws Exception 
      */
     public Object init(  InternalContextAdapter context, Object data)
         throws Exception
@@ -87,6 +100,10 @@ public class ASTMethod extends SimpleNode
      *  invokes the method.  Returns null if a problem, the
      *  actual return if the method returns something, or 
      *  an empty string "" if the method returns void
+     * @param o 
+     * @param context 
+     * @return Result or null.
+     * @throws MethodInvocationException 
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
@@ -308,6 +325,9 @@ public class ASTMethod extends SimpleNode
             this.params = params;
         }
         
+        /**
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
         public boolean equals(Object o) 
         {
             return  (o != null) &&
@@ -315,6 +335,9 @@ public class ASTMethod extends SimpleNode
                     (this.hashCode() == o.hashCode());
         }
         
+        /**
+         * @see java.lang.Object#hashCode()
+         */
         public int hashCode()
         {
             return params.hashCode() * 37 + ASTMethod.this.hashCode();
