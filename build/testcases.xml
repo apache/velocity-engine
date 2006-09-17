@@ -36,6 +36,9 @@
     <fileset dir="${build.lib}">
       <include name="**/*.jar"/>
     </fileset>
+    <fileset dir="${build.test.lib}">
+      <include name="**/*.jar"/>
+    </fileset>
     <pathelement location="${build.dest}"/>
     <pathelement location="${build.test.dest}"/>
   </path>
