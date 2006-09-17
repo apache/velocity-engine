@@ -19,9 +19,9 @@ package org.apache.velocity.runtime.resource.loader;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 
 import javax.naming.InitialContext;
@@ -409,13 +409,9 @@ public class DataSourceResourceLoader extends ResourceLoader
      private ResultSet readData(final Connection conn, final String columnNames, final String templateName)
          throws SQLException
      {
-         Statement stmt = conn.createStatement();
-
-         String sql = "SELECT " + columnNames
-                      + " FROM " + tableName
-                      + " WHERE " + keyColumn + " = '" + templateName + "'";
-
-         return stmt.executeQuery(sql);
+	 PreparedStatement ps = conn.prepareStatement("SELECT " + columnNames + " FROM "+ tableName + " WHERE " + keyColumn + " = ?");
+	 ps.setString(1, templateName);
+	 return ps.executeQuery();
      }
 }
 
