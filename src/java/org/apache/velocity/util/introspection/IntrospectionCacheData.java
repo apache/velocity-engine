@@ -32,7 +32,7 @@ public class IntrospectionCacheData
      */
     public Object thingy;
     
-    /*
+    /**
      *  Class of context data object associated with the introspection
      *  information
      */

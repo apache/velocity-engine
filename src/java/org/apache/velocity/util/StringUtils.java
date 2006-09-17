@@ -66,7 +66,7 @@ public class StringUtils
     /**
      * Return a package name as a relative path name
      *
-     * @param String package name to convert to a directory.
+     * @param pckge package name to convert to a directory.
      * @return String directory path.
      */
     static public String getPackageAsPath(String pckge)
@@ -227,7 +227,7 @@ public class StringUtils
      * and the platform EOL will be the same.
      * A 2 character EOL will count as 1 character. 
      *
-     * @param string String to chop.
+     * @param s String to chop.
      * @param i Number of characters to chop.
      * @return String with processed answer.
      */
@@ -240,7 +240,7 @@ public class StringUtils
      * Chop i characters off the end of a string. 
      * A 2 character EOL will count as 1 character. 
      *
-     * @param string String to chop.
+     * @param s String to chop.
      * @param i Number of characters to chop.
      * @param eol A String representing the EOL (end of line).
      * @return String with processed answer.
@@ -277,6 +277,11 @@ public class StringUtils
         return s.substring( 0, length);
     }
 
+    /**
+     * @param argStr
+     * @param vars
+     * @return Substituted String.
+     */
     public static StringBuffer stringSubstitution( String argStr,
                                                    Hashtable vars )
     {
@@ -289,8 +294,8 @@ public class StringUtils
      * string with the value of provided by the key "variable"
      * in the provided hashtable.
      *
-     * @param String target string
-     * @param Hashtable name/value pairs used for substitution
+     * @param argStr target string
+     * @param vars name/value pairs used for substitution
      * @return String target string with replacements.
      */
     public static StringBuffer stringSubstitution(String argStr,
@@ -341,7 +346,7 @@ public class StringUtils
      * Read the contents of a file and place them in
      * a string object.
      *
-     * @param String path to file.
+     * @param file path to file.
      * @return String contents of the file.
      */
     public static String fileContentsToString(String file)
@@ -386,7 +391,7 @@ public class StringUtils
     /**
      * Remove/collapse multiple newline characters.
      *
-     * @param String string to collapse newlines in.
+     * @param argStr string to collapse newlines in.
      * @return String
      */
     public static String collapseNewlines(String argStr)
@@ -410,7 +415,7 @@ public class StringUtils
     /**
      * Remove/collapse multiple spaces.
      *
-     * @param String string to remove multiple spaces from.
+     * @param argStr string to remove multiple spaces from.
      * @return String
      */
     public static String collapseSpaces(String argStr)
@@ -435,9 +440,9 @@ public class StringUtils
       * Replaces all instances of oldString with newString in line.
       * Taken from the Jive forum package.
       *
-      * @param String original string.
-      * @param String string in line to replace.
-      * @param String replace oldString with this.
+      * @param line original string.
+      * @param oldString string in line to replace.
+      * @param newString replace oldString with this.
       * @return String string with replacements.
       */
     public static final String sub(String line, String oldString,
@@ -563,9 +568,10 @@ public class StringUtils
      * If state is true then return the trueString, else
      * return the falseString.
      *
-     * @param boolean 
-     * @param String trueString
-     * @param String falseString
+     * @param state 
+     * @param trueString
+     * @param falseString
+     * @return Selected result.
      */
     public String select(boolean state, String trueString, String falseString)
     {
@@ -603,7 +609,7 @@ public class StringUtils
     /**
      * Trim all strings in a List.  Changes the strings in the existing list.
      * @param list
-     * @return
+     * @return List of trimmed strings.
      */
     public static List trimStrings(List list)
     {
@@ -619,7 +625,7 @@ public class StringUtils
     /**
      * Trim the string, but pass a null through.
      * @param s
-     * @return
+     * @return List of trimmed Strings.
      */
     public static String nullTrim(String s)
     {

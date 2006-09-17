@@ -77,6 +77,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     }
 
     /**
+     * @param runtimeLogger 
      * @deprecated Use setLog(Log log) instead.
      */
     public void setRuntimeLogger(RuntimeLogger runtimeLogger)
@@ -92,6 +93,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *
      * @param obj The iterative object.
      * @param i Info about the object's location.
+     * @return An {@link Iterator} object.
+     * @throws Exception 
      */
     public Iterator getIterator(Object obj, Info i)
             throws Exception
@@ -139,6 +142,12 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      *  Method
+     * @param obj 
+     * @param methodName 
+     * @param args 
+     * @param i 
+     * @return A Velocity Method.
+     * @throws Exception 
      */
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
             throws Exception
@@ -155,6 +164,11 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      * Property  getter
+     * @param obj 
+     * @param identifier 
+     * @param i 
+     * @return A Velocity Getter Method.
+     * @throws Exception 
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
             throws Exception
@@ -196,6 +210,12 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      * Property setter
+     * @param obj 
+     * @param identifier 
+     * @param arg 
+     * @param i 
+     * @return A Velocity Setter method.
+     * @throws Exception 
      */
     public VelPropertySet getPropertySet(Object obj, String identifier,
                                          Object arg, Info i)
@@ -233,6 +253,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     {
         final Method method;
 
+        /**
+         * @param m
+         */
         public VelMethodImpl(Method m)
         {
             method = m;
@@ -243,32 +266,51 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             method = null;
         }
 
+        /**
+         * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
+         */
         public Object invoke(Object o, Object[] params)
             throws Exception
         {
             return method.invoke(o, params);
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelMethod#isCacheable()
+         */
         public boolean isCacheable()
         {
             return true;
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelMethod#getMethodName()
+         */
         public String getMethodName()
         {
             return method.getName();
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelMethod#getReturnType()
+         */
         public Class getReturnType()
         {
             return method.getReturnType();
         }
     }
 
+    /**
+     * 
+     *
+     */
     public static class VelGetterImpl implements VelPropertyGet
     {
         final AbstractExecutor getExecutor;
 
+        /**
+         * @param exec
+         */
         public VelGetterImpl(AbstractExecutor exec)
         {
             getExecutor = exec;
@@ -279,27 +321,42 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             getExecutor = null;
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelPropertyGet#invoke(java.lang.Object)
+         */
         public Object invoke(Object o)
             throws Exception
         {
             return getExecutor.execute(o);
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelPropertyGet#isCacheable()
+         */
         public boolean isCacheable()
         {
             return true;
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelPropertyGet#getMethodName()
+         */
         public String getMethodName()
         {
             return getExecutor.isAlive() ? getExecutor.getMethod().getName() : null;
         }
     }
 
+    /**
+     *
+     */
     public static class VelSetterImpl implements VelPropertySet
     {
         private final SetExecutor setExecutor;
 
+        /**
+         * @param setExecutor
+         */
         public VelSetterImpl(final SetExecutor setExecutor)
         {
             this.setExecutor = setExecutor;
@@ -315,6 +372,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *
          * @param o is the Object to invoke it on.
          * @param value in the Value to set.
+         * @return The resulting Object.
+         * @throws Exception 
          */
         public Object invoke(final Object o, final Object value)
             throws Exception
@@ -322,11 +381,17 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             return setExecutor.execute(o, value);
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelPropertySet#isCacheable()
+         */
         public boolean isCacheable()
         {
             return true;
         }
 
+        /**
+         * @see org.apache.velocity.util.introspection.VelPropertySet#getMethodName()
+         */
         public String getMethodName()
         {
             return setExecutor.isAlive() ? setExecutor.getMethod().getName() : null;

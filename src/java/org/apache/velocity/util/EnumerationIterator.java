@@ -36,7 +36,7 @@ public class EnumerationIterator implements Iterator
      * Creates a new iteratorwrapper instance for the specified 
      * Enumeration.
      *
-     * @param enum  The Enumeration to wrap.
+     * @param enumeration  The Enumeration to wrap.
      */
     public EnumerationIterator(Enumeration enumeration)
     {

@@ -64,12 +64,16 @@ public class Introspector extends IntrospectorBase
      */
     private Log log = null;
 
+    /**
+     * @param log
+     */
     public Introspector(Log log)
     {
         this.log = log;
     }
 
     /**
+     * @param logger 
      * @deprecated RuntimeLogger is deprecated. Use Introspector(Log log).
      */
     public Introspector(RuntimeLogger logger)
@@ -87,6 +91,7 @@ public class Introspector extends IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
+     * @throws Exception 
      */
     public Method getMethod(Class c, String name, Object[] params)
         throws Exception

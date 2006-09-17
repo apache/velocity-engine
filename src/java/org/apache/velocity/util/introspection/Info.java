@@ -47,16 +47,25 @@ public class Info
     {
     }
 
+    /**
+     * @return The template name.
+     */
     public String getTemplateName()
     {
         return templateName;
     }
 
+    /**
+     * @return The line number.
+     */
     public int getLine()
     {
         return line;
     }
 
+    /**
+     * @return The column number.
+     */
     public int getColumn()
     {
         return column;
@@ -65,6 +74,8 @@ public class Info
     /**
      * Formats a textual representation of this object as <code>SOURCE
      * [line X, column Y]</code>.
+     * 
+     * @return String representing this object. 
      */
     public String toString()
     {

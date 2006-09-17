@@ -30,6 +30,9 @@ public interface VelPropertyGet
     /**
      *  invocation method - called when the 'get action' should be
      *  preformed and a value returned
+     * @param o 
+     * @return The resulting Object.
+     * @throws Exception 
      */
     public Object invoke(Object o) throws Exception;
 
@@ -43,6 +46,7 @@ public interface VelPropertyGet
 
     /**
      *  returns the method name used to return this 'property'
+     * @return The method name used to return this 'property'
      */
     public String getMethodName();
 }

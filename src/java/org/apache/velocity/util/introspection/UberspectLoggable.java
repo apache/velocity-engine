@@ -36,10 +36,12 @@ public interface UberspectLoggable
     /**
      * Sets the logger.  This will be called before any calls to the
      * uberspector
+     * @param log 
      */
     public void setLog(Log log);
 
     /**
+     * @param logger 
      * @deprecated Use setLog(Log log) instead.
      */
     public void setRuntimeLogger(RuntimeLogger logger);

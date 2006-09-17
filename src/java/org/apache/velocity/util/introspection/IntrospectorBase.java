@@ -75,6 +75,7 @@ public class IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
+     * @throws Exception 
      */
     public Method getMethod(Class c, String name, Object[] params)
         throws Exception
@@ -120,6 +121,8 @@ public class IntrospectorBase
      * Creates a class map for specific class and registers it in the
      * cache.  Also adds the qualified name to the name->class map
      * for later Classloader change detection.
+     * @param c 
+     * @return A ClassMap object.
      */
     protected ClassMap createClassMap(Class c)
     {        
