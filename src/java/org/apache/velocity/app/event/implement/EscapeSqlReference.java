@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Escapes the characters in a String to be suitable to pass to an SQL query.
- * @see http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)
+ * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
  */
 public class EscapeSqlReference extends EscapeReference
@@ -12,7 +12,9 @@ public class EscapeSqlReference extends EscapeReference
 
     /**
      * Escapes the characters in a String to be suitable to pass to an SQL query.
-     * @see http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeXml(java.lang.String)
+     * @param text 
+     * @return An escaped string.
+     * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
      */
     protected String escape(Object text)
     {

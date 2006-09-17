@@ -104,6 +104,7 @@ public class VelocityEngine implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
+     * @throws Exception 
      */
     public void init()
         throws Exception
@@ -117,6 +118,7 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
+     * @throws Exception 
      */
     public void init(String propsFilename)
         throws Exception
@@ -129,6 +131,7 @@ public class VelocityEngine implements RuntimeConstants
      *  plus the properties in the passed in java.util.Properties object
      *
      *  @param p  Proprties object containing initialization properties
+     * @throws Exception 
      *
      */
     public void init(Properties p)
@@ -208,6 +211,10 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see
      *             Velocity runtime log
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws ResourceNotFoundException 
+     * @throws IOException 
      */
     public  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
@@ -230,6 +237,10 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see
      *               Velocity runtime log
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws ResourceNotFoundException 
+     * @throws IOException 
      *  @deprecated Use
      *  {@link #evaluate( Context context, Writer writer,
      *      String logTag, Reader reader ) }
@@ -273,6 +284,10 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see
      *               Velocity runtime log
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws ResourceNotFoundException 
+     * @throws IOException 
      *
      *  @since Velocity v1.1
      */
@@ -353,6 +368,7 @@ public class VelocityEngine implements RuntimeConstants
      *  @param context Context object containing data/objects used for rendering.
      *  @param writer  Writer for output stream
      *  @return true if Velocimacro exists and successfully invoked, false otherwise.
+     * @throws Exception 
      */
     public boolean invokeVelocimacro( String vmName, String logTag,
                                               String params[], Context context,
@@ -430,6 +446,10 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  Errors
      *           logged to velocity log.
+     * @throws ResourceNotFoundException 
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws Exception 
      * *  @deprecated Use
      *  {@link #mergeTemplate( String templateName, String encoding,
      *                Context context, Writer writer )}
@@ -452,6 +472,10 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  Errors
      *           logged to velocity log
+     * @throws ResourceNotFoundException 
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws Exception 
      *
      *  @since Velocity v1.1
      */
@@ -534,6 +558,8 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
+     * @param resourceName 
+     * @return True if the template exists.
      * @see #resourceExists(String)
      * @deprecated Use resourceExists(String) instead.
      */
@@ -546,6 +572,7 @@ public class VelocityEngine implements RuntimeConstants
     /**
      * Returns a convenient Log instance that wraps the current LogChute.
      * Use this to log error messages. It has the usual methods you'd expect.
+     * @return A log object.
      */
     public Log getLog()
     {
@@ -553,6 +580,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
+     * @param message 
      * @deprecated Use getLog() and call warn() on it.
      */
     public void warn(Object message)
@@ -561,6 +589,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
+     * @param message 
      * @deprecated Use getLog() and call warn() on it.
      */
     public void info(Object message)
@@ -569,6 +598,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
+     * @param message 
      * @deprecated Use getLog() and call warn() on it.
      */
     public void error(Object message)
@@ -577,6 +607,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
+     * @param message 
      * @deprecated Use getLog() and call warn() on it.
      */
     public void debug(Object message)
@@ -620,7 +651,7 @@ public class VelocityEngine implements RuntimeConstants
       *  </p>
       *
       *  @param key object 'name' under which the object is stored
-      *  return value object to store under this key
+      *  @return value object to store under this key
       */
      public Object getApplicationAttribute( Object key )
      {

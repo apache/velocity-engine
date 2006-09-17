@@ -55,6 +55,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Creates a node list that holds a single {@link Document} node.
+     * @param document 
      */
     public NodeList(Document document)
     {
@@ -63,6 +64,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Creates a node list that holds a single {@link Element} node.
+     * @param element 
      */
     public NodeList(Element element)
     {
@@ -114,6 +116,7 @@ public class NodeList implements List, Cloneable
      * you can fully use the underlying list through the <code>List</code> interface
      * of this class itself. You would probably access the underlying list only for
      * synchronization purposes.
+     * @return The internal node List. 
      */
     public List getList()
     {
@@ -127,6 +130,7 @@ public class NodeList implements List, Cloneable
      * templates, as to output a node contained in variable x as XML fragment,
      * you simply write ${x} in the template (or whatever your template engine
      * uses as its expression syntax).
+     * @return The Nodelist as printable object.
      */
     public String toString()
     {
@@ -197,6 +201,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Returns a NodeList that contains the same nodes as this node list.
+     * @return A clone of this list.
      * @throws CloneNotSupportedException if the contained list's class does
      * not have an accessible no-arg constructor.
      */
@@ -235,6 +240,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Returns the hash code of the contained list.
+     * @return The hashcode of the list.
      */
     public int hashCode()
     {
@@ -264,7 +270,7 @@ public class NodeList implements List, Cloneable
      * usually kept in the parsed template, this ensures that each XPath
      * expression is parsed only once during the lifetime of the template that
      * first invoked it.
-     * @param xpathExpression the XPath expression you wish to apply
+     * @param xpathString the XPath expression you wish to apply
      * @return a NodeList representing the nodes that are the result of
      * application of the XPath to the current node list. It can be empty.
      */
@@ -275,116 +281,185 @@ public class NodeList implements List, Cloneable
 
 // List methods implemented hereafter
 
+    /**
+     * @see java.util.List#add(java.lang.Object)
+     */
     public boolean add(Object o)
     {
         return nodes.add(o);
     }
 
+    /**
+     * @see java.util.List#add(int, java.lang.Object)
+     */
     public void add(int index, Object o)
     {
         nodes.add(index, o);
     }
 
+    /**
+     * @see java.util.List#addAll(java.util.Collection)
+     */
     public boolean addAll(Collection c)
     {
         return nodes.addAll(c);
     }
 
+    /**
+     * @see java.util.List#addAll(int, java.util.Collection)
+     */
     public boolean addAll(int index, Collection c)
     {
         return nodes.addAll(index, c);
     }
 
+    /**
+     * @see java.util.List#clear()
+     */
     public void clear()
     {
         nodes.clear();
     }
 
+    /**
+     * @see java.util.List#contains(java.lang.Object)
+     */
     public boolean contains(Object o)
     {
         return nodes.contains(o);
     }
 
+    /**
+     * @see java.util.List#containsAll(java.util.Collection)
+     */
     public boolean containsAll(Collection c)
     {
         return nodes.containsAll(c);
     }
 
+    /**
+     * @see java.util.List#get(int)
+     */
     public Object get(int index)
     {
         return nodes.get(index);
     }
 
+    /**
+     * @see java.util.List#indexOf(java.lang.Object)
+     */
     public int indexOf(Object o)
     {
         return nodes.indexOf(o);
     }
 
+    /**
+     * @see java.util.List#isEmpty()
+     */
     public boolean isEmpty()
     {
         return nodes.isEmpty();
     }
 
+    /**
+     * @see java.util.List#iterator()
+     */
     public Iterator iterator()
     {
         return nodes.iterator();
     }
 
+    /**
+     * @see java.util.List#lastIndexOf(java.lang.Object)
+     */
     public int lastIndexOf(Object o)
     {
         return nodes.lastIndexOf(o);
     }
 
+    /**
+     * @see java.util.List#listIterator()
+     */
     public ListIterator listIterator()
     {
         return nodes.listIterator();
     }
 
+    /**
+     * @see java.util.List#listIterator(int)
+     */
     public ListIterator listIterator(int index)
     {
         return nodes.listIterator(index);
     }
 
+    /**
+     * @see java.util.List#remove(int)
+     */
     public Object remove(int index)
     {
         return nodes.remove(index);
     }
 
+    /**
+     * @see java.util.List#remove(java.lang.Object)
+     */
     public boolean remove(Object o)
     {
         return nodes.remove(o);
     }
 
+    /**
+     * @see java.util.List#removeAll(java.util.Collection)
+     */
     public boolean removeAll(Collection c)
     {
         return nodes.removeAll(c);
     }
 
+    /**
+     * @see java.util.List#retainAll(java.util.Collection)
+     */
     public boolean retainAll(Collection c)
     {
         return nodes.retainAll(c);
     }
 
+    /**
+     * @see java.util.List#set(int, java.lang.Object)
+     */
     public Object set(int index, Object o)
     {
         return nodes.set(index, o);
     }
 
+    /**
+     * @see java.util.List#size()
+     */
     public int size()
     {
         return nodes.size();
     }
 
+    /**
+     * @see java.util.List#subList(int, int)
+     */
     public List subList(int fromIndex, int toIndex)
     {
         return new NodeList(nodes.subList(fromIndex, toIndex));
     }
 
+    /**
+     * @see java.util.List#toArray()
+     */
     public Object[] toArray()
     {
         return nodes.toArray();
     }
 
+    /**
+     * @see java.util.List#toArray(java.lang.Object[])
+     */
     public Object[] toArray(Object[] a)
     {
         return nodes.toArray(a);
@@ -398,6 +473,11 @@ public class NodeList implements List, Cloneable
      */
     private static final class AttributeXMLOutputter extends XMLOutputter
     {
+        /**
+         * @param attribute
+         * @param out
+         * @throws IOException
+         */
         public void output(Attribute attribute, Writer out)
             throws IOException
         {

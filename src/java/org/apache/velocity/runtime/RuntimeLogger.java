@@ -1,5 +1,7 @@
 package org.apache.velocity.runtime;
 
+import org.apache.velocity.runtime.log.Log;
+
 /*
  * Copyright 2002-2004 The Apache Software Foundation.
  *
@@ -27,22 +29,30 @@ package org.apache.velocity.runtime;
 public interface RuntimeLogger
 {
     /**
-     * @deprecated Use Log.warn(Object)
+     * @deprecated Use Log.warn(Object).
+     * @see Log#warn(Object)
+     * @param message The message to log.
      */
     public void warn(Object message);
 
     /**
-     * @deprecated Use Log.warn(Object)
+     * @deprecated Use Log.info(Object)
+     * @see Log#info(Object)
+     * @param message The message to log.
      */
     public  void info(Object message);
 
     /**
-     * @deprecated Use Log.warn(Object)
+     * @deprecated Use Log.error(Object)
+     * @see Log#error(Object)
+     * @param message The message to log.
      */
     public void error(Object message);
 
     /**
-     * @deprecated Use Log.warn(Object)
+     * @deprecated Use Log.debug(Object)
+     * @see Log#debug(Object)
+     * @param message The message to log.
      */
     public void debug(Object message);
 }

@@ -97,7 +97,7 @@ public class XPathTool
      * Apply an XPath to a JDOM Element
      *
      * @param xpathSpec The XPath to apply
-     * @param doc The Element context
+     * @param elem The Element context
      *
      * @return A list of selected nodes
      */
@@ -112,7 +112,7 @@ public class XPathTool
      * Apply an XPath to a nodeset
      *
      * @param xpathSpec The XPath to apply
-     * @param doc The nodeset context
+     * @param nodeSet The nodeset context
      *
      * @return A list of selected nodes
      */

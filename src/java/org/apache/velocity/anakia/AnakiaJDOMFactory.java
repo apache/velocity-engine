@@ -29,25 +29,40 @@ import org.jdom.DefaultJDOMFactory;
  */
 public class AnakiaJDOMFactory extends DefaultJDOMFactory
 {
+    /**
+     * 
+     */
     public AnakiaJDOMFactory()
     {
     }
 
+    /**
+     * @see org.jdom.DefaultJDOMFactory#element(java.lang.String, org.jdom.Namespace)
+     */
     public Element element(String name, Namespace namespace)
     {
         return new AnakiaElement(name, namespace);
     }
 
+    /**
+     * @see org.jdom.DefaultJDOMFactory#element(java.lang.String)
+     */
     public Element element(String name)
     {
         return new AnakiaElement(name);
     }
 
+    /**
+     * @see org.jdom.DefaultJDOMFactory#element(java.lang.String, java.lang.String)
+     */
     public Element element(String name, String uri)
     {
         return new AnakiaElement(name, uri);
     }
 
+    /**
+     * @see org.jdom.DefaultJDOMFactory#element(java.lang.String, java.lang.String, java.lang.String)
+     */
     public Element element(String name, String prefix, String uri)
     {
         return new AnakiaElement(name, prefix, uri);

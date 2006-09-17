@@ -46,6 +46,11 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
 
     /**
      * Render the method exception, and optionally the exception message and stack trace.
+     * @param claz 
+     * @param method 
+     * @param e 
+     * @return Exception Message.
+     * @throws Exception 
      */
     public Object methodException(Class claz, String method, Exception e) throws Exception
     {
@@ -104,6 +109,9 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
     }
 
 
+    /**
+     * @see org.apache.velocity.app.event.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void setRuntimeServices(RuntimeServices rs) throws Exception
     {
         this.rs = rs;

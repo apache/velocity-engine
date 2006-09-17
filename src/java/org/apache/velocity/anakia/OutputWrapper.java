@@ -40,6 +40,9 @@ public class OutputWrapper extends XMLOutputter
     {
     }
 
+    /**
+     * @param f
+     */
     public OutputWrapper(Format f)
     {
         super(f);
@@ -56,6 +59,9 @@ public class OutputWrapper extends XMLOutputter
      * <p>
      *  foo &lt;strong&gt;bar&lt;/strong&gt; ack &lt;/td&gt;
      * </p>
+     * @param element 
+     * @param strip 
+     * @return The output string. 
      */
     public String outputString(Element element, boolean strip)
     {

@@ -114,6 +114,7 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Set the base directory.
+     * @param dir 
      */
     public void setBasedir(File dir)
     {
@@ -123,7 +124,7 @@ public class AnakiaTask extends MatchingTask
     /**
      * Set the destination directory into which the VSL result
      * files should be copied to
-     * @param dirName the name of the destination directory
+     * @param dir the name of the destination directory
      */
     public void setDestdir(File dir)
     {
@@ -132,6 +133,7 @@ public class AnakiaTask extends MatchingTask
     
     /**
      * Allow people to set the default output file extension
+     * @param extension 
      */
     public void setExtension(String extension)
     {
@@ -140,6 +142,7 @@ public class AnakiaTask extends MatchingTask
     
     /**
      * Allow people to set the path to the .vsl file
+     * @param style 
      */
     public void setStyle(String style)
     {
@@ -148,6 +151,7 @@ public class AnakiaTask extends MatchingTask
     
     /**
      * Allow people to set the path to the project.xml file
+     * @param projectAttribute 
      */
     public void setProjectFile(String projectAttribute)
     {
@@ -162,6 +166,7 @@ public class AnakiaTask extends MatchingTask
      * Velocity.properties file. This allows one to not have to define
      * a Velocity.properties file, therefore using Velocity's defaults
      * only.
+     * @param templatePath 
      */
     
     public void setTemplatePath(File templatePath)
@@ -182,6 +187,7 @@ public class AnakiaTask extends MatchingTask
      * For example, if build.sh was executed in the ./build directory, 
      * then the path would be relative to this directory.
      * This is optional based on the setting of setTemplatePath().
+     * @param velocityPropertiesFile 
      */
     public void setVelocityPropertiesFile(File velocityPropertiesFile)
     {
@@ -190,6 +196,7 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Turn on/off last modified checking. by default, it is on.
+     * @param lastmod 
      */
     public void setLastModifiedCheck(String lastmod)
     {
@@ -202,6 +209,7 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Main body of the application
+     * @throws BuildException 
      */
     public void execute () throws BuildException
     {
@@ -529,6 +537,7 @@ public class AnakiaTask extends MatchingTask
     
     /**
      * Create a new context.
+     * @return A new context.
      */
     public Context createContext() 
     {
@@ -557,6 +566,7 @@ public class AnakiaTask extends MatchingTask
         
         /**
          * Get the name of the context.
+         * @return The name of the context.
          */
         public String getName() 
         {
@@ -565,6 +575,7 @@ public class AnakiaTask extends MatchingTask
 
         /**
          * Set the name of the context. 
+         * @param name 
          * 
          * @throws IllegalArgumentException if a reserved word is used as a 
          * name, specifically any of "relativePath", "treeWalk", "xpath",
@@ -589,6 +600,7 @@ public class AnakiaTask extends MatchingTask
     
         /**
          * Build the context based on a file path.
+         * @param file 
          */
         public void setFile(String file) 
         {
@@ -597,6 +609,7 @@ public class AnakiaTask extends MatchingTask
     
         /**
          * Retrieve the time the source file was last modified.
+         * @return The time the source file was last modified.
          */
         public long getLastModified() 
         {
@@ -605,6 +618,7 @@ public class AnakiaTask extends MatchingTask
         
         /**
          * Retrieve the context document object.
+         * @return The context document object.
          */
         public Document getContextDocument() 
         {
