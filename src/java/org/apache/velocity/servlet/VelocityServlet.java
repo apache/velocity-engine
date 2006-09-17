@@ -173,6 +173,8 @@ public abstract class VelocityServlet extends HttpServlet
      *  to do anything to the environment before the 
      *  initialization of the singelton takes place, or to 
      *  initialize the singleton in other ways.
+     * @param config 
+     * @throws ServletException 
      */
     protected void initVelocity( ServletConfig config )
          throws ServletException
@@ -301,7 +303,11 @@ public abstract class VelocityServlet extends HttpServlet
           
     /**
      * Handles HTTP <code>GET</code> requests by calling {@link
-     * #doRequest()}.
+     * #doRequest(HttpServletRequest, HttpServletResponse)}.
+     * @param request 
+     * @param response 
+     * @throws ServletException 
+     * @throws IOException 
      */
     public void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -311,7 +317,11 @@ public abstract class VelocityServlet extends HttpServlet
 
     /**
      * Handles HTTP <code>POST</code> requests by calling {@link
-     * #doRequest()}.
+     * #doRequest(HttpServletRequest, HttpServletResponse)}.
+     * @param request 
+     * @param response 
+     * @throws ServletException 
+     * @throws IOException 
      */
     public void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -324,6 +334,8 @@ public abstract class VelocityServlet extends HttpServlet
      *
      *  @param request  HttpServletRequest object containing client request
      *  @param response HttpServletResponse object for the response
+     * @throws ServletException 
+     * @throws IOException 
      */
     protected void doRequest(HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
@@ -404,6 +416,12 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param template template object returned by the handleRequest() method
      *  @param context  context created by the createContext() method
      *  @param response servlet reponse (use this to get the output stream or Writer
+     * @throws ResourceNotFoundException 
+     * @throws ParseErrorException 
+     * @throws MethodInvocationException 
+     * @throws IOException 
+     * @throws UnsupportedEncodingException 
+     * @throws Exception 
      */
     protected void mergeTemplate( Template template, Context context, HttpServletResponse response )
         throws ResourceNotFoundException, ParseErrorException, 
@@ -501,6 +519,7 @@ public abstract class VelocityServlet extends HttpServlet
      * RuntimeSingleton's <code>output.encoding</code> property.
      *
      * @param request The servlet request from the client.
+     * @return The chosen character encoding.
      */
     protected String chooseCharacterEncoding(HttpServletRequest request)
     {
@@ -596,6 +615,7 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param ctx The context to add your data to.
      *  @return    The template to merge with your context or null, indicating
      *    that you handled the processing.
+     * @throws Exception 
      *
      *  @since Velocity v1.1
      */
@@ -636,6 +656,7 @@ public abstract class VelocityServlet extends HttpServlet
      *
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
+     * @throws Exception 
      */
     protected Template handleRequest( Context ctx ) 
         throws Exception
@@ -653,6 +674,8 @@ public abstract class VelocityServlet extends HttpServlet
      * @param request original HttpServletRequest from servlet container.
      * @param response HttpServletResponse object from servlet container.
      * @param cause  Exception that was thrown by some other part of process.
+     * @throws ServletException 
+     * @throws IOException 
      */
     protected void error( HttpServletRequest request, HttpServletResponse response, Exception cause )
         throws ServletException, IOException

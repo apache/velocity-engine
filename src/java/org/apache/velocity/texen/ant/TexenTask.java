@@ -145,11 +145,15 @@ public class TexenTask
      */
 
     protected String useResourceLoaderCache = "false";
+    /**
+     * 
+     */
     protected String resourceLoaderModificationCheckInterval = "2";
 
     /**
      * [REQUIRED] Set the control template for the
      * generating process.
+     * @param controlTemplate 
      */
     public void setControlTemplate (String controlTemplate)
     {
@@ -159,6 +163,7 @@ public class TexenTask
     /**
      * Get the control template for the
      * generating process.
+     * @return The current control template.
      */
     public String getControlTemplate()
     {
@@ -169,6 +174,8 @@ public class TexenTask
      * [REQUIRED] Set the path where Velocity will look
      * for templates using the file template
      * loader.
+     * @param templatePath 
+     * @throws Exception 
      */
 
     public void setTemplatePath(String templatePath) throws Exception
@@ -195,6 +202,7 @@ public class TexenTask
      * Get the path where Velocity will look
      * for templates using the file template
      * loader.
+     * @return The template path.
      */
     public String getTemplatePath()
     {
@@ -204,6 +212,7 @@ public class TexenTask
     /**
      * [REQUIRED] Set the output directory. It will be
      * created if it doesn't exist.
+     * @param outputDirectory 
      */
     public void setOutputDirectory(File outputDirectory)
     {
@@ -219,6 +228,7 @@ public class TexenTask
 
     /**
      * Get the output directory.
+     * @return The output directory.
      */
     public String getOutputDirectory()
     {
@@ -228,6 +238,7 @@ public class TexenTask
     /**
      * [REQUIRED] Set the output file for the
      * generation process.
+     * @param outputFile 
      */
     public void setOutputFile(String outputFile)
     {
@@ -236,6 +247,7 @@ public class TexenTask
 
     /**
      * Set the output encoding.
+     * @param outputEncoding 
      */
     public void setOutputEncoding(String outputEncoding)
     {
@@ -244,6 +256,7 @@ public class TexenTask
 
     /**
      * Set the input (template) encoding.
+     * @param inputEncoding 
      */
     public void setInputEncoding(String inputEncoding)
     {
@@ -253,6 +266,7 @@ public class TexenTask
     /**
      * Get the output file for the
      * generation process.
+     * @return The output file.
      */
     public String getOutputFile()
     {
@@ -261,6 +275,7 @@ public class TexenTask
 
     /**
      * Sets the log file.
+     * @param log 
      */
     public void setLogFile(String log)
     {
@@ -269,6 +284,7 @@ public class TexenTask
     
     /**
      * Gets the log file.
+     * @return The log file.
      */
     public String getLogFile()
     {
@@ -279,6 +295,7 @@ public class TexenTask
      * Set the context properties that will be
      * fed into the initial context be the
      * generating process starts.
+     * @param file 
      */
     public void setContextProperties( String file )
     {
@@ -343,6 +360,7 @@ public class TexenTask
      * Get the context properties that will be
      * fed into the initial context be the
      * generating process starts.
+     * @return The current context properties.
      */
     public ExtendedProperties getContextProperties()
     {
@@ -359,11 +377,17 @@ public class TexenTask
         this.useClasspath = useClasspath;
     }
 
+    /**
+     * @param useResourceLoaderCache
+     */
     public void setUseResourceLoaderCache(String useResourceLoaderCache)
     {
         this.useResourceLoaderCache = useResourceLoaderCache;
     }
 
+    /**
+     * @param resourceLoaderModificationCheckInterval
+     */
     public void setResourceLoaderModificationCheckInterval(String resourceLoaderModificationCheckInterval)
     {
         this.resourceLoaderModificationCheckInterval = resourceLoaderModificationCheckInterval;
