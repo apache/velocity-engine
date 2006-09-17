@@ -137,7 +137,7 @@ public class VelocityFormatter
      *
      * @param array An Object.
      * @param delim A String.
-     * @param finalDelim A String.
+     * @param finaldelim A String.
      * @return A String.
      */
     public String formatArray(Object array,
@@ -194,7 +194,7 @@ public class VelocityFormatter
      *
      * @param list The list of elements to format.
      * @param delim A String.
-     * @param finalDelim A String.
+     * @param finaldelim A String.
      * @return A String.
      */
     public String formatVector(List list,
@@ -263,7 +263,13 @@ public class VelocityFormatter
      */
     public class VelocityAlternator
     {
+        /**
+         * 
+         */
         protected String[] alternates = null;
+        /**
+         * 
+         */
         protected int current = 0;
 
         /**
@@ -363,6 +369,11 @@ public class VelocityFormatter
     /**
      * Makes an alternator object that alternates between three
      * values.
+     * @param name 
+     * @param alt1 
+     * @param alt2 
+     * @param alt3 
+     * @return alternated object.
      *
      * @see #makeAlternator(String name, String alt1, String alt2)
      */
@@ -378,6 +389,12 @@ public class VelocityFormatter
 
     /**
      * Makes an alternator object that alternates between four values.
+     * @param name 
+     * @param alt1 
+     * @param alt2 
+     * @param alt3 
+     * @param alt4 
+     * @return Alternated object.
      *
      * @see #makeAlternator(String name, String alt1, String alt2)
      */
@@ -392,6 +409,10 @@ public class VelocityFormatter
     /**
      * Makes an alternator object that alternates between two values
      * automatically.
+     * @param name 
+     * @param alt1 
+     * @param alt2 
+     * @return Alternated object. 
      *
      * @see #makeAlternator(String name, String alt1, String alt2)
      */
@@ -404,6 +425,9 @@ public class VelocityFormatter
 
     /**
      * Returns a default value if the object passed is null.
+     * @param o 
+     * @param dflt 
+     * @return Object or default value when object is null.
      */
     public Object isNull(Object o, Object dflt)
     {

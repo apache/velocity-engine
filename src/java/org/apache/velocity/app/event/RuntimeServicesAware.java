@@ -30,6 +30,8 @@ public interface  RuntimeServicesAware
 {
     /**
      * Initialize the EventHandler.
+     * @param rs 
+     * @throws Exception 
      */
     public void setRuntimeServices( RuntimeServices rs ) throws Exception;
 

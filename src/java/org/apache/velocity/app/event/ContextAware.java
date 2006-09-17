@@ -37,6 +37,7 @@ public interface  ContextAware
 {
     /**
      * Initialize the EventHandler.
+     * @param context 
      */
     public void setContext( Context context );
 

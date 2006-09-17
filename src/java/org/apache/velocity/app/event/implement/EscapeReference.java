@@ -81,6 +81,9 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     
     /**
      * Escape the provided text if it matches the configured regular expression.
+     * @param reference 
+     * @param value 
+     * @return Escaped text.
      */
     public Object referenceInsert(String reference, Object value) 
     {
@@ -107,6 +110,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
 
     /**
      * Called automatically when event cartridge is initialized.
+     * @param rs 
+     * @throws Exception 
      */
     public void setRuntimeServices(RuntimeServices rs) throws Exception 
     {
@@ -143,7 +148,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     /**
      * Retrieve a reference to RuntimeServices.  Use this for checking additional 
      * configuration properties.
-     * @return
+     * @return The current runtime services object.
      */
     protected RuntimeServices getRuntimeServices()
     {

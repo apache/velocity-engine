@@ -30,16 +30,19 @@ public interface ParserPool
 {
     /**
      * Initialize the pool so that it can begin serving parser instances.
+     * @param svc 
      */
     void initialize(RuntimeServices svc);
 
     /**
      * Retrieve an instance of a parser pool.
+     * @return A parser object.
      */
     Parser get();
 
     /**
      * Return the parser to the pool so that it may be reused.
+     * @param parser 
      */
     void put(Parser parser);
 }

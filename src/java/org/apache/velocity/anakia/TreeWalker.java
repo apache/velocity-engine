@@ -48,7 +48,7 @@ public class TreeWalker
     /**
      * Creates a new Vector and walks the Element tree.
      *   
-     * @param Element the starting Element node
+     * @param e the starting Element node
      * @return Vector a vector of Element nodes
      */
     public NodeList allElements(Element e)

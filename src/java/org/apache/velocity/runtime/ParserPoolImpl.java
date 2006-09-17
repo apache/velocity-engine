@@ -34,6 +34,7 @@ public class ParserPoolImpl implements ParserPool {
 
     /**
      * Create the underlying "pool".
+     * @param rsvc 
      */
     public void initialize(RuntimeServices rsvc)
     {
@@ -55,6 +56,7 @@ public class ParserPoolImpl implements ParserPool {
     /**
      * Call the wrapped pool.  If none are available, it will create a new
      * temporary one.
+     * @return A parser Object.
      */
     public Parser get()
     {
@@ -71,6 +73,7 @@ public class ParserPoolImpl implements ParserPool {
 
     /**
      * Call the wrapped pool.
+     * @param parser 
      */
     public void put(Parser parser)
     {

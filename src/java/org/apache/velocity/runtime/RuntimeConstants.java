@@ -159,6 +159,9 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
+    /**
+     * 
+     */
     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
 
     /**
@@ -328,6 +331,9 @@ public interface RuntimeConstants
      */
     public static final String OUTPUT_ENCODING = "output.encoding";
 
+    /**
+     * Default Encoding is ISO-8859-1.
+     */
     public static final String ENCODING_DEFAULT = "ISO-8859-1";
 
 

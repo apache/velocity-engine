@@ -28,6 +28,9 @@ package org.apache.velocity.anakia;
  */
 public class Escape
 {
+    /**
+     * 
+     */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     
     /**
@@ -40,6 +43,8 @@ public class Escape
     
     /**
      * Do the escaping.
+     * @param st 
+     * @return The escaped text.
      */
     public static final String getText(String st)
     {

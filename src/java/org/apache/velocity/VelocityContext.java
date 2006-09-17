@@ -68,6 +68,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     /** 
      *  Creates a new instance with the provided storage (and no inner
      *  context).
+     * @param context 
      */
     public VelocityContext(Map context)
     {

@@ -99,7 +99,7 @@ public class FieldMethodizer
      *  only methodized the public static fields of
      *  the class.
      *
-     *  @param s Name of class to methodize.
+     *  @param o Name of class to methodize.
      */
     public FieldMethodizer( Object o )
     {
@@ -117,6 +117,8 @@ public class FieldMethodizer
     
     /**
      * Add the Name of the class to methodize
+     * @param s 
+     * @throws Exception 
      */
     public void addObject ( String s )
         throws Exception
@@ -126,6 +128,8 @@ public class FieldMethodizer
     
     /**
      * Add an Object to methodize
+     * @param o 
+     * @throws Exception 
      */
     public void addObject ( Object o )
         throws Exception
