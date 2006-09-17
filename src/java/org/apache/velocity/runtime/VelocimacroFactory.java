@@ -94,8 +94,9 @@ public class VelocimacroFactory
     private Map libModMap;
 
     /**
-     *  CTOR : requires a runtime services from now
-     *  on
+     *  C'tor for the VelociMacro factory.
+     * 
+     * @param rs Reference to a runtime services object. 
      */
     public VelocimacroFactory( RuntimeServices rs )
     {
@@ -316,7 +317,13 @@ public class VelocimacroFactory
     }
 
     /**
-     *  adds a macro to the factory. 
+     *  adds a macro to the factory.
+     *   
+     * @param name Name of the Macro to add. 
+     * @param macroBody String representation of the macro.
+     * @param argArray Macro arguments. First element is the macro name.
+     * @param sourceTemplate Source template from which the macro gets registered. 
+     * @return True if Macro was registered successfully.
      */
     public boolean addVelocimacro( String name, String macroBody,  
     	String argArray[], String sourceTemplate )
@@ -475,6 +482,9 @@ public class VelocimacroFactory
 
     /**
      *  Tells the world if a given directive string is a Velocimacro
+     * @param vm Name of the Macro.
+     * @param sourceTemplate Source template from which the macro should be loaded.
+     * @return True if the given name is a macro.
      */
     public boolean isVelocimacro( String vm , String sourceTemplate )
     {
@@ -494,6 +504,9 @@ public class VelocimacroFactory
      *  actual factory : creates a Directive that will
      *  behave correctly wrt getting the framework to 
      *  dig out the correct # of args
+     * @param vmName Name of the Macro.
+     * @param sourceTemplate Source template from which the macro should be loaded.
+     * @return A directive representing the Macro. 
      */
     public Directive getVelocimacro( String vmName, String sourceTemplate )
     {
@@ -595,6 +608,8 @@ public class VelocimacroFactory
 
     /**
      *  tells the vmManager to dump the specified namespace
+     * @param namespace Namespace to dump.
+     * @return True if namespace has been dumped successfully.
      */
     public boolean dumpVMNamespace( String namespace )
     {
@@ -667,7 +682,10 @@ public class VelocimacroFactory
      */
     private static class Twonk
     {
+        /** Template kept in this container. */
         public Template template;
+
+        /** modification time of the template. */
         public long modificationTime;
     }
 }

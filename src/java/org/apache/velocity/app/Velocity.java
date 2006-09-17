@@ -70,6 +70,8 @@ public class Velocity implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
+     *  
+     * @throws Exception When an error during initialization occurs. 
      */
     public static void init()
         throws Exception
@@ -83,6 +85,7 @@ public class Velocity implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
+     * @throws Exception When an error during initialization occurs. 
      */
     public static void init( String propsFilename )
         throws Exception
@@ -95,6 +98,7 @@ public class Velocity implements RuntimeConstants
      *  plus the properties in the passed in java.util.Properties object
      *
      *  @param p  Properties object containing initialization properties
+     * @throws Exception When an error during initialization occurs. 
      *
      */
     public static void init( Properties p )
@@ -106,8 +110,8 @@ public class Velocity implements RuntimeConstants
     /**
      * Set a Velocity Runtime property.
      *
-     * @param String key
-     * @param Object value
+     * @param key The property key.
+     * @param value The property value.
      */
     public static void setProperty(String key, Object value)
     {
@@ -117,8 +121,8 @@ public class Velocity implements RuntimeConstants
     /**
      * Add a Velocity Runtime property.
      *
-     * @param String key
-     * @param Object value
+     * @param key The property key.
+     * @param value The property value.
      */
     public static void addProperty(String key, Object value)
     {
@@ -141,7 +145,7 @@ public class Velocity implements RuntimeConstants
      * the ExtendedProperties class and the velocity configuration
      * is a subset of the parent application's configuration.
      *
-     * @param ExtendedProperties configuration
+     * @param configuration A configuration object.
      *
      */
     public static void setExtendedProperties( ExtendedProperties configuration)
@@ -174,6 +178,10 @@ public class Velocity implements RuntimeConstants
      *
      *  @return true if successful, false otherwise.  If false, see
      *             Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While loading a reference, an I/O problem occured.
      */
     public static  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
@@ -189,7 +197,7 @@ public class Velocity implements RuntimeConstants
      *  use Velocity as a token replacer.
      *
      *  @param context context to use in rendering input string
-     *  @param out  Writer in which to render the output
+     *  @param writer  Writer in which to render the output
      *  @param logTag  string to be used as the template name for log messages
      *                 in case of error
      *  @param instream input stream containing the VTL to be rendered
@@ -199,6 +207,10 @@ public class Velocity implements RuntimeConstants
      *  @deprecated Use
      *  {@link #evaluate( Context context, Writer writer,
      *      String logTag, Reader reader ) }
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While loading a reference, an I/O problem occured.
      */
     public static boolean evaluate( Context context, Writer writer,
                                     String logTag, InputStream instream )
@@ -232,13 +244,17 @@ public class Velocity implements RuntimeConstants
      *  use Velocity as a token replacer.
      *
      *  @param context context to use in rendering input string
-     *  @param out  Writer in which to render the output
+     *  @param writer  Writer in which to render the output
      *  @param logTag  string to be used as the template name for log messages
      *                 in case of error
      *  @param reader Reader containing the VTL to be rendered
      *
      *  @return true if successful, false otherwise.  If false, see
      *               Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While loading a reference, an I/O problem occured.
      *
      *  @since Velocity v1.1
      */
@@ -305,7 +321,7 @@ public class Velocity implements RuntimeConstants
      *
      *  @param vmName name of Velocimacro to call
      *  @param logTag string to be used for template name in case of error
-     *  @param params[] args used to invoke Velocimacro. In context key format :
+     *  @param params args used to invoke Velocimacro. In context key format :
      *                  eg  "foo","bar" (rather than "$foo","$bar")
      *  @param context Context object containing data/objects used for rendering.
      *  @param writer  Writer for output stream
@@ -402,6 +418,10 @@ public class Velocity implements RuntimeConstants
      *  @deprecated Use
      *  {@link #mergeTemplate( String templateName, String encoding,
      *                Context context, Writer writer )}
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws Exception Any other exception.
      */
     public static boolean mergeTemplate( String templateName,
                                          Context context, Writer writer )
@@ -422,7 +442,12 @@ public class Velocity implements RuntimeConstants
      *  @return true if successful, false otherwise.  Errors
      *           logged to velocity log
      *
-     *  @since Velocity v1.1
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws Exception Any other exception.
+     *
+     * @since Velocity v1.1
      */
     public static boolean mergeTemplate( String templateName, String encoding,
                                       Context context, Writer writer )
@@ -504,6 +529,8 @@ public class Velocity implements RuntimeConstants
     /**
      * Returns a convenient Log instance that wraps the current LogChute.
      * Use this to log error messages. It has the usual methods.
+     *
+     * @return A convenience Log instance that wraps the current LogChute.
      */
     public static Log getLog()
     {
@@ -512,6 +539,8 @@ public class Velocity implements RuntimeConstants
 
     /**
      * @deprecated Use getLog() and call warn() on it.
+     * @see Log#warn(Object)
+     * @param message The message to log.
      */
     public static void warn(Object message)
     {
@@ -520,6 +549,8 @@ public class Velocity implements RuntimeConstants
 
     /**
      * @deprecated Use getLog() and call info() on it.
+     * @see Log#info(Object)
+     * @param message The message to log.
      */
     public static void info(Object message)
     {
@@ -528,6 +559,8 @@ public class Velocity implements RuntimeConstants
 
     /**
      * @deprecated Use getLog() and call error() on it.
+     * @see Log#error(Object)
+     * @param message The message to log.
      */
     public static void error(Object message)
     {
@@ -536,6 +569,8 @@ public class Velocity implements RuntimeConstants
 
     /**
      * @deprecated Use getLog() and call debug() on it.
+     * @see Log#debug(Object)
+     * @param message The message to log.
      */
     public static void debug(Object message)
     {
@@ -569,6 +604,8 @@ public class Velocity implements RuntimeConstants
      }
 
     /**
+     * @param resourceName Name of the Template to check.
+     * @return True if the template exists.
      * @see #resourceExists(String)
      * @deprecated Use resourceExists(String) instead.
      */

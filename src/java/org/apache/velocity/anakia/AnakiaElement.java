@@ -54,7 +54,7 @@ public class AnakiaElement extends Element
      * </p>
      *
      * @param name <code>String</code> name of element.
-     * @namespace <code>Namespace</code> to put element in.
+     * @param namespace <code>Namespace</code> to put element in.
      */
     public AnakiaElement(String name, Namespace namespace)
     {
@@ -101,6 +101,7 @@ public class AnakiaElement extends Element
      * </p>
      *
      * @param name <code>String</code> name of element.
+     * @param prefix The prefix of the element.
      * @param uri <code>String</code> URI for <code>Namespace</code> element
      *        should be in.
      */
@@ -131,7 +132,11 @@ public class AnakiaElement extends Element
     /**
      * Returns the XML serialized form of this element, as produced by the default
      * {@link XMLOutputter}.
+
+     * @return The XML serialized form of this element, as produced by the default
+     * {@link XMLOutputter}.
      */
+
     public String toString()
     {
         return DEFAULT_OUTPUTTER.outputString(this);
@@ -150,10 +155,10 @@ public class AnakiaElement extends Element
      *
      * @return a <code>List</code> containing the mixed content of the
      *         element: may contain <code>String</code>,
-     *         <code>{@link Element}</code>, <code>{@link Comment}</code>,
-     *         <code>{@link ProcessingInstruction}</code>,
-     *         <code>{@link CDATA}</code>, and
-     *         <code>{@link EntityRef}</code> objects.
+     *         <code>{@link Element}</code>, <code>{@link org.jdom.Comment}</code>,
+     *         <code>{@link org.jdom.ProcessingInstruction}</code>,
+     *         <code>{@link org.jdom.CDATA}</code>, and
+     *         <code>{@link org.jdom.EntityRef}</code> objects.
      */
     public List getContent()
     {
@@ -202,7 +207,7 @@ public class AnakiaElement extends Element
      * and changes to it affect the element's actual contents.
      * </p>
      * <p>
-     * Please see the notes for <code>{@link #getChildren}</code>
+     * Please see the notes for <code>{@link #getChildren()}</code>
      * for a code example.
      * </p>
      *
@@ -225,7 +230,7 @@ public class AnakiaElement extends Element
      * and changes to it affect the element's actual contents.
      * </p>
      * <p>
-     * Please see the notes for <code>{@link #getChildren}</code>
+     * Please see the notes for <code>{@link #getChildren()}</code>
      * for a code example.
      * </p>
      *

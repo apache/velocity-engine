@@ -39,6 +39,8 @@ public class EventHandlerUtil {
      *
      * @param reference reference from template about to be inserted
      * @param value value about to be inserted (after toString() )
+     * @param rsvc The RuntimeServices Object.
+     * @param context The internal context adapter.
      * @return Object on which toString() should be called for output.
      */
     public static Object referenceInsert(RuntimeServices rsvc,
@@ -92,8 +94,10 @@ public class EventHandlerUtil {
      * called in sequence until a false is returned. The default implementation
      * always returns true.
      *
-     * @param reference
-     *            reference from template about to be inserted
+     * @param lhs Left hand side of the expression.
+     * @param rhs Right hand side of the expression.
+     * @param rsvc The RuntimeServices Object.
+     * @param context The internal context adapter.
      * @return true if to be logged, false otherwise
      */
     public static boolean shouldLogOnNullSet(RuntimeServices rsvc,
@@ -155,8 +159,10 @@ public class EventHandlerUtil {
      *            method called that causes the exception
      * @param e
      *            Exception thrown by the method
+     * @param rsvc The RuntimeServices Object.
+     * @param context The internal context adapter.
      * @return Object to return as method result
-     * @throws exception
+     * @throws Exception
      *             to be wrapped and propogated to app
      */
     public static Object methodException(RuntimeServices rsvc,
@@ -221,6 +227,8 @@ public class EventHandlerUtil {
      * @param directiveName
      *            name of the directive used to include the resource. (With the
      *            standard directives this is either "parse" or "include").
+     * @param rsvc The RuntimeServices Object.
+     * @param context The internal context adapter.
      *
      * @return a new resource path for the directive, or null to block the
      *         include from occurring.
