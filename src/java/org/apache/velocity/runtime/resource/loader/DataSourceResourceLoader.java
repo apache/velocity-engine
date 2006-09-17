@@ -144,9 +144,9 @@ public class DataSourceResourceLoader extends ResourceLoader
          {
              if (log.isDebugEnabled())
              {
-                 log.debug("DataSourceResourceLoader : using dataSource instance with table \""
+                 log.debug("DataSourceResourceLoader: using dataSource instance with table \""
                           + tableName + "\"");
-                 log.debug("DataSourceResourceLoader : using columns \""
+                 log.debug("DataSourceResourceLoader: using columns \""
                           + keyColumn + "\", \"" + templateColumn + "\" and \""
                           + timestampColumn + "\"");
              }
@@ -157,9 +157,9 @@ public class DataSourceResourceLoader extends ResourceLoader
          {
              if (log.isDebugEnabled())
              {
-                 log.debug("DataSourceResourceLoader : using \"" + dataSourceName
+                 log.debug("DataSourceResourceLoader: using \"" + dataSourceName
                           + "\" datasource with table \"" + tableName + "\"");
-                 log.debug("DataSourceResourceLoader : using columns \""
+                 log.debug("DataSourceResourceLoader: using columns \""
                           + keyColumn + "\", \"" + templateColumn + "\" and \""
                           + timestampColumn + "\"");
               }
@@ -177,18 +177,18 @@ public class DataSourceResourceLoader extends ResourceLoader
      * specifying the data source name via properties.
      * @param source
      */
-    public void setDataSource(DataSource source) 
+    public void setDataSource(final DataSource dataSource) 
     {
-        dataSource = source;
+        this.dataSource = dataSource;
     }
 
-     public boolean isSourceModified(Resource resource)
+     public boolean isSourceModified(final Resource resource)
      {
          return (resource.getLastModified() !=
                  readLastModified(resource, "checking timestamp"));
      }
 
-     public long getLastModified(Resource resource)
+     public long getLastModified(final Resource resource)
      {
          return readLastModified(resource, "getting timestamp");
      }
@@ -200,71 +200,60 @@ public class DataSourceResourceLoader extends ResourceLoader
       *  @param name name of template
       *  @return InputStream containing template
       */
-     public synchronized InputStream getResourceStream(String name)
+     public synchronized InputStream getResourceStream(final String name)
          throws ResourceNotFoundException
      {
          if (name == null || name.length() == 0)
          {
-             throw new ResourceNotFoundException ("Need to specify a template name!");
+             throw new ResourceNotFoundException ("DataSourceResourceLoader: "
+        	     	+ "Template name was empty or null");
          }
 
+         Connection conn = null;
+         ResultSet rs = null;
          try
          {
-             Connection conn = openDbConnection();
+             conn = openDbConnection();
+             rs = readData(conn, templateColumn, name);
 
-             try
+             if (rs.next())
              {
-                 ResultSet rs = readData(conn, templateColumn, name);
+        	 InputStream ascStream = rs.getAsciiStream(templateColumn);
+        	 if (ascStream == null) 
+        	 {
+        	     throw new ResourceNotFoundException("DataSourceResourceLoader: "
+        		     + "template column for '" + name + "' is null");
+        	 }
 
-                 try
-                 {
-                     if (rs.next())
-                     {
-                         InputStream ascStream = rs.getAsciiStream(templateColumn);
-                         if (ascStream != null) 
-                         {
-                             return new BufferedInputStream(ascStream);
-                         }
-                         else 
-                         {
-                             String msg = "DataSourceResourceLoader : cannot find resource "
-                                 + name;
-                             log.error(msg);
-
-                             throw new ResourceNotFoundException(msg);
-                        }
-                     }
-                     else
-                     {
-                         String msg = "DataSourceResourceLoader : cannot find resource "
-                             + name;
-                         log.error(msg);
-
-                         throw new ResourceNotFoundException(msg);
-                     }
-                 }
-                 finally
-                 {
-                     rs.close();
-                 }
+        	 return new BufferedInputStream(ascStream);
              }
-             finally
+             else
              {
-                 closeDbConnection(conn);
+    	     throw new ResourceNotFoundException("DataSourceResourceLoader: "
+		     + "could not find resource '" + name + "'");
+        	 
              }
          }
-         catch (RuntimeException e)
+         catch(SQLException sqle)
          {
-             throw e;
-         }
-         // IOException, SQLException
-         catch(Exception e)
-         {
-             String msg = "DataSourceResourceLoader : database problem trying to load resource "
-                          + name;
-             log.error(msg, e);
-
+             String msg = "DataSourceResourceLoader: database problem while getting resource '"
+                     + name + "': ";
+	 
+	     log.error(msg, sqle);
              throw new ResourceNotFoundException(msg);
+         }
+         catch(NamingException ne)
+         {
+             String msg = "DataSourceResourceLoader: database problem while getting resource '"
+                     + name + "': ";
+	 
+	     log.error(msg, ne);
+             throw new ResourceNotFoundException(msg);
+         }
+         finally
+         {
+             closeResultSet(rs);
+             closeDbConnection(conn);
          }
      }
 
@@ -272,76 +261,76 @@ public class DataSourceResourceLoader extends ResourceLoader
      *  Fetches the last modification time of the resource
      *
      *  @param resource Resource object we are finding timestamp of
-     *  @param i_operation string for logging, indicating caller's intention
+     *  @param operation string for logging, indicating caller's intention
      *
      *  @return timestamp as long
-     * @throws ResourceNotFoundException 
      */
-     private long readLastModified(Resource resource, String i_operation) 
+     private long readLastModified(final Resource resource, final String operation) 
      {
-         /*
+         long timeStamp = 0;
+
+	 /*
           *  get the template name from the resource
           */
-
          String name = resource.getName();
          
-        try
+         if (name == null || name.length() == 0)
          {
-             Connection conn = openDbConnection();
+             log.error("DataSourceResourceLoader: "
+                     + "Template name was empty or null");
+         }
+         else
+         {
+             Connection conn = null;
+             ResultSet rs = null;
 
              try
              {
-                 ResultSet rs = readData(conn, timestampColumn, name);
-                 try
+                 conn = openDbConnection();
+                 rs = readData(conn, timestampColumn, name);
+
+                 if (rs.next())
                  {
-                     if (rs.next())
-                     {
-                	 Timestamp ts = rs.getTimestamp(timestampColumn); 
-                         return ts != null ? ts.getTime() : 0;
-                     }
-                     else
-                     {
-                         log.error("DataSourceResourceLoader : while "
-                                   + i_operation + " could not find resource "
-                                   + name);
-                     }
+                     Timestamp ts = rs.getTimestamp(timestampColumn); 
+                     timeStamp = ts != null ? ts.getTime() : 0;
                  }
-                 finally
+                 else
                  {
-                     rs.close();
+                     log.error("DataSourceResourceLoader: could not find resource "
+                             + name + " while " + operation);
                  }
+             }
+             catch(SQLException sqle)
+             {
+                 String msg = "DataSourceResourceLoader: database problem while " + operation + " of '"
+                     + name + "': ";
+	 
+                 log.error(msg, sqle);
+                 throw ExceptionUtils.createRuntimeException(msg, sqle);
+             }
+             catch(NamingException ne)
+             {
+                 String msg = "DataSourceResourceLoader: database problem while " + operation + " of '"
+                     + name + "': ";
+	 
+                 log.error(msg, ne);
+                 throw ExceptionUtils.createRuntimeException(msg, ne);
              }
              finally
              {
+                 closeResultSet(rs);
                  closeDbConnection(conn);
              }
          }
-         catch(SQLException e)
-         {
-             String msg = "DataSourceResourceLoader : error while "
-                 + i_operation + " when trying to load resource "
-                 + name;
-             log.error(msg, e);
-             throw ExceptionUtils.createRuntimeException(msg, e);
-      }
-         catch(NamingException e)
-         {
-             String msg = "DataSourceResourceLoader : error while "
-                 + i_operation + " when trying to load resource "
-                 + name;
-             log.error(msg, e);
-             throw ExceptionUtils.createRuntimeException(msg, e);
-         }
-
-         return 0;
+         return timeStamp;
      }
 
-    /**
-     *  Gets connection to the datasource specified through the configuration
-     *  parameters.
-     *
-     *  @return connection
-     */
+     /**
+      *  Gets connection to the datasource specified through the configuration
+      *  parameters.
+      *
+      *  @return connection
+      */
      private Connection openDbConnection() 
          throws NamingException, SQLException
      {
@@ -363,21 +352,48 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      *  Closes connection to the datasource
      */
-     private void closeDbConnection(Connection conn)
+     private void closeDbConnection(final Connection conn)
      {
-         try
-         {
-             conn.close();
-         }
-         catch (Exception e)
-         {
-            String msg = "DataSourceResourceLoader : problem when closing connection";
-            log.warn(msg, e);
-            throw  ExceptionUtils.createRuntimeException(msg, e);
-        }
+	 if (conn != null)
+	 {
+	     try
+	     {
+		 conn.close();
+	     }
+ 	     catch (RuntimeException re)
+ 	     {
+ 		 throw re;
+ 	     }
+	     catch (Exception e)
+	     {
+		 log.warn("DataSourceResourceLoader: problem when closing connection", e);
+	     }
+	 }
      }
 
-    /**
+     /**
+      *  Closes the result set.
+      */
+      private void closeResultSet(final ResultSet rs)
+      {
+ 	 if (rs != null)
+ 	 {
+ 	     try
+ 	     {
+ 		 rs.close();
+ 	     }
+ 	     catch (RuntimeException re)
+ 	     {
+ 		 throw re;
+ 	     }
+ 	     catch (Exception e)
+ 	     {
+ 		 log.warn("DataSourceResourceLoader: problem when closing result set: ", e);
+ 	     }
+ 	 }
+      }
+
+      /**
      *  Reads the data from the datasource.  It simply does the following query :
      *  <br>
      *   SELECT <i>columnNames</i> FROM <i>tableName</i> WHERE <i>keyColumn</i>
@@ -390,7 +406,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      *  @param templateName name of template to fetch
      *  @return result set from query
      */
-     private ResultSet readData(Connection conn, String columnNames, String templateName)
+     private ResultSet readData(final Connection conn, final String columnNames, final String templateName)
          throws SQLException
      {
          Statement stmt = conn.createStatement();
@@ -401,6 +417,5 @@ public class DataSourceResourceLoader extends ResourceLoader
 
          return stmt.executeQuery(sql);
      }
-
- 
 }
+
