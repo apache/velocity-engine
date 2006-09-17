@@ -113,8 +113,7 @@ public class ClasspathResourceTestCase extends BaseTestCase
          */
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Template template1 = RuntimeSingleton.getTemplate(
-            getFileName(null, "template/test1", TMPL_FILE_EXT));
+        Template template1 = RuntimeSingleton.getTemplate("template/test1." + TMPL_FILE_EXT);
 
         // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
         //            Template template2 = RuntimeSingleton.getTemplate(
