@@ -172,6 +172,7 @@ public class Template extends Resource
      *  dependant upon context, but we need to let the
      *  init() carry the template name down throught for VM
      *  namespace features
+     * @throws Exception When a problem occurs during the document initialization.
      */
     public void initDocument()
         throws Exception
@@ -221,6 +222,7 @@ public class Template extends Resource
      *          from any available source.
      *  @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
+     *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
      *  @throws  Exception  anything else.
      */
     public void merge( Context context, Writer writer)

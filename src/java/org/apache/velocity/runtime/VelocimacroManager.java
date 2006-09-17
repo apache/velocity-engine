@@ -75,6 +75,10 @@ public class VelocimacroManager
 
     /**
      * Adds a VM definition to the cache.
+     * @param vmName Name of the new VelociMacro.
+     * @param macroBody String representation of the macro body.
+     * @param argArray Array of macro parameters, first parameter is the macro name.
+     * @param namespace The namespace/template from which this macro has been loaded.
      * @return Whether everything went okay.
      */
     public boolean addVM(final String vmName, final String macroBody, final String argArray[],
@@ -150,6 +154,9 @@ public class VelocimacroManager
     /**
      * gets a new living VelocimacroProxy object by the 
      * name / source template duple
+     * @param vmName Name of the VelocityMacro to look up.
+     * @param namespace Namespace in which to look up the macro.
+     * @return A proxy representing the Macro.
      */
     public VelocimacroProxy get(final String vmName, final String namespace)
     {
@@ -191,7 +198,7 @@ public class VelocimacroManager
     /**
      * Removes the VMs and the namespace from the manager.
      * Used when a template is reloaded to avoid 
-     * accumulating drek
+     * losing memory.
      *
      * @param namespace namespace to dump
      * @return boolean representing success
@@ -222,17 +229,28 @@ public class VelocimacroManager
      *  public switch to let external user of manager to control namespace
      *  usage indep of properties.  That way, for example, at startup the 
      *  library files are loaded into global namespace
+     * 
+     * @param namespaceOn True if namespaces should be used.
      */
-    public void setNamespaceUsage(final boolean namespaceUsage)
+    public void setNamespaceUsage(final boolean namespaceOn)
     {
-        this.namespacesOn = namespaceUsage;
+        this.namespacesOn = namespaceOn;
     }
 
+    /**
+     * Should macros registered from Libraries be marked special?
+     * @param registerFromLib True if macros from Libs should be marked.
+     */
     public void setRegisterFromLib(final boolean registerFromLib)
     {
         this.registerFromLib = registerFromLib;
     }
 
+    /**
+     * Should macros from the same template be inlined?
+     *
+     * @param inlineLocalMode True if macros should be inlined on the same template.
+     */
     public void setTemplateLocalInlineVM(final boolean inlineLocalMode)
     {
         this.inlineLocalMode = inlineLocalMode;
@@ -330,6 +348,12 @@ public class VelocimacroManager
         return false;
     }
 
+    /**
+     * Return the library name for a given macro.
+     * @param vmName Name of the Macro to look up.
+     * @param namespace Namespace to look the macro up.
+     * @return The name of the library which registered this macro in a namespace.
+     */
     public String getLibraryName(final String vmName, final String namespace)
     {
         if (usingNamespaces(namespace))
@@ -391,21 +415,37 @@ public class VelocimacroManager
             this.sourceTemplate = sourceTemplate;
         }
 
+        /**
+         * Has the macro been registered from a library.
+         * @param fromLibrary True if the macro was registered from a Library.
+         */
         public void setFromLibrary(final boolean fromLibrary)
         {
             this.fromLibrary = fromLibrary;
         }
         
+        /**
+         * Returns true if the macro was registered from a library.
+         * @return True if the macro was registered from a library.
+         */
         public boolean getFromLibrary()
         {
             return fromLibrary;
         }
 
+        /**
+         * Returns the node tree for this macro.
+         * @return The node tree for this macro.
+         */
         public SimpleNode getNodeTree()
         {
             return nodeTree;
         }
 
+        /**
+         * Returns the source template name for this macro.
+         * @return The source template name for this macro.
+         */
         public String getSourceTemplate()
         {
             return sourceTemplate;

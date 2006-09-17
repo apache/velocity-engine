@@ -184,6 +184,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     private Uberspect uberSpect;
 
+    /**
+     * Creates a new RuntimeInstance object.
+     */
     public RuntimeInstance()
     {
         /*
@@ -202,7 +205,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         applicationAttributes = new HashMap();
     }
 
-    /*
+    /**
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
@@ -216,6 +219,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
+     * @throws Exception When an error occured during initialization.
      */
     public synchronized void init()
         throws Exception
@@ -251,7 +255,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Returns true if the RuntimeInstance has been successfully initialized.
-     * @return
+     * @return True if the RuntimeInstance has been successfully initialized.
      */
     public boolean isInitialized()
     {
@@ -452,6 +456,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  will return an Object, as that is what properties can be.
      *
      *  @param key property to return
+     *  @return Value of the property or null if it does not exist.
      */
     public Object getProperty(String key)
     {
@@ -496,6 +501,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * object.
      *
      * @param p
+     * @throws Exception When an error occurs during initialization.
      */
     public void init(Properties p) throws Exception
     {
@@ -508,6 +514,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * ExtendedProperties object.
      *
      * @param configurationFile
+     * @throws Exception When an error occurs during initialization.
      */
     public void init(String configurationFile)
         throws Exception
@@ -914,6 +921,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @param reader Reader retrieved by a resource loader
      * @param templateName name of the template being parsed
+     * @return A root node representing the template as an AST tree.
+     * @throws ParseException When the template could not be parsed.
      */
     public SimpleNode parse(Reader reader, String templateName)
         throws ParseException
@@ -930,6 +939,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param reader Reader retrieved by a resource loader
      * @param templateName name of the template being parsed
      * @param dumpNamespace flag to dump the Velocimacro namespace for this template
+     * @return A root node representing the template as an AST tree.
+     * @throws ParseException When the template could not be parsed.
      */
     public SimpleNode parse(Reader reader, String templateName, boolean dumpNamespace)
         throws ParseException
@@ -951,7 +962,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
-        boolean madeNew = false;
 
         if (parser == null)
         {
@@ -969,10 +979,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             parser = createNewParser();
 
-            if (parser != null)
-            {
-                madeNew = true;
-            }
         }
 
         /*
@@ -1068,6 +1074,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
+     * @throws ParseErrorException When the template could not be parsed.
+     * @throws Exception Any other error.
      */
     public ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -1089,6 +1097,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
+     * @throws ParseErrorException When the template could not be parsed.
+     * @throws Exception Any other error.
      */
     public ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -1137,6 +1147,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Returns a convenient Log instance that wraps the current LogChute.
+     * Use this to log error messages. It has the usual methods.
+     *
+     * @return A convenience Log instance that wraps the current LogChute.
      */
     public Log getLog()
     {
@@ -1145,6 +1158,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * @deprecated Use getLog() and call warn() on it.
+     * @see Log#warn(Object)
+     * @param message The message to log.
      */
     public void warn(Object message)
     {
@@ -1153,6 +1168,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * @deprecated Use getLog() and call info() on it.
+     * @see Log#info(Object)
+     * @param message The message to log.
      */
     public void info(Object message)
     {
@@ -1161,6 +1178,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * @deprecated Use getLog() and call error() on it.
+     * @see Log#error(Object)
+     * @param message The message to log.
      */
     public void error(Object message)
     {
@@ -1169,6 +1188,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * @deprecated Use getLog() and call debug() on it.
+     * @see Log#debug(Object)
+     * @param message The message to log.
      */
     public void debug(Object message)
     {
@@ -1194,6 +1215,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * is a valid current Velocimacro.
      *
      * @param vmName Name of velocimacro requested
+     * @param templateName Name of the template that contains the velocimacro.
      * @return The requested VelocimacroProxy.
      */
     public Directive getVelocimacro(String vmName, String templateName)
@@ -1202,15 +1224,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
    /**
-     * Adds a new Velocimacro. Usually called by Macro only while parsing.
-     *
-     * @param name Name of velocimacro
-     * @param macro String form of macro body
-     * @param argArray Array of strings, containing the
-     *                         #macro() arguments.  the 0th is the name.
-     * @return True if added, false if rejected for some
-     *                  reason (either parameters or permission settings)
-     */
+    * Adds a new Velocimacro. Usually called by Macro only while parsing.
+    *
+    * @param name Name of velocimacro
+    * @param macro String form of macro body
+    * @param argArray Array of strings, containing the
+    *                         #macro() arguments.  the 0th is the name.
+    * @param sourceTemplate Name of the template that contains the velocimacro.
+    * @return True if added, false if rejected for some
+    *                  reason (either parameters or permission settings)
+    */
     public boolean addVelocimacro( String name,
                                           String macro,
                                           String argArray[],
@@ -1222,7 +1245,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      *  Checks to see if a VM exists
      *
-     * @param name Name of the Velocimacro.
+     * @param vmName Name of the Velocimacro.
+     * @param templateName Template on which to look for the Macro.
      * @return True if VM by that name exists, false if not
      */
     public boolean isVelocimacro( String vmName, String templateName )
@@ -1231,8 +1255,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     *  tells the vmFactory to dump the specified namespace.  This is to support
-     *  clearing the VM list when in inline-VM-local-scope mode
+     * tells the vmFactory to dump the specified namespace.  This is to support
+     * clearing the VM list when in inline-VM-local-scope mode
+     * @param namespace Namespace to dump.
+     * @return True if namespace was dumped successfully.
      */
     public boolean dumpVMNamespace(String namespace)
     {
@@ -1276,8 +1302,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Int property accessor method to hide the configuration implementation.
      *
      * @param key  property key
-     * @param int default value
-     * @return int  value
+     * @param defaultValue The default value.
+     * @return value
      */
     public int getInt(String key, int defaultValue)
     {
@@ -1288,7 +1314,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Boolean property accessor method to hide the configuration implementation.
      *
      * @param key property key
-     * @param default default value if property not found
+     * @param def The default value if property not found.
      * @return value of key or default value
      */
     public boolean getBoolean(String key, boolean def)
@@ -1309,6 +1335,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      *  Return the Introspector for this instance
+     * @return The Introspector for this instance
      */
     public Introspector getIntrospector()
     {
@@ -1317,6 +1344,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Returns the event handlers for the application.
+     * @return The event handlers for the application.
      */
     public EventCartridge getApplicationEventCartridge()
     {
@@ -1328,7 +1356,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  Gets the application attribute for the given key
      *
      * @param key
-     * @return
+     * @return The application attribute for the given key.
      */
     public Object getApplicationAttribute(Object key)
     {
@@ -1339,14 +1367,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *   Sets the application attribute for the given key
      *
      * @param key
-     * @param o
-     * @return
+     * @param o The new application attribute.
+     * @return The old value of this attribute or null if it hasn't been set before.
      */
     public Object setApplicationAttribute(Object key, Object o)
     {
         return applicationAttributes.put(key, o);
     }
 
+    /**
+     * Returns the Uberspect object for this Instance.
+     * 
+     * @return The Uberspect object for this Instance.
+     */
     public Uberspect getUberspect()
     {
         return uberSpect;

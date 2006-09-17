@@ -90,7 +90,7 @@ import org.apache.commons.collections.ExtendedProperties;
 public class Runtime implements RuntimeConstants
 {
    
-    /*
+    /**
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
@@ -103,6 +103,8 @@ public class Runtime implements RuntimeConstants
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
+     *
+     * @throws Exception When init fails for any reason.
      */
     public synchronized static void init()
         throws Exception
@@ -114,8 +116,8 @@ public class Runtime implements RuntimeConstants
      * Allows an external system to set a property in
      * the Velocity Runtime.
      *
-     * @param String property key
-     * @param String property value
+     * @param key The property key.
+     * @param value The property value.
      */
     public static void setProperty(String key, Object value)
     {
@@ -130,7 +132,7 @@ public class Runtime implements RuntimeConstants
      * parent application's configuration. This is
      * the case with Turbine.
      *
-     * @param ExtendedProperties configuration
+     * @param configuration A configuration object.
      */
     public static void setConfiguration( ExtendedProperties configuration)
     {
@@ -153,8 +155,8 @@ public class Runtime implements RuntimeConstants
      *
      * ["file", "classpath"]
      *
-     * @param String key
-     * @param String value
+     * @param key A property key.
+     * @param value The property value.
      */
     public static void addProperty(String key, Object value)
     {
@@ -165,7 +167,7 @@ public class Runtime implements RuntimeConstants
      * Clear the values pertaining to a particular
      * property.
      *
-     * @param String key of property to clear
+     * @param key Name of the property to clear.
      */
     public static void clearProperty(String key)
     {
@@ -178,6 +180,7 @@ public class Runtime implements RuntimeConstants
      *  will return an Object, as that is what properties can be.
      *
      *  @param key property to return
+     * @return The property value or null.
      */
     public static Object getProperty( String key )
     {
@@ -188,7 +191,8 @@ public class Runtime implements RuntimeConstants
      * Initialize the Velocity Runtime with a Properties
      * object.
      *
-     * @param Properties
+     * @param p The properties used for initializiation. 
+     * @throws Exception When a problem occurs during init.
      */
     public static void init(Properties p) throws Exception
     {
@@ -198,8 +202,9 @@ public class Runtime implements RuntimeConstants
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
-     *
-     * @param Properties
+     * *
+     * @param configurationFile The name of a properties file. 
+     * @throws Exception When a problem occurs during init.
      */
     public static void init(String configurationFile)
         throws Exception
@@ -220,8 +225,10 @@ public class Runtime implements RuntimeConstants
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
-     * @param InputStream inputstream retrieved by a resource loader
-     * @param String name of the template being parsed
+     * @param reader A reader returning the template input stream.
+     * @param templateName name of the template being parsed
+     * @return The root node of an AST structure for the template input stream.
+     * @throws ParseException When the input stream is not parsable.
      */
     public static SimpleNode parse( Reader reader, String templateName )
         throws ParseException
@@ -230,11 +237,15 @@ public class Runtime implements RuntimeConstants
     }
 
     /**
-     *  Parse the input and return the root of the AST node structure.
+     * Parse the input and return the root of the AST node structure.
+     * 
+     * @see #parse(Reader, String)
      *
-     * @param InputStream inputstream retrieved by a resource loader
-     * @param String name of the template being parsed
-     * @param dumpNamespace flag to dump the Velocimacro namespace for this template
+     * @param reader A reader returning the template input stream.
+     * @param templateName name of the template being parsed
+     * @param dumpNamespace flag to dump the Velocimacro namespace for this template.
+     * @return The root node of an AST structure for the template input stream.
+     * @throws ParseException When the input stream is not parsable.
      */
     public static SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
         throws ParseException
@@ -255,7 +266,7 @@ public class Runtime implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
+     * @throws Exception if an error occurs in template initialization.
      */
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -290,6 +301,9 @@ public class Runtime implements RuntimeConstants
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
      */
     public static ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -306,6 +320,9 @@ public class Runtime implements RuntimeConstants
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
+     * @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     * @throws Exception if an error occurs in template initialization
      */
     public static ContentResource getContent( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
@@ -332,7 +349,7 @@ public class Runtime implements RuntimeConstants
     /**
      * Log a warning message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public static void warn(Object message)
     {
@@ -342,7 +359,7 @@ public class Runtime implements RuntimeConstants
     /** 
      * Log an info message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public static void info(Object message)
     {
@@ -352,7 +369,7 @@ public class Runtime implements RuntimeConstants
     /**
      * Log an error message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public static void error(Object message)
     {
@@ -362,7 +379,7 @@ public class Runtime implements RuntimeConstants
     /**
      * Log a debug message.
      *
-     * @param Object message to log
+     * @param message message to log
      */
     public static void debug(Object message)
     {
@@ -373,10 +390,10 @@ public class Runtime implements RuntimeConstants
      * String property accessor method with default to hide the
      * configuration implementation.
      * 
-     * @param String key property key
-     * @param String defaultValue  default value to return if key not 
+     * @param key A property key.
+     * @param defaultValue  default value to return if key not 
      *               found in resource manager.
-     * @return String  value of key or default 
+     * @return The property value of of key or default. 
      */
     public static String getString( String key, String defaultValue)
     {
@@ -387,8 +404,9 @@ public class Runtime implements RuntimeConstants
      * Returns the appropriate VelocimacroProxy object if strVMname
      * is a valid current Velocimacro.
      *
-     * @param String vmName  Name of velocimacro requested
-     * @return String VelocimacroProxy 
+     * @param vmName  Name of velocimacro requested
+     * @param templateName The template from which the macro is requested.
+     * @return A VelocimacroProxy object for the macro. 
      */
     public static Directive getVelocimacro( String vmName, String templateName  )
     {
@@ -398,10 +416,11 @@ public class Runtime implements RuntimeConstants
    /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
      *
-     * @param String name  Name of velocimacro 
-     * @param String macro  String form of macro body
-     * @param String argArray  Array of strings, containing the 
-     *                         #macro() arguments.  the 0th is the name.
+     * @param name  Name of a new velocimacro. 
+     * @param macro String form of the macro body.
+     * @param argArray  Array of strings, containing the 
+     *                         #macro() arguments.  the 0th argument is the name.
+     * @param sourceTemplate The template from which the macro is requested.
      * @return boolean  True if added, false if rejected for some 
      *                  reason (either parameters or permission settings) 
      */
@@ -416,7 +435,8 @@ public class Runtime implements RuntimeConstants
     /**
      *  Checks to see if a VM exists
      *
-     * @param name  Name of velocimacro
+     * @param vmName  The name of velocimacro.
+     * @param templateName The template from which the macro is requested.
      * @return boolean  True if VM by that name exists, false if not
      */
     public static boolean isVelocimacro( String vmName, String templateName )
@@ -427,6 +447,9 @@ public class Runtime implements RuntimeConstants
     /**
      *  tells the vmFactory to dump the specified namespace.  This is to support
      *  clearing the VM list when in inline-VM-local-scope mode
+     * 
+     * @param namespace The namespace to dump. 
+     * @return True if the namespace has been dumped.
      */
     public static boolean dumpVMNamespace( String namespace )
     {
@@ -458,8 +481,8 @@ public class Runtime implements RuntimeConstants
     /**
      * Int property accessor method to hide the configuration implementation.
      *
-     * @param String key property key
-     * @return int value
+     * @param key A property key.
+     * @return Integer value for this key.
      */
     public static int getInt( String key )
     {
@@ -470,8 +493,8 @@ public class Runtime implements RuntimeConstants
      * Int property accessor method to hide the configuration implementation.
      *
      * @param key  property key
-     * @param int default value
-     * @return int  value
+     * @param defaultValue default value
+     * @return The integer value.
      */
     public static int getInt( String key, int defaultValue )
     {
@@ -481,8 +504,8 @@ public class Runtime implements RuntimeConstants
     /**
      * Boolean property accessor method to hide the configuration implementation.
      * 
-     * @param String key  property key
-     * @param boolean default default value if property not found
+     * @param key  property key
+     * @param def default default value if property not found
      * @return boolean  value of key or default value
      */
     public static boolean getBoolean( String key, boolean def )
