@@ -115,232 +115,321 @@ public class NodeViewMode extends BaseVisitor
         return data;
     }
 
-    /** Display a SimpleNode */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.SimpleNode, java.lang.Object)
+     */
     public Object visit(SimpleNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTprocess node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTprocess, java.lang.Object)
+     */
     public Object visit(ASTprocess node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTExpression node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTExpression, java.lang.Object)
+     */
     public Object visit(ASTExpression node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTAssignment node ( = ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTAssignment, java.lang.Object)
+     */
     public Object visit(ASTAssignment node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTOrNode ( || ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTOrNode, java.lang.Object)
+     */
     public Object visit(ASTOrNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTAndNode ( && ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTAndNode, java.lang.Object)
+     */
     public Object visit(ASTAndNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTEQNode ( == ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTEQNode, java.lang.Object)
+     */
     public Object visit(ASTEQNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTNENode ( != ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTNENode, java.lang.Object)
+     */
     public Object visit(ASTNENode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTLTNode ( < ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTLTNode, java.lang.Object)
+     */
     public Object visit(ASTLTNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTGTNode ( > ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTGTNode, java.lang.Object)
+     */
     public Object visit(ASTGTNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTLENode ( <= ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTLENode, java.lang.Object)
+     */
     public Object visit(ASTLENode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTGENode ( >= ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTGENode, java.lang.Object)
+     */
     public Object visit(ASTGENode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTAddNode ( + ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTAddNode, java.lang.Object)
+     */
     public Object visit(ASTAddNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTSubtractNode ( - ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTSubtractNode, java.lang.Object)
+     */
     public Object visit(ASTSubtractNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTMulNode ( * ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTMulNode, java.lang.Object)
+     */
     public Object visit(ASTMulNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTDivNode ( / ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTDivNode, java.lang.Object)
+     */
     public Object visit(ASTDivNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTModNode ( % ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTModNode, java.lang.Object)
+     */
     public Object visit(ASTModNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTNotNode ( ! ) */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTNotNode, java.lang.Object)
+     */
     public Object visit(ASTNotNode node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTFloatingPointLiteral node  */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTFloatingPointLiteral, java.lang.Object)
+     */
     public Object visit(ASTFloatingPointLiteral node, Object data)
     {
         return showNode(node,data);
     }
 
-    /** Display an ASTIntegerLiteral node  */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIntegerLiteral, java.lang.Object)
+     */
     public Object visit(ASTIntegerLiteral node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTStringLiteral node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTStringLiteral, java.lang.Object)
+     */
     public Object visit(ASTStringLiteral node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTIdentifier node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIdentifier, java.lang.Object)
+     */
     public Object visit(ASTIdentifier node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTMethod node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTMethod, java.lang.Object)
+     */
     public Object visit(ASTMethod node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTReference node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTReference, java.lang.Object)
+     */
     public Object visit(ASTReference node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTTrue node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTTrue, java.lang.Object)
+     */
     public Object visit(ASTTrue node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTFalse node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTFalse, java.lang.Object)
+     */
     public Object visit(ASTFalse node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTBlock node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTBlock, java.lang.Object)
+     */
     public Object visit(ASTBlock node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTText node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTText, java.lang.Object)
+     */
     public Object visit(ASTText node, Object data)
     { 
         return showNode(node,data); 
     }
     
-    /** Display an ASTIfStatement node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIfStatement, java.lang.Object)
+     */
     public Object visit(ASTIfStatement node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTElseStatement node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTElseStatement, java.lang.Object)
+     */
     public Object visit(ASTElseStatement node, Object data)
     { 
         return showNode(node,data);
     }
     
-    /** Display an ASTElseIfStatement node */
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTElseIfStatement, java.lang.Object)
+     */
     public Object visit(ASTElseIfStatement node, Object data)
     { 
         return showNode(node,data);
     }
     
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTObjectArray, java.lang.Object)
+     */
     public Object visit(ASTObjectArray node, Object data)
     { 
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTDirective, java.lang.Object)
+     */
     public Object visit(ASTDirective node, Object data)
     { 
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTWord, java.lang.Object)
+     */
     public Object visit(ASTWord node, Object data)
     { 
         return showNode(node,data);
     }
     
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTSetDirective, java.lang.Object)
+     */
     public Object visit(ASTSetDirective node, Object data)
     { 
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTEscapedDirective, java.lang.Object)
+     */
     public Object visit(ASTEscapedDirective node, Object data)
     {
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTEscape, java.lang.Object)
+     */
     public Object visit(ASTEscape node, Object data)
     {
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTMap, java.lang.Object)
+     */
     public Object visit(ASTMap node, Object data)
     {
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIntegerRange, java.lang.Object)
+     */
     public Object visit(ASTIntegerRange node, Object data)
     {
         return showNode(node,data);
     }
 
+    /**
+     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTStop, java.lang.Object)
+     */
     public Object visit(ASTStop node, Object data)
     {
         return showNode(node,data);

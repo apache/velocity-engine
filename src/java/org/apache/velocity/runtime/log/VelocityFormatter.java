@@ -19,8 +19,14 @@ package org.apache.velocity.runtime.log;
 import java.util.Date;
 import org.apache.log.format.PatternFormatter;
 
+/**
+ *
+ */
 public class VelocityFormatter extends PatternFormatter
 {
+    /**
+     * @param format
+     */
     public VelocityFormatter( String format )
     {
 	super( format );

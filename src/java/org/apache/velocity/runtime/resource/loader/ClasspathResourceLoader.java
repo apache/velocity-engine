@@ -77,6 +77,7 @@ public class ClasspathResourceLoader extends ResourceLoader
 
     /**
      *  This is abstract in the base class, so we need it
+     * @param configuration 
      */
     public void init( ExtendedProperties configuration)
     {
@@ -131,7 +132,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     }
 
     /**
-     * Defaults to return false.
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -139,7 +140,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     }
 
     /**
-     * Defaults to return 0
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {

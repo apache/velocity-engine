@@ -58,12 +58,13 @@ public interface ResourceCache
      *  removes a Resource from the cache
      *
      *  @param resourceKey resource to be removed
-     *  @param Resource stored under key
+     *  @return stored under key
      */
     public Resource remove( Object resourceKey );
     
     /**
-     *  returns an Iterator of Keys in the cache
+     *  returns an Iterator of Keys in the cache.
+     * @return An Iterator of Keys in the cache.
      */
      public Iterator enumerateKeys();
 }

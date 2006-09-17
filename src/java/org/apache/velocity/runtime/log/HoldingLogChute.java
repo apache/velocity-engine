@@ -34,6 +34,9 @@ class HoldingLogChute implements LogChute
 {
     private Vector pendingMessages = new Vector();    
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
     }
@@ -77,7 +80,7 @@ class HoldingLogChute implements LogChute
     }
 
     /**
-     * This will always return true.
+     * @see org.apache.velocity.runtime.log.LogChute#isLevelEnabled(int)
      */
     public boolean isLevelEnabled(int level)
     {
@@ -86,6 +89,7 @@ class HoldingLogChute implements LogChute
 
     /**
      * Dumps the log messages this chute is holding into a new chute
+     * @param newChute 
      */
     public void transferTo(LogChute newChute)
     {

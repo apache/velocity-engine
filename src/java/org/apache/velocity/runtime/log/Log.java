@@ -40,6 +40,7 @@ public class Log
 
     /**
      * Creates a new Log that wraps the specified LogChute.
+     * @param chute 
      */
     public Log(LogChute chute)
     {
@@ -52,6 +53,7 @@ public class Log
 
     /**
      * Updates the LogChute wrapped by this Log instance.
+     * @param newLogChute 
      */
     protected void setLogChute(LogChute newLogChute)
     {
@@ -60,6 +62,7 @@ public class Log
 
     /**
      * Returns the LogChute wrapped by this Log instance.
+     * @return The LogChute wrapped by this Log instance.
      */
     protected LogChute getLogChute()
     {
@@ -78,6 +81,7 @@ public class Log
 
     /**
      * Returns true if trace level messages will be printed by the LogChute.
+     * @return If trace level messages will be printed by the LogChute.
      */
     public boolean isTraceEnabled()
     {
@@ -86,6 +90,7 @@ public class Log
 
     /**
      * Log a trace message.
+     * @param message 
      */
     public void trace(Object message)
     {
@@ -94,6 +99,8 @@ public class Log
 
     /**
      * Log a trace message and accompanying Throwable.
+     * @param message 
+     * @param t 
      */
     public void trace(Object message, Throwable t)
     {
@@ -102,6 +109,7 @@ public class Log
 
     /**
      * Returns true if debug level messages will be printed by the LogChute.
+     * @return True if debug level messages will be printed by the LogChute.
      */
     public boolean isDebugEnabled()
     {
@@ -110,6 +118,7 @@ public class Log
 
     /**
      * Log a debug message.
+     * @param message 
      */
     public void debug(Object message)
     {
@@ -118,6 +127,8 @@ public class Log
 
     /**
      * Log a debug message and accompanying Throwable.
+     * @param message 
+     * @param t 
      */
     public void debug(Object message, Throwable t)
     {
@@ -126,6 +137,7 @@ public class Log
 
     /**
      * Returns true if info level messages will be printed by the LogChute.
+     * @return True if info level messages will be printed by the LogChute.
      */
     public boolean isInfoEnabled()
     {
@@ -134,6 +146,7 @@ public class Log
 
     /**
      * Log an info message.
+     * @param message 
      */
     public void info(Object message)
     {
@@ -142,6 +155,8 @@ public class Log
 
     /**
      * Log an info message and accompanying Throwable.
+     * @param message 
+     * @param t 
      */
     public void info(Object message, Throwable t)
     {
@@ -150,6 +165,7 @@ public class Log
 
     /**
      * Returns true if warn level messages will be printed by the LogChute.
+     * @return True if warn level messages will be printed by the LogChute.
      */
     public boolean isWarnEnabled()
     {
@@ -158,6 +174,7 @@ public class Log
 
     /**
      * Log a warning message.
+     * @param message 
      */
     public void warn(Object message)
     {
@@ -166,6 +183,8 @@ public class Log
 
     /**
      * Log a warning message and accompanying Throwable.
+     * @param message 
+     * @param t 
      */
     public void warn(Object message, Throwable t)
     {
@@ -174,6 +193,7 @@ public class Log
 
     /**
      * Returns true if error level messages will be printed by the LogChute.
+     * @return True if error level messages will be printed by the LogChute.
      */
     public boolean isErrorEnabled()
     {
@@ -182,6 +202,7 @@ public class Log
 
     /**
      * Log an error message.
+     * @param message 
      */
     public void error(Object message)
     {
@@ -190,6 +211,8 @@ public class Log
 
     /**
      * Log an error message and accompanying Throwable.
+     * @param message 
+     * @param t 
      */
     public void error(Object message, Throwable t)
     {

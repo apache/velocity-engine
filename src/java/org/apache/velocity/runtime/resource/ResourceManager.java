@@ -44,6 +44,8 @@ public interface ResourceManager
 
     /**
      * Initialize the ResourceManager.
+     * @param rs 
+     * @throws Exception 
      */
     public void initialize( RuntimeServices rs ) throws Exception;
 

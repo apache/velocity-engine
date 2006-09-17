@@ -90,6 +90,8 @@ public abstract class MathUtils
 
     /**
      * Convert the given Number to a BigDecimal
+     * @param n 
+     * @return The number as BigDecimal
      */
     public static BigDecimal toBigDecimal (Number n)
     {
@@ -110,6 +112,8 @@ public abstract class MathUtils
 
     /**
      * Convert the given Number to a BigInteger
+     * @param n 
+     * @return The number as BigInteger
      */
     public static BigInteger toBigInteger (Number n)
     {
@@ -125,6 +129,8 @@ public abstract class MathUtils
 
     /**
      * Compare the given Number to 0.
+     * @param n 
+     * @return True if number is 0.
      */
     public static boolean isZero (Number n)
     {
@@ -150,6 +156,8 @@ public abstract class MathUtils
     /**
      * Test, whether the given object is an integer value
      * (Byte, Short, Integer, Long, BigInteger)
+     * @param n 
+     * @return True if n is an integer.
      */
     public static boolean isInteger (Number n)
     {
@@ -159,6 +167,9 @@ public abstract class MathUtils
     /**
      * Wrap the given primitive into the given class if the value is in the
      * range of the destination type. If not the next bigger type will be chosen.
+     * @param value 
+     * @param type 
+     * @return Number object representing the primitive.
      */
     public static Number wrapPrimitive (long value, Class type)
     {
@@ -251,6 +262,9 @@ public abstract class MathUtils
     /**
      * Add two numbers and return the correct value / type.
      * Overflow detection is done for integer values (byte, short, int, long) only!
+     * @param op1 
+     * @param op2 
+     * @return Addition result.
      */
     public static Number add (Number op1, Number op2)
     {
@@ -285,6 +299,9 @@ public abstract class MathUtils
     /**
      * Subtract two numbers and return the correct value / type.
      * Overflow detection is done for integer values (byte, short, int, long) only!
+     * @param op1 
+     * @param op2 
+     * @return Subtraction result.
      */
     public static Number subtract (Number op1, Number op2) {
 
@@ -316,6 +333,9 @@ public abstract class MathUtils
     /**
      * Multiply two numbers and return the correct value / type.
      * Overflow detection is done for integer values (byte, short, int, long) only!
+     * @param op1 
+     * @param op2 
+     * @return Multiplication result.
      */
     public static Number multiply (Number op1, Number op2) {
 
@@ -348,6 +368,9 @@ public abstract class MathUtils
      * Divide two numbers. The result will be returned as Integer-type if and only if
      * both sides of the division operator are Integer-types. Otherwise a Float, Double,
      * or BigDecimal will be returned.
+     * @param op1 
+     * @param op2 
+     * @return Division result.
      */
     public static Number divide (Number op1, Number op2) {
 
@@ -376,6 +399,9 @@ public abstract class MathUtils
 
     /**
      * Modulo two numbers.
+     * @param op1 
+     * @param op2 
+     * @return Modulo result.
      *
      * @throws ArithmeticException If at least one parameter is a BigDecimal
      */
@@ -400,6 +426,8 @@ public abstract class MathUtils
 
     /**
      * Compare two numbers.
+     * @param op1 
+     * @param op2 
      * @return 1 if n1 > n2, -1 if n1 < n2 and 0 if equal.
      */
     public static int compare (Number op1, Number op2) {

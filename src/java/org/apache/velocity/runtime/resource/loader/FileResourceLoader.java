@@ -59,6 +59,9 @@ public class FileResourceLoader extends ResourceLoader
      */
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
+    /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     */
     public void init( ExtendedProperties configuration)
     {
         if (log.isTraceEnabled())
@@ -186,6 +189,8 @@ public class FileResourceLoader extends ResourceLoader
      * path; so we should search the path and see if
      * the file we find that way is the same as the one
      * that we have cached.
+     * @param resource 
+     * @return True if the source has been modified.
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -238,6 +243,9 @@ public class FileResourceLoader extends ResourceLoader
         return modified;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     */
     public long getLastModified(Resource resource)
     {
         String path = (String) templatePaths.get(resource.getName());

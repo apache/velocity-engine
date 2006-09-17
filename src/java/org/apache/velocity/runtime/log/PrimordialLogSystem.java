@@ -29,6 +29,8 @@ package org.apache.velocity.runtime.log;
 public class PrimordialLogSystem extends HoldingLogChute implements LogSystem
 {
     /**
+     * @param level 
+     * @param message 
      * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message)
@@ -37,6 +39,7 @@ public class PrimordialLogSystem extends HoldingLogChute implements LogSystem
     }
 
     /**
+     * @param newLogger 
      * @deprecated use transferTo(LogChute newChute)
      */
     public void dumpLogMessages( LogSystem newLogger )

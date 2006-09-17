@@ -28,6 +28,11 @@ import org.apache.velocity.Template;
  */
 public class ResourceFactory
 {
+    /**
+     * @param resourceName
+     * @param resourceType
+     * @return The resource described by name and type.
+     */
     public static Resource getResource(String resourceName, int resourceType)
     {
         Resource resource = null;

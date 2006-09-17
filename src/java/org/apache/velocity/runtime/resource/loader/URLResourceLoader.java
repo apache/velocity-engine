@@ -38,6 +38,9 @@ public class URLResourceLoader extends ResourceLoader
     private String[] roots = null;
     protected HashMap templateRoots = null;
 
+    /**
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     */
     public void init(ExtendedProperties configuration)
     {
         log.trace("URLResourceLoader : initialization starting.");

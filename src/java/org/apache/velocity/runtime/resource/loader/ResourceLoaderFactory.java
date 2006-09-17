@@ -30,7 +30,10 @@ public class ResourceLoaderFactory
 {
     /**
      * Gets the loader specified in the configuration file.
+     * @param rs 
+     * @param loaderClassName 
      * @return TemplateLoader
+     * @throws Exception 
      */
     public static ResourceLoader getLoader(RuntimeServices rs, String loaderClassName)
      throws Exception

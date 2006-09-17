@@ -45,10 +45,16 @@ public class SimpleLog4JLogSystem implements LogSystem
     /** log4java logging interface */
     protected Category logger = null;
 
+    /**
+     * 
+     */
     public SimpleLog4JLogSystem()
     {
     }
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogSystem#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init( RuntimeServices rs )
     {
         rsvc = rs;
@@ -152,6 +158,7 @@ public class SimpleLog4JLogSystem implements LogSystem
 
     /**
      * Also do a shutdown if the object is destroy()'d.
+     * @throws Throwable 
      */
     protected void finalize() throws Throwable
     {

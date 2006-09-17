@@ -36,6 +36,8 @@ public class NodeUtils
      * In some cases you may want to retrieve these
      * special tokens, this is simply a way to
      * extract them.
+     * @param t 
+     * @return String with the special tokens.
      */
     public static String specialText(Token t)
     {
@@ -136,6 +138,8 @@ public class NodeUtils
     
     /**
      *  complete node literal
+     * @param t 
+     * @return A node literal.
      *
      */
     public static String tokenLiteral( Token t )
@@ -154,6 +158,10 @@ public class NodeUtils
      * And the string literal argument will
      * be transformed into "candy.jpg" before
      * the method is executed.
+     * @param argStr 
+     * @param vars 
+     * @return Interpoliation result.
+     * @throws MethodInvocationException 
      */
     public static String interpolate(String argStr, Context vars) throws MethodInvocationException
     {

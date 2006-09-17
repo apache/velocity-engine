@@ -30,10 +30,6 @@ import org.apache.velocity.util.ExceptionUtils;
  * Implementation of a simple log4j system that will either latch onto
  * an existing category, or just do a simple rolling file log.
  *
- * Use this one rather than {@link SimpleLog4JLogSystem}; it uses the
- * modern <code>Logger</code> concept of Log4J, rather than the
- * deprecated <code>Category</code> concept.
- *
  * @author <a href="mailto:geirm@apache.org>Geir Magnusson Jr.</a>
  * @author <a href="mailto:dlr@finemaltcoding.com>Daniel L. Rall</a>
  * @author <a href="mailto:nbubna@apache.org>Nathan Bubna</a>
@@ -42,6 +38,9 @@ import org.apache.velocity.util.ExceptionUtils;
  */
 public class Log4JLogChute implements LogChute
 {
+    /**
+     * 
+     */
     public static final String RUNTIME_LOG_LOG4J_LOGGER =
             "runtime.log.logsystem.log4j.logger";
 
@@ -54,6 +53,9 @@ public class Log4JLogChute implements LogChute
      */
     protected Logger logger = null;
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
         rsvc = rs;
@@ -162,7 +164,7 @@ public class Log4JLogChute implements LogChute
     }
 
     /**
-     * Send a log message from Velocity along with an exception or error
+     * @see org.apache.velocity.runtime.log.LogChute#log(int, java.lang.String, java.lang.Throwable)
      */
     public void log(int level, String message, Throwable t)
     {
@@ -197,7 +199,7 @@ public class Log4JLogChute implements LogChute
     }
 
     /**
-     * Checks whether the logger is enabled for the specified level
+     * @see org.apache.velocity.runtime.log.LogChute#isLevelEnabled(int)
      */
     public boolean isLevelEnabled(int level)
     {
@@ -228,6 +230,7 @@ public class Log4JLogChute implements LogChute
 
     /**
      * Also do a shutdown if the object is destroy()'d.
+     * @throws Throwable 
      */
     protected void finalize() throws Throwable
     {

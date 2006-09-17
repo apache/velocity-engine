@@ -100,6 +100,8 @@ public class ResourceManagerImpl implements ResourceManager
 
     /**
      * Initialize the ResourceManager.
+     * @param rs 
+     * @throws Exception 
      */
     public void initialize( RuntimeServices rs ) 
         throws Exception

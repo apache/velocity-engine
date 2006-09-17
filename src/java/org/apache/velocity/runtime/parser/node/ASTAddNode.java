@@ -37,19 +37,31 @@ import org.apache.velocity.exception.MethodInvocationException;
 
 import org.apache.velocity.util.TemplateNumber;
 
+/**
+ *
+ */
 public class ASTAddNode extends SimpleNode
 {
+    /**
+     * @param id
+     */
     public ASTAddNode(int id)
     {
         super(id);
     }
 
+    /**
+     * @param p
+     * @param id
+     */
     public ASTAddNode(Parser p, int id)
     {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -57,7 +69,9 @@ public class ASTAddNode extends SimpleNode
 
     /**
      *  computes the sum of the two nodes.
+     * @param context 
      *  @return result or null
+     * @throws MethodInvocationException 
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException

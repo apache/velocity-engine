@@ -195,6 +195,9 @@ public class LogManager
     /**
      * Update the Log instance with the appropriate LogChute and other
      * settings determined by the RuntimeServices.
+     * @param log 
+     * @param rsvc 
+     * @throws Exception 
      */
     public static void updateLog(Log log, RuntimeServices rsvc) throws Exception
     {

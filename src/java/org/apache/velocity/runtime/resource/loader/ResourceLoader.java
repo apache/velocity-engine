@@ -62,6 +62,8 @@ public abstract class ResourceLoader
      * This initialization is used by all resource
      * loaders and must be called to set up common
      * properties shared by all resource loaders
+     * @param rs 
+     * @param configuration 
      */
     public void commonInit( RuntimeServices rs, ExtendedProperties configuration)
     {
@@ -113,12 +115,16 @@ public abstract class ResourceLoader
     /**
      * Initialize the template loader with a
      * a resources class.
+     * @param configuration 
      */
     public abstract void init( ExtendedProperties configuration);
 
     /**
      * Get the InputStream that the Runtime will parse
      * to create a template.
+     * @param source 
+     * @return The input stream for the requested resource.
+     * @throws ResourceNotFoundException 
      */
     public abstract InputStream getResourceStream( String source )
         throws ResourceNotFoundException;
@@ -126,6 +132,8 @@ public abstract class ResourceLoader
     /**
      * Given a template, check to see if the source of InputStream
      * has been modified.
+     * @param resource 
+     * @return True if the resource has been modified.
      */
     public abstract boolean isSourceModified(Resource resource);
 
@@ -134,11 +142,14 @@ public abstract class ResourceLoader
      * that was used to create the template. We need the template
      * here because we have to extract the name of the template
      * in order to locate the InputStream source.
+     * @param resource 
+     * @return Time in millis when the resource has been modified.
      */
     public abstract long getLastModified(Resource resource);
 
     /**
      * Return the class name of this resource Loader
+     * @return Class name of the resource loader.
      */
     public String getClassName()
     {
@@ -150,6 +161,7 @@ public abstract class ResourceLoader
      * would like the Runtime to cache templates that
      * have been created with InputStreams provided
      * by this loader.
+     * @param value 
      */
     public void setCachingOn(boolean value)
     {
@@ -161,6 +173,7 @@ public abstract class ResourceLoader
      * template loader wants the Runtime to cache
      * templates created with InputStreams provided
      * by this loader.
+     * @return True if this resource loader caches.
      */
     public boolean isCachingOn()
     {
@@ -170,6 +183,7 @@ public abstract class ResourceLoader
     /**
      * Set the interval at which the InputStream source
      * should be checked for modifications.
+     * @param modificationCheckInterval 
      */
     public void setModificationCheckInterval(long modificationCheckInterval)
     {
@@ -179,6 +193,7 @@ public abstract class ResourceLoader
     /**
      * Get the interval at which the InputStream source
      * should be checked for modifications.
+     * @return The modification check interval.
      */
     public long getModificationCheckInterval()
     {

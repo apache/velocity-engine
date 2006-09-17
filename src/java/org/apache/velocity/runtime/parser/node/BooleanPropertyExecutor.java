@@ -35,6 +35,12 @@ import org.apache.velocity.util.introspection.Introspector;
  */
 public class BooleanPropertyExecutor extends PropertyExecutor
 {
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     */
     public BooleanPropertyExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)
     {
@@ -42,6 +48,10 @@ public class BooleanPropertyExecutor extends PropertyExecutor
     }
 
     /**
+     * @param rlog 
+     * @param introspector 
+     * @param clazz 
+     * @param property 
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public BooleanPropertyExecutor(final RuntimeLogger rlog, final Introspector introspector,

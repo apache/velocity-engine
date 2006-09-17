@@ -39,6 +39,9 @@ public class AvalonLogChute implements LogChute
     private Logger logger = null;
     private RuntimeServices rsvc = null;
 
+    /**
+     * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
+     */
     public void init(RuntimeServices rs) throws Exception
     {
         this.rsvc = rs;
@@ -86,6 +89,8 @@ public class AvalonLogChute implements LogChute
     }
 
     /**
+     * @param file 
+     * @throws Exception 
      * @deprecated This method should not be used. It is here only to provide
      *             backwards compatibility for the deprecated AvalonLogSystem
      *             class, in case anyone used it and this method directly.
@@ -138,6 +143,7 @@ public class AvalonLogChute implements LogChute
      *
      *  @param level severity level
      *  @param message complete error message
+     * @param t 
      */
     public void log(int level, String message, Throwable t)
     {
@@ -166,6 +172,8 @@ public class AvalonLogChute implements LogChute
 
     /**
      * Checks to see whether the specified level is enabled.
+     * @param level 
+     * @return True if the specified level is enabled.
      */
     public boolean isLevelEnabled(int level)
     {
@@ -188,6 +196,7 @@ public class AvalonLogChute implements LogChute
 
     /**
      * Also do a shutdown if the object is destroy()'d.
+     * @throws Throwable 
      */
     protected void finalize() throws Throwable
     {

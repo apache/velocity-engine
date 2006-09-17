@@ -42,6 +42,7 @@ public class ContentResource extends Resource
     
     /**
      * Pull in static content and store it.
+     * @return True if everything went ok.
      *
      * @exception ResourceNotFoundException Resource could not be
      * found.

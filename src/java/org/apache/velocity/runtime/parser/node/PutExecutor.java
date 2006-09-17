@@ -37,6 +37,13 @@ public class PutExecutor extends SetExecutor
     private final Introspector introspector;
     private final String property;
 
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param arg
+     * @param property
+     */
     public PutExecutor(final Log log, final Introspector introspector,
             final Class clazz, final Object arg, final String property)
     {
@@ -47,6 +54,10 @@ public class PutExecutor extends SetExecutor
         discover(clazz, arg);
     }
 
+    /**
+     * @param clazz
+     * @param arg
+     */
     protected void discover(final Class clazz, final Object arg)
     {
         Object [] params;
@@ -86,7 +97,7 @@ public class PutExecutor extends SetExecutor
     }
 
     /**
-     * Execute method against context.
+     * @see org.apache.velocity.runtime.parser.node.SetExecutor#execute(java.lang.Object, java.lang.Object)
      */
     public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException
