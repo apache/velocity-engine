@@ -127,6 +127,7 @@ public class Generator
 
     /**
      * Set the velocity engine.
+     * @param ve 
      */
     public void setVelocityEngine(VelocityEngine ve)
     {
@@ -139,8 +140,7 @@ public class Generator
      * occurs during the reading operation the default properties
      * are used.
      *
-     * @param String properties used to help populate the control context.
-     * @return Generator generator used in the control context.
+     * @param propFile properties used to help populate the control context.
      */
     public Generator (String propFile)
     {
@@ -176,7 +176,7 @@ public class Generator
      * Create a new Generator object with a given property
      * set. The property set will be duplicated.
      *
-     * @param Properties properties object to help populate the control context.
+     * @param props properties object to help populate the control context.
      */
     public Generator (Properties props)
     {
@@ -217,7 +217,7 @@ public class Generator
      * Set the template path, where Texen will look
      * for Velocity templates.
      *
-     * @param String template path for velocity templates.
+     * @param templatePath template path for velocity templates.
      */
     public void setTemplatePath(String templatePath)
     {
@@ -237,8 +237,7 @@ public class Generator
     /**
      * Set the output path for the generated
      * output.
-     *
-     * @return String output path for texen output.
+     * @param outputPath 
      */
     public void setOutputPath(String outputPath)
     {
@@ -258,6 +257,7 @@ public class Generator
 
     /**
      * Set the output encoding.
+     * @param outputEncoding 
      */
     public void setOutputEncoding(String outputEncoding)
     {
@@ -266,6 +266,7 @@ public class Generator
 
     /**
      * Set the input (template) encoding.
+     * @param inputEncoding 
      */
     public void setInputEncoding(String inputEncoding)
     {
@@ -277,6 +278,8 @@ public class Generator
      *
      * @param path      path to the output file
      * @param encoding  output encoding
+     * @return A Writer for this generator.
+     * @throws Exception 
      */
     public Writer getWriter(String path, String encoding) throws Exception {
         Writer writer;
@@ -295,6 +298,8 @@ public class Generator
      *
      * @param templateName  name of the template
      * @param encoding      template encoding
+     * @return A Template.
+     * @throws Exception 
      */
     public Template getTemplate(String templateName, String encoding) throws Exception {
         Template template;
@@ -312,8 +317,10 @@ public class Generator
      * output file parameter is null or an empty string the result is
      * returned as a string object.  Otherwise an empty string is returned.
      *
-     * @param String input template
-     * @param String output file
+     * @param inputTemplate input template
+     * @param outputFile output file
+     * @return The parsed file.
+     * @throws Exception 
      */
     public String parse (String inputTemplate, String outputFile)
         throws Exception
@@ -327,11 +334,12 @@ public class Generator
      * returned as a string object.  Otherwise an empty string is returned.
      * You can add objects to the context with the objs Hashtable.
      *
-     * @param String input template
-     * @param String output file
-     * @param String id for object to be placed in the control context
-     * @param String object to be placed in the context
+     * @param inputTemplate input template
+     * @param outputFile output file
+     * @param objectID id for object to be placed in the control context
+     * @param object object to be placed in the context
      * @return String generated output from velocity
+     * @throws Exception 
      */
     public String parse (String inputTemplate,
                          String outputFile,
@@ -347,13 +355,14 @@ public class Generator
      * returned as a string object.  Otherwise an empty string is returned.
      * You can add objects to the context with the objs Hashtable.
      *
-     * @param String input template
-     * @param String inputEncoding template encoding
-     * @param String output file
-     * @param String outputEncoding encoding of output file
-     * @param String id for object to be placed in the control context
-     * @param String object to be placed in the context
+     * @param inputTemplate input template
+     * @param inputEncoding template encoding
+     * @param outputFile output file
+     * @param outputEncoding outputEncoding encoding of output file
+     * @param objectID id for object to be placed in the control context
+     * @param object object to be placed in the context
      * @return String generated output from velocity
+     * @throws Exception 
      */
     public String parse (String inputTemplate,
                          String inputEncoding,
@@ -416,9 +425,10 @@ public class Generator
      * Parse the control template and merge it with the control
      * context. This is the starting point in texen.
      *
-     * @param String control template
-     * @param Context control context
+     * @param controlTemplate control template
+     * @param controlContext control context
      * @return String generated output
+     * @throws Exception 
      */
     public String parse (String controlTemplate, Context controlContext)
         throws Exception
@@ -440,7 +450,7 @@ public class Generator
      * objs Hashtable.  Default objects and objects that comes from
      * the properties of this Generator object is also added.
      *
-     * @param Hashtable objects to place in the control context
+     * @param objs objects to place in the control context
      * @return Context context filled with objects
      */
     protected Context getContext (Hashtable objs)
@@ -452,8 +462,8 @@ public class Generator
     /**
      * Add all the contents of a Hashtable to the context.
      *
-     * @param Context context to fill with objects
-     * @param Hashtable source of objects
+     * @param context context to fill with objects
+     * @param objs source of objects
      */
     protected void fillContextHash (Context context, Hashtable objs)
     {
@@ -468,7 +478,7 @@ public class Generator
     /**
      * Add properties that will aways be in the context by default
      *
-     * @param Context control context to fill with default values.
+     * @param context control context to fill with default values.
      */
     protected void fillContextDefaults (Context context)
     {
@@ -479,7 +489,7 @@ public class Generator
     /**
      * Add objects to the context from the current properties.
      *
-     * @param Context control context to fill with objects
+     * @param context control context to fill with objects
      *                that are specified in the default.properties
      *                file
      */

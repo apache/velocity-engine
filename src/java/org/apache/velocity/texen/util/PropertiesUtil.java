@@ -82,6 +82,7 @@ public class PropertiesUtil
      * a relative pathname.
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
+     * @throws Exception 
      */
     protected Properties loadFromTemplatePath(final String propertiesFile)
     	throws Exception
@@ -148,9 +149,10 @@ public class PropertiesUtil
     /**
      * Load a properties file from the classpath
      *
-     * @param propertiesFile the properties file to load.
+     * @param propertiesName the properties file to load.
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
+     * @throws Exception 
      */ 
     protected Properties loadFromClassPath(final String propertiesName)
     	throws Exception

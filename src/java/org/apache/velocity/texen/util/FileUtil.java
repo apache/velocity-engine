@@ -30,8 +30,8 @@ public class FileUtil
     /**
      * Creates the directory s (and any parent directories needed).
      *
-     * @param String path/directory to create.
-     * @param String report of path/directory creation.
+     * @param s path/directory to create.
+     * @return report of path/directory creation.
      */
     static public String mkdir (String s)
     {
@@ -51,7 +51,7 @@ public class FileUtil
     /**
      * A method to get a File object.
      *
-     * @param String path to file object to create.
+     * @param s path to file object to create.
      * @return File created file object.
      */
     public static File file(String s)
@@ -63,8 +63,8 @@ public class FileUtil
     /**
      * A method to get a File object.
      *
-     * @param String base path
-     * @param String file name
+     * @param base base path
+     * @param s file name
      * @return File created file object.
      */
     public static File file(String base, String s)
