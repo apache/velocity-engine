@@ -46,6 +46,9 @@ public final class SimplePool
      */
     private int current=-1;
 
+    /**
+     * @param max
+     */
     public SimplePool(int max)
     {
         this.max = max;
@@ -54,6 +57,7 @@ public final class SimplePool
 
     /**
      * Add the object to the pool, silent nothing if the pool is full
+     * @param o 
      */
     public void put(Object o)
     {
@@ -83,6 +87,7 @@ public final class SimplePool
 
     /**
      * Get an object from the pool, null if the pool is empty.
+     * @return The object from the pool.
      */
     public Object get()
     {
@@ -109,7 +114,9 @@ public final class SimplePool
         return null;
     }
 
-    /** Return the size of the pool
+    /** 
+     * Return the size of the pool
+     * @return The pool size. 
      */
     public int getMax()
     {
@@ -119,7 +126,7 @@ public final class SimplePool
     /**
      *   for testing purposes, so we can examine the pool
      *
-     * @return
+     * @return Array of Objects in the pool.
      */
     Object[] getPool()
     {

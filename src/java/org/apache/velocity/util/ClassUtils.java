@@ -44,6 +44,7 @@ public class ClassUtils {
      *
      * @param clazz the name of the class to instantiate
      * @return the requested Class object
+     * @throws ClassNotFoundException 
      */
     public static Class getClass(String clazz) throws ClassNotFoundException
     {
@@ -78,8 +79,11 @@ public class ClassUtils {
      * calls the System class loader) when the class might be in a different 
      * classloader (e.g. in a webapp).
      *
-     * @param classname the name of the class to instantiate
+     * @param clazz the name of the class to instantiate
      * @return an instance of the specified class
+     * @throws ClassNotFoundException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
     public static Object getNewInstance(String clazz) 
         throws ClassNotFoundException,IllegalAccessException,InstantiationException
@@ -95,7 +99,7 @@ public class ClassUtils {
      * @param claz Class to use when getting the System classloader (used if no Thread
      * Context classloader available or fails to get resource). 
      * @param name name of the resource
-     * @return
+     * @return InputStream for the resource.
      */
     public static InputStream getResourceAsStream(Class claz, String name)
     {

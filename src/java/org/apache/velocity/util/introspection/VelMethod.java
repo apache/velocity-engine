@@ -30,6 +30,10 @@ public interface VelMethod
     /**
      *  invocation method - called when the method invocationshould be
      *  preformed and a value returned
+     * @param o 
+     * @param params 
+     * @return The resulting object.
+     * @throws Exception 
      */
     public Object invoke(Object o, Object[] params)
         throws Exception;
@@ -44,11 +48,13 @@ public interface VelMethod
 
     /**
      *  returns the method name used
+     * @return The method name used
      */
     public String getMethodName();
 
     /**
      *  returns the return type of the method invoked
+     * @return The return type of the method invoked
      */
     public Class getReturnType();
 }

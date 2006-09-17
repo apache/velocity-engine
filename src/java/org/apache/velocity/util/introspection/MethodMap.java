@@ -48,6 +48,7 @@ public class MethodMap
      * Add a method to a list of methods by name.
      * For a particular class we are keeping track
      * of all the methods with the same name.
+     * @param method 
      */
     public void add(Method method)
     {
@@ -69,7 +70,7 @@ public class MethodMap
     /**
      * Return a list of methods with the same name.
      *
-     * @param String key
+     * @param key
      * @return List list of methods
      */
     public List get(String key)

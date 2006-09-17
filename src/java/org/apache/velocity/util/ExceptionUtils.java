@@ -31,6 +31,9 @@ public class ExceptionUtils
 
     /**
      * Create a new RuntimeException, setting the cause if possible.
+     * @param message 
+     * @param cause 
+     * @return A runtime exception object.
      */
     public static RuntimeException createRuntimeException(
             String message, Throwable cause)
@@ -41,6 +44,10 @@ public class ExceptionUtils
 
     /**
      * Create a new Exception, setting the cause if possible.
+     * @param clazz 
+     * @param message 
+     * @param cause 
+     * @return A Throwable.
      */
     public static Throwable createWithCause(Class clazz,
             String message, Throwable cause)
@@ -89,6 +96,8 @@ public class ExceptionUtils
 
     /**
      * Set the cause of the Exception.  Will detect if this is not allowed.
+     * @param onObject 
+     * @param cause 
      */
     public static void setCause(Throwable onObject, Throwable cause)
     {
