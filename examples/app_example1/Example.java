@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;

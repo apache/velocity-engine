@@ -16,7 +16,6 @@ package org.apache.velocity.util;
  * limitations under the License.
  */
 
-
 /**
  * Any object in the context which implements TemplateNumber will be treated
  * as a number for the purposes of arithmetic operations and comparison.

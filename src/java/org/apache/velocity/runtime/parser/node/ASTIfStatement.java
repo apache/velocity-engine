@@ -16,7 +16,6 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-
 /**
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.

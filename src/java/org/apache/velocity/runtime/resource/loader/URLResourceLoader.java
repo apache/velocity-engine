@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.resource.loader;
+
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -13,8 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.IOException;

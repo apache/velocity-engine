@@ -1,3 +1,5 @@
+package org.apache.velocity.util;
+
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
@@ -13,8 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.velocity.util;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

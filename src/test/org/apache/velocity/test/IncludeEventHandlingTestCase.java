@@ -16,7 +16,6 @@ package org.apache.velocity.test;
  * limitations under the License.
  */
 
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;

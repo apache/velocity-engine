@@ -1,7 +1,5 @@
 package org.apache.velocity.exception;
 
-import org.apache.velocity.util.ExceptionUtils;
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import org.apache.velocity.util.ExceptionUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.util.ExceptionUtils;
+
 
 /**
  *  Application-level exception thrown when a reference method is

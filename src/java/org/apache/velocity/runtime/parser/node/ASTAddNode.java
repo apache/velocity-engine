@@ -16,7 +16,6 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-
 /**
  * Handles number addition of nodes.<br><br>
  *
