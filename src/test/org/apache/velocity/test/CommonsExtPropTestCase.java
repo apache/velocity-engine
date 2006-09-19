@@ -52,7 +52,7 @@ public class CommonsExtPropTestCase extends BaseTestCase
      * Test configuration
      */
     private static final String TEST_CONFIG =
-        TEST_COMPARE_DIR + "/configuration/test.config";
+        TEST_COMPARE_DIR + "/configuration/test-config.properties";
 
     /**
      * Creates a new instance.
