@@ -1,4 +1,4 @@
-#!/bin/sh
+# !/bin/sh
 
 echo "Running JJTree ..."
 jjtree Parser.jjt

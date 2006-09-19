@@ -1235,9 +1235,9 @@ int DirectiveArg() #void : {}
     {
         return ParserTreeConstants.JJTINTEGERLITERAL;
     }
-    /* 
+    /*
      * Need to put this before the floating point expansion 
-     */     
+     */
 |   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
     {
         return ParserTreeConstants.JJTINTEGERRANGE;

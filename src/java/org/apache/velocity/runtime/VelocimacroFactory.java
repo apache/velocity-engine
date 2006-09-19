@@ -418,7 +418,7 @@ public class VelocimacroFactory
          */
         if (!templateLocal)
         {
-            /* 
+            /*
              * otherwise, if we have it already in global namespace, and they can't replace
              * since local templates are not allowed, the global namespace is implied.
              *  remember, we don't know anything about namespace managment here, so lets
@@ -585,7 +585,7 @@ public class VelocimacroFactory
                                  *  note that we don't need to put this twonk back 
                                  *  into the map, as we can just use the same reference
                                  *  and this block is synchronized
-                                 */                                  
+                                 */
                              }
                          } 
                     }

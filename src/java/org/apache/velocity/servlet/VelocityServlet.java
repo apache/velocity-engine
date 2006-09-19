@@ -155,7 +155,7 @@ public abstract class VelocityServlet extends HttpServlet
 
         /*
          *  do whatever we have to do to init Velocity
-         */                
+         */
         initVelocity( config );
 
         /*

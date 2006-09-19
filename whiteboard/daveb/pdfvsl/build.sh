@@ -1,4 +1,4 @@
-#! /bin/sh
+# ! /bin/sh
 
 if [ "$JAVA_HOME" = "" ] ; then
   echo You must set JAVA_HOME to point at your Java Development Kit directory

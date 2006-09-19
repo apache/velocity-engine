@@ -1,10 +1,10 @@
-#!/bin/sh
+# !/bin/sh
 
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 
-#--------------------------------------------
+# --------------------------------------------
 # No need to edit anything past here
-#--------------------------------------------
+# --------------------------------------------
 if test -z "${JAVA_HOME}" ; then
     echo "ERROR: JAVA_HOME not found in your environment."
     echo "Please, set the JAVA_HOME variable in your environment to match the"

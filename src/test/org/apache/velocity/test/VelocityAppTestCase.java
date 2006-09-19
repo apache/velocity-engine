@@ -69,15 +69,15 @@ public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBas
             Velocity.evaluate(context, compare1, "evaltest", input1);
 
 /*
-            @todo FIXME: Not tested right now.
-
-            StringWriter result2 = new StringWriter();
-            Velocity.mergeTemplate("mergethis.vm",  context, result2);
-
-            StringWriter result3 = new StringWriter();
-            Velocity.invokeVelocimacro("floog", "test", new String[2],
-                                        context, result3);
-*/
+ *            @todo FIXME: Not tested right now.
+ *
+ *            StringWriter result2 = new StringWriter();
+ *            Velocity.mergeTemplate("mergethis.vm",  context, result2);
+ *
+ *            StringWriter result3 = new StringWriter();
+ *            Velocity.invokeVelocimacro("floog", "test", new String[2],
+ *                                        context, result3);
+ */
             if (!result1.equals(compare1.toString()))
             {
                 fail("Output incorrect.");

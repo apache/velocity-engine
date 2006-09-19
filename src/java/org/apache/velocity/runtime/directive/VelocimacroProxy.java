@@ -238,7 +238,7 @@ public class VelocimacroProxy extends Directive
         
         /*
          *  right number of args?
-         */        
+         */
      
         if ( getNumArgs() != i ) 
         {

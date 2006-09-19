@@ -294,19 +294,19 @@ public class TestProvider
 
     /*
      * This can't have the signature
-
-    public void setState(boolean state)
-
-    or dynamically invoking the method
-    doesn't work ... you would have to
-    put a wrapper around a method for a
-    real boolean property that takes a
-    Boolean object if you wanted this to
-    work. Not really sure how useful it
-    is anyway. Who cares about boolean
-    values you can just set a variable.
-
-    */
+     *
+     *    public void setState(boolean state)
+     *
+     *    or dynamically invoking the method
+     *    doesn't work ... you would have to
+     *    put a wrapper around a method for a
+     *    real boolean property that takes a
+     *    Boolean object if you wanted this to
+     *    work. Not really sure how useful it
+     *    is anyway. Who cares about boolean
+     *    values you can just set a variable.
+     *
+     */
 
     public void setState(Boolean state)
     {

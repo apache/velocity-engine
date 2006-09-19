@@ -548,7 +548,7 @@
   <!-- =================================================================== -->
   <target name="build-package-tree" depends="clean">
 
-    <!-- 
+    <!--
      Don't move these ant calls into depends! If you do so, either jar
      or jar-dep or docs (via its depends on jar) will set the jarname
      property and as it is immutable, you will no longer be able to

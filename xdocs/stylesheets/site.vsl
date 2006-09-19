@@ -128,7 +128,7 @@ limitations under the License.
 #end
 
 
-### displays a basic node, calling macros if appropriate
+## # displays a basic node, calling macros if appropriate
 #macro ( display $node )
 		#if ($node.getName().equals("img"))
 			#image ($node)
