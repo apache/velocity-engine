@@ -86,8 +86,8 @@
             velocityPropertiesFile="${test.dir}/anakia/velocity.properties"
             lastModifiedCheck="false">
     </anakia>
-  
-    <anakia basedir="${test.dir}/anakia/xdocs" 
+
+    <anakia basedir="${test.dir}/anakia/xdocs"
             destdir="${build.test}/anakia"
         extension=".context.html" style="./site_contexts.vsl"
         projectFile="./stylesheets/project.xml"
@@ -95,11 +95,11 @@
         includes="**/*.xml"
         templatePath="${test.dir}/anakia/xdocs/stylesheets"
         lastModifiedCheck="false">
-        
+
         <context name="customContext" file="./stylesheets/customContext.xml"/>
-    </anakia>    
- 
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}" 
+    </anakia>
+
+    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
           classpathref="velocity.test.classpath">
       <arg value="org.apache.velocity.test.AnakiaTestCase"/>
     </java>

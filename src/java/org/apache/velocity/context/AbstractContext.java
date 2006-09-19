@@ -18,9 +18,9 @@ package org.apache.velocity.context;
 
 
 /**
- *  This class is the abstract base class for all conventional 
- *  Velocity Context  implementations.  Simply extend this class 
- *  and implement the abstract routines that access your preferred 
+ *  This class is the abstract base class for all conventional
+ *  Velocity Context  implementations.  Simply extend this class
+ *  and implement the abstract routines that access your preferred
  *  storage method.
  *
  *  Takes care of context chaining.
@@ -35,7 +35,7 @@ package org.apache.velocity.context;
  *        will be dropped and logged.
  *  </ul>
  *
- *  The default implementation of this for application use is 
+ *  The default implementation of this for application use is
  *  org.apache.velocity.VelocityContext.
  *
  *  All thanks to Fedor for the chaining idea.
@@ -46,30 +46,30 @@ package org.apache.velocity.context;
  * @version $Id$
  */
 
-public abstract class AbstractContext extends InternalContextBase 
+public abstract class AbstractContext extends InternalContextBase
     implements Context
 {
     /**
      *  the chained Context if any
      */
     private   Context  innerContext = null;
-  
-    /** 
-     *  Implement to return a value from the context storage. 
+
+    /**
+     *  Implement to return a value from the context storage.
      *  <br><br>
      *  The implementation of this method is required for proper
      *  operation of a Context implementation in general
      *  Velocity use.
-     *  
+     *
      *  @param key key whose associated value is to be returned
      *  @return object stored in the context
      */
     public abstract Object internalGet( String key );
 
-    /** 
+    /**
      *  Implement to put a value into the context storage.
      *  <br><br>
-     *  The implementation of this method is required for 
+     *  The implementation of this method is required for
      *  proper operation of a Context implementation in
      *  general Velocity use.
      *
@@ -79,19 +79,19 @@ public abstract class AbstractContext extends InternalContextBase
      */
     public abstract Object internalPut( String key, Object value );
 
-    /** 
+    /**
      *  Implement to determine if a key is in the storage.
      *  <br><br>
-     *  Currently, this method is not used internally by 
-     *  the Velocity engine. 
+     *  Currently, this method is not used internally by
+     *  the Velocity engine.
      *
-     *   @param key key to test for existance 
+     *   @param key key to test for existance
      *   @return true if found, false if not
      */
     public abstract boolean internalContainsKey(Object key);
 
-    /** 
-     *  Implement to return an object array of key 
+    /**
+     *  Implement to return an object array of key
      *  strings from your storage.
      *  <br><br>
      *  Currently, this method is not used internally by
@@ -101,7 +101,7 @@ public abstract class AbstractContext extends InternalContextBase
      */
     public abstract Object[] internalGetKeys();
 
-    /** 
+    /**
      *  I mplement to remove an item from your storage.
      *  <br><br>
      *  Currently, this method is not used internally by
@@ -117,13 +117,13 @@ public abstract class AbstractContext extends InternalContextBase
      */
     public AbstractContext()
     {
-    }        
+    }
 
     /**
      *  Chaining constructor accepts a Context argument.
      *  It will relay get() operations into this Context
      *  in the even the 'local' get() returns null.
-     *  
+     *
      *  @param inner context to be chained
      */
     public AbstractContext( Context inner )
@@ -142,8 +142,8 @@ public abstract class AbstractContext extends InternalContextBase
     }
 
     /**
-     * Adds a name/value pair to the context. 
-     * 
+     * Adds a name/value pair to the context.
+     *
      * @param key   The name to key the provided value with.
      * @param value The corresponding value.
      * @return Object that was replaced in the the Context if
@@ -163,7 +163,7 @@ public abstract class AbstractContext extends InternalContextBase
         {
             return null;
         }
-        
+
         return internalPut(key, value);
     }
 
@@ -199,12 +199,12 @@ public abstract class AbstractContext extends InternalContextBase
         {
             o = innerContext.get( key );
         }
-            
+
         return o;
-    }        
+    }
 
     /**
-     *  Indicates whether the specified key is in the context.  Provided for 
+     *  Indicates whether the specified key is in the context.  Provided for
      *  debugging purposes.
      *
      * @param key The key to look for.
@@ -218,7 +218,7 @@ public abstract class AbstractContext extends InternalContextBase
         }
 
         return internalContainsKey(key);
-    }        
+    }
 
     /**
      *  Get all the keys for the values in the context
@@ -234,7 +234,7 @@ public abstract class AbstractContext extends InternalContextBase
      * Removes the value associated with the specified key from the context.
      *
      * @param key The name of the value to remove.
-     * @return    The value that the key was mapped to, or <code>null</code> 
+     * @return    The value that the key was mapped to, or <code>null</code>
      *            if unmapped.
      */
     public Object remove(Object key)
@@ -245,7 +245,7 @@ public abstract class AbstractContext extends InternalContextBase
         }
 
         return internalRemove(key);
-    }   
+    }
 
     /**
      *  returns innerContext if one is chained

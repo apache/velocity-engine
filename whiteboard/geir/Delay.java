@@ -41,28 +41,28 @@ public class Delay extends Directive
     public String getName()
     {
         return "delay";
-    }        
-    
+    }
+
     public int getType()
     {
         return BLOCK;
-    }        
+    }
 
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
     {
         super.init( rs, context, node );
 
         astStrings =  getASTAsStringArray( node.jjtGetChild(1) );
-  
+
     }
 
 
-    public boolean render( InternalContextAdapter context, 
+    public boolean render( InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException
     {
-        
+
         /*
          *  what is our arg?
          */
@@ -82,7 +82,7 @@ public class Delay extends Directive
         if ( ival > 1 )
         {
             writer.write("#delay( " + --ival  + " )\n " );
-            
+
             for( int i = 0; i < astStrings.size(); i++ )
             {
                 writer.write( (String) astStrings.get( i ) );
@@ -101,14 +101,14 @@ public class Delay extends Directive
         return true;
     }
 
- 
+
     private static List getASTAsStringArray( Node rootNode )
     {
         /*
-         *  this assumes that we are passed in the root 
+         *  this assumes that we are passed in the root
          *  node of the code block
          */
-	
+
         Token t = rootNode.getFirstToken();
         Token tLast = rootNode.getLastToken();
 
@@ -121,7 +121,7 @@ public class Delay extends Directive
 
         t = rootNode.getFirstToken();
 
-        while( t != tLast ) 
+        while( t != tLast )
         {
             list.add( NodeUtils.tokenLiteral( t ) );
             t = t.next;

@@ -23,13 +23,13 @@ import org.apache.velocity.runtime.configuration.*;
 
 /**
  * Just a demo context that loads it's own tools.
- * 
+ *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
 public class ContextWithTools extends AbstractContext
 {
-    
+
     public ContextWithTools()
     {
         super();
@@ -43,7 +43,7 @@ public class ContextWithTools extends AbstractContext
     private void loadTools()
     {
         String toolPackages = VelocityResources.getString("ContextTools");
-        Enumeration tools = new StringTokenizer( toolPackages ); 
+        Enumeration tools = new StringTokenizer( toolPackages );
         try
         {
             while ( tools.hasMoreElements() )
@@ -62,22 +62,22 @@ public class ContextWithTools extends AbstractContext
     }
 
     // Below: Implements the AbstractContext stuff
-    
+
      /** storage for key/value pairs */
     private HashMap context = new HashMap();
 
-    
+
     /** chaining CTOR */
     public ContextWithTools( Context context )
     {
         super( context );
         loadTools();
     }
- 
+
     public Object internalGet( String key )
     {
         return context.get( key );
-    }        
+    }
 
     public Object internalPut( String key, Object value )
     {

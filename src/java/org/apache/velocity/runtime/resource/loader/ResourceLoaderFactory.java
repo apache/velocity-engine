@@ -22,7 +22,7 @@ import org.apache.velocity.util.StringUtils;
 
 /**
  * Factory to grab a template loader.
- * 
+ *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
@@ -30,23 +30,23 @@ public class ResourceLoaderFactory
 {
     /**
      * Gets the loader specified in the configuration file.
-     * @param rs 
-     * @param loaderClassName 
+     * @param rs
+     * @param loaderClassName
      * @return TemplateLoader
-     * @throws Exception 
+     * @throws Exception
      */
     public static ResourceLoader getLoader(RuntimeServices rs, String loaderClassName)
      throws Exception
     {
         ResourceLoader loader = null;
-        
+
         try
         {
             loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
-            
+
             rs.getLog().debug("ResourceLoader instantiated: "
                               + loader.getClass().getName());
-            
+
             return loader;
         }
         // The ugly three strike again: ClassNotFoundException,IllegalAccessException,InstantiationException
@@ -56,8 +56,8 @@ public class ResourceLoaderFactory
                           "Look at your properties file and make sure the\n" +
                           "name of the template loader is correct. Here is the\n" +
                           "error:", e);
-            
-            throw new Exception("Problem initializing template loader: " + loaderClassName + 
+
+            throw new Exception("Problem initializing template loader: " + loaderClassName +
             "\nError is: " + StringUtils.stackTrace(e));
         }
     }

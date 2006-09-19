@@ -40,7 +40,7 @@ import org.apache.velocity.test.provider.TestProvider;
 public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
 {
     VelocityEngine ve;
-    
+
     /**
      * Default constructor.
      */
@@ -48,14 +48,14 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
     {
         super(name);
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(ExceptionTestCase.class);
     }
 
 
-    public void testReferenceInsertionEventHandlerException() 
+    public void testReferenceInsertionEventHandlerException()
     throws Exception
     {
         ve = new VelocityEngine();
@@ -63,13 +63,13 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         ve.init();
         assertException(ve);
     }
-    
+
     /**
      * Note - this is the one case where RuntimeExceptions *are not* passed through
      * verbatim.
      * @throws Exception
      */
-    public void testMethodExceptionEventHandlerException() 
+    public void testMethodExceptionEventHandlerException()
     throws Exception
     {
         ve = new VelocityEngine();
@@ -80,8 +80,8 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         assertMethodInvocationException(ve,context,"$test.getThrow()");
         assertMethodInvocationException(ve,context,"$test.throw");
     }
-    
-    public void testNullSetEventHandlerException() 
+
+    public void testNullSetEventHandlerException()
     throws Exception
     {
         ve = new VelocityEngine();
@@ -89,8 +89,8 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         ve.init();
         assertException(ve,"#set($test = $abc)");
     }
-    
-    public void testIncludeEventHandlerException() 
+
+    public void testIncludeEventHandlerException()
     throws Exception
     {
         ve = new VelocityEngine();
@@ -98,27 +98,27 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         ve.init();
         assertException(ve,"#include('dummy')");
     }
-    
+
     public void testResourceLoaderException()
     throws Exception
     {
         ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER,"except");
         ve.setProperty("except.resource.loader.class",ExceptionGeneratingResourceLoader.class.getName());
-        try 
+        try
         {
             ve.init();  // tries to get the macro file
             ve.getTemplate("test.txt");
             fail("Should have thrown RuntimeException");
-        } 
+        }
         catch (RuntimeException E)
         {
             // do nothing
-        }        
+        }
     }
-    
-    
-    public void testDirectiveException() 
+
+
+    public void testDirectiveException()
     throws Exception
     {
         ve = new VelocityEngine();
@@ -127,8 +127,8 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         assertException(ve,"#Exception() test #end");
     }
 
-    
-    
+
+
     public void assertException(VelocityEngine ve)
     throws Exception
     {
@@ -136,7 +136,7 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         context.put ("test","test");
         assertException(ve,context,"this is a $test");
     }
-    
+
     public void assertException(VelocityEngine ve, String input)
     throws Exception
     {
@@ -144,16 +144,16 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         context.put ("test","test");
         assertException(ve,context,input);
     }
-    
+
     public void assertException(VelocityEngine ve, Context context, String input)
     throws Exception
     {
-        try 
+        try
         {
             StringWriter writer = new StringWriter();
             ve.evaluate(context,writer,"test",input);
             fail("Expected RuntimeException");
-        } 
+        }
         catch (RuntimeException E)
         {
             // do nothing
@@ -162,17 +162,17 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
     public void assertMethodInvocationException(VelocityEngine ve, Context context, String input)
     throws Exception
     {
-        try 
+        try
         {
             StringWriter writer = new StringWriter();
             ve.evaluate(context,writer,"test",input);
             fail("Expected MethodInvocationException");
-        } 
+        }
         catch (MethodInvocationException E)
         {
             // do nothing
         }
     }
-    
-    
+
+
 }

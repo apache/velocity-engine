@@ -45,18 +45,18 @@ public class Example
              */
 
             Velocity.init("velocity.properties");
-            
+
             /*
-             *  Make a context object and populate with the data.  This 
+             *  Make a context object and populate with the data.  This
              *  is where the Velocity engine gets the data to resolve the
              *  references (ex. $list) in the template
              */
 
             VelocityContext context = new VelocityContext();
             context.put("list", getNames());
-            
+
             /*
-             *  get the Template object.  This is the parsed version of your 
+             *  get the Template object.  This is the parsed version of your
              *  template input file.  Note that getTemplate() can throw
              *   ResourceNotFoundException : if it doesn't find the template
              *   ParseErrorException : if there is something wrong with the VTL
@@ -66,7 +66,7 @@ public class Example
 
             Template template =  null;
 
-            try 
+            try
             {
                 template = Velocity.getTemplate(templateFile);
             }
@@ -81,7 +81,7 @@ public class Example
 
             /*
              *  Now have the template engine process your template using the
-             *  data placed into the context.  Think of it as a  'merge' 
+             *  data placed into the context.  Think of it as a  'merge'
              *  of the template and the data to produce the output stream.
              */
 

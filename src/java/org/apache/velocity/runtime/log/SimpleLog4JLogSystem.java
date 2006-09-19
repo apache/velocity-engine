@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
- * <p><em>This class is deprecated in favor of the new {@link Log4JLogChute}, 
+ * <p><em>This class is deprecated in favor of the new {@link Log4JLogChute},
  * which makes use of Log4J's <code>Logger</code> rather than its deprecated
  * <code>Category</code> class.</em></p>
  *
@@ -46,7 +46,7 @@ public class SimpleLog4JLogSystem implements LogSystem
     protected Category logger = null;
 
     /**
-     * 
+     *
      */
     public SimpleLog4JLogSystem()
     {
@@ -69,13 +69,13 @@ public class SimpleLog4JLogSystem implements LogSystem
         if ( categoryname != null )
         {
             logger = Category.getInstance( categoryname );
-        
+
             logVelocityMessage( 0,
                                 "SimpleLog4JLogSystem using category '" + categoryname + "'");
 
             return;
         }
-        
+
         /*
          *  if not, use the file...
          */
@@ -89,12 +89,12 @@ public class SimpleLog4JLogSystem implements LogSystem
         {
             internalInit( logfile );
 
-            logVelocityMessage( 0, 
+            logVelocityMessage( 0,
                 "SimpleLog4JLogSystem initialized using logfile '" + logfile + "'" );
         }
         catch( Exception e )
         {
-            System.err.println( 
+            System.err.println(
                 "PANIC : error configuring SimpleLog4JLogSystem : " + e );
         }
     }
@@ -106,7 +106,7 @@ public class SimpleLog4JLogSystem implements LogSystem
         throws Exception
     {
         /*
-         *  do it by our classname to avoid conflicting with anything else 
+         *  do it by our classname to avoid conflicting with anything else
          *  that might be used...
          */
 
@@ -114,17 +114,17 @@ public class SimpleLog4JLogSystem implements LogSystem
         logger.setAdditivity(false);
 
         /*
-         * Priority is set for DEBUG becouse this implementation checks 
+         * Priority is set for DEBUG becouse this implementation checks
          * log level.
          */
         logger.setLevel(Level.DEBUG);
 
         appender = new RollingFileAppender( new PatternLayout( "%d - %m%n"), logfile, true);
-        
+
         appender.setMaxBackupIndex( 1 );
-        
+
         appender.setMaximumFileSize( 100000 );
-        
+
         logger.addAppender(appender);
     }
 
@@ -136,7 +136,7 @@ public class SimpleLog4JLogSystem implements LogSystem
      */
     public void logVelocityMessage(int level, String message)
     {
-        switch (level) 
+        switch (level)
         {
             case LogSystem.WARN_ID:
                 logger.warn( message );
@@ -158,7 +158,7 @@ public class SimpleLog4JLogSystem implements LogSystem
 
     /**
      * Also do a shutdown if the object is destroy()'d.
-     * @throws Throwable 
+     * @throws Throwable
      */
     protected void finalize() throws Throwable
     {

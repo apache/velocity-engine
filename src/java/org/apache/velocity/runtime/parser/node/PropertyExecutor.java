@@ -52,10 +52,10 @@ public class PropertyExecutor extends AbstractExecutor
     }
 
     /**
-     * @param r 
-     * @param introspector 
-     * @param clazz 
-     * @param property 
+     * @param r
+     * @param introspector
+     * @param clazz
+     * @param property
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public PropertyExecutor(final RuntimeLogger r, final Introspector introspector,

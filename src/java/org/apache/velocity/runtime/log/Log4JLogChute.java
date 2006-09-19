@@ -39,7 +39,7 @@ import org.apache.velocity.util.ExceptionUtils;
 public class Log4JLogChute implements LogChute
 {
     /**
-     * 
+     *
      */
     public static final String RUNTIME_LOG_LOG4J_LOGGER =
             "runtime.log.logsystem.log4j.logger";
@@ -133,7 +133,7 @@ public class Log4JLogChute implements LogChute
      */
     public void log(int level, String message)
     {
-        switch (level) 
+        switch (level)
         {
             case LogChute.WARN_ID:
                 logger.warn(message);
@@ -168,7 +168,7 @@ public class Log4JLogChute implements LogChute
      */
     public void log(int level, String message, Throwable t)
     {
-        switch (level) 
+        switch (level)
         {
             case LogChute.WARN_ID:
                 logger.warn(message, t);
@@ -230,7 +230,7 @@ public class Log4JLogChute implements LogChute
 
     /**
      * Also do a shutdown if the object is destroy()'d.
-     * @throws Throwable 
+     * @throws Throwable
      */
     protected void finalize() throws Throwable
     {

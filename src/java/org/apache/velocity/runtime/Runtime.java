@@ -64,7 +64,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
  * Runtime.init()
- * 
+ *
  * If Runtime.init() is called by itself the Runtime will
  * initialize with a set of default values.
  * -----------------------------------------------------------------------
@@ -89,12 +89,12 @@ import org.apache.commons.collections.ExtendedProperties;
  */
 public class Runtime implements RuntimeConstants
 {
-   
+
     /**
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
-     * 
+     *
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
@@ -122,7 +122,7 @@ public class Runtime implements RuntimeConstants
     public static void setProperty(String key, Object value)
     {
         RuntimeSingleton.setProperty( key, value );
-    }        
+    }
 
     /**
      * Allow an external system to set an ExtendedProperties
@@ -162,7 +162,7 @@ public class Runtime implements RuntimeConstants
     {
         RuntimeSingleton.addProperty( key, value );
     }
-    
+
     /**
      * Clear the values pertaining to a particular
      * property.
@@ -173,7 +173,7 @@ public class Runtime implements RuntimeConstants
     {
         RuntimeSingleton.clearProperty( key );
     }
-    
+
     /**
      *  Allows an external caller to get a property.  The calling
      *  routine is required to know the type, as this routine
@@ -191,19 +191,19 @@ public class Runtime implements RuntimeConstants
      * Initialize the Velocity Runtime with a Properties
      * object.
      *
-     * @param p The properties used for initializiation. 
+     * @param p The properties used for initializiation.
      * @throws Exception When a problem occurs during init.
      */
     public static void init(Properties p) throws Exception
     {
         RuntimeSingleton.init(p);
     }
-    
+
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
      * *
-     * @param configurationFile The name of a properties file. 
+     * @param configurationFile The name of a properties file.
      * @throws Exception When a problem occurs during init.
      */
     public static void init(String configurationFile)
@@ -212,16 +212,16 @@ public class Runtime implements RuntimeConstants
         RuntimeSingleton.init( configurationFile );
     }
 
- 
+
     /**
      * Parse the input and return the root of
      * AST node structure.
      * <br><br>
      *  In the event that it runs out of parsers in the
-     *  pool, it will create and let them be GC'd 
+     *  pool, it will create and let them be GC'd
      *  dynamically, logging that it has to do that.  This
      *  is considered an exceptional condition.  It is
-     *  expected that the user will set the 
+     *  expected that the user will set the
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
@@ -238,7 +238,7 @@ public class Runtime implements RuntimeConstants
 
     /**
      * Parse the input and return the root of the AST node structure.
-     * 
+     *
      * @see #parse(Reader, String)
      *
      * @param reader A reader returning the template input stream.
@@ -252,11 +252,11 @@ public class Runtime implements RuntimeConstants
     {
         return RuntimeSingleton.parse( reader, templateName, dumpNamespace );
     }
-    
- 
+
+
     /**
      * Returns a <code>Template</code> from the resource manager.
-     * This method assumes that the character encoding of the 
+     * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
      * property.  The default is "ISO-8859-1"
      *
@@ -332,7 +332,7 @@ public class Runtime implements RuntimeConstants
 
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -345,7 +345,7 @@ public class Runtime implements RuntimeConstants
         return RuntimeSingleton.getLoaderNameForResource( resourceName );
     }
 
-    
+
     /**
      * Log a warning message.
      *
@@ -355,8 +355,8 @@ public class Runtime implements RuntimeConstants
     {
         RuntimeSingleton.warn( message );
     }
-    
-    /** 
+
+    /**
      * Log an info message.
      *
      * @param message message to log
@@ -365,7 +365,7 @@ public class Runtime implements RuntimeConstants
     {
         RuntimeSingleton.info( message );
     }
-    
+
     /**
      * Log an error message.
      *
@@ -375,7 +375,7 @@ public class Runtime implements RuntimeConstants
     {
         RuntimeSingleton.error( message );
     }
-    
+
     /**
      * Log a debug message.
      *
@@ -389,11 +389,11 @@ public class Runtime implements RuntimeConstants
     /**
      * String property accessor method with default to hide the
      * configuration implementation.
-     * 
+     *
      * @param key A property key.
-     * @param defaultValue  default value to return if key not 
+     * @param defaultValue  default value to return if key not
      *               found in resource manager.
-     * @return The property value of of key or default. 
+     * @return The property value of of key or default.
      */
     public static String getString( String key, String defaultValue)
     {
@@ -406,7 +406,7 @@ public class Runtime implements RuntimeConstants
      *
      * @param vmName  Name of velocimacro requested
      * @param templateName The template from which the macro is requested.
-     * @return A VelocimacroProxy object for the macro. 
+     * @return A VelocimacroProxy object for the macro.
      */
     public static Directive getVelocimacro( String vmName, String templateName  )
     {
@@ -416,22 +416,22 @@ public class Runtime implements RuntimeConstants
    /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
      *
-     * @param name  Name of a new velocimacro. 
+     * @param name  Name of a new velocimacro.
      * @param macro String form of the macro body.
-     * @param argArray  Array of strings, containing the 
+     * @param argArray  Array of strings, containing the
      *                         #macro() arguments.  the 0th argument is the name.
      * @param sourceTemplate The template from which the macro is requested.
-     * @return boolean  True if added, false if rejected for some 
-     *                  reason (either parameters or permission settings) 
+     * @return boolean  True if added, false if rejected for some
+     *                  reason (either parameters or permission settings)
      */
-    public static boolean addVelocimacro( String name, 
-                                          String macro, 
-                                          String argArray[], 
+    public static boolean addVelocimacro( String name,
+                                          String macro,
+                                          String argArray[],
                                           String sourceTemplate )
-    {    
+    {
         return RuntimeSingleton.addVelocimacro( name, macro, argArray, sourceTemplate );
     }
- 
+
     /**
      *  Checks to see if a VM exists
      *
@@ -447,8 +447,8 @@ public class Runtime implements RuntimeConstants
     /**
      *  tells the vmFactory to dump the specified namespace.  This is to support
      *  clearing the VM list when in inline-VM-local-scope mode
-     * 
-     * @param namespace The namespace to dump. 
+     *
+     * @param namespace The namespace to dump.
      * @return True if the namespace has been dumped.
      */
     public static boolean dumpVMNamespace( String namespace )
@@ -503,7 +503,7 @@ public class Runtime implements RuntimeConstants
 
     /**
      * Boolean property accessor method to hide the configuration implementation.
-     * 
+     *
      * @param key  property key
      * @param def default default value if property not found
      * @return boolean  value of key or default value
@@ -522,5 +522,5 @@ public class Runtime implements RuntimeConstants
     public static ExtendedProperties getConfiguration()
     {
         return RuntimeSingleton.getConfiguration();
-    }        
+    }
 }

@@ -44,7 +44,7 @@ public class JDK15UberspectImpl
         }
         else
         {
-            return super.getIterator(obj, i); 
+            return super.getIterator(obj, i);
         }
     }
  }

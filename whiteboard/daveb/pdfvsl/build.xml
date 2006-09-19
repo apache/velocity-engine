@@ -11,15 +11,15 @@
 
     <target depends="prepare" name="prepare-error" unless="AnakiaTask.present">
         <echo>
-            AnakiaTask is not present! Please check to make sure that 
+            AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath.
         </echo>
     </target>
 
     <target name="docs" depends="prepare-error" if="AnakiaTask.present">
         <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"/>
-        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop"/>	
-	
+        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop"/>
+
 	<delete dir="${docs.dest}"/>
 	<mkdir dir="${docs.dest}"/>
 
@@ -28,12 +28,12 @@
              includes="**/*.xml"
              lastModifiedCheck="true">
         </anakia>
-	
+
 	<!-- Make big XML doc here -->
-	
-	<fop fofile="${docs.dest}/anakia.fo" 
+
+	<fop fofile="${docs.dest}/anakia.fo"
 	    pdffile="${docs.dest}/anakia.pdf"
 	/>
-        
+
     </target>
 </project>

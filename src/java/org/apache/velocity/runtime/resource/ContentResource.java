@@ -39,7 +39,7 @@ public class ContentResource extends Resource
     public ContentResource()
     {
     }
-    
+
     /**
      * Pull in static content and store it.
      * @return True if everything went ok.
@@ -55,19 +55,19 @@ public class ContentResource extends Resource
         try
         {
             StringWriter sw = new StringWriter();
-            
+
             reader = new BufferedReader(
                 new InputStreamReader(resourceLoader.getResourceStream(name),
                                       encoding));
-            
+
             char buf[] = new char[1024];
             int len = 0;
-            
+
             while ( ( len = reader.read( buf, 0, 1024 )) != -1)
                 sw.write( buf, 0, len );
-        
+
             setData(sw.toString());
-           
+
             return true;
         }
         catch ( ResourceNotFoundException e )
@@ -76,7 +76,7 @@ public class ContentResource extends Resource
             // remaining configured ResourceLoaders.
             throw e;
         }
-        catch ( Exception e ) 
+        catch ( Exception e )
         {
             rsvc.getLog().error("Cannot process content resource", e);
             return false;

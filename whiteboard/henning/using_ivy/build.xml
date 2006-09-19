@@ -69,7 +69,7 @@
   <!-- =================================================================== -->
   <target name="env" description="Prints build parameters">
     <echo>
-  Global settings:   
+  Global settings:
     java.home = ${java.home}
     user.home = ${user.home}
     java.class.path = ${java.class.path}
@@ -142,10 +142,10 @@
       </fileset>
     </path>
 
-    <taskdef name="ivy-configure" 
+    <taskdef name="ivy-configure"
              classname="fr.jayasoft.ivy.ant.IvyConfigure"
              classpathref="ivy.classpath" loaderref="classpath.custom.ant.loaded"/>
-    <taskdef name="ivy-resolve" 
+    <taskdef name="ivy-resolve"
              classname="fr.jayasoft.ivy.ant.IvyResolve"
              classpathref="ivy.classpath" loaderref="classpath.custom.ant.loaded"/>
     <taskdef name="ivy-retrieve"
@@ -170,7 +170,7 @@
         <include name="**/*.jar"/>
       </fileset>
     </path>
-  
+
     <path id="velocity.run.classpath">
       <path refid="velocity.build.classpath"/>
       <pathelement location="${build.dir}/${final.name}.jar"/>
@@ -210,7 +210,7 @@
   ********************************************************
   **
   ** The javax.sql.Datasource class has not been found on
-  ** your classpath. This means that your newly built 
+  ** your classpath. This means that your newly built
   ** Velocity jar will not contain the JDBC based resource
   ** loaders. If this is a problem, please use a JDK for
   ** building that contains the javax.sql.Datasource class.
@@ -779,7 +779,7 @@
           description="Run the Velocity testcases">
 
     <mkdir dir="${build.test.reports}"/>
-    <junit dir="${velocity.dir}" 
+    <junit dir="${velocity.dir}"
            fork="true"
            printSummary="yes"
            haltonerror="${test.haltonerror}"

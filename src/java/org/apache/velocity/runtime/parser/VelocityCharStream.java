@@ -6,8 +6,8 @@ package org.apache.velocity.runtime.parser;
  *  fixes for CTORS, and mods to readChar().
  *
  *  This is safe because we *always* use Reader with this class, and never a
- *  InputStream.  This guarantees that we have a correct stream of 16-bit 
- *  chars - all encoding transformations have been done elsewhere, so we 
+ *  InputStream.  This guarantees that we have a correct stream of 16-bit
+ *  chars - all encoding transformations have been done elsewhere, so we
  *  believe that there is no risk in doing this.  Time will tell :)
  */
 
@@ -420,8 +420,8 @@ public void Done()
 
   /**
    * Method to adjust line and column numbers for the start of a token.<BR>
- * @param newLine 
- * @param newCol 
+ * @param newLine
+ * @param newCol
    */
   public void adjustBeginLineColumn(int newLine, int newCol)
   {
@@ -448,7 +448,7 @@ public void Done()
         bufcolumn[j] = newCol + columnDiff;
         columnDiff = nextColDiff;
         i++;
-     } 
+     }
 
      if (i < len)
      {

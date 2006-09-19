@@ -26,9 +26,9 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
- *  class to encapsulate the 'stuff' for internal operation of velocity.  
+ *  class to encapsulate the 'stuff' for internal operation of velocity.
  *  We use the context as a thread-safe storage : we take advantage of the
- *  fact that it's a visitor  of sorts  to all nodes (that matter) of the 
+ *  fact that it's a visitor  of sorts  to all nodes (that matter) of the
  *  AST during init() and render().
  *  Currently, it carries the template name for namespace
  *  support, as well as node-local context data introspection caching.
@@ -51,7 +51,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  cache for node/context specific introspection information
      */
     private HashMap introspectionCache = new HashMap(33);
-    
+
     /**
      *  Template name stack. The stack top contains the current template name.
      */
@@ -92,7 +92,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         templateNameStack.pop();
         return;
     }
-     
+
     /**
      *  get the current template name
      *
@@ -127,12 +127,12 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     {
         return ( IntrospectionCacheData ) introspectionCache.get( key );
     }
-     
+
     /**
      *  places an IntrospectionCache Data (@see IntrospectionCacheData)
      *  element in the cache for specified key
      *
-     *  @param key  key 
+     *  @param key  key
      *  @param o  IntrospectionCacheData object to place in cache
      */
     public void icachePut( Object key, IntrospectionCacheData o )
@@ -182,7 +182,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         EventCartridge temp = eventCartridge;
 
         eventCartridge = ec;
-        
+
         return temp;
     }
 

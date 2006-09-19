@@ -36,9 +36,9 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  Further, this context also supports the 'VM local context' mode, where
  *  any get() or put() of references that aren't args to the VM are considered
  *  local to the vm, protecting the global context.
- *  
+ *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id$ 
+ *  @version $Id$
  */
 public class VMContext implements InternalContextAdapter
 {
@@ -59,8 +59,8 @@ public class VMContext implements InternalContextAdapter
 
      /**
      *  CTOR, wraps an ICA
-     * @param inner 
-     * @param rsvc 
+     * @param inner
+     * @param rsvc
      */
     public VMContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
@@ -94,8 +94,8 @@ public class VMContext implements InternalContextAdapter
      *  be modified w/o damaging the VMProxyArg, and leaving the
      *  dynamic ones, as they modify context rather than their own
      *  state
-     *  @param  vmpa VMProxyArg to add 
-     * @throws MethodInvocationException 
+     *  @param  vmpa VMProxyArg to add
+     * @throws MethodInvocationException
      */
     public void addVMProxyArg(  VMProxyArg vmpa ) throws MethodInvocationException
     {
@@ -117,7 +117,7 @@ public class VMContext implements InternalContextAdapter
     }
 
     /**
-     *  Impl of the Context.put() method. 
+     *  Impl of the Context.put() method.
      *
      *  @param key name of item to set
      *  @param value object to set to key
@@ -140,7 +140,7 @@ public class VMContext implements InternalContextAdapter
             if(localcontextscope)
             {
                 /*
-                 *  if we have localcontextscope mode, then just 
+                 *  if we have localcontextscope mode, then just
                  *  put in the local context
                  */
 
@@ -151,7 +151,7 @@ public class VMContext implements InternalContextAdapter
                 /*
                  *  ok, how about the local context?
                  */
-  
+
                 if (localcontext.containsKey( key ))
                 {
                     return localcontext.put( key, value);
@@ -162,28 +162,28 @@ public class VMContext implements InternalContextAdapter
                      * otherwise, let them push it into the 'global' context
                      */
 
-                    return innerContext.put( key, value );   
+                    return innerContext.put( key, value );
                 }
             }
         }
     }
 
     /**
-     *  Impl of the Context.gut() method. 
+     *  Impl of the Context.gut() method.
      *
      *  @param key name of item to get
      *  @return  stored object or null
      */
-    public Object get( String key ) 
+    public Object get( String key )
     {
         /*
          * first, see if it's a VMPA
          */
-        
+
         Object o = null;
-        
+
         VMProxyArg vmpa = (VMProxyArg) vmproxyhash.get( key );
-        
+
         if( vmpa != null )
         {
             o = vmpa.getObject( wrappedContext );
@@ -193,7 +193,7 @@ public class VMContext implements InternalContextAdapter
             if(localcontextscope)
             {
                 /*
-                 * if we have localcontextscope mode, then just 
+                 * if we have localcontextscope mode, then just
                  * put in the local context
                  */
 
@@ -204,9 +204,9 @@ public class VMContext implements InternalContextAdapter
                 /*
                  *  try the local context
                  */
-            
+
                 o = localcontext.get( key );
-                
+
                 if ( o == null)
                 {
                     /*
@@ -217,10 +217,10 @@ public class VMContext implements InternalContextAdapter
                 }
             }
         }
-       
+
         return o;
     }
- 
+
     /**
      * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
      */
@@ -228,7 +228,7 @@ public class VMContext implements InternalContextAdapter
     {
         return false;
     }
-  
+
     /**
      * @see org.apache.velocity.context.Context#getKeys()
      */
@@ -260,7 +260,7 @@ public class VMContext implements InternalContextAdapter
     {
         innerContext.popCurrentTemplateName();
     }
-   
+
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
      */
@@ -284,7 +284,7 @@ public class VMContext implements InternalContextAdapter
     {
         return innerContext.icacheGet( key );
     }
-   
+
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
      */

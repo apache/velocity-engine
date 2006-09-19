@@ -247,8 +247,8 @@ public class EventCartridge
      * Initialize the handlers.  For global handlers this is called when Velocity
      * is initialized. For local handlers this is called when the first handler
      * is executed.  Handlers will not be initialized more than once.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
     public void initialize (RuntimeServices rs) throws Exception
     {

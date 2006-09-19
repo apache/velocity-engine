@@ -33,11 +33,11 @@ This is an example template that gets processed.
     <section name="Section 2">
 
     <p> here is another section </p>
-    
+
     </section>
 
     <section name="section 3">
-    
+
     <p><a href="./about/index.html">A link to a sub page</a></p>
 
     </section>

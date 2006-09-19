@@ -35,7 +35,7 @@ public class InstanceExample
     public static void main( String args[] )
     {
         /* first, we init the runtime engine.  Defaults are fine. */
-        
+
         VelocityEngine ve1 = new VelocityEngine();
         VelocityEngine ve2 = new VelocityEngine();
 
@@ -44,7 +44,7 @@ public class InstanceExample
             ve1.setProperty("runtime.log", "velengine1.log");
             ve1.setProperty("file.resource.loader.path", "./template1");
             ve1.init();
-            
+
             ve2.setProperty("runtime.log", "velengine2.log");
             ve2.setProperty("file.resource.loader.path", "./template2");
             ve2.init();
@@ -61,7 +61,7 @@ public class InstanceExample
 
         context.put("name", "Velocity");
         context.put("project", "Jakarta");
-        
+
         /* lets render a template */
 
         StringWriter w1 = new StringWriter();

@@ -39,19 +39,19 @@ public abstract class SetExecutor
 {
     /** Class logger */
     protected Log log = null;
-    
+
     /**
      * Method to be executed.
      */
     private Method method = null;
-    
+
     /**
      * Execute method against context.
-     * @param o 
-     * @param value 
+     * @param o
+     * @param value
      * @return The result of the invocation.
-     * @throws IllegalAccessException 
-     * @throws InvocationTargetException 
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
      */
     public abstract Object execute(Object o, Object value)
          throws IllegalAccessException, InvocationTargetException;

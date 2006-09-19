@@ -18,9 +18,9 @@ package org.apache.velocity.runtime.log;
 
 /**
  *  Pre-init logger.  I believe that this was suggested by
- *  Carsten Ziegeler <cziegeler@sundn.de> and 
+ *  Carsten Ziegeler <cziegeler@sundn.de> and
  *  Jeroen C. van Gelderen.  If this isn't correct, let me
- *  know as this was a good idea... 
+ *  know as this was a good idea...
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
@@ -29,8 +29,8 @@ package org.apache.velocity.runtime.log;
 public class PrimordialLogSystem extends HoldingLogChute implements LogSystem
 {
     /**
-     * @param level 
-     * @param message 
+     * @param level
+     * @param message
      * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message)
@@ -39,11 +39,11 @@ public class PrimordialLogSystem extends HoldingLogChute implements LogSystem
     }
 
     /**
-     * @param newLogger 
+     * @param newLogger
      * @deprecated use transferTo(LogChute newChute)
      */
     public void dumpLogMessages( LogSystem newLogger )
     {
         transferTo(new LogChuteSystem(newLogger));
-    }    
+    }
 }

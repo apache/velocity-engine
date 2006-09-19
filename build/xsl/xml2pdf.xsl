@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--    XSLT stylesheet to convert the Fop documentation collected in one xml file into a fo file
-        for use in FOP 
+        for use in FOP
 
 TBD: - The faq doesn't show in the content
      - check why margin-bottom on the page with properties is too large
@@ -21,30 +21,30 @@ TBD: - The faq doesn't show in the content
     <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
     <!-- defines page layout -->
-    
+
     <fo:layout-master-set>
 
         <fo:simple-page-master master-name="first"
-            page-height="29.7cm" 
+            page-height="29.7cm"
             page-width="21cm"
-            margin-top="1.5cm" 
-            margin-bottom="2cm" 
-            margin-left="2.5cm" 
+            margin-top="1.5cm"
+            margin-bottom="2cm"
+            margin-left="2.5cm"
             margin-right="2.5cm">
-                                
+
             <fo:region-body margin-top="3cm"/>
             <fo:region-before extent="1.5cm"/>
             <fo:region-after extent="1.5cm"/>
         </fo:simple-page-master>
 
         <fo:simple-page-master master-name="rest"
-            page-height="29.7cm" 
+            page-height="29.7cm"
             page-width="21cm"
-            margin-top="1.5cm" 
-            margin-bottom="2cm" 
-            margin-left="2.5cm" 
+            margin-top="1.5cm"
+            margin-bottom="2cm"
+            margin-left="2.5cm"
             margin-right="2.5cm">
-                                
+
             <fo:region-body margin-top="2.5cm"/>
             <fo:region-before extent="1.5cm"/>
             <fo:region-after extent="1.5cm"/>
@@ -59,21 +59,21 @@ TBD: - The faq doesn't show in the content
 
     <fo:page-sequence master-name="all">
         <fo:static-content flow-name="xsl-region-before">
-            <fo:block text-align="end" 
-                font-size="10pt" 
-                font-family="serif" 
+            <fo:block text-align="end"
+                font-size="10pt"
+                font-family="serif"
                 line-height="14pt" >
-            
-                Velocity User's Guide - pg 
-            
+
+                Velocity User's Guide - pg
+
                 <fo:page-number/>
             </fo:block>
-        </fo:static-content> 
+        </fo:static-content>
 
         <fo:flow flow-name="xsl-region-body">
 
-            <fo:block font-size="18pt" 
-                font-family="sans-serif" 
+            <fo:block font-size="18pt"
+                font-family="sans-serif"
                 line-height="24pt"
                 space-after.optimum="15pt"
                 background-color="blue"
@@ -85,8 +85,8 @@ TBD: - The faq doesn't show in the content
 
             <!-- generates table of contents and puts it into a table -->
 
-            <fo:block font-size="14pt" 
-                font-family="sans-serif" 
+            <fo:block font-size="14pt"
+                font-family="sans-serif"
                 line-height="18pt"
                 space-after.optimum="10pt"
                 font-weight="bold"
@@ -97,10 +97,10 @@ TBD: - The faq doesn't show in the content
             <fo:table>
                 <fo:table-column column-width="1cm"/>
                 <fo:table-column column-width="15cm"/>
-                <fo:table-body font-size="12pt" 
+                <fo:table-body font-size="12pt"
                     line-height="16pt"
                     font-family="sans-serif">
-                
+
                     <xsl:for-each select="//document">
                         <fo:table-row>
                             <fo:table-cell/>
@@ -116,7 +116,7 @@ TBD: - The faq doesn't show in the content
                     </xsl:for-each>
                 </fo:table-body>
             </fo:table>
-            <xsl:apply-templates select="documentation"/> 
+            <xsl:apply-templates select="documentation"/>
             </fo:flow>
         </fo:page-sequence>
     </fo:root>
@@ -124,179 +124,179 @@ TBD: - The faq doesn't show in the content
 
 <!-- s1 -->
 <xsl:template match ="s1">
-    <fo:block font-size="18pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="18pt"
+        font-family="sans-serif"
         line-height="24pt"
         space-before.optimum="15pt"
         space-after.optimum="15pt"
         background-color="blue"
         color="white"
         text-align="center">
-     
+
         <xsl:attribute name="id">
             <xsl:value-of select="translate(.,' ),-.(','____')"/>
         </xsl:attribute>
-     
+
         <xsl:value-of select="@title"/>
     </fo:block>
-    <xsl:apply-templates/> 
+    <xsl:apply-templates/>
 </xsl:template>
 
 <!-- s2 -->
 <xsl:template match ="s2">
-    <fo:block font-size="16pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="16pt"
+        font-family="sans-serif"
         line-height="20pt"
         space-before.optimum="15pt"
         space-after.optimum="12pt"
         text-align="center"
         padding-top="3pt">
-     
+
         <xsl:value-of select="@title"/>
-    
+
     </fo:block>
-    <xsl:apply-templates/> 
+    <xsl:apply-templates/>
 </xsl:template>
 
 <!-- s3 -->
 <xsl:template match ="s3">
-    <fo:block font-size="14pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="14pt"
+        font-family="sans-serif"
         line-height="18pt"
         space-before.optimum="10pt"
         space-after.optimum="9pt"
         text-align="center"
         padding-top="3pt">
-     
+
         <xsl:value-of select="@title"/>
-    
+
     </fo:block>
-    <xsl:apply-templates/> 
+    <xsl:apply-templates/>
 </xsl:template>
 
 <!-- p  [not(code)] -->
-<xsl:template match ="p"> 
-    <fo:block font-size="11pt" 
-        font-family="sans-serif" 
+<xsl:template match ="p">
+    <fo:block font-size="11pt"
+        font-family="sans-serif"
         line-height="13pt"
         space-after.optimum="3pt"
         space-before.optimum="3pt"
         text-align="justify">
-        
-        <xsl:apply-templates/> 
-   
+
+        <xsl:apply-templates/>
+
    </fo:block>
 </xsl:template>
 
-<!-- p + code 
+<!-- p + code
 <xsl:template match ="p[code]">
-    <fo:block font-size="11pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="11pt"
+        font-family="sans-serif"
         line-height="11pt"
         space-after.optimum="0pt"
         space-before.optimum="0pt"
         text-align="start">
-        
-        <xsl:apply-templates/> 
-   
+
+        <xsl:apply-templates/>
+
    </fo:block>
 </xsl:template>
 -->
 
 <!-- faqs -->
 <xsl:template match ="faqs">
-    <fo:block font-size="18pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="18pt"
+        font-family="sans-serif"
         line-height="24pt"
         space-before.optimum="15pt"
         space-after.optimum="15pt"
         background-color="blue"
         color="white"
         text-align="center">
-     
+
         <xsl:attribute name="id">
             <xsl:value-of select="translate(.,' ),-.(','____')"/>
         </xsl:attribute>
-     
+
         <xsl:value-of select="@title"/>
-    
+
     </fo:block>
-    <xsl:apply-templates/> 
+    <xsl:apply-templates/>
 </xsl:template>
 
-<xsl:template match ="strong"> 
-    <fo:block font-size="12pt" 
-        font-family="sans-serif" 
+<xsl:template match ="strong">
+    <fo:block font-size="12pt"
+        font-family="sans-serif"
         line-height="14pt"
         space-after.optimum="3pt"
         space-before.optimum="3pt"
         text-align="start"
         font-weight="bold">
-        
-        <xsl:apply-templates/> 
-   
+
+        <xsl:apply-templates/>
+
    </fo:block>
 </xsl:template>
 
 <!-- faq -->
 <xsl:template match ="faq">
-    <xsl:apply-templates/> 
+    <xsl:apply-templates/>
 </xsl:template>
 
 <!-- q in faq -->
 <xsl:template match ="q">
-    <fo:block font-size="11pt" 
-        font-family="sans-serif" 
+    <fo:block font-size="11pt"
+        font-family="sans-serif"
         line-height="13pt"
         space-after.optimum="3pt"
         space-before.optimum="3pt"
         text-align="justify">
-    
-        <xsl:apply-templates/> 
-    
+
+        <xsl:apply-templates/>
+
     </fo:block>
 </xsl:template>
 
 <!-- a in faq -->
 <xsl:template match ="a">
-      <xsl:apply-templates/> 
+      <xsl:apply-templates/>
 </xsl:template>
 
 
 <!-- jump (links) -->
 <xsl:template match ="*/jump">
     <fo:simple-link color="blue" external-destination="{@href}">
-        <xsl:apply-templates/> 
+        <xsl:apply-templates/>
     </fo:simple-link>
 </xsl:template>
 
 
-<!-- code 
+<!-- code
 <xsl:template match ="*/code">
-   <fo:inline font-size="10pt" 
+   <fo:inline font-size="10pt"
             font-family="Courier">
-     <xsl:apply-templates/> 
+     <xsl:apply-templates/>
    </fo:inline>
 </xsl:template>
 -->
 
 <xsl:template match ="*/source">
-   <fo:inline font-size="10pt" 
+   <fo:inline font-size="10pt"
             font-family="Courier"
             white-space-treatment="preserve">
-     <xsl:apply-templates/> 
+     <xsl:apply-templates/>
    </fo:inline>
 </xsl:template>
 
 <!-- p + source -->
 <xsl:template match ="p[source]">
-   <fo:block font-size="11pt" 
-            font-family="sans-serif" 
+   <fo:block font-size="11pt"
+            font-family="sans-serif"
             line-height="12pt"
             space-after.optimum="0pt"
             space-before.optimum="0pt"
             text-align="start">
-     <xsl:apply-templates/> 
+     <xsl:apply-templates/>
    </fo:block>
 </xsl:template>
 
@@ -304,24 +304,24 @@ TBD: - The faq doesn't show in the content
 
 <!-- ul (unordered list) -->
 <xsl:template match ="ul">
-  <fo:list-block start-indent="1cm" 
-                 provisional-distance-between-starts="12pt" 
-                 font-family="sans-serif" 
-                 font-size="11pt" 
+  <fo:list-block start-indent="1cm"
+                 provisional-distance-between-starts="12pt"
+                 font-family="sans-serif"
+                 font-size="11pt"
                  line-height="11pt">
-     <xsl:apply-templates/> 
+     <xsl:apply-templates/>
    </fo:list-block>
 </xsl:template>
 
 
 <!-- ol (ordered list) -->
 <xsl:template match ="ol">
-  <fo:list-block start-indent="1cm" 
-                 provisional-distance-between-starts="12pt" 
-                 font-family="sans-serif" 
-                 font-size="11pt" 
+  <fo:list-block start-indent="1cm"
+                 provisional-distance-between-starts="12pt"
+                 font-family="sans-serif"
+                 font-size="11pt"
                  line-height="11pt">
-     <xsl:apply-templates/> 
+     <xsl:apply-templates/>
    </fo:list-block>
 </xsl:template>
 
@@ -336,7 +336,7 @@ TBD: - The faq doesn't show in the content
         <fo:block space-after.optimum="4pt"
               text-align="justify"
               padding-top="3pt">
-          <xsl:apply-templates/> 
+          <xsl:apply-templates/>
        </fo:block>
       </fo:list-item-body>
     </fo:list-item>
@@ -355,7 +355,7 @@ TBD: - The faq doesn't show in the content
         <fo:block space-after.optimum="4pt"
               text-align="justify"
               padding-top="3pt">
-          <xsl:apply-templates/> 
+          <xsl:apply-templates/>
        </fo:block>
       </fo:list-item-body>
     </fo:list-item>
@@ -366,11 +366,11 @@ TBD: - The faq doesn't show in the content
         <xsl:for-each select="tr[1]/td">
             <fo:table-column column-width="1.7in"/>
         </xsl:for-each>
-        <fo:table-body font-size="10pt" 
+        <fo:table-body font-size="10pt"
                     line-height="14pt"
                     font-family="sans-serif"
                     background-color="#a0ddf0">
-                
+
             <xsl:for-each select="tr">
                 <fo:table-row>
                     <xsl:for-each select="td">
@@ -389,7 +389,7 @@ TBD: - The faq doesn't show in the content
 <xsl:template name="content">
     <xsl:param name="doc"/>
     <xsl:param name="prefix">...</xsl:param>
-    <xsl:for-each select="$doc/s1"> 
+    <xsl:for-each select="$doc/s1">
         <fo:table-row>
             <fo:table-cell/>
             <fo:table-cell>
@@ -400,7 +400,7 @@ TBD: - The faq doesn't show in the content
                         </xsl:attribute>
                         <xsl:value-of select="$prefix"/>
                         <xsl:value-of select="@title"/>
-                    </fo:simple-link> 
+                    </fo:simple-link>
                 </fo:block>
            </fo:table-cell>
         </fo:table-row>

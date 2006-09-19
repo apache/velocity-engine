@@ -38,7 +38,7 @@ public class ClassMap
     private static final CacheMiss CACHE_MISS = new CacheMiss();
     private static final Object OBJECT = new Object();
 
-    /** 
+    /**
      * Class passed into the constructor used to as
      * the basis for the Method map.
      */
@@ -55,7 +55,7 @@ public class ClassMap
 
     /**
      * Standard constructor
-     * @param clazz 
+     * @param clazz
      */
     public ClassMap( Class clazz)
     {
@@ -74,7 +74,7 @@ public class ClassMap
      {
          return clazz;
      }
-    
+
     /**
      * Find a Method using the methodKey
      * provided.
@@ -86,10 +86,10 @@ public class ClassMap
      *
      * If nothing is found, then we must actually go
      * and introspect the method from the MethodMap.
-     * @param name 
-     * @param params 
+     * @param name
+     * @param params
      * @return Method object.
-     * @throws MethodMap.AmbiguousException 
+     * @throws MethodMap.AmbiguousException
      */
     public Method findMethod(String name, Object[] params)
         throws MethodMap.AmbiguousException
@@ -134,10 +134,10 @@ public class ClassMap
         }
 
         // Yes, this might just be null.
-        
+
         return (Method) cacheEntry;
     }
-    
+
     /**
      * Populate the Map of direct hits. These
      * are taken from all the public methods
@@ -160,7 +160,7 @@ public class ClassMap
             Method method = methods[i];
 
             /*
-             *  now get the 'public method', the method declared by a 
+             *  now get the 'public method', the method declared by a
              *  public interface or class. (because the actual implementing
              *  class may be a facade...
              */
@@ -179,7 +179,7 @@ public class ClassMap
                 methodMap.add( publicMethod );
                 methodCache.put(  makeMethodKey( publicMethod), publicMethod);
             }
-        }            
+        }
     }
 
     /**
@@ -190,14 +190,14 @@ public class ClassMap
     private String makeMethodKey(Method method)
     {
         Class[] parameterTypes = method.getParameterTypes();
-        
+
         StringBuffer methodKey = new StringBuffer(method.getName());
-        
+
         for (int j = 0; j < parameterTypes.length; j++)
         {
             /*
              * If the argument type is primitive then we want
-             * to convert our primitive type signature to the 
+             * to convert our primitive type signature to the
              * corresponding Object type so introspection for
              * methods with primitive types will work correctly.
              */
@@ -219,13 +219,13 @@ public class ClassMap
                     methodKey.append("java.lang.Long");
                 else if (parameterTypes[j].equals(Short.TYPE))
                     methodKey.append("java.lang.Short");
-            }                
+            }
             else
             {
                 methodKey.append(parameterTypes[j].getName());
             }
-        }            
-        
+        }
+
         return methodKey.toString();
     }
 
@@ -244,7 +244,7 @@ public class ClassMap
 
             methodKey.append(arg.getClass().getName());
         }
-        
+
         return methodKey.toString();
     }
 
@@ -257,12 +257,12 @@ public class ClassMap
     private static Method[] getAccessibleMethods(Class clazz)
     {
         Method[] methods = clazz.getMethods();
-        
+
         /*
          *  Short circuit for the (hopefully) majority of cases where the
          *  clazz is public
          */
-        
+
         if (Modifier.isPublic(clazz.getModifiers()))
         {
             return methods;
@@ -314,7 +314,7 @@ public class ClassMap
     private static int getAccessibleMethods( Class clazz, MethodInfo[] methodInfos, int upcastCount)
     {
         int l = methodInfos.length;
-        
+
         /*
          *  if this class is public, then check each of the currently
          *  'non-upcasted' methods to see if we have a match
@@ -397,11 +397,11 @@ public class ClassMap
 
         return upcastCount;
     }
-    
+
     /**
-     *  For a given method, retrieves its publicly accessible counterpart. 
+     *  For a given method, retrieves its publicly accessible counterpart.
      *  This method will look for a method with same name
-     *  and signature declared in a public superclass or implemented interface of this 
+     *  and signature declared in a public superclass or implemented interface of this
      *  method's declaring class. This counterpart method is publicly callable.
      *
      *  @param method a method whose publicly callable counterpart is requested.
@@ -412,7 +412,7 @@ public class ClassMap
     public static Method getPublicMethod(Method method)
     {
         Class clazz = method.getDeclaringClass();
-        
+
         /*
          *   Short circuit for (hopefully the majority of) cases where the declaring
          *   class is public.
@@ -428,8 +428,8 @@ public class ClassMap
 
     /**
      *  Looks up the method with specified name and signature in the first public
-     *  superclass or implemented interface of the class. 
-     * 
+     *  superclass or implemented interface of the class.
+     *
      *  @param clazz the class whose method is sought
      *  @param name the name of the method
      *  @param paramTypes the classes of method parameters
@@ -461,13 +461,13 @@ public class ClassMap
          *  try the superclass
          */
 
- 
+
         Class superclazz = clazz.getSuperclass();
 
         if ( superclazz != null )
         {
             Method superclazzMethod = getPublicMethod(superclazz, name, paramTypes);
-            
+
             if(superclazzMethod != null)
             {
                 return superclazzMethod;
@@ -483,7 +483,7 @@ public class ClassMap
         for(int i = 0; i < interfaces.length; ++i)
         {
             Method interfaceMethod = getPublicMethod(interfaces[i], name, paramTypes);
-            
+
             if(interfaceMethod != null)
             {
                 return interfaceMethod;
@@ -502,7 +502,7 @@ public class ClassMap
         String name;
         Class[] parameterTypes;
         boolean upcast;
-        
+
         MethodInfo(Method method)
         {
             this.method = null;
@@ -510,7 +510,7 @@ public class ClassMap
             parameterTypes = method.getParameterTypes();
             upcast = false;
         }
-        
+
         void tryUpcasting(Class clazz)
             throws NoSuchMethodException
         {

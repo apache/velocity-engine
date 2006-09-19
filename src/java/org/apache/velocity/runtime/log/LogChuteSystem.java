@@ -34,7 +34,7 @@ public class LogChuteSystem implements LogChute
     /**
      * Only classes in this package should be creating this.
      * Users should not have to mess with this class.
-     * @param wrapMe 
+     * @param wrapMe
      */
     protected LogChuteSystem(LogSystem wrapMe)
     {
@@ -59,11 +59,11 @@ public class LogChuteSystem implements LogChute
 
     /**
      * First passes off the message at the specified level,
-     * then passes off stack trace of the Throwable as a 
+     * then passes off stack trace of the Throwable as a
      * 2nd message at the same level.
-     * @param level 
-     * @param message 
-     * @param t 
+     * @param level
+     * @param message
+     * @param t
      */
     public void log(int level, String message, Throwable t)
     {

@@ -81,10 +81,10 @@ public class ASTIdentifier extends SimpleNode
     /**
      *  simple init - don't do anything that is context specific.
      *  just get what we need from the AST, which is static.
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return The data object.
-     * @throws Exception 
+     * @throws Exception
      */
     public  Object init(InternalContextAdapter context, Object data)
         throws Exception
@@ -145,7 +145,7 @@ public class ASTIdentifier extends SimpleNode
                 }
             }
         }
-        
+
         /**
          * pass through application level runtime exceptions
          */

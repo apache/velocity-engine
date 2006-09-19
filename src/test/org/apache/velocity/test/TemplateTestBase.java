@@ -25,8 +25,8 @@ package org.apache.velocity.test;
  */
 public interface TemplateTestBase
 {
-    /** 
-     * Directory relative to the distribution root, where the 
+    /**
+     * Directory relative to the distribution root, where the
      * values to compare test results to are stored.
      */
     public static final String TEST_COMPARE_DIR = "@test.dir@";

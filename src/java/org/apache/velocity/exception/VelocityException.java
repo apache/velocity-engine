@@ -17,7 +17,7 @@ package org.apache.velocity.exception;
  */
 
 /**
- *  Base class for Velocity exceptions thrown to the 
+ *  Base class for Velocity exceptions thrown to the
  *  application layer.
  *
  * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
@@ -36,5 +36,5 @@ public class VelocityException extends Exception
     public VelocityException(String exceptionMessage )
     {
         super(exceptionMessage);
-    }       
+    }
 }

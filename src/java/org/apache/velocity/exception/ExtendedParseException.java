@@ -18,7 +18,7 @@ package org.apache.velocity.exception;
 
 /**
  * All Exceptions that can provide additional information about the place
- * where the error happened (template name, column and line number) can 
+ * where the error happened (template name, column and line number) can
  * implement this interface and the ParseErrorException will then be able
  * to deal with this information.
  *

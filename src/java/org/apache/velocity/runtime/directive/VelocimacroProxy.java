@@ -38,7 +38,7 @@ import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
  *   a proxy Directive-derived object to fit with the current directive system
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class VelocimacroProxy extends Directive
 {
@@ -59,40 +59,40 @@ public class VelocimacroProxy extends Directive
      * Return name of this Velocimacro.
      * @return The name of this Velocimacro.
      */
-    public String getName() 
-    { 
-        return  macroName; 
+    public String getName()
+    {
+        return  macroName;
     }
-    
+
     /**
      * Velocimacros are always LINE
      * type directives.
      * @return The type of this directive.
      */
     public int getType()
-    { 
-        return LINE; 
+    {
+        return LINE;
     }
- 
+
     /**
      *   sets the directive name of this VM
-     * @param name 
+     * @param name
      */
     public void setName( String name )
     {
         macroName = name;
     }
-   
+
     /**
      *  sets the array of arguments specified in the macro definition
-     * @param arr 
+     * @param arr
      */
     public void setArgArray( String [] arr )
     {
         argArray = arr;
 
         /*
-         *  get the arg count from the arg array.  remember that the arg array 
+         *  get the arg count from the arg array.  remember that the arg array
          *  has the macro name as it's 0th element
          */
 
@@ -117,10 +117,10 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     *   Sets the orignal macro body.  This is simply the cat of the macroArray, but the 
+     *   Sets the orignal macro body.  This is simply the cat of the macroArray, but the
      *   Macro object creates this once during parsing, and everyone shares it.
      *   Note : it must not be modified.
-     * @param mb 
+     * @param mb
      */
     public void setMacrobody( String mb )
     {
@@ -137,23 +137,23 @@ public class VelocimacroProxy extends Directive
 
     /**
      *   Renders the macro using the context
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
-     * @throws MethodInvocationException 
+     * @throws IOException
+     * @throws MethodInvocationException
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
         throws IOException, MethodInvocationException
     {
-        try 
+        try
         {
             /*
-             *  it's possible the tree hasn't been parsed yet, so get 
+             *  it's possible the tree hasn't been parsed yet, so get
              *  the VMManager to parse and init it
              */
-       
+
             if (nodeTree != null)
             {
                 if ( !init )
@@ -161,7 +161,7 @@ public class VelocimacroProxy extends Directive
                     nodeTree.init( context, rsvc);
                     init = true;
                 }
-                
+
                 /*
                  *  wrap the current context and add the VMProxyArg objects
                  */
@@ -175,21 +175,21 @@ public class VelocimacroProxy extends Directive
                      *  the context.
                      */
 
-                    VMProxyArg arg = (VMProxyArg) proxyArgHash.get( argArray[i] ); 
+                    VMProxyArg arg = (VMProxyArg) proxyArgHash.get( argArray[i] );
                     vmc.addVMProxyArg( arg );
                 }
-         
+
                 /*
                  *  now render the VM
                  */
 
-                nodeTree.render( vmc, writer );               
+                nodeTree.render( vmc, writer );
             }
             else
             {
                 rsvc.getLog().error("VM error " + macroName + ". Null AST");
             }
-        } 
+        }
         /**
          * pass through application level runtime exceptions
          */
@@ -206,10 +206,10 @@ public class VelocimacroProxy extends Directive
             throw e;
         }
 
-        catch ( Exception e ) 
+        catch ( Exception e )
         {
 
-            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" + 
+            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" +
                                 macroName + "()", e);
         }
 
@@ -218,14 +218,14 @@ public class VelocimacroProxy extends Directive
 
     /**
      *   The major meat of VelocimacroProxy, init() checks the # of arguments, patches the
-     *   macro body, renders the macro into an AST, and then inits the AST, so it is ready 
+     *   macro body, renders the macro into an AST, and then inits the AST, so it is ready
      *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
-     * @param rs 
-     * @param context 
-     * @param node 
-     * @throws Exception 
+     * @param rs
+     * @param context
+     * @param node
+     * @throws Exception
      */
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node) 
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
        throws Exception
     {
         super.init( rs, context, node );
@@ -233,17 +233,17 @@ public class VelocimacroProxy extends Directive
         /*
          *  how many args did we get?
          */
-       
+
         int i  = node.jjtGetNumChildren();
-        
+
         /*
          *  right number of args?
          */
-     
-        if ( getNumArgs() != i ) 
+
+        if ( getNumArgs() != i )
         {
             rsvc.getLog().error("VM #" + macroName + ": error : too " +
-                                ((getNumArgs() > i) ? "few" : "many") + 
+                                ((getNumArgs() > i) ? "few" : "many") +
                                 " arguments to macro. Wanted " + getNumArgs() +
                                 " got " + i);
             return;
@@ -254,7 +254,7 @@ public class VelocimacroProxy extends Directive
          */
 
          callingArgs = getArgArray( node );
-       
+
         /*
          *  now proxy each arg in the context
          */
@@ -266,9 +266,9 @@ public class VelocimacroProxy extends Directive
     /**
      *  basic VM setup.  Sets up the proxy args for this
      *  use, and parses the tree
-     * @param callArgs 
-     * @param callArgTypes 
-     * @return True if the proxy was setup successfully. 
+     * @param callArgs
+     * @param callArgTypes
+     * @return True if the proxy was setup successfully.
      */
     public boolean setupMacro( String[] callArgs, int[] callArgTypes )
     {
@@ -284,8 +284,8 @@ public class VelocimacroProxy extends Directive
      */
     private void parseTree( String[] callArgs )
     {
-        try 
-        {                
+        try
+        {
             BufferedReader br = new BufferedReader( new StringReader( macroBody ) );
 
             /*
@@ -322,13 +322,13 @@ public class VelocimacroProxy extends Directive
             }
 
             /*
-             *  now make one of our reference-munging visitor, and 
+             *  now make one of our reference-munging visitor, and
              *  let 'er rip
              */
 
             VMReferenceMungeVisitor v = new VMReferenceMungeVisitor( hm );
             nodeTree.jjtAccept( v, null );
-        } 
+        }
         /**
          * pass through application level runtime exceptions
          */
@@ -336,13 +336,13 @@ public class VelocimacroProxy extends Directive
         {
             throw e;
         }
-        catch ( Exception e ) 
+        catch ( Exception e )
         {
-            rsvc.getLog().error("VelocimacroManager.parseTree() : exception " + 
+            rsvc.getLog().error("VelocimacroManager.parseTree() : exception " +
                                 macroName, e);
         }
     }
-  
+
     private void setupProxyArgs( String[] callArgs, int [] callArgTypes )
     {
         /*
@@ -355,14 +355,14 @@ public class VelocimacroProxy extends Directive
             proxyArgHash.put( argArray[i], arg );
         }
     }
-  
+
     /**
      *   gets the args to the VM from the instance-use AST
      */
     private String[] getArgArray( Node node )
     {
         int numArgs = node.jjtGetNumChildren();
-        
+
         String args[] = new String[ numArgs ];
         callingArgTypes = new int[numArgs];
 
@@ -372,18 +372,18 @@ public class VelocimacroProxy extends Directive
         int i = 0;
         Token t = null;
         Token tLast = null;
-    
-        while( i <  numArgs ) 
+
+        while( i <  numArgs )
         {
             args[i] = "";
             /*
-             *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched 
+             *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched
              *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
              */
 
             callingArgTypes[i] = node.jjtGetChild(i).getType();
- 
-           
+
+
             if (false &&  node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
             {
                 args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
@@ -396,7 +396,7 @@ public class VelocimacroProxy extends Directive
                 t = node.jjtGetChild(i).getFirstToken();
                 tLast = node.jjtGetChild(i).getLastToken();
 
-                while( t != tLast ) 
+                while( t != tLast )
                 {
                     args[i] += t.image;
                     t = t.next;

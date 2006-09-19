@@ -33,7 +33,7 @@ public class EnumerationIterator implements Iterator
     private Enumeration enumeration = null;
 
     /**
-     * Creates a new iteratorwrapper instance for the specified 
+     * Creates a new iteratorwrapper instance for the specified
      * Enumeration.
      *
      * @param enumeration  The Enumeration to wrap.
@@ -52,7 +52,7 @@ public class EnumerationIterator implements Iterator
     {
         return enumeration.nextElement();
     }
-    
+
     /**
      * Check to see if there is another element in the array.
      *
@@ -70,5 +70,5 @@ public class EnumerationIterator implements Iterator
     {
         // not implemented
     }
-   
+
 }

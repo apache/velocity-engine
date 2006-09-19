@@ -48,7 +48,7 @@ public class MethodMap
      * Add a method to a list of methods by name.
      * For a particular class we are keeping track
      * of all the methods with the same name.
-     * @param method 
+     * @param method
      */
     public void add(Method method)
     {

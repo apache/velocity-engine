@@ -23,7 +23,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  *  has a syntax or other error which prevents it from being parsed.
  *  <br>
  *  When this resource is thrown, a best effort will be made to have
- *  useful information in the exception's message.  For complete 
+ *  useful information in the exception's message.  For complete
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -41,33 +41,33 @@ public class ParseErrorException extends VelocityException
      * The column number of the parsing error, or -1 if not defined.
      */
     private int columnNumber = -1;
-    
+
     /**
      * The line number of the parsing error, or -1 if not defined.
      */
     private int lineNumber = -1;
-    
+
     /**
      * The name of the template containing the error, or null if not defined.
      */
     private String templateName = "*unset*";
-    
+
     /**
      * Create a ParseErrorException with the given message.
-     * 
+     *
      * @param exceptionMessage the error exception message
      */
     public ParseErrorException(String exceptionMessage)
       {
           super(exceptionMessage);
-    }    
+    }
 
     /**
      * Create a ParseErrorException with the given ParseException.
-     * 
+     *
      * @param pex the parsing exception
      */
-    public ParseErrorException(ParseException pex) 
+    public ParseErrorException(ParseException pex)
     {
         super(pex.getMessage());
 
@@ -92,35 +92,35 @@ public class ParseErrorException extends VelocityException
             }
         }
     }
-    
+
     /**
      * Return the column number of the parsing error, or -1 if not defined.
-     * 
+     *
      * @return column number of the parsing error, or -1 if not defined
      */
-    public int getColumnNumber() 
+    public int getColumnNumber()
     {
         return columnNumber;
     }
 
     /**
      * Return the line number of the parsing error, or -1 if not defined.
-     * 
+     *
      * @return line number of the parsing error, or -1 if not defined
      */
-    public int getLineNumber() 
+    public int getLineNumber()
     {
         return lineNumber;
     }
-    
+
     /**
-     * Return the name of the template containing the error, or null if not 
+     * Return the name of the template containing the error, or null if not
      * defined.
-     * 
+     *
      * @return the name of the template containing the parsing error, or null
      *      if not defined
      */
-    public String getTemplateName() 
+    public String getTemplateName()
     {
         return templateName;
     }

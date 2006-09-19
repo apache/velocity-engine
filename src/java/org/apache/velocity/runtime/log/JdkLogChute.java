@@ -38,7 +38,7 @@ public class JdkLogChute implements LogChute
     public static final String DEFAULT_LOG_NAME = "org.apache.velocity";
 
     /**
-     * 
+     *
      */
     protected Logger logger = null;
 
@@ -59,7 +59,7 @@ public class JdkLogChute implements LogChute
     /**
      * Returns the java.util.logging.Level that matches
      * to the specified LogChute level.
-     * @param level 
+     * @param level
      * @return The current log level of the JDK Logger.
      */
     protected Level getJdkLevel(int level)
@@ -94,9 +94,9 @@ public class JdkLogChute implements LogChute
 
     /**
      * Send a log message from Velocity along with an exception or error
-     * @param level 
-     * @param message 
-     * @param t 
+     * @param level
+     * @param message
+     * @param t
      */
     public void log(int level, String message, Throwable t)
     {

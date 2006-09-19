@@ -32,7 +32,7 @@ import org.apache.velocity.util.TemplateNumber;
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTDivNode extends SimpleNode
 {
@@ -62,10 +62,10 @@ public class ASTDivNode extends SimpleNode
     }
 
     /**
-     *  computes the result of the division.  
-     * @param context 
+     *  computes the result of the division.
+     * @param context
      *  @return result or null
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException
@@ -88,20 +88,20 @@ public class ASTDivNode extends SimpleNode
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of division operation has null value."
                            + " Operation not possible. "
-                           +  context.getCurrentTemplateName() 
-                           + " [line " + getLine() 
+                           +  context.getCurrentTemplateName()
+                           + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
         }
-        
+
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -113,9 +113,9 @@ public class ASTDivNode extends SimpleNode
         {
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of division operation is not a number. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
- 
+
             return null;
         }
 
@@ -125,9 +125,9 @@ public class ASTDivNode extends SimpleNode
         if ( MathUtils.isZero ( (Number)right ) )
         {
             log.error("Right side of division operation is zero. Must be non-zero. "
-                           +  context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
- 
+
             return null;
         }
 

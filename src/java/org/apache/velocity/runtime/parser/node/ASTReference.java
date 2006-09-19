@@ -135,7 +135,7 @@ public class ASTReference extends SimpleNode
         /*
          * track whether we log invalid references
          */
-        logOnNull = 
+        logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
 
         return data;
@@ -156,7 +156,7 @@ public class ASTReference extends SimpleNode
      *   @param o   unused Object parameter
      *   @param context context used to generate value
      * @return The execution result.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
@@ -227,8 +227,8 @@ public class ASTReference extends SimpleNode
      *  @param context  context of data to use in getting value
      *  @param writer   writer to render to
      * @return True if rendering was successful.
-     * @throws IOException 
-     * @throws MethodInvocationException 
+     * @throws IOException
+     * @throws MethodInvocationException
      */
     public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
@@ -236,7 +236,7 @@ public class ASTReference extends SimpleNode
 
         if (referenceType == RUNT)
         {
-            if (context.getAllowRendering()) 
+            if (context.getAllowRendering())
             {
                 writer.write(rootString);
             }
@@ -256,7 +256,7 @@ public class ASTReference extends SimpleNode
         {
             if (value == null)
             {
-                if (context.getAllowRendering()) 
+                if (context.getAllowRendering())
                 {
                     writer.write(escPrefix);
                     writer.write("\\");
@@ -265,7 +265,7 @@ public class ASTReference extends SimpleNode
             }
             else
             {
-                if (context.getAllowRendering()) 
+                if (context.getAllowRendering())
                 {
                     writer.write(escPrefix);
                     writer.write(nullString);
@@ -284,7 +284,7 @@ public class ASTReference extends SimpleNode
         value =  EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
 
         String toString = null;
-        if (value != null) 
+        if (value != null)
         {
             toString = value.toString();
         }
@@ -300,7 +300,7 @@ public class ASTReference extends SimpleNode
              *  write prefix twice, because it's schmoo, so the \ don't escape each other...
              */
 
-            if (context.getAllowRendering()) 
+            if (context.getAllowRendering())
             {
                 writer.write(escPrefix);
                 writer.write(escPrefix);
@@ -311,8 +311,8 @@ public class ASTReference extends SimpleNode
             if (logOnNull && referenceType != QUIET_REFERENCE && log.isInfoEnabled())
             {
                 log.info("Null reference [template '"
-                         + context.getCurrentTemplateName() + "', line " 
-                         + this.getLine() + ", column " + this.getColumn() 
+                         + context.getCurrentTemplateName() + "', line "
+                         + this.getLine() + ", column " + this.getColumn()
                          + "] : " + this.literal() + " cannot be resolved.");
             }
             return true;
@@ -323,7 +323,7 @@ public class ASTReference extends SimpleNode
              *  non-null processing
              */
 
-            if (context.getAllowRendering()) 
+            if (context.getAllowRendering())
             {
                 writer.write(escPrefix);
                 writer.write(morePrefix);
@@ -341,7 +341,7 @@ public class ASTReference extends SimpleNode
      *
      *   @param context context to compute value with
      * @return True if evaluation was ok.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
@@ -381,7 +381,7 @@ public class ASTReference extends SimpleNode
      *  @param context context object containing this reference
      *  @param value Object to set as value
      *  @return true if successful, false otherwise
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public boolean setValue( InternalContextAdapter context, Object value)
       throws MethodInvocationException

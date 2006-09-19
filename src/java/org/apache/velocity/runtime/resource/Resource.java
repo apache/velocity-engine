@@ -61,7 +61,7 @@ public abstract class Resource
     protected long lastModified = 0;
 
     /**
-     * The next time the file modification time will be checked (in 
+     * The next time the file modification time will be checked (in
      * milliseconds).
      */
     protected long nextCheck = 0;
@@ -76,13 +76,13 @@ public abstract class Resource
      */
     protected String encoding = RuntimeConstants.ENCODING_DEFAULT;
 
-    /** 
-     *  Resource might require ancillary storage of some kind 
+    /**
+     *  Resource might require ancillary storage of some kind
      */
     protected Object data = null;
 
-    /** 
-     *  Default constructor 
+    /**
+     *  Default constructor
      */
     public Resource()
     {
@@ -108,10 +108,10 @@ public abstract class Resource
      * indicates whether the resource could be read.
      * @exception ResourceNotFoundException Similar in semantics as
      * returning <code>false</code>.
-     * @throws ParseErrorException 
-     * @throws Exception 
+     * @throws ParseErrorException
+     * @throws Exception
      */
-    public abstract boolean process() 
+    public abstract boolean process()
         throws ResourceNotFoundException, ParseErrorException, Exception;
 
     /**
@@ -130,7 +130,7 @@ public abstract class Resource
     {
         this.modificationCheckInterval = modificationCheckInterval;
     }
-    
+
     /**
      * Is it time to check to see if the resource
      * source has been updated?
@@ -142,7 +142,7 @@ public abstract class Resource
          *  short circuit this if modificationCheckInterval == 0
          *  as this means "don't check"
          */
-        
+
         if (modificationCheckInterval <= 0 )
         {
            return false;
@@ -163,16 +163,16 @@ public abstract class Resource
     {
         nextCheck = System.currentTimeMillis() + ( MILLIS_PER_SECOND *  modificationCheckInterval);
     }
-    
+
     /**
      * Set the name of this resource, for example
      * test.vm.
-     * @param name 
+     * @param name
      */
     public void setName(String name)
     {
         this.name = name;
-    }        
+    }
 
     /**
      * Get the name of this template.
@@ -181,12 +181,12 @@ public abstract class Resource
     public String getName()
     {
         return name;
-    }        
+    }
 
     /**
      *  set the encoding of this resource
      *  for example, "ISO-8859-1"
-     * @param encoding 
+     * @param encoding
      */
     public void setEncoding( String encoding )
     {
@@ -212,17 +212,17 @@ public abstract class Resource
     public long getLastModified()
     {
         return lastModified;
-    }        
-    
+    }
+
     /**
      * Set the last modified time for this
      * resource.
-     * @param lastModified 
+     * @param lastModified
      */
     public void setLastModified(long lastModified)
     {
         this.lastModified = lastModified;
-    }        
+    }
 
     /**
      * Return the template loader that pulled
@@ -233,28 +233,28 @@ public abstract class Resource
     {
         return resourceLoader;
     }
-    
+
     /**
      * Set the template loader for this template. Set
      * when the Runtime determines where this template
      * came from the list of possible sources.
-     * @param resourceLoader 
+     * @param resourceLoader
      */
     public void setResourceLoader(ResourceLoader resourceLoader)
     {
         this.resourceLoader = resourceLoader;
-    }        
+    }
 
-    /** 
+    /**
      * Set arbitrary data object that might be used
      * by the resource.
-     * @param data 
+     * @param data
      */
     public void setData(Object data)
     {
         this.data = data;
     }
-    
+
     /**
      * Get arbitrary data object that might be used
      * by the resource.
@@ -263,5 +263,5 @@ public abstract class Resource
     public Object getData()
     {
         return data;
-    }        
+    }
 }

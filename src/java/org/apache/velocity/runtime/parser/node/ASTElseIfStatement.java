@@ -28,13 +28,13 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * This class is responsible for handling the ElseIf VTL control statement.
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
 */
 public class ASTElseIfStatement extends SimpleNode
 {
@@ -72,7 +72,7 @@ public class ASTElseIfStatement extends SimpleNode
      * itself.
      * @param context
      * @return True if all childs are true.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public boolean evaluate ( InternalContextAdapter context)
         throws MethodInvocationException
@@ -84,7 +84,7 @@ public class ASTElseIfStatement extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
     public boolean render( InternalContextAdapter context, Writer writer)
-        throws IOException,MethodInvocationException, 
+        throws IOException,MethodInvocationException,
         	ResourceNotFoundException, ParseErrorException
     {
         return jjtGetChild(1).render( context, writer );

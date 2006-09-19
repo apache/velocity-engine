@@ -31,9 +31,9 @@ public class IncludeRelativePath implements IncludeEventHandler {
 
     /**
      * Return path relative to the current template's path.
-     * @param includeResourcePath 
-     * @param currentResourcePath 
-     * @param directiveName 
+     * @param includeResourcePath
+     * @param currentResourcePath
+     * @param directiveName
      * @return Include String.
      */
     public String includeEvent(

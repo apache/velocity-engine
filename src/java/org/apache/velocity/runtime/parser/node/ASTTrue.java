@@ -58,7 +58,7 @@ public class ASTTrue extends SimpleNode
     public boolean evaluate(InternalContextAdapter context)
     {
         return true;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
@@ -66,5 +66,5 @@ public class ASTTrue extends SimpleNode
     public Object value(InternalContextAdapter context)
     {
         return value;
-    }        
+    }
 }

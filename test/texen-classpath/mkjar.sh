@@ -5,4 +5,4 @@
   rm -f ../test.jar
   rm *~
   jar cvf ../test.jar *
-)  
+)

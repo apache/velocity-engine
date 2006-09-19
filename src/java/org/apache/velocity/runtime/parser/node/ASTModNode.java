@@ -26,7 +26,7 @@ package org.apache.velocity.runtime.parser.node;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -88,19 +88,19 @@ public class ASTModNode extends SimpleNode
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of modulus operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
         }
-        
+
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -108,13 +108,13 @@ public class ASTModNode extends SimpleNode
         /*
          * Both values must be a number.
          */
-        if ( ! (left instanceof Number) || ! (right instanceof Number) ) 
+        if ( ! (left instanceof Number) || ! (right instanceof Number) )
         {
 
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side "
                            + " of modulus operation is not a Number. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
 
@@ -123,11 +123,11 @@ public class ASTModNode extends SimpleNode
         /*
          *  check for divide / modulo by 0
          */
-        if ( MathUtils.isZero ( (Number) right ) ) 
+        if ( MathUtils.isZero ( (Number) right ) )
         {
 
             log.error("Right side of modulus operation is zero. Must be non-zero. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
 

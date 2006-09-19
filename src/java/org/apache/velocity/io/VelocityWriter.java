@@ -36,13 +36,13 @@ public final class VelocityWriter extends Writer
     public static final int	NO_BUFFER = 0;
 
     /**
-     * constant indicating that the Writer is buffered and is using the 
+     * constant indicating that the Writer is buffered and is using the
      * implementation default buffer size
      */
     public static final int	DEFAULT_BUFFER = -1;
 
     /**
-     * constant indicating that the Writer is buffered and is unbounded; 
+     * constant indicating that the Writer is buffered and is unbounded;
      * this is used in BodyContent
      */
     public static final int	UNBOUNDED_BUFFER = -2;
@@ -51,7 +51,7 @@ public final class VelocityWriter extends Writer
     private boolean autoFlush;
 
     private Writer writer;
-    
+
     private char cb[];
     private int nextChar;
 
@@ -87,7 +87,7 @@ public final class VelocityWriter extends Writer
     /**
      * This method indicates whether the JspWriter is autoFlushing.
      *
-     * @return if this JspWriter is auto flushing or throwing IOExceptions on 
+     * @return if this JspWriter is auto flushing or throwing IOExceptions on
      *         buffer overflow conditions
      */
     public boolean isAutoFlush() { return autoFlush; }
@@ -98,7 +98,7 @@ public final class VelocityWriter extends Writer
      *
      * @param  writer  Writer to wrap around
      * @param  sz   	Output-buffer size, a positive integer
-     * @param autoFlush 
+     * @param autoFlush
      *
      * @exception  IllegalArgumentException  If sz is <= 0
      */
@@ -142,7 +142,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * Flush the stream.
-     * @throws IOException 
+     * @throws IOException
      *
      */
     public final void flush()  throws IOException
@@ -156,7 +156,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * Close the stream.
-     * @throws IOException 
+     * @throws IOException
      *
      */
     public final void close() throws IOException {
@@ -175,8 +175,8 @@ public final class VelocityWriter extends Writer
 
     /**
      * Write a single character.
-     * @param c 
-     * @throws IOException 
+     * @param c
+     * @throws IOException
      *
      */
     public final void write(int c) throws IOException
@@ -219,11 +219,11 @@ public final class VelocityWriter extends Writer
      * @param  cbuf  A character array
      * @param  off   Offset from which to start reading characters
      * @param  len   Number of characters to write
-     * @throws IOException 
+     * @throws IOException
      *
      */
-    public final void write(char cbuf[], int off, int len) 
-        throws IOException 
+    public final void write(char cbuf[], int off, int len)
+        throws IOException
     {
         if (bufferSize == 0)
         {
@@ -234,7 +234,7 @@ public final class VelocityWriter extends Writer
         if (len == 0)
         {
             return;
-        } 
+        }
 
         if (len >= bufferSize)
         {
@@ -256,7 +256,7 @@ public final class VelocityWriter extends Writer
             System.arraycopy(cbuf, b, cb, nextChar, d);
             b += d;
             nextChar += d;
-            if (nextChar >= bufferSize) 
+            if (nextChar >= bufferSize)
                 if (autoFlush)
                     flushBuffer();
                 else
@@ -267,8 +267,8 @@ public final class VelocityWriter extends Writer
     /**
      * Write an array of characters.  This method cannot be inherited from the
      * Writer class because it must suppress I/O exceptions.
-     * @param buf 
-     * @throws IOException 
+     * @param buf
+     * @throws IOException
      */
     public final void write(char buf[]) throws IOException
     {
@@ -281,7 +281,7 @@ public final class VelocityWriter extends Writer
      * @param  s     String to be written
      * @param  off   Offset from which to start reading characters
      * @param  len   Number of characters to be written
-     * @throws IOException 
+     * @throws IOException
      *
      */
     public final void write(String s, int off, int len) throws IOException
@@ -298,7 +298,7 @@ public final class VelocityWriter extends Writer
             s.getChars(b, b + d, cb, nextChar);
             b += d;
             nextChar += d;
-            if (nextChar >= bufferSize) 
+            if (nextChar >= bufferSize)
                 if (autoFlush)
                     flushBuffer();
                 else
@@ -309,8 +309,8 @@ public final class VelocityWriter extends Writer
     /**
      * Write a string.  This method cannot be inherited from the Writer class
      * because it must suppress I/O exceptions.
-     * @param s 
-     * @throws IOException 
+     * @param s
+     * @throws IOException
      */
     public final void write(String s) throws IOException
     {
@@ -322,7 +322,7 @@ public final class VelocityWriter extends Writer
 
     /**
      * resets this class so that it can be reused
-     * @param writer 
+     * @param writer
      *
      */
     public final void recycle(Writer writer)

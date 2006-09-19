@@ -164,7 +164,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
         {
             ve.evaluate( context, w, "test", "$test.get(0)");
             fail ( "Method exception event test 1" );
-        } 
+        }
         catch( MethodInvocationException mee )
         {
             // do nothing

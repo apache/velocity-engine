@@ -51,7 +51,7 @@ public class ResourceCacheImpl implements ResourceCache
      * <code>initialize()</code> method.
      */
     protected RuntimeServices rsvc = null;
-    
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#initialize(org.apache.velocity.runtime.RuntimeServices)
      */
@@ -71,7 +71,7 @@ public class ResourceCacheImpl implements ResourceCache
         }
         rsvc.getLog().debug("ResourceCache: initialized ("+this.getClass()+')');
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#get(java.lang.Object)
      */
@@ -79,7 +79,7 @@ public class ResourceCacheImpl implements ResourceCache
     {
         return (Resource) cache.get( key );
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#put(java.lang.Object, org.apache.velocity.runtime.resource.Resource)
      */
@@ -87,7 +87,7 @@ public class ResourceCacheImpl implements ResourceCache
     {
         return (Resource) cache.put( key, value );
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#remove(java.lang.Object)
      */
@@ -95,7 +95,7 @@ public class ResourceCacheImpl implements ResourceCache
     {
         return (Resource) cache.remove( key );
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#enumerateKeys()
      */

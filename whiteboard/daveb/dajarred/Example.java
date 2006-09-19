@@ -37,12 +37,12 @@ import java.util.ArrayList;
 public class Example
 {
     VelocityContext context = null;
-    
+
     private final static String JAR_RESOURCE_LOADER_PATH1 = "jar:file:test.jar!/";
 
     private final static String JAR_RESOURCE_LOADER_PATH2 = "jar:file:template.jar!/";
 
-    
+
     public Example()
     {
         try
@@ -53,37 +53,37 @@ public class Example
 
             Runtime.init("velocity.properties");
             //Runtime.setDefaultProperties();
-            
+
             //Runtime.setSourceProperty(Runtime.JAR_RESOURCE_LOADER_PATH, JAR_RESOURCE_LOADER_PATH1);
-            
+
             //Runtime.setSourceProperty(Runtime.JAR_RESOURCE_LOADER_PATH, JAR_RESOURCE_LOADER_PATH2);
-            
+
             //Runtime.init();
 
             /*
-             *  Make a context object and populate with the data.  This 
+             *  Make a context object and populate with the data.  This
              *  is where the Velocity engine gets the data to resolve the
              *  references (ex. $list) in the template
              */
-            
+
             context = new VelocityContext();
             context.put("list", getNames());
-            
+
         }
         catch( Exception e )
         {
             Runtime.error("ERROR starting runtime: " + e );
         }
     }
-    
+
     public void getTemplate( String templateFile)
     throws Exception{
         try
         {
-            
+
             Template template =  null;
-            
-            try 
+
+            try
             {
                 template = Runtime.getTemplate(templateFile);
             }
@@ -98,7 +98,7 @@ public class Example
 
             /*
              *  Now have the template engine process your template using the
-             *  data placed into the context.  Think of it as a  'merge' 
+             *  data placed into the context.  Think of it as a  'merge'
              *  of the template and the data to produce the output stream.
              */
 
@@ -137,20 +137,20 @@ public class Example
     public static void main(String[] args)
     {
         Example ex = new Example();
-        
+
         try
         {
             say( "Started..." );
-            
+
             say("get template from template.jar");
             ex.getTemplate( "/template/test1.vm" );
-            
+
             say("get template from test.jar");
             ex.getTemplate( "/example/test1.vm" );
-            
+
             say("try template from template.jar again");
             ex.getTemplate( "/template/test2.vm" );
-            
+
             say("Try something that doesn't exist");
             ex.getTemplate( "/example/yomama.vm" );
         }

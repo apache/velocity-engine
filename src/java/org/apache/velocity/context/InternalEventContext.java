@@ -1,5 +1,3 @@
-
-
 package org.apache.velocity.context;
 
 /*
@@ -22,7 +20,7 @@ import org.apache.velocity.app.event.EventCartridge;
 
 /**
  *  Interface for event support.  Note that this is a public internal
- *  interface, as it is something that will be accessed from outside 
+ *  interface, as it is something that will be accessed from outside
  *  of the .context package.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>

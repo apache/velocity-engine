@@ -23,7 +23,7 @@ package org.apache.velocity.runtime.parser.node;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
 */
 
 
@@ -42,7 +42,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  */
 public class ASTIfStatement extends SimpleNode
-{    
+{
     /**
      * @param id
      */
@@ -50,7 +50,7 @@ public class ASTIfStatement extends SimpleNode
     {
         super(id);
     }
-    
+
     /**
      * @param p
      * @param id
@@ -59,7 +59,7 @@ public class ASTIfStatement extends SimpleNode
     {
         super(p, id);
     }
-    
+
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
@@ -68,7 +68,7 @@ public class ASTIfStatement extends SimpleNode
     {
         return visitor.visit(this, data);
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
@@ -86,9 +86,9 @@ public class ASTIfStatement extends SimpleNode
             jjtGetChild(1).render(context, writer);
             return true;
         }
-    
+
         int totalNodes = jjtGetNumChildren();
-        
+
         /*
          * Now check the remaining nodes left in the
          * if construct. The nodes are either elseif
@@ -106,7 +106,7 @@ public class ASTIfStatement extends SimpleNode
                 return true;
             }
         }
-    
+
         /*
          * This is reached when an ASTIfStatement
          * consists of an if/elseif sequence where

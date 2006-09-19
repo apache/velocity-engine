@@ -1,54 +1,54 @@
 #document()
 
-<!-- Make a Section header bar --> 
+<!-- Make a Section header bar -->
 #macro ( makeSectionHeader $value )
   #if ( $value.getAttributeValue("name") )
     #set ( $titleName = $value.getAttributeValue("name") )
   #else
-    #set ( $titleName = "" )	
+    #set ( $titleName = "" )
   #end
-  <fo:block font-size="14pt" 
-        font-family="sans-serif" 
+  <fo:block font-size="14pt"
+        font-family="sans-serif"
         line-height="24pt"
         space-after.optimum="15pt"
         background-color="blue"
         color="white"
 	text-align="start"
         padding-top="3pt">
-    $titleName 
-  </fo:block>	
+    $titleName
+  </fo:block>
 #end
 
-<!-- Make a Paragraph --> 
+<!-- Make a Paragraph -->
 #macro ( makeParagraph $value )
  <fo:block font-size="12pt"
-      space-after.optimum="15pt" 
+      space-after.optimum="15pt"
       font-family="sans-serif"
       background-color="white"
       color="black"
       text-align="start"
       padding-top="3pt">
-   $xmlout.outputString($value) 
+   $xmlout.outputString($value)
  </fo:block>
 #end
 
 <!-- Make a Source Code block -->
 #macro ( makeSrc $value )
  <fo:block font-size="12pt"
-      space-after.optimum="15pt" 
+      space-after.optimum="15pt"
       font-family="sans-serif"
       background-color="white"
       color="gray"
       text-align="start"
       padding-top="3pt">
-   $escape.getText($value.getText()) 
- </fo:block>	
+   $escape.getText($value.getText())
+ </fo:block>
 #end
 
 <!-- Make an image link -->
 #macro ( makeLink $value )
  <fo:block font-size="12pt"
-      space-after.optimum="15pt" 
+      space-after.optimum="15pt"
       font-family="sans-serif"
       background-color="white"
       color="gray"
@@ -66,15 +66,15 @@
     <!-- defines the layout master -->
     <fo:layout-master-set>
         <fo:simple-page-master
-	    master-name="Velocity" 
-            page-height="8.5in" 
-            page-width="11in" 
-            margin-top="0.25in" 
-            margin-bottom="0.25in" 
-            margin-left="0.5in" 
+	    master-name="Velocity"
+            page-height="8.5in"
+            page-width="11in"
+            margin-top="0.25in"
+            margin-bottom="0.25in"
+            margin-left="0.5in"
             margin-right="0.5in">
-          <fo:region-before extent="0.25in"/>   
-          <fo:region-body margin-top="0.25in"/>  
+          <fo:region-before extent="0.25in"/>
+          <fo:region-body margin-top="0.25in"/>
         </fo:simple-page-master>
     </fo:layout-master-set>
 
@@ -83,24 +83,24 @@
 
         <!-- header -->
         <fo:static-content flow-name="xsl-region-before">
-          <fo:block 
-	     text-align="end" 
-	     font-size="10pt" 
-	     font-family="serif" 
+          <fo:block
+	     text-align="end"
+	     font-size="10pt"
+	     font-family="serif"
 	     color="black"
 	     padding-right="3pt">
 	      $root.getChild("properties").getChild("title").getText()  pg <fo:page-number/>
           </fo:block>
         </fo:static-content>
-                
+
         <fo:flow flow-name="xsl-region-body">
-        
+
         #set ($allSections = $xpath.applyTo("body/section", $root))
 
         <!-- Walk through the sections -->
         #foreach ( $section in $allSections )
 	    #makeSectionHeader($section)
-            #foreach ( $item in $section.getChildren() )     
+            #foreach ( $item in $section.getChildren() )
                 #if ( $item.getName().equals("p") )
                     #makeParagraph($item)
                  #elseif ( $item.getName().equals("source") )
@@ -110,7 +110,7 @@
         #end
        </fo:flow>
    </fo:page-sequence>
- </fo:root>                      
+ </fo:root>
 #end
 
 

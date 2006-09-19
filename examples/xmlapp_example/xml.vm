@@ -1,7 +1,7 @@
-#macro ( recursive $e $indent )     
+#macro ( recursive $e $indent )
 #if( $e.getChildren().size() > 0 )
-$indent <$e.getName()> 
-#foreach ($child in $e.getChildren() ) 
+$indent <$e.getName()>
+#foreach ($child in $e.getChildren() )
 #recursive( $child "$indent  " )
 #end
 $indent </$e.getName()>
@@ -14,7 +14,7 @@ $indent </$e.getName()>
 
 #set($i = " ")
 
-First, we print out the document tree with a 
+First, we print out the document tree with a
 recursive Velocimacro :
 
 #recursive( $root.getRootElement() $i )

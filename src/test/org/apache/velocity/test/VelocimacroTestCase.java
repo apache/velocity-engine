@@ -66,9 +66,9 @@ public class VelocimacroTestCase extends TestCase
 
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "vm_chain1", template1);
-        
+
         String out = writer.toString();
-        
+
         if( !result1.equals( out ) )
         {
             fail("output incorrect.");

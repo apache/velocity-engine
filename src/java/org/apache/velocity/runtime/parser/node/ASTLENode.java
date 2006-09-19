@@ -72,7 +72,7 @@ public class ASTLENode extends SimpleNode
         /*
          *  get the two args
          */
-        
+
         Object left = jjtGetChild(0).value( context );
         Object right = jjtGetChild(1).value( context );
 
@@ -87,20 +87,20 @@ public class ASTLENode extends SimpleNode
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '<=' operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " 
-                           + getLine() 
+                           + context.getCurrentTemplateName() + " [line "
+                           + getLine()
                            + ", column " + getColumn() + "]");
             return false;
         }
-        
+
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -112,9 +112,9 @@ public class ASTLENode extends SimpleNode
         {
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of '>=' operation is not a Number. "
-                           +  context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
- 
+
             return false;
         }
 

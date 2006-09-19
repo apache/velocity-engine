@@ -59,18 +59,18 @@ import org.apache.velocity.util.StringUtils;
  * ds.resource.loader.cache = false <br>
  * ds.resource.loader.modificationCheckInterval = 60 <br>
  * <br>
- * <P>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in 
+ * <P>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
  * a manner similar to the following:
  * <BR>
  * <BR>
  * DataSourceResourceLoader ds = new DataSourceResourceLoader();<BR>
  * ds.setDataSource(DATASOURCE);<BR>
  * Velocity.setProperty("ds.resource.loader.instance",ds);<BR>
- * <P> The property <code>ds.resource.loader.class</code> should be left out, otherwise all the other 
+ * <P> The property <code>ds.resource.loader.class</code> should be left out, otherwise all the other
  * properties in velocity.properties would remain the same.
  * <BR>
  * <BR>
- * 
+ *
  * Example WEB-INF/web.xml: <br>
  * <br>
  *  <resource-ref> <br>
@@ -142,8 +142,8 @@ public class DataSourceResourceLoader extends ResourceLoader
          keyColumn       = StringUtils.nullTrim(configuration.getString("resource.keycolumn"));
          templateColumn  = StringUtils.nullTrim(configuration.getString("resource.templatecolumn"));
          timestampColumn = StringUtils.nullTrim(configuration.getString("resource.timestampcolumn"));
-         
-         if (dataSource != null) 
+
+         if (dataSource != null)
          {
              if (log.isDebugEnabled())
              {
@@ -155,8 +155,8 @@ public class DataSourceResourceLoader extends ResourceLoader
              }
 
              log.trace("DataSourceResourceLoader initalized.");
-         } 
-         else if (dataSourceName != null) 
+         }
+         else if (dataSourceName != null)
          {
              if (log.isDebugEnabled())
              {
@@ -168,19 +168,19 @@ public class DataSourceResourceLoader extends ResourceLoader
               }
 
              log.trace("DataSourceResourceLoader initalized.");
-         } 
-         else 
+         }
+         else
          {
             log.warn("DataSourceResourceLoader not properly initialized. No DataSource was identified.");
          }
      }
 
     /**
-     * Set the DataSource used by this resource loader.  Call this as an alternative to 
+     * Set the DataSource used by this resource loader.  Call this as an alternative to
      * specifying the data source name via properties.
-     * @param dataSource The data source for this ResourceLoader. 
+     * @param dataSource The data source for this ResourceLoader.
      */
-    public void setDataSource(final DataSource dataSource) 
+    public void setDataSource(final DataSource dataSource)
     {
         this.dataSource = dataSource;
     }
@@ -208,7 +208,7 @@ public class DataSourceResourceLoader extends ResourceLoader
       *
       *  @param name name of template
       *  @return InputStream containing template
-     * @throws ResourceNotFoundException 
+     * @throws ResourceNotFoundException
       */
      public synchronized InputStream getResourceStream(final String name)
          throws ResourceNotFoundException
@@ -229,7 +229,7 @@ public class DataSourceResourceLoader extends ResourceLoader
              if (rs.next())
              {
         	 InputStream ascStream = rs.getAsciiStream(templateColumn);
-        	 if (ascStream == null) 
+        	 if (ascStream == null)
         	 {
         	     throw new ResourceNotFoundException("DataSourceResourceLoader: "
         		     + "template column for '" + name + "' is null");
@@ -241,14 +241,14 @@ public class DataSourceResourceLoader extends ResourceLoader
              {
     	     throw new ResourceNotFoundException("DataSourceResourceLoader: "
 		     + "could not find resource '" + name + "'");
-        	 
+
              }
          }
          catch(SQLException sqle)
          {
              String msg = "DataSourceResourceLoader: database problem while getting resource '"
                      + name + "': ";
-	 
+
 	     log.error(msg, sqle);
              throw new ResourceNotFoundException(msg);
          }
@@ -256,7 +256,7 @@ public class DataSourceResourceLoader extends ResourceLoader
          {
              String msg = "DataSourceResourceLoader: database problem while getting resource '"
                      + name + "': ";
-	 
+
 	     log.error(msg, ne);
              throw new ResourceNotFoundException(msg);
          }
@@ -275,7 +275,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      *
      *  @return timestamp as long
      */
-     private long readLastModified(final Resource resource, final String operation) 
+     private long readLastModified(final Resource resource, final String operation)
      {
          long timeStamp = 0;
 
@@ -283,7 +283,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 	  *  get the template name from the resource
 	  */
          String name = resource.getName();
-         
+
          if (name == null || name.length() == 0)
          {
              log.error("DataSourceResourceLoader: "
@@ -301,7 +301,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 
                  if (rs.next())
                  {
-                     Timestamp ts = rs.getTimestamp(timestampColumn); 
+                     Timestamp ts = rs.getTimestamp(timestampColumn);
                      timeStamp = ts != null ? ts.getTime() : 0;
                  }
                  else
@@ -314,7 +314,7 @@ public class DataSourceResourceLoader extends ResourceLoader
              {
                  String msg = "DataSourceResourceLoader: database problem while " + operation + " of '"
                      + name + "': ";
-	 
+
                  log.error(msg, sqle);
                  throw ExceptionUtils.createRuntimeException(msg, sqle);
              }
@@ -322,7 +322,7 @@ public class DataSourceResourceLoader extends ResourceLoader
              {
                  String msg = "DataSourceResourceLoader: database problem while " + operation + " of '"
                      + name + "': ";
-	 
+
                  log.error(msg, ne);
                  throw ExceptionUtils.createRuntimeException(msg, ne);
              }
@@ -341,15 +341,15 @@ public class DataSourceResourceLoader extends ResourceLoader
       *
       *  @return connection
       */
-     private Connection openDbConnection() 
+     private Connection openDbConnection()
          throws NamingException, SQLException
      {
-         if (dataSource != null) 
+         if (dataSource != null)
          {
             return dataSource.getConnection();
          }
-         
-         if (ctx == null) 
+
+         if (ctx == null)
          {
             ctx = new InitialContext();
          }
@@ -358,7 +358,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 
          return dataSource.getConnection();
      }
-     
+
     /**
      *  Closes connection to the datasource
      */

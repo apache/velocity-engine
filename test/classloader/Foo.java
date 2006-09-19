@@ -24,14 +24,14 @@ public class Foo
 {
     /*
      *  the ClassloaderChangeTest
-     *  depends on this string as 
+     *  depends on this string as
      *  is.  If this changes (there is no reason
      *  to ever do that, BTW), then
      *  udpate ClassloaderChangeTest as well.
      */
-    private static String MSG = 
+    private static String MSG =
         "Hello From Foo";
-        
+
 	public String doIt()
 	{
 		return MSG;

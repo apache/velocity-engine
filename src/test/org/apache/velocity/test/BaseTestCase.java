@@ -80,21 +80,21 @@ public abstract class BaseTestCase
             {
                 buf.append(baseFile.getPath());
             }
-            
+
             buf.append('.').append(ext);
 
             if (mustExist)
             {
                 File testFile = new File(buf.toString());
-                        
+
                 if (!testFile.exists())
                 {
-                    fail("getFileName() result " + testFile.getPath() + " does not exist!"); 
+                    fail("getFileName() result " + testFile.getPath() + " does not exist!");
                 }
 
                 if (!testFile.isFile())
                 {
-                    fail("getFileName() result " + testFile.getPath() + " is not a file!"); 
+                    fail("getFileName() result " + testFile.getPath() + " is not a file!");
                 }
             }
         }

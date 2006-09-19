@@ -68,8 +68,8 @@ public class ASTObjectArray extends SimpleNode
         for (int i = 0; i < size; i++)
         {
             objectArray.add(  jjtGetChild(i).value(context) );
-        }            
-        
+        }
+
         return objectArray;
     }
 }

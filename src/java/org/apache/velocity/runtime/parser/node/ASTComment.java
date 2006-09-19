@@ -51,7 +51,7 @@ public class ASTComment extends SimpleNode
      * @param p
      * @param id
      */
-    public ASTComment(Parser p, int id) 
+    public ASTComment(Parser p, int id)
     {
         super(p, id);
     }
@@ -59,17 +59,17 @@ public class ASTComment extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
 
     /**
      *  We need to make sure we catch any of the dreaded MORE tokens.
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return The data object.
-     * @throws Exception 
+     * @throws Exception
      */
     public Object init(InternalContextAdapter context, Object data)
             throws Exception
@@ -102,7 +102,7 @@ public class ASTComment extends SimpleNode
         {
             writer.write(carr);
         }
-        
+
         return true;
     }
 

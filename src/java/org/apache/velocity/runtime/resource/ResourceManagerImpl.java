@@ -48,7 +48,7 @@ public class ResourceManagerImpl implements ResourceManager
      * A template resources.
      */
     public static final int RESOURCE_TEMPLATE = 1;
-    
+
     /**
      * A static content resource.
      */
@@ -60,17 +60,17 @@ public class ResourceManagerImpl implements ResourceManager
     private static final String RESOURCE_LOADER_IDENTIFIER = "_RESOURCE_LOADER_IDENTIFIER_";
 
     /**
-     *  Object implementing ResourceCache to 
+     *  Object implementing ResourceCache to
      *  be our resource manager's Resource cache.
      */
     protected ResourceCache globalCache = null;
-    
+
     /**
      * The List of templateLoaders that the Runtime will
      * use to locate the InputStream source of a template.
      */
     protected  ArrayList resourceLoaders = new ArrayList();
-    
+
     /**
      * This is a list of the template input stream source
      * initializers, basically properties for a particular
@@ -100,31 +100,31 @@ public class ResourceManagerImpl implements ResourceManager
 
     /**
      * Initialize the ResourceManager.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
-    public void initialize( RuntimeServices rs ) 
+    public void initialize( RuntimeServices rs )
         throws Exception
     {
         rsvc = rs;
         log = rsvc.getLog();
-        
+
         log.debug("Default ResourceManager initializing. (" + this.getClass() + ")");
 
         ResourceLoader resourceLoader;
-        
+
         assembleResourceLoaderInitializers();
-        
+
         for (int i = 0; i < sourceInitializerList.size(); i++)
         {
             /**
-             * Resource loader can be loaded either via class name or be passed 
+             * Resource loader can be loaded either via class name or be passed
              * in as an instance.
              */
-            ExtendedProperties configuration = 
+            ExtendedProperties configuration =
                 (ExtendedProperties) sourceInitializerList.get(i);
             String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
-            ResourceLoader loaderInstance = 
+            ResourceLoader loaderInstance =
                 (ResourceLoader) configuration.get("instance");
 
             if ( (loaderClass == null) && (loaderInstance == null) )
@@ -134,14 +134,14 @@ public class ResourceManagerImpl implements ResourceManager
                                 + ".resource.loader.class' specification in configuation."
                                 + " This is a critical value.  Please adjust configuration.");
                 continue;
-            
-            } 
-            else if ( loaderInstance != null ) 
+
+            }
+            else if ( loaderInstance != null )
             {
                 resourceLoader = loaderInstance;
-                
-            } 
-            else 
+
+            }
+            else
             {
                 resourceLoader = ResourceLoaderFactory.getLoader( rsvc, loaderClass);
             }
@@ -161,11 +161,11 @@ public class ResourceManagerImpl implements ResourceManager
         /*
          *  now, is a global cache specified?
          */
-         
+
         String claz = rsvc.getString( RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS );
-        
+
         Object o = null;
-        
+
         if ( claz != null && claz.length() > 0 )
         {
             try
@@ -178,7 +178,7 @@ public class ResourceManagerImpl implements ResourceManager
                           ") does not exist or is not accessible to the current classloader.");
                 o = null;
             }
-            
+
             if (!(o instanceof ResourceCache) )
             {
                 log.error("The specified class for ResourceCache (" + claz +
@@ -187,7 +187,7 @@ public class ResourceManagerImpl implements ResourceManager
                 o = null;
             }
         }
-        
+
         /*
          *  if we didn't get through that, just use the default.
          */
@@ -195,10 +195,10 @@ public class ResourceManagerImpl implements ResourceManager
         {
             o = new ResourceCacheImpl();
         }
-            
+
         globalCache = (ResourceCache)o;
-            
-        globalCache.initialize(rsvc);        
+
+        globalCache.initialize(rsvc);
 
         log.trace("Default ResourceManager initialization complete.");
     }
@@ -215,12 +215,12 @@ public class ResourceManagerImpl implements ResourceManager
         if (resourceLoaderInitializersActive)
         {
             return;
-        }            
+        }
 
-        Vector resourceLoaderNames = 
+        Vector resourceLoaderNames =
             rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
         StringUtils.trimStrings(resourceLoaderNames);
-        
+
         for (int i = 0; i < resourceLoaderNames.size(); i++)
         {
             /*
@@ -231,7 +231,7 @@ public class ResourceManagerImpl implements ResourceManager
              * The loader id is the prefix used for all properties
              * pertaining to a particular loader.
              */
-            String loaderID = 
+            String loaderID =
                 resourceLoaderNames.get(i) + "." + RuntimeConstants.RESOURCE_LOADER;
 
             ExtendedProperties loaderConfiguration =
@@ -243,7 +243,7 @@ public class ResourceManagerImpl implements ResourceManager
 
             if ( loaderConfiguration == null)
             {
-                log.warn("ResourceManager : No configuration information for resource loader named '" 
+                log.warn("ResourceManager : No configuration information for resource loader named '"
                          + resourceLoaderNames.get(i) + "'. Skipping.");
                 continue;
             }
@@ -262,7 +262,7 @@ public class ResourceManagerImpl implements ResourceManager
              */
             sourceInitializerList.add(loaderConfiguration);
         }
-        
+
         resourceLoaderInitializersActive = true;
     }
 
@@ -289,11 +289,11 @@ public class ResourceManagerImpl implements ResourceManager
          * If it was placed in the cache then we will use
          * the cached version of the resource. If not we
          * will load it.
-         * 
-         * Note: the type is included in the key to differentiate ContentResource 
+         *
+         * Note: the type is included in the key to differentiate ContentResource
          * (static content from #include) with a Template.
          */
-        
+
         String resourceKey = resourceType + resourceName;
         Resource resource = globalCache.get(resourceKey);
 
@@ -302,7 +302,7 @@ public class ResourceManagerImpl implements ResourceManager
             /*
              *  refresh the resource
              */
-             
+
             try
             {
                 refreshResource( resource, encoding );
@@ -311,12 +311,12 @@ public class ResourceManagerImpl implements ResourceManager
             {
                 /*
                  *  something exceptional happened to that resource
-                 *  this could be on purpose, 
+                 *  this could be on purpose,
                  *  so clear the cache and try again
                  */
-                 
+
                  globalCache.remove( resourceKey );
-     
+
                  return getResource( resourceName, resourceType, encoding );
             }
             catch( ParseErrorException pee )
@@ -331,7 +331,7 @@ public class ResourceManagerImpl implements ResourceManager
             }
         }
         else
-        {            
+        {
             try
             {
                 /*
@@ -339,11 +339,11 @@ public class ResourceManagerImpl implements ResourceManager
                  */
 
                 resource = loadResource( resourceName, resourceType, encoding );
-                      
+
                 if (resource.getResourceLoader().isCachingOn())
                 {
                     globalCache.put(resourceKey, resource);
-                }                    
+                }
             }
             catch( ResourceNotFoundException rnfe2 )
             {
@@ -365,7 +365,7 @@ public class ResourceManagerImpl implements ResourceManager
 
         return resource;
     }
-    
+
     /**
      *  Loads a resource from the current set of resource loaders
      *
@@ -379,17 +379,17 @@ public class ResourceManagerImpl implements ResourceManager
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      * @throws Exception if a problem in parse
-     */    
+     */
     protected Resource loadResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
         Resource resource = ResourceFactory.getResource(resourceName, resourceType);
-                
+
         resource.setRuntimeServices( rsvc );
 
         resource.setName( resourceName );
         resource.setEncoding( encoding );
-                
+
         /*
          * Now we have to try to find the appropriate
          * loader for this resource. We have to cycle through
@@ -406,32 +406,32 @@ public class ResourceManagerImpl implements ResourceManager
         {
             resourceLoader = (ResourceLoader) resourceLoaders.get(i);
             resource.setResourceLoader(resourceLoader);
-            
+
             /*
              *  catch the ResourceNotFound exception
              *  as that is ok in our new multi-loader environment
              */
 
-            try 
+            try
             {
                 if (resource.process())
                 {
                      /*
                       *  FIXME  (gmj)
-                      *  moved in here - technically still 
-                      *  a problem - but the resource needs to be 
-                      *  processed before the loader can figure 
-                      *  it out due to to the new 
+                      *  moved in here - technically still
+                      *  a problem - but the resource needs to be
+                      *  processed before the loader can figure
+                      *  it out due to to the new
                       *  multi-path support - will revisit and fix
                       */
 
                      if (logWhenFound && log.isDebugEnabled())
                      {
                          log.debug("ResourceManager : found " + resourceName +
-                                  " with loader " + 
+                                  " with loader " +
                                   resourceLoader.getClassName());
                      }
-   
+
                      howOldItWas = resourceLoader.getLastModified( resource );
                      break;
                  }
@@ -444,7 +444,7 @@ public class ResourceManagerImpl implements ResourceManager
                  */
             }
         }
-                
+
         /*
          * Return null if we can't find a resource.
          */
@@ -457,17 +457,17 @@ public class ResourceManagerImpl implements ResourceManager
         /*
          *  some final cleanup
          */
-         
+
         resource.setLastModified( howOldItWas );
-         
+
         resource.setModificationCheckInterval(
             resourceLoader.getModificationCheckInterval());
-        
+
         resource.touch();
-    
-        return resource;            
+
+        return resource;
     }
-    
+
     /**
      *  Takes an existing resource, and 'refreshes' it.  This
      *  generally means that the source of the resource is checked
@@ -501,7 +501,7 @@ public class ResourceManagerImpl implements ResourceManager
              */
 
             resource.touch();
-            
+
             if(  resource.isSourceModified() )
             {
                 /*
@@ -509,14 +509,14 @@ public class ResourceManagerImpl implements ResourceManager
                  *  encoding is different than the encoding already in the resource
                  *  this strikes me as bad...
                  */
-                
+
                 if (!resource.getEncoding().equals( encoding ) )
                 {
                     log.warn("Declared encoding for template '" +
                               resource.getName() +
                               "' is different on reload. Old = '" +
                               resource.getEncoding() + "' New = '" + encoding);
-    
+
                     resource.setEncoding( encoding );
                 }
 
@@ -536,7 +536,7 @@ public class ResourceManagerImpl implements ResourceManager
                  *  now set the modification info and reset
                  *  the modification check counters
                  */
-                
+
                 resource.setLastModified( howOldItWas );
             }
         }
@@ -557,17 +557,17 @@ public class ResourceManagerImpl implements ResourceManager
      * @throws Exception if a problem in parse
      *
      *  @deprecated Use
-     *  {@link #getResource(String resourceName, int resourceType, 
+     *  {@link #getResource(String resourceName, int resourceType,
      *          String encoding )}
      */
     public Resource getResource(String resourceName, int resourceType  )
         throws ResourceNotFoundException, ParseErrorException, Exception
-    {  
+    {
         return getResource( resourceName, resourceType, RuntimeConstants.ENCODING_DEFAULT);
     }
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -578,12 +578,12 @@ public class ResourceManagerImpl implements ResourceManager
     public String getLoaderNameForResource(String resourceName )
     {
         ResourceLoader resourceLoader = null;
-       
+
         /*
          *  loop through our loaders...
          */
         for (int i = 0; i < resourceLoaders.size(); i++)
-        { 
+        {
             resourceLoader = (ResourceLoader) resourceLoaders.get(i);
 
             InputStream is = null;
@@ -595,7 +595,7 @@ public class ResourceManagerImpl implements ResourceManager
             try
             {
                 is=resourceLoader.getResourceStream( resourceName );
-               
+
                 if( is != null)
                 {
                     return resourceLoader.getClass().toString();
@@ -610,7 +610,7 @@ public class ResourceManagerImpl implements ResourceManager
             finally
             {
                 /*
-                 *  if we did find one, clean up because we were 
+                 *  if we did find one, clean up because we were
                  *  returned an open stream
                  */
                 if (is != null)

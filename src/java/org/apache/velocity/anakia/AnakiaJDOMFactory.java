@@ -30,7 +30,7 @@ import org.jdom.DefaultJDOMFactory;
 public class AnakiaJDOMFactory extends DefaultJDOMFactory
 {
     /**
-     * 
+     *
      */
     public AnakiaJDOMFactory()
     {

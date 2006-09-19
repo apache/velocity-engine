@@ -97,13 +97,13 @@ public class SetTestCase extends BaseTestCase
         /**
          * Check that #set does not accept nulls
          */
-    
+
         VelocityEngine ve = new VelocityEngine();
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.init();
-    
+
         checkTemplate(ve,"set1");
-        
+
         /**
          * Check that setting the property is the same as the default
          */
@@ -111,7 +111,7 @@ public class SetTestCase extends BaseTestCase
         ve.addProperty(RuntimeConstants.SET_NULL_ALLOWED, "false");
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.init();
-    
+
         checkTemplate(ve,"set1");
 
         /**
@@ -121,7 +121,7 @@ public class SetTestCase extends BaseTestCase
         ve.addProperty(RuntimeConstants.SET_NULL_ALLOWED, "true");
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.init();
-    
+
         checkTemplate(ve,"set2");
     }
 
@@ -148,7 +148,7 @@ public class SetTestCase extends BaseTestCase
         if (!isMatch(RESULTS_DIR, COMPARE_DIR, templateName, RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             fail("Output incorrect.");
-        }        
+        }
     }
 
 }

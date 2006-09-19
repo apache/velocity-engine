@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -48,7 +47,7 @@ public class TreeMapContext extends AbstractContext
     public Object internalGet( String key )
     {
         return context.get( key );
-    }        
+    }
 
     public Object internalPut( String key, Object value )
     {

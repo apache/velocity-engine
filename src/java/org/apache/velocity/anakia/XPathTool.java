@@ -39,7 +39,7 @@ import org.jdom.Element;
  * <pre>
  * #set $authors = $xpath.applyTo("document/author", $root)
  * #foreach ($author in $authors)
- *   $author.getValue() 
+ *   $author.getValue()
  * #end
  * #set $chapterTitles = $xpath.applyTo("document/chapter/@title", $root)
  * #foreach ($title in $chapterTitles)
@@ -52,7 +52,7 @@ import org.jdom.Element;
  * <pre>
  * #set $authors = $root.selectNodes("document/author")
  * #foreach ($author in $authors)
- *   $author.getValue() 
+ *   $author.getValue()
  * #end
  * #set $chapterTitles = $root.selectNodes("document/chapter/@title")
  * #foreach ($title in $chapterTitles)
@@ -60,7 +60,7 @@ import org.jdom.Element;
  * #end
  * </pre>
  * <p>
- *  
+ *
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>

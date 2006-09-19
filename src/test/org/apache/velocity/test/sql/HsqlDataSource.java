@@ -12,16 +12,16 @@ import org.hsqldb.jdbcDriver;
 public class HsqlDataSource implements DataSource {
 
     private final String url;
-    
+
     private PrintWriter logWriter = null;
-    
+
     private int loginTimeout = 0;
-    
+
     public HsqlDataSource(final String url) throws Exception {
 	this.url = url;
 	Class.forName(jdbcDriver.class.getName());
     }
-    
+
     public Connection getConnection() throws SQLException {
 	return DriverManager.getConnection(url, "sa", "");
     }

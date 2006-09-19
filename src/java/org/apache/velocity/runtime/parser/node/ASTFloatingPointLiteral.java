@@ -29,7 +29,7 @@ import java.math.BigDecimal;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
-public class ASTFloatingPointLiteral extends SimpleNode 
+public class ASTFloatingPointLiteral extends SimpleNode
 {
 
     // This may be of type Double or BigDecimal
@@ -38,7 +38,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      * @param id
      */
-    public ASTFloatingPointLiteral(int id) 
+    public ASTFloatingPointLiteral(int id)
     {
         super(id);
     }
@@ -47,7 +47,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
      * @param p
      * @param id
      */
-    public ASTFloatingPointLiteral(Parser p, int id) 
+    public ASTFloatingPointLiteral(Parser p, int id)
     {
         super(p, id);
     }
@@ -56,7 +56,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
@@ -64,10 +64,10 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      *  Initialization method - doesn't do much but do the object
      *  creation.  We only need to do it once.
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return The data object.
-     * @throws Exception 
+     * @throws Exception
      */
     public Object init( InternalContextAdapter context, Object data)
         throws Exception
@@ -82,11 +82,11 @@ public class ASTFloatingPointLiteral extends SimpleNode
          * Determine the size of the item and make it a Double or BigDecimal as appropriate.
          */
          String str = getFirstToken().image;
-         try 
+         try
          {
              value = new Double( str );
 
-         } catch ( NumberFormatException E1 ) 
+         } catch ( NumberFormatException E1 )
          {
 
             // if there's still an Exception it will propogate out

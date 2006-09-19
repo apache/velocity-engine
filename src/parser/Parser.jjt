@@ -193,7 +193,7 @@ public class Parser
         {
             rsvc.getLog().error("Parser Exception: " + templateName, pe);
             throw new TemplateParseException (pe.currentToken,
-				pe.expectedTokenSequences, pe.tokenImage, currentTemplateName);        
+				pe.expectedTokenSequences, pe.tokenImage, currentTemplateName);
 		}
         catch (TokenMgrError tme)
         {
@@ -696,10 +696,10 @@ MORE :
 }
 
 
-// treat the single line comment case separately 
+// treat the single line comment case separately
 // to avoid ##<EOF> errors
 <*>
-TOKEN : 
+TOKEN :
 {
    <SINGLE_LINE_COMMENT_START: "##">
    {
@@ -883,7 +883,7 @@ TOKEN :
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE: 
+|   <ELSE_DIRECTIVE:
           ( "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )
         | ( "{else}" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )  >
      {
@@ -907,13 +907,13 @@ TOKEN:
      * treat FLOATING_POINT_LITERAL and INTEGER_LITERAL differently as a range can only handle integers.
      */
 
-    /** 
+    /**
      * Note -- we also define an integer as ending with a double period,
      * in order to avoid 1..3 being defined as floating point (1.) then a period, then a integer
     */
 |   <INTEGER_LITERAL: ("-")? (<DIGIT>)+ ("..")? >
     {
-    
+
         /*
          * Remove the double period if it is there
          */
@@ -921,7 +921,7 @@ TOKEN:
             input_stream.backup(2);
             matchedToken.image = matchedToken.image.substring(0,matchedToken.image.length()-2);
         }
-    
+
         /*
          * check to see if we are in set
          *    ex.  #set $foo = $foo + 3
@@ -1236,7 +1236,7 @@ int DirectiveArg() #void : {}
         return ParserTreeConstants.JJTINTEGERLITERAL;
     }
     /*
-     * Need to put this before the floating point expansion 
+     * Need to put this before the floating point expansion
      */
 |   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
     {
@@ -1286,13 +1286,13 @@ SimpleNode Directive() :
      */
 
     ((t = <WORD>) | (t = <BRACKETED_WORD>))
-    {    
-        String directiveName;
-        if (t.kind == ParserConstants.BRACKETED_WORD) 
     {
-            
+        String directiveName;
+        if (t.kind == ParserConstants.BRACKETED_WORD)
+    {
+
             directiveName = t.image.substring(2,t.image.length() - 1);
-        } 
+        }
         else
         {
             directiveName = t.image.substring(1);
@@ -1354,8 +1354,8 @@ SimpleNode Directive() :
         argPos = 0;
     }
 
-    
-    
+
+
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
@@ -1490,7 +1490,7 @@ void Parameter() #void: {}
         | True()
         | False()
         | Reference()
-        | FloatingPointLiteral()        
+        | FloatingPointLiteral()
         )
     [ <WHITESPACE>]
 }
@@ -1695,7 +1695,7 @@ void PrimaryExpression() #void : {}
     | Reference()
     | IntegerLiteral()
     | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
-    | FloatingPointLiteral() 
+    | FloatingPointLiteral()
     | Map()
     | ObjectArray()
     | True()

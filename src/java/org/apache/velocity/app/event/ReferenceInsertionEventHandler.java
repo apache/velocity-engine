@@ -35,7 +35,7 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
      * ReferenceInsertionEventHandlers are called in sequence. If no
      * ReferenceInsertionEventHandlers are are registered then reference value
      * is inserted into the output stream as is.
-     * 
+     *
      * @param reference Reference from template about to be inserted.
      * @param value Value about to be inserted (after its <code>toString()</code>
      *            method is called).

@@ -27,7 +27,7 @@ import java.math.BigInteger;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
-public class ASTIntegerLiteral extends SimpleNode 
+public class ASTIntegerLiteral extends SimpleNode
 {
 
     // This may be of type Integer, Long or BigInteger
@@ -36,7 +36,7 @@ public class ASTIntegerLiteral extends SimpleNode
     /**
      * @param id
      */
-    public ASTIntegerLiteral(int id) 
+    public ASTIntegerLiteral(int id)
     {
         super(id);
     }
@@ -45,7 +45,7 @@ public class ASTIntegerLiteral extends SimpleNode
      * @param p
      * @param id
      */
-    public ASTIntegerLiteral(Parser p, int id) 
+    public ASTIntegerLiteral(Parser p, int id)
     {
         super(p, id);
     }
@@ -54,7 +54,7 @@ public class ASTIntegerLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
@@ -75,19 +75,19 @@ public class ASTIntegerLiteral extends SimpleNode
          * Determine the size of the item and make it an Integer, Long, or BigInteger as appropriate.
          */
          String str = getFirstToken().image;
-         try 
+         try
          {
              value = new Integer( str );
-         } 
-         catch ( NumberFormatException E1 ) 
+         }
+         catch ( NumberFormatException E1 )
          {
-            try 
+            try
             {
 
                 value = new Long( str );
 
-            } 
-            catch ( NumberFormatException E2 ) 
+            }
+            catch ( NumberFormatException E2 )
             {
 
                 // if there's still an Exception it will propogate out

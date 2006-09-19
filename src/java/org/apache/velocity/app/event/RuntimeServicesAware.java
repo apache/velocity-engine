@@ -21,8 +21,8 @@ import org.apache.velocity.runtime.RuntimeServices;
 /**
  * Event handlers implementing this interface will automatically
  * have the method setRuntimeServices called when the associated
- * EventCartridge is attached to the context.  
- * 
+ * EventCartridge is attached to the context.
+ *
  * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
@@ -30,8 +30,8 @@ public interface  RuntimeServicesAware
 {
     /**
      * Initialize the EventHandler.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
     public void setRuntimeServices( RuntimeServices rs ) throws Exception;
 

@@ -32,13 +32,13 @@ public interface  IncludeEventHandler extends EventHandler
      * of the resource to be included or may block the include entirely. All the
      * registered IncludeEventHandlers are called unless null is returned. If
      * none are registered the template at the includeResourcePath is retrieved.
-     * 
+     *
      * @param includeResourcePath  the path as given in the include directive.
      * @param currentResourcePath the path of the currently rendering template that includes the
      *            include directive.
      * @param directiveName  name of the directive used to include the resource. (With the
      *            standard directives this is either "parse" or "include").
-     * 
+     *
      * @return a new resource path for the directive, or null to block the
      *         include from occurring.
      */

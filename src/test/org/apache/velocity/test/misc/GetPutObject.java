@@ -23,8 +23,8 @@ public class GetPutObject
     public Object get()
     {
         return value;
-    }   
-        
+    }
+
     public void put(final Object value)
     {
         this.value = value;

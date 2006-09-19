@@ -23,7 +23,7 @@ package org.apache.velocity.test.provider;
  */
 public class NullToStringObject
 {
-    public String toString() 
+    public String toString()
     {
         return null;
     }

@@ -39,9 +39,9 @@ import org.jdom.output.*;
  */
 public class NodeList implements List, Cloneable
 {
-    private static final AttributeXMLOutputter DEFAULT_OUTPUTTER = 
+    private static final AttributeXMLOutputter DEFAULT_OUTPUTTER =
         new AttributeXMLOutputter();
-    
+
     /** The contained nodes */
     private List nodes;
 
@@ -55,7 +55,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Creates a node list that holds a single {@link Document} node.
-     * @param document 
+     * @param document
      */
     public NodeList(Document document)
     {
@@ -64,7 +64,7 @@ public class NodeList implements List, Cloneable
 
     /**
      * Creates a node list that holds a single {@link Element} node.
-     * @param element 
+     * @param element
      */
     public NodeList(Element element)
     {
@@ -81,10 +81,10 @@ public class NodeList implements List, Cloneable
         nodes = new ArrayList(1);
         nodes.add(object);
     }
-    
+
     /**
-     * Creates a node list that holds a list of nodes. 
-     * @param nodes the list of nodes this template should hold. The created 
+     * Creates a node list that holds a list of nodes.
+     * @param nodes the list of nodes this template should hold. The created
      * template will copy the passed nodes list, so changes to the passed list
      * will not affect the model.
      */
@@ -92,9 +92,9 @@ public class NodeList implements List, Cloneable
     {
         this(nodes, true);
     }
-    
+
     /**
-     * Creates a node list that holds a list of nodes. 
+     * Creates a node list that holds a list of nodes.
      * @param nodes the list of nodes this template should hold.
      * @param copy if true, the created template will copy the passed nodes
      * list, so changes to the passed list will not affect the model. If false,
@@ -110,13 +110,13 @@ public class NodeList implements List, Cloneable
         }
         this.nodes = copy ? new ArrayList(nodes) : nodes;
     }
-    
+
     /**
      * Retrieves the underlying list used to store the nodes. Note however, that
      * you can fully use the underlying list through the <code>List</code> interface
      * of this class itself. You would probably access the underlying list only for
      * synchronization purposes.
-     * @return The internal node List. 
+     * @return The internal node List.
      */
     public List getList()
     {
@@ -124,7 +124,7 @@ public class NodeList implements List, Cloneable
     }
 
     /**
-     * This method returns the string resulting from concatenation of string 
+     * This method returns the string resulting from concatenation of string
      * representations of its nodes. Each node is rendered using its XML
      * serialization format. This greatly simplifies creating XML-transformation
      * templates, as to output a node contained in variable x as XML fragment,
@@ -184,9 +184,9 @@ public class NodeList implements List, Cloneable
                 else
                 {
                     throw new IllegalArgumentException(
-                        "Cannot process a " + 
-                        (node == null 
-                         ? "null node" 
+                        "Cannot process a " +
+                        (node == null
+                         ? "null node"
                          : "node of class " + node.getClass().getName()));
                 }
             }
@@ -212,7 +212,7 @@ public class NodeList implements List, Cloneable
         clonedList.cloneNodes();
         return clonedList;
     }
-    
+
     private void cloneNodes()
         throws CloneNotSupportedException
     {
@@ -234,7 +234,7 @@ public class NodeList implements List, Cloneable
             // Cannot happen as listClass represents a concrete, non-primitive,
             // non-array, non-void class - there's an instance of it in "nodes"
             // which proves these assumptions.
-            throw new Error(); 
+            throw new Error();
         }
     }
 
@@ -246,7 +246,7 @@ public class NodeList implements List, Cloneable
     {
         return nodes.hashCode();
     }
-    
+
     /**
      * Tests for equality with another object.
      * @param o the object to test for equality
@@ -255,11 +255,11 @@ public class NodeList implements List, Cloneable
      */
     public boolean equals(Object o)
     {
-        return o instanceof NodeList 
+        return o instanceof NodeList
             ? ((NodeList)o).nodes.equals(nodes)
             : false;
     }
-    
+
     /**
      * Applies an XPath expression to the node list and returns the resulting
      * node list. In order for this method to work, your application must have
@@ -466,7 +466,7 @@ public class NodeList implements List, Cloneable
     }
 
     /**
-     * A special subclass of XMLOutputter that will be used to output 
+     * A special subclass of XMLOutputter that will be used to output
      * Attribute nodes. As a subclass of XMLOutputter it can use its protected
      * method escapeAttributeEntities() to serialize the attribute
      * appropriately.
@@ -484,10 +484,10 @@ public class NodeList implements List, Cloneable
             out.write(" ");
             out.write(attribute.getQualifiedName());
             out.write("=");
-            
+
             out.write("\"");
             out.write(escapeAttributeEntities(attribute.getValue()));
-            out.write("\"");            
+            out.write("\"");
         }
     }
 }

@@ -33,12 +33,12 @@ import org.apache.velocity.context.Context;
 
 /**
  *  <p>
- *  Simple implementation of JSP tag to allow 
+ *  Simple implementation of JSP tag to allow
  *  use of VTL in JSP's.
  *  </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class VelocityTag implements BodyTag
 {
@@ -48,14 +48,14 @@ public class VelocityTag implements BodyTag
 
     /*
      *  strictaccess : determines if the JSPContext is used
-     *  to autofetch information from the 'scopes' 
+     *  to autofetch information from the 'scopes'
      *  or if the scopetool() is used
      */
     protected boolean      strictAccess = false;
 
     /**
      *  CTOR : current implementation uses the Singleton
-     *  model for velocity. 
+     *  model for velocity.
      */
     public VelocityTag()
     {
@@ -116,21 +116,21 @@ public class VelocityTag implements BodyTag
     {
         return;
     }
-   
+
     public int doAfterBody()
         throws JspException
     {
         return 0;
     }
 
-    public void release()            
+    public void release()
     {
         return;
-    } 
+    }
 
     /**
-     *  This is the real worker for this taglib. 
-     *  There are efficiencies to be added - the plan 
+     *  This is the real worker for this taglib.
+     *  There are efficiencies to be added - the plan
      *  is to cache the AST to avoid reparsing every
      *  time.
      */

@@ -46,7 +46,7 @@ public class DataSourceResourceLoaderTestCase
     private static final String RESULT_FILE_EXT = "res";
 
     /**
-     * Path to template file.  This will get combined with the 
+     * Path to template file.  This will get combined with the
      * application directory to form an absolute path
      */
     private final static String DATA_PATH = TEST_COMPARE_DIR + "/ds";
@@ -80,7 +80,7 @@ public class DataSourceResourceLoaderTestCase
         assureResultsDirectoryExists(RESULTS_DIR);
 
 	DataSource ds = new HsqlDataSource("jdbc:hsqldb:.");
-	
+
         DataSourceResourceLoader rl = new DataSourceResourceLoader();
         rl.setDataSource(ds);
 
@@ -146,22 +146,22 @@ public class DataSourceResourceLoaderTestCase
         FileOutputStream fos =
                 new FileOutputStream (
                         getFileName(RESULTS_DIR, templateName, RESULT_FILE_EXT));
-        
+
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
-        
+
         VelocityContext context = new VelocityContext();
         context.put("tool", new DSRLTCTool());
-        
+
         template.merge(context, writer);
         writer.flush();
         writer.close();
-        
+
         if (!isMatch(RESULTS_DIR, COMPARE_DIR, templateName,
                         RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             fail("Output incorrect for Template: " + templateName);
         }
-        
+
         return template;
     }
 
@@ -171,7 +171,7 @@ public class DataSourceResourceLoaderTestCase
 	{
 	    return a + b;
 	}
-	
+
 	public String getMessage()
 	{
 	    return "And the result is:";

@@ -25,7 +25,7 @@ import javax.servlet.jsp.PageContext;
  *  </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ScopeTool
 {
@@ -81,7 +81,7 @@ public class ScopeTool
     }
 
     /**
-     *  retrieves a named object from anyscope, 
+     *  retrieves a named object from anyscope,
      *  working 'upwards':
      *  page - > request - > session - > application
      *
@@ -95,18 +95,18 @@ public class ScopeTool
         if (o == null)
         {
             o = getRequestScope( name );
-            
+
             if ( o == null)
             {
                 o = getSessionScope( name );
-                    
+
                 if ( o == null )
                 {
                     o = getApplicationScope( name );
                 }
             }
         }
-   
+
         return o;
     }
 }

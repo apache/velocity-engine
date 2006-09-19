@@ -17,7 +17,7 @@ package org.apache.velocity.anakia;
  */
 
 /**
- * This class is for escaping CDATA sections. The code was 
+ * This class is for escaping CDATA sections. The code was
  * "borrowed" from the JDOM code. Also included is escaping
  * the " -> &amp;quot; character and the conversion of newlines
  * to the platform line separator.
@@ -29,10 +29,10 @@ package org.apache.velocity.anakia;
 public class Escape
 {
     /**
-     * 
+     *
      */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    
+
     /**
      * Empty constructor
      */
@@ -40,10 +40,10 @@ public class Escape
     {
         // left blank on purpose
     }
-    
+
     /**
      * Do the escaping.
-     * @param st 
+     * @param st
      * @return The escaped text.
      */
     public static final String getText(String st)

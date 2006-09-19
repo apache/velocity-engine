@@ -59,13 +59,13 @@ public class ASTText extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) 
+    public Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         Token t = getFirstToken();
 
         String text = NodeUtils.tokenLiteral( t );
-        
+
         ctext = text.toCharArray();
 
         return data;
@@ -77,12 +77,12 @@ public class ASTText extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering()) 
+        if (context.getAllowRendering())
         {
             writer.write(ctext);
         }
         return true;
-    }    
+    }
 }
 
 

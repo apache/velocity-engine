@@ -41,7 +41,7 @@ import org.apache.velocity.util.introspection.Info;
 public class InfoTestCase extends BaseTestCase implements TemplateTestBase
 {
     VelocityEngine ve;
-    
+
     /**
      * Default constructor.
      */
@@ -49,7 +49,7 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
     {
         super(name);
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(InfoTestCase.class);
@@ -69,19 +69,19 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
 
 
 
-    public void testInfoProperty() throws Exception 
+    public void testInfoProperty() throws Exception
     {
         // check property
         checkInfo("info1.vm", 1, 7);
     }
-    
-    public void testInfoMethod() throws Exception 
+
+    public void testInfoMethod() throws Exception
     {
         // check method
         checkInfo("info2.vm", 1, 7);
     }
-    
-    public void checkInfo(String templateName,  
+
+    public void checkInfo(String templateName,
             int expectedLine, int expectedCol) throws Exception
     {
         Context context = new VelocityContext();
@@ -91,22 +91,22 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
 
         context.put("main", this);
 
-        try 
+        try
         {
             template.merge(context, writer);
             writer.flush();
             fail("Uberspect should have thrown an exception");
-        } 
-        catch (UberspectTestException E) 
+        }
+        catch (UberspectTestException E)
         {
             info = E.getInfo();
         }
-        finally 
+        finally
         {
             writer.close();
         }
         assertInfoEqual(info, templateName, expectedLine, expectedCol);
-        
+
     }
 
     private void assertInfoEqual(Info i, String name, int line, int column)
@@ -114,6 +114,6 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
         assertEquals("Template Name", name, i.getTemplateName());
         assertEquals("Template Line", line, i.getLine());
         assertEquals("Template Column", column, i.getColumn());
-    } 
-    
+    }
+
 }

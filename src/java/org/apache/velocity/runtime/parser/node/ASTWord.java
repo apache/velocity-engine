@@ -22,12 +22,12 @@ import org.apache.velocity.runtime.parser.ParserVisitor;
 /**
  *
  */
-public class ASTWord extends SimpleNode 
+public class ASTWord extends SimpleNode
 {
     /**
      * @param id
      */
-    public ASTWord(int id) 
+    public ASTWord(int id)
     {
         super(id);
     }
@@ -36,7 +36,7 @@ public class ASTWord extends SimpleNode
      * @param p
      * @param id
      */
-    public ASTWord(Parser p, int id) 
+    public ASTWord(Parser p, int id)
     {
         super(p, id);
     }
@@ -44,7 +44,7 @@ public class ASTWord extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }

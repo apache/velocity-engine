@@ -35,7 +35,7 @@ import org.jdom.input.SAXBuilder;
 public class XMLTest
 {
     public XMLTest( String templateFile)
-    {    
+    {
         Writer writer = null;
 
         try
@@ -46,7 +46,7 @@ public class XMLTest
 
             Velocity.init();
 
-                       
+
             /*
              * build a Document from our xml
              */
@@ -54,13 +54,13 @@ public class XMLTest
             SAXBuilder builder;
             Document root = null;
 
-            try 
+            try
             {
                 builder = new SAXBuilder(  "org.apache.xerces.parsers.SAXParser" );
                 root = builder.build("test.xml");
             }
             catch( Exception ee)
-            { 
+            {
                 System.out.println("Exception building Document : " + ee);
                 return;
             }
@@ -75,11 +75,11 @@ public class XMLTest
             /*
              *  make a writer, and merge the template 'against' the context
              */
- 
+
             Template template = Velocity.getTemplate(templateFile);
 
             writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            template.merge( context , writer);  
+            template.merge( context , writer);
         }
         catch( Exception e )
         {

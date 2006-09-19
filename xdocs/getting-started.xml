@@ -22,22 +22,22 @@ Application Guide is highly recommended!</i>
 
   <ul>
 
-    <li><a href="docs/user-guide.html">User's Guide</a> - explains how to write Velocity templates 
+    <li><a href="docs/user-guide.html">User's Guide</a> - explains how to write Velocity templates
     </li>
-    
+
     <li><a href="docs/developer-guide.html">Developer's Guide</a> - explains how to use Velocity inside Java programs
     </li>
-    
-    <li><a href="docs/vtl-reference-guide.html">VTL Reference</a> - concise syntax for Velocity Template Language (VTL) 
+
+    <li><a href="docs/vtl-reference-guide.html">VTL Reference</a> - concise syntax for Velocity Template Language (VTL)
     </li>
-    
+
     <li><a href="webapps.html">Web Application Guide</a> - web-based application techniques and
-    VelocityViewServlet tutorial 
+    VelocityViewServlet tutorial
     </li>
 
    </ul>
 
-    
+
    The best place to start is with the examples provided in the distribution,
    and with the source code itself, which is included.
 </p>
@@ -46,15 +46,15 @@ Application Guide is highly recommended!</i>
 </section>
 <section name="Downloading Velocity" href="DownloadingVelocity">
     <p>
-        You can download the latest release version of 
-        <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a> 
-        or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a> 
+        You can download the latest release version of
+        <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a>
+        or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a>
         from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
     </p>
 
     <p>
-        If you want to download the latest source, you can do so via the Subversion (svn) 
-        source control system, or download a complete 
+        If you want to download the latest source, you can do so via the Subversion (svn)
+        source control system, or download a complete
         <a href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly snapshot.</a>
     </p>
 
@@ -68,7 +68,7 @@ Application Guide is highly recommended!</i>
 <section name="API Documentation" href="APIDocumentation">
 
 <p>
-Our API documentation is available <a href="api/index.html">online</a>, 
+Our API documentation is available <a href="api/index.html">online</a>,
 as part of the distribution package, and of course, you can generate it
 yourself from the included source code.
 </p>
@@ -87,8 +87,8 @@ The docs will be found in the <code>/docs/apidocs/</code> directory.
 </p>
 
 <p>
-<b>Note:</b> Velocity uses the <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a> 
-build tool for all code and documentation generation, so you will need to have it 
+<b>Note:</b> Velocity uses the <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a>
+build tool for all code and documentation generation, so you will need to have it
 installed.  We strongly endorse this wonderful tool for any Java developer.
    </p>
 

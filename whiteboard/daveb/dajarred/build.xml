@@ -2,30 +2,30 @@
 
 <project name="TestJar" default="test" basedir=".">
 
- 
+
   <property name="build.compiler" value="classic"/>
-    
+
   <property name="build.dir" value="."/>
   <property name="build.src" value="."/>
   <property name="build.dest" value="."/>
-    
+
   <property name="ant.home" value="."/>
   <property name="debug" value="on"/>
   <property name="optimize" value="on"/>
   <property name="deprecation" value="on"/>
-  
- 
+
+
   <!-- =================================================================== -->
   <!-- prints the environment                                        -->
   <!-- =================================================================== -->
   <target name="env">
-    
+
     <echo message="build.compiler = ${build.compiler}"/>
     <echo message="java.home = ${java.home}"/>
     <echo message="user.home = ${user.home}"/>
     <echo message="java.class.path = ${java.class.path}"/>
     <echo message=""/>
-  
+
   </target>
 
 
@@ -33,16 +33,16 @@
   <!-- Compiles the source directory w/o the j2ee dependent files          -->
   <!-- =================================================================== -->
   <target name="compile">
-  
-    <delete file="Example.class"/> 
-         
+
+    <delete file="Example.class"/>
+
     <javac srcdir="${build.src}"
       destdir="${build.dest}"
       debug="${debug}"
       deprecation="${deprecation}"
       optimize="${optimize}">
 
-    
+
     </javac>
   </target>
 

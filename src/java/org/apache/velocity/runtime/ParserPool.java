@@ -30,7 +30,7 @@ public interface ParserPool
 {
     /**
      * Initialize the pool so that it can begin serving parser instances.
-     * @param svc 
+     * @param svc
      */
     void initialize(RuntimeServices svc);
 
@@ -42,7 +42,7 @@ public interface ParserPool
 
     /**
      * Return the parser to the pool so that it may be reused.
-     * @param parser 
+     * @param parser
      */
     void put(Parser parser);
 }

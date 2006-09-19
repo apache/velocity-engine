@@ -24,7 +24,7 @@
 
          <br>
 
-        #foreach($item in $mybean.array) 
+        #foreach($item in $mybean.array)
             $item <br>
         #end
 

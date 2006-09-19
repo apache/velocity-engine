@@ -46,7 +46,7 @@ public class ASTStringLiteral extends SimpleNode
 
     /** true if the string contains a line comment (##) */
     private boolean containsLineComment;
-    
+
     /**
      * @param id
      */
@@ -63,16 +63,16 @@ public class ASTStringLiteral extends SimpleNode
     {
         super(p, id);
     }
-    
+
     /**
-     *  init : we don't have to do much.  Init the tree (there 
+     *  init : we don't have to do much.  Init the tree (there
      *  shouldn't be one) and then see if interpolation is turned on.
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return Init result.
-     * @throws Exception 
+     * @throws Exception
      */
-    public Object init(InternalContextAdapter context, Object data) 
+    public Object init(InternalContextAdapter context, Object data)
         throws Exception
     {
         /*
@@ -82,46 +82,46 @@ public class ASTStringLiteral extends SimpleNode
         super.init(context, data);
 
         /*
-         *  the stringlit is set at template parse time, so we can 
-         *  do this here for now.  if things change and we can somehow 
+         *  the stringlit is set at template parse time, so we can
+         *  do this here for now.  if things change and we can somehow
          * create stringlits at runtime, this must
          *  move to the runtime execution path
          *
-         *  so, only if interpolation is turned on AND it starts 
-         *  with a " AND it has a  directive or reference, then we 
+         *  so, only if interpolation is turned on AND it starts
+         *  with a " AND it has a  directive or reference, then we
          *  can  interpolate.  Otherwise, don't bother.
          */
 
         interpolate = rsvc.getBoolean(RuntimeConstants.INTERPOLATE_STRINGLITERALS , true)
             && getFirstToken().image.startsWith("\"")
-            && ((getFirstToken().image.indexOf('$') != -1) 
+            && ((getFirstToken().image.indexOf('$') != -1)
                  || (getFirstToken().image.indexOf('#') != -1));
 
         /*
          *  get the contents of the string, minus the '/" at each end
          */
-        
-        image = getFirstToken().image.substring(1, 
+
+        image = getFirstToken().image.substring(1,
                                                 getFirstToken().image.length() - 1);
 
         /**
-         * note.  A kludge on a kludge.  The first part, Geir calls 
-         * this the dreaded <MORE> kludge.  Basically, the use of the 
-         * <MORE> token eats the last character of an interpolated 
+         * note.  A kludge on a kludge.  The first part, Geir calls
+         * this the dreaded <MORE> kludge.  Basically, the use of the
+         * <MORE> token eats the last character of an interpolated
          * string.  EXCEPT when a line comment (##) is in
-         * the string this isn't an issue.  
-         * 
+         * the string this isn't an issue.
+         *
          * So, to solve this we look for a line comment.  If it isn't found
          * we add a space here and remove it later.
          */
-        
+
         /**
          * Note - this should really use a regexp to look for [^\]##
          * but apparently escaping of line comments isn't working right
          * now anyway.
          */
         containsLineComment = (image.indexOf("##") != -1);
-        
+
         /*
          * if appropriate, tack a space on the end (dreaded <MORE> kludge)
          */
@@ -134,7 +134,7 @@ public class ASTStringLiteral extends SimpleNode
         {
             interpolateimage = image;
         }
-            
+
         if (interpolate)
         {
             /*
@@ -175,13 +175,13 @@ public class ASTStringLiteral extends SimpleNode
      *  If the properties allow, and the string literal contains a $ or a #
      *  the literal is rendered against the context
      *  Otherwise, the stringlit is returned.
-     * @param context 
+     * @param context
      * @return result of the rendering.
      */
     public Object value(InternalContextAdapter context)
     {
         if (interpolate)
-        {          
+        {
             try
             {
                 /*
@@ -190,7 +190,7 @@ public class ASTStringLiteral extends SimpleNode
 
                 StringWriter writer = new StringWriter();
                 nodeTree.render(context, writer);
-                
+
                 /*
                  * and return the result as a String
                  */
@@ -198,7 +198,7 @@ public class ASTStringLiteral extends SimpleNode
                 String ret = writer.toString();
 
                 /*
-                 * if appropriate, remove the space from the end 
+                 * if appropriate, remove the space from the end
                  * (dreaded <MORE> kludge part deux)
                  */
                 if (!containsLineComment && ret.length() > 0)
@@ -235,9 +235,9 @@ public class ASTStringLiteral extends SimpleNode
             }
 
         }
-        
+
         /*
-         *  ok, either not allowed to interpolate, there wasn't 
+         *  ok, either not allowed to interpolate, there wasn't
          *  a ref or directive, or we failed, so
          *  just output the literal
          */

@@ -26,8 +26,8 @@ import org.apache.velocity.context.Context;
  *
  *   yes, this is silly
  *
- *   expects a mysql db test with table 
- * 
+ *   expects a mysql db test with table
+ *
  *  CREATE TABLE contextstore (
  *    k varchar(100),
  *    val blob
@@ -62,22 +62,22 @@ public class DBContext extends AbstractContext
      */
     public Object internalGet( String key )
     {
-        try 
+        try
         {
             String data = null;
 
             String sql = "SELECT k, val FROM contextstore WHERE k ='"+key+"'";
-            
+
             Statement s = conn.createStatement();
 
             ResultSet rs = s.executeQuery( sql );
 
             if(rs.next())
                data = rs.getString("val");
-            
+
             rs.close();
             s.close();
-            
+
             ObjectInputStream in = new ObjectInputStream(  new ByteArrayInputStream( data.getBytes() ));
 
             Object o =  in.readObject();
@@ -85,7 +85,7 @@ public class DBContext extends AbstractContext
             in.close();
 
             return o;
-        }        
+        }
         catch(Exception e)
         {
             System.out.println("internalGet() : " + e );
@@ -97,29 +97,29 @@ public class DBContext extends AbstractContext
     /**
      *  Serializes and stores an object in the database.
      *  This is really a hokey way to do it, and will
-     *  cause problems.  The right way is to use a 
+     *  cause problems.  The right way is to use a
      *  prepared statement...
      */
     public Object internalPut( String key, Object value )
     {
-        try 
-        {    
+        try
+        {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream( baos );
-            
+
             out.writeObject( value );
             String data = baos.toString();
 
             out.close();
             baos.close();
-          
+
             Statement s = conn.createStatement();
 
             s.executeUpdate( "DELETE FROM contextstore WHERE k = '" + key + "'" );
             s.executeUpdate( "INSERT INTO contextstore (k,val) values ('"+key+"','" + data + "')" );
 
-            s.close();            
-        }        
+            s.close();
+        }
         catch(Exception e)
         {
             System.out.println("internalGet() : " + e );
@@ -137,7 +137,7 @@ public class DBContext extends AbstractContext
     {
         return false;
     }
-    
+
     /**
      *  Not implementing. Not required for Velocity core
      *  operation, so not bothering.  As we say above :
@@ -166,11 +166,11 @@ public class DBContext extends AbstractContext
             Class.forName("org.gjt.mm.mysql.Driver").newInstance();
             conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root");
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             System. out.println(e);
         }
-      
+
         return;
     }
 }

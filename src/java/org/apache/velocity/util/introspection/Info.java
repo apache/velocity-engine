@@ -74,8 +74,8 @@ public class Info
     /**
      * Formats a textual representation of this object as <code>SOURCE
      * [line X, column Y]</code>.
-     * 
-     * @return String representing this object. 
+     *
+     * @return String representing this object.
      */
     public String toString()
     {

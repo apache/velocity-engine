@@ -32,7 +32,7 @@ import org.apache.velocity.util.TemplateNumber;
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTMulNode extends SimpleNode
 {
@@ -62,10 +62,10 @@ public class ASTMulNode extends SimpleNode
     }
 
     /**
-     *  computes the product of the two args.  
-     * @param context 
+     *  computes the product of the two args.
+     * @param context
      *  @return result or null
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object value( InternalContextAdapter context )
         throws MethodInvocationException
@@ -88,19 +88,19 @@ public class ASTMulNode extends SimpleNode
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of multiplication operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
         }
-        
+
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -113,9 +113,9 @@ public class ASTMulNode extends SimpleNode
         {
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of multiplication operation is not a Number. "
-                           +  context.getCurrentTemplateName() + " [line " + getLine() 
+                           +  context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
- 
+
             return null;
         }
 

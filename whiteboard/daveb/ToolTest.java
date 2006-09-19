@@ -35,14 +35,14 @@ public class ToolTest
         try
         {
             Runtime.init( "myprops.properties" );
- 
+
             Template template = Runtime.getTemplate(templateFile);
 
             ContextWithTools context = new ContextWithTools();
             context.put("test", "HEY!");
-            
+
             Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-       
+
             template.merge(context, writer);
 
             writer.flush();

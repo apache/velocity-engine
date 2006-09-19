@@ -5,7 +5,7 @@ We want to pass through two VMs
   Hello from foo!
   #foreach($i in $a)
     foo: $i
-  #end 
+  #end
 #end
 
 #macro( floog $a)

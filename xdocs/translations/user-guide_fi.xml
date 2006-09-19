@@ -21,7 +21,7 @@
     </ol>
 </li>
 <li><a href="#VelocityTemplateLanguage(VTL):Johdanto">Velocity
-Template Language (VTL): Johdanto</a></li> 
+Template Language (VTL): Johdanto</a></li>
 <li><a href="#HeiVelocityMaailma!">Hei Velocity Maailma!</a></li>
 <li><a href="#Kommentit">Kommentit</a></li>
 <li><a href="#Viittaukset">Viittaukset</a>
@@ -399,9 +399,9 @@ tallettamiseen:
     tunnisteen on alettava aakkosnumeerisella merkillä (a..z tai
     A..Z). Muuttujan loput merkit ovat rajoitettu seuraaviin:
 
- </p> 
+ </p>
 
- <p> 
+ <p>
    <ul>
      <li>aakkoset (a .. z, A .. Z)</li>
      <li>numerot (0 .. 9)</li>
@@ -806,7 +806,7 @@ ${data.Pyynto.PalvelinNimi}
     <code>$getFoo</code>. Samalla tavalla, kun sivupohjassa viitataan
     muuttujaan <code>$bar.Foo</code>, ensin yritetään viittausta
     <em>$getFoo()</em> ja sitten <em>getfoo()</em>.
-    </p> 
+    </p>
 
     <p>
     Huomaa: <em>Viittauksia ilmentymämuuttujiin (instance variables)
@@ -1537,25 +1537,25 @@ $laskuri
   </p>
 
   <ul>
-    <li> 
+    <li>
       Viittaus : mitä tahansa '$' merkillä alkavaa
     </li>
-    <li> 
+    <li>
       Tekstivakio : esimerkiksi "$foo" tai 'hei'
     </li>
-    <li> 
+    <li>
       Numerovakio : 1, 2 jne
     </li>
-    <li> 
+    <li>
       Numeroväli : [ 1..2] tai [$foo .. $bar]
     </li>
-    <li> 
+    <li>
       ObjectArray : [ "a", "b", "c"]
     </li>
-    <li> 
+    <li>
        boolean arvo true (tosi)
     </li>
-    <li> 
+    <li>
        boolean arvo false (epätosi)
     </li>
   </ul>
@@ -1592,7 +1592,7 @@ $laskuri
        generoi värejä peräkkäisessä järjestyksessä taulukon rivien
        värien määrittämiseksi.
     </p>
-   
+
     <p>
        Jos sinun tarvitsee kiertää tämä ominaisuus, voit hakea arvon
        metodista uudeksi viittaukseksi, ja antaa sen argumentiksi:
@@ -1604,7 +1604,7 @@ $laskuri
    ]]></source>
 
     <strong>Velocimakro ominaisuudet</strong>
-    
+
     <p>
     <code>velocity.properties</code> tiedostossa on useita rivejä
     joiden avulla Velocimakrojen toimintaa voidaan muuttaa

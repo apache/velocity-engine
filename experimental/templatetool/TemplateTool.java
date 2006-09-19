@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -31,7 +30,7 @@ import org.apache.velocity.runtime.visitor.BaseVisitor;
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
- */ 
+ */
 public class TemplateTool
 {
     /**
@@ -43,7 +42,7 @@ public class TemplateTool
         SimpleNode sn = (SimpleNode) template.getData();
 
         ReferenceListVisitor rlv = new ReferenceListVisitor();
-        
+
         sn.jjtAccept( rlv, null );
 
         return rlv.getList();
@@ -67,14 +66,14 @@ public class TemplateTool
         for( int i = 0; i < list.size(); i++)
         {
             String ref = (String) list.get(i);
-            
+
             Integer ival = (Integer) hm.get( ref );
 
             if ( ival == null)
                 count = 0;
             else
                 count = ival.intValue();
-            
+
             count++;
 
             hm.put( ref, new Integer(count) );
@@ -143,12 +142,12 @@ public class TemplateTool
             String lit = node.literal();
 
             list.add(lit);
-            
+
             /*
              *  feed the children...
              */
-            data = node.childrenAccept(this, data);   
-            
+            data = node.childrenAccept(this, data);
+
             return data;
         }
     }

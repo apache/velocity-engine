@@ -38,31 +38,31 @@ public interface LogSystem
      */
     public final static int DEBUG_ID = 0;
 
-    /** 
+    /**
      * ID for info messages.
      */
     public final static int INFO_ID = 1;
-    
-    /** 
+
+    /**
      * ID for warning messages.
      */
     public final static int WARN_ID = 2;
 
-    /** 
+    /**
      * ID for error messages.
      */
     public final static int ERROR_ID = 3;
 
     /**
      * Initializes this LogSystem.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
     public void init( RuntimeServices rs ) throws Exception;
 
     /**
-     * @param level 
-     * @param message 
+     * @param level
+     * @param message
      * @deprecated Use log(level, message).
      */
     public void logVelocityMessage(int level, String message);

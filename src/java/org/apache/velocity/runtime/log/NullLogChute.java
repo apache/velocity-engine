@@ -34,7 +34,7 @@ public class NullLogChute implements LogChute
     public void init(RuntimeServices rs) throws Exception
     {
     }
-    
+
     /**
      * logs messages to the great Garbage Collector in the sky
      *

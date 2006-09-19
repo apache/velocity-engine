@@ -51,7 +51,7 @@ public interface Context
      * @return    The value corresponding to the provided key.
      */
     Object get(String key);
- 
+
     /**
      * Indicates whether the specified key is in the context.
      *
@@ -70,7 +70,7 @@ public interface Context
      * Removes the value associated with the specified key from the context.
      *
      * @param key The name of the value to remove.
-     * @return    The value that the key was mapped to, or <code>null</code> 
+     * @return    The value that the key was mapped to, or <code>null</code>
      *            if unmapped.
      */
     Object remove(Object key);

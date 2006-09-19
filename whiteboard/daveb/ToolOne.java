@@ -16,8 +16,8 @@
 
 import org.apache.velocity.context.*;
 
-/** 
- * Test Tool 
+/**
+ * Test Tool
  */
 public class ToolOne extends ContextTool
 {
@@ -28,7 +28,7 @@ public class ToolOne extends ContextTool
     {
         return "toolone";
     }
-    
+
     public String sayHello()
     {
         return "Hello from Tool one";

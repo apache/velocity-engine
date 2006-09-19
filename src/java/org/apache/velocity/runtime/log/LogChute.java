@@ -52,7 +52,7 @@ public interface LogChute
 
     /** ID for info messages. */
     public final static int INFO_ID = 1;
-    
+
     /** ID for warning messages. */
     public final static int WARN_ID = 2;
 
@@ -61,30 +61,30 @@ public interface LogChute
 
     /**
      * Initializes this LogChute.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
     public void init(RuntimeServices rs) throws Exception;
 
     /**
      * Send a log message from Velocity.
-     * @param level 
-     * @param message 
+     * @param level
+     * @param message
      */
     public void log(int level, String message);
 
     /**
      * Send a log message from Velocity along with an exception or error
-     * @param level 
-     * @param message 
-     * @param t 
+     * @param level
+     * @param message
+     * @param t
      */
     public void log(int level, String message, Throwable t);
 
     /**
      * Tell whether or not a log level is enabled.
-     * @param level 
-     * @return True if a level is enabled. 
+     * @param level
+     * @return True if a level is enabled.
      */
     public boolean isLevelEnabled(int level);
 
