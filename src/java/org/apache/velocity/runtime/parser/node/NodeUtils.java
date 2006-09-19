@@ -18,7 +18,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.runtime.parser.*;
+import org.apache.velocity.runtime.parser.Token;
 
 /**
  * Utilities for dealing with the AST node structure.
