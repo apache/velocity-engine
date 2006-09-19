@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.parser.node;
+
 /*
  * Copyright 2000-2004 The Apache Software Foundation.
  *
@@ -13,8 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.velocity.runtime.parser.node;
 
 import java.io.Writer;
 import java.io.IOException;

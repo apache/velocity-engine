@@ -16,12 +16,10 @@ package org.apache.velocity.app.tools;
  * limitations under the License.
  */
 
-// Java Core Classes
 import java.util.*;
 import java.text.*;
 import java.lang.reflect.Array;
 
-// Veclocity classes
 import org.apache.velocity.context.*;
 
 /**

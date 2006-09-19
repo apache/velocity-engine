@@ -16,7 +16,6 @@ package org.apache.velocity.util;
  * limitations under the License.
  */
 
-
 /**
  * Simple object pool. Based on ThreadPool and few other classes
  *

@@ -1,10 +1,5 @@
 package org.apache.velocity.app.event;
 
-import java.util.Iterator;
-
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.RuntimeServices;
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -20,6 +15,12 @@ import org.apache.velocity.runtime.RuntimeServices;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import java.util.Iterator;
+
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.RuntimeServices;
+
 
 /**
  * Calls on request all registered event handlers for a particular event. Each

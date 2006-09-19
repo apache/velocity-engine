@@ -1,7 +1,5 @@
 package org.apache.velocity.test.misc;
 
-import org.apache.velocity.util.introspection.Info;
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import org.apache.velocity.util.introspection.Info;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.util.introspection.Info;
+
 
 
 /**

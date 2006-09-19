@@ -16,7 +16,6 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-
 /**
  * Handles modulus division<br><br>
  *

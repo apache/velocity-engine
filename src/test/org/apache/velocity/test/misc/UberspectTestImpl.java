@@ -1,10 +1,5 @@
 package org.apache.velocity.test.misc;
 
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.UberspectImpl;
-import org.apache.velocity.util.introspection.VelMethod;
-import org.apache.velocity.util.introspection.VelPropertyGet;
-
 /*
  * Copyright 2000-2004 The Apache Software Foundation.
  *
@@ -20,6 +15,12 @@ import org.apache.velocity.util.introspection.VelPropertyGet;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.UberspectImpl;
+import org.apache.velocity.util.introspection.VelMethod;
+import org.apache.velocity.util.introspection.VelPropertyGet;
+
 
 /**
  * A introspector that allows testing when methods are not found.

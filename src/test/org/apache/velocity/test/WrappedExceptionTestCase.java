@@ -1,4 +1,5 @@
 package org.apache.velocity.test;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -14,7 +15,6 @@ package org.apache.velocity.test;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 
 import java.io.StringWriter;
 import junit.framework.Test;

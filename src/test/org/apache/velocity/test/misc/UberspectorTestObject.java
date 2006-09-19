@@ -16,7 +16,6 @@ package org.apache.velocity.test.misc;
  * limitations under the License.
  */
 
-
 public class UberspectorTestObject
 {
     private String regular;

@@ -1,8 +1,5 @@
 package org.apache.velocity.runtime;
 
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.SimplePool;
-
 /*
  * Copyright 2000-2006 The Apache Software Foundation.
  *
@@ -18,6 +15,10 @@ import org.apache.velocity.util.SimplePool;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.SimplePool;
+
 
 /**
  * This wraps the original parser SimplePool class.  It also handles

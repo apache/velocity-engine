@@ -1,4 +1,5 @@
 package org.apache.velocity.util.introspection;
+
 /*
  * Copyright 2002-2004 The Apache Software Foundation.
  *

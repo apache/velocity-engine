@@ -16,7 +16,6 @@ package org.apache.velocity.test.eventhandler;
  * limitations under the License.
  */
 
-
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;

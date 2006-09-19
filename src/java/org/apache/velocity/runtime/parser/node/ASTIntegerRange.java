@@ -16,7 +16,6 @@ package org.apache.velocity.runtime.parser.node;
  * limitations under the License.
  */
 
-
 /**
  * handles the range 'operator'  [ n .. m ]
  *

@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.parser;
+
 /*
  * Copyright 2000-2004 The Apache Software Foundation.
  *
@@ -18,7 +20,6 @@
  *  NOTE : please see documentation at bottom of this file. (It was placed there its tiring
  *    to always have to page past it... :)
  */
-
 options
 {
     /** The default package for this parser kit */
@@ -74,7 +75,6 @@ options
 
 PARSER_BEGIN(Parser)
 
-package org.apache.velocity.runtime.parser;
 
 import java.io.*;
 import java.util.*;

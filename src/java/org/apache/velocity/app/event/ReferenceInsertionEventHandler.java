@@ -1,6 +1,5 @@
 package org.apache.velocity.app.event;
 
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *

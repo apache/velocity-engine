@@ -1,7 +1,5 @@
 package org.apache.velocity.runtime;
 
-import org.apache.velocity.runtime.parser.Parser;
-
 /*
  * Copyright 2000-2006 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import org.apache.velocity.runtime.parser.Parser;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.runtime.parser.Parser;
+
 
 /**
  * Provides instances of parsers as needed.  get() will return a new parser if

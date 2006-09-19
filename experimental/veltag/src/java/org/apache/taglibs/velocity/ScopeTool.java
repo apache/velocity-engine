@@ -1,3 +1,5 @@
+package org.apache.taglibs.velocity;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -13,8 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.taglibs.velocity;
 
 import javax.servlet.jsp.PageContext;
 

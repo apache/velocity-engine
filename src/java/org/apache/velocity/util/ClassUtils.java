@@ -1,7 +1,5 @@
 package org.apache.velocity.util;
 
-import java.io.InputStream;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import java.io.InputStream;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import java.io.InputStream;
+
 
 
 /**

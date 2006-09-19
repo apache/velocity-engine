@@ -1,7 +1,5 @@
 package org.apache.velocity.test;
 
-import junit.framework.TestSuite;
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import junit.framework.TestSuite;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import junit.framework.TestSuite;
+
 
 
 /**

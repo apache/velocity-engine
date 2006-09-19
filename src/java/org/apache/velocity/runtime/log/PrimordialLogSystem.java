@@ -1,3 +1,5 @@
+package org.apache.velocity.runtime.log;
+
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -13,8 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.velocity.runtime.log;
 
 /**
  *  Pre-init logger.  I believe that this was suggested by

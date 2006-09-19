@@ -1,4 +1,5 @@
 package org.apache.velocity.runtime.parser.node;
+
 /*
  * Copyright 2006 The Apache Software Foundation.
  *

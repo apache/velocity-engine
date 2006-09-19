@@ -16,7 +16,6 @@ package org.apache.velocity.context;
  * limitations under the License.
  */
 
-
 /**
  *  This class is the abstract base class for all conventional
  *  Velocity Context  implementations.  Simply extend this class

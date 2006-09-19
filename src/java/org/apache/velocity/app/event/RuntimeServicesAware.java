@@ -1,7 +1,5 @@
 package org.apache.velocity.app.event;
 
-import org.apache.velocity.runtime.RuntimeServices;
-
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -17,6 +15,9 @@ import org.apache.velocity.runtime.RuntimeServices;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.velocity.runtime.RuntimeServices;
+
 
 /**
  * Event handlers implementing this interface will automatically

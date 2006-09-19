@@ -1,18 +1,5 @@
 package org.apache.velocity.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.test.misc.GetPutObject;
-import org.apache.velocity.test.misc.UberspectorTestObject;
-import org.apache.velocity.util.introspection.Uberspect;
-import org.apache.velocity.util.introspection.VelPropertyGet;
-import org.apache.velocity.util.introspection.VelPropertySet;
-
 /*
  * Copyright 2006 The Apache Software Foundation.
  *
@@ -28,6 +15,20 @@ import org.apache.velocity.util.introspection.VelPropertySet;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.test.misc.GetPutObject;
+import org.apache.velocity.test.misc.UberspectorTestObject;
+import org.apache.velocity.util.introspection.Uberspect;
+import org.apache.velocity.util.introspection.VelPropertyGet;
+import org.apache.velocity.util.introspection.VelPropertySet;
+
 
 public class UberspectorTestCase
         extends BaseTestCase
