@@ -143,7 +143,7 @@ public class IntrospectorBase
          *  since we are synchronizing on this
          *  object, we have to clear it rather than
          *  just dump it.
-         */            
+         */
         classMethodMaps.clear();
         
         /*

@@ -258,23 +258,23 @@ public class UberspectorTestCase
 
 
     /*
-    
-    public void testMapGetSet()
-        throws Exception
-    {
-        Uberspect u = ri.getUberspect();
-        Map map = new HashMap();
-
-        VelPropertyGet getter = u.getPropertyGet(map, "", null);
-        VelPropertySet setter = u.getPropertySet(map, "", Object.class, null);
-
-        assertNotNull("Got a null getter", getter);
-        assertNotNull("Got a null setter", setter);
-
-        assertEquals("Got wrong getter", "foo", getter.getMethodName());
-        assertEquals("Got wrong setter", "bar", setter.getMethodName());
-    }
-    */
+     *    
+     *    public void testMapGetSet()
+     *        throws Exception
+     *    {
+     *        Uberspect u = ri.getUberspect();
+     *        Map map = new HashMap();
+     *
+     *        VelPropertyGet getter = u.getPropertyGet(map, "", null);
+     *        VelPropertySet setter = u.getPropertySet(map, "", Object.class, null);
+     *
+     *        assertNotNull("Got a null getter", getter);
+     *        assertNotNull("Got a null setter", setter);
+     *
+     *        assertEquals("Got wrong getter", "foo", getter.getMethodName());
+     *        assertEquals("Got wrong setter", "bar", setter.getMethodName());
+     *    }
+     */
 }    
         
 

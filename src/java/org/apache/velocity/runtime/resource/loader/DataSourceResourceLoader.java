@@ -280,8 +280,8 @@ public class DataSourceResourceLoader extends ResourceLoader
          long timeStamp = 0;
 
 	 /*
-          *  get the template name from the resource
-          */
+	  *  get the template name from the resource
+	  */
          String name = resource.getName();
          
          if (name == null || name.length() == 0)

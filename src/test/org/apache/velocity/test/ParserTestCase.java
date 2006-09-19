@@ -100,8 +100,8 @@ public class ParserTestCase extends TestCase
         ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
 
          /*
-         *  this should throw an exception
-         */
+          *  this should throw an exception
+          */
 
         template = "#macro($x) foo #end";
 
@@ -136,16 +136,16 @@ public class ParserTestCase extends TestCase
         ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
 
          /*
-         *  this should work - spaces intentional
-         */
+          *  this should work - spaces intentional
+          */
 
         template = "#foreach(  $i     in  $woogie   ) end #end";
 
         ve.evaluate(new VelocityContext(), new StringWriter(), "foo", template);
 
         /*
-        *  this should bomb
-        */
+         *  this should bomb
+         */
 
        template = "#macro(   foo $a) $a #end #foo(woogie)";
 

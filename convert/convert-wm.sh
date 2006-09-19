@@ -1,4 +1,4 @@
-#!/bin/sh
+# !/bin/sh
 
 [ -z $1 ] && echo \
           && echo 'Need a template or a directory of templates to convert!' \

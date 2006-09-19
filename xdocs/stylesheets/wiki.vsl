@@ -22,13 +22,13 @@
 ## END THE PROCESSING
 
 
-##################################################################################################
+## ################################################################################################
 #macro ( image $value )$value.getAttributeValue("src")#end
 
-##################################################################################################
+## ################################################################################################
 #macro ( imageurl $value )$value#end
 
-##################################################################################################
+## ################################################################################################
 ## implements simple hierarchal tables
 ## Doesn't really work right now
 
@@ -42,61 +42,61 @@
 
 
 
-##################################################################################################
+## ################################################################################################
 #macro ( source $value)
 {{{$escape.getText($value.getText())
 }}}
 #end
 
-##################################################################################################
+## ################################################################################################
 #macro ( code $value)
 {{{$escape.getText($value.getText())}}}
 #end
 
-##################################################################################################
+## ################################################################################################
 #macro ( subsection $subsection)
 
 === $subsection.getAttributeValue("name") ===
 #parsecontent($subsection.getChildren())
 #end
 
-##################################################################################################
+## ################################################################################################
 #macro ( section $section)
 
 == $section.getAttributeValue("name") ==
 #parsecontent($section.getChildren())
 #end
 
-##################################################################################################
+## ################################################################################################
 #macro ( paragraph $node)
 
 #parsecontent($node.content)
 #end
 
-##################################################################################################
+## ################################################################################################
 #macro ( font $node)#parsecontent($node.content)#end
 
-##################################################################################################
+## ################################################################################################
 #macro ( link $node)[$!node.getAttribute("href").Value$!node.getAttribute("HREF").Value $node.Text]#end
 
-##################################################################################################
+## ################################################################################################
 #macro ( unorderedlist $node)
 #foreach ( $items in $node.getChildren())
 #if ($items.getName().equalsIgnoreCase("LI"))* #parsecontent($items.content)#end#end#end
 
-##################################################################################################
+## ################################################################################################
 #macro ( orderedlist $node)
 #foreach ( $items in $node.getChildren())
 #if ($items.getName().equalsIgnoreCase("LI"))# #parsecontent($items.content)#end#end#end
 
-##################################################################################################
+## ################################################################################################
 #macro (parsecontent $children)#foreach ( $items in $children )#if ($items.getName().equalsIgnoreCase("img"))#image ($items)#elseif ($items.getName().equalsIgnoreCase("code"))#code ($items) #elseif ($items.getName().equalsIgnoreCase("section"))#section ($items)#elseif ($items.getName().equalsIgnoreCase("subsection"))#subsection ($items)#elseif ($items.getName().equalsIgnoreCase("source"))#source ($items)#elseif ($items.getName().equalsIgnoreCase("table"))#table ($items)#elseif ($items.getName().equalsIgnoreCase("P"))#paragraph($items)#elseif ($items.getName().equalsIgnoreCase("UL"))#unorderedlist($items)#elseif ($items.getName().equalsIgnoreCase("OL"))#orderedlist($items)#elseif ($items.getName().equalsIgnoreCase("DIV"))#parsecontent($items.content)#elseif ($items.getName().equalsIgnoreCase("FONT"))#font($items)#elseif ($items.getName().equalsIgnoreCase("A"))#link($items)#elseif ($items.getName().equalsIgnoreCase("I"))<I>#parsecontent($items.content)</I>#elseif ($items.getName().equalsIgnoreCase("EM"))<EM>#parsecontent($items.content)</EM>#elseif ($items.content)#parsecontent($items.content)#else#**#$items.Text#end#end#end
 
-##################################################################################################
+## ################################################################################################
 #macro (getProjectImage)#imageurl("http://jakarta.apache.org/images/jakarta-logo.gif")#end
 
 
-##################################################################################################
+## ################################################################################################
 #macro (document)
 
 ## PAGE HEADER
@@ -107,6 +107,6 @@
 #set ($allSections = $root.getChild("body").getChildren("section"))#foreach ( $section in $allSections )#section ($section)#end
 
 ## PAGE FOOTER
-##----
+## ----
 
 #end

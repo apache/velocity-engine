@@ -16,7 +16,7 @@
 ## This is where the macro's live
 
 #macro ( makeProject )
-    ##set ($menus = $project.getChild("body").getChildren("menu"))
+    ## set ($menus = $project.getChild("body").getChildren("menu"))
     #set ($menus = $xpath.applyTo("body/menu", $project))
 
     #foreach ( $menu in $menus )
@@ -59,8 +59,8 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-            ##set ($au = $root.getChild("properties").getChild("author").getText())
-            ##set ($em = $root.getChild("properties").getChild("author").getAttributeValue("email"))
+            ## set ($au = $root.getChild("properties").getChild("author").getText())
+            ## set ($em = $root.getChild("properties").getChild("author").getAttributeValue("email"))
 
 <!--
             ## For some reason, we can't .getText() and .getValue() directly in the
@@ -72,8 +72,8 @@
 
             ## This should work, but doesn't
 
-            ##set ($au = $xpath.applyTo("properties/author", $root).get(0).getText())
-            ##set ($em = $xpath.applyTo("properties/author/@email", $root).get(0).getValue())
+            ## set ($au = $xpath.applyTo("properties/author", $root).get(0).getText())
+            ## set ($em = $xpath.applyTo("properties/author/@email", $root).get(0).getValue())
 
 -->
 
@@ -90,7 +90,7 @@
                 #makeProject()
                 </td>
                 <td>
-                ##set ($allSections = $root.getChild("body").getChildren("section"))
+                ## set ($allSections = $root.getChild("body").getChildren("section"))
                 #set ($allSections = $xpath.applyTo("body/section", $root))
 
                 #foreach ( $section in $allSections )

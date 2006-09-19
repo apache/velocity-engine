@@ -72,7 +72,7 @@ public class Example2
 
         System.out.println(" template : " + w );
 
-        /* 
+        /*
          *  lets dynamically 'create' our template
          *  and use the evaluate() method to render it
          */

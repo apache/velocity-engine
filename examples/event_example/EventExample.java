@@ -73,7 +73,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
             return;
         }
 
-        /* 
+        /*
          *  lets make a Context and add some data
          */
 
@@ -93,7 +93,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
   
         try
         {
-            /* 
+            /*
              *  lets test each type of event handler individually
              *  using 'dynamic' templates
              *

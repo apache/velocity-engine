@@ -52,7 +52,7 @@ public class VelocimacroManager
     /** map of names of library tempates/namespaces */
     private final Hashtable libraryMap = new Hashtable();
     
-    /* 
+    /*
      * big switch for namespaces.  If true, then properties control 
      * usage. If false, no. 
      */

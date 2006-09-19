@@ -171,40 +171,40 @@ public class ArithmeticTestCase extends TestCase
     }
 
 /*
-
-    COMMENT OUT FOR PERFORMANCE-MEASSUREMENTS
-
-    public void testProfile()
-    {
-
-        long start = System.currentTimeMillis();
-
-        Number v1 = new Long (1000);
-        Number v2 = new Double (10.23);
-        Number result = null;
-        for (int a = 0; a < 10000; a++)
-        {
-
-            result = MathUtils.typeConvert (
-                new BigDecimal (v1.doubleValue()).add (
-                new BigDecimal (v2.doubleValue())), v1, v2, false);
-
-        }
-
-        System.out.println ("took: "+(System.currentTimeMillis()-start));
-
-        start = System.currentTimeMillis();
-        for (int a = 0; a < 10000; a++)
-        {
-
-            result = MathUtils.divide( v1, v2);
-        }
-
-        Number result2 = result;
-        System.out.println ("took: "+(System.currentTimeMillis()-start));
-    }
-
-*/
+ *
+ *    COMMENT OUT FOR PERFORMANCE-MEASSUREMENTS
+ *
+ *    public void testProfile()
+ *    {
+ *
+ *        long start = System.currentTimeMillis();
+ *
+ *        Number v1 = new Long (1000);
+ *        Number v2 = new Double (10.23);
+ *        Number result = null;
+ *        for (int a = 0; a < 10000; a++)
+ *        {
+ *
+ *            result = MathUtils.typeConvert (
+ *                new BigDecimal (v1.doubleValue()).add (
+ *                new BigDecimal (v2.doubleValue())), v1, v2, false);
+ *
+ *        }
+ *
+ *        System.out.println ("took: "+(System.currentTimeMillis()-start));
+ *
+ *        start = System.currentTimeMillis();
+ *        for (int a = 0; a < 10000; a++)
+ *        {
+ *
+ *            result = MathUtils.divide( v1, v2);
+ *        }
+ *
+ *        Number result2 = result;
+ *        System.out.println ("took: "+(System.currentTimeMillis()-start));
+ *    }
+ *
+ */
 
     /**
      * Test additional functions

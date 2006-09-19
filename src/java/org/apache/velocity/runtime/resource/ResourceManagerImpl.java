@@ -284,7 +284,7 @@ public class ResourceManagerImpl implements ResourceManager
     public Resource getResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        /* 
+        /*
          * Check to see if the resource was placed in the cache.
          * If it was placed in the cache then we will use
          * the cached version of the resource. If not we
@@ -390,7 +390,7 @@ public class ResourceManagerImpl implements ResourceManager
         resource.setName( resourceName );
         resource.setEncoding( encoding );
                 
-        /* 
+        /*
          * Now we have to try to find the appropriate
          * loader for this resource. We have to cycle through
          * the list of available resource loaders and see
@@ -486,7 +486,7 @@ public class ResourceManagerImpl implements ResourceManager
     protected void refreshResource( Resource resource, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        /* 
+        /*
          * The resource knows whether it needs to be checked
          * or not, and the resource's loader can check to
          * see if the source has been modified. If both
