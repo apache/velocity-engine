@@ -129,7 +129,7 @@ public interface RuntimeConstants
      * if set to true then allows #set to accept null values in the right hand side.
      */
     public static final String SET_NULL_ALLOWED = "directive.set.null.allowed";
-    
+
     /**
      * Starting tag for error messages triggered by passing
      * a parameter not allowed in the #include directive. Only
@@ -160,7 +160,7 @@ public interface RuntimeConstants
      */
 
     /**
-     * 
+     *
      */
     public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
 

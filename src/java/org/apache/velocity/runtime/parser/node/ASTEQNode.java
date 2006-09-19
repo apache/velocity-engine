@@ -64,7 +64,7 @@ public class ASTEQNode extends SimpleNode
      *
      *     arg1 == arg2
      *
-     *   All class types are supported.   Uses equals() to 
+     *   All class types are supported.   Uses equals() to
      *   determine equivalence.  This should work as we represent
      *   with the types we already support, and anything else that
      *   implements equals() to mean more than identical references.
@@ -74,7 +74,7 @@ public class ASTEQNode extends SimpleNode
      *  @return true if equivalent, false if not equivalent,
      *          false if not compatible arguments, or false
      *          if either LHS or RHS is null
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
@@ -90,12 +90,12 @@ public class ASTEQNode extends SimpleNode
         {
             log.error((left == null ? "Left" : "Right")
                            + " side ("
-                           + jjtGetChild( (left == null? 0 : 1) ).literal() 
+                           + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of '==' operation "
-                           + "has null value. " 
+                           + "has null value. "
                            + "If a reference, it may not be in the context."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return false;
         }
@@ -103,11 +103,11 @@ public class ASTEQNode extends SimpleNode
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -116,19 +116,19 @@ public class ASTEQNode extends SimpleNode
         * If comparing Numbers we do not care about the Class.
         */
 
-       if (left instanceof Number && right instanceof Number) 
+       if (left instanceof Number && right instanceof Number)
        {
            return MathUtils.compare( (Number)left, (Number)right) == 0;
        }
 
 
 
-       /** 
-        * assume that if one class is a subclass of the other 
+       /**
+        * assume that if one class is a subclass of the other
         * that we should use the equals operator
         */
-       
-        if (left.getClass().isAssignableFrom(right.getClass()) || 
+
+        if (left.getClass().isAssignableFrom(right.getClass()) ||
                 right.getClass().isAssignableFrom(left.getClass()) )
         {
             return left.equals( right );
@@ -138,22 +138,22 @@ public class ASTEQNode extends SimpleNode
             /**
              * Compare the String representations
              */
-            if ((left.toString() == null) || (right.toString() == null))  
+            if ((left.toString() == null) || (right.toString() == null))
             {
         	boolean culprit =  (left.toString() == null);
-                log.error((culprit ? "Left" : "Right") 
+                log.error((culprit ? "Left" : "Right")
                         + " string side "
                         + "String representation ("
                         + jjtGetChild((culprit ? 0 : 1) ).literal()
                         + ") of '!=' operation has null value."
                         + " Operation not possible. "
-                        + context.getCurrentTemplateName() + " [line " + getLine() 
+                        + context.getCurrentTemplateName() + " [line " + getLine()
                         + ", column " + getColumn() + "]");
 
                 return false;
             }
-            
-            else 
+
+            else
             {
                 return left.toString().equals(right.toString());
             }

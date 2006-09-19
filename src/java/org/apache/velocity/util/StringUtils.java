@@ -44,7 +44,7 @@ public class StringUtils
      * Line separator for the OS we are operating on.
      */
     private static final String EOL = System.getProperty("line.separator");
-    
+
     /**
      * Concatenates a list of objects as a String.
      *
@@ -77,16 +77,16 @@ public class StringUtils
     /**
      * <p>
      * Remove underscores from a string and replaces first
-     * letters with capitals.  Other letters are changed to lower case. 
+     * letters with capitals.  Other letters are changed to lower case.
      * </p>
      *
-     * <p> 
+     * <p>
      * For example <code>foo_bar</code> becomes <code>FooBar</code>
      * but <code>foo_barBar</code> becomes <code>FooBarbar</code>.
      * </p>
      *
      * @param data string to remove underscores from.
-     * @return String 
+     * @return String
      * @deprecated Use the org.apache.commons.util.StringUtils class
      * instead.  Using its firstLetterCaps() method in conjunction
      * with a StringTokenizer will achieve the same result.
@@ -98,7 +98,7 @@ public class StringUtils
         temp = data;
 
         StringTokenizer st = new StringTokenizer(temp, "_");
-       
+
         while (st.hasMoreTokens())
         {
             String element = (String) st.nextElement();
@@ -109,21 +109,21 @@ public class StringUtils
     }
 
     /**
-     * <p> 
+     * <p>
      *  'Camels Hump' replacement of underscores.
      * </p>
      *
-     * <p> 
+     * <p>
      * Remove underscores from a string but leave the capitalization of the
      * other letters unchanged.
      * </p>
      *
-     * <p> 
+     * <p>
      * For example <code>foo_barBar</code> becomes <code>FooBarBar</code>.
      * </p>
      *
      * @param data string to hump
-     * @return String 
+     * @return String
      */
     static public String removeAndHump (String data)
     {
@@ -135,7 +135,7 @@ public class StringUtils
      * 'Camels Hump' replacement.
      * </p>
      *
-     * <p> 
+     * <p>
      * Remove one string from another string but leave the capitalization of the
      * other letters unchanged.
      * </p>
@@ -146,7 +146,7 @@ public class StringUtils
      *
      * @param data string to hump
      * @param replaceThis string to be replaced
-     * @return String 
+     * @return String
      */
     static public String removeAndHump (String data,String replaceThis)
     {
@@ -155,22 +155,22 @@ public class StringUtils
         temp = data;
 
         StringTokenizer st = new StringTokenizer(temp, replaceThis);
-       
+
         while (st.hasMoreTokens())
         {
             String element = (String) st.nextElement();
             out.append ( capitalizeFirstLetter(element));
         }//while
-        
+
         return out.toString();
     }
 
     /**
-     * <p> 
+     * <p>
      *  Makes the first letter caps and the rest lowercase.
      * </p>
      *
-     * <p> 
+     * <p>
      *  For example <code>fooBar</code> becomes <code>Foobar</code>.
      * </p>
      *
@@ -185,11 +185,11 @@ public class StringUtils
     }
 
     /**
-     * <p> 
-     * Capitalize the first letter but leave the rest as they are. 
+     * <p>
+     * Capitalize the first letter but leave the rest as they are.
      * </p>
      *
-     * <p> 
+     * <p>
      *  For example <code>fooBar</code> becomes <code>FooBar</code>.
      * </p>
      *
@@ -223,9 +223,9 @@ public class StringUtils
 
     /**
      * Chop i characters off the end of a string.
-     * This method assumes that any EOL characters in String s 
+     * This method assumes that any EOL characters in String s
      * and the platform EOL will be the same.
-     * A 2 character EOL will count as 1 character. 
+     * A 2 character EOL will count as 1 character.
      *
      * @param s String to chop.
      * @param i Number of characters to chop.
@@ -237,8 +237,8 @@ public class StringUtils
     }
 
     /**
-     * Chop i characters off the end of a string. 
-     * A 2 character EOL will count as 1 character. 
+     * Chop i characters off the end of a string.
+     * A 2 character EOL will count as 1 character.
      *
      * @param s String to chop.
      * @param i Number of characters to chop.
@@ -341,7 +341,7 @@ public class StringUtils
 
         return argBuf;
     }
-    
+
     /**
      * Read the contents of a file and place them in
      * a string object.
@@ -352,12 +352,12 @@ public class StringUtils
     public static String fileContentsToString(String file)
     {
         String contents = "";
-        
+
         File f = null;
         try
         {
             f = new File(file);
-        
+
             if (f.exists())
             {
                 FileReader fr = null;
@@ -387,7 +387,7 @@ public class StringUtils
         }
         return contents;
     }
-    
+
     /**
      * Remove/collapse multiple newline characters.
      *
@@ -469,7 +469,7 @@ public class StringUtils
         }
         return line;
     }
-    
+
     /**
      * Returns the output of printStackTrace as a String.
      *
@@ -516,7 +516,7 @@ public class StringUtils
         {
             normalized = "/" + normalized;
         }
-        
+
         // Resolve occurrences of "//" in the normalized path
         while (true)
         {
@@ -568,7 +568,7 @@ public class StringUtils
      * If state is true then return the trueString, else
      * return the falseString.
      *
-     * @param state 
+     * @param state
      * @param trueString
      * @param falseString
      * @return Selected result.
@@ -578,12 +578,12 @@ public class StringUtils
         if (state)
         {
             return trueString;
-        }            
+        }
         else
         {
             return falseString;
-        }            
-    }            
+        }
+    }
 
     /**
      * Check to see if all the string objects passed
@@ -595,17 +595,17 @@ public class StringUtils
     public boolean allEmpty(List list)
     {
         int size = list.size();
-        
+
         for (int i = 0; i < size; i++)
         {
             if (list.get(i) != null && list.get(i).toString().length() > 0)
             {
                 return false;
             }
-        }            
+        }
         return true;
     }
-    
+
     /**
      * Trim all strings in a List.  Changes the strings in the existing list.
      * @param list
@@ -615,13 +615,13 @@ public class StringUtils
     {
         if (list == null)
             return null;
-        
+
         int sz = list.size();
         for (int i = 0; i < sz; i++)
             list.set(i,nullTrim((String) list.get(i)));
         return list;
     }
-    
+
     /**
      * Trim the string, but pass a null through.
      * @param s

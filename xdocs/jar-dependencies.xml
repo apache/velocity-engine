@@ -13,7 +13,7 @@
        are needed every time.This document should help you do decide which jars must
        also be present if you want to integrate Velocity into your application.
       </p>
-  
+
       <table>
         <tr>
           <th>jar name</th><th>Required</th><th>Explanation</th>
@@ -56,7 +56,7 @@
           <td>Only required for the Anakia tool / ant task</td>
         </tr>
       </table>
-  
+
       <p>
         The most common case is the integration of the Velocity runtime into your
         application. In this case, you must also add commons-collections, commons-lang

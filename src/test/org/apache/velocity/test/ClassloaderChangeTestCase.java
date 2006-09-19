@@ -93,7 +93,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
          *  put it into the context
          */
         vc.put("foo", foo);
-        
+
         /*
          *  and render something that would use it
          *  that will get it into the introspector cache
@@ -122,7 +122,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
 
         writer = new StringWriter();
         ve.evaluate( vc, writer, "test", "$foo.doIt()");
-        
+
         if ( !writer.toString().equals( OUTPUT ))
         {
             fail("Output from doIt() incorrect");
@@ -178,13 +178,13 @@ class TestClassloader extends ClassLoader
             throws Exception
     {
         File f = new File( testclass );
-        
+
         byte[] barr = new byte[ (int) f.length() ];
-        
+
         FileInputStream fis = new FileInputStream( f );
         fis.read( barr );
         fis.close();
-        
+
         fooClass = defineClass("Foo", barr, 0, barr.length);
     }
 

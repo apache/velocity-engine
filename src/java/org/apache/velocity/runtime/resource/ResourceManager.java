@@ -36,7 +36,7 @@ public interface ResourceManager
      * A template resources.
      */
     public static final int RESOURCE_TEMPLATE = 1;
-    
+
     /**
      * A static content resource.
      */
@@ -44,8 +44,8 @@ public interface ResourceManager
 
     /**
      * Initialize the ResourceManager.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
     public void initialize( RuntimeServices rs ) throws Exception;
 
@@ -68,7 +68,7 @@ public interface ResourceManager
         throws ResourceNotFoundException, ParseErrorException, Exception;
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -77,7 +77,7 @@ public interface ResourceManager
      *  @return class name of loader than can provide it
      */
     public String getLoaderNameForResource(String resourceName );
-     
+
 }
 
 

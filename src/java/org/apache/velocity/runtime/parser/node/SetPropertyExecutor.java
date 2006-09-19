@@ -114,11 +114,11 @@ public class SetPropertyExecutor
 
     /**
      * Execute method against context.
-     * @param o 
-     * @param value 
+     * @param o
+     * @param value
      * @return The value of the invocation.
-     * @throws IllegalAccessException 
-     * @throws InvocationTargetException 
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
      */
     public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException

@@ -35,7 +35,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 public class Literal extends Directive
 {
     String literalText;
-    
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -43,8 +43,8 @@ public class Literal extends Directive
     public String getName()
     {
         return "literal";
-    }        
-    
+    }
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -52,15 +52,15 @@ public class Literal extends Directive
     public int getType()
     {
         return BLOCK;
-    }        
+    }
 
     /**
      * Store the literal rendition of a node using
      * the Node.literal().
-     * @param rs 
-     * @param context 
-     * @param node 
-     * @throws Exception 
+     * @param rs
+     * @param context
+     * @param node
+     * @throws Exception
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
@@ -69,18 +69,18 @@ public class Literal extends Directive
         super.init( rs, context, node );
 
         literalText = node.jjtGetChild(0).literal();
-    }    
+    }
 
     /**
      * Throw the literal rendition of the block between
      * #literal()/#end into the writer.
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
+     * @throws IOException
      */
-    public boolean render( InternalContextAdapter context, 
+    public boolean render( InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException
     {

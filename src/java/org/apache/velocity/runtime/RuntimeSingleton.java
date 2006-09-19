@@ -61,7 +61,7 @@ import org.apache.velocity.util.introspection.Uberspect;
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
  * RuntimeSingleton.init()
- * 
+ *
  * If Runtime.init() is called by itself the Runtime will
  * initialize with a set of default values.
  * -----------------------------------------------------------------------
@@ -91,7 +91,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
-     * 
+     *
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
@@ -129,7 +129,7 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         return ri;
     }
-  
+
 
     /**
      * Allows an external system to set a property in
@@ -142,7 +142,7 @@ public class RuntimeSingleton implements RuntimeConstants
     public static void setProperty(String key, Object value)
     {
         ri.setProperty( key, value );
-    }        
+    }
 
     /**
      * Allow an external system to set an ExtendedProperties
@@ -184,7 +184,7 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         ri.addProperty( key, value );
     }
-    
+
     /**
      * Clear the values pertaining to a particular
      * property.
@@ -196,7 +196,7 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         ri.clearProperty( key );
     }
-    
+
     /**
      *  Allows an external caller to get a property.  The calling
      *  routine is required to know the type, as this routine
@@ -223,7 +223,7 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         ri.init(p);
     }
-    
+
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
@@ -243,10 +243,10 @@ public class RuntimeSingleton implements RuntimeConstants
      * AST node structure.
      * <br><br>
      *  In the event that it runs out of parsers in the
-     *  pool, it will create and let them be GC'd 
+     *  pool, it will create and let them be GC'd
      *  dynamically, logging that it has to do that.  This
      *  is considered an exceptional condition.  It is
-     *  expected that the user will set the 
+     *  expected that the user will set the
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
@@ -277,11 +277,11 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         return ri.parse( reader, templateName, dumpNamespace );
     }
-    
- 
+
+
     /**
      * Returns a <code>Template</code> from the resource manager.
-     * This method assumes that the character encoding of the 
+     * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
      * property.  The default is "ISO-8859-1"
      *
@@ -361,7 +361,7 @@ public class RuntimeSingleton implements RuntimeConstants
 
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -430,7 +430,7 @@ public class RuntimeSingleton implements RuntimeConstants
     /**
      * String property accessor method with default to hide the
      * configuration implementation.
-     * 
+     *
      * @param key property key
      * @param defaultValue  default value to return if key not
      *               found in resource manager.
@@ -468,14 +468,14 @@ public class RuntimeSingleton implements RuntimeConstants
     *                  reason (either parameters or permission settings)
      * @see RuntimeInstance#addVelocimacro(String, String, String[], String)
     */
-    public static boolean addVelocimacro( String name, 
-                                          String macro, 
-                                          String argArray[], 
+    public static boolean addVelocimacro( String name,
+                                          String macro,
+                                          String argArray[],
                                           String sourceTemplate )
-    {    
+    {
         return ri.addVelocimacro( name, macro, argArray, sourceTemplate );
     }
- 
+
     /**
      *  Checks to see if a VM exists
      *
@@ -572,8 +572,8 @@ public class RuntimeSingleton implements RuntimeConstants
     public static ExtendedProperties getConfiguration()
     {
         return ri.getConfiguration();
-    }        
-    
+    }
+
     /**
      *  Return the Introspector for this RuntimeInstance
      *
@@ -584,7 +584,7 @@ public class RuntimeSingleton implements RuntimeConstants
     {
         return ri.getIntrospector();
     }
-    
+
     /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
@@ -594,7 +594,7 @@ public class RuntimeSingleton implements RuntimeConstants
      {
          return ri.getApplicationEventCartridge();
      }
-    
+
     /**
      *  Gets the application attribute for the given key
      *
@@ -610,7 +610,7 @@ public class RuntimeSingleton implements RuntimeConstants
 
     /**
      * Returns the Uberspect object for this Instance.
-     * 
+     *
      * @return The Uberspect object for this Instance.
      * @see org.apache.velocity.runtime.RuntimeServices#getUberspect()
      * @see RuntimeInstance#getUberspect()

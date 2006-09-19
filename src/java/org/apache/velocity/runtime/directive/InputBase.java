@@ -39,7 +39,7 @@ public abstract class InputBase extends Directive
      *
      * @param context The context to derive the default input encoding
      * from.
-     * @return The encoding to use when processing this directive.     
+     * @return The encoding to use when processing this directive.
      */
     protected String getInputEncoding(InternalContextAdapter context)
     {

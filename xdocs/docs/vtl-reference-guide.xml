@@ -168,7 +168,7 @@
     <strong>#</strong> [ <strong>{</strong> ] <strong>if</strong> [ <strong>}</strong> ] <strong>(</strong> [condition] <strong>)</strong> [output] [
     <strong>#</strong> [ <strong>{</strong> ] <strong>elseif</strong> [ <strong>}</strong> ] <strong>( </strong>[condition] <strong>)</strong> [output] ]* [
     <strong>#</strong> [ <strong>{</strong> ] <strong>else</strong> [ <strong>}</strong> ]  [output] ]
-    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ] 
+    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ]
     </p>
 
     <p>
@@ -256,16 +256,16 @@
 		method is called on each object and the resulting Strings are compared.
 	</li>
 	<li>
-	 You can also use brackets to delimit directives.  This is especially 
-    useful when text immediately follows an <code>#else</code> directive.    
+	 You can also use brackets to delimit directives.  This is especially
+    useful when text immediately follows an <code>#else</code> directive.
 	</li>
    </ol>
-      
+
 <source><![CDATA[
 #if( $foo == $bar)it's true!#{else}it's not!#end</li>
 ]]></source>
-	  
-    
+
+
   </subsection>
 
   <subsection name="#foreach - Loops through a list of objects" href="foreach-Loopsthroughalistofobjects">
@@ -275,8 +275,8 @@
 
     <p>
     <strong>#</strong> [ <strong>{</strong> ] <strong>foreach</strong> [ <strong>}</strong> ] <strong>(</strong> <em>$ref</em> <strong>in</strong> <em>arg</em>
-    <strong>)</strong> <em>statement</em> 
-    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ] 
+    <strong>)</strong> <em>statement</em>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ]
     </p>
 
     <p>
@@ -411,7 +411,7 @@ directive.foreach.maxloops = -1
     </p>
 
     <p>
-    <strong>#</strong> [ <strong>{</strong> ] <strong>stop</strong> [ <strong>}</strong> ] 
+    <strong>#</strong> [ <strong>{</strong> ] <strong>stop</strong> [ <strong>}</strong> ]
     </p>
 
     <p>

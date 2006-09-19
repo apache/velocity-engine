@@ -6,7 +6,7 @@ for i in ../../bin/*.jar
 do
     _VELCP=$_VELCP:"$i"
 done
- 
+
 for i in ../../build/lib/*.jar
 do
     _VELCP=$_VELCP:"$i"
@@ -17,5 +17,5 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
     _VELCP=`cygpath --path --windows "$_VELCP"`
 fi
 
-java -cp $_VELCP LoggerExample 
+java -cp $_VELCP LoggerExample
 

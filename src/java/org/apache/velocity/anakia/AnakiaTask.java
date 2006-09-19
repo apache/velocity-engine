@@ -45,16 +45,16 @@ import org.jdom.output.Format;
 import org.xml.sax.SAXParseException;
 
 /**
- * The purpose of this Ant Task is to allow you to use 
+ * The purpose of this Ant Task is to allow you to use
  * Velocity as an XML transformation tool like XSLT is.
- * So, instead of using XSLT, you will be able to use this 
+ * So, instead of using XSLT, you will be able to use this
  * class instead to do your transformations. It works very
  * similar in concept to Ant's &lt;style&gt; task.
  * <p>
  * You can find more documentation about this class on the
- * Velocity 
+ * Velocity
  * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
- *   
+ *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @version $Id$
@@ -66,22 +66,22 @@ public class AnakiaTask extends MatchingTask
 
     /** the destination directory */
     private File destDir = null;
-    
+
     /** the base directory */
     File baseDir = null;
 
     /** the style= attribute */
     private String style = null;
-    
+
     /** last modified of the style sheet */
     private long styleSheetLastModified = 0;
 
     /** the projectFile= attribute */
     private String projectAttribute = null;
-    
+
     /** the File for the project.xml file */
     private File projectFile = null;
-    
+
     /** last modified of the project file if it exists */
     private long projectFileLastModified = 0;
 
@@ -114,13 +114,13 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Set the base directory.
-     * @param dir 
+     * @param dir
      */
     public void setBasedir(File dir)
     {
         baseDir = dir;
     }
-    
+
     /**
      * Set the destination directory into which the VSL result
      * files should be copied to
@@ -130,28 +130,28 @@ public class AnakiaTask extends MatchingTask
     {
         destDir = dir;
     }
-    
+
     /**
      * Allow people to set the default output file extension
-     * @param extension 
+     * @param extension
      */
     public void setExtension(String extension)
     {
         this.extension = extension;
     }
-    
+
     /**
      * Allow people to set the path to the .vsl file
-     * @param style 
+     * @param style
      */
     public void setStyle(String style)
     {
         this.style = style;
     }
-    
+
     /**
      * Allow people to set the path to the project.xml file
-     * @param projectAttribute 
+     * @param projectAttribute
      */
     public void setProjectFile(String projectAttribute)
     {
@@ -162,20 +162,20 @@ public class AnakiaTask extends MatchingTask
      * Set the path to the templates.
      * The way it works is this:
      * If you have a Velocity.properties file defined, this method
-     * will <strong>override</strong> whatever is set in the 
+     * will <strong>override</strong> whatever is set in the
      * Velocity.properties file. This allows one to not have to define
      * a Velocity.properties file, therefore using Velocity's defaults
      * only.
-     * @param templatePath 
+     * @param templatePath
      */
-    
+
     public void setTemplatePath(File templatePath)
      {
-         try 
+         try
          {
              this.templatePath = templatePath.getCanonicalPath();
-         } 
-         catch (java.io.IOException ioe) 
+         }
+         catch (java.io.IOException ioe)
          {
              throw new BuildException(ioe);
          }
@@ -184,10 +184,10 @@ public class AnakiaTask extends MatchingTask
     /**
      * Allow people to set the path to the velocity.properties file
      * This file is found relative to the path where the JVM was run.
-     * For example, if build.sh was executed in the ./build directory, 
+     * For example, if build.sh was executed in the ./build directory,
      * then the path would be relative to this directory.
      * This is optional based on the setting of setTemplatePath().
-     * @param velocityPropertiesFile 
+     * @param velocityPropertiesFile
      */
     public void setVelocityPropertiesFile(File velocityPropertiesFile)
     {
@@ -196,11 +196,11 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Turn on/off last modified checking. by default, it is on.
-     * @param lastmod 
+     * @param lastmod
      */
     public void setLastModifiedCheck(String lastmod)
     {
-        if (lastmod.equalsIgnoreCase("false") || lastmod.equalsIgnoreCase("no") 
+        if (lastmod.equalsIgnoreCase("false") || lastmod.equalsIgnoreCase("no")
                 || lastmod.equalsIgnoreCase("off"))
         {
             this.lastModifiedCheck = false;
@@ -209,7 +209,7 @@ public class AnakiaTask extends MatchingTask
 
     /**
      * Main body of the application
-     * @throws BuildException 
+     * @throws BuildException
      */
     public void execute () throws BuildException
     {
@@ -225,7 +225,7 @@ public class AnakiaTask extends MatchingTask
             String msg = "destdir attribute must be set!";
             throw new BuildException(msg);
         }
-        if (style == null) 
+        if (style == null)
         {
             throw new BuildException("style attribute must be set!");
         }
@@ -236,13 +236,13 @@ public class AnakiaTask extends MatchingTask
         }
 
         /*
-         * If the props file doesn't exist AND a templatePath hasn't 
+         * If the props file doesn't exist AND a templatePath hasn't
          * been defined, then throw the exception.
          */
         if ( !velocityPropertiesFile.exists() && templatePath == null )
         {
-            throw new BuildException ("No template path and could not " + 
-                "locate velocity.properties file: " + 
+            throw new BuildException ("No template path and could not " +
+                "locate velocity.properties file: " +
                 velocityPropertiesFile.getAbsolutePath());
         }
 
@@ -258,7 +258,7 @@ public class AnakiaTask extends MatchingTask
             }
             else
             {
-                log ("Project file is defined, but could not be located: " + 
+                log ("Project file is defined, but could not be located: " +
                     projectFile.getAbsolutePath(), Project.MSG_INFO );
                 projectFile = null;
             }
@@ -297,7 +297,7 @@ public class AnakiaTask extends MatchingTask
             log("Error: " + e.toString(), Project.MSG_INFO);
             throw new BuildException(e);
         }
-        
+
         // find the files/directories
         scanner = getDirectoryScanner(baseDir);
 
@@ -305,11 +305,11 @@ public class AnakiaTask extends MatchingTask
         list = scanner.getIncludedFiles();
         for (int i = 0;i < list.length; ++i)
         {
-            process(list[i], projectDocument );        
+            process(list[i], projectDocument );
         }
-        
-    }    
-    
+
+    }
+
     /**
      * Process an XML file using Velocity
      */
@@ -324,12 +324,12 @@ public class AnakiaTask extends MatchingTask
             // the current input file relative to the baseDir
             inFile = new File(baseDir,xmlFile);
             // the output file relative to basedir
-            outFile = new File(destDir, 
+            outFile = new File(destDir,
                             xmlFile.substring(0,
                             xmlFile.lastIndexOf('.')) + extension);
 
             // only process files that have changed
-            if (lastModifiedCheck == false || 
+            if (lastModifiedCheck == false ||
                     (inFile.lastModified() > outFile.lastModified() ||
                     styleSheetLastModified > outFile.lastModified() ||
                     projectFileLastModified > outFile.lastModified() ||
@@ -351,7 +351,7 @@ public class AnakiaTask extends MatchingTask
                  *  we know it's a string...
                  */
                 String encoding = (String) ve.getProperty( RuntimeConstants.OUTPUT_ENCODING );
-                if (encoding == null || encoding.length() == 0 
+                if (encoding == null || encoding.length() == 0
                     || encoding.equals("8859-1") || encoding.equals("8859_1"))
                 {
                     encoding = "ISO-8859-1";
@@ -361,7 +361,7 @@ public class AnakiaTask extends MatchingTask
                 f.setEncoding(encoding);
 
                 OutputWrapper ow = new OutputWrapper(f);
-                
+
                 context.put ("root", root.getRootElement());
                 context.put ("xmlout", ow );
                 context.put ("relativePath", getRelativePath(xmlFile));
@@ -377,11 +377,11 @@ public class AnakiaTask extends MatchingTask
                 {
                     context.put ("project", projectDocument.getRootElement());
                 }
-                
+
                 /**
                  *  Add the user subcontexts to the to context
-                 */ 
-                for (Iterator iter = contexts.iterator(); iter.hasNext();) 
+                 */
+                for (Iterator iter = contexts.iterator(); iter.hasNext();)
                 {
                     Context subContext = (Context) iter.next();
                     if (subContext == null)
@@ -397,7 +397,7 @@ public class AnakiaTask extends MatchingTask
                     context.put(subContext.getName(), subContext
                             .getContextDocument().getRootElement());
                 }
-                
+
                 /**
                  * Process the VSL template with the context and write out
                  * the result as the outFile.
@@ -427,9 +427,9 @@ public class AnakiaTask extends MatchingTask
                     System.out.println("");
                     System.out.println("Error: " + rootCause.getMessage());
                     System.out.println(
-                        "       Line: " + 
-                            ((SAXParseException)rootCause).getLineNumber() + 
-                        " Column: " + 
+                        "       Line: " +
+                            ((SAXParseException)rootCause).getLineNumber() +
+                        " Column: " +
                             ((SAXParseException)rootCause).getColumnNumber());
                     System.out.println("");
                 }
@@ -450,7 +450,7 @@ public class AnakiaTask extends MatchingTask
                 outFile.delete();
             }
             e.printStackTrace();
-        }        
+        }
         finally
         {
             if (writer != null)
@@ -475,7 +475,7 @@ public class AnakiaTask extends MatchingTask
             }
         }
     }
-    
+
     /**
      * Hacky method to figure out the relative path
      * that we are currently in. This is good for getting
@@ -488,7 +488,7 @@ public class AnakiaTask extends MatchingTask
         StringTokenizer st = new StringTokenizer(file, "/\\");
         // needs to be -1 cause ST returns 1 even if there are no matches. huh?
         int slashCount = st.countTokens() - 1;
-        StringBuffer sb = new StringBuffer();        
+        StringBuffer sb = new StringBuffer();
         for (int i=0;i<slashCount ;i++ )
         {
             sb.append ("../");
@@ -501,7 +501,7 @@ public class AnakiaTask extends MatchingTask
 
         return ".";
     }
-    
+
     /**
      * create directories as needed
      */
@@ -512,7 +512,7 @@ public class AnakiaTask extends MatchingTask
         {
             if (!directory.mkdirs())
             {
-                throw new BuildException("Unable to create directory: " 
+                throw new BuildException("Unable to create directory: "
                                          + directory.getAbsolutePath() );
             }
         }
@@ -522,115 +522,115 @@ public class AnakiaTask extends MatchingTask
     /**
      * Check to see if user context is modified.
      */
-    private boolean userContextsModifed(long lastModified) 
+    private boolean userContextsModifed(long lastModified)
     {
-        for (Iterator iter = contexts.iterator(); iter.hasNext();) 
+        for (Iterator iter = contexts.iterator(); iter.hasNext();)
         {
             AnakiaTask.Context ctx = (AnakiaTask.Context) iter.next();
-            if(ctx.getLastModified() > lastModified) 
+            if(ctx.getLastModified() > lastModified)
             {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Create a new context.
      * @return A new context.
      */
-    public Context createContext() 
+    public Context createContext()
     {
         Context context = new Context();
         contexts.add(context);
-        return context;        
+        return context;
     }
-        
-    
+
+
     /**
      * A context implementation that loads all values from an XML file.
      */
-    public class Context 
+    public class Context
     {
-        
+
         private String name;
         private Document contextDoc = null;
         private String file;
-        
+
         /**
          * Public constructor.
          */
-        public Context() 
+        public Context()
         {
         }
-        
+
         /**
          * Get the name of the context.
          * @return The name of the context.
          */
-        public String getName() 
+        public String getName()
         {
             return name;
         }
 
         /**
-         * Set the name of the context. 
-         * @param name 
-         * 
-         * @throws IllegalArgumentException if a reserved word is used as a 
+         * Set the name of the context.
+         * @param name
+         *
+         * @throws IllegalArgumentException if a reserved word is used as a
          * name, specifically any of "relativePath", "treeWalk", "xpath",
          * "escape", "date", or "project"
          */
-        public void setName(String name) 
+        public void setName(String name)
         {
-            if (name.equals("relativePath") || 
-                    name.equals("treeWalk") || 
-                    name.equals("xpath") || 
-                    name.equals("escape") || 
+            if (name.equals("relativePath") ||
+                    name.equals("treeWalk") ||
+                    name.equals("xpath") ||
+                    name.equals("escape") ||
                     name.equals("date") ||
-                    name.equals("project")) 
+                    name.equals("project"))
             {
-                    
+
                     throw new IllegalArgumentException("Context name '" + name
                             + "' is reserved by Anakia");
             }
-            
+
             this.name = name;
         }
-    
+
         /**
          * Build the context based on a file path.
-         * @param file 
+         * @param file
          */
-        public void setFile(String file) 
+        public void setFile(String file)
         {
             this.file = file;
         }
-    
+
         /**
          * Retrieve the time the source file was last modified.
          * @return The time the source file was last modified.
          */
-        public long getLastModified() 
+        public long getLastModified()
         {
             return new File(baseDir, file).lastModified();
         }
-        
+
         /**
          * Retrieve the context document object.
          * @return The context document object.
          */
-        public Document getContextDocument() 
+        public Document getContextDocument()
         {
             if (contextDoc == null)
             {
                 File contextFile = new File(baseDir, file);
-                
-                try 
+
+                try
                 {
                     contextDoc = builder.build(contextFile);
-                } 
-                catch (Exception e) 
+                }
+                catch (Exception e)
                 {
                     throw new BuildException(e);
                 }
@@ -639,4 +639,4 @@ public class AnakiaTask extends MatchingTask
         }
     }
 
-}    
+}

@@ -26,7 +26,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 /**
  * Resource Loader that always throws an exception.  Used to test
  * that RuntimeExceptions are passed through.
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */

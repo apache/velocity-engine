@@ -38,12 +38,12 @@ public class UberspectorTestCase
     {
         super(name);
     }
-    
+
     public static Test suite()
     {
         return new TestSuite(UberspectorTestCase.class);
     }
-    
+
     public void setUp()
             throws Exception
     {
@@ -54,7 +54,7 @@ public class UberspectorTestCase
     public void testNullObjects()
             throws Exception
     {
-        // How about some null objects... Gee, I'm mean. ;-) 
+        // How about some null objects... Gee, I'm mean. ;-)
         Uberspect u = ri.getUberspect();
 
         VelPropertyGet getter = u.getPropertyGet(null, "foo", null);
@@ -89,7 +89,7 @@ public class UberspectorTestCase
         assertNotNull(setter);
         assertEquals("Found wrong method", "put", setter.getMethodName());
     }
-    
+
     public void testNullPropertyGetter()
         throws Exception
     {
@@ -117,7 +117,7 @@ public class UberspectorTestCase
         Map map = new HashMap();
 
         // Don't screw up on null properties. That should map to put() on the GPO.
-        VelPropertySet setter = u.getPropertySet(gpo, null, "", null); 
+        VelPropertySet setter = u.getPropertySet(gpo, null, "", null);
         assertNotNull(setter);
         assertEquals("Found wrong method", "put", setter.getMethodName());
 
@@ -258,7 +258,7 @@ public class UberspectorTestCase
 
 
     /*
-     *    
+     *
      *    public void testMapGetSet()
      *        throws Exception
      *    {
@@ -275,8 +275,8 @@ public class UberspectorTestCase
      *        assertEquals("Got wrong setter", "bar", setter.getMethodName());
      *    }
      */
-}    
-        
+}
+
 
 
 

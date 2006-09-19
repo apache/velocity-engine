@@ -37,7 +37,7 @@ import org.apache.velocity.util.ExceptionUtils;
 public class WrappedExceptionTestCase extends BaseTestCase implements TemplateTestBase
 {
     VelocityEngine ve;
-    
+
     /**
      * Default constructor.
      */
@@ -45,7 +45,7 @@ public class WrappedExceptionTestCase extends BaseTestCase implements TemplateTe
     {
         super(name);
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(WrappedExceptionTestCase.class);
@@ -65,12 +65,12 @@ public class WrappedExceptionTestCase extends BaseTestCase implements TemplateTe
         Context context = new VelocityContext();
         StringWriter writer = new StringWriter();
         context.put("test",new TestProvider());
-        
-        try 
-        {   
+
+        try
+        {
             ve.evaluate(context,writer,"test","$test.getThrow()");
             fail ("expected an exception");
-        } 
+        }
         catch (MethodInvocationException E)
         {
             assertEquals(Exception.class,E.getCause().getClass());

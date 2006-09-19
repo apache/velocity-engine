@@ -21,14 +21,14 @@ import java.util.Map;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 
 /**
- *  This class is a visitor used by the VM proxy to change the 
+ *  This class is a visitor used by the VM proxy to change the
  *  literal representation of a reference in a VM.  The reason is
  *  to preserve the 'render literal if null' behavior w/o making
  *  the VMProxy stuff more complicated than it is already.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
- */ 
+ */
 public class VMReferenceMungeVisitor extends BaseVisitor
 {
     /**
@@ -39,7 +39,7 @@ public class VMReferenceMungeVisitor extends BaseVisitor
 
     /**
      *  CTOR - takes a map of args to reference
-     * @param map 
+     * @param map
      */
     public VMReferenceMungeVisitor( Map map )
     {
@@ -73,7 +73,7 @@ public class VMReferenceMungeVisitor extends BaseVisitor
         /*
          *  feed the children...
          */
-        data = node.childrenAccept(this, data);   
+        data = node.childrenAccept(this, data);
 
         return data;
     }

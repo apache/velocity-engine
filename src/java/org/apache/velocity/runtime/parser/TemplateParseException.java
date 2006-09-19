@@ -32,7 +32,7 @@ public class TemplateParseException
         implements ExtendedParseException
 {
     private static final long serialVersionUID = -3146323135623083918L;
-    
+
     /**
      * This is the name of the template which contains the parsing error, or
      * null if not defined.
@@ -42,10 +42,10 @@ public class TemplateParseException
     /**
      * This constructor is used to add a template name
      * to info cribbed from a ParseException generated in the parser.
-     * @param currentTokenVal 
-     * @param expectedTokenSequencesVal 
-     * @param tokenImageVal 
-     * @param templateNameVal 
+     * @param currentTokenVal
+     * @param expectedTokenSequencesVal
+     * @param tokenImageVal
+     * @param templateNameVal
      */
     public TemplateParseException(Token currentTokenVal, int [][] expectedTokenSequencesVal, String [] tokenImageVal,
         String templateNameVal)
@@ -65,9 +65,9 @@ public class TemplateParseException
      * to force the "toString" method of parent class "Throwable" to
      * print the error message in the form:
      *     ParseException: <result of getMessage>
-     * @param currentTokenVal 
-     * @param expectedTokenSequencesVal 
-     * @param tokenImageVal 
+     * @param currentTokenVal
+     * @param expectedTokenSequencesVal
+     * @param tokenImageVal
      */
     public TemplateParseException(Token currentTokenVal, int [][] expectedTokenSequencesVal, String [] tokenImageVal)
     {

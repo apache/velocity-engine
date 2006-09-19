@@ -44,7 +44,7 @@
   <description>
     Velocity is a Java-based template engine. It permits anyone to use the
     simple yet powerful template language to reference objects defined in Java
-    code. 
+    code.
   </description>
 
   <shortDescription>Velocity is a Java-based template engine</shortDescription>
@@ -337,7 +337,7 @@
   </build>
 
 
-  <reports>    
+  <reports>
     <report>maven-jdepend-plugin</report>
 <!-- With > 20.000 errors, this currently makes no sense ... -->
 <!--    <report>maven-checkstyle-plugin</report> -->

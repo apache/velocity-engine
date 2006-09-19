@@ -26,12 +26,12 @@ import org.apache.velocity.util.ClassUtils;
  *  <p>
  *  This is a small utility class allow easy access to static fields in a class,
  *  such as string constants.  Velocity will not introspect for class
- *  fields (and won't in the future :), but writing setter/getter methods to do 
+ *  fields (and won't in the future :), but writing setter/getter methods to do
  *  this really is a pain,  so use this if you really have
  *  to access fields.
- *  
+ *
  *  <p>
- *  The idea it so enable access to the fields just like you would in Java.  
+ *  The idea it so enable access to the fields just like you would in Java.
  *  For example, in Java, you would access a static field like
  *  <blockquote><pre>
  *  MyClass.STRING_CONSTANT
@@ -44,7 +44,7 @@ import org.apache.velocity.util.ClassUtils;
  *   context.put("runtime", new FieldMethodizer( "org.apache.velocity.runtime.Runtime" ));
  *  </pre></blockquote>
  *  and then in your template, you can access any of your static fields in this way :
- *  <blockquote><pre>  
+ *  <blockquote><pre>
  *   $runtime.RUNTIME_LOG_WARN_STACKTRACE
  *  </pre></blockquote>
  *
@@ -55,7 +55,7 @@ import org.apache.velocity.util.ClassUtils;
  *  to handle them by explicitly placing them into the context.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class FieldMethodizer
 {
@@ -87,8 +87,8 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.err.println("Could not add " + s 
-                    + " for field methodizing: " 
+            System.err.println("Could not add " + s
+                    + " for field methodizing: "
                     + e.getMessage());
         }
     }
@@ -109,27 +109,27 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.err.println("Could not add " + o 
-                    + " for field methodizing: " 
+            System.err.println("Could not add " + o
+                    + " for field methodizing: "
                     + e.getMessage());
         }
     }
-    
+
     /**
      * Add the Name of the class to methodize
-     * @param s 
-     * @throws Exception 
+     * @param s
+     * @throws Exception
      */
     public void addObject ( String s )
         throws Exception
     {
         inspect(ClassUtils.getClass(s));
     }
-    
+
     /**
      * Add an Object to methodize
-     * @param o 
-     * @throws Exception 
+     * @param o
+     * @throws Exception
      */
     public void addObject ( Object o )
         throws Exception
@@ -147,7 +147,7 @@ public class FieldMethodizer
     public Object get( String fieldName )
     {
         Object value = null;
-        try 
+        try
         {
             Field f = (Field) fieldHash.get( fieldName );
             if (f != null)
@@ -157,7 +157,7 @@ public class FieldMethodizer
         }
         catch( IllegalAccessException e )
         {
-            System.err.println("IllegalAccessException while trying to access " + fieldName 
+            System.err.println("IllegalAccessException while trying to access " + fieldName
                     + ": " + e.getMessage());
         }
         return value;

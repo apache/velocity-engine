@@ -26,7 +26,7 @@ import org.apache.tools.ant.DirectoryScanner;
 
 /**
  * This class will convert a WebMacro template to
- * a Velocity template. Uses the ORO Regexp package to do the 
+ * a Velocity template. Uses the ORO Regexp package to do the
  * rewrites. Note, it isn't 100% perfect, but will definitely get
  * you about 99.99% of the way to a converted system. Please
  * see the website documentation for more information on how to use
@@ -34,17 +34,17 @@ import org.apache.tools.ant.DirectoryScanner;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class WebMacro
 {
     /**
-     * 
+     *
      */
     protected static final String VM_EXT = ".vm";
 
     /**
-     * 
+     *
      */
     protected static final String WM_EXT = ".wm";
 
@@ -109,21 +109,21 @@ public class WebMacro
         "\\.wm",
         ".vm"
     };
-    
+
     /**
      * Iterate through the set of find/replace regexes
      * that will convert a given WM template to a VM template
-     * @param target 
+     * @param target
      */
     public void convert(String target)
     {
         File file = new File(target);
-        
+
         if (!file.exists())
         {
             throw new RuntimeException("The specified template or directory does not exist");
         }
-        
+
         if (file.isDirectory())
         {
             String basedir = file.getAbsolutePath();
@@ -134,7 +134,7 @@ public class WebMacro
             ds.addDefaultExcludes();
             ds.scan();
             String[] files = ds.getIncludedFiles();
-            
+
             for (int i = 0; i < files.length; i++)
             {
                 writeTemplate(files[i], basedir, newBasedir);
@@ -157,12 +157,12 @@ public class WebMacro
         {
             return false;
         }
-    
+
         System.out.println("Converting " + file + "...");
-        
+
         String template = file;
         String newTemplate = convertName(file);
-        
+
         if (basedir.length() > 0)
         {
             String templateDir = newBasedir + extractPath(file);
@@ -170,15 +170,15 @@ public class WebMacro
 
             template = basedir + File.separator + file;
 
-                
+
             if (! outputDirectory.exists())
             {
                 outputDirectory.mkdirs();
             }
-                
+
             newTemplate = newBasedir + File.separator + convertName(file);
-        }            
-        
+        }
+
         String convertedTemplate = convertTemplate(template);
 
         FileWriter fw = null;
@@ -205,7 +205,7 @@ public class WebMacro
                 }
             }
         }
-    
+
         return true;
     }
 
@@ -225,8 +225,8 @@ public class WebMacro
      */
     private String convertName(String name)
     {
-        return (name.indexOf(WM_EXT) < 0) 
-                ? name 
+        return (name.indexOf(WM_EXT) < 0)
+                ? name
                 : name.substring(0, name.indexOf(WM_EXT)) + VM_EXT;
     }
 
@@ -240,7 +240,7 @@ public class WebMacro
 
     /**
      * Apply find/replace regexes to our WM template
-     * @param template 
+     * @param template
      * @return Returns the template with all regexprs applied.
      */
     public String convertTemplate(String template)
@@ -287,7 +287,7 @@ public class WebMacro
 
     /**
      * Main hook for the conversion process.
-     * @param args 
+     * @param args
      */
     public static void main(String[] args)
     {

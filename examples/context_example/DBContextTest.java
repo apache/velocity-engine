@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2004 The Apache Software Foundation.
  *
@@ -44,19 +43,19 @@ public class DBContextTest
         try
         {
             RuntimeSingleton.init( new Properties() );
- 
+
             Template template = RuntimeSingleton.getTemplate(templateFile);
 
             DBContext dbc = new DBContext();
 
             Hashtable h = new Hashtable();
             h.put("Bar", "this is from a hashtable!");
-       
+
             dbc.put( "string", "Hello!");
             dbc.put( "hashtable", h );
-            
+
             Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-       
+
             template.merge(dbc, writer);
 
             writer.flush();

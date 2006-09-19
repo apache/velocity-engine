@@ -34,37 +34,37 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  <li> InternalEventContext : for event handling.
  *  </ul>
  *
- *  This class implements the two interfaces to ensure that all methods are 
- *  supported.  When adding to the interfaces, or adding more context 
+ *  This class implements the two interfaces to ensure that all methods are
+ *  supported.  When adding to the interfaces, or adding more context
  *  functionality, the interface is the primary definition, so alter that first
- *  and then all classes as necessary.  As of this writing, this would be 
+ *  and then all classes as necessary.  As of this writing, this would be
  *  the only class affected by changes to InternalContext
  *
  *  This class ensures that an InternalContextBase is available for internal
  *  use.  If an application constructs their own Context-implementing
  *  object w/o subclassing AbstractContext, it may be that support for
  *  InternalContext is not available.  Therefore, InternalContextAdapter will
- *  create an InternalContextBase if necessary for this support.  Note that 
+ *  create an InternalContextBase if necessary for this support.  Note that
  *  if this is necessary, internal information such as node-cache data will be
  *  lost from use to use of the context.  This may or may not be important,
  *  depending upon application.
- * 
+ *
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
 public final class InternalContextAdapterImpl implements InternalContextAdapter
 {
-    /**  
-     *  the user data Context that we are wrapping 
+    /**
+     *  the user data Context that we are wrapping
      */
     Context context = null;
-    
-    /** 
+
+    /**
      *  the ICB we are wrapping.  We may need to make one
      *  if the user data context implementation doesn't
      *  support one.  The default AbstractContext-derived
-     *  VelocityContext does, and it's recommended that 
+     *  VelocityContext does, and it's recommended that
      *  people derive new contexts from AbstractContext
      *  rather than piecing things together
      */
@@ -73,19 +73,19 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      *  The InternalEventContext that we are wrapping.  If
      *  the context passed to us doesn't support it, no
-     *  biggie.  We don't make it for them - since its a 
+     *  biggie.  We don't make it for them - since its a
      *  user context thing, nothing gained by making one
      *  for them now
      */
     InternalEventContext iec = null;
 
     /**
-     *  CTOR takes a Context and wraps it, delegating all 'data' calls 
+     *  CTOR takes a Context and wraps it, delegating all 'data' calls
      *  to it.
-     * 
+     *
      *  For support of internal contexts, it will create an InternalContextBase
      *  if need be.
-     * @param c 
+     * @param c
      */
     public InternalContextAdapterImpl( Context c )
     {
@@ -123,7 +123,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     {
         icb.popCurrentTemplateName();
     }
-  
+
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
      */
@@ -147,7 +147,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     {
         return icb.icacheGet( key );
     }
-    
+
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
      */
@@ -238,7 +238,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      *  returns the user data context that
      *  we are wrapping
-     * @return The internal user data context. 
+     * @return The internal user data context.
      */
     public Context getInternalUserContext()
     {
@@ -246,7 +246,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
     /**
-     *  Returns the base context that we are 
+     *  Returns the base context that we are
      *  wrapping. Here, its this, but for other thing
      *  like VM related context contortions, it can
      *  be something else

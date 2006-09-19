@@ -46,12 +46,12 @@ public class SimpleNode implements Node
 
     /** */
     protected Node[] children;
-    
+
     /** */
     protected int id;
 
     /** */
-    protected Parser parser;    
+    protected Parser parser;
 
     /** */
     protected int info; // added
@@ -61,10 +61,10 @@ public class SimpleNode implements Node
 
     /** */
     protected boolean invalid = false;
-    
+
     /** */
     protected Token first;
-    
+
     /** */
     protected Token last;
 
@@ -133,7 +133,7 @@ public class SimpleNode implements Node
     {
         parent = n;
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtGetParent()
      */
@@ -167,7 +167,7 @@ public class SimpleNode implements Node
     {
         return children[i];
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtGetNumChildren()
      */
@@ -222,9 +222,9 @@ public class SimpleNode implements Node
 
     /**
      * Override this method if you want to customize how the node dumps
-     * out its children. 
-     *  
-     * @param prefix 
+     * out its children.
+     *
+     * @param prefix
      */
     public void dump(String prefix)
     {
@@ -251,13 +251,13 @@ public class SimpleNode implements Node
     {
         Token t = first;
         StringBuffer sb = new StringBuffer(t.image);
-        
+
         while (t != last)
         {
             t = t.next;
             sb.append(t.image);
         }
-        
+
         return sb.toString();
     }
 
@@ -285,8 +285,8 @@ public class SimpleNode implements Node
             {
                 log.error(re);
             }
-        }            
-    
+        }
+
         return data;
     }
 
@@ -297,7 +297,7 @@ public class SimpleNode implements Node
         throws MethodInvocationException
     {
         return false;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#value(org.apache.velocity.context.InternalContextAdapter)
@@ -306,7 +306,7 @@ public class SimpleNode implements Node
         throws MethodInvocationException
     {
         return null;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
@@ -318,7 +318,7 @@ public class SimpleNode implements Node
 
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
-    
+
         return true;
     }
 
@@ -346,14 +346,14 @@ public class SimpleNode implements Node
     {
         this.info = info;
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getInfo()
      */
     public int getInfo()
     {
         return info;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#setInvalid()
@@ -361,7 +361,7 @@ public class SimpleNode implements Node
     public void setInvalid()
     {
         invalid = true;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#isInvalid()
@@ -369,7 +369,7 @@ public class SimpleNode implements Node
     public boolean isInvalid()
     {
         return invalid;
-    }        
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getLine()
@@ -378,13 +378,13 @@ public class SimpleNode implements Node
     {
         return first.beginLine;
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getColumn()
      */
     public int getColumn()
     {
         return first.beginColumn;
-    }        
+    }
 }
 

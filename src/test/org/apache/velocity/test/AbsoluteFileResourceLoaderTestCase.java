@@ -52,7 +52,7 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
     private static final String RESULT_FILE_EXT = "res";
 
     /**
-     * Path to template file.  This will get combined with the 
+     * Path to template file.  This will get combined with the
      * application directory to form an absolute path
      */
     private final static String TEMPLATE_PATH = TEST_COMPARE_DIR + "/absolute/absolute";

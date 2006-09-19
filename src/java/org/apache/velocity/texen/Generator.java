@@ -127,7 +127,7 @@ public class Generator
 
     /**
      * Set the velocity engine.
-     * @param ve 
+     * @param ve
      */
     public void setVelocityEngine(VelocityEngine ve)
     {
@@ -237,7 +237,7 @@ public class Generator
     /**
      * Set the output path for the generated
      * output.
-     * @param outputPath 
+     * @param outputPath
      */
     public void setOutputPath(String outputPath)
     {
@@ -257,7 +257,7 @@ public class Generator
 
     /**
      * Set the output encoding.
-     * @param outputEncoding 
+     * @param outputEncoding
      */
     public void setOutputEncoding(String outputEncoding)
     {
@@ -266,7 +266,7 @@ public class Generator
 
     /**
      * Set the input (template) encoding.
-     * @param inputEncoding 
+     * @param inputEncoding
      */
     public void setInputEncoding(String inputEncoding)
     {
@@ -279,7 +279,7 @@ public class Generator
      * @param path      path to the output file
      * @param encoding  output encoding
      * @return A Writer for this generator.
-     * @throws Exception 
+     * @throws Exception
      */
     public Writer getWriter(String path, String encoding) throws Exception {
         Writer writer;
@@ -299,7 +299,7 @@ public class Generator
      * @param templateName  name of the template
      * @param encoding      template encoding
      * @return A Template.
-     * @throws Exception 
+     * @throws Exception
      */
     public Template getTemplate(String templateName, String encoding) throws Exception {
         Template template;
@@ -320,7 +320,7 @@ public class Generator
      * @param inputTemplate input template
      * @param outputFile output file
      * @return The parsed file.
-     * @throws Exception 
+     * @throws Exception
      */
     public String parse (String inputTemplate, String outputFile)
         throws Exception
@@ -339,7 +339,7 @@ public class Generator
      * @param objectID id for object to be placed in the control context
      * @param object object to be placed in the context
      * @return String generated output from velocity
-     * @throws Exception 
+     * @throws Exception
      */
     public String parse (String inputTemplate,
                          String outputFile,
@@ -362,7 +362,7 @@ public class Generator
      * @param objectID id for object to be placed in the control context
      * @param object object to be placed in the context
      * @return String generated output from velocity
-     * @throws Exception 
+     * @throws Exception
      */
     public String parse (String inputTemplate,
                          String inputEncoding,
@@ -428,7 +428,7 @@ public class Generator
      * @param controlTemplate control template
      * @param controlContext control context
      * @return String generated output
-     * @throws Exception 
+     * @throws Exception
      */
     public String parse (String controlTemplate, Context controlContext)
         throws Exception

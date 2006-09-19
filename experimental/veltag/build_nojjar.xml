@@ -90,7 +90,7 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/conf"/>
-    <mkdir dir="${build.home}/javadoc"/> 
+    <mkdir dir="${build.home}/javadoc"/>
   </target>
 
   <target name="static" depends="prepare"
@@ -140,7 +140,7 @@
                  bottom="Copyright (c) 2001 Apache Software Foundation" >
 
       <classpath refid="compile.classpath"/>
- 
+
      </javadoc>
   </target>
 

@@ -68,7 +68,7 @@ public class ASTMap extends SimpleNode
         int size = jjtGetNumChildren();
 
         Map objectMap = new HashMap();
-        
+
         for (int i = 0; i < size; i += 2)
         {
             SimpleNode keyNode = (SimpleNode) jjtGetChild(i);
@@ -79,7 +79,7 @@ public class ASTMap extends SimpleNode
 
             objectMap.put(key, value);
         }
-        
+
         return objectMap;
     }
 }

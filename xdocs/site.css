@@ -4,9 +4,9 @@
  * ## Licensed under the Apache License, Version 2.0 (the "License");
  * ## you may not use this file except in compliance with the License.
  * ## You may obtain a copy of the License at
- * ## 
+ * ##
  * ## http://www.apache.org/licenses/LICENSE-2.0
- * ## 
+ * ##
  * ## Unless required by applicable law or agreed to in writing, software
  * ## distributed under the License is distributed on an "AS IS" BASIS,
  * ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -91,7 +91,7 @@ div#menu {
 	/** little higher margin since it doesn't start with a header **/
 	margin-top:10px;
 	margin-bottom:0px;
-	
+
 	padding: 5px;
 }
 
@@ -135,27 +135,27 @@ div#logo2 {
 
 /** define body tag redefinitions **/
 
-		
+
 div#body th {
 	background-color: #039acc;
 	color: #000000;
 	font-family: arial,helvetica,sanserif;
-	font-size: smaller;	
+	font-size: smaller;
 	vertical-align: top;
 	text-align:left;
 	border:1px #FFFFFF solid;
-	padding: 2px;	
+	padding: 2px;
 }
 
 div#body td {
 	background-color: #a0ddf0;
 	color: #000000;
 	font-family: arial,helvetica,sanserif;
-	font-size: smaller;	
+	font-size: smaller;
 	vertical-align: top;
 	text-align:left;
 	border:1px #FFFFFF solid;
-	padding: 2px;	
+	padding: 2px;
 }
 
 
@@ -166,11 +166,11 @@ div#body li {
 /** define other body styles **/
 
 div.section {
-	margin-left: 25px;	
+	margin-left: 25px;
 }
 
 div.subsection {
-	margin-left: 25px;	
+	margin-left: 25px;
 }
 
 div.source {
@@ -181,7 +181,7 @@ div.source {
 	padding-right:4px;
 	padding-bottom:4px;
 	padding-top:5px;
-	
+
 	width:600;
 
 	border: 1px solid #333333;
@@ -194,7 +194,7 @@ div.source {
 	font-family: Courier;
 	font-size: smaller;
 	text-align: left;
-	
+
 	overflow:auto;
 }
 
@@ -204,12 +204,12 @@ div.license {
 	margin-top:20px;
 	margin-bottom:20px;
 	padding:5px;
-	
+
 	border: 1px solid #333333;
 	background-color: #EEEEEE;
 	color: #333333;
 
-	text-align: left;	
+	text-align: left;
 }
 
 /** define menu styles **/
@@ -253,15 +253,15 @@ div.menusection li {
 	div#menu {
 		display:none;
 	}
-	
+
 	div#header {
 		display:none;
 	}
-	
+
 	div#body {
 		margin-left:5px;
 	}
-	
+
 
 	div.source {
 		width:95%;
@@ -270,22 +270,22 @@ div.menusection li {
 
 	/** make a bit more room on the page **/
 	div.section {
-		margin-left: 0px;	
+		margin-left: 0px;
 	}
 
 	div.subsection {
-		margin-left: 0px;	
+		margin-left: 0px;
 	}
 
 	h1 {
 		background-color: #FFFFFF;
 		color: #000000;
-	}			
+	}
 
 	h2 {
 		background-color: #FFFFFF;
 		color: #000000;
-	}			
+	}
 
 	div#body td {
 		background-color: #FFFFFF;

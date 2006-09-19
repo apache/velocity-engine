@@ -137,8 +137,8 @@ public class TexenTask
     /**
      * The LogFile (incl. path) to log to.
      */
-    protected String logFile; 
-    
+    protected String logFile;
+
     /**
      *   Property which controls whether the resource
      *   loader will be told to cache.  Default false
@@ -146,14 +146,14 @@ public class TexenTask
 
     protected String useResourceLoaderCache = "false";
     /**
-     * 
+     *
      */
     protected String resourceLoaderModificationCheckInterval = "2";
 
     /**
      * [REQUIRED] Set the control template for the
      * generating process.
-     * @param controlTemplate 
+     * @param controlTemplate
      */
     public void setControlTemplate (String controlTemplate)
     {
@@ -174,8 +174,8 @@ public class TexenTask
      * [REQUIRED] Set the path where Velocity will look
      * for templates using the file template
      * loader.
-     * @param templatePath 
-     * @throws Exception 
+     * @param templatePath
+     * @throws Exception
      */
 
     public void setTemplatePath(String templatePath) throws Exception
@@ -212,7 +212,7 @@ public class TexenTask
     /**
      * [REQUIRED] Set the output directory. It will be
      * created if it doesn't exist.
-     * @param outputDirectory 
+     * @param outputDirectory
      */
     public void setOutputDirectory(File outputDirectory)
     {
@@ -238,7 +238,7 @@ public class TexenTask
     /**
      * [REQUIRED] Set the output file for the
      * generation process.
-     * @param outputFile 
+     * @param outputFile
      */
     public void setOutputFile(String outputFile)
     {
@@ -247,7 +247,7 @@ public class TexenTask
 
     /**
      * Set the output encoding.
-     * @param outputEncoding 
+     * @param outputEncoding
      */
     public void setOutputEncoding(String outputEncoding)
     {
@@ -256,7 +256,7 @@ public class TexenTask
 
     /**
      * Set the input (template) encoding.
-     * @param inputEncoding 
+     * @param inputEncoding
      */
     public void setInputEncoding(String inputEncoding)
     {
@@ -275,13 +275,13 @@ public class TexenTask
 
     /**
      * Sets the log file.
-     * @param log 
+     * @param log
      */
     public void setLogFile(String log)
     {
         this.logFile = log;
     }
-    
+
     /**
      * Gets the log file.
      * @return The log file.
@@ -290,12 +290,12 @@ public class TexenTask
     {
         return this.logFile;
     }
-    
+
     /**
      * Set the context properties that will be
      * fed into the initial context be the
      * generating process starts.
-     * @param file 
+     * @param file
      */
     public void setContextProperties( String file )
     {
@@ -475,8 +475,8 @@ public class TexenTask
             if (this.logFile != null)
             {
                 ve.setProperty(RuntimeConstants.RUNTIME_LOG, this.logFile);
-            } 
-            
+            }
+
             ve.init();
 
             // Create the text generator.

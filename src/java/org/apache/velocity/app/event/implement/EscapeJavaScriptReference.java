@@ -12,7 +12,7 @@ public class EscapeJavaScriptReference extends EscapeReference
 
     /**
      * Escapes the characters in a String to be suitable for use in JavaScript.
-     * @param text 
+     * @param text
      * @return An escaped String.
      * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeJavaScript(java.lang.String)">StringEscapeUtils</a>
      */

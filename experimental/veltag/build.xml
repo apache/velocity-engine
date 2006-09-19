@@ -14,7 +14,7 @@
   <!-- jar containing JJAR -->
   <property name="jjar.jar"                   value="jjar.jar" />
 
- 
+
 <!-- ========== External Dependencies ===================================== -->
 
  <!-- the local JJAR repository -->
@@ -97,7 +97,7 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/conf"/>
-    <mkdir dir="${build.home}/javadoc"/> 
+    <mkdir dir="${build.home}/javadoc"/>
   </target>
 
   <target name="jjarcheck">
@@ -121,13 +121,13 @@
        </classpath>
     </taskdef>
 
-    <jjar package="veltag" 
-          onlydependencies="true"  
-          verifyignore="true" 
+    <jjar package="veltag"
+          onlydependencies="true"
+          verifyignore="true"
           localrepository="${local.repository}"
           pathrefid="jjarclasspath"  >
     </jjar>
-  
+
     <javac  srcdir="${source.home}/java"
             destdir="${build.home}/classes"
             debug="${compile.debug}"
@@ -145,7 +145,7 @@
   <!-- fetches the dependency jars from the       -->
   <!-- central JJAR repository                    -->
   <!-- ========================================== -->
-  <target name="getjars" depends="getjjar"> 
+  <target name="getjars" depends="getjjar">
 
     <taskdef name="jjar" classname="org.apache.commons.jjar.JJARTask">
         <classpath>
@@ -154,7 +154,7 @@
      </taskdef>
 
      <jjar package = "veltag" onlydependencies="true"  verifyignore="true" localrepository="${local.repository}" />
-  
+
   </target>
 
   <!-- ======  task getjjar ===================== -->
@@ -187,7 +187,7 @@
                  bottom="Copyright (c) 2001 Apache Software Foundation" >
 
       <classpath refid="compile.classpath"/>
- 
+
      </javadoc>
   </target>
 

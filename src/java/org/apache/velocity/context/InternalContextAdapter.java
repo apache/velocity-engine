@@ -27,7 +27,7 @@ package org.apache.velocity.context;
  *  @version $Id$
  */
 
-public interface InternalContextAdapter 
+public interface InternalContextAdapter
     extends InternalHousekeepingContext, Context, InternalWrapperContext, InternalEventContext
 {
 }

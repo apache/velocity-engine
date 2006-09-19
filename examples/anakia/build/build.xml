@@ -16,23 +16,23 @@
     </path>
 
     <target name="prepare">
-        <available classname="org.apache.velocity.anakia.AnakiaTask" 
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
                     property="AnakiaTask.present">
-           <classpath refid = "classpath"/> 
+           <classpath refid = "classpath"/>
         </available>
     </target>
 
     <target depends="prepare" name="prepare-check" unless="AnakiaTask.present">
         <echo>
-            ERROR : AnakiaTask is not present! Please check to make sure that 
+            ERROR : AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath.
         </echo>
     </target>
 
     <target name="docs" depends="prepare-check" if="AnakiaTask.present">
-        <taskdef name="anakia" 
+        <taskdef name="anakia"
             classname="org.apache.velocity.anakia.AnakiaTask">
-           <classpath refid = "classpath"/> 
+           <classpath refid = "classpath"/>
         </taskdef>
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".html" style="./site.vsl"

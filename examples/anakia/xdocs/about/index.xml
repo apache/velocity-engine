@@ -33,11 +33,11 @@ This is the "about" section of your website
     <section name="Section 2">
 
     <p> here is another section </p>
-    
+
     </section>
-    
+
     <section name="section 3">
-    
+
     <p><a href="../index.html">A link to the home page</a></p>
 
     </section>

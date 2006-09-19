@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
  */
 public class IntrospectorTestCase extends BaseTestCase
 {
-    private static MethodProvider mp; 
+    private static MethodProvider mp;
 
     public void setUp()
     {

@@ -44,7 +44,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *  In other words, it's created by the VelocimacroProxy class, to represent
  *  one of the arguments to a VM in a specific template.  Since the template
  *  is fixed (it's a file...), we don't have to worry that the args to the VM
- *  will change.  Yes, the VM will be called in other templates, or in other 
+ *  will change.  Yes, the VM will be called in other templates, or in other
  *  places on the same template, bit those are different use-instances.
  *
  *  These arguments can be, in the lingo of
@@ -59,21 +59,21 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *   <li> True() : true
  *   <li> False() : false
  *    <li>Word() : not likely - this is simply allowed by the parser so we can have
- *             syntactical sugar like #foreach($a in $b)  where 'in' is the Word  
+ *             syntactical sugar like #foreach($a in $b)  where 'in' is the Word
  *    </ul>
  *  Now, Reference(), StringLit, IntegerLiteral, IntRange, ObjArr are all dynamic things, so
  *  their value is gotten with the use of a context.  The others are constants.  The trick
- *  we rely on is that the context rather than this class really represents the 
- *  state of the argument. We are simply proxying for the thing, returning the proper value 
+ *  we rely on is that the context rather than this class really represents the
+ *  state of the argument. We are simply proxying for the thing, returning the proper value
  *  when asked, and storing the proper value in the appropriate context when asked.
  *
  *  So, the hope here, so an instance of this can be shared across threads, is to
- *  keep any dynamic stuff out of it, relying on trick of having the appropriate 
- *  context handed to us, and when a constant argument, letting VMContext punch that 
+ *  keep any dynamic stuff out of it, relying on trick of having the appropriate
+ *  context handed to us, and when a constant argument, letting VMContext punch that
  *  into a local context.
- *  
+ *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id$ 
+ *  @version $Id$
  */
 public class VMProxyArg
 {
@@ -94,7 +94,7 @@ public class VMProxyArg
 
     /** our identity in the current context */
     private String contextReference = null;
-    
+
     /** the reference we are proxying for  */
     private String callerReference = null;
 
@@ -108,11 +108,11 @@ public class VMProxyArg
     private Log log = null;
 
     /**
-     *  ctor for current impl 
+     *  ctor for current impl
      *
-     *  takes the reference literal we are proxying for, the literal 
+     *  takes the reference literal we are proxying for, the literal
      *  the VM we are for is called with...
-     * @param rs 
+     * @param rs
      *
      *  @param contextRef reference arg in the definition of the VM, used in the VM
      *  @param callerRef  reference used by the caller as an arg to the VM
@@ -126,15 +126,15 @@ public class VMProxyArg
         contextReference = contextRef;
         callerReference = callerRef;
         type = t;
-        
+
         /*
          *  make our AST if necessary
          */
         setup();
 
         /*
-         *  if we are multi-node tree, then save the size to 
-         *  avoid fn call overhead 
+         *  if we are multi-node tree, then save the size to
+         *  avoid fn call overhead
          */
         if( nodeTree != null)
         {
@@ -177,7 +177,7 @@ public class VMProxyArg
      *  @return Object currently null
      */
     public Object setObject(  InternalContextAdapter context,  Object o )
-    {  
+    {
         /*
          *  if we are a reference, we could be updating a property
          */
@@ -188,7 +188,7 @@ public class VMProxyArg
             {
                 /*
                  *  we are a property, and being updated such as
-                 *  #foo( $bar.BangStart) 
+                 *  #foo( $bar.BangStart)
                  */
 
                 try
@@ -197,7 +197,7 @@ public class VMProxyArg
                 }
                 catch( MethodInvocationException mie )
                 {
-                    log.error("VMProxyArg.getObject() : method invocation error setting value", mie);                    
+                    log.error("VMProxyArg.getObject() : method invocation error setting value", mie);
                 }
            }
             else
@@ -208,14 +208,14 @@ public class VMProxyArg
                  */
 
                 context.put( singleLevelRef, o);
-               
+
                 // alternate impl : usercontext.put( singleLevelRef, o);
              }
         }
         else
         {
             /*
-             *  if we aren't a reference, then we simply switch type, 
+             *  if we aren't a reference, then we simply switch type,
              *  get a new value, and it doesn't go into the context
              *
              *  in current impl, this shouldn't happen.
@@ -231,7 +231,7 @@ public class VMProxyArg
         return null;
     }
 
-  
+
     /**
      *  returns the value of the reference.  Generally, this is only
      *  called for dynamic proxies, as the static ones should have
@@ -242,7 +242,7 @@ public class VMProxyArg
      *
      */
     public Object getObject( InternalContextAdapter context )
-    {        
+    {
         try
         {
 
@@ -251,19 +251,19 @@ public class VMProxyArg
              */
 
             Object retObject = null;
-            
-            if ( type == ParserTreeConstants.JJTREFERENCE ) 
-            {                
+
+            if ( type == ParserTreeConstants.JJTREFERENCE )
+            {
                 /*
                  *  two     cases :  scalar reference ($foo) or multi-level ($foo.bar....)
                  */
-                
+
                 if ( numTreeChildren == 0)
-                {      
+                {
                     /*
                      *  if I am a single-level reference, can I not get get it out of my context?
                      */
-                
+
                     retObject = context.get( singleLevelRef );
                 }
                 else
@@ -285,7 +285,7 @@ public class VMProxyArg
             }
             else if ( type == ParserTreeConstants.JJTINTEGERRANGE)
             {
-                retObject = nodeTree.value( context );    
+                retObject = nodeTree.value( context );
             }
             else if( type == ParserTreeConstants.JJTTRUE )
             {
@@ -312,12 +312,12 @@ public class VMProxyArg
                 /*
                  *  this really shouldn't happen.  text is just a thowaway arg for #foreach()
                  */
-                           
-                try 
+
+                try
                 {
                     StringWriter writer =new StringWriter();
                     nodeTree.render( context, writer );
-                    
+
                     retObject = writer;
                 }
                 /**
@@ -338,24 +338,24 @@ public class VMProxyArg
             }
             else
             {
-                log.error("Unsupported VM arg type : VM arg = " + 
-                          callerReference +" type = " + type + 
+                log.error("Unsupported VM arg type : VM arg = " +
+                          callerReference +" type = " + type +
                           "( VMProxyArg.getObject() )");
             }
-            
+
             return retObject;
         }
         catch( MethodInvocationException mie )
         {
             /*
-             *  not ideal, but otherwise we propogate out to the 
-             *  VMContext, and the Context interface's put/get 
+             *  not ideal, but otherwise we propogate out to the
+             *  VMContext, and the Context interface's put/get
              *  don't throw. So this is a the best compromise
              *  I can think of
              */
-            
+
             log.error("VMProxyArg.getObject() : method invocation error getting value", mie);
-            
+
             return null;
         }
     }
@@ -367,7 +367,7 @@ public class VMProxyArg
      */
     private void setup()
     {
-        switch( type ) 
+        switch( type )
         {
 
             case ParserTreeConstants.JJTINTEGERRANGE :
@@ -380,14 +380,14 @@ public class VMProxyArg
                 /*
                  *  dynamic types, just render
                  */
-                
+
                 constant = false;
 
                 try
                 {
                     /*
                      *  fakie : wrap in  directive to get the parser to treat our args as args
-                     *   it doesn't matter that #include() can't take all these types, because we 
+                     *   it doesn't matter that #include() can't take all these types, because we
                      *   just want the parser to consider our arg as a Directive/VM arg rather than
                      *   as if inline in schmoo
                      */
@@ -428,7 +428,7 @@ public class VMProxyArg
 
                 	nodeTree.init(ica, rsvc);
                     }
-                } 
+                }
                 /**
                  * pass through application level runtime exceptions
                  */
@@ -436,15 +436,15 @@ public class VMProxyArg
                 {
                     throw e;
                 }
-                catch ( Exception e ) 
+                catch ( Exception e )
                 {
-                    log.error("VMProxyArg.setup() : exception " + 
+                    log.error("VMProxyArg.setup() : exception " +
                               callerReference, e);
                 }
 
                 break;
             }
-            
+
             case ParserTreeConstants.JJTTRUE :
             {
                 constant = true;
@@ -486,10 +486,10 @@ public class VMProxyArg
 
                 break;
             }
- 
+
              default :
             {
-                 log.error("VMProxyArg.setup() : unsupported type : " 
+                 log.error("VMProxyArg.setup() : unsupported type : "
                            + callerReference  );
             }
         }
@@ -503,12 +503,12 @@ public class VMProxyArg
      *  not used in current impl
      *
      *  Constructor for alternate impl where VelProxy class would make new
-     *  VMProxyArg objects, and use this contructor to avoid reparsing the 
+     *  VMProxyArg objects, and use this contructor to avoid reparsing the
      *  reference args
      *
      *  that impl also had the VMProxyArg carry it's context.
-     * @param model 
-     * @param c 
+     * @param model
+     * @param c
      */
     public VMProxyArg( VMProxyArg model, InternalContextAdapter c )
     {
@@ -532,7 +532,7 @@ public class VMProxyArg
             }
         }
     }
-  
+
     /**
      * @return The caller reference.
      */

@@ -56,7 +56,7 @@ public class Foreach extends Directive
         private InternalContextAdapter  innerContext = null;
         private String   loopVariableKey = "";
         private boolean  active = true;
-        
+
         /**
          * Create the context as a wrapper to be used within the foreach
          * @param key the reference used in the foreach
@@ -68,7 +68,7 @@ public class Foreach extends Directive
            if( key != null )
                loopVariableKey = key;
         }
-        
+
         /**
          * Get an object from the context, or null if the key is equal to the loop variable
          * @see org.apache.velocity.context.InternalContextAdapter#get(java.lang.String)
@@ -79,7 +79,7 @@ public class Foreach extends Directive
                 ? null
                 : innerContext.get(key);
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#put(java.lang.String key, java.lang.Object value)
          */
@@ -92,7 +92,7 @@ public class Foreach extends Directive
 
             return innerContext.put( key, value );
         }
-        
+
         /**
          * Does the context contain the key
          * @see org.apache.velocity.context.InternalContextAdapter#containsKey(java.lang.Object key)
@@ -101,7 +101,7 @@ public class Foreach extends Directive
         {
             return innerContext.containsKey(key);
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getKeys()
          */
@@ -109,7 +109,7 @@ public class Foreach extends Directive
         {
            return innerContext.getKeys();
         }
-        
+
         /**
          * Remove an object from the context
          * @see org.apache.velocity.context.InternalContextAdapter#remove(java.lang.Object key)
@@ -126,11 +126,11 @@ public class Foreach extends Directive
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#pushCurrentTemplateName(java.lang.String s)
          */
-        public void pushCurrentTemplateName(String s) 
+        public void pushCurrentTemplateName(String s)
         {
             innerContext.pushCurrentTemplateName(s);
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#popCurrentTemplateName()
          */
@@ -138,23 +138,23 @@ public class Foreach extends Directive
         {
             innerContext.popCurrentTemplateName();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getCurrentTemplateName()
          */
-        public String getCurrentTemplateName() 
+        public String getCurrentTemplateName()
         {
             return innerContext.getCurrentTemplateName();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getTemplateNameStack()
          */
-        public Object[] getTemplateNameStack() 
+        public Object[] getTemplateNameStack()
         {
             return innerContext.getTemplateNameStack();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#icacheGet(java.lang.Object key)
          */
@@ -162,7 +162,7 @@ public class Foreach extends Directive
         {
             return innerContext.icacheGet(key);
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#icachePut(java.lang.Object key, org.apache.velocity.util.introspection.IntrospectionCacheData o)
          */
@@ -170,7 +170,7 @@ public class Foreach extends Directive
         {
             innerContext.icachePut(key,o);
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#setCurrentResource(org.apache.velocity.runtime.resource.Resource r)
          */
@@ -186,15 +186,15 @@ public class Foreach extends Directive
         {
             return innerContext.getCurrentResource();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getBaseContext()
          */
-        public InternalContextAdapter getBaseContext() 
+        public InternalContextAdapter getBaseContext()
         {
             return innerContext.getBaseContext();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getInternalUserContext()
          */
@@ -202,25 +202,25 @@ public class Foreach extends Directive
         {
             return innerContext.getInternalUserContext();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#attachEventCartridge(org.apache.velocity.app.event.EventCartridge ec)
          */
         public EventCartridge attachEventCartridge(EventCartridge ec)
         {
             EventCartridge cartridge = innerContext.attachEventCartridge( ec );
-            
+
             return cartridge;
         }
 
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getEventCartridge()
          */
-        public EventCartridge getEventCartridge() 
+        public EventCartridge getEventCartridge()
         {
             return innerContext.getEventCartridge();
         }
-        
+
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getAllowRendering()
          */
@@ -246,8 +246,8 @@ public class Foreach extends Directive
     public String getName()
     {
         return "foreach";
-    }        
-    
+    }
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -255,7 +255,7 @@ public class Foreach extends Directive
     public int getType()
     {
         return BLOCK;
-    }        
+    }
 
     /**
      * The name of the variable to use when placing
@@ -294,10 +294,10 @@ public class Foreach extends Directive
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
-     * @param rs 
-     * @param context 
-     * @param node 
-     * @throws Exception 
+     * @param rs
+     * @param context
+     * @param node
+     * @throws Exception
      */
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws Exception
@@ -312,7 +312,7 @@ public class Foreach extends Directive
         {
             maxNbrLoops = Integer.MAX_VALUE;
         }
- 
+
         /*
          *  this is really the only thing we can do here as everything
          *  else is context sensitive
@@ -343,20 +343,20 @@ public class Foreach extends Directive
 
     /**
      *  renders the #foreach() block
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
-     * @throws MethodInvocationException 
-     * @throws ResourceNotFoundException 
-     * @throws ParseErrorException 
+     * @throws IOException
+     * @throws MethodInvocationException
+     * @throws ResourceNotFoundException
+     * @throws ParseErrorException
      */
     public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException,  MethodInvocationException, ResourceNotFoundException,
         	ParseErrorException
-    {        
+    {
         /*
          *  do our introspection to see what our collection is
          */
@@ -391,7 +391,7 @@ public class Foreach extends Directive
 
         int counter = counterInitialValue;
         boolean maxNbrLoopsExceeded = false;
-        
+
         /*
          *  save the element key if there is one, and the loop counter
          */
@@ -400,7 +400,7 @@ public class Foreach extends Directive
 
         /*
          * Instantiate the null holder context if a null value
-         * is returned by the foreach iterator.  Only one instance is 
+         * is returned by the foreach iterator.  Only one instance is
          * created - it's reused for every null value.
          */
         NullHolderContext nullHolderContext = null;
@@ -439,7 +439,7 @@ public class Foreach extends Directive
          * restores the loop counter (if we were nested)
          * if we have one, else just removes
          */
-        
+
         if (savedCounter != null)
         {
             context.put(counterName, savedCounter);

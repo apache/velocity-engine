@@ -33,16 +33,16 @@ import org.apache.velocity.util.ClassUtils;
  * The approach is :
  * </p>
  * <ul>
- * <li> 
+ * <li>
  *      First try to see if the user is passing in a living object
  *      that is a LogChute, allowing the app to give its living
  *      custom loggers.
  *  </li>
- *  <li> 
+ *  <li>
  *       Next, run through the (possible) list of classes specified
- *       specified as loggers, taking the first one that appears to 
+ *       specified as loggers, taking the first one that appears to
  *       work.  This is how we support finding logkit, log4j or
- *       jdk logging, whichever is in the classpath and found first, 
+ *       jdk logging, whichever is in the classpath and found first,
  *       as all three are listed as defaults.
  *  </li>
  *  <li>
@@ -64,7 +64,7 @@ public class LogManager
     {
         Log log = rsvc.getLog();
 
-        /* If a LogChute or LogSystem instance was set as a configuation 
+        /* If a LogChute or LogSystem instance was set as a configuation
          * value, use that.  This is any class the user specifies.
          */
         Object o = rsvc.getProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM);
@@ -105,12 +105,12 @@ public class LogManager
                 log.warn(o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.");
             }
         }
-  
-        /* otherwise, see if a class was specified.  You can put multiple 
+
+        /* otherwise, see if a class was specified.  You can put multiple
          * classes, and we use the first one we find.
          *
          * Note that the default value of this property contains the
-         * AvalonLogChute, the Log4JLogChute, and the JdkLogChute for 
+         * AvalonLogChute, the Log4JLogChute, and the JdkLogChute for
          * convenience - so we use whichever we find first.
          */
         List classes = new ArrayList();
@@ -124,12 +124,12 @@ public class LogManager
             classes = (List) obj;
         }
         else if ( obj instanceof String)
-        { 
+        {
             classes.add( obj );
         }
 
         /*
-         *  now run through the list, trying each.  It's ok to 
+         *  now run through the list, trying each.  It's ok to
          *  fail with a class not found, as we do this to also
          *  search out a default simple file logger
          */
@@ -177,13 +177,13 @@ public class LogManager
                 }
             }
         }
-      
-        /* If the above failed, that means either the user specified a 
+
+        /* If the above failed, that means either the user specified a
          * logging class that we can't find, there weren't the necessary
          * dependencies in the classpath for it, or there were the same
          * problems for the default loggers, log4j and Java1.4+.
          * Since we really don't know and we want to be sure the user knows
-         * that something went wrong with the logging, let's fall back to the 
+         * that something went wrong with the logging, let's fall back to the
          * surefire StandardOutLogChute. No panicking or failing to log!!
          */
         LogChute slc = new StandardOutLogChute();
@@ -195,9 +195,9 @@ public class LogManager
     /**
      * Update the Log instance with the appropriate LogChute and other
      * settings determined by the RuntimeServices.
-     * @param log 
-     * @param rsvc 
-     * @throws Exception 
+     * @param log
+     * @param rsvc
+     * @throws Exception
      */
     public static void updateLog(Log log, RuntimeServices rsvc) throws Exception
     {

@@ -21,7 +21,7 @@ package org.apache.velocity.exception;
  *  isn't found by the Velocity engine.
  *  <br>
  *  When this exception is thrown, a best effort will be made to have
- *  useful information in the exception's message.  For complete 
+ *  useful information in the exception's message.  For complete
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>

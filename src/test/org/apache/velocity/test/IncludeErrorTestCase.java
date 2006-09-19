@@ -41,7 +41,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBase
 {
     VelocityEngine ve;
-    
+
     /**
      * Default constructor.
      */
@@ -49,7 +49,7 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
     {
         super(name);
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(IncludeErrorTestCase.class);
@@ -66,27 +66,27 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
 
 
 
-    public void testMissingParseError() throws Exception 
+    public void testMissingParseError() throws Exception
     {
         checkException("missingparse.vm",ResourceNotFoundException.class);
     }
 
-    public void testMissingIncludeError() throws Exception 
+    public void testMissingIncludeError() throws Exception
     {
         checkException("missinginclude.vm",ResourceNotFoundException.class);
     }
 
-    public void testParseError() throws Exception 
+    public void testParseError() throws Exception
     {
         checkException("parsemain.vm",ParseErrorException.class);
     }
-    
-    public void testParseError2() throws Exception 
+
+    public void testParseError2() throws Exception
     {
         checkException("parsemain2.vm",ParseErrorException.class);
     }
-    
-    
+
+
     /**
      * Check that an exception is thrown for the given template
      * @param templateName
@@ -100,21 +100,21 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
         StringWriter writer = new StringWriter();
         Template template = ve.getTemplate(templateName, "UTF-8");
 
-        try 
+        try
         {
             template.merge(context, writer);
             writer.flush();
             fail("File should have thrown an exception");
-        } 
-        catch (Exception E) 
+        }
+        catch (Exception E)
         {
             assertTrue(exceptionClass.isAssignableFrom(E.getClass()));
         }
-        finally 
+        finally
         {
             writer.close();
         }
-        
+
     }
 
 }

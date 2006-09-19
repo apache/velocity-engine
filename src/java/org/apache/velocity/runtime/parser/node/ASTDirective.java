@@ -33,14 +33,14 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * directives in VTL.
  *
  * For example :  #foreach()
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:kav@kav.dk">Kasper Nielsen</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTDirective extends SimpleNode
 {
@@ -73,11 +73,11 @@ public class ASTDirective extends SimpleNode
     {
         return visitor.visit(this, data);
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) 
+    public Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         super.init( context, data );
@@ -89,15 +89,15 @@ public class ASTDirective extends SimpleNode
         if (parser.isDirective( directiveName ))
         {
             isDirective = true;
-            
+
             directive = (Directive) parser.getDirective( directiveName )
                 .getClass().newInstance();
-    
+
             directive.init(rsvc, context,this);
 
             directive.setLocation( getLine(), getColumn() );
-        }          
-        else if (rsvc.isVelocimacro( directiveName, context.getCurrentTemplateName()  )) 
+        }
+        else if (rsvc.isVelocimacro( directiveName, context.getCurrentTemplateName()  ))
         {
             /*
              *  we seem to be a Velocimacro.
@@ -108,12 +108,12 @@ public class ASTDirective extends SimpleNode
 
             directive.init( rsvc, context, this );
             directive.setLocation( getLine(), getColumn() );
-        } 
+        }
         else
         {
             isDirective = false;
-        }            
-    
+        }
+
         return data;
     }
 
@@ -128,12 +128,12 @@ public class ASTDirective extends SimpleNode
          */
 
         if (isDirective)
-        {           
+        {
             directive.render(context, writer, this);
         }
         else
         {
-            if (context.getAllowRendering()) 
+            if (context.getAllowRendering())
             {
                 writer.write( "#");
                 writer.write( directiveName );
@@ -144,9 +144,9 @@ public class ASTDirective extends SimpleNode
     }
 
     /**
-     *   Sets the directive name.  Used by the parser.  This keeps us from having to 
+     *   Sets the directive name.  Used by the parser.  This keeps us from having to
      *   dig it out of the token stream and gives the parse the change to override.
-     * @param str 
+     * @param str
      */
     public void setDirectiveName( String str )
     {

@@ -35,18 +35,18 @@ public abstract class AbstractExecutor
 {
     /** */
     protected Log log = null;
-    
+
     /**
      * Method to be executed.
      */
     private Method method = null;
-    
+
     /**
      * Execute method against context.
-     * @param o 
-     * @return The resulting object. 
-     * @throws IllegalAccessException 
-     * @throws InvocationTargetException 
+     * @param o
+     * @return The resulting object.
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
      */
      public abstract Object execute(Object o)
          throws IllegalAccessException, InvocationTargetException;
@@ -54,7 +54,7 @@ public abstract class AbstractExecutor
     /**
      * Tell whether the executor is alive by looking
      * at the value of the method.
-     * 
+     *
      * @return True if executor is alive.
      */
     public boolean isAlive()

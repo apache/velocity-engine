@@ -39,8 +39,8 @@ import org.apache.commons.collections.ExtendedProperties;
  * as relative to the configured root path.  If the root path is empty
  * treats the template name as an absolute path.
  *
- * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a> 
- * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a> 
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
@@ -68,7 +68,7 @@ public class FileResourceLoader extends ResourceLoader
         {
             log.trace("FileResourceLoader : initialization starting.");
         }
-        
+
         paths.addAll( configuration.getVector("path") );
 
         // trim spaces from all paths
@@ -114,12 +114,12 @@ public class FileResourceLoader extends ResourceLoader
         String template = StringUtils.normalizePath(templateName);
         if ( template == null || template.length() == 0 )
         {
-            String msg = "File resource error : argument " + template + 
-                " contains .. and may be trying to access " + 
+            String msg = "File resource error : argument " + template +
+                " contains .. and may be trying to access " +
                 "content outside of template root.  Rejected.";
 
             log.error("FileResourceLoader : " + msg);
-      
+
             throw new ResourceNotFoundException ( msg );
         }
 
@@ -128,7 +128,7 @@ public class FileResourceLoader extends ResourceLoader
         {
             String path = (String) paths.get(i);
             InputStream inputStream = findTemplate(path, template);
-            
+
             if (inputStream != null)
             {
                 /*
@@ -136,11 +136,11 @@ public class FileResourceLoader extends ResourceLoader
                  * from so that we can check its modification
                  * time.
                  */
-                templatePaths.put(templateName, path);                    
+                templatePaths.put(templateName, path);
                 return inputStream;
-            }                
+            }
         }
-    
+
         /*
          * We have now searched all the paths for
          * templates and we didn't find anything so
@@ -148,10 +148,10 @@ public class FileResourceLoader extends ResourceLoader
          */
          throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
     }
-    
+
     /**
      * Try to find a template given a normalized path.
-     * 
+     *
      * @param path a normalized path
      * @param template name of template to find
      * @return InputStream input stream that will be parsed
@@ -159,19 +159,19 @@ public class FileResourceLoader extends ResourceLoader
      */
     private InputStream findTemplate(String path, String template)
     {
-        try 
+        try
         {
             File file = getFile(path,template);
-        
+
             if ( file.canRead() )
             {
                 return new BufferedInputStream(
                     new FileInputStream(file.getAbsolutePath()));
             }
             else
-            {                
+            {
                 return null;
-            }                
+            }
         }
         catch( FileNotFoundException fnfe )
         {
@@ -181,7 +181,7 @@ public class FileResourceLoader extends ResourceLoader
             return null;
         }
     }
-    
+
     /**
      * How to keep track of all the modified times
      * across the paths.  Note that a file might have
@@ -189,13 +189,13 @@ public class FileResourceLoader extends ResourceLoader
      * path; so we should search the path and see if
      * the file we find that way is the same as the one
      * that we have cached.
-     * @param resource 
+     * @param resource
      * @return True if the source has been modified.
      */
     public boolean isSourceModified(Resource resource)
     {
         /*
-         * we assume that the file needs to be reloaded; 
+         * we assume that the file needs to be reloaded;
          * if we find the original file and it's unchanged,
          * then we'll flip this.
          */
@@ -220,7 +220,7 @@ public class FileResourceLoader extends ResourceLoader
             /*
              * noop: if the file is missing now (either the cached
              * file is gone, or the file can no longer be found)
-             * then we leave modified alone (it's set to true); a 
+             * then we leave modified alone (it's set to true); a
              * reload attempt will be done, which will either use
              * a new template or fail with an appropriate message
              * about how the file couldn't be found.
@@ -254,11 +254,11 @@ public class FileResourceLoader extends ResourceLoader
         if (file.canRead())
         {
             return file.lastModified();
-        }            
+        }
         else
         {
             return 0;
-        }            
+        }
     }
 
 

@@ -60,17 +60,17 @@ public class ArrayIterator implements Iterator
     public ArrayIterator(Object array)
     {
         /*
-         * if this isn't an array, then throw.  Note that this is 
+         * if this isn't an array, then throw.  Note that this is
          * for internal use - so this should never happen - if it does
          *  we screwed up.
          */
-         
+
         if ( !array.getClass().isArray() )
-        {   
-            throw new IllegalArgumentException( 
+        {
+            throw new IllegalArgumentException(
                 "Programmer error : internal ArrayIterator invoked w/o array");
         }
-            
+
         this.array = array;
         pos = 0;
         size = Array.getLength( this.array );
@@ -85,15 +85,15 @@ public class ArrayIterator implements Iterator
     {
         if (pos < size )
             return Array.get( array, pos++);
-                
+
         /*
          *  we screwed up...
          */
-         
+
         throw new NoSuchElementException("No more elements: " + pos +
                                          " / " + size);
     }
-    
+
     /**
      * Check to see if there is another element in the array.
      *

@@ -23,20 +23,20 @@ import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
 
 /**
- *  General purpose implemention of the application Context 
- *  interface for general application use.  This class should 
+ *  General purpose implemention of the application Context
+ *  interface for general application use.  This class should
  *  be used in place of the original Context class.
  *
- *  This implementation uses a HashMap  (@see java.util.HashMap ) 
+ *  This implementation uses a HashMap  (@see java.util.HashMap )
  *  for data storage.
  *
  *  This context implementation cannot be shared between threads
- *  without those threads synchronizing access between them, as 
+ *  without those threads synchronizing access between them, as
  *  the HashMap is not synchronized, nor are some of the fundamentals
- *  of AbstractContext.  If you need to share a Context between 
- *  threads with simultaneous access for some reason, please create 
- *  your own and extend the interface Context 
- *  
+ *  of AbstractContext.  If you need to share a Context between
+ *  threads with simultaneous access for some reason, please create
+ *  your own and extend the interface Context
+ *
  *  @see org.apache.velocity.context.Context
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -51,13 +51,13 @@ public class VelocityContext extends AbstractContext implements Cloneable
      * Version Id for serializable
      */
     private static final long serialVersionUID = 9033846851064645037L;
-    
+
     /**
      *  Storage for key/value pairs.
      */
     private Map context = null;
 
-    /** 
+    /**
      *  Creates a new instance (with no inner context).
      */
     public VelocityContext()
@@ -65,10 +65,10 @@ public class VelocityContext extends AbstractContext implements Cloneable
         this(null, null);
     }
 
-    /** 
+    /**
      *  Creates a new instance with the provided storage (and no inner
      *  context).
-     * @param context 
+     * @param context
      */
     public VelocityContext(Map context)
     {
@@ -76,9 +76,9 @@ public class VelocityContext extends AbstractContext implements Cloneable
     }
 
     /**
-     *  Chaining constructor, used when you want to 
+     *  Chaining constructor, used when you want to
      *  wrap a context in another.  The inner context
-     *  will be 'read only' - put() calls to the 
+     *  will be 'read only' - put() calls to the
      *  wrapping context will only effect the outermost
      *  context
      *
@@ -114,7 +114,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     public Object internalGet( String key )
     {
         return context.get( key );
-    }        
+    }
 
     /**
      *  stores the value for key to internal
@@ -150,7 +150,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     {
         return context.keySet().toArray();
     }
-    
+
     /**
      *  remove a key/value pair from the
      *  internal storage

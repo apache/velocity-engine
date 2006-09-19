@@ -36,13 +36,13 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * <pre>
  * Notes:
  * -----
- *  1) The parsed source material can only come from somewhere in 
- *    the TemplateRoot tree for security reasons. There is no way 
+ *  1) The parsed source material can only come from somewhere in
+ *    the TemplateRoot tree for security reasons. There is no way
  *    around this.  If you want to include content from elsewhere on
- *    your disk, use a link from somwhere under Template Root to that 
+ *    your disk, use a link from somwhere under Template Root to that
  *    content.
  *
- *  2) There is a limited parse depth.  It is set as a property 
+ *  2) There is a limited parse depth.  It is set as a property
  *    "parse_directive.maxdepth = 10"  for example.  There is a 20 iteration
  *    safety in the event that the parameter isn't set.
  * </pre>
@@ -61,8 +61,8 @@ public class Parse extends InputBase
     public String getName()
     {
         return "parse";
-    }        
-    
+    }
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -70,20 +70,20 @@ public class Parse extends InputBase
     public int getType()
     {
         return LINE;
-    }        
-    
+    }
+
     /**
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
-     * @throws ResourceNotFoundException 
-     * @throws ParseErrorException 
-     * @throws MethodInvocationException 
+     * @throws IOException
+     * @throws ResourceNotFoundException
+     * @throws ParseErrorException
+     * @throws MethodInvocationException
      */
     public boolean render( InternalContextAdapter context,
                            Writer writer, Node node)
@@ -94,11 +94,11 @@ public class Parse extends InputBase
     	 * if rendering is no longer allowed (after a stop), we can safely
     	 * skip execution of all the parse directives.
     	 */
-    	if(!context.getAllowRendering()) 
+    	if(!context.getAllowRendering())
         {
     		return true;
     	}
-    	
+
         /*
          *  did we get an argument?
          */

@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2004 The Apache Software Foundation.
  *
@@ -53,7 +52,7 @@ import java.util.Iterator;
  *       2
  *    1
  *
- * @version $Id$ 
+ * @version $Id$
  */
 public class LocalDirective extends Directive
 {

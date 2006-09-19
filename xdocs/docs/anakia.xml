@@ -20,7 +20,7 @@
     files.
 </p>
 <p>
-   The basic model that AnakiaTask uses is pretty straightforward : 
+   The basic model that AnakiaTask uses is pretty straightforward :
 </p>
    <ol>
    <li>Parse your XML into a JDOM Document:
@@ -28,9 +28,9 @@
 SAXBuilder builder;
 Document root = null;
 
-try 
+try
 {
-    builder = new SAXBuilder( 
+    builder = new SAXBuilder(
         "org.apache.xerces.parsers.SAXParser" );
     root = builder.build( file );
 }
@@ -67,9 +67,9 @@ context.put("root", root );
     Anakia -- intended to replace Stylebook, which was originally used
     to generate simple, static web sites in which all pages had the same
     look and feel -- is great for documentation/project web sites, such
-    as the sites on <a href="http://www.apache.org/">www.apache.org</a> 
-    and <a href="http://jakarta.apache.org">jakarta.apache.org</a>. As it 
-    is more targeted to a specific purpose, it does not provide some of 
+    as the sites on <a href="http://www.apache.org/">www.apache.org</a>
+    and <a href="http://jakarta.apache.org">jakarta.apache.org</a>. As it
+    is more targeted to a specific purpose, it does not provide some of
     XSL's &quot;extra&quot; functionality.
 </p>
 <p>
@@ -81,14 +81,14 @@ context.put("root", root );
     Anakia creates a Context, which contains a JDOM Document object of
     the .xml page, as well as an (optional) JDOM Document object of your
     project.xml page. In addition to the project.xml based context, additional
-    xml contexts can be added through context nested elements. The 
-    .vsl page is executed (using Velocity) with the Context. You can then 
+    xml contexts can be added through context nested elements. The
+    .vsl page is executed (using Velocity) with the Context. You can then
     navigate your .xml file and pull information out of it by simply executing
     methods on the JDOM Document object.
 </p>
 <p>
     Anakia is being used to create the documentation for this
-    website.  You can view the source for this website in the "xdocs" folder 
+    website.  You can view the source for this website in the "xdocs" folder
     in the Velocity source distribution.
 </p>
 
@@ -111,7 +111,7 @@ context.put("root", root );
     The jakarta-velocity/examples/anakia/xdocs/ directory has all of the
     .xml source code. The xdocs/stylesheets directory contains the .vsl
     file, in which most of the magic happens. Understanding <a
-    href="user-guide.html">Velocity Template Language</a> and 
+    href="user-guide.html">Velocity Template Language</a> and
     <a href="http://www.jdom.org/">JDOM</a> is
     necessary to understand how the .vsl file works.
 </p>
@@ -134,7 +134,7 @@ context.put("root", root );
         property="AnakiaTask.present"/>
     </target>
 
-    <target depends="prepare" name="prepare-error" 
+    <target depends="prepare" name="prepare-error"
                             unless="AnakiaTask.present">
         <echo>
             AnakiaTask is not present! Please check to make sure that
@@ -142,9 +142,9 @@ context.put("root", root );
         </echo>
     </target>
 
-    <target name="docs" depends="prepare-error" 
+    <target name="docs" depends="prepare-error"
                         if="AnakiaTask.present">
-        <taskdef name="anakia" 
+        <taskdef name="anakia"
                  classname="org.apache.velocity.anakia.AnakiaTask"/>
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".html" style="./site.vsl"
@@ -351,7 +351,7 @@ context.put("root", root );
     </table>
 <p>
     All node lists returned from Anakia objects through $element.selectNodes,
-    $element.content, and $element.children, as well as through obsoleted 
+    $element.content, and $element.children, as well as through obsoleted
     $treeWalk.allElements and $xpath.applyTo have two special features:
     <ul>
         <li>they support the selectNodes method just as a single element does
@@ -366,7 +366,7 @@ context.put("root", root );
 
 <section name="Customizing the Anakia Context" href="CustomizingtheAnakiaContext">
 <p>
-    The Anakia context can be customized by using one or more context nested 
+    The Anakia context can be customized by using one or more context nested
     elements.
 </p>
 <source><![CDATA[
@@ -417,7 +417,7 @@ context.put("root", root );
 
 <section name="Credits" href="Credits">
 <p>
-    Anakia was originally conceptualized and implemented by 
+    Anakia was originally conceptualized and implemented by
         <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>.
 </p>
 <p>

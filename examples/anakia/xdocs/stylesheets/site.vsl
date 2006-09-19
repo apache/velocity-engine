@@ -8,7 +8,7 @@
     #set ($bannerfg = "#ffffff")
     #set ($tablethbg = "#039acc")
     #set ($tabletdbg = "#a0ddf0")
-    
+
 <!-- start the processing -->
 #document()
 <!-- end the processing -->
@@ -83,7 +83,7 @@
             <title>$root.getChild("properties").getChild("title").getText()</title>
         </head>
 
-        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">        
+        <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">
             <table border="1">
                 <tr>
                 <td>
@@ -94,7 +94,7 @@
                 #set ($allSections = $xpath.applyTo("body/section", $root))
 
                 #foreach ( $section in $allSections )
-                    #foreach ( $item in $section.getChildren() )                
+                    #foreach ( $item in $section.getChildren() )
                         #if ($item.getName().equals("img"))
                             #image ($item)
                         #else

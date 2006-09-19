@@ -8,15 +8,15 @@ Note that you wont see anything rendered, but
 SetBangStart will output to stdout
 
 #macro( bangstart $a)
-  #set( $a.BangStart = 4 ) 
+  #set( $a.BangStart = 4 )
 #end
 
 #macro( bangstartII $a)
-  #set( $a = 5 ) 
+  #set( $a = 5 )
 #end
 
 #macro( bar $b )
-  $b.bang() 
+  $b.bang()
 #end
 
 #bangstart( $provider )

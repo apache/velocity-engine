@@ -48,10 +48,10 @@ public class BooleanPropertyExecutor extends PropertyExecutor
     }
 
     /**
-     * @param rlog 
-     * @param introspector 
-     * @param clazz 
-     * @param property 
+     * @param rlog
+     * @param introspector
+     * @param clazz
+     * @param property
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public BooleanPropertyExecutor(final RuntimeLogger rlog, final Introspector introspector,

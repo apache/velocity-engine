@@ -1,4 +1,3 @@
-
 package org.apache.velocity.runtime.directive;
 
 /*
@@ -31,8 +30,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
- * <p>Pluggable directive that handles the #include() statement in VTL. 
- * This #include() can take multiple arguments of either 
+ * <p>Pluggable directive that handles the #include() statement in VTL.
+ * This #include() can take multiple arguments of either
  * StringLiteral or Reference.</p>
  *
  * <p>Notes:</p>
@@ -47,7 +46,7 @@ import org.apache.velocity.runtime.resource.Resource;
  *       include.output.errormsg.start
  *       include.output.errormsg.end
  *     If both are defined in velocity.properties, they will be used to
- *     in the render output to bracket the arg string that caused the 
+ *     in the render output to bracket the arg string that caused the
  *     problem.
  *     Ex. : if you are working in html then
  *       include.output.errormsg.start=&lt;!-- #include error :
@@ -77,8 +76,8 @@ public class Include extends InputBase
     public String getName()
     {
         return "include";
-    }        
-    
+    }
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -86,18 +85,18 @@ public class Include extends InputBase
     public int getType()
     {
         return LINE;
-    }        
+    }
 
     /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
-     * @param rs 
-     * @param context 
-     * @param node 
-     * @throws Exception 
+     * @param rs
+     * @param context
+     * @param node
+     * @throws Exception
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
-                     Node node) 
+                     Node node)
         throws Exception
     {
         super.init( rs, context, node );
@@ -108,24 +107,24 @@ public class Include extends InputBase
          */
         outputMsgStart = rsvc.getString(RuntimeConstants.ERRORMSG_START);
         outputMsgStart = outputMsgStart + " ";
-        
+
         outputMsgEnd = rsvc.getString(RuntimeConstants.ERRORMSG_END );
-        outputMsgEnd = " " + outputMsgEnd;   
+        outputMsgEnd = " " + outputMsgEnd;
     }
 
     /**
      *  iterates through the argument list and renders every
      *  argument that is appropriate.  Any non appropriate
      *  arguments are logged, but render() continues.
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
-     * @throws MethodInvocationException 
-     * @throws ResourceNotFoundException 
+     * @throws IOException
+     * @throws MethodInvocationException
+     * @throws ResourceNotFoundException
      */
-    public boolean render(InternalContextAdapter context, 
+    public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)
         throws IOException, MethodInvocationException,
                ResourceNotFoundException
@@ -144,22 +143,22 @@ public class Include extends InputBase
 
             Node n = node.jjtGetChild(i);
 
-            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL || 
+            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL ||
                  n.getType() ==  ParserTreeConstants.JJTREFERENCE )
             {
                 if (!renderOutput( n, context, writer ))
-                    outputErrorToStream( writer, "error with arg " + i 
+                    outputErrorToStream( writer, "error with arg " + i
                         + " please see log.");
             }
             else
             {
                 rsvc.getLog().error("#include() invalid argument type: "
                                     + n.toString());
-                outputErrorToStream( writer, "error with arg " + i 
+                outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
             }
         }
-        
+
         return true;
     }
 
@@ -268,7 +267,7 @@ public class Include extends InputBase
      */
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
-    {        
+    {
         if ( outputMsgStart != null  && outputMsgEnd != null)
         {
             writer.write(outputMsgStart);

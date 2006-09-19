@@ -21,7 +21,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  *  This is a toy demonstration of how Velocity
- *  can use an externally configured logger.  In 
+ *  can use an externally configured logger.  In
  *  this example, the class using Velocity
  *  implements Velocity's logger interface, and
  *  all Velocity log messages are funneled back
@@ -40,12 +40,12 @@ public class LoggerExample implements LogChute
              *  this class implements the LogSystem interface, so we
              *  can use it as a logger for Velocity
              */
-            
+
             Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
             Velocity.init();
 
             /*
-             *  that will be enough.  The Velocity initialization will be 
+             *  that will be enough.  The Velocity initialization will be
              *  output to stdout because of our
              *  logVelocityMessage() method in this class
              */
@@ -59,25 +59,25 @@ public class LoggerExample implements LogChute
 	/**
 	 *  Required init() method for LogSystem
 	 *  to get access to RuntimeServices
-	 */ 
+	 */
 	 public void init( RuntimeServices rs )
 	 {
 	 	return;
 	 }
-	 
+
     /**
      * This just prints the message and level to System.out.
-     */ 
+     */
     public void log(int level, String message)
     {
         System.out.println("level : " + level + " msg : " + message);
     }
 
-     
+
     /**
-     * This prints the level, message, and the Throwable's message to 
+     * This prints the level, message, and the Throwable's message to
      * System.out.
-     */ 
+     */
     public void log(int level, String message, Throwable t)
     {
         System.out.println("level : " + level + " msg : " + message + " t : "

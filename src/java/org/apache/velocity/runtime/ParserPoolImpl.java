@@ -34,7 +34,7 @@ public class ParserPoolImpl implements ParserPool {
 
     /**
      * Create the underlying "pool".
-     * @param rsvc 
+     * @param rsvc
      */
     public void initialize(RuntimeServices rsvc)
     {
@@ -73,7 +73,7 @@ public class ParserPoolImpl implements ParserPool {
 
     /**
      * Call the wrapped pool.
-     * @param parser 
+     * @param parser
      */
     public void put(Parser parser)
     {

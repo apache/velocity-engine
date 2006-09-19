@@ -22,9 +22,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  *  Pre-init logger.  I believe that this was suggested by
- *  Carsten Ziegeler <cziegeler@sundn.de> and 
+ *  Carsten Ziegeler <cziegeler@sundn.de> and
  *  Jeroen C. van Gelderen.  If this isn't correct, let me
- *  know as this was a good idea... 
+ *  know as this was a good idea...
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  */
 class HoldingLogChute implements LogChute
 {
-    private Vector pendingMessages = new Vector();    
+    private Vector pendingMessages = new Vector();
 
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
@@ -40,7 +40,7 @@ class HoldingLogChute implements LogChute
     public void init(RuntimeServices rs) throws Exception
     {
     }
-    
+
     /**
      * Logs messages. All we do is store them until 'later'.
      *
@@ -89,7 +89,7 @@ class HoldingLogChute implements LogChute
 
     /**
      * Dumps the log messages this chute is holding into a new chute
-     * @param newChute 
+     * @param newChute
      */
     public void transferTo(LogChute newChute)
     {
@@ -112,8 +112,8 @@ class HoldingLogChute implements LogChute
                         newChute.log(level, message, (Throwable)data[2]);
                     }
                 }
-            }    
+            }
         }
-    }    
+    }
 
 }

@@ -45,8 +45,8 @@
         <item name="Nightly Snapshots"        href="http://svn.apache.org/snapshots/jakarta-velocity/"/>
         <item name="Road Map"                 href="http://wiki.apache.org/jakarta-velocity/RoadMap"/>
         <item name="Dependencies"             href="/jar-dependencies.html"/>
-        <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>    
-        <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>    
+        <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>
+        <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>
         <item name="Issues"                   href="http://issues.apache.org/jira/browse/VELOCITY"/>
         <item name="List of Committers"       href="/committers.html"/>
     </menu>

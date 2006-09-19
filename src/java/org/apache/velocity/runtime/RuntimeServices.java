@@ -34,12 +34,12 @@ import org.apache.velocity.util.introspection.Uberspect;
 
 
 /**
- * Interface for internal runtime services that are needed by the 
+ * Interface for internal runtime services that are needed by the
  * various components w/in Velocity.  This was taken from the old
  * Runtime singleton, and anything not necessary was removed.
  *
  *  Currently implemented by RuntimeInstance.
- * 
+ *
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
  * @version $Id$
  */
@@ -50,7 +50,7 @@ public interface RuntimeServices extends RuntimeLogger
      * This is the primary initialization method in the Velocity
      * Runtime. The systems that are setup/initialized here are
      * as follows:
-     * 
+     *
      * <ul>
      *   <li>Logging System</li>
      *   <li>ResourceManager</li>
@@ -59,7 +59,7 @@ public interface RuntimeServices extends RuntimeLogger
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
- * @throws Exception 
+ * @throws Exception
      */
     public void init() throws Exception;
 
@@ -104,7 +104,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @param value
      */
     public void addProperty(String key, Object value);
-    
+
     /**
      * Clear the values pertaining to a particular
      * property.
@@ -112,7 +112,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @param key of property to clear
      */
     public void clearProperty(String key);
-    
+
     /**
      *  Allows an external caller to get a property.  The calling
      *  routine is required to know the type, as this routine
@@ -128,16 +128,16 @@ public interface RuntimeServices extends RuntimeLogger
      * object.
      *
      * @param p
-     * @throws Exception 
+     * @throws Exception
      */
     public void init(Properties p) throws Exception;
-    
+
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
      *
      * @param configurationFile
-     * @throws Exception 
+     * @throws Exception
      */
     public void init(String configurationFile) throws Exception;
 
@@ -146,17 +146,17 @@ public interface RuntimeServices extends RuntimeLogger
      * AST node structure.
      * <br><br>
      *  In the event that it runs out of parsers in the
-     *  pool, it will create and let them be GC'd 
+     *  pool, it will create and let them be GC'd
      *  dynamically, logging that it has to do that.  This
      *  is considered an exceptional condition.  It is
-     *  expected that the user will set the 
+     *  expected that the user will set the
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
      * @param reader inputstream retrieved by a resource loader
      * @param templateName name of the template being parsed
      * @return The AST representing the template.
-     * @throws ParseException 
+     * @throws ParseException
      */
     public  SimpleNode parse( Reader reader, String templateName )
         throws ParseException;
@@ -168,14 +168,14 @@ public interface RuntimeServices extends RuntimeLogger
      * @param templateName name of the template being parsed
      * @param dumpNamespace flag to dump the Velocimacro namespace for this template
      * @return The AST representing the template.
-     * @throws ParseException 
+     * @throws ParseException
      */
     public SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
         throws ParseException;
-    
+
     /**
      * Returns a <code>Template</code> from the resource manager.
-     * This method assumes that the character encoding of the 
+     * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
      * property.  The default is "ISO-8859-1"
      *
@@ -214,8 +214,8 @@ public interface RuntimeServices extends RuntimeLogger
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
-     * @throws ParseErrorException 
-     * @throws Exception 
+     * @throws ParseErrorException
+     * @throws Exception
      */
     public ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception;
@@ -229,14 +229,14 @@ public interface RuntimeServices extends RuntimeLogger
      * @return parsed ContentResource object ready for use
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
-     * @throws ParseErrorException 
-     * @throws Exception 
+     * @throws ParseErrorException
+     * @throws Exception
      */
     public ContentResource getContent( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception;
 
     /**
-     *  Determines is a template exists, and returns name of the loader that 
+     *  Determines is a template exists, and returns name of the loader that
      *  provides it.  This is a slightly less hokey way to support
      *  the Velocity.templateExists() utility method, which was broken
      *  when per-template encoding was introduced.  We can revisit this.
@@ -249,11 +249,11 @@ public interface RuntimeServices extends RuntimeLogger
     /**
      * String property accessor method with default to hide the
      * configuration implementation.
-     * 
+     *
      * @param key property key
-     * @param defaultValue  default value to return if key not 
+     * @param defaultValue  default value to return if key not
      *               found in resource manager.
-     * @return String  value of key or default 
+     * @return String  value of key or default
      */
     public String getString( String key, String defaultValue);
 
@@ -263,31 +263,31 @@ public interface RuntimeServices extends RuntimeLogger
      *
      * @param vmName  Name of velocimacro requested
      * @param templateName Name of the namespace.
-     * @return VelocimacroProxy 
+     * @return VelocimacroProxy
      */
     public Directive getVelocimacro( String vmName, String templateName  );
 
    /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
      *
-     * @param name  Name of velocimacro 
+     * @param name  Name of velocimacro
      * @param macro  String form of macro body
-     * @param argArray  Array of strings, containing the 
+     * @param argArray  Array of strings, containing the
      *                         #macro() arguments.  the 0th is the name.
- * @param sourceTemplate 
-     * @return boolean  True if added, false if rejected for some 
-     *                  reason (either parameters or permission settings) 
+ * @param sourceTemplate
+     * @return boolean  True if added, false if rejected for some
+     *                  reason (either parameters or permission settings)
      */
-    public boolean addVelocimacro( String name, 
-                                          String macro, 
-                                          String argArray[], 
+    public boolean addVelocimacro( String name,
+                                          String macro,
+                                          String argArray[],
                                           String sourceTemplate );
- 
+
     /**
      *  Checks to see if a VM exists
      *
      * @param vmName  Name of velocimacro
-     * @param templateName 
+     * @param templateName
      * @return boolean  True if VM by that name exists, false if not
      */
     public boolean isVelocimacro( String vmName, String templateName );
@@ -295,7 +295,7 @@ public interface RuntimeServices extends RuntimeLogger
     /**
      *  tells the vmFactory to dump the specified namespace.  This is to support
      *  clearing the VM list when in inline-VM-local-scope mode
-     * @param namespace 
+     * @param namespace
      * @return True if the Namespace was dumped.
      */
     public boolean dumpVMNamespace( String namespace );
@@ -326,7 +326,7 @@ public interface RuntimeServices extends RuntimeLogger
 
     /**
      * Boolean property accessor method to hide the configuration implementation.
-     * 
+     *
      * @param key  property key
      * @param def default default value if property not found
      * @return boolean  value of key or default value
@@ -385,7 +385,7 @@ public interface RuntimeServices extends RuntimeLogger
      * implementation.
      */
     public Introspector getIntrospector();
-    
+
     /**
      * Returns true if the RuntimeInstance has been successfully initialized.
      * @return True if the RuntimeInstance has been successfully initialized.

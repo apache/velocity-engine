@@ -27,7 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTAndNode extends SimpleNode
 {
@@ -60,9 +60,9 @@ public class ASTAndNode extends SimpleNode
      *  Returns the value of the expression.
      *  Since the value of the expression is simply the boolean
      *  result of evaluate(), lets return that.
-     * @param context 
+     * @param context
      * @return The value of the expression.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
@@ -72,17 +72,17 @@ public class ASTAndNode extends SimpleNode
     }
 
     /**
-     * logical and : 
+     * logical and :
      *   null && right = false
      *   left && null = false
      *   null && null = false
-     * @param context 
+     * @param context
      * @return True if both sides are true.
-     * @throws MethodInvocationException 
-     */     
+     * @throws MethodInvocationException
+     */
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
-    {       
+    {
         Node left = jjtGetChild(0);
         Node right = jjtGetChild(1);
 
@@ -94,11 +94,11 @@ public class ASTAndNode extends SimpleNode
         {
             log.error((left == null ? "Left" : "Right") + " side of '&&' operation is null."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return false;
         }
-        
+
         /*
          *  short circuit the test.  Don't eval the RHS if the LHS is false
          */
@@ -109,8 +109,8 @@ public class ASTAndNode extends SimpleNode
             {
                 return true;
             }
-        }        
-           
+        }
+
         return false;
     }
 }

@@ -46,10 +46,10 @@ import org.apache.velocity.util.SimplePool;
 
 /**
  * Base class which simplifies the use of Velocity with Servlets.
- * Extend this class, implement the <code>handleRequest()</code> method, 
- * and add your data to the context.  Then call 
+ * Extend this class, implement the <code>handleRequest()</code> method,
+ * and add your data to the context.  Then call
  * <code>getTemplate("myTemplate.wm")</code>.
- * 
+ *
  * This class puts some things into the context object that you should
  * be aware of:
  * <pre>
@@ -65,7 +65,7 @@ import org.apache.velocity.util.SimplePool;
  * <li> createContext() : for creating and loading the Context
  * <li> setContentType() : for changing the content type on a request
  *                         by request basis
- * <li> handleRequest() : you <b>must</b> implement this 
+ * <li> handleRequest() : you <b>must</b> implement this
  * <li> mergeTemplate()  : the template rendering process
  * <li> requestCleanup() : post rendering resource or other cleanup
  * <li> error() : error handling
@@ -108,8 +108,8 @@ public abstract class VelocityServlet extends HttpServlet
      *  The default content type for the response
      */
     public static final String DEFAULT_CONTENT_TYPE = "text/html";
-    
-  
+
+
     /**
      *  Encoding for the output stream
      */
@@ -137,11 +137,11 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Cache of writers
      */
-   
+
     private static SimplePool writerPool = new SimplePool(40);
 
-    /** 
-     * Performs initialization of this servlet.  Called by the servlet 
+    /**
+     * Performs initialization of this servlet.  Called by the servlet
      * container on loading.
      *
      * @param config The servlet configuration to apply.
@@ -161,20 +161,20 @@ public abstract class VelocityServlet extends HttpServlet
         /*
          *  Now that Velocity is initialized, cache some config.
          */
-        VelocityServlet.defaultContentType = 
+        VelocityServlet.defaultContentType =
                 RuntimeSingleton.getString(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
     }
 
     /**
-     *  Initializes the Velocity runtime, first calling 
-     *  loadConfiguration(ServletConvig) to get a 
+     *  Initializes the Velocity runtime, first calling
+     *  loadConfiguration(ServletConvig) to get a
      *  java.util.Properties of configuration information
      *  and then calling Velocity.init().  Override this
-     *  to do anything to the environment before the 
-     *  initialization of the singelton takes place, or to 
+     *  to do anything to the environment before the
+     *  initialization of the singelton takes place, or to
      *  initialize the singleton in other ways.
-     * @param config 
-     * @throws ServletException 
+     * @param config
+     * @throws ServletException
      */
     protected void initVelocity( ServletConfig config )
          throws ServletException
@@ -182,24 +182,24 @@ public abstract class VelocityServlet extends HttpServlet
         try
         {
             /*
-             *  call the overridable method to allow the 
+             *  call the overridable method to allow the
              *  derived classes a shot at altering the configuration
              *  before initializing Runtime
              */
 
             Properties props = loadConfiguration( config );
-  
+
             Velocity.init( props );
         }
         catch( Exception e )
         {
             throw new ServletException("Error initializing Velocity: " + e, e);
-        }   
-    }    
-     
+        }
+    }
+
     /**
-     *  Loads the configuration information and returns that 
-     *  information as a Properties, which will be used to 
+     *  Loads the configuration information and returns that
+     *  information as a Properties, which will be used to
      *  initialize the Velocity runtime.
      *  <br><br>
      *  Currently, this method gets the initialization parameter
@@ -230,7 +230,7 @@ public abstract class VelocityServlet extends HttpServlet
      *       &lt;description&gt; Path to Velocity configuration &lt;/description&gt;
      *    &lt;/context-param&gt;
      *   </pre>
-     * 
+     *
      *  Derived classes may do the same, or take advantage of this code to do the loading for them via :
      *   <pre>
      *      Properties p = super.loadConfiguration( config );
@@ -280,7 +280,7 @@ public abstract class VelocityServlet extends HttpServlet
                        INIT_PROPS_KEY + '\'');
             }
         }
-        
+
         /*
          * This will attempt to find the location of the properties
          * file from the relative path to the WAR archive (ie:
@@ -292,7 +292,7 @@ public abstract class VelocityServlet extends HttpServlet
          */
 
         Properties p = new Properties();
-        
+
         if ( propsFile != null )
         {
             p.load(getServletContext().getResourceAsStream(propsFile));
@@ -300,14 +300,14 @@ public abstract class VelocityServlet extends HttpServlet
 
         return p;
     }
-          
+
     /**
      * Handles HTTP <code>GET</code> requests by calling {@link
      * #doRequest(HttpServletRequest, HttpServletResponse)}.
-     * @param request 
-     * @param response 
-     * @throws ServletException 
-     * @throws IOException 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
      */
     public void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -318,10 +318,10 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Handles HTTP <code>POST</code> requests by calling {@link
      * #doRequest(HttpServletRequest, HttpServletResponse)}.
-     * @param request 
-     * @param response 
-     * @throws ServletException 
-     * @throws IOException 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
      */
     public void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
@@ -334,8 +334,8 @@ public abstract class VelocityServlet extends HttpServlet
      *
      *  @param request  HttpServletRequest object containing client request
      *  @param response HttpServletResponse object for the response
-     * @throws ServletException 
-     * @throws IOException 
+     * @throws ServletException
+     * @throws IOException
      */
     protected void doRequest(HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
@@ -348,9 +348,9 @@ public abstract class VelocityServlet extends HttpServlet
              */
 
             context = createContext( request, response );
-            
+
             /*
-             *   set the content type 
+             *   set the content type
              */
 
             setContentType( request, response );
@@ -359,7 +359,7 @@ public abstract class VelocityServlet extends HttpServlet
              *  let someone handle the request
              */
 
-            Template template = handleRequest( request, response, context );        
+            Template template = handleRequest( request, response, context );
             /*
              *  bail if we can't find the template
              */
@@ -400,8 +400,8 @@ public abstract class VelocityServlet extends HttpServlet
      *  processing sequence, allowing a derived class to do resource
      *  cleanup or other end of process cycle tasks.
      *
-     *  @param request servlet request from client 
-     *  @param response servlet reponse 
+     *  @param request servlet request from client
+     *  @param response servlet reponse
      *  @param context  context created by the createContext() method
      */
     protected void requestCleanup( HttpServletRequest request, HttpServletResponse response, Context context )
@@ -416,26 +416,26 @@ public abstract class VelocityServlet extends HttpServlet
      *  @param template template object returned by the handleRequest() method
      *  @param context  context created by the createContext() method
      *  @param response servlet reponse (use this to get the output stream or Writer
-     * @throws ResourceNotFoundException 
-     * @throws ParseErrorException 
-     * @throws MethodInvocationException 
-     * @throws IOException 
-     * @throws UnsupportedEncodingException 
-     * @throws Exception 
+     * @throws ResourceNotFoundException
+     * @throws ParseErrorException
+     * @throws MethodInvocationException
+     * @throws IOException
+     * @throws UnsupportedEncodingException
+     * @throws Exception
      */
     protected void mergeTemplate( Template template, Context context, HttpServletResponse response )
-        throws ResourceNotFoundException, ParseErrorException, 
+        throws ResourceNotFoundException, ParseErrorException,
                MethodInvocationException, IOException, UnsupportedEncodingException, Exception
     {
         ServletOutputStream output = response.getOutputStream();
         VelocityWriter vw = null;
         // ASSUMPTION: response.setContentType() has been called.
         String encoding = response.getCharacterEncoding();
-        
+
         try
         {
             vw = (VelocityWriter) writerPool.get();
-            
+
             if (vw == null)
             {
                 vw = new VelocityWriter(new OutputStreamWriter(output,
@@ -446,7 +446,7 @@ public abstract class VelocityServlet extends HttpServlet
             {
                 vw.recycle(new OutputStreamWriter(output, encoding));
             }
-           
+
             template.merge(context, vw);
         }
         finally
@@ -547,13 +547,13 @@ public abstract class VelocityServlet extends HttpServlet
          */
 
         VelocityContext context = new VelocityContext();
-        
+
         /*
          *   put the request/response objects into the context
          *   wrap the HttpServletRequest to solve the introspection
-         *   problems 
+         *   problems
          */
-           
+
         context.put( REQUEST,  request );
         context.put( RESPONSE, response );
 
@@ -563,7 +563,7 @@ public abstract class VelocityServlet extends HttpServlet
     /**
      * Retrieves the requested template.
      *
-     * @param name The file name of the template to retrieve relative to the 
+     * @param name The file name of the template to retrieve relative to the
      *             template root.
      * @return     The requested template.
      * @throws ResourceNotFoundException if template not found
@@ -577,12 +577,12 @@ public abstract class VelocityServlet extends HttpServlet
     {
         return RuntimeSingleton.getTemplate(name);
     }
-    
+
     /**
      * Retrieves the requested template with the specified
      * character encoding.
      *
-     * @param name The file name of the template to retrieve relative to the 
+     * @param name The file name of the template to retrieve relative to the
      *             template root.
      * @param encoding the character encoding of the template
      *
@@ -592,7 +592,7 @@ public abstract class VelocityServlet extends HttpServlet
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      * @throws Exception if an error occurs in template initialization
-     *     
+     *
      *  @since Velocity v1.1
      */
     public Template getTemplate( String name, String encoding )
@@ -602,24 +602,24 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     * Implement this method to add your application data to the context, 
-     * calling the <code>getTemplate()</code> method to produce your return 
+     * Implement this method to add your application data to the context,
+     * calling the <code>getTemplate()</code> method to produce your return
      * value.
      * <br><br>
      * In the event of a problem, you may handle the request directly
      * and return <code>null</code> or throw a more meaningful exception
      * for the error handler to catch.
      *
-     *  @param request servlet request from client 
-     *  @param response servlet reponse 
+     *  @param request servlet request from client
+     *  @param response servlet reponse
      *  @param ctx The context to add your data to.
      *  @return    The template to merge with your context or null, indicating
      *    that you handled the processing.
-     * @throws Exception 
+     * @throws Exception
      *
      *  @since Velocity v1.1
      */
-    protected Template handleRequest( HttpServletRequest request, HttpServletResponse response, Context ctx ) 
+    protected Template handleRequest( HttpServletRequest request, HttpServletResponse response, Context ctx )
         throws Exception
     {
         /*
@@ -629,8 +629,8 @@ public abstract class VelocityServlet extends HttpServlet
         Template t =  handleRequest( ctx );
 
         /*
-         *  if it returns null, this is the 'old' deprecated 
-         *  way, and we want to mimic the behavior for a little 
+         *  if it returns null, this is the 'old' deprecated
+         *  way, and we want to mimic the behavior for a little
          *  while anyway
          */
 
@@ -643,39 +643,39 @@ public abstract class VelocityServlet extends HttpServlet
     }
 
     /**
-     * Implement this method to add your application data to the context, 
-     * calling the <code>getTemplate()</code> method to produce your return 
+     * Implement this method to add your application data to the context,
+     * calling the <code>getTemplate()</code> method to produce your return
      * value.
      * <br><br>
      * In the event of a problem, you may simple return <code>null</code>
      * or throw a more meaningful exception.
      *
      * @deprecated Use
-     * {@link #handleRequest( HttpServletRequest request, 
+     * {@link #handleRequest( HttpServletRequest request,
      * HttpServletResponse response, Context ctx )}
      *
      * @param ctx The context to add your data to.
      * @return    The template to merge with your context.
-     * @throws Exception 
+     * @throws Exception
      */
-    protected Template handleRequest( Context ctx ) 
+    protected Template handleRequest( Context ctx )
         throws Exception
     {
         throw new Exception ("You must override VelocityServlet.handleRequest( Context) "
                              + " or VelocityServlet.handleRequest( HttpServletRequest, "
                              + " HttpServletResponse, Context)" );
     }
- 
+
     /**
      * Invoked when there is an error thrown in any part of doRequest() processing.
      * <br><br>
      * Default will send a simple HTML response indicating there was a problem.
-     * 
+     *
      * @param request original HttpServletRequest from servlet container.
      * @param response HttpServletResponse object from servlet container.
      * @param cause  Exception that was thrown by some other part of process.
-     * @throws ServletException 
-     * @throws IOException 
+     * @throws ServletException
+     * @throws IOException
      */
     protected void error( HttpServletRequest request, HttpServletResponse response, Exception cause )
         throws ServletException, IOException

@@ -29,7 +29,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  *  This file describes the interface between the Velocity code
- *  and the JavaCC generated code. 
+ *  and the JavaCC generated code.
  *
  * @author <a href="mailto:hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
@@ -47,7 +47,7 @@ public interface Node
 
     /**
      * This pair of methods are used to inform the node of its
-     * parent. 
+     * parent.
      * @param n
      * */
     public void jjtSetParent(Node n);
@@ -57,18 +57,18 @@ public interface Node
      */
     public Node jjtGetParent();
 
-    /** 
+    /**
      * This method tells the node to add its argument to the node's
-     * list of children.  
-     * @param n 
+     * list of children.
+     * @param n
      * @param i
      */
     public void jjtAddChild(Node n, int i);
 
     /**
      * This method returns a child node.  The children are numbered
-     * from zero, left to right. 
-     * @param i 
+     * from zero, left to right.
+     * @param i
      * @return A child node.
      */
     public Node jjtGetChild(int i);
@@ -88,18 +88,18 @@ public interface Node
 
     /*
      * ========================================================================
-     * 
+     *
      * The following methods are not generated automatically be the Parser but
-     * added manually to be used by Velocity. 
+     * added manually to be used by Velocity.
      *
      * ========================================================================
      */
 
     /**
      * @see #jjtAccept(ParserVisitor, Object)
-     * @param visitor 
-     * @param data 
-     * @return The node execution result. 
+     * @param visitor
+     * @param data
+     * @return The node execution result.
      */
     public Object childrenAccept(ParserVisitor visitor, Object data);
 
@@ -177,7 +177,7 @@ public interface Node
     public String literal();
 
     /**
-     * Mark the node as invalid. 
+     * Mark the node as invalid.
      */
     public void setInvalid();
 

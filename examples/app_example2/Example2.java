@@ -39,7 +39,7 @@ public class Example2
     public static void main( String args[] )
     {
         /* first, we init the runtime engine.  Defaults are fine. */
-        
+
         try
         {
             Velocity.init();
@@ -56,7 +56,7 @@ public class Example2
 
         context.put("name", "Velocity");
         context.put("project", "Jakarta");
-        
+
         /* lets render a template */
 
         StringWriter w = new StringWriter();

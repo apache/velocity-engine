@@ -37,7 +37,7 @@ public class GetExecutor extends AbstractExecutor
 {
     private final Introspector introspector;
 
-    // This is still threadsafe because this object is only read except in the C'tor. 
+    // This is still threadsafe because this object is only read except in the C'tor.
     private Object [] params = {};
 
     /**
@@ -67,10 +67,10 @@ public class GetExecutor extends AbstractExecutor
     }
 
     /**
-     * @param rlog 
-     * @param introspector 
-     * @param clazz 
-     * @param property 
+     * @param rlog
+     * @param introspector
+     * @param clazz
+     * @param property
      * @deprecated RuntimeLogger is deprecated. Use the other constructor.
      */
     public GetExecutor(final RuntimeLogger rlog, final Introspector introspector,

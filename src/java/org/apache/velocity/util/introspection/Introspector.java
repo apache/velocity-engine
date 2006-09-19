@@ -26,7 +26,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * object for a particular class given the name of a method
  * and the parameters to the method in the form of an Object[]
  *
- * The first time the Introspector sees a 
+ * The first time the Introspector sees a
  * class it creates a class method map for the
  * class in question. Basically the class method map
  * is a Hastable where Method objects are keyed by a
@@ -42,7 +42,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * "method" + "java.lang.String" + "java.lang.StringBuffer"
  *
  * This mapping is performed for all the methods in a class
- * and stored for 
+ * and stored for
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
@@ -55,8 +55,8 @@ public class Introspector extends IntrospectorBase
      *  define a public string so that it can be looked for
      *  if interested
      */
-     
-    public final static String CACHEDUMP_MSG = 
+
+    public final static String CACHEDUMP_MSG =
         "Introspector : detected classloader change. Dumping cache.";
 
     /**
@@ -73,14 +73,14 @@ public class Introspector extends IntrospectorBase
     }
 
     /**
-     * @param logger 
+     * @param logger
      * @deprecated RuntimeLogger is deprecated. Use Introspector(Log log).
      */
     public Introspector(RuntimeLogger logger)
     {
         this(new RuntimeLoggerLog(logger));
     }
-   
+
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
@@ -91,7 +91,7 @@ public class Introspector extends IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
-     * @throws Exception 
+     * @throws Exception
      */
     public Method getMethod(Class c, String name, Object[] params)
         throws Exception
@@ -130,10 +130,10 @@ public class Introspector extends IntrospectorBase
                     msg.append(params[i].getClass().getName());
                 }
             }
-            
+
             msg.append(") for class ")
                     .append(c);
-            
+
             log.error( msg.toString());
         }
 

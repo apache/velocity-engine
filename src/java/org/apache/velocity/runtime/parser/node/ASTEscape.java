@@ -26,14 +26,14 @@ import org.apache.velocity.runtime.parser.ParserVisitor;
 /**
  * This class is responsible for handling Escapes
  *  in VTL.
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
-public class ASTEscape extends SimpleNode 
+public class ASTEscape extends SimpleNode
 {
     /** Used by the parser */
     public String val;
@@ -46,12 +46,12 @@ public class ASTEscape extends SimpleNode
     {
         super(id);
     }
-    
+
     /**
      * @param p
      * @param id
      */
-    public ASTEscape(Parser p, int id) 
+    public ASTEscape(Parser p, int id)
     {
         super(p, id);
     }
@@ -59,15 +59,15 @@ public class ASTEscape extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
-    
+
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) 
+    public Object init( InternalContextAdapter context, Object data)
         throws Exception
     {
         ctext =  val.toCharArray();
@@ -80,7 +80,7 @@ public class ASTEscape extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering()) 
+        if (context.getAllowRendering())
         {
             writer.write(ctext);
         }

@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 /**
  * This is a simple URL-based loader.
- * 
+ *
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id: URLResourceLoader.java 191743 2005-06-21 23:22:20Z dlr $
@@ -46,7 +46,7 @@ public class URLResourceLoader extends ResourceLoader
         log.trace("URLResourceLoader : initialization starting.");
 
         roots = configuration.getStringArray("root");
-       
+
         if (log.isInfoEnabled())
         {
             for (int i=0; i < roots.length; i++)
@@ -57,7 +57,7 @@ public class URLResourceLoader extends ResourceLoader
 
         // init the template paths map
         templateRoots = new HashMap();
- 
+
         log.trace("URLResourceLoader : initialization complete.");
     }
 
@@ -86,7 +86,7 @@ public class URLResourceLoader extends ResourceLoader
             {
                 URL u = new URL(roots[i] + name);
                 inputStream = u.openStream();
-                
+
                 if (inputStream != null)
                 {
                     if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '"+name+"' at '"+roots[i]+"'");
@@ -126,7 +126,7 @@ public class URLResourceLoader extends ResourceLoader
 
         return inputStream;
     }
-    
+
     /**
      * Checks to see if a resource has been deleted, moved or modified.
      *
@@ -137,7 +137,7 @@ public class URLResourceLoader extends ResourceLoader
     {
         long fileLastModified = getLastModified(resource);
         // if the file is unreachable or otherwise changed
-        if (fileLastModified == 0 || 
+        if (fileLastModified == 0 ||
             fileLastModified != resource.getLastModified())
         {
             return true;
@@ -167,7 +167,7 @@ public class URLResourceLoader extends ResourceLoader
         catch (IOException ioe)
         {
             // the file is not reachable at its previous address
-            log.warn("URLResourceLoader: '" + name + 
+            log.warn("URLResourceLoader: '" + name +
                      "' is no longer reachable at '" + root + "'", ioe);
             return 0;
         }

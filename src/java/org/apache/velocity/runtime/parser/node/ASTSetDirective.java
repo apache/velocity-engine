@@ -67,10 +67,10 @@ public class ASTSetDirective extends SimpleNode
 
     /**
      *  simple init.  We can get the RHS and LHS as the the tree structure is static
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return Init result.
-     * @throws Exception 
+     * @throws Exception
      */
     public Object init(InternalContextAdapter context, Object data)
             throws Exception
@@ -85,22 +85,22 @@ public class ASTSetDirective extends SimpleNode
         left = getLeftHandSide();
 
         logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
- 
+
         /*
          *  grab this now.  No need to redo each time
          */
         leftReference = left.getFirstToken().image.substring(1);
 
         return data;
-    }        
+    }
 
     /**
      *   puts the value of the RHS into the context under the key of the LHS
-     * @param context 
-     * @param writer 
+     * @param context
+     * @param writer
      * @return True if rendering was sucessful.
-     * @throws IOException 
-     * @throws MethodInvocationException 
+     * @throws IOException
+     * @throws MethodInvocationException
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
@@ -112,11 +112,11 @@ public class ASTSetDirective extends SimpleNode
         Object value = right.value(context);
 
         /*
-         * it's an error if we don't have a value of some sort AND 
-         * it is not allowed by configuration 
+         * it's an error if we don't have a value of some sort AND
+         * it is not allowed by configuration
          */
 
-        if( !rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED,false) ) 
+        if( !rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED,false) )
         {
             if ( value == null )
             {
@@ -126,18 +126,18 @@ public class ASTSetDirective extends SimpleNode
                 if(logOnNull)
                 {
                     boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
-    
+
                     if (doit && log.isInfoEnabled())
                     {
-                        log.info("RHS of #set statement is null. Context will not be modified. " 
-                                      + context.getCurrentTemplateName() + " [line " + getLine() 
+                        log.info("RHS of #set statement is null. Context will not be modified. "
+                                      + context.getCurrentTemplateName() + " [line " + getLine()
                                       + ", column " + getColumn() + "]");
                     }
                 }
-    
+
                 return false;
-            }                
-        }      
+            }
+        }
 
         if ( value == null )
         {
@@ -154,7 +154,7 @@ public class ASTSetDirective extends SimpleNode
              *  otherwise, use the setValue() method do to it.
              *  Maybe we should always use setValue()
              */
-            
+
             if (left.jjtGetNumChildren() == 0)
             {
                 context.put( leftReference, value);
@@ -164,7 +164,7 @@ public class ASTSetDirective extends SimpleNode
                 left.setValue(context, value);
             }
         }
-        
+
         return true;
     }
 

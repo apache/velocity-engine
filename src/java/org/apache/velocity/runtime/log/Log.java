@@ -20,7 +20,7 @@ package org.apache.velocity.runtime.log;
 /**
  * Convenient wrapper for LogChute functions. This implements
  * the RuntimeLogger methods (and then some).  It is hoped that
- * use of this will fully replace use of the RuntimeLogger. 
+ * use of this will fully replace use of the RuntimeLogger.
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
@@ -40,7 +40,7 @@ public class Log
 
     /**
      * Creates a new Log that wraps the specified LogChute.
-     * @param chute 
+     * @param chute
      */
     public Log(LogChute chute)
     {
@@ -53,7 +53,7 @@ public class Log
 
     /**
      * Updates the LogChute wrapped by this Log instance.
-     * @param newLogChute 
+     * @param newLogChute
      */
     protected void setLogChute(LogChute newLogChute)
     {
@@ -90,7 +90,7 @@ public class Log
 
     /**
      * Log a trace message.
-     * @param message 
+     * @param message
      */
     public void trace(Object message)
     {
@@ -99,8 +99,8 @@ public class Log
 
     /**
      * Log a trace message and accompanying Throwable.
-     * @param message 
-     * @param t 
+     * @param message
+     * @param t
      */
     public void trace(Object message, Throwable t)
     {
@@ -118,7 +118,7 @@ public class Log
 
     /**
      * Log a debug message.
-     * @param message 
+     * @param message
      */
     public void debug(Object message)
     {
@@ -127,8 +127,8 @@ public class Log
 
     /**
      * Log a debug message and accompanying Throwable.
-     * @param message 
-     * @param t 
+     * @param message
+     * @param t
      */
     public void debug(Object message, Throwable t)
     {
@@ -146,7 +146,7 @@ public class Log
 
     /**
      * Log an info message.
-     * @param message 
+     * @param message
      */
     public void info(Object message)
     {
@@ -155,8 +155,8 @@ public class Log
 
     /**
      * Log an info message and accompanying Throwable.
-     * @param message 
-     * @param t 
+     * @param message
+     * @param t
      */
     public void info(Object message, Throwable t)
     {
@@ -174,7 +174,7 @@ public class Log
 
     /**
      * Log a warning message.
-     * @param message 
+     * @param message
      */
     public void warn(Object message)
     {
@@ -183,8 +183,8 @@ public class Log
 
     /**
      * Log a warning message and accompanying Throwable.
-     * @param message 
-     * @param t 
+     * @param message
+     * @param t
      */
     public void warn(Object message, Throwable t)
     {
@@ -202,7 +202,7 @@ public class Log
 
     /**
      * Log an error message.
-     * @param message 
+     * @param message
      */
     public void error(Object message)
     {
@@ -211,8 +211,8 @@ public class Log
 
     /**
      * Log an error message and accompanying Throwable.
-     * @param message 
-     * @param t 
+     * @param message
+     * @param t
      */
     public void error(Object message, Throwable t)
     {

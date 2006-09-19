@@ -27,7 +27,7 @@ package org.apache.velocity.runtime.parser.node;
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
@@ -69,9 +69,9 @@ public class ASTAddNode extends SimpleNode
 
     /**
      *  computes the sum of the two nodes.
-     * @param context 
+     * @param context
      *  @return result or null
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object value( InternalContextAdapter context)
         throws MethodInvocationException
@@ -94,7 +94,7 @@ public class ASTAddNode extends SimpleNode
                            + jjtGetChild( (left == null? 0 : 1) ).literal()
                            + ") of addition operation has null value."
                            + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine() 
+                           + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + "]");
             return null;
         }
@@ -102,11 +102,11 @@ public class ASTAddNode extends SimpleNode
         /*
          *  convert to Number if applicable
          */
-        if (left instanceof TemplateNumber) 
+        if (left instanceof TemplateNumber)
         {
            left = ( (TemplateNumber) left).getAsNumber();
         }
-        if (right instanceof TemplateNumber) 
+        if (right instanceof TemplateNumber)
         {
            right = ( (TemplateNumber) right).getAsNumber();
         }
@@ -114,7 +114,7 @@ public class ASTAddNode extends SimpleNode
         /*
          * Arithmetic operation.
          */
-        if (left instanceof Number && right instanceof Number) 
+        if (left instanceof Number && right instanceof Number)
         {
             return MathUtils.add((Number)left, (Number)right);
         }

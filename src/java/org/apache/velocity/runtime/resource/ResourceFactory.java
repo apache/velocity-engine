@@ -36,18 +36,18 @@ public class ResourceFactory
     public static Resource getResource(String resourceName, int resourceType)
     {
         Resource resource = null;
-        
+
         switch (resourceType)
         {
             case ResourceManager.RESOURCE_TEMPLATE:
                 resource = new Template();
                 break;
-            
+
             case ResourceManager.RESOURCE_CONTENT:
                 resource = new ContentResource();
                 break;
         }
-    
+
         return resource;
     }
 }

@@ -51,8 +51,8 @@ public class AvalonLogChute implements LogChute
         if (name != null)
         {
             this.logger = Hierarchy.getDefaultHierarchy().getLoggerFor(name);
-        } 
-        else 
+        }
+        else
         {
             // use the toString() of RuntimeServices to make a unique logger
             logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
@@ -71,7 +71,7 @@ public class AvalonLogChute implements LogChute
     {
         try
         {
-            VelocityFormatter vf = 
+            VelocityFormatter vf =
                 new VelocityFormatter("%{time} %{message}\\n%{throwable}");
 
             // make the target and keep the default behavior of not appending
@@ -89,8 +89,8 @@ public class AvalonLogChute implements LogChute
     }
 
     /**
-     * @param file 
-     * @throws Exception 
+     * @param file
+     * @throws Exception
      * @deprecated This method should not be used. It is here only to provide
      *             backwards compatibility for the deprecated AvalonLogSystem
      *             class, in case anyone used it and this method directly.
@@ -102,7 +102,7 @@ public class AvalonLogChute implements LogChute
         // nag the theoretical user
         log(WARN_ID, "You shouldn't be using the init(String file) method!");
     }
-    
+
     /**
      *  logs messages
      *
@@ -115,7 +115,7 @@ public class AvalonLogChute implements LogChute
          * based on level, call the right logger method
          * and prefix with the appropos prefix
          */
-        switch (level) 
+        switch (level)
         {
             case WARN_ID:
                 logger.warn(WARN_PREFIX + message );
@@ -143,11 +143,11 @@ public class AvalonLogChute implements LogChute
      *
      *  @param level severity level
      *  @param message complete error message
-     * @param t 
+     * @param t
      */
     public void log(int level, String message, Throwable t)
     {
-        switch (level) 
+        switch (level)
         {
             case WARN_ID:
                 logger.warn(WARN_PREFIX + message, t);
@@ -172,7 +172,7 @@ public class AvalonLogChute implements LogChute
 
     /**
      * Checks to see whether the specified level is enabled.
-     * @param level 
+     * @param level
      * @return True if the specified level is enabled.
      */
     public boolean isLevelEnabled(int level)
@@ -196,7 +196,7 @@ public class AvalonLogChute implements LogChute
 
     /**
      * Also do a shutdown if the object is destroy()'d.
-     * @throws Throwable 
+     * @throws Throwable
      */
     protected void finalize() throws Throwable
     {

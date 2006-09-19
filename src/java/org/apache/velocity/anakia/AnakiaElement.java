@@ -36,10 +36,10 @@ public class AnakiaElement extends Element
      * Version Id for serializable
      */
     private static final long serialVersionUID = 8429597252274491314L;
-    
+
     private static final XMLOutputter DEFAULT_OUTPUTTER = new XMLOutputter();
 
-    static 
+    static
     {
         DEFAULT_OUTPUTTER.getFormat().setLineSeparator(System.getProperty("line.separator"));
     }

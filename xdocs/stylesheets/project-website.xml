@@ -18,7 +18,7 @@
         <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi"/>
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
     </menu>
-    
+
     <!-- note: on the website a .htaccess file will direct these links to the "docs14" folder -->
     <menu name="Docs (Velocity 1.4)">
         <item name="User Guide"             href="http://jakarta.apache.org/velocity/docs/user-guide.html"/>
@@ -49,8 +49,8 @@
         <item name="Building from Source"     href="/build.html"/>
         <item name="Nightly Snapshots"        href="http://svn.apache.org/snapshots/jakarta-velocity/"/>
         <item name="Road Map"                 href="http://wiki.apache.org/jakarta-velocity/RoadMap"/>
-        <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>    
-        <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>    
+        <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>
+        <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>
         <item name="Issues"                   href="http://issues.apache.org/jira/browse/VELOCITY"/>
         <item name="List of Committers"       href="/committers.html"/>
     </menu>

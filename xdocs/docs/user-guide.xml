@@ -342,9 +342,9 @@ Here is text outside the multi-line comment; it is visible.
 <source><![CDATA[
 This text is visible. ## This text is not.
 This text is visible.
-This text is visible. #* This text, as part of a multi-line 
-comment, is not visible. This text is not visible; it is also 
-part of the multi-line comment. This text still not 
+This text is visible. #* This text, as part of a multi-line
+comment, is not visible. This text is not visible; it is also
+part of the multi-line comment. This text still not
 visible. *# This text is outside the comment, so it is visible.
 ## This text is not visible.
 ]]></source>
@@ -827,10 +827,10 @@ ${data.Request.ServerName}
  </p>
 
  <p>
-    Directives always begin with a <code>#</code>.  Like references, the name of the directive may be 
-    bracketed by a <code>{</code> and a <code>}</code> symbol.  This is useful with directives 
+    Directives always begin with a <code>#</code>.  Like references, the name of the directive may be
+    bracketed by a <code>{</code> and a <code>}</code> symbol.  This is useful with directives
     that are immediately followed by text.  For example the following produces an error:
-  </p>    
+  </p>
 
 <source><![CDATA[
 #if($a==1)true enough#elseno way!#end
@@ -839,11 +839,11 @@ ${data.Request.ServerName}
  <p>
     In such a case, use the brackets to separate <code>#else</code> from the rest of the line.
  </p>
-  
+
 <source><![CDATA[
 #if($a==1)true enough#{else}no way!#end
 ]]></source>
-    
+
  <p> </p>
  <a name="Set"><strong>#set</strong></a>
  <p>
@@ -919,10 +919,10 @@ ${data.Request.ServerName}
 
  <p>
     If the RHS is a property or method reference that evaluates to
-    <em>null</em>, it will <b>not</b> be assigned to the LHS.  
+    <em>null</em>, it will <b>not</b> be assigned to the LHS.
     Depending on how Velocity is configured, it is usually not
     possible to remove an existing reference from the context via
-    this mechanism.  
+    this mechanism.
     (Note that this can be permitted by changing one of the Velocity configuration properties).
     This can be confusing for
     newcomers to Velocity.  For example:
@@ -1067,8 +1067,8 @@ $blargh
 #literal()
 #foreach ($woogie in $boogie)
   nothing will happen to $woogie
-#end  
-#end  
+#end
+#end
 ]]></source>
 
     <p>
@@ -1078,7 +1078,7 @@ $blargh
 <source><![CDATA[
 #foreach ($woogie in $boogie)
   nothing will happen to $woogie
-#end  
+#end
 ]]></source>
 </section>
 
@@ -1163,8 +1163,8 @@ $blargh
 #end
 ]]></source>
 
-    <p>Note that the semantics of <em>==</em> are slightly different than Java where <em>==</em> 
-    can only be used to test object equality.  In Velocity the equivalent operator 
+    <p>Note that the semantics of <em>==</em> are slightly different than Java where <em>==</em>
+    can only be used to test object equality.  In Velocity the equivalent operator
     can be used to directly compare numbers, strings, or objects.  When the objects
     are of different classes, the string representations are obtained by calling
     <code>toString()</code> for each object and then compared.
@@ -1249,14 +1249,14 @@ $blargh
     </p>
 
     <p>There are text versions of all logical operators, including
-    <em>eq</em>, <em>ne</em>, 
-    <em>and</em>, <em>or</em>, <em>not</em>, <em>gt</em>, <em>ge</em>, <em>lt</em>, 
+    <em>eq</em>, <em>ne</em>,
+    <em>and</em>, <em>or</em>, <em>not</em>, <em>gt</em>, <em>ge</em>, <em>lt</em>,
     and <em>le</em>.
     </p>
 
     <p>One more useful note.  When you wish to include text immediately following
-    a <em>#else</em> directive you will need to use curly brackets immediately surrounding 
-    the directive to differentiate it from the following text.  
+    a <em>#else</em> directive you will need to use curly brackets immediately surrounding
+    the directive to differentiate it from the following text.
     (Any directive can be delimited by
     curly brackets, although this is most useful for <em>#else</em>).
     </p>

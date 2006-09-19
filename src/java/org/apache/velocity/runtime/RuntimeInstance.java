@@ -826,7 +826,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * Which parser pool?
          */
         String pp = getString(RuntimeConstants.PARSER_POOL_CLASS);
-        
+
         if (pp != null && pp.length() > 0)
         {
             /*
@@ -834,9 +834,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  if that isn't a ParserPool, consider
              *  this a huge error and throw
              */
-            
+
             Object o = null;
-            
+
             try
             {
                 o = ClassUtils.getNewInstance( pp );
@@ -849,19 +849,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 log.error(err);
                 throw new Exception(err);
             }
-            
+
             if (!(o instanceof ParserPool))
             {
                 String err = "The specified class for ParserPool ("
                     + pp + ") does not implement " + ParserPool.class
                     + " Velocity not initialized correctly.";
-                
+
                 log.error(err);
                 throw new Exception(err);
             }
-            
+
             parserPool = (ParserPool) o;
-            
+
             parserPool.initialize(this);
         }
         else
@@ -869,15 +869,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             /*
              *  someone screwed up.  Lets not fool around...
              */
-            
+
             String err = "It appears that no class was specified as the"
                 + " ParserPool.  Please ensure that all configuration"
                 + " information is correct.";
-            
+
             log.error(err);
             throw new Exception( err );
         }
-        
+
     }
 
     /**
@@ -1008,7 +1008,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                  *  put it back
                  */
                 parserPool.put(parser);
-                
+
             }
         }
         else
@@ -1377,7 +1377,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Returns the Uberspect object for this Instance.
-     * 
+     *
      * @return The Uberspect object for this Instance.
      */
     public Uberspect getUberspect()

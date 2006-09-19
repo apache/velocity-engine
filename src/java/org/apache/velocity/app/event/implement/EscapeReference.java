@@ -26,82 +26,82 @@ import org.apache.velocity.util.StringUtils;
 /**
  * Base class for escaping references.  To use it, override the following methods:
  * <DL>
- * <DT><code>String escape(String text)</code></DT> 
+ * <DT><code>String escape(String text)</code></DT>
  * <DD>escape the provided text</DD>
  * <DT><code>String getMatchAttribute()</code></DT>
  * <DD>retrieve the configuration attribute used to match references (see below)</DD>
  * </DL>
- * 
- * <P>By default, all references are escaped.  However, by setting the match attribute 
- * in the configuration file to a regular expression, users can specify which references 
+ *
+ * <P>By default, all references are escaped.  However, by setting the match attribute
+ * in the configuration file to a regular expression, users can specify which references
  * to escape.  For example the following configuration property tells the EscapeSqlReference
- * event handler to only escape references that start with "sql".  
+ * event handler to only escape references that start with "sql".
  * (e.g. <code>$sql</code>, <code>$sql.toString(),</code>, etc).
- * 
+ *
  * <PRE>
- * <CODE>eventhandler.escape.sql.match = /sql.*<!-- -->/ 
+ * <CODE>eventhandler.escape.sql.match = /sql.*<!-- -->/
  * </CODE>
  * </PRE>
  * <!-- note: ignore empty HTML comment above - breaks up star slash avoiding javadoc end -->
  *
  * Regular expressions should follow the "Perl5" format used by the ORO regular expression
- * library.  More info is at 
+ * library.  More info is at
  * <a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html">http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html</a>.
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain </a>
  * @version $Id$
  */
 public abstract class EscapeReference implements ReferenceInsertionEventHandler,RuntimeServicesAware {
 
-   
-    private Perl5Util perl = new Perl5Util();    
+
+    private Perl5Util perl = new Perl5Util();
 
     private RuntimeServices rs;
-   
+
     private String matchRegExp = null;
 
     /**
      * Escape the given text.  Override this in a subclass to do the actual
      * escaping.
-     * 
+     *
      * @param text the text to escape
      * @return the escaped text
      */
     protected abstract String escape(Object text);
-    
+
     /**
-     * Specify the configuration attribute that specifies the 
+     * Specify the configuration attribute that specifies the
      * regular expression.  Ideally should be in a form
      * <pre><code>eventhandler.escape.XYZ.match</code></pre>
-     * 
-     * <p>where <code>XYZ</code> is the type of escaping being done. 
+     *
+     * <p>where <code>XYZ</code> is the type of escaping being done.
      * @return configuration attribute
      */
     protected abstract String getMatchAttribute();
-    
+
     /**
      * Escape the provided text if it matches the configured regular expression.
-     * @param reference 
-     * @param value 
+     * @param reference
+     * @param value
      * @return Escaped text.
      */
-    public Object referenceInsert(String reference, Object value) 
+    public Object referenceInsert(String reference, Object value)
     {
         if(value == null)
         {
-            return value; 
+            return value;
         }
-        
+
         if (matchRegExp == null)
         {
             return escape(value);
         }
-            
+
         else if (perl.match(matchRegExp,reference))
         {
             return escape(value);
         }
-        
+
         else
         {
             return value;
@@ -110,10 +110,10 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
 
     /**
      * Called automatically when event cartridge is initialized.
-     * @param rs 
-     * @throws Exception 
+     * @param rs
+     * @throws Exception
      */
-    public void setRuntimeServices(RuntimeServices rs) throws Exception 
+    public void setRuntimeServices(RuntimeServices rs) throws Exception
     {
         this.rs = rs;
 
@@ -125,28 +125,28 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         {
             matchRegExp = null;
         }
-        
+
         /**
          * Test the regular expression for a well formed pattern
          */
-        if (matchRegExp != null) 
+        if (matchRegExp != null)
         {
-            try 
+            try
             {
                 perl.match(matchRegExp,"");
-            } 
-            catch (MalformedPerl5PatternException E) 
+            }
+            catch (MalformedPerl5PatternException E)
             {
                 rs.getLog().error("Invalid regular expression '" + matchRegExp
                                   + "'.  No escaping will be performed.", E);
                 matchRegExp = null;
             }
         }
-        
+
     }
 
     /**
-     * Retrieve a reference to RuntimeServices.  Use this for checking additional 
+     * Retrieve a reference to RuntimeServices.  Use this for checking additional
      * configuration properties.
      * @return The current runtime services object.
      */
@@ -154,5 +154,5 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     {
         return rs;
     }
-    
+
 }

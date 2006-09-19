@@ -26,19 +26,19 @@ import org.apache.velocity.runtime.parser.ParserVisitor;
 /**
  * This class is responsible for handling EscapedDirectives
  *  in VTL.
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
-public class ASTEscapedDirective extends SimpleNode 
-{  
+public class ASTEscapedDirective extends SimpleNode
+{
     /**
      * @param id
      */
-    public ASTEscapedDirective(int id) 
+    public ASTEscapedDirective(int id)
     {
         super(id);
     }
@@ -47,7 +47,7 @@ public class ASTEscapedDirective extends SimpleNode
      * @param p
      * @param id
      */
-    public ASTEscapedDirective(Parser p, int id) 
+    public ASTEscapedDirective(Parser p, int id)
     {
         super(p, id);
     }
@@ -56,7 +56,7 @@ public class ASTEscapedDirective extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data) 
+    public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }
@@ -67,11 +67,11 @@ public class ASTEscapedDirective extends SimpleNode
     public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering()) 
+        if (context.getAllowRendering())
         {
             writer.write(getFirstToken().image);
         }
         return true;
-    }    
+    }
 
 }

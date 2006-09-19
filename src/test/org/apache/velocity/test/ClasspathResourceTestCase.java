@@ -89,14 +89,14 @@ public class ClasspathResourceTestCase extends BaseTestCase
 
         Velocity.setProperty(
                 "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
-        
+
         Velocity.setProperty(
                 "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
                 "2");
 
         Velocity.init();
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(ClasspathResourceTestCase.class);

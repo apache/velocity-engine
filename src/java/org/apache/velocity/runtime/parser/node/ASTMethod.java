@@ -41,7 +41,7 @@ import org.apache.velocity.util.introspection.VelMethod;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTMethod extends SimpleNode
 {
@@ -74,12 +74,12 @@ public class ASTMethod extends SimpleNode
     }
 
     /**
-     *  simple init - init our subtree and get what we can from 
+     *  simple init - init our subtree and get what we can from
      *  the AST
-     * @param context 
-     * @param data 
+     * @param context
+     * @param data
      * @return The init result
-     * @throws Exception 
+     * @throws Exception
      */
     public Object init(  InternalContextAdapter context, Object data)
         throws Exception
@@ -98,18 +98,18 @@ public class ASTMethod extends SimpleNode
 
     /**
      *  invokes the method.  Returns null if a problem, the
-     *  actual return if the method returns something, or 
+     *  actual return if the method returns something, or
      *  an empty string "" if the method returns void
-     * @param o 
-     * @param context 
+     * @param o
+     * @param context
      * @return Result or null.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
         /*
-         *  new strategy (strategery!) for introspection. Since we want 
+         *  new strategy (strategery!) for introspection. Since we want
          *  to be thread- as well as context-safe, we *must* do it now,
          *  at execution time.  There can be no in-node caching,
          *  but if we are careful, we can do it in the context.
@@ -122,29 +122,29 @@ public class ASTMethod extends SimpleNode
         try
         {
             /*
-             * sadly, we do need recalc the values of the args, as this can 
+             * sadly, we do need recalc the values of the args, as this can
              * change from visit to visit
              */
 
             Class[] paramClasses = new Class[paramCount];
-            
-            for (int j = 0; j < paramCount; j++) 
+
+            for (int j = 0; j < paramCount; j++)
             {
                 params[j] = jjtGetChild(j + 1).value(context);
-                
+
                 if (params[j] != null)
                 {
                     paramClasses[j] = params[j].getClass();
                 }
             }
-                
+
             /*
-             *   check the cache 
+             *   check the cache
              */
-            
+
             MethodCacheKey mck = new MethodCacheKey(paramClasses);
             IntrospectionCacheData icd =  context.icacheGet( mck );
-            
+
             /*
              *  like ASTIdentifier, if we have cache information, and the
              *  Class of Object o is the same as that in the cache, we are
@@ -173,17 +173,17 @@ public class ASTMethod extends SimpleNode
                 method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
 
                 if ((method != null) && (o != null))
-                {    
+                {
                     icd = new IntrospectionCacheData();
                     icd.contextData = o.getClass();
                     icd.thingy = method;
-                    
+
                     context.icachePut( mck, icd );
                 }
             }
- 
+
             /*
-             *  if we still haven't gotten the method, either we are calling 
+             *  if we still haven't gotten the method, either we are calling
              *  a method that doesn't exist (which is fine...)  or I screwed
              *  it up.
              */
@@ -224,13 +224,13 @@ public class ASTMethod extends SimpleNode
              *  get the returned object.  It may be null, and that is
              *  valid for something declared with a void return type.
              *  Since the caller is expecting something to be returned,
-             *  as long as things are peachy, we can return an empty 
+             *  as long as things are peachy, we can return an empty
              *  String so ASTReference() correctly figures out that
              *  all is well.
              */
 
             Object obj = method.invoke(o, params);
-            
+
             if (obj == null)
             {
                 if( method.getReturnType() == Void.TYPE)
@@ -238,7 +238,7 @@ public class ASTMethod extends SimpleNode
                     return "";
                 }
             }
-            
+
             return obj;
         }
         catch( InvocationTargetException ite )
@@ -247,7 +247,7 @@ public class ASTMethod extends SimpleNode
              *  In the event that the invocation of the method
              *  itself throws an exception, we want to catch that
              *  wrap it, and throw.  We don't log here as we want to figure
-             *  out which reference threw the exception, so do that 
+             *  out which reference threw the exception, so do that
              *  above
              */
 
@@ -262,7 +262,7 @@ public class ASTMethod extends SimpleNode
                 {
                     return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
                 }
-                
+
                 /**
                  * If the event handler throws an exception, then wrap it
                  * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
@@ -270,13 +270,13 @@ public class ASTMethod extends SimpleNode
                  */
                 catch( Exception e )
                 {
-                    throw new MethodInvocationException( 
-                        "Invocation of method '" 
-                        + methodName + "' in  " + o.getClass() 
+                    throw new MethodInvocationException(
+                        "Invocation of method '"
+                        + methodName + "' in  " + o.getClass()
                         + " in template " + context.getCurrentTemplateName()
                         + " at line=" + this.getLine() + " column=" + this.getColumn()
-                        + " threw exception " 
-                        + e.getClass() + " : " + e.getMessage(), 
+                        + " threw exception "
+                        + e.getClass() + " : " + e.getMessage(),
                         e, methodName );
                 }
             }
@@ -286,14 +286,14 @@ public class ASTMethod extends SimpleNode
                  * no event cartridge to override. Just throw
                  */
 
-                throw new MethodInvocationException( 
-                "Invocation of method '" 
-                + methodName + "' in  " + o.getClass() 
+                throw new MethodInvocationException(
+                "Invocation of method '"
+                + methodName + "' in  " + o.getClass()
                 + " in template " + context.getCurrentTemplateName()
                 + " at line=" + this.getLine() + " column=" + this.getColumn()
-                + " threw exception " 
+                + " threw exception "
                 + ite.getTargetException().getClass() + " : "
-                + ite.getTargetException().getMessage(), 
+                + ite.getTargetException().getMessage(),
                 ite.getTargetException(), methodName );
             }
         }
@@ -306,10 +306,10 @@ public class ASTMethod extends SimpleNode
         }
         catch( Exception e )
         {
-            log.error("ASTMethod.execute() : exception invoking method '" 
+            log.error("ASTMethod.execute() : exception invoking method '"
                       + methodName + "' in " + o.getClass(), e);
             return null;
-        }            
+        }
     }
 
     /**
@@ -317,24 +317,24 @@ public class ASTMethod extends SimpleNode
      * ASTMethod fields with array of parameter classes.
      */
     class MethodCacheKey
-    {   
+    {
         Class[] params;
-        
+
         MethodCacheKey(Class[] params)
         {
             this.params = params;
         }
-        
+
         /**
          * @see java.lang.Object#equals(java.lang.Object)
          */
-        public boolean equals(Object o) 
+        public boolean equals(Object o)
         {
             return  (o != null) &&
-                    (o instanceof MethodCacheKey) && 
+                    (o instanceof MethodCacheKey) &&
                     (this.hashCode() == o.hashCode());
         }
-        
+
         /**
          * @see java.lang.Object#hashCode()
          */

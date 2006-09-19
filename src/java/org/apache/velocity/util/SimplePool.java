@@ -57,7 +57,7 @@ public final class SimplePool
 
     /**
      * Add the object to the pool, silent nothing if the pool is full
-     * @param o 
+     * @param o
      */
     public void put(Object o)
     {
@@ -114,9 +114,9 @@ public final class SimplePool
         return null;
     }
 
-    /** 
+    /**
      * Return the size of the pool
-     * @return The pool size. 
+     * @return The pool size.
      */
     public int getMax()
     {

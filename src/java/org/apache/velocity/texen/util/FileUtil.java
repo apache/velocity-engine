@@ -23,7 +23,7 @@ import java.io.File;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class FileUtil
 {
@@ -59,7 +59,7 @@ public class FileUtil
         File f = new File(s);
         return f;
     }
-    
+
     /**
      * A method to get a File object.
      *

@@ -166,7 +166,7 @@
             lastModifiedCheck="false">
     </anakia>
 
-    <anakia basedir="test/anakia/xdocs" 
+    <anakia basedir="test/anakia/xdocs"
             destdir="target/test/anakia"
         extension=".context.html" style="site_contexts.vsl"
         projectFile="stylesheets/project.xml"
@@ -174,13 +174,13 @@
         includes="**/*.xml"
         templatePath="test/anakia/xdocs/stylesheets"
         lastModifiedCheck="false">
-        
+
       <context name="customContext" file="stylesheets/customContext.xml"/>
-    </anakia>    
+    </anakia>
   </goal>
 
   <!-- MultiLoader Test wants to load the contents of this jar from the
-       classpath. As we can't manipulate the class path for the junit tests, we 
+       classpath. As we can't manipulate the class path for the junit tests, we
        have to unjar the test jar in the test-classes directory.
        See http://jira.codehaus.org/browse/MPTEST-57
   -->

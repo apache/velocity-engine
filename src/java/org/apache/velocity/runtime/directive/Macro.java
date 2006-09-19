@@ -44,7 +44,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *      #end
  *  #end
  *
- *  This object is used at parse time to mainly process and register the 
+ *  This object is used at parse time to mainly process and register the
  *  macro.  It is used inline in the parser when processing a directive.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -62,8 +62,8 @@ public class Macro extends Directive
     public String getName()
     {
         return "macro";
-    }        
-    
+    }
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -71,20 +71,20 @@ public class Macro extends Directive
     public int getType()
     {
         return BLOCK;
-    }        
-    
+    }
+
     /**
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
-     * @param context 
-     * @param writer 
-     * @param node 
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
+     * @throws IOException
      */
     public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)
-        throws IOException 
+        throws IOException
     {
         /*
          *  do nothing : We never render.  The VelocimacroProxy object does that
@@ -92,7 +92,7 @@ public class Macro extends Directive
 
         return true;
     }
- 
+
     /**
      * @see org.apache.velocity.runtime.directive.Directive#init(org.apache.velocity.runtime.RuntimeServices, org.apache.velocity.context.InternalContextAdapter, org.apache.velocity.runtime.parser.node.Node)
      */
@@ -103,11 +103,11 @@ public class Macro extends Directive
         super.init(rs, context, node);
 
         /*
-         * again, don't do squat.  We want the AST of the macro 
-         * block to hang off of this but we don't want to 
+         * again, don't do squat.  We want the AST of the macro
+         * block to hang off of this but we don't want to
          * init it... it's useless...
          */
-     
+
         return;
     }
 
@@ -120,20 +120,20 @@ public class Macro extends Directive
      *  org.apache.velocity.runtime.directive.VelocimacroProxy}
      *  objects, and if not currently used, adds it to the macro
      *  Factory.
-     * @param rs 
-     * @param t 
-     * @param node 
-     * @param sourceTemplate 
-     * @throws IOException 
-     * @throws ParseException 
-     */ 
+     * @param rs
+     * @param t
+     * @param node
+     * @param sourceTemplate
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void processAndRegister(RuntimeServices rs,  Token t, Node node,
                                           String sourceTemplate)
         throws IOException, ParseException
     {
         /*
          *  There must be at least one arg to  #macro,
-         *  the name of the VM.  Note that 0 following 
+         *  the name of the VM.  Note that 0 following
          *  args is ok for naming blocks of HTML
          */
 
@@ -144,14 +144,14 @@ public class Macro extends Directive
          *  is for the block tree
          */
 
-        if (numArgs < 2) 
+        if (numArgs < 2)
         {
-            
+
             /*
              *  error - they didn't name the macro or
              *  define a block
              */
-            
+
             rs.getLog().error("#macro error : Velocimacro must have name as 1st " +
                               "argument to #macro(). #args = " + numArgs);
 
@@ -178,18 +178,18 @@ public class Macro extends Directive
          */
 
         String argArray[] = getArgArray(node, rs);
-	 
+
         /*
          *   now, try and eat the code block. Pass the root.
          */
-        
-        List macroArray = 
+
+        List macroArray =
             getASTAsStringArray(node.jjtGetChild(numArgs - 1));
-  
+
         /*
          *  make a big string out of our macro
          */
-  
+
         StringBuffer macroBody = new StringBuffer();
 
         for (int i=0; i < macroArray.size(); i++)
@@ -198,7 +198,7 @@ public class Macro extends Directive
         }
 
         /*
-         * now, try to add it.  The Factory controls permissions, 
+         * now, try to add it.  The Factory controls permissions,
          * so just give it a whack...
          */
 
@@ -215,7 +215,7 @@ public class Macro extends Directive
         }
     }
 
-  
+
     /**
      * Creates an array containing the literal text from the macro
      * arguement(s) (including the macro's name as the first arg).
@@ -234,15 +234,15 @@ public class Macro extends Directive
          */
         int numArgs = node.jjtGetNumChildren();
         numArgs--;  // avoid the block tree...
-	
+
         String argArray[] = new String[numArgs];
-	
+
         int i = 0;
-	
+
         /*
          *  eat the args
          */
-	
+
         while (i < numArgs)
         {
             argArray[i] = node.jjtGetChild(i).getFirstToken().image;
@@ -263,7 +263,7 @@ public class Macro extends Directive
 
             i++;
         }
-	
+
         if (debugMode)
         {
             StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
@@ -271,7 +271,7 @@ public class Macro extends Directive
             macroToString(msg, argArray);
             rsvc.getLog().debug(msg);
         }
-	
+
         return argArray;
     }
 
@@ -281,10 +281,10 @@ public class Macro extends Directive
     private static List getASTAsStringArray(Node rootNode)
     {
         /*
-         *  this assumes that we are passed in the root 
+         *  this assumes that we are passed in the root
          *  node of the code block
          */
-	
+
         Token t = rootNode.getFirstToken();
         Token tLast = rootNode.getLastToken();
 

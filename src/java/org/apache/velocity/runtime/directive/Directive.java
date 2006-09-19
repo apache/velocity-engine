@@ -33,7 +33,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Base class for all directives used in Velocity.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public abstract class Directive implements DirectiveConstants, Cloneable
 {
@@ -41,25 +41,25 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     private int column = 0;
 
     /**
-     * 
+     *
      */
     protected RuntimeServices rsvc = null;
 
     /**
-     * Return the name of this directive. 
+     * Return the name of this directive.
      * @return The name of this directive.
      */
     public abstract String getName();
-    
+
     /**
-     * Get the directive type BLOCK/LINE. 
+     * Get the directive type BLOCK/LINE.
      * @return The directive type BLOCK/LINE.
      */
     public abstract int getType();
 
     /**
-     * Allows the template location to be set. 
-     * @param line 
+     * Allows the template location to be set.
+     * @param line
      * @param column
      */
     public void setLocation( int line, int column )
@@ -68,30 +68,30 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         this.column = column;
     }
 
-    /** 
-     * for log msg purposes 
+    /**
+     * for log msg purposes
      * @return The current line for log msg purposes.
      */
     public int getLine()
     {
         return line;
     }
-    
-    /** 
-     * for log msg purposes 
+
+    /**
+     * for log msg purposes
      * @return The current column for log msg purposes.
      */
     public int getColumn()
     {
         return column;
-    }     
+    }
 
     /**
      * How this directive is to be initialized.
-     * @param rs 
-     * @param context 
-     * @param node 
-     * @throws Exception 
+     * @param rs
+     * @param context
+     * @param node
+     * @throws Exception
      */
     public void init( RuntimeServices rs, InternalContextAdapter context,
                       Node node)
@@ -104,20 +104,20 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         //for (i = 0; i < k; i++)
         //    node.jjtGetChild(i).init(context, rs);
     }
-    
+
     /**
-     * How this directive is to be rendered 
-     * @param context 
-     * @param writer 
-     * @param node 
+     * How this directive is to be rendered
+     * @param context
+     * @param writer
+     * @param node
      * @return True if the directive rendered successfully.
-     * @throws IOException 
-     * @throws ResourceNotFoundException 
-     * @throws ParseErrorException 
-     * @throws MethodInvocationException 
+     * @throws IOException
+     * @throws ResourceNotFoundException
+     * @throws ParseErrorException
+     * @throws MethodInvocationException
      */
-    public abstract boolean render( InternalContextAdapter context, 
-                                    Writer writer, Node node )       
-           throws IOException, ResourceNotFoundException, ParseErrorException, 
+    public abstract boolean render( InternalContextAdapter context,
+                                    Writer writer, Node node )
+           throws IOException, ResourceNotFoundException, ParseErrorException,
                 MethodInvocationException;
 }

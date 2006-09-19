@@ -21,7 +21,7 @@ public class UberspectorTestObject
 {
     private String regular;
     private String premium;
-    
+
     private boolean regularBool;
     private boolean premiumBool;
 

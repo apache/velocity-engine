@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-    
+
 <!-- start the processing -->
 #document()
 <!-- end the processing -->
@@ -115,7 +115,7 @@ limitations under the License.
 
 #macro (listitem $node)
 <$node.getName()>
-## use getContent instead of getChildren 
+## use getContent instead of getChildren
 ## to include both text and nodes
 	#foreach ( $items in $node.getContent() )
 		#if($items.name)
@@ -255,16 +255,16 @@ $section.getAttributeValue("name")##
 			## use an absolute CSS for when the URL is rewritten on the site
 			## from /velocity/anakia.html to /velocity/docs/anakia.html
 			<link rel="stylesheet" href="http://jakarta.apache.org/velocity/site.css" type="text/css">
-			
+
 			## use a relative CSS for when the page is displayed locally (will overwrite
 			## previous CSS settings)
 			<link rel="stylesheet" href="${relativePath}/site.css" type="text/css">
         </head>
 
-        <body>        
+        <body>
 
 			## use a table in order to force footer to end of page
-						
+
 			<div id="container">
 
 				<div id="header">
@@ -272,14 +272,14 @@ $section.getAttributeValue("name")##
 				</div>
 
 				<div id="menu">
-					#makeProject()			
+					#makeProject()
 				</div>
 
 				<div id="body">
 					#set ($allSections = $root.getChild("body").getChildren("section"))
 					#foreach ( $section in $allSections )
 						#section ($section)
-					#end			
+					#end
 				</div>
 
 				<div id="footer">
@@ -287,7 +287,7 @@ $section.getAttributeValue("name")##
 				</div>
 
 			</div>
-			
+
         </body>
     </html>
 #end

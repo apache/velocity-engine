@@ -18,7 +18,7 @@ import java.io.Serializable;
 import org.apache.velocity.context.Context;
 
 /**
- * 
+ *
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
@@ -26,8 +26,8 @@ public abstract class ContextTool implements Serializable
 {
     /** Owner */
     protected Context context;
-    
-    /** 
+
+    /**
      * keep a pointer to my context
      * in case there's other stuff in there
      * that I might want to use in the Tool
@@ -36,7 +36,7 @@ public abstract class ContextTool implements Serializable
     {
         this.context = c;
     }
-    
+
     /**
      * Provides the name for the context
      */

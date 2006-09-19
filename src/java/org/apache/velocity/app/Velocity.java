@@ -70,8 +70,8 @@ public class Velocity implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
-     *  
-     * @throws Exception When an error during initialization occurs. 
+     *
+     * @throws Exception When an error during initialization occurs.
      */
     public static void init()
         throws Exception
@@ -85,7 +85,7 @@ public class Velocity implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
-     * @throws Exception When an error during initialization occurs. 
+     * @throws Exception When an error during initialization occurs.
      */
     public static void init( String propsFilename )
         throws Exception
@@ -98,7 +98,7 @@ public class Velocity implements RuntimeConstants
      *  plus the properties in the passed in java.util.Properties object
      *
      *  @param p  Properties object containing initialization properties
-     * @throws Exception When an error during initialization occurs. 
+     * @throws Exception When an error during initialization occurs.
      *
      */
     public static void init( Properties p )

@@ -71,7 +71,7 @@ public class MiscTestCase extends BaseTestCase
         arg = null;
         res = StringUtils.nullTrim(arg);
         assertNull(arg);
-        
+
         arg = " test ";
         res = StringUtils.nullTrim(arg);
         assertEquals("test",res);
@@ -79,19 +79,19 @@ public class MiscTestCase extends BaseTestCase
         arg = "test";
         res = StringUtils.nullTrim(arg);
         assertEquals("test",res);
-        
+
         List list = null;
         assertNull(StringUtils.trimStrings(list));
-        
+
         list = new ArrayList();
         assertEquals(new ArrayList(),StringUtils.trimStrings(list));
-        
+
         list.add("test");
         list.add(" abc");
         StringUtils.trimStrings(list);
         assertEquals("test",list.get(0));
         assertEquals("abc",list.get(1));
-        
+
     }
 
 }

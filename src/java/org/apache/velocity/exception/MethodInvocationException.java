@@ -19,11 +19,11 @@ import org.apache.velocity.util.ExceptionUtils;
  */
 
 /**
- *  Application-level exception thrown when a reference method is 
+ *  Application-level exception thrown when a reference method is
  *  invoked and an exception is thrown.
  *  <br>
  *  When this exception is thrown, a best effort will be made to have
- *  useful information in the exception's message.  For complete 
+ *  useful information in the exception's message.  For complete
  *  information, consult the runtime log.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -35,7 +35,7 @@ public class MethodInvocationException extends VelocityException
      * Version Id for serializable
      */
     private static final long serialVersionUID = 7305685093478106341L;
-    
+
     private String methodName = "";
     private String referenceName = "";
     private Throwable wrapped = null;
@@ -44,7 +44,7 @@ public class MethodInvocationException extends VelocityException
      *  CTOR - wraps the passed in exception for
      *  examination later
      *
-     *  @param message 
+     *  @param message
      *  @param e Throwable that we are wrapping
      *  @param methodName name of method that threw the exception
      */
@@ -54,7 +54,7 @@ public class MethodInvocationException extends VelocityException
         this.wrapped = e;
         ExceptionUtils.setCause(this, e);
         this.methodName = methodName;
-    }       
+    }
 
     /**
      *  Returns the name of the method that threw the
@@ -70,7 +70,7 @@ public class MethodInvocationException extends VelocityException
     /**
      *  returns the wrapped Throwable that caused this
      *  MethodInvocationException to be thrown
-     *  
+     *
      *  @return Throwable thrown by method invocation
      */
     public Throwable getWrappedThrowable()
@@ -89,7 +89,7 @@ public class MethodInvocationException extends VelocityException
     }
 
     /**
-     *  Retrieves the name of the reference that caused the 
+     *  Retrieves the name of the reference that caused the
      *  exception
      *
      *  @return name of reference

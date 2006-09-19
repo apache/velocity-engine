@@ -22,7 +22,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Exception thrown when a bad reference is found.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ReferenceException extends Exception
 {
@@ -38,7 +38,7 @@ public class ReferenceException extends Exception
     public ReferenceException(String exceptionMessage, Node node)
     {
         super(exceptionMessage + " [line " + node.getLine() + ",column " +
-                    node.getColumn() + "] : " + node.literal() + 
+                    node.getColumn() + "] : " + node.literal() +
             " is not a valid reference.");
-    }        
+    }
 }

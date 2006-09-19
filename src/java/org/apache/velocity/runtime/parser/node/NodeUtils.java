@@ -36,18 +36,18 @@ public class NodeUtils
      * In some cases you may want to retrieve these
      * special tokens, this is simply a way to
      * extract them.
-     * @param t 
+     * @param t
      * @return String with the special tokens.
      */
     public static String specialText(Token t)
     {
         StringBuffer specialText = new StringBuffer();
-        
+
         if (t.specialToken == null || t.specialToken.image.startsWith("##") )
         {
             return "";
         }
-            
+
         Token tmp_t = t.specialToken;
 
         while (tmp_t.specialToken != null)
@@ -72,7 +72,7 @@ public class NodeUtils
 
                 /*
                  *  more dreaded MORE hack :)
-                 * 
+                 *
                  *  looking for ("\\")*"$" sequences
                  */
 
@@ -85,7 +85,7 @@ public class NodeUtils
                     for( ok = true; ok && j < st.length(); j++)
                     {
                         char cc = st.charAt( j );
-                 
+
                         if (cc == '\\')
                         {
                             /*
@@ -118,27 +118,27 @@ public class NodeUtils
                     }
                 }
             }
-            
+
             // This is a potential JDK 1.3/JDK 1.4 gotcha. If we remove
             // the toString() method call, then when compiling under JDK 1.4,
             // this will be mapped to StringBuffer.append(StringBuffer) and
             // under JDK 1.3, it will be mapped to StringBuffer.append(Object).
             // So the JDK 1.4 compiled jar will bomb out under JDK 1.3 with a
-            // MethodNotFound error. 
+            // MethodNotFound error.
             //
             // @todo Once we are JDK 1.4+ only, remove the toString(), make this
             // loop perform a little bit better.
             specialText.append(sb.toString());
 
             tmp_t = tmp_t.next;
-        }            
+        }
 
         return specialText.toString();
     }
-    
+
     /**
      *  complete node literal
-     * @param t 
+     * @param t
      * @return A node literal.
      *
      */
@@ -146,7 +146,7 @@ public class NodeUtils
     {
         return specialText( t ) + t.image;
     }
-    
+
     /**
      * Utility method to interpolate context variables
      * into string literals. So that the following will
@@ -158,10 +158,10 @@ public class NodeUtils
      * And the string literal argument will
      * be transformed into "candy.jpg" before
      * the method is executed.
-     * @param argStr 
-     * @param vars 
+     * @param argStr
+     * @param vars
      * @return Interpoliation result.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public static String interpolate(String argStr, Context vars) throws MethodInvocationException
     {
@@ -178,11 +178,11 @@ public class NodeUtils
                     for (++cIdx ; cIdx < argStr.length(); ++cIdx)
                     {
                         ch = argStr.charAt(cIdx);
-                        if (ch == '_' || ch == '-' 
+                        if (ch == '_' || ch == '-'
                             || Character.isLetterOrDigit(ch))
                             nameBuf.append(ch);
                         else if (ch == '{' || ch == '}')
-                            continue;  
+                            continue;
                         else
                             break;
                     }

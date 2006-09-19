@@ -123,9 +123,9 @@ development using Velocity.
 <strong>Building Web Applications with Velocity</strong>
 </p>
 Velocity is often used for building web applications
-In order to use Velocity in a web app you'll need a servlet or servlet-based 
-framework. The easiest way to get started is with 
-<a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a> in the 
+In order to use Velocity in a web app you'll need a servlet or servlet-based
+framework. The easiest way to get started is with
+<a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a> in the
 <a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a>
 subproject.  You can also use any of a number of
 <a href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity">third party frameworks</a>
@@ -143,15 +143,15 @@ more detail on the various options.
 </p>
 
 <p>
-    You can download the latest release version of 
-    <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a> 
-    or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a> 
+    You can download the latest release version of
+    <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a>
+    or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a>
     from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
 </p>
 
 <p>
-    If you want to download the latest source, you can do so via the Subversion (svn) 
-    source control system, or download a complete 
+    If you want to download the latest source, you can do so via the Subversion (svn)
+    source control system, or download a complete
     <a href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly snapshot.</a>
 </p>
 
@@ -215,12 +215,12 @@ Some great sources are :
     box to see both our -user and -dev archives.
   </li>
   <li>
-    Wiki: 
+    Wiki:
     <a href="http://wiki.apache.org/jakarta-velocity/">http://wiki.apache.org/jakarta-velocity/</a>
     The Velocity wiki contains articles, sample code, and other community-written content.
   </li>
   <li>
-    Frequently Asked Questions (FAQ): 
+    Frequently Asked Questions (FAQ):
     <a href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ">http://wiki.apache.org/jakarta-velocity/VelocityFAQ</a>
     please visit this page to read the latest FAQ and to contribute your own answers.
   </li>
@@ -397,7 +397,7 @@ import org.apache.velocity.Template;
  *  ourselves as the logger - see logging examples
  */
 
-Velocity.setProperty( 
+Velocity.setProperty(
     Velocity.RUNTIME_LOG_LOGSYSTEM, this);
 
 /*
@@ -444,7 +444,7 @@ VelocityEngine ve = new VelocityEngine();
  *  ourselves as a logger (see logging examples..)
  */
 
-ve.setProperty( 
+ve.setProperty(
     VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this);
 
 /*
@@ -748,7 +748,7 @@ things to know:
     </li>
     <li>VTL Map references are unsurprisingly stored as <code>java.util.Map</code>.</li>
     <li>
-    Decimal numbers will be Doubles or BigDecimals in the context, integer numbers will be 
+    Decimal numbers will be Doubles or BigDecimals in the context, integer numbers will be
     Integer, Long, or BigIntegers, and strings will be, of course, Strings.
     </li>
     <li>
@@ -837,9 +837,9 @@ won't gather new introspection information each time.
 <section name="Using Velocity" href="UsingVelocity">
 
 <p>If you are using <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>
-or other web frameworks, you may never call Velocity directly.  However, if you use 
+or other web frameworks, you may never call Velocity directly.  However, if you use
 Velocity for non-web purposes, or create your own web framework you will need
-to directly call the Velocity Engine similar to 
+to directly call the Velocity Engine similar to
 <a href="#TheFundamentalPattern">the fundamental pattern</a> shown earlier.
 One important additional thing to remember is to initialize the Velocity Engine before
 using it to merge templates.
@@ -1323,7 +1323,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 
  ...
 
-public class Test implements 
+public class Test implements
                         ReferenceInsertionEventHandler,
                         NullSetEventHandler,
                         MethodExceptionEventHandler
@@ -1334,7 +1334,7 @@ public class Test implements
 
     /*
      *  now, it's assumed that Test implements the correct methods
-     *  to support the event handler interfaces.  So to use them, 
+     *  to support the event handler interfaces.  So to use them,
      *  first make a new cartridge
      */
     EventCartridge ec = new EventCartridge();
@@ -1374,7 +1374,7 @@ public class Test implements
     return true;
   }
 
-  public Object methodException( Class claz, String method, 
+  public Object methodException( Class claz, String method,
                                  Exception e )
      throws Exception
   {
@@ -1811,7 +1811,7 @@ in Log4j. To use this feature you must
     a) If your environment uses the Logger class,
     configure Velocity to use the <code>Log4JLogChute</code> class.
     b) If your system still uses the deprecated Category, you can
-    configure Velocity to use the very deprecated 
+    configure Velocity to use the very deprecated
     <code>SimpleLog4JLogSystem</code> class.
     </li>
     <li>
@@ -1843,9 +1843,9 @@ Velocity helper class</a> as well as the
 <a href="#VelocityConfigurationKeysandValues">
 configuration keys and values.</a>
 Please note that the old <code>org.apache.velocity.runtime.log.LogSystem</code>
-interface has been deprecated for v1.5 in favor of the new LogChute interface. 
-This is due to significant upgrades to our logging code that could not be 
-supported by the LogSystem interface.  But don't worry, if you specify a 
+interface has been deprecated for v1.5 in favor of the new LogChute interface.
+This is due to significant upgrades to our logging code that could not be
+supported by the LogSystem interface.  But don't worry, if you specify a
 custom class that implements the LogSystem interface, it will still work.
 However, it will generate deprecation warnings.  You should upgrade your
 custom logger to implement LogChute as soon as possible.
@@ -1909,7 +1909,7 @@ public class Log4jCategoryExample
     ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
       "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
 
-    ve.setProperty("runtime.log.logsystem.log4j.category", 
+    ve.setProperty("runtime.log.logsystem.log4j.category",
                     CATEGORY_NAME);
 
     ve.init();
@@ -1975,7 +1975,7 @@ public class MyClass implements LogChute
   }
 
   /**
-   *  This is the method that you implement for Velocity to 
+   *  This is the method that you implement for Velocity to
    *  call with log messages.
    */
   public void log(int level, String message)
@@ -1984,7 +1984,7 @@ public class MyClass implements LogChute
   }
 
   /**
-   *  This is the method that you implement for Velocity to 
+   *  This is the method that you implement for Velocity to
    *  call with log messages.
    */
   public void log(int level, String message, Throwable t)
@@ -1993,7 +1993,7 @@ public class MyClass implements LogChute
   }
 
   /**
-   *  This is the method that you implement for Velocity to 
+   *  This is the method that you implement for Velocity to
    *  check whether a specified log level is enabled.
    */
   public boolean isLevelEnabled(int level)
@@ -2391,7 +2391,7 @@ Document root = null;
 
 try
 {
-    builder = new SAXBuilder(  
+    builder = new SAXBuilder(
              "org.apache.xerces.parsers.SAXParser" );
     root = builder.build("test.xml");
 }
@@ -2467,8 +2467,8 @@ context as a constructor parameter and only implements a method:
 public String get(String key)
 {
     Object obj = context.get(key)
-    return (obj != null) 
-        ? Escape.getText( obj.toString() ) 
+    return (obj != null)
+        ? Escape.getText( obj.toString() )
         : "";
 }
 ]]></source>
@@ -2504,7 +2504,7 @@ output of method calls directly, as they could return objects or strings
 
 <p>
 The previous suggestions for dealing with XML entities came from
-Christoph Reck, an active participant in the Velocity community.  
+Christoph Reck, an active participant in the Velocity community.
 </p>
 
 </section>

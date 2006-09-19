@@ -29,13 +29,13 @@ import org.apache.velocity.runtime.RuntimeServices;
 public interface ResourceCache
 {
     /**
-     *  initializes the ResourceCache.  Will be 
+     *  initializes the ResourceCache.  Will be
      *  called before any utilization
      *
      *  @param rs RuntimeServices to use for logging, etc
      */
     public void initialize( RuntimeServices rs );
-    
+
     /**
      *  retrieves a Resource from the
      *  cache
@@ -44,7 +44,7 @@ public interface ResourceCache
      *  @return Resource specified or null if not found
      */
     public Resource get( Object resourceKey );
-    
+
     /**
      *  stores a Resource in the cache
      *
@@ -53,7 +53,7 @@ public interface ResourceCache
      *  @return existing Resource stored under this key, or null if none
      */
     public Resource put( Object resourceKey, Resource resource );
- 
+
     /**
      *  removes a Resource from the cache
      *
@@ -61,7 +61,7 @@ public interface ResourceCache
      *  @return stored under key
      */
     public Resource remove( Object resourceKey );
-    
+
     /**
      *  returns an Iterator of Keys in the cache.
      * @return An Iterator of Keys in the cache.

@@ -65,13 +65,13 @@ public class ASTStop extends SimpleNode
 
     /**
      * Do not output anything, just shut off the rendering.
-     * @param context 
-     * @param writer 
+     * @param context
+     * @param writer
      * @return Always true.
-     * @throws IOException 
-     * @throws MethodInvocationException 
-     * @throws ParseErrorException 
-     * @throws ResourceNotFoundException 
+     * @throws IOException
+     * @throws MethodInvocationException
+     * @throws ParseErrorException
+     * @throws ResourceNotFoundException
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException

@@ -31,7 +31,7 @@ public class VelocityFormatter extends PatternFormatter
     {
 	super( format );
     }
-    
+
     /**
      * Utility method to format time.
      *

@@ -22,13 +22,13 @@ import org.apache.velocity.runtime.parser.ParserVisitor;
 
 /**
  * This class is responsible for handling the Else VTL control statement.
- * 
+ *
  * Please look at the Parser.jjt file which is
  * what controls the generation of this class.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class ASTElseStatement extends SimpleNode
 {
@@ -56,16 +56,16 @@ public class ASTElseStatement extends SimpleNode
     {
         return visitor.visit(this, data);
     }
-    
+
     /**
      * An ASTElseStatement always evaluates to
      * true. Basically behaves like an #if(true).
-     * @param context 
+     * @param context
      * @return Always true.
      */
     public boolean evaluate( InternalContextAdapter context)
     {
         return true;
-    }        
+    }
 }
 

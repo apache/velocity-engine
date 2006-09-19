@@ -27,13 +27,13 @@ import org.apache.velocity.context.AbstractContext;
  *  where the servlet API 'scope' is used directly.
  *  </p>
  *  <p>
- *  This context will 'search' the scopes looking for an 
- *  item, working outwards 
+ *  This context will 'search' the scopes looking for an
+ *  item, working outwards
  *  page->request->session->application
  *  </p>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class JSPContext extends AbstractContext
 {
@@ -60,7 +60,7 @@ public class JSPContext extends AbstractContext
                 if ( o == null)
                 {
                     o = pageContext.getAttribute( key, PageContext.SESSION_SCOPE);
-                    
+
                     if ( o == null )
                     {
                         o = pageContext.getAttribute( key, PageContext.APPLICATION_SCOPE);
@@ -72,7 +72,7 @@ public class JSPContext extends AbstractContext
                 context.put( key, o );
         }
         return o;
-    }        
+    }
 
     public Object internalPut( String key, Object value )
     {

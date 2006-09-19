@@ -28,7 +28,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$ 
+ * @version $Id$
 */
 public class ASTOrNode extends SimpleNode
 {
@@ -61,9 +61,9 @@ public class ASTOrNode extends SimpleNode
      *  Returns the value of the expression.
      *  Since the value of the expression is simply the boolean
      *  result of evaluate(), lets return that.
-     * @param context 
+     * @param context
      * @return The Expression value.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public Object value(InternalContextAdapter context )
         throws MethodInvocationException
@@ -79,9 +79,9 @@ public class ASTOrNode extends SimpleNode
      *      null || right -> right
      *      null || null -> false
      *      left || right ->  left || right
-     * @param context 
+     * @param context
      * @return The evaluation result.
-     * @throws MethodInvocationException 
+     * @throws MethodInvocationException
      */
     public boolean evaluate( InternalContextAdapter context)
         throws MethodInvocationException
@@ -92,7 +92,7 @@ public class ASTOrNode extends SimpleNode
         /*
          *  if the left is not null and true, then true
          */
-        
+
         if (left != null && left.evaluate( context ) )
             return true;
 

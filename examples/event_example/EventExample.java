@@ -42,7 +42,7 @@ import org.apache.velocity.context.Context;
  * @version $Id$
  */
 
-public class EventExample implements ReferenceInsertionEventHandler, 
+public class EventExample implements ReferenceInsertionEventHandler,
                                      NullSetEventHandler, MethodExceptionEventHandler,
                                      LogChute
 {
@@ -63,7 +63,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
              *  this class implements the LogSystem interface, so we
              *  can use it as a logger for Velocity
              */
-            
+
             Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
             Velocity.init();
         }
@@ -82,7 +82,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
         context.put("name", "Velocity");
 
         /*
-         *  Now make an event cartridge, register all the 
+         *  Now make an event cartridge, register all the
          *  event handlers (at once) and attach it to the
          *  Context
          */
@@ -90,7 +90,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(this);
         ec.attachToContext( context );
-  
+
         try
         {
             /*
@@ -106,7 +106,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
             System.out.println("");
 
             String s = "The word 'Velocity' should be bounded by emoticons :  $name.";
-            
+
             StringWriter w = new StringWriter();
             Velocity.evaluate( context, w, "mystring", s );
 
@@ -115,7 +115,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
             System.out.println("");
 
             /*
-             *  using the same handler, we can deal with 
+             *  using the same handler, we can deal with
              *  null references as well
              */
 
@@ -162,8 +162,8 @@ public class EventExample implements ReferenceInsertionEventHandler,
             logOutput = false;
 
             /*
-             *  finally, we test a method exception event - we do this 
-             *  by putting this class in the context, and calling 
+             *  finally, we test a method exception event - we do this
+             *  by putting this class in the context, and calling
              *  a method that does nothing but throw an exception.
              *  we use a little switch to turn the event handling
              *  on and off
@@ -171,7 +171,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
              *  Note also how the reference insertion process
              *  happens as well
              */
-            
+
             exceptionSwitch = true;
 
             context.put("this", this );
@@ -186,8 +186,8 @@ public class EventExample implements ReferenceInsertionEventHandler,
             System.out.println("");
 
             /*
-             *  now, we turn the switch off, and we can see that the 
-             *  exception will propgate all the way up here, and 
+             *  now, we turn the switch off, and we can see that the
+             *  exception will propgate all the way up here, and
              *  wil be caught by the catch() block below
              */
 
@@ -270,7 +270,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
 
     /**
      *  Event handler for when the right hand side of
-     *  a #set() directive is null, which results in 
+     *  a #set() directive is null, which results in
      *  a log message.  This method gives the application
      *  a chance to 'vote' on msg generation
      */
@@ -278,7 +278,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
     {
         if (lhs.equals("$settest"))
             return false;
-        
+
         return true;
     }
 
@@ -295,12 +295,12 @@ public class EventExample implements ReferenceInsertionEventHandler,
         }
 
         throw e;
-    } 
+    }
 
 	/**
 	 *  Required init method for LogSystem
 	 *  to get access to RuntimeServices
-	 */ 
+	 */
 	 public void init( RuntimeServices rs )
 	 {
 	 	return;
@@ -308,7 +308,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
 
     /**
      * This just prints the message and level to System.out.
-     */ 
+     */
     public void log(int level, String message)
     {
         if (logOutput)
@@ -317,11 +317,11 @@ public class EventExample implements ReferenceInsertionEventHandler,
         }
     }
 
-     
+
     /**
-     * This prints the level, message, and the Throwable's message to 
+     * This prints the level, message, and the Throwable's message to
      * System.out.
-     */ 
+     */
     public void log(int level, String message, Throwable t)
     {
         if (logOutput)

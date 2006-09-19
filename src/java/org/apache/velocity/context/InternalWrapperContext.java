@@ -18,9 +18,9 @@ package org.apache.velocity.context;
 
 /**
  *  interface for internal context wrapping functionality
- *  
+ *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id$ 
+ *  @version $Id$
  */
 public interface InternalWrapperContext
 {
@@ -33,7 +33,7 @@ public interface InternalWrapperContext
     /**
      * Returns the base full context impl.
      * @return The base full context impl.
-     * 
+     *
      */
-    InternalContextAdapter getBaseContext();   
+    InternalContextAdapter getBaseContext();
 }

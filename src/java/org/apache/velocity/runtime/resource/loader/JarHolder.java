@@ -40,7 +40,7 @@ public class JarHolder
     private String urlpath = null;
     private JarFile theJar = null;
     private JarURLConnection conn = null;
-        
+
     private Log log = null;
 
     /**
@@ -53,7 +53,7 @@ public class JarHolder
 
         this.urlpath=urlpath;
         init();
-        
+
         if (log.isDebugEnabled())
         {
             log.debug("JarHolder: initialized JAR: " + urlpath);
@@ -61,7 +61,7 @@ public class JarHolder
     }
 
     /**
-     * 
+     *
      */
     public void init()
     {
@@ -78,7 +78,7 @@ public class JarHolder
             conn.setDoOutput(false);
             conn.connect();
             theJar = conn.getJarFile();
-        } 
+        }
         catch (IOException ioe)
         {
             log.error("JarHolder: error establishing connection to JAR at \""
@@ -87,9 +87,9 @@ public class JarHolder
     }
 
     /**
-     * 
+     *
      */
-    public void close() 
+    public void close()
     {
         try
         {
@@ -104,7 +104,7 @@ public class JarHolder
 
         log.trace("JarHolder: JAR file closed");
     }
-    
+
     /**
      * @param theentry
      * @return The requested resource.
@@ -113,13 +113,13 @@ public class JarHolder
     public InputStream getResource( String theentry )
      throws ResourceNotFoundException {
         InputStream data = null;
-        
-        try 
+
+        try
         {
             JarEntry entry = theJar.getJarEntry( theentry );
-            
+
             if ( entry != null )
-            {                
+            {
                 data =  theJar.getInputStream( entry );
             }
         }
@@ -128,7 +128,7 @@ public class JarHolder
             log.error("JarHolder: getResource() error", fnfe);
             throw new ResourceNotFoundException( fnfe.getMessage() );
         }
-        
+
         return data;
     }
 
@@ -138,21 +138,21 @@ public class JarHolder
     public Hashtable getEntries()
     {
         Hashtable allEntries = new Hashtable(559);
-        
+
         Enumeration all  = theJar.entries();
         while ( all.hasMoreElements() )
         {
             JarEntry je = (JarEntry)all.nextElement();
-            
+
             // We don't map plain directory entries
             if ( !je.isDirectory() )
             {
-                allEntries.put( je.getName(), this.urlpath );   
+                allEntries.put( je.getName(), this.urlpath );
             }
         }
         return allEntries;
     }
-    
+
     /**
      * @return The URL path of this jar holder.
      */

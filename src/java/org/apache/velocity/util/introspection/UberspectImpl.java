@@ -68,7 +68,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  Sets the runtime logger - this must be called before anything
      *  else.
-     *  
+     *
      * @param log The logger instance to use.
      */
     public void setLog(Log log)
@@ -77,7 +77,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     }
 
     /**
-     * @param runtimeLogger 
+     * @param runtimeLogger
      * @deprecated Use setLog(Log log) instead.
      */
     public void setRuntimeLogger(RuntimeLogger runtimeLogger)
@@ -94,7 +94,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param obj The iterative object.
      * @param i Info about the object's location.
      * @return An {@link Iterator} object.
-     * @throws Exception 
+     * @throws Exception
      */
     public Iterator getIterator(Object obj, Info i)
             throws Exception
@@ -142,12 +142,12 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      *  Method
-     * @param obj 
-     * @param methodName 
-     * @param args 
-     * @param i 
+     * @param obj
+     * @param methodName
+     * @param args
+     * @param i
      * @return A Velocity Method.
-     * @throws Exception 
+     * @throws Exception
      */
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
             throws Exception
@@ -164,11 +164,11 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      * Property  getter
-     * @param obj 
-     * @param identifier 
-     * @param i 
+     * @param obj
+     * @param identifier
+     * @param i
      * @return A Velocity Getter Method.
-     * @throws Exception 
+     * @throws Exception
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
             throws Exception
@@ -177,7 +177,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return null;
         }
-        
+
         Class claz = obj.getClass();
 
         /*
@@ -210,12 +210,12 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
     /**
      * Property setter
-     * @param obj 
-     * @param identifier 
-     * @param arg 
-     * @param i 
+     * @param obj
+     * @param identifier
+     * @param arg
+     * @param i
      * @return A Velocity Setter method.
-     * @throws Exception 
+     * @throws Exception
      */
     public VelPropertySet getPropertySet(Object obj, String identifier,
                                          Object arg, Info i)
@@ -225,7 +225,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return null;
         }
-        
+
         Class claz = obj.getClass();
 
         /*
@@ -301,7 +301,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     }
 
     /**
-     * 
+     *
      *
      */
     public static class VelGetterImpl implements VelPropertyGet
@@ -373,7 +373,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @param o is the Object to invoke it on.
          * @param value in the Value to set.
          * @return The resulting Object.
-         * @throws Exception 
+         * @throws Exception
          */
         public Object invoke(final Object o, final Object value)
             throws Exception

@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * Provides a cache for XPath expressions. Used by {@link NodeList} and 
- * {@link AnakiaElement} to minimize XPath parsing in their 
+ * Provides a cache for XPath expressions. Used by {@link NodeList} and
+ * {@link AnakiaElement} to minimize XPath parsing in their
  * <code>selectNodes()</code> methods.
  *
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
@@ -37,7 +37,7 @@ class XPathCache
     private XPathCache()
     {
     }
-    
+
     /**
      * Returns an XPath object representing the requested XPath expression.
      * A cached object is returned if it already exists for the requested expression.

@@ -70,11 +70,11 @@ public class ResourceCachingTestCase extends BaseTestCase
     {
 
         VelocityEngine ve = new VelocityEngine();
-        
+
         ve.setProperty("file.resource.loader.cache", "true");
         ve.setProperty("file.resource.loader.path", FILE_RESOURCE_LOADER_PATH);
         ve.init();
-        
+
         Template template = ve.getTemplate("testincludeparse.vm");
 
         Writer writer = new StringWriter();
@@ -86,6 +86,6 @@ public class ResourceCachingTestCase extends BaseTestCase
         writer.flush();
         writer.close();
     }
-    
- 
+
+
 }

@@ -21,9 +21,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.runtime.resource.Resource;
 
 /**
- *  interface to encapsulate the 'stuff' for internal operation of velocity.  
+ *  interface to encapsulate the 'stuff' for internal operation of velocity.
  *  We use the context as a thread-safe storage : we take advantage of the
- *  fact that it's a visitor  of sorts  to all nodes (that matter) of the 
+ *  fact that it's a visitor  of sorts  to all nodes (that matter) of the
  *  AST during init() and render().
  *
  *  Currently, it carries the template name for namespace
@@ -46,7 +46,7 @@ interface InternalHousekeepingContext
      *  remove the current template name from stack
      */
     void popCurrentTemplateName();
-    
+
     /**
      *  get the current template name
      *
@@ -69,12 +69,12 @@ interface InternalHousekeepingContext
      *  @return cache object
      */
     IntrospectionCacheData icacheGet( Object key );
-    
+
     /**
      *  places an IntrospectionCache Data (@see IntrospectionCacheData)
      *  element in the cache for specified key
      *
-     *  @param key  key 
+     *  @param key  key
      *  @param o  IntrospectionCacheData object to place in cache
      */
     void icachePut( Object key, IntrospectionCacheData o );
@@ -82,18 +82,18 @@ interface InternalHousekeepingContext
     /**
      *  temporary fix to enable #include() to figure out
      *  current encoding.
-     * 
+     *
      * @return The current resource.
      */
     Resource getCurrentResource();
-    
-    
+
+
     /**
      * @param r
      */
     void setCurrentResource( Resource r );
-    
-    
+
+
     /**
      * Checks to see if rendering should be allowed.  Defaults to true but will
      * return false after a #stop directive.
@@ -105,7 +105,7 @@ interface InternalHousekeepingContext
     /**
      * Set whether rendering is allowed.  Defaults to true but is set to
      * false after a #stop directive.
-     * @param v 
+     * @param v
      */
      void setAllowRendering(boolean v);
 

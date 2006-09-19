@@ -62,7 +62,7 @@ your programmer's toolbox.
 In each case below, it is assumed that you were successful in getting
 the distribution from Subversion or as a nightly build, and with the latter,
 were successful in unpacking.  Also, it is assumed that you are starting
-in the 'jakarta-velocity' directory, the root of the distribution tree. 
+in the 'jakarta-velocity' directory, the root of the distribution tree.
 All directory references will be relative to 'jakarta-velocity'.
 </p>
 
@@ -167,7 +167,7 @@ ant javadocs
     using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.
     Allowing you to use
     Velocity templates in place of stylesheets
-    - give it a try! 
+    - give it a try!
   </li>
   <li>
     <b><code>jar-src</code></b> bundles all the Velocity source code into a single
@@ -264,7 +264,7 @@ Total time: 42 seconds
 
 <p>
 Note that the number of tests may vary from those shown above, but if
-you see 'OK' after the tests are run, all is well.  
+you see 'OK' after the tests are run, all is well.
 </p>
 </section>
 

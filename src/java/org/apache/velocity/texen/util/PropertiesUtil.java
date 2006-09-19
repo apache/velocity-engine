@@ -29,7 +29,7 @@ import org.apache.velocity.texen.Generator;
  *
  * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
  * @author <a href="mailto:sbailliez@apache.org">Stephane Bailliez</a>
- * @version $Id$ 
+ * @version $Id$
  */
 public class PropertiesUtil
 {
@@ -66,10 +66,10 @@ public class PropertiesUtil
         {
             throw new RuntimeException("Could not load properties: " + e.getMessage());
         }
-    
+
         return properties;
     }
-    
+
     /**
      * Load a properties file from the templatePath defined in the
      * generator. As the templatePath can contains multiple paths,
@@ -82,14 +82,14 @@ public class PropertiesUtil
      * a relative pathname.
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
-     * @throws Exception 
+     * @throws Exception
      */
     protected Properties loadFromTemplatePath(final String propertiesFile)
     	throws Exception
     {
         Properties properties = new Properties();
         String templatePath = Generator.getInstance().getTemplatePath();
-        
+
         // We might have something like the following:
         //
         // #set ($dbprops = $properties.load("$generator.templatePath/path/props")
@@ -115,13 +115,13 @@ public class PropertiesUtil
                 // path and they are simply using:
                 //
                 // #set ($dbprops = $properties.load("props") (1)
-                // 
+                //
                 // than we have to tack on the templatePath in order
                 // for the properties file to be found. We want (1)
                 // to work whether the generation is being run from
                 // the file system or from a JAR file.
                 String fullPath = propertiesFile;
-                
+
                 // FIXME probably not that clever since there could be
                 // a mix of file separators and the test will fail :-(
                 if (!fullPath.startsWith(templateDir))
@@ -142,7 +142,7 @@ public class PropertiesUtil
         	    stream.close();
         	}
             }
-        } 
+        }
         return properties;
     }
 
@@ -152,14 +152,14 @@ public class PropertiesUtil
      * @param propertiesName the properties file to load.
      * @return a properties instance loaded with the properties from
      * the file. If no file can be found it returns an empty instance.
-     * @throws Exception 
-     */ 
+     * @throws Exception
+     */
     protected Properties loadFromClassPath(final String propertiesName)
     	throws Exception
     {
         Properties properties = new Properties();
         ClassLoader classLoader = this.getClass().getClassLoader();
-        
+
         InputStream inputStream = null;
 
         try
@@ -171,11 +171,11 @@ public class PropertiesUtil
             // and this hack will allow those same templates
             // that use $generator.templatePath to work in
             // JAR files.
-            
+
             String propertiesFile = propertiesName.startsWith("$generator")
         	    ? propertiesName.substring("$generator.templatePath/".length())
     		    : propertiesName;
-            
+
     	    inputStream = classLoader.getResourceAsStream(propertiesFile);
             properties.load(inputStream);
         }

@@ -21,7 +21,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
 /**
  * A temporary RuntimeLogger wrapper to make the deprecation
  * of UberspectLoggable.setRuntimeLogger(RuntimeLogger) feasible.
- * This overrides all Log methods, either throwing 
+ * This overrides all Log methods, either throwing
  * UnsupportedOperationExceptions or passing things off to the
  * theoretical RuntimeLogger used to create it.  Oh, and all the
  * is<Level>Enabled() methods return true.  Of course, ideally
@@ -40,7 +40,7 @@ public class RuntimeLoggerLog extends Log
 
     /**
      * Creates a new Log that wraps a PrimordialLogChute.
-     * @param rlog 
+     * @param rlog
      */
     public RuntimeLoggerLog(RuntimeLogger rlog)
     {

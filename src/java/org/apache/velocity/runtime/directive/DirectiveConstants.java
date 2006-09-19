@@ -20,13 +20,13 @@ package org.apache.velocity.runtime.directive;
  *  Base class for all directives used in Velocity.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- *  @version $Id$ 
+ *  @version $Id$
  */
 public interface DirectiveConstants
 {
     /** Block directive indicator */
     public static final int BLOCK = 1;
-    
+
     /** Line directive indicator */
     public static final int LINE = 2;
-}        
+}

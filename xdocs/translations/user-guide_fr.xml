@@ -8,9 +8,9 @@
     <author email="jean-francois.elfouly@wanadoo.fr">Jean-François El Fouly</author>
   </properties>
 <body>
-    
+
 <section name="Table des Matières" href="TabledesMatières">
-      
+
 <ol>
 <li><a href="#Aproposdecedocument">A propos de ce document</a></li>
 <li><a href="#Velocity,qu'est-cequec'est?">Velocity, qu'est-ce que c'est?</a></li>
@@ -313,7 +313,7 @@ $page.setTitle( "My Home Page" )
 $person.setAttributes( ["Strange", "Weird", "Excited"] )
 ]]></source>
   <p>
-    Les deux premiers exemples -- <em>$customer.getAddress()</em> et 
+    Les deux premiers exemples -- <em>$customer.getAddress()</em> et
     <em>$purchase.getTotal()</em> -- peuvent avoir l'air semblables à ceux utilisés dans la section précédente,
     consacrée aux Propriétés, <em>$customer.Address</em> et
     <em>$purchase.Total</em>. Si vous avez deviné que ces exemples sont liés entre eux d'une manière ou d'une autre,
@@ -789,7 +789,7 @@ $blargh
 #end
 ]]></source>
   <p>
-    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est évalué comme <em>false</em>, 
+    Cette fois, si <em>$foo</em> vaut <em>true</em>, alors  <em>!$foo</em> est évalué comme <em>false</em>,
     et il n'y a pas de sortie. Si <em>$foo</em> est <em>false</em>, alors <em>!$foo</em> est évalué à <em>true</em>
     et <strong>PAS ça</strong> est produit en sortie. Attention à ne pas confondre ceci avec la
     <em>référence silencieuse $!foo</em> que nous avons déjà rencontrée et qui représente quelque chose de complètement
@@ -1202,8 +1202,8 @@ Vyacheslav Ganelin
     parce qu'il y a un retour chariot après 'Ganelin', et donc le \\ final, qui précède le <code>#end</code> fait partie
     du corps du bloc.
   </p>
-  
-  
+
+
   <p>
   Si <em>$jazz</em> est faux, la sortie est
   </p>
@@ -1211,8 +1211,8 @@ Vyacheslav Ganelin
 <source><![CDATA[
 \
 ]]></source>
-  
-  
+
+
   <p>
     Notons que les choses vont commencer à mal se passer
     si des éléments de script ne sont pas échappés correctement.
@@ -1279,14 +1279,14 @@ Send me
 #set( $foo = $bar / 2 )
 ]]></source>
     <p>
-      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut 
+      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut
       être obtenu en utilisant l'opérateur modulo (<em>%</em>).
     </p>
     <source><![CDATA[
 #set( $foo = $bar % 5 )
 ]]></source>
   </subsection>
-  
+
   <subsection name="Opérateur d'intervalle (range)" href="Opérateurd'intervalle(range)">
     <p>
       L'opérateur d'intervalle peut être utilisé en conjonction avec les instructions <em>#set</em> et
@@ -1344,10 +1344,10 @@ Quatrième exemple:
       pas assez de données pour remplir la table, trouveront cet opérateur d'intervalle particulièrement utile.
     </p>
   </subsection>
-  
+
   <subsection name="Questions pointues: Echappement et !" href="Questionspointues:Echappementet!">
     <p>
-      Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère 
+      Lorsqu'une référence est annulée par le caractère <em>!</em> et que ce caractère
       <em>!</em> est précédé par un caractère d'échappement <em>\</em>, la référence est traitée de manière particulière.
       A noter: les différences entre l'échappement ordinaire et le cas particulier où <em>\</em> précède <em>!</em>
       comme ici:
@@ -1381,7 +1381,7 @@ $!{foo}
 \bar
 ]]></source>
   </subsection>
-  
+
   <subsection name="Compléments divers sur les Velocimacros" href="ComplémentsdiverssurlesVelocimacros">
     <p>
       Cette section est une mini-FAQ sur différents sujets relatifs aux Velocimacros.
@@ -1485,7 +1485,7 @@ Outer : inner : outerlala
     ]]></source>
     <p>Ne gardez pas cette configuration en production.</p>
   </subsection>
-  
+
   <subsection name="Concaténation de chaînes" href="Concaténationdechaînes">
     <p>
       Une question habituelle parmi les développeurs est:

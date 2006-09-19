@@ -77,7 +77,7 @@ public class ClasspathResourceLoader extends ResourceLoader
 
     /**
      *  This is abstract in the base class, so we need it
-     * @param configuration 
+     * @param configuration
      */
     public void init( ExtendedProperties configuration)
     {

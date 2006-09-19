@@ -330,7 +330,7 @@ public class EventHandlingTestCase
                        RuntimeServicesAware,ContextAware
     {
         private RuntimeServices rs;
-        
+
         public TestEventCartridge()
         {
         }

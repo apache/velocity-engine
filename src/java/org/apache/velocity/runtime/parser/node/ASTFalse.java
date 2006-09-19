@@ -67,5 +67,5 @@ public class ASTFalse extends SimpleNode
     public Object value( InternalContextAdapter context)
     {
         return value;
-    }        
+    }
 }
