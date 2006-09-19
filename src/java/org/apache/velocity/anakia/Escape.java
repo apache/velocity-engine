@@ -73,7 +73,8 @@ public class Escape
                     stEntity = LINE_SEPARATOR;
                     break;
                 default :
-                    /* no-op */ ;
+                    /* no-op */
+                    break;
             }
             if (stEntity != null)
             {

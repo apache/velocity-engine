@@ -107,8 +107,6 @@ public class Macro extends Directive
          * block to hang off of this but we don't want to
          * init it... it's useless...
          */
-
-        return;
     }
 
     /**

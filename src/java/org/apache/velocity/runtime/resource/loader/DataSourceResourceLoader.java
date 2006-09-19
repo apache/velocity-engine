@@ -154,7 +154,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                           + timestampColumn + "\"");
              }
 
-             log.trace("DataSourceResourceLoader initalized.");
+             log.trace("DataSourceResourceLoader initialized.");
          }
          else if (dataSourceName != null)
          {
@@ -167,7 +167,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                           + timestampColumn + "\"");
               }
 
-             log.trace("DataSourceResourceLoader initalized.");
+             log.trace("DataSourceResourceLoader initialized.");
          }
          else
          {

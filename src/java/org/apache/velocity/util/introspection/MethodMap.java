@@ -63,8 +63,6 @@ public class MethodMap
         }
 
         l.add(method);
-
-        return;
     }
 
     /**

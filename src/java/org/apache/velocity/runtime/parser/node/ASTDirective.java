@@ -151,7 +151,6 @@ public class ASTDirective extends SimpleNode
     public void setDirectiveName( String str )
     {
         directiveName = str;
-        return;
     }
 
     /**
