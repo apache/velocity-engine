@@ -406,7 +406,6 @@ public abstract class VelocityServlet extends HttpServlet
      */
     protected void requestCleanup( HttpServletRequest request, HttpServletResponse response, Context context )
     {
-        return;
     }
 
     /**

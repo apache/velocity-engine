@@ -81,7 +81,6 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     public void pushCurrentTemplateName( String s )
     {
         templateNameStack.push(s);
-        return;
     }
 
     /**
@@ -90,7 +89,6 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     public void popCurrentTemplateName()
     {
         templateNameStack.pop();
-        return;
     }
 
     /**

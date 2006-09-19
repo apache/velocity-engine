@@ -260,7 +260,6 @@ public class VelocimacroProxy extends Directive
          */
 
          setupMacro( callingArgs, callingArgTypes );
-         return;
     }
 
     /**

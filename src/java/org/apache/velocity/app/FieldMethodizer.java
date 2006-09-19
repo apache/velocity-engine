@@ -16,7 +16,6 @@ package org.apache.velocity.app;
  * limitations under the License.
  */
 
-import java.lang.Class;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;

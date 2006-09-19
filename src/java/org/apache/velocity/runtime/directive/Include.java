@@ -274,6 +274,5 @@ public class Include extends InputBase
             writer.write(msg);
             writer.write(outputMsgEnd);
         }
-        return;
     }
 }

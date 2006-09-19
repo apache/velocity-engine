@@ -24,7 +24,6 @@ import java.util.HashMap;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 /**
  * This is a simple URL-based loader.

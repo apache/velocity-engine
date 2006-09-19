@@ -312,8 +312,6 @@ public class VelocimacroFactory
 
             trace("Velocimacro : initialization complete.");
         }
-
-        return;
     }
 
     /**
