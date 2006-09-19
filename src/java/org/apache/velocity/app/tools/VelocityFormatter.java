@@ -16,11 +16,12 @@ package org.apache.velocity.app.tools;
  * limitations under the License.
  */
 
-import java.util.*;
-import java.text.*;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
 
-import org.apache.velocity.context.*;
+import org.apache.velocity.context.Context;
 
 /**
  * Formatting tool for inserting into the Velocity WebContext.  Can

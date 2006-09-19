@@ -16,12 +16,25 @@ package org.apache.velocity.anakia;
  * limitations under the License.
  */
 
-import java.io.Writer;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
-import org.jdom.*;
-import org.jdom.output.*;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.jdom.Attribute;
+import org.jdom.CDATA;
+import org.jdom.Comment;
+import org.jdom.DocType;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.EntityRef;
+import org.jdom.ProcessingInstruction;
+import org.jdom.Text;
+import org.jdom.output.XMLOutputter;
 
 /**
  * Provides a class for wrapping a list of JDOM objects primarily for use in template
