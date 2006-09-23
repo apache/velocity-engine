@@ -34,7 +34,7 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  in the put() and get() methods.
  *
  *  Further, this context also supports the 'VM local context' mode, where
- *  any get() or put() of references that aren't args to the VM are considered
+ *  any put() of references that aren't args to the VM are considered
  *  local to the vm, protecting the global context.
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -190,31 +190,19 @@ public class VMContext implements InternalContextAdapter
         }
         else
         {
-            if(localcontextscope)
+            /*
+            *  always try the local context then innerContext--even if  localcontextscope
+            */
+
+            o = localcontext.get( key );
+
+            if ( o == null)
             {
                 /*
-                 * if we have localcontextscope mode, then just
-                 * put in the local context
-                 */
+                * last chance
+                */
 
-                o =  localcontext.get( key );
-            }
-            else
-            {
-                /*
-                 *  try the local context
-                 */
-
-                o = localcontext.get( key );
-
-                if ( o == null)
-                {
-                    /*
-                     * last chance
-                     */
-
-                    o = innerContext.get( key );
-                }
+                o = innerContext.get( key );
             }
         }
 
