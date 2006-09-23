@@ -1,4 +1,4 @@
-package org.apache.velocity.test.context;
+package org.apache.velocity.test;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,12 +16,6 @@ package org.apache.velocity.test.context;
  * limitations under the License.
  */
 
-/**
- * Tests scope of velocimacros with localscope setting. 
- * 
- * @author <a href="mailto:stephenh@chase3000.com">Stephen Habermann</a>
- * @version $Id: Handler2.java 447976 2006-09-19 21:29:45Z henning $
- */
 import junit.framework.TestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -29,6 +23,12 @@ import org.apache.velocity.context.VMContext;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 
+/**
+ * Tests scope of velocimacros with localscope setting. 
+ * 
+ * @author <a href="mailto:stephenh@chase3000.com">Stephen Habermann</a>
+ * @version $Id: Handler2.java 447976 2006-09-19 21:29:45Z henning $
+ */
 public class VMContextLocalscopeTestCase extends TestCase {
 
     private RuntimeInstance instance;
