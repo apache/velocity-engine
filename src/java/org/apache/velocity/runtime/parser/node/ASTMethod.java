@@ -18,6 +18,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -45,7 +46,7 @@ import org.apache.velocity.util.introspection.VelMethod;
  */
 public class ASTMethod extends SimpleNode
 {
-    private String methodName = "";
+    protected String methodName = "";
     private int paramCount = 0;
 
     /**
@@ -126,7 +127,7 @@ public class ASTMethod extends SimpleNode
              * change from visit to visit
              */
 
-            Class[] paramClasses = new Class[paramCount];
+            final Class[] paramClasses = paramCount > 0 ? new Class[paramCount] : ArrayUtils.EMPTY_CLASS_ARRAY;
 
             for (int j = 0; j < paramCount; j++)
             {
@@ -325,23 +326,51 @@ public class ASTMethod extends SimpleNode
             this.params = params;
         }
 
+        private final ASTMethod getASTMethod() 
+        {
+            return ASTMethod.this;
+        }
+        
         /**
          * @see java.lang.Object#equals(java.lang.Object)
          */
         public boolean equals(Object o)
         {
-            return  (o != null) &&
-                    (o instanceof MethodCacheKey) &&
-                    (this.hashCode() == o.hashCode());
+            if (o instanceof MethodCacheKey) 
+            {
+                final MethodCacheKey other = (MethodCacheKey) o;            
+                if (params.length == other.params.length && methodName.equals(other.getASTMethod().methodName)) 
+                {              
+                    for (int i = 0; i < params.length; ++i) 
+                    {
+                        if (params[i] != other.params[i]) 
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
+        
 
         /**
          * @see java.lang.Object#hashCode()
          */
-        public int hashCode()
+        public int hashCode() 
         {
-            return params.hashCode() * 37 + ASTMethod.this.hashCode();
+            int result = 0;
+            for (int i = 0; i < params.length; ++i) 
+            {
+                final Class param = params[i];
+                if (param != null)
+                {
+                    result ^= param.hashCode();
+                }
+            }
+            return result * 37 + methodName.hashCode();
         }
     }
-
+    
 }
