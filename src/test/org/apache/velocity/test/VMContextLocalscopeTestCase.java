@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
  * Tests scope of velocimacros with localscope setting. 
  * 
  * @author <a href="mailto:stephenh@chase3000.com">Stephen Habermann</a>
- * @version $Id: Handler2.java 447976 2006-09-19 21:29:45Z henning $
+ * @version $Id$
  */
 public class VMContextLocalscopeTestCase extends TestCase {
 
