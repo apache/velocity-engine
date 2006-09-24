@@ -24,6 +24,11 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-459" due-to="Stephen Haberman">
+	  Change the meaning of localscope for macros to allow access to references from 
+	  calling context.
+      </action>
+
       <action type="add" dev="henning">
                Add a test for the DataSourceResource Loader.
       </action>
