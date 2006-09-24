@@ -24,6 +24,10 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-453" due-to="Alexey Panchenko">
+		  Method caching now uses consistent keys.
+      </action>
+
       <action type="fix" dev="wglass" issue="VELOCITY-459" due-to="Stephen Haberman">
 	  Change the meaning of localscope for macros to allow access to references from 
 	  calling context.
