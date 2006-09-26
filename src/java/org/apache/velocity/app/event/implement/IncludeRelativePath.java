@@ -19,7 +19,7 @@ package org.apache.velocity.app.event.implement;
 import org.apache.velocity.app.event.IncludeEventHandler;
 
 /**
- * Event handler that looks for included files relative to the path of the
+ * <p>Event handler that looks for included files relative to the path of the
  * current template. The handler assumes that paths are separated by a forward
  * slash "/" or backwards slash "\".
  *
@@ -41,33 +41,22 @@ public class IncludeRelativePath implements IncludeEventHandler {
         String currentResourcePath,
         String directiveName)
     {
+        // if the resource name starts with a slash, it's not a relative path
+        if (includeResourcePath.startsWith("/") || includeResourcePath.startsWith("\\") ) {
+            return includeResourcePath;
+        }
 
-        // strip the starting slash from includeResourcePath, if it exists
-        if (includeResourcePath.startsWith("/") || includeResourcePath.startsWith("\\") )
-            includeResourcePath = includeResourcePath.substring(1);
-
-        int slashpos1 = currentResourcePath.lastIndexOf("/");
-        int slashpos2 = currentResourcePath.lastIndexOf("\\");
-        int lastslashpos = -1;
-        if ( (slashpos1 != -1) && (slashpos2 != -1) && (slashpos1 <= slashpos2) )
-            lastslashpos = slashpos2;
-
-        else if ( (slashpos1 != -1) && (slashpos2 != -1) && (slashpos1 > slashpos2) )
-            lastslashpos = slashpos1;
-
-        else if ( (slashpos1 != -1) && (slashpos2 == -1) )
-            lastslashpos = slashpos1;
-
-        else if ( (slashpos1 == -1) && (slashpos2 != -1) )
-            lastslashpos = slashpos2;
+        int lastslashpos = Math.max(
+                currentResourcePath.lastIndexOf("/"),
+                currentResourcePath.lastIndexOf("\\")
+                );
 
         // root of resource tree
-        if ( (lastslashpos == -1) || (lastslashpos == 0) )
+        if (lastslashpos == -1) {
             return includeResourcePath;
+        }
 
         // prepend path to the include path
-        else
-            return currentResourcePath.substring(0,lastslashpos) + "/" + includeResourcePath;
-
+        return currentResourcePath.substring(0,lastslashpos) + "/" + includeResourcePath;
     }
 }
