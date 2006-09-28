@@ -1,7 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Copyright 2000-2004 The Apache Software Foundation.
+ * Copyright 2000-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ import org.apache.velocity.util.introspection.VelMethod;
  */
 public class ASTMethod extends SimpleNode
 {
-    protected String methodName = "";
+    private String methodName = "";
     private int paramCount = 0;
 
     /**
@@ -143,7 +143,7 @@ public class ASTMethod extends SimpleNode
              *   check the cache
              */
 
-            MethodCacheKey mck = new MethodCacheKey(paramClasses);
+            MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
             IntrospectionCacheData icd =  context.icacheGet( mck );
 
             /*
@@ -315,35 +315,55 @@ public class ASTMethod extends SimpleNode
 
     /**
      * Internal class used as key for method cache.  Combines
-     * ASTMethod fields with array of parameter classes.
+     * ASTMethod fields with array of parameter classes.  Has
+     * public access (and complete constructor) for unit test 
+     * purposes.
      */
-    class MethodCacheKey
+    public class MethodCacheKey
     {
-        Class[] params;
+        private final String methodName;  
+        private final Class[] params;
 
-        MethodCacheKey(Class[] params)
+        public MethodCacheKey(String methodName, Class[] params)
         {
+            this.methodName = methodName;
             this.params = params;
         }
 
-        private final ASTMethod getASTMethod() 
-        {
-            return ASTMethod.this;
-        }
-        
         /**
          * @see java.lang.Object#equals(java.lang.Object)
          */
         public boolean equals(Object o)
         {
+            /** 
+             * null check is not strictly needed (due to sole 
+             * initialization above) but it seems more safe
+             * to include it.
+             */
             if (o instanceof MethodCacheKey) 
             {
-                final MethodCacheKey other = (MethodCacheKey) o;            
-                if (params.length == other.params.length && methodName.equals(other.getASTMethod().methodName)) 
+                final MethodCacheKey other = (MethodCacheKey) o;
+                if ((params == null) || (other.params == null))
+                {
+                    return params == other.params;
+                }             
+                
+                /**
+                 * similarly, do null check on each array subscript.
+                 */
+                else if (params.length == other.params.length && 
+                        methodName.equals(other.methodName)) 
                 {              
                     for (int i = 0; i < params.length; ++i) 
                     {
-                        if (params[i] != other.params[i]) 
+                        if (params[i] == null)
+                        {
+                            if (params[i] != other.params[i])
+                            {
+                                return false;
+                            }
+                        }
+                        else if (!params[i].equals(other.params[i]))
                         {
                             return false;
                         }
@@ -358,19 +378,36 @@ public class ASTMethod extends SimpleNode
         /**
          * @see java.lang.Object#hashCode()
          */
-        public int hashCode() 
+        public int hashCode()
         {
-            int result = 0;
-            for (int i = 0; i < params.length; ++i) 
+            int result = 17;
+
+            /** 
+             * null check is not strictly needed (due to sole 
+             * initialization above) but it seems more safe to 
+             * include it.
+             */
+            if (params == null)
+            {
+                return result;
+            }
+            
+            for (int i = 0; i < params.length; ++i)
             {
                 final Class param = params[i];
                 if (param != null)
                 {
-                    result ^= param.hashCode();
+                    result = result * 37 + param.hashCode();
                 }
             }
-            return result * 37 + methodName.hashCode();
-        }
+            
+            if (methodName != null)
+            {
+                result = result * 37 + methodName.hashCode();
+            }
+            
+            return result;
+        } 
     }
     
 }
