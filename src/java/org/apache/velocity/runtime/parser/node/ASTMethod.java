@@ -320,7 +320,7 @@ public class ASTMethod extends SimpleNode
      * public access (and complete constructor) for unit test 
      * purposes.
      */
-    public class MethodCacheKey
+    public static class MethodCacheKey
     {
         private final String methodName;  
         private final Class[] params;

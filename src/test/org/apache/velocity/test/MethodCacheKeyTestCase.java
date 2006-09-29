@@ -33,53 +33,44 @@ public class MethodCacheKeyTestCase extends TestCase
     public void testMethodKeyCacheEquals()
     {
         Class [] elements1 = new Class [] { Object.class };
-        ASTMethod m1 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck1 = m1.new MethodCacheKey("test",elements1);
+        ASTMethod.MethodCacheKey mck1 = new ASTMethod.MethodCacheKey("test",elements1);
         
         selfEqualsAssertions(mck1);
         
         Class [] elements2 = new Class [] { Object.class };
-        ASTMethod m2 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck2 = m2.new MethodCacheKey("test",elements2);
+        ASTMethod.MethodCacheKey mck2 = new ASTMethod.MethodCacheKey("test",elements2);
         
         assertTrue(mck1.equals(mck2));
         
         Class [] elements3 = new Class [] { String.class };
-        ASTMethod m3 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck3 = m3.new MethodCacheKey("test",elements3);
+        ASTMethod.MethodCacheKey mck3 = new ASTMethod.MethodCacheKey("test",elements3);
         
         assertFalse(mck1.equals(mck3));
         
         Class [] elements4 = new Class [] { Object.class };
-        ASTMethod m4 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck4 = m4.new MethodCacheKey("boo",elements4);
+        ASTMethod.MethodCacheKey mck4 = new ASTMethod.MethodCacheKey("boo",elements4);
         
         assertFalse(mck1.equals(mck4));
         
         /** check for potential NPE's **/
         Class [] elements5 = ArrayUtils.EMPTY_CLASS_ARRAY;
-        ASTMethod m5 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck5 = m5.new MethodCacheKey("boo",elements5);
+        ASTMethod.MethodCacheKey mck5 = new ASTMethod.MethodCacheKey("boo",elements5);
         selfEqualsAssertions(mck5);
         
         Class [] elements6 = null;
-        ASTMethod m6 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck6 = m6.new MethodCacheKey("boo",elements6);
+        ASTMethod.MethodCacheKey mck6 = new ASTMethod.MethodCacheKey("boo",elements6);
         selfEqualsAssertions(mck6);
         
         Class [] elements7 = new Class [] {};
-        ASTMethod m7 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck7 = m7.new MethodCacheKey("boo",elements7);
+        ASTMethod.MethodCacheKey mck7 = new ASTMethod.MethodCacheKey("boo",elements7);
         selfEqualsAssertions(mck7);
         
         Class [] elements8 = new Class [] {null};
-        ASTMethod m8 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck8 = m8.new MethodCacheKey("boo",elements8);
+        ASTMethod.MethodCacheKey mck8 = new ASTMethod.MethodCacheKey("boo",elements8);
         selfEqualsAssertions(mck8);      
         
         Class [] elements9 = new Class [] { Object.class };
-        ASTMethod m9 = new ASTMethod(23);
-        ASTMethod.MethodCacheKey mck9 = m9.new MethodCacheKey("boo",elements9);
+        ASTMethod.MethodCacheKey mck9 = new ASTMethod.MethodCacheKey("boo",elements9);
         selfEqualsAssertions(mck9);      
         
     }
