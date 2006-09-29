@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -326,8 +327,12 @@ public class ASTMethod extends SimpleNode
 
         public MethodCacheKey(String methodName, Class[] params)
         {
-            this.methodName = methodName;
-            this.params = params;
+            /** 
+             * Should never be initialized with nulls, but to be safe we refuse 
+             * to accept them.
+             */
+            this.methodName = (methodName != null) ? methodName : StringUtils.EMPTY;
+            this.params = (params != null) ? params : ArrayUtils.EMPTY_CLASS_ARRAY;
         }
 
         /**
@@ -336,22 +341,13 @@ public class ASTMethod extends SimpleNode
         public boolean equals(Object o)
         {
             /** 
-             * null check is not strictly needed (due to sole 
-             * initialization above) but it seems more safe
-             * to include it.
-             */
+             * note we skip the null test for methodName and params
+             * due to the earlier test in the constructor
+             */            
             if (o instanceof MethodCacheKey) 
             {
-                final MethodCacheKey other = (MethodCacheKey) o;
-                if ((params == null) || (other.params == null))
-                {
-                    return params == other.params;
-                }             
-                
-                /**
-                 * similarly, do null check on each array subscript.
-                 */
-                else if (params.length == other.params.length && 
+                final MethodCacheKey other = (MethodCacheKey) o;                
+                if (params.length == other.params.length && 
                         methodName.equals(other.methodName)) 
                 {              
                     for (int i = 0; i < params.length; ++i) 
@@ -383,15 +379,9 @@ public class ASTMethod extends SimpleNode
             int result = 17;
 
             /** 
-             * null check is not strictly needed (due to sole 
-             * initialization above) but it seems more safe to 
-             * include it.
-             */
-            if (params == null)
-            {
-                return result;
-            }
-            
+             * note we skip the null test for methodName and params
+             * due to the earlier test in the constructor
+             */            
             for (int i = 0; i < params.length; ++i)
             {
                 final Class param = params[i];
@@ -401,11 +391,8 @@ public class ASTMethod extends SimpleNode
                 }
             }
             
-            if (methodName != null)
-            {
-                result = result * 37 + methodName.hashCode();
-            }
-            
+            result = result * 37 + methodName.hashCode();
+
             return result;
         } 
     }
