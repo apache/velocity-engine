@@ -28,6 +28,8 @@ import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
 import org.apache.velocity.runtime.parser.node.GetExecutor;
+import org.apache.velocity.runtime.parser.node.MapGetExecutor;
+import org.apache.velocity.runtime.parser.node.MapSetExecutor;
 import org.apache.velocity.runtime.parser.node.PropertyExecutor;
 import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.apache.velocity.runtime.parser.node.SetExecutor;
@@ -187,6 +189,14 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         AbstractExecutor executor = new PropertyExecutor(log, introspector, claz, identifier);
 
         /*
+         * Let's see if we are a map...
+         */
+        if (!executor.isAlive()) 
+        {
+            executor = new MapGetExecutor(log, claz, identifier);
+        }
+
+        /*
          *  if that didn't work, look for get("foo")
          */
 
@@ -233,6 +243,13 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          *  (also setfoo() )
          */
         SetExecutor executor = new SetPropertyExecutor(log, introspector, claz, identifier, arg);
+
+        /*
+         * Let's see if we are a map...
+         */
+        if (!executor.isAlive())  {
+            executor = new MapSetExecutor(log, claz, identifier);
+        }
 
         /*
          *  if that didn't work, look for put("foo", arg)
