@@ -38,6 +38,10 @@
       </action>
 
       <action type="add" dev="henning">
+               Fix a problem in the DataSourceResource Loader, removing a potential security issue with SQL injection.
+      </action>
+
+      <action type="add" dev="henning">
                Build now creates the MD5 and SHA1 checksums for archives and jars.
       </action>
 
