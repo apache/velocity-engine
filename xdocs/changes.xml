@@ -24,7 +24,11 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
-      <action type="fix" dev="wglass" issue="VELOCITY-449" due-to="Alexey Panchenko">
+      <action type="fix" dev="henning" issue="VELOCITY-458">
+	Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
+      </action>
+
+      <action type="fix" dev="henning" issue="VELOCITY-449" due-to="Alexey Panchenko">
 	Add an additional pair of Executors that are smart about Map. 
       </action>
 
