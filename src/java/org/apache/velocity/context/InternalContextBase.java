@@ -18,12 +18,10 @@ package org.apache.velocity.context;
 
 import java.util.HashMap;
 import java.util.Stack;
-import java.io.Serializable;
-
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  *  class to encapsulate the 'stuff' for internal operation of velocity.
@@ -40,7 +38,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-class InternalContextBase implements InternalHousekeepingContext, InternalEventContext,  Serializable
+class InternalContextBase implements InternalHousekeepingContext, InternalEventContext
 {
     /**
      * Version Id for serializable
