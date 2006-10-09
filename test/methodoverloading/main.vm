@@ -1,0 +1,6 @@
+#set($param = $nullObject)
+#parse ( "sub.vm" )
+#set($param = "string")
+#parse ( "sub.vm" )
+#set($param = 1234)
+#parse ( "sub.vm" )
