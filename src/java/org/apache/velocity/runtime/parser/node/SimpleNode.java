@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -385,6 +386,36 @@ public class SimpleNode implements Node
     public int getColumn()
     {
         return first.beginColumn;
+    }
+    
+    public String toString()
+    {
+        StringBuffer tokens = new StringBuffer();
+        
+        for (Token t = getFirstToken(); t != null; )
+        {
+            tokens.append("[").append(t.image).append("]");
+            if (t.next != null)
+            {
+                if (t.equals(getLastToken()))
+                {
+                    break;
+                }
+                else
+                {
+                    tokens.append(", ");
+                }
+            }
+            t = t.next;
+        }
+
+        return new ToStringBuilder(this)
+            .append("id", getType())
+            .append("info", getInfo())
+            .append("invalid", isInvalid())
+            .append("children", jjtGetNumChildren())
+            .append("tokens", tokens)
+            .toString();
     }
 }
 
