@@ -1,4 +1,4 @@
-package org.apache.velocity.app.event;
+package org.apache.velocity.util;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.

@@ -29,10 +29,10 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.IncludeEventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
  *  Tests event handling

@@ -19,8 +19,8 @@ package org.apache.velocity.app.event.implement;
 import org.apache.oro.text.perl.MalformedPerl5PatternException;
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 
 /**

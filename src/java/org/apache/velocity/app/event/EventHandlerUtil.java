@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.ContextAware;
 
 
 /**
