@@ -389,7 +389,7 @@
         <include name="org/apache/commons/collections/ResettableIterator.class" />
       </patternset>
     </unzip>
-    <unzip src="${build.lib}/avalon-logkit-${jar.avalon-logkit.version}.jar"  dest="${build.deps}"/>
+
     <unzip src="${build.lib}/oro-${jar.oro.version}.jar"  dest="${build.deps}"/>
     <unzip src="${build.lib}/commons-lang-${jar.commons-lang.version}.jar" dest="${build.deps}"/>
     <delete dir="${build.deps}/META-INF" quiet="true"/>
