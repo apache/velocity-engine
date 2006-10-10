@@ -304,6 +304,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 ((UberspectLoggable) uberSpect).setLog(getLog());
             }
 
+            if (uberSpect instanceof RuntimeServicesAware)
+            {
+                ((RuntimeServicesAware) uberSpect).setRuntimeServices(this);
+            }
+            
             uberSpect.init();
          }
          else

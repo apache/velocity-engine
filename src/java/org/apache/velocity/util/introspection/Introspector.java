@@ -62,7 +62,7 @@ public class Introspector extends IntrospectorBase
     /**
      * The Log we use
      */
-    private Log log = null;
+    protected Log log = null;
 
     /**
      * @param log

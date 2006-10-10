@@ -336,12 +336,21 @@ public interface RuntimeConstants
      */
     public static final String ENCODING_DEFAULT = "ISO-8859-1";
 
-
     /**
      *  key name for uberspector
      */
     public static final String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 
+    /**
+     * A comma separated list of packages to restrict access to in the SecureIntrospector
+     */
+    public static final String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";    
+    
+    /**
+     * A comma separated list of classes to restrict access to in the SecureIntrospector
+     */
+    public static final String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
+    
     /**
      * The <code>parser.pool.class</code> property
      * specifies the name of the {@link
