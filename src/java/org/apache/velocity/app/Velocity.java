@@ -372,10 +372,25 @@ public class Velocity implements RuntimeConstants
 
         try
         {
-            boolean retval = evaluate(  context,  writer,
+            return evaluate(  context,  writer,
                                          logTag, construct.toString() );
+        }
 
-            return retval;
+        catch(ParseErrorException pee)
+        {
+            throw pee;
+        }
+        catch(MethodInvocationException mie)
+        {
+            throw mie;
+        }
+        catch(ResourceNotFoundException rnfe)
+        {
+            throw rnfe;
+        }
+        catch(IOException ioe)
+        {
+            getLog().error("Velocity.invokeVelocimacro() failed", ioe);
         }
         /**
          * pass through application level runtime exceptions
@@ -384,23 +399,6 @@ public class Velocity implements RuntimeConstants
         {
             throw re;
         }
-        catch(ParseErrorException pee)
-        {
-            getLog().error("Velocity.invokeVelocimacro() failed", pee);
-        }
-        catch(MethodInvocationException mie)
-        {
-            getLog().error("Velocity.invokeVelocimacro() failed", mie);
-        }
-        catch(ResourceNotFoundException rnfe)
-        {
-            getLog().error("Velocity.invokeVelocimacro() failed", rnfe);
-        }
-        catch(IOException ioe)
-        {
-            getLog().error("Velocity.invokeVelocimacro() failed", ioe);
-        }
-
         return false;
     }
 

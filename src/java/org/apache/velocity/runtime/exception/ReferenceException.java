@@ -19,7 +19,8 @@ package org.apache.velocity.runtime.exception;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- * Exception thrown when a bad reference is found.
+ * Exception thrown when a bad reference is found.  Typically
+ * caught and logged.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$

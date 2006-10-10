@@ -3,7 +3,10 @@ package org.apache.velocity.runtime.parser;
 
 /**
  * This exception is thrown when parse errors are encountered.
- * You can explicitly create objects of this exception type by
+ * It is intended to be caught and typically will be rethrown
+ * as a ParseErrorException.
+ * 
+ * <p>You can explicitly create objects of this exception type by
  * calling the method generateParseException in the generated
  * parser.
  *
