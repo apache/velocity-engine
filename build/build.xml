@@ -442,8 +442,8 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-    <checksum file="${build.dir}/${final.name}.jar" algorithm="md5" fileext=".md5"/>
-    <checksum file="${build.dir}/${final.name}.jar" algorithm="sha1" fileext=".sha1"/>
+    <checksum file="${build.dir}/${jarname}.jar" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${jarname}.jar" algorithm="sha1" fileext=".sha1"/>
   </target>
 
   <!-- ================================================================== -->
