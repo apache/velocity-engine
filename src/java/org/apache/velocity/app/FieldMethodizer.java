@@ -44,7 +44,7 @@ import org.apache.velocity.util.ClassUtils;
  *  </pre></blockquote>
  *  and then in your template, you can access any of your static fields in this way :
  *  <blockquote><pre>
- *   $runtime.RUNTIME_LOG_WARN_STACKTRACE
+ *   $runtime.COUNTER_NAME
  *  </pre></blockquote>
  *
  *  <p>
