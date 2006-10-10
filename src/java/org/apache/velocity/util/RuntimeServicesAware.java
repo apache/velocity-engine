@@ -1,4 +1,4 @@
-package org.apache.velocity.app.event;
+package org.apache.velocity.util;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -20,9 +20,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 
 
 /**
- * Event handlers implementing this interface will automatically
- * have the method setRuntimeServices called when the associated
- * EventCartridge is attached to the context.
+ * Use this interface to automatically
+ * have the method setRuntimeServices called at initialization.  
+ * Applies to EventHandler and Uberspect implementations.
  *
  * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$

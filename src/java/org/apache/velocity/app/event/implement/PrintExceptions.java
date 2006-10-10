@@ -19,8 +19,8 @@ package org.apache.velocity.app.event.implement;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
  * Simple event handler that renders method exceptions in the page
@@ -110,7 +110,7 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
 
 
     /**
-     * @see org.apache.velocity.app.event.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
+     * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
     public void setRuntimeServices(RuntimeServices rs) throws Exception
     {

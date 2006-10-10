@@ -17,8 +17,8 @@ package org.apache.velocity.app.event.implement;
  */
 
 import org.apache.velocity.app.event.IncludeEventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -87,7 +87,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
 
 
     /**
-     * @see org.apache.velocity.app.event.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
+     * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
     public void setRuntimeServices(RuntimeServices rs) throws Exception
     {

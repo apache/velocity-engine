@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalEventContext;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
  * Stores the event handlers. Event handlers can be assigned on a per
