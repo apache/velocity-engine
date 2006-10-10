@@ -173,7 +173,7 @@ public class SystemLogChute implements LogChute
      */
     public void setSystemErrLevel(int level)
     {
-        this.enabled = level;
+        this.errLevel = level;
     }
 
     /**
@@ -182,7 +182,7 @@ public class SystemLogChute implements LogChute
      */
     public int getSystemErrLevel()
     {
-        return this.enabled;
+        return this.errLevel;
     }
 
     /**
