@@ -24,6 +24,12 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="add" dev="wglass" issue="VELOCITY-179">
+          New, optional SecureIntrospector prohibits methods that involve manipulation of classes, classloaders
+		  or reflection objects.  Use this introspector to secure Velocity against a risk of
+		  template writers using reflection to perform malicious acts.
+      </action>
+
       <action type="fix" dev="henning" issue="VELOCITY-458">
 	Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
       </action>

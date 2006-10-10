@@ -50,7 +50,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  Our runtime logger.
      */
-    private Log log;
+    protected Log log;
 
     /**
      *  the default Velocity introspector

@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 public interface  RuntimeServicesAware
 {
     /**
-     * Initialize the EventHandler.
+     * Store the RuntimeServices before the object is initialized..
      * @param rs
      * @throws Exception
      */
