@@ -22,12 +22,14 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
@@ -243,6 +245,23 @@ public class VelocimacroProxy extends Directive
 
         if ( getNumArgs() != i )
         {
+            // If we have a not-yet defined macro, we do get no arguments because
+            // the syntax tree looks different than with a already defined macro.
+            // But we do know that we must be in a macro definition context somewhere up the
+            // syntax tree.
+            // Check for that, if it is true, suppress the error message.
+            // Fixes VELOCITY-71.
+
+            for (Node parent = node.jjtGetParent(); parent != null; )
+            {
+                if ((parent instanceof ASTDirective) && 
+                        StringUtils.equals(((ASTDirective) parent).getDirectiveName(), "macro"))
+                {
+                    return;
+                }
+                parent = parent.jjtGetParent();
+            }
+            
             rsvc.getLog().error("VM #" + macroName + ": error : too " +
                                 ((getNumArgs() > i) ? "few" : "many") +
                                 " arguments to macro. Wanted " + getNumArgs() +
