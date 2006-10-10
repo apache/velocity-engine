@@ -25,17 +25,17 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.app.event.ContextAware;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.apache.velocity.app.event.RuntimeServicesAware;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.util.ContextAware;
+import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
