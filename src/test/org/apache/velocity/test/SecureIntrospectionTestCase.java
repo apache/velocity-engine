@@ -57,7 +57,6 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
     private String [] badTemplateStrings =
     {
-        "$test.Class.Name",
         "$test.Class.Methods",
         "$test.Class.ClassLoader",
         "$test.Class.ClassLoader.loadClass('java.util.HashMap').newInstance().size()"
@@ -65,6 +64,7 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
     private String [] goodTemplateStrings =
     {
+        "$test.Class.Name",
         "#set($test.Property = 'abc')$test.Property",
         "$test.aTestMethod()"
     };

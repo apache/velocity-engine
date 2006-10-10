@@ -72,10 +72,15 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      */
     public boolean checkObjectExecutePermission(Class clazz, String method)
     {
+        if (method == null)
+        {
+            return false;
+        }
+        
         /**
          * check for wait and notify 
          */
-        if ( (method != null) && (method.equals("wait") || method.equals("notify")) )
+        if ( method.equals("wait") || method.equals("notify") )
         {
             return false;
         }
@@ -94,6 +99,14 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         }
         
         else if (java.lang.String.class.isAssignableFrom(clazz))
+        {
+            return true;
+        }
+        
+        /**
+         * Always allow Class.getName()
+         */
+        else if (java.lang.Class.class.isAssignableFrom(clazz) && method.equals("getName"))
         {
             return true;
         }
