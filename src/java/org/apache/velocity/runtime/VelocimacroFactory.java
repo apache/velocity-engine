@@ -16,15 +16,16 @@ package org.apache.velocity.runtime;
  * limitations under the License.
  */
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
-import org.apache.velocity.runtime.log.Log;
-
-import java.util.Vector;
-import java.util.Map;
-import java.util.HashMap;
+import org.apache.velocity.runtime.log.LogDisplayWrapper;
 
 /**
  *  VelocimacroFactory.java
@@ -39,12 +40,12 @@ public class VelocimacroFactory
     /**
      *  runtime services for this instance
      */
-    private RuntimeServices rsvc = null;
+    private final RuntimeServices rsvc;
 
     /**
      *  the log for this instance
      */
-    private Log log = null;
+    private final LogDisplayWrapper log;
 
     /**
      *  VMManager : deal with namespace management
@@ -72,11 +73,6 @@ public class VelocimacroFactory
     private boolean templateLocal = false;
 
     /**
-     *  controls log output
-     */
-    private boolean outputMessages = false;
-
-    /**
      *  determines if the libraries are auto-loaded
      *  when they change
      */
@@ -98,17 +94,18 @@ public class VelocimacroFactory
      *
      * @param rs Reference to a runtime services object.
      */
-    public VelocimacroFactory( RuntimeServices rs )
+    public VelocimacroFactory(final RuntimeServices rsvc)
     {
-        this.rsvc = rs;
-        this.log = rs.getLog();
+        this.rsvc = rsvc;
+        this.log = new LogDisplayWrapper(rsvc.getLog(), "Velocimacro : ",
+                rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true));
 
         /*
          *  we always access in a synchronized(), so we
          *  can use an unsynchronized hashmap
          */
         libModMap = new HashMap();
-        vmManager = new VelocimacroManager( rsvc );
+        vmManager = new VelocimacroManager(rsvc);
     }
 
     /**
@@ -118,27 +115,22 @@ public class VelocimacroFactory
     public void initVelocimacro()
     {
         /*
-         *  respect message switch even from the start
-         */
-        outputMessages = rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true);
-
-        /*
          *  maybe I'm just paranoid...
          */
-        synchronized( this )
+        synchronized(this)
         {
-            trace("Velocimacro : initialization starting.");
+            log.trace("initialization starting.");
 
             /*
              *   allow replacements while we add the libraries, if exist
              */
-            setReplacementPermission( true );
+            setReplacementPermission(true);
 
             /*
              *  add all library macros to the global namespace
              */
 
-            vmManager.setNamespaceUsage( false );
+            vmManager.setNamespaceUsage(false);
 
             /*
              *  now, if there is a global or local libraries specified, use them.
@@ -146,11 +138,11 @@ public class VelocimacroFactory
              *  VM's  are added during the parse phase
              */
 
-             Object libfiles = rsvc.getProperty( RuntimeConstants.VM_LIBRARY );
+             Object libfiles = rsvc.getProperty(RuntimeConstants.VM_LIBRARY);
 
              if (libfiles == null)
              {
-                 debug("\"" + RuntimeConstants.VM_LIBRARY +
+                 log.debug("\"" + RuntimeConstants.VM_LIBRARY +
                      "\" is not set.  Trying default library: " +
                      RuntimeConstants.VM_LIBRARY_DEFAULT);
 
@@ -161,11 +153,11 @@ public class VelocimacroFactory
                  }
                  else
                  {
-                     debug("Default library not found.");
+                     log.debug("Default library not found.");
                  }
              }
 
-             if( libfiles != null)
+             if(libfiles != null)
              {
                  if (libfiles instanceof Vector)
                  {
@@ -174,10 +166,10 @@ public class VelocimacroFactory
                  else if (libfiles instanceof String)
                  {
                      macroLibVec = new Vector();
-                     macroLibVec.addElement( libfiles );
+                     macroLibVec.addElement(libfiles);
                  }
 
-                 for( int i = 0; i < macroLibVec.size(); i++)
+                 for(int i = 0; i < macroLibVec.size(); i++)
                  {
                      String lib = (String) macroLibVec.elementAt(i);
 
@@ -185,20 +177,20 @@ public class VelocimacroFactory
                       * only if it's a non-empty string do we bother
                       */
 
-                     if (lib != null && !lib.equals(""))
+                     if (StringUtils.isNotEmpty(lib))
                      {
                          /*
                           *  let the VMManager know that the following is coming
                           *  from libraries - need to know for auto-load
                           */
 
-                         vmManager.setRegisterFromLib( true );
+                         vmManager.setRegisterFromLib(true);
 
-                         debug("adding VMs from VM library : " + lib);
+                         log.debug("adding VMs from VM library : " + lib);
 
                          try
                          {
-                             Template template = rsvc.getTemplate( lib );
+                             Template template = rsvc.getTemplate(lib);
 
                              /*
                               *  save the template.  This depends on the assumption
@@ -209,16 +201,16 @@ public class VelocimacroFactory
                              Twonk twonk = new Twonk();
                              twonk.template = template;
                              twonk.modificationTime = template.getLastModified();
-                             libModMap.put( lib, twonk );
+                             libModMap.put(lib, twonk);
                          }
                          catch (Exception e)
                          {
-                             log.error("Velocimacro : Error using VM library : " + lib, e);
+                             log.error(true, "Velocimacro : Error using VM library : " + lib, e);
                          }
 
-                         trace("Velocimacro : VM library registration complete.");
+                         log.trace("VM library registration complete.");
 
-                         vmManager.setRegisterFromLib( false );
+                         vmManager.setRegisterFromLib(false);
                      }
                  }
              }
@@ -234,17 +226,17 @@ public class VelocimacroFactory
              *
              *  default = true
              */
-            setAddMacroPermission( true );
+            setAddMacroPermission(true);
 
-            if ( !rsvc.getBoolean(  RuntimeConstants.VM_PERM_ALLOW_INLINE, true) )
+            if (!rsvc.getBoolean( RuntimeConstants.VM_PERM_ALLOW_INLINE, true))
             {
-                setAddMacroPermission( false );
+                setAddMacroPermission(false);
 
-                info("allowInline = false : VMs can NOT be defined inline in templates");
+                log.info("allowInline = false : VMs can NOT be defined inline in templates");
             }
             else
             {
-                debug("allowInline = true : VMs can be defined inline in templates");
+                log.debug("allowInline = true : VMs can be defined inline in templates");
             }
 
             /*
@@ -253,19 +245,19 @@ public class VelocimacroFactory
              *
              *  default = false
              */
-            setReplacementPermission( false );
+            setReplacementPermission(false);
 
-            if ( rsvc.getBoolean(
-                 RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false) )
+            if (rsvc.getBoolean(
+                 RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false))
             {
-                setReplacementPermission( true );
+                setReplacementPermission(true);
 
-                info("allowInlineToOverride = true : VMs " +
+                log.info("allowInlineToOverride = true : VMs " +
                     "defined inline may replace previous VM definitions");
             }
             else
             {
-                debug("allowInlineToOverride = false : VMs " +
+                log.debug("allowInlineToOverride = false : VMs " +
                     "defined inline may NOT replace previous VM definitions");
             }
 
@@ -273,44 +265,44 @@ public class VelocimacroFactory
              * now turn on namespace handling as far as permissions allow in the
              * manager, and also set it here for gating purposes
              */
-            vmManager.setNamespaceUsage( true );
+            vmManager.setNamespaceUsage(true);
 
             /*
              *  template-local inline VM mode : default is off
              */
-            setTemplateLocalInline( rsvc.getBoolean(
-                RuntimeConstants.VM_PERM_INLINE_LOCAL, false) );
+            setTemplateLocalInline(rsvc.getBoolean(
+                RuntimeConstants.VM_PERM_INLINE_LOCAL, false));
 
-            if ( getTemplateLocalInline() )
+            if (getTemplateLocalInline())
             {
-                info("allowInlineLocal = true : VMs " +
+                log.info("allowInlineLocal = true : VMs " +
                     "defined inline will be local to their defining template only.");
             }
             else
             {
-                debug("allowInlineLocal = false : VMs " +
+                log.debug("allowInlineLocal = false : VMs " +
                     "defined inline will be global in scope if allowed.");
             }
 
-            vmManager.setTemplateLocalInlineVM( getTemplateLocalInline() );
+            vmManager.setTemplateLocalInlineVM(getTemplateLocalInline());
 
             /*
              *  autoload VM libraries
              */
-            setAutoload( rsvc.getBoolean( RuntimeConstants.VM_LIBRARY_AUTORELOAD, false ));
+            setAutoload(rsvc.getBoolean(RuntimeConstants.VM_LIBRARY_AUTORELOAD, false));
 
             if (getAutoload())
             {
-                info("autoload on : VM system " +
+                log.info("autoload on : VM system " +
                      "will automatically reload global library macros");
             }
             else
             {
-                debug("autoload off : VM system " +
+                log.debug("autoload off : VM system " +
                       "will not automatically reload global library macros");
             }
 
-            trace("Velocimacro : initialization complete.");
+            log.trace("Velocimacro : initialization complete.");
         }
     }
 
@@ -323,8 +315,8 @@ public class VelocimacroFactory
      * @param sourceTemplate Source template from which the macro gets registered.
      * @return True if Macro was registered successfully.
      */
-    public boolean addVelocimacro( String name, String macroBody,
-    	String argArray[], String sourceTemplate )
+    public boolean addVelocimacro(String name, String macroBody,
+            String argArray[], String sourceTemplate)
     {
         /*
          * maybe we should throw an exception, maybe just tell
@@ -332,10 +324,10 @@ public class VelocimacroFactory
          *
          * I hate this : maybe exceptions are in order here...
          */
-        if ( name == null ||   macroBody == null || argArray == null ||
-        	sourceTemplate == null )
+        if (name == null ||   macroBody == null || argArray == null ||
+                sourceTemplate == null)
         {
-            warn("VM addition rejected : programmer error : arg null");
+            log.warn("VM addition rejected : programmer error : arg null");
             return false;
         }
 
@@ -343,7 +335,7 @@ public class VelocimacroFactory
          *  see if the current ruleset allows this addition
          */
 
-        if (!canAddVelocimacro( name, sourceTemplate ))
+        if (!canAddVelocimacro(name, sourceTemplate))
         {
             return false;
         }
@@ -351,18 +343,18 @@ public class VelocimacroFactory
         /*
          *  seems like all is good.  Lets do it.
          */
-        synchronized( this )
+        synchronized(this)
         {
-            vmManager.addVM( name, macroBody, argArray, sourceTemplate );
+            vmManager.addVM(name, macroBody, argArray, sourceTemplate);
         }
 
         /*
          * Report addition of the new Velocimacro.
          */
-        StringBuffer msg = new StringBuffer("Velocimacro : added ");
+        StringBuffer msg = new StringBuffer("added ");
         Macro.macroToString(msg, argArray);
         msg.append(" : source = ").append(sourceTemplate);
-        info(msg.toString());
+        log.info(msg.toString());
 
         return true;
     }
@@ -375,24 +367,24 @@ public class VelocimacroFactory
      *  @param sourceTemplate Source template that contains the defintion of the VM
      *  @return true if it is allowed to be added, false otherwise
      */
-    private synchronized boolean canAddVelocimacro( String name, String sourceTemplate)
+    private synchronized boolean canAddVelocimacro(String name, String sourceTemplate)
     {
         /*
          *  short circuit and do it if autoloader is on, and the
          *  template is one of the library templates
          */
 
-        if ( getAutoload() && (macroLibVec != null) )
+        if (getAutoload() && (macroLibVec != null))
         {
             /*
              *  see if this is a library template
              */
 
-            for( int i = 0; i < macroLibVec.size(); i++)
+            for(int i = 0; i < macroLibVec.size(); i++)
             {
                 String lib = (String) macroLibVec.elementAt(i);
 
-                if (lib.equals( sourceTemplate ) )
+                if (lib.equals(sourceTemplate))
                 {
                     return true;
                 }
@@ -407,7 +399,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            warn("VM addition rejected : "+name+" : inline VMs not allowed.");
+            log.warn("VM addition rejected : "+name+" : inline VMs not allowed.");
             return false;
         }
 
@@ -424,9 +416,9 @@ public class VelocimacroFactory
              *
              *  so if we have it, and we aren't allowed to replace, bail
              */
-            if ( isVelocimacro( name, sourceTemplate ) && !replaceAllowed )
+            if (isVelocimacro(name, sourceTemplate) && !replaceAllowed)
             {
-                warn("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
+                log.warn("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
                 return false;
             }
         }
@@ -435,56 +427,12 @@ public class VelocimacroFactory
     }
 
     /**
-     *  localization of the logging logic
-     */
-    private void debug(String s)
-    {
-        if (outputMessages && log.isDebugEnabled())
-        {
-            log.debug("Velocimacro : " + s);
-        }
-    }
-
-    /**
-     *  localization of the logging logic
-     */
-    private void info(String s)
-    {
-        if (outputMessages && log.isInfoEnabled())
-        {
-            log.info("Velocimacro : " + s);
-        }
-    }
-
-    /**
-     *  localization of the logging logic
-     */
-    private void warn(String s)
-    {
-        if (outputMessages && log.isWarnEnabled())
-        {
-            log.warn("Velocimacro : " + s);
-        }
-    }
-
-    /**
-     *  localization of the logging logic
-     */
-    private void trace(String s)
-    {
-        if (outputMessages && log.isTraceEnabled())
-        {
-            log.trace("Velocimacro : " + s);
-        }
-    }
-
-    /**
      *  Tells the world if a given directive string is a Velocimacro
      * @param vm Name of the Macro.
      * @param sourceTemplate Source template from which the macro should be loaded.
      * @return True if the given name is a macro.
      */
-    public boolean isVelocimacro( String vm , String sourceTemplate )
+    public boolean isVelocimacro(String vm , String sourceTemplate)
     {
         synchronized(this)
         {
@@ -492,7 +440,7 @@ public class VelocimacroFactory
              * first we check the locals to see if we have
              * a local definition for this template
              */
-            if (vmManager.get( vm, sourceTemplate ) != null)
+            if (vmManager.get(vm, sourceTemplate) != null)
                 return true;
         }
         return false;
@@ -506,31 +454,31 @@ public class VelocimacroFactory
      * @param sourceTemplate Source template from which the macro should be loaded.
      * @return A directive representing the Macro.
      */
-    public Directive getVelocimacro( String vmName, String sourceTemplate )
+    public Directive getVelocimacro(String vmName, String sourceTemplate)
     {
         VelocimacroProxy vp = null;
 
-        synchronized( this )
+        synchronized(this)
         {
             /*
              *  don't ask - do
              */
 
-            vp = vmManager.get( vmName, sourceTemplate);
+            vp = vmManager.get(vmName, sourceTemplate);
 
             /*
              *  if this exists, and autoload is on, we need to check
              *  where this VM came from
              */
 
-            if ( vp != null && getAutoload() )
+            if (vp != null && getAutoload())
             {
                 /*
                  *  see if this VM came from a library.  Need to pass sourceTemplate
                  *  in the event namespaces are set, as it could be masked by local
                  */
 
-                String lib = vmManager.getLibraryName( vmName, sourceTemplate );
+                String lib = vmManager.getLibraryName(vmName, sourceTemplate);
 
                 if (lib != null)
                 {
@@ -540,9 +488,9 @@ public class VelocimacroFactory
                          *  get the template from our map
                          */
 
-                        Twonk tw = (Twonk) libModMap.get( lib );
+                        Twonk tw = (Twonk) libModMap.get(lib);
 
-                        if ( tw != null)
+                        if (tw != null)
                         {
                             Template template = tw.template;
 
@@ -554,11 +502,11 @@ public class VelocimacroFactory
                              */
 
                             long tt = tw.modificationTime;
-                            long ft = template.getResourceLoader().getLastModified( template );
+                            long ft = template.getResourceLoader().getLastModified(template);
 
-                            if ( ft > tt )
+                            if (ft > tt)
                             {
-                                debug("auto-reloading VMs from VM library : "+lib);
+                                log.debug("auto-reloading VMs from VM library : "+lib);
 
                                 /*
                                  *  when there are VMs in a library that invoke each other,
@@ -570,7 +518,7 @@ public class VelocimacroFactory
 
                                 tw.modificationTime = ft;
 
-                                template = rsvc.getTemplate( lib );
+                                template = rsvc.getTemplate(lib);
 
                                 /*
                                  * and now we be honest
@@ -589,14 +537,14 @@ public class VelocimacroFactory
                     }
                     catch (Exception e)
                     {
-                        log.error("Velocimacro : Error using VM library : "+lib, e);
+                        log.error(true, "Velocimacro : Error using VM library : "+lib, e);
                     }
 
                     /*
                      *  and get again
                      */
 
-                    vp = vmManager.get( vmName, sourceTemplate);
+                    vp = vmManager.get(vmName, sourceTemplate);
                 }
             }
         }
@@ -609,9 +557,9 @@ public class VelocimacroFactory
      * @param namespace Namespace to dump.
      * @return True if namespace has been dumped successfully.
      */
-    public boolean dumpVMNamespace( String namespace )
+    public boolean dumpVMNamespace(String namespace)
     {
-        return vmManager.dumpNamespace( namespace );
+        return vmManager.dumpNamespace(namespace);
     }
 
     /**
@@ -620,7 +568,7 @@ public class VelocimacroFactory
      *  we need it here for gating purposes in addVM
      *  eventually, I will slide this all into the manager, maybe.
      */
-    private void setTemplateLocalInline( boolean b )
+    private void setTemplateLocalInline(boolean b)
     {
         templateLocal = b;
     }
@@ -633,11 +581,10 @@ public class VelocimacroFactory
     /**
      *   sets the permission to add new macros
      */
-    private boolean setAddMacroPermission( boolean arg )
+    private boolean setAddMacroPermission(final boolean addNewAllowed)
     {
-        boolean b = addNewAllowed;
-
-        addNewAllowed = arg;
+        boolean b = this.addNewAllowed;
+        this.addNewAllowed = addNewAllowed;
         return b;
     }
 
@@ -645,7 +592,7 @@ public class VelocimacroFactory
      *    sets the permission for allowing addMacro() calls to
      *    replace existing VM's
      */
-    private boolean setReplacementPermission( boolean arg )
+    private boolean setReplacementPermission(boolean arg)
     {
         boolean b = replaceAllowed;
         replaceAllowed = arg;
@@ -656,7 +603,7 @@ public class VelocimacroFactory
      *  set the switch for automatic reloading of
      *  global library-based VMs
      */
-    private void setAutoload( boolean b)
+    private void setAutoload(boolean b)
     {
         autoReloadLibrary = b;
     }
@@ -671,7 +618,7 @@ public class VelocimacroFactory
     }
 
     /**
-     * small continer class to hold the duple
+     * small container class to hold the tuple
      * of a template and modification time.
      * We keep the modification time so we can
      * 'override' it on a reload to prevent
