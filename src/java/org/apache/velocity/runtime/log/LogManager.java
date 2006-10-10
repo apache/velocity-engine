@@ -46,7 +46,7 @@ import org.apache.velocity.util.ClassUtils;
  *       as all three are listed as defaults.
  *  </li>
  *  <li>
- *      Finally, we turn to the System.out stream and print log messages
+ *      Finally, we turn to the System.err stream and print log messages
  *      to it if nothing else works.
  *  </li>
  *
@@ -184,11 +184,11 @@ public class LogManager
          * problems for the default loggers, log4j and Java1.4+.
          * Since we really don't know and we want to be sure the user knows
          * that something went wrong with the logging, let's fall back to the
-         * surefire StandardOutLogChute. No panicking or failing to log!!
+         * surefire SystemLogChute. No panicking or failing to log!!
          */
-        LogChute slc = new StandardOutLogChute();
+        LogChute slc = new SystemLogChute();
         slc.init(rsvc);
-        log.debug("Using StandardOutLogChute.");
+        log.debug("Using SystemLogChute.");
         return slc;
     }
 
