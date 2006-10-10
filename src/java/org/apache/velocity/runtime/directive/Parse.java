@@ -221,6 +221,15 @@ public class Parse extends InputBase
                 ((SimpleNode) t.getData()).render( context, writer );
             }
         }
+        
+        /*
+         *  if it's a MIE, it came from the render.... throw it...
+         */
+        catch( MethodInvocationException e )
+        {
+            throw e;
+        }
+        
         /**
          * pass through application level runtime exceptions
          */
@@ -229,13 +238,7 @@ public class Parse extends InputBase
             throw e;
         }
 
-        /*
-         *  if it's a MIE, it came from the render.... throw it...
-         */
-        catch( MethodInvocationException e )
-        {
-            throw e;
-        }
+
         catch ( Exception e )
         {
             rsvc.getLog().error("Exception rendering #parse(" + arg + ')', e);

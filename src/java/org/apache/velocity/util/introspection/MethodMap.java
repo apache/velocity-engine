@@ -133,8 +133,9 @@ public class MethodMap
     }
 
     /**
-     *  simple distinguishable exception, used when
-     *  we run across ambiguous overloading
+     *  Simple distinguishable exception, used when
+     *  we run across ambiguous overloading.  Caught
+     *  by the introspector.
      */
     public static class AmbiguousException extends Exception
     {

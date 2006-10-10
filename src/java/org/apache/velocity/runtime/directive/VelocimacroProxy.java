@@ -190,18 +190,19 @@ public class VelocimacroProxy extends Directive
                 rsvc.getLog().error("VM error " + macroName + ". Null AST");
             }
         }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
 
         /*
          *  if it's a MIE, it came from the render.... throw it...
          */
         catch( MethodInvocationException e )
+        {
+            throw e;
+        }
+
+        /**
+         * pass through application level runtime exceptions
+         */
+        catch( RuntimeException e )
         {
             throw e;
         }

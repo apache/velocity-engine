@@ -210,13 +210,11 @@ public class ASTStringLiteral extends SimpleNode
                     return ret;
                 }
             }
+
             /**
-             * pass through application level runtime exceptions
+             * For interpolated Strings we do not pass exceptions 
+             * through -- just log the problem and move on.
              */
-            catch( RuntimeException e )
-            {
-                throw e;
-            }
             catch( ParseErrorException  e )
             {
                 log.error("Error in interpolating string literal", e);
@@ -229,6 +227,15 @@ public class ASTStringLiteral extends SimpleNode
             {
                 log.error("Error in interpolating string literal", e);
             }
+            
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
+            {
+                throw e;
+            }
+            
             catch( IOException  e )
             {
                 log.error("Error in interpolating string literal", e);

@@ -17,13 +17,13 @@ package org.apache.velocity.exception;
  */
 
 /**
- *  Base class for Velocity exceptions thrown to the
- *  application layer.
+*  Base class for Velocity runtime exceptions thrown to the 
+ * application layer.    
  *
  * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
  * @version $Id$
  */
-public class VelocityException extends Exception
+public class VelocityException extends RuntimeException
 {
     /**
      * Version Id for serializable
