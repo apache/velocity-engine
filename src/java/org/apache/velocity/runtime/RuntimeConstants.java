@@ -109,7 +109,7 @@ public interface RuntimeConstants
      */
 
     /**
-     * Initial counter value in #foreach directives.
+     * Counter reference name in #foreach directives.
      */
     public static final String COUNTER_NAME =
         "directive.foreach.counter.name";
