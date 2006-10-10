@@ -34,29 +34,29 @@ public class Log
      */
     public Log()
     {
-        this.chute = new HoldingLogChute();
+        setLogChute(new HoldingLogChute());
     }
 
     /**
      * Creates a new Log that wraps the specified LogChute.
      * @param chute
      */
-    public Log(LogChute chute)
+    public Log(final LogChute chute)
     {
-        if (chute == null)
-        {
-            throw new NullPointerException("The LogChute cannot be set to null!");
-        }
-        this.chute = chute;
+        setLogChute(chute);
     }
 
     /**
      * Updates the LogChute wrapped by this Log instance.
      * @param newLogChute
      */
-    protected void setLogChute(LogChute newLogChute)
+    protected void setLogChute(final LogChute chute)
     {
-        this.chute = newLogChute;
+        if (chute == null)
+        {
+            throw new NullPointerException("The LogChute cannot be set to null!");
+        }
+        this.chute = chute;
     }
 
     /**
@@ -68,14 +68,14 @@ public class Log
         return this.chute;
     }
 
-    private void log(int level, Object message)
+    protected void log(int level, Object message)
     {
-        chute.log(level, String.valueOf(message));
+        getLogChute().log(level, String.valueOf(message));
     }
 
-    private void log(int level, Object message, Throwable t)
+    protected void log(int level, Object message, Throwable t)
     {
-        chute.log(level, String.valueOf(message), t);
+        getLogChute().log(level, String.valueOf(message), t);
     }
 
     /**
@@ -84,7 +84,7 @@ public class Log
      */
     public boolean isTraceEnabled()
     {
-        return chute.isLevelEnabled(LogChute.TRACE_ID);
+        return getLogChute().isLevelEnabled(LogChute.TRACE_ID);
     }
 
     /**
@@ -112,7 +112,7 @@ public class Log
      */
     public boolean isDebugEnabled()
     {
-        return chute.isLevelEnabled(LogChute.DEBUG_ID);
+        return getLogChute().isLevelEnabled(LogChute.DEBUG_ID);
     }
 
     /**
@@ -140,7 +140,7 @@ public class Log
      */
     public boolean isInfoEnabled()
     {
-        return chute.isLevelEnabled(LogChute.INFO_ID);
+        return getLogChute().isLevelEnabled(LogChute.INFO_ID);
     }
 
     /**
@@ -168,7 +168,7 @@ public class Log
      */
     public boolean isWarnEnabled()
     {
-        return chute.isLevelEnabled(LogChute.WARN_ID);
+        return getLogChute().isLevelEnabled(LogChute.WARN_ID);
     }
 
     /**
@@ -196,7 +196,7 @@ public class Log
      */
     public boolean isErrorEnabled()
     {
-        return chute.isLevelEnabled(LogChute.ERROR_ID);
+        return getLogChute().isLevelEnabled(LogChute.ERROR_ID);
     }
 
     /**
