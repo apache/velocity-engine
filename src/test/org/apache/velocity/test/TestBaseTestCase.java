@@ -49,8 +49,10 @@ public class TestBaseTestCase
         assertEquals(root     + "baz" + fs + "foo.bar", getFileName(root + "baz", "foo",  "bar"));
         assertEquals(root + "foo.bar",                  getFileName("baz",        root + "foo", "bar"));
         assertEquals(root + "foo.bar",                  getFileName(root + "baz", root + "foo", "bar"));
-        assertEquals(".",                               getFileName(null,         "",     ""));
-        assertEquals(root + ".",                        getFileName("",           "",     ""));
+        assertEquals("",                                getFileName(null,          "",     ""));
+        assertEquals(root + "",                         getFileName("",            "",     ""));
+        assertEquals(".x",                              getFileName(null,          "",     "x"));
+        assertEquals(root + ".x",                       getFileName("",            "",     "x"));
         assertEquals("foo.bar",                         getFileName(null,         "foo",  "bar"));
         assertEquals(root + "foo.bar",                  getFileName(null,         root + "foo", "bar"));
         assertEquals(root + "foo.bar",                  getFileName("",           "foo",  "bar"));

@@ -81,7 +81,10 @@ public abstract class BaseTestCase
                 buf.append(baseFile.getPath());
             }
 
-            buf.append('.').append(ext);
+            if (org.apache.commons.lang.StringUtils.isNotEmpty(ext))
+            {
+                buf.append('.').append(ext);
+            }
 
             if (mustExist)
             {
