@@ -18,13 +18,17 @@ package org.apache.velocity.runtime.log;
 
 import java.io.File;
 import java.io.IOException;
-import org.apache.log.Priority;
-import org.apache.log.Logger;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
+import org.apache.log.Logger;
+import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * Implementation of a Avalon logger.
@@ -36,8 +40,25 @@ import org.apache.velocity.runtime.RuntimeConstants;
  */
 public class AvalonLogChute implements LogChute
 {
+    public static final String AVALON_LOGGER = "runtime.log.logsystem.avalon.logger";
+ 
+    public static final String AVALON_LOGGER_FORMAT = "runtime.log.logsystem.avalon.format";
+    
+    public static final String AVALON_LOGGER_LEVEL = "runtime.log.logsystem.avalon.level";
+
     private Logger logger = null;
     private RuntimeServices rsvc = null;
+    
+    private static final Map logLevels = new HashMap();
+    
+    static
+    {
+        logLevels.put("trace", Priority.DEBUG);
+        logLevels.put("debug", Priority.DEBUG);
+        logLevels.put("info", Priority.INFO);
+        logLevels.put("warn", Priority.WARN);
+        logLevels.put("error", Priority.ERROR);
+    }
 
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
@@ -47,7 +68,7 @@ public class AvalonLogChute implements LogChute
         this.rsvc = rs;
 
         // if a logger is specified, we will use this instead of the default
-        String name = (String)rsvc.getProperty("runtime.log.logsystem.avalon.logger");
+        String name = (String)rsvc.getProperty(AVALON_LOGGER);
         if (name != null)
         {
             this.logger = Hierarchy.getDefaultHierarchy().getLoggerFor(name);
@@ -59,25 +80,42 @@ public class AvalonLogChute implements LogChute
 
             // if we have a file property, use it to create a FileTarget
             String file = (String)rsvc.getProperty(RuntimeConstants.RUNTIME_LOG);
-            if (file != null && file.length() > 0)
+            if (StringUtils.isNotEmpty(file))
             {
-                initTarget(file);
+                initTarget(file, rsvc);
             }
         }
     }
 
     // creates a file target using the specified file name
-    private void initTarget(String file) throws Exception
+    private void initTarget(final String file, final RuntimeServices rsvc) throws Exception
     {
         try
         {
-            VelocityFormatter vf =
-                new VelocityFormatter("%{time} %{message}\\n%{throwable}");
+            String format = null;
+            Priority level = null;
+            if (rsvc != null)
+            {
+                format = (String) rsvc.getProperty(AVALON_LOGGER_FORMAT);
+                level = (Priority) logLevels.get(rsvc.getProperty(AVALON_LOGGER_LEVEL));
+            }
+
+            if (StringUtils.isEmpty(format))
+            {
+                format = "%{time} %{message}\\n%{throwable}";
+            }
+            
+            if (level == null)
+            {
+                level = Priority.DEBUG;
+            }
+                
+            VelocityFormatter vf = new VelocityFormatter(format);
 
             // make the target and keep the default behavior of not appending
             FileTarget target = new FileTarget(new File(file), false, vf);
 
-            logger.setPriority(Priority.DEBUG);
+            logger.setPriority(level);
             logger.setLogTargets(new LogTarget[] { target });
             log(DEBUG_ID, "AvalonLogChute initialized using file '"+file+'\'');
         }
@@ -98,7 +136,7 @@ public class AvalonLogChute implements LogChute
     public void init(String file) throws Exception
     {
         logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
-        initTarget(file);
+        initTarget(file, null);
         // nag the theoretical user
         log(WARN_ID, "You shouldn't be using the init(String file) method!");
     }
