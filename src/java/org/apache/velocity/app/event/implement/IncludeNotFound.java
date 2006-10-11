@@ -89,7 +89,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
     /**
      * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void setRuntimeServices(RuntimeServices rs) throws Exception
+    public void setRuntimeServices(RuntimeServices rs)
     {
          this.rs = rs;
          notfound = StringUtils.nullTrim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
