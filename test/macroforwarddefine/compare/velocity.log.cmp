@@ -1,0 +1,8 @@
+ [error] VM #test1: error : too few arguments to macro. Wanted 1 got 0
+ [error] VM #test2: error : too few arguments to macro. Wanted 1 got 0
+ [error] VM #test3: error : too few arguments to macro. Wanted 1 got 0
+ [error] VM #test4: error : too few arguments to macro. Wanted 1 got 0
+ [error] VM #test1: error : too many arguments to macro. Wanted 1 got 2
+ [error] VM #test2: error : too many arguments to macro. Wanted 1 got 2
+ [error] VM #test3: error : too many arguments to macro. Wanted 1 got 2
+ [error] VM #test4: error : too many arguments to macro. Wanted 1 got 2
