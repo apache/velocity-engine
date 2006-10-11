@@ -89,7 +89,7 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
      * @param rs
      * @throws Exception
      */
-    public void setRuntimeServices(RuntimeServices rs) throws Exception
+    public void setRuntimeServices(RuntimeServices rs)
     {
         this.runtimeServices = rs;
     }

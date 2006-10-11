@@ -30,10 +30,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 public interface  RuntimeServicesAware
 {
     /**
-     * Store the RuntimeServices before the object is initialized..
-     * @param rs
-     * @throws Exception
+     * Called automatically when event cartridge is initialized.
+     * @param rs RuntimeServices object assigned during initialization
      */
-    public void setRuntimeServices( RuntimeServices rs ) throws Exception;
+    public void setRuntimeServices( RuntimeServices rs );
 
 }

@@ -35,7 +35,7 @@ import org.apache.velocity.util.RuntimeServicesAware;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServicesAware
+public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServicesAware
 {
 
     private static String SHOW_MESSAGE = "eventhandler.methodexception.message";
@@ -112,7 +112,7 @@ public class PrintExceptions implements MethodExceptionEventHandler,RuntimeServi
     /**
      * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void setRuntimeServices(RuntimeServices rs) throws Exception
+    public void setRuntimeServices(RuntimeServices rs)
     {
         this.rs = rs;
     }

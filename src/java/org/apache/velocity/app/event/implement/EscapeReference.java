@@ -113,7 +113,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
      * @param rs
      * @throws Exception
      */
-    public void setRuntimeServices(RuntimeServices rs) throws Exception
+    public void setRuntimeServices(RuntimeServices rs)
     {
         this.rs = rs;
 
