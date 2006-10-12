@@ -635,8 +635,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       }
         String directiveName;
         if (t.kind == ParserConstants.BRACKETED_WORD)
-    {
-
+        {
             directiveName = t.image.substring(2,t.image.length() - 1);
         }
         else
@@ -887,7 +886,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 /**
  * for creating a map in a #set
  *
- *  #set($foo = [$foo : $bar, $blargh : $thingy])
+ *  #set($foo = {$foo : $bar, $blargh : $thingy})
  */
   final public void Map() throws ParseException {
               /*@bgen(jjtree) Map */
@@ -2579,6 +2578,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
+  final private boolean jj_3_2() {
+    if (jj_scan_token(DOUBLE_ESCAPE)) return true;
+    return false;
+  }
+
   final private boolean jj_3R_35() {
     if (jj_scan_token(LCURLY)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
@@ -2588,11 +2592,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       if (jj_3_9()) { jj_scanpos = xsp; break; }
     }
     if (jj_scan_token(RCURLY)) return true;
-    return false;
-  }
-
-  final private boolean jj_3_2() {
-    if (jj_scan_token(DOUBLE_ESCAPE)) return true;
     return false;
   }
 
@@ -2821,12 +2820,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
-  final private boolean jj_3R_84() {
+  final private boolean jj_3R_22() {
     if (jj_3R_36()) return true;
     return false;
   }
 
-  final private boolean jj_3R_22() {
+  final private boolean jj_3R_84() {
     if (jj_3R_36()) return true;
     return false;
   }
@@ -2882,12 +2881,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
-  final private boolean jj_3R_83() {
+  final private boolean jj_3R_21() {
     if (jj_3R_20()) return true;
     return false;
   }
 
-  final private boolean jj_3R_21() {
+  final private boolean jj_3R_83() {
     if (jj_3R_20()) return true;
     return false;
   }
@@ -3121,13 +3120,13 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
-  final private boolean jj_3R_33() {
-    if (jj_3R_36()) return true;
+  final private boolean jj_3R_62() {
+    if (jj_scan_token(FLOATING_POINT_LITERAL)) return true;
     return false;
   }
 
-  final private boolean jj_3R_62() {
-    if (jj_scan_token(FLOATING_POINT_LITERAL)) return true;
+  final private boolean jj_3R_33() {
+    if (jj_3R_36()) return true;
     return false;
   }
 
@@ -3370,6 +3369,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   final private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 12; i++) {
+    try {
       JJCalls p = jj_2_rtns[i];
       do {
         if (p.gen > jj_gen) {
@@ -3391,6 +3391,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         p = p.next;
       } while (p != null);
+      } catch(LookaheadSuccess ls) { }
     }
     jj_rescan = false;
   }
