@@ -429,7 +429,11 @@
   <target name="build-jar">
     <jar jarfile="${build.dir}/${jarname}.jar">
 
-      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}">
+        <include name="LICENSE"/>
+        <include name="NOTICE"/>
+      </metainf>
+
       <fileset dir="${build.dest}"/>
       <fileset dir="${build.deps}"/>
       <manifest>
@@ -456,7 +460,11 @@
           depends="prepare"
           description="Builds the Velocity Source Jar File">
     <jar jarfile="${build.dir}/${final.name}-src.jar">
-      <metainf dir="${velocity.dir}" includes="LICENSE.txt"/>
+      <metainf dir="${velocity.dir}">
+        <include name="LICENSE"/>
+        <include name="NOTICE"/>
+      </metainf>
+
       <fileset dir="${build.src}"/>
       <manifest>
         <attribute name="Created-By" value="Apache Ant"/>
@@ -636,10 +644,11 @@
       </fileset>
     </copy>
 
-    <copy
-      file="${velocity.dir}/LICENSE.txt"
-      tofile="${dist.dir}/LICENSE.txt"
-    />
+    <copy file="${velocity.dir}/LICENSE"
+          tofile="${dist.dir}/LICENSE" />
+
+    <copy file="${velocity.dir}/NOTICE"
+          tofile="${dist.dir}/NOTICE" />
 
     <copy
       file="${velocity.dir}/README.txt"
