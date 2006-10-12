@@ -16,6 +16,9 @@ package org.apache.velocity.app.event;
  * limitations under the License.
  */
 
+import org.apache.velocity.context.Context;
+import org.apache.velocity.util.ContextAware;
+
 /**
  *  Reference 'Stream insertion' event handler.  Called with object
  *  that will be inserted into stream via value.toString().
@@ -42,4 +45,56 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
      *         output.
      */
     public Object referenceInsert( String reference, Object value  );
+
+    /**
+     * Defines the execution strategy for referenceInsert
+     */
+    static class referenceInsertExecutor implements EventHandlerMethodExecutor
+    {
+        private Context context;
+        private String reference;
+        private Object value;
+
+        referenceInsertExecutor(
+                Context context, 
+                String reference, 
+                Object value)
+        {
+            this.context = context;
+            this.reference = reference;
+            this.value = value;
+        }
+
+        /**
+         * Call the method referenceInsert()
+         *  
+         * @param handler call the appropriate method on this handler
+         */
+        public void execute(EventHandler handler)
+        {
+            ReferenceInsertionEventHandler eh = (ReferenceInsertionEventHandler) handler;
+            
+            if (eh instanceof ContextAware)
+                ((ContextAware) eh).setContext(context);
+
+            /**
+             * Every successive call will alter the same value
+             */
+            value = ((ReferenceInsertionEventHandler) handler).referenceInsert(reference, value); 
+        }
+
+        public Object getReturnValue()
+        {
+            return value;
+        }
+
+        /**
+         * Continue to end of event handler iteration
+         */
+        public boolean isDone()
+        {
+            return false;
+        }        
+    }
+
 }

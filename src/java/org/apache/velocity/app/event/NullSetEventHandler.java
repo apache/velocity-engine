@@ -1,5 +1,8 @@
 package org.apache.velocity.app.event;
 
+import org.apache.velocity.context.Context;
+import org.apache.velocity.util.ContextAware;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -37,4 +40,54 @@ public interface NullSetEventHandler extends EventHandler
      *  @return true if log message should be written, false otherwise
      */
     public boolean shouldLogOnNullSet( String lhs, String rhs );
+
+    /**
+     * Defines the execution strategy for shouldLogOnNullSet
+     */
+    static class ShouldLogOnNullSetExecutor implements EventHandlerMethodExecutor
+    {
+        private Context context;
+        private String lhs;
+        private String rhs;
+
+        /**
+         * when this is false, quit iterating
+         */
+        private boolean result = true;
+        private boolean executed = false;
+        
+        ShouldLogOnNullSetExecutor(
+                Context context, 
+                String lhs, 
+                String rhs) 
+        {
+            this.context = context;
+            this.lhs = lhs;
+            this.rhs = rhs;
+        }
+
+        public void execute(EventHandler handler)
+        {
+            NullSetEventHandler eh = (NullSetEventHandler) handler;
+            
+            if (eh instanceof ContextAware)
+                ((ContextAware) eh).setContext(context);
+
+            executed = true;
+            result = ((NullSetEventHandler) handler).shouldLogOnNullSet(lhs, rhs); 
+        }
+
+        public Object getReturnValue()
+        {            
+            return new Boolean(result);
+        }
+
+        public boolean isDone()
+        {
+            return executed && !result;
+        }        
+        
+        
+    }
+
 }

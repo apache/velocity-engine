@@ -1,5 +1,8 @@
 package org.apache.velocity.app.event;
 
+import org.apache.velocity.context.Context;
+import org.apache.velocity.util.ContextAware;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -42,4 +45,63 @@ public interface MethodExceptionEventHandler extends EventHandler
      */
     public Object methodException( Class claz, String method, Exception e )
          throws Exception;
+
+    /**
+     * Defines the execution strategy for methodException
+     */
+    static class MethodExceptionExecutor implements EventHandlerMethodExecutor
+    {
+        private Context context;
+        private Class claz;
+        private String method;
+        private Exception e;
+        
+        private Object result;
+        private boolean executed = false;
+    
+        MethodExceptionExecutor(
+                Context context, 
+                Class claz,
+                String method,
+                Exception e)
+        {
+            this.context = context;
+            this.claz = claz;
+            this.method = method;
+            this.e = e;
+        }
+
+        /**
+         * Call the method methodException()
+         *  
+         * @param handler call the appropriate method on this handler
+         * @return null to continue iterating, any non-null object to stop.
+         */
+        public void execute(EventHandler handler) throws Exception
+        {
+            MethodExceptionEventHandler eh = (MethodExceptionEventHandler) handler;
+            
+            if (eh instanceof ContextAware)
+                ((ContextAware) eh).setContext(context);
+
+            executed = true;
+            result = ((MethodExceptionEventHandler) handler).methodException(claz, method, e);
+        }
+
+        public Object getReturnValue()
+        {
+            return result;
+        }
+
+        /**
+         * Only run the first MethodExceptionEventHandler
+         */
+        public boolean isDone()
+        {
+           return executed;
+        }        
+        
+        
+    }
+
 }
