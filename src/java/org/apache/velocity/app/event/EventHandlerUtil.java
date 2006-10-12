@@ -21,6 +21,7 @@ import java.util.Iterator;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ExceptionUtils;
+import org.apache.velocity.util.introspection.Info;
 
 
 /**
@@ -228,7 +229,121 @@ public class EventHandlerUtil {
             throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
         }
     }
+   
+
+    /**
+     * Called when an invalid get method is encountered.
+     * 
+     * @param rsvc The RuntimeServices Object.
+     * @param context the context when the reference was found invalid
+     * @param reference complete invalid reference
+     * @param object object from reference, or null if not available
+     * @param property name of property, or null if not relevant
+     * @param info contains info on template, line, col
+     * @return
+     */
+    public static Object invalidGetMethod(RuntimeServices rsvc,
+            InternalContextAdapter context, String reference, 
+            Object object, String property, Info info)
+    {
+        return  
+        invalidReferenceHandlerCall (
+                new InvalidReferenceEventHandler.InvalidGetMethodExecutor
+                (context, reference, object, property, info),
+                rsvc, 
+                context);       
+    }
+        
+        
+   /**
+     * Called when an invalid get method is encountered.
+     * 
+     * @param rsvc The RuntimeServices Object.
+     * @param context the context when the reference was found invalid
+     * @param reference complete invalid reference
+     * @param object object from reference, or null if not available
+     * @param property name of property, or null if not relevant
+     * @param info contains info on template, line, col
+     */
+    public static void invalidSetMethod(RuntimeServices rsvc,
+            InternalContextAdapter context, String leftreference, 
+            String rightreference, Info info)
+    {
+        /**
+         * ignore return value
+         */
+        invalidReferenceHandlerCall (
+                new InvalidReferenceEventHandler.InvalidSetMethodExecutor
+                (context, leftreference, rightreference, info),
+                rsvc, 
+                context);   
+    }
     
+    /**
+     * Called when an invalid method is encountered.
+     * 
+     * @param rsvc The RuntimeServices Object.
+     * @param context the context when the reference was found invalid
+     * @param reference complete invalid reference
+     * @param object object from reference, or null if not available
+     * @param method name of method, or null if not relevant
+     * @param info contains info on template, line, col
+     * @return
+     */
+    public static Object invalidMethod(RuntimeServices rsvc,
+            InternalContextAdapter context,  String reference,
+            Object object, String method, Info info)
+    {
+        return 
+        invalidReferenceHandlerCall (
+                new InvalidReferenceEventHandler.InvalidMethodExecutor
+                (context, reference, object, method, info),
+                rsvc, 
+                context);       
+    }
+    
+    
+    /**
+     * Generic call to InvalidReferenceEventHandler method. 
+     * @param methodExecutor
+     * @param rsvc
+     * @param context
+     * @return
+     */
+    public static Object invalidReferenceHandlerCall(
+            EventHandlerMethodExecutor methodExecutor, 
+            RuntimeServices rsvc,
+            InternalContextAdapter context)
+    {
+        // app level cartridges have already been initialized
+        EventCartridge ev1 = rsvc.getApplicationEventCartridge();
+        Iterator applicationEventHandlerIterator = 
+            (ev1 == null) ? null: ev1.getInvalidReferenceEventHandlers();              
+        
+        EventCartridge ev2 = context.getEventCartridge();
+        initializeEventCartridge(rsvc, ev2);
+        Iterator contextEventHandlerIterator = 
+            (ev2 == null) ? null: ev2.getInvalidReferenceEventHandlers();              
+        
+        try
+        {
+            callEventHandlers(
+                    applicationEventHandlerIterator, 
+                    contextEventHandlerIterator, methodExecutor);
+            
+            return methodExecutor.getReturnValue();
+        }
+        catch (RuntimeException e)
+        {
+            throw e;
+        }
+        catch (Exception e)
+        {
+            throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
+        }
+        
+    }
+
     /**
      * Initialize the event cartridge if appropriate.
      * @param rsvc
