@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -29,11 +30,14 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.implement.EscapeHtmlReference;
 import org.apache.velocity.app.event.implement.EscapeJavaScriptReference;
 import org.apache.velocity.app.event.implement.EscapeReference;
 import org.apache.velocity.app.event.implement.EscapeSqlReference;
 import org.apache.velocity.app.event.implement.EscapeXmlReference;
+import org.apache.velocity.app.event.implement.InvalidReferenceInfo;
+import org.apache.velocity.app.event.implement.ReportInvalidReferences;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -95,6 +99,59 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
        return new TestSuite(BuiltInEventHandlerTestCase.class);
     }
 
+
+
+    /**
+     * Test reporting of invalid syntax
+     * @throws Exception
+     */
+    public void testReportInvalidReferences1() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar()");
+
+        List errors = reporter.getInvalidReferences();
+        assertEquals(2,errors.size());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
+        assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+    }
+
+    public void testReportInvalidReferences2() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("eventhandler.invalidreference.exception","true");
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 no problem");
+
+        try {
+            ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar()");
+            fail ("Expected exception.");
+        } catch (RuntimeException E) {}
+        
+    }
 
     /**
      * Test escaping

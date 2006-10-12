@@ -31,6 +31,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
 import org.apache.velocity.app.event.IncludeEventHandler;
+import org.apache.velocity.app.event.InvalidReferenceEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
@@ -641,6 +642,20 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     eventCartridge.addIncludeEventHandler((IncludeEventHandler) ev);
             }
         }
+
+        String[] invalidReferenceSet = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES);
+        if ( invalidReferenceSet != null )
+        {
+            for ( int i=0; i < invalidReferenceSet.length; i++ )
+            {
+                EventHandler ev = initializeSpecificEventHandler(invalidReferenceSet[i],RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES,InvalidReferenceEventHandler.class);
+                if (ev != null)
+                {
+                    eventCartridge.addInvalidReferenceEventHandler((InvalidReferenceEventHandler) ev);
+                }
+            }
+        }
+
 
     }
 

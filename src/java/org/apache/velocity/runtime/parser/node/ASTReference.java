@@ -173,7 +173,8 @@ public class ASTReference extends SimpleNode
 
         if (result == null)
         {
-            return null;
+            return EventHandlerUtil.invalidGetMethod(rsvc, context, 
+                    "$" + rootString, null, null, uberInfo);
         }
 
         /*
@@ -191,15 +192,58 @@ public class ASTReference extends SimpleNode
 
         try
         {
+            Object previousResult = result; 
+            int failedChild = -1;
             for (int i = 0; i < numChildren; i++)
             {
+                previousResult = result;
                 result = jjtGetChild(i).execute(result,context);
                 if (result == null)
                 {
+                    failedChild = i;
                     break;
                 }
             }
 
+            if (result == null)
+            {
+                if (failedChild == -1)
+                {
+                    result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
+                            "$" + rootString, previousResult, null, uberInfo);                    
+                }
+                else
+                {
+                    StringBuffer name = new StringBuffer("$").append(rootString);
+                    for (int i = 0; i <= failedChild; i++)
+                    {
+                        Node node = jjtGetChild(i);
+                        if (node instanceof ASTMethod)
+                        {
+                            name.append(".").append(((ASTMethod) node).getMethodName()).append("()");
+                        }
+                        else
+                        {
+                            name.append(".").append(node.getFirstToken().image);
+                        }
+                    }
+                    
+                    if (jjtGetChild(failedChild) instanceof ASTMethod)
+                    {
+                        String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
+                        result = EventHandlerUtil.invalidMethod(rsvc, context, 
+                                name.toString(), previousResult, methodName, uberInfo);                                                                
+                    }
+                    else
+                    {
+                        String property = jjtGetChild(failedChild).getFirstToken().image;
+                        result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
+                                name.toString(), previousResult, property, uberInfo);                        
+                    }
+                }
+                
+            }
+            
             return result;
         }
         catch(MethodInvocationException mie)

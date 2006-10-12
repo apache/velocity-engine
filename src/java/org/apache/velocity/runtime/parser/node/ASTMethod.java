@@ -50,6 +50,8 @@ public class ASTMethod extends SimpleNode
     private String methodName = "";
     private int paramCount = 0;
 
+    protected Info uberInfo;
+
     /**
      * @param id
      */
@@ -88,6 +90,12 @@ public class ASTMethod extends SimpleNode
     {
         super.init(  context, data );
 
+        /*
+         * make an uberinfo - saves new's later on
+         */
+
+        uberInfo = new Info(context.getCurrentTemplateName(),
+                getLine(),getColumn());
         /*
          *  this is about all we can do
          */
@@ -191,7 +199,9 @@ public class ASTMethod extends SimpleNode
              */
 
             if (method == null)
+            {
                 return null;
+            }
         }
         catch( MethodInvocationException mie )
         {
@@ -396,5 +406,14 @@ public class ASTMethod extends SimpleNode
             return result;
         } 
     }
+
+    /**
+     * @return Returns the methodName.
+     */
+    public String getMethodName()
+    {
+        return methodName;
+    }
+    
     
 }

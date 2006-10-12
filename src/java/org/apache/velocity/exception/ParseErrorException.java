@@ -17,6 +17,7 @@ package org.apache.velocity.exception;
  */
 
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  *  Application-level exception thrown when a resource of any type
@@ -51,6 +52,11 @@ public class ParseErrorException extends VelocityException
      * The name of the template containing the error, or null if not defined.
      */
     private String templateName = "*unset*";
+
+    /**
+     * If applicable, contains the invalid syntax or reference that triggered this exception
+     */
+    private String invalidSyntax;
 
     /**
      * Create a ParseErrorException with the given message.
@@ -93,6 +99,39 @@ public class ParseErrorException extends VelocityException
         }
     }
 
+
+    /**
+     * Create a ParseErrorRuntimeException with the given message and info
+     * 
+     * @param exceptionMessage the error exception message
+     * @param info an Info object with the current template info
+     */
+    public ParseErrorException(String exceptionMessage, Info info)
+    {
+        super(exceptionMessage);
+        columnNumber = info.getColumn();
+        lineNumber = info.getLine();
+        templateName = info.getTemplateName();        
+    }    
+
+    /**
+     * Create a ParseErrorRuntimeException with the given message and info
+     * 
+     * @param exceptionMessage the error exception message
+     * @param info an Info object with the current template info
+     * @param invalidSyntax the invalid syntax or reference triggering this exception
+     */
+    public ParseErrorException(String exceptionMessage, 
+            Info info, String invalidSyntax)
+    {
+        super(exceptionMessage);
+        columnNumber = info.getColumn();
+        lineNumber = info.getLine();
+        templateName = info.getTemplateName();  
+        this.invalidSyntax = invalidSyntax;       
+    }    
+
+
     /**
      * Return the column number of the parsing error, or -1 if not defined.
      *
@@ -124,4 +163,17 @@ public class ParseErrorException extends VelocityException
     {
         return templateName;
     }
+
+    /**
+     * Return the invalid syntax or reference that triggered this error, or null
+     * if not defined.
+     * 
+     * @return Return the invalid syntax or reference that triggered this error, or null
+     * if not defined
+     */
+    public String getInvalidSyntax()
+    {
+        return invalidSyntax;
+    }
+
 }

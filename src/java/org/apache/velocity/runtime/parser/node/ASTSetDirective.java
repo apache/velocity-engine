@@ -25,6 +25,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  * Node for the #set directive
@@ -39,6 +40,11 @@ public class ASTSetDirective extends SimpleNode
     private Node right = null;
     private ASTReference left = null;
     boolean logOnNull = false;
+
+    /**
+     *  This is really immutable after the init, so keep one for this node
+     */
+    protected Info uberInfo;
 
     /**
      * @param id
@@ -81,6 +87,9 @@ public class ASTSetDirective extends SimpleNode
 
         super.init( context, data );
 
+        uberInfo = new Info(context.getCurrentTemplateName(),
+                getLine(), getColumn());
+
         right = getRightHandSide();
         left = getLeftHandSide();
 
@@ -119,7 +128,7 @@ public class ASTSetDirective extends SimpleNode
         if( !rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED,false) )
         {
             if ( value == null )
-            {
+            {                
                 /*
                  *  first, are we supposed to say anything anyway?
                  */
@@ -134,18 +143,35 @@ public class ASTSetDirective extends SimpleNode
                                       + ", column " + getColumn() + "]");
                     }
                 }
-
+                
+                String rightReference = null;
+                if (right instanceof ASTExpression)
+                {
+                    rightReference = ((ASTExpression) right).getLastToken().image;
+                }
+                EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
+                
                 return false;
             }
         }
 
         if ( value == null )
         {
+            String rightReference = null;
+            if (right instanceof ASTExpression)
+            {
+                rightReference = ((ASTExpression) right).getLastToken().image;
+            }
+            EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
+
             /*
              * if RHS is null it doesn't matter if LHS is simple or complex
              * because the LHS is removed from context
              */
             context.remove( leftReference );
+
+            return false;
+
         }
         else
         {

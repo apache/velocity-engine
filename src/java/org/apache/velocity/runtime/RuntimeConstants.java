@@ -253,6 +253,14 @@ public interface RuntimeConstants
      */
     public static final String EVENTHANDLER_INCLUDE = "eventhandler.include.class";
 
+    /**
+     * The <code>eventhandler.invalidreferences.class</code> property
+     * specifies a list of the {@link
+     * org.apache.velocity.app.event.InvalidReferenceEventHandler}
+     * implementations to use.
+     */
+    public static final String EVENTHANDLER_INVALIDREFERENCES = "eventhandler.invalidreferences.class";
+
 
     /*
      * ----------------------------------------------------------------------
