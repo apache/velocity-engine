@@ -28,10 +28,9 @@ xdocs/      This is the .xml files for building the .html files
 REQUIREMENTS
 ------------
 
-The Java 2 SDK is required to build Velocity.
-
-For users that wish to use Log4J as the logging
-system, version 1.1 or newer of Log4J is required.
+Velocity will run with any version of Java greater than 1.3.
+Build Velocity requires Java version 1.4 (or greater) and 
+ant 1.6.
 
 
 INCLUDED PRE-BUILT JARS
@@ -62,15 +61,15 @@ Please see the developers guide for more information.
 BUILDING VELOCITY
 -----------------
 
-In order to get started with Velocity, you may want to build it. 
+In order to use the latest version of Velocity, you may want to build it. 
 
 Building Velocity is easy.  All components necessary to build Velocity are
-included, except for the Java 2 SDK and the fabulous Ant build tool
-from the Jakarta project.
+included, except for the Java 2 SDK and the fabulous Ant build tool.
+You can find details on how to build Velocity online at:
 
-http://jakarta.apache.org/ant/
+http://jakarta.apache.org/velocity/build.html
 
-Note that you must use Ant version 1.4 or later.
+Note that you must use Ant version 1.6 or later.
 
 To build Velocity's jar, change directory into the build/ directory and 
 simply type :
@@ -97,8 +96,7 @@ TRYING THE EXAMPLES
 After building Velocity, you can also buld the examples that are included
 with the Velocity distribution.  These examples show how to use Velocity
 in your Java applications and Servlets.  There also are examples of
-how to use Anakia, a XML transformation engine and an example of a servlet-
-based forum application.
+how to use Anakia, a XML transformation engine.
 
 For more information, please see the README.txt in the examples/ directory.
 
