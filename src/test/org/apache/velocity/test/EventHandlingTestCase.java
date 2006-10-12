@@ -145,12 +145,12 @@ public class EventHandlingTestCase
          *  First, the reference insertion handler
          */
 
-        String s = "$name";
+        String s = "$name$name$name";
 
         StringWriter w = new StringWriter();
         ve.evaluate( context, w, "mystring", s );
 
-        if ( !w.toString().equals( REFERENCE_VALUE ))
+        if ( !w.toString().equals( REFERENCE_VALUE + REFERENCE_VALUE + REFERENCE_VALUE ))
         {
             fail( "Reference insertion test 1");
         }

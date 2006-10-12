@@ -1,5 +1,8 @@
 package org.apache.velocity.app.event;
 
+import org.apache.velocity.context.Context;
+import org.apache.velocity.util.ContextAware;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -42,4 +45,61 @@ public interface  IncludeEventHandler extends EventHandler
      *         include from occurring.
      */
     public String includeEvent( String includeResourcePath, String currentResourcePath, String directiveName );
+
+
+
+    /**
+     * Defines the execution strategy for includeEvent
+     */
+    static class IncludeEventExecutor implements EventHandlerMethodExecutor
+    {
+        private Context context;
+        private String includeResourcePath;
+        private String currentResourcePath;
+        private String directiveName;
+        
+        private boolean executed = false;
+        
+        IncludeEventExecutor(
+                Context context, 
+                String includeResourcePath,
+                String currentResourcePath,
+                String directiveName)
+        {
+            this.context = context;
+            this.includeResourcePath = includeResourcePath;
+            this.currentResourcePath = currentResourcePath;
+            this.directiveName = directiveName;
+        }
+
+        /**
+         * Call the method includeEvent()
+         *  
+         * @param handler call the appropriate method on this handler
+         */
+        public void execute(EventHandler handler)
+        {
+            IncludeEventHandler eh = (IncludeEventHandler) handler;
+            
+            if (eh instanceof ContextAware)
+                ((ContextAware) eh).setContext(context);
+
+            executed = true;
+            includeResourcePath = ((IncludeEventHandler) handler)
+                .includeEvent(includeResourcePath, currentResourcePath, directiveName); 
+        }
+
+        public Object getReturnValue()
+        {
+            return includeResourcePath;
+        }
+
+        public boolean isDone()
+        {
+            return executed && (includeResourcePath == null);
+        }        
+        
+        
+    }
+
 }
