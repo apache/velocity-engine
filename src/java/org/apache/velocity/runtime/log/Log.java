@@ -51,7 +51,7 @@ public class Log
 
     /**
      * Updates the LogChute wrapped by this Log instance.
-     * @param newLogChute
+     * @param chute The new value for the log chute.
      */
     protected void setLogChute(final LogChute chute)
     {
