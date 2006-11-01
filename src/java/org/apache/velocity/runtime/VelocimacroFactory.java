@@ -95,7 +95,7 @@ public class VelocimacroFactory
     /**
      *  C'tor for the VelociMacro factory.
      *
-     * @param rs Reference to a runtime services object.
+     * @param rsvc Reference to a runtime services object.
      */
     public VelocimacroFactory(final RuntimeServices rsvc)
     {
