@@ -69,6 +69,11 @@ public interface NullSetEventHandler extends EventHandler
             this.rhs = rhs;
         }
 
+        /**
+         * Call the method shouldLogOnNullSet()
+         *  
+         * @param handler call the appropriate method on this handler
+         */
         public void execute(EventHandler handler)
         {
             NullSetEventHandler eh = (NullSetEventHandler) handler;

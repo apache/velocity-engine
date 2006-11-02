@@ -78,7 +78,7 @@ public interface MethodExceptionEventHandler extends EventHandler
          * Call the method methodException()
          *  
          * @param handler call the appropriate method on this handler
-         * @return null to continue iterating, any non-null object to stop.
+         * @exception Exception generic exception thrown by methodException event handler method call
          */
         public void execute(EventHandler handler) throws Exception
         {
@@ -98,6 +98,8 @@ public interface MethodExceptionEventHandler extends EventHandler
 
         /**
          * Only run the first MethodExceptionEventHandler
+         * 
+         * @return true after this is executed once.
          */
         public boolean isDone()
         {

@@ -49,11 +49,12 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
 
     /**
      * Render the method exception, and optionally the exception message and stack trace.
-     * @param claz
-     * @param method
-     * @param e
-     * @return Exception Message.
-     * @throws Exception
+     * 
+     * @param claz the class of the object the method is being applied to
+     * @param method the method
+     * @param e the thrown exception
+     * @return an object to insert in the page
+     * @throws Exception an exception to be thrown instead inserting an object
      */
     public Object methodException(Class claz, String method, Exception e) throws Exception
     {

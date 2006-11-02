@@ -31,6 +31,7 @@ public class EscapeXmlReference extends EscapeReference
 
     /**
      * Escape all XML entities.
+     * 
      * @param text
      * @return An escaped String.
      * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>

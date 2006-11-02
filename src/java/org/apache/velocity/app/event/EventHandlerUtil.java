@@ -46,7 +46,7 @@ public class EventHandlerUtil {
      *
      * @param reference reference from template about to be inserted
      * @param value value about to be inserted (after toString() )
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context The internal context adapter.
      * @return Object on which toString() should be called for output.
      */
@@ -91,7 +91,7 @@ public class EventHandlerUtil {
      *
      * @param lhs Left hand side of the expression.
      * @param rhs Right hand side of the expression.
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context The internal context adapter.
      * @return true if to be logged, false otherwise
      */
@@ -140,7 +140,7 @@ public class EventHandlerUtil {
      *            method called that causes the exception
      * @param e
      *            Exception thrown by the method
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context The internal context adapter.
      * @return Object to return as method result
      * @throws Exception
@@ -190,7 +190,7 @@ public class EventHandlerUtil {
      * @param directiveName
      *            name of the directive used to include the resource. (With the
      *            standard directives this is either "parse" or "include").
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context The internal context adapter.
      *
      * @return a new resource path for the directive, or null to block the
@@ -237,13 +237,13 @@ public class EventHandlerUtil {
     /**
      * Called when an invalid get method is encountered.
      * 
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
      * @param reference complete invalid reference
      * @param object object from reference, or null if not available
      * @param property name of property, or null if not relevant
      * @param info contains info on template, line, col
-     * @return
+     * @return substitute return value for missing reference, or null if no substitute
      */
     public static Object invalidGetMethod(RuntimeServices rsvc,
             InternalContextAdapter context, String reference, 
@@ -259,13 +259,12 @@ public class EventHandlerUtil {
         
         
    /**
-     * Called when an invalid get method is encountered.
+     * Called when an invalid set method is encountered.
      * 
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
-     * @param reference complete invalid reference
-     * @param object object from reference, or null if not available
-     * @param property name of property, or null if not relevant
+     * @param leftreference left reference being assigned to
+     * @param rightreference invalid reference on the right
      * @param info contains info on template, line, col
      */
     public static void invalidSetMethod(RuntimeServices rsvc,
@@ -285,13 +284,13 @@ public class EventHandlerUtil {
     /**
      * Called when an invalid method is encountered.
      * 
-     * @param rsvc The RuntimeServices Object.
+     * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
      * @param reference complete invalid reference
      * @param object object from reference, or null if not available
      * @param method name of method, or null if not relevant
      * @param info contains info on template, line, col
-     * @return
+     * @return substitute return value for missing reference, or null if no substitute
      */
     public static Object invalidMethod(RuntimeServices rsvc,
             InternalContextAdapter context,  String reference,
@@ -307,11 +306,12 @@ public class EventHandlerUtil {
     
     
     /**
-     * Generic call to InvalidReferenceEventHandler method. 
+     * Calls event handler method with appropriate chaining across event handlers.
+     * 
      * @param methodExecutor
-     * @param rsvc
-     * @param context
-     * @return
+     * @param rsvc current instance of RuntimeServices
+     * @param context The current context
+     * @return return value from method, or null if no return value
      */
     public static Object invalidReferenceHandlerCall(
             EventHandlerMethodExecutor methodExecutor, 
@@ -349,8 +349,9 @@ public class EventHandlerUtil {
 
     /**
      * Initialize the event cartridge if appropriate.
-     * @param rsvc
-     * @param eventCartridge
+     * 
+     * @param rsvc current instance of RuntimeServices
+     * @param eventCartridge the event cartridge to be initialized
      */
     private static void initializeEventCartridge(RuntimeServices rsvc, EventCartridge eventCartridge)
     {
@@ -369,11 +370,12 @@ public class EventHandlerUtil {
     
     
     /**
-     * Loop through both the application level and context-attached event handlers
-     * @param rsvc
-     * @param applicationEventHandlerIterator
-     * @param contextEventHandlerIterator
-     * @param eventExecutor
+     * Loop through both the application level and context-attached event handlers.
+     * 
+     * @param applicationEventHandlerIterator Iterator that loops through all global event handlers declared at application level
+     * @param contextEventHandlerIterator Iterator that loops through all global event handlers attached to context
+     * @param eventExecutor Strategy object that executes event handler method
+     * @exception Exception generic exception potentially thrown by event handlers
      */
     private static void callEventHandlers(
             Iterator applicationEventHandlerIterator, 
@@ -395,9 +397,10 @@ public class EventHandlerUtil {
     
     /**
      * Loop through a given iterator of event handlers.
-     * @param returnValue
-     * @param handlerIterator
-     * @param eventExecutor
+     * 
+     * @param handlerIterator Iterator that loops through event handlers
+     * @param eventExecutor Strategy object that executes event handler method
+     * @exception Exception generic exception potentially thrown by event handlers
      */
     private static void iterateOverEventHandlers(
             Iterator handlerIterator,

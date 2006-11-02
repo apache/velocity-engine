@@ -31,6 +31,7 @@ public class EscapeSqlReference extends EscapeReference
 
     /**
      * Escapes the characters in a String to be suitable to pass to an SQL query.
+     * 
      * @param text
      * @return An escaped string.
      * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
