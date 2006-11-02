@@ -203,6 +203,7 @@ public class EventCartridge
 
     /**
      * Iterate through all the stored ReferenceInsertionEventHandler objects
+     * 
      * @return iterator of handler objects
      */
     public Iterator getReferenceInsertionEventHandlers()
@@ -212,6 +213,7 @@ public class EventCartridge
 
     /**
      * Iterate through all the stored NullSetEventHandler objects
+     * 
      * @return iterator of handler objects
      */
     public Iterator getNullSetEventHandlers()
@@ -221,6 +223,7 @@ public class EventCartridge
 
     /**
      * Iterate through all the stored MethodExceptionEventHandler objects
+     * 
      * @return iterator of handler objects
      */
     public Iterator getMethodExceptionEventHandlers()
@@ -230,6 +233,7 @@ public class EventCartridge
 
     /**
      * Iterate through all the stored IncludeEventHandlers objects
+     * 
      * @return iterator of handler objects
      */
     public Iterator getIncludeEventHandlers()
@@ -239,6 +243,7 @@ public class EventCartridge
 
     /**
      * Iterate through all the stored InvalidReferenceEventHandlers objects
+     * 
      * @return iterator of handler objects
      */
     public Iterator getInvalidReferenceEventHandlers()
@@ -281,6 +286,7 @@ public class EventCartridge
      * Initialize the handlers.  For global handlers this is called when Velocity
      * is initialized. For local handlers this is called when the first handler
      * is executed.  Handlers will not be initialized more than once.
+     * 
      * @param rs
      * @throws Exception
      */

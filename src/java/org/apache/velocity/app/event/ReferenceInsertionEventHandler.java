@@ -93,6 +93,8 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
 
         /**
          * Continue to end of event handler iteration
+         * 
+         * @return always returns false
          */
         public boolean isDone()
         {

@@ -24,7 +24,7 @@ import org.apache.velocity.util.introspection.Info;
 
 /**
  * Event handler called when an invalid reference is encountered.  Allows 
- * the application to report errors or substitute return values. <May be chained
+ * the application to report errors or substitute return values. May be chained
  * in sequence; the behavior will differ per method.
  * 
  * <p>This feature should be regarded as experimental.
@@ -47,7 +47,7 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * @param object the object referred to, or null if not found
      * @param property the property name from the reference
      * @param info contains template, line, column details
-     * @return substitute return value for missing reference
+     * @return substitute return value for missing reference, or null if no substitute
      */
     public Object invalidGetMethod(Context context, String reference, 
             Object object, String property, Info info);
@@ -60,11 +60,11 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * for easy chaining.
      * 
      * @param context the context when the reference was found invalid
-     * @param leftreference string to which the value is being assigned
-     * @param rightreference the invalid reference on the right
-     * @param property the property name from the reference
-     * @param info contains template, line, column details
-     * @param if true then stop calling invalidSetMethod along the 
+     * @param leftreference left reference being assigned to
+     * @param rightreference invalid reference on the right
+     * @param info contains info on template, line, col
+     * 
+     * @return if true then stop calling invalidSetMethod along the 
      * chain.
      */
     public boolean invalidSetMethod(Context context, String leftreference, 
@@ -80,7 +80,7 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * @param object the object referred to, or null if not found
      * @param method the name of the (non-existent) method
      * @param info contains template, line, column details
-     * @return substitute return value for missing reference
+     * @return substitute return value for missing reference, or null if no substitute
      */
     public Object invalidMethod(Context context, String reference,  
             Object object, String method, Info info);

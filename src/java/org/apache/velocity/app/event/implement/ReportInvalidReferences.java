@@ -121,12 +121,10 @@ InvalidReferenceEventHandler, RuntimeServicesAware
      * Collect the error and/or throw an exception, depending on configuration.
      *
      * @param context the context when the reference was found invalid
-     * @param reference string with complete invalid reference
-     * @param object the object referred to, or null if not found
-     * @param method the name of the (non-existent) method
-     * @param info contains template, line, column details
-     * @param always returns false
-     * @throws ParseErrorException
+     * @param leftreference left reference being assigned to
+     * @param rightreference invalid reference on the right
+     * @param info contains info on template, line, col
+     * @return loop to end -- always returns false
      */
     public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
     {
@@ -139,7 +137,8 @@ InvalidReferenceEventHandler, RuntimeServicesAware
      * Check for an invalid reference and collect the error or throw an exception 
      * (depending on configuration).
      * 
-     * @throws ParseErrorException
+     * @param reference the invalid reference
+     * @param info line, column, template name
      */
     private void reportInvalidReference(String reference, Info info)
     {

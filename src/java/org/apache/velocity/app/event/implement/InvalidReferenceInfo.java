@@ -51,7 +51,7 @@ public class InvalidReferenceInfo extends Info
 
     /**
      * Formats a textual representation of this object as <code>SOURCE
-     * [line X, column Y]</code>.
+     * [line X, column Y]: invalidReference</code>.
      *
      * @return String representing this object.
      */
