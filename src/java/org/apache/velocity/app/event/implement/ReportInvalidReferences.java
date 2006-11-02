@@ -39,7 +39,7 @@ import org.apache.velocity.util.introspection.Info;
  * Note that InvalidReferenceHandler can be used
  * in two modes.  If the Velocity properties file contains the following:
  * <pre>
- * <CODE>eventhandler.invalidreference.exception = true
+ * eventhandler.invalidreference.exception = true
  * </pre>
  * then the event handler will throw a ParseErrorRuntimeException upon 
  * hitting the first invalid reference.  This stops processing and is 
