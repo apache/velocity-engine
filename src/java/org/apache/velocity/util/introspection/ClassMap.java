@@ -189,6 +189,9 @@ public class ClassMap
      * Make a methodKey for the given method using
      * the concatenation of the name and the
      * types of the method parameters.
+     * 
+     * @param method to be stored as key
+     * @return key for ClassMap
      */
     private String makeMethodKey(Method method)
     {
@@ -256,6 +259,9 @@ public class ClassMap
      * public, retrieves methods with same signature as its public methods
      * from public superclasses and interfaces (if they exist). Basically
      * upcasts every method to the nearest acccessible method.
+     * 
+     * @param clazz class to check methods
+     * @return array of all public methods
      */
     private static Method[] getAccessibleMethods(Class clazz)
     {
@@ -436,6 +442,7 @@ public class ClassMap
      *  @param clazz the class whose method is sought
      *  @param name the name of the method
      *  @param paramTypes the classes of method parameters
+     *  @return applicable method
      */
     private static Method getPublicMethod(Class clazz, String name, Class[] paramTypes)
     {

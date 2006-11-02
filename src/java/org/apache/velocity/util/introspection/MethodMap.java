@@ -309,6 +309,10 @@ public class MethodMap
     /**
      * Returns true if the supplied method is applicable to actual
      * argument types.
+     * 
+     * @param method method that will be called
+     * @param classes arguments to method
+     * @return true if method is applicable to arguments
      */
     private static boolean isApplicable(Method method, Class[] classes)
     {
