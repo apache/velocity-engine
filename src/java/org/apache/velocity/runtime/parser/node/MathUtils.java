@@ -222,6 +222,11 @@ public abstract class MathUtils
 
     /**
      * Wrap the result in the object of the bigger type.
+     * 
+     * @param value result of operation (as a long) - used to check size
+     * @param op1 first operand of binary operation
+     * @param op2 second operand of binary operation
+     * @return Number object of appropriate size to fit the value and operators
      */
     private static Number wrapPrimitive (long value, Number op1, Number op2)
     {
@@ -234,6 +239,10 @@ public abstract class MathUtils
 
     /**
      * Find the common Number-type to be used in calculations.
+     * 
+     * @param op1 first operand of binary operation
+     * @param op2 second operand of binary operation
+     * @return constant indicating type of Number to use in calculations
      */
     private static int findCalculationBase (Number op1, Number op2)
     {
