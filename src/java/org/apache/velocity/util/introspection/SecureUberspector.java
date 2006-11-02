@@ -65,8 +65,13 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
     }
     
     /**
-     * The superclass method does not call the introspector, so the
-     * secure version needs to check for execute permission.
+     * Get an iterator from the given object.  Since the superclass method
+     * this secure version checks for execute permission.
+     * 
+     * @param obj object to iterate over
+     * @param i line, column, template info
+     * @return Iterator for object
+     * @throws Exception
      */
     public Iterator getIterator(Object obj, Info i)
     throws Exception
@@ -89,8 +94,7 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
 
     /**
      * Store the RuntimeServices before the object is initialized..
-     * @param rs
-     * @throws Exception
+     * @param rs RuntimeServices object for initialization
      */
     public void setRuntimeServices(RuntimeServices rs)
     {

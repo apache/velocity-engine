@@ -47,20 +47,30 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         this.badPackages = badPackages;
     }
     
-    
-    public Method getMethod(Class c, String name, Object[] params) throws Exception
+    /**
+     * Get the Method object corresponding to the given class, name and parameters.  
+     * Will check for appropriate execute permissions and return null if the method
+     * is not allowed to be executed.
+     * 
+     * @param clazz Class on which method will be called
+     * @param methodName Name of method to be called
+     * @param params array of parameters to method
+     * @return Method object retrieved by Introspector
+     * @throws Exception 
+     */
+    public Method getMethod(Class clazz, String methodName, Object[] params) throws Exception
     {
-        if (!checkObjectExecutePermission(c,name))
+        if (!checkObjectExecutePermission(clazz,methodName))
         {
-            log.warn ("Cannot retrieve method " + name + 
-                      " from object of class " + c.getName() +
+            log.warn ("Cannot retrieve method " + methodName + 
+                      " from object of class " + clazz.getName() +
                       " due to security restrictions.");
             return null;
             
         }
         else
         {
-            return super.getMethod(c, name, params);
+            return super.getMethod(clazz, methodName, params);
         }
     }
     
@@ -71,11 +81,13 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * For the complete list, see the properties <code>introspector.restrict.classes</code>
      * and <code>introspector.restrict.packages</code>.
      * 
+     * @param clazz Class on which method will be called
+     * @param methodName Name of method to be called
      * @see org.apache.velocity.util.introspection.SecureIntrospectorControl#checkObjectExecutePermission(java.lang.Class, java.lang.String)
      */
-    public boolean checkObjectExecutePermission(Class clazz, String method)
+    public boolean checkObjectExecutePermission(Class clazz, String methodName)
     {
-        if (method == null)
+        if (methodName == null)
         {
             return false;
         }
@@ -83,7 +95,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         /**
          * check for wait and notify 
          */
-        if ( method.equals("wait") || method.equals("notify") )
+        if ( methodName.equals("wait") || methodName.equals("notify") )
         {
             return false;
         }
@@ -109,7 +121,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         /**
          * Always allow Class.getName()
          */
-        else if (java.lang.Class.class.isAssignableFrom(clazz) && method.equals("getName"))
+        else if (java.lang.Class.class.isAssignableFrom(clazz) && methodName.equals("getName"))
         {
             return true;
         }
