@@ -199,20 +199,21 @@ public class ASTSetDirective extends SimpleNode
 
     /**
      *  returns the ASTReference that is the LHS of the set statememt
+     *  
+     *  @return left hand side of #set statement
      */
     private ASTReference getLeftHandSide()
     {
         return (ASTReference) jjtGetChild(0);
-
-     //   return (ASTReference) jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
     }
 
     /**
      *  returns the RHS Node of the set statement
+     *  
+     *  @return right hand side of #set statement
      */
     private Node getRightHandSide()
     {
         return jjtGetChild(1);
-//        return jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
     }
 }
