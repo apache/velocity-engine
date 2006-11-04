@@ -16,18 +16,17 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
- * This class defines the keys that are used in the
- * velocity.properties file so that they can be referenced as a constant
- * within Java code.
+ * This class defines the keys that are used in the velocity.properties file so that they can be referenced as a constant within
+ * Java code.
  *
- * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id$
+ * @author  <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
+ * @author  <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @author  <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @version  $Id$
  */
 public interface RuntimeConstants
 {
@@ -45,61 +44,62 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     * Location of the velocity log file.
-     */
-    public static final String RUNTIME_LOG =
-        "runtime.log";
+    /** Location of the velocity log file. */
+    String RUNTIME_LOG = "runtime.log";
+
+    /** externally provided logger. */
+    String RUNTIME_LOG_LOGSYSTEM = "runtime.log.logsystem";
+
+    /** class of log system to use. */
+    String RUNTIME_LOG_LOGSYSTEM_CLASS = "runtime.log.logsystem.class";
 
     /**
-     *  externally provided logger
+     * @deprecated  This appears to have always been meaningless.
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM =
-        "runtime.log.logsystem";
+    String RUNTIME_LOG_ERROR_STACKTRACE = "runtime.log.error.stacktrace";
 
     /**
-     *  class of log system to use
+     * @deprecated  The functionality this controlled is confusing and no longer necessary.
      */
-    public static final String RUNTIME_LOG_LOGSYSTEM_CLASS =
-        "runtime.log.logsystem.class";
+    String RUNTIME_LOG_WARN_STACKTRACE = "runtime.log.warn.stacktrace";
 
     /**
-     * @deprecated This appears to have always been meaningless.
+     * @deprecated  This appears to have always been meaningless.
      */
-    public static final String RUNTIME_LOG_ERROR_STACKTRACE =
-        "runtime.log.error.stacktrace";
+    String RUNTIME_LOG_INFO_STACKTRACE = "runtime.log.info.stacktrace";
+
+    /** Logging of invalid references. */
+    String RUNTIME_LOG_REFERENCE_LOG_INVALID = "runtime.log.invalid.references";
 
     /**
-     * @deprecated The functionality this controlled is
-     *             confusing and no longer necessary.
+     * @deprecated  Use LogChute.TRACE_PREFIX instead
      */
-    public static final String RUNTIME_LOG_WARN_STACKTRACE =
-        "runtime.log.warn.stacktrace";
+    String TRACE_PREFIX = " [trace] ";
 
     /**
-     * @deprecated This appears to have always been meaningless.
+     * @deprecated  Use LogChute.DEBUG_PREFIX instead
      */
-    public static final String RUNTIME_LOG_INFO_STACKTRACE =
-        "runtime.log.info.stacktrace";
+    String DEBUG_PREFIX = " [debug] ";
 
     /**
-     * Logging of invalid references.
+     * @deprecated  Use LogChute.INFO_PREFIX instead
      */
-    public static final String RUNTIME_LOG_REFERENCE_LOG_INVALID  =
-        "runtime.log.invalid.references";
+    String INFO_PREFIX = "  [info] ";
 
-    /** @deprecated Use LogChute.TRACE_PREFIX instead */
-    public final static String TRACE_PREFIX = " [trace] ";
-    /** @deprecated Use LogChute.DEBUG_PREFIX instead */
-    public final static String DEBUG_PREFIX = " [debug] ";
-    /** @deprecated Use LogChute.INFO_PREFIX instead */
-    public final static String INFO_PREFIX  = "  [info] ";
-    /** @deprecated Use LogChute.WARN_PREFIX instead */
-    public final static String WARN_PREFIX  = "  [warn] ";
-    /** @deprecated Use LogChute.ERROR_PREFIX instead */
-    public final static String ERROR_PREFIX = " [error] ";
-    /** @deprecated This will be removed in a future version */
-    public final static String UNKNOWN_PREFIX = " [unknown] ";
+    /**
+     * @deprecated  Use LogChute.WARN_PREFIX instead
+     */
+    String WARN_PREFIX = "  [warn] ";
+
+    /**
+     * @deprecated  Use LogChute.ERROR_PREFIX instead
+     */
+    String ERROR_PREFIX = " [error] ";
+
+    /**
+     * @deprecated  This will be removed in a future version
+     */
+    String UNKNOWN_PREFIX = " [unknown] ";
 
     /*
      * ----------------------------------------------------------------------
@@ -111,49 +111,32 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     * Counter reference name in #foreach directives.
-     */
-    public static final String COUNTER_NAME =
-        "directive.foreach.counter.name";
+    /** Counter reference name in #foreach directives. */
+    String COUNTER_NAME = "directive.foreach.counter.name";
+
+    /** Initial counter value in #foreach directives. */
+    String COUNTER_INITIAL_VALUE = "directive.foreach.counter.initial.value";
+
+    /** Maximum allowed number of loops. */
+    String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
+
+    /** if set to true then allows #set to accept null values in the right hand side. */
+    String SET_NULL_ALLOWED = "directive.set.null.allowed";
 
     /**
-     * Initial counter value in #foreach directives.
+     * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
+     * and references are allowed.
      */
-    public static final String COUNTER_INITIAL_VALUE =
-        "directive.foreach.counter.initial.value";
+    String ERRORMSG_START = "directive.include.output.errormsg.start";
 
     /**
-     * Maximum allowed number of loops.
+     * Ending tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
+     * and references are allowed.
      */
-    public static final String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
+    String ERRORMSG_END = "directive.include.output.errormsg.end";
 
-    /**
-     * if set to true then allows #set to accept null values in the right hand side.
-     */
-    public static final String SET_NULL_ALLOWED = "directive.set.null.allowed";
-
-    /**
-     * Starting tag for error messages triggered by passing
-     * a parameter not allowed in the #include directive. Only
-     * string literals, and references are allowed.
-     */
-    public static String ERRORMSG_START =
-        "directive.include.output.errormsg.start";
-
-    /**
-     * Ending tag for error messages triggered by passing
-     * a parameter not allowed in the #include directive. Only
-     * string literals, and references are allowed.
-     */
-    public static String ERRORMSG_END  =
-        "directive.include.output.errormsg.end";
-
-    /**
-     * Maximum recursion depth allowed for the #parse directive.
-     */
-    public static String PARSE_DIRECTIVE_MAXDEPTH
-        = "directive.parse.max.depth";
+    /** Maximum recursion depth allowed for the #parse directive. */
+    String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max.depth";
 
 
     /*
@@ -162,26 +145,17 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     *
-     */
-    public static String RESOURCE_MANAGER_CLASS = "resource.manager.class";
+    /**  */
+    String RESOURCE_MANAGER_CLASS = "resource.manager.class";
 
     /**
-     * The <code>resource.manager.cache.class</code> property
-     * specifies the name of the {@link
-     * org.apache.velocity.runtime.resource.ResourceCache}
-     * implementation to use.
+     * The <code>resource.manager.cache.class</code> property specifies the name of the
+     * {@link org.apache.velocity.runtime.resource.ResourceCache} implementation to use.
      */
-    public static String RESOURCE_MANAGER_CACHE_CLASS =
-                "resource.manager.cache.class";
+    String RESOURCE_MANAGER_CACHE_CLASS = "resource.manager.cache.class";
 
-    /**
-     * The <code>resource.manager.cache.size</code> property specifies
-     * the cache upper bound (if relevant).
-     */
-    public static String RESOURCE_MANAGER_DEFAULTCACHE_SIZE =
-                "resource.manager.defaultcache.size";
+    /** The <code>resource.manager.cache.size</code> property specifies the cache upper bound (if relevant). */
+    String RESOURCE_MANAGER_DEFAULTCACHE_SIZE = "resource.manager.defaultcache.size";
 
     /*
      * ----------------------------------------------------------------------
@@ -189,34 +163,21 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     *  controls if the finding of a resource is logged
-     */
-    public static final String RESOURCE_MANAGER_LOGWHENFOUND =
-        "resource.manager.logwhenfound";
+    /** controls if the finding of a resource is logged. */
+    String RESOURCE_MANAGER_LOGWHENFOUND = "resource.manager.logwhenfound";
 
     /**
-     * Key used to retrieve the names of the resource loaders
-     * to be used. In a properties file they may appear as
-     * the following:
+     * Key used to retrieve the names of the resource loaders to be used. In a properties file they may appear as the following:
      *
-     * resource.loader = file,classpath
+     * <p>resource.loader = file,classpath</p>
      */
-    public static final String RESOURCE_LOADER = "resource.loader";
+    String RESOURCE_LOADER = "resource.loader";
 
-    /**
-     * The public handle for setting a path in
-     * the FileResourceLoader.
-     */
-    public static final String FILE_RESOURCE_LOADER_PATH =
-        "file.resource.loader.path";
+    /** The public handle for setting a path in the FileResourceLoader. */
+    String FILE_RESOURCE_LOADER_PATH = "file.resource.loader.path";
 
-    /**
-     * The public handle for turning the caching on in the
-     * FileResourceLoader.
-     */
-    public static final String FILE_RESOURCE_LOADER_CACHE =
-        "file.resource.loader.cache";
+    /** The public handle for turning the caching on in the FileResourceLoader. */
+    String FILE_RESOURCE_LOADER_CACHE = "file.resource.loader.cache";
 
     /*
      * ----------------------------------------------------------------------
@@ -225,44 +186,34 @@ public interface RuntimeConstants
      */
 
     /**
-     * The <code>eventhandler.referenceinsertion.class</code> property
-     * specifies a list of the {@link
-     * org.apache.velocity.app.event.ReferenceInsertionEventHandler}
-     * implementations to use.
+     * The <code>eventhandler.referenceinsertion.class</code> property specifies a list of the
+     * {@link org.apache.velocity.app.event.ReferenceInsertionEventHandler} implementations to use.
      */
-    public static final String EVENTHANDLER_REFERENCEINSERTION = "eventhandler.referenceinsertion.class";
+    String EVENTHANDLER_REFERENCEINSERTION = "eventhandler.referenceinsertion.class";
 
     /**
-     * The <code>eventhandler.nullset.class</code> property
-     * specifies a list of the {@link
-     * org.apache.velocity.app.event.NullSetEventHandler}
-     * implementations to use.
+     * The <code>eventhandler.nullset.class</code> property specifies a list of the
+     * {@link org.apache.velocity.app.event.NullSetEventHandler} implementations to use.
      */
-    public static final String EVENTHANDLER_NULLSET = "eventhandler.nullset.class";
+    String EVENTHANDLER_NULLSET = "eventhandler.nullset.class";
 
     /**
-     * The <code>eventhandler.methodexception.class</code> property
-     * specifies a list of the {@link
-     * org.apache.velocity.app.event.MethodExceptionEventHandler}
-     * implementations to use.
+     * The <code>eventhandler.methodexception.class</code> property specifies a list of the
+     * {@link org.apache.velocity.app.event.MethodExceptionEventHandler} implementations to use.
      */
-    public static final String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
+    String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
 
     /**
-     * The <code>eventhandler.include.class</code> property
-     * specifies a list of the {@link
-     * org.apache.velocity.app.event.IncludeEventHandler}
-     * implementations to use.
+     * The <code>eventhandler.include.class</code> property specifies a list of the
+     * {@link org.apache.velocity.app.event.IncludeEventHandler} implementations to use.
      */
-    public static final String EVENTHANDLER_INCLUDE = "eventhandler.include.class";
+    String EVENTHANDLER_INCLUDE = "eventhandler.include.class";
 
     /**
-     * The <code>eventhandler.invalidreferences.class</code> property
-     * specifies a list of the {@link
-     * org.apache.velocity.app.event.InvalidReferenceEventHandler}
-     * implementations to use.
+     * The <code>eventhandler.invalidreferences.class</code> property specifies a list of the
+     * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
      */
-    public static final String EVENTHANDLER_INVALIDREFERENCES = "eventhandler.invalidreferences.class";
+    String EVENTHANDLER_INVALIDREFERENCES = "eventhandler.invalidreferences.class";
 
 
     /*
@@ -271,52 +222,29 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     * Name of local Velocimacro library template.
-     */
-    public static final String VM_LIBRARY  = "velocimacro.library";
+    /** Name of local Velocimacro library template. */
+    String VM_LIBRARY = "velocimacro.library";
 
-    /**
-     * Default Velocimacro library template.
-     */
-    public static final String VM_LIBRARY_DEFAULT  = "VM_global_library.vm";
+    /** Default Velocimacro library template. */
+    String VM_LIBRARY_DEFAULT = "VM_global_library.vm";
 
-    /**
-     * switch for autoloading library-sourced VMs (for development)
-     */
-    public final static String VM_LIBRARY_AUTORELOAD =
-        "velocimacro.library.autoreload";
+    /** switch for autoloading library-sourced VMs (for development). */
+    String VM_LIBRARY_AUTORELOAD = "velocimacro.library.autoreload";
 
-    /**
-     * boolean (true/false) default true : allow
-     * inline (in-template) macro definitions
-     */
-    public static final String VM_PERM_ALLOW_INLINE  =
-        "velocimacro.permissions.allow.inline";
+    /** boolean (true/false) default true : allow inline (in-template) macro definitions. */
+    String VM_PERM_ALLOW_INLINE = "velocimacro.permissions.allow.inline";
 
-    /**
-     * boolean (true/false) default false : allow inline
-     * (in-template) macro definitions to replace existing
-     */
-    public final static String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL  =
-        "velocimacro.permissions.allow.inline.to.replace.global";
+    /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing. */
+    String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL = "velocimacro.permissions.allow.inline.to.replace.global";
 
-    /**
-     * Switch for forcing inline macros to be local : default false.
-     */
-    public final static String VM_PERM_INLINE_LOCAL =
-        "velocimacro.permissions.allow.inline.local.scope";
+    /** Switch for forcing inline macros to be local : default false. */
+    String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allow.inline.local.scope";
 
-    /**
-     * Switch for VM blather : default true.
-     */
-    public final static String VM_MESSAGES_ON = "velocimacro.messages.on";
+    /** Switch for VM blather : default true. */
+    String VM_MESSAGES_ON = "velocimacro.messages.on";
 
-   /**
-    * switch for local context in VM : default false
-    */
-    public final static String VM_CONTEXT_LOCALSCOPE =
-        "velocimacro.context.localscope";
+    /** switch for local context in VM : default false. */
+    String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
 
     /*
      * ----------------------------------------------------------------------
@@ -324,56 +252,37 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     *  Switch for the interpolation facility for string literals
-     */
-    public static String INTERPOLATE_STRINGLITERALS =
-        "runtime.interpolate.string.literals";
+    /** Switch for the interpolation facility for string literals. */
+    String INTERPOLATE_STRINGLITERALS = "runtime.interpolate.string.literals";
+
+    /** The character encoding for the templates. Used by the parser in processing the input streams. */
+    String INPUT_ENCODING = "input.encoding";
+
+    /** Encoding for the output stream. Currently used by Anakia and VelocityServlet */
+    String OUTPUT_ENCODING = "output.encoding";
+
+    /** Default Encoding is ISO-8859-1. */
+    String ENCODING_DEFAULT = "ISO-8859-1";
+
+    /** key name for uberspector. */
+    String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
+
+    /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
+    String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
+
+    /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
+    String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
 
     /**
-     * The character encoding for the templates.  Used by the parser in
-     * processing the input streams.
-     */
-    public static final String INPUT_ENCODING = "input.encoding";
-
-    /**
-     * Encoding for the output stream.  Currently used by Anakia and
-     * VelocityServlet
-     */
-    public static final String OUTPUT_ENCODING = "output.encoding";
-
-    /**
-     * Default Encoding is ISO-8859-1.
-     */
-    public static final String ENCODING_DEFAULT = "ISO-8859-1";
-
-    /**
-     *  key name for uberspector
-     */
-    public static final String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
-
-    /**
-     * A comma separated list of packages to restrict access to in the SecureIntrospector
-     */
-    public static final String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";    
-    
-    /**
-     * A comma separated list of classes to restrict access to in the SecureIntrospector
-     */
-    public static final String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
-    
-    /**
-     * The <code>parser.pool.class</code> property
-     * specifies the name of the {@link
-     * org.apache.velocity.util.SimplePool}
+     * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
      * implementation to use.
      */
-    public static final String PARSER_POOL_CLASS = "parser.pool.class";
+    String PARSER_POOL_CLASS = "parser.pool.class";
 
     /**
-     * @see #NUMBER_OF_PARSERS
+     * @see  #NUMBER_OF_PARSERS
      */
-    public static final String PARSER_POOL_SIZE = "parser.pool.size";
+    String PARSER_POOL_SIZE = "parser.pool.size";
 
 
     /*
@@ -384,24 +293,17 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**
-     * Default Runtime properties.
-     */
-    final static String DEFAULT_RUNTIME_PROPERTIES =
-        "org/apache/velocity/runtime/defaults/velocity.properties";
+    /** Default Runtime properties. */
+    String DEFAULT_RUNTIME_PROPERTIES = "org/apache/velocity/runtime/defaults/velocity.properties";
+
+    /** Default Runtime properties. */
+    String DEFAULT_RUNTIME_DIRECTIVES = "org/apache/velocity/runtime/defaults/directive.properties";
 
     /**
-     * Default Runtime properties
-     */
-    final static String DEFAULT_RUNTIME_DIRECTIVES =
-        "org/apache/velocity/runtime/defaults/directive.properties";
-
-    /**
-     * The default number of parser instances to create.  Configurable
-     * via the parameter named by the {@link #PARSER_POOL_SIZE}
+     * The default number of parser instances to create. Configurable via the parameter named by the {@link #PARSER_POOL_SIZE}
      * constant.
      */
-    final static int NUMBER_OF_PARSERS = 20;
+    int NUMBER_OF_PARSERS = 20;
 
 
 }
