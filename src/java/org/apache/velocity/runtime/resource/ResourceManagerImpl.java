@@ -92,7 +92,7 @@ public class ResourceManagerImpl
     /**
      * Initialize the ResourceManager.
      *
-     * @param  rs  The Runtime Services object which is associated with this Resource Manager.
+     * @param  rsvc  The Runtime Services object which is associated with this Resource Manager.
      *
      * @throws  Exception
      */
