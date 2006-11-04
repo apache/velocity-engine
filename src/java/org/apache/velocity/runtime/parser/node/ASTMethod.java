@@ -288,11 +288,9 @@ public class ASTMethod extends SimpleNode
                     throw new MethodInvocationException(
                         "Invocation of method '"
                         + methodName + "' in  " + o.getClass()
-                        + " in template " + context.getCurrentTemplateName()
-                        + " at line=" + this.getLine() + " column=" + this.getColumn()
                         + " threw exception "
-                        + e.getClass() + " : " + e.getMessage(),
-                        e, methodName );
+                        + e.toString(),
+                        e, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
                 }
             }
             else
@@ -304,12 +302,9 @@ public class ASTMethod extends SimpleNode
                 throw new MethodInvocationException(
                 "Invocation of method '"
                 + methodName + "' in  " + o.getClass()
-                + " in template " + context.getCurrentTemplateName()
-                + " at line=" + this.getLine() + " column=" + this.getColumn()
                 + " threw exception "
-                + ite.getTargetException().getClass() + " : "
-                + ite.getTargetException().getMessage(),
-                ite.getTargetException(), methodName );
+                + ite.getTargetException().toString(),
+                ite.getTargetException(), methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
             }
         }
         /**

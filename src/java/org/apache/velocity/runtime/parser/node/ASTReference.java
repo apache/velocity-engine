@@ -497,8 +497,8 @@ public class ASTReference extends SimpleNode
                 "ASTReference : Invocation of method '"
                 + identifier + "' in  " + result.getClass()
                 + " threw exception "
-                + ite.getTargetException().getClass(),
-               ite.getTargetException(), identifier );
+                + ite.getTargetException().toString(),
+               ite.getTargetException(), identifier, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
         }
         /**
          * pass through application level runtime exceptions

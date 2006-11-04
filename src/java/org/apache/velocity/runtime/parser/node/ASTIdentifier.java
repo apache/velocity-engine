@@ -205,9 +205,8 @@ public class ASTIdentifier extends SimpleNode
                       "Invocation of method '" + vg.getMethodName() + "'"
                       + " in  " + o.getClass()
                       + " threw exception "
-                      + ite.getTargetException().getClass() + " : "
-                      + ite.getTargetException().getMessage(),
-                      ite.getTargetException(), vg.getMethodName());
+                      + ite.getTargetException().toString(),
+                      ite.getTargetException(), vg.getMethodName(), context.getCurrentTemplateName(), this.getLine(), this.getColumn());
                 }
             }
             else
@@ -220,9 +219,8 @@ public class ASTIdentifier extends SimpleNode
                 "Invocation of method '" + vg.getMethodName() + "'"
                 + " in  " + o.getClass()
                 + " threw exception "
-                + ite.getTargetException().getClass() + " : "
-                + ite.getTargetException().getMessage(),
-                ite.getTargetException(), vg.getMethodName());
+                + ite.getTargetException().toString(),
+                ite.getTargetException(), vg.getMethodName(), context.getCurrentTemplateName(), this.getLine(), this.getColumn());
 
 
             }
