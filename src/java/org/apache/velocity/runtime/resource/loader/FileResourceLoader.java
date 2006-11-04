@@ -19,23 +19,21 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.    
  */
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import java.util.Collections;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.exception.ResourceNotFoundException;
-
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * A loader for templates stored on the file system.  Treats the template
@@ -103,7 +101,7 @@ public class FileResourceLoader extends ResourceLoader
         /*
          * Make sure we have a valid templateName.
          */
-        if (templateName == null || templateName.length() == 0)
+        if (org.apache.commons.lang.StringUtils.isEmpty(templateName))
         {
             /*
              * If we don't get a properly formed templateName then

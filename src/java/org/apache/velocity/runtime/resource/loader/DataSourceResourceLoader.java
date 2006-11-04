@@ -216,7 +216,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      public synchronized InputStream getResourceStream(final String name)
          throws ResourceNotFoundException
      {
-         if (name == null || name.length() == 0)
+	 if (org.apache.commons.lang.StringUtils.isEmpty(name))
          {
              throw new ResourceNotFoundException ("DataSourceResourceLoader: "
         	     	+ "Template name was empty or null");

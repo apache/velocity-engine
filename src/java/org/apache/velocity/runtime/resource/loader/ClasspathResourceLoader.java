@@ -21,12 +21,12 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExceptionUtils;
-import org.apache.velocity.exception.ResourceNotFoundException;
-
-import org.apache.commons.collections.ExtendedProperties;
 
 /**
  *  ClasspathResourceLoader is a simple loader that will load
@@ -104,7 +104,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     {
         InputStream result = null;
 
-        if (name == null || name.length() == 0)
+        if (StringUtils.isEmpty(name))
         {
             throw new ResourceNotFoundException ("No template name provided");
         }

@@ -126,10 +126,10 @@ public class JarHolder
                 data =  theJar.getInputStream( entry );
             }
         }
-        catch( Exception fnfe )
+        catch(Exception fnfe)
         {
             log.error("JarHolder: getResource() error", fnfe);
-            throw new ResourceNotFoundException( fnfe.getMessage() );
+            throw new ResourceNotFoundException(fnfe);
         }
 
         return data;

@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -75,7 +76,7 @@ public class URLResourceLoader extends ResourceLoader
     public synchronized InputStream getResourceStream(String name)
         throws ResourceNotFoundException
     {
-        if (name == null || name.length() == 0)
+        if (StringUtils.isEmpty(name))
         {
             throw new ResourceNotFoundException("URLResourceLoader : No template name provided");
         }
