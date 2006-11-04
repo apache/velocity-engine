@@ -284,7 +284,7 @@ public class ResourceManagerImpl implements ResourceManager
      *          to syntax (or other) error.
      * @throws Exception if a problem in parse
      */
-    public Resource getResource(String resourceName, int resourceType, String encoding )
+    public synchronized Resource getResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
         /*
