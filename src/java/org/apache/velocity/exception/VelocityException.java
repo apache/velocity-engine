@@ -49,7 +49,7 @@ public class VelocityException
 
     /**
      * @param exceptionMessage The message to register.
-     * @param throwable A throwable object that caused the Exception.
+     * @param wrapped A throwable object that caused the Exception.
      */
     public VelocityException(final String exceptionMessage, final Throwable wrapped)
     {
@@ -59,7 +59,7 @@ public class VelocityException
     }
 
     /**
-     * @param throwable A throwable object that caused the Exception.
+     * @param wrapped A throwable object that caused the Exception.
      */
     public VelocityException(final Throwable wrapped)
     {
