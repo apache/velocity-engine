@@ -1,5 +1,7 @@
 package org.apache.velocity.exception;
 
+import org.apache.velocity.util.ExceptionUtils;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -26,18 +28,43 @@ package org.apache.velocity.exception;
  * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
  * @version $Id$
  */
-public class VelocityException extends RuntimeException
+public class VelocityException
+        extends RuntimeException
 {
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = 1251243065134956044L;
+    private static final long serialVersionUID = 1251243065134956045L;
+
+    private final Throwable wrapped;
 
     /**
-     * @param exceptionMessage
+     * @param exceptionMessage The message to register.
      */
-    public VelocityException(String exceptionMessage )
+    public VelocityException(String exceptionMessage)
     {
         super(exceptionMessage);
+        wrapped = null;
+    }
+
+    /**
+     * @param exceptionMessage The message to register.
+     */
+    public VelocityException(final String exceptionMessage, final Throwable wrapped)
+    {
+        super(exceptionMessage);
+        this.wrapped = wrapped;
+        ExceptionUtils.setCause(this, wrapped);
+    }
+
+    /**
+     *  returns the wrapped Throwable that caused this
+     *  MethodInvocationException to be thrown
+     *
+     *  @return Throwable thrown by method invocation
+     */
+    public Throwable getWrappedThrowable()
+    {
+        return wrapped;
     }
 }

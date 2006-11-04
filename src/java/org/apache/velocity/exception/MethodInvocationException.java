@@ -1,5 +1,7 @@
 package org.apache.velocity.exception;
 
+import org.apache.commons.lang.StringUtils;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,10 +18,9 @@ package org.apache.velocity.exception;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import org.apache.velocity.util.ExceptionUtils;
 
 
 /**
@@ -33,16 +34,20 @@ import org.apache.velocity.util.ExceptionUtils;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class MethodInvocationException extends VelocityException
+public class MethodInvocationException extends VelocityException implements ExtendedParseException
 {
     /**
      * Version Id for serializable
      */
-    private static final long serialVersionUID = 7305685093478106341L;
+    private static final long serialVersionUID = 7305685093478106342L;
 
-    private String methodName = "";
     private String referenceName = "";
-    private Throwable wrapped = null;
+
+    private final String methodName;
+    
+    private final int lineNumber;
+    private final int columnNumber;
+    private final String templateName;
 
     /**
      *  CTOR - wraps the passed in exception for
@@ -51,18 +56,21 @@ public class MethodInvocationException extends VelocityException
      *  @param message
      *  @param e Throwable that we are wrapping
      *  @param methodName name of method that threw the exception
+     *  @param templateName The name of the template where the exception occured.
      */
-    public MethodInvocationException( String message, Throwable e, String methodName )
+    public MethodInvocationException(final String message, final Throwable e, final String methodName, final String templateName, final int lineNumber, final int columnNumber)
     {
-        super(message);
-        this.wrapped = e;
-        ExceptionUtils.setCause(this, e);
+        super(message, e);
+
         this.methodName = methodName;
+        this.templateName = templateName;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
     }
 
     /**
      *  Returns the name of the method that threw the
-     *  exception
+     *  exception.
      *
      *  @return String name of method
      */
@@ -72,34 +80,60 @@ public class MethodInvocationException extends VelocityException
     }
 
     /**
-     *  returns the wrapped Throwable that caused this
-     *  MethodInvocationException to be thrown
-     *
-     *  @return Throwable thrown by method invocation
-     */
-    public Throwable getWrappedThrowable()
-    {
-        return wrapped;
-    }
-
-    /**
-     *  Sets the reference name that threw this exception
+     *  Sets the reference name that threw this exception.
      *
      *  @param ref name of reference
      */
-    public void setReferenceName( String ref )
+    public void setReferenceName(String ref)
     {
         referenceName = ref;
     }
 
     /**
      *  Retrieves the name of the reference that caused the
-     *  exception
+     *  exception.
      *
-     *  @return name of reference
+     *  @return name of reference.
      */
     public String getReferenceName()
     {
         return referenceName;
+    }
+
+    /**
+     * @see ExtendedParseException#getColumnNumber()
+     */
+    public int getColumnNumber()
+    {
+	return columnNumber;
+    }
+
+    /**
+     * @see ExtendedParseException#getLineNumber()
+     */
+    public int getLineNumber()
+    {
+	return lineNumber;
+    }
+
+    /**
+     * @see ExtendedParseException#getTemplateName()
+     */
+    public String getTemplateName()
+    {
+	return templateName;
+    }
+
+    /**
+     * @see Exception#getMessage()
+     */
+    public String getMessage()
+    {
+        StringBuffer message = new StringBuffer();
+        message.append(super.getMessage());
+        message.append(" @ ");
+        message.append(StringUtils.isNotEmpty(templateName) ? templateName : "<unknown template>");
+        message.append("[").append(lineNumber).append(",").append(columnNumber).append("]");
+        return message.toString();
     }
 }
