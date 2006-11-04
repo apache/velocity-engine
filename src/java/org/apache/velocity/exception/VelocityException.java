@@ -41,7 +41,7 @@ public class VelocityException
     /**
      * @param exceptionMessage The message to register.
      */
-    public VelocityException(String exceptionMessage)
+    public VelocityException(final String exceptionMessage)
     {
         super(exceptionMessage);
         wrapped = null;
@@ -49,10 +49,21 @@ public class VelocityException
 
     /**
      * @param exceptionMessage The message to register.
+     * @param throwable A throwable object that caused the Exception.
      */
     public VelocityException(final String exceptionMessage, final Throwable wrapped)
     {
         super(exceptionMessage);
+        this.wrapped = wrapped;
+        ExceptionUtils.setCause(this, wrapped);
+    }
+
+    /**
+     * @param throwable A throwable object that caused the Exception.
+     */
+    public VelocityException(final Throwable wrapped)
+    {
+        super();
         this.wrapped = wrapped;
         ExceptionUtils.setCause(this, wrapped);
     }
