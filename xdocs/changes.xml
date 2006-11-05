@@ -27,6 +27,28 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="add" dev="wglass" issue="VELOCITY-435">
+		When macros have incorrect number of arguments, if property
+		"velocimacro.arguments.strict" is set to true a ParseErrorException
+		will be thrown.
+      </action>
+
+      <action type="add" dev="henning" issue="VELOCITY-414" due-to="Matthijs Lambooy">
+		MethodInvocationException now contains line, column, template name
+		allow application to produce more useful error messages.
+      </action>
+
+      <action type="fix" dev="henning" issue="VELOCITY-24">
+		Fixed race condition in template retrieval that caused macros
+		fail under simultaneous load.
+      </action>
+
+      <action type="add" dev="wglass" issue="VELOCITY-423">
+		New event handler InvalidReferenceHandler allows application
+		to catch invalid references.  Sample implementation collects
+		them in list and optionally throws exception.
+      </action>
+
       <action type="add" dev="wglass" issue="VELOCITY-179">
           New, optional SecureIntrospector prohibits methods that involve manipulation of classes, classloaders
 		  or reflection objects.  Use this introspector to secure Velocity against a risk of
@@ -34,11 +56,11 @@
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-458">
-	Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
+		Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-449" due-to="Alexey Panchenko">
-	Add an additional pair of Executors that are smart about Map. 
+		Add an additional pair of Executors that are smart about Map. 
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-453" due-to="Alexey Panchenko">
