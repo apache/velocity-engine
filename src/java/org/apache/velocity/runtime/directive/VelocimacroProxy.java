@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
@@ -59,7 +60,8 @@ public class VelocimacroProxy extends Directive
     private int[]  callingArgTypes;
     private HashMap proxyArgHash = new HashMap();
 
-
+    private boolean strictArguments;
+    
     /**
      * Return name of this Velocimacro.
      * @return The name of this Velocimacro.
@@ -236,6 +238,11 @@ public class VelocimacroProxy extends Directive
     {
         super.init( rs, context, node );
 
+        /**
+         * Throw exception for invalid number of arguments?
+         */
+        strictArguments = rs.getConfiguration().getBoolean(RuntimeConstants.VM_ARGUMENTS_STRICT,false);
+        
         /*
          *  how many args did we get?
          */
@@ -265,11 +272,27 @@ public class VelocimacroProxy extends Directive
                 parent = parent.jjtGetParent();
             }
             
-            rsvc.getLog().error("VM #" + macroName + ": error : too " +
-                                ((getNumArgs() > i) ? "few" : "many") +
-                                " arguments to macro. Wanted " + getNumArgs() +
-                                " got " + i);
-            return;
+            String errormsg = "VM #" + macroName + ": error : too " +
+            ((getNumArgs() > i) ? "few" : "many") + 
+            " arguments to macro. Wanted " + getNumArgs() +
+            " got " + i;
+
+            if (strictArguments)
+            {
+                /**
+                 *  indicate col/line assuming it starts at 0 - this will be
+                 *  corrected one call up
+                 */
+                throw new DirectiveInitException(errormsg,
+                        context.getCurrentTemplateName(),
+                        0,
+                        0);
+            }
+            else
+            {
+                rsvc.getLog().error(errormsg);
+                return;
+            }
         }
 
         /*

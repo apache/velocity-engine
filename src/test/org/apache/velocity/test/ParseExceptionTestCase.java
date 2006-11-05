@@ -47,6 +47,7 @@ public class ParseExceptionTestCase extends BaseTestCase
 
     /**
      * Default constructor.
+     * @param name name of test
      */
     public ParseExceptionTestCase(String name)
     {
@@ -209,4 +210,72 @@ public class ParseExceptionTestCase extends BaseTestCase
         }
     }
 
+
+    /**
+     * Tests that parseException has useful info with macro calls with
+     * invalid number of arguments
+     * @throws Exception
+     */
+    public void testParseExceptionMacroInvalidArgumentCount ()
+            throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("velocimacro.arguments.strict","true");
+        ve.init();
+        
+        VelocityContext context = new VelocityContext();
+        
+        Writer writer = new StringWriter();
+        
+        try 
+        {
+            ve.evaluate(context,writer,"testMacroInvoke", "#macro(foo $a) $a #end #foo('test1' 'test2')");     
+            fail("Should have thown a ParseErrorException");
+        } 
+        catch (ParseErrorException e) 
+        {
+            assertEquals("testMacroInvoke",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(24,e.getColumnNumber());
+        } 
+        finally
+        {
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
+
+    
+    /**
+     * Tests that parseException has useful info with macro calls with
+     * invalid number of arguments
+     * @throws Exception
+     */
+    public void testParseExceptionMacroInvalidArgumentCountNoException ()
+            throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+        
+        VelocityContext context = new VelocityContext();
+        
+        Writer writer = new StringWriter();
+
+        // will not throw an exception
+        try 
+        {
+            ve.evaluate(context,writer,"testMacroInvoke", "#macro(foo $a) $a #end #foo('test1' 'test2')");     
+        }
+        finally
+        {
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
+
+    
 }

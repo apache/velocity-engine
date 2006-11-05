@@ -246,6 +246,9 @@ public interface RuntimeConstants
     /** switch for local context in VM : default false. */
     String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
 
+    /** if true, throw an exception for wrong number of arguments **/
+    String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
+    
     /*
      * ----------------------------------------------------------------------
      * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N

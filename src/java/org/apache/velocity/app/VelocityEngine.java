@@ -38,6 +38,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.directive.DirectiveInitException;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -333,6 +334,10 @@ public class VelocityEngine implements RuntimeConstants
                 catch( RuntimeException e )
                 {
                     throw e;
+                }
+                catch (DirectiveInitException pex)
+                {
+                    throw  new ParseErrorException( pex );
                 }
                 catch(Exception e)
                 {
