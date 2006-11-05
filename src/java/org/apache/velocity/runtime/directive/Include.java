@@ -26,6 +26,7 @@ import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -96,11 +97,11 @@ public class Include extends InputBase
      * @param rs
      * @param context
      * @param node
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
-        throws Exception
+        throws TemplateInitException
     {
         super.init( rs, context, node );
 
@@ -172,6 +173,9 @@ public class Include extends InputBase
      *  @param context valid context so we can render References
      *  @param writer output Writer
      *  @return boolean success or failure.  failures are logged
+     *  @exception IOException
+     *  @exception MethodInvocationException
+     *  @exception ResourceNotFoundException
      */
     private boolean renderOutput( Node node, InternalContextAdapter context,
                                   Writer writer )
@@ -267,6 +271,9 @@ public class Include extends InputBase
      *  Puts a message to the render output stream if ERRORMSG_START / END
      *  are valid property strings.  Mainly used for end-user template
      *  debugging.
+     *  @param writer
+     *  @param msg
+     *  @throws IOException
      */
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException

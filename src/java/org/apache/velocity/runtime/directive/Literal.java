@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -63,11 +64,11 @@ public class Literal extends Directive
      * @param rs
      * @param context
      * @param node
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
-        throws Exception
+        throws TemplateInitException
     {
         super.init( rs, context, node );
 

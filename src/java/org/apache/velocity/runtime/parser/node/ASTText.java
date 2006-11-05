@@ -23,6 +23,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.Token;
@@ -63,7 +64,7 @@ public class ASTText extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init( InternalContextAdapter context, Object data)
-        throws Exception
+    throws TemplateInitException
     {
         Token t = getFirstToken();
 

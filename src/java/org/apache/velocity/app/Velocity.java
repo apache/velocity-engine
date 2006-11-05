@@ -36,6 +36,7 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.log.Log;
@@ -276,6 +277,10 @@ public class Velocity implements RuntimeConstants
         {
             throw  new ParseErrorException( pex );
         }
+        catch (TemplateInitException pex)
+        {
+            throw  new ParseErrorException( pex );
+        }
 
         /*
          * now we want to init and render
@@ -293,6 +298,17 @@ public class Velocity implements RuntimeConstants
                 try
                 {
                     nodeTree.init( ica, RuntimeSingleton.getRuntimeServices() );
+                }
+                catch (TemplateInitException pex)
+                {
+                    throw  new ParseErrorException( pex );
+                }
+                /**
+                 * pass through application level runtime exceptions
+                 */
+                catch( RuntimeException e )
+                {
+                    throw e;
                 }
                 catch( Exception e )
                 {

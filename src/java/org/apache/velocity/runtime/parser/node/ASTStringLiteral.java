@@ -28,7 +28,9 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 
@@ -73,10 +75,10 @@ public class ASTStringLiteral extends SimpleNode
      * @param context
      * @param data
      * @return Init result.
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public Object init(InternalContextAdapter context, Object data)
-        throws Exception
+    throws TemplateInitException
     {
         /*
          *  simple habit...  we prollie don't have an AST beneath us
@@ -152,9 +154,20 @@ public class ASTStringLiteral extends SimpleNode
              *  Also, do *not* dump the VM namespace for this template
              */
 
-            nodeTree  = rsvc.parse(br, (context != null) ?
-                    context.getCurrentTemplateName() : "StringLiteral", false);
-
+            try 
+            {
+                nodeTree  = rsvc.parse(br, (context != null) ?
+                        context.getCurrentTemplateName() : "StringLiteral", false);
+            }
+            catch (ParseException e)
+            {
+                throw new TemplateInitException("Problem parsing String literal.",
+                        e,
+                        (context != null) ? context.getCurrentTemplateName() : "StringLiteral",
+                        getColumn(),
+                        getLine() );
+            }
+                
             /*
              *  init with context. It won't modify anything
              */

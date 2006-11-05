@@ -20,6 +20,7 @@ package org.apache.velocity;
  */
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +31,8 @@ import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.Resource;
@@ -58,7 +61,7 @@ import org.apache.velocity.runtime.resource.Resource;
  */
 public class Template extends Resource
 {
-    private Exception errorCondition = null;
+    private VelocityException errorCondition = null;
 
     /** Default constructor */
     public Template()
@@ -73,11 +76,10 @@ public class Template extends Resource
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception some other problem, should only be from
-     *          initialization of the template AST.
+     * @throws IOException problem reading input stream
      */
     public boolean process()
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException, IOException
     {
         data = null;
         InputStream is = null;
@@ -135,20 +137,16 @@ public class Template extends Resource
                 errorCondition =  new ParseErrorException( pex );
                 throw errorCondition;
             }
+            catch ( TemplateInitException pex )
+            {
+                errorCondition = new ParseErrorException( pex );
+                throw errorCondition;
+            }
             /**
              * pass through runtime exceptions
              */
             catch( RuntimeException e )
             {
-                throw e;
-            }
-            catch( Exception e )
-            {
-                /*
-                 *  who knows?  Something from initDocument()
-                 */
-
-                errorCondition = e;
                 throw e;
             }
             finally
@@ -175,10 +173,10 @@ public class Template extends Resource
      *  dependant upon context, but we need to let the
      *  init() carry the template name down throught for VM
      *  namespace features
-     * @throws Exception When a problem occurs during the document initialization.
+     * @throws TemplateInitException When a problem occurs during the document initialization.
      */
     public void initDocument()
-        throws Exception
+    throws TemplateInitException
     {
         /*
          *  send an empty InternalContextAdapter down into the AST to initialize it
@@ -216,9 +214,6 @@ public class Template extends Resource
      * The AST node structure is merged with the
      * context to produce the final output.
      *
-     * Throws IOException if failure is due to a file related
-     * issue, and Exception otherwise
-     *
      *  @param context Conext with data elements accessed by template
      *  @param writer output writer for rendered template
      *  @throws ResourceNotFoundException if template not found
@@ -226,10 +221,10 @@ public class Template extends Resource
      *  @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
-     *  @throws  Exception  anything else.
+     *  @throws IOException  Might be thrown while rendering.
      */
     public void merge( Context context, Writer writer)
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException
     {
         /*
          *  we shouldn't have to do this, as if there is an error condition,
@@ -276,8 +271,8 @@ public class Template extends Resource
             String msg = "Template.merge() failure. The document is null, " +
                 "most likely due to parsing error.";
 
-            rsvc.getLog().error(msg);
-            throw new Exception(msg);
+            throw new RuntimeException(msg);
+
         }
     }
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.NodeUtils;
@@ -101,7 +102,7 @@ public class Macro extends Directive
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
-       throws Exception
+       throws TemplateInitException
     {
         super.init(rs, context, node);
 
@@ -225,6 +226,7 @@ public class Macro extends Directive
      * list.  It's expected to include the block node tree (for the
      * macro body).
      * @param rsvc For debugging purposes only.
+     * @return array of arguments
      */
     private static String[] getArgArray(Node node, RuntimeServices rsvc)
     {
@@ -278,6 +280,8 @@ public class Macro extends Directive
 
     /**
      *  Returns an array of the literal rep of the AST
+     *  @param rootNode
+     *  @return list of Strings
      */
     private static List getASTAsStringArray(Node rootNode)
     {

@@ -27,10 +27,12 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.directive.DirectiveInitException;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
+import org.apache.velocity.util.ExceptionUtils;
 
 /**
  * This class is responsible for handling the pluggable
@@ -82,7 +84,7 @@ public class ASTDirective extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init( InternalContextAdapter context, Object data)
-        throws Exception
+    throws TemplateInitException
     {
         super.init( context, data );
 
@@ -94,9 +96,26 @@ public class ASTDirective extends SimpleNode
         {
             isDirective = true;
 
-            directive = (Directive) parser.getDirective( directiveName )
-                .getClass().newInstance();
-
+            try
+            {
+                directive = (Directive) parser.getDirective( directiveName )
+                    .getClass().newInstance();
+            } 
+            catch (InstantiationException e)
+            {
+                throw ExceptionUtils.createRuntimeException("Couldn't initialize " +
+                        "directive of class " +
+                        parser.getDirective(directiveName).getClass().getName(),
+                        e);
+            }
+            catch (IllegalAccessException e)
+            {
+                throw ExceptionUtils.createRuntimeException("Couldn't initialize " +
+                        "directive of class " +
+                        parser.getDirective(directiveName).getClass().getName(),
+                        e);
+            }
+                
             directive.init(rsvc, context,this);
 
             directive.setLocation( getLine(), getColumn() );
@@ -118,9 +137,10 @@ public class ASTDirective extends SimpleNode
             /**
              * correct the line/column number if an exception is caught
              */
-            catch (DirectiveInitException die)
+            catch (TemplateInitException die)
             {
-                throw new DirectiveInitException(die.getMessage(),
+                throw new TemplateInitException(die.getMessage(),
+                        (ParseException) die.getWrappedThrowable(),
                         die.getTemplateName(),
                         die.getColumnNumber() + getColumn(),
                         die.getLineNumber() + getLine());

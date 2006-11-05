@@ -71,7 +71,6 @@ public class ASTEscape extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init( InternalContextAdapter context, Object data)
-        throws Exception
     {
         ctext =  val.toCharArray();
         return data;

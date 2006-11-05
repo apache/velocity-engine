@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -231,10 +232,10 @@ public class VelocimacroProxy extends Directive
      * @param rs
      * @param context
      * @param node
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
-       throws Exception
+       throws TemplateInitException
     {
         super.init( rs, context, node );
 
@@ -283,7 +284,7 @@ public class VelocimacroProxy extends Directive
                  *  indicate col/line assuming it starts at 0 - this will be
                  *  corrected one call up
                  */
-                throw new DirectiveInitException(errormsg,
+                throw new TemplateInitException(errormsg,
                         context.getCurrentTemplateName(),
                         0,
                         0);
@@ -326,6 +327,7 @@ public class VelocimacroProxy extends Directive
     /**
      *   parses the macro.  We need to do this here, at init time, or else
      *   the local-scope template feature is hard to get to work :)
+     *   @param callArgs
      */
     private void parseTree( String[] callArgs )
     {
@@ -403,6 +405,8 @@ public class VelocimacroProxy extends Directive
 
     /**
      *   gets the args to the VM from the instance-use AST
+     *   @param node
+     *   @return array of arguments
      */
     private String[] getArgArray( Node node )
     {

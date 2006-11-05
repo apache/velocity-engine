@@ -19,16 +19,16 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
+import java.io.IOException;
+import java.io.Writer;
+
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import java.io.IOException;
-import java.io.Writer;
 
 /**
  *  Represents all comments...
@@ -72,10 +72,8 @@ public class ASTComment extends SimpleNode
      * @param context
      * @param data
      * @return The data object.
-     * @throws Exception
      */
     public Object init(InternalContextAdapter context, Object data)
-            throws Exception
     {
         Token t = getFirstToken();
 

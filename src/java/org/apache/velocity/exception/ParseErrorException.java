@@ -102,6 +102,37 @@ public class ParseErrorException extends VelocityException
         }
     }
 
+    /**
+     * Create a ParseErrorException with the given ParseException.
+     *
+     * @param pex the parsing exception
+     */
+    public ParseErrorException(VelocityException pex)
+    {
+        super(pex.getMessage());
+
+        // Don't use a second C'tor, TemplateParseException is a subclass of
+        // ParseException...
+        if (pex instanceof ExtendedParseException)
+        {
+            ExtendedParseException xpex = (ExtendedParseException) pex;
+
+            columnNumber = xpex.getColumnNumber();
+            lineNumber = xpex.getLineNumber();
+            templateName = xpex.getTemplateName();
+        }
+        else if (pex.getWrappedThrowable() instanceof ParseException)
+        {
+            ParseException pex2 = (ParseException) pex.getWrappedThrowable();
+
+            if (pex2.currentToken != null && pex2.currentToken.next != null)
+            {
+                columnNumber = pex2.currentToken.next.beginColumn;
+                lineNumber = pex2.currentToken.next.beginLine;
+            }
+        }
+    }
+
 
     /**
      * Create a ParseErrorRuntimeException with the given message and info
