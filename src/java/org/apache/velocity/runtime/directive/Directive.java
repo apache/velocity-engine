@@ -30,6 +30,7 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 
 
 /**
@@ -94,11 +95,11 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * @param rs
      * @param context
      * @param node
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public void init( RuntimeServices rs, InternalContextAdapter context,
                       Node node)
-        throws Exception
+        throws TemplateInitException
     {
         rsvc = rs;
 

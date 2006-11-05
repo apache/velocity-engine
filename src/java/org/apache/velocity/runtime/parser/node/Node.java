@@ -19,16 +19,16 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-import org.apache.velocity.runtime.parser.Token;
-
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.parser.ParserVisitor;
+import org.apache.velocity.runtime.parser.Token;
 
 /**
  *  This file describes the interface between the Velocity code
@@ -123,9 +123,9 @@ public interface Node
      * @param context
      * @param data
      * @return The init result.
-     * @throws Exception
+     * @throws TemplateInitException 
      */
-    public Object init( InternalContextAdapter context, Object data) throws Exception;
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException;
 
     /**
      * @param context

@@ -19,11 +19,12 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
+import java.math.BigDecimal;
+
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
-
-import java.math.BigDecimal;
 
 
 /**
@@ -70,10 +71,10 @@ public class ASTFloatingPointLiteral extends SimpleNode
      * @param context
      * @param data
      * @return The data object.
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public Object init( InternalContextAdapter context, Object data)
-        throws Exception
+        throws TemplateInitException
     {
         /*
          *  init the tree correctly

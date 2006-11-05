@@ -1,4 +1,4 @@
-package org.apache.velocity.runtime.directive;
+package org.apache.velocity.exception;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,20 +19,16 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import org.apache.velocity.exception.ExtendedParseException;
 import org.apache.velocity.runtime.parser.ParseException;
 
 /**
  * Exception generated to indicate parse errors caught during
  * directive initialization (e.g. wrong number of arguments)
  *
- * For internal use in parser - not to be passed to app level.
- * Hence this ultimately extends Exception not RuntimeException.
- *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class DirectiveInitException extends ParseException
+public class TemplateInitException extends VelocityException 
         implements ExtendedParseException
 {
     private final String templateName;
@@ -44,10 +40,19 @@ public class DirectiveInitException extends ParseException
      */
     private static final long serialVersionUID = -4985224672336070621L;
 
-    public DirectiveInitException(final String msg, 
+    public TemplateInitException(final String msg, 
             final String templateName, final int col, final int line)
     {
         super(msg);
+        this.templateName = templateName;
+        this.col = col;
+        this.line = line;
+    }
+
+    public TemplateInitException(final String msg, ParseException parseException,
+            final String templateName, final int col, final int line)
+    {
+        super(msg,parseException);
         this.templateName = templateName;
         this.col = col;
         this.line = line;
@@ -79,4 +84,8 @@ public class DirectiveInitException extends ParseException
     {
         return col;
     }
+
+    
+    
+    
 }

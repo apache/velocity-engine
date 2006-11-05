@@ -27,8 +27,8 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
@@ -266,9 +266,10 @@ public class SimpleNode implements Node
     }
 
     /**
+     * @throws TemplateInitException 
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws Exception
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
     {
         /*
          * hold onto the RuntimeServices
@@ -281,14 +282,7 @@ public class SimpleNode implements Node
 
         for (i = 0; i < k; i++)
         {
-            try
-            {
-                jjtGetChild(i).init( context, data);
-            }
-            catch (ReferenceException re)
-            {
-                log.error(re);
-            }
+            jjtGetChild(i).init( context, data);
         }
 
         return data;

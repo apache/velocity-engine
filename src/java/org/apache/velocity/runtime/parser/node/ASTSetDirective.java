@@ -25,6 +25,7 @@ import java.io.Writer;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
@@ -79,10 +80,10 @@ public class ASTSetDirective extends SimpleNode
      * @param context
      * @param data
      * @return Init result.
-     * @throws Exception
+     * @throws TemplateInitException
      */
     public Object init(InternalContextAdapter context, Object data)
-            throws Exception
+    throws TemplateInitException
     {
         /*
          *  init the tree correctly

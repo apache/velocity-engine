@@ -27,8 +27,8 @@ import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.exception.ReferenceException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 import org.apache.velocity.runtime.parser.Token;
@@ -101,7 +101,7 @@ public class ASTReference extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init(InternalContextAdapter context, Object data)
-        throws Exception
+    throws TemplateInitException
     {
         /*
          *  init our children
@@ -449,8 +449,13 @@ public class ASTReference extends SimpleNode
 
         if (result == null)
         {
-            log.error(new ReferenceException("reference set : template = "
-                      + context.getCurrentTemplateName(), this));
+            String msg = "reference set : template = "
+                + context.getCurrentTemplateName() +
+                " [line " + getLine() + ",column " +
+                getColumn() + "] : " + literal() +
+                " is not a valid reference.";
+            
+            log.error(msg);
             return false;
         }
 
@@ -464,8 +469,14 @@ public class ASTReference extends SimpleNode
 
             if (result == null)
             {
-                log.error(new ReferenceException("reference set : template = "
-                          + context.getCurrentTemplateName(), this));
+                String msg = "reference set : template = "
+                    + context.getCurrentTemplateName() +
+                    " [line " + getLine() + ",column " +
+                    getColumn() + "] : " + literal() +
+                    " is not a valid reference.";
+                
+                log.error(msg);
+
                 return false;
             }
         }

@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 
@@ -66,7 +67,7 @@ public class ASTIntegerLiteral extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init( InternalContextAdapter context, Object data)
-        throws Exception
+        throws TemplateInitException
     {
         /*
          *  init the tree correctly
