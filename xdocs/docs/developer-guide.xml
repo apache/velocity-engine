@@ -1718,6 +1718,14 @@ This feature is intended for development, not for production.
 </p>
 
 <p>
+<code>velocimacro.arguments.strict = false</code><br/>
+When set to true, will throw a <code>ParseErrorException</code> when
+parsing a template containing a macro with an invalid number of arguments.
+Is set to false by default to maintain backwards compatibility with 
+templates written before this feature became available.
+</p>
+
+	<p>
 <strong>String Interpolation</strong>
 </p>
 

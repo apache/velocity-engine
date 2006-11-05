@@ -19,18 +19,18 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.DirectiveInitException;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserVisitor;
 
 /**
  * This class is responsible for handling the pluggable
@@ -110,7 +110,21 @@ public class ASTDirective extends SimpleNode
             isDirective = true;
             directive = rsvc.getVelocimacro( directiveName,  context.getCurrentTemplateName());
 
-            directive.init( rsvc, context, this );
+            try 
+            {
+                directive.init( rsvc, context, this );
+            }
+            
+            /**
+             * correct the line/column number if an exception is caught
+             */
+            catch (DirectiveInitException die)
+            {
+                throw new DirectiveInitException(die.getMessage(),
+                        die.getTemplateName(),
+                        die.getColumnNumber() + getColumn(),
+                        die.getLineNumber() + getLine());
+            }
             directive.setLocation( getLine(), getColumn() );
         }
         else
