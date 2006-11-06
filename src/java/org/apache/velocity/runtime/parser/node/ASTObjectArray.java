@@ -20,12 +20,12 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
-
-import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *
@@ -66,11 +66,11 @@ public class ASTObjectArray extends SimpleNode
     {
         int size = jjtGetNumChildren();
 
-        ArrayList objectArray = new ArrayList();
+        List objectArray = new ArrayList();
 
         for (int i = 0; i < size; i++)
         {
-            objectArray.add(  jjtGetChild(i).value(context) );
+            objectArray.add(jjtGetChild(i).value(context));
         }
 
         return objectArray;
