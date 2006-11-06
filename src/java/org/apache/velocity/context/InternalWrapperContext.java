@@ -39,4 +39,15 @@ public interface InternalWrapperContext
      *
      */
     InternalContextAdapter getBaseContext();
+
+    /**
+     * Allows callers to explicitly put objects in the local context.
+     * Objects added to the context through this method always end up
+     * in the top-level context of possible wrapped contexts.
+     *
+     *  @param key name of item to set.
+     *  @param value object to set to key.
+     *  @return old stored object
+     */
+    Object localPut(final String key, final Object value);
 }
