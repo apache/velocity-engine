@@ -202,6 +202,14 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     {
         return context.put( key , value );
     }
+    
+    /**
+     * @see InternalWrapperContext#localPut(String, Object)
+     */
+    public Object localPut(final String key, final Object value)
+    {
+	return put(key, value);
+    }
 
     /**
      * @see org.apache.velocity.context.Context#get(java.lang.String)

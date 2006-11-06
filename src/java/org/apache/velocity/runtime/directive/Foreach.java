@@ -98,6 +98,14 @@ public class Foreach extends Directive
         }
 
         /**
+         * @see InternalWrapperContext#localPut(String, Object)
+         */
+        public Object localPut(final String key, final Object value)
+        {
+            return put(key, value);
+        }
+
+       /**
          * Does the context contain the key
          * @see org.apache.velocity.context.InternalContextAdapter#containsKey(java.lang.Object key)
          */
@@ -412,9 +420,9 @@ public class Foreach extends Directive
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
             // TODO: JDK 1.4+ -> valueOf()
-            context.put(counterName , new Integer(counter));
+            context.localPut(counterName , new Integer(counter));
             Object value = i.next();
-            context.put(elementKey, value);
+            context.localPut(elementKey, value);
 
             /*
              * If the value is null, use the special null holder context

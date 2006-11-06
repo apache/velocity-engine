@@ -126,7 +126,34 @@ public class VMContext implements InternalContextAdapter
      *  @param value object to set to key
      *  @return old stored object
      */
-    public Object put(String key, Object value)
+    public Object put(final String key, final Object value)
+    {
+        return put(key, value, localcontextscope);
+    }
+
+    /**
+     * Allows callers to explicitly put objects in the local context,
+     * no matter what the velocimacro.context.local setting says. Needed
+     * e.g. for loop variables in foreach.
+     *
+     *  @param key name of item to set.
+     *  @param value object to set to key.
+     *  @return old stored object
+     */
+    public Object localPut(final String key, final Object value)
+    {
+        return put(key, value, true);
+    }
+
+    /**
+     *  Internal put method to select between local and global scope.
+     *
+     *  @param key name of item to set
+     *  @param value object to set to key
+     *  @param forceLocal True forces the object into the local scope.
+     *  @return old stored object
+     */
+    protected Object put(final String key, final Object value, final boolean forceLocal)
     {
         /*
          *  first see if this is a vmpa
@@ -140,14 +167,12 @@ public class VMContext implements InternalContextAdapter
         }
         else
         {
-            if(localcontextscope)
+            if(forceLocal)
             {
                 /*
-                 *  if we have localcontextscope mode, then just
-                 *  put in the local context
+                 *  just put in the local context
                  */
-
-                return localcontext.put( key, value );
+                return localcontext.put(key, value);
             }
             else
             {
@@ -155,9 +180,9 @@ public class VMContext implements InternalContextAdapter
                  *  ok, how about the local context?
                  */
 
-                if (localcontext.containsKey( key ))
+                if (localcontext.containsKey(key))
                 {
-                    return localcontext.put( key, value);
+                    return localcontext.put(key, value);
                 }
                 else
                 {
@@ -165,7 +190,7 @@ public class VMContext implements InternalContextAdapter
                      * otherwise, let them push it into the 'global' context
                      */
 
-                    return innerContext.put( key, value );
+                    return innerContext.put(key, value);
                 }
             }
         }
