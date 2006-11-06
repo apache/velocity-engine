@@ -30,12 +30,12 @@ package org.apache.velocity.runtime.parser.node;
 */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
-
-import org.apache.velocity.exception.MethodInvocationException;
 
 /**
  *
@@ -141,17 +141,17 @@ public class ASTIntegerRange extends SimpleNode
          *  make the vector and fill it
          */
 
-        ArrayList foo = new ArrayList();
+        List elements = new ArrayList();
         int val = l;
 
         for(int i =0; i < num; i++)
         {
             // TODO: JDK 1.4+ -> valueOf()
-            foo.add(new Integer(val));
+            elements.add(new Integer(val));
             val += delta;
         }
 
-        return foo;
+        return elements;
     }
 }
 

@@ -298,7 +298,7 @@ public class Macro extends Directive
          *  our first and last tokens
          */
 
-        ArrayList list = new ArrayList();
+        List list = new ArrayList();
 
         while (t != tLast)
         {
