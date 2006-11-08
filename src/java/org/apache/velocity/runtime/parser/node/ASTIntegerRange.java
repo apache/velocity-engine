@@ -19,16 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-/**
- * handles the range 'operator'  [ n .. m ]
- *
- * Please look at the Parser.jjt file which is
- * what controls the generation of this class.
- *
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$
-*/
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +28,15 @@ import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserVisitor;
 
 /**
+ * handles the range 'operator'  [ n .. m ]
  *
+ * Please look at the Parser.jjt file which is
+ * what controls the generation of this class.
+ *
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  */
 public class ASTIntegerRange extends SimpleNode
 {
-
     /**
      * @param id
      */
@@ -59,7 +53,6 @@ public class ASTIntegerRange extends SimpleNode
     {
         super(p, id);
     }
-
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
@@ -128,30 +121,29 @@ public class ASTIntegerRange extends SimpleNode
          *  find out how many there are
          */
 
-        int num = Math.abs( l - r );
-        num += 1;
+        int nbrElements = Math.abs( l - r );
+        nbrElements += 1;
 
         /*
-         *  see if your increment is Pos or Neg
+         *  Determine whether the increment is positive or negative.
          */
 
         int delta = ( l >= r ) ? -1 : 1;
 
         /*
-         *  make the vector and fill it
+         * Fill the range with the appropriate values.
          */
 
-        List elements = new ArrayList();
-        int val = l;
+        List elements = new ArrayList(nbrElements);
+        int value = l;
 
-        for(int i =0; i < num; i++)
+        for (int i = 0; i < nbrElements; i++)
         {
             // TODO: JDK 1.4+ -> valueOf()
-            elements.add(new Integer(val));
-            val += delta;
+            elements.add(new Integer(value));
+            value += delta;
         }
 
         return elements;
     }
 }
-
