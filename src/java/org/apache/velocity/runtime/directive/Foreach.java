@@ -76,8 +76,9 @@ public class Foreach extends Directive
         /**
          * Get an object from the context, or null if the key is equal to the loop variable
          * @see org.apache.velocity.context.InternalContextAdapter#get(java.lang.String)
+         * @exception MethodInvocationException passes on potential exception from reference method call
          */
-        public Object get( String key )
+        public Object get( String key ) throws MethodInvocationException
         {
             return ( active && loopVariableKey.equals(key) )
                 ? null
@@ -98,8 +99,14 @@ public class Foreach extends Directive
         }
 
         /**
+         * Allows callers to explicitly put objects in the local context.
+         * Objects added to the context through this method always end up
+         * in the top-level context of possible wrapped contexts.
+         *
+         * @param key name of item to set.
+         * @param value object to set to key.
          * @see InternalWrapperContext#localPut(String, Object)
-         */
+         */        
         public Object localPut(final String key, final Object value)
         {
             return put(key, value);

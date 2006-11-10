@@ -39,6 +39,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
 {
    /**
      * Default constructor.
+     * @param name
      */
     public MethodInvocationExceptionTestCase(String name)
     {
@@ -65,6 +66,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
      *  uses the Velocity class to eval a string
      *  which accesses a method that throws an
      *  exception.
+     *  @throws Exception
      */
     public void testNormalMethodInvocationException ()
             throws Exception
@@ -203,6 +205,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
      * test that no exception is thrown when in parameter to macro.
      * This is the way we expect the system to work, but it would be better
      * to throw an exception.
+     * @throws Exception
      */
     public void testMacroInvocationException ()
             throws Exception
@@ -217,10 +220,25 @@ public class MethodInvocationExceptionTestCase extends TestCase
         try
         {
             Velocity. evaluate( vc,  w, "test", template );
+            fail("No exception thrown, macro invocation test.");
         }
         catch( MethodInvocationException mie )
         {
-            fail("Shouldn't have thrown exception, macro param test.");
+            System.out.println("Caught MIE (good!) :" );
+            System.out.println("  reference = " + mie.getReferenceName() );
+            System.out.println("  method    = " + mie.getMethodName() );
+
+            Throwable t = mie.getWrappedThrowable();
+            System.out.println("  throwable = " + t );
+
+            if( t instanceof Exception)
+            {
+                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+            }
+        }
+        catch( Exception e)
+        {
+            fail("Wrong exception thrown, test of exception within macro parameter");
         }
     }
 
