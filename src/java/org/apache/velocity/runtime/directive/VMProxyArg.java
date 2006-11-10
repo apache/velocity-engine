@@ -242,9 +242,9 @@ public class VMProxyArg
      *
      *  @param context Context to use for getting current value
      *  @return Object value
-     *
+     * @exception MethodInvocationException passes on potential exception from reference method call
      */
-    public Object getObject( InternalContextAdapter context )
+    public Object getObject( InternalContextAdapter context )  throws MethodInvocationException
     {
         try
         {
@@ -358,8 +358,7 @@ public class VMProxyArg
              */
 
             log.error("VMProxyArg.getObject() : method invocation error getting value", mie);
-
-            return null;
+            throw mie;
         }
     }
 
