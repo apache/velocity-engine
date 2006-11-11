@@ -469,7 +469,23 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Object getProperty(String key)
     {
-        Object o = configuration.getProperty(key);
+        Object o = null;
+        
+        /**
+         * Before initialization, check the user-entered properties first.
+         */
+        if (!initialized && !initializing && overridingProperties != null) 
+        {
+            o = overridingProperties.get(key);
+        }
+        
+        /**
+         * After initialization, configuration will hold all properties.
+         */
+        if (o == null) 
+        {
+            o = configuration.getProperty(key);
+        }
         if (o instanceof String)
         {
             return StringUtils.nullTrim((String) o);

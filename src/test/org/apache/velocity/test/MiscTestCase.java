@@ -25,6 +25,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -46,6 +47,14 @@ public class MiscTestCase extends BaseTestCase
         return new TestSuite(MiscTestCase.class);
     }
 
+    public void testRuntimeInstanceProperties()
+    {
+        // check that runtime instance properties can be set and retrieved
+        RuntimeInstance ri = new RuntimeInstance();
+        ri.setProperty("baabaa.test","the answer");
+        assertEquals("the answer",ri.getProperty("baabaa.test"));
+    }
+    
     public void testStringUtils()
     {
         /*
