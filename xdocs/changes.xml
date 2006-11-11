@@ -27,6 +27,11 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-493" due-to="Claude Brisson">
+		RuntimeInstance.getProperty now returns value set with RuntimeInstance.setProperty,
+		even before initialization.
+      </action>
+
       <action type="add" dev="wglass" issue="VELOCITY-435">
 		When macros have incorrect number of arguments, if property
 		"velocimacro.arguments.strict" is set to true a ParseErrorException
