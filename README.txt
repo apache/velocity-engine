@@ -7,7 +7,7 @@ written in Java. For more information about Velocity, please look at the
 HTML documentation in the docs/ directory, as well as the Velocity
 web site
 
-  http://jakarta.apache.org/velocity/index.html
+  http://velocity.apache.org/index.html
 
 Here is a description of what each of the top level directories
 contains. Please consult the documentation in each of the lower level

@@ -34,8 +34,8 @@
   <currentVersion>SNAPSHOT</currentVersion>
   <organization>
     <name>Apache Software Foundation</name>
-    <url>http://jakarta.apache.org/</url>
-    <logo>/images/jakarta.png</logo>
+    <url>http://velocity.apache.org/</url>
+    <logo>/images/newlogo.png</logo>
   </organization>
   <inceptionYear>2000</inceptionYear>
   <package>org.apache.velocity</package>
@@ -71,15 +71,15 @@
   <mailingLists>
     <mailingList>
       <name>Velocity User List</name>
-      <subscribe>velocity-user-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>velocity-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-velocity-user</archive>
+      <subscribe>user-subscribe@velocity.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@velocity.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/velocity-user</archive>
     </mailingList>
     <mailingList>
       <name>Velocity Developer List</name>
-      <subscribe>velocity-dev-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>velocity-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-velocity-dev</archive>
+      <subscribe>dev-subscribe@velocity.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@velocity.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/velocity-dev</archive>
     </mailingList>
   </mailingLists>
 
@@ -325,7 +325,7 @@
       </sourceModification>
     </sourceModifications>
 
-    <nagEmailAddress>velocity-dev@jakarta.apache.org</nagEmailAddress>
+    <nagEmailAddress>dev@velocity.apache.org</nagEmailAddress>
     <sourceDirectory>target/src</sourceDirectory>
     <unitTestSourceDirectory>target/test-src</unitTestSourceDirectory>
 
