@@ -65,16 +65,111 @@ jakarta-velocity
 
 </section>
 
-<section name="Building">
+<section name="Required Tools">
 
 <p>
 To make building Velocity easy and consistant, we require a Jakarta project
-called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.3 or
+called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.6 or
 higher to perform the build process. We assume that you have followed
 Ant's installation instructions and have it properly installed.  It's not
 difficult, and I think that you will find it an excellent addition to
-your programmer's toolbox.
+your programmer's toolbox.  
 </p>
+
+<p>Note that there is an experimental <a href="maven.apache.org">Maven</a> 
+build included with the distribution, but Ant remains the recommended method.
+</p>
+
+<p>
+Velocity requires JDK 1.4 or greater to compile.  It's possible to use JDK 1.3 
+to compile but several useful features will not be included.  Velocity requires 
+a minimum of JDK 1.3 to run.
+</p>
+
+<p>
+Finally, if you wish to modify Velocity's grammar you will need to a tool
+called <a href="http://javacc.dev.java.net">JavaCC</a>.  We recommend 
+version 3.2 or greater (for compatibility with JDK 1.5 syntax changes).
+</p>
+
+</section>
+
+<section name="Jar Dependencies">
+
+<p>Velocity requires various third party jar files for compiling and for running.  Not all 
+jar files are required in all cases.  When building, all dependencies will be downloaded
+automatically unless the <code>skip.jar.loading</code> property is set.  
+</p>
+
+<table>
+
+<tr>
+  <th>Jar</th>
+  <th>Purpose</th>
+  <th>Required at Runtime?</th>
+</tr>
+
+<tr>
+  <td><code>antlr-2.7.5.jar</code></td>
+  <td></td>
+  <td>No</td>  
+</tr>
+<tr>
+  <td><code>avalon-logkit-2.1.jar</code></td>
+  <td>Possible means of logging</td>
+  <td>No</td>  
+</tr>
+<tr>
+  <td><code>commons-collection-3.1.jar</code></td>
+  <td>Used in parsing configuration</td>
+  <td>Yes</td>  
+</tr>
+<tr>
+  <td><code>commons-lang-2.1.jar</code></td>
+  <td>Various String utility functions</td>
+  <td>Yes</td>  
+</tr>
+<tr>
+  <td><code>jdom-1.0.jar</code></td>
+  <td>XML parsing</td>
+  <td>Only for Anakia</td>  
+</tr>
+<tr>
+  <td><code>log4j.1.2.8.jar</code></td>
+  <td>Possible means of logging</td>
+  <td>No</td>  
+</tr>
+<tr>
+  <td><code>oro-2.0.8.jar</code></td>
+  <td>For regular expression parsing in tests and event handlers</td>
+  <td>Only for reference escaping event handlers</td>  
+</tr>
+<tr>
+  <td><code>servletapi-2.3.jar</code></td>
+  <td>For the deprecated VelocityServlet</td>
+  <td>Only for VelocityServlet</td>  
+</tr>
+<tr>
+  <td><code>werken-xpath-0.9.4.jar</code></td>
+  <td>XML parsing</td>
+  <td>Only for Anakia</td>  
+</tr>
+<tr>
+  <td><code>junit-3.8.1.jar</code></td>
+  <td>For running unit tests</td>
+  <td>No</td>
+</tr>
+</table>
+
+
+<p>
+Note that you can always create a jar with all required run-time dependencies by running the 
+task <code>jar-dep</code>.
+</p>
+
+</section>
+
+<section name="Building">
 
 <p>
 In each case below, it is assumed that you were successful in getting
@@ -123,69 +218,27 @@ ant javadocs
     <code>bin</code> directory.  This jar will be called 'velocity-X.jar',
     where 'X' is the current version number. This jar does not include
     necessary dependencies for Velocity.  If you use this
-    target, you must get the Collections component jar from Jakarta Commons and add
-    to your CLASSPATH (or WEB-INF/lib).
-    If you wish to use the built-in logging or template conversion,
-    you must include the appropriate jars in your CLASSPATH or
-    webapp's WEB-INF/lib.
+    target, you must put the required dependent jars in your CLASSPATH (or WEB-INF/lib).
     For convenience, you can use the <code>jar-dep</code> target to build
-    a jar with ORO, Logkit and Commons Collections included.
+    a jar with all required dependent classes included.
   </li>
   <li>
     <b><code>jar-dep</code></b> builds the complete Velocity jar in
-    the <code>bin</code> directory, including necessary
-    support for logging from the
-    <a href="http://jakarta.apache.org/avalon/logkit/index.html">Jakarta
-    Avalon Logkit</a> package, critical configuration support from the
-    <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
-    and the necesary support for WebMacro
-    template conversion using the
-    <a href="http://jakarta.apache.org/oro/index.html">Jakarta ORO</a>
-    package.
+    the <code>bin</code> directory.
    </li>
-   <li>
-    <b><code>jar-core</code></b> builds a slimmer Velocity jar in the
-    <code>bin</code> directory, called 'velocity-core-X.jar'. This jar
-    contains the core Velocity functionality, and doesn't include example
-    and utility things like Anakia, Texen or the VelocityServlet support
-    baseclass.  It has the same external dependency requirements as the
-    regular <code>jar</code> target.
-  </li>
   <li>
-    <b><code>jar-util</code></b> builds a utility Velocity jar in the
-    <code>bin</code> directory, called 'velocity-util-X.jar'. This jar
-    contains utility code, specifically Anakia, Texen, and the WebMacro
-    template conversion utility. It has the same external dependency requirements as the
-    regular <code>jar</code> target.
-  </li>
-  <li>
-    <b><code>jar-J2EE</code></b> builds a complete jar, like the 'jar' target,
-    that includes any components that require J2EE support. Currently, this
-    includes only org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader.
-    As usual, it is placed in the  <code>bin</code> directory, called
-    'velocity-j2ee-X.jar'. NOTE : if you wish to use this build target, you
-    must place (or link) a copy of j2ee.jar into the build/lib directory.
-    We do not provide it as part of the distribution. A good source is
-    http://java.sun.com/.  It has the same external dependency requirements as the
-    regular <code>jar</code> target.
-  </li>
-  <li>
-    <b><code>jar-J2EE-dep</code></b> build a complete jar with J2EE support
-    and includes logging support from the Jakarta Avalon Logkit and
-    regexp support fromt the Jakarta ORO package. See the notes on the
-    <code>jar-dep</code> target, above.
-  </li>
-  <li>
-    <b><code>examples</code></b> builds the example code in the example programs
-    found in the <code>examples</code> directory. This build target will
-    also build the forumdemo example project.
-  </li>
+    <b><code>clean</code></b> deletes all generated classes, jars, documentation, and other files.
+   </li>
   <li>
     <b><code>docs</code></b> builds these docs in the <code>docs</code> directory
     using Velocity's <a href="anakia.html">Anakia</a> XML transformation tool.
-    Allowing you to use
+    Allows you to use
     Velocity templates in place of stylesheets
     - give it a try!
+  </li>
+  <li>
+    <b><code>examples</code></b> builds the example code in the example programs
+    found in the <code>examples</code> directory. 
   </li>
   <li>
     <b><code>jar-src</code></b> bundles all the Velocity source code into a single
@@ -196,11 +249,16 @@ ant javadocs
     <code>docs/api</code> directory
   </li>
   <li>
-    <b><code>test</code></b> (after jar) will test Velocity against its testbed
-    suite of test routines
+    <b><code>package</code></b> will generate the complete Velocity distribution package.
   </li>
   <li>
-    <b><code>help</code></b> lists the build targets that are available.
+    <b><code>parser</code></b> will compile the JavaCC parser files from src/Parser.jjt into
+    the appropriate Java source files.  Requires JavaCC 3.2+ to be installed, and the
+    property <code>javacc.home</code> to contain a path to the installed JavaCC directory.
+  </li>
+  <li>
+    <b><code>test</code></b> (after jar) will test Velocity against its testbed
+    suite of test routines.
   </li>
 </ul>
 
@@ -217,9 +275,7 @@ Subversion snapshot while a developer was checking things in.)
 <p>
 If the problems persist, do not hesitate to ask the Velocity community
 via our mail lists. They can be found <a
-href="http://jakarta.apache.org/site/mail.html">here</a>. Please read
-and understand the the guidelines for participating in any Jakarta mail
-list.
+href="http://jakarta.apache.org/site/mail.html">here</a>. 
 </p>
 
 </section>
