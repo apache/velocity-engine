@@ -71,9 +71,13 @@
 #set ($rowspan = $value.getAttributeValue("rowspan"))
 #end
 <td colspan="$!colspan" rowspan="$!rowspan">
-        #if ($value.getText().length() != 0 || $value.hasChildren())
-        $value.getContent()
-        #end
+	#foreach ( $items in $value.getContent() )
+		#if($items.name)
+			#display($items)
+		#else
+			$items.value
+		#end
+	#end
 </td>
 #end
 
@@ -85,8 +89,12 @@
 #set ($rowspan = $value.getAttributeValue("rowspan"))
 #end
 <th colspan="$!colspan" rowspan="$!rowspan">
-	#if ($value.getText().length() != 0 || $value.hasChildren())
-	$value.getContent()
+	#foreach ( $items in $value.getContent() )
+		#if($items.name)
+			#display($items)
+		#else
+			$items.value
+		#end
 	#end
 </th>
 #end
