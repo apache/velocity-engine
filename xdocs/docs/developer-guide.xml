@@ -80,7 +80,7 @@
 </li>
 
 <li>
-<a href="#EventCartridgeandEventHandlers">EventCartridge and Event Handlers</a>
+<a href="#ConfiguringEventHandlers">Configuring Event Handlers</a>
 </li>
 
 <li>
@@ -268,7 +268,7 @@ Some great sources are :
   </li>
  <li>
     event example : <code>examples/event_example</code> : An example that
-    demonstrates the use of the event handling API in Velocity 1.1
+    demonstrates the use of the event handling API.
   </li>
   <li>
     Anakia application : <code>examples/anakia</code> : example application
@@ -1101,9 +1101,11 @@ template content other than template files.
 <a name="Exceptions"><strong>Exceptions</strong></a>
 
 <p>
-There are three exceptions that Velocity will throw during the parse / merge cycle.
-This are additional to the exceptions that will come from IO problems, etc.
-They are found in the package <code>org.apache.velocity.exception</code> and are:
+Velocity may throw one of several exceptions during the parse / merge cycle.  These 
+exceptions extend RuntimeException and do not need to explicitly caught,
+although each includes specific properties that may help in presenting
+useful error messages to the end user.  The exceptions 
+are found in the package <code>org.apache.velocity.exception</code> and are:
 </p>
 
 <ol>
@@ -1116,6 +1118,12 @@ was requested.
 <li>
 <code>ParseErrorException</code><br/>
 Thrown when a VTL syntax error is found when parsing a resource (template).
+</li>
+
+<li>
+<code>TemplateInitException</code><br/>
+Thrown during the first pass of template parsing; reports problems with macro and
+directive initialization.
 </li>
 
 <li>
@@ -1263,45 +1271,68 @@ it must do so via the Object passed as the value.
 </p>
 </section>
 
-<section name="EventCartridge and Event Handlers" href="EventCartridgeandEventHandlers">
+<section name="Configuring Event Handlers" href="ConfiguringEventHandlers">
 
 <p>
-Starting in version 1.1, a fine-grain event handling system was added to Velocity.
-The EventCartridge is a class in which you register your event handlers, and then the
-EventCartridge acts as the delivery agent from which the Velocity engine will
-access the event handlers at merge time if needed.
-Currently, there are 3 events that can be handled, and all are found in the
-<code>org.apache.velocity.app.event</code> package.
+Velocity contains a fine-grained event handling system that allows you to customize the operation of the engine.  For example, you may change the text of references that are inserted into a page, modify which templates are actually included with <code>#include</code> or <code>#parse</code>, or capture all invalid references.
+</p>
+
+<p>All event handler interfaces available in Velocity are in the package <code>org.apache.velocity.app.event</code>.  You may create your own implementation or use one of the sample implementations in the package <code>org.apache.velocity.app.event.implement</code>.  (See the javadocs for more details on the provided implementations).
 </p>
 
 <p>
-<i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
-
+<i><code>org.apache.velocity.app.event.IncludeEventHandler</code></i>
 <blockquote>
-When a #set() rejects an assignment due to the right hand side being an invalid
-or null reference, this is normally
-logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the
-logging of this condition.
-<br/>
+The <code>IncludeEventHandler</code> can be used to modify the template that is included 
+in a page with <code>#include</code> or <code>#parse</code>.  For example, this may be used to make all includes relative to the current directory or to prevent access to unauthorized resources.
+Multiple <code>IncludeEventHandler</code>'s may be chained, with the return value of the final
+call used as the name of the template to retrieve.
 <pre>
-public interface NullSetEventHandler extends EventHandler
+public IncludeEventHandler extends EventHandler
 {
-    public boolean shouldLogOnNullSet( String lhs, String rhs );
+    public String includeEvent( String includeResourcePath, 
+                                String currentResourcePath, 
+                                String directiveName );
 }
 </pre>
+<br/>
+Available implementations include:
+<dl>
+<li><code>org.apache.velocity.app.event.implement.IncludeNotFound</code></li>
+<li><code>org.apache.velocity.app.event.implement.IncludeRelativePath</code></li>
+</dl>
 </blockquote>
 
-<i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
+<i><code>org.apache.velocity.app.event.InvalidReferenceEventHandler</code></i>
 <blockquote>
-A <code>ReferenceInsertionEventHandler</code> allows the
-developer to intercept each write of a reference ($foo) value to the output
-stream and modify that output.
+Normally, when a template contains a bad reference an error message is logged and (unless it is part of a <code>#set</code> or <code>#if</code>), the reference is included verbatim in a page.  With the <code>InvalidReferenceEventHandler</code> this behavior can be changed.  Substitute values can be inserted, invalid references may be logged, or an exception can be thrown.  Multiple <code>InvalidReferenceEventHandler</code>'s may be chained.  The exact manner in which chained method
+calls behave will differ per method.  (See the javadoc for the details).
 <pre>
-public interface  ReferenceInsertionEventHandler extends EventHandler
+public InvalidReferenceEventHandler extends EventHandler
 {
-    public Object referenceInsert( String reference, Object value  );
+    public Object invalidGetMethod( Context context, 
+                                    String reference, 
+                                    Object object, 
+                                    String property, 
+                                    Info info);
+
+    public boolean invalidSetMethod( Context context, 
+                                     String leftreference, 
+                                     String rightreference, 
+                                     Info info);
+
+    public Object invalidMethod( Context context, 
+                                 String reference,  
+                                 Object object, 
+                                 String method, 
+                                 Info info);
 }
 </pre>
+<br/>
+Available implementations include:
+<dl>
+<li><code>org.apache.velocity.app.event.implement.ReportInvalidReferences</code></li>
+</dl>
 </blockquote>
 
 <i><code>org.apache.velocity.app.event.MethodExceptionEventHandler</code></i>
@@ -1309,26 +1340,102 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
 When a user-supplied method throws an exception, the
 <code>MethodExceptionEventHandler</code> is invoked with the Class, method name
 and thrown Exception.  The handler can either return a valid Object to be used
-as the return value of the method call, or throw the passed-in or new Exception,
+as the return value of the method call or throw the passed-in or new Exception,
 which will be wrapped and propogated to the user as a
-<code>MethodInvocationException</code>
+<code>MethodInvocationException</code>.  While <code>MethodExceptionEventHandler</code>'s can be 
+chained only the first handler is actually called -- all others are ignored.
 <pre>
 public interface MethodExceptionEventHandler extends EventHandler
 {
-    public Object methodException( Class claz, String method, Exception e )
+    public Object methodException( Class claz, 
+                                   String method, 
+                                   Exception e )
          throws Exception;
 }
 </pre>
+<br/>
+Available implementations include:
+<dl>
+<li><code>org.apache.velocity.app.event.implement.PrintExceptions</code></li>
+</dl>
 </blockquote>
+
+<i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
+
+<blockquote>
+When a #set() rejects an assignment due to the right hand side being an invalid
+or null reference, this is normally
+logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the
+logging of this condition.  Multiple <code>NullSetEventHandler</code>'s can
+be chained; each event handler is called in sequence until a false is returned.
+<br/>
+<pre>
+public interface NullSetEventHandler extends EventHandler
+{
+    public boolean shouldLogOnNullSet( String lhs, 
+                                       String rhs );
+}
+</pre>
+<br/>
+Available implementations include:
+<dl>
+<li><i>none provided</i></li>
+</dl>
+</blockquote>
+
+<i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
+<blockquote>
+A <code>ReferenceInsertionEventHandler</code> allows the
+developer to intercept each write of a reference ($foo) value to the output
+stream and modify that output.  Multiple <code>ReferenceInsertionEventHandler</code>'s 
+may be chained with each step potentially altering the inserted reference.
+<pre>
+public interface  ReferenceInsertionEventHandler extends EventHandler
+{
+    public Object referenceInsert( String reference, 
+                                   Object value  );
+}
+</pre>
+<br/>
+Available implementations include:
+<dl>
+<li><code>org.apache.velocity.app.event.implement.EscapeHtmlReference</code></li>
+<li><code>org.apache.velocity.app.event.implement.EscapeJavascriptReference</code></li>
+<li><code>org.apache.velocity.app.event.implement.EscapeSqlReference</code></li>
+<li><code>org.apache.velocity.app.event.implement.EscapeXmlReference</code></li>
+</dl>
+</blockquote>
+
 </p>
 
 <p>
-<strong>Using the EventCartridge</strong>
+<strong>Registering Event Handlers</strong>
+</p>
+
+<p>You may register event handlers in either of two manners.  The easiest way to register event handlers is to specify them in velocity.properties.  (Event handlers configured in this manner are referred to as "global" event handlers).  For example, the following property will escape HTML entities in any inserted reference.
+</p>
+
+<blockquote>
+<pre>eventhandler.referenceinsertion.class = org.apache.velocity.app.event.implement.EscapeHtmlReference
+</pre>
+</blockquote>
+
+<p>Most event handler interfaces will also permit event handlers to be chained together.  Such a chain may be in a comma separated list or as additional lines with a property/value pair. For example, the following event handler properties install two <code>ReferenceInsertionEventHandler</code>'s.  The first will apply to references starting with &quot;msg&quot; (for example <code>$msgText</code>) and will escape HTML entities (e.g. turning <code>&amp;</code> into <code>&amp;amp;</code>).  The second will escape all references starting with &quot;sql&quot; (for example <code>$sqlText</code>) according to SQL escaping rules. (note that in these examples, the first two properties given relate to the event handler configuration while the second two properties are used by the specific event handler implementation).
+</p>
+
+<blockquote>
+<pre>eventhandler.referenceinsertion.class = org.apache.velocity.app.event.implement.EscapeHtmlReference
+eventhandler.referenceinsertion.class = org.apache.velocity.app.event.implement.EscapeSqlReference
+eventhandler.escape.html.match = /msg.*<!-- -->/
+eventhandler.escape.sql.match = /sql.*<!-- -->/
+</pre>
+</blockquote>
+
+<p>Event handlers may also be attached to a context via an <code>EventCartridge</code>.  This allows event handlers to be tied more closely to a specific template merge or group of merges.  The event handler will automatically be injected with the current context if it implements the <code>ContextAware</code> interface.  (Due to thread-safety reasons this is not possible with global event handlers).
 </p>
 
 <p>
-Using the EventCartridge is fairly straightforward.  The following abbreviated
-example was taken from <code>org.apache.velocity.test.misc.Test</code>.
+The following code shows how to register an event handler with an EventCartridge and a context.
 </p>
 
 <source><![CDATA[
@@ -1336,31 +1443,27 @@ example was taken from <code>org.apache.velocity.test.misc.Test</code>.
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
+import org.apache.velocity.app.event.implement.EscapeHtmlReference;
+import org.apache.velocity.app.event.implement.EscapeSqlReference;
 
  ...
 
-public class Test implements
-                        ReferenceInsertionEventHandler,
-                        NullSetEventHandler,
-                        MethodExceptionEventHandler
+public class Test
 {
   public void myTest()
   {
     ....
 
-    /*
-     *  now, it's assumed that Test implements the correct methods
-     *  to support the event handler interfaces.  So to use them,
-     *  first make a new cartridge
+    /**
+     * Make a cartridge to hold the event handlers 
      */
     EventCartridge ec = new EventCartridge();
 
     /*
-     * then register this class as it contains the handlers
+     * then register and chain two escape-related handlers 
      */
-    ec.addEventHandler(this);
+    ec.addEventHandler(new EscapeHtmlReference());
+    ec.addEventHandler(new EscapeSqlReference());
 
     /*
      * and then finally let it attach itself to the context
@@ -1375,32 +1478,6 @@ public class Test implements
     ....
   }
 
-  /*
-   *  and now the implementations of the event handlers
-   */
-  public Object referenceInsert( String reference, Object value  )
-  {
-    /*  do something with it */
-    return value;
-  }
-
-  public boolean shouldLogOnNullSet( String lhs, String rhs )
-  {
-    if ( /* whatever rule */ )
-      return false;
-
-    return true;
-  }
-
-  public Object methodException( Class claz, String method,
-                                 Exception e )
-     throws Exception
-  {
-    if ( /* whatever rule */ )
-       return "I should have thrown";
-
-    throw e;
-  }
 }
 ]]></source>
 
@@ -1574,7 +1651,9 @@ runtime log.
 </p>
 
 <p>
-<code>resource.manager.cache.class</code>  Declares the class to be used
+<code>resource.manager.cache.class</code>  
+<br/>
+Declares the class to be used
 for resource caching.  The current default is
 <code>org.apache.velocity.runtime.resource.ResourceCacheImpl</code>
 which uses a LRU Map to prevent data from being held forever.  You can
@@ -1584,7 +1663,9 @@ of the default cache size is currently 89.
 </p>
 
 <p>
-<code>resource.manager.defaultcache.size</code> Sets the size of the
+<code>resource.manager.defaultcache.size</code> 
+    <br/>
+    Sets the size of the
     default implementation of the resource manager resource cache.
 </p>
 
@@ -1725,7 +1806,7 @@ Is set to false by default to maintain backwards compatibility with
 templates written before this feature became available.
 </p>
 
-	<p>
+    <p>
 <strong>String Interpolation</strong>
 </p>
 
@@ -2111,10 +2192,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 
 <li>
   <b>DataSourceResourceLoader :</b>  This loader will load resources from a DataSource
-such as a database.  This loader is not built as part of the standard build
-as it requires J2EE support.  To build this loader, please download the J2EE
-distribution, move the j2ee.jar into the <code>build/lib</code> directory,
-and then build the new velocity jar with the <code>jar-j2ee</code> build target.
+such as a database.  This loader is only available under JDK 1.4 and later.
 For more information on this loader, please see the javadoc for the class
 <code>org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader</code>.
 </li>
@@ -2346,7 +2424,7 @@ This key is also defined as a contstant
 <section name="Template Encoding for Internationalization" href="TemplateEncodingforInternationalization">
 
 <p>
-As of version 1.1, Velocity allows you to specify the character encoding of your
+Velocity allows you to specify the character encoding of your
 template resources on a template by template basis.  The normal resource
 API's have been extended to take the encoding as an argument :
 </p>

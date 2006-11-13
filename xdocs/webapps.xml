@@ -165,19 +165,24 @@ Any user-entered text that contains special HTML or XML entities (such as &lt;, 
 before included in the web page.  This is required, both to ensure the text is visible, and also to prevent
 dangerous <a href="http://en.wikipedia.org/wiki/Cross_site_scripting">cross-site scripting</a>.
 Unlike, for example, JSTL (the Java Standard Tag Language found in Java Server Pages),
-Velocity does not contain any HTML-specific escaping functionality.  However, you have three options:
+Velocity does not escape references by default.  
 </p>
 
-<ol>
-<li>Create a special "Tool" (an object in the context) with a method that performs escaping, for example
-$escape.html($usertext).  This is conceptually the easiest way to solve this problem.
-</li>
-<li>Create a custom <a href="http://wiki.apache.org/jakarta-velocity/HackingVelocity">ReferenceInsertionEventHandler</a> that automatically escapes every reference.
-If all references need to be escaped, this is the most painless method.
-</li>
-<li>Create a <a href="http://wiki.apache.org/jakarta-velocity/HackingVelocity">custom directive</a> (e.g. #escape) that escapes all text within the directive block.
-</li>
-</ol>
+<p>However, Velocity provides the ability to specify a <code>ReferenceInsertionEventHandler</code>
+which will alter the value of a reference before it is inserted into the page.  
+Specifically, you can configure the <code>EscapeHtmlReference</code>
+handler into your <code>velocity.properties</code> file to escape all 
+references (optionally) matching a regular expression.
+The following example will escape HTML entities in any reference that starts with 
+&quot;msg&quot; (e.g. <code>$msgText</code>).
+</p>
+
+
+<blockquote>
+<pre>eventhandler.referenceinsertion.class = org.apache.velocity.app.event.implement.EscapeHtmlReference
+eventhandler.escape.html.match = /msg.*<!-- -->/
+</pre>
+</blockquote>
 
 <p>
 Note that other kinds of escaping are sometimes required.  For example, in style sheets the @ character needs
@@ -194,18 +199,26 @@ care must be taken to make certain that the web application is secure.  Most sta
 web application built with Velocity.  A few specific issues (such as system configuration, more on cross-site scripting,
 and method introspection) are written up in this article on
 <a href="http://wiki.apache.org/jakarta-velocity/BuildingSecureWebApplications">Building Secure Applications with Velocity</a>.
+In particular, you may want to prevent template designers from including &quot;dangerous&quot; reflection-related methods
+by specifying the <code>SecureUberspector</code> to get/set properties and execute method calls.
 </p>
+
+<blockquote>
+<pre>runtime.introspector.uberspect = org.apache.velocity.util.introspection.SecureUberspector
+</pre>
+</blockquote>
 
 </subsection>
 
 <subsection name="Log Files" href="LogFiles">
 
 <p>
-A minor point is that Velocity, in the absence of any log-related configuration, creates a log file in the current directory.
+A minor point is that (in some circumstances) Velocity, in the absence of any log-related configuration, creates a log file in the current directory.
 When Velocity is used in a web application the "current directory" is usually the current directory from which the application
 server is started.  If you start seeing the file "velocity.log" files in random places on your server filesystem, check
-the Velocity log configuration.  Typically this occurs when Velocity is used within a web application outside of web page
-generation (e.g. for sending email).
+the Velocity log configuration.  This is due to the default use of the Avalon Log Kit when present in the classpath.  
+Typically this occurs when Velocity is used within a web application outside of web page generation (e.g. for sending email).
+To solve this problem, remove any file labeled "avalon-logkit" from the classpath or properly configure the log file location.
 </p>
 
 </subsection>
@@ -216,16 +229,23 @@ generation (e.g. for sending email).
 <section name="Tutorial" href="Tutorial">
 
 <p>
-What follows is a brief tutorial on building a simple web app with VelocityViewServlet.  For more information, consult the
+What follows is a brief tutorial on building a simple web app with VelocityViewServlet.  Note that it 
+suggests you compile VelocityViewServlet from the source.  This isn't actually required to use
+VelocityViewServlet but we recommend it in this case in order to see the source and then 
+compile the example files.
+</p>
+<p>Prerequisites for doing the following include the Java Developer's Kit (JDK) and 
+<a href="http://ant.apache.org/">Apache Ant</a>.
+</p>
+
+<p>
+For more information, consult the
 <a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a> documentation.
 </p>
 
 <ol>
 <li>Download the Velocity Tools project source (you need the source for the examples)
 from <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">download page</a>.
-</li>
-
-<li>If you haven't already installed <a href="http://ant.apache.org/">Apache Ant</a>. do so now.
 </li>
 
 <li> Build the Velocity Tools jar and the "simple" example by typing:
