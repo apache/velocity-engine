@@ -2189,7 +2189,24 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   Again, please note that the ClasspathResourceLoader is not only for use with a
   servlet container, but can be used in any application context.
 </li>
-
+<li>
+  <b>URLResourceLoader :</b> This loader gets resources from a URL connection. Its
+  configuration properties include :
+  <ul>
+    <li>
+      <code>url.resource.loader.root</code> = &lt;root URL path of templates&gt;
+    </li>
+    <li>
+      <code>url.resource.loader.cache</code> = true/false
+    </li>
+    <li>
+      <code>url.resource.loader.modificationCheckInterval</code> = &lt;seconds between checks&gt;
+    </li>
+  </ul>
+  This loader simply downloads resources from configured URLs.  It works much like
+  the FileResourceLoader, however, it can pull templates down from any valid URL
+  to which the application can create a connection.
+</li>
 <li>
   <b>DataSourceResourceLoader :</b>  This loader will load resources from a DataSource
 such as a database.  This loader is only available under JDK 1.4 and later.
