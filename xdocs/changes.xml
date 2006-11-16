@@ -212,6 +212,11 @@
         String containing "##" was treated as unterminated String.
       </action>
 
+      <action type="add" dev="nbubna" issue="VELTOOLS-55" due-to="Charles Harvey">
+        Spruced up Geir's old URLResourceLoader and promoted it from the whiteboard to
+        the main distribution.
+      </action>
+
       <action type="update" dev="henning" issue="VELOCITY-424" due-to="Malcom Edgar">
         Throw Runtime exceptions from nodes up the chain.
       </action>
