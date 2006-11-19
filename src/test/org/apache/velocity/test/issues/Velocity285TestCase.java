@@ -91,7 +91,7 @@ public class Velocity285TestCase
     public void testVelocity285()
             throws Exception
     {
-        Template t = executeTest("velocity285.vm");
+	executeTest("velocity285.vm");
     }
 
     protected Template executeTest(final String templateName)
