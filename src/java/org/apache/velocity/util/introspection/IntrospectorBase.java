@@ -52,6 +52,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class IntrospectorBase
@@ -60,13 +61,13 @@ public class IntrospectorBase
      * Holds the method maps for the classes we know about, keyed by
      * Class object.
      */
-    protected  Map classMethodMaps = new HashMap();
+    private final Map classMethodMaps = new HashMap();
 
     /**
      * Holds the qualified class names for the classes
      * we hold in the classMethodMaps hash
      */
-    protected Set cachedClassNames = new HashSet();
+    private final Set cachedClassNames = new HashSet();
 
     /**
      * Gets the method defined by <code>name</code> and
@@ -78,15 +79,16 @@ public class IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
-     * @throws Exception
+     * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
+     * @throws MethodMap.AmbiguousException When the method map contains more than one match for the requested signature.
      */
-    public Method getMethod(Class c, String name, Object[] params)
-        throws Exception
+    public Method getMethod(final Class c, final String name, final Object[] params)
+            throws IllegalArgumentException,MethodMap.AmbiguousException
     {
         if (c == null)
         {
-            throw new Exception (
-                "Introspector.getMethod(): Class method key was null: " + name );
+            throw new IllegalArgumentException (
+                "Introspector.getMethod(): Class method key was null: " + name);
         }
 
         ClassMap classMap = null;
@@ -103,7 +105,7 @@ public class IntrospectorBase
 
             if (classMap == null)
             {
-                if ( cachedClassNames.contains( c.getName() ))
+                if (cachedClassNames.contains(c.getName()))
                 {
                     /*
                      * we have a map for a class with same name, but not
@@ -122,37 +124,52 @@ public class IntrospectorBase
 
     /**
      * Creates a class map for specific class and registers it in the
-     * cache.  Also adds the qualified name to the name->class map
+     * cache.  Also adds the qualified name to the name-&gt;class map
      * for later Classloader change detection.
-     * @param c
+     * @param c The class for which the class map gets generated.
      * @return A ClassMap object.
      */
-    protected ClassMap createClassMap(Class c)
+    protected ClassMap createClassMap(final Class c)
     {
-        ClassMap classMap = new ClassMap( c );
+        ClassMap classMap = new ClassMap(c);
         classMethodMaps.put(c, classMap);
-        cachedClassNames.add( c.getName() );
+        cachedClassNames.add(c.getName());
 
         return classMap;
     }
 
     /**
-     * Clears the classmap and classname
-     * caches
+     * Clears the classmap and classname caches.
      */
     protected void clearCache()
     {
-        /*
-         *  since we are synchronizing on this
-         *  object, we have to clear it rather than
-         *  just dump it.
-         */
+	/*
+	 * classes extending IntrospectorBase can request these objects through the
+	 * protected getters. If we swap them out with new objects, the base class
+	 * and the extended class can actually how two different objects. Don't do this.
+	 * Make the members final and use clear() to reset the cache.
+	 */
         classMethodMaps.clear();
+        cachedClassNames.clear();
+    }
 
-        /*
-         * for speed, we can just make a new one
-         * and let the old one be GC'd
-         */
-        cachedClassNames = new HashSet();
+    /**
+     * Access to the classMethodMaps map.
+     *
+     * @return The classMethodsMaps HashMap.
+     */
+    protected Map getClassMethodMaps()
+    {
+        return classMethodMaps;
+    }
+
+    /**
+     * Access to the list of cached class names.
+     *
+     * @return A set of names cached.
+     */
+    protected Set getCachedClassNames()
+    {
+        return cachedClassNames;
     }
 }

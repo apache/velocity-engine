@@ -140,12 +140,12 @@ public class MethodMap
      *  we run across ambiguous overloading.  Caught
      *  by the introspector.
      */
-    public static class AmbiguousException extends Exception
+    public static class AmbiguousException extends RuntimeException
     {
         /**
          * Version Id for serializable
          */
-        private static final long serialVersionUID = -2314636505414551662L;
+        private static final long serialVersionUID = -2314636505414551663L;
     }
 
 
