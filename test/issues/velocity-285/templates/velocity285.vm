@@ -1,0 +1,14 @@
+<pre>
+#macro (test_loop $p)
+call to test_loop ($p)
+#foreach($child in $p)
+    in the loop the param should not be changed : ($p)
+#test_loop($child)
+#end
+return
+#end
+
+#set($l1=["a","b"])
+#set($l = [$l1,$l1])
+#test_loop($l)
+</pre>

@@ -1,0 +1,23 @@
+<pre>
+
+call to test_loop ([[a, b], [a, b]])
+    in the loop the param should not be changed : ([[a, b], [a, b]])
+call to test_loop ([a, b])
+    in the loop the param should not be changed : ([a, b])
+call to test_loop (a)
+return
+    in the loop the param should not be changed : ([a, b])
+call to test_loop (b)
+return
+return
+    in the loop the param should not be changed : ([[a, b], [a, b]])
+call to test_loop ([a, b])
+    in the loop the param should not be changed : ([a, b])
+call to test_loop (a)
+return
+    in the loop the param should not be changed : ([a, b])
+call to test_loop (b)
+return
+return
+return
+</pre>
