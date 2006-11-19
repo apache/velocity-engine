@@ -62,7 +62,7 @@ public class Introspector extends IntrospectorBase
      */
 
     public final static String CACHEDUMP_MSG =
-        "Introspector : detected classloader change. Dumping cache.";
+        "Introspector: detected classloader change. Dumping cache.";
 
     /**
      * The Log we use
@@ -101,10 +101,6 @@ public class Introspector extends IntrospectorBase
     public Method getMethod(final Class c, final String name, final Object[] params)
         throws IllegalArgumentException
     {
-        /*
-         *  just delegate to the base class
-         */
-
         try
         {
             return super.getMethod(c, name, params);
