@@ -46,7 +46,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
-o * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public abstract class IntrospectorBase
