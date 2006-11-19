@@ -20,9 +20,10 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
+
+import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
-import org.apache.velocity.runtime.RuntimeLogger;
 
 /**
  * This basic function of this class is to return a Method
@@ -50,6 +51,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
+ * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
 public class Introspector extends IntrospectorBase
@@ -65,21 +67,21 @@ public class Introspector extends IntrospectorBase
     /**
      * The Log we use
      */
-    protected Log log = null;
+    protected final Log log;
 
     /**
-     * @param log
+     * @param log A Log object to use for the introspector.
      */
-    public Introspector(Log log)
+    public Introspector(final Log log)
     {
         this.log = log;
     }
 
     /**
-     * @param logger
+     * @param logger A runtime logger object.
      * @deprecated RuntimeLogger is deprecated. Use Introspector(Log log).
      */
-    public Introspector(RuntimeLogger logger)
+    public Introspector(final RuntimeLogger logger)
     {
         this(new RuntimeLoggerLog(logger));
     }
@@ -94,10 +96,10 @@ public class Introspector extends IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
-     * @throws Exception
+     * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
      */
-    public Method getMethod(Class c, String name, Object[] params)
-        throws Exception
+    public Method getMethod(final Class c, final String name, final Object[] params)
+        throws IllegalArgumentException
     {
         /*
          *  just delegate to the base class
@@ -105,9 +107,9 @@ public class Introspector extends IntrospectorBase
 
         try
         {
-            return super.getMethod( c, name, params );
+            return super.getMethod(c, name, params);
         }
-        catch( MethodMap.AmbiguousException ae )
+        catch(MethodMap.AmbiguousException ae)
         {
             /*
              *  whoops.  Ambiguous.  Make a nice log message and return null...
@@ -115,11 +117,11 @@ public class Introspector extends IntrospectorBase
 
             StringBuffer msg = new StringBuffer("Introspection Error : Ambiguous method invocation ")
                     .append(name)
-                    .append("( ");
+                    .append("(");
 
             for (int i = 0; i < params.length; i++)
             {
-                if ( i > 0)
+                if (i > 0)
                 {
                     msg.append(", ");
                 }
@@ -137,7 +139,7 @@ public class Introspector extends IntrospectorBase
             msg.append(") for class ")
                     .append(c);
 
-            log.error( msg.toString());
+            log.error(msg.toString());
         }
 
         return null;
@@ -150,6 +152,6 @@ public class Introspector extends IntrospectorBase
     protected void clearCache()
     {
         super.clearCache();
-        log.info( CACHEDUMP_MSG );
+        log.info(CACHEDUMP_MSG);
     }
 }

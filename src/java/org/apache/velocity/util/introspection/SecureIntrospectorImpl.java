@@ -58,7 +58,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * @return Method object retrieved by Introspector
      * @throws Exception 
      */
-    public Method getMethod(Class clazz, String methodName, Object[] params) throws Exception
+    public Method getMethod(Class clazz, String methodName, Object[] params) throws IllegalArgumentException
     {
         if (!checkObjectExecutePermission(clazz,methodName))
         {
