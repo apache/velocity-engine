@@ -142,12 +142,11 @@ public class Introspector extends IntrospectorBase
     }
 
     /**
-     * Clears the classmap and classname
-     * caches, and logs that we did so
+     * Logs that the Introspector Cache has been cleared.
      */
-    protected void clearCache()
+    public void triggerClear()
     {
-        super.clearCache();
+	super.triggerClear();
         log.info(CACHEDUMP_MSG);
     }
 }

@@ -19,22 +19,16 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import java.lang.reflect.Method;
 
 /**
- * This basic function of this class is to return a Method
- * object for a particular class given the name of a method
- * and the parameters to the method in the form of an Object[]
+ * Lookup a a Method object for a particular class given the name of a method
+ * and its parameters.
  *
  * The first time the Introspector sees a
  * class it creates a class method map for the
  * class in question. Basically the class method map
- * is a Hastable where Method objects are keyed by a
+ * is a Hashtable where Method objects are keyed by a
  * concatenation of the method name and the names of
  * classes that make up the parameters.
  *
@@ -47,28 +41,29 @@ import java.lang.reflect.Method;
  * "method" + "java.lang.String" + "java.lang.StringBuffer"
  *
  * This mapping is performed for all the methods in a class
- * and stored for
+ * and stored for.
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:bob@werken.com">Bob McWhirter</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
- * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+o * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class IntrospectorBase
+public abstract class IntrospectorBase
+	implements IntrospectorCacheListener
 {
+    /** The Introspector Cache */
+    private final IntrospectorCache introspectorCache;
+    
     /**
-     * Holds the method maps for the classes we know about, keyed by
-     * Class object.
+     * C'tor.
      */
-    private final Map classMethodMaps = new HashMap();
-
-    /**
-     * Holds the qualified class names for the classes
-     * we hold in the classMethodMaps hash
-     */
-    private final Set cachedClassNames = new HashSet();
-
+    protected IntrospectorBase()
+    {
+	 introspectorCache = new IntrospectorCacheImpl(); // TODO: Load that from properties.
+	 introspectorCache.addListener(this);
+    }
+    
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
@@ -97,29 +92,15 @@ public class IntrospectorBase
 
         ClassMap classMap = null;
 
-        synchronized(classMethodMaps)
+        IntrospectorCache ic = getIntrospectorCache();
+        
+        synchronized(ic)
         {
-            classMap = (ClassMap)classMethodMaps.get(c);
-
-            /*
-             *  if we don't have this, check to see if we have it
-             *  by name.  if so, then we have a classloader change
-             *  so dump our caches.
-             */
+            classMap = ic.get(c);
 
             if (classMap == null)
             {
-                if (cachedClassNames.contains(c.getName()))
-                {
-                    /*
-                     * we have a map for a class with same name, but not
-                     * this class we are looking at.  This implies a
-                     * classloader change, so dump
-                     */
-                    clearCache();
-                }
-
-                classMap = createClassMap(c);
+                classMap = ic.put(c);
             }
         }
 
@@ -127,53 +108,73 @@ public class IntrospectorBase
     }
 
     /**
-     * Creates a class map for specific class and registers it in the
-     * cache.  Also adds the qualified name to the name-&gt;class map
-     * for later Classloader change detection.
-     * @param c The class for which the class map gets generated.
-     * @return A ClassMap object.
+     * Return the internal IntrospectorCache object.
+     * 
+     * @return The internal IntrospectorCache object.
      */
-    protected ClassMap createClassMap(final Class c)
+    protected IntrospectorCache getIntrospectorCache()
     {
-        ClassMap classMap = new ClassMap(c);
-        classMethodMaps.put(c, classMap);
-        cachedClassNames.add(c.getName());
-
-        return classMap;
+	return introspectorCache;
     }
-
+    
     /**
-     * Clears the classmap and classname caches.
+     * Clears the internal cache.
+     * 
+     * @deprecated Use getIntrospectorCache().clear();
      */
     protected void clearCache()
     {
-	/*
-	 * classes extending IntrospectorBase can request these objects through the
-	 * protected getters. If we swap them out with new objects, the base class
-	 * and the extended class can actually how two different objects. Don't do this.
-	 * Make the members final and use clear() to reset the cache.
-	 */
-        classMethodMaps.clear();
-        cachedClassNames.clear();
+        getIntrospectorCache().clear();
     }
 
     /**
-     * Access to the classMethodMaps map.
+     * Creates a class map for specific class and registers it in the
+     * cache.  Also adds the qualified name to the name-&gt;class map
+     * for later Classloader change detection.
      *
-     * @return The classMethodsMaps HashMap.
+     * @param c The class for which the class map gets generated.
+     * @return A ClassMap object.
+     * 
+     * @deprecated Use getIntrospectorCache().put(c);
      */
-    protected Map getClassMethodMaps()
+    protected ClassMap createClassMap(final Class c)
     {
-        return classMethodMaps;
+        return getIntrospectorCache().put(c);
     }
 
     /**
-     * Access to the list of cached class names.
+     * Lookup a given Class object in the cache. If it does not exist, 
+     * check whether this is due to a class change and purge the caches
+     * eventually.
      *
-     * @return A set of names cached.
+     * @param c The class to look up.
+     * @return A ClassMap object or null if it does not exist in the cache.
+     * 
+     * @deprecated Use getIntrospectorCache().get(c);
      */
-    protected Set getCachedClassNames()
+    protected ClassMap lookupClassMap(final Class c)
     {
-        return cachedClassNames;
+        return getIntrospectorCache().get(c);
+    }
+    
+    /**
+     * @see IntrospectorCacheListener#triggerClear()
+     */
+    public void triggerClear()
+    {
+    }
+    
+    /**
+     * @see IntrospectorCacheListener#triggerGet(Class, ClassMap)
+     */
+    public void triggerGet(Class c, ClassMap classMap)
+    {
+    }
+
+    /**
+     * @see IntrospectorCacheListener#triggerPut(Class, ClassMap)
+     */
+    public void triggerPut(Class c, ClassMap classMap)
+    {
     }
 }
