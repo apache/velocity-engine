@@ -87,8 +87,12 @@ public class IntrospectorBase
     {
         if (c == null)
         {
-            throw new IllegalArgumentException (
-                "Introspector.getMethod(): Class method key was null: " + name);
+            throw new IllegalArgumentException ("class object is null!");
+        }
+        
+        if (params == null)
+        {
+            throw new IllegalArgumentException("params object is null!");
         }
 
         ClassMap classMap = null;
