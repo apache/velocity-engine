@@ -56,7 +56,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * @param methodName Name of method to be called
      * @param params array of parameters to method
      * @return Method object retrieved by Introspector
-     * @throws Exception 
+     * @throws IllegalArgumentException The parameter passed in were incorrect.
      */
     public Method getMethod(Class clazz, String methodName, Object[] params) throws IllegalArgumentException
     {
