@@ -22,6 +22,9 @@ package org.apache.velocity.test.util.introspection;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.ClassMap;
 
@@ -45,6 +48,10 @@ public class ClassMapTestCase
     public void setUp()
             throws Exception
     {
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
+	Velocity.init();
     }
     
     public void tearDown()
@@ -54,7 +61,9 @@ public class ClassMapTestCase
     public void testPrimitives()
     	throws Exception
     {
-        ClassMap c = new ClassMap(TestClassMap.class);
+	Log log = Velocity.getLog();
+	
+        ClassMap c = new ClassMap(TestClassMap.class, log);
         assertNotNull(c.findMethod("setBoolean",   new Object[] { Boolean.TRUE }));
         assertNotNull(c.findMethod("setByte",      new Object[] { new Byte((byte) 4)}));
         assertNotNull(c.findMethod("setCharacter", new Object[] { new Character('c')}));

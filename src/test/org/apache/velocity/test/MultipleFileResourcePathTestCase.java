@@ -31,6 +31,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * Multiple paths in the file resource loader.
@@ -86,6 +87,9 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
 
         Velocity.addProperty(
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
 
         Velocity.init();
     }

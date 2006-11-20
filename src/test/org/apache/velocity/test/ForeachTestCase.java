@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.test.provider.ForeachMethodCallHelper;
 
 /**
@@ -51,6 +52,10 @@ public class ForeachTestCase extends TestCase
         // Limit the loop to three iterations.
         Velocity.setProperty(RuntimeConstants.MAX_NUMBER_LOOPS,
                              new Integer(3));
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
         Velocity.init();
 
         context = new VelocityContext();

@@ -30,6 +30,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * Tests input encoding handling.  The input target is UTF-8, having
@@ -55,6 +56,9 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
         Velocity.setProperty( Velocity.INPUT_ENCODING, "UTF-8" );
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
 
         Velocity.init();
     }

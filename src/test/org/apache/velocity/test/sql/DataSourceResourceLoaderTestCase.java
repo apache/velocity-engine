@@ -33,6 +33,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader;
 
 
@@ -96,6 +97,9 @@ public class DataSourceResourceLoaderTestCase
         Velocity.setProperty( "ds.resource.loader.resource.keycolumn",       "id");
         Velocity.setProperty( "ds.resource.loader.resource.templatecolumn",  "def");
         Velocity.setProperty( "ds.resource.loader.resource.timestampcolumn", "timestamp");
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
 
         Velocity.init();
     }

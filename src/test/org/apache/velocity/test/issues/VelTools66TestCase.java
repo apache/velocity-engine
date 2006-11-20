@@ -21,15 +21,14 @@ package org.apache.velocity.test.issues;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
-import java.security.AccessController;
 import java.security.Permission;
-import java.security.PrivilegedAction;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -53,6 +52,9 @@ public class VelTools66TestCase
     public void setUp()
             throws Exception
     {
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
         Velocity.init();
         System.setSecurityManager(new TestSecurityManager());
         
