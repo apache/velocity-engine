@@ -28,6 +28,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -52,6 +53,10 @@ public class MethodInvocationExceptionTestCase extends TestCase
         /*
          *  init() Runtime with defaults
          */
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
         Velocity.init();
     }
 

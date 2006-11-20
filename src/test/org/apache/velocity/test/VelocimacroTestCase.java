@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 /**
  * This class tests strange Velocimacro issues.
@@ -51,6 +52,10 @@ public class VelocimacroTestCase extends TestCase
          *  setup local scope for templates
          */
         Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
         Velocity.init();
     }
 
