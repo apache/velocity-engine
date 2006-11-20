@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.velocity.runtime.log.Log;
+
 /**
  * This is the internal introspector cache implementation.
  *
@@ -34,6 +36,9 @@ import java.util.Set;
 public final class IntrospectorCacheImpl
         implements IntrospectorCache
 {
+    /** Class logger */
+    private final Log log;
+    
     /**
      * Holds the method maps for the classes we know about. Map: Class --&gt; ClassMap object.
      */
@@ -55,8 +60,9 @@ public final class IntrospectorCacheImpl
     /**
      * C'tor
      */
-    public IntrospectorCacheImpl()
+    public IntrospectorCacheImpl(final Log log)
     {
+	this.log = log;
     }
 
     /**
@@ -122,7 +128,7 @@ public final class IntrospectorCacheImpl
      */
     public synchronized ClassMap put(final Class c)
     {
-        ClassMap classMap = new ClassMap(c);
+        ClassMap classMap = new ClassMap(c, log);
         classMapCache.put(c, classMap);
         classNameCache.add(c.getName());
         

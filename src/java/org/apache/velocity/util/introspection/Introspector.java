@@ -65,16 +65,11 @@ public class Introspector extends IntrospectorBase
         "Introspector: detected classloader change. Dumping cache.";
 
     /**
-     * The Log we use
-     */
-    protected final Log log;
-
-    /**
      * @param log A Log object to use for the introspector.
      */
     public Introspector(final Log log)
     {
-        this.log = log;
+        super(log);
     }
 
     /**
