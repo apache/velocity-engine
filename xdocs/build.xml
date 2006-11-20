@@ -111,8 +111,8 @@ automatically unless the <code>skip.jar.loading</code> property is set.
 
 <tr>
   <td><code>antlr-2.7.5.jar</code></td>
-  <td></td>
-  <td>No</td>  
+  <td>XML parsing (XPath queries in particular)</td>
+  <td>Only for Anakia</td>  
 </tr>
 <tr>
   <td><code>avalon-logkit-2.1.jar</code></td>
