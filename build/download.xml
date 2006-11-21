@@ -77,13 +77,13 @@
   </target>
 
   <target name="commons-collections-download">
-   <property name="download.jarname" value="commons-collections" />
+   <property name="download.jarname" value="${jar.commons-collections.name}" />
    <property name="download.jarversion" value="${jar.commons-collections.version}" />
    <antcall target="http-download"/>
   </target>
 
   <target name="commons-lang-download">
-   <property name="download.jarname" value="commons-lang" />
+   <property name="download.jarname" value="${jar.commons-lang.name}" />
    <property name="download.jarversion" value="${jar.commons-lang.version}" />
    <antcall target="http-download"/>
   </target>
@@ -101,7 +101,7 @@
   </target>
 
   <target name="oro-download">
-   <property name="download.jarname" value="oro" />
+   <property name="download.jarname" value="${jar.oro.name}" />
    <property name="download.jarversion" value="${jar.oro.version}" />
    <antcall target="http-download"/>
   </target>

@@ -371,7 +371,7 @@
   <!-- ================================================================ -->
   <target name="build-dependency-classes">
     <mkdir dir="${build.deps}"/>
-    <unzip src="${build.lib}/commons-collections-${jar.commons-collections.version}.jar" dest="${build.deps}">
+    <unzip src="${build.lib}/${jar.commons-collections.name}-${jar.commons-collections.version}.jar" dest="${build.deps}">
     <!--  we only want a few files from commons collections -->
       <patternset>
         <include name="org/apache/commons/collections/BoundedMap.class" />
@@ -394,8 +394,8 @@
       </patternset>
     </unzip>
 
-    <unzip src="${build.lib}/oro-${jar.oro.version}.jar"  dest="${build.deps}"/>
-    <unzip src="${build.lib}/commons-lang-${jar.commons-lang.version}.jar" dest="${build.deps}"/>
+    <unzip src="${build.lib}/${jar.oro.name}-${jar.oro.version}.jar"  dest="${build.deps}"/>
+    <unzip src="${build.lib}/${jar.commons-lang.name}-${jar.commons-lang.version}.jar" dest="${build.deps}"/>
     <delete dir="${build.deps}/META-INF" quiet="true"/>
   </target>
 
