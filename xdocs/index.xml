@@ -53,6 +53,65 @@
 
     </section>
 
+    <!-- note - just include 1-2 news item here, archive rest on Wiki -->
+
+    <section name="Recent News" href="recentnews">
+
+    <p><strong>Velocity Approved as Top Level Project</strong> 
+    <br/>(October 26, 2006)
+    </p>
+    
+    <p>
+    The Board of the Apache Software Foundation has passed a resolution to upgrade
+    Jakarta Velocity into an Apache Top Level Project (TLP), to be renamed Apache Velocity.  
+    We are excited of the new prominence of the Velocity project.  
+    </p>
+
+    <p>Please stay tuned for our new website at 
+    <a href="http://velocity.apache.org/">http://velocity.apache.org/</a>.  In the meantime,
+    note that our new mailing lists are 
+    <a href="mailto:user@velocity.apache.org">user@velocity.apache.org</a> (subscribe at 
+    <a href="mailto:user-subscribe@velocity.apache.org">user-subscribe@velocity.apache.org</a>)
+    for general questions, and
+    <a href="mailto:dev@velocity.apache.org">dev@velocity.apache.org</a>
+    (subscribe at 
+    <a href="mailto:dev-subscribe@velocity.apache.org">dev-subscribe@velocity.apache.org</a>) for 
+    development-related activity.
+    </p>
+
+
+    <p><strong>Velocity 1.5 Beta 1 Released</strong> 
+    <br/>(September 13, 2006)
+    </p>
+    
+    <p>
+    The Velocity developers are proud to announce the first beta version of
+    Velocity 1.5.
+    You may download it 
+    <a href="http://people.apache.org/dist/jakarta/velocity/v1.5beta1/">here</a>.    
+    </p>
+    
+    <p>
+    This is an early release intended as a preview of things to
+    come.  Many bugs have been fixed and new features have been added.  A sampling:
+    </p>
+    <ul>
+    <li>floating point number arithmetic</li>
+    <li>new event handlers for altering #include/#parse behavior</li>
+    <li>literal map syntax</li>
+    </ul>
+    
+    <p>A complete list of changes is available at our 
+    <a href="http://issues.apache.org/jira/browse/VELOCITY?report=com.atlassian.jira.plugin.system.project:roadmap-panel">issue tracker</a>.
+    Please report any additional bugs there, especially those that need to be fixed before our 
+    final release.  (use 1.5 beta 1 as the version).
+    </p>
+    
+    
+    </section>
+        
+
+
     <section name="Where do I get releases?" href="WheredoIgetreleases?">
 
       <p> The current release version is version 1.4. </p>
