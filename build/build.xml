@@ -111,10 +111,8 @@
 
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.dest}"/>
-    <mkdir dir="${build.lib}" />
     <mkdir dir="${build.src}"/>
     <mkdir dir="${build.test.src}"/>
-    <mkdir dir="${build.test.lib}" />
     <mkdir dir="${build.test.dest}"/>
 
     <copy todir="${build.src}" filtering="yes">
