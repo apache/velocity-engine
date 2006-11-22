@@ -28,8 +28,7 @@
 -->
 
 <project name="Velocity" basedir="..">
-  <target name="build-download" unless="velocity.skip.download"
-          description="Download all the Velocity dependencies from the central repository">
+  <target name="build-download" description="Download all the Velocity dependencies from the central repository">
    <mkdir dir="${build.lib}" />
    <antcall target="antlr-download" />
    <antcall target="avalon-logkit-download" />
