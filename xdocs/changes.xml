@@ -27,54 +27,58 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+      <action type="add" dev="henning" issue="VELOCITY-183" due-to="Eelco Hillenius">
+        New ResourceLoader that retrieves templates from repository of in-memory Strings.
+      </action>
+
       <action type="fix" dev="wglass" issue="VELOCITY-493" due-to="Claude Brisson">
-		RuntimeInstance.getProperty now returns value set with RuntimeInstance.setProperty,
-		even before initialization.
+    RuntimeInstance.getProperty now returns value set with RuntimeInstance.setProperty,
+    even before initialization.
       </action>
 
       <action type="add" dev="wglass" issue="VELOCITY-435">
-		When macros have incorrect number of arguments, if property
-		"velocimacro.arguments.strict" is set to true a ParseErrorException
-		will be thrown.
+    When macros have incorrect number of arguments, if property
+    "velocimacro.arguments.strict" is set to true a ParseErrorException
+    will be thrown.
       </action>
 
       <action type="add" dev="henning" issue="VELOCITY-414" due-to="Matthijs Lambooy">
-		MethodInvocationException now contains line, column, template name
-		allow application to produce more useful error messages.
+    MethodInvocationException now contains line, column, template name
+    allow application to produce more useful error messages.
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-24">
-		Fixed race condition in template retrieval that caused macros
-		fail under simultaneous load.
+    Fixed race condition in template retrieval that caused macros
+    fail under simultaneous load.
       </action>
 
       <action type="add" dev="wglass" issue="VELOCITY-423">
-		New event handler InvalidReferenceHandler allows application
-		to catch invalid references.  Sample implementation collects
-		them in list and optionally throws exception.
+    New event handler InvalidReferenceHandler allows application
+    to catch invalid references.  Sample implementation collects
+    them in list and optionally throws exception.
       </action>
 
       <action type="add" dev="wglass" issue="VELOCITY-179">
           New, optional SecureIntrospector prohibits methods that involve manipulation of classes, classloaders
-		  or reflection objects.  Use this introspector to secure Velocity against a risk of
-		  template writers using reflection to perform malicious acts.
+      or reflection objects.  Use this introspector to secure Velocity against a risk of
+      template writers using reflection to perform malicious acts.
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-458">
-		Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
+    Removed Serializable from InternalContextBase, because one of the members is not serializable anyway so this never worked (Found by Findbugs).
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-449" due-to="Alexey Panchenko">
-		Add an additional pair of Executors that are smart about Map. 
+    Add an additional pair of Executors that are smart about Map. 
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-453" due-to="Alexey Panchenko">
-		  Method caching now uses consistent keys.
+      Method caching now uses consistent keys.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-459" due-to="Stephen Haberman">
-	  Change the meaning of localscope for macros to allow access to references from 
-	  calling context.
+    Change the meaning of localscope for macros to allow access to references from 
+    calling context.
       </action>
 
       <action type="add" dev="henning">
@@ -90,24 +94,24 @@
       </action>
 
       <action type="fix" dev="henning">
-		Fix a number of issues reported by running FindBugs on the Velocity source.
+    Fix a number of issues reported by running FindBugs on the Velocity source.
       </action>
     </release>
 
     <release version="1.5-beta1" date="2006-09-13">
       <action type="fix" dev="wglass" issue="VELOCITY-438" due-to="Stephen Haberman">
-		Stop references from calling object.toString() twice.
+    Stop references from calling object.toString() twice.
       </action>
 
       <action type="update" dev="wglass" issue="VELOCITY-429" due-to="">
-		Pass through all runtime exceptions.  Among other benefits, this
-		allows plugins to throw a runtime exception to signify an application
-		level problem in the calling application.
+    Pass through all runtime exceptions.  Among other benefits, this
+    allows plugins to throw a runtime exception to signify an application
+    level problem in the calling application.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-98" due-to="Michal Chmielewski">
-		When #include was followed by #parse with the same file name, a ClassCastException was thrown.
-	  </action>
+    When #include was followed by #parse with the same file name, a ClassCastException was thrown.
+    </action>
 
       <action type="add" dev="wglass" issue="VELOCITY-425" due-to="Llewellyn Falco">
         Wrapped exceptions now have Cause property set on JDK 1.4.  (note that Velocity
@@ -116,7 +120,7 @@
 
       <action type="fix" dev="wglass" issue="VELOCITY-418" due-to="Jason Weinstein">
         When Velocity is initialized, default.properties stream was not being closed.  This
-		made it difficult to undeploy webapps on Windows with Velocity unpacked.
+    made it difficult to undeploy webapps on Windows with Velocity unpacked.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-151" due-to="Kirk Wolf">
