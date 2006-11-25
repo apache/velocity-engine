@@ -47,7 +47,7 @@ public class StringResourceRepositoryImpl
     private String encoding = StringResourceLoader.REPOSITORY_ENCODING_DEFAULT;
     
     /**
-     * @see org.apache.velocity.tools.stringresources.StringResourceRepository#getStringResource(java.lang.String)
+     * @see StringResourceRepository#getStringResource(java.lang.String)
      */
     public StringResource getStringResource(final String name)
     {
@@ -55,7 +55,7 @@ public class StringResourceRepositoryImpl
     }
 
     /**
-     * @see org.apache.velocity.tools.stringresources.StringResourceRepository#putStringResource(java.lang.String, java.lang.String)
+     * @see StringResourceRepository#putStringResource(java.lang.String, java.lang.String)
      */
     public void putStringResource(final String name, final String body)
     {
@@ -63,7 +63,7 @@ public class StringResourceRepositoryImpl
     }
 
     /**
-     * @see org.apache.velocity.tools.stringresources.StringResourceRepository#removeStringResource(java.lang.String)
+     * @see StringResourceRepository#removeStringResource(java.lang.String)
      */
     public void removeStringResource(final String name)
     {

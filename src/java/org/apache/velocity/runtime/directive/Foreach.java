@@ -105,7 +105,7 @@ public class Foreach extends Directive
          *
          * @param key name of item to set.
          * @param value object to set to key.
-         * @see InternalWrapperContext#localPut(String, Object)
+         * @see org.apache.velocity.context.InternalWrapperContext#localPut(String, Object)
          */        
         public Object localPut(final String key, final Object value)
         {
