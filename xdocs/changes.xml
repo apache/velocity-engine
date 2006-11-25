@@ -28,7 +28,7 @@
     <release version="1.5-dev" date="in Subversion">
 
       <action type="add" dev="henning" issue="VELOCITY-183" due-to="Eelco Hillenius">
-        New ResourceLoader that retrieves templates from repository of in-memory Strings.
+        New StringResourceLoader can retrieve templates from repository of in-memory Strings.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-493" due-to="Claude Brisson">
