@@ -27,6 +27,10 @@
   <body>
     <release version="1.5-dev" date="in Subversion">
 
+    </release>
+    
+    <release version="1.5-beta2" date="2006-11-24">
+
       <action type="add" dev="henning" issue="VELOCITY-183" due-to="Eelco Hillenius">
         New StringResourceLoader can retrieve templates from repository of in-memory Strings.
       </action>
@@ -44,11 +48,11 @@
 
       <action type="add" dev="henning" issue="VELOCITY-414" due-to="Matthijs Lambooy">
     MethodInvocationException now contains line, column, template name
-    allow application to produce more useful error messages.
+    allowing application to produce more useful error messages.
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-24">
-    Fixed race condition in template retrieval that caused macros
+    Fixed race condition in template retrieval that caused macros to
     fail under simultaneous load.
       </action>
 
