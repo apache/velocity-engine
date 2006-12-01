@@ -58,9 +58,9 @@
   <siteDirectory>/www/jakarta.apache.org/velocity/engine</siteDirectory>
 
   <repository>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk</developerConnection>
-    <url>http://svn.apache.org/viewcvs/jakarta/velocity/engine/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
+    <url>http://svn.apache.org/viewcvs/velocity/engine/trunk/</url>
   </repository>
 
   <versions>

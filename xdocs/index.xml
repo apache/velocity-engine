@@ -57,6 +57,17 @@
 
     <section name="Recent News" href="recentnews">
 
+    <p><strong>The Velocity SVN Repository moved!</strong> 
+    <br/>(December 1st, 2006)
+    </p>
+    
+    <p>
+    As part of our move to top-level status, we moved the Subversion repository. It is
+    now available from <a href="http://svn.apache.org/repos/asf/velocity/">http://svn.apache.org/repos/asf/velocity/</a>. 
+    Please update your references. If you have already checked out the source code, you can use the <pre>svn switch</pre>
+    command to update your local copy.
+    </p>
+    
     <p><strong>Velocity 1.5 Beta 2 Released</strong> 
     <br/>(November 24, 2006)
     </p>
@@ -180,7 +191,7 @@
           contribute to the FAQ! </li>
         <li> Read-only access to the Subversion
           <strong>jakarta-velocity</strong> repository is available both
-          <a href="http://svn.apache.org/repos/asf/jakarta/velocity/engine/trunk/">
+          <a href="http://svn.apache.org/repos/asf/velocity/engine/trunk/">
             online</a> and with a
           <a href="http://www.apache.org/dev/version-control.html"> Subversion
             client</a>. </li>
