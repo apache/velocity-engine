@@ -58,12 +58,20 @@ public class HsqlDataSource implements DataSource {
 	return loginTimeout;
     }
 
-    public void setLogWriter(PrintWriter logWriter) throws SQLException {
+    public void setLogWriter(final PrintWriter logWriter) throws SQLException {
 	this.logWriter = logWriter;
     }
 
-    public void setLoginTimeout(int loginTimeout) throws SQLException {
+    public void setLoginTimeout(final int loginTimeout) throws SQLException {
 	this.loginTimeout = loginTimeout;
+    }
+
+    public boolean isWrapperFor(final Class iface) throws SQLException {
+	return false;
+    }
+
+    public Object unwrap(final Class iface) throws SQLException {
+	throw new SQLException("Not implemented");
     }
 
 }
