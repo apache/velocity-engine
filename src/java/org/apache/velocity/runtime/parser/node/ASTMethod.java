@@ -181,9 +181,6 @@ public class ASTMethod extends SimpleNode
                  *  cache it
                  */
 
-                for (int j = 0; j < paramCount; j++)
-                    params[j] = jjtGetChild(j + 1).value(context);
-
                 method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
 
                 if ((method != null) && (o != null))
