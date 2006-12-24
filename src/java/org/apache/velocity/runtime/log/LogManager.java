@@ -67,7 +67,7 @@ public class LogManager
     {
         Log log = rsvc.getLog();
 
-        /* If a LogChute or LogSystem instance was set as a configuation
+        /* If a LogChute or LogSystem instance was set as a configuration
          * value, use that.  This is any class the user specifies.
          */
         Object o = rsvc.getProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM);

@@ -137,7 +137,7 @@ public class ResourceManagerImpl
             {
                 log.error("Unable to find '" +
                           configuration.getString(RESOURCE_LOADER_IDENTIFIER) +
-                          ".resource.loader.class' specification in configuation." +
+                          ".resource.loader.class' specification in configuration." +
                           " This is a critical value.  Please adjust configuration.");
 
                 continue; // for(...
