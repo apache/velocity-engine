@@ -27,6 +27,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Make sure that a forward referenced macro inside another macro definition does
@@ -56,6 +58,11 @@ public class MacroForwardDefineTestCase
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/macroforwarddefine/compare";
 
     /**
+     * Collects the log messages.
+     */
+    private TestLogChute logger = new TestLogChute();
+    
+    /**
      * Default constructor.
      */
     public MacroForwardDefineTestCase(String name)
@@ -67,15 +74,19 @@ public class MacroForwardDefineTestCase
         throws Exception
     {
         assureResultsDirectoryExists(RESULTS_DIR);
-        
-        InputStream stream = new FileInputStream(FILE_RESOURCE_LOADER_PATH + "/velocity.properties");
-        Properties p = new Properties();
-        p.load(stream);
-        
-        p.setProperty("file.resource.loader.path", FILE_RESOURCE_LOADER_PATH );
-        p.setProperty("runtime.log", RESULTS_DIR + "/velocity.log");
+                
+        // use Velocity.setProperty (instead of properties file) so that we can use actual instance of log
+        Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
+        Velocity.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
+        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
+        Velocity.setProperty(RuntimeConstants.VM_LIBRARY, "macros.vm");
 
-        Velocity.init(p);
+        // actual instance of logger
+        logger = new TestLogChute();
+        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
+        Velocity.setProperty("runtime.log.logsystem.test.level", "error");
+
+        Velocity.init();
     }
 
     public static Test suite()
@@ -86,8 +97,7 @@ public class MacroForwardDefineTestCase
     public void testLogResult()
         throws Exception
     {
-        if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "velocity.log",
-                        null, "cmp"))
+        if ( !isMatch(logger.getLog(), COMPARE_DIR, "velocity.log", "cmp"))
         {
             fail("Output incorrect.");
         }
