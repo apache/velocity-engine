@@ -576,12 +576,19 @@
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
 
+  	<!-- use original to get pre-filtered text -->
     <copy todir="${dist.dir}/src/java/">
-      <fileset dir="${build.src}" />
+      <fileset dir="${src.java.dir}" />
     </copy>
 
+  	<!-- use original to get pre-filtered text -->
     <copy todir="${dist.dir}/src/test/">
-      <fileset dir="${build.test.src}" />
+      <fileset dir="${test.java.dir}" />
+    </copy>
+
+  	<!-- use original to get pre-filtered text -->
+    <copy todir="${dist.dir}/src/parser/">
+      <fileset dir="${src.parser.dir}" />
     </copy>
 
     <copy todir="${dist.dir}/lib">
