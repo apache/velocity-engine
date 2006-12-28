@@ -168,6 +168,26 @@ public abstract class BaseTestCase
         String result = StringUtils.fileContentsToString
                 (getFileName(resultsDir, baseFileName, resultExt, true));
 
+        return isMatch(result,compareDir,baseFileName,compareExt);
+    }
+
+    
+    /**
+     * Returns whether the processed template matches the
+     * content of the provided comparison file.
+     *
+     * @return Whether the output matches the contents
+     *         of the comparison file.
+     *
+     * @exception Exception Test failure condition.
+     */
+    protected boolean isMatch (
+                               String result,
+                               String compareDir,
+                               String baseFileName,
+                               String compareExt)
+        throws Exception
+    {
         String compare = StringUtils.fileContentsToString
                 (getFileName(compareDir, baseFileName, compareExt, true));
 
@@ -179,7 +199,7 @@ public abstract class BaseTestCase
                            normalizeNewlines( compare ) );
     }
 
-    /**
+        /**
      * Turns a base file name into a test case name.
      *
      * @param s The base file name.
