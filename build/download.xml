@@ -45,7 +45,20 @@
    <antcall target="junit-download" />
   </target>
 
-  <target name="http-download" unless="skip.jar.loading">
+  <target name="http-download">
+    <condition property="skip-download">
+      <or>
+        <istrue value="${skip.jar.loading}"/>
+        <and>
+          <isfalse value="${force.jar.loading}"/>
+          <available file="${build.lib}/${download.jarname}-${download.jarversion}.jar"/>
+        </and>
+      </or>
+    </condition>
+    <antcall target="do-http-download"/>
+  </target>
+
+  <target name="do-http-download" unless="skip-download">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
     <get src="${repo.url}/${download.jarname}/jars/${download.jarname}-${download.jarversion}.jar"
          dest="${build.lib}/${download.jarname}-${download.jarversion}.jar"
