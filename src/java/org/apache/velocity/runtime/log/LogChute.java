@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.log;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeServices;
@@ -33,48 +33,48 @@ import org.apache.velocity.runtime.RuntimeServices;
 public interface LogChute
 {
     /** Prefix string for trace messages. */
-    public final static String TRACE_PREFIX = " [trace] ";
+    String TRACE_PREFIX = " [trace] ";
 
     /** Prefix string for debug messages. */
-    public final static String DEBUG_PREFIX = " [debug] ";
+    String DEBUG_PREFIX = " [debug] ";
 
     /** Prefix string for info messages. */
-    public final static String INFO_PREFIX  = "  [info] ";
+    String INFO_PREFIX  = "  [info] ";
 
     /** Prefix string for warn messages. */
-    public final static String WARN_PREFIX  = "  [warn] ";
+    String WARN_PREFIX  = "  [warn] ";
 
     /** Prefix string for error messages. */
-    public final static String ERROR_PREFIX = " [error] ";
+    String ERROR_PREFIX = " [error] ";
 
     /** ID for trace messages. */
-    public final static int TRACE_ID = -1;
+    int TRACE_ID = -1;
 
     /** ID for debug messages. */
-    public final static int DEBUG_ID = 0;
+    int DEBUG_ID = 0;
 
     /** ID for info messages. */
-    public final static int INFO_ID = 1;
+    int INFO_ID = 1;
 
     /** ID for warning messages. */
-    public final static int WARN_ID = 2;
+    int WARN_ID = 2;
 
     /** ID for error messages. */
-    public final static int ERROR_ID = 3;
+    int ERROR_ID = 3;
 
     /**
      * Initializes this LogChute.
      * @param rs
      * @throws Exception
      */
-    public void init(RuntimeServices rs) throws Exception;
+    void init(RuntimeServices rs) throws Exception;
 
     /**
      * Send a log message from Velocity.
      * @param level
      * @param message
      */
-    public void log(int level, String message);
+    void log(int level, String message);
 
     /**
      * Send a log message from Velocity along with an exception or error
@@ -82,13 +82,13 @@ public interface LogChute
      * @param message
      * @param t
      */
-    public void log(int level, String message, Throwable t);
+    void log(int level, String message, Throwable t);
 
     /**
      * Tell whether or not a log level is enabled.
      * @param level
      * @return True if a level is enabled.
      */
-    public boolean isLevelEnabled(int level);
+    boolean isLevelEnabled(int level);
 
 }
