@@ -727,12 +727,25 @@
           description="Generates the Velocity distribution files">
   </target>
 
-  <!-- =================================================================== -->
-  <!-- Cleans up the build directory                                       -->
-  <!-- =================================================================== -->
+  <!-- ======================================================================= -->
+  <!-- Cleans up the build directory. Leave Libs unharmed to avoid re-download -->
+  <!-- ======================================================================= -->
   <target name="clean" depends="examples-clean"
+          description="Cleans all generated files except downloaded libs">
+    <delete includeEmptyDirs="true" quiet="true">
+      <fileset dir="${build.dir}">
+        <exclude name="lib/**" />
+        <exclude name="test-lib/**" />
+      </fileset>
+    </delete>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Really cleans up the build directory                                -->
+  <!-- =================================================================== -->
+  <target name="real-clean" depends="examples-clean"
           description="Cleans all generated files">
-    <delete dir="${build.dir}" quiet="true"/>
+    <delete includeEmptyDirs="true" quiet="true" dir="${build.dir}" />
   </target>
 
   <!-- =================================================================== -->
