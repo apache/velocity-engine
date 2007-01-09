@@ -41,7 +41,7 @@ public class VelTools66TestCase
         extends BaseTestCase
 {
     public VelTools66TestCase(final String name)
-    	throws Exception
+            throws Exception
     {
         super(name);
     }
@@ -64,58 +64,58 @@ public class VelTools66TestCase
     
     public void tearDown()
     {
-	System.setSecurityManager(null);
+        System.setSecurityManager(null);
     }
 
     public void testVelTools66()
-    	throws Exception
+            throws Exception
     {
-	Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
-	
-	
-	RuntimeInstance ri = new RuntimeInstance();
-	Introspector introspector = ri.getIntrospector();
-	
-	Method testMethod = introspector.getMethod(TestObject.class, "getTestValue", new Object[0]);
-	assertNotNull(testMethod);
-	assertEquals("Method object does not match!", verifyMethod, testMethod);
+        Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
+        
+        
+        RuntimeInstance ri = new RuntimeInstance();
+        Introspector introspector = ri.getIntrospector();
+        
+        Method testMethod = introspector.getMethod(TestObject.class, "getTestValue", new Object[0]);
+        assertNotNull(testMethod);
+        assertEquals("Method object does not match!", verifyMethod, testMethod);
     }
     
     public static interface TestInterface
     {
-	String getTestValue();
-	
-	void setTestValue(String testValue);
+        String getTestValue();
+        
+        void setTestValue(String testValue);
     }
     
     public static final class TestObject
-    	implements TestInterface
+            implements TestInterface
     {
-	String testValue = null;
-	
-	public TestObject()
-	{
-	}
-	
-	public String getTestValue()
-	{
-	    return testValue;
-	}
-	
-	public void setTestValue(final String testValue)
-	{
-	    this.testValue = testValue;
-	}
+        String testValue = null;
+        
+        public TestObject()
+        {
+        }
+        
+        public String getTestValue()
+        {
+            return testValue;
+        }
+        
+        public void setTestValue(final String testValue)
+        {
+            this.testValue = testValue;
+        }
     }
     
     public static final class TestSecurityManager extends SecurityManager
     {
         private final Class clazz = TestObject.class;
 
-	public TestSecurityManager()
-	{
-	    super();
-	}
+        public TestSecurityManager()
+        {
+            super();
+        }
 
         public void checkMemberAccess(final Class c, final int i)
         {
@@ -123,7 +123,7 @@ public class VelTools66TestCase
             
             if (c.equals(clazz))
             {
-        	throw new AccessControlException("You are not allowed to access TestObject directly!");
+                throw new AccessControlException("You are not allowed to access TestObject directly!");
             }
         }
 
