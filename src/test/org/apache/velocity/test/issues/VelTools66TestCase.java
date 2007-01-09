@@ -16,14 +16,12 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
-import java.security.AccessController;
 import java.security.Permission;
-import java.security.PrivilegedAction;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -59,9 +57,9 @@ public class VelTools66TestCase
 
         Velocity.init();
         System.setSecurityManager(new TestSecurityManager());
-        
+
     }
-    
+
     public void tearDown()
     {
         System.setSecurityManager(null);
@@ -71,43 +69,43 @@ public class VelTools66TestCase
             throws Exception
     {
         Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
-        
-        
+
+
         RuntimeInstance ri = new RuntimeInstance();
         Introspector introspector = ri.getIntrospector();
-        
+
         Method testMethod = introspector.getMethod(TestObject.class, "getTestValue", new Object[0]);
         assertNotNull(testMethod);
         assertEquals("Method object does not match!", verifyMethod, testMethod);
     }
-    
+
     public static interface TestInterface
     {
         String getTestValue();
-        
+
         void setTestValue(String testValue);
     }
-    
+
     public static final class TestObject
             implements TestInterface
     {
         String testValue = null;
-        
+
         public TestObject()
         {
         }
-        
+
         public String getTestValue()
         {
             return testValue;
         }
-        
+
         public void setTestValue(final String testValue)
         {
             this.testValue = testValue;
         }
     }
-    
+
     public static final class TestSecurityManager extends SecurityManager
     {
         private final Class clazz = TestObject.class;
@@ -120,7 +118,7 @@ public class VelTools66TestCase
         public void checkMemberAccess(final Class c, final int i)
         {
             System.out.println("checkMemberAccess(" + c.getName() + ", " + i + ")");
-            
+
             if (c.equals(clazz))
             {
                 throw new AccessControlException("You are not allowed to access TestObject directly!");
@@ -131,7 +129,7 @@ public class VelTools66TestCase
         {
             System.out.println("checkRead(" + file + ")");
         }
-        
+
         public void checkPackageAccess(final String s)
         {
             System.out.println("checkPackageAccess(" + s + ")");
