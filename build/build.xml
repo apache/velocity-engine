@@ -733,7 +733,7 @@
   <target name="clean" depends="examples-clean"
           description="Cleans all generated files except downloaded libs">
     <delete includeEmptyDirs="true" quiet="true">
-      <fileset dir="${build.dir}">
+      <fileset dir="${build.dir}" defaultexcludes="no">
         <exclude name="lib/**" />
         <exclude name="test-lib/**" />
       </fileset>
