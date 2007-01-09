@@ -29,7 +29,7 @@ REQUIREMENTS
 ------------
 
 Velocity will run with any version of Java greater than 1.3.
-Build Velocity requires Java version 1.4 (or greater) and 
+Building Velocity requires Java version 1.4 (or greater) and 
 ant 1.6.
 
 
