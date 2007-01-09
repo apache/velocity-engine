@@ -21,7 +21,9 @@ package org.apache.velocity.test.issues;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
+import java.security.AccessController;
 import java.security.Permission;
+import java.security.PrivilegedAction;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -108,6 +110,8 @@ public class VelTools66TestCase
     
     public static final class TestSecurityManager extends SecurityManager
     {
+        private final Class clazz = TestObject.class;
+
 	public TestSecurityManager()
 	{
 	    super();
@@ -117,7 +121,7 @@ public class VelTools66TestCase
         {
             System.out.println("checkMemberAccess(" + c.getName() + ", " + i + ")");
             
-            if (c.equals(TestObject.class))
+            if (c.equals(clazz))
             {
         	throw new AccessControlException("You are not allowed to access TestObject directly!");
             }
