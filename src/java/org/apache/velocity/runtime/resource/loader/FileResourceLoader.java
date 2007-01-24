@@ -16,13 +16,14 @@ package org.apache.velocity.runtime.resource.loader;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.io.UnicodeInputStream;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
@@ -60,6 +62,9 @@ public class FileResourceLoader extends ResourceLoader
      */
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
+    /** Shall we inspect unicode files to see what encoding they contain?. */
+    private boolean unicode = false;
+
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
      */
@@ -71,6 +76,16 @@ public class FileResourceLoader extends ResourceLoader
         }
 
         paths.addAll( configuration.getVector("path") );
+
+        // unicode files may have a BOM marker at the start, but Java
+        // has problems recognizing the UTF-8 bom. Enabling unicode will
+        // recognize all unicode boms.
+        unicode = configuration.getBoolean("unicode", false);
+
+        if (log.isDebugEnabled())
+        {
+            log.debug("Do unicode file recognition:  " + unicode);
+        }
 
         // trim spaces from all paths
         StringUtils.trimStrings(paths);
@@ -128,7 +143,16 @@ public class FileResourceLoader extends ResourceLoader
         for (int i = 0; i < size; i++)
         {
             String path = (String) paths.get(i);
-            InputStream inputStream = findTemplate(path, template);
+            InputStream inputStream = null;
+
+            try
+            {
+                inputStream = findTemplate(path, template);
+            }
+            catch (IOException ioe)
+            {
+                log.error("While loading Template " + template + ": ", ioe);
+            }
 
             if (inputStream != null)
             {
@@ -158,28 +182,78 @@ public class FileResourceLoader extends ResourceLoader
      * @return InputStream input stream that will be parsed
      *
      */
-    private InputStream findTemplate(String path, String template)
+    private InputStream findTemplate(final String path, final String template)
+        throws IOException
     {
         try
         {
             File file = getFile(path,template);
 
-            if ( file.canRead() )
+            if (file.canRead())
             {
-                return new BufferedInputStream(
-                    new FileInputStream(file.getAbsolutePath()));
+                FileInputStream fis = null;
+                try
+                {
+                    fis = new FileInputStream(file.getAbsolutePath());
+
+                    if (unicode)
+                    {
+                        UnicodeInputStream uis = null;
+
+                        try
+                        {
+                            uis = new UnicodeInputStream(fis, true);
+
+                            if (log.isDebugEnabled())
+                            {
+                                log.debug("File Encoding for " + file + " is: " + uis.getEncodingFromStream());
+                            }
+
+                            return new BufferedInputStream(uis);
+                        }
+                        catch(IOException e)
+                        {
+                            closeQuiet(uis);
+                            throw e;
+                        }
+                    }
+                    else
+                    {
+                        return new BufferedInputStream(fis);
+                    }
+                }
+                catch (IOException e)
+                {
+                    closeQuiet(fis);
+                    throw e;
+                }
             }
             else
             {
                 return null;
             }
         }
-        catch( FileNotFoundException fnfe )
+        catch(FileNotFoundException fnfe)
         {
             /*
              *  log and convert to a general Velocity ResourceNotFoundException
              */
             return null;
+        }
+    }
+
+    private void closeQuiet(final InputStream is)
+    {
+        if (is != null)
+        {
+            try
+            {
+                is.close();
+            }
+            catch(IOException ioe)
+            {
+                // Ignore
+            }
         }
     }
 
