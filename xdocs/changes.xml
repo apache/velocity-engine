@@ -25,7 +25,14 @@
   </properties>
 
   <body>
-    <release version="1.5-dev" date="in Subversion">
+    <release version="1.5" date="in Subversion">
+
+      <action type="add" dev="henning" issue="VELOCITY-191" due-to="Aki Nieminen">
+        Make FileResourceLoader unicode aware to allow skipping over BOM markers
+        like those created by Windows Notepad. This is a workaround for a Java
+        bug, where Java itself does not recognize the UTF-8 BOM as defined by
+        the unicode standard.
+      </action>
 
     </release>
     
