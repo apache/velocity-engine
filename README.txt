@@ -67,7 +67,7 @@ Building Velocity is easy.  All components necessary to build Velocity are
 included, except for the Java 2 SDK and the fabulous Ant build tool.
 You can find details on how to build Velocity online at:
 
-http://jakarta.apache.org/velocity/build.html
+http://velocity.apache.org/engine/devel/build.htm
 
 Note that you must use Ant version 1.6 or later.
 
@@ -95,7 +95,7 @@ TRYING THE EXAMPLES
 
 After building Velocity, you can also buld the examples that are included
 with the Velocity distribution.  These examples show how to use Velocity
-in your Java applications and Servlets.  There also are examples of
+in your Java applications.  There also are examples of
 how to use Anakia, a XML transformation engine.
 
 For more information, please see the README.txt in the examples/ directory.
