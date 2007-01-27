@@ -31,7 +31,7 @@ import org.apache.velocity.util.ExceptionUtils;
  * This is an input stream that is unicode BOM aware. This allows you to e.g. read
  * Windows Notepad Unicode files as Velocity templates.
  *
- * It allows you to check the actual encoding of a file by calling {@link #getEncoding()} on
+ * It allows you to check the actual encoding of a file by calling {@link #getEncodingFromStream()} on
  * the input stream reader.
  *
  * This class is not thread safe! When more than one thread wants to use an instance of UnicodeInputStream,
