@@ -22,7 +22,7 @@
 
  <properties>
   <title>Building Velocity from Source</title>
-  <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -40,27 +40,31 @@ Everything required to build Velocity comes with the distribution, which
 can be obtained from <a
 href="http://www.apache.org/dev/version-control.html">Subversion</a> or
 from the <a
-href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly
-snapshots</a>.  However, you will need to install Ant, an excellent
-Java-based build tool.  Ant is also a Jakarta project, and can be
-found <a href="http://jakarta.apache.org/ant/">here</a>.
+href="http://vc.apache.org/snapshots/velocity/">nightly
+snapshots</a>.  However, you will need to install Ant to build the Velocity sources.</p>
+
+
+<p>Ant is also an Apache project, and can be
+found <a href="http://ant.apache.org/">here</a>. To build Apache Velocity, you need at least Version 1.6 of Apache Ant.
 </p>
 
 <p>
-The directory tree of the distribution looks like :
+The directory tree of the distribution looks like:
 </p>
 
 <source><![CDATA[
-jakarta-velocity
-  /build        - contains build scripts
-  /bin          - where the built jars / classes will go
-  /src          - source for Velocity, Anakia, and Texen
-  /docs         - documentation in HTML form
-  /docs/api     - Javadocs for Velocity source
-  /examples     - example/demonstration code
-  /convert      - tools to help convert WebMacro templates
-  /test         - test programs and templates
-  /xdocs        - source for our documentation
+build/      This is where the build scripts live.
+convert/    The WebMacro to Apache Velocity conversion program.
+docs/       Velocity Documentation in HTML format.
+docs/api/   Velocity Javadocs.
+examples/   Examples how to use Velocity.
+lib/        Dependencies for building and using Velocity.
+lib/test/   Dependencies needed for the various unit tests.
+src/        This is where all of the source code is located.
+test/       Contains test files needed for the unit tests.
+xdocs/      Here are the .xml files for building the .html files
+            related to the website and documentation. The files
+            located in docs/ have been built from these sources.
 ]]></source>
 
 </section>
@@ -68,16 +72,10 @@ jakarta-velocity
 <section name="Required Tools">
 
 <p>
-To make building Velocity easy and consistant, we require a Jakarta project
-called <a href="http://jakarta.apache.org/ant/">Ant</a> version 1.6 or
+To make building Velocity easy and consistent, we require an Apache project
+called <a href="http://ant.apache.org/">Ant</a> version 1.6 or
 higher to perform the build process. We assume that you have followed
-Ant's installation instructions and have it properly installed.  It's not
-difficult, and I think that you will find it an excellent addition to
-your programmer's toolbox.  
-</p>
-
-<p>Note that there is an experimental <a href="maven.apache.org">Maven</a> 
-build included with the distribution, but Ant remains the recommended method.
+Ant's installation instructions and have it properly installed.
 </p>
 
 <p>
@@ -96,9 +94,12 @@ version 3.2 or greater (for compatibility with JDK 1.5 syntax changes).
 
 <section name="Jar Dependencies">
 
-<p>Velocity requires various third party jar files for compiling and for running.  Not all 
-jar files are required in all cases.  When building, all dependencies will be downloaded
-automatically unless the <code>skip.jar.loading</code> property is set.  
+<p>Velocity requires various third party jar files for compiling and
+for running.  Not all jar files are required in all cases.  When
+building, all dependencies will be downloaded automatically. You can
+control the download with the <code>skip.jar.loading</code> and
+<code>force.jar.loading</code> properties in the
+<code>build.properties</code> file.
 </p>
 
 <table>
@@ -135,7 +136,7 @@ automatically unless the <code>skip.jar.loading</code> property is set.
   <td>Only for Anakia</td>  
 </tr>
 <tr>
-  <td><code>log4j.1.2.8.jar</code></td>
+  <td><code>log4j.1.2.12.jar</code></td>
   <td>Possible means of logging</td>
   <td>No</td>  
 </tr>
@@ -159,12 +160,17 @@ automatically unless the <code>skip.jar.loading</code> property is set.
   <td>For running unit tests</td>
   <td>No</td>
 </tr>
+<tr>
+  <td><code>hsqldb-1.7.1.jar</code></td>
+  <td>For running database related unit tests</td>
+  <td>No</td>
+</tr>
 </table>
 
 
 <p>
-Note that you can always create a jar with all required run-time dependencies by running the 
-task <code>jar-dep</code>.
+Note that you can always create a jar with all required run-time dependencies by executing the 
+<code>jar-dep</code> task.
 </p>
 
 </section>
@@ -175,8 +181,8 @@ task <code>jar-dep</code>.
 In each case below, it is assumed that you were successful in getting
 the distribution from Subversion or as a nightly build, and with the latter,
 were successful in unpacking.  Also, it is assumed that you are starting
-in the 'jakarta-velocity' directory, the root of the distribution tree.
-All directory references will be relative to 'jakarta-velocity'.
+in the 'velocity' directory, the root of the distribution tree.
+All directory references will be relative to 'velocity'.
 </p>
 
 <p>
@@ -201,7 +207,7 @@ version number. Be sure to update your classpath to include Velocity's
 <p>
 Note that to build any of the specific build targets simply add
 the target name to the command line.  For example, to build the Javadoc
-API documentation :
+API documentation:
 </p>
 
 <source><![CDATA[
@@ -228,6 +234,9 @@ ant javadocs
    </li>
   <li>
     <b><code>clean</code></b> deletes all generated classes, jars, documentation, and other files.
+   </li>
+  <li>
+    <b><code>real-clean</code></b> like <code>clean</code> but also deletes all downloaded jars.
    </li>
   <li>
     <b><code>docs</code></b> builds these docs in the <code>docs</code> directory
@@ -275,7 +284,7 @@ Subversion snapshot while a developer was checking things in.)
 <p>
 If the problems persist, do not hesitate to ask the Velocity community
 via our mail lists. They can be found <a
-href="http://jakarta.apache.org/site/mail.html">here</a>. 
+href="http://velocity.apache.org/contact.html">here</a>. 
 </p>
 
 </section>
@@ -290,44 +299,26 @@ well with your build of Velocity.
 
 <p>
 To run the test suite, simply use the build target
-<b>test</b> when you build :
+<b>test</b> when you build:
 </p>
 <source><![CDATA[
 ant test
 ]]></source>
 
 <p>
-If all is well, you should see output similar to :
+If all is well, you should see output similar to:
 </p>
 
 <source><![CDATA[
-junittest:
-    [junit] Running org.apache.velocity.util.TestSimplePool
-    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.025 sec
-
 test:
-
-test-template:
-     [echo] Running Template tests...
-     [java] Adding TemplateTestCase : arithmetic
-     ...
-     ...
-     ...
-     [java] Adding TemplateTestCase : foreach-introspect
-     [java] Adding TemplateTestCase : settest
-     [java] .......................................
-     [java] Time: 1.999
-
-     [java] OK (39 tests)
-
-
-test-velocityapp:
-     [echo] Running app.Velocity tests...
-     [java] .
-     [java] Time: 0.004
-
-     [java] OK (1 tests)
-
+    [mkdir] Created dir: ..../bin/test-reports
+    [junit] Running org.apache.velocity.io.UnicodeInputStreamTestCase
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.011 sec
+    [junit] Running org.apache.velocity.test.AbsoluteFileResourceLoaderTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.015 sec
+    [junit] Running org.apache.velocity.test.ArithmeticTestCase
+    [junit] Tests run: 7, Failures: 0, Errors: 0, Time elapsed: 0.006 sec
+    [junit] Running org.apache.velocity.test.BuiltInEventHandlerTestCase
 
 ...
 

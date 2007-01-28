@@ -22,7 +22,7 @@
 
  <properties>
   <title>Developer's Guide</title>
-  <author email="geirm@apache.org">Velocity Documentation Team</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -143,10 +143,10 @@ development using Velocity.
 Velocity is often used for building web applications
 In order to use Velocity in a web app you'll need a servlet or servlet-based
 framework. The easiest way to get started is with
-<a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a> in the
-<a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a>
+<a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a> in the
+<a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
 subproject.  You can also use any of a number of
-<a href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity">third party frameworks</a>
+<a href="http://wiki.apache.org/velocity/PoweredByVelocity">third party frameworks</a>
 or build your own servlet using the techniques described in this document.
 </p>
 
@@ -162,15 +162,15 @@ more detail on the various options.
 
 <p>
     You can download the latest release version of
-    <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a>
-    or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a>
-    from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
+    <a href="http://velocity.apache.org/download.cgi#engine">Velocity</a>
+    or <a href="http://velocity.apache.org/download.cgi#tools">Velocity Tools</a>
+    from the main Apache Velocity download site.  For Velocity itself, source is included with the binary download.
 </p>
 
 <p>
     If you want to download the latest source, you can do so via the Subversion (svn)
     source control system, or download a complete
-    <a href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly snapshot.</a>
+    <a href="http://svn.apache.org/snapshots/velocity/">nightly snapshot.</a>
 </p>
 
 <p>
@@ -196,12 +196,16 @@ default build target, you must add the dependencies to your classpath.
 
 <ul>
 <li>
-  <a href="http://jakarta.apache.org/commons/">
+  <a href="http://jakarta.apache.org/commons/collections">
   <b>Jakarta Commons Collections</b></a> - required.
 </li>
 <li>
-  <a href="http://jakarta.apache.org/avalon/logkit/index.html">
-  <b>Jakarta Avalon Logkit</b></a> - optional, but very common.
+  <a href="http://jakarta.apache.org/commons/lang">
+  <b>Jakarta Commons Lang</b></a> - required.
+</li>
+<li>
+  <a href="http://excalibur.apache.org/logger.html">
+  <b>Excalibur (ex-Avalon) Logkit</b></a> - optional, but very common.
   Needed if using the default file-based logging in Velocity.
 </li>
 <li>
@@ -219,76 +223,71 @@ default build target, you must add the dependencies to your classpath.
 <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
-Some great sources are :
+Some great sources are:
 </p>
 
 <ul>
   <li>
-     The user and developer community : join us via the
-     <a href="http://jakarta.apache.org/getinvolved/mail.html">mail-lists</a>.
-  </li>
-  <li>
-     Mail-list archives : <a href="http://www.mail-archive.com">
-    http://www.mail-archive.com</a> is a good one.  Type 'velocity' into the search
-    box to see both our -user and -dev archives.
+     The user and developer community: join us via the
+     <a href="http://velocity.apache.org/contact.html">mail-lists</a>. Mail list archives are available from that page, too.
   </li>
   <li>
     Wiki:
-    <a href="http://wiki.apache.org/jakarta-velocity/">http://wiki.apache.org/jakarta-velocity/</a>
+    <a href="http://wiki.apache.org/velocity/">http://wiki.apache.org/velocity/</a>
     The Velocity wiki contains articles, sample code, and other community-written content.
   </li>
   <li>
     Frequently Asked Questions (FAQ):
-    <a href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ">http://wiki.apache.org/jakarta-velocity/VelocityFAQ</a>
+    <a href="http://wiki.apache.org/velocity/VelocityFAQ">http://wiki.apache.org/velocity/VelocityFAQ</a>
     please visit this page to read the latest FAQ and to contribute your own answers.
   </li>
   <li>
-    source code : <code>src/java/...</code> : all the source code to the
+    source code: <code>src/java/...</code>: all the source code to the
     Velocity project
   </li>
   <li>
-    application example 1 : <code>examples/app_example1</code> : a simple
+    application example 1: <code>examples/app_example1</code>: a simple
     example showing how to use Velocity in an application program.
   </li>
   <li>
-    application example 2 : <code>examples/app_example2</code> : a simple
+    application example 2: <code>examples/app_example2</code>: a simple
     example showing how to use Velocity in an application program using the
     Velocity application utility class.
   </li>
   <li>
-    logger example : <code>examples/logger_example</code> : a simple example
+    logger example: <code>examples/logger_example</code>: a simple example
     showing how to create a custom logging class and register it with
     Velocity to receive all log messages.
   </li>
   <li>
-    XML example : <code>examples/xmlapp_example</code> : a simple example
+    XML example: <code>examples/xmlapp_example</code>: a simple example
     showing how to use JDOM to read and access XML document data from
     within a Velocity template.  It also includes a demonstration of
     a recursive Velocimacro that walks the document tree.
   </li>
  <li>
-    event example : <code>examples/event_example</code> : An example that
+    event example: <code>examples/event_example</code>: An example that
     demonstrates the use of the event handling API.
   </li>
   <li>
-    Anakia application : <code>examples/anakia</code> : example application
+    Anakia application: <code>examples/anakia</code>: example application
     showing how to use Velocity for creating stylesheet renderings of xml data
   </li>
   <li>
-    documentation : <code>docs</code> : all the generated documentation for the
+    documentation: <code>docs</code>: all the generated documentation for the
     Velocity project in html
   </li>
   <li>
-    API documentation : <code>docs/api</code> : the generated Javadoc
+    API documentation: <code>docs/api</code>: the generated Javadoc
     documentation for the Velocity project
   </li>
   <li>
-    templates : <code>test/templates</code> : a large collection of template
+    templates: <code>test/templates</code>: a large collection of template
     examples in our testbed directory, these are a great source of useage
     examples of VTL, the Velocity Template Language
   </li>
   <li>
-    context example : <code>examples/context_example</code> : two examples
+    context example: <code>examples/context_example</code>: two examples
     showing how the Velocity context can be extended. For advanced users.
   </li>
 </ul>
@@ -306,7 +305,7 @@ All directory references above are relative to the distribution root directory.
 
 <p>
 When using Velocity in an application program or in a servlet
-(or anywhere, actually), you will generally do the following :
+(or anywhere, actually), you will generally do the following:
 </p>
 
 <ol>
@@ -352,7 +351,7 @@ catch( ResourceNotFoundException rnfe )
 }
 catch( ParseErrorException pee )
 {
-  // syntax error : problem parsing the template
+  // syntax error: problem parsing the template
 }
 catch( MethodInvocationException mie )
 {
@@ -401,7 +400,7 @@ provided to make Velocity easier to integrate into your Java application.
    as each web application can have its own instance of Velocity, allowing
    that web application's servlet to share resources like templates, a logger, etc.
    The singleton is accessable via the <code>org.apache.velocity.app.Velocity</code>
-   class, and and example of use :
+   class, and and example of use:
 </p>
 <source><![CDATA[
 
@@ -441,7 +440,7 @@ Template t = Velocity.getTemplate("foo.vm");
    directories, loggers, etc in the same application.  To use separate
    instances, use the <code>org.apache.velocity.app.VelocityEngine</code>
    class.  An example, which parallels the above singleton example, looks
-   like :
+   like:
 </p>
 
 <source><![CDATA[
@@ -584,14 +583,14 @@ interface, on which <code>iterator()</code> is called to retrieve an Iterator
 for the loop.
 </li>
 
-<li> <code>java.util.Iterator</code> USE WITH CAUTION : This is currently
+<li> <code>java.util.Iterator</code> USE WITH CAUTION: This is currently
 supported only provisionally - the issue of concern is the
 'non-resettablity' of the Iterator.  If a 'naked' Iterator is placed into
 the context, and used in more than one #foreach(), subsequent #foreach()
 blocks after the first will fail, as the Iterator doesn't reset.
 </li>
 
-<li> <code>java.util.Enumeration</code> USE WITH CAUTION : Like
+<li> <code>java.util.Enumeration</code> USE WITH CAUTION: Like
 <code>java.util.Iterator</code>, this is currently
 supported only provisionally - the issue of concern is the
 'non-resettablity' of the Enumeration.  If a 'naked' Enumeration
@@ -661,7 +660,7 @@ separate contexts together in a manner that makes it appear as one
 'contiguous' context to the template.
 </p>
 <p>
-This is best illustrated by an example :
+This is best illustrated by an example:
 </p>
 <source><![CDATA[
 VelocityContext context1 = new VelocityContext();
@@ -727,7 +726,7 @@ Template</strong></a>
 
 <p>
  There are two common situations where the Java code must deal with objects
- created at runtime in the template :
+ created at runtime in the template:
 </p>
 
 <p>
@@ -813,7 +812,7 @@ happens is that it accumulates template node introspection information
 for each template it visits, and as template caching is off, it appears
 to the VelocityContext that it is visiting a new template each time.
 Hence it gathers more introspection information and grows. It is highly
-recommended that you do one or more of the following :
+recommended that you do one or more of the following:
 </p>
 
 <ul>
@@ -854,7 +853,7 @@ won't gather new introspection information each time.
 
 <section name="Using Velocity" href="UsingVelocity">
 
-<p>If you are using <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>
+<p>If you are using <a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>
 or other web frameworks, you may never call Velocity directly.  However, if you use
 Velocity for non-web purposes, or create your own web framework you will need
 to directly call the Velocity Engine similar to
@@ -885,7 +884,7 @@ class currently provides five methods used in configuration of the runtime engin
 </p>
 
 <p>
-The five configuration methods are :
+The five configuration methods are:
 </p>
 
 <ul>
@@ -937,7 +936,7 @@ changes or <code>init()</code> calls will be ignored.
 </p>
 
 <p>
-The most common approaches to initializing Velocity will be something like :
+The most common approaches to initializing Velocity will be something like:
 </p>
 
 <ol>
@@ -959,7 +958,7 @@ at runtime, for example.
 Once the runtime is initialized, you can do with it what you wish.. This mostly
 revolves around rendering templates into an output stream, and the Velocity
 utility class allows you to do this easily.  Currently, here are the methods
-and a brief description of what they do :
+and a brief description of what they do:
 </p>
 
 <ul>
@@ -1052,7 +1051,7 @@ public class Example2
 When we run this program, and have the template <code> testtemplate.vm</code>
 in the same directory as our program (because we used the default
 configuration properties, and the defaul place to load templates
-from is the current directory...), our output should be :
+from is the current directory...), our output should be:
 </p>
 
 <source><![CDATA[
@@ -1157,7 +1156,7 @@ properties for your app into one properties file.
 </p>
 <p>
 If we wanted to use a different directory than the current directory to
-load our template from, we could do something like this :
+load our template from, we could do something like this:
 </p>
 
 <source><![CDATA[
@@ -1237,7 +1236,7 @@ loggers, resource loaders, resource managers, etc.
 <p>
 The Application Attribute API is very simple.  From the application layer, there
 is a method of the <code>VelocityEngine</code> and the <code>Velocity</code>
-classes :
+classes:
 </p>
 
 <source>
@@ -1891,7 +1890,7 @@ either the logkit or log4j jar in your classpath.
 </p>
 
 <p>
-In general, you have the following logging options :
+In general, you have the following logging options:
 </p>
 
 <ul>
@@ -2147,7 +2146,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 <ul>
 <li>
   <b>FileResourceLoader :</b> This loader gets resources from the filesystem. Its
-  configuration properties include :
+  configuration properties include:
   <ul>
     <li>
       <code>file.resource.loader.path</code> = &lt;path to root of templates&gt;
@@ -2163,7 +2162,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
   'current directory'.  In the case of using Velocity with servlets, this can be a problem
   as you don't want to have to keep your templates in the directory from which you start
   your servlet engine.  See the documentation for your servlet or web framework (for example
-  <a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>) for more
+  <a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>) for more
   info on how to configure the location of the Velocity templates.
 </li>
 <li>
@@ -2191,7 +2190,7 @@ located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 </li>
 <li>
   <b>URLResourceLoader :</b> This loader gets resources from a URL connection. Its
-  configuration properties include :
+  configuration properties include:
   <ul>
     <li>
       <code>url.resource.loader.root</code> = &lt;root URL path of templates&gt;
@@ -2240,7 +2239,7 @@ resource.loader = file
 <p>
 That entry declares that we will have a resource loader known as 'file'.
 The next thing to do is to set the important properties.  The most critical
-is to declare the class to use as the loader :
+is to declare the class to use as the loader:
 </p>
 
 <source><![CDATA[
@@ -2278,10 +2277,10 @@ Those are the basics.  What follows are a few examples of different configuraito
 </p>
 
 <p>
-<b>Do-nothing Default Configuration : </b> As the name says, there is nothing
+<b>Do-nothing Default Configuration: </b> As the name says, there is nothing
 you have to do or configure to get the default configuration.  This configuration
 uses the FileResourceLoader with the current directory as the default resource
-path, and caching is off.  As a properties set, this is expressed as :
+path, and caching is off.  As a properties set, this is expressed as:
 </p>
 
 <source><![CDATA[
@@ -2295,10 +2294,10 @@ file.resource.loader.modificationCheckInterval = 0
 ]]></source>
 
 <p>
-<b>Multiple Template Path Configuration : </b> This configuration
+<b>Multiple Template Path Configuration: </b> This configuration
 uses the FileResourceLoader with several directories as 'nodes' on the
 template search path. We also want to use caching, and have the templates
-checked for changes in 10 second intervals.  As a properties set, this is expressed as :
+checked for changes in 10 second intervals.  As a properties set, this is expressed as:
 </p>
 
 <source><![CDATA[
@@ -2389,7 +2388,7 @@ A resource manager implementation must implement the
 A description of the requirements of a resource manager is out of scope for
 this document.  Implementors are encouraged to review the default implementation.
 To configure Velocity to load the replacement implementation, use the
-configuration key :
+configuration key:
 </p>
 
 <source><![CDATA[
@@ -2408,7 +2407,7 @@ As with the resource manager, a description of the requirements of a
 resource manager is out of scope for
 this document.  Implementors are encouraged to review the default implementation.
 To configure Velocity to load the replacement implementation, use the
-configuration key :
+configuration key:
 </p>
 
 <source><![CDATA[
@@ -2443,11 +2442,11 @@ This key is also defined as a contstant
 <p>
 Velocity allows you to specify the character encoding of your
 template resources on a template by template basis.  The normal resource
-API's have been extended to take the encoding as an argument :
+API's have been extended to take the encoding as an argument:
 </p>
 
 <p>
-<code>org.apache.velocity.app.Velocity</code> : <br/>
+<code>org.apache.velocity.app.Velocity</code>: <br/>
 <blockquote>
   <i><code>public static Template getTemplate(String name, String encoding)</code></i>
   <br/>
@@ -2486,7 +2485,7 @@ Generally, the pattern for dealing with XML in Velocity is to use something like
 <a href="http://www.jdom.org/">JDOM</a> to process your XML into a data structure with
 convenient Java access.  Then, you produce templates that access data directly
 out of the XML document - directly though the JDOM tree.  For example, start
-with an XML document such as :
+with an XML document such as:
 </p>
 
 <source><![CDATA[
@@ -2528,7 +2527,7 @@ vc.put("root", root.getRootElement());
 <p>
 (See the Anakia source for details on how to do this, or the Anakia
 example in the <code>examples</code> directory in the distribution.)
-Now, make a regular Velocity template :
+Now, make a regular Velocity template:
 </p>
 
 <source><![CDATA[
@@ -2563,7 +2562,7 @@ found in <code>org.apache.velocity.anakia.XPathTool</code>.
 <p>
 One issue that arises with XML and Velocity is how to deal with XML
 entities. One technique is to combine the use of Velocimacros
-when you need to render an entity into the output stream :
+when you need to render an entity into the output stream:
 </p>
 
 <source><![CDATA[
@@ -2594,7 +2593,7 @@ public String get(String key)
 ]]></source>
 
 <p>
-Put it into the context as "xenc". Then you can use it as :
+Put it into the context as "xenc". Then you can use it as:
 </p>
 
 <source><![CDATA[
@@ -2614,7 +2613,7 @@ objects, you could implement your own context which always applies the
 encoding to any string returned. Be careful to avoid rendering the
 output of method calls directly, as they could return objects or strings
 (which might need encoding). Place them first into the context with a
-#set() directive and the use that, for example :
+#set() directive and the use that, for example:
 </p>
 
 <source><![CDATA[
@@ -2639,7 +2638,7 @@ the Velocity template engine itself.
 </p>
 <p>
 Please submit all detailed, thoughtful and constructive feedback through our
-<a href="http://jakarta.apache.org/getinvolved/mail.html">mail lists</a>.
+<a href="http://velocity.apache.org/contact.html">mailing lists</a>.
 </p>
 </section>
 

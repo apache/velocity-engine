@@ -22,7 +22,7 @@
 
   <properties>
     <title>Velocity</title>
-    <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
+    <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
   </properties>
 
   <body>
@@ -53,100 +53,23 @@
 
     </section>
 
-    <!-- note - just include 1-2 news item here, archive rest on Wiki -->
-
-    <section name="Recent News" href="recentnews">
-
-    <p><strong>The Velocity SVN Repository moved!</strong> 
-    <br/>(December 1st, 2006)
-    </p>
-    
-    <p>
-    As part of our move to top-level status, we moved the Subversion repository. It is
-    now available from <a href="http://svn.apache.org/repos/asf/velocity/">http://svn.apache.org/repos/asf/velocity/</a>. 
-    Please update your references. If you have already checked out the source code, you can use the <pre>svn switch</pre>
-    command to update your local copy.
-    </p>
-    
-    <p><strong>Velocity 1.5 Beta 2 Released</strong> 
-    <br/>(November 24, 2006)
-    </p>
-    
-    <p>
-    The Velocity developers are pleased to announce the second beta release of
-    Velocity 1.5.
-    You may download it 
-    <a href="http://www.apache.org/dist/jakarta/velocity/beta/velocity-1.5-beta2/">here</a>.    
-    </p>
-    
-    <p>
-    This beta version is one of the final steps before the long-awaited version 1.5.  Since Beta 1
-    we have added a new InvalidReferenceEventHandler (to catch invalid references), the 
-    SecureUberspector (to prevent introspection on "dangerous objects"), and a StringResourceLoader.  
-    We've also fixed some critical bugs, including a subtle synchronization problem causing
-    page generation to fail under heavy loads.
-    </p>
-    
-    <p>
-    Some of the other new features since Velocity 1.4 include:
-    </p>
-    
-    <ul>
-    <li>floating point number arithmetic</li>
-    <li>new event handlers for altering #include/#parse behavior</li>
-    <li>literal map syntax</li>
-    </ul>
-    
-    <p>A complete list of changes is available at our 
-    <a href="https://issues.apache.org/jira/browse/VELOCITY?report=com.atlassian.jira.plugin.system.project:roadmap-panel">issue tracker</a>.
-    You may also want to check out the draft <a href="http://wiki.apache.org/jakarta-velocity/Velocity15ReleaseNotes">release notes</a> on the Wiki.
-    Please report any additional bugs in the issue tracker, especially those that need to be fixed before our 
-    final release.  (use 1.5 beta 2 as the version).  
-    </p>
-
-    <p><strong>Velocity Approved as Top Level Project</strong> 
-    <br/>(October 26, 2006)
-    </p>
-    
-    <p>
-    The Board of the Apache Software Foundation has passed a resolution to upgrade
-    Jakarta Velocity into an Apache Top Level Project (TLP), to be renamed Apache Velocity.  
-    We are excited of the new prominence of the Velocity project.  
-    </p>
-
-    <p>Please stay tuned for our new website at 
-    <a href="http://velocity.apache.org/">http://velocity.apache.org/</a>.  In the meantime,
-    note that our new mailing lists are 
-    <a href="mailto:user@velocity.apache.org">user@velocity.apache.org</a> (subscribe at 
-    <a href="mailto:user-subscribe@velocity.apache.org">user-subscribe@velocity.apache.org</a>)
-    for general questions, and
-    <a href="mailto:dev@velocity.apache.org">dev@velocity.apache.org</a>
-    (subscribe at 
-    <a href="mailto:dev-subscribe@velocity.apache.org">dev-subscribe@velocity.apache.org</a>) for 
-    development-related activity.
-    </p>    
-    
-    </section>
-        
-
-
     <section name="Where do I get releases?" href="WheredoIgetreleases?">
 
-      <p> The current stable release version is version 1.4. </p>
+      <p> The current stable release version is version 1.5. </p>
 
       <p> The release distribution is available as a combined source/binary distribution in
         <code>tar.gz</code> and
         <code>zip</code> formats, and can be downloaded through the
         <a
-          href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">
+          href="http://velocity.apache.org/download.cgi">
           Apache Mirror system</a>. </p>
 
       <p> The Velocity jars are also available through the
-        <a href="http://www.ibiblio.org/maven/velocity/">central Maven
+        <a href="http://repo1.maven.org/maven2/org/apache/velocity/">central Maven
           repository</a>. </p>
 
       <p> Older releases are archived at the
-        <a href="http://archive.apache.org/dist/jakarta/velocity/"> Jakarta
+        <a href="http://archive.apache.org/dist/velocity/engine/"> Apache
           Velocity archives</a>. </p>
 
     </section>
@@ -155,13 +78,17 @@
       href="WheredoIgetnightlysnapshots?">
 
       <p> Nightly snapshots of the Velocity subversion source code tree can be found
-        <a href="http://svn.apache.org/snapshots/jakarta-velocity/"> here</a>. </p>
+        on our <a href="http://vc.apache.org/snapshots/velocity/">nightly snapshot site</a>. </p>
 
-      <p> These are meant to provide easy access to the actual project source control tree. As
+      <p><b>Caveat!</b> These snapshots are generated automatically from the project source code repository. As
         this is our live development workspace, there are no guarantees as to what you will
         find there, although we do our best to maintain a buildable source tree. If you are
         looking for the stable supported release, please use the current release of
         Velocity. </p>
+
+     <p><b>Please be aware that these snapshots are no official
+     releases of Apache Velocity software. They are provided for
+     developer convenience only!</b></p>
 
       <p> If you are willing to risk getting dirty, we invite you to try the nightly snapshot to
         see the current state of affairs. (and help out!)
@@ -179,24 +106,22 @@
 
       <ul>
         <li> Report bugs, ask questions, and help new users on the
-          <a href="http://jakarta.apache.org/site/mail2.html#Velocity"> Velocity
+          <a href="http://velocity.apache.org/contact.html"> Velocity
             mailing lists</a>. </li>
 
         <li> There's a list of issues waiting to be addressed in
-          <a href="https://issues.apache.org/jira/browse/VELOCITY"> JIRA</a>. </li>
+          <a href="https://issues.apache.org/jira/browse/VELOCITY">our bug tracker</a>. </li>
 
         <li>
-          <a href="http://wiki.apache.org/jakarta-velocity/FrontPage"> Our Wiki</a>
+          <a href="http://wiki.apache.org/velocity/FrontPage"> Our Wiki</a>
           has a large collection of community written content. Add your own article or
           contribute to the FAQ! </li>
-        <li> Read-only access to the Subversion
-          <strong>jakarta-velocity</strong> repository is available both
+        <li> Read-only access to the Subversion repository is available both
           <a href="http://svn.apache.org/repos/asf/velocity/engine/trunk/">
             online</a> and with a
           <a href="http://www.apache.org/dev/version-control.html"> Subversion
             client</a>. </li>
       </ul>
-
     </section>
   </body>
 </document>
