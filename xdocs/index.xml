@@ -98,7 +98,7 @@
     </ul>
     
     <p>A complete list of changes is available at our 
-    <a href="http://issues.apache.org/jira/browse/VELOCITY?report=com.atlassian.jira.plugin.system.project:roadmap-panel">issue tracker</a>.
+    <a href="https://issues.apache.org/jira/browse/VELOCITY?report=com.atlassian.jira.plugin.system.project:roadmap-panel">issue tracker</a>.
     You may also want to check out the draft <a href="http://wiki.apache.org/jakarta-velocity/Velocity15ReleaseNotes">release notes</a> on the Wiki.
     Please report any additional bugs in the issue tracker, especially those that need to be fixed before our 
     final release.  (use 1.5 beta 2 as the version).  
@@ -183,7 +183,7 @@
             mailing lists</a>. </li>
 
         <li> There's a list of issues waiting to be addressed in
-          <a href="http://issues.apache.org/jira/browse/VELOCITY"> JIRA</a>. </li>
+          <a href="https://issues.apache.org/jira/browse/VELOCITY"> JIRA</a>. </li>
 
         <li>
           <a href="http://wiki.apache.org/jakarta-velocity/FrontPage"> Our Wiki</a>
