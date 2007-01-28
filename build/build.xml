@@ -542,11 +542,17 @@
              doctitle="${name} ${version} API"
              encoding="UTF-8"
              docencoding="UTF-8"
-             bottom="Copyright &#169; 2000-${build.year} Apache Software Foundation. All Rights Reserved."
+             bottom="Copyright &#169; 2000-${build.year} &lt;a href=&quot;http://www.apache.org/&quot;&gt;Apache Software Foundation&lt;/a&gt;. All Rights Reserved."
              classpathref="velocity.build.classpath">
 
       <link href="${javadocs.ref.jsdk}"/>
-
+      <link href="http://www.jdom.org/docs/apidocs"/>
+      <link href="http://logging.apache.org/log4j/docs/api"/>
+      <link href="http://excalibur.apache.org/apidocs"/>
+      <link href="http://tomcat.apache.org/tomcat-4.1-doc/servletapi"/>
+      <link href="http://jakarta.apache.org/oro/api"/>
+      <link href="http://jakarta.apache.org/commons/lang/api-release"/>
+      <link href="http://jakarta.apache.org/commons/collections/api-release"/>
     </javadoc>
   </target>
 
