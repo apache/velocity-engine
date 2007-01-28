@@ -9,21 +9,26 @@ as the Velocity web site.
 
   http://velocity.apache.org/index.html
 
-Here is a description of what each of the top level directories
-contains. Please consult the documentation in each of the lower level
+The following top level directories are in the Velocity distribution
+archive. Please consult the documentation in each of the lower level
 directories for information that is specific to their contents.
 
-bin/        This is a temporary build directory.
 build/      This is where the build scripts live.
-contrib/    The home for source code which is not officially maintained.
 convert/    The WebMacro to Apache Velocity conversion program.
-docs/       This is where the documentation lives.
-examples/   This is where the examples live.
-src/        This is where all of the source code to Velocity lives.
-test/       This is where all of the tests live.
-whiteboard/ The place for developer experimentation (unmaintained).
-xdocs/      This is the .xml files for building the .html files
-            related to the website and documentation.
+docs/       Velocity Documentation in HTML format.
+docs/api/   Velocity Javadocs.
+examples/   Examples how to use Velocity.
+lib/        Dependencies for building and using Velocity.
+lib/test/   Dependencies needed for the various unit tests.
+src/        This is where all of the source code is located.
+test/       Contains test files needed for the unit tests.
+xdocs/      Here are the .xml files for building the .html files
+            related to the website and documentation. The files
+            located in docs/ have been built from these sources.
+
+Caveat! This is the directory structure of the distribution
+archive. If you checked out the source from the Apache Subversion
+Repository, the directory layout is slightly different.
 
             
 REQUIREMENTS

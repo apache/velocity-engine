@@ -627,7 +627,7 @@
     </copy>
 
     <!-- Add freshly built Java docs -->
-    <copy todir="${dist.dir}/docs/docs/api">
+    <copy todir="${dist.dir}/docs/api">
       <fileset dir="${build.javadoc}">
         <include name="**"/>
       </fileset>
@@ -657,16 +657,15 @@
       </fileset>
     </copy>
 
-    <copy file="${velocity.dir}/LICENSE"
-          tofile="${dist.dir}/LICENSE" />
-
-    <copy file="${velocity.dir}/NOTICE"
-          tofile="${dist.dir}/NOTICE" />
-
-    <copy
-      file="${velocity.dir}/README.txt"
-      tofile="${dist.dir}/README.txt"
-    />
+    <copy todir="${dist.dir}">
+      <fileset dir="${velocity.dir}">
+        <include name="LICENSE" />
+        <include name="NOTICE" />
+        <include name="README.txt" />
+        <include name="CONTRIBUTORS" />
+        <include name="WHY_TWO_JARS.txt" />
+      </fileset>
+    </copy>
 
     <copy
       file="${build.dir}/${final.name}.jar"
