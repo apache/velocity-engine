@@ -489,8 +489,8 @@
     <echo>
       **************************************************************
       ** Building the examples :
-      **   examples/appexample1 : application example
-      **   examples/appexample2 : application example
+      **   examples/app_example1 : application example
+      **   examples/app_example2 : application example
       **   examples/context_example : example context implementations
       **   examples/logger_example : how to make an external logger
       **   examples/xmlapp_example : how to access XML data in a template
