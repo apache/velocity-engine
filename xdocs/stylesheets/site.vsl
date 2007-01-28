@@ -102,8 +102,8 @@
 #macro ( projectanchor $name $value )
 #if ($value.startsWith("http://"))
     <a href="$value">$name</a>
-#elseif ($value.startsWith("/site"))
-    <a href="http://jakarta.apache.org$value">$name</a>
+#elseif ($value.startsWith("https://"))
+    <a href="$value">$name</a>
 #else
     <a href="$relativePath$value">$name</a>
 #end
@@ -227,7 +227,7 @@ $section.getAttributeValue("name")##
 #macro (getProjectImage)
 
 <div id="logo1">
-	<a href="http://jakarta.apache.org"><img src="http://jakarta.apache.org/images/jakarta-logo.gif" border="0"/></a>
+	<a href="http://velocity.apache.org"><img src="${relativePath}/images/velocity_project_wide.png" border="0"/></a>
 </div>
 
 
@@ -269,7 +269,7 @@ $section.getAttributeValue("name")##
            #set ($metas = $root.getChildren("meta"))
 
             ##    Parse meta directives such as
-            ##    <meta name="keyword" content="jakarta, java"/>
+            ##    <meta name="keyword" content="apache, velocity, java"/>
             #foreach ($meta in $metas) #printMeta($meta) #end
 
             ##    Support for <base> tags.
@@ -279,10 +279,6 @@ $section.getAttributeValue("name")##
             #end
 
             <title>$project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()</title>
-
-			## use an absolute CSS for when the URL is rewritten on the site
-			## from /velocity/anakia.html to /velocity/docs/anakia.html
-			<link rel="stylesheet" href="http://jakarta.apache.org/velocity/site.css" type="text/css">
 
 			## use a relative CSS for when the page is displayed locally (will overwrite
 			## previous CSS settings)
@@ -311,7 +307,7 @@ $section.getAttributeValue("name")##
 				</div>
 
 				<div id="footer">
-					Copyright &#169; 1999-2006, The Apache Software Foundation
+					Copyright &#169; 1999-2007, <a href="http://www.apache.org/">The Apache Software Foundation</a>.
 				</div>
 
 			</div>
