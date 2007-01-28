@@ -779,10 +779,9 @@
   #######################################################
     </echo>
 
-    <anakia basedir="${xdocs.dir}" destdir="${build.docs}"
+    <anakia basedir="${xdocs.dir}/docs" destdir="${build.docs}"
          extension=".html" style="site.vsl"
-         projectFile="stylesheets/${docs.project}"
-         excludes="**/stylesheets/** empty.xml"
+         projectFile="../stylesheets/${docs.project}"
          includes="**/*.xml"
          lastModifiedCheck="true"
          templatePath="${xdocs.dir}/stylesheets">
