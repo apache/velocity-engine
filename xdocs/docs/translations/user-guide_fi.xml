@@ -1138,7 +1138,7 @@ $blargh
     <p>
       Velocity tukee myös loogisia AND ja OR
       operaattoreita. Lisätietoja löydät dokumentista <a
-      href="../docs/vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
+      href="../vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
       esimerkkilause joka käyttää loogista AND:iä.
     </p>
 
@@ -1627,7 +1627,7 @@ $laskuri
     <code>velocity.properties</code> tiedostossa on useita rivejä
     joiden avulla Velocimakrojen toimintaa voidaan muuttaa
     joustavasti. Huomaa että nämä arvot on dokumentoitu myös <a
-    href="http://jakarta.apache.org/velocity/developer-guide.html">Kehittäjän
+    href="../developer-guide.html">Kehittäjän
     oppaassa</a>.
     </p>
 
@@ -2329,7 +2329,7 @@ uudelleenlataus?</strong>
   <p>
     Mikäli löydät tästä ohjeesta virheitä tai haluat antaa ohjetta
     koskevaa palautetta, ole hyvä ja lähetä sähköpostia <a
-    href="mailto:velocity-user@jakarta.apache.org">Velocity
+    href="mailto:user@velocity.apache.org">Velocity
     käyttäjälistalle</a>.  Kiitos!
   </p>
 

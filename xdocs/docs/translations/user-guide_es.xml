@@ -1113,7 +1113,7 @@ $blarg
 <p>
     Velocity tiene también operadores lógicos para el Y, el O y el NO
     (AND, OR y NOT). Para mayor información vea la <a
-        href="../docs/vtl-reference-guide.html">Guía de Referencia VTL</a>.
+        href="../vtl-reference-guide.html">Guía de Referencia VTL</a>.
     A continuación se encuentran ejemplos que demuestran la utilización
     de los operadores lógicos AND, OR y NOT.
     </p>
@@ -1614,7 +1614,7 @@ siguientes elementos de VTL:
    Varias líneas en al archivo <code>velocity.properties</code> permiten
    flexibilizar la implementación de los Velocimacro. Tenga en cuenta
    que estas propiedades también están documentadas en la <a
-       href="../docs/developer-guide.html">Guía de Desarrolladores</a>.
+       href="../developer-guide.html">Guía de Desarrolladores</a>.
    </p>
 
    <p>
@@ -2278,7 +2278,7 @@ Una pregunta común que los desarrolladores formulan es <i>¿Cómo
 Si encuentra algún error en este manual o tiene algún otro comentario o
 retroalimentación relacionada con la guía del usuario de Velocity, por
 favor envie un correo a <a
-    href="mailto:velocity-user@jakarta.apache.org">La lista de usuarios
+    href="mailto:user@velocity.apache.org">La lista de usuarios
     de Velocity</a>.
 Gracias!
   </p>

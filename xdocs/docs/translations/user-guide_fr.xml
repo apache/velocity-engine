@@ -760,7 +760,7 @@ $blargh
 ]]></source>
   <p>
     Velocity a aussi des opérateurs ET, OU et NON. Pour plus d'informations, référez-vous au
-    <a href="../docs/vtl-reference-guide.html">VTL Reference Guide</a> (en anglais).
+    <a href="../vtl-reference-guide.html">VTL Reference Guide</a> (en anglais).
     Ci-dessous, quelques exemples illustrent l'utilisation des opérateurs logiques ET, OU et NON.
   </p>
   <source><![CDATA[
@@ -1096,7 +1096,7 @@ $count
   <strong>Propriétés des Velocimacros</strong>
   <p>
     Plusieurs entrées du fichier <code>velocity.properties</code> permettent une implémentation flexible des Velocimacros.
-    Ces lignes sont commentées en détail dans le <a href="../docs/developer-guide.html">Developer Guide</a> (en anglais).
+    Ces lignes sont commentées en détail dans le <a href="../developer-guide.html">Developer Guide</a> (en anglais).
   </p>
   <p>
     <code>velocimacro.library</code> - Une liste (délimitée par des virgules, de toutes les bibliothèques de gabarits
@@ -1556,7 +1556,7 @@ Outer : inner : outerlala
   <p>
     Si vous rencontrez des erreurs dans le manuel (autres que des erreurs de traduction), ou si vous voulez faire part de
     votre avis sur le Guide de l'utilisateur Velocity,
-    envoyez un mail à la <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
+    envoyez un mail à la <a href="mailto:user@velocity.apache.org">Velocity user list</a>.
     Merci!
   </p>
 </section>
