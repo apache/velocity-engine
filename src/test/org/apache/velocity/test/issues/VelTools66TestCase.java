@@ -33,7 +33,7 @@ import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
- * Test Case for <a href="http://issues.apache.org/jira/browse/VELTOOLS-66">Velocity Tools Issue 66</a>.
+ * Test Case for <a href="https://issues.apache.org/jira/browse/VELTOOLS-66">Velocity Tools Issue 66</a>.
  */
 public class VelTools66TestCase
         extends BaseTestCase
