@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <release version="1.5" date="in Subversion">
+    <release version="1.5" date="2007-01-28">
 
       <action type="add" dev="henning" issue="VELOCITY-191" due-to="Aki Nieminen">
         Make FileResourceLoader unicode aware to allow skipping over BOM markers
@@ -361,7 +361,7 @@
             1.
         </action>
 
-        <action type="update" dev="gmj" issue="" due-to="Daniel Rall">
+        <action type="update" dev="geirm" issue="" due-to="Daniel Rall">
             Took dan's modified SimpleLog4jLogSystem, and renamed Log4JLogSystem, and
             put back old version of SimpleLog4JLogSystem, as deprecated.  That way
             we can move forward with an up-to-date version that uses Logger, and
@@ -382,7 +382,7 @@
             core.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-185" due-to="wglass">
+        <action type="fix" dev="geirm" issue="VELOCITY-185" due-to="wglass">
             Fix to BaseTestCase as suggested by Will Glass-Husain to handle line endings
         </action>
 
@@ -391,56 +391,56 @@
          Henning.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-150" due-to="wglass">
+        <action type="fix" dev="geirm" issue="VELOCITY-150" due-to="wglass">
             Fix to DatasourceResourceLoader - stop using the old Runtime singleton as
             would leak a little memory for each instance of VelocityEngine created.
             Hunted down by Will Glass-Husain.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-161" due-to="wglass">
+        <action type="fix" dev="geirm" issue="VELOCITY-161" due-to="wglass">
             SimplePool now removes elements from pool on a get(). NOTE : Previously, it left the
             reference to the object in the pool.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-61" due-to="wglass">
+        <action type="fix" dev="geirm" issue="VELOCITY-61" due-to="wglass">
             Fixes problem with single line comment
             embedded in a multi-line comment.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-221" due-to="">
+        <action type="fix" dev="geirm" issue="VELOCITY-221" due-to="">
             Change for VELOCITY-221 and partial for VELOCITY-148, allowing newlines in
             directives.
         </action>
 
-        <action type="update" dev="gmj" issue="VELOCITY-148" due-to="">
+        <action type="update" dev="geirm" issue="VELOCITY-148" due-to="">
             Change to finish request VELOCITY-148, allowing '+' as a string concat. We'll have
             to see how the community likes it.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-239" due-to="">
+        <action type="fix" dev="geirm" issue="VELOCITY-239" due-to="">
             Didn't allow formal reference notation as first arg
             to foreach.
         </action>
 
-        <action type="update" dev="gmj" issue="" due-to="">
+        <action type="update" dev="geirm" issue="" due-to="">
             To make using w/ XML easier allow alternative logical operators 'and', 'or',
             'lt', 'gt', 'le', 'ge', 'eq', 'ne', 'not'.
         </action>
 
-        <action type="update" dev="gmj" issue="" due-to="">
+        <action type="update" dev="geirm" issue="" due-to="">
             Allow newlines in strings.
         </action>
 
-        <action type="fix" dev="gmj" issue="VELOCITY-148" due-to="">
+        <action type="fix" dev="geirm" issue="VELOCITY-148" due-to="">
             Tiny fix to VelocityWriter to prevent a NPE if someone passes it a null
         </action>
 
-        <action type="fix" dev="gmj" issue="" due-to="">
+        <action type="fix" dev="geirm" issue="" due-to="">
             Anakia changes to accomodate finalization of JDOM API.  In AnakiaJDOMFactory,
             AnakiaTask, and OutputWrapper
         </action>
 
-        <action type="update" dev="gmj" issue="" due-to="">
+        <action type="update" dev="geirm" issue="" due-to="">
             Added template, line and column info to MIEs thrown by ASTMethod
         </action>
 
