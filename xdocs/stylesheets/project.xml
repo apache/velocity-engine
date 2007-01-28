@@ -40,7 +40,6 @@
         <item name="VTL Reference"            href="/vtl-reference-guide.html"/>
         <item name="Anakia: XML->doc tool"    href="/anakia.html"/>
         <item name="Texen: text generation"   href="/texen.html"/>
-        <item name="Veltag: JSP taglib"       href="/veltag.html"/>
     </menu>
 
     <menu name="Developers">
@@ -49,7 +48,7 @@
         <item name="Changes in 1.5"           href="http://velocity.apache.org/engine/releases/velocity-1.5/changes-report.html"/>
         <item name="Resolved Issues in 1.5"   href="http://velocity.apache.org/engine/releases/velocity-1.5/jira-report.html"/>
         <item name="Dependencies"             href="/jar-dependencies.html"/>
-        <item name="Source Code Repository"   href="http://velocity.apache.org/download.cgi#source_code_repository"/>
+        <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/branches/Velocity_1.5_BRANCH/"/>
         <item name="Building from Source"     href="/build.html"/>
     </menu>
 
