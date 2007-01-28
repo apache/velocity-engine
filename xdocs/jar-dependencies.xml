@@ -32,6 +32,11 @@
        also be present if you want to integrate Velocity into your application.
       </p>
 
+      <p>
+       All of these jars must be present when building Apache Velocity. The build process
+       downloads all of them automatically from the Internet.
+      </p>
+
       <table>
         <tr>
           <th>jar name</th><th>Required</th><th>Explanation</th>
@@ -50,20 +55,22 @@
         </tr>
         <tr>
           <td>log4j</td><td>No</td>
-          <td>Must only be present if log4j Logging has been selected.
-              Not needed if Avalon logkit or jdk logging is used.</td>
+          <td>Must be present if log4j Logging has been selected.
+              Not needed if any other logging style has been selected.</td>
         </tr>
         <tr>
-          <td>avalon-logkit (or logkit)</td><td>No</td>
-          <td>Must only be present if Avalon Logging has been selected.
-              Not needed if log4j logging or jdk logging is used.</td>
+          <td>logkit (or avalon-logkit)</td><td>No</td>
+          <td>Must be present if Avalon Logging has been selected.
+              Not needed if any other logging style has been selected.</td>
         </tr>
         <tr>
           <td>servletapi</td><td>No</td>
-          <td>Only needed when the VelocityServlet class is used. Should
-              normally be supplied by the servlet container. <b>VelocityServlet
-              is deprecated and should be replaced with VelocityViewServlet from
-              the velocity-tools distribution.</b></td>
+          <td>Only needed when the <a
+              href="apidocs/org/apache/velocity/servlet/VelocityServlet.html">VelocityServlet</a>
+              is used. Should normally be supplied by the servlet
+              container. <b>VelocityServlet is deprecated and should
+              be replaced with VelocityViewServlet from the
+              <a href="http://velocity.apache.org/tools/devel/">velocity-tools</a> distribution.</b></td>
         </tr>
         <tr>
           <td>jdom</td><td>No</td>
@@ -73,16 +80,23 @@
           <td>werken-xpath</td><td>No</td>
           <td>Only required for the Anakia tool / ant task</td>
         </tr>
+        <tr>
+          <td>ant</td><td>No</td>
+          <td>Only needed for compilation.</td>
+        </tr>
       </table>
 
       <p>
         The most common case is the integration of the Velocity runtime into your
-        application. In this case, you must also add commons-collections, commons-lang
-        and oro to your application (and either avalon-logkit or log4j for logging if
+        application. In this case, you must add commons-collections, commons-lang
+        and oro to your application (and optional logging if
         required). If you already have one or more of these libraries in your application,
         you should check if you need to update their versions.
+      </p>
+
+      <p>The <a href="dependencies.html">auto-generated dependency report</a> lists all mandatory
+         dependencies as <b>compile</b> and all optional dependencies as <b>provided</b>.
       </p>
     </section>
   </body>
 </document>
-
