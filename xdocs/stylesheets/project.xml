@@ -18,62 +18,64 @@
  under the License.    
 -->
 
-<project name="Velocity"
-          href="http://jakarta.apache.org/velocity/">
+<project name="Apache Velocity"
+          href="http://velocity.apache.org/">
 
-    <title>Velocity</title>
-    <logo   href="/images/newlogo.png">Velocity</logo>
+  <title>Velocity</title>
+  <logo href="/images/velocity-logo.png">Velocity</logo>
 
-    <body>
+  <body>
     <menu name="Velocity">
-        <item name="Home"                     href="/index.html"/>
+        <item name="General"                  href="/index.html"/>
         <item name="Overview"                 href="/overview.html"/>
         <item name="Getting Started"          href="/getting-started.html"/>
         <item name="Web Applications"         href="/webapps.html"/>
-        <item name="Download"                 href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi"/>
-        <item name="FAQ (Wiki)"               href="http://wiki.apache.org/jakarta-velocity/VelocityFAQ"/>
+        <item name="Download"                 href="http://velocity.apache.org/download.cgi" />
+        <item name="FAQ (Wiki)"               href="http://wiki.apache.org/velocity/VelocityFAQ"/>
     </menu>
+
     <menu name="Docs">
-        <item name="User Guide"             href="/docs/user-guide.html"/>
-        <item name="Developer Guide"        href="/docs/developer-guide.html"/>
-        <item name="VTL Reference"            href="/docs/vtl-reference-guide.html"/>
-        <item name="Anakia : XML->doc tool"   href="/docs/anakia.html"/>
-        <item name="Texen : text generation"  href="/docs/texen.html"/>
-        <item name="Veltag : JSP taglib"      href="/docs/veltag.html"/>
-        <item name="Javadoc"                  href="/docs/api/index.html"/>
-        <item name="Change Log"               href="/docs/changes.html"/>
-        <item name="License"                  href="/docs/license.html"/>
+        <item name="User Guide"               href="/user-guide.html"/>
+        <item name="Developer Guide"          href="/developer-guide.html"/>
+        <item name="VTL Reference"            href="/vtl-reference-guide.html"/>
+        <item name="Anakia: XML->doc tool"    href="/anakia.html"/>
+        <item name="Texen: text generation"   href="/texen.html"/>
+        <item name="Veltag: JSP taglib"       href="/veltag.html"/>
     </menu>
-    <menu name="Sub Projects">
-        <item name="Velocity Tools"           href="http://jakarta.apache.org/velocity/tools/index.html"/>
-        <item name="DVSL : XML transformation"  href="http://jakarta.apache.org/velocity/dvsl/index.html"/>
-    </menu>
-    <menu name="Community">
-        <item name="Wiki"                     href="http://wiki.apache.org/jakarta-velocity/"/>
-        <item name="Recent News"              href="http://wiki.apache.org/jakarta-velocity/VelocityNews"/>
-        <item name="Powered By Velocity"      href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity"/>
-        <item name="IDE/Editor Plugins"       href="http://wiki.apache.org/jakarta-velocity/VelocityEditors"/>
-        <item name="Articles and Books"       href="http://wiki.apache.org/jakarta-velocity/PublishedArticlesAndBooks"/>
-        <item name="Get Involved"             href="http://wiki.apache.org/jakarta-velocity/GetInvolved"/>
-        <item name="Mailing Lists"            href="http://jakarta.apache.org/site/mail.html"/>
-    </menu>
+
     <menu name="Developers">
-        <item name="Source Code Repository"   href="http://www.apache.org/dev/version-control.html"/>
-        <item name="Building from Source"     href="/build.html"/>
-        <item name="Nightly Snapshots"        href="http://svn.apache.org/snapshots/jakarta-velocity/"/>
-        <item name="Road Map"                 href="http://wiki.apache.org/jakarta-velocity/RoadMap"/>
+        <item name="License"                  href="/../LICENSE"/>
+        <item name="Javadoc"                  href="/api/index.html"/>
+        <item name="Changes in 1.5"           href="http://velocity.apache.org/engine/releases/velocity-1.5/changes-report.html"/>
+        <item name="Resolved Issues in 1.5"   href="http://velocity.apache.org/engine/releases/velocity-1.5/jira-report.html"/>
         <item name="Dependencies"             href="/jar-dependencies.html"/>
-        <item name="Coding Standards"         href="http://wiki.apache.org/jakarta-velocity/CodeStandards"/>
-        <item name="Documentation Guidelines" href="http://wiki.apache.org/jakarta-velocity/DocumentationGuidelines"/>
-        <item name="Issues"                   href="https://issues.apache.org/jira/browse/VELOCITY"/>
-        <item name="List of Committers"       href="/committers.html"/>
+        <item name="Source Code Repository"   href="http://velocity.apache.org/download.cgi#source_code_repository"/>
+        <item name="Building from Source"     href="/build.html"/>
     </menu>
+
+    <menu name="Community">
+        <item name="Wiki"                     href="http://wiki.apache.org/velocity/"/>
+        <item name="Recent News"              href="http://velocity.apache.org/news.html"/>
+        <item name="Powered By Velocity"      href="http://wiki.apache.org/velocity/PoweredByVelocity"/>
+        <item name="IDE/Editor Plugins"       href="http://wiki.apache.org/velocity/VelocityEditors"/>
+        <item name="Articles and Books"       href="http://wiki.apache.org/velocity/PublishedArticlesAndBooks"/>
+        <item name="Get Involved"             href="http://wiki.apache.org/velocity/GetInvolved"/>
+        <item name="Mailing Lists"            href="http://velocity.apache.org/contact.html"/>
+    </menu>
+
+    <menu name="Velocity Development">
+        <item name="Road Map"                 href="http://wiki.apache.org/velocity/RoadMap"/>
+        <item name="Coding Standards"         href="http://wiki.apache.org/velocity/CodeStandards"/>
+        <item name="Documentation Guidelines" href="http://wiki.apache.org/velocity/DocumentationGuidelines"/>
+        <item name="Issues"                   href="https://issues.apache.org/jira/browse/VELOCITY"/>
+        <item name="Who we are"               href="http://velocity.apache.org/who-we-are.html"/>
+    </menu>
+
     <menu name="Translations">
         <item name="Site (Japanese)"          href="http://www.jajakarta.org/velocity/"/>
         <item name="User's Guide (Finnish)"   href="/translations/user-guide_fi.html"/>
         <item name="User's Guide (French)"    href="/translations/user-guide_fr.html"/>
         <item name="User's Guide (Spanish)"   href="/translations/user-guide_es.html"/>
     </menu>
-    </body>
+  </body>
 </project>
-
