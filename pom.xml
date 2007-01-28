@@ -51,6 +51,7 @@
         <configuration>
           <inputEncoding>UTF-8</inputEncoding>
           <outputEncoding>UTF-8</outputEncoding>
+          <xdocDirectory>${basedir}/xdocs/docs</xdocDirectory>
         </configuration>
       </plugin>
     </plugins>

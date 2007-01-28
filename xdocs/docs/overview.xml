@@ -54,7 +54,7 @@
             file rather than directly embedded in your Java code.
         </li>
 
-        <li>XML transformation.  Velocity provides an ant task called <a href="docs/anakia.html">Anakia</a> which reads
+        <li>XML transformation.  Velocity provides an ant task called <a href="anakia.html">Anakia</a> which reads
             an XML file and makes it available to a Velocity template.  A common application is to
             convert documentation stored in a generic "xdoc" format into a styled HTML document.
          </li>

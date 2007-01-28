@@ -40,13 +40,13 @@ Application Guide is highly recommended!</i>
 
   <ul>
 
-    <li><a href="docs/user-guide.html">User's Guide</a> - explains how to write Velocity templates
+    <li><a href="user-guide.html">User's Guide</a> - explains how to write Velocity templates
     </li>
 
-    <li><a href="docs/developer-guide.html">Developer's Guide</a> - explains how to use Velocity inside Java programs
+    <li><a href="developer-guide.html">Developer's Guide</a> - explains how to use Velocity inside Java programs
     </li>
 
-    <li><a href="docs/vtl-reference-guide.html">VTL Reference</a> - concise syntax for Velocity Template Language (VTL)
+    <li><a href="vtl-reference-guide.html">VTL Reference</a> - concise syntax for Velocity Template Language (VTL)
     </li>
 
     <li><a href="webapps.html">Web Application Guide</a> - web-based application techniques and
