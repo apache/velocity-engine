@@ -22,7 +22,7 @@
 
  <properties>
   <title>Texen</title>
-  <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -32,7 +32,7 @@
 <p>
     Texen is a general purpose text generating utility. It is capable of
     producing almost any sort of text output. Driven by Ant, essentially
-    an <a href="http://jakarta.apache.org/ant/">Ant</a> Task, Texen uses
+    an <a href="http://ant.apache.org/">Ant</a> Task, Texen uses
     a control template, an optional set of worker templates, and control
     context to govern the generated output. Although TexenTask can be
     used directly, it is usually subclassed to initialize your control
@@ -40,14 +40,12 @@
 </p>
 
 <p>
-    Texen was created to deal with the source generating requirements of
-    the Turbine web application framework. The <a
-    href="http://jakarta.apache.org/turbine/torque.html">Torque</a> utility
-    in <a href="http://jakarta.apache.org/turbine/">Turbine</a>, which is a
-    subclass of the TexenTask, is responsible for generating the SQL,
-    and the Object-Relational mapping sources for a Turbine project.
-    This is only one example; you can use Texen to generate almost any
-    sort of text output!
+    Texen was created to deal with the source generating requirements
+    of the Turbine web application framework. The <a
+    href="http://db.apache.org/torque/">Torque</a> uses a subclass of
+    the TexenTask to generate SQL and the Object-Relational mapping
+    sources for its O/R layer.  This is only one example; you can
+    use Texen to generate almost any sort of text output!
 </p>
 
 </section>
@@ -160,7 +158,7 @@ not so useful in this case). :-)
 <p>
     See the Torque utility in Turbine for a full working example of
     Texen. A standalone version of Torque is available <a
-    href="http://jakarta.apache.org/builds/jakarta-turbine/release/">here</a>.
+    href="http://db.apache.org/torque/">here</a>.
 </p>
 
     <table border="0">

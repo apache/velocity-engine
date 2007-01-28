@@ -22,7 +22,7 @@
 
  <properties>
   <title>Getting Started with a Web Application</title>
-  <author email="wglass@forio.com">Velocity Documentation Team</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -66,29 +66,29 @@ There are several strong contenders.
 
 <ol>
 <li>  <strong>Velocity Tools / VelocityViewServlet</strong> -
-The easiest way to get started is to download the companion <a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a>
+The easiest way to get started is to download the companion <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
 subproject and use the
-<a href="http://jakarta.apache.org/velocity/tools/view/">VelocityViewServlet</a>.  This servlet is easy to configure
+<a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>.  This servlet is easy to configure
 and install.  You create a directory of templates on your web server, edit an XML file that lists various "Tools" to
 place in the context and you are off.  More details can be found in the tutorial below.
 </li>
 
 <li>  <strong>Velocity Tools / VelocityStruts</strong> -
 You may be familiar with the popular <a href="http://struts.apache.org/">Struts</a> framework, originally designed to provide much needed
-application functionality to JSP.  With the <a href="http://jakarta.apache.org/velocity/tools/struts/">VelocityStruts</a>
+application functionality to JSP.  With the <a href="http://velocity.apache.org/tools/devel/struts/">VelocityStruts</a>
 module of Velocity Tools you can substitute Velocity for JSP as the page template language.  This allows you
 to take advantage of the large base of Struts infrastructure while designing pages using Velocity.
 </li>
 
 <li><strong>Third party frameworks</strong> - There are a number of third party frameworks listed on the
-<a href="http://wiki.apache.org/jakarta-velocity/PoweredByVelocity">PoweredByVelocity</a>
+<a href="http://wiki.apache.org/velocity/PoweredByVelocity">PoweredByVelocity</a>
 wiki page.  Of these, <a href="http://www.springframework.org/">Spring</a> is probably the most sophisticated and well known.
 <a href="http://jakarta.apache.org/turbine/">Jakarta Turbine</a> has many features and can also be very useful.
 It was built with Velocity as the primary page language, which is not surprising since many of the original Velocity
 developers were involved in creating it.
-A simpler alternative is the <a href="http://mav.sourceforge.net/">Maverick</a> framework
-which provides a simple Controller architecture that integrates nicely with
-Velocity but has no bells or whistles.
+Simpler alternative are the <a href="http://click.sourceforge.net/">Click</a> or <a href="http://mav.sourceforge.net/">Maverick</a> frameworks,
+which provide a simple Controller architecture that integrates nicely with
+Velocity.
 </li>
 
 <li><strong>Build your own</strong> - A final alternative is to build your own framework.  Create a dispatcher servlet,
@@ -198,7 +198,7 @@ Since a web application is running on a central server, that typically has multi
 care must be taken to make certain that the web application is secure.  Most standard web security principles apply to a
 web application built with Velocity.  A few specific issues (such as system configuration, more on cross-site scripting,
 and method introspection) are written up in this article on
-<a href="http://wiki.apache.org/jakarta-velocity/BuildingSecureWebApplications">Building Secure Applications with Velocity</a>.
+<a href="http://wiki.apache.org/velocity/BuildingSecureWebApplications">Building Secure Applications with Velocity</a>.
 In particular, you may want to prevent template designers from including &quot;dangerous&quot; reflection-related methods
 by specifying the <code>SecureUberspector</code> to get/set properties and execute method calls.
 </p>
@@ -240,12 +240,12 @@ compile the example files.
 
 <p>
 For more information, consult the
-<a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a> documentation.
+<a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a> documentation.
 </p>
 
 <ol>
 <li>Download the Velocity Tools project source (you need the source for the examples)
-from <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">download page</a>.
+from the <a href="http://velocity.apache.org/download.cgi#tools">download page</a>.
 </li>
 
 <li> Build the Velocity Tools jar and the "simple" example by typing:
@@ -354,8 +354,8 @@ http://localhost:8080/simple/index.vm
 
 </li>
 <li>Experiment with adding new Velocity pages.  Note that you can access any velocity page just by changing the URL.  Try changing the
-entries in toolbox.xml or creating your own tools.  Consult the <a href="http://jakarta.apache.org/velocity/tools/">Velocity Tools</a>
-documentation and the <a href="http://wiki.apache.org/jakarta-velocity/">Wiki</a> for more info on the wide variety of tools available.
+entries in toolbox.xml or creating your own tools.  Consult the <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
+documentation and the <a href="http://wiki.apache.org/velocity/">Wiki</a> for more info on the wide variety of tools available.
 </li>
 </ol>
 

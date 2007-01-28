@@ -22,7 +22,7 @@
 
  <properties>
   <title>Velocity Getting Started</title>
-  <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -65,15 +65,15 @@ Application Guide is highly recommended!</i>
 <section name="Downloading Velocity" href="DownloadingVelocity">
     <p>
         You can download the latest release version of
-        <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity</a>
-        or <a href="http://jakarta.apache.org/site/downloads/downloads_velocity.cgi">Velocity Tools</a>
-        from the main Jakarta download site.  For Velocity itself, source is included with the binary download.
+        <a href="http://velocity.apache.org/download.cgi#engine">Velocity</a>
+        or <a href="http://velocity.apache.org/download.cgi#tools">Velocity Tools</a>
+        from the main Apache Velocity download site.  For Velocity itself, source is included with the binary download.
     </p>
 
     <p>
         If you want to download the latest source, you can do so via the Subversion (svn)
         source control system, or download a complete
-        <a href="http://svn.apache.org/snapshots/jakarta-velocity/">nightly snapshot.</a>
+        <a href="http://vc.apache.org/snapshots/velocity/">nightly snapshot.</a>
     </p>
 
     <p>
@@ -86,8 +86,8 @@ Application Guide is highly recommended!</i>
 <section name="API Documentation" href="APIDocumentation">
 
 <p>
-Our API documentation is available <a href="api/index.html">online</a>,
-as part of the distribution package, and of course, you can generate it
+Our API documentation is available <a href="http://velocity.apache.org/engine/devel/apidocs/">online</a>,
+<a href="api/index.html">as part of the distribution package</a>, and of course, you can generate it
 yourself from the included source code.
 </p>
 <p>
@@ -101,13 +101,13 @@ ant javadocs
 ]]></source>
 
 <p>
-The docs will be found in the <code>/docs/apidocs/</code> directory.
+The docs will be found in the <code>/bin/apidocs/</code> directory.
 </p>
 
 <p>
-<b>Note:</b> Velocity uses the <a href="http://jakarta.apache.org/ant/">Jakarta Ant</a>
+<b>Note:</b> Velocity uses the <a href="http://ant.apache.org/">Apache Ant</a>
 build tool for all code and documentation generation, so you will need to have it
-installed.  We strongly endorse this wonderful tool for any Java developer.
+installed. Velocity requires at least Apache Ant 1.6.
    </p>
 
 </section>

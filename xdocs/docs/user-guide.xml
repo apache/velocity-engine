@@ -22,8 +22,7 @@
 
  <properties>
   <title>Velocity User Guide</title>
-  <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
-  <author email="jcastura@kw.igs.net">John Castura</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -2358,7 +2357,7 @@ invoke the method outside of the VM, and pass the value into the VM.
     If you encounter any mistakes in this manual or have
     other feedback related to the Velocity User Guide, please
     email the
-    <a href="mailto:velocity-user@jakarta.apache.org">Velocity user list</a>.
+    <a href="mailto:dev@velocity.apache.org">Velocity developers list</a>.
     Thanks!
   </p>
 
