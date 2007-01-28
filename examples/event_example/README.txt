@@ -10,7 +10,8 @@ As always, the if you have any questions :
    link at the bottom to join the lists.
 
 event_example
-------------
+-------------
+
 This simple example demonstrates the event handling features of 
 the Velocity Template Engine.
 
