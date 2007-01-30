@@ -22,7 +22,7 @@
 
  <properties>
   <title>Anakia</title>
-  <author email="jon@latchkey.com">Jon S. Stevens</author>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
  </properties>
 
 <body>
@@ -31,7 +31,7 @@
 <p>
     Essentially an XML transformation tool, Anakia uses <a
     href="http://www.jdom.org">JDOM</a> and <a
-    href="http://jakarta.apache.org/velocity">Velocity</a> to transform
+    href="http://velocity.apache.org/">Velocity</a> to transform
     XML documents into the format of your choice. It provides an alternative to
     using Ant's &lt;style&gt; task and
     <a href="http://xml.apache.org/xalan/">XSL</a> to process XML
@@ -91,7 +91,7 @@ context.put("root", root );
     XSL's &quot;extra&quot; functionality.
 </p>
 <p>
-    The example in the jakarta-velocity/examples/anakia directory
+    The example in the <code>examples/anakia</code> directory
     provides a good introduction to Anakia. You should find it quite
     simple to use.
 </p>
@@ -114,19 +114,19 @@ context.put("root", root );
 
 <section name="Installation/Example" href="Installation/Example">
 <p>
-    Before reviewing the jakarta-velocity/examples/anakia directory,
-    you must <a href="../install.html">build Velocity</a>.
+    Before reviewing the <example>examples/anakia</example directory,
+    you must <a href="build.html">build Velocity</a>.
 </p>
 <p>
     After building Velocity, <code>cd</code> into the
-    jakarta-velocity/examples/anakia/build directory and run 'ant'.
+    <code>examples/anakia/build</code> directory and run 'ant'.
 </p>
 <p>
     Output from running ant, in this case HTML files, is placed
-    into the jakarta-velocity/examples/anakia/docs/ directory.
+    into the <code>examples/anakia/docs/</code> directory.
 </p>
 <p>
-    The jakarta-velocity/examples/anakia/xdocs/ directory has all of the
+    The <code>examples/anakia/xdocs/</code> directory has all of the
     .xml source code. The xdocs/stylesheets directory contains the .vsl
     file, in which most of the magic happens. Understanding <a
     href="user-guide.html">Velocity Template Language</a> and
@@ -223,7 +223,7 @@ context.put("root", root );
             web site documentation, you will understand the purpose of
             this file. <strong>It is an optional task argument.</strong>
             If you look at the Anakia example in the
-            jakarta-velocity/examples/anakia directory, you can see the
+            <code>examples/anakia</code> directory, you can see the
             project.xml file being used in the .vsl file. </td>
         </tr>
         <tr>

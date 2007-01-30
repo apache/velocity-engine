@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.    
+-->
+
+<document>
+
+ <properties>
+  <title>Getting Started with a Web Application</title>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Building a Web Application with Velocity" href="BuildingaWebApplicationwithVelocity">
+
+<p>
+Velocity is often used to generate web pages in applications, usually as a direct replacement
+for JSP.  Some of the benefits of using Velocity to generate web pages are:
+</p>
+
+<ul>
+<li> <strong>Simplicity</strong> - The pages can be written and maintained by non-technical web designers.
+</li>
+
+<li> <strong>Ease of maintainance</strong> - Scripting is removed from web pages with the recommended MVC approach.
+</li>
+
+<li> <strong>Access both methods and properties</strong> - Web designers can reference methods as well as properties of objects in a context.
+</li>
+
+<li> <strong>Consistency</strong> - Velocity can be used for other text generation tasks (such as sending email)
+providing a consistent way to mark up text.
+</li>
+</ul>
+
+<p>This document provides some basic info on getting started with Velocity in a web application.
+</p>
+
+</section>
+
+<section name="Use a Framework" href="UseaFramework">
+
+<p>
+The primary purpose of the Velocity engine is simply to generate text based on
+a template.  Consequently, Velocity does not contain any web-related functionality in and of itself.
+To make a web application, you will need a framework to respond to HTTP requests,
+handle user authentication, make business logic calls, and generate a response.
+There are several strong contenders.
+</p>
+
+<ol>
+<li>  <strong>Velocity Tools / VelocityViewServlet</strong> -
+The easiest way to get started is to download the companion <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
+subproject and use the
+<a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>.  This servlet is easy to configure
+and install.  You create a directory of templates on your web server, edit an XML file that lists various "Tools" to
+place in the context and you are off.  More details can be found in the tutorial below.
+</li>
+
+<li>  <strong>Velocity Tools / VelocityStruts</strong> -
+You may be familiar with the popular <a href="http://struts.apache.org/">Struts</a> framework, originally designed to provide much needed
+application functionality to JSP.  With the <a href="http://velocity.apache.org/tools/devel/struts/">VelocityStruts</a>
+module of Velocity Tools you can substitute Velocity for JSP as the page template language.  This allows you
+to take advantage of the large base of Struts infrastructure while designing pages using Velocity.
+</li>
+
+<li><strong>Third party frameworks</strong> - There are a number of third party frameworks listed on the
+<a href="http://wiki.apache.org/velocity/PoweredByVelocity">PoweredByVelocity</a>
+wiki page.  Of these, <a href="http://www.springframework.org/">Spring</a> is probably the most sophisticated and well known.
+<a href="http://jakarta.apache.org/turbine/">Jakarta Turbine</a> has many features and can also be very useful.
+It was built with Velocity as the primary page language, which is not surprising since many of the original Velocity
+developers were involved in creating it.
+Simpler alternative are the <a href="http://click.sourceforge.net/">Click</a> or <a href="http://mav.sourceforge.net/">Maverick</a> frameworks,
+which provide a simple Controller architecture that integrates nicely with
+Velocity.
+</li>
+
+<li><strong>Build your own</strong> - A final alternative is to build your own framework.  Create a dispatcher servlet,
+retrieve templates from a file or database, integate with your business logic and send the results back to the user.
+Often you'll have an easier time starting with one of the existing frameworks
+and customizing it.  In particular you can add new functionality to the VelocityViewServlet simply by creating a subclass.
+</li>
+</ol>
+
+<p>
+As a side note, you may also come across references to VelocityServlet, which is a deprecated servlet that was included in
+the Velocity Engine up to version 1.4.  Since VelocityServlet is no longer being maintained we strongly recommend
+you use VelocityViewServlet in Velocity Tools instead.
+</p>
+
+</section>
+
+<section name="Web-Specific Issues" href="Web-SpecificIssues">
+<p>
+There are a few issues with Velocity that are specific to web applications.  Here is a brief discussion of the most
+commonly encountered issues.
+</p>
+
+<subsection name="Changing Object State - Don't!" href="ChangingObjectState-Don't!">
+<p>Velocity provides the ability to call any method of an object acting as a reference.  This can be useful when displaying
+information into the page but is dangerous when object or application state is modified.
+</p>
+
+<p>
+For example,
+the following code safely calls the size() method of a list and displays the result.
+</p>
+
+<source><![CDATA[
+There are $users.size() currently logged in.
+]]></source>
+
+<p>
+An example of an unsafe operation concerns a financial web page with an object in the context that calculates
+data year by year.  The method calculateNextYear() calculates data for the next year and advances an internal counter:
+</p>
+
+<source><![CDATA[
+2005 data: $table.data
+$table.calculateNextYear()
+2006 data: $table.data
+]]></source>
+
+<p>The problem with this approach is that the code cannot be repeated in multiple parts of the page.  You may not intend
+to do so, but it's easy to forget this when cutting and pasting or writing control statements (such as #if or #foreach).
+This becomes more of an issue when you are dealing with application or session-level state.
+</p>
+
+<p>The (strongly) recommended practice is
+to only use Velocity for inserting information into text.  Method calls can be useful to retrieve information.  However, it's generally a bad idea
+to use a method call to change object state, and it's always a bad idea to change application state.
+</p>
+
+<p>If you find yourself needing to change object state (as in the previous example) try precalculating all the possible
+values in the controller and putting them in a List or Map.  Any changes to application state should always be
+done by the controller.
+</p>
+
+<p>On a related note, you should always put a List or Set into the context instead of an Iterator or Enumeration.  This allows the collection to
+be used more than once in the page with no change in behavior.
+</p>
+
+</subsection>
+
+<subsection name="Escaping HTML/XML Entities" href="EscapingHTML/XMLEntities">
+
+<p>
+Any user-entered text that contains special HTML or XML entities (such as &lt;, &gt;, or &amp;) needs to be escaped
+before included in the web page.  This is required, both to ensure the text is visible, and also to prevent
+dangerous <a href="http://en.wikipedia.org/wiki/Cross_site_scripting">cross-site scripting</a>.
+Unlike, for example, JSTL (the Java Standard Tag Language found in Java Server Pages),
+Velocity does not escape references by default.  
+</p>
+
+<p>However, Velocity provides the ability to specify a <code>ReferenceInsertionEventHandler</code>
+which will alter the value of a reference before it is inserted into the page.  
+Specifically, you can configure the <code>EscapeHtmlReference</code>
+handler into your <code>velocity.properties</code> file to escape all 
+references (optionally) matching a regular expression.
+The following example will escape HTML entities in any reference that starts with 
+&quot;msg&quot; (e.g. <code>$msgText</code>).
+</p>
+
+
+<blockquote>
+<pre>eventhandler.referenceinsertion.class = org.apache.velocity.app.event.implement.EscapeHtmlReference
+eventhandler.escape.html.match = /msg.*<!-- -->/
+</pre>
+</blockquote>
+
+<p>
+Note that other kinds of escaping are sometimes required.  For example, in style sheets the @ character needs
+to be escaped, and in Javascript strings the single apostrophe ' needs to be escaped.
+</p>
+
+</subsection>
+
+<subsection name="Securing the Application" href="SecuringtheApplication">
+
+<p>
+Since a web application is running on a central server, that typically has multiple users and confidential resources,
+care must be taken to make certain that the web application is secure.  Most standard web security principles apply to a
+web application built with Velocity.  A few specific issues (such as system configuration, more on cross-site scripting,
+and method introspection) are written up in this article on
+<a href="http://wiki.apache.org/velocity/BuildingSecureWebApplications">Building Secure Applications with Velocity</a>.
+In particular, you may want to prevent template designers from including &quot;dangerous&quot; reflection-related methods
+by specifying the <code>SecureUberspector</code> to get/set properties and execute method calls.
+</p>
+
+<blockquote>
+<pre>runtime.introspector.uberspect = org.apache.velocity.util.introspection.SecureUberspector
+</pre>
+</blockquote>
+
+</subsection>
+
+<subsection name="Log Files" href="LogFiles">
+
+<p>
+A minor point is that (in some circumstances) Velocity, in the absence of any log-related configuration, creates a log file in the current directory.
+When Velocity is used in a web application the "current directory" is usually the current directory from which the application
+server is started.  If you start seeing the file "velocity.log" files in random places on your server filesystem, check
+the Velocity log configuration.  This is due to the default use of the Avalon Log Kit when present in the classpath.  
+Typically this occurs when Velocity is used within a web application outside of web page generation (e.g. for sending email).
+To solve this problem, remove any file labeled "avalon-logkit" from the classpath or properly configure the log file location.
+</p>
+
+</subsection>
+
+
+</section>
+
+<section name="Tutorial" href="Tutorial">
+
+<p>
+What follows is a brief tutorial on building a simple web app with VelocityViewServlet.  Note that it 
+suggests you compile VelocityViewServlet from the source.  This isn't actually required to use
+VelocityViewServlet but we recommend it in this case in order to see the source and then 
+compile the example files.
+</p>
+<p>Prerequisites for doing the following include the Java Developer's Kit (JDK) and 
+<a href="http://ant.apache.org/">Apache Ant</a>.
+</p>
+
+<p>
+For more information, consult the
+<a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a> documentation.
+</p>
+
+<ol>
+<li>Download the Velocity Tools project source (you need the source for the examples)
+from the <a href="http://velocity.apache.org/download.cgi#tools">download page</a>.
+</li>
+
+<li> Build the Velocity Tools jar and the "simple" example by typing:
+<source><![CDATA[
+ant example.simple
+]]></source>
+</li>
+
+<li>Take a look at the "examples" directory.  You will see a file "index.vm".  Here's an excerpt:
+
+<source><![CDATA[
+<html>
+<body>
+I'm a velocity template.
+
+#if( $XHTML )
+  #set( $br = "<br />" )
+#else
+  #set( $br = "<br>" )
+#end
+
+$br
+$br
+
+Here we use a custom tool: $toytool.message
+
+$br
+$br
+
+Here we get the date from the DateTool:  $date.medium
+</body>
+</html>
+]]></source>
+
+
+You can copy any additional velocity files
+into this same directory.  In examples/WEB-INF you will see a file "toolbox.xml".  This specifies a list of "Tools"
+that are automatically included in the context.
+
+<source><![CDATA[
+<toolbox>
+  <xhtml>true</xhtml>
+  <tool>
+     <key>toytool</key>
+     <class>ToyTool</class>
+  </tool>
+  <data type="number">
+    <key>version</key>
+    <value>1.1</value>
+  </data>
+  <data type="boolean">
+    <key>isSimple</key>
+    <value>true</value>
+  </data>
+  <data type="string">
+    <key>foo</key>
+    <value>this is foo.</value>
+  </data>
+  <data type="string">
+    <key>bar</key>
+    <value>this is bar.</value>
+  </data>
+  <tool>
+    <key>map</key>
+    <class>java.util.HashMap</class>
+  </tool>
+  <tool>
+    <key>date</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.DateTool</class>
+  </tool>
+</toolbox>
+]]></source>
+
+And finally the web.xml file specifies the name of the servlet and location of toolbox.properties.
+<source><![CDATA[
+<web-app>
+  <servlet>
+    <servlet-name>velocity</servlet-name>
+    <servlet-class>
+        org.apache.velocity.tools.view.servlet.VelocityViewServlet
+    </servlet-class>
+    <init-param>
+      <param-name>org.apache.velocity.toolbox</param-name>
+      <param-value>/WEB-INF/toolbox.xml</param-value>
+    </init-param>
+    <load-on-startup>10</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>velocity</servlet-name>
+    <url-pattern>*.vm</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.vm</welcome-file>
+  </welcome-file-list>
+</web-app>
+]]></source>
+
+</li>
+<li>Copy this directory into your "webapps" directory on Tomcat.  You could also copy "simple.war", but copying in the entire directory
+will let you experiment with changes.  You should now be able to access your simple one-page webapp with this URL.  (or something similar):
+
+<source><![CDATA[
+http://localhost:8080/simple/index.vm
+]]></source>
+
+</li>
+<li>Experiment with adding new Velocity pages.  Note that you can access any velocity page just by changing the URL.  Try changing the
+entries in toolbox.xml or creating your own tools.  Consult the <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
+documentation and the <a href="http://wiki.apache.org/velocity/">Wiki</a> for more info on the wide variety of tools available.
+</li>
+</ol>
+
+</section>
+
+
+
+</body>
+</document>
