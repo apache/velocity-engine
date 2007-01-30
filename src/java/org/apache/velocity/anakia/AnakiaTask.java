@@ -56,7 +56,7 @@ import org.xml.sax.SAXParseException;
  * <p>
  * You can find more documentation about this class on the
  * Velocity
- * <a href="http://jakarta.apache.org/velocity/anakia.html">Website</a>.
+ * <a href="http://velocity.apache.org/engine/devel/docs/anakia.html">Website</a>.
  *
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>

@@ -1,0 +1,2339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.    
+-->
+
+<document>
+
+ <properties>
+  <title>Velocity käyttäjän opas</title>
+  <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
+  <author email="jcastura@kw.igs.net">John Castura</author>
+  <author email="juha@dwebs.com">Juha Kilpi</author>
+ </properties>
+<body>
+
+<section name="Sisällys" href="Sisällys">
+
+<ol>
+<li><a href="#Tietojatästäoppaasta">Tietoja tästä oppaasta</a></li>
+<li><a href="#MikäonVelocity?">Mikä on Velocity?</a></li>
+<li><a href="#MitenvoinkäyttääVelocityä?">Miten voin käyttää Velocityä?</a>
+    <ol>
+        <li><a href="#Kurakauppaesimerkki">Kurakauppa esimerkki</a></li>
+    </ol>
+</li>
+<li><a href="#VelocityTemplateLanguage(VTL):Johdanto">Velocity
+Template Language (VTL): Johdanto</a></li>
+<li><a href="#HeiVelocityMaailma!">Hei Velocity Maailma!</a></li>
+<li><a href="#Kommentit">Kommentit</a></li>
+<li><a href="#Viittaukset">Viittaukset</a>
+    <ol>
+        <li><a href="#Muuttujat">Muuttujat</a></li>
+        <li><a href="#Ominaisuudet">Ominaisuudet</a></li>
+        <li><a href="#Metodit">Metodit</a></li>
+    </ol>
+</li>
+<li><a href="#Muodollinenmerkintä">Muodollinen viittausten merkintä</a></li>
+<li><a href="#Hiljainenviittaustenmerkintä">Hiljainen viittausten merkintä</a></li>
+<li><a href="#Kirjaimellisesti">Kirjaimellisesti</a>
+    <ol>
+        <li><a href="#Dollari">Dollari</a></li>
+        <li><a href="#VTLviittaustensuojaaminen">VTL viittausten suojaaminen</a></li>
+    </ol>
+</li>
+<li><a href="#Kirjainkoonmuutos">Kirjainkoon muutos</a></li>
+<li><a href="#Ohjeet">Ohjeet</a>
+    <ol>
+        <li><a href="#Set">Set</a></li>
+        <li><a href="#Tekstivakiot">Tekstivakiot</a></li>
+        <li><a href="#If-Elseehtolauseet">If-Else ehtolauseet</a>
+            <ol>
+                <li><a href="#Relaatio-jaloogisetoperaattorit">Relaatio- ja loogiset
+                operaattorit</a></li>
+            </ol>
+        </li>
+        <li><a href="#Silmukat">Foreach silmukat</a></li>
+        <li><a href="#Include">Include</a></li>
+        <li><a href="#Parse">Parse</a></li>
+        <li><a href="#Stop">Stop</a></li>
+        <li><a href="#Velocimakrot">Velocimakrot</a></li>
+    </ol>
+</li>
+<li><a href="#VTLohjeidensuojaaminen">VTL ohjeiden suojaaminen</a></li>
+<li><a href="#VTL:Muotoilu">VTL: Muotoilu</a></li>
+<li><a href="#Muitaominaisuuksiajasekalaista">Muita ominaisuuksia ja sekalaista</a>
+    <ol>
+        <li><a href="#Matematiikka">Matematiikka</a></li>
+        <li><a href="#Vaihteluväli(RangeOperator)">Vaihteluväli (Range Operator)</a></li>
+        <li><a href="#Edistyneetkysymykset:Suojaaminenja!">Edistyneet kysymykset: Suojaaminen ja !</a></li>
+        <li><a href="#YleistäVelocimakroista">Yleistä Velocimakroista</a></li>
+        <li><a href="#Merkkijonojenyhdistäminen">Merkkijonojen yhdistäminen</a></li>
+    </ol>
+</li>
+<li><a href="#Palaute">Palaute</a></li>
+</ol>
+
+</section>
+
+<section name="Tietoja tästä oppaasta" href="Tietojatästäoppaasta">
+
+ <p>
+    Velocity käyttäjän opas on tarkoitettu sivusuunnittelijoille ja
+    sisällöntuottajille avuksi tutustuttaessa Velocityyn ja sen
+    yksinkertaiseen mutta tehokkaaseen skriptikieleen, Velocity
+    Template Language:en (VTL). Useat tämän oppaan esimerkeistä
+    käsittelevät Velocityn käyttämistä dynaamisen sisällön
+    lisäämiseksi web sivuille, mutta kaikki VTL esimerkit toimivat
+    HTML sivujen lisäksi yhtä hyvin myös muiden sivujen ja sivupohjien
+    kanssa.
+ </p>
+
+ <p>
+    Kiitos että valitsit Velocityn!
+ </p>
+
+</section>
+
+<section name="Mikä on Velocity?" href="MikäonVelocity?">
+
+ <p>
+    Velocity on javapohjainen sivumoottori (template engine). Sen
+    avulla sivusuunnittelijat voivat viitata java -koodissa
+    määriteltyihin metodeihin. Sivusuunnittelijat voivat työskennellä
+    java ohjelmoijien kanssa samanaikaisesti käyttäen
+    Malli-Näkymä-Ohjain (Model-View-Controller, MVC)
+    suunnittelumallia. MVC mallissa sivusuunnittelijat voivat
+    keskittyä täysin luomaan hyvin suunniteltua sivustoa, ja
+    ohjelmoijat voivat keskittyä koodaamaan ykkösluokan
+    koodia. Velocity erottaa java -koodin web sivuista, tehden
+    sivustosta pitkällä aikavälillä helpommin ylläpidettävän ja
+    antamalla varteenotettavan vaihtoehdon <a
+    href="http://java.sun.com/products/jsp/">JSP</a>:lle (Java Server
+    Pages) ja <a href="http://www.php.net/">PHP</a>:lle.
+ </p>
+
+ <p>
+    Velocityä voidaan käyttää web sivujen, SQL:n, PostScriptin ja
+    muunlaisten tulosteiden tuottamiseen sivupohjista (template). Sitä
+    voidaan käyttää joko itsenäisenä työkaluna lähdekoodin ja
+    raporttien luomiseen, tai muihin järjestelmiin integroituna
+    komponenttina. Velocity tarjoaa sivupohjaratkaisun <a
+    href="http://java.apache.org/turbine/">Turbine</a> web
+    sovelluskehykselle. Yhdessä Velocity ja Turbine tarjoavat
+    sivupohjaratkaisun jonka avulla web sovelluksia voidaan kehittää
+    todellisen MVC -mallin mukaisesti.
+ </p>
+
+</section>
+
+<section name="Miten voin käyttää Velocityä?" href="MitenvoinkäyttääVelocityä?">
+<subsection name="Kurakauppa esimerkki" href="Kurakauppaesimerkki">
+   <p>
+    Oletetaan että olet kuraa myyvän onlinekaupan
+    sivusuunnittelija. Kutsumme kauppaa "Kurakauppa
+    Online":ksi. Kauppa käy hyvin. Asiakkaat tilaavat vaihtelevia
+    määriä eri kuratyyppejä. He pääsevät tutkimaan tekemiään tilauksia
+    sekä tekemään uusia ostoja kirjautumalla sivullesi käyttäen
+    käyttäjätunnustaan ja salasanaansa. Tällä hetkellä suosittu
+    Terracotta -kura on alennusmyynnissä. Pieni osa asiakkaistasi
+    ostaa säännöllisesti Kirkkaanpunaista Kuraa, joka myös on
+    alennusmyynnissä, mutta pienemmän suosionsa vuoksi yleensä
+    mainittu sivulla hieman syrjässä. Tiedot kustakin asiakkaasta
+    talletetaan tietokantaan, joten eräänä päivänä herää kysymys;
+    Miksipä emme käyttäisi Velocityä kohdentamaan erikoistarjouksia
+    kurasta asiakkaille jotka ovat kiinnostuneita juuri tuosta
+    kuratyypistä?
+   </p>
+
+   <p>
+    Velocityn avulla verkkosivut on helppo personoida kävijöidesi
+    mukaan. Kurakauppa Onlinen sivusuunnittelijana haluat tehdä sivun
+    jonka asiakas näkee kirjauduttuaan järjestelmään.
+   </p>
+
+   <p>
+    Tapaat yrityksesi ohjelmoijat ja sovitte, että muuttuja
+    <em>$asiakas</em> pitää sisällään tiedot parhaillaan kirjautuneena
+    olevasta asiakkaasta. Muuttujassa <em>$kuratTarjouksessa</em> ovat
+    tiedot kuratyypeistä jotka ovat parhaillaan
+    erikoistarjouksessa. <em>$tarjous</em> objektissa on metodeja
+    jotka auttavat mainostamisessa. Tällä kertaa keskitymme vain
+    näihin kolmeen viittaukseen. Muista, että sinun ei tarvitse
+    huolehtia siitä kuinka ohjelmoijat hakevat tarvittavat tiedot
+    tietokannasta, sinun tarvitsee tietää vain että se toimii. Näin
+    pääset tekemään omaa työtäsi ja ohjelmoijat pääsevät tekemään
+    omaansa.
+   </p>
+
+   <p>
+    Voisit lisätä seuraavat VTL lauseen sivulle:
+   </p>
+
+<source><![CDATA[
+<HTML>
+<BODY>
+Hei $asiakas.Nimi!
+<table>
+#foreach( $kura in $kuratTarjouksessa )
+   #if ( $asiakas.onOstanut($kura) )
+      <tr>
+        <td>
+          $tarjous.haePromo( $kura )
+        </td>
+      </tr>
+   #end
+#end
+</table>
+]]></source>
+
+   <p>
+    <em>foreach</em> lauseen toiminta kuvataan yksityiskohtaisemmin
+    jäljempänä; tärkeää tässä on tämän lyhyen skriptin tekemä vaikutus
+    sivullesi. Kun Kirkkaanpunainen Kura on alennusmyynnissä ja sitä
+    joskus aiemmin ostanut asiakas kirjautuu sisään, asiakas näkee
+    ilmoituksen alennuksesta parhaalla mahdollisella paikalla. Jos
+    toinen, Terracottakuraa ostanut asiakas kirjautuu järjestelmään,
+    ilmoitus Terracottakuran alennusmyynnistä näkyy hänelle
+    ensimmäisenä. Velocity on joustava ja sen käytössä vain
+    mielikuvituksesi on rajana.
+   </p>
+
+   <p>
+    VTL hakemistossa on kuvattu Velocityn kaikki elementit jotka
+    yhdessä antavat käyttöösi tehokkaan ja joustavan työkalun jota
+    tarvitset luodaksesi web sivuistasi dynaamisen. Pääset
+    hyödyntämään Velocityn voimaa jatkuvasti paremmin sitä mukaa kun
+    opit käyttämään näitä elementtejä.
+   </p>
+
+ </subsection>
+
+</section>
+
+<section name="Velocity Template Language (VTL): Johdanto" href="VelocityTemplateLanguage(VTL):Johdanto">
+
+ <p>
+    Velocityn sivunkuvauskieli (Velocity Template Language, VTL)
+    tarjoaa helpon ja yksinkertaisen keinon liittää dynaamista
+    sisältöä web sivulle. Dynaamisen sisällön käyttäminen pitäisi
+    onnistua nopeasti jopa sellaiselta sivusuunnittelijalta jolla on
+    ohjelmointikokemusta vain vähän, tai ei ollenkaan.
+ </p>
+
+<p>
+     VTL käyttää <em>viittauksia</em> dynaamisen aineiston lisäämiseen
+     verkkosivulle. Muuttujat ovat yhdentyyppisiä
+     viittauksia. Muuttujat voivat viitata johonkin java -koodissa
+     määriteltyyn, tai niiden arvo voidaan määrittää web -sivulla
+     annetun VTL <em>lauseen</em> avulla. Seuraavassa on esimerkki VTL
+     lauseesta joka voidaan lisätä HTML -dokumenttiin:
+ </p>
+
+<source><![CDATA[
+#set( $a = "Velocity" )
+]]></source>
+
+ <p>
+    Kuten kaikki VTL lauseet (statement), tämäkin lause alkaa <em>#</em>
+    merkillä ja sisältää ohjeen (directive): <em>set</em>. Kun verkkosivun
+    käyttäjä hakee sivun Velocity etsii sivupohjastasi kaikki
+    <em>#</em> -merkit. Sitten se tulkitsee mitkä niistä merkitsevät
+    VTL lausetta, ja mitkä <em>#</em> merkeistä ovat osa sivujesi
+    normaalia HTML -koodia, eivätkä kuulu VTL -koodiin.
+ </p>
+
+ <p>
+    <em>#</em> merkkiä seuraa ohje, <em>set</em>. <em>set</em> ohjeen
+    jälkeen tulee suluissa ilmaus (expression), -- yhtälö joka määrittää
+    <em>arvon</em> <em>muuttujalle</em>. Muuttuja on ilmaistu
+    vasemmalla ja arvo oikealla puolella. Nämä on erotettu <em>=</em>
+    merkillä.
+ </p>
+
+ <p>
+    Yllä olevassa esimerkissä muuttuja on <em>$a</em> ja arvo on
+    <em>Velocity</em>. Kaikkien viittausten tapaan tämäkin muuttuja
+    alkaa <em>$</em> merkillä. Arvot ovat aina lainausmerkkien
+    sisällä; Velocityssä muuttujien datatyypeistä ei tule
+    sekaannuksia, koska vain merkkijonoja (string) voi antaa
+    muuttujien arvoksi.
+ </p>
+
+ <p>
+    Seuraava nyrkkisääntö voi auttaa ymmärtämään Velocityn toimintaa:
+    <strong>Viittaukset alkavat <em>$</em> merkillä ja niitä käytetään
+    jonkin hakemiseen. Ohjeet alkavat <em>#</em> merkillä ja niitä
+    käytetään jonkin suorittamiseen.</strong>
+ </p>
+
+ <p>
+     Yllä olevassa esimerkissä <em>#set</em> -ohjetta käytetään arvon
+     määrittämiseksi muuttujaan. Muuttujaa <em>$a</em> voidaan tämän
+     jälkeen käyttää sivupohjassa tulostamaan "Velocity".
+ </p>
+
+</section>
+
+<section name="Hei Velocity Maailma!" href="HeiVelocityMaailma!">
+
+ <p>
+    Kun muuttujalle on määritelty arvo, voidaan siihen viitata missä
+    tahansa paikassa HTML dokumenttia. Seuraavassa esimerkissä
+    muuttujalle <em>$foo</em> määritellään arvo. Myöhemmin muuttujaan
+    viitataan.
+ </p>
+
+<source><![CDATA[
+<html>
+<body>
+#set( $foo = "Velocity" )
+Hei $foo Maailma!
+</body>
+<html>
+]]></source>
+
+ <p>
+    Tuloksena on web sivu jossa lukee "Hei Velocity Maailma!".
+ </p>
+
+ <p>
+    Jotta VTL lauseet olisivat helpommin luettavissa on suositeltavaa
+    aloittaa jokainen lause uudelta riviltä, vaikkakaan tämä ei ole
+    pakollista. <em>set</em> ohjeeseen palaamme tarkemmin myöhemmin.
+ </p>
+
+</section>
+
+<section name="Kommentit" href="Kommentit">
+
+ <p>
+    Kommenttien avulla sivulle voidaan lisätä aputekstejä jotka eivät
+    tule näkymään sivun tulosteessa. Voit käyttää kommentteja
+    muistuttaaksesi itseäsi jostakin tai selittääksesi muille mitä VTL
+    komennot tekevät, tai mihin tahansa muuhun tarkoitukseen. Alla on
+    esimerkki kommentin käytöstä.
+ </p>
+
+<source><![CDATA[
+## Tämä on rivin pituinen kommentti.
+]]></source>
+
+ <p>
+    Yhden rivin pituinen kommentti alkaa <em>##</em> merkeillä ja
+    loppuu kyseisen rivin lopussa. Jos aiot kirjoittaa usean rivin
+    mittaisen kommentin, ei sinun tarvitse kirjoittaa useita yhden
+    rivin kommentteja. Usean rivin kommentit alkavat <em>#*</em>
+    merkeillä ja loppuvat <em>*#</em> merkkeihin.
+ </p>
+
+<source><![CDATA[
+Tämä teksti on kommenttimerkkien ulkopuolella.
+Käyttäjät näkevät tämän tekstin.
+
+#*
+ Monirivinen kommentti alkaa tästä. Käyttäjät eivät näe tätä tekstiä
+ koska Velocityn sivumoottori ei näytä kommenttimerkkien sisällä
+ olevaa tekstiä tulosteessaan.
+*#
+
+Tämä teksti on jälleen kommenttimerkkien ulkopuolella; se on
+näkyvissä.
+
+]]></source>
+
+ <p>
+    Tässä on muutamia esimerkkejä yksi- ja monirivisten kommenttien
+    toiminnan selvittämiseksi:
+ </p>
+
+<source><![CDATA[
+Tämä teksti on näkyvissä. ## Tämä teksti ei ole.
+Tämä teksti on näkyvissä.
+Tämä teksti on näkyvissä. #* Tämä teksti on osa monirivistä kommenttia
+eikä siksi ole näkyvissä. Tämä teksti ei edelleenkään ole näkyvissä
+koska se on kommenttimerkkien sisällä. *# Tämä teksti on
+kommenttimerkkien ulkopuolella, joten se on näkyvissä.
+## Tämä teksti ei ole näkyvissä.
+]]></source>
+
+ <p>
+    On olemassa vielä kolmaskin kommenttityyppi; VTL kommenttilohko,
+    jota voidaan käyttää mm. dokumentin tekijä- ja versiotietojen
+    tallettamiseen
+ </p>
+
+<source><![CDATA[
+#**
+Tämä on VTL kommenttilohko. Lohkoa
+voidaan käyttää esimerkiksi dokumentin
+tekijä- ja versiotietojen
+tallettamiseen:
+@author
+@version 5
+*#
+]]></source>
+
+</section>
+
+<section name="Viittaukset" href="Viittaukset">
+
+ <p>
+    VTL:ssä on kolme erityyppistä viittausta: muuttujat, ominaisuudet
+    ja metodit. VTL:ää käyttävänä sivusuunnittelijana sinun, ja
+    javapuolta koodaavien ohjelmoijien on sovittava viittausten
+    nimistä, jotta voit käyttää niitä sivupohjissasi.
+ </p>
+
+ <p>
+    Kaikkea viittauksissa olevaa ja niihin määriteltävää tietoa
+    käsitellään tekstityyppisenä. Jos on esimerkiksi määritelty
+    objekti <em>$foo</em> (Integer objekti), Velocity kutsuu objektin
+    <code>.toString()</code> metodia objektin arvon muuntamiseksi
+    tekstityyppiseksi.
+ </p>
+
+ <p>
+ <a name="Muuttujat"><strong>Muuttujat</strong></a>
+ <br/>
+
+    Muuttujan lyhyt merkintätapa koostuu ensimmäisenä olevasta "$"
+    merkistä, jonka jälkeen tulee VTL <em>tunniste</em>. VTL
+    tunnisteen on alettava aakkosnumeerisella merkillä (a..z tai
+    A..Z). Muuttujan loput merkit ovat rajoitettu seuraaviin:
+
+ </p>
+
+ <p>
+   <ul>
+     <li>aakkoset (a .. z, A .. Z)</li>
+     <li>numerot (0 .. 9)</li>
+     <li>viiva ("-")</li>
+     <li>alaviiva ("_")</li>
+   </ul>
+ </p>
+
+ <p>
+    Seuraavassa muutamia esimerkkejä toimivista muuttujaviittauksista:
+ </p>
+
+<source><![CDATA[
+$foo
+$kuraLinko
+$kura-linko
+$kura_linko
+$kuraLinko1
+]]></source>
+
+ <p>
+    Kun VTL viittaa muuttujaan, kuten <em>$foo</em>, muuttuja voi
+    saada arvonsa joko sivupohjassa olevalta <em>set</em> ohjeelta,
+    tai java -koodista. Jos esimerkiksi javamuuttujalla <em>$foo</em>
+    on arvo <em>bar</em> silloin kun sivupohjaa haetaan, <em>bar</em>
+    korvaa kaikki <em>$foo</em> muuttujan esiintymiskohdat web
+    sivulla. Toisaalta jos sivulle lisätään lause
+ </p>
+
+<source><![CDATA[
+#set( $foo = "bar" )
+]]></source>
+
+ <p>
+    Sivun tuloste on sama kaikilla <em>$foo</em> muuttujan
+    esiintymiskohdille jotka tulevat tämän lauseen jälkeen.
+ </p>
+
+ <p>
+ <a name="Ominaisuudet"><strong>Ominaisuudet</strong></a>
+ <br/>
+
+    Toinen VTL:n viittaustyyppi ovat ominaisuudet joilla on oma
+    tunnusomainen muotonsa. Lyhyt merkintätapa muodostuu ensimmäisenä
+    olevasta <em>$</em> merkistä, jonka jälkeen tulee VTL tunniste,
+    jota seuraa piste (".") ja toinen VTL tunniste. Seuraavassa on
+    esimerkkejä toimivista ominaisuusviittauksista:
+ </p>
+
+<source><![CDATA[
+$asiakas.Osoite
+$ostos.Summa
+]]></source>
+
+ <p>
+    Käsittelemme ensimmäisen esimerkin <em>$asiakas.Osoite</em>
+    tarkemmin. Viittauksella voi olla kaksi merkitystä. Se saattaa
+    tarkoittaa; hae <em>asiakas</em> nimisestä hashtable taulukosta
+    arvo joka on liitetty avaimelle <em>Osoite</em>. Toisaalta
+    <em>$asiakas.Osoite</em> voi myös viitata metodiin (käsittelemme
+    metodeihin viittaavat viittaukset seuraavassa kappaleessa);
+    <em>$asiakas.Osoite</em> saattaa olla lyhennetty muoto
+    viittauksesta <em>$asiakas.getOsoite()</em>. Velocity tulkitsee
+    sivua haettaessa kumpaa näistä vaihtoehdoista tarkoitetaan, ja
+    palauttaa vastaavan arvon.
+ </p>
+
+ <p>
+ <a name="Metodit"><strong>Metodit</strong></a>
+ <br/>
+
+    Metodit ovat määritelty java -koodissa ja niiden avulla voidaan
+    suorittaa jokin toimenpide; esimerkiksi laskutoimitus tai jonkin
+    päätöksen tekeminen. Metodit ovat viittauksia jotka muodostuvat
+    aloittavasta "$" merkistä, jota seuraa VTL tunniste, jonka jälkeen
+    tulee VTL <em>Metodirunko</em>. VTL Metodirunko koostuu VTL
+    tunnisteesta jota seuraa vasen sulkumerkki "(", jota seuraa
+    valinnainen parametrilista, jota seuraa oikeanpuoleinen
+    sulkumerkki ")". Seuraavassa on esimerkkejä toimivista
+    metodiviittauksista:
+ </p>
+
+<source><![CDATA[
+$asiakas.getOsoite()
+$ostos.getSumma()
+$sivu.setOtsake( "Minun kotisivuni" )
+$henkilo.setOminaisuudet( ["Outo", "Kummallinen", "Innostunut"] )
+]]></source>
+
+ <p>
+    Metodirungossa esiintyvä get tarkoittaa "hae" ja set "aseta".
+ </p>
+
+ <p>
+    Kaksi ensimmäistä esimerkkiä -- <em>$asiakas.getOsoite()</em> ja
+    <em>$ostos.getSumma()</em> -- näyttävät samanlaisilta kuin
+    Ominaisuudet -osiossa aiemmin; <em>$asiakas.Osoite</em> ja
+    <em>$ostos.Summa</em>. Jos arvasit että näillä esimerkeillä on
+    jotakin yhteyttä toisiinsa, olit oikeassa!
+ </p>
+
+ <p>
+    VTL ominaisuuksia voidaan käyttää lyhyempinä muotoina VTL
+    metodeista. Ominaisuudella <em>$asiakas.Osoite</em> on täysin sama
+    vaikutus kuin käyttämällä metodia
+    <em>$asikas.getOsoite()</em>. Yleisesti ottaen ominaisuuksien
+    käyttö on suositeltavaa silloin kuin se vain on
+    mahdollista. Suurin ero ominaisuuksien ja metodien välillä on se,
+    että metodeille voi antaa parametreja.
+ </p>
+
+ <p>
+    Seuraavien metodien kanssa voidaan käyttää lyhyttä muotoa:
+ </p>
+
+<source><![CDATA[
+$aurinko.getPlaneetat()
+$mato.getMulta()
+$albumi.getValokuva()
+]]></source>
+
+ <p>
+    Näiden metodien voisimme olettaa palauttavan auringolle kuuluvien
+    planeettojen nimet, syöttävän matomme, tai hakevan valokuvan
+    albumista. Seuraavissa metodeissa toimii vain pitkä muoto:
+ </p>
+
+<source><![CDATA[
+$aurinko.getPlaneetat( ["Maa", "Mars", "Neptunus"] )
+## lyhyessä muodossa $sun.Planets ei voida antaa parametreja
+
+$sisyphus.pushRock()
+## Velocity olettaa että tarkoitan $sisyphus.getRock()
+
+$kirja.setOtsake( "Catalonian kotisivu" )
+## Parametrilistaa ei voida antaa
+]]></source>
+
+ <p>
+    <a name="Muodollinen viittausten merkintä"><strong>Muodollinen viittausten merkintä</strong></a>
+    <br/>
+
+    Edellisissä esimerkeissä käytettiin viittauksille lyhyttä
+    merkintätapaa. Viittauksille on olemassa myös muodollinen
+    merkintätapa, jota käytetään seuraavissa esimerkeissä:
+ </p>
+
+<source><![CDATA[
+${kuraLinko}
+${asiakas.Osoite}
+${osto.getSumma()}
+]]></source>
+
+ <p>
+    Voit käyttää lyhyttä muotoa viittauksiin lähes aina, mutta
+    joissain tapauksissa muodollista viittausta tarvitaan virheettömän
+    toiminnan turvaamiseksi.
+ </p>
+
+ <p>
+    Oletetaan että olet luomassa lausetta jonka sisältö riippuu
+    muuttujasta. Muuttujaa <em>$pahe</em> käytetään pohjana luotaessa
+    muuttujasta riippuvaista sanaa. Tarkoituksena on sallia käyttäjän
+    valita pohjasana ja tuottaa toinen seuraavista tuloksista: "Juha
+    on pyromaani." tai "Juha on kleptomaani.". Tässä tapauksessa
+    lyhyen viittausmuodon käyttäminen ei toimisi. Tutki seuraavaa
+    esimerkkiä:
+ </p>
+
+<source><![CDATA[
+Juha on $pahemaani.
+]]></source>
+
+ <p>
+    Velocity olettaa että tarkoitat muuttujaa <em>$pahemaani</em>,
+    vaikka käytettävä muuttuja oli <em>$pahe</em>. Koska Velocity ei
+    löydä arvoa muuttujalle <em>$pahemaani</em>, se palauttaa
+    <em>$pahemaani</em>. Tämä ongelma voidaan ratkaista käyttämällä
+    muodollista viittausta.
+ </p>
+
+<source><![CDATA[
+Juha on ${pahe}maani.
+]]></source>
+
+ <p>
+    Nyt Velocity ymmärtää että haluttu viittaus on <em>$pahe</em>, ei
+    <em>$pahemaani</em>. Muodollinen viittausten merkintä on usein
+    hyödyllinen silloin kun viittaukset ovat kiinni muussa tekstissä.
+ </p>
+
+
+ <p>
+    <a name="Hiljainen viittausten merkintä"><strong>Hiljainen viittausten merkintä</strong></a>
+    <br/>
+    Kun Velocityltä haetaan viittaus jolle ei ole määritelty arvoa,
+    palauttaa se normaalisti viittauksen tekstinä. Oletetaan
+    esimerkiksi että seuraavat viittaukset ovat osa VTL sivupohjaa:
+ </p>
+
+<source><![CDATA[
+<input type="text" name="email" value="$email"/>
+]]></source>
+
+ <p>
+    Kun lomake latautuu ensimmäisen kerran muuttujaviittauksella
+    <em>$email</em> ei ole arvoa. Oletuksena Velocity täyttää
+    lomakkeen tekstillä "$email". Haluaisit kuitenkin kenttään
+    mieluummin tyhjän arvon. Käyttämällä hiljaista viittausten
+    merkintää voidaan Velocityn normaali toiminta estää;
+    <em>$email</em> koodin sijaan käytät viittausta
+    <em>$!email</em>. Yllä oleva koodi näyttäisi siis seuraavalta:
+ </p>
+
+<source><![CDATA[
+<input type="text" name="email" value="$!email"/>
+]]></source>
+
+ <p>
+    Kun lomake latautuu ensimmäisen kerran eikä muuttujalla
+    <em>$email</em> ole arvoa, tulostetaankin kenttään tyhjä teksti
+    "$email" tekstin sijaan.
+ </p>
+
+ <p>
+    Muodollista ja hiljaista muuttujien merkintää voidaan käyttää myös
+    yhdessä;
+ </p>
+
+<source><![CDATA[
+<input type="text" name="email" value="$!{email}"/>
+]]></source>
+
+</section>
+
+<section name="Kirjaimellisesti" href="Kirjaimellisesti">
+
+  <p>
+    VTL käyttää erikoismerkkejä kuten <em>$</em> ja <em>#</em> omassa
+    toiminnassaan, joten näiden merkkien käyttö sivupohjassa vaatii
+    erityistä huolellisuutta. Tässä kappaleessa käsittelemme
+    <em>$</em> merkin suojaamisen (escape).
+  </p>
+
+  <p>
+    <a name="Dollari"><strong>Dollari</strong></a>
+    <br/>
+
+    Seuraavassa lauseessa dollarimerkin käytössä ei ole ongelmaa:
+    "Ostin markkinoilta säkin perunoita hintaan $2.50!". Kuten
+    mainittu, VTL tunniste alkaa aina aakkosmerkillä, joten merkintää
+    $2.50 ei ole vaaraa sekoittaa viittaukseksi.
+  </p>
+
+  <p>
+    <a name="VTLviittaustensuojaaminen"><strong>VTL viittausten suojaaminen</strong></a>
+    <br/>
+
+    Ongelmatilanne saattaa syntyä silloin, kun Velocity ei osaa
+    päätellä tarkoitetaanko dollarinmerkillä merkkiä itseään, vai
+    viittausta. Erikoismerkkien <em>suojaaminen</em> on paras keino
+    käsitellä VTL erikoismerkkejä sivupohjissa. Suojaamiseen käytetään
+    kenoviivaa ( <em>\</em> ).
+  </p>
+
+<source><![CDATA[
+#set( $email = "foo" )
+$email
+]]></source>
+
+  <p>
+    Kun Velocity käsittelee <em>$email</em> viittauksen
+    sivupohjassasi, se etsii löytyykö sen nimiselle muuttujalle
+    arvoa. Tässä tapauksessa tuloste tulee olemaan <em>foo</em>, koska
+    <em>$email</em> on määritelty. Jos <em>$email</em> muuttujaa ei
+    olisi määritelty tulisi tulosteeksi <em>$email</em>.
+  </p>
+
+  <p>
+    Oletetaan että <em>$email</em> on määritelty (sillä on esimerkiksi
+    arvo <em>foo</em>), ja että haluat muuttujan arvon sijaan tulostaa
+    sen nimen <em>$email</em>. Tämä saavuttamiseksi on useita keinoja,
+    joista helpoin on suojausmerkin käyttäminen.
+  </p>
+
+<source><![CDATA[
+## Seuraava rivi määrittelee muuttujan $email tässä sivupohjassa:
+#set( $email = "foo" )
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     tulosteeksi tulee
+  </p>
+
+<source><![CDATA[
+foo
+$email
+\foo
+\\$email
+]]></source>
+
+  <p>
+     Huomaa <em>$</em> merkin eteen liitetty <em>\</em>
+     merkki. Suojausmerkit tulkitaan vasemmalta oikealle, joten
+     <em>\\\$email</em> tulostuu <em>\\$email</em>. Vertaa näitä
+     esimerkkejä tulosteeseen joka saadaan kun <em>$email</em>
+     muuttujaa ei ole määritelty.
+  </p>
+
+<source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     tulosteeksi tulee
+  </p>
+
+<source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     Huomaa kuinka Velocity käsittelee eri tavalla viittaukset joiden
+     arvo on määritelty niistä joita ei ole määritelty. Seuraavassa on
+     set ohje joka asettaa <em>$foo</em> muuttujalle arvon
+     <em>gibbous</em>.
+  </p>
+
+<source><![CDATA[
+#set( $foo = "gibbous" )
+$kuu = $foo
+]]></source>
+
+  <p>
+    Tulosteeksi tulee: <em>$kuu = gibbous</em> -- missä <em>$kuu</em>
+    tulostetaan muuttujan nimenä, koska sen arvoa ei ole määritelty ja
+    <em>gibbous</em> tulostetaan muuttujan <em>$foo</em> arvona.
+  </p>
+
+  <p>
+     Myös VTL ohjeiden suojaaminen on mahdollista; tämä kuvataan
+     tarkemmin Ohjeet -kappaleessa.
+  </p>
+
+</section>
+
+<section name="Kirjainkoon muutos" href="Kirjainkoonmuutos">
+
+    <p>
+    Kun nyt olet tutustunut viittauksiin, voit alkaa käyttämään niitä
+    tehokkaasti omissa sivupohjissasi. Viittaukset Velocityssä
+    käyttävät hyväkseen joitakin java kielen perusperiaatteita, joiden
+    käyttö helpottaa sivusuunnittelijoiden työtä. Esimerkiksi:
+    </p>
+
+<source><![CDATA[
+$foo
+
+$foo.getBar()
+## on sama kuin
+$foo.Bar
+
+$data.setKayttaja("juha")
+## on sama kuin
+#set( $data.Kayttaja = "juha" )
+
+$data.getPyynto().getPalvelinNimi()
+## on sama kuin
+$data.Pyynto.PalvelinNimi
+## on sama kuin
+${data.Pyynto.PalvelinNimi}
+]]></source>
+
+    <p>
+    Nämä esimerkit havainnollistavat viittauksen vaihtoehtoisia
+    merkitsemistapoja. Velocity käyttää hyväkseen javan introspection
+    ja bean -ominaisuuksia objektien sekä niiden metodien
+    viittausnimiä ratkaistaessa. Viittauksia voidaan lisätä lähes
+    mihin kohtaan tahansa sivupojassa.
+    </p>
+
+    <p>
+    Velocity on tehty Sun Microsystemsin määrittelemän Bean
+    määrityksen mukaiseksi, ja on tästä syystä pieni-iso-eroava
+    (ts. pienet ja isot kirjaimet käsitellään eri
+    merkkeinä). Velocityn kehittäjät ovat tehneet parhaansa jotta
+    mahdolliset kirjoitusvirheet voitaisiin korjata
+    automaattisesti. Kun sivupohjassa viitataan metodiin
+    <em>getFoo()</em> koodilla <code>$bar.foo</code>, Velocity
+    kokeilee ensin viittausta <code>$getfoo</code>. Jos tämä ei tuota
+    tulosta, seuraavaksi yritetään viittausta
+    <code>$getFoo</code>. Samalla tavalla, kun sivupohjassa viitataan
+    muuttujaan <code>$bar.Foo</code>, ensin yritetään viittausta
+    <em>$getFoo()</em> ja sitten <em>getfoo()</em>.
+    </p>
+
+    <p>
+    Huomaa: <em>Viittauksia ilmentymämuuttujiin (instance variables)
+    ei ratkaista.</em> Vain viittaukset JavaBeanin mukaisiin
+    haku/asetus (getter/setter) metodeihin ratkaistaan (toisin sanoen
+    <code>$foo.Name</code> ratkaistaan Foo -luokan
+    <code>getName()</code> ilmentymämetodiin (instance method), mutta
+    ei luokan Foo julkiseen (public) <code>Name</code>
+    ilmentymämuuttujaan).
+    </p>
+
+</section>
+
+
+<section name="Ohjeet" href="Ohjeet">
+
+ <p>
+    <em>Ohjeet</em> ovat helppokäyttöisiä skriptielementtejä joita
+    voidaan käyttää web sivun tulosteen manipuloimiseen. Viittausten
+    avulla sivupohjien suunnittelijat voivat tuottaa web sivuille
+    dynaamista sisältöä, kun taas ohjeet antavat mahdollisuuden
+    määritellä sivuston ulkoasun ja sisällön.
+ </p>
+
+ <a name="Set"><strong>#set</strong></a>
+ <p>
+    <em>#set</em> ohjetta käytetään arvon määrittämiseksi
+    viittaukselle. Arvo voidaan määrittää joko muuttujaviittaukselle
+    tai ominaisuusviittaukselle. Määritys tehdään suluissa, kuten
+    seuraavassa esimerkissä:
+ </p>
+
+<source><![CDATA[
+#set( $kadellinen = "apina" )
+#set( $asiakas.Kayttaytyminen = $kadellinen )
+]]></source>
+
+ <p>
+    Määrityksen vasemman puolen (left hand side, LHS) tulee olla
+    muuttuja- tai ominaisuusviittaus. Oikea puoli (right hand side,
+    RHS) voi olla jokin seuraavista tyypeistä:
+ </p>
+
+ <p>
+    <ul>
+        <li>Muuttujaviittaus</li>
+        <li>Tekstivakio</li>
+        <li>Ominaisuusviittaus</li>
+        <li>Metodiviittaus</li>
+        <li>Numeerinen vakio</li>
+        <li>ArrayList taulukko</li>
+    </ul>
+ </p>
+
+ <p>
+    Seuraavassa esimerkit kustakin mainitusta tyypistä:
+ </p>
+
+<source><![CDATA[
+#set( $apina = $bill ) ## muuttujaviittaus
+#set( $apina.Ystava = "monica" ) ## tekstivakio
+#set( $apina.Syytos = $valkoinentalo.vuoto ) ## ominaisuusviittaus
+#set( $apina.Suunnitelma = $spindoctor.weave($web) ) ## metodiviittaus
+#set( $apina.Numero = 123 ) ## numeerinen vakio
+#set( $apina.Sano = ["Ei", $minun, "vikani"] ) ## taulukko
+]]></source>
+
+ <p>
+   HUOMAA: Viimeisessä esimerkissä [..] operaattorilla määritetyt
+   elementit ovat käytettävissä ArrayList -luokan metodien
+   avulla. Voisit siis esimerkiksi viitata taulukon ensimmäiseen
+   elementtiin koodilla $apina.Sano.get(0).
+ </p>
+
+
+ <p>
+    Oikeanpuoleinen arvo (RHS) voi olla myös yksinkertainen
+    matemaattinen operaatio:
+ </p>
+
+<source><![CDATA[
+#set( $arvo = $foo + 1 )
+#set( $arvo = $bar - 1 )
+#set( $arvo = $foo * $bar )
+#set( $arvo = $foo / $bar )
+]]></source>
+
+ <p>
+    Jos määrityksen oikeanpuoleinen ominaisuus- tai metodiviittaus on
+    arvoa <em>null</em>, sitä <b>ei</b> anneta vasemman puolen
+    arvoksi. Tätä keinoa ei voida käyttää olemassa olevan viittauksen
+    poistamiseen. Tämä saattaa olla hämäävää Velocityn uusille
+    käyttäjille. Esimerkiksi:
+ </p>
+
+<source><![CDATA[
+#set( $tulos = $kysely.kriteeri("nimi") )
+Ensimmäisen kyselyn tulos on $tulos
+
+#set( $tulos = $kysely.kriteeri("osoite") )
+Toisen kyselyn tulos on $tulos
+]]></source>
+
+  <p>
+     Jos <em>$kysely.kriteeri("nimi")</em> palauttaa merkkijonon
+     "pete", ja <em>$kysely.kriteeri("osoite")</em> palauttaa arvon
+     <em>null</em>, on esimerkin tuloste seuraava:
+ </p>
+
+<source><![CDATA[
+Ensimmäisen kyselyn tulos on pete
+
+Toisen kyselyn tulos on pete
+]]></source>
+
+ <p>
+     Tällä on vaara hämätä aloittelijoita jotka muodostavat
+     <em>#foreach</em> silmukoita joissa yritetään asettaa
+     <em>#set</em> ohjeella viittausta ominaisuus- tai
+     metodiviittauksella, ja sen jälkeen testataan tuota viittausta
+     <em>#if</em> ohjeella. Esimerkiksi:
+ </p>
+
+<source><![CDATA[
+
+#set( $kriteerit = ["nimi", "osoite"] )
+
+#foreach( $kriteeri in $kriteerit )
+
+    #set( $tulos = $kysely.kriteerit($kriteeri) )
+
+    #if( $tulos )
+        Kysely onnistui
+    #end
+
+#end
+]]></source>
+
+ <p>
+     Yllä olevassa esimerkissä ei kannata luottaa <em>$tulos</em>
+     muuttujan vertaamiseen kyselyn onnistumisen selville
+     saamiseksi. Kun <em>$tulos</em> on asetettu <em>#set</em>
+     ohjeella (lisatty kontekstiin), sitä ei voida asettaa
+     <em>null</em>:iksi (poistaa kontekstista). <em>#if</em> ja
+     <em>#foreach</em> ohjeet käsitellään tarkemmin myöhemmin tässä
+     dokumentissa.
+ </p>
+
+ <p>
+   Yksi ratkaisu ongelmaan olisi asettaa <em>$tulos</em> etukäteen
+   arvoon <em>false</em> (epätosi). Tämän jälkeen jos kutsu
+   <em>$kysely.kriteeri()</em> epäonnistuu, voit tarkastaa arvon.
+ </p>
+
+
+<source><![CDATA[
+
+#set( $kriteerit = ["nimi", "osoite"] )
+
+#foreach( $kriteeri in $kriteeri )
+
+    #set( $tulos = false )
+    #set( $tulos = $kysely.kriteerit($kriteeri) )
+
+    #if( $tulos )
+        Kysely onnistui
+    #end
+
+#end
+]]></source>
+
+ <p>
+    Muutamista muista Velocityn ohjeista poiketen, <em>#set</em> ohje
+    ei käytä <em>#end</em> lausetta.
+ </p>
+
+<a name="Tekstivakiot"><strong>Tekstivakiot</strong></a>
+
+ <p>
+    <em>#set</em> ohjetta käytettäessä lainausmerkkeihin (" ")
+    suljettu teksti tulkitaan ja tulostetaan kuten seuraavasta
+    esimerkistä käy ilmi:
+ </p>
+
+<source><![CDATA[
+#set( $hakemistoJuuri = "www" )
+#set( $sivupohjaNimi = "index.vm" )
+#set( $sivupohja = "$hakemistoJuuri/$sivupohjaNimi" )
+$sivupohja
+]]></source>
+
+ <p>
+  Tulosteeksi tulee
+ </p>
+
+<source><![CDATA[
+www/index.vm
+]]></source>
+
+ <p>
+    Jos teksti on suljettu hipsuihin (' '), sitä ei tulkita:
+ </p>
+
+<source><![CDATA[
+#set( $foo = "bar" )
+$foo
+#set( $blargh = '$foo' )
+$blargh
+]]></source>
+
+  Tulosteeksi tulee:
+
+<source><![CDATA[
+  bar
+  $foo
+]]></source>
+
+ <p>
+    Tulkitsemattoman tekstin tulostaminen hipsumerkkien sisällä
+    olevavasta tekstistä on oletuksena käytössä
+    Velocityssä. Oletusarvo voidaan muuttaa vaihtamalla
+    <code>velocity.properties</code> siten että
+    <code>stringliterals.interpolate=false</code>.
+ </p>
+</section>
+
+
+<section name="If-Else ehtolauseet" href="If-Elseehtolauseet">
+
+    <strong>If / ElseIf / Else</strong>
+    <p>
+       <em>#if</em> ohjeen avulla voidaan teksti sisällyttää web
+       sivulle sillä ehdolla että if lauseen arvo on
+       tosi. Esimerkiksi:
+    </p>
+
+<source><![CDATA[
+#if( $foo )
+   <strong>Velocity!</strong>
+#end
+]]></source>
+
+    <p>
+      Muuttuja <em>$foo</em> testataan jotta nähdään onko se tosi,
+      joka tapahtuu kahdessa eri tapauksessa: (i) <em>$foo</em> on
+      boolean arvo (tosi/epätosi) jolla on tosi -arvo, tai (ii) arvo
+      on eri kuin null (eli muuttuja ei ole tyhjä). <em>#if</em> ja
+      <em>#end</em> lauseiden väliin jäävä sisältö tulostetaan mikäli
+      testimuuttuja on tosi. Esimerkkitapauksessamme, jos muuttujalla
+      <em>$foo</em> on null arvo, tai jos se on boolean epätosi, on
+      testimuuttuja epätosi, eikä tulostetta tule lainkaan.
+    </p>
+
+    <p>
+      <em>#if</em> ja <em>#end</em> lauseiden välissä oleva teksti
+      tulee tulosteeksi mikäli ehto on tosi. Tässä tapauksessa jos
+      <em>$foo</em> on tosi, tulosteeksi tulee:
+      "Velocity!". Toisaalta, mikäli <em>$foo</em> on epätosi, on myös
+      ehtolause epätosi eikä tulostetta tule.
+    </p>
+
+    <p>
+      <em>#elseif</em> tai <em>#else</em> elementtejä voidaan käyttää
+      <em>#if</em> elementin kanssa. Huomaa, että Velocityn
+      sivumoottori lopettaa ensimmäisen tosiarvon saaneen
+      testimuuttujan kohdalla. Oletetaan seuraavassa esimerkissä että
+      muuttujalla <em>$foo</em> on arvo 15 ja muuttujalla
+      <em>$bar</em> on arvo 6.
+    </p>
+
+<source><![CDATA[
+#if( $foo < 10 )
+    <strong>Mene pohjoiseen</strong>
+#elseif( $foo == 10 )
+    <strong>Mene itään</strong>
+#elseif( $bar == 6 )
+    <strong>Mene etelään</strong>
+#else
+    <strong>Mene länteen</strong>
+#end
+]]></source>
+
+    <p>Tässä esimerkissä <em>$foo</em> on suurempi kuin 10, joten
+    kaksi ensimmäistä vertailua eivät ole tosia. Seuraavaksi muuttujaa
+    <em>$bar</em> verrataan lukuun 6, joka on tosi, joten tulosteeksi
+    tulee <strong>Mene etelään</strong>.
+    </p>
+
+    <p>
+    <a name="Relaatio-jaloogisetoperaattorit"><strong>Relaatio- ja
+    loogiset operaattorit</strong></a>
+    </p>
+
+    <p>
+    Velocity käyttää vastaavuusoperaattoria muuttujien välisten
+    suhteiden tulkitsemiseen. Seuraavassa on yksinkertainen esimerkki
+    vastaavuusoperaattorin käytöstä.
+    </p>
+
+<source><![CDATA[
+#set ($foo = "deoksiribonukleiinihappo")
+#set ($bar = "ribonukleiinihappo")
+
+#if ($foo == $bar)
+  Muuttujat eivät selvästikään ole samanlaiset. Joten...
+#else
+  Vastaavuusvertaus on epätosi, ja tämä teksti tulee tulosteeksi.
+#end
+]]></source>
+
+    <p>
+      Velocity tukee myös loogisia AND ja OR
+      operaattoreita. Lisätietoja löydät dokumentista <a
+      href="../vtl-reference-guide.html">VTL Reference Guide</a>. Alla on
+      esimerkkilause joka käyttää loogista AND:iä.
+    </p>
+
+<source><![CDATA[
+
+## looginen AND
+
+#if( $foo && $bar )
+   <strong> Tämä JA tuo</strong>
+#end
+
+]]></source>
+
+    <p>
+      If lause on tosi vain mikäli sekä <em>$foo</em> että
+      <em>$bar</em> ovat tosia. Jos <em>$foo</em> on epätosi, tulee
+      lauseesta epätosi eikä <em>$bar</em> muuttujaa tarvitse edes
+      testata. Jos <em>$foo</em> on tosi, testataan sen jälkeen
+      muuttujan <em>$bar</em> arvo; jos myös <em>$bar</em> on tosi,
+      silloin koko ilmaus on tosi ja <strong>Tämä JA tuo</strong>
+      tulee tulosteeksi. Jos <em>$bar</em> on epätosi, silloin koko
+      ilmaus on epätosi eikä tulostetta tule.
+    </p>
+
+    <p>
+      Looginen OR operaattori toimii samaan tapaan, paitsi että vain
+      toisen viittauksen pitää olla tosi jotta koko ilmaus olisi
+      tosi. Katso seuraavaa esimerkkiä.
+    </p>
+
+<source><![CDATA[
+
+## looginen OR
+
+#if( $foo || $bar )
+    <strong>Tämä TAI tuo</strong>
+#end
+]]></source>
+
+    <p>
+      Jos <em>$foo</em> on tosi, ei <em>$bar</em> muuttujaa tarvitse
+      edes testata. Oli <em>$bar</em> sitten tosi tai epätosi, koko
+      lauseke on tosi, ja <strong>Tämä TAI tuo</strong> on
+      tulosteena. Toisaalta mikäli <em>$foo</em> on epätosi, on
+      muuttujan <em>$bar</em> arvo testattava. Jos tässä tapauksessa
+      myös <em>$bar</em> on epätosi, koko ilmauksesta tulee epätosi
+      eikä tulostetta tule. Jos <em>$bar</em> on tosi, silloin koko
+      ilmauksesta tulee tosi, ja tulosteena on <strong>Tämä TAI
+      tuo</strong>.
+    </p>
+
+    <p>
+    Loogisella EI (NOT) operaattorilla on vain yksi argumentti :
+    </p>
+
+<source><![CDATA[
+
+## looginen NOT
+
+#if( !$foo )
+  <strong>EI tuota</strong>
+#end
+
+]]></source>
+
+    <p>
+    Jos <em>$foo</em> on tosi, silloin <em>!$foo</em> on epätosi, eikä
+    tulostetta tämän vuoksi tule. Mikäli <em>$foo</em> on epätosi,
+    silloin <em>!$foo</em> on tosi ja <strong>EI tuota</strong> on
+    tulosteena. Älä sekoita tätä merkintää <em>hiljaiseen viittaukseen
+    $!foo</em> joka tarkoittaa jotakin aivan muuta.
+    </p>
+
+
+ </section>
+
+<section name="Silmukat" href="Silmukat">
+
+   <strong>Foreach silmukat</strong>
+
+    <p>
+      <em>#foreach</em> mahdollistaa silmukoiden tekemisen. Esimerkiksi:
+    </p>
+
+<source><![CDATA[
+<ul>
+#foreach( $tuote in $kaikkiTuotteet )
+    <li>$tuote</li>
+#end
+</ul>
+]]></source>
+
+    <p>
+    Tämä <em>#foreach</em> silmukka käy läpi yksi kerrallaan kaikki
+    <em>$kaikkiTuotteet</em> listassa olevat tuotteet. Jokaisella
+    kierroksella seuraavan tuotteen arvo kopioidaan
+    <em>$kaikkiTuotteet</em> listasta muuttujaan <em>$tuote</em>.
+    </p>
+
+    <p>
+    <em>$kaikkiTuotteet</em> lista on tyyppiä Vector, Hashtable tai
+    Array. <em>$tuote</em> muuttujaan kopioitu arvo on java objekti
+    (Object), joten siihen voidaan myös viitata objektina. Jos
+    esimerkiksi <em>$tuote</em> muuttuja olisi tyyppiä Tuote, sen nimi
+    voitaisiin hakea viittaamalla <em>$tuote.Name</em> metodiin
+    (ts. <em>$Tuote.getName()</em>.
+    </p>
+
+    <p>
+    Oletetaan että <em>$kaikkiTuotteet</em> on tyyppiä Hashtable. Jos
+    haluat hakea Hashtablen avainarvot sekä niihin liittyvät objektit,
+    voit käyttää seuraavanlaista koodia:
+    </p>
+
+<source><![CDATA[
+<ul>
+#foreach( $avain in $kaikkiTuotteet.keySet() )
+    <li>Avain: $avain -> Arvo: $kaikkiTuotteet.get($avain)</li>
+#end
+</ul>
+]]></source>
+
+    <p>
+    Velocityllä on helppo keino silmukkalaskurin käyttämiseen. Voit
+    käyttää laskuria esimerkiksi seuraavasti:
+    </p>
+
+<source><![CDATA[
+<table>
+#foreach( $asiakas in $asiakasLista )
+    <tr><td>$velocityCount</td><td>$asiakas.Nimi</td></tr>
+#end
+</table>
+]]></source>
+
+    <p>
+    Silmukkalaskurin oletusnimi on $velocityCount ja se määritetään
+    velocity.properties tiedostossa. Oletuksena laskuri alkaa arvosta
+    1, mutta aloitusarvo voidaan määrittää olemaan joko 1 tai 0
+    <code>velocity.properties</code>
+    tiedostossa. <code>velocity.properties</code> tiedoston
+    silmukkalaskuriosio näyttää tältä:
+    </p>
+
+<source><![CDATA[
+# Silmukkalaskurin oletusnimi
+counter.name = velocityCount
+
+# Silmukkalaskurin aloitusarvo
+counter.initial.value = 1
+]]></source>
+
+ </section>
+
+<section name="Include" href="Include">
+
+    <p>
+    <em>#include</em> elementin avulla sivusuunnittelija voi hakea
+    paikallisesta tiedostojärjestelmästä tiedoston, jonka sisältö
+    lisätään sivun siihen kohtaan jossa <em>#include</em> määritys
+    tehtiin. Tiedoston sisältö liitetään sellaisenaan eikä sitä siis
+    käytetä Velocityn sivumoottorin kautta. Turvallisuussyistä
+    haettava tiedosto voi sijaita vain TEMPLATE_ROOT vakion
+    määrittämän hakemiston alla.
+    </p>
+
+<source><![CDATA[
+#include( "yksi.txt" )
+]]></source>
+
+    <p>
+    Tiedosto johon <em>#include</em> ohje viittaa on
+    lainausmerkeissä. Jos halutaan sisällyttää useampia kuin yksi
+    tiedosto, tiedostonimet tulee erotella toisistaan pilkuilla.
+    </p>
+
+<source><![CDATA[
+#include( "yksi.gif","kaksi.txt","kolme.htm" )
+]]></source>
+
+    <p>
+    Sisällytettävään tiedoston ei ole pakko viitata nimen perusteella;
+    itse asiassa usein on parempi käyttää muuttujaa tiedostonimen
+    asemesta. Tämä on hyödyllistä esimerkiksi silloin kun sivun
+    ulkoasu riippuu sivupyynnön aikana päätettävästä
+    ehdosta. Seuraavassa on esimerkki jossa käytetään sekä
+    tiedostonimeä että muuttujaa.
+    </p>
+
+<source><![CDATA[
+#include( "terveiset.txt", $sesonkivarasto )
+]]></source>
+
+ </section>
+
+<section name="Parse" href="Parse">
+
+    <p>
+    <em>#parse</em> elementin avulla sivusuunnittelija voi sisällyttää
+    paikallisesta levyjärjestelmästä tiedostoja jotka sisältävät VTL
+    elementtejä. Velocity tulkitsee VTL komennot ja tulostaa tuloksen.
+    </p>
+
+<source><![CDATA[
+#parse( "mina.vm" )
+]]></source>
+
+    <p>
+    <em>#include</em> ohjeen tapaan <em>#parse</em> voi ottaa
+    parametrikseen nimen lisäksi myös muuttujan. Kaikkien sivupohjien
+    joihin <em>#parse</em> ohjeella viitataan tulee sijaita
+    TEMPLATE_ROOT vakion määrittämän hakemiston
+    alla. <em>#include</em> ohjeesta poiketen <em>#parse</em> voi
+    ottaa vain yhden argumentin.
+    </p>
+
+    <p>
+    VTL sivupohjissa voi olla <em>#parse</em> ohjeita jotka viittaavat
+    sivupohjiin joissa niissäkin on <em>#parse</em>
+    ohjeita. <code>velocity.properties</code> tiedostossa oleva rivi
+    <em>parse_directive.maxdepth</em> määrittää sen kuinka monta
+    peräkkäistä <em>#parse</em> viittausta voidaan tehdä. Mikäli
+    <em>parse_directive.maxdepth</em> määritys puuttuu, käytetään
+    oletusarvoa 10. Rekursiivisuus on sallittu. Jos esimerkiksi
+    sivupohja <code>dofoo.vm</code> sisältää seuraavat rivit:
+    </p>
+
+<source><![CDATA[
+Laske alaspäin.
+#set( $laskuri = 8 )
+#parse( "parsefoo.vm" )
+Kaikki valmista: dofoo.vm!
+]]></source>
+
+    <p>
+    Koodi viittaisi sivupohjaan <code>parsefoo.vm</code>, jossa
+    puolestaan voisi olla seuraavat VTL komennot:
+    </p>
+
+<source><![CDATA[
+$laskuri
+#set( $laskuri = $laskuri - 1 )
+#if( $laskuri > 0 )
+    #parse( "parsefoo.vm" )
+#else
+    Kaikki valmista: parsefoo.vm!
+#end
+]]></source>
+
+    <p>
+    Kun "Laske alaspäin." on näytetty, Velocity lataa ja siirtää
+    kontrollin sivupohjalle <code>parsefoo.vm</code>, joka laskee alas
+    luvusta 8. Kun laskuri saavuttaa arvon 0, tulostetaan "Kaikki
+    valmista: parsefoo.vm!". Tämän jälkeen Velocity palaa sivupohjaan
+    <code>dofoo.vm</code> ja tulostaa "Kaikki valmista: dofoo.vm!"
+    tekstin.
+    </p>
+
+ </section>
+
+
+<section name="Stop" href="Stop">
+
+    <p>
+    <em>#stop</em> elementin avulla sivupohjan suunnittelija voi
+    pysäyttää sivun tulkitsemisen. Tämä on hyödyllistä sivupohjan
+    virheidenetsinnän aikana.
+    </p>
+
+<source><![CDATA[
+#stop
+]]></source>
+ </section>
+
+<section name="Velocimakrot" href="Velocimakrot">
+
+    <p>
+    <em>#macro</em> elementin avulla sivupohjan suunnittelija voi
+    määrittää toistuvasti käytetyn VTL sivupohjan osan. Velocimakrot
+    ovat erittäin käyttökelpoisia sekä monimutkaisissa, että
+    yksinkertaisissa tehtävissä. Seuraava Velocimakro toimii
+    johdantona Velocimakroihin. Se on luotu kirjoitettavan tekstin
+    määrän vähentämiseksi, sekä kirjoitusvirheiden määrän
+    minimoimiseksi.
+    </p>
+
+<source><![CDATA[
+#macro( d )
+<tr><td></td></tr>
+#end
+]]></source>
+
+    <p>
+    Esimerkissä määriteltiin Velocimakro nimeltään <em>d</em>, ja sitä
+    voidaan kutsua muiden VTL ohjeiden tapaan:
+    </p>
+
+<source><![CDATA[
+#d()
+]]></source>
+
+    <p>
+    Kun tätä sivupohjaa haetaan, Velocity korvaa ohjeen <em>#d()</em>
+    rivillä joka sisältää yhden tyhjän solun.
+    </p>
+
+    <p>
+    Velocimakro voi ottaa kuinka monta parametria tahansa -- tai ei
+    yhtään parametria, kuten ensimmäisessä esimerkissämme -- mutta kun
+    Velocimakroa kutsutaan, tulee kutsussa olla täsmälleen yhtä monta
+    parametria kuin makroa määriteltäessä. Useimmat Velocimakrot ovat
+    hieman monimutkaisempia kuin edellinen esimerkki. Seuraavassa on
+    Velocimakro joka ottaa kaksi argumenttia; värin ja listan.
+    </p>
+
+<source><![CDATA[
+#macro( taulurivit $vari $jokulista )
+#foreach( $jotain in $jokulista )
+    <tr><td bgcolor=$vari>$jotain</td></tr>
+#end
+#end
+]]></source>
+
+    <p>
+    Tässä esimerkissä määriteltiin Velocimakro <em>taulurivit</em>
+    joka ottaa kaksi parametria. Ensimmäinen parametri on
+    <em>$vari</em> ja toinen <em>$jokulista</em>.
+    </p>
+
+    <p>
+    Velocimakroon voidaan kirjoittaa mitä tahansa koodia jota voidaan
+    käyttää muuallakin VTL sivupohjassa. <em>taulurivit</em>
+    Velocimakro on <em>foreach</em> lause. <em>taulurivit</em>
+    Velocimakrossa on kaksi <em>#end</em> lausetta; ensimmäinen kuuluu
+    <em>#foreach</em> lauseelle, jälkimmäinen päättää Velocimakron
+    määrityksen.
+    </p>
+
+<source><![CDATA[
+#set( $suuretjarvet = ["Superior","Michigan","Huron","Erie","Ontario"] )
+#set( $vari = "blue" )
+<table>
+    #taulurivit( $vari $suuretjarvet )
+</table>
+]]></source>
+
+    <p>
+    Huomaa että <em>$suuretjarvet</em> on makron parametrin
+    <em>$jokulista</em> arvona. Kun Velocimakroa <em>#taulurivit</em>
+    tässä tapauksessa kutsutaan, on tuloksena seuraavaa:
+    </p>
+
+<source><![CDATA[
+<table>
+    <tr><td bgcolor="blue">Superior</td></tr>
+    <tr><td bgcolor="blue">Michigan</td></tr>
+    <tr><td bgcolor="blue">Huron</td></tr>
+    <tr><td bgcolor="blue">Erie</td></tr>
+    <tr><td bgcolor="blue">Ontario</td></tr>
+</table>
+]]></source>
+
+    <p>
+    Velocimakroja voidaan määrittää <em>inline</em>, eli Velocity
+    sivupohjassa itsessään, jolloin ko. makro ei ole käytettävissä
+    muissa sivupohjissa. Velocimakron määrittäminen siten että se on
+    kaikkien sivupohjien käytössä on hyödyllistä; samaa makroa ei
+    tarvitse määrittää erikseen jokaisessa sivupohjassa jossa sitä
+    tarvitaan, jolloin työmäärä ja virheiden mahdollisuus
+    vähenee. Lisäksi makroon tehty muutos vaikuttaa heti kaikkiin
+    sivupohjiin joissa se on käytössä.
+    </p>
+
+    <p>
+    Oletetaan että Velocityssä on määriteltynä Velocimakro
+    <em>#tablerows($vari $lista)</em>. Tätä makroa voitaisiin käyttää
+    missä tahansa sivupohjassa. Sitä voitaisiin käyttää useaan kertaan
+    ja moneen eri käyttötarkoitukseen. Sieniasioita käsittelevässä
+    sivupohjassa <code>sieni.vm</code>, <em>#tablerows</em>
+    Velocimakroa voitaisiin käyttää listaamaan tyypillisen sienen
+    osat:
+    </p>
+
+<source><![CDATA[
+#set( $osat = ["volva","stipe","annulus","gills","pileus"] )
+#set( $cellbgcol = "#CC00FF" )
+<table>
+#tablerows( $cellbgcol $osat )
+</table>
+]]></source>
+
+    <p>
+    Kun Velocity luo sivun sivupohjasta <code>sieni.vm</code>, se
+    etsii Velocimakron <em>#tablerows</em> sivupohjakirjastosta (joka
+    on määritelty <code>velocity.properties</code> tiedostossa) ja
+    tuottaa seuraavan tulosteen:
+    </p>
+
+<source><![CDATA[
+<table>
+    <tr><td bgcolor="#CC00FF">volva</td></tr>
+    <tr><td bgcolor="#CC00FF">stipe</td></tr>
+    <tr><td bgcolor="#CC00FF">annulus</td></tr>
+    <tr><td bgcolor="#CC00FF">gills</td></tr>
+    <tr><td bgcolor="#CC00FF">pileus</td></tr>
+</table>
+]]></source>
+
+  <strong>Velocimakron argumentit</strong>
+
+  <p>
+   Velocimakrot voivat ottaa argumenteiksi mitä tahansa seuraavista
+   VTL elementeistä:
+  </p>
+
+  <ul>
+    <li>
+      Viittaus : mitä tahansa '$' merkillä alkavaa
+    </li>
+    <li>
+      Tekstivakio : esimerkiksi "$foo" tai 'hei'
+    </li>
+    <li>
+      Numerovakio : 1, 2 jne
+    </li>
+    <li>
+      Numeroväli : [ 1..2] tai [$foo .. $bar]
+    </li>
+    <li>
+      ObjectArray : [ "a", "b", "c"]
+    </li>
+    <li>
+       boolean arvo true (tosi)
+    </li>
+    <li>
+       boolean arvo false (epätosi)
+    </li>
+  </ul>
+
+   <p>
+     Kun siirrät viittauksia argumentteina Velocimakroille, huomaa,
+     että viittaukset siirretään 'nimen mukaan' ('by name'). Tämä
+     tarkoittaa sitä, että viittausten arvo 'haetaan' Velocimakrossa
+     itsessään. Tämän ominaisuuden avulla voit siirtää viittauksia
+     jotka ovat metodikutsuja, ja näin ko. metodeja kutsutaan
+     Velocimakrossa. Esimerkiksi kun Velocimakroa kutsutaan
+     seuraavasti:
+   </p>
+
+   <source><![CDATA[
+     #macro( kutsu $a )
+         $a $a $a
+     #end
+
+     #kutsu( $foo.bar() )
+   ]]></source>
+
+    <p>
+       tuloksena viittauksen $foo metodia bar() kutsutaan 3 kertaa.
+    </p>
+
+    <p>
+       Ensi katsomalta tämä ominaisuus saattaa vaikuttaa yllättävältä,
+       mutta kun otat huomioon Velocimakrojen alkuperäisen
+       tarkoituksen -- usein käytettyjen VTL komentojen leikkaa-liimaa
+       kopioimisen vähentäminen -- ominaisuus on perusteltu. Sen
+       avulla voit esimerkiksi siirtää Velocimakroon argumenttina
+       tilansa muistavia (stateful) objekteja, kuten objektin joka
+       generoi värejä peräkkäisessä järjestyksessä taulukon rivien
+       värien määrittämiseksi.
+    </p>
+
+    <p>
+       Jos sinun tarvitsee kiertää tämä ominaisuus, voit hakea arvon
+       metodista uudeksi viittaukseksi, ja antaa sen argumentiksi:
+    </p>
+
+    <source><![CDATA[
+     #set( $uusiarvo = $foo.bar() )
+     #kutsu( $uusiarvo )
+   ]]></source>
+
+    <strong>Velocimakro ominaisuudet</strong>
+
+    <p>
+    <code>velocity.properties</code> tiedostossa on useita rivejä
+    joiden avulla Velocimakrojen toimintaa voidaan muuttaa
+    joustavasti. Huomaa että nämä arvot on dokumentoitu myös <a
+    href="../developer-guide.html">Kehittäjän
+    oppaassa</a>.
+    </p>
+
+    <p>
+    <code>velocimacro.library</code> - Pilkulla eroteltu lista
+    Velocimakro sivupohjakirjastoja. Oletuksena Velocity etsii yhtä
+    kirjastoa: <em>VM_global_library.vm</em>. Velocimakro kirjastoja
+    etsitään määritellystä sivupohjahakemistosta.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allow.inline</code> - Tämä
+    ominaisuus päättää voidaanko Velocimakroja määrittää tavallisissa
+    sivupohjissa. Ominaisuus voi saada arvon true (tosi) tai false
+    (epätosi). Oletuksena on tosi, jolloin sivusuunnittelijat voivat
+    määrittää Velocimakroja suoraan omissa sivupohjissaan.
+    </p>
+
+    <p>
+    <code>velocimacro.permissions.allow.inline.to.replace.global</code>
+
+    - Tämän ominaisuuden avulla voidaan määrittää voivatko
+    sivupohjassa määritellyt Velocimakrot korvata yleisesti
+    määritellyt, <code>velocimacro.library</code> ominaisuuden kautta
+    ladatut Velocimakrot. Ominaisuus voi saada arvon true tai
+    false. Oletuksena <code>false</code>, epätosi, jolloin
+    sivupohjassa määritellyt Velocimakrot eivät voi korvata
+    sivupohjakirjastoista ladattuja makroja.
+    </p>
+
+   <p>
+    <code>velocimacro.permissions.allow.inline.local.scope</code> -
+    Mahdolliset arvot ovat true tai false, oletuksena false. Tämä
+    ominaisuus päättää ovatko sivupohjassa määritetyt Velocimakrot
+    'näkyviä' ainoastaan siinä sivupohjassa jossa ne on
+    määritelty. Toisin sanoen kun tämä ominaisuus on asetettu arvoon
+    true (tosi), sivupohja voi määrittää inline Velocimakroja jotka
+    ovat käytettävissä vain sivupohjasta joka ne määritti. Tämän
+    ominaisuuden avulla voidaan aikaansaada erikoisia vaikutuksia; jos
+    yleisesti määritelty Velocimakro kutsuu toista yleisesti
+    määriteltyä makroa, tämän ominaisuuden avulla sivupohja voi
+    määrittää oman toteutuksensa jälkimmäisestä makrosta, jota
+    ensimmäinen makro kutsuu. Sivupohjan paikallista makroa käytetään
+    vain kun ensimmäistä makroa kutsutaan ko. sivupohjasta. Uusi makro
+    ei vaikuta muihin sivupohjiin.
+    </p>
+
+    <p>
+    <code>velocimacro.context.localscope</code> - Mahdolliset arvot
+    ovat true tai false, oletuksena false. Kun ominaisuuden arvoksi on
+    asetettu tosi, Velocimakroissa #set() ohjeella tehdyt muutokset
+    ovat 'paikallisia' eivätkä vaikuta pysyvästi muuttujien sisältöön.
+    </p>
+
+    <p>
+    <code>velocimacro.library.autoreload</code> - Tämä ominaisuus
+    ohjaa Velocimakrokirjaston automaattista uudelleenlatausta. Kun
+    ominaisuus on asetettu arvoon <code>true</code> kutsutun
+    Velocimakron koodi tutkitaan mahdollisten muutosten varalta, ja se
+    ladataan uudelleen mikäli tarpeellista. Näin voit muuttaa ja
+    testata Velocimakrokirjastoa ilman että sinun tarvitsee käynnistää
+    uudelleen sovellustasi tai sovellusalustaa, aivan kuten voit tehdä
+    normaalien sivupohjienkin kanssa. Tämä asetus toimii vain kun
+    resurssilataajien välimuisti on pois päältä (<i>off</i>,
+    esim. <code>file.resource.loader.cache = false</code>). Tämä
+    ominaisuus on tarkoitettu käytettäväksi vain sovelluksen
+    kehitysvaiheessa, ei tuotantokäyttöön.
+    </p>
+
+    <strong>Velocimakro Trivia</strong>
+
+    <p>
+    Nykyisellään Velocimakrot tulee olla määriteltyinä ennen kuin
+    niitä käytetään sivupohjissa. Tämä tarkoittaa sitä että #macro()
+    määritystesi tulee sijaita ennen rivejä joissa käytät Velocimakroja.
+    </p>
+
+    <p>
+    Tämä on tärkeää muistaa jos yrität käyttää ohjetta #parse()
+    sivupohjaan jossa on inline #macro() ohjeita. Koska #parse()
+    suoritetaan ajon aikana, ja parseri päättää ajon aikana onko
+    sivupohjassa oleva Velocimakrolta näyttävä elementti Velocimakro,
+    ei Velocimakrojen #parse():aminen toimi niin kuin
+    olettaisi. Ongelma voidaan välttää helposti käyttämällä
+    <code>velocimacro.library</code> toimintoa jonka avulla Velocity
+    lataa Velocimakrosi käynnistyksen yhteydessä.
+    </p>
+ </section>
+
+<section name="VTL ohjeiden suojaaminen" href="VTLohjeidensuojaaminen">
+  <p>
+    VTL ohjeet voidaan suojata kenoviivalla ("\") samalla tavalla kuin
+    VTL viittauksetkin.
+  </p>
+
+<source><![CDATA[
+## #include( "a.txt" ) tulostuu <tiedoston a.txt sisältö>
+#include( "a.txt" )
+
+## \#include( "a.txt" ) tulostuu #include( "a.txt" )
+\#include( "a.txt" )
+
+## \\#include ( "a.txt" ) tulostuu \<tiedoston a.txt sisältö>
+\\#include ( "a.txt" )
+]]></source>
+
+  <p>
+  Eritystä tarkkaavaisuutta tarvitaan tapauksissa joissa suojataan VTL
+  ohjeita jotka sisältävät useita skriptielementtejä samassa ohjeessa
+  (kuten if-else-end lause). Seuraavassa on tyypillinen VTL if-lause:
+  </p>
+
+<source><![CDATA[
+#if( $jazz )
+    Vyacheslav Ganelin
+#end
+]]></source>
+
+  <p>
+  Jos <em>$jazz</em> on tosi (true), tuloste on
+  </p>
+<source><![CDATA[
+Vyacheslav Ganelin
+]]></source>
+
+  <p>
+  Jos <em>$jazz</em> on epätosi (false), tulostetta ei
+  tule. Skriptielementtien suojaaminen muuttaa tulostetta. Katso
+  seuraavaa esimerkkiä:
+  </p>
+
+<source><![CDATA[
+\#if( $jazz )
+    Vyacheslav Ganelin
+\#end
+]]></source>
+
+  <p>
+  Riippumatta siitä onko <em>$jazz</em> tosi vai epätosi, tuloste on
+  aina:
+  </p>
+
+ <source><![CDATA[
+ #if($ jazz )
+     Vyacheslav Ganelin
+ #end
+ ]]></source>
+
+  <p>
+  Itse asiassa koska kaikki skriptielementit on suojattu,
+  <em>$jazz</em> muuttujan totuusarvoa ei edes tutkita. Oletetaan että
+  kenoviiva edeltää skriptielementtejä jotka on suojattu:
+  </p>
+
+<source><![CDATA[
+\\#if( $jazz )
+   Vyacheslav Ganelin
+\\#end
+]]></source>
+
+  <p>
+  Mikäli <em>$jazz</em> on tässä tapauksessa tosi, tuloste on:
+  </p>
+
+<source><![CDATA[
+\ Vyacheslav Ganelin
+\
+]]></source>
+
+  <p>
+  Tämän ymmärtämiseksi huomaa, että <code>#if( arg )</code> rivillä
+  olevaa rivinvaihtoa (return) ei kopioida tulosteeseen. Tämän vuoksi
+  <code>#if()</code> lauseen runko ('Vyacheslav Ganelin') on '\\'
+  merkinnästä saadun ensimmäisen '\' merkin kanssa samalla
+  rivillä. Jälkimmäinen '\' merkki on toisella rivillä kuin teksti,
+  koska tekstin lopussa on rivinvaihto ja jälkimmäinen '\\'
+  merkinnästä saatu '\' merkki on ennen <code>#end</code> ohjetta,
+  joten merkki kuuluu edelleen <code>#if()</code> lauseen runkoon.
+  </p>
+
+  <p>
+  Jos <em>$jazz</em> on epätosi, tuloste on:
+  </p>
+
+<source><![CDATA[
+\
+]]></source>
+
+  <p>
+  Huomaa että
+  ongelmia tulee mikäli skriptielementtejä ei ole suojattu oikein.
+  </p>
+
+<source><![CDATA[
+\\\#if( $jazz )
+    Vyacheslave Ganelin
+\\#end
+]]></source>
+
+  <p>
+  Esimerkissä <em>#if</em> on suojattu, mutta <em>#end</em> elementti
+  on edelleen käytössä. Liian monta lopetuselementtiä sivupohjassa
+  aiheuttaa virheen sivua luotaessa.
+  </p>
+
+ </section>
+
+<section name="VTL: Muotoilu" href="VTL:Muotoilu">
+
+
+    <p>
+    Vaikka tässä ohjeessa oleva VTL on usein muotoiltu rivivaihdoin ja
+    välilyönnein, alla oleva VTL
+    </p>
+
+<source><![CDATA[
+#set( $imperial = ["Munetaka","Koreyasu","Hisakira","Morikune"] )
+#foreach( $shogun in $imperial )
+    $shogun
+#end
+]]></source>
+
+    <p>
+    on yhtä toimiva kuin seuraava kodinpätkä jonka Geir Magnusson
+    Jr. lähetti Velocityn käyttäjien postituslistalle:
+    </p>
+
+<source><![CDATA[
+Send me #set($foo = ["$10 and ","a cake"])#foreach($a in $foo)$a #end please.
+]]></source>
+
+    <p>
+    Velocity syö ylimääräiset välilyönnit. Edellinen koodinpätkä
+    voitaisiin kirjoittaa seuraavasti:
+    </p>
+
+<source><![CDATA[
+Send me
+#set( $foo = ["$10 and ","a cake"] )
+#foreach( $a in $foo )
+$a
+#end
+please.
+]]></source>
+
+    <p>
+    tai
+    </p>
+
+<source><![CDATA[
+Send me
+#set($foo       = ["$10 and ","a cake"])
+                 #foreach           ($a in $foo )$a
+         #end please.
+]]></source>
+
+    <p>
+    Kussakin tapauksessa tulos on sama.
+    </p>
+
+</section>
+
+<section name="Muita ominaisuuksia ja sekalaista" href="Muitaominaisuuksiajasekalaista">
+
+<subsection name="Matematiikka" href="Matematiikka">
+
+  <p>
+    Velocitylla on muutamia sisäänrakennettuja matemaattisia
+    funktioita joita voidaan käyttää sivupohjissa <em>#set</em> ohjeen
+    kanssa. Seuraavat yhtälöt ovat esimerkkejä yhteen-, vähennys-,
+    kerto- sekä jakolaskuista.
+  </p>
+
+<source><![CDATA[
+#set( $foo = $bar + 3 )
+#set( $foo = $bar - 4 )
+#set( $foo = $bar * 6 )
+#set( $foo = $bar / 2 )
+]]></source>
+
+  <p>
+    Jako-operaation tapauksessa tulos on kokonaisluku. Jakojäännös
+    saadaan käyttöön jäännösoperandilla (<em>%</em>).
+  </p>
+
+<source><![CDATA[
+#set( $foo = $bar % 5 )
+]]></source>
+
+
+  <p>
+    Velocityllä on sisäänrakennettu keino nollalla jakamisen
+    käsittelemiseen. Seuraavassa esimerkissä:
+  </p>
+
+<source><![CDATA[
+#set( $foo = 5 )
+#set( $bar = $foo - 5 )
+#set( $uhoh = $foo / $bar )
+$uhoh
+]]></source>
+
+  <p>
+    Viittaukseen <em>$uhoh</em> asetetaan tulos operaatiosta viisi
+    jaettuna nollalla. Kun Velocity näyttää tämän sivupohjan, tuloste
+    on:
+  </p>
+
+<source><![CDATA[
+$uhoh
+]]></source>
+
+  <p>
+    Suunnittelijoiden on otettava huomioon myös, että <em>#set</em>
+    tuottaa merkkijonoja, jotka on muunnettava kokonaisluvuiksi jotta
+    niitä voidaan käyttää vaihteluväliä määritettäessä (range
+    operator). Seuraavassa esimerkki tällaisesta muunnoksesta:
+  </p>
+
+<source><![CDATA[
+#set($a = "7")
+#set($b = $int.valueOf($a) + 10)
+$b
+]]></source>
+
+  <p>
+    Tuloksena on <em>17</em>.
+  </p>
+
+  </subsection>
+
+<subsection name="Vaihteluväli (Range Operator)" href="Vaihteluväli(RangeOperator)">
+
+  <p>
+    Vaihteluväliä voidaan käyttää <em>#set</em> ja <em>#foreach</em>
+    lauseiden yhteydessä. Vaihteluväli tuottaa kokonaislukuja
+    sisältäviä oliotaulukoita seuraavalla tavalla:
+  </p>
+
+<source><![CDATA[
+[n..m]
+]]></source>
+
+  <p>
+    Sekä <em>n</em> että <em>m</em> pitää olla tai niiden tulee
+    tuottaa kokonaislukuja. Mikäli <em>m</em> on pienempi kuin
+    <em>n</em> lasketaan vaihteluvälin luvut alaspäin. Seuraavassa
+    esimerkkejä vaihteluvälin käytöstä:
+  </p>
+
+<source><![CDATA[
+Ensimmäinen esimerkki:
+#foreach( $foo in [1..5] )
+$foo
+#end
+
+Toinen esimerkki:
+#foreach( $bar in [2..-2] )
+$bar
+#end
+
+Kolmas esimerkki:
+#set( $arr = [0..1] )
+#foreach( $i in $arr )
+$i
+#end
+
+Neljäs esimerkki:
+[1..3]
+]]></source>
+
+  <p>
+    Tuottaa seuraavan tulosteen:
+  </p>
+
+<source><![CDATA[
+Ensimmäinen esimerkki:
+1 2 3 4 5
+
+Toinen esimerkki:
+2 1 0 -1 -2
+
+Kolmas esimerkki:
+0 1
+
+Neljäs esimerkki:
+[1..3]
+]]></source>
+
+  <p>
+    Huomaa että vaihteluvälioperaattori tuottaa taulukon vain kun sitä
+    käytetään <em>#set</em> tai <em>#foreach</em> ohjeiden kanssa,
+    kuten neljännestä esimerkistä käy selville.
+  </p>
+
+  <p>
+    Vaihteluvälioperaattori on erityisen käyttökelpoinen kun halutaan
+    tehdä verkkosivun taulukko standardikokoiseksi, mutta joissain
+    tapauksissa taulukon täyttämiseksi ei ole riittävästi dataa.
+  </p>
+
+  </subsection>
+
+<subsection name="Edistyneet kysymykset: Suojaaminen ja !" href="Edistyneetkysymykset:Suojaaminenja!">
+
+  <p>
+    Kun viittaus hiljennetään <em>!</em> merkillä ja <em>!</em> merkkiä
+    edeltää suojausmerkki <em>\</em> käsitellään viittaus erityisellä
+    tavalla. Huomaa erot normaalin suojauksen ja tilanteen jossa
+    <em>\</em> edeltää <em>!</em> merkkiä, välillä.
+  </p>
+
+<source><![CDATA[
+#set( $foo = "bar" )
+$\!foo
+$\!{foo}
+$\\!foo
+$\\\!foo
+]]></source>
+
+  <p>
+   Tulosteena on:
+  </p>
+
+<source><![CDATA[
+$!foo
+$!{foo}
+$\!foo
+$\\!foo
+]]></source>
+
+  <p>
+   Vertaa tätä normaaliin suojaukseen, jossa <em>\</em> on <em>$</em>
+   merkin edellä:
+  </p>
+
+<source><![CDATA[
+\$foo
+\$!foo
+\$!{foo}
+\\$!{foo}
+]]></source>
+
+  <p>
+    Tulosteena on:
+  </p>
+
+<source><![CDATA[
+$foo
+$!foo
+$!{foo}
+\bar
+]]></source>
+
+ </subsection>
+
+<subsection name="Yleistä Velocimakroista" href="YleistäVelocimakroista">
+
+<p>
+Tämä osio on Velocimakroaiheinen mini-FAQ. Osio muuttuu ajan myötä,
+joten uutta tietoa hakevien kannattanee palata sivulle aika ajoin.
+</p>
+
+<p>
+Huom! : Tässä osiossa 'Velocimakro':ihin viitataan usein lyhenteellä
+'VM'.
+</p>
+
+<strong>Voinko käyttää ohjetta tai toista VM:a argumenttina
+VM:oon?</strong>
+
+<p>
+Esimerkki : <code>#center( #bold("hello") )</code>
+</p>
+
+<p>
+Et. Ohje ei ole sallittu argumentti ohjeelle, ja VM on
+käytännöllisesti katsoen ohje.
+</p>
+
+<p>
+<i>Kuitenkin...</i>, voit kiertää rajoituksen. Yksinkertainen ratkaisu
+on käyttää hyväksi sitä että lainausmerkeissä (") oleva teksti
+tulkitaan. Tämä ansiosta voit tehdä seuraavasti:
+</p>
+
+<source><![CDATA[
+#set($stuff = "#bold('hello')" )
+#center( $stuff )
+]]></source>
+
+<p>
+Voit myös säästää rivin...
+</p>
+
+<source><![CDATA[
+#center( "#bold( 'hello' )" )
+]]></source>
+
+<p>
+Huomaa että jälkimmäisessä esimerkissä parametri käsitellään VM:n
+<i>sisällä</i>, ei kutsun tasolla. Toisin sanoen VM:lle annettu
+parametri siirretään kokonaisuudessaan ja käsitellään VM:ssa johon se
+siirrettiin. Tämän ansiosta voit tehdä esimerkiksi seuraavaa:
+</p>
+
+<source><![CDATA[
+
+#macro( inner $foo )
+  inner : $foo
+#end
+
+#macro( outer $foo )
+   #set($bar = "outerlala")
+   outer : $foo
+#end
+
+#set($bar = 'calltimelala')
+#outer( "#inner($bar)" )
+
+]]></source>
+
+<p>
+Tulosteeksi tulee
+</p>
+
+<source><![CDATA[
+Outer : inner : outerlala
+]]></source>
+
+<p>
+koska parametrin "#inner($bar)" tulkitseminen tapahtuu lauseen
+#outer() sisällä, käytetään muuttujan $bar arvoa joka asetettiin
+#outer VM:ssa.
+</p>
+
+<p>
+Tämä on tarkoituksellinen ja tarkkaan vaalittu ominaisuus - parametrit
+siirretään 'nimen mukaan' ('by name') VM:oon, jotta voit siirtää
+VM:oon tilansa muistavia (stateful) viittauksia kuten
+</p>
+
+<source><![CDATA[
+#macro( foo $vari )
+  <tr bgcolor=$vari><td>Hei</td></tr>
+  <tr bgcolor=$vari><td>Siellä</td></tr>
+#end
+
+#foo( $bar.rivinVari() )
+]]></source>
+
+<p>
+jossa rivinVari() metodia kutsutaan toistuvasti, ei vain kerran. Sen
+välttämiseksi kutsu metodia VM:n ulkopuolelta ja siirrä arvo VM:oon.
+</p>
+
+<source><![CDATA[
+#set($vari = $bar.rivinVari())
+#foo( $vari )
+]]></source>
+
+
+<strong>Voinko rekisteröidä Velocimakroja #parse() :n kautta?
+</strong>
+
+    <p>
+    Nykyisellään Velocimakrot tulee olla määriteltyinä ennen
+    ensimmäistä käyttöä. Tämä tarkoittaa sitä että #macro()
+    määritystesi tulisi tulla ennen kuin käytät Velocimakroja.
+    </p>
+
+    <p>
+    Tämä on tärkeää muistaa jos yrität käyttää ohjetta #parse()
+    sivupohjaan jossa on inline #macro() ohjeita. Koska #parse()
+    suoritetaan ajon aikana, ja parseri päättää ajon aikana onko
+    sivupohjassa oleva Velocimakrolta näyttävä elementti Velocimakro,
+    ei Velocimakrojen #parse():aminen toimi niin kuin
+    olettaisi. Ongelma voidaan välttää helposti käyttämällä
+    <code>velocimacro.library</code> toimintoa jonka avulla Velocity
+    lataa Velocimakrosi käynnistyksen yhteydessä.
+    </p>
+
+
+<strong>Mitä tarkoittaa Velocimakrojen automaattinen
+uudelleenlataus?</strong>
+
+  <p>
+   On olemassa asetus joka on tarkoitettu käytettäväksi järjestelmän
+   <i>kehityksen</i> aikana, ei käytössä olevassa järjestelmässä :
+  </p>
+
+  <p>
+  <code>velocimacro.library.autoreload</code>
+  </p>
+
+   <p>
+   joka on oletuksena pois käytöstä (false). Kun ominaisuus on
+   asetettu käyttöön (true) <em>yhdessä</em> asetuksen
+   </p>
+
+   <p>
+   <code>&lt;type&gt;.resource.loader.cache = false</code>
+   </p>
+
+    <p>
+    kanssa (jossa &lt;type&gt; on resurssilataajan nimi jota käytät,
+    kuten 'file'), silloin Velocity lataa automaattisesti
+    Velocitymakroihin tekemäsi muutokset silloin kun teet niitä, joten
+    sinun ei tarvitse käynnistää uudelleen sovellusalustaa (tai
+    ohjelmaa) tai turvautua johonkin muuhun kikkaan saadaksesi
+    muuttuneet Velocitymakrosi käyttöön.
+    </p>
+
+    <p>
+    Yksinkertainen konfiguraatio saattaisi näyttää seuraavalta:
+    </p>
+
+    <source><![CDATA[
+    file.resource.loader.path = templates
+    file.resource.loader.cache = false
+    velocimacro.library.autoreload = true
+    ]]></source>
+
+    <p>
+    Älä käytä näitä asetuksia tuotantokäytössä.
+    </p>
+
+</subsection>
+
+<subsection name="Merkkijonojen yhdistäminen" href="Merkkijonojenyhdistäminen">
+
+    <p>
+    Yleinen kehittäjien kysymä kysymys on <i>Kuinka yhdistän
+    merkkijonoja? Onko olemassa Javan '+' operaattoria vastaavaa
+    toimintoa?</i>.
+   </p>
+
+   <p>
+    Viittausten liittämiseksi yhteen VTL:ssa, sinun tarvitsee vain
+    'laittaa ne yhteen'. Konteksti jossa yhdistät viittaukset
+    vaikuttaa tuloksiin, joten esimerkit ovat paikallaan.
+   </p>
+
+   <p>
+    Normaalissa tapauksessa (jolloin sekoitat muuttujat sivupohjan
+    muuhun sisältöön) :
+   </p>
+
+   <source><![CDATA[
+       #set( $koko = "Big" )
+       #set( $nimi = "Ben" )
+
+      Kello on $iso$nimi.
+   ]]></source>
+
+   <p>
+     tulosteena on 'Kello on BigBen'. Hieman mielenkiintoisemmassa
+     tapauksessa, kuten silloin kun haluat liittää merkkijonot
+     siirrettäväksi parametrina metodille, tai asettaaksesi uuden
+     viittauksen, tee seuraavasti:
+   </p>
+
+   <source><![CDATA[
+      #set( $koko = "Big" )
+      #set( $nimi = "Ben" )
+
+      #set($kello = "$koko$nimi" )
+
+      Kello on $kello.
+    ]]></source>
+
+    <p>
+     Josta tulee sama tuloste. Viimeisenä esimerkkinä, kun haluat
+     sekoittaa 'staattisia' merkkijonoja viittauksiin, saatat joutua
+     käyttämään 'muodollista viittausten merkintää' :
+    </p>
+
+    <source><![CDATA[
+      #set( $koko = "Big" )
+      #set( $nimi = "Ben" )
+
+      #set($kello = "${koko}Tall$nimi" )
+
+      Kello on $kello.
+    ]]></source>
+
+    <p>
+      Nyt tuloste on 'Kello on BigTallBen'. Muodollista viittausten
+      merkintää käytetään, jotta parseri tietäisi että tarkoitat
+      viittauksellasi muuttujaa '$size' eikä '$sizeTall', jota se
+      käyttäisi mikäli et olisi käyttänyt '{}' merkkejä.
+    </p>
+</subsection>
+
+</section>
+
+<section name="Palaute" href="Palaute">
+
+  <p>
+    Mikäli löydät tästä ohjeesta virheitä tai haluat antaa ohjetta
+    koskevaa palautetta, ole hyvä ja lähetä sähköpostia <a
+    href="mailto:user@velocity.apache.org">Velocity
+    käyttäjälistalle</a>.  Kiitos!
+  </p>
+
+</section>
+
+</body>
+</document>

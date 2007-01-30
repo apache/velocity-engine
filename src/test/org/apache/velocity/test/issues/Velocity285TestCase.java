@@ -35,7 +35,7 @@ import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
- * Test Case for <a href="http://issues.apache.org/jira/browse/VELOCITY-285">Velocity Issue 285</a>.
+ * Test Case for <a href="https://issues.apache.org/jira/browse/VELOCITY-285">Velocity Issue 285</a>.
  */
 public class Velocity285TestCase
         extends BaseTestCase

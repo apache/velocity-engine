@@ -489,8 +489,8 @@
     <echo>
       **************************************************************
       ** Building the examples :
-      **   examples/appexample1 : application example
-      **   examples/appexample2 : application example
+      **   examples/app_example1 : application example
+      **   examples/app_example2 : application example
       **   examples/context_example : example context implementations
       **   examples/logger_example : how to make an external logger
       **   examples/xmlapp_example : how to access XML data in a template
@@ -542,11 +542,17 @@
              doctitle="${name} ${version} API"
              encoding="UTF-8"
              docencoding="UTF-8"
-             bottom="Copyright &#169; 2000-${build.year} Apache Software Foundation. All Rights Reserved."
+             bottom="Copyright &#169; 2000-${build.year} &lt;a href=&quot;http://www.apache.org/&quot;&gt;Apache Software Foundation&lt;/a&gt;. All Rights Reserved."
              classpathref="velocity.build.classpath">
 
       <link href="${javadocs.ref.jsdk}"/>
-
+      <link href="http://www.jdom.org/docs/apidocs"/>
+      <link href="http://logging.apache.org/log4j/docs/api"/>
+      <link href="http://excalibur.apache.org/apidocs"/>
+      <link href="http://tomcat.apache.org/tomcat-4.1-doc/servletapi"/>
+      <link href="http://jakarta.apache.org/oro/api"/>
+      <link href="http://jakarta.apache.org/commons/lang/api-release"/>
+      <link href="http://jakarta.apache.org/commons/collections/api-release"/>
     </javadoc>
   </target>
 
@@ -621,7 +627,7 @@
     </copy>
 
     <!-- Add freshly built Java docs -->
-    <copy todir="${dist.dir}/docs/docs/api">
+    <copy todir="${dist.dir}/docs/api">
       <fileset dir="${build.javadoc}">
         <include name="**"/>
       </fileset>
@@ -651,16 +657,15 @@
       </fileset>
     </copy>
 
-    <copy file="${velocity.dir}/LICENSE"
-          tofile="${dist.dir}/LICENSE" />
-
-    <copy file="${velocity.dir}/NOTICE"
-          tofile="${dist.dir}/NOTICE" />
-
-    <copy
-      file="${velocity.dir}/README.txt"
-      tofile="${dist.dir}/README.txt"
-    />
+    <copy todir="${dist.dir}">
+      <fileset dir="${velocity.dir}">
+        <include name="LICENSE" />
+        <include name="NOTICE" />
+        <include name="README.txt" />
+        <include name="CONTRIBUTORS" />
+        <include name="WHY_TWO_JARS.txt" />
+      </fileset>
+    </copy>
 
     <copy
       file="${build.dir}/${final.name}.jar"
@@ -773,10 +778,9 @@
   #######################################################
     </echo>
 
-    <anakia basedir="${xdocs.dir}" destdir="${build.docs}"
+    <anakia basedir="${xdocs.dir}/docs" destdir="${build.docs}"
          extension=".html" style="site.vsl"
-         projectFile="stylesheets/${docs.project}"
-         excludes="**/stylesheets/** empty.xml"
+         projectFile="../stylesheets/${docs.project}"
          includes="**/*.xml"
          lastModifiedCheck="true"
          templatePath="${xdocs.dir}/stylesheets">

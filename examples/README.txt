@@ -4,22 +4,24 @@ This directory contains a few examples to help get you started.
 
 As always, the if you have any questions :
 
-1) Make sure you followed any directions :)  (did you build everything?)
+1) Make sure you followed any directions :-) (did you build
+   everything?)
+
 2) Review documentation included in this package, or online at
-      http://jakarta.apache.org/velocity/index.html
-3) Ask on the velocity-user list.  This is a great source of support information.
-   To join, read http://jakarta.apache.org/site/mail.html and then follow the 
-   link at the bottom to join the lists.
+   http://velocity.apache.org/
 
-These examples are very easy to build, but there is a prerequisite for building
-any Velocity software, a Java based build tool called 'Ant'.  It can be found at
+3) Ask on the velocity-user list.  This is a great source of support
+   information.  To join, read http://velocity.apache.org/contact.html
+   and then follow the links to join the lists.
 
-   http://jakarta.apache.org/ant/
 
-It's really a great tool.  Once ant is installed and working (it's easy, don't
-worry...), you can build the example suite via :
+These examples are very easy to build, but there is a prerequisite for
+building any Velocity software, installing Apache ant, which can be
+downloaded from
 
-Change to the /build directory in the Velocity distribution and then type :
+   http://ant.apache.org/
+
+Change to the /build directory in the Velocity distribution and then type:
 
   ant examples
 

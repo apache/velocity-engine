@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.    
+-->
+
+<document>
+
+ <properties>
+  <title>Velocity Overview</title>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
+ </properties>
+
+ <body>
+
+
+ <section name="Overview" href="Overview">
+
+ <p>
+    Velocity is a template engine that can be used for many purposes.  Some common types of applications
+    which use Velocity are:
+ </p>
+    <ul>
+        <li>Web applications.  Web designers create HTML pages with placeholders for dynamic information.
+           The page is processed with <a href="http://velocity.apache.org//tools/devel/view/">VelocityViewServlet</a> or any of a
+           number of <a href="http://wiki.apache.org/velocity/PoweredByVelocity">frameworks</a> which support Velocity.
+           This approach to web application development
+           is called Model-View-Controller or MVC and is intended to be a direct replacement
+           for applications developed with Java Server Pages (JSPs) or PHP.
+        </li>
+
+        <li>Source code generation.  Velocity can be used to generate Java source code, SQL, or PostScript
+            based on templates.  The <a href="http://wiki.apache.org/velocity/PoweredByVelocity">PoweredByVelocity</a>
+            page lists a number of open source
+            and commercial development software packages which use Velocity in this manner.
+        </li>
+
+        <li>Automatic emails.  Many applications generate automatic emails for account signup, password reminders
+            or automatically sent reports.  Using Velocity, the email template can be stored in a text
+            file rather than directly embedded in your Java code.
+        </li>
+
+        <li>XML transformation.  Velocity provides an ant task called <a href="anakia.html">Anakia</a> which reads
+            an XML file and makes it available to a Velocity template.  A common application is to
+            convert documentation stored in a generic "xdoc" format into a styled HTML document.
+         </li>
+    </ul>
+ </section>
+
+
+ <section name="How it Works" href="HowitWorks">
+ <p>
+    Velocity allows web page designers and other template writers to include markup statements
+    called <em>references</em> in the page.  These references are pulled from a <em>Context</em>
+    object -- essentially a hashtable that provides get and set
+    methods for retrieving and setting objects -- and the corresponding values are inserted
+    directly in a page.  Velocity provides basic control statements, that can loop over a collection
+    of values (foreach) or conditionally show a block of text (if/else).  The ability to
+    call arbitrary Java methods, include other files, and to create macros that can be repeatedly
+    used make this a powerful yet easy-to-use approach for creating dynamic web page or other
+    text files.
+ </p>
+
+ <p>
+    Velocity enforces a Model-View-Controller (MVC) style of development
+    by separating Java code from HTML template code. Unlike JSPs,
+    Velocity does not allow Java code to be embedded in pages. Unlike PHP,
+    Velocity does not implement features with other functions. The MVC
+    approach is one of Velocity's great strengths, and allows for more
+    maintainable and better-designed web pages.
+ </p>
+
+ <p>
+    Although MVC-style development can sometimes lead to longer incubation
+    periods for web sites, particularly if the developers involved are new
+    to MVC, this approach saves time over the long term (believe us, we have
+    been doing this for a long time now). The MVC abstraction prevents web page
+    designers from messing with a software engineer's Java code, and
+    programmers from unduly influencing the look of web sites. Velocity enforces
+    a contract that defines what roles people play in the web site development
+    process.
+ </p>
+ </section>
+
+
+ <section name="Extending Velocity's Capability" href="ExtendingVelocity'sCapability">
+    <p>While Velocity is generally useful within an application as is, there are a number of ways
+    its capabilities can be extended.
+    </p>
+
+    <ul>
+        <li>Special types of objects, generically called "Tools", contain methods but no data.
+            When placed into the Velocity context the template can call these methods to
+            do basic tasks like formatting numbers or escaping HTML entities.
+        </li>
+        <li>
+            Velocity provides a selection of <em>resource loaders</em> that can retrieve
+            templates from text files, the classpath, even a database.  But if that's not
+            enough you can write your own resource loader to retrieve in a custom manner.
+        </li>
+        <li>
+            <em>Event Handlers</em> provide hooks to perform custom actions upon certain
+            events, such as the insertion of a reference into text.
+        </li>
+        <li>
+            Advanced users can write a custom <em>Introspector</em> which retrieves
+            reference properties and methods.  For example, you might create an introspector
+            that retrieves data from Lucene or other search engine indexes.
+        </li>
+        <li>Finally, for the truly adept, the grammar for Velocity is processed in a parser
+            generated by
+            <a href="https://javacc.dev.java.net/">JavaCC</a> (Java Compiler
+            Compiler) using the JJTree extension to create an Abstract Syntax Tree.
+            By changing the JavaCC specification file and recompiling, the Velocity syntax
+            itself can be changed.
+        </li>
+     </ul>
+
+ </section>
+
+ <section name="Acknowledgement" href="Acknowledgement">
+    <p>
+        Velocity's design concept is borrowed from <a
+        href="http://www.webmacro.org/">WebMacro</a>. Those involved in the
+        Velocity project acknowledge and appreciate the development and design work
+        that went into the WebMacro project.
+     </p>
+
+ </section>
+
+</body>
+</document>
