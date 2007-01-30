@@ -25,6 +25,9 @@
   </properties>
 
   <body>
+    <release version="1.6" date="in Subversion">
+    </release>
+
     <release version="1.5" date="2007-01-28">
 
       <action type="add" dev="henning" issue="VELOCITY-191" due-to="Aki Nieminen">

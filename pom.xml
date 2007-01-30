@@ -27,10 +27,10 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.5</version>
+  <version>1.6-SNAPSHOT</version>
 
   <name>Apache Velocity</name>
-  <url>http://velocity.apache.org/engine/releases/velocity-1.5/</url>
+  <url>http://velocity.apache.org/engine/devel/</url>
   <description>Apache Velocity is a general purpose template engine.</description>
   <inceptionYear>2000</inceptionYear>
   <packaging>pom</packaging>
@@ -79,7 +79,7 @@
   <distributionManagement>
     <site>
       <id>velocity.apache.org</id>
-      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.5/</url>
+      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/</url>
     </site>
     <repository>
       <id>apache.releases</id>
@@ -233,10 +233,9 @@
         <configuration>
           <!-- Apache JIRA, Component Engine -->
           <component>12311337</component>
-          <!-- FixFor 1.5beta1, 1.5beta2, 1.5 -->
-          <filter>fixfor=12310253&amp;fixfor=12312142&amp;fixfor=12312057&amp;sorter/field=issuekey&amp;sorter/order=ASC</filter>
-          <!-- 100 entries are not enough for 1.5 ... -->
-          <maxEntries>500</maxEntries>
+          <!-- FixFor 1.6 -->
+          <filter>fixfor=12310290&amp;sorter/field=issuekey&amp;sorter/order=ASC</filter>
+          <maxEntries>100</maxEntries>
           <teamlist>http://velocity.apache.org/who-we-are.html</teamlist>
         </configuration>
       </plugin>
@@ -277,10 +276,10 @@
   </reporting>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/branches/Velocity_1.5_BRANCH</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/branches/Velocity_1.5_BRANCH</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
     <tag>HEAD</tag>
-    <url>http://svn.apache.org/viewvc/velocity/engine/branches/VELOCITY_1.5_BRANCH</url>
+    <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
   </scm>
 
   <issueManagement>
