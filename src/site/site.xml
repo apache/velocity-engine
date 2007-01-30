@@ -79,10 +79,10 @@
     <menu name="Developers">
         <item name="License"                  href="license.html"/>
         <item name="Javadoc"                  href="apidocs/index.html"/>
-        <item name="Changes in 1.5"           href="changes-report.html"/>
-        <item name="Resolved Issues in 1.5"   href="jira-report.html"/>
+        <item name="Changes"                  href="changes-report.html"/>
+        <item name="Resolved Issues"          href="jira-report.html"/>
         <item name="Dependencies"             href="jar-dependencies.html"/>
-        <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/branches/Velocity_1.5_BRANCH/"/>
+        <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/trunk/"/>
         <item name="Building from Source"     href="build.html"/>
     </menu>
 
