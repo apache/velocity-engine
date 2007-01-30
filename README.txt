@@ -63,6 +63,27 @@ will find two pre-built jars in the top level directory.
 Please see the WHY_TWO_JARS.txt file for more information.
 
 
+UPGRADING FROM EARLIER RELEASES
+-------------------------------
+
+Release with the same major number (1.x) are intended to be drop-in
+replacements. However, in most cases the versions of dependency jars
+must be adjusted because newer versions of Velocity might require
+updates.
+
+Upgrading from Velocity 1.4 or earlier
+
+    * JDOM has been upgraded to version 1.0.
+    * Commons Collections has been upgraded to version 3.1.
+    * Commons Lang 2.1 has been added.
+
+   Optional:
+
+    * Apache Ant 1.6 or better is required for rebuilding.
+    * Java CC 3.2 is recommended to compile the parser files.
+    * HSQLDB 1.7.1 is required for running unit tests.
+
+
 BUILDING APACHE VELOCITY
 ------------------------
 
