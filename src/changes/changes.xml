@@ -30,6 +30,10 @@
 
     <release version="1.5" date="2007-01-28">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-516" due-to="Vincent Massol">
+        Fix to SecureUberspector to work properly with #foreach and iterators.
+      </action>
+
       <action type="add" dev="henning" issue="VELOCITY-191" due-to="Aki Nieminen">
         Make FileResourceLoader unicode aware to allow skipping over BOM markers
         like those created by Windows Notepad. This is a workaround for a Java
@@ -61,7 +65,7 @@
     allowing application to produce more useful error messages.
       </action>
 
-      <action type="fix" dev="henning" issue="VELOCITY-24">
+      <ction type="fix" dev="henning" issue="VELOCITY-24">
     Fixed race condition in template retrieval that caused macros to
     fail under simultaneous load.
       </action>
