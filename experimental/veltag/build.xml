@@ -53,7 +53,7 @@
   <property name="servlet.jar"               value="${servlet.home}/jakarta-servletapi-4.0.jar"/>
 
   <!-- The pathname of the "velocity.jar" JAR file -->
-  <property name="velocity.jar"               value="${velocity.home}/jakarta-velocity-1.2-dev.jar"/>
+  <property name="velocity.jar"               value="${velocity.home}/velocity-1.5.jar"/>
 
 
 <!-- ========== Component Declarations ==================================== -->
