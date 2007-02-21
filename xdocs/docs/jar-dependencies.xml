@@ -81,8 +81,20 @@
           <td>Only required for the Anakia tool / ant task</td>
         </tr>
         <tr>
+          <td>antlr</td><td>No</td>
+          <td>Only required for the Anakia tool / ant task</td>
+        </tr>
+        <tr>
           <td>ant</td><td>No</td>
           <td>Only needed for compilation.</td>
+        </tr>
+        <tr>
+          <td>junit</td><td>No</td>
+          <td>Only needed for running the tests during compilation.</td>
+        </tr>
+        <tr>
+          <td>hsqldb</td><td>No</td>
+          <td>Only needed for running the tests during compilation.</td>
         </tr>
       </table>
 
