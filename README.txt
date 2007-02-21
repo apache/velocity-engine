@@ -34,7 +34,8 @@ Repository, the directory layout is slightly different.
 REQUIREMENTS
 ------------
 
-Apache Velocity will run with any version of Java greater than 1.3.
+Apache Velocity will run with any version of Java greater than 1.3,
+though some features require 1.4.
 
 Building from source requires Java version 1.4 (or greater) and ant
 1.6 or greater.
@@ -127,7 +128,7 @@ velocity-dep-<version>.jar
 TRYING THE EXAMPLES
 -------------------
 
-After building Velocity, you can also buld the examples that are
+After building Velocity, you can also build the examples that are
 included with the Velocity distribution.  These examples show how to
 use Velocity in your Java applications.  There also are examples of
 how to use Anakia, a XML transformation engine.
