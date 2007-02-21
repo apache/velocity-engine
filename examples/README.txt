@@ -31,7 +31,7 @@ Finally, note that more examples of using Velocity can be found in the
 Velocity-Tools subject.  Of special note is the VelocityViewServlet,
 a quick and easy way to build a web application that uses Velocity.
 
-	http://jakarta.apache.org/velocity/tools
+   http://velocity.apache.org/tools/
 
 
 Velocity Examples
