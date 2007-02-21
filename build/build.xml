@@ -582,17 +582,17 @@
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.dir}/src/java"/>
 
-  	<!-- use original to get pre-filtered text -->
+    <!-- use original to get pre-filtered text -->
     <copy todir="${dist.dir}/src/java/">
       <fileset dir="${src.java.dir}" />
     </copy>
 
-  	<!-- use original to get pre-filtered text -->
+    <!-- use original to get pre-filtered text -->
     <copy todir="${dist.dir}/src/test/">
       <fileset dir="${test.java.dir}" />
     </copy>
 
-  	<!-- use original to get pre-filtered text -->
+    <!-- use original to get pre-filtered text -->
     <copy todir="${dist.dir}/src/parser/">
       <fileset dir="${src.parser.dir}" />
     </copy>
@@ -728,10 +728,37 @@
   <!-- Packages the distribution with ZIP and TAG-GZIP                    -->
   <!-- ================================================================== -->
   <target name="package"
-          depends="package-zip,package-tgz"
+          depends="package-java-check,package-zip,package-tgz"
           description="Generates the Velocity distribution files">
   </target>
 
+  <target name="package-java-check">
+      <condition property="correct-java-version">
+        <equals arg1="${ant.java.version}" arg2="${dist.required.java.version}"/>
+      </condition>
+  
+      <fail unless="correct-java-version">
+        Could not run create distribution package:
+    ***********************************************************
+    **
+    ** In order to create a distribution package, you must be
+    ** using Java version ${dist.required.java.version} instead
+    ** of Java version ${java.version}
+    **
+    ***********************************************************
+      </fail>
+
+      <echo>
+    ***********************************************************
+    **
+    ** Creating a distribution package.  Compiling with 
+    ** Java version ${java.version}
+    **
+    ***********************************************************
+      </echo>
+
+  </target>
+  
   <!-- ======================================================================= -->
   <!-- Cleans up the build directory. Leave Libs unharmed to avoid re-download -->
   <!-- ======================================================================= -->
