@@ -16,12 +16,14 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collection;
+import java.util.HashSet;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -46,12 +48,13 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
     /**
      * Default constructor.
+     * @param name
      */
     public SecureIntrospectionTestCase(String name)
     {
         super(name);
     }
-    
+
     public static Test suite()
     {
        return new TestSuite(SecureIntrospectionTestCase.class);
@@ -67,13 +70,15 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
     private String [] goodTemplateStrings =
     {
+        "#foreach($item in $test.collection)$item#end",
         "$test.Class.Name",
         "#set($test.Property = 'abc')$test.Property",
         "$test.aTestMethod()"
     };
 
     /**
-     *  Test to see that "dangerous" methods are forbidden 
+     *  Test to see that "dangerous" methods are forbidden
+     *  @exception Exception
      */
     public void testBadMethodCalls()
         throws Exception
@@ -89,7 +94,8 @@ public class SecureIntrospectionTestCase extends BaseTestCase
     }
 
     /**
-     *  Test to see that "dangerous" methods are forbidden 
+     *  Test to see that "dangerous" methods are forbidden
+     *  @exception Exception
      */
     public void testGoodMethodCalls()
         throws Exception
@@ -109,7 +115,7 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         Context c = new VelocityContext();
         c.put("test", this);
 
-        try 
+        try
         {
             for (int i=0; i < templateStrings.length; i++)
             {
@@ -117,15 +123,15 @@ public class SecureIntrospectionTestCase extends BaseTestCase
                 {
                     fail ("Should have evaluated: " + templateStrings[i]);
                 }
-                
+
                 if (!shouldeval && doesStringEvaluate(ve,c,templateStrings[i]))
                 {
                     fail ("Should not have evaluated: " + templateStrings[i]);
                 }
             }
 
-        } 
-        catch (Exception e) 
+        }
+        catch (Exception e)
         {
             fail(e.toString());
         }
@@ -133,10 +139,12 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
     private boolean doesStringEvaluate(VelocityEngine ve, Context c, String inputString) throws ParseErrorException, MethodInvocationException, ResourceNotFoundException, IOException
     {
-        Writer w = new StringWriter();
+    	// assume that an evaluation is bad if the input and result are the same (e.g. a bad reference)
+    	// or the result is an empty string (e.g. bad #foreach)
+    	Writer w = new StringWriter();
         ve.evaluate(c, w, "foo", inputString);
         String result = w.toString();
-        return !result.equals(inputString);
+        return (result.length() > 0 ) &&  !result.equals(inputString);
     }
 
     private String testProperty;
@@ -144,14 +152,27 @@ public class SecureIntrospectionTestCase extends BaseTestCase
     {
         return testProperty;
     }
-    
+
     public int aTestMethod()
     {
         return 1;
     }
-    
+
     public void setProperty(String val)
     {
         testProperty = val;
     }
+
+
+	public Collection getCollection()
+	{
+		Collection c = new HashSet();
+		c.add("aaa");
+		c.add("bbb");
+		c.add("ccc");
+		return c;
+	}
+
 }
+
+
