@@ -1,16 +1,9 @@
-You need to install Ant first.
+To build this anakia example, use Ant.
 
-    <http://jakarta.apache.org/ant/>
+    http://ant.apache.org
 
-Then, you need to build Velocity:
-
-    cd jakarta-velocity/build
+Run it from the build directory.
+    cd /examples/anakia/build
     ant
-
-Then, you can run this Anakia example:
-
-    cd jakarta-velocity/examples/anakia/build
-    ant
-
-thanks.
+    
 
