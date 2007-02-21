@@ -25,7 +25,11 @@
   </properties>
 
   <body>
-    <release version="1.5" date="2007-01-28">
+    <release version="1.5" date="2007-02-20">
+
+      <action type="fix" dev="wglass" issue="VELOCITY-516" due-to="Vincent Massol">
+        Fix to SecureUberspector to work properly with #foreach and iterators.
+      </action>
 
       <action type="add" dev="henning" issue="VELOCITY-191" due-to="Aki Nieminen">
         Make FileResourceLoader unicode aware to allow skipping over BOM markers
