@@ -114,7 +114,7 @@ context.put("root", root );
 
 <section name="Installation/Example" href="Installation/Example">
 <p>
-    Before reviewing the <example>examples/anakia</example directory,
+    Before reviewing the <code>examples/anakia</code> directory,
     you must <a href="build.html">build Velocity</a>.
 </p>
 <p>
