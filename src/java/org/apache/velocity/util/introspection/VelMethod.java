@@ -31,8 +31,8 @@ package org.apache.velocity.util.introspection;
 public interface VelMethod
 {
     /**
-     *  invocation method - called when the method invocationshould be
-     *  preformed and a value returned
+     *  invocation method - called when the method invocation should be
+     *  performed and a value returned
      * @param o
      * @param params
      * @return The resulting object.
