@@ -54,11 +54,11 @@ public class PropertiesUtil
         {
             if (templatePath != null)
             {
-        	properties = loadFromTemplatePath(propertiesFile);
+                properties = loadFromTemplatePath(propertiesFile);
             }
             else
             {
-        	properties = loadFromClassPath(propertiesFile);
+                properties = loadFromClassPath(propertiesFile);
             }
         }
         catch (RuntimeException e)
