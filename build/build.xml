@@ -449,8 +449,10 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-    <checksum file="${build.dir}/${jarname}.jar" algorithm="md5" fileext=".md5"/>
-    <checksum file="${build.dir}/${jarname}.jar" algorithm="sha1" fileext=".sha1"/>
+    <checksum file="${build.dir}/${jarname}.jar" algorithm="md5" property="checksum.jar.md5"/>
+    <checksum file="${build.dir}/${jarname}.jar" algorithm="sha1" property="checksum.jar.sha1"/>
+    <echo message="${checksum.jar.md5} *${jarname}.jar" file="${build.dir}/${jarname}.jar.md5" />
+    <echo message="${checksum.jar.sha1} *${jarname}.jar" file="${build.dir}/${jarname}.jar.sha1" />
   </target>
 
   <!-- ================================================================== -->
@@ -476,8 +478,10 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="md5" fileext=".md5"/>
-    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="sha1" fileext=".sha1"/>
+    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="md5" property="checksum.jar-src.md5"/>
+    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="sha1" property="checksum.jar-src.sha1"/>
+    <echo message="${checksum.jar-src.md5} *${final.name}-src.jar" file="${build.dir}/${final.name}-src.jar.md5" />
+    <echo message="${checksum.jar-src.sha1} *${final.name}-src.jar" file="${build.dir}/${final.name}-src.jar.sha1" />
   </target>
 
   <!-- =================================================================== -->
@@ -697,8 +701,11 @@
     <delete file="${build.dir}/${final.name}.zip" quiet="true"/>
     <zip zipfile="${build.dir}/${final.name}.zip" basedir="${dist.root}"
          includes="**/${final.name}/**"/>
-    <checksum file="${build.dir}/${final.name}.zip" algorithm="md5" fileext=".md5"/>
-    <checksum file="${build.dir}/${final.name}.zip" algorithm="sha1" fileext=".sha1"/>
+
+    <checksum file="${build.dir}/${final.name}.zip" algorithm="md5" property="checksum.zip.md5"/>
+    <checksum file="${build.dir}/${final.name}.zip" algorithm="sha1" property="checksum.zip.sha1"/>
+    <echo message="${checksum.zip.md5} *${final.name}.zip" file="${build.dir}/${final.name}.zip.md5" />
+    <echo message="${checksum.zip.sha1} *${final.name}.zip" file="${build.dir}/${final.name}.zip.sha1" />
   </target>
 
   <!-- ================================================================== -->
@@ -720,8 +727,11 @@
     <delete file="${build.dir}/${final.name}.tar.gz" quiet="true"/>
     <tar tarfile="${build.dir}/${final.name}.tar.gz" basedir="${dist.root}"
          includes="**/${final.name}/**" longfile="gnu" compression="gzip" />
-    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="md5" fileext=".md5"/>
-    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="sha1" fileext=".sha1"/>
+
+    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="md5" property="checksum.tgz.md5"/>
+    <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="sha1" property="checksum.tgz.sha1"/>
+    <echo message="${checksum.tgz.md5} *${final.name}.tar.gz" file="${build.dir}/${final.name}.tgz.md5" />
+    <echo message="${checksum.tgz.sha1} *${final.name}.tar.gz" file="${build.dir}/${final.name}.zip.sha1" />
   </target>
 
   <!-- ================================================================== -->
