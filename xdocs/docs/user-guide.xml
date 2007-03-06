@@ -27,71 +27,71 @@
 
 <body>
 
-<section name="User Guide - Contents" href="UserGuide-Contents">
+<section name="User Guide - Contents" href="user_guide_-_contents">
 
 <ol>
-<li><a href="#AboutthisGuide">About this Guide</a></li>
-<li><a href="#WhatisVelocity?">What is Velocity?</a></li>
-<li><a href="#WhatcanVelocitydoforme?">What can Velocity do for me?</a>
+<li><a href="#about_this_guide">About this Guide</a></li>
+<li><a href="#what_is_velocity">What is Velocity?</a></li>
+<li><a href="#what_can_velocity_do_for_me">What can Velocity do for me?</a>
     <ol>
-        <li><a href="#TheMudStoreExample">The Mud Store example</a></li>
+        <li><a href="#the_mud_store_example">The Mud Store example</a></li>
     </ol>
 </li>
-<li><a href="#VelocityTemplateLanguage(VTL):AnIntroduction">Velocity Template Language (VTL): An Introduction</a></li>
-<li><a href="#HelloVelocityWorld!">Hello Velocity World!</a></li>
-<li><a href="#Comments">Comments</a></li>
-<li><a href="#References">References</a>
+<li><a href="#velocity_template_language_vtl:_an_introduction">Velocity Template Language (VTL): An Introduction</a></li>
+<li><a href="#hello_velocity_world">Hello Velocity World!</a></li>
+<li><a href="#comments">Comments</a></li>
+<li><a href="#references">References</a>
     <ol>
-        <li><a href="#Variables">Variables</a></li>
-        <li><a href="#Properties">Properties</a></li>
-        <li><a href="#Methods">Methods</a></li>
-        <li><a href="#PropertyLookupRules">Property Lookup Rules</a></li>
+        <li><a href="#variables">Variables</a></li>
+        <li><a href="#properties">Properties</a></li>
+        <li><a href="#methods">Methods</a></li>
+        <li><a href="#propertylookuprules">Property Lookup Rules</a></li>
     </ol>
 </li>
-<li><a href="#FormalReferenceNotation">Formal Reference Notation</a></li>
-<li><a href="#QuietReferenceNotation">Quiet Reference Notation</a></li>
-<li><a href="#Gettingliteral">Getting literal</a>
+<li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
+<li><a href="#quietreferencenotation">Quiet Reference Notation</a></li>
+<li><a href="#getting_literal">Getting literal</a>
     <ol>
-        <li><a href="#Currency">Currency</a></li>
-        <li><a href="#EscapingValidVTLReferences">Escaping Valid VTL References</a></li>
+        <li><a href="#currency">Currency</a></li>
+        <li><a href="#escapingvalidvtlreferences">Escaping Valid VTL References</a></li>
     </ol>
 </li>
-<li><a href="#CaseSubstitution">Case Substitution</a></li>
-<li><a href="#Directives">Directives</a>
+<li><a href="#case_substitution">Case Substitution</a></li>
+<li><a href="#directives">Directives</a>
     <ol>
-        <li><a href="#Set">Set</a></li>
-        <li><a href="#StringLiterals">Literals</a></li>
-        <li><a href="#Conditionals">If-Else Statements</a>
+        <li><a href="#set">Set</a></li>
+        <li><a href="#stringliterals">Literals</a></li>
+        <li><a href="#conditionals">If-Else Statements</a>
             <ol>
-                <li><a href="#RelationalandLogicalOperators">Relational and Logical
+                <li><a href="#relationalandlogicaloperators">Relational and Logical
                 Operators</a></li>
             </ol>
         </li>
-        <li><a href="#Loops">Foreach Loops</a></li>
-        <li><a href="#Include">Include</a></li>
-        <li><a href="#Parse">Parse</a></li>
-        <li><a href="#Stop">Stop</a></li>
-        <li><a href="#Velocimacros">Velocimacros</a></li>
+        <li><a href="#loops">Foreach Loops</a></li>
+        <li><a href="#include">Include</a></li>
+        <li><a href="#parse">Parse</a></li>
+        <li><a href="#stop">Stop</a></li>
+        <li><a href="#velocimacros">Velocimacros</a></li>
     </ol>
 </li>
-<li><a href="#EscapingVTLDirectives">Escaping VTL Directives</a></li>
-<li><a href="#VTL:FormattingIssues">VTL: Formatting Issues</a></li>
-<li><a href="#OtherFeaturesandMiscellany">Other Features and Miscellany</a>
+<li><a href="#escaping_vtl_directives">Escaping VTL Directives</a></li>
+<li><a href="#vtl:_formatting_issues">VTL: Formatting Issues</a></li>
+<li><a href="#other_features_and_miscellany">Other Features and Miscellany</a>
     <ol>
-        <li><a href="#Math">Math</a></li>
-        <li><a href="#RangeOperator">Range Operator</a></li>
-        <li><a href="#AdvancedIssues:Escapingand!">Advanced Issues: Escaping and
+        <li><a href="#math">Math</a></li>
+        <li><a href="#range_operator">Range Operator</a></li>
+        <li><a href="#advanced_issues:_escaping_and_">Advanced Issues: Escaping and
         !</a></li>
-        <li><a href="#VelocimacroMiscellany">Velocimacro Miscellany</a></li>
-        <li><a href="#StringConcatenation">String Concatenation</a></li>
+        <li><a href="#velocimacro_miscellany">Velocimacro Miscellany</a></li>
+        <li><a href="#string_concatenation">String Concatenation</a></li>
     </ol>
 </li>
-<li><a href="#Feedback">Feedback</a></li>
+<li><a href="#feedback">Feedback</a></li>
 </ol>
 
 </section>
 
-<section name="About this Guide" href="AboutthisGuide">
+<section name="About this Guide" href="about_this_guide">
 
  <p>
     The Velocity User Guide is intended to help page designers and
@@ -108,7 +108,7 @@
 
 </section>
 
-<section name="What is Velocity?" href="WhatisVelocity?">
+<section name="What is Velocity?" href="what_is_velocity">
 
  <p>
     Velocity is a Java-based template engine. It permits web page
@@ -137,8 +137,8 @@
 
 </section>
 
-<section name="What can Velocity do for me?" href="WhatcanVelocitydoforme?">
-<subsection name="The Mud Store Example" href="TheMudStoreExample">
+<section name="What can Velocity do for me?" href="what_can_velocity_do_for_me">
+<subsection name="The Mud Store Example" href="the_mud_store_example">
    <p>
     Suppose you are a page designer for an online store that specializes
     in selling mud. Let's call it "The Online Mud Store". Business is
@@ -219,7 +219,7 @@ Hello $customer.Name!
 
 </section>
 
-<section name="Velocity Template Language (VTL): An Introduction" href="VelocityTemplateLanguage(VTL):AnIntroduction">
+<section name="Velocity Template Language (VTL): An Introduction" href="velocity_template_language_vtl:_an_introduction">
 
  <p>
     The Velocity Template Language (VTL) is meant to provide the
@@ -286,7 +286,7 @@ Hello $customer.Name!
 
 </section>
 
-<section name="Hello Velocity World!" href="HelloVelocityWorld!">
+<section name="Hello Velocity World!" href="hello_velocity_world">
 
  <p>
     Once a value has been assigned to a variable, you can reference the
@@ -316,7 +316,7 @@ Hello $foo World!
 
 </section>
 
-<section name="Comments" href="Comments">
+<section name="Comments" href="comments">
 
  <p>
     Comments allows descriptive text to be included that is not placed
@@ -385,7 +385,7 @@ information:
 
 </section>
 
-<section name="References" href="References">
+<section name="References" href="references">
 
  <p>
     There are three types of references in the VTL: variables,
@@ -402,7 +402,7 @@ information:
  </p>
 
  <p>
- <a name="Variables"><strong>Variables</strong></a>
+ <a name="variables"><strong>Variables</strong></a>
  <br/>
     The shorthand notation of a variable consists of a leading "$"
     character followed by a VTL <em>Identifier</em>. A VTL Identifier
@@ -450,7 +450,7 @@ $mudSlinger1
  </p>
 
  <p>
- <a name="Properties"><strong>Properties</strong></a>
+ <a name="properties"><strong>Properties</strong></a>
  <br/>
     The second flavor of VTL references are properties, and properties
     have a distinctive format. The shorthand notation consists of a
@@ -477,7 +477,7 @@ $purchase.Total
  </p>
 
  <p>
- <a name="Methods"><strong>Methods</strong></a>
+ <a name="methods"><strong>Methods</strong></a>
  <br/>
     A method is defined in the Java code and is capable of doing
     something useful, like running a calculation or arriving at a
@@ -541,7 +541,7 @@ $book.setTitle( "Homage to Catalonia" )
 ]]></source>
 
  <p>
-    <a name="PropertyLookupRules"><strong>Property Lookup Rules</strong></a>
+    <a name="propertylookuprules"><strong>Property Lookup Rules</strong></a>
     <br/>
     As was mentioned earlier, properties often refer to methods of the
     parent object. Velocity is quite clever when figuring out which method
@@ -567,7 +567,7 @@ $book.setTitle( "Homage to Catalonia" )
  </p>
 
  <p>
-    <a name="FormalReferenceNotation"><strong>Formal Reference Notation</strong></a>
+    <a name="formalreferencenotation"><strong>Formal Reference Notation</strong></a>
     <br/>
     Shorthand notation for references was used for the examples listed
     above, but there is also a formal notation for references, which is
@@ -619,7 +619,7 @@ Jack is a ${vice}maniac.
 
 
  <p>
-    <a name="QuietReferenceNotation"><strong>Quiet Reference Notation</strong></a>
+    <a name="quietreferencenotation"><strong>Quiet Reference Notation</strong></a>
     <br/>
     When Velocity encounters an undefined reference, its normal behavior
     is to output the image of the reference. For example, suppose the
@@ -659,7 +659,7 @@ Jack is a ${vice}maniac.
 
 </section>
 
-<section name="Getting literal" href="Gettingliteral">
+<section name="Getting literal" href="getting_literal">
 
   <p>
     VTL uses special characters, such as <em>$</em> and <em>#</em>, to
@@ -669,7 +669,7 @@ Jack is a ${vice}maniac.
   </p>
 
   <p>
-    <a name="Currency"><strong>Currency</strong></a>
+    <a name="currency"><strong>Currency</strong></a>
     <br/>
     There is no problem writing "I bought a 4 lb. sack of potatoes at
     the farmer's market for only $2.50!" As mentioned, a VTL identifier
@@ -678,7 +678,7 @@ Jack is a ${vice}maniac.
   </p>
 
   <p>
-    <a name="EscapingValidVTLReferences"><strong>Escaping Valid VTL References</strong></a>
+    <a name="escapingvalidvtlreferences"><strong>Escaping Valid VTL References</strong></a>
     <br/>
     Cases may arise where there is the potential for Velocity to get
     confused. <em>Escaping</em> special characters is the best way to
@@ -775,7 +775,7 @@ $moon = $foo
 
 </section>
 
-<section name="Case Substitution" href="CaseSubstitution">
+<section name="Case Substitution" href="case_substitution">
 
     <p>
     Now that you are familiar with references, you can begin to apply
@@ -833,7 +833,7 @@ ${data.Request.ServerName}
 </section>
 
 
-<section name="Directives" href="Directives">
+<section name="Directives" href="directives">
 
  <p>
     References allow template designers to generate dynamic content for
@@ -862,7 +862,7 @@ ${data.Request.ServerName}
 ]]></source>
 
  <p> </p>
- <a name="Set"><strong>#set</strong></a>
+ <a name="set"><strong>#set</strong></a>
  <p>
     The <em>#set</em> directive is used for setting the value of a
     reference. A value can be assigned to either a variable reference or
@@ -1024,7 +1024,7 @@ The result of the second query is bill
     directive does not have an <em>#end</em> statement.
  </p>
 
-<a name="StringLiterals"><strong>Literals</strong></a>
+<a name="stringliterals"><strong>Literals</strong></a>
 
  <p>
     When using the <em>#set</em> directive, string literals that are
@@ -1100,7 +1100,7 @@ $blargh
 </section>
 
 
-<section name="Conditionals" href="Conditionals">
+<section name="Conditionals" href="conditionals">
 
     <strong>If / ElseIf / Else</strong>
     <p>
@@ -1161,7 +1161,7 @@ $blargh
     </p>
 
     <p>
-    <a name="RelationalandLogicalOperators"><strong>Relational and Logical Operators</strong></a>
+    <a name="relationalandlogicaloperators"><strong>Relational and Logical Operators</strong></a>
     </p>
 
     <p>
@@ -1284,7 +1284,7 @@ $blargh
 
  </section>
 
-<section name="Loops" href="Loops">
+<section name="Loops" href="loops">
 
    <strong>Foreach Loop</strong>
 
@@ -1376,7 +1376,7 @@ directive.foreach.maxloops = -1
 
 </section>
 
-<section name="Include" href="Include">
+<section name="Include" href="include">
 
     <p>
     The <em>#include</em> script element allows the template designer to
@@ -1414,7 +1414,7 @@ directive.foreach.maxloops = -1
 
  </section>
 
-<section name="Parse" href="Parse">
+<section name="Parse" href="parse">
 
     <p>
     The <em>#parse</em> script element allows the template designer to
@@ -1479,7 +1479,7 @@ $count
  </section>
 
 
-<section name="Stop" href="Stop">
+<section name="Stop" href="stop">
 
     <p>
     The <em>#stop</em> script element allows the template designer to
@@ -1492,7 +1492,7 @@ $count
 ]]></source>
  </section>
 
-<section name="Velocimacros" href="Velocimacros">
+<section name="Velocimacros" href="velocimacros">
 
     <p>
     The <em>#macro</em> script element allows template designers to
@@ -1787,7 +1787,7 @@ $count
     </p>
  </section>
 
-<section name="Escaping VTL Directives" href="EscapingVTLDirectives">
+<section name="Escaping VTL Directives" href="escaping_vtl_directives">
   <p>
     VTL directives can be escaped with the backslash character ("\") in
     a manner similar to valid VTL references.
@@ -1904,7 +1904,7 @@ Vyacheslav Ganelin
 
  </section>
 
-<section name="VTL: Formatting Issues" href="VTL:FormattingIssues">
+<section name="VTL: Formatting Issues" href="vtl:_formatting_issues">
 
     <p>
     Although VTL in this user guide is often displayed with newlines and
@@ -1959,9 +1959,9 @@ Send me
 
 </section>
 
-<section name="Other Features and Miscellany" href="OtherFeaturesandMiscellany">
+<section name="Other Features and Miscellany" href="other_features_and_miscellany">
 
-<subsection name="Math" href="Math">
+<subsection name="Math" href="math">
 
   <p>
     Velocity has a handful of built-in mathematical functions that can
@@ -1989,7 +1989,7 @@ Send me
 
   </subsection>
 
-<subsection name="Range Operator" href="RangeOperator">
+<subsection name="Range Operator" href="range_operator">
 
   <p>
     The range operator can be used in conjunction with <em>#set</em> and
@@ -2062,7 +2062,7 @@ Fourth example:
 
   </subsection>
 
-<subsection name="Advanced Issues: Escaping and !" href="AdvancedIssues:Escapingand!">
+<subsection name="Advanced Issues: Escaping and !" href="advanced_issues:_escaping_and_">
 
   <p>
     When a reference is silenced with the <em>!</em> character and the
@@ -2116,7 +2116,7 @@ $!{foo}
 
  </subsection>
 
-<subsection name="Velocimacro Miscellany" href="VelocimacroMiscellany">
+<subsection name="Velocimacro Miscellany" href="velocimacro_miscellany">
 
 <p>
 This section is a mini-FAQ on topics relating to Velocimacros.  This
@@ -2283,7 +2283,7 @@ invoke the method outside of the VM, and pass the value into the VM.
 
 </subsection>
 
-<subsection name="String Concatenation" href="StringConcatenation">
+<subsection name="String Concatenation" href="string_concatenation">
 
     <p>
     A common question that developers ask is
@@ -2351,7 +2351,7 @@ invoke the method outside of the VM, and pass the value into the VM.
 
 </section>
 
-<section name="Feedback" href="Feedback">
+<section name="Feedback" href="feedback">
 
   <p>
     If you encounter any mistakes in this manual or have
