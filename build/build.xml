@@ -735,10 +735,18 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Packages the distribution with ZIP and TAG-GZIP                    -->
+  <!-- Internal targets for Release Manager to ensure that the right      -->
+  <!-- JDK is used for building the release.                              -->
+  <!-- ================================================================== -->
+  <target name="release"
+    description="Build the packages as release manager, does additional checks over the package target"
+    depends="package-java-check, package" />
+
+  <!-- ================================================================== -->
+  <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
   <!-- ================================================================== -->
   <target name="package"
-          depends="package-java-check,package-zip,package-tgz"
+          depends="package-zip,package-tgz"
           description="Generates the Velocity distribution files">
   </target>
 
