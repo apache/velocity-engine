@@ -185,14 +185,14 @@ not so useful in this case). :-)
             <td>useResourceLoaderCache</td>
             <td>Optional argument used when useClasspath is turned on.
             See the <a
-            href="developer-guide.html#ConfiguringResourceLoaders">Developer's Guide</a>
+            href="developer-guide.html#configuring_resource_loaders">Developer's Guide</a>
             for details on resource caching.</td>
         </tr>
         <tr>
             <td>resourceLoaderModificationCheckInterval</td>
             <td>Optional argument used when useClasspath is turned on.
             See the <a
-            href="developer-guide.html#ConfiguringResourceLoaders">Developer's Guide</a>
+            href="developer-guide.html#configuring_resource_loaders">Developer's Guide</a>
             for details on resource caching.</td>
         </tr>
         <tr>
