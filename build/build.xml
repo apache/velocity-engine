@@ -730,8 +730,8 @@
 
     <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="md5" property="checksum.tgz.md5"/>
     <checksum file="${build.dir}/${final.name}.tar.gz" algorithm="sha1" property="checksum.tgz.sha1"/>
-    <echo message="${checksum.tgz.md5} *${final.name}.tar.gz" file="${build.dir}/${final.name}.tgz.md5" />
-    <echo message="${checksum.tgz.sha1} *${final.name}.tar.gz" file="${build.dir}/${final.name}.zip.sha1" />
+    <echo message="${checksum.tgz.md5} *${final.name}.tar.gz" file="${build.dir}/${final.name}.tar.gz.md5" />
+    <echo message="${checksum.tgz.sha1} *${final.name}.tar.gz" file="${build.dir}/${final.name}.tar.gz.sha1" />
   </target>
 
   <!-- ================================================================== -->
