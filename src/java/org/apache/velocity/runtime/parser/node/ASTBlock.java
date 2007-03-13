@@ -19,16 +19,14 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.parser.Parser;
 
 
 /**
@@ -54,7 +52,7 @@ public class ASTBlock extends SimpleNode
     }
 
     /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
