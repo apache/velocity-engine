@@ -20,10 +20,8 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserVisitor;
-
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.TemplateNumber;
 
 /**
@@ -59,7 +57,7 @@ public class ASTLTNode extends SimpleNode
 
 
     /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.ParserVisitor, java.lang.Object)
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
