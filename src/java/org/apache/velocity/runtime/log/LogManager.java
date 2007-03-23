@@ -161,16 +161,32 @@ public class LogManager
                     }
                     else
                     {
-                        log.error("The specifid logger class " + claz +
-                                  " isn't a valid LogChute implementation.");
+                        log.error("The specified logger class " + claz +
+                                  " does not implement the "+LogChute.class.getName()+" interface.");
+                        // be extra informative if it appears to be a classloader issue
+                        // this should match all our provided LogChutes
+                        if (isProbablyProvidedLogChute(claz))
+                        {
+                            // if it's likely to be ours, tip them off about classloader stuff
+                            log.error("This appears to be a ClassLoader issue.  Check for multiple Velocity jars in your classpath.");
+                        }
                     }
                 }
                 catch(NoClassDefFoundError ncdfe)
                 {
                     // note these errors for anyone debugging the app
-                    log.debug("Couldn't find class " + claz +
-                              " or necessary supporting classes in classpath.",
-                              ncdfe);
+                    if (isProbablyProvidedLogChute(claz))
+                    {
+                        log.debug("Target log system for " + claz +
+                                  " is not available (" + ncdfe.toString() +
+                                  ").  Falling back to next log system...");
+                    }
+                    else
+                    {
+                        log.debug("Couldn't find class " + claz +
+                                  " or necessary supporting classes in classpath.",
+                                  ncdfe);
+                    }
                 }
                 catch(Exception e)
                 {
@@ -193,6 +209,25 @@ public class LogManager
         slc.init(rsvc);
         log.debug("Using SystemLogChute.");
         return slc;
+    }
+
+    /**
+     * Simply tells whether the specified classname probably is provided
+     * by Velocity or is implemented by someone else.  Not surefire, but
+     * it'll probably always be right.  In any case, this method shouldn't
+     * be relied upon for anything important.
+     */
+    private static boolean isProbablyProvidedLogChute(String claz)
+    {
+        if (claz == null)
+        {
+            return false;
+        }
+        else
+        {
+            return (claz.startsWith("org.apache.velocity.runtime.log")
+                    && claz.endsWith("LogChute"));
+        }
     }
 
     /**
