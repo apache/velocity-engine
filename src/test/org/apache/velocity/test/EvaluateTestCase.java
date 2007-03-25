@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Test #evaluate directive.
  * 
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: MethodOverloadingTestCase.java 463298 2006-10-12 16:10:32Z henning $
+ * @version $Id$
  */
 public class EvaluateTestCase extends BaseTestCase
 {

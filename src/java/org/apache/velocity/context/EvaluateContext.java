@@ -38,7 +38,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  the context behavior for the #evaluate directive.
  *
  *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- *  @version $Id: EvaluateContext.java 471908 2006-11-06 22:39:28Z henning $
+ *  @version $Id$
  */
 public class EvaluateContext implements InternalContextAdapter
 {
