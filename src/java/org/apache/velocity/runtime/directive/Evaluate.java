@@ -43,7 +43,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * context.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
- * @version $Id: Literal.java 471381 2006-11-05 08:56:58Z wglass $
+ * @version $Id$
  */
 public class Evaluate extends Directive
 {

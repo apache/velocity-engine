@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
  * Tests scope of EvaluateContext.  
  * 
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
- * @version $Id: VMContextLocalscopeTestCase.java 463298 2006-10-12 16:10:32Z henning $
+ * @version $Id$
  */
 public class EvaluateContextTestCase extends TestCase
 {
