@@ -26,6 +26,7 @@ import org.apache.velocity.context.EvaluateContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.test.misc.TestContext;
 
 /**
  * Tests scope of EvaluateContext.  
@@ -35,21 +36,19 @@ import org.apache.velocity.runtime.RuntimeInstance;
  */
 public class EvaluateContextTestCase extends TestCase
 {
-    private RuntimeInstance instance;
-
-    public void setUp() throws Exception 
-    {
-        this.instance = new RuntimeInstance();
-        this.instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
-        this.instance.init();
-    }
-
     public void testLocalscopePutDoesntLeakButGetDoes() 
+    throws Exception
     {
+        RuntimeInstance instance;
+        
+        instance = new RuntimeInstance();
+        instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
+        instance.init();
+
         VelocityContext base = new VelocityContext();
         base.put("outsideVar", "value1");
 
-        EvaluateContext evc = new EvaluateContext(new InternalContextAdapterImpl(base), this.instance);
+        EvaluateContext evc = new EvaluateContext(new InternalContextAdapterImpl(base), instance);
         evc.put("newLocalVar", "value2");
 
         // New variable put doesn't leak
@@ -63,7 +62,67 @@ public class EvaluateContextTestCase extends TestCase
         evc.put("outsideVar", "value3");
         assertEquals("value3", evc.get("outsideVar"));
         assertEquals("value1", base.get("outsideVar"));
+        
+        assertEquals(2, evc.getKeys().length);
     }
 
+    /**
+     * Test that local context can be configured.
+     * @throws Exception
+     */
+    public void testSetLocalContext()
+    throws Exception
+    {
+        RuntimeInstance instance = new RuntimeInstance();
+        instance.setProperty(RuntimeConstants.EVALUATE_CONTEXT_CLASS, TestContext.class.getName());
+        instance.init();
 
+        VelocityContext base = new VelocityContext();
+        base.put("outsideVar", "value1");
+        EvaluateContext evc = new EvaluateContext(new InternalContextAdapterImpl(base), instance);
+
+        // original entry
+        assertEquals(1,evc.getKeys().length);
+        
+        // original plus local entry
+        evc.put("test","result");
+        assertEquals(2,evc.getKeys().length);
+        
+        // local context is case insensitive, so the count remains the same
+        evc.put("TEST","result");
+        assertEquals(2,evc.getKeys().length);
+
+        assertEquals("result",evc.get("test"));
+        assertEquals("result",evc.get("TEst"));
+    
+        assertNull(evc.get("OUTSIDEVAR"));
+    }
+
+    public void testSetLocalContextWithErrors()
+    throws Exception
+    {
+        VelocityContext base = new VelocityContext();
+
+        try 
+        {
+            // initialize with bad class name
+            RuntimeInstance instance = new RuntimeInstance();
+            instance.setProperty(RuntimeConstants.EVALUATE_CONTEXT_CLASS, "org.apache");
+            instance.init();
+            EvaluateContext evc = new EvaluateContext(new InternalContextAdapterImpl(base), instance);
+            fail ("Expected an exception");
+        }
+        catch (Exception e) {}
+        
+        try 
+        {
+            // initialize with class not implementing Context
+            RuntimeInstance instance = new RuntimeInstance();
+            instance.setProperty(RuntimeConstants.EVALUATE_CONTEXT_CLASS, org.apache.velocity.test.EvaluateContextTestCase.class.getName());
+            instance.init();
+            EvaluateContext evc = new EvaluateContext(new InternalContextAdapterImpl(base), instance);
+            fail ("Expected an exception");
+        }
+        catch (Exception e) {}
+    }       
 }

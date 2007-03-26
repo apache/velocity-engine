@@ -19,13 +19,15 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
@@ -36,6 +38,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  from impacting the parent context.  By separating this context into a 
  *  separate class it also allows for the future possibility of changing
  *  the context behavior for the #evaluate directive.
+ *  
+ *  Note that the context used to store values local to #evaluate()
+ *  is user defined but defaults to {@link VelocityContext}.
  *
  *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  *  @version $Id$
@@ -43,25 +48,75 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 public class EvaluateContext implements InternalContextAdapter
 {
     /** container for any local items */
-    HashMap localContext = new HashMap();
+    Context localContext;
 
     /** the base context store.  This is the 'global' context */
     InternalContextAdapter innerContext = null;
 
-    /** context that we are wrapping */
-    InternalContextAdapter wrappedContext = null;
-
+    boolean allowRendering = true;
+    
      /**
      *  CTOR, wraps an ICA
-     * @param inner
-     * @param rsvc
+     * @param inner context for parent template
+     * @param rsvc 
      */
     public EvaluateContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
-        wrappedContext = inner;
         innerContext = inner.getBaseContext();
+        initContext(rsvc);
     }
 
+    /**
+     * Initialize the context based on user-configured class 
+     * @param rsvc
+     */
+    private void initContext( RuntimeServices rsvc )
+    {
+        String contextClass = rsvc.getString(RuntimeConstants.EVALUATE_CONTEXT_CLASS);
+
+        if (contextClass != null && contextClass.length() > 0)
+        {
+            Object o = null;
+
+            try
+            {
+                o = ClassUtils.getNewInstance( contextClass );
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+                String err = "The specified class for #evaluate() context (" + contextClass
+                + ") does not exist or is not accessible to the current classloader.";
+                rsvc.getLog().error(err);
+                throw new RuntimeException(err,cnfe);
+            }
+            catch (Exception e)
+            {
+                String err = "The specified class for #evaluate() context (" + contextClass
+                + ") can not be loaded.";
+                rsvc.getLog().error(err,e);
+                throw new RuntimeException(err);
+            }
+
+            if (!(o instanceof Context))
+            {                
+                String err = "The specified class for #evaluate() context (" + contextClass
+                + ") does not implement " + Context.class.getName() + ".";
+                rsvc.getLog().error(err);
+                throw new RuntimeException(err);
+            }
+            
+            localContext = (Context) o; 
+
+        }
+        else
+        {
+            String err = "No class specified for #evaluate() context.";
+            rsvc.getLog().error(err);
+            throw new RuntimeException(err);
+        }
+        
+    }
+    
     /**
      *  Return the inner / user context.
      * @return The inner / user context.
@@ -131,7 +186,11 @@ public class EvaluateContext implements InternalContextAdapter
     public Object[] getKeys()
     {
         Set keys = new HashSet();
-        keys.addAll(localContext.keySet());
+        Object[] localKeys = localContext.getKeys();
+        for (int i=0; i < localKeys.length; i++)
+        {
+            keys.add(localKeys[i]);
+        }
         
         Object[] innerKeys = innerContext.getKeys();
         for (int i=0; i < innerKeys.length; i++)
@@ -216,7 +275,7 @@ public class EvaluateContext implements InternalContextAdapter
      */
     public boolean getAllowRendering()
     {
-       return innerContext.getAllowRendering();
+       return allowRendering && innerContext.getAllowRendering();
     }
 
     /**
@@ -224,7 +283,7 @@ public class EvaluateContext implements InternalContextAdapter
      */
     public void setAllowRendering(boolean v)
     {
-        innerContext.setAllowRendering(v);
+        allowRendering = false;
     }
 
     /**
