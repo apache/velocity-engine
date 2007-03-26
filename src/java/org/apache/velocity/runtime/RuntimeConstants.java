@@ -138,6 +138,9 @@ public interface RuntimeConstants
     /** Maximum recursion depth allowed for the #parse directive. */
     String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max.depth";
 
+    /** class to use for local context with #evaluate() **/
+    String EVALUATE_CONTEXT_CLASS = "directive.evaluate.context.class";
+
 
     /*
      * ----------------------------------------------------------------------
@@ -286,11 +289,7 @@ public interface RuntimeConstants
      * @see  #NUMBER_OF_PARSERS
      */
     String PARSER_POOL_SIZE = "parser.pool.size";
-
-
-    /** class to use for local context with #evaluate() **/
-    String EVALUATE_CONTEXT_CLASS = "runtime.evaluate.context.class";
-
+    
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.
