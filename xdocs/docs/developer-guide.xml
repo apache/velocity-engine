@@ -1582,6 +1582,16 @@ Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
 
 <p>
+<strong>#evaluate() Directive</strong>
+</p>
+
+<p>
+<code>directive.evaluate.context.class = org.apache.velocity.VelocityContext</code><br/>
+Used in the #evaluate() directive, defines the class that is used for the
+context local to the argument for #evaluate().
+</p>
+
+<p>
 <strong>#foreach() Directive</strong>
 </p>
 

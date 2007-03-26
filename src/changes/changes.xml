@@ -26,6 +26,11 @@
 
   <body>
     <release version="1.6" date="in Subversion">
+      <action type="add" dev="wglass" issue="VELOCITY-509">
+        Added new directive #evaluate() to dynamically evaluate VTL.
+      </action>
+
+
     </release>
 
     <release version="1.5" date="2007-01-28">
