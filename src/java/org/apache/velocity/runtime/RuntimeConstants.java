@@ -288,6 +288,9 @@ public interface RuntimeConstants
     String PARSER_POOL_SIZE = "parser.pool.size";
 
 
+    /** class to use for local context with #evaluate() **/
+    String EVALUATE_CONTEXT_CLASS = "runtime.evaluate.context.class";
+
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.
@@ -307,6 +310,9 @@ public interface RuntimeConstants
      * constant.
      */
     int NUMBER_OF_PARSERS = 20;
+
+    
+
 
 
 }

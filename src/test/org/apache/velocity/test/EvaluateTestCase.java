@@ -22,6 +22,7 @@ package org.apache.velocity.test;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import junit.framework.Test;
@@ -30,7 +31,9 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.event.implement.EscapeHtmlReference;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -92,19 +95,147 @@ public class EvaluateTestCase extends BaseTestCase
        return new TestSuite(EvaluateTestCase.class);
     }
 
+    /**
+     * Test basic functionality.
+     * @throws Exception
+     */
     public void testEvaluate()
     throws Exception
     {
         testFile("eval1");
-
     }
-    public void testFile(String basefilename)
+
+    /**
+     * Test #stop (since it is attached to context).
+     * @throws Exception
+     */
+    public void testStop()
     throws Exception
     {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
         
+        Context context = new VelocityContext();        
+        StringWriter writer = new StringWriter();
+        ve.evaluate(context, writer, "test","test #stop test2 #evaluate('test3')");
+        assertEquals("test ", writer.toString());
+        
+        context = new VelocityContext();        
+        writer = new StringWriter();
+        ve.evaluate(context, writer, "test","test test2 #evaluate('test3 #stop test4') test5");
+        assertEquals("test test2 test3  test5", writer.toString());
+        
+    }
+
+    /**
+     * Test that the event handlers work in #evaluate (since they are
+     * attached to the context).  Only need to check one - they all 
+     * work the same.
+     * @throws Exception
+     */
+    public void testEventHandler()
+    throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, EscapeHtmlReference.class.getName());
+        ve.init();
+        
+        Context context = new VelocityContext();
+        context.put("lt","<");
+        context.put("gt",">");
+        StringWriter writer = new StringWriter();
+        ve.evaluate(context, writer, "test","${lt}test${gt} #evaluate('${lt}test2${gt}')");
+        assertEquals("&lt;test&gt; &lt;test2&gt;", writer.toString());
+        
+    }
+    
+    
+    /**
+     * Test errors are thrown
+     * @throws Exception
+     */
+    public void testErrors()
+    throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+        
+        Context context = new VelocityContext();
+        
+        // no arguments
+        StringWriter writer = new StringWriter();
+        try 
+        {
+            ve.evaluate(context, writer, "test",
+                              "#evaluate()");
+            fail("Expected exception");
+        }
+        catch (ParseErrorException e)
+        {
+            assertEquals("test",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(1,e.getColumnNumber());
+        }
+        
+        // too many arguments
+        writer = new StringWriter();
+        try 
+        {
+            ve.evaluate(context, writer, "test",
+                              "#evaluate('aaa' 'bbb')");
+            fail("Expected exception");
+        }
+        catch (ParseErrorException e)
+        {
+            assertEquals("test",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(17,e.getColumnNumber());
+        }
+        
+        // argument not a string or reference
+        writer = new StringWriter();
+        try 
+        {
+            ve.evaluate(context, writer, "test",
+                              "#evaluate(10)");
+            fail("Expected exception");
+        }
+        catch (ParseErrorException e)
+        {
+            assertEquals("test",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(11,e.getColumnNumber());
+        }
+        
+        // checking line/col for parse error
+        writer = new StringWriter();
+        try 
+        {
+            String eval = "this is a multiline\n\n\n\n\n test #foreach() with an error";
+            context.put("eval",eval);
+            ve.evaluate(context, writer, "test",
+                              "first line\n second line: #evaluate($eval)");
+            fail("Expected exception");
+        }
+        catch (ParseErrorException e)
+        {
+            // should be start of #evaluate
+            assertEquals("test",e.getTemplateName());
+            assertEquals(2,e.getLineNumber());
+            assertEquals(15,e.getColumnNumber());
+        }        
+    }
+    
+    /**
+     * Test a file parses with no errors and compare to existing file.
+     * @param basefilename
+     * @throws Exception
+     */
+    private void testFile(String basefilename)
+    throws Exception
+    {
         VelocityEngine ve = new VelocityEngine();
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-        ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
         ve.init();
         
         Template template;

@@ -37,9 +37,10 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.introspection.Info;
 
 /**
- * Evalutes the macro argument as a Velocity string, using the existing
+ * Evaluates the macro argument as a Velocity string, using the existing
  * context.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
@@ -84,13 +85,25 @@ public class Evaluate extends Directive
          */  
         
         int argCount = node.jjtGetNumChildren();
-        if (argCount != 1)
+        if (argCount == 0)
         {
             throw new TemplateInitException(
                     "#" + getName() + "() requires exactly one argument", 
                     context.getCurrentTemplateName(),
                     node.getColumn(),
                     node.getLine());            
+        }
+        if (argCount > 1)
+        {
+            /* 
+             * use line/col of second argument
+             */
+            
+            throw new TemplateInitException(
+                    "#" + getName() + "() requires exactly one argument", 
+                    context.getCurrentTemplateName(),
+                    node.jjtGetChild(1).getColumn(),
+                    node.jjtGetChild(1).getLine());
         }
         
         Node childNode = node.jjtGetChild(0);
@@ -152,11 +165,14 @@ public class Evaluate extends Directive
         }
         catch (ParseException pex)
         {
-            throw  new ParseErrorException( pex );
+            // use the line/column from the template
+            Info info = new Info( templateName, node.getLine(), node.getColumn() );
+            throw  new ParseErrorException( pex.getMessage(), info );
         }
         catch (TemplateInitException pex)
         {
-            throw  new ParseErrorException( pex );
+            Info info = new Info( templateName, node.getLine(), node.getColumn() );
+            throw  new ParseErrorException( pex.getMessage(), info );
         }
 
         /*
@@ -179,13 +195,23 @@ public class Evaluate extends Directive
                 }
                 catch (TemplateInitException pex)
                 {
-                    throw  new ParseErrorException( pex );
+                    Info info = new Info( templateName, node.getLine(), node.getColumn() );
+                    throw  new ParseErrorException( pex.getMessage(), info );
                 }
 
-                /*
-                 *  now render, and let any exceptions fly
-                 */
-                nodeTree.render( ica, writer );
+                try 
+                {
+                    /*
+                     *  now render, and let any exceptions fly
+                     */
+                    nodeTree.render( ica, writer );
+                }
+                catch (ParseErrorException pex)
+                {
+                    // convert any parsing errors to the correct line/col
+                    Info info = new Info( templateName, node.getLine(), node.getColumn() );
+                    throw  new ParseErrorException( pex.getMessage(), info );
+                }
             }
             finally
             {
