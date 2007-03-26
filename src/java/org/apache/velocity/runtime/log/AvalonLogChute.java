@@ -100,7 +100,7 @@ public class AvalonLogChute implements LogChute
             if (rsvc != null)
             {
                 format = rsvc.getString(AVALON_LOGGER_FORMAT, "%{time} %{message}\\n%{throwable}");
-                level = (Priority) logLevels.get(rsvc.getString(AVALON_LOGGER_LEVEL, "debug"));
+                level = (Priority) logLevels.get(rsvc.getString(AVALON_LOGGER_LEVEL, "warn"));
             }
 
             VelocityFormatter vf = new VelocityFormatter(format);

@@ -41,11 +41,10 @@ import org.apache.velocity.util.ExceptionUtils;
  */
 public class Log4JLogChute implements LogChute
 {
-    /**
-     *
-     */
     public static final String RUNTIME_LOG_LOG4J_LOGGER =
             "runtime.log.logsystem.log4j.logger";
+    public static final String RUNTIME_LOG_LOG4J_LOGGER_LEVEL =
+            "runtime.log.logsystem.log4j.logger.level";
 
     private RuntimeServices rsvc = null;
     private boolean hasTrace = false;
@@ -86,6 +85,11 @@ public class Log4JLogChute implements LogChute
             }
         }
 
+        /* get and set specified level for this logger, default to WARN */
+        String lvl = rsvc.getString(RUNTIME_LOG_LOG4J_LOGGER_LEVEL, "WARN");
+        Level level = Level.toLevel(lvl);
+        logger.setLevel(level);
+
         /* Ok, now let's see if this version of log4j supports the trace level. */
         try
         {
@@ -116,8 +120,6 @@ public class Log4JLogChute implements LogChute
 
             // don't inherit appenders from higher in the logger heirarchy
             logger.setAdditivity(false);
-            // this impl checks levels (by default don't include trace level)
-            logger.setLevel(Level.DEBUG);
             logger.addAppender(appender);
             log(DEBUG_ID, "Log4JLogChute initialized using file '"+file+'\'');
         }

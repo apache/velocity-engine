@@ -37,6 +37,9 @@ public class JdkLogChute implements LogChute
     public static final String RUNTIME_LOG_JDK_LOGGER =
         "runtime.log.logsystem.jdk.logger";
 
+    public static final String RUNTIME_LOG_JDK_LOGGER_LEVEL =
+        "runtime.log.logsystem.jdk.logger.level";
+
     /** Default name for the JDK logger instance */
     public static final String DEFAULT_LOG_NAME = "org.apache.velocity";
 
@@ -56,7 +59,13 @@ public class JdkLogChute implements LogChute
             name = DEFAULT_LOG_NAME;
         }
         logger = Logger.getLogger(name);
-        log(LogChute.DEBUG_ID, "JdkLogChute will use logger '"+name+'\'');
+
+        /* get and set specified level for this logger, default to WARN */
+        String lvl = rs.getString(RUNTIME_LOG_JDK_LOGGER_LEVEL, "WARN");
+        Level level = Level.parse(lvl);
+        logger.setLevel(level);
+
+        log(LogChute.DEBUG_ID, "JdkLogChute will use logger '"+name+'\''+" at level '"+level+'\'');
     }
 
     /**

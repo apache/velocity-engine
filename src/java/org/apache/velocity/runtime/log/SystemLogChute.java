@@ -35,7 +35,7 @@ public class SystemLogChute implements LogChute
     public static final String RUNTIME_LOG_SYSTEM_ERR_LEVEL_KEY = 
         "runtime.log.logsystem.system.err.level";
 
-    private int enabled = TRACE_ID;
+    private int enabled = WARN_ID;
     private int errLevel = TRACE_ID;
 
     public void init(RuntimeServices rs) throws Exception
