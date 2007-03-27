@@ -97,13 +97,13 @@ public class ASTIntegerRange extends SimpleNode
          *  if not an Integer, not much we can do either
          */
 
-        if ( !( left instanceof Integer )  || !( right instanceof Integer ))
+        if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
-            log.error((!(left instanceof Integer) ? "Left" : "Right")
+            log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of range operator is not a valid type. "
-                           + "Currently only integers (1,2,3...) and Integer type is supported. "
+                           + "Currently only integers (1,2,3...) and the Numbertype is supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
+                           + ", column " + getColumn() + ']');
 
             return null;
         }
@@ -113,8 +113,8 @@ public class ASTIntegerRange extends SimpleNode
          *  get the two integer values of the ends of the range
          */
 
-        int l = ( (Integer) left ).intValue() ;
-        int r = (  (Integer) right ).intValue();
+        int l = ((Number) left).intValue() ;
+        int r = ((Number) right).intValue();
 
         /*
          *  find out how many there are
