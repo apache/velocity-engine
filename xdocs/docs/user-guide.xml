@@ -1482,8 +1482,8 @@ $count
 <section name="Stop" href="stop">
 
     <p>
-    The <em>#stop</em> script element allows the template designer to
-    stop the execution of the template engine and return. This is useful
+    The <em>#stop</em> script element prevents any further text or references
+    in the page from being rendered.  This is useful
     for debugging purposes.
     </p>
 
