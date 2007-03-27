@@ -176,7 +176,7 @@
     </ul>
   </subsection>
 
-  <subsection name="#if/#elseif/#else-outputconditionalontruthofstatements">
+  <subsection name="#if/#elseif/#else - Output conditional on truth of statements">
     <p>
     Format:
     </p>
@@ -267,15 +267,15 @@
 
    <p>Notes:</p>
    <ol>
-	<li>
-		The == operator can be used to compare numbers, strings, objects of the same class, or objects
-		of different classes.  In the last case (when objects are of different classes), the toString()
-		method is called on each object and the resulting Strings are compared.
-	</li>
-	<li>
-	 You can also use brackets to delimit directives.  This is especially
+  <li>
+    The == operator can be used to compare numbers, strings, objects of the same class, or objects
+    of different classes.  In the last case (when objects are of different classes), the toString()
+    method is called on each object and the resulting Strings are compared.
+  </li>
+  <li>
+   You can also use brackets to delimit directives.  This is especially
     useful when text immediately follows an <code>#else</code> directive.
-	</li>
+  </li>
    </ol>
 
 <source><![CDATA[
@@ -439,6 +439,29 @@ directive.foreach.maxloops = -1
     This will stop execution of the current template. This is good for
     debugging a template.
     </p>
+  </subsection>
+
+  <subsection name="#evaluate - Dynamically evaluates a string or reference" href="evaluate">
+    <p>
+    Format:
+    </p>
+
+    <p>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>evaluate</strong> [ <strong>}</strong> ] <strong>( </strong>arg<strong> )</strong>
+    </p>
+
+    <ul>
+    <li><em>arg</em> - String literal or reference to be dynamically evaluated.</li>
+    </ul>
+
+    <p>
+    Examples:
+    </p>
+
+    <ul>
+      <li>String: #evaluate( 'string with VTL #if(true)will be displayed#end' )</li>
+      <li>Variable: #include( $foo )</li>
+    </ul>
   </subsection>
 
   <subsection name="#macro - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required" href="macro-AllowsuserstodefineaVelocimacro(VM),arepeatedsegmentofaVTLtemplate,asrequired">

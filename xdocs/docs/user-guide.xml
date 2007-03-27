@@ -71,6 +71,7 @@
         <li><a href="#include">Include</a></li>
         <li><a href="#parse">Parse</a></li>
         <li><a href="#stop">Stop</a></li>
+        <li><a href="#evaluate">Evaluate</a></li>
         <li><a href="#velocimacros">Velocimacros</a></li>
     </ol>
 </li>
@@ -1487,9 +1488,27 @@ $count
     for debugging purposes.
     </p>
 
+ </section>
+
+<section name="Evaluate" href="evaluate">
+
+    <p>
+    The <em>#evaluate</em> directive can be used to dynamically evaluate VTL.  This allows
+    the template to evaluate a string that is created at render time.  Such a string might be
+    used to internationalize the template or to include parts of a template from a database.    
+    </p>
+
+    <p>The example below will display <code>abc</code>.  
+    </p>
+
 <source><![CDATA[
-#stop
+#set($source1 = "abc")
+#set($select = "1")
+#set($dynamicsource = "$source$select")
+#evaluate($dynamicsource)
 ]]></source>
+
+ 
  </section>
 
 <section name="Velocimacros" href="velocimacros">
