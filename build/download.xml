@@ -34,6 +34,7 @@
    <antcall target="avalon-logkit-download" />
    <antcall target="commons-collections-download" />
    <antcall target="commons-lang-download" />
+   <antcall target="commons-logging-download" />
    <antcall target="jdom-download" />
    <antcall target="log4j-download" />
    <antcall target="oro-download" />
@@ -110,6 +111,12 @@
   <target name="commons-lang-download">
    <property name="download.jarname" value="${jar.commons-lang.name}" />
    <property name="download.jarversion" value="${jar.commons-lang.version}" />
+   <antcall target="http-download"/>
+  </target>
+
+  <target name="commons-logging-download">
+   <property name="download.jarname" value="commons-logging" />
+   <property name="download.jarversion" value="${jar.commons-logging.version}" />
    <antcall target="http-download"/>
   </target>
 
