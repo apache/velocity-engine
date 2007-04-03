@@ -94,14 +94,14 @@ public class ASTIntegerRange extends SimpleNode
         }
 
         /*
-         *  if not an Integer, not much we can do either
+         *  if not a Number, not much we can do either
          */
 
         if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of range operator is not a valid type. "
-                           + "Currently only integers (1,2,3...) and the Numbertype is supported. "
+                           + "Currently only integers (1,2,3...) and the Number type are supported. "
                            + context.getCurrentTemplateName() + " [line " + getLine()
                            + ", column " + getColumn() + ']');
 
