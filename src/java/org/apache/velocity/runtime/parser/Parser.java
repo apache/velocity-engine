@@ -3369,7 +3369,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   final private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 12; i++) {
-    try {
       JJCalls p = jj_2_rtns[i];
       do {
         if (p.gen > jj_gen) {
@@ -3391,7 +3390,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         p = p.next;
       } while (p != null);
-      } catch(LookaheadSuccess ls) { }
     }
     jj_rescan = false;
   }
