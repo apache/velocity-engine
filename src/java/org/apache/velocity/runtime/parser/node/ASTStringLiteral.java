@@ -109,6 +109,10 @@ public class ASTStringLiteral extends SimpleNode
 
         image = getFirstToken().image.substring(1, getFirstToken().image
                 .length() - 1);
+        if (getFirstToken().image.startsWith("\""))
+        {
+            image = unescape(image);
+        }
 
         /**
          * note. A kludge on a kludge. The first part, Geir calls this the
@@ -176,6 +180,36 @@ public class ASTStringLiteral extends SimpleNode
 
         return data;
     }
+
+    public static String unescape(final String string)
+    {
+        int u = string.indexOf("\\u");
+        if (u < 0) return string;
+
+        StringBuffer result = new StringBuffer();
+        
+        int lastCopied = 0;
+
+        for (;;)
+        {
+            result.append(string.substring(lastCopied, u));
+
+            /* we don't worry about an exception here,
+             * because the lexer checked that string is correct */
+            char c = (char) Integer.parseInt(string.substring(u + 2, u + 6), 16);
+            result.append(c);
+
+            lastCopied = u + 6;
+
+            u = string.indexOf("\\u", lastCopied);
+            if (u < 0)
+            {
+                result.append(string.substring(lastCopied));
+                return result.toString();
+            }
+        }
+    }
+
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor,
