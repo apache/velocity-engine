@@ -163,8 +163,19 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         Method m = introspector.getMethod(obj.getClass(), methodName, args);
-
-        return (m != null) ? new VelMethodImpl(m) : null;
+        if (m != null)
+        {
+            return new VelMethodImpl(m);
+        }
+        else if (obj.getClass().isArray())
+        {
+            // only return *supported* array methods
+            if (VelArrayMethod.supports(methodName, args))
+            {
+                return new VelArrayMethod(obj.getClass(), methodName, args);
+            }
+        }
+        return null;
     }
 
     /**
