@@ -60,7 +60,7 @@ public class UnicodeEscapeTestCase extends BaseTestCase
     private String evaluate(String template) throws Exception
     {
         StringWriter writer = new StringWriter();
-        engine.evaluate(context, writer, "test","#set($v = \"\\u0061\")$v");
+        engine.evaluate(context, writer, "test", template);
         return writer.toString();
     }
 
