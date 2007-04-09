@@ -41,7 +41,7 @@
   </organization>
 
   <build>
-    <defaultGoal>install</defaultGoal>
+    <defaultGoal>post-site</defaultGoal>
     <sourceDirectory>src/java</sourceDirectory>
     <testSourceDirectory>src/test</testSourceDirectory>
     <plugins>
