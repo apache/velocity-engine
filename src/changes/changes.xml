@@ -70,7 +70,7 @@
     allowing application to produce more useful error messages.
       </action>
 
-      <ction type="fix" dev="henning" issue="VELOCITY-24">
+      <action type="fix" dev="henning" issue="VELOCITY-24">
     Fixed race condition in template retrieval that caused macros to
     fail under simultaneous load.
       </action>
