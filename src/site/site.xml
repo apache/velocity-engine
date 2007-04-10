@@ -54,9 +54,12 @@
     </breadcrumbs>
 
     <links>
-      <item name="Engine" href="http://velocity.apache.org/engine/devel/index.html"/>
-      <item name="Tools" href="http://velocity.apache.org/tools/devel/index.html"/>
-      <item name="DVSL" href="http://velocity.apache.org/dvsl/devel/index.html"/>
+      <item name="Engine" href="http://velocity.apache.org/engine/devel/"/>
+      <item name="Tools" href="http://velocity.apache.org/tools/devel/"/>
+      <item name="Anakia" href="http://velocity.apache.org/anakia/devel/"/>
+      <item name="Texen" href="http://velocity.apache.org/texen/devel/"/>
+      <item name="DocBook" href="http://velocity.apache.org/docbook/"/>
+      <item name="DVSL" href="http://velocity.apache.org/dvsl/devel/"/>
     </links>
 
     <menu name="Velocity">
