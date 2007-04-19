@@ -186,10 +186,10 @@ public class ClassMap
             }
             catch (SecurityException se) // Everybody feels better with...
             {
-        	if (log.isDebugEnabled())
-        	{
-        	    log.debug("While accessing methods of " + classToReflect + ": ", se);
-        	}
+                if (log.isDebugEnabled())
+                {
+                    log.debug("While accessing methods of " + classToReflect + ": ", se);
+                }
             }
         }
     }
@@ -223,7 +223,7 @@ public class ClassMap
         }
 
     	/** Class logger */
-	private final Log log;
+	    private final Log log;
 
         /**
          * Cache of Methods, or CACHE_MISS, keyed by method
@@ -303,12 +303,12 @@ public class ClassMap
             // classes further down the hierarchy.
             if (cache.get(methodKey) == null)
             {
-        	cache.put(methodKey, method);
-        	methodMap.add(method);
-        	if (debugReflection && log.isDebugEnabled())
-        	{
-        	    log.debug("Adding " + method);
-        	}
+                cache.put(methodKey, method);
+                methodMap.add(method);
+                if (debugReflection && log.isDebugEnabled())
+                {
+                    log.debug("Adding " + method);
+                }
             }
         }
 
