@@ -302,6 +302,11 @@ included in the distribution. You can use it to make sure that all is
 well with your build of Velocity.
 </p>
 
+<p>The tests are run with the ant task &lt;junit&gt;.  For ant 1.6, this task requires that 
+<code>junit.jar</code> be copied into the <code>lib</code> subdirectory of your 
+ant directory.  For ant 1.7 this is not required.
+</p>
+
 <p>
 To run the test suite, simply use the build target
 <b>test</b> when you build:
