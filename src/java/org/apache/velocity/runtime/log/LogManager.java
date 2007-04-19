@@ -113,8 +113,9 @@ public class LogManager
          * classes, and we use the first one we find.
          *
          * Note that the default value of this property contains the
-         * AvalonLogChute, the Log4JLogChute, and the JdkLogChute for
-         * convenience - so we use whichever we find first.
+         * AvalonLogChute, the Log4JLogChute, CommonsLogLogChute,
+         * ServletLogChute, and the JdkLogChute for
+         * convenience - so we use whichever we works first.
          */
         List classes = new ArrayList();
         Object obj = rsvc.getProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS );
