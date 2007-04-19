@@ -1,4 +1,4 @@
-package org.apache.velocity.tools.view;
+package org.apache.velocity.runtime.log;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,7 +22,6 @@ package org.apache.velocity.tools.view;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import javax.servlet.ServletContext;
-import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
@@ -70,7 +69,7 @@ public class ServletLogChute implements LogChute
         Object obj = rs.getApplicationAttribute(ServletContext.class.getName());
         if (obj == null)
         {
-            throw new IllegalStateException("Could not retrieve ServletContext from application attributes!");
+            throw new UnsupportedOperationException("Could not retrieve ServletContext from application attributes");
         }
         servletContext = (ServletContext)obj;
 
