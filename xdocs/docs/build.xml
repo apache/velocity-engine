@@ -131,6 +131,11 @@ control the download with the <code>skip.jar.loading</code> and
   <td>Yes</td>  
 </tr>
 <tr>
+  <td><code>commons-logging-1.1.jar</code></td>
+  <td>To redirect log output to commons-logging</td>
+  <td>Only for those using commons-logging</td>  
+</tr>
+<tr>
   <td><code>jdom-1.0.jar</code></td>
   <td>XML parsing</td>
   <td>Only for Anakia</td>  
@@ -147,8 +152,8 @@ control the download with the <code>skip.jar.loading</code> and
 </tr>
 <tr>
   <td><code>servletapi-2.3.jar</code></td>
-  <td>For the deprecated VelocityServlet</td>
-  <td>Only for VelocityServlet</td>  
+  <td>For the deprecated VelocityServlet and redirecting log output to the servlet log.</td>
+  <td>Only for VelocityServlet or ServletLogChute</td>  
 </tr>
 <tr>
   <td><code>werken-xpath-0.9.4.jar</code></td>

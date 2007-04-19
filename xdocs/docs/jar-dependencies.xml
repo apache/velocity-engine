@@ -50,6 +50,13 @@
           <td>Needed for all parts of Velocity</td>
         </tr>
         <tr>
+          <td>commons-logging</td><td>No</td>
+          <td>Must be present if log system is configured to use
+              <a href="apidocs/org/apache/velocity/runtime/log/CommonsLogLogChute.html">CommonsLogLogChute</a>.
+              Otherwise, it is not needed.
+          </td>
+        </tr>
+        <tr>
           <td>oro</td><td>Yes</td>
           <td>Needed for all parts of Velocity</td>
         </tr>
@@ -67,8 +74,9 @@
           <td>servletapi</td><td>No</td>
           <td>Only needed when the <a
               href="apidocs/org/apache/velocity/servlet/VelocityServlet.html">VelocityServlet</a>
-              is used. Should normally be supplied by the servlet
-              container. <b>VelocityServlet is deprecated and should
+              or <a href="apidocs/org/apache/velocity/runtime/log/ServletLogChute.html">ServletLogChute</a> are used.
+              Should normally be supplied by the servlet container.
+              <b>VelocityServlet is deprecated and should
               be replaced with VelocityViewServlet from the
               <a href="http://velocity.apache.org/tools/devel/">velocity-tools</a> distribution.</b></td>
         </tr>
