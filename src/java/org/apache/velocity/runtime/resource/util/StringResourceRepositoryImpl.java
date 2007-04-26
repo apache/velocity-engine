@@ -22,7 +22,6 @@ package org.apache.velocity.runtime.resource.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 /**
@@ -33,8 +32,7 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class StringResourceRepositoryImpl
-        implements StringResourceRepository
+public class StringResourceRepositoryImpl implements StringResourceRepository
 {
     /**
      * mem store
@@ -63,6 +61,14 @@ public class StringResourceRepositoryImpl
     }
 
     /**
+     * @see StringResourceRepository#putStringResource(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void putStringResource(final String name, final String body, final String encoding)
+    {
+        resources.put(name, new StringResource(body, encoding));
+    }
+
+    /**
      * @see StringResourceRepository#removeStringResource(java.lang.String)
      */
     public void removeStringResource(final String name)
@@ -75,7 +81,7 @@ public class StringResourceRepositoryImpl
      */
     public String getEncoding()
     {
-	return encoding;
+	    return encoding;
     }
 
     /**
@@ -83,6 +89,6 @@ public class StringResourceRepositoryImpl
      */
     public void setEncoding(final String encoding)
     {
-	this.encoding = encoding;
+	    this.encoding = encoding;
     }
 }
