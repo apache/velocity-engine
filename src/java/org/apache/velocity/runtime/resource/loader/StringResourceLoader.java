@@ -19,15 +19,16 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.util.StringResource;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
@@ -36,39 +37,99 @@ import org.apache.velocity.util.ClassUtils;
 
 /**
  * Resource loader that works with Strings. Users should manually add
- * resources to the repository that is know by the factory of this package.
+ * resources to the repository that is used by the resource loader instance.
  *
  * Below is an example configuration for this loader.
- * Note that 'repositoryimpl' is not mandatory;
- * if not provided, the factory will fall back on using the default
- * implementation of this package.
+ * Note that 'repository.class' is not necessary;
+ * if not provided, the factory will fall back on using 
+ * {@link StringResourceRepositoryImpl} as the default.
  *
+ * resource.loader = string
  * string.resource.loader.description = Velocity StringResource loader
- * string.resource.loader.class = org.apache.velocity.runtime.resource.loader..StringResourceLoader
+ * string.resource.loader.class = org.apache.velocity.runtime.resource.loader.StringResourceLoader
  * string.resource.loader.repository.class = org.apache.velocity.runtime.resource.loader.StringResourceRepositoryImpl
  *
  * Resources can be added to the repository like this:
  * <code>
- *   StringResourceRepository = StringResourceLoader.getRepository();
+ *   StringResourceRepository repo = StringResourceLoader.getRepository();
  *
- *   String myTemplateName = "/somewhere/intherepo/name";
- *   String myTemplateBody = "Hi, ${username}... this is a some template!";
- *   vsRepository.putStringResource(myTemplateName, myTemplateBody);
+ *   String myTemplateName = "/some/imaginary/path/hello.vm";
+ *   String myTemplate = "Hi, ${username}... this is some template!";
+ *   repo.putStringResource(myTemplateName, myTemplate);
  * </code>
  *
  * After this, the templates can be retrieved as usual.
+ * <br>
+ * <p>If there will be multiple StringResourceLoaders used in an application,
+ * you should consider specifying a 'string.resource.loader.repository.name = foo'
+ * property in order to keep you string resources in a non-default repository.
+ * This can help to avoid conflicts between different frameworks or components
+ * that are using StringResourceLoader.
+ * You can then retrieve your named repository like this:
+ * <code>
+ *   StringResourceRepository repo = StringResourceLoader.getRepository("foo");
+ * </code>
+ * and add string resources to the repo just as in the previous example.
+ * </p>
+ * <p>If you have concerns about memory leaks or for whatever reason do not wish
+ * to have your string repository stored statically as a class member, then you
+ * should set 'string.resource.loader.repository.static = false' in your properties.
+ * This will tell the resource loader that the string repository should be stored
+ * in the Velocity application attributes.  To retrieve the repository, do:
+ * <code>
+ *   StringResourceRepository repo = velocityEngine.getApplicationAttribute("foo");
+ * </code>
+ * If you did not specify a name for the repository, then it will be stored under the
+ * class name of the repository implementation class (for which the default is 
+ * 'org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl'). 
+ * Incidentally, this is also true for the default statically stored repository.
+ * </p>
+ * <p>Whether your repository is stored statically or in Velocity's application
+ * attributes, you can also manually create and set it prior to Velocity
+ * initialization.  For a static repository, you can do something like this:
+ * <code>
+ *   StringResourceRepository repo = new MyStringResourceRepository();
+ *   repo.magicallyAddSomeStringResources();
+ *   StringResourceLoader.setRepository("foo", repo);
+ * </code>
+ * Or for a non-static repository:
+ * <code>
+ *   StringResourceRepository repo = new MyStringResourceRepository();
+ *   repo.magicallyAddSomeStringResources();
+ *   velocityEngine.setApplicationAttribute("foo", repo);
+ * </code>
+ * Then, assuming the 'string.resource.loader.repository.name' property is
+ * set to 'some.name', the StringResourceLoader will use that already created
+ * repository, rather than creating a new one.
+ * </p>
  *
  * @author <a href="mailto:eelco.hillenius@openedge.nl">Eelco Hillenius</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @author Nathan Bubna
  * @version $Id$
  */
 public class StringResourceLoader extends ResourceLoader
 {
+    /** Key to determine whether the repository should be set as the static one or not. */
+    public static final String REPOSITORY_STATIC = "repository.static";
+
+    /** By default, repositories are stored statically (shared across the VM). */
+    public static final boolean REPOSITORY_STATIC_DEFAULT = true;
+
     /** Key to look up the repository implementation class. */
     public static final String REPOSITORY_CLASS = "repository.class";
 
     /** The default implementation class. */
-    public static final String REPOSITORY_CLASS_DEFAULT = StringResourceRepositoryImpl.class.getName();
+    public static final String REPOSITORY_CLASS_DEFAULT =
+        StringResourceRepositoryImpl.class.getName();
+
+    /** Key to look up the name for the repository to be used. */
+    public static final String REPOSITORY_NAME = "repository.name";
+
+    /** The default name for string resource repositories
+     * ('org.apache.velocity.runtime.resource.util.StringResourceRepository'). */
+    public static final String REPOSITORY_NAME_DEFAULT =
+        StringResourceRepository.class.getName();
 
     /** Key to look up the repository char encoding. */
     public static final String REPOSITORY_ENCODING = "repository.encoding";
@@ -76,32 +137,173 @@ public class StringResourceLoader extends ResourceLoader
     /** The default repository encoding. */
     public static final String REPOSITORY_ENCODING_DEFAULT = "UTF-8";
 
+
+    protected static final Map STATIC_REPOSITORIES =
+        Collections.synchronizedMap(new HashMap());
+
     /**
-     * Returns a reference to the Repository.
-     *
-     * @return A StringResourceRepository Reference.
+     * Returns a reference to the default static repository.
      */
     public static StringResourceRepository getRepository()
     {
-        return RepositoryFactory.getRepository();
+        return getRepository(REPOSITORY_NAME_DEFAULT);
     }
+
+    /**
+     * Returns a reference to the repository stored statically under the
+     * specified name.
+     */
+    public static StringResourceRepository getRepository(String name)
+    {
+        return (StringResourceRepository)STATIC_REPOSITORIES.get(name);
+    }
+
+    /**
+     * Sets the specified {@link StringResourceRepository} in static storage
+     * under the specified name.
+     */
+    public static void setRepository(String name, StringResourceRepository repo)
+    {
+        STATIC_REPOSITORIES.put(name, repo);
+    }
+
+    /**
+     * Removes the {@link StringResourceRepository} stored under the specified
+     * name.
+     */
+    public static StringResourceRepository removeRepository(String name)
+    {
+        return (StringResourceRepository)STATIC_REPOSITORIES.remove(name);
+    }
+
+    /**
+     * Removes all statically stored {@link StringResourceRepository}s.
+     */
+    public static void clearRepositories()
+    {
+        STATIC_REPOSITORIES.clear();
+    }
+
+
+    // the repository used internally by this resource loader
+    protected StringResourceRepository repository;
+
 
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
      */
     public void init(final ExtendedProperties configuration)
     {
-        log.info("StringResourceLoader : initialization starting.");
+        log.trace("StringResourceLoader : initialization starting.");
 
-        String repositoryClass = configuration.getString(REPOSITORY_CLASS, REPOSITORY_CLASS_DEFAULT);
-        String encoding = configuration.getString(REPOSITORY_ENCODING, REPOSITORY_ENCODING_DEFAULT);
+        // get the repository configuration info
+        String repoClass = configuration.getString(REPOSITORY_CLASS, REPOSITORY_CLASS_DEFAULT);
+        String repoName = configuration.getString(REPOSITORY_NAME, REPOSITORY_NAME_DEFAULT);
+        boolean isStatic = configuration.getBoolean(REPOSITORY_STATIC, REPOSITORY_STATIC_DEFAULT);
+        String encoding = configuration.getString(REPOSITORY_ENCODING);
 
-        RepositoryFactory.setRepositoryClass(repositoryClass);
-        RepositoryFactory.setEncoding(encoding);
-        RepositoryFactory.init(log);
+        // look for an existing repository of that name and isStatic setting
+        if (isStatic)
+        {
+            this.repository = getRepository(repoName);
+            if (repository != null && log.isDebugEnabled())
+            {
+                log.debug("Loaded repository '"+repoName+"' from static repo store");
+            }
+        }
+        else
+        {
+            this.repository = (StringResourceRepository)rsvc.getApplicationAttribute(repoName);
+            if (repository != null && log.isDebugEnabled())
+            {
+                log.debug("Loaded repository '"+repoName+"' from application attributes");
+            }
+        }
 
-        log.info("StringResourceLoader : initialization complete.");
+        if (this.repository == null)
+        {
+            // since there's no repository under the repo name, create a new one
+            this.repository = createRepository(repoClass, encoding);
+
+            // and store it according to the isStatic setting
+            if (isStatic)
+            {
+                setRepository(repoName, this.repository);
+            }
+            else
+            {
+                rsvc.setApplicationAttribute(repoName, this.repository);
+            }
+        }
+        else
+        {
+            // ok, we already have a repo
+            // warn them if they are trying to change the class of the repository
+            if (!this.repository.getClass().getName().equals(repoClass))
+            {
+                log.warn("Cannot change class of string repository '"+repoName+
+                          "' from "+this.repository.getClass().getName()+" to "+repoClass);
+            }
+
+            // allow them to change the default encoding of the repo
+            if (encoding != null &&
+                !this.repository.getEncoding().equals(encoding))
+            {
+                if (log.isInfoEnabled())
+                {
+                    log.info("Changing the default encoding of string repository '"+repoName+
+                             "' from "+this.repository.getEncoding()+" to "+encoding);
+                }
+                this.repository.setEncoding(encoding);
+            }
+        }
+
+        log.trace("StringResourceLoader : initialization complete.");
     }
+
+
+    public StringResourceRepository createRepository(final String className,
+                                                     final String encoding)
+    {
+        if (log.isDebugEnabled())
+        {
+            log.debug("Creating string repository using class "+className+"...");
+        }
+
+        StringResourceRepository repo;
+        try
+        {
+            repo = (StringResourceRepository) ClassUtils.getNewInstance(className);
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            throw new VelocityException("Could not find '" + className + "'", cnfe);
+        }
+        catch (IllegalAccessException iae)
+        {
+            throw new VelocityException("Could not access '" + className + "'", iae);
+        }
+        catch (InstantiationException ie)
+        {
+            throw new VelocityException("Could not instantiate '" + className + "'", ie);
+        }
+
+        if (encoding != null)
+        {
+            repo.setEncoding(encoding);
+        }
+        else
+        {
+            repo.setEncoding(REPOSITORY_ENCODING_DEFAULT);
+        }
+
+        if (log.isDebugEnabled())
+        {
+            log.debug("Default repository encoding is " + repo.getEncoding());
+        }
+        return repo;
+    }
+
 
     /**
      * Get an InputStream so that the Runtime can build a
@@ -120,7 +322,7 @@ public class StringResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("No template name provided");
         }
 
-        StringResource resource = getRepository().getStringResource(name);
+        StringResource resource = this.repository.getStringResource(name);
         
         if(resource == null)
         {
@@ -148,7 +350,7 @@ public class StringResourceLoader extends ResourceLoader
         StringResource original = null;
         boolean result = true;
 
-        original = getRepository().getStringResource(resource.getName());
+        original = this.repository.getStringResource(resource.getName());
 
         if (original != null)
         {
@@ -165,117 +367,12 @@ public class StringResourceLoader extends ResourceLoader
     {
         StringResource original = null;
 
-        original = getRepository().getStringResource(resource.getName());
+        original = this.repository.getStringResource(resource.getName());
 
         return (original != null)
                 ? original.getLastModified()
                 : 0;
     }
 
-
-    /**
-     * Factory for constructing and obtaining the instance of
-     * StringResourceRepository implementation.
-     *
-     * Users can provide their own implementation by setting the property 'repository.class'
-     * for the resource loader. Note that at this time only one instance of a
-     * string resource repository can be used in a single VM.
-     *
-     * @author <a href="mailto:eelco.hillenius@openedge.nl">Eelco Hillenius</a>
-     * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
-     * @version $Id$
-     */
-    private static final class RepositoryFactory
-    {
-        /**
-         * is the factory initialised properly?
-         */
-        private static boolean isInitialized = false;
-
-        /**
-         * repository instance
-         */
-        private static StringResourceRepository repository = null;
-
-        /**
-         * Sets the repository class.
-         *
-         * @param className class that implements StringResourceRepository.
-         */
-        public static void setRepositoryClass(final String className)
-        {
-            if (isInitialized)
-            {
-                throw new IllegalStateException("The RepositoryFactory has already been initialized!");
-            }
-
-            try
-            {
-                repository = (StringResourceRepository) ClassUtils.getNewInstance(className);
-            }
-            catch (ClassNotFoundException cnfe)
-            {
-                throw new VelocityException("Could not find '" + className + "'", cnfe);
-            }
-            catch (IllegalAccessException iae)
-            {
-                throw new VelocityException("Could not access '" + className + "'", iae);
-            }
-            catch (InstantiationException ie)
-            {
-                throw new VelocityException("Could not instantiante '" + className + "'", ie);
-            }
-        }
-
-        /**
-         * Sets the current repository encoding.
-         *
-         * @param encoding The current repository encoding.
-         */
-        public static void setEncoding(final String encoding)
-        {
-            if (repository == null)
-            {
-                throw new IllegalStateException("The Repository class has not yet been set!");
-            }
-
-            repository.setEncoding(encoding);
-        }
-
-        /**
-         * Init the factory with the user given class name.
-         *
-         * @throws VelocityException If something goes wrong.
-         */
-        public static synchronized void init(final Log log)
-                throws VelocityException
-        {
-            if (isInitialized)
-            {
-                throw new IllegalStateException("Attempted to re-initialize Factory!");
-            }
-
-            if (log.isInfoEnabled())
-            {
-                log.info("Using " + repository.getClass().getName() + " as repository implementation");
-                log.info("Current repository encoding is " + repository.getEncoding());
-            }
-            isInitialized = true;
-        }
-
-        /**
-         * Get a reference to the repository.
-         * @return A StringResourceRepository implementation object.
-         */
-        public static StringResourceRepository getRepository()
-        {
-            if(!isInitialized)
-            {
-                throw new IllegalStateException(
-                        "RepositoryFactory was not properly set up");
-            }
-            return repository;
-        }
-    }
 }
 
