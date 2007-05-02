@@ -26,15 +26,33 @@
 
   <body>
     <release version="1.6" date="in Subversion">
+      <action type="fix" dev="nbubna" issue="VELOCITY-541">
+        Fix StringResourceLoader to make it possible to use more than one loader per VM.
+      </action>
+
+      <action type="fix" dev="nbuba" issue="VELOCITY-520" due-to="Stepan Koltsov">
+        Make unicode encoding work in velocity templates.
+      </action>
+
+      <action type="add" dev="nbubna">
+        Add a ServletLogChute that allows logging through the servlet API. Ported from the
+        Velocity Tools project.
+      </action>
+
+      <action type="add" dev="nbubna">
+        Add a CommonsLogLogChute that allows logging through commons-logging.
+      </action>
+
+      <action type="update" dev="wglass">
+        Deprecate integrated texen and anakia, factor it out into separate jars.
+      </action>
+ 
       <action type="add" dev="wglass" issue="VELOCITY-509">
         Added new directive #evaluate() to dynamically evaluate VTL.
       </action>
-
-
     </release>
 
     <release version="1.5" date="2007-01-28">
-
       <action type="fix" dev="wglass" issue="VELOCITY-516" due-to="Vincent Massol">
         Fix to SecureUberspector to work properly with #foreach and iterators.
       </action>
