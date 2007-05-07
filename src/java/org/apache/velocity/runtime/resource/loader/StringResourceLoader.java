@@ -43,20 +43,20 @@ import org.apache.velocity.util.ClassUtils;
  * Note that 'repository.class' is not necessary;
  * if not provided, the factory will fall back on using 
  * {@link StringResourceRepositoryImpl} as the default.
- *
+ * <pre>
  * resource.loader = string
  * string.resource.loader.description = Velocity StringResource loader
  * string.resource.loader.class = org.apache.velocity.runtime.resource.loader.StringResourceLoader
  * string.resource.loader.repository.class = org.apache.velocity.runtime.resource.loader.StringResourceRepositoryImpl
- *
+ * </pre>
  * Resources can be added to the repository like this:
- * <code>
+ * <pre><code>
  *   StringResourceRepository repo = StringResourceLoader.getRepository();
  *
  *   String myTemplateName = "/some/imaginary/path/hello.vm";
  *   String myTemplate = "Hi, ${username}... this is some template!";
  *   repo.putStringResource(myTemplateName, myTemplate);
- * </code>
+ * </code></pre>
  *
  * After this, the templates can be retrieved as usual.
  * <br>
@@ -66,9 +66,9 @@ import org.apache.velocity.util.ClassUtils;
  * This can help to avoid conflicts between different frameworks or components
  * that are using StringResourceLoader.
  * You can then retrieve your named repository like this:
- * <code>
+ * <pre><code>
  *   StringResourceRepository repo = StringResourceLoader.getRepository("foo");
- * </code>
+ * </code></pre>
  * and add string resources to the repo just as in the previous example.
  * </p>
  * <p>If you have concerns about memory leaks or for whatever reason do not wish
@@ -76,9 +76,9 @@ import org.apache.velocity.util.ClassUtils;
  * should set 'string.resource.loader.repository.static = false' in your properties.
  * This will tell the resource loader that the string repository should be stored
  * in the Velocity application attributes.  To retrieve the repository, do:
- * <code>
+ * <pre><code>
  *   StringResourceRepository repo = velocityEngine.getApplicationAttribute("foo");
- * </code>
+ * </code></pre>
  * If you did not specify a name for the repository, then it will be stored under the
  * class name of the repository implementation class (for which the default is 
  * 'org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl'). 
@@ -87,17 +87,17 @@ import org.apache.velocity.util.ClassUtils;
  * <p>Whether your repository is stored statically or in Velocity's application
  * attributes, you can also manually create and set it prior to Velocity
  * initialization.  For a static repository, you can do something like this:
- * <code>
+ * <pre><code>
  *   StringResourceRepository repo = new MyStringResourceRepository();
  *   repo.magicallyAddSomeStringResources();
  *   StringResourceLoader.setRepository("foo", repo);
- * </code>
+ * </code></pre>
  * Or for a non-static repository:
- * <code>
+ * <pre><code>
  *   StringResourceRepository repo = new MyStringResourceRepository();
  *   repo.magicallyAddSomeStringResources();
  *   velocityEngine.setApplicationAttribute("foo", repo);
- * </code>
+ * </code></pre>
  * Then, assuming the 'string.resource.loader.repository.name' property is
  * set to 'some.name', the StringResourceLoader will use that already created
  * repository, rather than creating a new one.
