@@ -70,7 +70,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
         boolean exists = (rs.getLoaderNameForResource(includeResourcePath) != null);
         if (!exists)
         {
-            if (rs.getLoaderNameForResource(notfound) == null)
+            if (rs.getLoaderNameForResource(notfound) != null)
             {
                 return notfound;
 
