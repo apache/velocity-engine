@@ -825,6 +825,34 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
+     * Programatically add a directive.
+     * @param directive
+     */
+    public void addDirective(Directive directive) 
+    {
+        runtimeDirectives.put(directive.getName(), directive);
+    }
+
+    /**
+     * Retrieve a previously instantiated directive.
+     * @param name name of the directive
+     * @return
+     */
+    public Directive getDirective(String name) 
+    {
+        return (Directive) runtimeDirectives.get(name);
+    }
+
+    /**
+     * Remove a directive.
+     * @param name name of the directive.
+     */
+    public void removeDirective(String name) 
+    {
+        runtimeDirectives.remove(name);
+    }
+
+    /**
      *  instantiates and loads the directive with some basic checks
      *
      *  @param directiveClass classname of directive to load
@@ -838,7 +866,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             if (o instanceof Directive)
             {
                 Directive directive = (Directive) o;
-                runtimeDirectives.put(directive.getName(), directive);
+                addDirective(directive);
             }
             else
             {
