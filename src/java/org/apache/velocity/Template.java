@@ -191,6 +191,7 @@ public class Template extends Resource
              */
 
             ica.pushCurrentTemplateName( name );
+            ica.setCurrentResource( this );
 
             /*
              *  init the AST
@@ -206,6 +207,7 @@ public class Template extends Resource
              */
 
             ica.popCurrentTemplateName();
+            ica.setCurrentResource( null );
         }
 
     }
