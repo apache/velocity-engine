@@ -791,7 +791,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       try {
         label_4:
         while (true) {
-          Statement();
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case LPAREN:
           case RPAREN:
@@ -820,6 +819,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             jj_la1[13] = jj_gen;
             break label_4;
           }
+          Statement();
         }
       } catch (Throwable jjte001) {
       if (jjtc001) {
