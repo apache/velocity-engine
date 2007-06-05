@@ -221,6 +221,15 @@ public class ASTStringLiteral extends SimpleNode
     }
 
     /**
+     * Check to see if this is an interpolated string.
+     * @return true if this is constant (not an interpolated string)
+     */
+    public boolean isConstant()
+    {
+        return !interpolate;
+    }
+
+    /**
      * renders the value of the string literal If the properties allow, and the
      * string literal contains a $ or a # the literal is rendered against the
      * context Otherwise, the stringlit is returned.
