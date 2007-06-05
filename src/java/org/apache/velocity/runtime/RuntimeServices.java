@@ -400,4 +400,11 @@ public interface RuntimeServices extends RuntimeLogger
      * @return A new parser instance.
      */
     public Parser createNewParser();
+
+    /**
+     * Retrieve a previously instantiated directive.
+     * @param name name of the directive
+     * @return
+     */
+    public Directive getDirective(String name);
 }
