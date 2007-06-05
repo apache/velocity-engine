@@ -1413,7 +1413,7 @@ SimpleNode Directive() :
      *  and the following block if the PD needs it
      */
 
-    ( Statement() )+ #Block
+    ( Statement() )* #Block
     <END>
     {
         /*
