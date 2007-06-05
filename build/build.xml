@@ -252,6 +252,8 @@
       destdir="${build.dest}"
       encoding="UTF-8"
       debug="${debug}"
+      target="${javac.target}"
+      source="${javac.source}"
       deprecation="${deprecation}"
       optimize="${optimize}"
       classpathref="velocity.build.classpath"/>
