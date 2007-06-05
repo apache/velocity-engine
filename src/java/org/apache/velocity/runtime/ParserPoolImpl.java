@@ -21,7 +21,7 @@ package org.apache.velocity.runtime;
 
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.SimplePool;
-
+import org.apache.velocity.runtime.parser.CharStream;
 
 /**
  * This wraps the original parser SimplePool class.  It also handles
@@ -81,6 +81,7 @@ public class ParserPoolImpl implements ParserPool {
      */
     public void put(Parser parser)
     {
+        parser.ReInit((CharStream) null);
         pool.put(parser);
     }
 }
