@@ -22,9 +22,11 @@ package org.apache.velocity.runtime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Stack;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
+import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
@@ -92,6 +94,17 @@ public class VelocimacroFactory
      */
     private Map libModMap;
 
+    /*
+     * Map for holding macro execution information. An executing macro will
+     * be identified by the pair <tamplateName, macroName>.
+     */
+    private final Map templateMap;
+
+    /*
+     * Private variable for holding the allowed max calling depth.
+     */
+    private int maxCallingDepth;
+
     /**
      *  C'tor for the VelociMacro factory.
      *
@@ -109,7 +122,92 @@ public class VelocimacroFactory
          */
         libModMap = new HashMap();
         vmManager = new VelocimacroManager(rsvc);
+        templateMap = new HashMap();
     }
+
+     /**
+     * This method is called before a macro is rendered. This method
+     * checks whether a macro call is within the allowed calling depth.
+     * If the macro call exceeds the allowed calling depth it will throw
+     * an exception.
+     *
+     * @param macroName name of the macro
+     * @param templateName name of the template file containing the macro
+     * @throws MacroOverflowException if the number of macro calls exceeds the specified value
+     */
+    public void startMacroRendering(String macroName, String templateName) 
+    throws MacroOverflowException
+    {
+        maxCallingDepth = rsvc.getInt(
+                RuntimeConstants.VM_MAX_DEPTH);
+    
+        /* 
+         * If this property is set to 0 or minus value we do not keep track
+         * of the macro execution 
+         */
+        if (maxCallingDepth > 0)
+        {
+            Stack macroStack = (Stack)templateMap.get(templateName);
+            if (macroStack != null)
+            {
+                /* 
+                 * If the macro stack size is larger than or equal to
+                 * maxCallingDepth allowed throw an exception
+                 */
+                if (macroStack.size() >= maxCallingDepth)
+                {
+                    log.error("Max calling depth exceded in Template:" +
+                            templateName + "and Macro:" + macroName);
+
+                    String message = "Exceed maximum " + maxCallingDepth +
+                            " macro calls. Call Stack:";
+                    /*
+                     * Construct the message from the stack
+                     */
+                    for (int i = 0; i < macroStack.size() - 1; i++)
+                    {
+                        message += macroStack.get(i) + "->";
+                    }
+                    message += macroStack.peek();
+                    
+                    /*
+                    Clean up the template map
+                     */
+                    templateMap.remove(templateName);
+                    throw new MacroOverflowException(message);
+                }
+                macroStack.push(macroName);
+            }
+            else
+            {
+                macroStack = new Stack();
+                macroStack.push(macroName);
+                templateMap.put(templateName, macroStack);
+            }
+        }
+    }
+
+    /**
+     * This method is called when a macro finishes rendering. Clears the state
+     * saved about the macro call.
+     *
+     * @param macroName name of the macro
+     * @param templateName template name containg the macro
+     */
+    public void endMacroRendering(String macroName, String templateName)
+    {
+        String name = null;
+        Stack macroStack = (Stack)templateMap.get(templateName);
+        if (macroStack != null && macroStack.size() > 0)
+        {
+            macroStack.pop();
+        }
+        if (macroStack != null && macroStack.size() == 0)
+        {
+            templateMap.remove(templateName);
+        }
+    }
+
 
     /**
      *  initialize the factory - setup all permissions

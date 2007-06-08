@@ -26,6 +26,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.MacroOverflowException;
+
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -407,4 +409,25 @@ public interface RuntimeServices extends RuntimeLogger
      * @return
      */
     public Directive getDirective(String name);
+
+    /**
+     * This method is called before a macro is rendered. This method
+     * checks whether a macro call is within the allowed calling depth.
+     * If the macro call exceeds the allowed calling depth it will throw
+     * an exception.
+     *
+     * @param macroName name of the macro
+     * @param templateName name of the template file containing the macro
+     * @throws MacroOverflowException if the
+     * number of recursive macro calls exceeds the specified value
+     */
+    public void startMacroRendering(String macroName, String templateName)
+                throws MacroOverflowException;
+
+    /**
+     * This method is called after macro rendering is finished.
+     * @param macroName name of the macro
+     * @param templateName template name that contains the macro
+     */
+    public void endMacroRendering(String macroName, String templateName);
 }

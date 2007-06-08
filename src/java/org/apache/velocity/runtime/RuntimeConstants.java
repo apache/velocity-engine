@@ -251,6 +251,9 @@ public interface RuntimeConstants
 
     /** if true, throw an exception for wrong number of arguments **/
     String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
+
+    /** Specify the maximum depth for macro calls **/
+    String VM_MAX_DEPTH = "velocimacro.max.depth";
     
     /*
      * ----------------------------------------------------------------------
