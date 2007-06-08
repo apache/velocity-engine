@@ -26,6 +26,23 @@
 
   <body>
     <release version="1.6" date="in Subversion">
+
+      <action type="add" dev="wglass" issue="VELOCITY-297" due-to="Supun Kamburugamuva">
+        	Add new property velocimacro.max.depth which limits max macro calling depth.
+      </action>
+
+      <action type="add" dev="wglass" issue="VELOCITY-547" due-to="Adam Heath">
+        	Add ability to add directives programmatically
+      </action>
+
+      <action type="fix" dev="wglass" issue="VELOCITY-548" due-to="Adam Heath">
+        	Allow user directives to have no content.
+      </action>
+
+      <action type="fix" dev="wglass" issue="VELOCITY-551" due-to="Michiel Toneman">
+        	IncludeNotFound event handler was displaying "not found" template.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-541">
         Fix StringResourceLoader to make it possible to use more than one loader per VM.
       </action>
