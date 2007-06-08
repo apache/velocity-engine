@@ -30,6 +30,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -144,16 +145,17 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     *   Renders the macro using the context
+     * Renders the macro using the context
      * @param context
      * @param writer
      * @param node
      * @return True if the directive rendered successfully.
      * @throws IOException
      * @throws MethodInvocationException
+     * @throws MacroOverflowException
      */
     public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException, MethodInvocationException
+        throws IOException, MethodInvocationException, MacroOverflowException
     {
         try
         {
@@ -188,10 +190,16 @@ public class VelocimacroProxy extends Directive
                 }
 
                 /*
+                 Inform that we are about to rendering
+                */
+                rsvc.startMacroRendering(macroName,
+                        vmc.getCurrentTemplateName());
+                /*
                  *  now render the VM
                  */
+                 nodeTree.render( vmc, writer );
 
-                nodeTree.render( vmc, writer );
+                 rsvc.endMacroRendering(macroName, vmc.getCurrentTemplateName());
             }
             else
             {

@@ -40,6 +40,7 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
@@ -1452,4 +1453,31 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return uberSpect;
     }
 
+    /**
+     * This method is called before a macro is rendered. This method
+     * checks whether a macro call is within the allowed calling depth.
+     * If the macro call exceeds the allowed calling depth it will throw
+     * an exception.
+     *
+     * @param macroName name of the macro
+     * @param templateName name of the template file containing the macro
+     * @throws MacroOverflowException if the number of macro calls 
+     * exceeds the specified value
+     */
+    public void startMacroRendering(String macroName, String templateName) throws MacroOverflowException
+    {
+        vmFactory.startMacroRendering(macroName, templateName);
+    }
+
+    /**
+     * This method is called after a macro rendering is finished. It cleasr
+     * all the state saved in the VelociMacroFactory about this particular
+     * macro.
+     * @param macroName name of the macro
+     * @param templateName template name that contains the macro
+     */
+    public void endMacroRendering(String macroName, String templateName)
+    {
+        vmFactory.endMacroRendering(macroName, templateName);
+    }
 }
