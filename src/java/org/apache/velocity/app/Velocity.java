@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
@@ -32,16 +31,12 @@ import java.util.Properties;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * This class provides  services to the application
@@ -185,14 +180,15 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While loading a reference, an I/O problem occured.
+     * @throws IOException While rendering to the writer, an I/O problem occured.
      */
     public static  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException,
             ResourceNotFoundException, IOException
     {
-        return evaluate( context, out, logTag, new BufferedReader( new StringReader( instring )) );
+        return RuntimeSingleton.getRuntimeServices()
+            .evaluate(context, out, logTag, instring);
     }
 
     /**
@@ -258,8 +254,8 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While loading a reference, an I/O problem occured.
-     *
+     * @throws IOException While reading from the reader or rendering to the writer,
+     *                     an I/O problem occured.
      *  @since Velocity v1.1
      */
     public static boolean evaluate( Context context, Writer writer,
@@ -267,69 +263,8 @@ public class Velocity implements RuntimeConstants
         throws ParseErrorException, MethodInvocationException,
             ResourceNotFoundException,IOException
     {
-        SimpleNode nodeTree = null;
-
-        try
-        {
-            nodeTree = RuntimeSingleton.parse( reader, logTag );
-        }
-        catch ( ParseException pex )
-        {
-            throw  new ParseErrorException( pex );
-        }
-        catch (TemplateInitException pex)
-        {
-            throw  new ParseErrorException( pex );
-        }
-
-        /*
-         * now we want to init and render
-         */
-
-        if (nodeTree != null)
-        {
-            InternalContextAdapterImpl ica =
-                new InternalContextAdapterImpl( context );
-
-            ica.pushCurrentTemplateName( logTag );
-
-            try
-            {
-                try
-                {
-                    nodeTree.init( ica, RuntimeSingleton.getRuntimeServices() );
-                }
-                catch (TemplateInitException pex)
-                {
-                    throw  new ParseErrorException( pex );
-                }
-                /**
-                 * pass through application level runtime exceptions
-                 */
-                catch( RuntimeException e )
-                {
-                    throw e;
-                }
-                catch( Exception e )
-                {
-                    getLog().error("Velocity.evaluate() : init exception for tag = "+logTag, e);
-                }
-
-                /*
-                 *  now render, and let any exceptions fly
-                 */
-
-                nodeTree.render( ica, writer );
-            }
-            finally
-            {
-                ica.popCurrentTemplateName();
-            }
-
-            return true;
-        }
-
-        return false;
+        return RuntimeSingleton.getRuntimeServices().evaluate(context, writer,
+                                                              logTag, reader);
     }
 
     /**
