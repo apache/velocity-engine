@@ -19,15 +19,18 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.Properties;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.exception.MacroOverflowException;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.MacroOverflowException;
-
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -177,6 +180,51 @@ public interface RuntimeServices extends RuntimeLogger
      */
     public SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
         throws ParseException;
+
+    /**
+     * Renders the input string using the context into the output writer.
+     * To be used when a template is dynamically constructed, or want to use
+     * Velocity as a token replacer.
+     *
+     * @param context context to use in rendering input string
+     * @param out  Writer in which to render the output
+     * @param logTag  string to be used as the template name for log
+     *                messages in case of error
+     * @param instring input string containing the VTL to be rendered
+     *
+     * @return true if successful, false otherwise.  If false, see
+     *              Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While rendering to the writer, an I/O problem occured.
+     * @since Velocity 1.6
+     */
+    public boolean evaluate(Context context, Writer out,
+                            String logTag, String instring) throws IOException;
+
+    /**
+     * Renders the input reader using the context into the output writer.
+     * To be used when a template is dynamically constructed, or want to
+     * use Velocity as a token replacer.
+     *
+     * @param context context to use in rendering input string
+     * @param writer  Writer in which to render the output
+     * @param logTag  string to be used as the template name for log messages
+     *                in case of error
+     * @param reader Reader containing the VTL to be rendered
+     *
+     * @return true if successful, false otherwise.  If false, see
+     *              Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While reading from the reader or rendering to the writer,
+     *                     an I/O problem occured.
+     * @since Velocity 1.6
+     */
+    public boolean evaluate(Context context, Writer writer,
+                            String logTag, Reader reader) throws IOException;
 
     /**
      * Returns a <code>Template</code> from the resource manager.

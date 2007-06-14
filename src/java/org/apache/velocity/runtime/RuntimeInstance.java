@@ -19,10 +19,13 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -38,9 +41,13 @@ import org.apache.velocity.app.event.InvalidReferenceEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.exception.MacroOverflowException;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.MacroOverflowException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
@@ -1084,6 +1091,145 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             log.error("Runtime : ran out of parsers and unable to create more.");
         }
         return ast;
+    }
+
+    /**
+     * Renders the input string using the context into the output writer.
+     * To be used when a template is dynamically constructed, or want to use
+     * Velocity as a token replacer.
+     *
+     * @param context context to use in rendering input string
+     * @param out  Writer in which to render the output
+     * @param logTag  string to be used as the template name for log
+     *                messages in case of error
+     * @param instring input string containing the VTL to be rendered
+     *
+     * @return true if successful, false otherwise.  If false, see
+     *              Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While rendering to the writer, an I/O problem occured.
+     * @since Velocity 1.6
+     */
+    public boolean evaluate(Context context,  Writer out,
+                            String logTag, String instring) throws IOException
+    {
+        return evaluate(context, out, logTag,
+                        new BufferedReader(new StringReader(instring)));
+    }
+
+    /**
+     * Renders the input reader using the context into the output writer.
+     * To be used when a template is dynamically constructed, or want to
+     * use Velocity as a token replacer.
+     *
+     * @param context context to use in rendering input string
+     * @param writer  Writer in which to render the output
+     * @param logTag  string to be used as the template name for log messages
+     *                in case of error
+     * @param reader Reader containing the VTL to be rendered
+     *
+     * @return true if successful, false otherwise.  If false, see
+     *              Velocity runtime log
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While reading from the reader or rendering to the writer,
+     *                     an I/O problem occured.
+     * @since Velocity 1.6
+     */
+    public boolean evaluate(Context context, Writer writer,
+                            String logTag, Reader reader) throws IOException
+    {
+        SimpleNode nodeTree = null;
+        try
+        {
+            nodeTree = parse(reader, logTag);
+        }
+        catch (ParseException pex)
+        {
+            throw new ParseErrorException(pex);
+        }
+        catch (TemplateInitException pex)
+        {
+            throw new ParseErrorException(pex);
+        }
+
+        if (nodeTree == null)
+        {
+            return false;
+        }
+        else
+        {
+            return render(context, writer, logTag, nodeTree);
+        }
+    }
+
+
+    /**
+     * Initializes and renders the AST {@link SimpleNode} using the context
+     * into the output writer.
+     *
+     * @param context context to use in rendering input string
+     * @param writer  Writer in which to render the output
+     * @param logTag  string to be used as the template name for log messages
+     *                in case of error
+     * @param nodeTree SimpleNode which is the root of the AST to be rendered
+     *
+     * @return true if successful, false otherwise.  If false, see
+     *              Velocity runtime log for errors
+     * @throws ParseErrorException The template could not be parsed.
+     * @throws MethodInvocationException A method on a context object could not be invoked.
+     * @throws ResourceNotFoundException A referenced resource could not be loaded.
+     * @throws IOException While rendering to the writer, an I/O problem occured.
+     * @since Velocity 1.6
+     */
+    public boolean render(Context context, Writer writer,
+                          String logTag, SimpleNode nodeTree) throws IOException
+    {
+        /*
+         * we want to init then render
+         */
+        InternalContextAdapterImpl ica =
+            new InternalContextAdapterImpl(context);
+
+        ica.pushCurrentTemplateName(logTag);
+
+        try
+        {
+            try
+            {
+                nodeTree.init(ica, this);
+            }
+            catch (TemplateInitException pex)
+            {
+                throw new ParseErrorException(pex);
+            }
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch(RuntimeException e)
+            {
+                throw e;
+            }
+            catch(Exception e)
+            {
+                getLog().error("RuntimeInstance.render(): init exception for tag = "
+                               + logTag, e);
+            }
+
+            /*
+             *  now render, and let any exceptions fly
+             */
+            nodeTree.render(ica, writer);
+        }
+        finally
+        {
+            ica.popCurrentTemplateName();
+        }
+
+        return true;
     }
 
     /**
