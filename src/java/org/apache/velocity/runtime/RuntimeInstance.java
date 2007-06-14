@@ -1233,6 +1233,66 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
+     * Invokes a currently registered Velocimacro with the params provided
+     * and places the rendered stream into the writer.
+     * <br>
+     * Note : currently only accepts args to the VM if they are in the context.
+     *
+     * @param vmName name of Velocimacro to call
+     * @param logTag string to be used for template name in case of error. if null,
+     *               the vmName will be used
+     * @param params keys for args used to invoke Velocimacro, in java format
+     *               rather than VTL (eg  "foo" or "bar" rather than "$foo" or "$bar")
+     * @param context Context object containing data/objects used for rendering.
+     * @param writer  Writer for output stream
+     * @return true if Velocimacro exists and successfully invoked, false otherwise.
+     * @throws IOException While rendering to the writer, an I/O problem occured.
+     */
+    public boolean invokeVelocimacro(final String vmName, String logTag,
+                                     String[] params, final Context context,
+                                     final Writer writer)
+        throws IOException
+    {
+        /* check necessary parameters */
+        if (vmName == null || context == null || writer == null)
+        {
+            getLog().error("RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null");
+            return false;
+        }
+
+        /* handle easily corrected parameters */
+        if (logTag == null)
+        {
+            logTag = vmName;
+        }
+        if (params == null)
+        {
+            params = new String[0];
+        }
+
+        /* does the VM exist? */
+        if (!isVelocimacro(vmName, logTag))
+        {
+            getLog().error("RuntimeInstance.invokeVelocimacro() : VM '" + vmName
+                           + "' is not registered.");
+            return false;
+        }
+
+        /* now just create the VM call, and use evaluate */
+        StringBuffer template = new StringBuffer("#");
+        template.append(vmName);
+        template.append("(");
+        for( int i = 0; i < params.length; i++)
+        {
+            template.append(" $");
+            template.append(params[i]);
+        }
+        template.append(" )");
+
+        return evaluate(context, writer, logTag, template.toString());
+    }
+
+    /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>

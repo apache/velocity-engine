@@ -268,92 +268,34 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     *  Invokes a currently registered Velocimacro with the parms provided
-     *  and places the rendered stream into the writer.
+     * Invokes a currently registered Velocimacro with the params provided
+     * and places the rendered stream into the writer.
+     * <br>
+     * Note : currently only accepts args to the VM if they are in the context.
      *
-     *  Note : currently only accepts args to the VM if they are in the context.
-     *
-     *  @param vmName name of Velocimacro to call
-     *  @param logTag string to be used for template name in case of error
-     *  @param params args used to invoke Velocimacro. In context key format :
-     *                  eg  "foo","bar" (rather than "$foo","$bar")
-     *  @param context Context object containing data/objects used for rendering.
-     *  @param writer  Writer for output stream
-     *  @return true if Velocimacro exists and successfully invoked, false otherwise.
+     * @param vmName name of Velocimacro to call
+     * @param logTag string to be used for template name in case of error. if null,
+     *               the vmName will be used
+     * @param params keys for args used to invoke Velocimacro, in java format
+     *               rather than VTL (eg  "foo" or "bar" rather than "$foo" or "$bar")
+     * @param context Context object containing data/objects used for rendering.
+     * @param writer  Writer for output stream
+     * @return true if Velocimacro exists and successfully invoked, false otherwise.
      */
     public static  boolean invokeVelocimacro( String vmName, String logTag,
                                               String params[], Context context,
                                               Writer writer )
     {
-        /*
-         *  check parms
-         */
-
-        if ( vmName == null ||  params == null ||  context == null
-             || writer == null || logTag == null)
-        {
-            getLog().error("Velocity.invokeVelocimacro() : invalid parameter");
-            return false;
-        }
-
-        /*
-         * does the VM exist?
-         */
-
-        if (!RuntimeSingleton.isVelocimacro( vmName, logTag ))
-        {
-            getLog().error("Velocity.invokeVelocimacro() : VM '"+ vmName
-                           + "' not registered.");
-            return false;
-        }
-
-        /*
-         *  now just create the VM call, and use evaluate
-         */
-
-        StringBuffer construct = new StringBuffer("#");
-
-        construct.append( vmName );
-        construct.append( "(" );
-
-        for( int i = 0; i < params.length; i++)
-        {
-            construct.append( " $" );
-            construct.append( params[i] );
-        }
-
-        construct.append(" )");
-
         try
         {
-            return evaluate(  context,  writer,
-                                         logTag, construct.toString() );
+            return RuntimeSingleton.getRuntimeServices()
+                .invokeVelocimacro(vmName, logTag, params, context, writer);
         }
-
-        catch(ParseErrorException pee)
-        {
-            throw pee;
-        }
-        catch(MethodInvocationException mie)
-        {
-            throw mie;
-        }
-        catch(ResourceNotFoundException rnfe)
-        {
-            throw rnfe;
-        }
-        catch(IOException ioe)
+        catch (IOException ioe)
         {
             getLog().error("Velocity.invokeVelocimacro() failed", ioe);
+            return false;
         }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch(RuntimeException re)
-        {
-            throw re;
-        }
-        return false;
     }
 
     /**
