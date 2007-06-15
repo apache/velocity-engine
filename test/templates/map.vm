@@ -52,3 +52,17 @@ $emptymap.size()
 
 #set($emptymap = { })
 $emptymap.size()
+
+##
+##  test for values given with reference
+##
+
+#set($object = "aa")
+#set($mapz = {"a" : $object, "b" : "bb" })
+#set($mapx = {"a" : "bb", "b" : $object })
+#set($mapy = {"key": $object})
+$mapz.a
+$mapz.b
+$mapx.a
+$mapx.b
+$mapy.key

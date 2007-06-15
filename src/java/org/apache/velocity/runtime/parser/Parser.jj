@@ -1630,7 +1630,9 @@ void Map() : {/*@bgen(jjtree) Map */
       |
       [ <WHITESPACE> ]
      )
-     <RIGHT_CURLEY>/*@bgen(jjtree)*/
+     
+     /** note: need both tokens as they are generated in different states **/
+     ( <RIGHT_CURLEY> | <RCURLY> )/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
