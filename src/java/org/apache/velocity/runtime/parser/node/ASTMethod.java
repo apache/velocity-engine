@@ -255,55 +255,15 @@ public class ASTMethod extends SimpleNode
         }
         catch( InvocationTargetException ite )
         {
-            /*
-             *  In the event that the invocation of the method
-             *  itself throws an exception, we want to catch that
-             *  wrap it, and throw.  We don't log here as we want to figure
-             *  out which reference threw the exception, so do that
-             *  above
-             */
-
-            /*
-             *  let non-Exception Throwables go...
-             */
-
-            Throwable t = ite.getTargetException();
-            if (t instanceof Exception)
-            {
-                try
-                {
-                    return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
-                }
-
-                /**
-                 * If the event handler throws an exception, then wrap it
-                 * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
-                 * similar catchall code blocks.
-                 */
-                catch( Exception e )
-                {
-                    throw new MethodInvocationException(
-                        "Invocation of method '"
-                        + methodName + "' in  " + o.getClass()
-                        + " threw exception "
-                        + e.toString(),
-                        e, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
-                }
-            }
-            else
-            {
-                /*
-                 * no event cartridge to override. Just throw
-                 */
-
-                throw new MethodInvocationException(
-                "Invocation of method '"
-                + methodName + "' in  " + o.getClass()
-                + " threw exception "
-                + ite.getTargetException().toString(),
-                ite.getTargetException(), methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
-            }
+            return handleInvocationException(o, context, ite.getTargetException());
         }
+        
+        /** Can also be thrown by method invocation **/
+        catch( IllegalArgumentException t )
+        {
+            return handleInvocationException(o, context, t);
+        }
+        
         /**
          * pass through application level runtime exceptions
          */
@@ -316,6 +276,57 @@ public class ASTMethod extends SimpleNode
             log.error("ASTMethod.execute() : exception invoking method '"
                       + methodName + "' in " + o.getClass(), e);
             return null;
+        }
+    }
+
+    private Object handleInvocationException(Object o, InternalContextAdapter context, Throwable t)
+    {
+        /*
+         *  In the event that the invocation of the method
+         *  itself throws an exception, we want to catch that
+         *  wrap it, and throw.  We don't log here as we want to figure
+         *  out which reference threw the exception, so do that
+         *  above
+         */
+
+        /*
+         *  let non-Exception Throwables go...
+         */
+
+        if (t instanceof Exception)
+        {
+            try
+            {
+                return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
+            }
+
+            /**
+             * If the event handler throws an exception, then wrap it
+             * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
+             * similar catchall code blocks.
+             */
+            catch( Exception e )
+            {
+                throw new MethodInvocationException(
+                    "Invocation of method '"
+                    + methodName + "' in  " + o.getClass()
+                    + " threw exception "
+                    + e.toString(),
+                    e, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+            }
+        }
+        else
+        {
+            /*
+             * no event cartridge to override. Just throw
+             */
+
+            throw new MethodInvocationException(
+            "Invocation of method '"
+            + methodName + "' in  " + o.getClass()
+            + " threw exception "
+            + t.toString(),
+            t, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
         }
     }
 
