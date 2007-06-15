@@ -1450,7 +1450,9 @@ void Map() : {}
       |
       [ <WHITESPACE> ]
      )
-     <RIGHT_CURLEY>
+     
+     /** note: need both tokens as they are generated in different states **/
+     ( <RIGHT_CURLEY> | <RCURLY> )
 }
 
 void ObjectArray() : {}
