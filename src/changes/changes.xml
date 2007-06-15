@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="in Subversion">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-452" due-to="Alexey Panchenko">
+          Catch IllegalArgumentException when invoking method.
+      </action>
+
       <action type="fix" dev="wglass" issue="VELOCITY-538">
           Fixed parse error for map definitions ending with a reference.
       </action>
