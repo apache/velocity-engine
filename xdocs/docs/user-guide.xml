@@ -1944,7 +1944,7 @@ Vyacheslav Ganelin
     </p>
 
 <source><![CDATA[
-Send #set($foo=["$10 and ","a pie"])#foreach($a in $foo)$a#end please.
+Send me #set($foo=["$10 and ","a pie"])#foreach($a in $foo)$a#end please.
 ]]></source>
 
     <p>
