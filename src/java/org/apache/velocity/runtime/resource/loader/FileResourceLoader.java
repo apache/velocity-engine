@@ -87,15 +87,16 @@ public class FileResourceLoader extends ResourceLoader
             log.debug("Do unicode file recognition:  " + unicode);
         }
 
-        // trim spaces from all paths
-        StringUtils.trimStrings(paths);
-        if (log.isInfoEnabled())
+        if (log.isDebugEnabled())
         {
+            // trim spaces from all paths
+            StringUtils.trimStrings(paths);
+
             // this section lets tell people what paths we will be using
             int sz = paths.size();
             for( int i=0; i < sz; i++)
             {
-                log.info("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+                log.debug("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
             }
             log.trace("FileResourceLoader : initialization complete.");
         }
