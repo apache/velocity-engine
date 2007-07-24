@@ -50,11 +50,11 @@ public class URLResourceLoader extends ResourceLoader
 
         roots = configuration.getStringArray("root");
 
-        if (log.isInfoEnabled())
+        if (log.isDebugEnabled())
         {
             for (int i=0; i < roots.length; i++)
             {
-                log.info("URLResourceLoader : adding root '" + roots[i] + "'");
+                log.debug("URLResourceLoader : adding root '" + roots[i] + "'");
             }
         }
 
