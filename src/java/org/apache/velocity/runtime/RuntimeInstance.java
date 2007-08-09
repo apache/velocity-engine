@@ -1142,6 +1142,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public boolean evaluate(Context context, Writer writer,
                             String logTag, Reader reader) throws IOException
     {
+        if (logTag == null)
+        {
+            throw new NullPointerException("logTag (i.e. template name) cannot be null, you must provide an identifier for the content being evaluated");
+        }
+
         SimpleNode nodeTree = null;
         try
         {

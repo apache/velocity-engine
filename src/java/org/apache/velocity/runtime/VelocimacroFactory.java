@@ -424,11 +424,31 @@ public class VelocimacroFactory
          * the caller like this...
          *
          * I hate this : maybe exceptions are in order here...
+         * They definitely would be if this was only called by directly
+         * by users, but Velocity calls this internally.
          */
-        if (name == null ||   macroBody == null || argArray == null ||
-                sourceTemplate == null)
+        if (name == null || macroBody == null || argArray == null ||
+            sourceTemplate == null)
         {
-            log.warn("VM addition rejected : programmer error : arg null");
+            String msg = "VM '"+name+"' addition rejected : ";
+            if (name == null)
+            {
+                msg += "name";
+            }
+            else if (macroBody == null)
+            {
+                msg += "macroBody";
+            }
+            else if (argArray == null)
+            {
+                msg += "argArray";
+            }
+            else
+            {
+                msg += "sourceTemplate";
+            }
+            msg += " argument was null";
+            log.warn(msg);
             return false;
         }
 
