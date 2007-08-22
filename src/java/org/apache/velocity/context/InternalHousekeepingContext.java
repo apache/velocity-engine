@@ -23,6 +23,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import org.apache.velocity.runtime.resource.Resource;
 
+import java.util.List;
+
 /**
  *  interface to encapsulate the 'stuff' for internal operation of velocity.
  *  We use the context as a thread-safe storage : we take advantage of the
@@ -111,5 +113,19 @@ interface InternalHousekeepingContext
      * @param v
      */
      void setAllowRendering(boolean v);
+
+    /**
+     * Set the macro library list for the current template.
+     *
+     * @param macroLibraries list of macro libraries to set
+     */
+     void setMacroLibraries(List macroLibraries);
+
+    /**
+     * Get the macro library list for the current template.
+     *
+     * @return List of macro library names
+     */
+     List getMacroLibraries();
 
 }

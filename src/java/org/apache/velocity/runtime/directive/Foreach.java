@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.Context;
@@ -254,6 +255,22 @@ public class Foreach extends Directive
         public void setAllowRendering(boolean v)
         {
             innerContext.setAllowRendering(v);
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#setMacroLibraries(List)
+         */
+        public void setMacroLibraries(List macroLibraries)
+        {
+            innerContext.setMacroLibraries(macroLibraries);
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalContextAdapter#getMacroLibraries() 
+         */
+        public List getMacroLibraries()
+        {
+            return innerContext.getMacroLibraries();
         }
 
     }

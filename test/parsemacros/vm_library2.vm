@@ -1,0 +1,7 @@
+#macro( bar $a)
+#if($a)#set($a = $a + $a + $a)$a#end
+#end
+
+#macro( foo $a)
+#if($a)#set($a = $a * 8)$a#end
+#end

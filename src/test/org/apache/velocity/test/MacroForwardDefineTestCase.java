@@ -25,6 +25,10 @@ import junit.framework.TestSuite;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+
+import java.io.*;
 
 /**
  * Make sure that a forward referenced macro inside another macro definition does
@@ -57,7 +61,7 @@ public class MacroForwardDefineTestCase
      * Collects the log messages.
      */
     private TestLogChute logger = new TestLogChute();
-    
+
     /**
      * Default constructor.
      */
@@ -70,18 +74,16 @@ public class MacroForwardDefineTestCase
         throws Exception
     {
         assureResultsDirectoryExists(RESULTS_DIR);
-                
+
         // use Velocity.setProperty (instead of properties file) so that we can use actual instance of log
         Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
         Velocity.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
-        Velocity.setProperty(RuntimeConstants.VM_LIBRARY, "macros.vm");
 
         // actual instance of logger
         logger = new TestLogChute();
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
         Velocity.setProperty("runtime.log.logsystem.test.level", "error");
-
         Velocity.init();
     }
 
@@ -93,6 +95,11 @@ public class MacroForwardDefineTestCase
     public void testLogResult()
         throws Exception
     {
+        VelocityContext context = new VelocityContext();
+        Template template = Velocity.getTemplate("macros.vm");
+
+        template.merge(context, new StringWriter());
+
         if ( !isMatch(logger.getLog(), COMPARE_DIR, "velocity.log", "cmp"))
         {
             fail("Output incorrect.");
